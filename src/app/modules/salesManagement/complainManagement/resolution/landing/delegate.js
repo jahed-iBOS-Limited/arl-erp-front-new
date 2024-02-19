@@ -194,8 +194,6 @@ function DelegateForm({ clickRowData, landingCB }) {
                 <p>
                   <b>Respondent Contact:</b> {singleData?.contactNo}
                 </p>
-              </div>
-              <div>
                 <p>
                   <b>Business Unit:</b>{" "}
                   {singleData?.respondentBusinessUnitIdName}
@@ -203,7 +201,10 @@ function DelegateForm({ clickRowData, landingCB }) {
                 <p>
                   <b>Create By: </b> {singleData?.actionByName}
                 </p>
-                <p>
+                
+              </div>
+              <div>
+              <p>
                   <b>Create Date: </b>{" "}
                   {singleData?.lastActionDateTime &&
                     moment(singleData?.lastActionDateTime).format(
@@ -217,11 +218,29 @@ function DelegateForm({ clickRowData, landingCB }) {
                 <p>
                   <b>Product Category:</b> {singleData?.itemCategoryName}
                 </p>
+                {singleData?.respondentTypeName === "Employee" && (
+                  <p>
+                    <b> Work Place:</b> {singleData?.workPlace}
+                  </p>
+                )}
+                {singleData?.respondentTypeName === "End User" && (
+                  <>
+                    <p>
+                      <b>Territory Name:</b> {singleData?.territoryName}
+                    </p>
+                    <p>
+                      <b>Area Name:</b> {singleData?.areaName}
+                    </p>
+                    <p>
+                      <b>Region Name:</b> {singleData?.regionName}
+                    </p>
+                  </>
+                )}
               </div>
             </div>
             <form>
-              <div className='row global-form'>
-                <div className='col-lg-3'>
+              <div className="row global-form">
+                <div className="col-lg-3">
                   <div
                     style={{
                       display: "flex",
@@ -230,60 +249,69 @@ function DelegateForm({ clickRowData, landingCB }) {
                     }}
                   >
                     <div>
-                      <label><b style={{color: 'red'}}>* </b> Delegate Date</label>
+                      <label>
+                        <b style={{ color: "red" }}>* </b> Delegate Date
+                      </label>
                       <InputField
                         value={values?.delegateDate}
-                        placeholder='Delegate Date'
-                        name='delegateDate'
-                        type='date'
+                        placeholder="Delegate Date"
+                        name="delegateDate"
+                        type="date"
                         disabled
                       />
                     </div>
                     <InputField
                       value={values?.delegateTime}
-                      type='time'
-                      name='delegateTime'
+                      type="time"
+                      name="delegateTime"
                       disabled
                     />
                   </div>
                 </div>
-                <div className='col-lg-3'>
-                  <label><b style={{
-                    color: 'red'
-                  }}>* </b>Delegate To</label>
+                <div className="col-lg-3">
+                  <label>
+                    <b
+                      style={{
+                        color: "red",
+                      }}
+                    >
+                      *{" "}
+                    </b>
+                    Delegate To
+                  </label>
                   <SearchAsyncSelect
                     selectedValue={values?.delegateTo}
                     handleChange={(valueOption) => {
                       setFieldValue("delegateTo", valueOption || "");
                     }}
                     loadOptions={loadEmpList}
-                    placeholder='Search by Enroll/ID No/Name (min 3 letter)'
+                    placeholder="Search by Enroll/ID No/Name (min 3 letter)"
                   />
                   <FormikError
-                    name='delegateTo'
+                    name="delegateTo"
                     errors={errors}
                     touched={touched}
                   />
                 </div>
-                <div className='col-lg-6'>
+                <div className="col-lg-6">
                   <label>Remarks</label>
                   <TextArea
-                    name='remarks'
+                    name="remarks"
                     value={values?.remarks || ""}
-                    placeholder='Remarks'
+                    placeholder="Remarks"
                     touched={touched}
-                    rows='2'
+                    rows="2"
                     onChange={(e) => {
                       setFieldValue("remarks", e.target.value);
                     }}
                     errors={errors}
                   />
                 </div>
-                <div className='col-lg-3 d-flex align-items-center'>
-                  <div className=''>
+                <div className="col-lg-3 d-flex align-items-center">
+                  <div className="">
                     <button
-                      className='btn btn-primary mr-2 mt-2'
-                      type='button'
+                      className="btn btn-primary mr-2 mt-2"
+                      type="button"
                       onClick={() => setOpen(true)}
                       style={{ padding: "4px 5px" }}
                     >
@@ -294,8 +322,8 @@ function DelegateForm({ clickRowData, landingCB }) {
                   <div>
                     {values?.attachment && (
                       <button
-                        className='btn btn-primary'
-                        type='button'
+                        className="btn btn-primary"
+                        type="button"
                         onClick={() => {
                           dispatch(
                             getDownlloadFileView_Action(values?.attachment)
@@ -307,11 +335,11 @@ function DelegateForm({ clickRowData, landingCB }) {
                     )}
                   </div>
                 </div>
-                <div className='col-lg-12'>
+                <div className="col-lg-12">
                   <hr />
                 </div>
 
-                <div className='col-lg-3'>
+                <div className="col-lg-3">
                   <label>Investigation Person</label>
                   <SearchAsyncSelect
                     selectedValue={values?.investigationPerson}
@@ -332,28 +360,28 @@ function DelegateForm({ clickRowData, landingCB }) {
                         })
                         .catch((err) => []);
                     }}
-                    placeholder='Search by Enroll/ID No/Name (min 3 letter)'
+                    placeholder="Search by Enroll/ID No/Name (min 3 letter)"
                   />
                   <FormikError
-                    name='investigationPerson'
+                    name="investigationPerson"
                     errors={errors}
                     touched={touched}
                   />
                 </div>
-                <div className='col-lg-3'>
+                <div className="col-lg-3">
                   <InputField
                     value={values?.investigationDueDate}
-                    label='Investigation Due Date'
-                    placeholder='Investigation Due Date'
-                    name='investigationDueDate'
-                    type='date'
+                    label="Investigation Due Date"
+                    placeholder="Investigation Due Date"
+                    name="investigationDueDate"
+                    type="date"
                   />
                 </div>
-                <div className='col-lg-3 d-flex align-items-center'>
-                  <div className=''>
+                <div className="col-lg-3 d-flex align-items-center">
+                  <div className="">
                     <button
-                      className='btn btn-primary mr-2 mt-3'
-                      type='button'
+                      className="btn btn-primary mr-2 mt-3"
+                      type="button"
                       onClick={() => setOpenRow(true)}
                       style={{ padding: "4px 5px" }}
                     >
@@ -364,8 +392,8 @@ function DelegateForm({ clickRowData, landingCB }) {
                   <div>
                     {values?.attachmentRow && (
                       <button
-                        className='btn btn-primary mt-3'
-                        type='button'
+                        className="btn btn-primary mt-3"
+                        type="button"
                         onClick={() => {
                           dispatch(
                             getDownlloadFileView_Action(values?.attachmentRow)
@@ -378,10 +406,10 @@ function DelegateForm({ clickRowData, landingCB }) {
                   </div>
                 </div>
 
-                <div className='col d-flex align-items-center justify-content-end'>
+                <div className="col d-flex align-items-center justify-content-end">
                   <button
-                    className='btn btn-primary'
-                    type='button'
+                    className="btn btn-primary"
+                    type="button"
                     onClick={() => {
                       const obj = {
                         autoId: 0,
@@ -418,8 +446,8 @@ function DelegateForm({ clickRowData, landingCB }) {
                   </button>
                 </div>
               </div>
-              <div className='table-responsive'>
-                <table className='table table-striped table-bordered global-table'>
+              <div className="table-responsive">
+                <table className="table table-striped table-bordered global-table">
                   <thead>
                     <tr>
                       <th>SL</th>
@@ -431,11 +459,11 @@ function DelegateForm({ clickRowData, landingCB }) {
                   <tbody>
                     {rowDto?.map((item, index) => (
                       <tr key={index}>
-                        <td className='text-center'> {index + 1}</td>
+                        <td className="text-center"> {index + 1}</td>
                         <td>{item?.investigatorName}</td>
                         <td>{_dateFormatter(item?.investigationDueDate)}</td>
                         <td>
-                          <div className='d-flex align-items-center justify-content-center'>
+                          <div className="d-flex align-items-center justify-content-center">
                             {item?.attachment && (
                               <span
                                 onClick={() => {
@@ -447,8 +475,8 @@ function DelegateForm({ clickRowData, landingCB }) {
                                 }}
                               >
                                 <i
-                                  class='fa fa-paperclip pointer'
-                                  aria-hidden='true'
+                                  class="fa fa-paperclip pointer"
+                                  aria-hidden="true"
                                 ></i>
                               </span>
                             )}
@@ -461,8 +489,8 @@ function DelegateForm({ clickRowData, landingCB }) {
                               }}
                             >
                               <i
-                                class='fa fa-trash pointer'
-                                aria-hidden='true'
+                                class="fa fa-trash pointer"
+                                aria-hidden="true"
                               ></i>
                             </span>
                           </div>

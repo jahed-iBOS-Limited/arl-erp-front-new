@@ -92,7 +92,8 @@ function ComplainForm() {
       respondentType: values?.respondent || "",
       contactSourceId: values?.contactSource?.value || 0, 
       contactSourceName: values?.contactSource?.label || "",
-      respondentAddress: values?.respondentAddress || ''
+      respondentAddress: values?.respondentAddress || '',
+      sourceCustomerType: values?.sourceCustomerType?.label || ""
     };
 
     if (edit) {
