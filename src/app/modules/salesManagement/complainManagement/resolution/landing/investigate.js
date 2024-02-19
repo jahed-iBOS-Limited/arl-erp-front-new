@@ -191,8 +191,6 @@ function InvestigateForm({ clickRowData, landingCB }) {
                 <p>
                   <b>Respondent Contact:</b> {singleData?.contactNo}
                 </p>
-              </div>
-              <div>
                 <p>
                   <b>Business Unit:</b>{" "}
                   {singleData?.respondentBusinessUnitIdName}
@@ -200,7 +198,10 @@ function InvestigateForm({ clickRowData, landingCB }) {
                 <p>
                   <b>Create By: </b> {singleData?.actionByName}
                 </p>
-                <p>
+               
+              </div>
+              <div>
+              <p>
                   <b>Create Date: </b>{" "}
                   {singleData?.lastActionDateTime &&
                     moment(singleData?.lastActionDateTime).format(
@@ -227,6 +228,25 @@ function InvestigateForm({ clickRowData, landingCB }) {
                 <p>
                   <b> Remarks:</b> {singleData?.statusRemarks}
                 </p>
+                {singleData?.respondentTypeName === "Employee" && (
+                  <p>
+                    <b> Work Place:</b> {singleData?.workPlace}
+                  </p>
+                )}
+                {singleData?.respondentTypeName === "End User" && (
+                  <>
+                  <p>
+                      <b>Territory Name:</b> {singleData?.territoryName}
+                    </p>
+                    <p>
+                      <b>Area Name:</b> {singleData?.areaName}
+                    </p>
+                    <p>
+                      <b>Region Name:</b> {singleData?.regionName}
+                    </p>
+                    
+                  </>
+                )}
                 <p>
                   <b>Attachment: </b>
                 </p>
