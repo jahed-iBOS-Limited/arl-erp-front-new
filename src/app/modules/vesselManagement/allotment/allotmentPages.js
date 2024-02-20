@@ -30,6 +30,7 @@ import VesselRevenueLanding from "./vesselRevenueInfo/landing/_landing";
 import VesselShipPointChange from "./vesselShipPointChange/landing/table";
 import ShippingChallanInfo from "./shippingChallanInfo/landingPage";
 import ReceivePaymentInfoLanding from "./receivePaymentInfo/landing";
+import DumpToTruckDeliveryLanding from "./dumpToTruckDelivery/landingPage";
 export default function AllotmentPages() {
   return (
     <Switch>
@@ -189,6 +190,11 @@ export default function AllotmentPages() {
       <ContentRoute
         path="/vessel-management/allotment/receivepaymentinfo"
         component={ReceivePaymentInfoLanding}
+      />
+
+      <ContentRoute
+        path="/vessel-management/allotment/dumptotruckdelivery"
+        component={DumpToTruckDeliveryLanding}
       />
     </Switch>
   );
