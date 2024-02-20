@@ -65,7 +65,7 @@ function InvoiceView({ clickRowData }) {
                 Status:{" "}
                 <span
                   style={{
-                    fontSize:"14px",
+                    fontSize: "14px",
                     color:
                       clickRowData?.status === "Open"
                         ? "red"
@@ -170,6 +170,24 @@ function InvoiceView({ clickRowData }) {
                 <p>
                   <b> Remarks:</b> {singleData?.statusRemarks}
                 </p>
+                {singleData?.respondentTypeName === "Employee" && (
+                  <p>
+                    <b> Work Place:</b> {singleData?.workPlace}
+                  </p>
+                )}
+                {singleData?.respondentTypeName === "End User" && (
+                  <>
+                    <p>
+                      <b>Territory Name:</b> {singleData?.territoryName}
+                    </p>
+                    <p>
+                      <b>Area Name:</b> {singleData?.areaName}
+                    </p>
+                    <p>
+                      <b>Region Name:</b> {singleData?.regionName}
+                    </p>
+                  </>
+                )}
                 <p>
                   <b>Attachment:</b>{" "}
                   {singleData?.attachment && (
