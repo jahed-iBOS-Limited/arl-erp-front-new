@@ -38,6 +38,7 @@ const reportTypes = [
   { value: 2, label: "Per Bag Cost Details" },
   { value: 3, label: "Vehicle Efficiency Details" },
   { value: 4, label: "Bridge Toll Report" },
+  { value: 5, label: "Vehicle Status" },
 ];
 
 function TripCostReportReport() {
@@ -60,6 +61,7 @@ function TripCostReportReport() {
     const perBagCostDetails = `c8aafa76-d1d0-476c-8f83-39819a54af63`;
     const vehicleEfficiencyDetails = `3a7f6f69-1b3a-4564-8898-a21598556915`;
     const bridgeTollReport = `c9fd3580-e27f-45a4-aac3-97c58ff0cdcd`;
+    const vehicleStatusReport = `b0843d69-d725-4da7-8e32-799864944639`;
     const report_id =
       typeId === 2
         ? perBagCostDetails
@@ -67,6 +69,8 @@ function TripCostReportReport() {
         ? vehicleEfficiencyDetails
         : typeId === 4
         ? bridgeTollReport
+        : typeId === 5 
+        ? vehicleStatusReport
         : "";
     return report_id;
   };
@@ -97,20 +101,27 @@ function TripCostReportReport() {
       { name: "ToDate", value: `${values?.toDate}` },
     ];
 
+    const vehicleStatusDetails = [
+      { name: "intunitid", value: `${+buId}` },
+      { name: "intShipPointId", value: `${+values?.shipPoint?.value}` },
+      { name: "dteFromDate", value: `${values?.fromDate}` },
+      { name: "dteToDate", value: `${values?.toDate}` },
+    ];
+
     const bridgeTollReport = [
       { name: "intShipPointId", value: `${+values?.shipPoint?.value}` },
       { name: "intBusinessUnitId", value: `${+buId}` },
     ];
 
-    const params =
-      typeId === 2
-        ? perBagCostDetails
-        : typeId === 3
-        ? vehicleEfficiencyDetails
-        : typeId === 4
-        ? bridgeTollReport
-        : [];
-    return params;
+    const params =  {
+        2:perBagCostDetails,
+        3:vehicleEfficiencyDetails,
+        4: bridgeTollReport,
+        5:vehicleStatusDetails,
+        0: []
+    }
+
+    return params[typeId ?? 0];
   };
 
   const showHandler = (values) => {
@@ -126,7 +137,7 @@ function TripCostReportReport() {
         setGridData,
         setLoading
       );
-    } else if ([2, 3, 4].includes(typeId)) {
+    } else if ([2, 3, 4, 5].includes(typeId)) {
       setBIReport(true);
     }
   };
@@ -245,7 +256,7 @@ function TripCostReportReport() {
                         </>
                       )}
 
-                      {[1, 2, 3].includes(values?.reportType?.value) && (
+                      {[1, 2, 3, 5].includes(values?.reportType?.value) && (
                         <FromDateToDateForm
                           obj={{
                             values,
@@ -274,7 +285,7 @@ function TripCostReportReport() {
                     />
                   )}
                   {/* Power BI Reports */}
-                  {[2, 3, 4].includes(values?.reportType?.value) &&
+                  {[2, 3, 4, 5].includes(values?.reportType?.value) &&
                     biReport && (
                       <PowerBIReport
                         groupId={groupId}
