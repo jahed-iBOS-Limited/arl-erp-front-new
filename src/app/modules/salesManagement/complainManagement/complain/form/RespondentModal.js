@@ -35,7 +35,7 @@ export default function RespondentModal({ title, setter, onHide,respondedBuId}) 
       initialValues={{
         district: "",
         thana: "",
-        territory: "",
+        territory: {value:0,label:"All"},
         partner:{value:0,label:"All"}
       }}
       // validationSchema={{}}
@@ -90,7 +90,6 @@ export default function RespondentModal({ title, setter, onHide,respondedBuId}) 
                     value={values?.thana}
                     label="Thana"
                     onChange={(valueOption) => {
-                      setFieldValue("territory", "");
                       setFieldValue("thana", valueOption);
                       if (!valueOption) return;
                       getTerritoryDDL(
@@ -126,7 +125,7 @@ export default function RespondentModal({ title, setter, onHide,respondedBuId}) 
                 <div className="col-lg-3">
                   <NewSelect
                     name="territory"
-                    options={territoryDDL}
+                    options={[{label:"All",value:0},...territoryDDL]}
                     value={values?.territory}
                     label="Territory"
                     onChange={(valueOption) => {
