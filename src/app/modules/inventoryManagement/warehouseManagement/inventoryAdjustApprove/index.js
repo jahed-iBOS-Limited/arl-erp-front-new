@@ -1,21 +1,22 @@
 import { Form, Formik } from "formik";
-import React, { useEffect } from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import IConfirmModal from "../../../_helper/_confirmModal";
+import IView from "../../../_helper/_helperIcons/_view";
+import IViewModal from "../../../_helper/_viewModal";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import IForm from "./../../../_helper/_form";
 import Loading from "./../../../_helper/_loading";
+import ApprovalView from "./approvalView";
 const initData = {};
 export default function InventoryAdjustApprove() {
   const { selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
 
-  const [rowData, getRowData, loadar, setRowData] = useAxiosGet();
-  const [, approveRectionHandler, saveLoader] = useAxiosPost();
+  const [rowData, getRowData, loadar] = useAxiosGet();
+  const [isShowModal, setIsShowModal] = useState(false);
+  const [singleData, setSingleData] = useState({});
 
   useEffect(() => {
     getRowData(
@@ -47,7 +48,7 @@ export default function InventoryAdjustApprove() {
         touched,
       }) => (
         <>
-          {(loadar || saveLoader) && <Loading />}
+          {loadar && <Loading />}
           <IForm
             title="Inventory Adjust Approve"
             isHiddenReset
@@ -66,14 +67,9 @@ export default function InventoryAdjustApprove() {
                         <th>Sl</th>
                         <th>Trans Code</th>
                         <th>Trans Type</th>
-                        <th>Item</th>
-                        <th>UOM Name</th>
-                        <th>Trans Qty</th>
-                        <th>Trans Value</th>
                         <th>Profit Center</th>
                         <th>Plant</th>
                         <th>Warehouse</th>
-                        <th>Inventory Location</th>
                         <th>Action</th>
                       </tr>
                     </thead>
@@ -85,80 +81,19 @@ export default function InventoryAdjustApprove() {
                             {item?.strInventoryTransactionCode}
                           </td>
                           <td>{item?.strTransactionTypeName}</td>
-                          <td>{item?.strItemName}</td>
-                          <td>{item?.strUoMname}</td>
-                          <td className="text-center">{item?.numTransactionQuantity}</td>
-                          <td className="text-center">{item?.monTransactionValue}</td>
-                          <td>
-                            {item?.strProfitCenterName}
-                          </td>
+                          <td>{item?.strProfitCenterName}</td>
                           <td>{item?.strPlantName}</td>
                           <td>{item?.strWarehouseName}</td>
-                          <td>{item?.strInventoryLocationName}</td>
-                          <td>
-                            <div className="d-flex">
-                              <div className="mr-3">
-                                <OverlayTrigger
-                                  overlay={
-                                    <Tooltip id="cs-icon">Approve</Tooltip>
-                                  }
-                                >
-                                  <span
-                                    onClick={() => {
-                                      IConfirmModal({
-                                        message: `Are you sure to Approve?`,
-                                        yesAlertFunc: () => {
-                                          approveRectionHandler(
-                                            `/wms/InventoryTransaction/AdjustmentApproval?intInventoryTransactionId=${item?.intInventoryTransactionId}&isApprove=true
-                                                `,
-                                            null,
-                                            () => {
-                                              getRowData(
-                                                `/wms/InventoryTransaction/GetPendingAdjustments?intBusinessUnitId=${selectedBusinessUnit?.value}`
-                                              );
-                                            }
-                                          );
-                                        },
-                                        noAlertFunc: () => {},
-                                      });
-                                    }}
-                                  >
-                                    <i
-                                      style={{ fontSize: "16px" }}
-                                      className={`fas fa-check-circle pointer`}
-                                    ></i>
-                                  </span>
-                                </OverlayTrigger>
-                              </div>
-                              <OverlayTrigger
-                                overlay={<Tooltip id="cs-icon">Reject</Tooltip>}
+                          <td className="text-center">
+                            <div className="d-flex justify-content-center">
+                              <span
+                                onClick={() => {
+                                  setSingleData(item);
+                                  setIsShowModal(true);
+                                }}
                               >
-                                <span
-                                  onClick={() => {
-                                    IConfirmModal({
-                                      message: `Are you sure to Reject?`,
-                                      yesAlertFunc: () => {
-                                        approveRectionHandler(
-                                          `/wms/InventoryTransaction/AdjustmentApproval?intInventoryTransactionId=${item?.intInventoryTransactionId}&isApprove=false
-                                                `,
-                                          null,
-                                          () => {
-                                            getRowData(
-                                              `/wms/InventoryTransaction/GetPendingAdjustments?intBusinessUnitId=${selectedBusinessUnit?.value}`
-                                            );
-                                          }
-                                        );
-                                      },
-                                      noAlertFunc: () => {},
-                                    });
-                                  }}
-                                >
-                                  <i
-                                    style={{ fontSize: "16px" }}
-                                    className={`fa fa-times-circle closeBtn cursor-pointer`}
-                                  ></i>
-                                </span>
-                              </OverlayTrigger>
+                                <IView />
+                              </span>
                             </div>
                           </td>
                         </tr>
@@ -169,6 +104,21 @@ export default function InventoryAdjustApprove() {
               </div>
             </Form>
           </IForm>
+          <div>
+            <IViewModal
+              title="Approval View"
+              show={isShowModal}
+              onHide={() => {
+                setIsShowModal(false);
+              }}
+            >
+              <ApprovalView
+                singleData={singleData}
+                getRowData={getRowData}
+                setIsShowModal={setIsShowModal}
+              />
+            </IViewModal>
+          </div>
         </>
       )}
     </Formik>
