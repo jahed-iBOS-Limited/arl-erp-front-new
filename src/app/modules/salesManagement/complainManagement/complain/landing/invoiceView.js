@@ -178,13 +178,13 @@ function InvoiceView({ clickRowData }) {
                 {singleData?.respondentTypeName === "End User" && (
                   <>
                     <p>
+                      <b>Territory Name:</b> {singleData?.territoryName}
+                    </p>
+                    <p>
                       <b>Area Name:</b> {singleData?.areaName}
                     </p>
                     <p>
                       <b>Region Name:</b> {singleData?.regionName}
-                    </p>
-                    <p>
-                      <b>Territory Name:</b> {singleData?.territoryName}
                     </p>
                   </>
                 )}

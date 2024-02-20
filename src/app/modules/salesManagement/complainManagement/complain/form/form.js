@@ -393,7 +393,15 @@ function Form({
                       touched={touched}
                     />
                     {
-                      values?.respondentName && <small>Work Place :{values?.respondentName?.workPlace}</small>
+                      values?.respondentName &&  <small
+                      style={{
+                        fontSize: "11px",
+                        fontWeight: 500,
+                        color: "green",
+                      }}
+                    >
+                      Work Place : {values?.respondentName?.workPlace}
+                    </small>
                     }
                   </div>
                 )}
@@ -432,10 +440,11 @@ function Form({
                     </label>
                     {values?.respondentType?.value === 4 && (
                       <OverlayTrigger
-                        overlay={<Tooltip id="cs-icon">{"Add"}</Tooltip>}
+                        overlay={<Tooltip id="cs-icon">{"Add Respondent Name"}</Tooltip>}
                       >
                         <span>
                           <i
+                            style={{color:"#3699ff"}}
                             className={`fas fa-plus-square`}
                             onClick={() => setShowRespondentModal(true)}
                           ></i>
@@ -535,7 +544,7 @@ function Form({
                         className="btn btn-primary mr-2"
                         type="button"
                         onClick={() => setOpen(true)}
-                        style={{ padding: "4px 5px" }}
+                        style={{ padding: "4px 5px",marginTop:"14px" }}
                       >
                         Attachment
                       </button>
