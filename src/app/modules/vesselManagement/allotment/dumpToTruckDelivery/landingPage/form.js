@@ -26,7 +26,7 @@ const DumpToTruckDeliveryLandingForm = ({ obj }) => {
             <div className="col-lg-3">
               <NewSelect
                 name="shipPoint"
-                options={shipPointDDL}
+                options={[{ value: 0, label: "All" }, ...shipPointDDL]}
                 value={values?.shipPoint}
                 label="ShipPoint"
                 onChange={(e) => {
