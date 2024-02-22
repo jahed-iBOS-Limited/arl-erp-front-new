@@ -11,7 +11,11 @@ const headers = [
   "Dam Qty",
   "Dam Rate",
   "Remaining Dam Qty",
-  "Action",
+  "Other Labor Qty",
+  "Other Labor Rate",
+  "Other Cost",
+  "Bill Amount",
+  // "Action",
 ];
 
 const DumpToTruckDeliveryLandingTable = ({ obj }) => {
@@ -27,7 +31,10 @@ const DumpToTruckDeliveryLandingTable = ({ obj }) => {
 
   let totalDirectQty = 0,
     totalDamQty = 0,
-    totalDamRemainingQty = 0;
+    totalDamRemainingQty = 0,
+    totalOtherLaborQty = 0,
+    totalOtherCost = 0,
+    totalBillAmount = 0;
 
   return (
     <>
@@ -51,6 +58,9 @@ const DumpToTruckDeliveryLandingTable = ({ obj }) => {
                 totalDirectQty += item?.directQnt;
                 totalDamQty += item?.dumpQnt;
                 totalDamRemainingQty += item?.remainingDumpQnt;
+                totalOtherLaborQty += item?.dailyLaboureQnt;
+                totalOtherCost += item?.othersCostRate;
+                totalBillAmount += item?.billAmount;
                 return (
                   <tr key={index}>
                     <td style={{ width: "40px" }} className="text-center">
@@ -63,7 +73,11 @@ const DumpToTruckDeliveryLandingTable = ({ obj }) => {
                     <td className="text-right">{item?.dumpQnt}</td>
                     <td className="text-right">{item?.dumpRate}</td>
                     <td className="text-right">{item?.remainingDumpQnt}</td>
-                    <td style={{ width: "80px" }} className="text-center"></td>
+                    <td className="text-right">{item?.dailyLaboureQnt}</td>
+                    <td className="text-right">{item?.dailyLaboureRate}</td>
+                    <td className="text-right">{item?.othersCostRate}</td>
+                    <td className="text-right">{item?.billAmount || 0}</td>
+                    {/* <td style={{ width: "80px" }} className="text-center"></td> */}
                   </tr>
                 );
               })}
@@ -76,7 +90,11 @@ const DumpToTruckDeliveryLandingTable = ({ obj }) => {
                 <td>{totalDamQty}</td>
                 <td></td>
                 <td>{totalDamRemainingQty}</td>
+                <td>{totalOtherLaborQty}</td>
                 <td></td>
+                <td>{totalOtherCost}</td>
+                <td>{totalBillAmount || 0}</td>
+                {/* <td></td> */}
               </tr>
             </tbody>
           </table>
