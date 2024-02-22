@@ -32,6 +32,10 @@ const validationSchema = Yup.object().shape({
     label: Yup.string().required("Route Name required"),
     value: Yup.string().required("Route Name required"),
   }),
+  profitCenter: Yup.object().shape({
+    label: Yup.string().required("Profit Center is required"),
+    value: Yup.string().required("Profit Center is required"),
+  }),
   shipPoint: Yup.object().shape({
     label: Yup.string().required("ShipPoint required"),
     value: Yup.string().required("ShipPoint required"),
