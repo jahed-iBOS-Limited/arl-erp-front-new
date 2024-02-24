@@ -39,7 +39,7 @@ const DumpToTruckDeliveryLandingForm = ({ obj }) => {
               obj={{
                 values,
                 setFieldValue,
-                allElement: false,
+                // allElement: false,
                 onChange: (fieldName, allValues) => {
                   if (fieldName === "motherVessel") {
                     getLighterDDL(
