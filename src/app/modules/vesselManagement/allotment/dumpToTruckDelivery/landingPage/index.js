@@ -45,7 +45,7 @@ const DumpToTruckDeliveryLanding = () => {
     );
 
     // getData(initData, pageNo, pageSize);
-  }, []);
+  }, [accId, buId]);
 
   // set PositionHandler
   const setPositionHandler = (pageNo, pageSize, values) => {

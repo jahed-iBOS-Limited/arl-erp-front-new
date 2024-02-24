@@ -22,11 +22,12 @@ import LabourBillForm from "./../labourBill/Form/addEditForm";
 import SupplerInvoiceForm from "./../supplerInvoice/Form/addEditForm";
 import SupplierAdvance from "./../supplierAdvance/supplierAdvance";
 import HeaderForm from "./Table/form";
+import DamDeliveryBill from "../damDelivery/Form/addEditForm";
 
 function BillregisterCreate() {
   const { state: headerData } = useLocation();
   const billType = headerData?.billType?.value;
-console.log({billType})
+  console.log({ billType });
   return (
     <>
       {billType === 1 ? (
@@ -71,6 +72,8 @@ console.log({billType})
         <SurveyorBill />
       ) : billType === 28 ? (
         <HatchLaborBill />
+      ) : billType === 32 ? (
+        <DamDeliveryBill />
       ) : (
         <HeaderForm />
       )}
