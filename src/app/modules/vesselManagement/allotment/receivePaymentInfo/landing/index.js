@@ -5,6 +5,7 @@ import { shallowEqual, useSelector } from "react-redux";
 import ICustomCard from "../../../../_helper/_customCard";
 import Loading from "../../../../_helper/_loading";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import ReceivePaymentInfoLandingForm from "./form";
 import ReceivePaymentInfoLandingTable from "./table";
 
@@ -17,9 +18,10 @@ const initData = {
 };
 
 const ReceivePaymentInfoLanding = () => {
-  const [gridData, getGridData, isLoading] = useAxiosGet();
+  const [gridData, getGridData, isLoading, setGridData] = useAxiosGet();
   const [soldToPartnerDDL, getSoldToPartnerDDL] = useAxiosGet();
   const [godownDDL, getGodownDDL] = useAxiosGet();
+  const [, update, loading] = useAxiosPost();
 
   // get user data from store
   const {
@@ -36,7 +38,13 @@ const ReceivePaymentInfoLanding = () => {
       values?.status?.value
     }&pageNo=${0}&pageSize=${1000}`;
 
-    getGridData(url);
+    getGridData(url, (resData) => {
+      const modifyData = resData?.map((item) => ({
+        ...item,
+        isSelected: false,
+      }));
+      setGridData(modifyData);
+    });
   };
 
   useEffect(() => {
@@ -44,6 +52,25 @@ const ReceivePaymentInfoLanding = () => {
       `/tms/LigterLoadUnload/GetG2GBusinessPartnerDDL?BusinessUnitId=${buId}&AccountId=${accId}`
     );
   }, [accId, buId]);
+
+  const updateStatus = (values) => {
+    const payload = gridData
+      ?.filter((item) => item?.isSelected)
+      ?.map((element) => ({
+        businessUnitId: buId,
+        deliveryId: element?.DeliveryId,
+        receivePaymentStatusId: element?.PaymentReceiveStatusId + 1,
+      }));
+
+    update(
+      `/wms/FertilizerOperation/UpdateReceivePaymentStatus`,
+      payload,
+      () => {
+        setLandingData(values);
+      },
+      true
+    );
+  };
 
   return (
     <>
@@ -55,19 +82,24 @@ const ReceivePaymentInfoLanding = () => {
         {({ values, setFieldValue }) => (
           <>
             <ICustomCard title="Receive Payment Info">
-              {isLoading && <Loading />}
+              {(isLoading || loading) && <Loading />}
               <ReceivePaymentInfoLandingForm
                 obj={{
                   buId,
                   values,
+                  gridData,
                   godownDDL,
+                  setGridData,
                   getGodownDDL,
+                  updateStatus,
                   setFieldValue,
                   setLandingData,
                   soldToPartnerDDL,
                 }}
               />
-              <ReceivePaymentInfoLandingTable obj={{ gridData }} />
+              <ReceivePaymentInfoLandingTable
+                obj={{ gridData, values, setGridData }}
+              />
             </ICustomCard>
           </>
         )}
