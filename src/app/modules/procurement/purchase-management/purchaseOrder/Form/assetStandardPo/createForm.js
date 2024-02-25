@@ -1,31 +1,31 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import axios from "axios";
+import { Field, Form, Formik } from "formik";
 import React, { useEffect, useMemo, useState } from "react";
-import { Formik, Form, Field } from "formik";
-import { ISelect } from "../../../../../_helper/_inputDropDown";
-import { IInput } from "../../../../../_helper/_input";
-import {
-  validationSchema,
-  initData,
-  setInputFieldsFunc,
-  getRefNoDdlForStandradPo,
-  getProfitCenterList,
-} from "./helper";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
-import { getPOItemForStandradItemDDLAction } from "../../_redux/Actions";
-import RowDtoTable from "./rowDtoTable";
 import { toast } from "react-toastify";
+import TextArea from "../../../../../_helper/TextArea";
+import { IInput } from "../../../../../_helper/_input";
+import { ISelect } from "../../../../../_helper/_inputDropDown";
+import Loading from "../../../../../_helper/_loading";
+import NewSelect from "../../../../../_helper/_select";
+import AttachmentUploaderNew from "../../../../../_helper/attachmentUploaderNew";
 import TotalNetAmount from "../../TotalNetAmount";
+import { getPOItemForStandradItemDDLAction } from "../../_redux/Actions";
+import useAxiosGet from "../../customHooks/useAxiosGet";
 import { getUniQueItems, lastPriceFunc } from "../../helper";
+import { getCostCenterDDL, getCostElementDDL } from "../servicePO/helper";
 import SearchAsyncSelect from "./../../../../../_helper/SearchAsyncSelect";
 import FormikError from "./../../../../../_helper/_formikError";
-import axios from "axios";
-import TextArea from "../../../../../_helper/TextArea";
-import useAxiosGet from "../../customHooks/useAxiosGet";
-import NewSelect from "../../../../../_helper/_select";
-import { getCostCenterDDL, getCostElementDDL } from "../servicePO/helper";
-import Loading from "../../../../../_helper/_loading";
-import AttachmentUploaderNew from "../../../../../_helper/attachmentUploaderNew";
+import {
+  getProfitCenterList,
+  getRefNoDdlForStandradPo,
+  initData,
+  setInputFieldsFunc,
+  validationSchema,
+} from "./helper";
+import RowDtoTable from "./rowDtoTable";
 
 // This form is also used for standard PO
 
@@ -276,7 +276,7 @@ export default function AssetStandardPOCreateForm({
         initialValues={{
           ...initData,
           deliveryAddress: location?.state?.warehouse?.address,
-          currency: currencyDDL[0],
+          currency: "",
         }}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
