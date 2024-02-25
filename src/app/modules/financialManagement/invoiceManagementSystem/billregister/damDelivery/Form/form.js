@@ -1,9 +1,11 @@
+import axios from "axios";
 import { Form, Formik } from "formik";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import * as Yup from "yup";
-import { _dateFormatter } from "../../../../../_helper/_dateFormate";
+import SearchAsyncSelect from "../../../../../_helper/SearchAsyncSelect";
 import { _fixedPoint } from "../../../../../_helper/_fixedPoint";
+import FormikError from "../../../../../_helper/_formikError";
 import IView from "../../../../../_helper/_helperIcons/_view";
 import InputField from "../../../../../_helper/_inputField";
 import { getDownlloadFileView_Action } from "../../../../../_helper/_redux/Actions";
@@ -26,16 +28,16 @@ const headers = [
   "SL",
   "Ghat Name",
   "Lighter Name",
-  "Supplier Name",
-  "Direct Qty",
+  // "Supplier Name",
+  // "Direct Qty",
   "Dam Qty",
   "Dam Rate",
-  "Remaining Dam Qty",
+  "Dam Amount",
   "Other Labor Qty",
   "Other Labor Rate",
+  "Other Labor Cost",
   "Other Cost",
-  "Bill Amount",
-  // "Action",
+  "Total Bill",
 ];
 
 export default function _Form({
@@ -122,7 +124,9 @@ export default function _Form({
                         isDisabled={!values?.motherVessel}
                       />
                     </div>
-                    {/* <div className="col-3">
+
+                    <FromDateToDateForm obj={{ values, setFieldValue }} />
+                    <div className="col-3">
                       <label>Supplier</label>
                       <SearchAsyncSelect
                         selectedValue={values.supplier}
@@ -132,15 +136,17 @@ export default function _Form({
                         }}
                         loadOptions={(v) => {
                           if (v.length < 3) return [];
-                          return Axios.get(
-                            `/procurement/PurchaseOrder/GetSupplierListDDL?Search=${v}&AccountId=${accId}&UnitId=${buId}&SBUId=${headerData
-                              ?.sbu?.value || 0}`
-                          ).then((res) => {
-                            const updateList = res?.data.map((item) => ({
-                              ...item,
-                            }));
-                            return updateList;
-                          });
+                          return axios
+                            .get(
+                              `/procurement/PurchaseOrder/GetSupplierListDDL?Search=${v}&AccountId=${accId}&UnitId=${buId}&SBUId=${headerData
+                                ?.sbu?.value || 0}`
+                            )
+                            .then((res) => {
+                              const updateList = res?.data.map((item) => ({
+                                ...item,
+                              }));
+                              return updateList;
+                            });
                         }}
                       />
                       <FormikError
@@ -148,16 +154,14 @@ export default function _Form({
                         name="supplier"
                         touched={touched}
                       />
-                    </div> */}
-                    <FromDateToDateForm obj={{ values, setFieldValue }} />
-
+                    </div>
                     <IButton
                       colSize={"col-lg-3"}
                       onClick={() => {
                         setGridData([]);
                         getData(values, "");
                       }}
-                      disabled={!values?.motherVessel}
+                      disabled={!values?.lighterVessel}
                     />
                   </div>
                   <div className="row">
@@ -169,7 +173,7 @@ export default function _Form({
                         placeholder="Bill No"
                       />
                     </div>
-                    <div className="col-3">
+                    {/* <div className="col-3">
                       <InputField
                         value={_dateFormatter(values?.billDate)}
                         label="Bill Date"
@@ -186,7 +190,7 @@ export default function _Form({
                         name="paymentDueDate"
                         placeholder="Payment Due Date"
                       />
-                    </div>
+                    </div> */}
                   </div>
                   <div className="row align-items-end">
                     <div className="col-9">
@@ -262,7 +266,7 @@ export default function _Form({
                     gridData?.reduce(
                       (a, b) =>
                         Number(a) +
-                        (b?.isSelected ? Number(b?.unLoadQuantity || 0) : 0),
+                        (b?.isSelected ? Number(b?.dumpQnt || 0) : 0),
                       0
                     ),
                     true
@@ -328,21 +332,23 @@ export default function _Form({
                         </td>
                         <td>{item?.shipPointName}</td>
                         <td>{item?.lighterVesselName}</td>
-                        <td>{item?.supplierName}</td>
-                        <td className="text-right">{item?.directQnt}</td>
+                        {/* <td>{item?.supplierName}</td> */}
+                        {/* <td className="text-right">{item?.directQnt}</td> */}
                         <td className="text-right">{item?.dumpQnt}</td>
                         <td className="text-right">{item?.dumpRate}</td>
-                        <td className="text-right">{item?.remainingDumpQnt}</td>
+                        <td className="text-right">
+                          {item?.dumpToTruckAmount}
+                        </td>
                         <td className="text-right">{item?.dailyLaboureQnt}</td>
                         <td className="text-right">{item?.dailyLaboureRate}</td>
-                        <td className="text-right">{item?.othersCostRate}</td>
-                        <td className="text-right">{item?.billAmount || 0}</td>
+                        <td className="text-right">{item?.labourAmount}</td>
+                        <td className="text-right">{item?.dumpOtherCost}</td>
 
                         <td style={{ width: "200px" }}>
                           <InputField
                             value={item?.billAmount}
                             name="billAmount"
-                            placeholder="Total Amount"
+                            placeholder="Total Bill"
                             type="number"
                             onChange={(e) => {
                               item.billAmount = e?.target?.value;
