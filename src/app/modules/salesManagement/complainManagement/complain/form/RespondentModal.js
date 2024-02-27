@@ -91,6 +91,8 @@ export default function RespondentModal({ title, setter, onHide,respondedBuId}) 
                     label="Thana"
                     onChange={(valueOption) => {
                       setFieldValue("thana", valueOption);
+                      setFieldValue("territory", { label: "All", value: 0 });
+                      setFieldValue("partner", { label: "All", value: 0 });
                       if (!valueOption) return;
                       getTerritoryDDL(
                         `/oms/CustomerPoint/GetBusinessPartnerTerritoryByUpazila?businessUnitId=4&upazilaName=${valueOption?.label}`,
@@ -103,37 +105,9 @@ export default function RespondentModal({ title, setter, onHide,respondedBuId}) 
                           setTerritoryDDL(updatedData);
                         }
                       );
-                      title === "Retailer"
-                        ? getPartnerDDL(
-                            `/oms/CustomerPoint/GetBusinessPartnerByUpazila?businessUnitId=${respondedBuId}&upazilaName=${valueOption?.label}&territoryId=0`,
-                            (data) => {
-                              const updatedData = data?.map((d) => ({
-                                ...data,
-                                value: d?.businessPartnerId,
-                                label: d?.businessPartnerName,
-                              }));
-                              setPartnerDDL(updatedData);
-                            }
-                          )
-                        : getRowData(
-                            `/oms/CustomerPoint/GetBusinessPartnerByUpazila?businessUnitId=${respondedBuId}&upazilaName=${valueOption?.label}&territoryId=0`
-                          );
-                    }}
-                    isDisabled={!values?.district}
-                  />
-                </div>
-                <div className="col-lg-3">
-                  <NewSelect
-                    name="territory"
-                    options={[{label:"All",value:0},...territoryDDL]}
-                    value={values?.territory}
-                    label="Territory"
-                    onChange={(valueOption) => {
-                      setFieldValue("territory", valueOption);
-                      if (!valueOption) return;
                       if(title === "Retailer"){
                         getPartnerDDL(
-                          `/oms/CustomerPoint/GetBusinessPartnerByUpazila?businessUnitId=${respondedBuId}&upazilaName=${values?.thana?.label}&territoryId=${valueOption?.value}`,
+                          `/oms/CustomerPoint/GetBusinessPartnerByUpazila?businessUnitId=${respondedBuId}&upazilaName=${valueOption?.label}&territoryId=0`,
                           (data) => {
                             const updatedData = data?.map((d) => ({
                               ...data,
@@ -144,9 +118,43 @@ export default function RespondentModal({ title, setter, onHide,respondedBuId}) 
                           }
                         )
                         getRowData(
-                          `/oms/CustomerPoint/GetRetailerByBusinessPartner?businessUnitId=${respondedBuId}&upazilaName=${values?.thana?.label}&territoryId=${valueOption?.value}&businessPartnerId=0`
+                          `/oms/CustomerPoint/GetRetailerByBusinessPartner?businessUnitId=${respondedBuId}&upazilaName=${valueOption?.label}&territoryId=0&businessPartnerId=0`
                         );
                       }else{
+                        getRowData(
+                          `/oms/CustomerPoint/GetBusinessPartnerByUpazila?businessUnitId=${respondedBuId}&upazilaName=${valueOption?.label}&territoryId=0`
+                        );
+                      }
+                    }}
+                    isDisabled={!values?.district}
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <NewSelect
+                    name="territory"
+                    options={[{ label: "All", value: 0 }, ...territoryDDL]}
+                    value={values?.territory}
+                    label="Territory"
+                    onChange={(valueOption) => {
+                      setFieldValue("partner", { label: "All", value: 0 });
+                      setFieldValue("territory", valueOption);
+                      if (!valueOption) return;
+                      if (title === "Retailer") {
+                        getPartnerDDL(
+                          `/oms/CustomerPoint/GetBusinessPartnerByUpazila?businessUnitId=${respondedBuId}&upazilaName=${values?.thana?.label}&territoryId=${valueOption?.value}`,
+                          (data) => {
+                            const updatedData = data?.map((d) => ({
+                              ...data,
+                              value: d?.businessPartnerId,
+                              label: d?.businessPartnerName,
+                            }));
+                            setPartnerDDL(updatedData);
+                          }
+                        );
+                        getRowData(
+                          `/oms/CustomerPoint/GetRetailerByBusinessPartner?businessUnitId=${respondedBuId}&upazilaName=${values?.thana?.label}&territoryId=${valueOption?.value}&businessPartnerId=0`
+                        );
+                      } else {
                         getRowData(
                           `/oms/CustomerPoint/GetBusinessPartnerByUpazila?businessUnitId=${respondedBuId}&upazilaName=${values?.thana?.label}&territoryId=${valueOption?.value}`
                         );
@@ -159,7 +167,7 @@ export default function RespondentModal({ title, setter, onHide,respondedBuId}) 
                   <div className="col-lg-3">
                     <NewSelect
                       name="partner"
-                      options={[{label:"All",value:0},...partnerDDL]}
+                      options={[{ label: "All", value: 0 }, ...partnerDDL]}
                       value={values?.partner}
                       label="Partner"
                       onChange={(valueOption) => {
@@ -174,16 +182,17 @@ export default function RespondentModal({ title, setter, onHide,respondedBuId}) 
                   </div>
                 )}
               </div>
-              <div className="table-responsive">
-                <table className="table table-striped table-bordered global-table mt-3">
+             <div className="loan-scrollable-table">
+             <div className="scroll-table _table overflow-auto ">
+                <table className="table table-striped table-bordered global-table mt-3 ">
                   <thead>
                     <tr>
-                      <th>{title} Code </th>
+                      <th style={{maxWidth:"130px"}}>{title} Code </th>
                       <th>{title} Name </th>
-                      <th>Contact No</th>
+                      <th style={{maxWidth:"100px"}}>Contact No</th>
                       <th>Address</th>
-                      <th>Area</th>
-                      <th>Region</th>
+                      <th style={{maxWidth:"100px"}}>Area</th>
+                      <th style={{maxWidth:"100px"}}>Region</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -192,26 +201,17 @@ export default function RespondentModal({ title, setter, onHide,respondedBuId}) 
                         <tr
                           key={index}
                           onClick={() => {
-                            setter(
-                              "respondent",
-                              item?.retailerName || item?.businessPartnerName
-                            );
-                            setter("respondentName", {
+                            setter("customer", {
                               label:
                                 item?.retailerName || item?.businessPartnerName,
                               value:
                                 item?.retailerId || item?.businessPartnerId,
                             });
-                            setter(
-                              "respondentContact",
-                              item?.businessPartnerContact ||
-                                item?.retailerContact
-                            );
-                            setter(
-                              "respondentAddress",
-                              item?.businessPartnerAddress ||
-                              item?.retailerAddress
-                            );
+                            setter("upazila", {
+                              label: item?.upazilaName,
+                              value: 0,
+                            });
+
                             onHide();
                           }}
                         >
@@ -234,6 +234,7 @@ export default function RespondentModal({ title, setter, onHide,respondedBuId}) 
                   </tbody>
                 </table>
               </div>
+             </div>
             </Form>
           </IForm>
         </>
