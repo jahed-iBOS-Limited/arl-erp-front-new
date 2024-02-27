@@ -401,17 +401,17 @@ function Form({
                       errors={errors}
                       touched={touched}
                     />
-                    {
-                      values?.respondentName &&  <small
-                      style={{
-                        fontSize: "11px",
-                        fontWeight: 500,
-                        color: "green",
-                      }}
-                    >
-                      Work Place : {values?.respondentName?.workPlace}
-                    </small>
-                    }
+                    {values?.respondentName && (
+                      <small
+                        style={{
+                          fontSize: "11px",
+                          fontWeight: 500,
+                          color: "green",
+                        }}
+                      >
+                        Work Place : {values?.respondentName?.workPlace}
+                      </small>
+                    )}
                   </div>
                 )}
                 {values?.respondentType?.value === 4 && (
@@ -421,12 +421,14 @@ function Form({
                       name="sourceCustomerType"
                       options={[
                         { value: "Retailer", label: "Retailer" },
-                        { value: "Distributer", label: "Distributer" },
+                        { value: "Distributor", label: "Distributor" },
                       ]}
                       value={values?.sourceCustomerType}
                       label="Source Customer Type"
                       onChange={(valueOption) => {
                         setFieldValue("respondent", "");
+                        setFieldValue("customer", "");
+                        setFieldValue("upazila", "");
                         setFieldValue("sourceCustomerType", valueOption);
                       }}
                       placeholder="Source Customer Type"
@@ -434,6 +436,38 @@ function Form({
                       // touched={touched}
                       // isDisabled={!values?.respondentBusinessUnit || view}
                     />
+                  </div>
+                )}
+                {values?.respondentType?.value === 4 && (
+                  <div className="col-lg-3">
+                    <div className="d-flex">
+                      <NewSelect
+                        name="customer"
+                        value={values?.customer}
+                        label="Customer Name"
+                        placeholder="Customer"
+                        // errors={errors}
+                        // touched={touched}
+                        isDisabled={true}
+                      />
+                      <div style={{ marginTop: "23px", paddingLeft: "3px", display: !values || !values.sourceCustomerType ? "none" : "block" }}>
+                        <OverlayTrigger 
+                          overlay={
+                            <Tooltip id="cs-icon">
+                              {"Add Respondent Name"}
+                            </Tooltip>
+                          }
+                        >
+                          <span>
+                            <i
+                              style={{ color: "#3699ff" }}
+                              className={`fas fa-plus-square`}
+                              onClick={() => setShowRespondentModal(true)}
+                            ></i>
+                          </span>
+                        </OverlayTrigger>
+                      </div>
+                    </div>
                   </div>
                 )}
                 <div className="col-lg-3">
@@ -447,30 +481,22 @@ function Form({
                     <label style={{ display: "block" }}>
                       <b style={{ color: "red" }}>*</b> Respondent Name
                     </label>
-                    {values?.respondentType?.value === 4 && (
-                      <OverlayTrigger
-                        overlay={<Tooltip id="cs-icon">{"Add Respondent Name"}</Tooltip>}
-                      >
-                        <span>
-                          <i
-                            style={{color:"#3699ff"}}
-                            className={`fas fa-plus-square`}
-                            onClick={() => setShowRespondentModal(true)}
-                          ></i>
-                        </span>
-                      </OverlayTrigger>
-                    )}
                   </div>
                   <InputField
                     value={values?.respondent}
                     placeholder="Respondent Name"
                     name="respondent"
                     type="text"
-                    disabled={view || values?.respondentType?.value === 4}
-                    onChange={(e) =>
-                      setFieldValue("respondent", e.target.value)
-                    }
-                    
+                    disabled={view}
+                    onChange={(e) => {
+                      setFieldValue("respondent", e.target.value);
+                      if (values?.respondentType?.value === 4) {
+                        setFieldValue("respondentName", {
+                          label: e.target.value,
+                          value: 0,
+                        });
+                      }
+                    }}
                   />
                 </div>
                 <div className="col-lg-3">
@@ -528,6 +554,32 @@ function Form({
                         e.target.value
                       );
                     }}
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <label>Upazila Name</label>
+                  <SearchAsyncSelect
+                    selectedValue={values?.upazila}
+                    handleChange={(valueOption) => {
+                      setFieldValue("upazila", valueOption);
+                    }}
+                    loadOptions={(v) => {
+                      if (v?.length < 2) return [];
+                      return axios
+                        .get(
+                          `/oms/CustomerPoint/GetUpazilaForComplain?search=${v}`
+                        )
+                        .then((res) => {
+                          return res?.data?.map((itm) => ({
+                            ...itm,
+                            value: 0,
+                            label: itm?.label,
+                          }));
+                        })
+                        .catch((err) => []);
+                    }}
+                    isDisabled={values?.customer}
+                    placeholder="Search by Enroll/ID No/Name (min 3 letter)"
                   />
                 </div>
                 {/* Contact Source DDL */}
