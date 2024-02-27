@@ -135,7 +135,7 @@ export default function AddAdvance({
                       }}
                       className="btn btn-primary ml-2"
                       type="submit"
-                      disabled={bill?.billAndAdvanceId}
+                      disabled={bill?.billAndAdvanceId || advanceBill[0]?.billAndAdvanceId}
                     >
                       Save
                     </button>
