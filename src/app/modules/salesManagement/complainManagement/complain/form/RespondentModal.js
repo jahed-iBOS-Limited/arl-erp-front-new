@@ -86,7 +86,7 @@ export default function RespondentModal({ title, setter, onHide,respondedBuId}) 
                 <div className="col-lg-3">
                   <NewSelect
                     name="thana"
-                    options={thanaDDL}
+                    options={[{label:"All",value:0},...thanaDDL]}
                     value={values?.thana}
                     label="Thana"
                     onChange={(valueOption) => {
