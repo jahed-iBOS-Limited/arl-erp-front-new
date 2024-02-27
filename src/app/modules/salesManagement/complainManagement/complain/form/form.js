@@ -606,6 +606,7 @@ function Form({
                   <div>
                     {values?.attachment && (
                       <button
+                      style={{ padding: "4px 5px",marginTop:"14px" }}
                         className="btn btn-primary"
                         type="button"
                         onClick={() => {
