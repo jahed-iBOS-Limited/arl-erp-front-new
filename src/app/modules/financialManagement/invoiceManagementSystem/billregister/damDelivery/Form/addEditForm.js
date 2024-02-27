@@ -57,7 +57,6 @@ export default function DamDeliveryBill() {
               item?.dumpToTruckAmount +
               item?.labourAmount +
               item?.dumpOtherCost,
-            // billAmount: +item?.totalRate * +item?.unLoadQuantity,
           };
         });
         setGridData(modifyData);
@@ -70,7 +69,6 @@ export default function DamDeliveryBill() {
       `/wms/ShipPoint/GetShipPointDDL?accountId=${accId}&businessUnitId=${buId}`
     );
 
-    // getData(initData, pageNo, pageSize);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accId, buId]);
 
@@ -88,7 +86,7 @@ export default function DamDeliveryBill() {
         const rows = selectedRow?.map((item) => ({
           challanNo: item?.deliveryCode,
           deliveryId: item?.rowId || 0,
-          quantity: +item?.unLoadQuantity || 0,
+          quantity: +item?.dumpQnt || 0,
           ammount: +item?.billAmount,
           billAmount: +item?.billAmount,
           shipmentCode: item?.deliveryCode,
@@ -117,8 +115,10 @@ export default function DamDeliveryBill() {
             unitId: buId,
             unitName: buName,
             billNo: values?.billNo,
-            billDate: values?.billDate,
-            paymentDueDate: values?.paymentDueDate,
+            billDate: values?.fromDate,
+            paymentDueDate: values?.toDate,
+            // billDate: values?.billDate,
+            // paymentDueDate: values?.paymentDueDate,
             narration: values?.narration,
             billAmount: totalAmount,
             plantId: headerData?.plant?.value || 0,
