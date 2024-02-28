@@ -95,6 +95,7 @@ function Form({
 
   const dispatch = useDispatch();
 
+ 
   useEffect(() => {
     if (initData?.respondentType?.value) {
       // if type supplier
@@ -115,23 +116,31 @@ function Form({
           setCustomerDDL
         );
       }
-    }
-
-    if (initData?.respondentBusinessUnit?.value) {
       getItemCategoryDDL(
         accId,
         initData?.respondentBusinessUnit?.value,
         setLoading,
         setItemCategoryDDL
       );
-    }
+      getDistributionChannelDDL(
+        accId,
+        initData?.respondentBusinessUnit?.value,
+        setDistributionChannelDDL
+      );
 
-    if (initData?.respondentBusinessUnit?.value && initData?.issueType?.value) {
       getComplainSubcategoryApi(
         initData?.respondentBusinessUnit?.value,
         initData?.issueType?.value,
         setComplainSubCategory
       );
+
+      if (initData?.respondentBusinessUnit?.value && initData?.issueType?.value) {
+        getComplainSubcategoryApi(
+          initData?.respondentBusinessUnit?.value,
+          initData?.issueType?.value,
+          setComplainSubCategory
+        );
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initData]);
