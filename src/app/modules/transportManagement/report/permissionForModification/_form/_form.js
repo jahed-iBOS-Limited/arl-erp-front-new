@@ -189,7 +189,13 @@ const CreatePermissionForm = ({ setShow, getData, formType, singleItem }) => {
                             `/hcm/HCMDDL/GetEmployeeDDLSearch?AccountId=${accId}&Search=${searchValue}`
                             // `/hcm/HCMDDL/GetEmployeeDDLSearchByBU?AccountId=${accId}&BusinessUnitId=${buId}&Search=${searchValue}`
                           )
-                          .then((res) => res?.data);
+                          .then((res) => {
+                            const modify = res?.data?.map((item) => ({
+                              ...item,
+                              label: `${item?.label} [${item?.erpemployeeId}]`,
+                            }));
+                            return modify;
+                          });
                       }}
                     />
                   </div>
