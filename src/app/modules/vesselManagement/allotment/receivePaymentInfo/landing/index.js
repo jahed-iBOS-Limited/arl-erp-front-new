@@ -30,7 +30,7 @@ const ReceivePaymentInfoLanding = () => {
   } = useSelector((state) => state?.authData, shallowEqual);
 
   const setLandingData = (values) => {
-    const url = `/tms/GtoGDeliveryInfo/GetG2GDeliveryInfoForReceivePayment?businessUnitId=${buId}&portId=${
+    const url = `/tms/GtoGDeliveryInfo/GetG2GDeliveryInfoForReceivePayment?PartId=${2}&businessUnitId=${buId}&portId=${
       values?.port?.value
     }&motherVesselId=${values?.motherVessel?.value}&soldToPartnerId=${
       values?.soldToPartner?.value
