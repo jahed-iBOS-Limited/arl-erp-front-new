@@ -250,7 +250,7 @@ const dataSetForEdit = (
       is78Guarantee: values?.is78Guarantee,
       guarantee78Amount: values?.is78Guarantee ? values?.guarantee78Amount : 0,
       lastActionBy: profileData?.employeeId,
-      TotalCustomDuty:values?.grandTotal || 0
+      totalCustomDuty:values?.grandTotal || 0
       // grandTotal: grandTotal0,
       // refundBy: refundBy,
       // refundDate: refundDate,
