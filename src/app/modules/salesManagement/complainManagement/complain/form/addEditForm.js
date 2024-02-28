@@ -33,7 +33,9 @@ const initData = {
   challanOrPO: "",
   deliveryDate: "",
   reference: "",
-  respondentAddress: ''
+  respondentAddress: "",
+  upazila: "",
+  customer: "",
 };
 
 function ComplainForm() {
@@ -92,8 +94,11 @@ function ComplainForm() {
       respondentType: values?.respondent || "",
       contactSourceId: values?.contactSource?.value || 0, 
       contactSourceName: values?.contactSource?.label || "",
-      respondentAddress: values?.respondentAddress || '',
-      sourceCustomerType: values?.sourceCustomerType?.label || ""
+      respondentAddress: values?.respondentAddress || "",
+      sourceCustomerType: values?.sourceCustomerType?.label || "",
+      customerId: values?.customer?.value || 0,
+      customerName: values?.customer?.label || "",
+      upazilaName: values?.upazila?.label || "",
     };
 
     if (edit) {
@@ -107,7 +112,7 @@ function ComplainForm() {
       }
     });
   };
- console.log("single Data",singleData);
+  
   useEffect(() => {
     if (edit || view) {
       const id = edit || view;
