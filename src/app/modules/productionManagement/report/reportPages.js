@@ -13,6 +13,7 @@ import ProductionWiseRMConjunctionReport from "./productionWiseRMConjunctionRepo
 import YeildReport from "./yeildReport";
 import Yeildreport from "./yeildReportNew";
 import OeeReport from "./oeeReport";
+import HealthCheckCondition from "./healthcheckCondition";
 
 export function MesReportPages() {
   return (
@@ -55,6 +56,10 @@ export function MesReportPages() {
         component={
           Yeildreport
         }
+      />
+      <ContentRoute
+        path="/production-management/report/HealthcheckCondition"
+        component={HealthCheckCondition}
       />
 
       {/* OEE Report (BI) */}
