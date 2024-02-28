@@ -95,6 +95,8 @@ const TripCostDetailsTable = ({ obj }) => {
               totalShipmentQty += item?.shipmentQnt;
               totalAdvanceAmount += item?.advanceAmount;
 
+              F_totalActualFuelCost += item?.fuelActual;
+
               const totalTripCost =
                 item?.fuelActual +
                 item?.bridgeTollChada +
@@ -189,9 +191,8 @@ const TripCostDetailsTable = ({ obj }) => {
             })}
             <tr style={{ textAlign: "right", fontWeight: "bold" }}>
               <td></td>
-              <td className="text-right" colSpan="3">
-                Total
-              </td>
+              <td className="text-right">Total</td>
+              <td className="text-right" colSpan="2"></td>
 
               <td>{totalShipmentQty}</td>
               <td colSpan={2}></td>
