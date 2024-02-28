@@ -29,6 +29,22 @@ export default function RespondentModal({ title, setter, onHide,respondedBuId}) 
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  useEffect(()=>{
+   if(title === "Retailer"){
+    getPartnerDDL(
+      `/oms/CustomerPoint/GetBusinessPartnerByUpazila?businessUnitId=${respondedBuId}&upazilaName=""&territoryId=0`,
+      (data) => {
+        const updatedData = data?.map((d) => ({
+          ...data,
+          value: d?.businessPartnerId,
+          label: d?.businessPartnerName,
+        }));
+        setPartnerDDL(updatedData);
+      }
+    )
+   }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[title,respondedBuId])
   return (
     <Formik
       enableReinitialize={true}
@@ -70,7 +86,7 @@ export default function RespondentModal({ title, setter, onHide,respondedBuId}) 
                 <div className="col-lg-3">
                   <NewSelect
                     name="district"
-                    options={districtDDL}
+                    options={[{label:"All",value:0},...districtDDL  ]}
                     value={values?.district}
                     label="District"
                     onChange={(valueOption) => {
@@ -95,7 +111,7 @@ export default function RespondentModal({ title, setter, onHide,respondedBuId}) 
                       setFieldValue("partner", { label: "All", value: 0 });
                       if (!valueOption) return;
                       getTerritoryDDL(
-                        `/oms/CustomerPoint/GetBusinessPartnerTerritoryByUpazila?businessUnitId=4&upazilaName=${valueOption?.label}`,
+                        `/oms/CustomerPoint/GetBusinessPartnerTerritoryByUpazila?businessUnitId=4&upazilaName=${valueOption?.label !== "All" ? valueOption?.label : ""}`,
                         (data) => {
                           const updatedData = data?.map((d) => ({
                             ...d,
@@ -107,7 +123,7 @@ export default function RespondentModal({ title, setter, onHide,respondedBuId}) 
                       );
                       if(title === "Retailer"){
                         getPartnerDDL(
-                          `/oms/CustomerPoint/GetBusinessPartnerByUpazila?businessUnitId=${respondedBuId}&upazilaName=${valueOption?.label}&territoryId=0`,
+                          `/oms/CustomerPoint/GetBusinessPartnerByUpazila?businessUnitId=${respondedBuId}&upazilaName=${valueOption?.label !== "All"?valueOption?.label : ""}&territoryId=0`,
                           (data) => {
                             const updatedData = data?.map((d) => ({
                               ...data,
@@ -117,12 +133,14 @@ export default function RespondentModal({ title, setter, onHide,respondedBuId}) 
                             setPartnerDDL(updatedData);
                           }
                         )
+                       if(valueOption?.label !== "All"){
                         getRowData(
-                          `/oms/CustomerPoint/GetRetailerByBusinessPartner?businessUnitId=${respondedBuId}&upazilaName=${valueOption?.label}&territoryId=0&businessPartnerId=0`
+                          `/oms/CustomerPoint/GetRetailerByBusinessPartner?businessUnitId=${respondedBuId}&upazilaName=${valueOption?.label !== "All"?valueOption?.label : ""}&territoryId=0&businessPartnerId=0`
                         );
+                       }
                       }else{
                         getRowData(
-                          `/oms/CustomerPoint/GetBusinessPartnerByUpazila?businessUnitId=${respondedBuId}&upazilaName=${valueOption?.label}&territoryId=0`
+                          `/oms/CustomerPoint/GetBusinessPartnerByUpazila?businessUnitId=${respondedBuId}&upazilaName=${valueOption?.label !== "All"?valueOption?.label : ""}&territoryId=0`
                         );
                       }
                     }}
@@ -141,7 +159,7 @@ export default function RespondentModal({ title, setter, onHide,respondedBuId}) 
                       if (!valueOption) return;
                       if (title === "Retailer") {
                         getPartnerDDL(
-                          `/oms/CustomerPoint/GetBusinessPartnerByUpazila?businessUnitId=${respondedBuId}&upazilaName=${values?.thana?.label}&territoryId=${valueOption?.value}`,
+                          `/oms/CustomerPoint/GetBusinessPartnerByUpazila?businessUnitId=${respondedBuId}&upazilaName=${values?.thana?.label !== "All" ?values?.thana?.label : ""}&territoryId=${valueOption?.value}`,
                           (data) => {
                             const updatedData = data?.map((d) => ({
                               ...data,
@@ -151,12 +169,14 @@ export default function RespondentModal({ title, setter, onHide,respondedBuId}) 
                             setPartnerDDL(updatedData);
                           }
                         );
+                       if(valueOption?.label !=="All"){
                         getRowData(
-                          `/oms/CustomerPoint/GetRetailerByBusinessPartner?businessUnitId=${respondedBuId}&upazilaName=${values?.thana?.label}&territoryId=${valueOption?.value}&businessPartnerId=0`
+                          `/oms/CustomerPoint/GetRetailerByBusinessPartner?businessUnitId=${respondedBuId}&upazilaName=${values?.thana?.label !== "All" ?values?.thana?.label : ""}&territoryId=${valueOption?.value}&businessPartnerId=0`
                         );
+                       }
                       } else {
                         getRowData(
-                          `/oms/CustomerPoint/GetBusinessPartnerByUpazila?businessUnitId=${respondedBuId}&upazilaName=${values?.thana?.label}&territoryId=${valueOption?.value}`
+                          `/oms/CustomerPoint/GetBusinessPartnerByUpazila?businessUnitId=${respondedBuId}&upazilaName=${values?.thana?.label !== "All" ?values?.thana?.label : ""}&territoryId=${valueOption?.value}`
                         );
                       }
                     }}
@@ -174,10 +194,10 @@ export default function RespondentModal({ title, setter, onHide,respondedBuId}) 
                         setFieldValue("partner", valueOption);
                         if (!valueOption) return;
                         getRowData(
-                          `/oms/CustomerPoint/GetRetailerByBusinessPartner?businessUnitId=${respondedBuId}&upazilaName=${values?.thana?.label}&territoryId=${values?.territory?.value}&businessPartnerId=${valueOption?.value}`
+                          `/oms/CustomerPoint/GetRetailerByBusinessPartner?businessUnitId=${respondedBuId}&upazilaName=${values?.thana?.label !== "All" ?values?.thana?.label : ""}&territoryId=${values?.territory?.value}&businessPartnerId=${valueOption?.value}`
                         );
                       }}
-                      isDisabled={!values?.thana}
+                      // isDisabled={!values?.thana}
                     />
                   </div>
                 )}
@@ -187,7 +207,7 @@ export default function RespondentModal({ title, setter, onHide,respondedBuId}) 
                 <table className="table table-striped table-bordered global-table mt-3 ">
                   <thead>
                     <tr>
-                      <th style={{maxWidth:"130px"}}>{title} Code </th>
+                      {title ==="Distributor " && <th style={{maxWidth:"130px"}}>{title} Code </th>}
                       <th>{title} Name </th>
                       <th style={{maxWidth:"100px"}}>Contact No</th>
                       <th>Address</th>
@@ -208,14 +228,16 @@ export default function RespondentModal({ title, setter, onHide,respondedBuId}) 
                                 item?.retailerId || item?.businessPartnerId,
                             });
                             setter("upazila", {
-                              label: item?.upazilaName,
+                              label: item?.label,
                               value: 0,
+                              districtName : item?.districtName,
+                              upazilaName:item?.upazilaName
                             });
 
                             onHide();
                           }}
                         >
-                          <td>{item?.businessPartnerCode || ""}</td>
+                         {title ==="Distributor " &&  <td>{item?.businessPartnerCode || ""}</td>}
                           <td>
                             {item?.businessPartnerName || item?.retailerName}
                           </td>

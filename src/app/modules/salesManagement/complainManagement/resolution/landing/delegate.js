@@ -201,6 +201,10 @@ function DelegateForm({ clickRowData, landingCB }) {
                 <p>
                   <b>Create By: </b> {singleData?.actionByName}
                 </p>
+                <p>
+                  <b>Customer Name : </b> {singleData?.sourceCustomerType}
+                </p>
+
                 
               </div>
               <div>
