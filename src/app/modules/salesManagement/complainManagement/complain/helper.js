@@ -1,7 +1,7 @@
 import axios from "axios";
+import moment from "moment";
 import { toast } from "react-toastify";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
-import moment from "moment";
 
 export const employeEnroll_Api = async (accId, buId, setter) => {
   try {
@@ -90,11 +90,12 @@ export const getComplainById = async (
             label: res?.data?.distributionChannelName,
           }
         : "",
-      contactSource : res?.data?.contactSourceId 
+      contactSource: res?.data?.contactSourceId
         ? {
             value: res?.data?.contactSourceId,
             label: res?.data?.contactSourceName,
-          } : "",
+          }
+        : "",
       product: res?.data?.itemId
         ? {
             value: res?.data?.itemId,
@@ -132,7 +133,21 @@ export const getComplainById = async (
         ? _dateFormatter(res?.data?.deliveryDate)
         : "",
       reference: res?.data?.reference || "",
-      respondentAddress: res?.data?.respondentAddress || ''
+      respondentAddress: res?.data?.respondentAddress || "",
+      sourceCustomerType: {
+        label: res?.data?.sourceCustomerType || "",
+        value: res?.data?.sourceCustomerType || "",
+      },
+      customer: {
+        label: res?.data?.customerName || "",
+        value: res?.data?.customerId || 0,
+      },
+      upazila: {
+        value: 0,
+        upazilaName: res?.data?.upazilaName || "",
+        districtName: res?.data?.districtName || "",
+        label: `${res?.data?.upazilaName}(${res?.data?.districtName})`,
+      },
     });
   } catch (error) {
     setLoaing(false);
@@ -283,7 +298,8 @@ export const complainLandingPasignation = async (
   try {
     const _search = search ? `&search=${search}` : "";
     const res = await axios.get(
-      `/oms/CustomerPoint/ComplainLandingPasignation?accountId=${accId}&businessUnitId=${buId}&respondentTypeId=${respondentTypeId}&statusId=${statusId}&fromDate=${fromDate}&toDate=${toDate}&pageNo=${pageNo}&pageSize=${pageSize}${_search}&respondentBusinessUnitId=${respondentBusinessUnitId || 0}&issueTypeId=${issueTypeId}`
+      `/oms/CustomerPoint/ComplainLandingPasignation?accountId=${accId}&businessUnitId=${buId}&respondentTypeId=${respondentTypeId}&statusId=${statusId}&fromDate=${fromDate}&toDate=${toDate}&pageNo=${pageNo}&pageSize=${pageSize}${_search}&respondentBusinessUnitId=${respondentBusinessUnitId ||
+        0}&issueTypeId=${issueTypeId}`
     );
     setter(res?.data);
     setLoading(false);

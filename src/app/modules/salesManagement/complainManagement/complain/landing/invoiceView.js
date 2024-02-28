@@ -134,6 +134,9 @@ function InvoiceView({ clickRowData }) {
                 <p>
                   <b>Contact Source:</b> {singleData?.contactSourceName}
                 </p>
+                <p>
+                  <b>Customer Name :</b> {singleData?.sourceCustomerType}
+                </p>
               </div>
               <div>
                 <p>

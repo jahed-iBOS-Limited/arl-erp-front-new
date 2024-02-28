@@ -34,6 +34,7 @@ const initData = {
   deliveryDate: "",
   reference: "",
   respondentAddress: "",
+  sourceCustomerType:"",
   upazila: "",
   customer: "",
 };
@@ -69,7 +70,7 @@ function ComplainForm() {
       respondentTypeId: values?.respondentType?.value || 0,
       respondentTypeName: values?.respondentType?.label || "",
       respondentId: values?.respondentName?.value || 0,
-      respondentName: values?.respondentName?.label || "",
+      respondentName: values?.respondentName?.label || (values?.respondentType?.value === 4 && values?.respondent) || "",
       distributionChannelId: values?.distributionChannel?.value || 0,
       delegateToId: singleData?.delegateToId || 0,
       delegateToName: singleData?.delegateToName || "",
@@ -98,7 +99,8 @@ function ComplainForm() {
       sourceCustomerType: values?.sourceCustomerType?.label || "",
       customerId: values?.customer?.value || 0,
       customerName: values?.customer?.label || "",
-      upazilaName: values?.upazila?.label || "",
+      upazilaName: values?.upazila?.upazilaName || "",
+      districtName: values?.upazila?.districtName || "",
     };
 
     if (edit) {
