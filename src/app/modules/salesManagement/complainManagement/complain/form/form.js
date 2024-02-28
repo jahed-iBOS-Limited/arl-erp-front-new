@@ -569,7 +569,7 @@ function Form({
                         })
                         .catch((err) => []);
                     }}
-                    isDisabled={values?.customer}
+                    
                     placeholder="Search by Enroll/ID No/Name (min 3 letter)"
                   />
                 </div>
