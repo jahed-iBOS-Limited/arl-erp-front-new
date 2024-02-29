@@ -28,7 +28,7 @@ export function SearchForm(props) {
             ? shipmentCostLading?.reportType
             : {
                 value: false,
-                label: "Pending",
+                label: "Out Pending",
               } || "",
         }}
         onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -67,15 +67,15 @@ export function SearchForm(props) {
                   options={[
                     {
                       value: false,
-                      label: "Pending",
+                      label: "Out Pending", // label: "Pending",
                     },
                     {
                       value: true,
-                      label: "Complete",
+                      label: "In Pending", // label: "Complete",
                     },
                     {
                       value: 2,
-                      label: "Bill Submit",
+                      label: "Trip Complete", // label: "Bill Submit",
                     },
                   ]}
                   value={values?.reportType}
