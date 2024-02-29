@@ -151,6 +151,7 @@ export default function HealthCheckCondition() {
                 <table className="table table-striped table-bordered global-table mt-0">
                   <thead>
                     <tr>
+                      <th rowSpan={2}>SL</th>
                       <th rowSpan={2}>Plant Name</th>
                       <th rowSpan={2}>Shopfloor</th>
                       <th rowSpan={2}>Machine</th>
@@ -169,6 +170,9 @@ export default function HealthCheckCondition() {
                       ? rowData.map((item, index) => {
                           return (
                             <tr key={index}>
+                               <td>
+                                {index + 1}
+                              </td>
                               <td className="text-left">
                                 {item?.strPlantname}
                               </td>
