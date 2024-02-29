@@ -59,7 +59,7 @@ function BrandItemRequisitionLanding() {
     const urlForHeadOffice = `/wms/ItemRequest/GetBrandItemRequestDataForApproval?accountId=${accId}&businessUnitId=${buId}&regionId=${
       values?.region?.value
     }&fromDate=${values?.fromDate}&todate=${values?.toDate}&status=${
-      status === 2 ? 1 : 2
+      [2, 4].includes(status) ? 1 : 2
     }&isApproveByRM=false&PageNo=${pageNo}&PageSize=${pageSize}`;
 
     const url =
@@ -145,6 +145,7 @@ function BrandItemRequisitionLanding() {
                         { value: 0, label: "All" },
                         { value: 1, label: "Pending" },
                         { value: 2, label: "Approved by Regional Manager" },
+                        { value: 4, label: "Pending for Head Office Approval" },
                         { value: 3, label: "Approved by Head Office" },
                       ]}
                       value={values?.status}
@@ -157,7 +158,7 @@ function BrandItemRequisitionLanding() {
                     />
                   </div>
                   <IButton
-                    disabled={!values?.status}
+                    disabled={!values?.status || !values?.area}
                     onClick={() => {
                       getLandingData(values, pageNo, pageSize);
                     }}
