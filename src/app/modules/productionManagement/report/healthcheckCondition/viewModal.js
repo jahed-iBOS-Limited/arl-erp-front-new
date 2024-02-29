@@ -37,6 +37,7 @@ export function DamageViewModal({ values, singleData }) {
         <table className="table table-striped table-bordered global-table mt-0">
           <thead>
             <tr>
+              <th>SL</th>
               <th>Date</th>
               <th>Checklist Criteria Type</th>
               <th>Checklist Criteria</th>
@@ -49,7 +50,8 @@ export function DamageViewModal({ values, singleData }) {
               ? viewData.map((item, index) => {
                   return (
                     <tr>
-                      <td>{_dateFormatter(item?.dteCheckedDatetime)}</td>
+                      <td>{index + 1}</td>
+                      <td className="text-center">{_dateFormatter(item?.dteCheckedDatetime)}</td>
                       <td>{item?.strCheckListCriteriaType}</td>
                       <td>{item?.strCheckListCriteria}</td>
                       <td>{item?.strStandardValue}</td>
