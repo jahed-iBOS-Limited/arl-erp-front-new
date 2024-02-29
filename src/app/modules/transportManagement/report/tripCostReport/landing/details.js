@@ -27,6 +27,7 @@ const headers = [
   { name: "DA", style: { minWidth: "70px" } },
   { name: "Down Trip Allowance", style: { minWidth: "70px" } },
   { name: "Total Trip Cost", style: { minWidth: "70px" } },
+  { name: "Fuel Credit", style: { minWidth: "70px" } },
   { name: "Advance Amount", style: { minWidth: "70px" } },
   { name: "Down Trip Fare Cash", style: { minWidth: "70px" } },
   { name: "Shipment Cost Total", style: { minWidth: "70px" } },
@@ -60,7 +61,8 @@ const TripCostDetailsTable = ({ obj }) => {
     totalProfitLoss = 0,
     totalDriverPayable = 0,
     totalShipmentQty = 0,
-    totalAdvanceAmount = 0;
+    totalAdvanceAmount = 0,
+    totalFuelCredit = 0;
 
   return (
     <>
@@ -94,6 +96,7 @@ const TripCostDetailsTable = ({ obj }) => {
               grandTotalShipmentCost += item?.shipmentFareAmount;
               totalShipmentQty += item?.shipmentQnt;
               totalAdvanceAmount += item?.advanceAmount;
+              totalFuelCredit += item?.fuelCredit;
 
               F_totalActualFuelCost += item?.fuelActual;
 
@@ -118,11 +121,12 @@ const TripCostDetailsTable = ({ obj }) => {
               const profitLoss = totalIncome - totalTripCost;
               totalProfitLoss += profitLoss;
 
-              const driverNetPayable =
-                totalTripCost -
-                (item?.fuelActual +
-                  item?.downTripFareCash +
-                  item?.advanceAmount);
+              const driverNetPayable = totalTripCost - item?.fuelCredit;
+              // const driverNetPayable =
+              //   totalTripCost -
+              //   (item?.fuelActual +
+              //     item?.downTripFareCash +
+              //     item?.advanceAmount);
 
               totalDriverPayable += driverNetPayable;
 
@@ -170,6 +174,7 @@ const TripCostDetailsTable = ({ obj }) => {
                   <td className="text-right">{item?.dailyAllowance}</td>
                   <td className="text-right">{item?.downTripAllowance}</td>
                   <td className="text-right">{totalTripCost}</td>
+                  <td className="text-right">{item?.fuelCredit}</td>
                   <td className="text-right">{item?.advanceAmount}</td>
                   <td className="text-right">{item?.downTripFareCash}</td>
                   <td className="text-right">{item?.shipmentFareAmount}</td>
@@ -200,7 +205,7 @@ const TripCostDetailsTable = ({ obj }) => {
 
               <td>{F_totalAdditionalMillage}</td>
               <td>{F_totalAdditionalMillage + F_totalMillage}</td>
-              <td>{F_totalStandardFuelCost}</td>
+              <td>{F_totalStandardFuelCost.toFixed(2)}</td>
               <td>{F_totalActualFuelCost}</td>
               <td>{totalBridgeToll}</td>
               <td>{totalLaborTips}</td>
@@ -212,6 +217,7 @@ const TripCostDetailsTable = ({ obj }) => {
               <td>{totalDownTripAllowance}</td>
 
               <td> {grandTotalTripCost} </td>
+              <td> {totalFuelCredit} </td>
               <td> {totalAdvanceAmount} </td>
               <td> {totalDownTripFareCash} </td>
               <td> {grandTotalShipmentCost} </td>

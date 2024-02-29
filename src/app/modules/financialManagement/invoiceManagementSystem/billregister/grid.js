@@ -34,6 +34,7 @@ import ViewStevedoreBill from "./stevedoreBill/view/table";
 import ViewSurveyorBill from "./surveyorBill/view/table";
 import ViewTransportBill from "./transportBill/view/viewBillRegister";
 import PumpFoodingBillDetails from "./pumpFoodingBillDetails";
+import ViewDamDeliveryBill from "./damDelivery/view/table";
 const GridData = ({
   rowDto,
   values,
@@ -329,6 +330,9 @@ const GridData = ({
             )}
             {gridItem?.billType === 28 && (
               <ViewHatchLaborBill billRegisterId={gridItem?.billRegisterId} />
+            )}
+            {gridItem?.billType === 32 && (
+              <ViewDamDeliveryBill billRegisterId={gridItem?.billRegisterId} />
             )}
           </IViewModal>
 
