@@ -15,7 +15,7 @@ export function DamageViewModal({ values, singleData }) {
       {loading && <Loading />}
       <div className="form-group  global-form">
         <div
-          style={{ fontSize: "14px" }}
+          style={{ fontSize: "12px" }}
           className="d-flex justify-content-between"
         >
           <div>
