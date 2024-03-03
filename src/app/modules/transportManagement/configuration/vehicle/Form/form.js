@@ -345,6 +345,15 @@ export default function _Form({
                 </div>
                 </>
                 }
+                 <div className="col-lg-3">
+                  <IInput
+                    type="text"
+                    value={values?.capacityInBag ?? ""}
+                    label="Capacity In Bag"
+                    name="capacityInBag"
+                    // disabled={isEdit}
+                  />
+                </div>
               </div>
 
               <IViewModal
