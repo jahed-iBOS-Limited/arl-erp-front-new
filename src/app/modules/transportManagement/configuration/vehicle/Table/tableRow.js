@@ -79,6 +79,7 @@ export function TableRow() {
                 <th>Vehicle No</th>
                 <th>Weight</th>
                 <th>Volume</th>
+                <th>Capacity In Bag</th>
                 <th style={{ width: "70px" }}>Action</th>
               </tr>
             </thead>
@@ -95,6 +96,9 @@ export function TableRow() {
                     </td>
                     <td>
                       <div className="pl-2">{item?.volume}</div>
+                    </td>
+                    <td>
+                      <div className="pl-2">{item?.capacityInBag}</div>
                     </td>
                     <td>
                       <div className="d-flex justify-content-around">
