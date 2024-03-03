@@ -75,6 +75,17 @@ export default function HealthSummary() {
             <Form>
               <div className="form-group  global-form row">
                 <div className="col-lg-3">
+                  <InputField
+                    value={values?.fromDate}
+                    label="Date"
+                    name="fromDate"
+                    type="date"
+                    onChange={(e) => {
+                      setFieldValue("fromDate", e.target.value);
+                    }}
+                  />
+                </div>
+                <div className="col-lg-3">
                   <NewSelect
                     name="businessUnit"
                     options={businessUnitList || []}
@@ -127,7 +138,7 @@ export default function HealthSummary() {
                   />
                 </div>
 
-                <div className="col-lg-3">
+                {/* <div className="col-lg-3">
                   <label>Checked By Enroll</label>
                   <SearchAsyncSelect
                     selectedValue={values?.employee}
@@ -156,30 +167,7 @@ export default function HealthSummary() {
                     errors={errors}
                     touched={touched}
                   />
-                  {/* {values?.employee && (
-                    <small
-                      style={{
-                        fontSize: "11px",
-                        fontWeight: 500,
-                        color: "green",
-                      }}
-                    >
-                      Work Place : {values?.employee?.workPlace}
-                    </small>
-                  )} */}
-                </div>
-
-                <div className="col-lg-3">
-                  <InputField
-                    value={values?.fromDate}
-                    label="Date"
-                    name="fromDate"
-                    type="date"
-                    onChange={(e) => {
-                      setFieldValue("fromDate", e.target.value);
-                    }}
-                  />
-                </div>
+                </div> */}
                 <div>
                   <button
                     type="button"
@@ -244,11 +232,25 @@ export default function HealthSummary() {
                                 {item?.totalChcekPoint - item?.mWorking}
                               </td>
                               <td className="text-center">
-                                {item?.pWorking / item?.totalChcekPoint}%
+                                {item?.totalChcekPoint !== 0
+                                  ? Math.round(
+                                      (item?.pWorking / item?.totalChcekPoint) *
+                                        100
+                                    )
+                                  : 0}
+                                %
                               </td>
+
                               <td className="text-center">
-                                {item?.mWorking / item?.totalChcekPoint}%
+                                {item?.totalChcekPoint !== 0
+                                  ? Math.round(
+                                      (item?.mWorking / item?.totalChcekPoint) *
+                                        100
+                                    )
+                                  : 0}
+                                %
                               </td>
+
                               <td className="text-center">
                                 {item?.totalMachineCount}
                               </td>
