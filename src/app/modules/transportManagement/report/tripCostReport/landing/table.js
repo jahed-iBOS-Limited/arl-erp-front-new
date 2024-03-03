@@ -7,6 +7,7 @@ import Loading from "../../../../_helper/_loading";
 import IViewModal from "../../../../_helper/_viewModal";
 import TripCostDetailsTable from "./details";
 import { toast } from "react-toastify";
+import { _fixedPoint } from "../../../../_helper/_fixedPoint";
 
 const Table = ({ obj }) => {
   const { accId, buId, gridData, values, buName, printRef } = obj;
@@ -149,7 +150,9 @@ const Table = ({ obj }) => {
                           {item?.downTripFareCredit}
                         </td>
                         <td className="text-center">{totalTripFare}</td>
-                        <td className="text-center">{netIncome}</td>
+                        <td className="text-center">
+                          {_fixedPoint(netIncome, true)}
+                        </td>
                         <td className="text-center">{item?.fuelCredit}</td>
                         <td className="text-center">{item?.netPayable}</td>
                         <td className="text-center">
@@ -162,7 +165,7 @@ const Table = ({ obj }) => {
                                   if (resData?.length) {
                                     setOpen(true);
                                   } else {
-                                    toast.warn("Data not found")
+                                    toast.warn("Data not found");
                                   }
                                 }
                               );
