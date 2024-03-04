@@ -163,6 +163,7 @@ const EmployeeWiseFuelCostTbl = ({ rowData, values }) => {
                       />
                       <span style={{marginLeft:"5px"}}>
                       <IView
+                      title="View Trip Expense"
                       classes={"fa-regular fa-file"}
                         clickHandler={() => {
                           setItem(item);

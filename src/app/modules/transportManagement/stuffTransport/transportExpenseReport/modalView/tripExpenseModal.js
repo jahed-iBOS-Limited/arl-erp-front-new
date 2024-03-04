@@ -18,7 +18,9 @@ export default function TripExpenseModal({ item, values }) {
   return (
     <>
       {loadingTripExpeseData && <Loading />}
-      <h4 style={{marginTop:"30px"}} className="text-center">Fuel Log</h4>
+      <h4 style={{ marginTop: "30px" }} className="text-center">
+        Fuel Log
+      </h4>
       <div className="d-flex justify-content-between mt-5">
         <div>
           <p>
@@ -31,8 +33,14 @@ export default function TripExpenseModal({ item, values }) {
               Vehicle User Enroll : {tripExpense[0]?.vehicleUserEnroll}
             </strong>
           </p>
+          <p>
+            <strong className="mr-5">From Date : {values?.fromDate}</strong>
+          </p>
         </div>
         <div>
+          <p>
+            <strong>To Date : {values?.toDate}</strong>
+          </p>
           <p>
             <strong>
               Designation : {tripExpense[0]?.vehicleUserDesignation}
@@ -63,9 +71,13 @@ export default function TripExpenseModal({ item, values }) {
                 return (
                   <tr key={index}>
                     <td className="text-center">{index + 1}</td>
-                    <td className="text-center">{_dateFormatterTwo(item?.tripDate)}</td>
+                    <td className="text-center">
+                      {_dateFormatterTwo(item?.tripDate)}
+                    </td>
                     <td className="text-center">{item?.tripCode}</td>
-                    <td style={{marginRight:"5px"}} className="text-right">{_formatMoney(item?.netAmount)}</td>
+                    <td style={{ marginRight: "5px" }} className="text-right">
+                      {_formatMoney(item?.netAmount)}
+                    </td>
                     <td className="text-center">
                       <strong
                         style={{
@@ -83,13 +95,13 @@ export default function TripExpenseModal({ item, values }) {
                   </tr>
                 );
               })}
-              <tr>
-                <td colSpan={3}>Total</td>
-                <td style={{marginRight:"5px"}} className="text-right">
-                    <strong>{_formatMoney(grandTotal)}</strong>
-                </td>
-                <td></td>
-              </tr>
+            <tr>
+              <td colSpan={3}>Total</td>
+              <td style={{ marginRight: "5px" }} className="text-right">
+                <strong>{_formatMoney(grandTotal)}</strong>
+              </td>
+              <td></td>
+            </tr>
           </tbody>
         </table>
       </div>
