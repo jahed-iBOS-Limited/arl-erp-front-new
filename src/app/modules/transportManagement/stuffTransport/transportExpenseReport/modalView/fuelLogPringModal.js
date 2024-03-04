@@ -1,8 +1,8 @@
 import React, { useEffect, useRef } from "react";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import Loading from "../../../../_helper/_loading";
 import ReactToPrint from "react-to-print";
+import { _formatMoney } from "../../../../_helper/_formatMoney";
+import Loading from "../../../../_helper/_loading";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import { getFormattedMonthYear } from "../helper";
 
 export default function FuelLogPringModal({ item, values }) {
@@ -25,7 +25,9 @@ export default function FuelLogPringModal({ item, values }) {
   let grandTollAmount = 0;
   let grandKMPL = 0;
   let grandTotalAmount = 0;
-
+  // console.log("personal km",item?.personalKM);
+  const totalPersonalKM =
+  item?.numCeilingKM + item?.numCeilingKM * 0.25;
   return (
     <>
       {loading && <Loading />}
@@ -100,14 +102,8 @@ export default function FuelLogPringModal({ item, values }) {
                 grandOtherExpanse += item?.otherExpanse || 0;
                 grandTollAmount += item?.numTollAmount || 0;
                 grandKMPL +=
-                  (item?.fuelCash || 0 + item?.fuelCredit || 0) /
-                    (item?.totalKM || 1);
-                grandTotalAmount +=
-                  item?.fuelCash ||
-                  0 + item?.numTollAmount ||
-                  0 + item?.daAmount ||
-                  0 + item?.otherExpanse ||
-                  0;
+                (item?.fuelCash + item?.fuelCredit + item?.numTollAmount) / item?.totalKM;
+                grandTotalAmount +=((item?.fuelCash + item?.numTollAmount+item?.daAmount+item?.otherExpanse) -((item?.fuelCash + item?.fuelCredit + item?.numTollAmount) / item?.totalKM) * ((item?.numCeilingKM + item?.numCeilingKM * 0.25)-item?.numCeilingKM))
 
                 return (
                   <>
@@ -138,17 +134,13 @@ export default function FuelLogPringModal({ item, values }) {
                       <td style={{ textAlign: "right" }}>
                         {" "}
                         {_formatMoney(
-                          item?.fuelCash ||
-                            0 + item?.numTollAmount ||
-                            0 + item?.daAmount ||
-                            0 + item?.otherExpanse ||
-                            0
+                          ((item?.fuelCash + item?.numTollAmount+item?.daAmount+item?.otherExpanse) -((item?.fuelCash + item?.fuelCredit + item?.numTollAmount) / item?.totalKM) * ((item?.numCeilingKM + item?.numCeilingKM * 0.25)-item?.numCeilingKM))
                         )}
                       </td>
                       <td style={{ textAlign: "right" }}>
                         {" "}
                         {_formatMoney(
-                          (item?.fuelCash + item?.fuelCredit) / item?.totalKM
+                          (item?.fuelCash + item?.fuelCredit + item?.numTollAmount) / item?.totalKM
                         )}
                       </td>
                     </tr>
@@ -182,7 +174,7 @@ export default function FuelLogPringModal({ item, values }) {
                 </td>
                 <td style={{ textAlign: "right",  fontWeight: "bold" }}>
                   {" "}
-                  {_formatMoney(grandKMPL)}
+                  {_formatMoney(grandKMPL /printData?.length)}
                 </td>
               </tr>
             </tbody>

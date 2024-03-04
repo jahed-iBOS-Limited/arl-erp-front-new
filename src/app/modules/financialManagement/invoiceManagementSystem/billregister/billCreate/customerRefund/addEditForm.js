@@ -312,9 +312,9 @@ export default function CustomerRefundCreateEditForm() {
                       ) {
                         return toast.warn("Profit Center is required");
                       }
-                    //   if(values?.amount>convertBalance(values?.amount) || balance[0]?.numBalance>0){
-                    //     return toast.warn(`You have not sufficient balance`);
-                    //   }
+                      if(values?.amount>convertBalance(balance[0]?.numBalance) || balance[0]?.numBalance>0 || errors?.amount){
+                        return toast.warn(`You have not sufficient balance`);
+                      }
                       rowDataHandler(values,rowData,setRowData,accId,buId,location,userId, () => {
                         const copyValues = {...values};
                         resetForm({

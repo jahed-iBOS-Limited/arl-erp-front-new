@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 
 export const tableHeader = [
     "SL",
@@ -18,6 +19,12 @@ export const tableHeader = [
   };
 
   export const rowDataHandler = (values,rowData,setRowData,accId,buId,location,userId, cb) => {
+    const checkDuplicate = rowData?.find(item=>item?.customerName === values?.customer?.label && item?.bankID === values?.bankName?.value && item?.bankAccountNumber === values?.bankAccountingNo && item?.branchID === values?.branchName?.value && item?.routingNumber === values?.branchName?.strRoutingNo && item?.glId === +values?.businessTransaction?.generalLedgerId)
+
+    if(checkDuplicate){
+      return toast.warn("Duplicate Data Not Allowed")
+    }
+    
     const newRow = {
       accountID: accId,
       businessUnitID: buId,
