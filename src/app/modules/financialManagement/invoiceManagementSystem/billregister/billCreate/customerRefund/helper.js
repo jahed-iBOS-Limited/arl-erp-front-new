@@ -1,3 +1,5 @@
+import axios from "axios";
+import { toast } from "react-toastify";
 
 export const tableHeader = [
     "SL",
@@ -18,6 +20,11 @@ export const tableHeader = [
   };
 
   export const rowDataHandler = (values,rowData,setRowData,accId,buId,location,userId, cb) => {
+    const checkDuplicate = rowData?.find(item=>item?.customerName === values?.customer?.label && item?.customerId === values?.customer?.value)
+    if(checkDuplicate){
+      return toast.warn("Duplicate Customer Not Allowed")
+    }
+    
     const newRow = {
       accountID: accId,
       businessUnitID: buId,
@@ -25,6 +32,7 @@ export const tableHeader = [
       sbuid: location?.state?.sbu?.value,
       billName: "",
       customerName:values?.customer?.label,
+      customerId:values?.customer?.value,
       bankID: values?.bankName?.value,
       bankName: values?.bankName?.label,
       bankAccountNumber: values?.bankAccountingNo,
@@ -66,4 +74,16 @@ export const tableHeader = [
             func.apply(this, args);
         }, delay);
     };
+}
+
+export const uploadAtt = async (attachment)=>{
+  const formData = new FormData()
+  attachment.forEach(file=>{
+    formData.append("files",file)
+  })
+  return axios.post("/domain/Document/UploadFile", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  })
 }
