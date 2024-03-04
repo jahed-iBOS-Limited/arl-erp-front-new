@@ -4,7 +4,6 @@ import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
-import * as Yup from 'yup';
 import { APIUrl } from "../../../../../../App";
 import ICustomTable from "../../../../../_helper/_customTable";
 import IForm from "../../../../../_helper/_form";
@@ -13,8 +12,16 @@ import InputField from "../../../../../_helper/_inputField";
 import Loading from "../../../../../_helper/_loading";
 import NewSelect from "../../../../../_helper/_select";
 import { _todayDate } from "../../../../../_helper/_todayDate";
+import { compressfile } from "../../../../../_helper/compressfile";
 import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet";
-import { convertBalance, removeDataFromRow, rowDataHandler, tableHeader } from "./helper";
+import useAxiosPost from "../../../../../_helper/customHooks/useAxiosPost";
+import {
+  convertBalance,
+  removeDataFromRow,
+  rowDataHandler,
+  tableHeader,
+  uploadAtt,
+} from "./helper";
 
 const initData = {
   paymentType: "",
@@ -26,15 +33,14 @@ const initData = {
   amount: "",
   billRegisterDate: _todayDate(),
   businessTransaction: "",
-  profitCenter:""
+  profitCenter: "",
 };
-
-
 
 export default function CustomerRefundCreateEditForm() {
   const [objProps, setObjprops] = useState({});
   const [customerDDL, getCustomerDDL] = useAxiosGet();
   const [bankDDL, getBankDDL, loadBankDDL, setBankDDL] = useAxiosGet();
+  const [isDisabled, setDisabled] = useState(false);
   const [balance, getBalance] = useAxiosGet();
   const location = useLocation();
   const [
@@ -55,24 +61,22 @@ export default function CustomerRefundCreateEditForm() {
     ,
     setProfitCenterList,
   ] = useAxiosGet();
+  const [, customerRefundEntries, loadCustomerRefundEntries] = useAxiosPost();
   const [isModalOpen, setModalOpenState] = useState(false);
   const [fileObjects, setFileObjects] = useState([]);
   const [rowData, setRowData] = useState([]);
   const {
-    profileData: { accountId: accId,userId },
+    profileData: { accountId: accId, userId },
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
-
-//  const customLabel= 
 
   //   Effects
   useEffect(() => {
     getCustomerDDL(
       `/partner/BusinessPartnerBasicInfo/GetSoldToPartnerShipToPartnerDDL?accountId=${accId}&businessUnitId=${buId}`
     );
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accId, buId]);
-  
 
   useEffect(() => {
     getBusinessTransactionDDL(
@@ -108,25 +112,47 @@ export default function CustomerRefundCreateEditForm() {
         setProfitCenterList(result);
       }
     );
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const saveHandler = (values, cb) => {
-    alert("Working...");
+  const saveHandler = async (values, cb) => {
+    if (rowData?.length === 0) return toast.warn("At least one bill add");
+    if (fileObjects.length < 1) return toast.warn("Please upload attachment");
+    const payload = {
+      head: rowData,
+    };
+    try {
+      setDisabled(true);
+      if (fileObjects?.length > 0) {
+        const compressedFile = await compressfile(
+          fileObjects?.map((f) => f.file)
+        );
+        const uploadedImage = await uploadAtt(compressedFile);
+        payload["image"] = uploadedImage?.data?.map((item) => ({
+          imageId: item?.id,
+        }));
+        setDisabled(false);
+        customerRefundEntries(
+          `/fino/OthersBillEntry/CustomerRefundEntries`,
+          payload,
+          () => {
+            setRowData([])
+            setFileObjects([])
+          },
+          true
+        );
+      }
+    } catch (error) {
+      toast.error(error?.message);
+      setDisabled(false);
+    }
   };
-  
-//  form validation
-  const customerRefundValidationSchema = Yup.object({
-    amount: Yup.number()
-      .min(0, 'Amount must be more than 0')
-      .max(convertBalance(balance[0]?.numBalance), `Amount must be at most ${convertBalance(balance[0]?.numBalance)}`)
-      .required('Amount is required'),
-  });
+
+
   return (
     <Formik
       enableReinitialize={true}
       initialValues={initData}
-        validationSchema={customerRefundValidationSchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
           resetForm(initData);
@@ -143,8 +169,15 @@ export default function CustomerRefundCreateEditForm() {
         touched,
       }) => (
         <>
-          {(branchDDLLoading || loadBankDDL || loadBusinessTransactionDDL) && <Loading />}
-          <IForm title="Create Customer Refund" getProps={setObjprops}>
+          {(branchDDLLoading || loadBankDDL || loadBusinessTransactionDDL||loadCustomerRefundEntries) && (
+            <Loading />
+          )}
+          <IForm
+            title="Create Customer Refund"
+            getProps={setObjprops}
+            isDisabled={isDisabled}
+          >
+            {isDisabled && <Loading />}
             <Form>
               <div className="form-group  global-form row">
                 <div className="col-lg-3">
@@ -174,7 +207,7 @@ export default function CustomerRefundCreateEditForm() {
                     touched={touched}
                   />
                 </div>
-                <div style={{position:"relative"}} className="col-lg-3 ">
+                <div style={{ position: "relative" }} className="col-lg-3 ">
                   <NewSelect
                     name="customer"
                     options={customerDDL}
@@ -184,14 +217,34 @@ export default function CustomerRefundCreateEditForm() {
                     onChange={(valueOption) => {
                       setFieldValue("customer", valueOption);
                       setFieldValue("amount", "");
-                      if(!valueOption)return;
-                      getBalance(`/fino/BankBranch/GetPartnerBook?BusinessUnitId=${buId}&PartnerId=${valueOption?.value}&PartnerType=2&FromDate=2024-03-03&ToDate=2024-03-03`)
+                      if (!valueOption) return;
+                      getBalance(
+                        `/fino/BankBranch/GetPartnerBook?BusinessUnitId=${buId}&PartnerId=${valueOption?.value}&PartnerType=2&FromDate=2024-03-03&ToDate=2024-03-03`
+                      );
                     }}
                     placeholder="Customer Name"
                     errors={errors}
                     touched={touched}
                   />
-                  {balance?.length>0 ? (<span style={{position:"absolute",top:"5px",right:"14px",fontWeight:"bold"}} className={`ml-4 font-bold ${balance[0]?.numBalance>0?"text-danger":"text-info"}`}>{balance[0]?.numBalance > 0 ? `Due Balance:${balance[0]?.numBalance}`:`Available Balance:${balance[0]?.numBalance}`}</span>):<span></span>}
+                  {balance?.length > 0 && values?.customer ? (
+                    <span
+                      style={{
+                        position: "absolute",
+                        top: "5px",
+                        right: "14px",
+                        fontWeight: "bold",
+                      }}
+                      className={`ml-4 font-bold ${
+                        balance[0]?.numBalance > 0 ? "text-danger" : "text-info"
+                      }`}
+                    >
+                      {balance[0]?.numBalance > 0
+                        ? `Due Balance:${balance[0]?.numBalance}`
+                        : `Available Balance:${convertBalance(balance[0]?.numBalance)}`}
+                    </span>
+                  ) : (
+                    <span></span>
+                  )}
                 </div>
                 <div className="col-lg-3">
                   <NewSelect
@@ -259,7 +312,7 @@ export default function CustomerRefundCreateEditForm() {
                     type="number"
                     placeholder="Amount"
                     min={0}
-                    disabled={!values?.customer || balance[0]?.numBalance > 0}
+                    disabled={!values?.customer || convertBalance(balance[0]?.numBalance) <= 0}
                   />
                 </div>
                 <div className="col-lg-3">
@@ -312,20 +365,34 @@ export default function CustomerRefundCreateEditForm() {
                       ) {
                         return toast.warn("Profit Center is required");
                       }
-                      if(values?.amount>convertBalance(balance[0]?.numBalance) || balance[0]?.numBalance>0 || errors?.amount){
-                        return toast.warn(`You have not sufficient balance`);
+                      if (
+                        values?.amount > convertBalance(balance[0]?.numBalance)
+                      ) {
+                        return toast.warn(`Balance must be at most ${convertBalance(balance[0]?.numBalance)}`);
                       }
-                      rowDataHandler(values,rowData,setRowData,accId,buId,location,userId, () => {
-                        const copyValues = {...values};
-                        resetForm({
-                          ...initData,
-                          // businessTransaction: copyValues?.businessTransaction,
-                        });
-                        setFieldValue(
-                          "businessTransaction",
-                          copyValues?.businessTransaction
-                        );
-                      });
+                      if(values?.amount<=0){
+                        return toast.warn("Balance must be more then 0")
+                      }
+                      rowDataHandler(
+                        values,
+                        rowData,
+                        setRowData,
+                        accId,
+                        buId,
+                        location,
+                        userId,
+                        () => {
+                          const copyValues = { ...values };
+                          resetForm({
+                            ...initData,
+                            // businessTransaction: copyValues?.businessTransaction,
+                          });
+                          setFieldValue(
+                            "businessTransaction",
+                            copyValues?.businessTransaction
+                          );
+                        }
+                      );
                     }}
                     disabled={
                       !values?.customer ||
@@ -351,17 +418,15 @@ export default function CustomerRefundCreateEditForm() {
                   </button>
                 </div>
               </div>
-            {/* table */}
+              {/* table */}
               <div className="row">
                 <div className="col-12">
-                    <table className="">
-
-                    </table>
+                  <table className=""></table>
                   <ICustomTable ths={tableHeader}>
                     {rowData?.map((item, index) => {
                       return (
                         <tr key={index}>
-                            {console.log("item",item)}
+                          {console.log("item", item)}
                           <td>{index + 1}</td>
                           <td> {item?.customerName}</td>
                           <td> {item?.bankName}</td>
@@ -371,7 +436,11 @@ export default function CustomerRefundCreateEditForm() {
                           <td className="text-right">{item?.amount}</td>
                           <td className="text-right">{item?.remarks}</td>
                           <td className="text-center">
-                            <span onClick={() => removeDataFromRow(index,rowData,setRowData)}>
+                            <span
+                              onClick={() =>
+                                removeDataFromRow(index, rowData, setRowData)
+                              }
+                            >
                               <IDelete />
                             </span>
                           </td>
@@ -435,7 +504,6 @@ export default function CustomerRefundCreateEditForm() {
                 showPreviews={true}
                 showFileNamesInPreview={true}
               />
-             
             </Form>
           </IForm>
         </>
