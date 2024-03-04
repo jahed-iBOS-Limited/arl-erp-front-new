@@ -25,9 +25,6 @@ export default function FuelLogPringModal({ item, values }) {
   let grandTollAmount = 0;
   let grandKMPL = 0;
   let grandTotalAmount = 0;
-  // console.log("personal km",item?.personalKM);
-  const totalPersonalKM =
-  item?.numCeilingKM + item?.numCeilingKM * 0.25;
   return (
     <>
       {loading && <Loading />}
