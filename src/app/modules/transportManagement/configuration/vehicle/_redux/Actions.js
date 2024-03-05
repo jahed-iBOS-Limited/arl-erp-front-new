@@ -122,6 +122,7 @@ export const getSingleById = (id) => (dispatch) => {
         const item = res.data[0];
         const data = {
           ...item,
+          capacityInBag: (item?.capacityInBag == null ? "" : parseFloat(item?.capacityInBag) ?? ""),
           ownerType: {
             value: item?.ownerTypeId,
             label: item?.ownerType,

@@ -155,7 +155,7 @@ export default function VehicleForm({
           vehicleCapacityId: values?.vehicleCapacity?.value,
           localStationKmpl: values?.ownerType?.value === 1 ? +values?.fuelAllowanceLocalKM : 0,
           outStationKmpl: values?.ownerType?.value === 1 ? +values?.fuelAllowanceOuterKM : 0,
-          capacityInBag: values?.capacityInBag || "",
+          capacityInBag: values?.capacityInBag ? values?.capacityInBag + " Bag" : "",
         };
         dispatch(saveEditedVehicleUnit(payload,setDisabled));
       } else {
@@ -186,7 +186,7 @@ export default function VehicleForm({
           vehicleCapacityId: values?.vehicleCapacity?.value,
           localStationKmpl: values?.ownerType?.value === 1 ? +values?.fuelAllowanceLocalKM : 0,
           outStationKmpl: values?.ownerType?.value === 1 ? +values?.fuelAllowanceOuterKM : 0,
-          capacityInBag: values?.capacityInBag || "",
+          capacityInBag: values?.capacityInBag ? values?.capacityInBag + " Bag" : "",
         };
         window.payload = payload;
         dispatch(saveVehicle(payload, cb, setDisabled));
