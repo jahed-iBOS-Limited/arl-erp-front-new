@@ -1,16 +1,13 @@
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
 import InputField from "../../../_helper/_inputField";
 import NewSelect from "../../../_helper/_select";
+import IViewModal from "../../../_helper/_viewModal";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import IForm from "./../../../_helper/_form";
 import Loading from "./../../../_helper/_loading";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { shallowEqual, useSelector } from "react-redux";
-import IViewModal from "../../../_helper/_viewModal";
 import { DamageViewModal } from "./viewModal";
-import SearchAsyncSelect from "../../../_helper/SearchAsyncSelect";
-import axios from "axios";
-import FormikError from "../../../_helper/_formikError";
 const initData = {
   businessUnit: "",
   plant: "",
@@ -194,9 +191,9 @@ export default function HealthSummary() {
                       <th rowSpan={2}>SL</th>
                       <th rowSpan={2}>Machine Section</th>
                       <th rowSpan={2}>Total Checkpoint</th>
-                      <th colSpan={2}>No of health check fill up</th>
-                      <th colSpan={2}>No of health check pending</th>
-                      <th colSpan={2}>Health check %</th>
+                      <th colSpan={2}>No of Health Check Fill Up</th>
+                      <th colSpan={2}>No of Health Check Pending</th>
+                      <th colSpan={2}>Health Check %</th>
                       <th colSpan={3}>Machine Health Scenario</th>
                     </tr>
                     <tr>
@@ -208,7 +205,7 @@ export default function HealthSummary() {
                       <th>Maintenance </th>
                       <th>Total Number of Machine </th>
                       <th>
-                        Number of Unfit Machine ( Below 80% health condition )
+                        Number of Unfit Machine ( Below 80% Health Condition )
                       </th>
                       <th>Unfit Machine %</th>
                     </tr>
