@@ -64,21 +64,20 @@ export default function BrandItemRequisitionLandingTable({ obj }) {
                         }}
                       />
                     </span>
-                    {[1, 2].includes(status) &&
-                      !td?.isApproveByL2 && (
-                        <span>
-                          <IApproval
-                            title={
-                              status === 1
-                                ? "Regional Manager Approve"
-                                : "Head Office Approve"
-                            }
-                            onClick={() => {
-                              getSingleDataById(td?.brandRequestId);
-                            }}
-                          />
-                        </span>
-                      )}
+                    {[1, 4].includes(status) && !td?.isApproveByL2 && (
+                      <span>
+                        <IApproval
+                          title={
+                            status === 1
+                              ? "Regional Manager Approve"
+                              : "Head Office Approve"
+                          }
+                          onClick={() => {
+                            getSingleDataById(td?.brandRequestId);
+                          }}
+                        />
+                      </span>
+                    )}
                   </div>
                 </td>
               </tr>
