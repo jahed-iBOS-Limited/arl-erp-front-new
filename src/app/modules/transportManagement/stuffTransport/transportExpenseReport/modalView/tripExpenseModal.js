@@ -19,7 +19,7 @@ export default function TripExpenseModal({ item, values }) {
     <>
       {loadingTripExpeseData && <Loading />}
       <h4 style={{ marginTop: "30px" }} className="text-center">
-        Fuel Log
+      Trip Expense Status
       </h4>
       <div className="d-flex justify-content-between mt-5">
         <div>
