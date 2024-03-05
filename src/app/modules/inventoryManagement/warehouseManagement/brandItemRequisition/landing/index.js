@@ -143,7 +143,7 @@ function BrandItemRequisitionLanding() {
                       name="status"
                       options={[
                         { value: 0, label: "All" },
-                        { value: 1, label: "Pending" },
+                        { value: 1, label: "Pending for Regional Manager Approval" },
                         { value: 2, label: "Approved by Regional Manager" },
                         { value: 4, label: "Pending for Head Office Approval" },
                         { value: 3, label: "Approved by Head Office" },
