@@ -44,13 +44,6 @@ export const tableHeader = [
       billID: 0,
       amount: values?.amount,
       billRegisterDate: values?.billRegisterDate,
-      glId: +values?.businessTransaction?.generalLedgerId,
-      glName: values?.businessTransaction?.generalLedgerName,
-      glCode: values?.businessTransaction?.generalLedgerCode,
-      subGlId: values?.businessTransaction?.businessTransactionId,
-      subGlName: values?.businessTransaction?.businessTransactionName,
-      subGlCode: values?.businessTransaction?.businessTransactionCode,
-      profitCenterId: values?.profitCenter?.value,
     };
     setRowData([...rowData,{...newRow}]);
     cb();
