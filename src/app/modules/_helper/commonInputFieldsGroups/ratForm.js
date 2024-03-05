@@ -24,6 +24,7 @@ const RATForm = ({ obj }) => {
     areaDisable,
     territoryDisable,
     zoneDisable,
+    allElement,
   } = obj;
   // get user data from store
   const {
@@ -47,6 +48,31 @@ const RATForm = ({ obj }) => {
 
   const col = columnSize ? columnSize : "col-lg-3";
 
+  const channels =
+    allElement !== false
+      ? [{ value: 0, label: "All" }, ...channelList] || []
+      : channelList || [];
+
+  const regions =
+    allElement !== false
+      ? [{ value: 0, label: "All" }, ...regionList] || []
+      : channelList || [];
+
+  const areas =
+    allElement !== false
+      ? [{ value: 0, label: "All" }, ...areaList] || []
+      : channelList || [];
+
+  const territories =
+    allElement !== false
+      ? [{ value: 0, label: "All" }, ...territoryList] || []
+      : channelList || [];
+
+  const zones =
+    allElement !== false
+      ? [{ value: 0, label: "All" }, ...zoneList] || []
+      : channelList || [];
+
   return (
     <>
       {loading && <Loading />}
@@ -54,7 +80,7 @@ const RATForm = ({ obj }) => {
         <div className={col}>
           <NewSelect
             name="channel"
-            options={[{ value: 0, label: "All" }, ...channelList] || []}
+            options={channels}
             value={values?.channel}
             label="Distribution Channel"
             onChange={(valueOption) => {
@@ -84,7 +110,7 @@ const RATForm = ({ obj }) => {
         <div className={col}>
           <NewSelect
             name="region"
-            options={[{ value: 0, label: "All" }, ...regionList] || []}
+            options={regions}
             value={values?.region}
             label="Region"
             onChange={(valueOption) => {
@@ -114,7 +140,7 @@ const RATForm = ({ obj }) => {
         <div className={col}>
           <NewSelect
             name="area"
-            options={[{ value: 0, label: "All" }, ...areaList] || []}
+            options={areas}
             value={values?.area}
             label="Area"
             onChange={(valueOption) => {
@@ -143,7 +169,7 @@ const RATForm = ({ obj }) => {
         <div className={col}>
           <NewSelect
             name="territory"
-            options={[{ value: 0, label: "All" }, ...territoryList] || []}
+            options={territories}
             value={values?.territory}
             label="Territory"
             onChange={(valueOption) => {
@@ -170,7 +196,7 @@ const RATForm = ({ obj }) => {
         <div className={col}>
           <NewSelect
             name="zone"
-            options={[{ value: 0, label: "All" }, ...zoneList] || []}
+            options={zones}
             value={values?.zone}
             label="Zone"
             onChange={(valueOption) => {

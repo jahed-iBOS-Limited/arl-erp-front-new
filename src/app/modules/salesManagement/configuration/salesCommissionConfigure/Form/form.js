@@ -68,6 +68,7 @@ export default function _Form({
                         values?.commissionType?.value
                       ),
                       territory: false,
+                      allElement: false,
                       onChange: (allValues, fieldName) => {
                         setRowData([]);
                         // if (fieldName === "region") {
@@ -75,7 +76,6 @@ export default function _Form({
                       },
                     }}
                   />
-
 
                   <FromDateToDateForm obj={{ values, setFieldValue }} />
 
