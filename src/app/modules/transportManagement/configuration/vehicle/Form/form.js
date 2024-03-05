@@ -347,7 +347,7 @@ export default function _Form({
                 }
                  <div className="col-lg-3">
                   <IInput
-                    type="text"
+                    type="number"
                     value={values?.capacityInBag ?? ""}
                     label="Capacity In Bag"
                     name="capacityInBag"
