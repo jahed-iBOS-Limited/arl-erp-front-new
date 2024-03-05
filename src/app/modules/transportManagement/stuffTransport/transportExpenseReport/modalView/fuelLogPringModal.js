@@ -25,6 +25,7 @@ export default function FuelLogPringModal({ item, values }) {
   let grandTollAmount = 0;
   let grandKMPL = 0;
   let grandTotalAmount = 0;
+  let grandTotalPersonalCost = 0
   return (
     <>
       {loading && <Loading />}
@@ -85,6 +86,7 @@ export default function FuelLogPringModal({ item, values }) {
                 <th> Toll Cost (Tk) </th>
                 <th>DA Amount (Tk)</th>
                 <th> Others Amount (Tk) </th>
+                <th> Personal Cost Deduct (Tk) </th>
                 <th> Total Amount (Tk) </th>
                 <th> KMPL </th>
               </tr>
@@ -101,6 +103,7 @@ export default function FuelLogPringModal({ item, values }) {
                 grandKMPL +=
                 (item?.fuelCash + item?.fuelCredit + item?.numTollAmount) / item?.totalKM;
                 grandTotalAmount +=((item?.fuelCash + item?.numTollAmount+item?.daAmount+item?.otherExpanse) -((item?.fuelCash + item?.fuelCredit + item?.numTollAmount) / item?.totalKM) * ((item?.numCeilingKM + item?.numCeilingKM * 0.25)-item?.numCeilingKM))
+                grandTotalPersonalCost += (((item?.fuelCash + item?.fuelCredit + item?.numTollAmount)/ item?.totalKM) * ((item?.numCeilingKM + item?.numCeilingKM * 0.25)-item?.numCeilingKM))
 
                 return (
                   <>
@@ -127,6 +130,10 @@ export default function FuelLogPringModal({ item, values }) {
                       <td style={{ textAlign: "right" }}>
                         {" "}
                         {_formatMoney(item?.otherExpanse)}
+                      </td>
+                      <td style={{ textAlign: "right" }}>
+                        {" "}
+                        {_formatMoney((((item?.fuelCash + item?.fuelCredit + item?.numTollAmount)/ item?.totalKM) * ((item?.numCeilingKM + item?.numCeilingKM * 0.25)-item?.numCeilingKM)))}
                       </td>
                       <td style={{ textAlign: "right" }}>
                         {" "}
@@ -164,6 +171,10 @@ export default function FuelLogPringModal({ item, values }) {
                 <td style={{ textAlign: "right",  fontWeight: "bold" }}>
                   {" "}
                   {_formatMoney(grandOtherExpanse)}
+                </td>
+                <td style={{ textAlign: "right",  fontWeight: "bold" }}>
+                  {" "}
+                  {_formatMoney(grandTotalPersonalCost)}
                 </td>
                 <td style={{ textAlign: "right",  fontWeight: "bold" }}>
                   {" "}
