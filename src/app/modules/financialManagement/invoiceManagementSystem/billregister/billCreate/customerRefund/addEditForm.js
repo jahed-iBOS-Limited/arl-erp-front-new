@@ -1,10 +1,11 @@
+import axios from "axios";
 import { Form, Formik } from "formik";
 import { DropzoneDialogBase } from "material-ui-dropzone";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
-import { APIUrl } from "../../../../../../App";
+import SearchAsyncSelect from "../../../../../_helper/SearchAsyncSelect";
 import ICustomTable from "../../../../../_helper/_customTable";
 import IForm from "../../../../../_helper/_form";
 import IDelete from "../../../../../_helper/_helperIcons/_delete";
@@ -32,35 +33,15 @@ const initData = {
   remarks: "",
   amount: "",
   billRegisterDate: _todayDate(),
-  businessTransaction: "",
-  profitCenter: "",
 };
 
 export default function CustomerRefundCreateEditForm() {
   const [objProps, setObjprops] = useState({});
-  const [customerDDL, getCustomerDDL] = useAxiosGet();
-  const [bankDDL, getBankDDL, loadBankDDL, setBankDDL] = useAxiosGet();
   const [isDisabled, setDisabled] = useState(false);
   const [balance, getBalance] = useAxiosGet();
   const location = useLocation();
-  const [
-    branchDDL,
-    getBranchDDL,
-    branchDDLLoading,
-    setBranchDDL,
-  ] = useAxiosGet();
-  const [
-    businessTransactionDDL,
-    getBusinessTransactionDDL,
-    loadBusinessTransactionDDL,
-    setBussinessTransactionDDL,
-  ] = useAxiosGet();
-  const [
-    profitCenterList,
-    getProfitCenterList,
-    ,
-    setProfitCenterList,
-  ] = useAxiosGet();
+
+
   const [, customerRefundEntries, loadCustomerRefundEntries] = useAxiosPost();
   const [isModalOpen, setModalOpenState] = useState(false);
   const [fileObjects, setFileObjects] = useState([]);
@@ -70,51 +51,11 @@ export default function CustomerRefundCreateEditForm() {
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
 
-  //   Effects
-  useEffect(() => {
-    getCustomerDDL(
-      `/partner/BusinessPartnerBasicInfo/GetSoldToPartnerShipToPartnerDDL?accountId=${accId}&businessUnitId=${buId}`
-    );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [accId, buId]);
 
-  useEffect(() => {
-    getBusinessTransactionDDL(
-      `/fino/Expense/GetExpenseBusinessTransactionList?BusinessUnitId=${buId}`,
-      (data) => {
-        const result = data?.map((item) => ({
-          ...item,
-          value: item.businessTransactionId,
-          label: item.businessTransactionName,
-        }));
-        setBussinessTransactionDDL(result);
-      }
-    );
-    getBankDDL(
-      `${APIUrl}/partner/BusinessPartnerBankInfo/GetBankInfo`,
-      (data) => {
-        const updatedValue = data?.map((item) => ({
-          ...item,
-          label: item?.bankName,
-          value: item?.bankId,
-        }));
-        setBankDDL(updatedValue);
-      }
-    );
-    getProfitCenterList(
-      `fino/CostSheet/ProfitCenterDetails?UnitId=${buId}`,
-      (data) => {
-        const result = data?.map((item) => ({
-          ...item,
-          value: item.profitCenterId,
-          label: item.profitCenterName,
-        }));
-        setProfitCenterList(result);
-      }
-    );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
+
+
+//  handler functions
   const saveHandler = async (values, cb) => {
     if (rowData?.length === 0) return toast.warn("At least one bill add");
     if (fileObjects.length < 1) return toast.warn("Please upload attachment");
@@ -147,6 +88,19 @@ export default function CustomerRefundCreateEditForm() {
       setDisabled(false);
     }
   };
+  const loadUserList = (v) => {
+    if (v?.length < 3) return [];
+    return axios.get(
+      `/partner/BusinessPartnerBankInfo/GetPartnerBankInfoByCustomer?searchTerm=${v}&accountId=${accId}&businessUnitId=${buId}&SbuId=${location?.state?.sbu?.value}`
+    ).then((res) => {
+      const updateList = res?.data.map((item) => ({
+        ...item,
+        value:item?.businessPartnerId,
+        label:item?.businessPartnerName
+      }));
+      return updateList;
+    });
+  };
 
 
   return (
@@ -169,7 +123,7 @@ export default function CustomerRefundCreateEditForm() {
         touched,
       }) => (
         <>
-          {(branchDDLLoading || loadBankDDL || loadBusinessTransactionDDL||loadCustomerRefundEntries) && (
+          {(loadCustomerRefundEntries) && (
             <Loading />
           )}
           <IForm
@@ -208,23 +162,25 @@ export default function CustomerRefundCreateEditForm() {
                   />
                 </div>
                 <div style={{ position: "relative" }} className="col-lg-3 ">
-                  <NewSelect
-                    name="customer"
-                    options={customerDDL}
-                    value={values?.customer}
-                    label={`Customer Name`}
-                    isRequiredSymbol={true}
-                    onChange={(valueOption) => {
+                  <label >Customer Name</label>
+                   <SearchAsyncSelect
+                   name="customer"
+                    selectedValue={values?.customer}
+                    handleChange={(valueOption) => {
                       setFieldValue("customer", valueOption);
+                      setFieldValue("bankName", {label:valueOption?.bankName,value:valueOption?.bankId} || "");
+                      setFieldValue("branchName", {label:valueOption?.bankBranchName,value:valueOption?.bankBranchId,strRoutingNo:valueOption?.routingNo} || "");
+                      setFieldValue("bankAccountingNo", valueOption?.bankAccountNo || "");
+                      setFieldValue("remarks", "");
                       setFieldValue("amount", "");
+
                       if (!valueOption) return;
                       getBalance(
-                        `/fino/BankBranch/GetPartnerBook?BusinessUnitId=${buId}&PartnerId=${valueOption?.value}&PartnerType=2&FromDate=2024-03-03&ToDate=2024-03-03`
+                        `/fino/BankBranch/GetPartnerBook?BusinessUnitId=${buId}&PartnerId=${valueOption?.value}&PartnerType=2&FromDate=${_todayDate()}&ToDate=${_todayDate()}`
                       );
                     }}
+                    loadOptions={loadUserList}
                     placeholder="Customer Name"
-                    errors={errors}
-                    touched={touched}
                   />
                   {balance?.length > 0 && values?.customer ? (
                     <span
@@ -249,26 +205,10 @@ export default function CustomerRefundCreateEditForm() {
                 <div className="col-lg-3">
                   <NewSelect
                     name="bankName"
-                    options={bankDDL || []}
                     value={values?.bankName}
                     label="Bank Name"
-                    onChange={(valueOption) => {
-                      setBranchDDL([]);
-                      setFieldValue("bankName", valueOption);
-                      getBranchDDL(
-                        `${APIUrl}/partner/BusinessPartnerBankInfo/GetBranchDDLInfo?BankId=${valueOption?.value}`,
-                        (data) => {
-                          const updatedValue = data?.map((item) => ({
-                            ...item,
-                            label: item?.bankBranchName,
-                            value: item?.bankBranchId,
-                          }));
-                          setBranchDDL(updatedValue);
-                        }
-                      );
-                      setFieldValue("branchName", "");
-                    }}
                     placeholder="Bank Name"
+                    isDisabled={true}
                     errors={errors}
                     touched={touched}
                   />
@@ -276,16 +216,12 @@ export default function CustomerRefundCreateEditForm() {
                 <div className="col-lg-3">
                   <NewSelect
                     name="branchName"
-                    options={branchDDL || []}
                     value={values?.branchName}
                     label="Branch Name"
-                    onChange={(valueOption) => {
-                      setFieldValue("branchName", valueOption);
-                    }}
                     placeholder="Branch Name"
                     errors={errors}
                     touched={touched}
-                    isDisabled={branchDDL.length === 0}
+                    isDisabled={true}
                   />
                 </div>
                 <div className="col-lg-3">
@@ -294,6 +230,7 @@ export default function CustomerRefundCreateEditForm() {
                     label="Bank Account No"
                     name="bankAccountingNo"
                     placeholder="Bank Account No"
+                    disabled={true}
                   />
                 </div>
                 <div className="col-lg-3">
@@ -324,47 +261,12 @@ export default function CustomerRefundCreateEditForm() {
                     placeholder="Bill Register Date"
                   />
                 </div>
-                <div className="col-lg-3">
-                  <NewSelect
-                    name="businessTransaction"
-                    options={businessTransactionDDL || []}
-                    value={values?.businessTransaction}
-                    label="Business Transaction"
-                    onChange={(valueOption) => {
-                      setFieldValue("businessTransaction", valueOption);
-                    }}
-                    placeholder="Business Transaction Name"
-                    errors={errors}
-                    touched={touched}
-                    isDisabled={rowData?.length}
-                  />
-                </div>
-                <div className="col-lg-3">
-                  <NewSelect
-                    name="profitCenter"
-                    options={profitCenterList || []}
-                    value={values?.profitCenter}
-                    label="Profit Center"
-                    onChange={(valueOption) => {
-                      setFieldValue("profitCenter", valueOption);
-                    }}
-                    errors={errors}
-                    touched={touched}
-                  />
-                </div>
+               
                 <div className="col-lg-3 align-self-end  mt-3">
                   <button
                     className="btn btn-primary mr-3"
                     type="button"
                     onClick={() => {
-                      if (
-                        [3, 4]?.includes(
-                          values?.businessTransaction?.accountGroupId
-                        ) &&
-                        !values?.profitCenter?.value
-                      ) {
-                        return toast.warn("Profit Center is required");
-                      }
                       if (
                         values?.amount > convertBalance(balance[0]?.numBalance)
                       ) {
@@ -401,8 +303,7 @@ export default function CustomerRefundCreateEditForm() {
                           !values?.branchName ||
                           !values?.bankAccountingNo)) ||
                       !values?.amount ||
-                      !values?.billRegisterDate ||
-                      !values?.businessTransaction
+                      !values?.billRegisterDate
                     }
                   >
                     Add
