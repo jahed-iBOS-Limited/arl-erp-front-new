@@ -1,20 +1,21 @@
 import React from "react";
 import { Redirect, Switch } from "react-router-dom";
 import { ContentRoute } from "../../../../_metronic/layout";
-import CostSheetReportLanding from "./costSheetReport/landing/landing";
-import StockReportLanding from "./stockReport/landing/landing";
-import BomReportLanding from "./bomReport/landing/landing";
-import PoStatusReportLanding from "./poStatusReport/landing/landing";
-import TransferedItemReportLanding from "./transferedItemReport/landing/landing";
-import ShopFloorIssueReportLanding from './shopFloorIssueReport/landing/landing';
-import ProductionReportLanding from "./productionReport/landing/landing";
 import ItemOverallCost from "./ItemOverallCost";
+import BomReportLanding from "./bomReport/landing/landing";
+import CostSheetReportLanding from "./costSheetReport/landing/landing";
+import HealthSummary from "./healthSummary";
+import HealthCheckCondition from "./healthcheckCondition";
+import OeeProductionSummary from "./oeeProductionSummary";
+import OeeReport from "./oeeReport";
+import PoStatusReportLanding from "./poStatusReport/landing/landing";
+import ProductionReportLanding from "./productionReport/landing/landing";
 import ProductionWiseRMConjunctionReport from "./productionWiseRMConjunctionReport";
+import ShopFloorIssueReportLanding from './shopFloorIssueReport/landing/landing';
+import StockReportLanding from "./stockReport/landing/landing";
+import TransferedItemReportLanding from "./transferedItemReport/landing/landing";
 import YeildReport from "./yeildReport";
 import Yeildreport from "./yeildReportNew";
-import OeeReport from "./oeeReport";
-import HealthCheckCondition from "./healthcheckCondition";
-import HealthSummary from "./healthSummary";
 
 export function MesReportPages() {
   return (
@@ -100,6 +101,10 @@ export function MesReportPages() {
       <ContentRoute
         path="/production-management/report/demoYeildReport"
         component={YeildReport}
+      />
+      <ContentRoute
+        path="/production-management/report/OEEProductionSummary"
+        component={OeeProductionSummary}
       />
     </Switch>
   );
