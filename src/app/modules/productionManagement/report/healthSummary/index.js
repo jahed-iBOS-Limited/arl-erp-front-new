@@ -8,20 +8,30 @@ import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import { shallowEqual, useSelector } from "react-redux";
 import IViewModal from "../../../_helper/_viewModal";
 import { DamageViewModal } from "./viewModal";
+import SearchAsyncSelect from "../../../_helper/SearchAsyncSelect";
+import axios from "axios";
+import FormikError from "../../../_helper/_formikError";
 const initData = {
   businessUnit: "",
   plant: "",
+  shopfloor: "",
+  employee: "",
   formDate: "",
-  toDate: "",
 };
-export default function HealthCheckCondition() {
+export default function HealthSummary() {
   const { profileData, selectedBusinessUnit, businessUnitList } = useSelector(
     (state) => {
       return state.authData;
     },
     shallowEqual
   );
-  const [plantDDL, getPlantDDL, plantDDLloader, setPlantDDL] = useAxiosGet();
+  const [plantDDL, getPlantDDL, plantDDLLloader, setPlantDDL] = useAxiosGet();
+  const [
+    shopfloorDDL,
+    getShopfloorDDL,
+    shopfloorDDLLoader,
+    setShopfloorDDL,
+  ] = useAxiosGet();
   const [singleData, setSingleData] = useState({});
   const [rowData, getRowData, loading] = useAxiosGet();
   const [isShowModal, setIsShowModal] = useState(false);
@@ -60,15 +70,21 @@ export default function HealthCheckCondition() {
         touched,
       }) => (
         <>
-          {(loading || plantDDLloader) && <Loading />}
-          <IForm
-            title="Health Check Condition"
-            isHiddenReset
-            isHiddenBack
-            isHiddenSave
-          >
+          {(loading || plantDDLLloader || shopfloorDDLLoader) && <Loading />}
+          <IForm title="Health Summary" isHiddenReset isHiddenBack isHiddenSave>
             <Form>
               <div className="form-group  global-form row">
+                <div className="col-lg-3">
+                  <InputField
+                    value={values?.fromDate}
+                    label="Date"
+                    name="fromDate"
+                    type="date"
+                    onChange={(e) => {
+                      setFieldValue("fromDate", e.target.value);
+                    }}
+                  />
+                </div>
                 <div className="col-lg-3">
                   <NewSelect
                     name="businessUnit"
@@ -78,7 +94,10 @@ export default function HealthCheckCondition() {
                     onChange={(valueOption) => {
                       setFieldValue("businessUnit", valueOption || "");
                       setFieldValue("plant", "");
+                      setFieldValue("shopfloor", "");
+                      setFieldValue("employee", "");
                       setPlantDDL([]);
+                      setShopfloorDDL([]);
                       getPlantDDL(
                         `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${profileData?.userId}&AccId=${profileData?.accountId}&BusinessUnitId=${valueOption?.value}&OrgUnitTypeId=7`
                       );
@@ -95,50 +114,71 @@ export default function HealthCheckCondition() {
                     label="Plant"
                     onChange={(valueOption) => {
                       setFieldValue("plant", valueOption || "");
+                      setFieldValue("shopfloor", "");
+                      setShopfloorDDL([]);
+                      getShopfloorDDL(
+                        `/mes/MesDDL/GetShopfloorDDL?AccountId=${profileData?.accountId}&BusinessUnitid=${values?.businessUnit?.value}&PlantId=${valueOption?.value}`
+                      );
+                    }}
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <NewSelect
+                    name="shopfloor"
+                    options={shopfloorDDL || []}
+                    value={values?.shopfloor}
+                    label="Shopfloor"
+                    onChange={(valueOption) => {
+                      setFieldValue("shopfloor", valueOption || "");
                     }}
                     errors={errors}
                     touched={touched}
                   />
                 </div>
 
-                <div className="col-lg-3">
-                  <InputField
-                    value={values?.fromDate}
-                    label="From Date"
-                    name="fromDate"
-                    type="date"
-                    onChange={(e) => {
-                      setFieldValue("fromDate", e.target.value);
+                {/* <div className="col-lg-3">
+                  <label>Checked By Enroll</label>
+                  <SearchAsyncSelect
+                    selectedValue={values?.employee}
+                    handleChange={(valueOption) => {
+                      setFieldValue("employee", valueOption || "");
                     }}
-                  />
-                </div>
-                <div className="col-lg-3">
-                  <InputField
-                    value={values?.toDate}
-                    label="To Date"
-                    name="toDate"
-                    type="date"
-                    onChange={(e) => {
-                      setFieldValue("toDate", e.target.value);
+                    loadOptions={(v) => {
+                      if (v?.length < 2) return [];
+                      return axios
+                        .get(
+                          `/asset/DropDown/GetEmployeeByEmpIdDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${values?.businessUnit?.value}&searchTearm=${v}`
+                        )
+                        .then((res) => {
+                          return res?.data?.map((itm) => ({
+                            ...itm,
+                            value: itm?.value,
+                            label: `${itm?.level} [${itm?.employeeCode}]`,
+                          }));
+                        })
+                        .catch((err) => []);
                     }}
+                    placeholder="Search by Enroll/ID No/Name (min 3 letter)"
                   />
-                </div>
+                  <FormikError
+                    name="employee"
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div> */}
                 <div>
                   <button
                     type="button"
                     disabled={
                       !values?.businessUnit ||
                       !values?.plant ||
-                      !values?.fromDate ||
-                      !values?.toDate
+                      !values?.fromDate
                     }
                     onClick={() => {
                       getRowData(
-                        `/asset/AssetMaintanance/GetMachineHealthConditionReport?BusinessUnitId=${values
-                          ?.businessUnit?.value || 0}&PlantId=${values?.plant
-                          ?.value || 0}&FromDate=${values?.fromDate}&ToDate=${
-                          values?.toDate
-                        }`
+                        `/asset/AssetMaintanance/GetMachineHealthSummeryReport?FromDate=${values?.fromDate}&BusinessUnitId=${values?.businessUnit?.value}&PlantId=${values?.plant?.value}&ShopfloorId=${values?.shopfloor?.value}`
                       );
                     }}
                     className="btn btn-primary mt-5 ml-4"
@@ -152,17 +192,25 @@ export default function HealthCheckCondition() {
                   <thead>
                     <tr>
                       <th rowSpan={2}>SL</th>
-                      <th rowSpan={2}>Plant Name</th>
-                      <th rowSpan={2}>Shopfloor</th>
-                      <th rowSpan={2}>Machine</th>
-                      <th colSpan={2}>Production </th>
-                      <th colSpan={2}>Maintenance </th>
+                      <th rowSpan={2}>Machine Section</th>
+                      <th rowSpan={2}>Total Checkpoint</th>
+                      <th colSpan={2}>No of health check fill up</th>
+                      <th colSpan={2}>No of health check pending</th>
+                      <th colSpan={2}>Health check %</th>
+                      <th colSpan={3}>Machine Health Scenario</th>
                     </tr>
                     <tr>
-                      <th>Working </th>
-                      <th>Damage </th>
-                      <th>Working </th>
-                      <th>Damage </th>
+                      <th>Production </th>
+                      <th>Maintenance </th>
+                      <th>Production </th>
+                      <th>Maintenance </th>
+                      <th>Production </th>
+                      <th>Maintenance </th>
+                      <th>Total Number of Machine </th>
+                      <th>
+                        Number of Unfit Machine ( Below 80% health condition )
+                      </th>
+                      <th>Unfit Machine %</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -170,16 +218,45 @@ export default function HealthCheckCondition() {
                       ? rowData.map((item, index) => {
                           return (
                             <tr key={index}>
-                               <td>
-                                {index + 1}
-                              </td>
-                              <td className="text-left">
-                                {item?.strPlantname}
-                              </td>
-                              <td>{item?.strShopfloorName}</td>
-                              <td>{item?.strMachineName}</td>
-                              <td className="text-center">{item?.pWorking}</td>
+                              <td>{index + 1}</td>
+                              <td>{item?.strSectionName}</td>
                               <td className="text-center">
+                                {item?.totalChcekPoint}
+                              </td>
+                              <td className="text-center">{item?.pWorking}</td>
+                              <td className="text-center">{item?.mWorking}</td>
+                              <td className="text-center">
+                                {item?.totalChcekPoint - item?.pWorking}
+                              </td>
+                              <td className="text-center">
+                                {item?.totalChcekPoint - item?.mWorking}
+                              </td>
+                              <td className="text-center">
+                                {item?.totalChcekPoint !== 0
+                                  ? Math.round(
+                                      (item?.pWorking / item?.totalChcekPoint) *
+                                        100
+                                    )
+                                  : 0}
+                                %
+                              </td>
+
+                              <td className="text-center">
+                                {item?.totalChcekPoint !== 0
+                                  ? Math.round(
+                                      (item?.mWorking / item?.totalChcekPoint) *
+                                        100
+                                    )
+                                  : 0}
+                                %
+                              </td>
+
+                              <td className="text-center">
+                                {item?.totalMachineCount}
+                              </td>
+                              <td>{}</td>
+                              <td>{}</td>
+                              {/* <td className="text-center">
                                 <span
                                   onClick={() => {
                                     setIsShowModal(true);
@@ -207,7 +284,7 @@ export default function HealthCheckCondition() {
                                 >
                                   {item?.mDamage}
                                 </span>
-                              </td>
+                              </td> */}
                             </tr>
                           );
                         })

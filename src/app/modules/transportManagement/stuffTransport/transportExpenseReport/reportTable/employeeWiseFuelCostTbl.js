@@ -3,9 +3,11 @@ import { _formatMoney } from "../../../../_helper/_formatMoney";
 import IView from "../../../../_helper/_helperIcons/_view";
 import IViewModal from "../../../../_helper/_viewModal";
 import FuelLogPringModal from "../modalView/fuelLogPringModal";
+import TripExpenseModal from "../modalView/tripExpenseModal";
 
 const EmployeeWiseFuelCostTbl = ({ rowData, values }) => {
   const [isShowModal, setIsShowModal] = useState(false);
+  const [isShowTripExpenseModal, setShowTripExpenseModal] = useState(false);
   const [item, setItem] = useState(null);
 
   //table total calculation
@@ -152,13 +154,24 @@ const EmployeeWiseFuelCostTbl = ({ rowData, values }) => {
                       {" "}
                       {_formatMoney(netPayable)}{" "}
                     </td>
-                    <td className="text-center">
+                    <td  className="text-center">
                       <IView
                         clickHandler={() => {
                           setItem(item);
                           setIsShowModal(true);
                         }}
                       />
+                      <span style={{marginLeft:"5px"}}>
+                      <IView
+                      title="View Trip Expense"
+                      classes={"fa-regular fa-file"}
+                        clickHandler={() => {
+                          setItem(item);
+                          setShowTripExpenseModal(true);
+                        }}
+                      />
+                      </span>
+                     
                     </td>
                   </tr>
                 );
@@ -211,6 +224,9 @@ const EmployeeWiseFuelCostTbl = ({ rowData, values }) => {
           </table>
           <IViewModal show={isShowModal} onHide={() => setIsShowModal(false)}>
             <FuelLogPringModal item={item} values={values} />
+          </IViewModal>
+          <IViewModal show={isShowTripExpenseModal} onHide={() => setShowTripExpenseModal(false)}>
+            <TripExpenseModal item={item} values={values} />
           </IViewModal>
         </div>
       </div>

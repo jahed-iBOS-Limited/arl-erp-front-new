@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import RenewalBillForm from "../RenewalBill/table";
 import CNFBill from "../cnfBill/Form/addEditForm";
 import { CommercialPayment } from "../commercialPayment/form/addEditForm";
+import DamDeliveryBill from "../damDelivery/Form/addEditForm";
 import FairPriceShopForm from "../fairPriceInvoice/Form/addEditForm";
 import FuelBillForm from "../fuelBill/Form/addEditForm";
 import G2GGodownUnloadBill from "../g2gGodownUnloadBill/Form/addEditForm";
@@ -22,7 +23,7 @@ import LabourBillForm from "./../labourBill/Form/addEditForm";
 import SupplerInvoiceForm from "./../supplerInvoice/Form/addEditForm";
 import SupplierAdvance from "./../supplierAdvance/supplierAdvance";
 import HeaderForm from "./Table/form";
-import DamDeliveryBill from "../damDelivery/Form/addEditForm";
+import CustomerRefundCreateEditForm from "./customerRefund/addEditForm";
 
 function BillregisterCreate() {
   const { state: headerData } = useLocation();
@@ -74,6 +75,8 @@ function BillregisterCreate() {
         <HatchLaborBill />
       ) : billType === 32 ? (
         <DamDeliveryBill />
+      ) : billType === 33 ? (
+        <CustomerRefundCreateEditForm />
       ) : (
         <HeaderForm />
       )}

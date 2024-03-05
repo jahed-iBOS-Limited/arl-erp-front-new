@@ -16,6 +16,7 @@ import {
 } from "../_redux/Actions";
 import IForm from "../../../../_helper/_form";
 import Loading from "../../../../_helper/_loading";
+import { toast } from "react-toastify";
 
 const initData = {
   id: undefined,
@@ -34,6 +35,7 @@ const initData = {
   vehicleCapacity: "",
   fuelAllowanceLocalKM: "",
   fuelAllowanceOuterKM: "",
+  capacityInBag:"",
 };
 
 export default function VehicleForm({
@@ -121,6 +123,9 @@ export default function VehicleForm({
   }, [id]);
 
   const saveHandler = async (values, cb) => {
+    if(selectedBusinessUnit?.value === 4 && !values?.capacityInBag){
+      return toast.warn("Capacity In Bag is required!")
+    }
     setDisabled(true);
     if (values && profileData?.accountId && selectedBusinessUnit?.value) {
       if (id) {
@@ -149,7 +154,8 @@ export default function VehicleForm({
           costPerKM: +values?.costPerKM,
           vehicleCapacityId: values?.vehicleCapacity?.value,
           localStationKmpl: values?.ownerType?.value === 1 ? +values?.fuelAllowanceLocalKM : 0,
-          outStationKmpl: values?.ownerType?.value === 1 ? +values?.fuelAllowanceOuterKM : 0
+          outStationKmpl: values?.ownerType?.value === 1 ? +values?.fuelAllowanceOuterKM : 0,
+          capacityInBag: values?.capacityInBag || "",
         };
         dispatch(saveEditedVehicleUnit(payload,setDisabled));
       } else {
@@ -179,7 +185,8 @@ export default function VehicleForm({
           costPerKM: +values?.costPerKM,
           vehicleCapacityId: values?.vehicleCapacity?.value,
           localStationKmpl: values?.ownerType?.value === 1 ? +values?.fuelAllowanceLocalKM : 0,
-          outStationKmpl: values?.ownerType?.value === 1 ? +values?.fuelAllowanceOuterKM : 0
+          outStationKmpl: values?.ownerType?.value === 1 ? +values?.fuelAllowanceOuterKM : 0,
+          capacityInBag: values?.capacityInBag || "",
         };
         window.payload = payload;
         dispatch(saveVehicle(payload, cb, setDisabled));
