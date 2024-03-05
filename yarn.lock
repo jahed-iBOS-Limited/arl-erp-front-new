@@ -10736,6 +10736,18 @@ lcid@^2.0.0:
   dependencies:
     invert-kv "^2.0.0"
 
+leaflet-polylinedecorator@^1.6.0:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/leaflet-polylinedecorator/-/leaflet-polylinedecorator-1.6.0.tgz#9ef79fd1b5302d67b72efe959a8ecd2553f27266"
+  integrity sha512-kn3krmZRetgvN0wjhgYL8kvyLS0tUogAl0vtHuXQnwlYNjbl7aLQpkoFUo8UB8gVZoB0dhI4Tb55VdTJAcYzzQ==
+  dependencies:
+    leaflet-rotatedmarker "^0.2.0"
+
+leaflet-rotatedmarker@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/leaflet-rotatedmarker/-/leaflet-rotatedmarker-0.2.0.tgz#4467f49f98d1bfd56959bd9c6705203dd2601277"
+  integrity sha512-yc97gxLXwbZa+Gk9VCcqI0CkvIBC9oNTTjFsHqq4EQvANrvaboib4UdeQLyTnEqDpaXHCqzwwVIDHtvz2mUiDg==
+
 leaflet.fullscreen@2.4.0:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/leaflet.fullscreen/-/leaflet.fullscreen-2.4.0.tgz#8503c69b6f6afe6f54594c9cdd5e4f131cfa97b4"
