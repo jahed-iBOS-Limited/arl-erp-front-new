@@ -49,7 +49,7 @@ export default function FuelLogPringModal({ item, values }) {
           {/* <h6>6/2 Kazi Nazrul Islam Road, Dhaka- 1207</h6> */}
           <h4>Fuel Log</h4>
         </div>
-        <div className="d-flex justify-content-between mt-5">
+        <div style={{marginRight:"15px"}} className="d-flex justify-content-between mt-5">
           <div>
             <p>
               <strong>Enroll : {printData[0]?.vehicelUserEnroll}</strong>
@@ -75,20 +75,20 @@ export default function FuelLogPringModal({ item, values }) {
           </div>
         </div>
         <div>
-          <table id="" className={"table table-bordered"}>
+          <table id="" className={"table table-striped table-bordered global-table"}>
             <thead>
-              <tr className="cursor-pointer">
-                <th>SL</th>
-                <th style={{minWidth:"120px"}}> Month </th>
-                <th> Total KM </th>
-                <th> Fuel Cash (Tk) </th>
-                <th> Fuel Credit (Tk)</th>
-                <th> Toll Cost (Tk) </th>
-                <th>DA Amount (Tk)</th>
-                <th> Others Amount (Tk) </th>
-                <th> Personal Cost Deduct (Tk) </th>
-                <th> Total Amount (Tk) </th>
-                <th> KMPL </th>
+              <tr style={{height:"50px"}} className="cursor-pointer">
+                <th style={{fontSize:"12px"}}>SL</th>
+                <th style={{minWidth:"120px",fontSize:"12px"}}> Month </th>
+                <th style={{fontSize:"12px"}}> Total KM </th>
+                <th style={{fontSize:"12px"}}> Fuel Cash (Tk) </th>
+                <th style={{fontSize:"12px"}}> Fuel Credit (Tk)</th>
+                <th style={{fontSize:"12px"}}> Toll Cost (Tk) </th>
+                <th style={{fontSize:"12px"}}>DA Amount (Tk)</th>
+                <th style={{fontSize:"12px"}}> Others Amount (Tk) </th>
+                <th style={{fontSize:"12px"}}> Personal Cost Deduct (Tk) </th>
+                <th style={{fontSize:"12px"}}> Total Amount (Tk) </th>
+                <th style={{fontSize:"12px"}}> KMPL </th>
               </tr>
             </thead>
             <tbody>
@@ -107,41 +107,41 @@ export default function FuelLogPringModal({ item, values }) {
 
                 return (
                   <>
-                    <tr key={index}>
-                      <td style={{ width: "20px" }} className="text-center">
+                    <tr style={{height:"30px"}} key={index}>
+                      <td style={{ width: "20px",fontSize:"14px" }} className="text-center">
                         {index + 1}
                       </td>
-                      <td className="text-center">
+                      <td style={{fontSize:"14px"}} className="text-center">
                         {getFormattedMonthYear(item?.monthId, item?.yearId)}
                       </td>
-                      <td className="text-right"> {item?.totalKM} </td>
-                      <td className="text-right"> {item?.fuelCash} </td>
-                      <td style={{ textAlign: "right" }}>
+                      <td style={{fontSize:"14px"}} className="text-right fs-14"> {item?.totalKM} </td>
+                      <td style={{fontSize:"14px"}} className="text-right"> {item?.fuelCash} </td>
+                      <td style={{ textAlign: "right",fontSize:"14px"}}>
                         {_formatMoney(item?.fuelCredit)}
                       </td>
-                      <td style={{ textAlign: "right" }}>
+                      <td style={{ textAlign: "right",fontSize:"14px" }}>
                         {" "}
                         {_formatMoney(item?.numTollAmount)}
                       </td>
-                      <td style={{ textAlign: "right" }}>
+                      <td style={{ textAlign: "right",fontSize:"14px" }}>
                         {" "}
                         {_formatMoney(item?.daAmount)}
                       </td>
-                      <td style={{ textAlign: "right" }}>
+                      <td style={{ textAlign: "right",fontSize:"14px" }}>
                         {" "}
                         {_formatMoney(item?.otherExpanse)}
                       </td>
-                      <td style={{ textAlign: "right" }}>
+                      <td style={{ textAlign: "right",fontSize:"14px" }}>
                         {" "}
                         {_formatMoney((((item?.fuelCash + item?.fuelCredit + item?.numTollAmount)/ item?.totalKM) * ((item?.numCeilingKM + item?.numCeilingKM * 0.25)-item?.numCeilingKM)))}
                       </td>
-                      <td style={{ textAlign: "right" }}>
+                      <td style={{ textAlign: "right",fontSize:"14px" }}>
                         {" "}
                         {_formatMoney(
                           ((item?.fuelCash + item?.numTollAmount+item?.daAmount+item?.otherExpanse) -((item?.fuelCash + item?.fuelCredit + item?.numTollAmount) / item?.totalKM) * ((item?.numCeilingKM + item?.numCeilingKM * 0.25)-item?.numCeilingKM))
                         )}
                       </td>
-                      <td style={{ textAlign: "right" }}>
+                      <td style={{ textAlign: "right",fontSize:"14px" }}>
                         {" "}
                         {_formatMoney(
                           (item?.fuelCash + item?.fuelCredit + item?.numTollAmount) / item?.totalKM
@@ -151,36 +151,36 @@ export default function FuelLogPringModal({ item, values }) {
                   </>
                 );
               })}
-              <tr>
-                <td colSpan={2} className="text-center">
+              <tr style={{height:"30px"}}>
+                <td style={{fontSize:"14px"}} colSpan={2} className="text-center">
                   <strong> Total</strong>
                 </td>
-                <td style={{ textAlign: "right",  fontWeight: "bold" }}> {grandTotalKM} </td>
-                <td style={{ textAlign: "right",  fontWeight: "bold" }}> {grandFuelCash} </td>
-                <td style={{ textAlign: "right",  fontWeight: "bold" }}>
+                <td style={{ textAlign: "right",  fontWeight: "bold",fontSize:"14px" }}> {grandTotalKM} </td>
+                <td style={{ textAlign: "right",  fontWeight: "bold" ,fontSize:"14px"}}> {grandFuelCash} </td>
+                <td style={{ textAlign: "right",  fontWeight: "bold",fontSize:"14px" }}>
                   {_formatMoney(grandFuelCredit)}
                 </td>
-                <td style={{ textAlign: "right",  fontWeight: "bold" }}>
+                <td style={{ textAlign: "right",  fontWeight: "bold" ,fontSize:"14px"}}>
                   {" "}
                   {_formatMoney(grandTollAmount)}
                 </td>
-                <td style={{ textAlign: "right",  fontWeight: "bold" }}>
+                <td style={{ textAlign: "right",  fontWeight: "bold" ,fontSize:"14px"}}>
                   {" "}
                   {_formatMoney(grandDaAmount)}
                 </td>
-                <td style={{ textAlign: "right",  fontWeight: "bold" }}>
+                <td style={{ textAlign: "right",  fontWeight: "bold",fontSize:"14px" }}>
                   {" "}
                   {_formatMoney(grandOtherExpanse)}
                 </td>
-                <td style={{ textAlign: "right",  fontWeight: "bold" }}>
+                <td style={{ textAlign: "right",  fontWeight: "bold",fontSize:"14px" }}>
                   {" "}
                   {_formatMoney(grandTotalPersonalCost)}
                 </td>
-                <td style={{ textAlign: "right",  fontWeight: "bold" }}>
+                <td style={{ textAlign: "right",  fontWeight: "bold" ,fontSize:"14px"}}>
                   {" "}
                   {_formatMoney(grandTotalAmount)}
                 </td>
-                <td style={{ textAlign: "right",  fontWeight: "bold" }}>
+                <td style={{ textAlign: "right",  fontWeight: "bold" ,fontSize:"14px"}}>
                   {" "}
                   {_formatMoney(grandKMPL /printData?.length)}
                 </td>

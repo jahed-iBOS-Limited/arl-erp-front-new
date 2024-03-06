@@ -35,12 +35,11 @@ export default function TripExpenseModal({ item, values }) {
           </p>
           <p>
             <strong className="mr-5">From Date : {values?.fromDate}</strong>
+            <strong>To Date : {values?.toDate}</strong>
           </p>
         </div>
         <div>
-          <p>
-            <strong>To Date : {values?.toDate}</strong>
-          </p>
+          
           <p>
             <strong>
               Designation : {tripExpense[0]?.vehicleUserDesignation}
