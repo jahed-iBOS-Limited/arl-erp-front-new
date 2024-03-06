@@ -69,10 +69,8 @@ export default function _Form({
                       ),
                       territory: false,
                       allElement: false,
-                      onChange: (allValues, fieldName) => {
+                      onChange: () => {
                         setRowData([]);
-                        // if (fieldName === "region") {
-                        // }
                       },
                     }}
                   />
