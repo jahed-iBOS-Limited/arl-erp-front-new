@@ -1,47 +1,39 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
+import IViewModal from "../../../../../app/modules/_helper/_viewModal";
 import "./style.scss";
-import useAxiosPost from "../../../../../app/modules/_helper/customHooks/useAxiosPost";
+import ChatBoatWrapper from "./chats/chatsApp";
 export default function ChatBoat() {
-  const [res, getRes] = useAxiosPost();
-  useEffect(() => {
-    getRes(`https://deverpchat.ibos.io/erp/manual_qna`, {
-      question: "What is javascript",
-    });
-  }, []);
+  const [isChatModal, setChatModal] = useState(false);
   return (
-    <div className="chat-boat-wrapper">
-      <div style={{ paddingTop: "7px" }} className="chat-icon mr-5">
-        <span
-          className="cursor-pointer"
-          onClick={() => {
-            getRes(`https://deverpchat.ibos.io/erp/manual_qna`, {
-              question: "Hi",
-            });
-          }}
-        >
-          <i
-            style={{ fontSize: "14px" }}
-            class="fa fa-comments"
-            aria-hidden="true"
-          ></i>
-        </span>
-        <div className="chat-card">
-          <div className="header">
-            <div className="flex">
-              <div>
-                <h6>Chat</h6>
-              </div>
-              <div>
-                <span>
-                  <i class="fa fa-times" aria-hidden="true"></i>
-                </span>
-              </div>
-            </div>
-          </div>
-          <div className="chat-box"></div>
-          <div className="chat-input"></div>
+    <>
+      <div className="chat-boat-wrapper">
+        <div style={{ paddingTop: "7px" }} className="chat-icon mr-5">
+          <span
+            className="cursor-pointer"
+            onClick={() => {
+              setChatModal(true);
+            }}
+          >
+            <i
+              style={{ fontSize: "14px" }}
+              class="fa fa-comments"
+              aria-hidden="true"
+            ></i>
+          </span>
         </div>
       </div>
-    </div>
+      {isChatModal && (
+        <>
+          <IViewModal
+            show={isChatModal}
+            onHide={() => setChatModal(false)}
+            title={"iBOS Bot"}
+            modelSize={"md"}
+          >
+            <ChatBoatWrapper />
+          </IViewModal>
+        </>
+      )}
+    </>
   );
 }
