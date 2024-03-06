@@ -89,6 +89,18 @@ export default function CustomerRefundCreateEditForm() {
     }
   };
   const loadUserList = (v) => {
+    if(v === ""){
+      return axios.get(
+        `/partner/BusinessPartnerBankInfo/GetPartnerBankInfoByCustomer?searchTerm=%20%20%20&accountId=${accId}&businessUnitId=${buId}&SbuId=${location?.state?.sbu?.value}`
+      ).then((res) => {
+        const updateList = res?.data.map((item) => ({
+          ...item,
+          value:item?.businessPartnerId,
+          label:item?.businessPartnerName
+        }));
+        return updateList;
+      });
+    }
     if (v?.length < 3) return [];
     return axios.get(
       `/partner/BusinessPartnerBankInfo/GetPartnerBankInfoByCustomer?searchTerm=${v}&accountId=${accId}&businessUnitId=${buId}&SbuId=${location?.state?.sbu?.value}`
@@ -180,6 +192,7 @@ export default function CustomerRefundCreateEditForm() {
                       );
                     }}
                     loadOptions={loadUserList}
+                    // isDebounce={true}
                     placeholder="Customer Name"
                   />
                   {balance?.length > 0 && values?.customer ? (

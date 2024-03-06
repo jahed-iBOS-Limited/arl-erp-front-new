@@ -79,7 +79,7 @@ export default function FuelLogPringModal({ item, values }) {
             <thead>
               <tr className="cursor-pointer">
                 <th>SL</th>
-                <th> Month </th>
+                <th style={{minWidth:"120px"}}> Month </th>
                 <th> Total KM </th>
                 <th> Fuel Cash (Tk) </th>
                 <th> Fuel Credit (Tk)</th>
