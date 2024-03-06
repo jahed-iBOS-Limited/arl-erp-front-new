@@ -56,22 +56,22 @@ const RATForm = ({ obj }) => {
   const regions =
     allElement !== false
       ? [{ value: 0, label: "All" }, ...regionList] || []
-      : channelList || [];
+      : regionList || [];
 
   const areas =
     allElement !== false
       ? [{ value: 0, label: "All" }, ...areaList] || []
-      : channelList || [];
+      : areaList || [];
 
   const territories =
     allElement !== false
       ? [{ value: 0, label: "All" }, ...territoryList] || []
-      : channelList || [];
+      : territoryList || [];
 
   const zones =
     allElement !== false
       ? [{ value: 0, label: "All" }, ...zoneList] || []
-      : channelList || [];
+      : zoneList || [];
 
   return (
     <>
