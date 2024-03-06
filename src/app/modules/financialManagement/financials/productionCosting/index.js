@@ -13,10 +13,11 @@ import { _formatMoney } from "../../../_helper/_formatMoney";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import IConfirmModal from "../../../_helper/_confirmModal";
 import findIndex from "../../../_helper/_findIndex";
+import { toast } from "react-toastify";
 
 const initData = {
     item: '',
-    fromDate: _todayDate(),
+    fromDate: "",
     toDate: _todayDate(),
 };
 
@@ -28,6 +29,7 @@ export default function ProductionCost() {
     );
 
     const productionCostPermission = userRole[findIndex(userRole, "Production Costing")];
+    const [cheakingMonthClosingState, getCheakingMonthClosingState, closingLoader] = useAxiosGet();
 
 
     const [rowData, getRowData, rowDataLoader, setRowData] = useAxiosGet();
@@ -77,7 +79,7 @@ export default function ProductionCost() {
                 touched,
             }) => (
                 <>
-                    {(rowDataLoader || saveDataLoader) && <Loading />}
+                    {(rowDataLoader || saveDataLoader || closingLoader) && <Loading />}
                     <IForm
                         title="Production Costing"
                         isHiddenReset
@@ -126,6 +128,7 @@ export default function ProductionCost() {
                                             onChange={(e) => {
                                                 setRowData([]);
                                                 setFieldValue("fromDate", e.target.value);
+                                                getCheakingMonthClosingState(`/wms/InventoryTransaction/CheckMonthClosing?BusinessUnitId=${selectedBusinessUnit?.value}&dteDate=${e.target.value}`)
                                             }}
                                         />
                                     </div>
@@ -149,6 +152,9 @@ export default function ProductionCost() {
                                             type="button"
                                             className="btn btn-primary"
                                             onClick={() => {
+                                                if(cheakingMonthClosingState?.statuscode === 400){
+                                                    return toast.warn(cheakingMonthClosingState?.message)
+                                                }
                                                 getRowData(`/fino/Report/GetProductionOrderActualRate?intBusinessUnitId=${selectedBusinessUnit?.value}&dteFromDate=${values?.fromDate}&dteToDate=${values?.toDate}&intItemId=${values?.item?.value}`)
                                             }}
                                             disabled={!values?.item || !values?.fromDate || !values?.toDate}
@@ -167,6 +173,7 @@ export default function ProductionCost() {
                                         Save
                                     </button>
                                 </div>) : null}
+                              
                                 <table className="table table-striped table-bordered global-table">
                                     <thead>
                                         <tr>
