@@ -16,6 +16,8 @@ import { _fixedPoint } from "./../../../_helper/_fixedPoint";
 import IViewModal from "./../../../_helper/_viewModal";
 import AttachmentListTable from "./attachmentListTable";
 import ViewCNFBill from "./cnfBill/view/table";
+import CustomerViewModal from "./customerRefund/customerViewModal";
+import ViewDamDeliveryBill from "./damDelivery/view/table";
 import ViewFuelBill from "./fuelBill/view/viewBillRegister";
 import ViewG2GGodownUnloadBill from "./g2gGodownUnloadBill/view/viewBillRegister";
 import ViewG2GLighterBill from "./g2gLighterBill/view/viewBillRegister";
@@ -28,13 +30,12 @@ import ViewLabourBill from "./labourBill/view/viewBillRegister";
 import ViewMotherVesselBill from "./motherVesselBill/view/viewBillRegister";
 import OthersBillView from "./othersBillNew/view/othersBillView";
 import ViewPumpFoodingBill from "./pumpFoodingBill/view/viewPumpFoodingBill";
+import PumpFoodingBillDetails from "./pumpFoodingBillDetails";
 import RejectModel from "./rejectModel/form";
 import ViewSalesCommission from "./salesCommission/view/viewSalesCommission";
 import ViewStevedoreBill from "./stevedoreBill/view/table";
 import ViewSurveyorBill from "./surveyorBill/view/table";
 import ViewTransportBill from "./transportBill/view/viewBillRegister";
-import PumpFoodingBillDetails from "./pumpFoodingBillDetails";
-import ViewDamDeliveryBill from "./damDelivery/view/table";
 const GridData = ({
   rowDto,
   values,
@@ -64,6 +65,7 @@ const GridData = ({
   const [selectedItemForPumpFooding, setSelectedItemForPumpFooding] = useState(
     null
   );
+  const[modal,setModal] = useState()
 
   // attachment save actions
   const saveHandler = async () => {
@@ -334,6 +336,9 @@ const GridData = ({
             {gridItem?.billType === 32 && (
               <ViewDamDeliveryBill billRegisterId={gridItem?.billRegisterId} />
             )}
+            {gridItem?.billType === 33   && (
+              <CustomerViewModal landingValues={values} gridItem={gridItem} setModal={setModal} />
+            )}
           </IViewModal>
 
           <IViewModal
@@ -352,7 +357,6 @@ const GridData = ({
               cb={cb}
             />
           </IViewModal>
-
           <IViewModal
             show={attachmentListModal}
             onHide={() => {
