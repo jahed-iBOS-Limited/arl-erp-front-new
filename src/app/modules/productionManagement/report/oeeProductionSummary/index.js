@@ -5,16 +5,14 @@ import { shallowEqual, useSelector } from "react-redux";
 import IForm from "../../../_helper/_form";
 import InputField from "../../../_helper/_inputField";
 import Loading from "../../../_helper/_loading";
-import { _monthFirstDate } from "../../../_helper/_monthFirstDate";
-import { _monthLastDate } from "../../../_helper/_monthLastDate";
 import NewSelect from "../../../_helper/_select";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 const initData = {
     businessUnit:"",
     plant:"",
     shopFloor:"",
-    fromDate:_monthFirstDate(),
-    toDate:_monthLastDate(),
+    fromDate:"",
+    toDate:"",
 };
 export default function OeeProductionSummary() {
   const saveHandler = (values, cb) => {};
@@ -88,7 +86,7 @@ export default function OeeProductionSummary() {
                 </div>
                 <div className="col-lg-3">
                   <InputField
-                    value={values?.fromDate}
+                    value={values?.toDate}
                     label="To Date"
                     name="toDate"
                     type="date"
@@ -162,7 +160,7 @@ export default function OeeProductionSummary() {
                       !values?.toDate
                     }
                     onClick={() => {
-                      alert("need api")
+                      getRowData(`/asset/AssetMaintanance/GetOeeProductionSummeryReport?FromDate=${values?.fromDate}&ToDate=${values?.toDate}&BusinessUnitId=${selectedBusinessUnit?.value}&PlantId=${values?.plant?.value}&ShopfloorId=${values?.shopFloor?.value}`)
                     }}
                     className="btn btn-primary mt-5 ml-4"
                   >
@@ -191,7 +189,22 @@ export default function OeeProductionSummary() {
                   </thead>
                   <tbody>
                     {
-                        // t body will be here
+                        rowData?.length > 0 && rowData?.map((item,index)=>(
+                            <tr key={index}>
+                                <td className="text-center">{index+1}</td>
+                                <td className="text-center">{item?.strMachineName}</td>
+                                <td className="text-center">{item?.strUOMName}</td>
+                                <td className="text-center">{item?.shiftTargetQuantity.toFixed(2)}</td>
+                                <td className="text-center">{item?.actualOutputQuantity}</td>
+                                <td className="text-center">{((item?.shiftTargetQuantity.toFixed(2)/item?.actualOutputQuantity)*100).toFixed(2)}%</td>
+                                <td className="text-center">{item?.goodOutputQuantity}</td>
+                                <td className="text-center">{((item?.numWasteQuantity /item?.actualOutputQuantity)*100).toFixed(2)}%</td>
+                                <td className="text-center">{""}</td>
+                                <td className="text-center">{""}</td>
+                                <td className="text-center">{item?.unPlannedDowntimeMin} Min</td>
+                                <td className="text-center">{item?.plannedDowntimeMin} Min</td>
+                            </tr>
+                        ))
                     }
                   </tbody>
                 </table>
