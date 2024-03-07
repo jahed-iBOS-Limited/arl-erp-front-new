@@ -15,6 +15,8 @@ import IButton from "../../../../_helper/iButton";
 import ICard from "../../../../_helper/_card";
 import NewSelect from "../../../../_helper/_select";
 import { _todayDate } from "../../../../_helper/_todayDate";
+import ICustomTable from "../../../../_helper/_customTable";
+import Loading from "../../../../_helper/_loading";
 
 const reports = [
   { value: 1, label: "Sales Details Report" },
@@ -27,6 +29,7 @@ const reports = [
   { value: 8, label: "Delivery Challan and Sales Order Pending" },
   { value: 9, label: "Order Vs Challan Duration Gap" },
   { value: 10, label: "Item Pending" },
+  { value: 11, label: "Market Basket Analysis" },
 ];
 
 const getTypes = (values) => {
@@ -43,10 +46,10 @@ const getTypes = (values) => {
       { value: 3, label: "Delivery Challan Details" },
       { value: 4, label: "Sales Order Details" },
     ];
-  }else if (reportId === 10) {
+  } else if (reportId === 10) {
     return [
       { value: 1, label: "Summary" },
-      { value: 2, label: "Pending" }
+      { value: 2, label: "Pending" },
     ];
   } else {
     return [];
@@ -87,6 +90,20 @@ const initData = {
   item: "",
 };
 
+const headers = [
+  "SL",
+  "Antecedents",
+  "Consequence",
+  "Antecedent Support",
+  "Consequent Support",
+  "Support",
+  "confidence",
+  "lift",
+  "leverage",
+  "conviction",
+  "Hangs Metric",
+];
+
 export default function SalesDetailsTable({ saveHandler }) {
   const [showReport, setShowReport] = useState(false);
   const [soldToPartnerDDL, getSoldToPartnerDDL] = useAxiosGet();
@@ -95,6 +112,7 @@ export default function SalesDetailsTable({ saveHandler }) {
   const [subGroups, setSubGroups] = useState([]);
   const [salesOrgs, getSalesOrgs] = useAxiosGet();
   const [items, getItems] = useAxiosGet();
+  const [rows, getRows, loading] = useAxiosGet();
 
   const shippointDDL = useSelector((state) => {
     return state?.commonDDL?.shippointDDL;
@@ -137,9 +155,9 @@ export default function SalesDetailsTable({ saveHandler }) {
       ? `bbabf651-9f58-41cb-91c8-c6524256b404`
       : id === 8
       ? `0fdc584e-859d-44e2-9066-b675c6fa61f6`
-      : id === 9 
+      : id === 9
       ? `709ccf52-b436-4d88-ad5f-992b86e7357d`
-      : id === 10 
+      : id === 10
       ? `4e8c5f91-f84f-4b10-bf10-8304e395c2af`
       : "";
   };
@@ -287,9 +305,16 @@ export default function SalesDetailsTable({ saveHandler }) {
       : [];
   };
 
+  const getLandingData = (values) => {
+    getRows(
+      `/wms/InventoryTransaction/GetMBAitemByItem?businessUnitId=${buId}&itemName=${values?.item?.label}`
+    );
+  };
+
   return (
     <Formik>
       <>
+        {loading && <Loading />}
         <ICard title="Sales Details">
           <div>
             <div className="mx-auto">
@@ -344,7 +369,9 @@ export default function SalesDetailsTable({ saveHandler }) {
                             />
                           </div>
                         )}
-                        {[1, 4, 5, 6, 7, 8, 9, 10].includes(values?.report?.value) &&
+                        {[1, 4, 5, 6, 7, 8, 9, 10].includes(
+                          values?.report?.value
+                        ) &&
                           ![2, 4].includes(values?.reportType?.value) && (
                             <div className="col-lg-2">
                               <NewSelect
@@ -366,7 +393,7 @@ export default function SalesDetailsTable({ saveHandler }) {
                             </div>
                           )}
 
-                        {[1, 3, 4, 5, 6, 7, 8,9, 10].includes(
+                        {[1, 3, 4, 5, 6, 7, 8, 9, 10, 11].includes(
                           values?.report?.value
                         ) && (
                           <RATForm
@@ -479,7 +506,7 @@ export default function SalesDetailsTable({ saveHandler }) {
                           </>
                         )}
 
-                        {[3, 10].includes(values?.report?.value) && (
+                        {[3, 10, 11].includes(values?.report?.value) && (
                           <>
                             <div className="col-lg-2">
                               <NewSelect
@@ -502,7 +529,7 @@ export default function SalesDetailsTable({ saveHandler }) {
                             </div>
                           </>
                         )}
-                         {[3, 10].includes(values?.report?.value) && (
+                        {[3, 10, 11].includes(values?.report?.value) && (
                           <>
                             <div className="col-lg-2">
                               <NewSelect
@@ -524,25 +551,77 @@ export default function SalesDetailsTable({ saveHandler }) {
                             </div>
                           </>
                         )}
-                        <FromDateToDateForm
-                          obj={{
-                            values,
-                            setFieldValue,
-                            onChange: () => {
-                              setShowReport(false);
-                            },
-                            colSize: `col-lg-2`,
-                          }}
-                        />
+                        {![11].includes(values?.report?.value) && (
+                          <FromDateToDateForm
+                            obj={{
+                              values,
+                              setFieldValue,
+                              onChange: () => {
+                                setShowReport(false);
+                              },
+                              colSize: `col-lg-2`,
+                            }}
+                          />
+                        )}
 
                         <IButton
                           // colSize={"col-lg-2"}
                           onClick={() => {
-                            setShowReport(true);
+                            if (values?.report?.value === 11) {
+                              getLandingData(values);
+                            } else {
+                              setShowReport(true);
+                            }
                           }}
                         />
                       </div>
                     </Form>
+                    {rows?.length > 0 && [11].includes(values?.report?.value) && (
+                      <ICustomTable ths={headers}>
+                        {rows?.map((item, index) => {
+                          return (
+                            <tr>
+                              <td>{index + 1}</td>
+
+                              <td>{item?.antecedents}</td>
+                              <td>{item?.consequents}</td>
+                              <td className="text-center">
+                                {item?.antecedent_support}
+                              </td>
+                              <td className="text-center">
+                                {item?.consequent_support}
+                              </td>
+                              <td className="text-center">{item?.support}</td>
+                              <td className="text-center">
+                                {item?.confidence}
+                              </td>
+                              <td className="text-center">{item?.lift}</td>
+                              <td className="text-center">{item?.leverage}</td>
+                              <td className="text-center">
+                                {item?.conviction}
+                              </td>
+                              <td className="text-center">
+                                {item?.zhangs_metric}
+                              </td>
+                            </tr>
+                          );
+                        })}
+                        {/* <tr style={{ fontWeight: "bold", textAlign: "right" }}>
+                        <td colSpan={3}>Total</td>
+                        <td>
+                          {rows?.reduce((a, b) => (a += +b?.truckToDumpQnt), 0)}
+                        </td>
+                        <td> </td>
+                        <td>{rows?.reduce((a, b) => (a += +b?.amount), 0)}</td>
+                        <td>
+                          {rows?.reduce((a, b) => (a += +b?.othersCostRate), 0)}
+                        </td>
+                        <td> {rows?.reduce((a, b) => (a += +b?.total), 0)} </td>
+
+                        <td></td>
+                      </tr> */}
+                      </ICustomTable>
+                    )}
                     {showReport && (
                       <PowerBIReport
                         reportId={reportId(values)}
