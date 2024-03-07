@@ -46,7 +46,7 @@ export default function UnPlannedDownTimeModal({ values }) {
           style={{ maxHeight: "550px" }}
           className="scroll-table _table table-responsive"
         >
-          <table className="table table-striped table-bordered bj-table bj-table-landing">
+          <table className="table table-striped three-column-sticky table-bordered bj-table bj-table-landing">
             <thead>
               <tr>
                 <th className="text-center">Date</th>

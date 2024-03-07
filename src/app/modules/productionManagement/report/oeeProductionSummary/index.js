@@ -184,8 +184,8 @@ export default function OeeProductionSummary() {
                       <th style={{ maxWidth: "120px" }}>Wastage %</th>
                       <th>OEE %</th>
                       <th>NPT %</th>
-                      <th style={{ maxWidth: "120px" }}>Planned Downtime</th>
-                      <th style={{ maxWidth: "120px" }}>Unplanned Downtime</th>
+                      <th style={{ maxWidth: "120px" }}>Planned Downtime(Min)</th>
+                      <th style={{ maxWidth: "120px" }}>Unplanned Downtime(Min)</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -225,7 +225,7 @@ export default function OeeProductionSummary() {
                           <td className="text-center">{(item?.oee * 100).toFixed(2)}%</td>
                           <td className="text-center">{(item?.npt * 100).toFixed(2)}%</td>
                           <td className="text-center">
-                            <p
+                            <span
                               style={{
                                 cursor: "pointer",
                                 textDecoration: "underline",
@@ -234,11 +234,11 @@ export default function OeeProductionSummary() {
                                 setPlanDownModal(true);
                               }}
                             >
-                              {item?.plannedDowntimeMin} Min
-                            </p>
+                              {item?.plannedDowntimeMin} 
+                            </span>
                           </td>
                           <td className="text-center">
-                            <p
+                            <span
                               style={{
                                 cursor: "pointer",
                                 textDecoration: "underline",
@@ -247,8 +247,8 @@ export default function OeeProductionSummary() {
                                 setUnPlanDownModal(true);
                               }}
                             >
-                              {item?.lossTimeInMinutes} Min
-                            </p>
+                              {item?.lossTimeInMinutes}
+                            </span>
                           </td>
                         </tr>
                       ))}
