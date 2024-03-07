@@ -26,6 +26,7 @@ import NewSelect from "../../../../_helper/_select";
 import IViewModal from "../../../../_helper/_viewModal";
 import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
 import WarehouseApproveFrom from "./approve";
+import TruckToDamApproveForm from "./truckToDamApprove";
 
 const initData = {
   shipPoint: "",
@@ -45,6 +46,7 @@ const headers = [
   "Unloaded Qty",
   "Unloading Complete",
   "Action",
+  "Truck to Dam",
   "Warehouse Approve",
 ];
 
@@ -293,6 +295,18 @@ const UnLoadingInformationTable = () => {
                                 </div>
                               </td>
                               <td className="text-center">
+                                <span>
+                                  <IApproval
+                                    title="Truck to Damp Delivery"
+                                    onClick={() => {
+                                      setSingleData(item);
+                                      setShow(true);
+                                      setLevelOfApprove("fourth");
+                                    }}
+                                  />
+                                </span>
+                              </td>
+                              <td className="text-center">
                                 {!item?.isInventoryApprove ? (
                                   // {!item?.isBillSubmitted ? (
                                   <span>
@@ -342,7 +356,7 @@ const UnLoadingInformationTable = () => {
                             <td className="text-right">
                               <b>{_fixedPoint(totalQuantity, true, 0)}</b>
                             </td>
-                            <td colSpan={3}></td>
+                            <td colSpan={4}></td>
                           </tr>
                         )}
                       </tbody>
@@ -351,15 +365,26 @@ const UnLoadingInformationTable = () => {
                 )}
 
                 <IViewModal show={show} onHide={() => setShow(false)}>
-                  <WarehouseApproveFrom
-                    preValues={values}
-                    singleItem={singleData}
-                    pageNo={pageNo}
-                    pageSize={pageSize}
-                    setShow={setShow}
-                    getData={getData}
-                    levelOfApprove={levelOfApprove}
-                  />
+                  {levelOfApprove === "fourth" ? (
+                    <TruckToDamApproveForm
+                      preValues={values}
+                      singleItem={singleData}
+                      pageNo={pageNo}
+                      pageSize={pageSize}
+                      setShow={setShow}
+                      getData={getData}
+                    />
+                  ) : (
+                    <WarehouseApproveFrom
+                      preValues={values}
+                      singleItem={singleData}
+                      pageNo={pageNo}
+                      pageSize={pageSize}
+                      setShow={setShow}
+                      getData={getData}
+                      levelOfApprove={levelOfApprove}
+                    />
+                  )}
                 </IViewModal>
 
                 {rowData?.data?.length > 0 && (
