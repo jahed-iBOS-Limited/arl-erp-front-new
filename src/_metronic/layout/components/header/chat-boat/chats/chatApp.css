@@ -1,3 +1,6 @@
+.message-box {
+  position: relative;
+}
 .message-box ul li {
   list-style: none;
 }
@@ -17,12 +20,9 @@
 }
 
 .message-box .cheklist-section {
-  position: relative;
   width: 100%;
   background: #fcfcfc;
   margin: 0 auto;
-  height: 360px;
-  overflow: hidden;
 }
 
 /* .cheklist-section-head */
@@ -41,10 +41,7 @@
 /*-------------------------------------
     cheklist-notification-section
   --------------------------------------*/
-.message-box .cheklist-notification-section .checklist-order {
-  height: 525px;
-  overflow-y: scroll;
-}
+
 /* cheklist-notification-body */
 .message-box .cheklist-notification-body {
   padding: 20px 0;
@@ -115,16 +112,13 @@
 
 /* .message-section */
 .message-box .checklist-message-section {
-  position: relative;
-  height: 305px;
-  padding: 20px;
-  padding-right: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 .message-box
   .cheklist-notification-section
   .checklist-message-body.checklist-order {
-  height: 460px;
-  overflow-y: scroll;
 }
 .message-box .checklist-message-head {
   display: flex;
@@ -148,6 +142,12 @@
   background: #ddd;
   border-radius: 50%;
 }
+
+.message-box .checklist-message-body {
+  height: 380px;
+  overflow: auto;
+}
+
 .message-box .checklist-message-body-online {
   margin-bottom: 24px;
 }
@@ -180,10 +180,10 @@
 }
 .message-box .checklist-message-body-other p {
   border-radius: 7px 7px 7px 0;
-  box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.08);
+  /* box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.08); */
   padding: 10px 12px;
   margin: 8px 0;
-  background-color: #ffffff;
+  background-color: #f0f0f0;
   font-size: 14px;
   font-weight: 300;
   line-height: 1.57;
@@ -219,12 +219,16 @@
 }
 
 .message-box form.type-msaage-section {
-  border: 1px solid gray;
-  position: absolute;
-  height: 50px;
+  border: 1px solid rgb(196, 196, 196);
+  height: 40px;
   width: 100%;
-  bottom: 0px;
-  left: 0;
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
+  gap: 0.25rem;
+  border-radius: 0.25rem
+  ;
 }
 .message-box form.type-msaage-section input.form-control,
 .message-box form.type-msaage-section input.form-control::placeholder {
@@ -243,9 +247,9 @@
   height: 26px;
   border-radius: 2px;
   background-color: #28bef1;
-  position: absolute;
-  right: 20px;
-  bottom: 10px;
+  /* position: absolute; */
+  /* right: 20px;
+  bottom: 10px; */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -264,7 +268,7 @@
   box-shadow: none;
   border: 0;
   border-radius: 0;
-  position: absolute;
+  padding: 0.2rem 0.5rem;
 }
 
 /* ================= Chat User List ================= */

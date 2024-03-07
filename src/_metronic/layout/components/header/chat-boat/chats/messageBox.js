@@ -13,12 +13,7 @@ const MessageBox = ({
   console.log("chatList", chatList);
 
   return (
-    <section
-      className="message-box"
-      style={{
-        position: "relative",
-      }}
-    >
+    <section className="message-box">
       <div className="cheklist-section cheklist-notification-section">
         {/* <div className="cheklist-section-head">
           <span> iBOS Bot </span>
