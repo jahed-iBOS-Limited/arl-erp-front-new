@@ -33,7 +33,7 @@ export default function SalesCommissionConfigureEntryForm() {
   ] = useAxiosGet();
 
   const {
-    profileData: { userId },
+    profileData: { userId, userName },
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
 
@@ -65,12 +65,13 @@ export default function SalesCommissionConfigureEntryForm() {
       let endDate = new Date(values?.toDate);
 
       while (currentDate <= endDate) {
+        const commissionDate = _dateFormatter(currentDate);
         const newRow = {
           value: values?.area?.value,
           label: values?.area?.label,
           areaId: values?.area?.value,
           areaName: values?.area?.label,
-          commissionDate: _dateFormatter(currentDate),
+          commissionDate: commissionDate,
           commissionRate: "",
           salesQty: "",
           ratePerBag: "",
@@ -114,12 +115,14 @@ export default function SalesCommissionConfigureEntryForm() {
   };
 
   const saveData = async (values, cb) => {
+    const commissionTypeId = values?.commissionType?.value;
     const selectedItems = rowData?.filter((item) => item?.isSelected);
     if (selectedItems?.length < 1) {
       return toast.warn("Please select at least one row!");
     }
 
     const payload = selectedItems?.map((item) => {
+      const date = new Date(item?.commissionDate);
       return {
         ...item,
         autoId: 0,
@@ -142,11 +145,26 @@ export default function SalesCommissionConfigureEntryForm() {
         secondSlabCommissionRate: +item?.secondSlabCommissionRate || 0,
         thirdSlabCommissionRate: +item?.thirdSlabCommissionRate || 0,
         actionBy: userId,
+
+        sl: 0,
+
+        areaName: item?.areaName,
+
+        actionName: userName,
+        commissionDayId: date?.getDate(),
+        commissionMonthId: date?.getMonth() + 1,
+        commissionYearId: date?.getFullYear(),
       };
     });
 
+    const commonURL = `/oms/CustomerSalesTarget/SavePartySalesCommissionConfiguration`;
+
+    const additionalLiftingURL = `/oms/CustomerSalesTarget/CreatePartySalesCommissionDaybyDayBase`;
+
+    const URL = commissionTypeId === 16 ? additionalLiftingURL : commonURL;
+
     postData(
-      `/oms/CustomerSalesTarget/SavePartySalesCommissionConfiguration`,
+      URL,
       payload,
       () => {
         cb();

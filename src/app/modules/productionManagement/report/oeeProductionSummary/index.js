@@ -196,7 +196,7 @@ export default function OeeProductionSummary() {
                                 <td className="text-center">{item?.strUOMName}</td>
                                 <td className="text-center">{item?.shiftTargetQuantity.toFixed(2)}</td>
                                 <td className="text-center">{item?.actualOutputQuantity}</td>
-                                <td className="text-center">{((item?.shiftTargetQuantity.toFixed(2)/item?.actualOutputQuantity)*100).toFixed(2)}%</td>
+                                <td className="text-center">{((item?.actualOutputQuantity /item?.shiftTargetQuantity)*100).toFixed(2)}%</td>
                                 <td className="text-center">{item?.goodOutputQuantity}</td>
                                 <td className="text-center">{((item?.numWasteQuantity /item?.actualOutputQuantity)*100).toFixed(2)}%</td>
                                 <td className="text-center">{""}</td>
