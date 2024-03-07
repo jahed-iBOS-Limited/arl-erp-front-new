@@ -7,7 +7,7 @@ export default function ChatBoat() {
   return (
     <>
       <div className="chat-boat-wrapper">
-        <div style={{ paddingTop: "7px" }} className="chat-icon mr-5">
+        <div style={{ paddingTop: "8px" }} className="chat-icon mr-5">
           <span
             className="cursor-pointer"
             onClick={() => {
@@ -15,7 +15,7 @@ export default function ChatBoat() {
             }}
           >
             <i
-              style={{ fontSize: "14px" }}
+              style={{ fontSize: "14px", color:"#28bef1" }}
               class="fa fa-comments"
               aria-hidden="true"
             ></i>
