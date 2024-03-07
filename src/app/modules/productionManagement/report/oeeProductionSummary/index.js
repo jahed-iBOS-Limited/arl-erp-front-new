@@ -26,6 +26,7 @@ export default function OeeProductionSummary() {
     shopFloorDDLLoader,
     setShopFloorDDL,
   ] = useAxiosGet();
+  const [singleData,setSingleData] = useState({})
   const { profileData, selectedBusinessUnit, businessUnitList } = useSelector(
     (state) => {
       return state.authData;
@@ -232,6 +233,7 @@ export default function OeeProductionSummary() {
                               }}
                               onClick={() => {
                                 setPlanDownModal(true);
+                                setSingleData(item)
                               }}
                             >
                               {item?.plannedDowntimeMin} 
@@ -245,6 +247,7 @@ export default function OeeProductionSummary() {
                               }}
                               onClick={() => {
                                 setUnPlanDownModal(true);
+                                setSingleData(item)
                               }}
                             >
                               {item?.lossTimeInMinutes}
@@ -261,9 +264,10 @@ export default function OeeProductionSummary() {
                   show={isPlanDownModalShow}
                   onHide={() => {
                     setPlanDownModal(false);
+                    
                   }}
                 >
-                  <PlanDownModalShow values={values}/>
+                  <PlanDownModalShow values={values} singleData={singleData}/>
                 </IViewModal>
               )}
               {isUnPlanDownModalShow && (
@@ -274,7 +278,7 @@ export default function OeeProductionSummary() {
                     setUnPlanDownModal(false);
                   }}
                 >
-                  <UnPlannedDownTimeModal values={values}/>
+                  <UnPlannedDownTimeModal values={values} singleData={singleData}/>
                 </IViewModal>
               )}
             </Form>
