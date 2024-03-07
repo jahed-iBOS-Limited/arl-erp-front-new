@@ -12,6 +12,7 @@ import QuotationHistoryReport from './quotationHistoryReport'
 import ShippingRFQLanding from './requestForQuotation'
 import ShippingRFQCreate from './requestForQuotation/createEdit/createEdit'
 import SupplierUserPassword from './supplierUserPassword/inedx'
+import CostEfficientSupplierList from './cs/costEfficientSupplierList'
 
 export function ComparativeStatementShippingPages() {
   const userRole = useSelector(
@@ -106,6 +107,10 @@ export function ComparativeStatementShippingPages() {
       <ContentRoute
         from="/mngProcurement/comparative-statement/quotation-history-report"
         component={quotationHistory?.isView ? QuotationHistoryReport : NotPermittedPage}
+      />
+      <ContentRoute
+        from="/mngProcurement/comparative-statement/cost-efficient-supplierList"
+        component={CostEfficientSupplierList}
       />
 
     </Switch>
