@@ -3,12 +3,12 @@ import { dateFormatWithMonthName } from "../../../_helper/_dateFormate";
 import Loading from "../../../_helper/_loading";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 
-export default function PlanDownModalShow({ values }) {
+export default function PlanDownModalShow({ values,singleData }) {
   const [rowData, getRowData, loadingRowData] = useAxiosGet();
 
   useEffect(() => {
     getRowData(
-      `/asset/AssetMaintanance/GetPlanDownTimeListByDate?FromDate=${values?.fromDate}&ToDate=${values?.toDate}&BusinessUnitId=${values?.businessUnit?.value}&PlantId=${values?.plant?.value}&ShopfloorId=${values?.shopFloor?.value}`
+      `/asset/AssetMaintanance/GetPlanDownTimeListByDate?FromDate=${values?.fromDate}&ToDate=${values?.toDate}&BusinessUnitId=${values?.businessUnit?.value}&PlantId=${values?.plant?.value}&ShopfloorId=${values?.shopFloor?.value}&MachineId=${singleData?.intMachineId}`
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [values]);
@@ -46,7 +46,7 @@ export default function PlanDownModalShow({ values }) {
           style={{ maxHeight: "550px" }}
           className="scroll-table _table table-responsive"
         >
-          <table className="table table-striped table-bordered bj-table bj-table-landing">
+          <table className="table table-striped three-column-sticky table-bordered bj-table bj-table-landing">
             <thead>
               <tr>
                 <th className="text-center">Date</th>

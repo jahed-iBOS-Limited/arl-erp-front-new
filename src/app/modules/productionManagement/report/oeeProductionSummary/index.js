@@ -26,6 +26,7 @@ export default function OeeProductionSummary() {
     shopFloorDDLLoader,
     setShopFloorDDL,
   ] = useAxiosGet();
+  const [singleData,setSingleData] = useState({})
   const { profileData, selectedBusinessUnit, businessUnitList } = useSelector(
     (state) => {
       return state.authData;
@@ -184,8 +185,8 @@ export default function OeeProductionSummary() {
                       <th style={{ maxWidth: "120px" }}>Wastage %</th>
                       <th>OEE %</th>
                       <th>NPT %</th>
-                      <th style={{ maxWidth: "120px" }}>Planned Downtime</th>
-                      <th style={{ maxWidth: "120px" }}>Unplanned Downtime</th>
+                      <th style={{ maxWidth: "120px" }}>Planned Downtime(Min)</th>
+                      <th style={{ maxWidth: "120px" }}>Unplanned Downtime(Min)</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -225,30 +226,32 @@ export default function OeeProductionSummary() {
                           <td className="text-center">{(item?.oee * 100).toFixed(2)}%</td>
                           <td className="text-center">{(item?.npt * 100).toFixed(2)}%</td>
                           <td className="text-center">
-                            <p
+                            <span
                               style={{
                                 cursor: "pointer",
                                 textDecoration: "underline",
                               }}
                               onClick={() => {
                                 setPlanDownModal(true);
+                                setSingleData(item)
                               }}
                             >
-                              {item?.plannedDowntimeMin} Min
-                            </p>
+                              {item?.plannedDowntimeMin} 
+                            </span>
                           </td>
                           <td className="text-center">
-                            <p
+                            <span
                               style={{
                                 cursor: "pointer",
                                 textDecoration: "underline",
                               }}
                               onClick={() => {
                                 setUnPlanDownModal(true);
+                                setSingleData(item)
                               }}
                             >
-                              {item?.lossTimeInMinutes} Min
-                            </p>
+                              {item?.lossTimeInMinutes}
+                            </span>
                           </td>
                         </tr>
                       ))}
@@ -261,9 +264,10 @@ export default function OeeProductionSummary() {
                   show={isPlanDownModalShow}
                   onHide={() => {
                     setPlanDownModal(false);
+                    
                   }}
                 >
-                  <PlanDownModalShow values={values}/>
+                  <PlanDownModalShow values={values} singleData={singleData}/>
                 </IViewModal>
               )}
               {isUnPlanDownModalShow && (
@@ -274,7 +278,7 @@ export default function OeeProductionSummary() {
                     setUnPlanDownModal(false);
                   }}
                 >
-                  <UnPlannedDownTimeModal values={values}/>
+                  <UnPlannedDownTimeModal values={values} singleData={singleData}/>
                 </IViewModal>
               )}
             </Form>
