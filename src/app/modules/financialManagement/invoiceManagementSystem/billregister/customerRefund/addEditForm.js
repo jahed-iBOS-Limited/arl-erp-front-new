@@ -25,7 +25,10 @@ import {
 } from "./helper";
 
 const initData = {
-  paymentType: "",
+  paymentType:  {
+    value: 1,
+    label: "Bank",
+  },
   customer: "",
   bankName: "",
   branchName: "",
@@ -153,15 +156,7 @@ export default function CustomerRefundCreateEditForm() {
                       {
                         value: 1,
                         label: "Bank",
-                      },
-                      {
-                        value: 2,
-                        label: "Cheque",
-                      },
-                      {
-                        value: 3,
-                        label: "Cash",
-                      },
+                      }
                     ]}
                     value={values?.paymentType}
                     label="Payment Type"
@@ -342,7 +337,7 @@ export default function CustomerRefundCreateEditForm() {
                         <tr key={index}>
                           {console.log("item", item)}
                           <td>{index + 1}</td>
-                          <td> {item?.customerName}</td>
+                          <td> {item?.partnerName}</td>
                           <td> {item?.bankName}</td>
                           <td> {item?.branchName}</td>
                           <td> {item?.bankAccountNumber}</td>
