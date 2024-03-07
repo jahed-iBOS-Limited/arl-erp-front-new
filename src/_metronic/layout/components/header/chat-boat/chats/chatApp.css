@@ -1,0 +1,374 @@
+.message-box {
+  position: relative;
+}
+.message-box ul li {
+  list-style: none;
+}
+
+.message-box .checklist-order-scroll::-webkit-scrollbar,
+.chat-user-list .list::-webkit-scrollbar {
+  width: 5px;
+}
+.message-box .checklist-order-scroll::-webkit-scrollbar-track,
+.chat-user-list .list::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 8px #3d4642;
+  box-shadow: inset 0 0 8px #3d4642;
+}
+.message-box .checklist-order-scroll::-webkit-scrollbar-thumb,
+.chat-user-list .list::-webkit-scrollbar-thumb {
+  background-color: #28bef1;
+}
+
+.message-box .cheklist-section {
+  width: 100%;
+  background: #fcfcfc;
+  margin: 0 auto;
+}
+
+/* .cheklist-section-head */
+.message-box .cheklist-section-head {
+  position: relative;
+  height: 35px;
+  padding-left: 10px;
+  color: #ffffff;
+  -webkit-box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.02);
+  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.03);
+  background: #28bef1;
+  display: flex;
+  align-items: center;
+}
+
+/*-------------------------------------
+    cheklist-notification-section
+  --------------------------------------*/
+
+/* cheklist-notification-body */
+.message-box .cheklist-notification-body {
+  padding: 20px 0;
+}
+
+/* single-checklist-nofication */
+.message-box .checklist-notifications-section {
+  padding: 30px 0;
+}
+.message-box .single-checklist-nofication {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 10px 20px;
+  margin-bottom: 8px;
+  transition: 0.3s ease-in-out;
+}
+.message-box .single-checklist-nofication.active {
+  background: #fff;
+}
+.message-box .single-checklist-nofication-txt-content {
+  max-width: 220px;
+  display: -webkit-box;
+}
+.message-box .single-checklist-nofication-logo {
+  width: 42px;
+  height: 42px;
+  box-shadow: 0 3px 12px 0 rgba(125, 196, 166, 0.25);
+  background-color: #ffffff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 16px;
+}
+
+.message-box .single-checklist-nofication-txt-content h4 {
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.6;
+  color: #3d4642;
+  text-transform: initial;
+}
+.message-box .single-checklist-nofication-txt-content h4 span {
+  color: #28bef1;
+  font-weight: 500;
+}
+
+.message-box .single-checklist-nofication-time p {
+  font-size: 12px;
+  font-weight: 300;
+  line-height: 1.58;
+  text-align: right;
+  color: #a9a9a9;
+}
+
+.message-box .single-checklist-nofication:hover {
+  background: #fff;
+}
+.message-box span.online {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 7px;
+  background-color: #28bef1;
+  border-radius: 50%;
+}
+
+/* .message-section */
+.message-box .checklist-message-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.message-box
+  .cheklist-notification-section
+  .checklist-message-body.checklist-order {
+}
+.message-box .checklist-message-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 5px;
+  padding-right: 20px;
+}
+
+.message-box .checklist-message-head h4 {
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 1.57;
+  text-align: center;
+  color: #3d4642;
+}
+.message-box .checklist-message-head-menu span {
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  background: #ddd;
+  border-radius: 50%;
+}
+
+.message-box .checklist-message-body {
+  height: 380px;
+  overflow: auto;
+}
+
+.message-box .checklist-message-body-online {
+  margin-bottom: 24px;
+}
+.message-box .checklist-message-body-online h4 {
+  font-size: 12px;
+  font-weight: normal;
+  line-height: 1.58;
+  text-align: center;
+  color: #a9a9a9;
+  margin-bottom: 8px;
+}
+.message-box .checklist-message-body-online p {
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.58;
+  text-align: center;
+  color: #a9a9a9;
+  margin: 0;
+}
+.message-box .checklist-message-body-other {
+  width: 250px;
+  height: auto;
+  clear: both;
+}
+.message-box .checklist-msg-inner-body {
+  display: flex;
+  width: 100%;
+  overflow: hidden;
+  align-items: center;
+}
+.message-box .checklist-message-body-other p {
+  border-radius: 7px 7px 7px 0;
+  /* box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.08); */
+  padding: 10px 12px;
+  margin: 8px 0;
+  background-color: #f0f0f0;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.57;
+  text-align: left;
+  color: #3d4642;
+  width: 100%;
+  text-transform: initial;
+}
+
+.message-box .checklist-message-body-me {
+  width: 250px;
+  height: auto;
+  box-shadow: 0 3px 10px 0 rgba(125, 196, 166, 0.3);
+  background-color: #28bef1;
+
+  margin: 8px 0;
+  float: right;
+  clear: both;
+  border-radius: 7px 7px 0px 7px;
+}
+.message-box .checklist-message-body-me p {
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.57;
+  text-align: left;
+  color: #ffffff;
+  text-transform: initial;
+  margin-bottom: 0;
+  padding: 10px 12px;
+}
+.message-box .checklist-message-body ul {
+  padding-right: 20px;
+}
+
+.message-box form.type-msaage-section {
+  border: 1px solid rgb(196, 196, 196);
+  height: 40px;
+  width: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
+  gap: 0.25rem;
+  border-radius: 0.25rem
+  ;
+}
+.message-box form.type-msaage-section input.form-control,
+.message-box form.type-msaage-section input.form-control::placeholder {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  font-size: 14px;
+  line-height: 1.57;
+  text-align: left;
+  color: #a9a9a9;
+}
+.message-box .message-scroll {
+  width: 26px;
+  height: 26px;
+  border-radius: 2px;
+  background-color: #28bef1;
+  /* position: absolute; */
+  /* right: 20px;
+  bottom: 10px; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.message-box .message-scroll {
+  color: #fff;
+  font-size: 12px;
+}
+.message-box .message-scroll i {
+  color: #ffffff;
+}
+.message-box form.type-msaage-section input.form-control {
+  width: 100%;
+  height: 100%;
+  box-shadow: none;
+  border: 0;
+  border-radius: 0;
+  padding: 0.2rem 0.5rem;
+}
+
+/* ================= Chat User List ================= */
+.chat-user-list {
+  height: 640px;
+}
+.chat-user-list .header {
+  padding-left: 10px;
+  align-items: center;
+  color: #ffffff;
+  width: 100%;
+  background: #28bef1;
+  height: 35px;
+}
+
+.chat-user-list .list {
+  height: 600px;
+  overflow-y: scroll;
+}
+.chat-user-list .list .single-user {
+  border-bottom: 1px solid rgba(128, 128, 128, 0.2);
+  padding: 3px 15px;
+  display: flex;
+  align-items: center;
+}
+.chat-user-list .list .single-user:hover {
+  cursor: pointer;
+  background: rgba(40, 190, 241, 0.1);
+}
+
+.chat-user-list .list .single-user .active {
+  width: 7px;
+  margin-right: 5px;
+  height: 7px;
+  border-radius: 50%;
+  background: green;
+}
+.chat-user-list .list .single-user .in-active {
+  width: 7px;
+  margin-right: 5px;
+  height: 7px;
+  border-radius: 50%;
+  background: gray;
+}
+
+/* ================= Chat User List ================= */
+
+.dots {
+  position: absolute;
+  bottom: 60px;
+}
+
+.online {
+  width: 13px;
+  height: 13px;
+  background: #444;
+  display: inline-block;
+  border-radius: 50%;
+}
+
+.online {
+  background: red;
+}
+
+.online.typeIndicator:nth-child(2) {
+  animation-delay: 0.3s;
+}
+
+.online.typeIndicator:nth-child(3) {
+  animation-delay: 0.6s;
+}
+
+/* animation */
+.typeIndicator {
+  width: 7px;
+  height: 7px;
+  animation: scale 1.5s linear infinite;
+  margin-left: 5px;
+  background: black;
+}
+
+@keyframes scale {
+  0% {
+    transform: scale(1);
+    opacity: 0.3;
+  }
+  25% {
+    transform: scale(1.3);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1.6);
+    opacity: 1;
+  }
+  75% {
+    transform: scale(1.3);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0.3;
+  }
+}
