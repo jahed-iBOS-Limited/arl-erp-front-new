@@ -47,8 +47,7 @@ const MessageBox = ({
                           alt="avatar"
                         />
                       )}
-
-                      <p>{chat?.text}</p>
+                      <p dangerouslySetInnerHTML={{ __html: chat?.text }} />
                     </div>
                   </li>
                 ))}
