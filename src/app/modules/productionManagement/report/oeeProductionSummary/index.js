@@ -73,28 +73,7 @@ export default function OeeProductionSummary() {
           >
             <Form>
               <div className="form-group  global-form row">
-                <div className="col-lg-3">
-                  <InputField
-                    value={values?.fromDate}
-                    label="From Date"
-                    name="fromDate"
-                    type="date"
-                    onChange={(e) => {
-                      setFieldValue("fromDate", e.target.value);
-                    }}
-                  />
-                </div>
-                <div className="col-lg-3">
-                  <InputField
-                    value={values?.toDate}
-                    label="To Date"
-                    name="toDate"
-                    type="date"
-                    onChange={(e) => {
-                      setFieldValue("toDate", e.target.value);
-                    }}
-                  />
-                </div>
+              
                 <div className="col-lg-3">
                   <NewSelect
                     name="businessUnit"
@@ -146,6 +125,28 @@ export default function OeeProductionSummary() {
                     }}
                     errors={errors}
                     touched={touched}
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <InputField
+                    value={values?.fromDate}
+                    label="From Date"
+                    name="fromDate"
+                    type="date"
+                    onChange={(e) => {
+                      setFieldValue("fromDate", e.target.value);
+                    }}
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <InputField
+                    value={values?.toDate}
+                    label="To Date"
+                    name="toDate"
+                    type="date"
+                    onChange={(e) => {
+                      setFieldValue("toDate", e.target.value);
+                    }}
                   />
                 </div>
 

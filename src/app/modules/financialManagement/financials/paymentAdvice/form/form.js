@@ -20,6 +20,7 @@ import PaginationSearch from "./../../../../_helper/_search";
 import OthersBillView from "../../../invoiceManagementSystem/billregister/othersBillNew/view/othersBillView";
 import ViewPumpFoodingBill from "../../../invoiceManagementSystem/billregister/pumpFoodingBill/view/viewPumpFoodingBill";
 import ShippingInvoiceView from "../../../invoiceManagementSystem/shippingBillRegister/shippingInvoiceView";
+import CustomerRefundModal from "../../customerRefund/customerRefundModal";
 import ViewFuelBill from "./../../../invoiceManagementSystem/billregister/fuelBill/view/viewBillRegister";
 import ViewLabourBill from "./../../../invoiceManagementSystem/billregister/labourBill/view/viewBillRegister";
 import ViewSalesCommission from "./../../../invoiceManagementSystem/billregister/salesCommission/view/viewSalesCommission";
@@ -666,6 +667,11 @@ export default function _Form({
                 )}
                 {values?.billType?.value === 18 && (
                   <ViewPumpFoodingBill
+                    billRegisterId={gridItem?.billRegisterId}
+                  />
+                )}
+                {values?.billType?.value === 33 && (
+                  <CustomerRefundModal
                     billRegisterId={gridItem?.billRegisterId}
                   />
                 )}
