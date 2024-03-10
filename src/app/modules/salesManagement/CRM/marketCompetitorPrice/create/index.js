@@ -454,6 +454,9 @@ function Form() {
                     label="Group"
                     onChange={(valueOption) => {
                       setFieldValue("group", valueOption || "");
+                      setFieldValue("subCategory", "");
+                      setFieldValue("skuName", "");
+                      setFieldValue("brandName", "");
                       onFilterHandler(
                         allData,
                         { ...values, group: { ...valueOption } },
@@ -468,11 +471,19 @@ function Form() {
                 <div className="col-lg-2">
                   <NewSelect
                     name="subCategory"
-                    options={filterType?.subCategoryList || []}
+                    options={
+                      filterType?.subCategoryList?.filter(
+                        (item) =>
+                          !values?.group ||
+                          item?.strGroup === values.group.label
+                      ) ?? []
+                    }
                     value={values?.subCategory}
                     label="Sub Category"
                     onChange={(valueOption) => {
                       setFieldValue("subCategory", valueOption || "");
+                      setFieldValue("skuName", "");
+                      setFieldValue("brandName", "");
                       onFilterHandler(
                         allData,
                         { ...values, subCategory: { ...valueOption } },
@@ -487,11 +498,21 @@ function Form() {
                 <div className="col-lg-2">
                   <NewSelect
                     name="skuName"
-                    options={filterType?.skuList || []}
+                    options={
+                      filterType?.skuList?.filter(
+                        (item) =>
+                          (!values?.group ||
+                            item?.strGroup === values.group.label) &&
+                          (!values?.subCategory ||
+                            item.strProductCategory ===
+                              values.subCategory.label)
+                      ) ?? []
+                    }
                     value={values?.skuName}
                     label="SKU Name"
                     onChange={(valueOption) => {
                       setFieldValue("skuName", valueOption || "");
+                      setFieldValue("brandName", "");
                       onFilterHandler(
                         allData,
                         { ...values, skuName: { ...valueOption } },
@@ -506,7 +527,18 @@ function Form() {
                 <div className="col-lg-2">
                   <NewSelect
                     name="brandName"
-                    options={filterType?.brandList || []}
+                    options={
+                      filterType?.brandList?.filter(
+                        (item) =>
+                          (!values?.group ||
+                            item?.strGroup === values.group.label) &&
+                          (!values?.subCategory ||
+                            item.strProductCategory ===
+                              values.subCategory.label) &&
+                          (!values?.skuName ||
+                            item.strProductSku === values?.skuName?.label)
+                      ) ?? []
+                    }
                     value={values?.brandName}
                     label="Brand Name"
                     onChange={(valueOption) => {
