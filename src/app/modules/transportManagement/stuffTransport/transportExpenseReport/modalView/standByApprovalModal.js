@@ -2,19 +2,25 @@ import axios from "axios";
 import { Form, Formik } from "formik";
 import React, { useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
+import * as Yup from "yup";
 import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import IForm from "../../../../_helper/_form";
 import Loading from "../../../../_helper/_loading";
 import NewSelect from "../../../../_helper/_select";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 
 const initData = {
   driver: "",
-  vehicle:""
+  vehicle: "",
 };
 
-export default function StandByApprovalModal({ singleData }) {
+export default function StandByApprovalModal({
+  singleData,
+  setShowApproveModal,
+  getRowData,
+  parentValues,
+}) {
   const {
     employeeName,
     employeeId,
@@ -22,17 +28,29 @@ export default function StandByApprovalModal({ singleData }) {
     bookingTime,
     tourTime,
     purpose,
-    designation,
     bookingDate,
     bookingId,
+    designation,
+    carpools,
+    tripToAddress
   } = singleData || {};
+  console.log("singleData",singleData);
   const [objProps, setObjprops] = useState({});
-  const [, saveApproval, loadingApproval] = useAxiosGet([]);
+  const [,saveApproval, loadingApproval] = useAxiosPost([]);
   const tripDate = _dateFormatter(bookingDate?.split("T")[0]);
-  const [vehicleListDDL, getVehicleListDDL] = useAxiosGet([]);
   const {
     profileData: { userId },
   } = useSelector((state) => state?.authData, shallowEqual);
+  const validationSchema = Yup.object().shape({
+    driver: Yup.object().shape({
+      label: Yup.string().required("Driver is required"),
+      value: Yup.string().required("Driver is required"),
+    }),
+    vehicle: Yup.object().shape({
+      label: Yup.string().required("vehicle is required"),
+      value: Yup.string().required("vehicle is required"),
+    }),
+  });
 
   // load driver ddl data
   const loadUserList = (v) => {
@@ -59,21 +77,32 @@ export default function StandByApprovalModal({ singleData }) {
   };
 
   const saveHandler = (values, cb) => {
-    const payload ={
-        isAdminApprove:true,
-        bookingId,
-        driverId:values?.driver?.value,
-        driverName:values?.driver?.label,
-        vehicleId:values?.vehicle?.value,
-        vehicleName:values?.vehicle?.label,
-        approvedBy:userId
-    }
-    saveApproval(`7/mes/VehicleLog/ApproveBookingStanByVehicle`,payload,()=>{},true)
+    const payload = {
+      isAdminApprove: true,
+      bookingId,
+      driverId: values?.driver?.value,
+      driverName: values?.driver?.label,
+      vehicleId: values?.vehicle?.value,
+      vehicleName: values?.vehicle?.label,
+      approvedBy: userId,
+    };
+    saveApproval(
+      `/mes/VehicleLog/ApproveBookingStandByVehicle`,
+      payload,
+      ()=>{
+        setShowApproveModal(false);
+        getRowData(
+          `/mes/VehicleLog/GetBookingStandByVehicleStatus?fromDate=${parentValues?.fromDate}&todate=${parentValues?.toDate}&adminStatus=${parentValues?.status?.value}`
+        );
+      },
+      true
+    );
   };
   return (
     <Formik
       enableReinitialize={true}
       initialValues={initData}
+      validationSchema={validationSchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
           resetForm(initData);
@@ -113,9 +142,9 @@ export default function StandByApprovalModal({ singleData }) {
                   </p>
                   <p>
                     <strong>Start Time : {bookingTime}</strong>
-                  </p>
-                  <p>
-                    <strong>End Time : {tourTime}</strong>
+                    <strong style={{ marginLeft: "15px" }}>
+                      End Time : {tourTime}
+                    </strong>
                   </p>
                 </div>
                 <div>
@@ -123,7 +152,7 @@ export default function StandByApprovalModal({ singleData }) {
                     <strong>Designation : {designation}</strong>
                   </p>
                   <p>
-                    <strong>Destination : </strong>
+                    <strong>Destination :{tripToAddress} </strong>
                   </p>
                   <p>
                     <strong>Purpose (In details) : {purpose} </strong>
@@ -138,30 +167,54 @@ export default function StandByApprovalModal({ singleData }) {
                     selectedValue={values?.driver}
                     handleChange={(valueOption) => {
                       setFieldValue("driver", valueOption);
-                      if (!valueOption) return;
-                      getVehicleListDDL(
-                        `/mes/VehicleLog/GetLastVehicleMileageId?vehicleId=${valueOption.intVehicleId}`
-                      );
+                      console.log("valueOption", valueOption);
+                      setFieldValue("vehicle", {
+                        label: valueOption?.strVehicleNo,
+                        value: valueOption?.intVehicleId,
+                      });
                     }}
                     loadOptions={loadUserList}
                     placeholder="Driver Name"
+                    errors={errors}
+                    touched={touched}
                   />
                 </div>
                 <div className="col-lg-3">
                   <NewSelect
                     name="vehicle"
-                    options={vehicleListDDL || []}
-                    value={values?.item}
+                    value={values?.vehicle}
                     label="vehicle Name"
                     onChange={(valueOption) => {
                       setFieldValue("vehicle", valueOption);
                     }}
+                    isDisabled={true}
                     errors={errors}
                     touched={touched}
                   />
                 </div>
               </div>
-
+              <div className="table-responsive">
+                <table className="table custom-table global-table">
+                  <thead>
+                    <tr>
+                      <th>SL</th>
+                      <th>Carpooling Person Name</th>
+                      <th>Designation</th>
+                      <th>Pickup Point</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {carpools?.map((item, index) => (
+                      <tr>
+                        <td className="text-center">{index + 1}</td>
+                        <td className="text-center">{item?.employeeName}</td>
+                        <td className="text-center">{item?.empDesignation}</td>
+                        <td className="text-center">{item?.empPickUpPoint}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
               <button
                 type="submit"
                 style={{ display: "none" }}
