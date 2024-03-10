@@ -7,6 +7,7 @@ export function getUniqueGroups(field, dataset) {
 
     if (fieldValue !== null && !uniqueValues[fieldValue]) {
       uniqueValues[fieldValue] = {
+        ...item,
         value: autoIncrement++,
         label: fieldValue,
       };
