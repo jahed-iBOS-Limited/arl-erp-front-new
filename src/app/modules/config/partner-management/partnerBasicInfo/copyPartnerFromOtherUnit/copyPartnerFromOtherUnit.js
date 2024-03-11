@@ -139,11 +139,12 @@ export default function CopyPartnerFromOtherUnit({ show, onHide, landingValues }
                           <th>Business Unit</th>
                           <th>Code</th>
                           <th>Name</th>
+                          <th>Address</th>
                           <th>Bank Account Name</th>
                           <th>Bank Account Number</th>
                           <th>Bank Name</th>
                           <th>Branch Name</th>
-                          <th>Address</th>
+                         
                           <th style={{ width: "60px" }}>Actions</th>
                         </tr>
                       </thead>
@@ -159,7 +160,8 @@ export default function CopyPartnerFromOtherUnit({ show, onHide, landingValues }
                           </td>                            
                           <td>
                             <div className="pl-2">{td?.businessPartnerName} </div>
-                          </td>                            
+                          </td>    
+                          <td> {td?.adress} </td>                        
                           <td>
                             <div className="pl-2">{td?.bankAccountName} </div>
                           </td>                            
@@ -172,7 +174,7 @@ export default function CopyPartnerFromOtherUnit({ show, onHide, landingValues }
                           <td>
                             <div className="pl-2">{td?.branchName} </div>
                           </td>                            
-                          <td> {td?.adress} </td>
+                          
                           <td>
                             <div className="d-flex justify-content-around">
                               <span

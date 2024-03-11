@@ -40,6 +40,7 @@ export default function ManufacturingOverheadPlanLanding() {
     getFiscalYearDDL(`/vat/TaxDDL/FiscalYearDDL`);
     getPlantDDL(
       profileData?.accountId,
+      profileData?.userId,
       selectedBusinessUnit?.value,
       setPlantDDL
     );
