@@ -94,7 +94,7 @@ export default function DriverTripInfoTbl({ rowData }) {
                   {item?.lpeg + item?.diesel + item?.octane}
                 </td>
                 <td className="text-center">
-                  <div style={{display:"flex", gap:"4px"}}>
+                  <div style={{display:"flex", gap:"4px",padding:"0px 8px"}}>
                   <span
                     onClick={() => {
                       setSingleData(item);
