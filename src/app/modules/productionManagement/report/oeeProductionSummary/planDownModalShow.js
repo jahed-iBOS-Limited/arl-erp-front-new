@@ -12,6 +12,9 @@ export default function PlanDownModalShow({ values,singleData }) {
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [values]);
+
+  // total time initial value
+  let totalTime=0
   return (
     <>
       {loadingRowData && <Loading />}
@@ -58,18 +61,30 @@ export default function PlanDownModalShow({ values,singleData }) {
               </tr>
             </thead>
             <tbody>
-              {rowData?.map((item, index) => (
-                <tr key={index}>
-                  <td className="text-center">
-                    {dateFormatWithMonthName(
-                      item?.dteProductionDate?.split("T")[0]
-                    )}
-                  </td>
-                  <td className="text-center">{item?.strMachineName}</td>
-                  <td className="text-center">{item?.strDownTimeReason}</td>
-                  <td className="text-center">{item?.numPlannedDowntimeMin}</td>
-                </tr>
-              ))}
+              {rowData?.map((item, index) =>{
+                //total down time calculation
+                totalTime += item?.numPlannedDowntimeMin
+                return  (
+                  <tr key={index}>
+                <td className="text-center">
+                  {dateFormatWithMonthName(
+                    item?.dteProductionDate?.split("T")[0]
+                  )}
+                </td>
+                <td className="text-center">{item?.strMachineName}</td>
+                <td className="text-center">{item?.strDownTimeReason}</td>
+                <td className="text-center">{item?.numPlannedDowntimeMin}</td>
+              </tr>
+                )
+              })}
+              <tr>
+                <td colSpan={3} className="text-center">
+                  <strong>Total Loss Time</strong>
+                </td>
+                <td className="text-center">
+                  <strong>{totalTime}</strong>
+                </td>
+              </tr>
             </tbody>
           </table>
         </div>

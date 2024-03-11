@@ -272,6 +272,7 @@ export default function TransportExpenseReport() {
                   {[7]?.includes(values?.reportType?.value) ? (
                     <StandByVehicleStatus
                       rowData={rowData}
+                      getRowData={getRowData}
                       values={values}
                     />
                   ) : null}

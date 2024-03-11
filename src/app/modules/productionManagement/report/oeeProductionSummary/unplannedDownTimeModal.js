@@ -12,6 +12,8 @@ export default function UnPlannedDownTimeModal({ values,singleData }) {
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [values]);
+  // total unplanned down time initial value
+  let totalUnplannedDownTime = 0;
   return (
     <>
       {loadingRowData && <Loading />}
@@ -60,20 +62,31 @@ export default function UnPlannedDownTimeModal({ values,singleData }) {
               </tr>
             </thead>
             <tbody>
-              {rowData?.map((item, index) => (
-                <tr key={index}>
-                  <td className="text-center">
-                    {item?.dteLossTimeDate && dateFormatWithMonthName(
-                      item?.dteLossTimeDate?.split("T")[0]
-                    )}
-                  </td>
-                  <td className="text-center">{item?.strWrokCenterName}</td>
-                  <td className="text-center">{item?.strCategoryName}</td>
-                  <td className="text-center">{item?.strSubCategoryName}</td>
-                  <td className="text-center">{item?.strReason}</td>
-                  <td className="text-center">{item?.intLossTimeInMinutes}</td>
-                </tr>
-              ))}
+              {rowData?.map((item, index) => {
+                totalUnplannedDownTime += item?.intLossTimeInMinutes
+                return (
+                  <tr key={index}>
+                    <td className="text-center">
+                      {item?.dteLossTimeDate && dateFormatWithMonthName(
+                        item?.dteLossTimeDate?.split("T")[0]
+                      )}
+                    </td>
+                    <td className="text-center">{item?.strWrokCenterName}</td>
+                    <td className="text-center">{item?.strCategoryName}</td>
+                    <td className="text-center">{item?.strSubCategoryName}</td>
+                    <td className="text-center">{item?.strReason}</td>
+                    <td className="text-center">{item?.intLossTimeInMinutes}</td>
+                  </tr>
+                )
+              })}
+              <tr>
+                <td colSpan={5} className="text-center">
+                  <strong>Total UnplannedDown Time</strong>
+                </td>
+                <td className="text-center">
+                  <strong>{totalUnplannedDownTime}</strong>
+                </td>
+              </tr>
             </tbody>
           </table>
         </div>
