@@ -6,13 +6,13 @@ export default function NewIcon({
   clickHandler,
   iconName,
   classes,
-  styles,
+  customStyles,
 }) {
   return (
     <OverlayTrigger overlay={<Tooltip id="cs-icon">{title || "View"}</Tooltip>}>
       <span onClick={() => clickHandler && clickHandler()} style={{cursor:"pointer"}}>
         <i
-          style={styles}
+          style={customStyles}
           className={`${
             iconName ? iconName : "fa pointer fa-eye"
           }  ${classes}`}

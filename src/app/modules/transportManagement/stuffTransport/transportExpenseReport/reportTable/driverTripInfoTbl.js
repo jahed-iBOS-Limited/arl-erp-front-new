@@ -101,10 +101,10 @@ export default function DriverTripInfoTbl({ rowData }) {
                       setIsShowModal(true);
                     }}
                   >
-                    <IView />
+                    <IView styles={{fontSize:"15px"}}/>
                   </span>
                   <NewIcon
-                  styles={{cursor:"pointer"}}
+                  customStyles={{cursor:"pointer",fontSize:"15px"}}
                   title = "View All Attachment"
                   clickHandler={()=>{
                     setShowAttachmentModal(true)
