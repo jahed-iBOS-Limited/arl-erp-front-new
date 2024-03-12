@@ -75,6 +75,25 @@ body {
 .common-scrollable-table tbody tr:nth-child(odd) td:first-child {
   background: #ecf0f3 !important;
 }
+/* 1 column sticky */
+.one-column-sticky thead th:first-child {
+  position: -webkit-sticky;
+  position: sticky;
+  left: 0px;
+  border: 1px solid #ecf0f3 !important;
+  z-index: 100;
+}
+.one-column-sticky tbody td:first-child {
+  position: -webkit-sticky;
+  position: sticky;
+  left: 0px;
+  border: 1px solid #ecf0f3 !important;
+  background: #fff !important;
+  z-index: 9;
+}
+.one-column-sticky tbody tr:nth-child(odd) td:first-child {
+  background: #ecf0f3 !important;
+}
 
 /* 2 column sticky */
 .two-column-sticky thead th:first-child {
