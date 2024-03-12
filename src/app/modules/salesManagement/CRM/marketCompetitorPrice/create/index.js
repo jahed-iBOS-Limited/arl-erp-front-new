@@ -16,6 +16,7 @@ import useAxiosPut from "../../../../_helper/customHooks/useAxiosPut";
 import Loading from "./../../../../_helper/_loading";
 import RowTable from "./rowTable";
 import {
+  filterAndMapOptions,
   getUniqueGroups,
   onFilterHandler,
   onResetFilterHandler,
@@ -449,7 +450,7 @@ function Form() {
                 <div className="col-lg-2">
                   <NewSelect
                     name="group"
-                    options={filterType?.groupList || []}
+                    options={filterAndMapOptions(allData, values, "strGroup")}
                     value={values?.group}
                     label="Group"
                     onChange={(valueOption) => {
@@ -471,13 +472,11 @@ function Form() {
                 <div className="col-lg-2">
                   <NewSelect
                     name="subCategory"
-                    options={
-                      filterType?.subCategoryList?.filter(
-                        (item) =>
-                          !values?.group ||
-                          item?.strGroup === values.group.label
-                      ) ?? []
-                    }
+                    options={filterAndMapOptions(
+                      allData,
+                      values,
+                      "strProductCategory"
+                    )}
                     value={values?.subCategory}
                     label="Sub Category"
                     onChange={(valueOption) => {
@@ -498,16 +497,11 @@ function Form() {
                 <div className="col-lg-2">
                   <NewSelect
                     name="skuName"
-                    options={
-                      filterType?.skuList?.filter(
-                        (item) =>
-                          (!values?.group ||
-                            item?.strGroup === values.group.label) &&
-                          (!values?.subCategory ||
-                            item.strProductCategory ===
-                              values.subCategory.label)
-                      ) ?? []
-                    }
+                    options={filterAndMapOptions(
+                      allData,
+                      values,
+                      "strProductSku"
+                    )}
                     value={values?.skuName}
                     label="SKU Name"
                     onChange={(valueOption) => {
@@ -527,18 +521,11 @@ function Form() {
                 <div className="col-lg-2">
                   <NewSelect
                     name="brandName"
-                    options={
-                      filterType?.brandList?.filter(
-                        (item) =>
-                          (!values?.group ||
-                            item?.strGroup === values.group.label) &&
-                          (!values?.subCategory ||
-                            item.strProductCategory ===
-                              values.subCategory.label) &&
-                          (!values?.skuName ||
-                            item.strProductSku === values?.skuName?.label)
-                      ) ?? []
-                    }
+                    options={filterAndMapOptions(
+                      allData,
+                      values,
+                      "strProductBrand"
+                    )}
                     value={values?.brandName}
                     label="Brand Name"
                     onChange={(valueOption) => {

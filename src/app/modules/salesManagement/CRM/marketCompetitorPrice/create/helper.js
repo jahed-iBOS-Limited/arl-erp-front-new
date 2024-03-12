@@ -38,3 +38,58 @@ export function onResetFilterHandler(setFieldValue) {
   setFieldValue("skuName", "");
   setFieldValue("brandName", "");
 }
+
+export function filterAndMapOptions(allData, values, fieldName) {
+  const filterLogic = (item) => {
+    switch (fieldName) {
+      case "strProductCategory":
+        return (
+          (!values?.group || item?.strGroup === values.group.label) &&
+          (!values?.subCategory ||
+            item.strProductCategory === values.subCategory.label)
+        );
+
+      case "strProductSku":
+        return (
+          (!values?.group || item?.strGroup === values.group.label) &&
+          (!values?.subCategory ||
+            item.strProductCategory === values.subCategory.label) &&
+          (!values?.skuName || item.strProductSku === values?.skuName?.label)
+        );
+
+      case "strProductBrand":
+        return (
+          (!values?.group || item?.strGroup === values.group.label) &&
+          (!values?.subCategory ||
+            item.strProductCategory === values.subCategory.label) &&
+          (!values?.skuName || item.strProductSku === values?.skuName?.label) &&
+          (!values?.brandName ||
+            item.strProductBrand === values?.brandName?.label)
+        );
+
+      case "strGroup":
+        return true; // No additional filter for 'strGroup'
+
+      default:
+        return true; // Default case, no additional filter
+    }
+  };
+
+  const uniqueOptions = allData.filter(filterLogic).reduce(
+    (uniqueOptions, item, i) => {
+      const label = item?.[fieldName];
+      if (label && !uniqueOptions.labels.has(label)) {
+        uniqueOptions.labels.add(label);
+        uniqueOptions.data.push({
+          ...item,
+          value: i + 1,
+          label: label,
+        });
+      }
+      return uniqueOptions;
+    },
+    { data: [], labels: new Set() }
+  ) || { data: [], labels: new Set() };
+
+  return uniqueOptions.data;
+}
