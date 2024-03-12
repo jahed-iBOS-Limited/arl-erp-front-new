@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
-import IApproval from "../../../../_helper/_helperIcons/_approval";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
+import NewIcon from "../../../../_helper/_helperIcons/newIcon";
 import IViewModal from "../../../../_helper/_viewModal";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import StandByApprovalModal from "../modalView/standByApprovalModal";
@@ -87,7 +86,7 @@ export default function StandByVehicleStatus({ rowData, values, getRowData }) {
                         }}
                       >
                         {" "}
-                        <IApproval title="Approve" />
+                        <NewIcon title="Approve" customStyles={{color:"green",fontSize:"14px"}} iconName="fas fa-check-circle"/>
                       </span>{" "}
                       <span
                         onClick={()=>saveReject(
@@ -109,9 +108,10 @@ export default function StandByVehicleStatus({ rowData, values, getRowData }) {
                           true
                         )}
                       >
-                        <IDelete
+                        <NewIcon
                           title="Reject"
-                          iconName="fa fa-window-close-o"
+                          customStyles={{color:"red",fontSize:"14px"}}
+                          iconName="fa fa-times-circle closeBtn"
                         />
                       </span>
                     </span>

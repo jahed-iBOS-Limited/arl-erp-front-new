@@ -34,15 +34,20 @@ export default function AttachmentViewModal({ singleData }) {
                 <tr>
                   <td className="text-center">{item?.tripCode}</td>
                   <td className="text-center">
-                    <span
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        dispatch(getDownlloadFileView_Action(item?.attachment));
-                      }}
-                    >
+                    {item?.attachment ? (
+                      <span
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          dispatch(
+                            getDownlloadFileView_Action(item?.attachment)
+                          );
+                        }}
+                      >
                         <NewIcon title="Show Attachment" />
-                    </span>
-                    
+                      </span>
+                    ) : (
+                      ""
+                    )}
                   </td>
                 </tr>
               ))}
