@@ -153,7 +153,7 @@ export default function CopyPartnerFromOtherUnit({ show, onHide, landingValues }
                           <tr key={index}>
                           <td className="text-center"> {index+1} </td>
                           <td>
-                            <div className="pl-2">{td?.businessPartnerName} </div>
+                            <div className="pl-2">{td?.businessUnitName} </div>
                           </td>
                           <td>
                             <div className="pl-2">{td?.businessPartnerCode} </div>
