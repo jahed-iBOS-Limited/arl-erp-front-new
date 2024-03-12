@@ -24,6 +24,9 @@ import TableGird from "./gird";
 import TopSheetTable from "./topSheetTable";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import G2GSalesDetailsTable from "./g2gSalesDetails";
+import { getYearDDL } from "../../../../productionManagement/salesAndOperationPlanning/materialannualplan/helper";
+import { YearDDL } from "../../../../_helper/_yearDDL";
+import PowerBIReport from "../../../../_helper/commonInputFieldsGroups/PowerBIReport";
 
 const ALL = { value: 0, label: "All" };
 
@@ -51,6 +54,7 @@ export default function CustomerStatementModifiedReportTable() {
   const [G2GSalesGrid, getG2GSalesGrid, loader] = useAxiosGet();
   const [portDDL, getPortDDL] = useAxiosGet();
   const [motherVesselDDL, getMotherVesselDDL] = useAxiosGet();
+  const [showRDLC, setShowRDLC]=useState(false);
 
   // get user profile data from store
   const {
@@ -72,6 +76,9 @@ export default function CustomerStatementModifiedReportTable() {
   }, [accId, buId]);
 
   const getGridData = (values) => {
+    if (values?.reportType?.value === 4) {
+      setShowRDLC(true)
+    }
     if (values?.reportType?.value === 1) {
       GetCustomerStatementLanding(accId, buId, values, setLoading, setRowDto);
     }
@@ -104,6 +111,7 @@ export default function CustomerStatementModifiedReportTable() {
     const reports = [
       { value: 1, label: "Details" },
       { value: 2, label: "Top Sheet" },
+      { value: 4, label: "Moth Basis Sales" },
     ];
     return [94, 178].includes(buId)
       ? [...reports, { value: 3, label: "G2G Sales Details" }]
@@ -136,6 +144,7 @@ export default function CustomerStatementModifiedReportTable() {
                             onChange={(valueOption) => {
                               setFieldValue("reportType", valueOption);
                               setRowDto([]);
+                              setShowRDLC(false);
                             }}
                             placeholder="Select Report Type"
                             errors={errors}
@@ -178,7 +187,8 @@ export default function CustomerStatementModifiedReportTable() {
                             </div>
                           </>
                         )}
-                        <FromDateToDateForm obj={{ values, setFieldValue }} />
+                        {![4].includes(values?.reportType?.value) && (<FromDateToDateForm obj={{ values, setFieldValue }} />
+)}
                         {[1, 2].includes(values?.reportType?.value) && (
                           <div className="col-lg-3">
                             <NewSelect
@@ -210,6 +220,7 @@ export default function CustomerStatementModifiedReportTable() {
                             onChange={(valueOption) => {
                               setFieldValue("shippointDDL", valueOption);
                               setRowDto([]);
+                              setShowRDLC(false)
                             }}
                             placeholder="Ship Point"
                             errors={errors}
@@ -220,7 +231,7 @@ export default function CustomerStatementModifiedReportTable() {
                             }
                           />
                         </div>
-                        {[1, 2].includes(values?.reportType?.value) && (
+                        {[1, 2, 4].includes(values?.reportType?.value) && (
                           <div className="col-lg-3">
                             <NewSelect
                               name="distributionChannel"
@@ -231,6 +242,7 @@ export default function CustomerStatementModifiedReportTable() {
                               value={values?.distributionChannel}
                               label="Distribution Channel"
                               onChange={(valueOption) => {
+                                setShowRDLC(false)
                                 setFieldValue("customerNameDDL", "");
                                 setFieldValue(
                                   "distributionChannel",
@@ -251,6 +263,19 @@ export default function CustomerStatementModifiedReportTable() {
                             />
                           </div>
                         )}
+                        {[4].includes(values?.reportType?.value) && (<div className="col-lg-3">
+                              <NewSelect
+                                name="year"
+                                options={YearDDL()}
+                                value={values?.year}
+                                label="Year"
+                                onChange={(valueOption) => {
+                                  setFieldValue("year", valueOption);
+                                  setShowRDLC(false)
+                                }}
+                                placeholder="Year"
+                              />
+                            </div>)}
                         {values?.reportType?.value === 1 && (
                           <div className="col-lg-3">
                             <NewSelect
@@ -376,6 +401,28 @@ export default function CustomerStatementModifiedReportTable() {
                         )}
                       </div>
                     )}
+                     {[4].includes(values?.reportType?.value) && showRDLC  && (
+                      <PowerBIReport
+                        reportId={`d56a6e9d-dac7-4335-a793-8dfbc8881acd`}
+                        groupId={`e3ce45bb-e65e-43d7-9ad1-4aa4b958b29a`}
+                        parameterValues={[
+                          {
+                            name: "IntShipPointId",
+                            value: `${values?.shipPoint?.value || 0}`,
+                          },
+                          { name: "IntBusinessUnitId", value: `${buId || 0}` },
+                          {
+                            name: "intDistributionChannel",
+                            value: `${values?.distributionChannel?.value || 0}`,
+                          },
+                          {
+                            name: "intYear",
+                            value: `${values?.year?.value || new Date().getFullYear()}`,
+                          },
+                        ]}
+                        parameterPanel={false}
+              />
+            )}
                   </>
                 )}
               </Formik>
