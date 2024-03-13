@@ -2,7 +2,9 @@ import { Form, Formik } from "formik";
 import React, { useEffect } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import InputField from "../../../_helper/_inputField";
+import { _monthFirstDate } from "../../../_helper/_monthFirstDate";
 import NewSelect from "../../../_helper/_select";
+import { _getPreviousDate } from "../../../_helper/_todayDate";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import IForm from "./../../../_helper/_form";
 import Loading from "./../../../_helper/_loading";
@@ -11,15 +13,19 @@ import DriverWiseExpenseTbl from "./reportTable/driverWiseExpenseTbl";
 import EmployeeWiseFuelCostTbl from "./reportTable/employeeWiseFuelCostTbl";
 import FuelStationPurchaseInfoTbl from "./reportTable/fuelStationPurchaseInfoTbl";
 import FuelStationSummaryTbl from "./reportTable/fuelStationSummaryTbl";
+import StandByVehicleStatus from "./reportTable/standByVehicleStatus";
 import VehicleWiseFuelCostTbl from "./reportTable/vehicleWiseFuelCostTbl";
 const initData = {
   reportType: "",
-  fromDate: "",
-  toDate: "",
+  fromDate: _monthFirstDate(),
+  toDate: _getPreviousDate(),
   vehicle: "",
   fuelStation: "",
   driver: "",
+  status: "",
 };
+console.log("firstDate",_monthFirstDate());
+console.log("previous",_getPreviousDate());
 export default function TransportExpenseReport() {
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
@@ -62,11 +68,16 @@ export default function TransportExpenseReport() {
     } else if (reportTypeId === 3) {
       requestUrl = `/mes/VehicleLog/GetDriverAndTripInfo?partName=driverWiseExpanse&intDriverId=${values?.driver?.value}&dteFromDate=${values?.fromDate}&dteToDate=${values?.toDate}`;
     } else if (reportTypeId === 4) {
-      requestUrl = `/mes/VehicleLog/GetDriverAndTripInfo?partName=driverDateWiseTripInfo&intDriverId=${values?.driver?.value || 0}&dteFromDate=${values?.fromDate}&dteToDate=${values?.toDate}`;
+      requestUrl = `/mes/VehicleLog/GetDriverAndTripInfo?partName=driverDateWiseTripInfo&intDriverId=${values
+        ?.driver?.value || 0}&dteFromDate=${values?.fromDate}&dteToDate=${
+        values?.toDate
+      }`;
     } else if (reportTypeId === 5) {
       requestUrl = `/mes/VehicleLog/GetDriverAndTripInfo?partName=VehicleWiseFuelCost&intDriverId=${values?.vehicle?.value}&dteFromDate=${values?.fromDate}&dteToDate=${values?.toDate}`;
     } else if (reportTypeId === 6) {
       requestUrl = `/mes/VehicleLog/GetFuelCostByEmployee?dteFromDate=${values?.fromDate}&dteToDate=${values?.toDate}`;
+    }else if (reportTypeId === 7) {
+      requestUrl = `/mes/VehicleLog/GetBookingStandByVehicleStatus?fromDate=${values?.fromDate}&todate=${values?.toDate}&adminStatus=${values?.status?.value}`;
     }
     if (requestUrl) getRowData(requestUrl);
   };
@@ -108,6 +119,7 @@ export default function TransportExpenseReport() {
                     <NewSelect
                       name="reportType"
                       options={[
+                        { value: 7, label: "StandBy Vehicle Status" },
                         { value: 1, label: "Fuel Station Summary" },
                         { value: 2, label: "Fuel Station Purchase Info" },
                         { value: 3, label: "Driver Wise Expense" },
@@ -153,6 +165,27 @@ export default function TransportExpenseReport() {
                       }}
                     />
                   </div>
+                  {[7]?.includes(values?.reportType?.value) && (
+                    <div className="col-lg-3">
+                      <NewSelect
+                        name="status"
+                        options={[
+                          { label: "All", value: 0 },
+                          { label: "Pending", value: 1 },
+                          { label: "Approved", value: 2 },
+                          { label: "Reject", value: 3 },
+                        ]}
+                        value={values?.status}
+                        label="Status"
+                        onChange={(valueOption) => {
+                          setFieldValue("status", valueOption );
+                          setRowData([]);
+                        }}
+                        errors={errors}
+                        touched={touched}
+                      />
+                    </div>
+                  )}
                   {[5]?.includes(values?.reportType?.value) ? (
                     <div className="col-lg-3">
                       <NewSelect
@@ -234,7 +267,17 @@ export default function TransportExpenseReport() {
                     <VehicleWiseFuelCostTbl rowData={rowData} />
                   ) : null}
                   {[6]?.includes(values?.reportType?.value) ? (
-                    <EmployeeWiseFuelCostTbl rowData={rowData} values={values} />
+                    <EmployeeWiseFuelCostTbl
+                      rowData={rowData}
+                      values={values}
+                    />
+                  ) : null}
+                  {[7]?.includes(values?.reportType?.value) ? (
+                    <StandByVehicleStatus
+                      rowData={rowData}
+                      getRowData={getRowData}
+                      values={values}
+                    />
                   ) : null}
                 </div>
               </div>

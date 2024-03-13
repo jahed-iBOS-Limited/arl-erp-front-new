@@ -5,17 +5,17 @@ import React, { useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
-import SearchAsyncSelect from "../../../../../_helper/SearchAsyncSelect";
-import ICustomTable from "../../../../../_helper/_customTable";
-import IForm from "../../../../../_helper/_form";
-import IDelete from "../../../../../_helper/_helperIcons/_delete";
-import InputField from "../../../../../_helper/_inputField";
-import Loading from "../../../../../_helper/_loading";
-import NewSelect from "../../../../../_helper/_select";
-import { _todayDate } from "../../../../../_helper/_todayDate";
-import { compressfile } from "../../../../../_helper/compressfile";
-import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../../_helper/customHooks/useAxiosPost";
+import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
+import ICustomTable from "../../../../_helper/_customTable";
+import IForm from "../../../../_helper/_form";
+import IDelete from "../../../../_helper/_helperIcons/_delete";
+import InputField from "../../../../_helper/_inputField";
+import Loading from "../../../../_helper/_loading";
+import NewSelect from "../../../../_helper/_select";
+import { _todayDate } from "../../../../_helper/_todayDate";
+import { compressfile } from "../../../../_helper/compressfile";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import {
   convertBalance,
   removeDataFromRow,
@@ -25,7 +25,6 @@ import {
 } from "./helper";
 
 const initData = {
-  paymentType: "",
   customer: "",
   bankName: "",
   branchName: "",
@@ -41,7 +40,6 @@ export default function CustomerRefundCreateEditForm() {
   const [balance, getBalance] = useAxiosGet();
   const location = useLocation();
 
-
   const [, customerRefundEntries, loadCustomerRefundEntries] = useAxiosPost();
   const [isModalOpen, setModalOpenState] = useState(false);
   const [fileObjects, setFileObjects] = useState([]);
@@ -51,11 +49,7 @@ export default function CustomerRefundCreateEditForm() {
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
 
-
-
-
-
-//  handler functions
+  //  handler functions
   const saveHandler = async (values, cb) => {
     if (rowData?.length === 0) return toast.warn("At least one bill add");
     if (fileObjects.length < 1) return toast.warn("Please upload attachment");
@@ -77,8 +71,8 @@ export default function CustomerRefundCreateEditForm() {
           `/fino/OthersBillEntry/CustomerRefundEntries`,
           payload,
           () => {
-            setRowData([])
-            setFileObjects([])
+            setRowData([]);
+            setFileObjects([]);
           },
           true
         );
@@ -89,31 +83,34 @@ export default function CustomerRefundCreateEditForm() {
     }
   };
   const loadUserList = (v) => {
-    if(v === ""){
-      return axios.get(
-        `/partner/BusinessPartnerBankInfo/GetPartnerBankInfoByCustomer?searchTerm=%20%20%20&accountId=${accId}&businessUnitId=${buId}&SbuId=${location?.state?.sbu?.value}`
-      ).then((res) => {
+    if (v === "") {
+      return axios
+        .get(
+          `/partner/BusinessPartnerBankInfo/GetPartnerBankInfoByCustomer?searchTerm=%20%20%20&accountId=${accId}&businessUnitId=${buId}&SbuId=${location?.state?.sbu?.value}`
+        )
+        .then((res) => {
+          const updateList = res?.data.map((item) => ({
+            ...item,
+            value: item?.businessPartnerId,
+            label: item?.businessPartnerName,
+          }));
+          return updateList;
+        });
+    }
+    if (v?.length < 3) return [];
+    return axios
+      .get(
+        `/partner/BusinessPartnerBankInfo/GetPartnerBankInfoByCustomer?searchTerm=${v}&accountId=${accId}&businessUnitId=${buId}&SbuId=${location?.state?.sbu?.value}`
+      )
+      .then((res) => {
         const updateList = res?.data.map((item) => ({
           ...item,
-          value:item?.businessPartnerId,
-          label:item?.businessPartnerName
+          value: item?.businessPartnerId,
+          label: item?.businessPartnerName,
         }));
         return updateList;
       });
-    }
-    if (v?.length < 3) return [];
-    return axios.get(
-      `/partner/BusinessPartnerBankInfo/GetPartnerBankInfoByCustomer?searchTerm=${v}&accountId=${accId}&businessUnitId=${buId}&SbuId=${location?.state?.sbu?.value}`
-    ).then((res) => {
-      const updateList = res?.data.map((item) => ({
-        ...item,
-        value:item?.businessPartnerId,
-        label:item?.businessPartnerName
-      }));
-      return updateList;
-    });
   };
-
 
   return (
     <Formik
@@ -135,9 +132,7 @@ export default function CustomerRefundCreateEditForm() {
         touched,
       }) => (
         <>
-          {(loadCustomerRefundEntries) && (
-            <Loading />
-          )}
+          {loadCustomerRefundEntries && <Loading />}
           <IForm
             title="Create Customer Refund"
             getProps={setObjprops}
@@ -146,50 +141,46 @@ export default function CustomerRefundCreateEditForm() {
             {isDisabled && <Loading />}
             <Form>
               <div className="form-group  global-form row">
-                <div className="col-lg-3">
-                  <NewSelect
-                    name="paymentType"
-                    options={[
-                      {
-                        value: 1,
-                        label: "Bank",
-                      },
-                      {
-                        value: 2,
-                        label: "Cheque",
-                      },
-                      {
-                        value: 3,
-                        label: "Cash",
-                      },
-                    ]}
-                    value={values?.paymentType}
-                    label="Payment Type"
-                    onChange={(valueOption) => {
-                      setFieldValue("paymentType", valueOption);
-                    }}
-                    placeholder="Payment Type"
-                    errors={errors}
-                    touched={touched}
-                  />
-                </div>
                 <div style={{ position: "relative" }} className="col-lg-3 ">
-                  <label >Customer Name</label>
-                   <SearchAsyncSelect
-                   name="customer"
+                  <label>Customer Name</label>
+                  <SearchAsyncSelect
+                    name="customer"
                     selectedValue={values?.customer}
                     handleChange={(valueOption) => {
                       setFieldValue("customer", valueOption);
-                      setFieldValue("bankName", {label:valueOption?.bankName,value:valueOption?.bankId} || "");
-                      setFieldValue("branchName", {label:valueOption?.bankBranchName,value:valueOption?.bankBranchId,strRoutingNo:valueOption?.routingNo} || "");
-                      setFieldValue("bankAccountingNo", valueOption?.bankAccountNo || "");
+                      setFieldValue(
+                        "bankName",
+                        {
+                          label: valueOption?.bankName,
+                          value: valueOption?.bankId,
+                        } || ""
+                      );
+                      setFieldValue(
+                        "branchName",
+                        {
+                          label: valueOption?.bankBranchName,
+                          value: valueOption?.bankBranchId,
+                          strRoutingNo: valueOption?.routingNo,
+                        } || ""
+                      );
+                      setFieldValue(
+                        "bankAccountingNo",
+                        valueOption?.bankAccountNo || ""
+                      );
                       setFieldValue("remarks", "");
                       setFieldValue("amount", "");
 
                       if (!valueOption) return;
                       getBalance(
-                        `/fino/BankBranch/GetPartnerBook?BusinessUnitId=${buId}&PartnerId=${valueOption?.value}&PartnerType=2&FromDate=${_todayDate()}&ToDate=${_todayDate()}`
+                        `/fino/BankBranch/GetPartnerBook?BusinessUnitId=${buId}&PartnerId=${
+                          valueOption?.value
+                        }&PartnerType=2&FromDate=${_todayDate()}&ToDate=${_todayDate()}`
                       );
+                      if (
+                        !valueOption?.bankAccountName &&
+                        !valueOption?.bankAccountNo
+                      )
+                        return toast.warn("Customer bank account not found");
                     }}
                     loadOptions={loadUserList}
                     // isDebounce={true}
@@ -209,7 +200,9 @@ export default function CustomerRefundCreateEditForm() {
                     >
                       {balance[0]?.numBalance > 0
                         ? `Due Balance:${balance[0]?.numBalance}`
-                        : `Available Balance:${convertBalance(balance[0]?.numBalance)}`}
+                        : `Available Balance:${convertBalance(
+                            balance[0]?.numBalance
+                          )}`}
                     </span>
                   ) : (
                     <span></span>
@@ -262,7 +255,10 @@ export default function CustomerRefundCreateEditForm() {
                     type="number"
                     placeholder="Amount"
                     min={0}
-                    disabled={!values?.customer || convertBalance(balance[0]?.numBalance) <= 0}
+                    disabled={
+                      !values?.customer ||
+                      convertBalance(balance[0]?.numBalance) <= 0
+                    }
                   />
                 </div>
                 <div className="col-lg-3">
@@ -274,7 +270,7 @@ export default function CustomerRefundCreateEditForm() {
                     placeholder="Bill Register Date"
                   />
                 </div>
-               
+
                 <div className="col-lg-3 align-self-end  mt-3">
                   <button
                     className="btn btn-primary mr-3"
@@ -283,10 +279,14 @@ export default function CustomerRefundCreateEditForm() {
                       if (
                         values?.amount > convertBalance(balance[0]?.numBalance)
                       ) {
-                        return toast.warn(`Balance must be at most ${convertBalance(balance[0]?.numBalance)}`);
+                        return toast.warn(
+                          `Balance must be at most ${convertBalance(
+                            balance[0]?.numBalance
+                          )}`
+                        );
                       }
-                      if(values?.amount<=0){
-                        return toast.warn("Balance must be more then 0")
+                      if (values?.amount <= 0) {
+                        return toast.warn("Balance must be more then 0");
                       }
                       rowDataHandler(
                         values,
@@ -311,10 +311,9 @@ export default function CustomerRefundCreateEditForm() {
                     }}
                     disabled={
                       !values?.customer ||
-                      (values?.paymentType?.value === 1 &&
-                        (!values?.bankName ||
-                          !values?.branchName ||
-                          !values?.bankAccountingNo)) ||
+                      !values?.bankName ||
+                      !values?.branchName ||
+                      !values?.bankAccountingNo ||
                       !values?.amount ||
                       !values?.billRegisterDate
                     }
@@ -342,7 +341,7 @@ export default function CustomerRefundCreateEditForm() {
                         <tr key={index}>
                           {console.log("item", item)}
                           <td>{index + 1}</td>
-                          <td> {item?.customerName}</td>
+                          <td> {item?.partnerName}</td>
                           <td> {item?.bankName}</td>
                           <td> {item?.branchName}</td>
                           <td> {item?.bankAccountNumber}</td>

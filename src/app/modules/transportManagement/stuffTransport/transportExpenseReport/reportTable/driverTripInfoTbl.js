@@ -2,13 +2,15 @@ import React, { useState } from "react";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import { _formatMoney } from "../../../../_helper/_formatMoney";
 import IView from "../../../../_helper/_helperIcons/_view";
-import { useHistory } from "react-router";
+import NewIcon from "../../../../_helper/_helperIcons/newIcon";
 import IViewModal from "../../../../_helper/_viewModal";
 import MapView from "../mapView";
+import AttachmentViewModal from "./attachmentViewModal";
 
 export default function DriverTripInfoTbl({ rowData }) {
   const [isShowModal, setIsShowModal] = useState(false);
   const [singleData, setSingleData] = useState({})
+  const [showAttachmentModal,setShowAttachmentModal] =useState(false)
   const totalKM = rowData?.reduce((acc, curr) => acc + curr?.tripKM, 0);
   const totalTollAmount = rowData?.reduce(
     (acc, curr) => acc + curr?.numTollAmount,
@@ -71,7 +73,7 @@ export default function DriverTripInfoTbl({ rowData }) {
                 <td className="text-center">
                   {_dateFormatter(item?.dteTripDate)}
                 </td>
-                <td></td>
+                <td>{item?.strTripCode}</td>
                 <td className="text-center">{item?.tripKM}</td>
                 <td className="text-center">{item?.strVehicleNo}</td>
                 <td>{item?.strFirstRoundStartAddress}</td>
@@ -92,14 +94,25 @@ export default function DriverTripInfoTbl({ rowData }) {
                   {item?.lpeg + item?.diesel + item?.octane}
                 </td>
                 <td className="text-center">
+                  <div style={{display:"flex", gap:"4px",padding:"0px 8px"}}>
                   <span
                     onClick={() => {
                       setSingleData(item);
                       setIsShowModal(true);
                     }}
                   >
-                    <IView />
+                    <IView styles={{fontSize:"15px"}}/>
                   </span>
+                  <NewIcon
+                  customStyles={{cursor:"pointer",fontSize:"15px"}}
+                  title = "View All Attachment"
+                  clickHandler={()=>{
+                    setShowAttachmentModal(true)
+                    setSingleData(item);
+                  }}
+                  iconName="fa fa-file-image-o"
+                  />
+                  </div>
                 </td>
               </tr>
             ))}
@@ -130,6 +143,15 @@ export default function DriverTripInfoTbl({ rowData }) {
           title="Trip Details Info Report"
         >
           <MapView singleData={singleData} />
+        </IViewModal>
+        <IViewModal
+          show={showAttachmentModal}
+          onHide={() => {
+            setShowAttachmentModal(false);
+          }}
+          title="Attachment View"
+        >
+          <AttachmentViewModal singleData={singleData} />
         </IViewModal>
       </div>
     </div>

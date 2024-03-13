@@ -24,8 +24,8 @@ export default function FuelLogPringModal({ item, values }) {
   let grandOtherExpanse = 0;
   let grandTollAmount = 0;
   let grandKMPL = 0;
-  let grandTotalAmount = 0;
-  let grandTotalPersonalCost = 0
+  let grandTotalPersonalCostDeduction = 0;
+  let grandTotalNetPayable = 0
   return (
     <>
       {loading && <Loading />}
@@ -87,13 +87,24 @@ export default function FuelLogPringModal({ item, values }) {
                 <th style={{fontSize:"12px"}}>DA Amount (Tk)</th>
                 <th style={{fontSize:"12px"}}> Others Amount (Tk) </th>
                 <th style={{fontSize:"12px"}}> Personal Cost Deduct (Tk) </th>
-                <th style={{fontSize:"12px"}}> Total Amount (Tk) </th>
+                <th style={{fontSize:"12px"}}> Total Payable Amount (Tk) </th>
                 <th style={{fontSize:"12px"}}> KMPL </th>
               </tr>
             </thead>
             <tbody>
               {printData?.map((item, index) => {
                 //row calculation
+                const totalPersonalKM =
+                  item?.personalKM
+                const totalFuelCost = item?.fuelCash + item?.fuelCredit;
+                const totalRouteCost = totalFuelCost + item?.numTollAmount;
+                const totalCost = totalRouteCost + item?.otherExpanse + item?.daAmount;
+                const perKMCost = totalRouteCost / (item?.totalKM || 1);
+                const personalCostDeduction = (totalPersonalKM || 0)  * (perKMCost || 0);
+                const netPayable =
+                  totalCost - item?.fuelCredit - personalCostDeduction;
+
+                //total calculation
                 grandTotalKM += item?.totalKM || 0;
                 grandFuelCash += item?.fuelCash || 0;
                 grandDaAmount += item?.daAmount || 0;
@@ -102,8 +113,8 @@ export default function FuelLogPringModal({ item, values }) {
                 grandTollAmount += item?.numTollAmount || 0;
                 grandKMPL +=
                 (item?.fuelCash + item?.fuelCredit + item?.numTollAmount) / item?.totalKM;
-                grandTotalAmount +=((item?.fuelCash + item?.numTollAmount+item?.daAmount+item?.otherExpanse) -((item?.fuelCash + item?.fuelCredit + item?.numTollAmount) / item?.totalKM) * ((item?.numCeilingKM + item?.numCeilingKM * 0.25)-item?.numCeilingKM))
-                grandTotalPersonalCost += (((item?.fuelCash + item?.fuelCredit + item?.numTollAmount)/ item?.totalKM) * ((item?.numCeilingKM + item?.numCeilingKM * 0.25)-item?.numCeilingKM))
+                grandTotalPersonalCostDeduction += personalCostDeduction
+                grandTotalNetPayable += netPayable;
 
                 return (
                   <>
@@ -133,12 +144,12 @@ export default function FuelLogPringModal({ item, values }) {
                       </td>
                       <td style={{ textAlign: "right",fontSize:"14px" }}>
                         {" "}
-                        {_formatMoney((((item?.fuelCash + item?.fuelCredit + item?.numTollAmount)/ item?.totalKM) * ((item?.numCeilingKM + item?.numCeilingKM * 0.25)-item?.numCeilingKM)))}
+                        {_formatMoney(personalCostDeduction)}
                       </td>
                       <td style={{ textAlign: "right",fontSize:"14px" }}>
                         {" "}
                         {_formatMoney(
-                          ((item?.fuelCash + item?.numTollAmount+item?.daAmount+item?.otherExpanse) -((item?.fuelCash + item?.fuelCredit + item?.numTollAmount) / item?.totalKM) * ((item?.numCeilingKM + item?.numCeilingKM * 0.25)-item?.numCeilingKM))
+                          netPayable
                         )}
                       </td>
                       <td style={{ textAlign: "right",fontSize:"14px" }}>
@@ -174,11 +185,11 @@ export default function FuelLogPringModal({ item, values }) {
                 </td>
                 <td style={{ textAlign: "right",  fontWeight: "bold",fontSize:"14px" }}>
                   {" "}
-                  {_formatMoney(grandTotalPersonalCost)}
+                  {_formatMoney(grandTotalPersonalCostDeduction)}
                 </td>
                 <td style={{ textAlign: "right",  fontWeight: "bold" ,fontSize:"14px"}}>
                   {" "}
-                  {_formatMoney(grandTotalAmount)}
+                  {_formatMoney(grandTotalNetPayable)}
                 </td>
                 <td style={{ textAlign: "right",  fontWeight: "bold" ,fontSize:"14px"}}>
                   {" "}

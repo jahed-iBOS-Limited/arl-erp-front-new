@@ -1,15 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { Form, Formik } from "formik";
 import React, { useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
+import { shallowEqual, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import PaginationTable from "./../../../../_helper/_tablePagination";
-import { Formik, Form } from "formik";
-import InputField from "./../../../../_helper/_inputField";
-import { getPartnerData, savepartnerInformation, getAssetSBUDDL } from "../helper";
-import IViewModal from "./../../../../_helper/_viewModal";
+import { toast } from "react-toastify";
 import IConfirmModal from "../../../../_helper/_confirmModal";
 import NewSelect from "../../../../_helper/_select";
-import { toast } from "react-toastify";
+import { getAssetSBUDDL, getPartnerData, savepartnerInformation } from "../helper";
+import InputField from "./../../../../_helper/_inputField";
+import PaginationTable from "./../../../../_helper/_tablePagination";
+import IViewModal from "./../../../../_helper/_viewModal";
 
 const initData = {
   sbu: "",
@@ -134,43 +134,61 @@ export default function CopyPartnerFromOtherUnit({ show, onHide, landingValues }
                   {gridData?.length ? (
                     <table className="table table-striped table-bordered global-table sales_order_landing_table">
                       <thead>
-                        <tr>
+                      <tr>
                           <th>SL</th>
+                          <th>Business Unit</th>
+                          <th>Code</th>
                           <th>Name</th>
-                          <th>Email</th>
-                          <th>Contact</th>
                           <th>Address</th>
+                          <th>Bank Account Name</th>
+                          <th>Bank Account Number</th>
+                          <th>Bank Name</th>
+                          <th>Branch Name</th>
+                         
                           <th style={{ width: "60px" }}>Actions</th>
                         </tr>
                       </thead>
                       <tbody>
                         {gridData?.map((td, index) => (
                           <tr key={index}>
-                            <td className="text-center"> {index+1} </td>
-                            <td>
-                              <div className="pl-2">{td?.businessPartnerName} </div>
-                            </td>
-                            <td className="text-center">
-                              {td?.email}
-                            </td>
-                            <td className="text-center">
-                              {td?.contactNumber}
-                            </td>
-                            <td> {td?.adress} </td>
-                            <td>
-                              <div className="d-flex justify-content-around">
-                                <span
-                                  className="btn btn-outline-dark pointer"
-                                  style={{padding:"3px 10px 3px 10px"}}
-                                  onClick={() => {
-                                    savePartnerInfo(td?.businessPartnerId)
-                                  }}
-                                >
-                                  Add
-                                </span>
-                              </div>
-                            </td>
-                          </tr>
+                          <td className="text-center"> {index+1} </td>
+                          <td>
+                            <div className="pl-2">{td?.businessUnitName} </div>
+                          </td>
+                          <td>
+                            <div className="pl-2">{td?.businessPartnerCode} </div>
+                          </td>                            
+                          <td>
+                            <div className="pl-2">{td?.businessPartnerName} </div>
+                          </td>    
+                          <td> {td?.adress} </td>                        
+                          <td>
+                            <div className="pl-2">{td?.bankAccountName} </div>
+                          </td>                            
+                          <td>
+                            <div className="pl-2">{td?.bankAccountNo} </div>
+                          </td>                            
+                          <td>
+                            <div className="pl-2">{td?.bankName} </div>
+                          </td>                            
+                          <td>
+                            <div className="pl-2">{td?.branchName} </div>
+                          </td>                            
+                          
+                          <td>
+                            <div className="d-flex justify-content-around">
+                              <span
+                                className="btn btn-outline-dark pointer"
+                                style={{padding:"3px 10px 3px 10px"}}
+                                onClick={() => {
+                                  savePartnerInfo(td?.businessPartnerId)
+                                }}
+                              >
+                                Add
+                              </span>
+                            </div>
+                          </td>
+                        </tr>
                         ))}
                       </tbody>
                     </table>

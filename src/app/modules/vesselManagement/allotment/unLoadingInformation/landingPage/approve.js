@@ -18,6 +18,7 @@ import Loading from "../../../../_helper/_loading";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import { StockInToInventoryApproval } from "../../challanEntry/helper";
 import { CreateLighterDumpBill, updateUnloadingQtyAndRates } from "../helper";
+import { _todayDate } from "../../../../_helper/_todayDate";
 
 const initData = {
   supplier: "",
@@ -52,6 +53,7 @@ const initData = {
   dailyLabourAmount: 0,
   totalBillAmount: "",
   remainingDumpQnt: "",
+  date: _todayDate(),
 };
 
 export default function WarehouseApproveFrom({
@@ -211,6 +213,7 @@ export default function WarehouseApproveFrom({
       shipPointId: singleItem?.shipPointId,
       otherLaborPerson: values.otherLaborPerson,
       otherLaborRate: values.othersLabourPersonRate,
+      transactionDate: values?.date,
     };
 
     if (levelOfApprove === "second") {
@@ -431,7 +434,7 @@ export default function WarehouseApproveFrom({
                             setFieldValue("supplier", valueOption);
                           }}
                           loadOptions={loadOptions}
-                          isDisabled={levelOfApprove === "third" ? true : false}
+                          // isDisabled={levelOfApprove === "third" ? true : false}
                         />
                         <FormikError
                           errors={errors}
@@ -543,42 +546,14 @@ export default function WarehouseApproveFrom({
                       </div>
                       <div className="col-lg-3">
                         <InputField
-                          label="Bolgate to Dam Rate"
-                          placeholder="Bolgate to Dam Rate"
-                          value={values?.bolgateToDamRate}
-                          name="bolgateToDamRate"
-                          type="number"
+                          label="Date"
+                          placeholder="Date"
+                          value={values?.date}
+                          name="date"
+                          type="date"
                           onChange={(e) => {
-                            setFieldValue("bolgateToDamRate", e?.target?.value);
-                            setTotals(
-                              {
-                                ...values,
-                                bolgateToDamRate: e?.target?.value,
-                              },
-                              setFieldValue
-                            );
+                            setFieldValue("date", e?.target?.value);
                           }}
-                          disabled={levelOfApprove === "third" ? true : false}
-                        />
-                      </div>
-                      <div className="col-lg-3">
-                        <InputField
-                          label="Bolgate to Dam Qty"
-                          placeholder="Bolgate to Dam Qty"
-                          value={values?.bolgateToDamQty}
-                          name="bolgateToDamQty"
-                          type="number"
-                          onChange={(e) => {
-                            setFieldValue("bolgateToDamQty", e?.target?.value);
-                            setTotals(
-                              {
-                                ...values,
-                                bolgateToDamQty: e?.target?.value,
-                              },
-                              setFieldValue
-                            );
-                          }}
-                          disabled={levelOfApprove === "third" ? true : false}
                         />
                       </div>
                       <div className="col-lg-3">
@@ -619,203 +594,282 @@ export default function WarehouseApproveFrom({
                           }}
                         />
                       </div>
-                      <div className="col-lg-3">
-                        <InputField
-                          label="Lighter to Bolgate Rate"
-                          placeholder="Lighter to Bolgate Rate"
-                          value={values?.lighterToBolgateRate}
-                          name="lighterToBolgateRate"
-                          type="number"
-                          onChange={(e) => {
-                            setFieldValue(
-                              "lighterToBolgateRate",
-                              e?.target?.value
-                            );
-                            setTotals(
-                              {
-                                ...values,
-                                lighterToBolgateRate: e?.target?.value,
-                              },
-                              setFieldValue
-                            );
-                          }}
-                          disabled={levelOfApprove === "third" ? true : false}
-                        />
-                      </div>
-                      <div className="col-lg-3">
-                        <InputField
-                          label="Lighter to Bolgate Qty"
-                          placeholder="Lighter to Bolgate Qty"
-                          value={values?.lighterToBolgateQty}
-                          name="lighterToBolgateQty"
-                          type="number"
-                          onChange={(e) => {
-                            setFieldValue(
-                              "lighterToBolgateQty",
-                              e?.target?.value
-                            );
-                            setTotals(
-                              {
-                                ...values,
-                                lighterToBolgateQty: e?.target?.value,
-                              },
-                              setFieldValue
-                            );
-                          }}
-                          disabled={levelOfApprove === "third" ? true : false}
-                        />
-                      </div>
-                      <div className="col-lg-3">
-                        <InputField
-                          label="Truck to Dam Rate"
-                          placeholder="Truck to Dam Rate"
-                          value={values?.truckToDamRate}
-                          name="truckToDamRate"
-                          type="number"
-                          onChange={(e) => {
-                            setFieldValue("truckToDamRate", e?.target?.value);
-                            setTotals(
-                              {
-                                ...values,
-                                truckToDamRate: e?.target?.value,
-                              },
-                              setFieldValue
-                            );
-                          }}
-                          disabled={levelOfApprove === "third" ? true : false}
-                        />
-                      </div>
-                      <div className="col-lg-3">
-                        <InputField
-                          label="Truck to Dam Qty"
-                          placeholder="Truck to Dam Qty"
-                          value={values?.truckToDamQty}
-                          name="truckToDamQty"
-                          type="number"
-                          onChange={(e) => {
-                            setFieldValue("truckToDamQty", e?.target?.value);
-                            setTotals(
-                              {
-                                ...values,
-                                truckToDamQty: e?.target?.value,
-                              },
-                              setFieldValue
-                            );
-                          }}
-                          disabled={levelOfApprove === "third" ? true : false}
-                        />
-                      </div>
-                      <div className="col-lg-3">
-                        <InputField
-                          value={values?.decTruckToDamOutSideRate}
-                          name="decTruckToDamOutSideRate"
-                          label="Truck To Dam Outside Rate"
-                          placeholder="Truck To Dam Outside Rate"
-                          type="number"
-                          onChange={(e) => {
-                            setFieldValue(
-                              "decTruckToDamOutSideRate",
-                              e.target.value
-                            );
-                            setTotals(
-                              {
-                                ...values,
-                                decTruckToDamOutSideRate: e?.target?.value,
-                              },
-                              setFieldValue
-                            );
-                          }}
-                          disabled={levelOfApprove === "third" ? true : false}
-                        />
-                      </div>
-                      <div className="col-lg-3">
-                        <InputField
-                          value={values?.decTruckToDamOutSideQty}
-                          label="Truck To Dam Outside Qty"
-                          placeholder="Truck To Dam Outside Qty"
-                          name="decTruckToDamOutSideQty"
-                          type="number"
-                          onChange={(e) => {
-                            setFieldValue(
-                              "decTruckToDamOutSideQty",
-                              e.target.value
-                            );
-                            setTotals(
-                              {
-                                ...values,
-                                decTruckToDamOutSideQty: e?.target?.value,
-                              },
-                              setFieldValue
-                            );
-                          }}
-                          disabled={levelOfApprove === "third" ? true : false}
-                        />
-                      </div>
-                      <div className="col-lg-3">
-                        <InputField
-                          value={values?.decBiwtarate}
-                          label="BIWTA Rate"
-                          placeholder="BIWTA Rate"
-                          name="decBiwtarate"
-                          type="number"
-                          onChange={(e) => {
-                            setFieldValue("decBiwtarate", e.target.value);
-                            setTotals(
-                              {
-                                ...values,
-                                decBiwtarate: e?.target?.value,
-                              },
-                              setFieldValue
-                            );
-                          }}
-                          disabled={levelOfApprove === "third" ? true : false}
-                        />
-                      </div>
 
-                      <div className="col-lg-3">
-                        <InputField
-                          value={values?.decShipSweepingRate}
-                          label="Ship Sweeping Amount"
-                          placeholder="Ship Sweeping Amount"
-                          name="decShipSweepingRate"
-                          type="number"
-                          onChange={(e) => {
-                            setFieldValue(
-                              "decShipSweepingRate",
-                              e.target.value
-                            );
-                            setTotals(
-                              {
-                                ...values,
-                                decShipSweepingRate: e?.target?.value,
-                              },
-                              setFieldValue
-                            );
-                          }}
-                          disabled={levelOfApprove === "third" ? true : false}
-                        />
-                      </div>
+                      {levelOfApprove !== "third" && (
+                        <>
+                          <div className="col-lg-3">
+                            <InputField
+                              label="Bolgate to Dam Rate"
+                              placeholder="Bolgate to Dam Rate"
+                              value={values?.bolgateToDamRate}
+                              name="bolgateToDamRate"
+                              type="number"
+                              onChange={(e) => {
+                                setFieldValue(
+                                  "bolgateToDamRate",
+                                  e?.target?.value
+                                );
+                                setTotals(
+                                  {
+                                    ...values,
+                                    bolgateToDamRate: e?.target?.value,
+                                  },
+                                  setFieldValue
+                                );
+                              }}
+                              disabled={
+                                levelOfApprove === "third" ? true : false
+                              }
+                            />
+                          </div>
+                          <div className="col-lg-3">
+                            <InputField
+                              label="Bolgate to Dam Qty"
+                              placeholder="Bolgate to Dam Qty"
+                              value={values?.bolgateToDamQty}
+                              name="bolgateToDamQty"
+                              type="number"
+                              onChange={(e) => {
+                                setFieldValue(
+                                  "bolgateToDamQty",
+                                  e?.target?.value
+                                );
+                                setTotals(
+                                  {
+                                    ...values,
+                                    bolgateToDamQty: e?.target?.value,
+                                  },
+                                  setFieldValue
+                                );
+                              }}
+                              disabled={
+                                levelOfApprove === "third" ? true : false
+                              }
+                            />
+                          </div>
+                          <div className="col-lg-3">
+                            <InputField
+                              label="Lighter to Bolgate Rate"
+                              placeholder="Lighter to Bolgate Rate"
+                              value={values?.lighterToBolgateRate}
+                              name="lighterToBolgateRate"
+                              type="number"
+                              onChange={(e) => {
+                                setFieldValue(
+                                  "lighterToBolgateRate",
+                                  e?.target?.value
+                                );
+                                setTotals(
+                                  {
+                                    ...values,
+                                    lighterToBolgateRate: e?.target?.value,
+                                  },
+                                  setFieldValue
+                                );
+                              }}
+                              disabled={
+                                levelOfApprove === "third" ? true : false
+                              }
+                            />
+                          </div>
+                          <div className="col-lg-3">
+                            <InputField
+                              label="Lighter to Bolgate Qty"
+                              placeholder="Lighter to Bolgate Qty"
+                              value={values?.lighterToBolgateQty}
+                              name="lighterToBolgateQty"
+                              type="number"
+                              onChange={(e) => {
+                                setFieldValue(
+                                  "lighterToBolgateQty",
+                                  e?.target?.value
+                                );
+                                setTotals(
+                                  {
+                                    ...values,
+                                    lighterToBolgateQty: e?.target?.value,
+                                  },
+                                  setFieldValue
+                                );
+                              }}
+                              disabled={
+                                levelOfApprove === "third" ? true : false
+                              }
+                            />
+                          </div>
+                          <div className="col-lg-3">
+                            <InputField
+                              label="Truck to Dam Rate"
+                              placeholder="Truck to Dam Rate"
+                              value={values?.truckToDamRate}
+                              name="truckToDamRate"
+                              type="number"
+                              onChange={(e) => {
+                                setFieldValue(
+                                  "truckToDamRate",
+                                  e?.target?.value
+                                );
+                                setTotals(
+                                  {
+                                    ...values,
+                                    truckToDamRate: e?.target?.value,
+                                  },
+                                  setFieldValue
+                                );
+                              }}
+                              disabled={
+                                levelOfApprove === "third" ? true : false
+                              }
+                            />
+                          </div>
+                          <div className="col-lg-3">
+                            <InputField
+                              label="Truck to Dam Qty"
+                              placeholder="Truck to Dam Qty"
+                              value={values?.truckToDamQty}
+                              name="truckToDamQty"
+                              type="number"
+                              onChange={(e) => {
+                                setFieldValue(
+                                  "truckToDamQty",
+                                  e?.target?.value
+                                );
+                                setTotals(
+                                  {
+                                    ...values,
+                                    truckToDamQty: e?.target?.value,
+                                  },
+                                  setFieldValue
+                                );
+                              }}
+                              disabled={
+                                levelOfApprove === "third" ? true : false
+                              }
+                            />
+                          </div>
+                          <div className="col-lg-3">
+                            <InputField
+                              value={values?.decTruckToDamOutSideRate}
+                              name="decTruckToDamOutSideRate"
+                              label="Truck To Dam Outside Rate"
+                              placeholder="Truck To Dam Outside Rate"
+                              type="number"
+                              onChange={(e) => {
+                                setFieldValue(
+                                  "decTruckToDamOutSideRate",
+                                  e.target.value
+                                );
+                                setTotals(
+                                  {
+                                    ...values,
+                                    decTruckToDamOutSideRate: e?.target?.value,
+                                  },
+                                  setFieldValue
+                                );
+                              }}
+                              disabled={
+                                levelOfApprove === "third" ? true : false
+                              }
+                            />
+                          </div>
+                          <div className="col-lg-3">
+                            <InputField
+                              value={values?.decTruckToDamOutSideQty}
+                              label="Truck To Dam Outside Qty"
+                              placeholder="Truck To Dam Outside Qty"
+                              name="decTruckToDamOutSideQty"
+                              type="number"
+                              onChange={(e) => {
+                                setFieldValue(
+                                  "decTruckToDamOutSideQty",
+                                  e.target.value
+                                );
+                                setTotals(
+                                  {
+                                    ...values,
+                                    decTruckToDamOutSideQty: e?.target?.value,
+                                  },
+                                  setFieldValue
+                                );
+                              }}
+                              disabled={
+                                levelOfApprove === "third" ? true : false
+                              }
+                            />
+                          </div>
+                          <div className="col-lg-3">
+                            <InputField
+                              value={values?.decBiwtarate}
+                              label="BIWTA Rate"
+                              placeholder="BIWTA Rate"
+                              name="decBiwtarate"
+                              type="number"
+                              onChange={(e) => {
+                                setFieldValue("decBiwtarate", e.target.value);
+                                setTotals(
+                                  {
+                                    ...values,
+                                    decBiwtarate: e?.target?.value,
+                                  },
+                                  setFieldValue
+                                );
+                              }}
+                              disabled={
+                                levelOfApprove === "third" ? true : false
+                              }
+                            />
+                          </div>
 
-                      <div className="col-lg-3">
-                        <InputField
-                          value={values?.decScaleRate}
-                          label="Scale Amount"
-                          placeholder="Scale Amount"
-                          name="decScaleRate"
-                          type="number"
-                          onChange={(e) => {
-                            setFieldValue("decScaleRate", e.target.value);
-                            setTotals(
-                              {
-                                ...values,
-                                decScaleRate: e?.target?.value,
-                              },
-                              setFieldValue
-                            );
-                          }}
-                          disabled={levelOfApprove === "third" ? true : false}
-                        />
-                      </div>
+                          <div className="col-lg-3">
+                            <InputField
+                              value={values?.decShipSweepingRate}
+                              label="Ship Sweeping Amount"
+                              placeholder="Ship Sweeping Amount"
+                              name="decShipSweepingRate"
+                              type="number"
+                              onChange={(e) => {
+                                setFieldValue(
+                                  "decShipSweepingRate",
+                                  e.target.value
+                                );
+                                setTotals(
+                                  {
+                                    ...values,
+                                    decShipSweepingRate: e?.target?.value,
+                                  },
+                                  setFieldValue
+                                );
+                              }}
+                              disabled={
+                                levelOfApprove === "third" ? true : false
+                              }
+                            />
+                          </div>
+
+                          <div className="col-lg-3">
+                            <InputField
+                              value={values?.decScaleRate}
+                              label="Scale Amount"
+                              placeholder="Scale Amount"
+                              name="decScaleRate"
+                              type="number"
+                              onChange={(e) => {
+                                setFieldValue("decScaleRate", e.target.value);
+                                setTotals(
+                                  {
+                                    ...values,
+                                    decScaleRate: e?.target?.value,
+                                  },
+                                  setFieldValue
+                                );
+                              }}
+                              disabled={
+                                levelOfApprove === "third" ? true : false
+                              }
+                            />
+                          </div>
+                        </>
+                      )}
 
                       <div className="col-lg-3">
                         <InputField

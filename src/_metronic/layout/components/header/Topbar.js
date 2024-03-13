@@ -12,6 +12,7 @@ import { LanguageSelectorDropdown } from "../extras/dropdowns/LanguageSelectorDr
 import { QuickUserToggler } from "../extras/QuiclUserToggler";
 // import MenuSearchIcon from "./menuSearchIcon/menuSearchIcon";
 import ReactSpeechRecognition from "./react-speech-recognition";
+import ChatBoat from "./chat-boat";
 
 export function Topbar() {
   const uiService = useHtmlClassService();
@@ -46,6 +47,7 @@ export function Topbar() {
   return (
     <>
       <div className="topbar">
+      <ChatBoat/>
       <ReactSpeechRecognition />
         {/* menu search icon */}
         {/* <MenuSearchIcon /> */}

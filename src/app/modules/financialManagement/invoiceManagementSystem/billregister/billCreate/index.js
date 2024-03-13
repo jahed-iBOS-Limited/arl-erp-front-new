@@ -23,7 +23,7 @@ import LabourBillForm from "./../labourBill/Form/addEditForm";
 import SupplerInvoiceForm from "./../supplerInvoice/Form/addEditForm";
 import SupplierAdvance from "./../supplierAdvance/supplierAdvance";
 import HeaderForm from "./Table/form";
-import CustomerRefundCreateEditForm from "./customerRefund/addEditForm";
+import CustomerRefundCreateEditForm from "../customerRefund/addEditForm";
 
 function BillregisterCreate() {
   const { state: headerData } = useLocation();
@@ -76,7 +76,7 @@ function BillregisterCreate() {
       ) : billType === 32 ? (
         <DamDeliveryBill />
       ) : billType === 33 ? (
-        <CustomerRefundCreateEditForm />
+        <CustomerRefundCreateEditForm/>
       ) : (
         <HeaderForm />
       )}

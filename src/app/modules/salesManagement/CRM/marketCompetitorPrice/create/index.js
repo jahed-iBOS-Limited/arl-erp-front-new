@@ -16,6 +16,7 @@ import useAxiosPut from "../../../../_helper/customHooks/useAxiosPut";
 import Loading from "./../../../../_helper/_loading";
 import RowTable from "./rowTable";
 import {
+  filterAndMapOptions,
   getUniqueGroups,
   onFilterHandler,
   onResetFilterHandler,
@@ -449,11 +450,14 @@ function Form() {
                 <div className="col-lg-2">
                   <NewSelect
                     name="group"
-                    options={filterType?.groupList || []}
+                    options={filterAndMapOptions(allData, values, "strGroup")}
                     value={values?.group}
                     label="Group"
                     onChange={(valueOption) => {
                       setFieldValue("group", valueOption || "");
+                      setFieldValue("subCategory", "");
+                      setFieldValue("skuName", "");
+                      setFieldValue("brandName", "");
                       onFilterHandler(
                         allData,
                         { ...values, group: { ...valueOption } },
@@ -468,11 +472,17 @@ function Form() {
                 <div className="col-lg-2">
                   <NewSelect
                     name="subCategory"
-                    options={filterType?.subCategoryList || []}
+                    options={filterAndMapOptions(
+                      allData,
+                      values,
+                      "strProductCategory"
+                    )}
                     value={values?.subCategory}
                     label="Sub Category"
                     onChange={(valueOption) => {
                       setFieldValue("subCategory", valueOption || "");
+                      setFieldValue("skuName", "");
+                      setFieldValue("brandName", "");
                       onFilterHandler(
                         allData,
                         { ...values, subCategory: { ...valueOption } },
@@ -487,11 +497,16 @@ function Form() {
                 <div className="col-lg-2">
                   <NewSelect
                     name="skuName"
-                    options={filterType?.skuList || []}
+                    options={filterAndMapOptions(
+                      allData,
+                      values,
+                      "strProductSku"
+                    )}
                     value={values?.skuName}
                     label="SKU Name"
                     onChange={(valueOption) => {
                       setFieldValue("skuName", valueOption || "");
+                      setFieldValue("brandName", "");
                       onFilterHandler(
                         allData,
                         { ...values, skuName: { ...valueOption } },
@@ -506,7 +521,11 @@ function Form() {
                 <div className="col-lg-2">
                   <NewSelect
                     name="brandName"
-                    options={filterType?.brandList || []}
+                    options={filterAndMapOptions(
+                      allData,
+                      values,
+                      "strProductBrand"
+                    )}
                     value={values?.brandName}
                     label="Brand Name"
                     onChange={(valueOption) => {
