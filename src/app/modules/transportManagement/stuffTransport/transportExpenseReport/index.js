@@ -77,7 +77,7 @@ export default function TransportExpenseReport() {
     } else if (reportTypeId === 6) {
       requestUrl = `/mes/VehicleLog/GetFuelCostByEmployee?dteFromDate=${values?.fromDate}&dteToDate=${values?.toDate}`;
     }else if (reportTypeId === 7) {
-      requestUrl = `/mes/VehicleLog/GetBookingStandByVehicleStatus?fromDate=${values?.fromDate}&todate=${values?.toDate}&adminStatus=${values?.status?.value}`;
+      requestUrl = `/mes/VehicleLog/GetBookingStandByVehicleStatus?fromDate=${values?.fromDate}&todate=${values?.toDate}&adminStatus=${values?.status?.value}&adminEnroll=${profileData?.employeeId}`;
     }
     if (requestUrl) getRowData(requestUrl);
   };
