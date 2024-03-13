@@ -7,6 +7,8 @@ import Loading from "../../../../_helper/_loading";
 import { _todayDate } from "../../../../_helper/_todayDate";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import Form from "./form";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import { toast } from "react-toastify";
 
 const initData = {
   sbu: "",
@@ -40,6 +42,9 @@ export default function CreateInventoryLoanForm({ loanType }) {
   const selectedBusinessUnit = useSelector((state) => {
     return state.authData.selectedBusinessUnit;
   }, shallowEqual);
+
+  const [availableStock, getAvailableStock] = useAxiosGet();
+
 
   const [, saveData, saveDataLoader] = useAxiosPost()
   const location = useLocation();
@@ -83,6 +88,10 @@ export default function CreateInventoryLoanForm({ loanType }) {
         intLoanId: 0,
       };
       if(values?.createType === 1){
+        if(!availableStock || availableStock <= 0){
+          return toast.warn("Stock is unavailable!");
+      }
+
         saveData(`/wms/InventoryLoan/CreateLoan`, payload, cb, true)  //api change order by zia bhai
       }else{
         saveData(`/wms/InventoryLoan/CreateLoan`, payload, cb, true)  //api change order by zia bhai
@@ -109,6 +118,7 @@ export default function CreateInventoryLoanForm({ loanType }) {
         prId={2}
         type={params?.type}
         location={location}
+        getAvailableStock={getAvailableStock}
       />
     </IForm>
   );
