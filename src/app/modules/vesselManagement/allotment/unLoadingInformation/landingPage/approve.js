@@ -66,6 +66,7 @@ export default function WarehouseApproveFrom({
   levelOfApprove,
 }) {
   const [rates, getRates, loading] = useAxiosGet();
+  const [isTruckToDampDayByDay, getIsTruckToDampDayByDay] = useAxiosGet();
 
   const {
     profileData: { accountId: accId, userId },
@@ -104,6 +105,9 @@ export default function WarehouseApproveFrom({
         : "";
 
     getRates(URL, (resData) => {});
+    getIsTruckToDampDayByDay(
+      `/tms/LigterLoadUnload/IsDayByDayTruckToDumpDelivery?shipPointId=${singleItem?.shipPointId}`
+    );
   }, []);
 
   const approveSubmitHandler = (values) => {
@@ -718,7 +722,10 @@ export default function WarehouseApproveFrom({
                                 );
                               }}
                               disabled={
-                                levelOfApprove === "third" ? true : false
+                                levelOfApprove === "third" ||
+                                isTruckToDampDayByDay
+                                  ? true
+                                  : false
                               }
                             />
                           </div>
@@ -743,7 +750,10 @@ export default function WarehouseApproveFrom({
                                 );
                               }}
                               disabled={
-                                levelOfApprove === "third" ? true : false
+                                levelOfApprove === "third" ||
+                                isTruckToDampDayByDay
+                                  ? true
+                                  : false
                               }
                             />
                           </div>

@@ -494,7 +494,7 @@ const BillbySupplierReportTable = () => {
                     show={mdalShow}
                     onHide={() => setModalShow(false)}
                   >
-                    {gridItem?.billType === 1 && (
+                    {[1].includes(gridItem?.billType ) && (
                       <SupplerInvoiceView
                         gridItem={gridItem}
                         laingValues={values}
