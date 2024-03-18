@@ -43,7 +43,7 @@ export function TableRow({ dataForBackCalculationCheck }) {
       {}
    );
    const [loading, setLoading] = useState(false);
-   const [status, setStatus] = useState({ value: true, label: 'Approved' });
+   const [status, setStatus] = useState();
 
    //paginationState
    const [pageNo, setPageNo] = React.useState(0);
