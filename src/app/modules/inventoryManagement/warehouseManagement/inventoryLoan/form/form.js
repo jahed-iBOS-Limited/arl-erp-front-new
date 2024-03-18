@@ -308,7 +308,7 @@ export default function _Form({
                             }`,
                             (data) => setFieldValue("itemRate", data)
                           );
-                          getAvailableStock(`/wms/InventoryTransaction/sprRuningQty?businessUnitId=${values?.sbu?.value}&whId=${values?.warehouse?.value}&itemId=${valueOption?.value}`)
+                          getAvailableStock(`/wms/InventoryTransaction/sprRuningQty?businessUnitId=${selectedBusinessUnit?.value}&whId=${values?.warehouse?.value}&itemId=${valueOption?.value}`)
                         } else {
                           setFieldValue("itemRate", "");
                         }
