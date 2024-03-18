@@ -339,7 +339,7 @@ export default function InternalLoan({ loanType }) {
                                                         data =>
                                                            setFieldValue('itemRate', data)
                                                      );
-                                                     getAvailableStock(`/wms/InventoryTransaction/sprRuningQty?businessUnitId=${values?.toBusinessUnit?.value}&whId=${values?.warehouse?.value}&itemId=${valueOption?.value}`)
+                                                     getAvailableStock(`/wms/InventoryTransaction/sprRuningQty?businessUnitId=${selectedBusinessUnit?.value}&whId=${values?.warehouse?.value}&itemId=${valueOption?.value}`)
 
                                                 } else {
                                                     setFieldValue("item", "");
