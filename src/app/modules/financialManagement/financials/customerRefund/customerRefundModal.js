@@ -1,28 +1,25 @@
 import { Form, Formik } from "formik";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ReactToPrint from "react-to-print";
 import {
-  Card,
-  CardBody,
-  CardHeader,
-  CardHeaderToolbar,
-  ModalProgressBar,
-} from "../../../../../../_metronic/_partials/controls";
-import { APIUrl } from "../../../../../App";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import Loading from "../../../../_helper/_loading";
-import { getMultipleFileView_Action } from "../../../../_helper/_redux/Actions";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import printIcon from "../../../../_helper/images/print-icon.png";
+    Card,
+    CardBody,
+    CardHeader,
+    ModalProgressBar
+} from "../../../../../_metronic/_partials/controls";
+import { APIUrl } from "../../../../App";
+import { _dateFormatter } from "../../../_helper/_dateFormate";
+import Loading from "../../../_helper/_loading";
+import { getMultipleFileView_Action } from "../../../_helper/_redux/Actions";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import printIcon from "../../../_helper/images/print-icon.png";
 
-export default function CustomerViewModal({
-  gridItem,
-  landingValues,
-  isView = true,
+export default function CustomerRefundModal({
+    billRegisterId
 }) {
-  const [disabled, setDisabled] = useState(false);
   const [singleData, getSingleData, loadingSingleData] = useAxiosGet([]);
+  const [sbu, getSbu, loadingSbu] = useAxiosGet([]);
   const printRef = useRef();
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return {
@@ -32,21 +29,19 @@ export default function CustomerViewModal({
   });
   const dispatch = useDispatch();
 
+
   useEffect(() => {
     getSingleData(
-      `/fino/OthersBillEntry/CustomerRefundGetById?billId=${gridItem?.billRegisterId}`
+      `/fino/OthersBillEntry/CustomerRefundGetById?billId=${billRegisterId}`
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [gridItem]);
+    getSbu(`/hcm/HCMDDL/GetSBUDDL?AccountId=${profileData?.accountId}&BusineessUnitId=${selectedBusinessUnit?.value}`)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [billRegisterId,profileData,selectedBusinessUnit]);
   return (
     <>
       <Formik
         enableReinitialize={true}
-        initialValues={{
-          ...landingValues,
-          // approveAmount: singleData?.monTotalAmount,
-          // remarks: singleData?.strRemarks,
-        }}
+        
       >
         {({
           handleSubmit,
@@ -62,18 +57,7 @@ export default function CustomerViewModal({
             <Card>
               {true && <ModalProgressBar />}
               <CardHeader title={"Customer Refund View"}>
-                <CardHeaderToolbar>
-                  {!isView && (
-                    <button
-                      onClick={handleSubmit}
-                      className="btn btn-primary ml-2"
-                      type="submit"
-                      isDisabled={disabled}
-                    >
-                      Save
-                    </button>
-                  )}
-                </CardHeaderToolbar>
+                
               </CardHeader>
               <CardBody>
                 <Form
@@ -156,8 +140,9 @@ export default function CustomerViewModal({
                         </div>
                         <div className="row mt-3">
                           <div className="col-3">
+                            {console.log(sbu)}
                             <p>
-                              <b>SBU: </b> {landingValues?.sbu?.label}
+                              <b>SBU: </b> {sbu[0]?.label}
                             </p>
                           </div>
 

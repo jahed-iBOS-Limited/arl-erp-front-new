@@ -2,8 +2,9 @@ import { Form, Formik } from "formik";
 import React, { useEffect } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import InputField from "../../../_helper/_inputField";
+import { _monthFirstDate } from "../../../_helper/_monthFirstDate";
 import NewSelect from "../../../_helper/_select";
-import { _todayDate } from "../../../_helper/_todayDate";
+import { _getPreviousDate } from "../../../_helper/_todayDate";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import IForm from "./../../../_helper/_form";
 import Loading from "./../../../_helper/_loading";
@@ -16,13 +17,15 @@ import StandByVehicleStatus from "./reportTable/standByVehicleStatus";
 import VehicleWiseFuelCostTbl from "./reportTable/vehicleWiseFuelCostTbl";
 const initData = {
   reportType: "",
-  fromDate: "",
-  toDate: _todayDate(),
+  fromDate: _monthFirstDate(),
+  toDate: _getPreviousDate(),
   vehicle: "",
   fuelStation: "",
   driver: "",
   status: "",
 };
+console.log("firstDate",_monthFirstDate());
+console.log("previous",_getPreviousDate());
 export default function TransportExpenseReport() {
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
@@ -74,7 +77,7 @@ export default function TransportExpenseReport() {
     } else if (reportTypeId === 6) {
       requestUrl = `/mes/VehicleLog/GetFuelCostByEmployee?dteFromDate=${values?.fromDate}&dteToDate=${values?.toDate}`;
     }else if (reportTypeId === 7) {
-      requestUrl = `/mes/VehicleLog/GetBookingStandByVehicleStatus?fromDate=${values?.fromDate}&todate=${values?.toDate}&adminStatus=${values?.status?.value}`;
+      requestUrl = `/mes/VehicleLog/GetBookingStandByVehicleStatus?fromDate=${values?.fromDate}&todate=${values?.toDate}&adminStatus=${values?.status?.value}&adminEnroll=${profileData?.employeeId}`;
     }
     if (requestUrl) getRowData(requestUrl);
   };
@@ -272,6 +275,7 @@ export default function TransportExpenseReport() {
                   {[7]?.includes(values?.reportType?.value) ? (
                     <StandByVehicleStatus
                       rowData={rowData}
+                      getRowData={getRowData}
                       values={values}
                     />
                   ) : null}

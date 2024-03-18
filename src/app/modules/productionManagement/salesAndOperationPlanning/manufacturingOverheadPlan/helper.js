@@ -10,10 +10,10 @@ export const getYearDDL = async (accId, buId, plantId, setter) => {
   } catch (error) {}
 };
 
-export const getPlantDDL = async (accId, buId, setter) => {
+export const getPlantDDL = async (accId,userId, buId, setter) => {
   try {
     const res = await axios.get(
-      `/mes/MesDDL/GetPlantDDL?AccountId=${accId}&BusinessUnitId=${buId}`
+      `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&OrgUnitTypeId=7`
     );
     setter(res?.data);
   } catch (error) {}

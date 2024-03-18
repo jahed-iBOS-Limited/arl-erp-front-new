@@ -1,107 +1,149 @@
 import React, { useState } from "react";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import Loading from "../../../../_helper/_loading";
+import { shallowEqual, useSelector } from "react-redux";
+import NewIcon from "../../../../_helper/_helperIcons/newIcon";
 import IViewModal from "../../../../_helper/_viewModal";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import CommonTable from "../../../../_helper/commonTable";
+import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import StandByApprovalModal from "../modalView/standByApprovalModal";
 
-export default function StandByVehicleStatus({ rowData, values }) {
-  const [isShowModal, setIsShowModal] = useState(false);
-  const [detailsData, getDetailsData, loading, setDetailsData] = useAxiosGet();
+export default function StandByVehicleStatus({ rowData, values, getRowData }) {
+  const [isShowApproveModal, setShowApproveModal] = useState(false);
+  const [singleData, setSingleData] = useState({});
+  const [, saveReject] = useAxiosPost();
+  const {
+    profileData: { userId },
+  } = useSelector((state) => state?.authData, shallowEqual);
+  const headersData = [
+    "SL",
+    "Employee Name",
+    "Enroll",
+    "Designation",
+    "Email Address",
+    "Job Station",
+    "Start Time",
+    "End Time",
+    "Destination",
+    "Purpose(In Details)",
+    "Total Person",
+    "Driver Name and Mobile",
+    "Status",
+    "Action",
+  ];
+
   return (
     <div>
-      {loading && <Loading />}
       <h4 className="text-center mt-5">
         <strong>Stand By Vehicle Status</strong>
       </h4>
-      <table className="table table-striped table-bordered bj-table bj-table-landing">
-        <thead>
-          <tr>
-            <th>SL</th>
-            <th>Employee Name</th>
-            <th>Enroll</th>
-            <th>Designation</th>
-            <th>Email Address</th>
-            <th>Job Station</th>
-            <th>Start Time</th>
-            <th>End Time</th>
-            <th>Destination</th>
-            <th>Purpose(In Details)</th>
-            <th>Total Person</th>
-            <th>Status</th>
-          </tr>
-        </thead>
+      <CommonTable headersData={headersData}>
         <tbody>
           {rowData?.map((item, index) => (
             <tr key={index}>
-              <td>{index + 1}</td>
-              <td>{item?.employeeName}</td>
-              <td className="">
-                { item?.employeeId}
-              </td>
-              <td className="">
-                {item?.designation}
-              </td>
-              <td className="">
-                {item?.officeMail}
-              </td>
-              
-              <td className="">
-                {item?.bookingTime}
-              </td>
-              <td className="">
-                {item?.tourTime}
-              </td>
-              <td className="">
-                {item?.designation}
-              </td>
-              <td className="">
-                {item?.purpose}
-              </td>
-              <td className="">
-                {item?.numberOfPerson}
-              </td>
-              <td className="">
+              <td className="text-center">{index + 1}</td>
+              <td className="text-center">{item?.employeeName}</td>
+              <td className="text-center">{item?.employeeId}</td>
+              <td className="text-center">{item?.designation}</td>
+              <td className="text-center">{item?.officeMail}</td>
+
+              <td className="text-center">{item?.workplace}</td>
+              <td className="text-center">{item?.bookingTime}</td>
+              <td className="text-center">{item?.tourTime}</td>
+              <td className="text-center">{item?.tripToAddress}</td>
+              <td className="text-center">{item?.purpose}</td>
+              <td className="text-center">{item?.numberOfPerson}</td>
+              <td className="text-center">
                 <span>{item?.driverName}</span>
-                <span>{item?.driverContact}</span>
+                <span>({item?.driverContact})</span>
               </td>
-              <td className="">
-               <strong style={{color:item?.adminStatus==="Approved" ? "green" : item?.adminStatus === "Reject" ? "red":"black"}}>{item?.adminStatus}</strong>
-              </td> 
-             
+              <td className="text-center">
+                <strong
+                  style={{
+                    color:
+                      item?.adminStatus === "Approved"
+                        ? "green"
+                        : item?.adminStatus === "Rejected"
+                        ? "red"
+                        : "black",
+                  }}
+                >
+                  {item?.adminStatus}
+                </strong>
+              </td>
+              <td>
+                {item?.adminStatus === "Pending" ? (
+                  <>
+                    <span
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "5px",
+                      }}
+                    >
+                      <span
+                        onClick={() => {
+                          setShowApproveModal(true);
+                          setSingleData(item);
+                        }}
+                      >
+                        {" "}
+                        <NewIcon
+                          title="Approve"
+                          customStyles={{ color: "green", fontSize: "14px" }}
+                          iconName="fas fa-check-circle"
+                        />
+                      </span>{" "}
+                      <span
+                        onClick={() =>
+                          saveReject(
+                            `/mes/VehicleLog/ApproveBookingStandByVehicle`,
+                            {
+                              isAdminApprove: false,
+                              bookingId: item?.bookingId,
+                              driverId: 0,
+                              driverName: "",
+                              vehicleId: "",
+                              vehicleName: "",
+                              approvedBy: userId,
+                            },
+                            () => {
+                              getRowData(
+                                `/mes/VehicleLog/GetBookingStandByVehicleStatus?fromDate=${values?.fromDate}&todate=${values?.toDate}&adminStatus=${values?.status?.value}`
+                              );
+                            },
+                            true
+                          )
+                        }
+                      >
+                        <NewIcon
+                          title="Reject"
+                          customStyles={{ color: "red", fontSize: "14px" }}
+                          iconName="fa fa-times-circle closeBtn"
+                        />
+                      </span>
+                    </span>
+                  </>
+                ) : (
+                  ""
+                )}
+              </td>
             </tr>
           ))}
         </tbody>
-      </table>
-      <IViewModal
-        title={"Fuel Station Name"}
-        show={isShowModal}
-        onHide={() => setIsShowModal(false)}
-      >
-        <table className="table table-striped table-bordered bj-table bj-table-landing">
-          <thead>
-            <tr>
-              <th>SL</th>
-              <th>LPG Gas</th>
-              <th>Diesel</th>
-              <th>Octane </th>
-              <th>Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            {detailsData?.map((item, index) => (
-              <tr key={index}>
-                <td>{index + 1}</td>
-                <td className="">{item?.lpg}</td>
-                <td className="">{item?.diesel}</td>
-                <td className="">{item?.octane} </td>
-                <td className="text-center">
-                  {_dateFormatter(item?.dteTripDate)}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </IViewModal>
+      </CommonTable>
+
+      {isShowApproveModal && (
+        <IViewModal
+          show={isShowApproveModal}
+          onHide={() => setShowApproveModal(false)}
+        >
+          <StandByApprovalModal
+            singleData={singleData}
+            getRowData={getRowData}
+            setShowApproveModal={setShowApproveModal}
+            parentValues={values}
+          />
+        </IViewModal>
+      )}
     </div>
   );
 }

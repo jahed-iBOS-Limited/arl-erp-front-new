@@ -94,17 +94,17 @@ export default function DriverTripInfoTbl({ rowData }) {
                   {item?.lpeg + item?.diesel + item?.octane}
                 </td>
                 <td className="text-center">
-                  <div style={{display:"flex", gap:"4px"}}>
+                  <div style={{display:"flex", gap:"4px",padding:"0px 8px"}}>
                   <span
                     onClick={() => {
                       setSingleData(item);
                       setIsShowModal(true);
                     }}
                   >
-                    <IView />
+                    <IView styles={{fontSize:"15px"}}/>
                   </span>
                   <NewIcon
-                  styles={{cursor:"pointer"}}
+                  customStyles={{cursor:"pointer",fontSize:"15px"}}
                   title = "View All Attachment"
                   clickHandler={()=>{
                     setShowAttachmentModal(true)

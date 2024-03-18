@@ -53,3 +53,13 @@ export const _getCurrentMonthYearForInput = () => {
   const month = (now.getMonth() + 1).toString().padStart(2, '0');
   return `${year}-${month}`;
 };
+
+export const _getPreviousDate=()=> {
+  const today = new Date();
+  const previousDate = new Date(today.getTime() - 24 * 60 * 60 * 1000);
+
+  const day = ('0' + previousDate.getDate()).slice(-2);
+  const month = ('0' + (previousDate.getMonth() + 1)).slice(-2); 
+  const year = previousDate.getFullYear();
+  return `${year}-${month}-${day}`
+}
