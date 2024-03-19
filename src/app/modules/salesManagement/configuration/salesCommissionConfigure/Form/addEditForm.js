@@ -59,7 +59,7 @@ export default function SalesCommissionConfigureEntryForm() {
 
     const commonRate = values?.commonRate || "";
 
-    if ([14, 16, 20].includes(commissionTypeId)) {
+    if ([14, 16, 20, 23].includes(commissionTypeId)) {
       const newArray = [];
       let currentDate = new Date(values?.fromDate);
       let endDate = new Date(values?.toDate);
