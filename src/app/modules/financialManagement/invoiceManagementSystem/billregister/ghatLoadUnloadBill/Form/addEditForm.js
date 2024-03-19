@@ -56,6 +56,9 @@ export default function GhatLoadUnloadBill() {
   };
 
   const saveHandler = async (values, cb) => {
+    if (uploadedImage?.length < 1) {
+      return toast.warn("Please attach a document");
+    }
     try {
       const selectedRow = gridData?.filter((item) => item?.isSelected);
 

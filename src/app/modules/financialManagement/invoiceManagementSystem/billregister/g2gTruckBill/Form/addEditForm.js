@@ -50,6 +50,9 @@ export default function G2GTruckBill() {
   };
 
   const saveHandler = async (values, cb) => {
+    if (uploadedImage?.length < 1) {
+      return toast.warn("Please attach a document");
+    }
     try {
       const selectedRow = gridData?.filter((item) => item?.checked);
 
