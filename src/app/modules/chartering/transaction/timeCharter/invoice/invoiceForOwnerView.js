@@ -10,6 +10,8 @@ import {
 import { getOwnerBankInfoDetailsById } from "../helper";
 import { BankInfoComponent } from "./bankInfoComponent";
 import "./style.css";
+import { ExportPDF } from "../../../_chartinghelper/exportPdf";
+import Loading from "../../../../_helper/_loading";
 
 const toWords = new ToWords({
   localeCode: "en-US",
@@ -27,6 +29,7 @@ export default function InvoiceForOwnerView({
   rowData,
 }) {
   const [bankInfoData, setBankInfoData] = useState();
+  const [loading, setLoading] = useState(false);
   const { values } = formikprops;
 
   /* Bank Info & Prev Hire API */
@@ -48,6 +51,7 @@ export default function InvoiceForOwnerView({
 
   return (
     <>
+      {loading && <Loading />}
       <div className="d-flex justify-content-end my-2">
         <ReactToPrint
           pageStyle={
@@ -61,8 +65,20 @@ export default function InvoiceForOwnerView({
           )}
           content={() => printRef.current}
         />
+        <button
+          className="btn btn-primary px-3 py-2 mr-2 ml-3"
+          type="button"
+          onClick={() => {
+            ExportPDF(
+              `${invoiceHireData?.vesselName} & V${invoiceHireData?.voyageNo} ${values?.transactionName?.label} STATEMENT`,
+              setLoading
+            );
+          }}
+        >
+          Export PDF
+        </button>
       </div>
-      <div ref={printRef} className="p-4 transactionInvoice">
+      <div ref={printRef} className="p-4 transactionInvoice"  id="pdf-section">
         <div className="timeCharterLogo">
           <img src={akijShippingLogo} alt={akijShippingLogo} />
         </div>
@@ -130,8 +146,9 @@ export default function InvoiceForOwnerView({
             <div className="headerWrapper">
               <div className="headerKey">DATE OF INVOICE :</div>
               <div className="headerValue">
-                {invoiceHireData?.invoiceDate 
-                // || moment(invoiceHireData?.cpdtd).format("DD-MMM-YYYY")
+                {
+                  invoiceHireData?.invoiceDate
+                  // || moment(invoiceHireData?.cpdtd).format("DD-MMM-YYYY")
                 }
               </div>
               {/* <div className="headerValue">
