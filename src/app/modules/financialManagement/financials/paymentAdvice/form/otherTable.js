@@ -1,7 +1,7 @@
 import React from "react";
+import { toast } from "react-toastify";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import IView from "../../../../_helper/_helperIcons/_view";
-import { toast } from "react-toastify";
 
 export default function OtherTableForBillType({
   values,
@@ -54,6 +54,9 @@ export default function OtherTableForBillType({
               <th style={{ minWidth: "70px" }}>Description</th>
               <th style={{ minWidth: "70px" }}>Audit Date</th>
               <th style={{ minWidth: "130px" }}>Payee</th>
+              {values?.billType?.value === 1 && (
+                <th style={{ minWidth: "70px" }}>Approved Amount</th>
+              )}
               <th style={{ minWidth: "70px" }}>TDS</th>
               <th style={{ minWidth: "70px" }}>VDS</th>
               <th style={{ minWidth: "70px" }}>Amount</th>
@@ -120,6 +123,12 @@ export default function OtherTableForBillType({
                     {_dateFormatter(item?.dteAuditDate)}
                   </td>
                   <td style={{ fontSize: 11 }}>{item?.strPayee}</td>
+                  {values?.billType?.value === 1 && (
+                    <td className='text-center' style={{ fontSize: 11 }}>
+                      {item?.approvedAmount}
+                      {console.log("approvedAmount",item?.approvedAmount)}
+                    </td>
+                  )}
                   <td>
                     <input
                       style={{ width: 70, height: 22 }}
