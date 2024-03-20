@@ -105,6 +105,7 @@ export const getPaymentAdviceIndoPagination = async (
         paymentDate: _todayDate(),
         numTds: numTds,
         numVds: numVds,
+        approvedAmount : [1]?.includes(+billType)?monAmount : null
       };
     });
     setter(newdata);
@@ -238,3 +239,13 @@ export const getProductionPlanning = async (
     console.log(error.message);
   }
 };
+
+export const sumSelectedValue = (arr)=>{
+  return  arr.reduce((prev, item) => {
+    if (item.isSelect) {
+        return prev + item.monAmount;
+    } else {
+        return prev;
+    }
+}, 0);
+}
