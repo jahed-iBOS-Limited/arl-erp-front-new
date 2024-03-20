@@ -29,7 +29,7 @@ export const clickSaveBtn = (
   setData,
   setReferenceId
 ) => {
-  if(item?.value===4 || item?.value===9 || item?.value===10){
+  if(item?.value===3||item?.value===4 || item?.value===9 || item?.value===10){
     if (
       !item?.dueDate ||
       !item?.serviceReceiveDate ||
