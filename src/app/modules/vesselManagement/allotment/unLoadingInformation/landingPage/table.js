@@ -295,16 +295,20 @@ const UnLoadingInformationTable = () => {
                                 </div>
                               </td>
                               <td className="text-center">
-                                <span>
-                                  <IApproval
-                                    title="Truck to Damp Delivery"
-                                    onClick={() => {
-                                      setSingleData(item);
-                                      setShow(true);
-                                      setLevelOfApprove("fourth");
-                                    }}
-                                  />
-                                </span>
+                                {/* {item?.isTruckToDampDayByDay ? ( */}
+                                  <span>
+                                    <IApproval
+                                      title="Truck to Damp Delivery"
+                                      onClick={() => {
+                                        setSingleData(item);
+                                        setShow(true);
+                                        setLevelOfApprove("fourth");
+                                      }}
+                                    />
+                                  </span>
+                                {/* ) : (
+                                  ""
+                                )} */}
                               </td>
                               <td className="text-center">
                                 {!item?.isInventoryApprove ? (

@@ -40,6 +40,7 @@ export default function InternalLoan({ loanType }) {
     const [warehouseDDL, getWarehouseDDL, warehouseDDLloader] = useAxiosGet();
     const [partnerDDL, getpartnerDDl, partnerDDLloader] = useAxiosGet();
     const [referenceDDl, getReferenceDDL, referenceDDLloader] = useAxiosGet();
+    const [availableStock, getAvailableStock] = useAxiosGet();
 
     const saveHandler = (values, cb) => {
         if (transactionType === 1) {
@@ -60,6 +61,9 @@ export default function InternalLoan({ loanType }) {
             }
             if (!values?.quantity) {
                 return toast.warn("Quantity is required")
+            }
+            if(!availableStock || availableStock <= 0){
+                return toast.warn("Stock is unavailable!");
             }
             const payload = {
                 intAccountId: profileData?.accountId,
@@ -335,6 +339,7 @@ export default function InternalLoan({ loanType }) {
                                                         data =>
                                                            setFieldValue('itemRate', data)
                                                      );
+                                                     getAvailableStock(`/wms/InventoryTransaction/sprRuningQty?businessUnitId=${selectedBusinessUnit?.value}&whId=${values?.warehouse?.value}&itemId=${valueOption?.value}`)
 
                                                 } else {
                                                     setFieldValue("item", "");

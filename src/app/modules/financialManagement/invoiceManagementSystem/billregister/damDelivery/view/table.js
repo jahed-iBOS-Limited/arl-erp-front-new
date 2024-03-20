@@ -1,17 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useState } from "react"; 
 import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
+import { shallowEqual, useSelector } from "react-redux"; 
 import ICard from "../../../../../_helper/_card";
 import Loading from "../../../../../_helper/_loading";
-import { getDownlloadFileView_Action } from "../../../../../_helper/_redux/Actions";
+// import { getDownlloadFileView_Action } from "../../../../../_helper/_redux/Actions";
 import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet";
 
 function ViewDamDeliveryBill({ billRegisterId }) {
-  const [loading, setLoading] = useState(false);
-  const dispatch = useDispatch();
+  const [loading, ] = useState(false);
+  // const dispatch = useDispatch();
   // get profile data from store
   const {
     profileData: { accountId: accId },
@@ -20,11 +18,11 @@ function ViewDamDeliveryBill({ billRegisterId }) {
     return state.authData;
   }, shallowEqual);
 
-  const [gridData, getGridData, loadingGridData] = useAxiosGet();
+  const [, getGridData, loadingGridData] = useAxiosGet();
 
   useEffect(() => {
     // const url = `/tms/LigterLoadUnload/GetLighterDumpToTruckDeliveryDetaills?lighterVesselId=2012&shipPointId=272&FromDate=2023-12-01&ToDate=2023-12-31&isDumpToTruckApprove=0`;
-    getGridData("");
+    // getGridData("");
   }, [accId, buId]);
 
   return (
@@ -53,7 +51,7 @@ function ViewDamDeliveryBill({ billRegisterId }) {
                   </tr>
                 </thead>
                 <tbody>
-                  {gridData?.map((item, index) => {
+                  {/* {gridData?.map((item, index) => {
                     return (
                       <>
                         <tr key={index}>
@@ -103,7 +101,7 @@ function ViewDamDeliveryBill({ billRegisterId }) {
                         </tr>
                       </>
                     );
-                  })}
+                  })} */}
                 </tbody>
               </table>
             </form>

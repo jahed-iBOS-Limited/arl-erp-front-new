@@ -33,7 +33,7 @@ const SalesCommissionConfigureFormTable = ({ obj }) => {
       {[15, 19, 22].includes(values?.commissionType?.value) && (
         <TableOne obj={{ selectedAll, allSelect, rowData, rowDataHandler }} />
       )}
-      {[14, 16, 20].includes(values?.commissionType?.value) && (
+      {[14, 16, 20, 23].includes(values?.commissionType?.value) && (
         <TableTwo obj={{ selectedAll, allSelect, rowData, rowDataHandler }} />
       )}
       {[17, 18].includes(values?.commissionType?.value) && (
