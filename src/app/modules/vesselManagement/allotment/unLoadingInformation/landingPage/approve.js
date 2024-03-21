@@ -183,6 +183,7 @@ export default function WarehouseApproveFrom({
       shipPointId: singleItem?.shipPointId,
     };
     const payloadThree = {
+      billTypeId: 32,
       rowId: values?.rowId,
       voyageNo: values?.voyageNo,
       lighterVesselId: values?.lighterVesselId,
