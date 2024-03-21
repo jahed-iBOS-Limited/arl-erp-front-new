@@ -57,7 +57,6 @@ export const saveVehicle = (payload, cb, setDisabled) => () => {
       }
     })
     .catch((err) => {
-     
       toast.error(err?.response?.data?.message);
       setDisabled(false);
     });
@@ -84,17 +83,33 @@ export const saveEditedVehicleUnit = (payload, setDisabled) => () => {
     });
 };
 // action for get grid data
-export const getVehicleGridData = (accId, buId,pageNo,pageSize,setLoading,search) => (dispatch) => {
+export const getVehicleGridData = (
+  accId,
+  buId,
+  pageNo,
+  pageSize,
+  setLoading,
+  shipPointId,
+  ownerTypeId,
+  search
+) => (dispatch) => {
   setLoading(true);
   return requestFromServer
-    .getGridData(accId,pageNo,pageSize, buId,search)
+    .getGridData(
+      accId,
+      pageNo,
+      pageSize,
+      buId,
+      search,
+      shipPointId,
+      ownerTypeId
+    )
     .then((res) => {
       setLoading(false);
       return dispatch(slice.SetGridData(res.data));
     })
     .catch((err) => {
       setLoading(false);
-     
     });
 };
 export const GetTransportModeDDLAction = () => (dispatch) => {
@@ -122,7 +137,10 @@ export const getSingleById = (id) => (dispatch) => {
         const item = res.data[0];
         const data = {
           ...item,
-          capacityInBag: (item?.capacityInBag == null ? "" : parseFloat(item?.capacityInBag) ?? ""),
+          capacityInBag:
+            item?.capacityInBag == null
+              ? ""
+              : parseFloat(item?.capacityInBag) ?? "",
           ownerType: {
             value: item?.ownerTypeId,
             label: item?.ownerType,
@@ -152,13 +170,15 @@ export const getSingleById = (id) => (dispatch) => {
             label: item?.vehicleCapacityName,
           },
           contact: item?.driverContactNo,
+          shipPoint: {
+            value: item?.shippointId,
+            label: item?.shippointName,
+          },
         };
         return dispatch(slice.SetDataById(data));
       }
     })
-    .catch((err) => {
-     
-    });
+    .catch((err) => {});
 };
 // set single store empty
 export const setVehicleUnitSingleEmpty = () => async (dispatch) => {

@@ -89,6 +89,7 @@ export default function _Form({
   vehicleCapacityDDL,
   accountId,
   id,
+  shipPointDDL,
 }) {
   const [isShowModal, setIsShowModal] = useState(false);
   const loadUserList = (v) => {
@@ -128,6 +129,19 @@ export default function _Form({
             {/* {disableHandler(!isValid)} */}
             <Form className="form form-label-right global-form">
               <div className="form-group row">
+                <div className="col-lg-3">
+                  <NewSelect
+                    name="shipPoint"
+                    options={shipPointDDL || []}
+                    value={values?.shipPoint}
+                    label="Ship Point"
+                    onChange={(valueOption) => {
+                      setFieldValue("shipPoint", valueOption);
+                    }}
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
                 <div className="col-lg-3">
                   <NewSelect
                     name="vehicleType"
@@ -322,30 +336,29 @@ export default function _Form({
                     // disabled={isEdit}
                   />
                 </div>
-                { values.ownerType.label === "Company" && 
+                {values.ownerType.label === "Company" && (
                   <>
-                  
-                  <div className="col-lg-3">
-                  <IInput
-                    type="text"
-                    value={values?.fuelAllowanceLocalKM ?? "" }
-                    label="Fuel Allowance (Local KM)"
-                    name="fuelAllowanceLocalKM"
-                    // disabled={isEdit}
-                  />
-                </div>
-                  <div className="col-lg-3">
-                  <IInput
-                    type="text"
-                    value={values?.fuelAllowanceOuterKM ?? ""}
-                    label="Fuel Allowance (Outer KM)"
-                    name="fuelAllowanceOuterKM"
-                    // disabled={isEdit}
-                  />
-                </div>
-                </>
-                }
-                 <div className="col-lg-3">
+                    <div className="col-lg-3">
+                      <IInput
+                        type="text"
+                        value={values?.fuelAllowanceLocalKM ?? ""}
+                        label="Fuel Allowance (Local KM)"
+                        name="fuelAllowanceLocalKM"
+                        // disabled={isEdit}
+                      />
+                    </div>
+                    <div className="col-lg-3">
+                      <IInput
+                        type="text"
+                        value={values?.fuelAllowanceOuterKM ?? ""}
+                        label="Fuel Allowance (Outer KM)"
+                        name="fuelAllowanceOuterKM"
+                        // disabled={isEdit}
+                      />
+                    </div>
+                  </>
+                )}
+                <div className="col-lg-3">
                   <IInput
                     type="number"
                     value={values?.capacityInBag ?? ""}
