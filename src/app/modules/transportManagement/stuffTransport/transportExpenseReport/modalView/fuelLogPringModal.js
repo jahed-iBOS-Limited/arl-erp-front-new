@@ -100,7 +100,7 @@ export default function FuelLogPringModal({ item, values }) {
                 const totalRouteCost = totalFuelCost + item?.numTollAmount;
                 const totalCost = totalRouteCost + item?.otherExpanse + item?.daAmount;
                 const perKMCost = totalRouteCost / (item?.totalKM || 1);
-                const personalCostDeduction = (totalPersonalKM || 0)  * (perKMCost || 0);
+                const personalCostDeduction =  ( (totalPersonalKM - item?.numCeilingKM>0 && totalPersonalKM - item?.numCeilingKM) || 0) * (perKMCost || 0);
                 const netPayable =
                   totalCost - item?.fuelCredit - personalCostDeduction;
 
