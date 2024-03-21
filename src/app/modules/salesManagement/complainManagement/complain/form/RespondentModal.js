@@ -1,5 +1,5 @@
 import { Form, Formik } from "formik";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import IForm from "../../../../_helper/_form";
 import Loading from "../../../../_helper/_loading";
 import NewSelect from "../../../../_helper/_select";
@@ -8,6 +8,7 @@ import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 export default function RespondentModal({ title, setter, onHide,respondedBuId}) {
   const [districtDDL, getDistrictDDL, loadDistrictDDL] = useAxiosGet();
   const [thanaDDL, getThanaDDL] = useAxiosGet();
+  const [searchValue, setSearchValue] = useState("");
   const [
     territoryDDL,
     getTerritoryDDL,
@@ -22,7 +23,7 @@ export default function RespondentModal({ title, setter, onHide,respondedBuId}) 
   ] = useAxiosGet();
   const [rowDta, getRowData, loadRowData] = useAxiosGet();
   
-
+  const filteredRowData = rowDta?.filter((item)=>item?.businessPartnerName?.toLowerCase().includes(searchValue?.toLowerCase())||item?.retailerName?.toLowerCase().includes(searchValue?.toLowerCase()) || item?.retailerId?.toString().includes(searchValue) || item?.businessPartnerCode?.toString().includes(searchValue))
   useEffect(() => {
     getDistrictDDL(
       "/oms/TerritoryInfo/GetDistrictDDL?countryId=18&divisionId=0"
@@ -54,12 +55,6 @@ export default function RespondentModal({ title, setter, onHide,respondedBuId}) 
         territory: {value:0,label:"All"},
         partner:{value:0,label:"All"}
       }}
-      // validationSchema={{}}
-      // onSubmit={(values, { setSubmitting, resetForm }) => {
-      //   saveHandler(values, () => {
-      //     resetForm(initData);
-      //   });
-      // }}
     >
       {({
         handleSubmit,
@@ -202,13 +197,47 @@ export default function RespondentModal({ title, setter, onHide,respondedBuId}) 
                   </div>
                 )}
               </div>
+              {/* search element */}
+               <div style={{width:"25%"}}>
+                  <div
+                    className={"input-group"}
+                  >
+                    <input
+                      type="text"
+                      className="form-control"
+                      placeholder="Serach Customer Name"
+                      aria-describedby="basic-addon2"
+                      onChange={(e) => {
+                        setSearchValue(e.target.value.trimStart())
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.keyCode === 13) {
+                          setSearchValue(e.target.value.trimStart())
+                        }
+                      }}
+                    />
+                    <div className="input-group-append">
+                      <button
+                        className="btn btn-outline-secondary"
+                        type="button"
+                        onClick={() => {
+                          setSearchValue(searchValue)
+                        }}
+                      >
+                        <i className="fas fa-search"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                
              <div className="loan-scrollable-table">
              <div className="scroll-table _table overflow-auto ">
-                <table className="table table-striped table-bordered global-table mt-3 ">
+                <table className="table table-striped one-column-sticky table-bordered global-table mt-3 ">
                   <thead>
                     <tr>
                       {title ==="Distributor " && <th style={{maxWidth:"130px"}}>{title} Code </th>}
                       <th>{title} Name </th>
+                      <th>{title} Code </th>
                       <th style={{maxWidth:"100px"}}>Contact No</th>
                       <th>Address</th>
                       <th style={{maxWidth:"100px"}}>Area</th>
@@ -216,8 +245,8 @@ export default function RespondentModal({ title, setter, onHide,respondedBuId}) 
                     </tr>
                   </thead>
                   <tbody>
-                    {rowDta?.length > 0 &&
-                      rowDta?.map((item, index) => (
+                    {filteredRowData?.length > 0 &&
+                      filteredRowData?.map((item, index) => (
                         <tr
                           key={index}
                           onClick={() => {
@@ -240,6 +269,9 @@ export default function RespondentModal({ title, setter, onHide,respondedBuId}) 
                          {title ==="Distributor " &&  <td>{item?.businessPartnerCode || ""}</td>}
                           <td>
                             {item?.businessPartnerName || item?.retailerName}
+                          </td>
+                          <td className="text-center">
+                            {item?.businessPartnerCode || item?.retailerId}
                           </td>
                           <td>
                             {item?.businessPartnerContact ||
