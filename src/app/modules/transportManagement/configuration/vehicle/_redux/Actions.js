@@ -174,6 +174,8 @@ export const getSingleById = (id) => (dispatch) => {
             value: item?.shippointId,
             label: item?.shippointName,
           },
+          fuelAllowanceLocalKM: item?.localStationKmpl,
+          fuelAllowanceOuterKM: item?.outStationKmpl,
         };
         return dispatch(slice.SetDataById(data));
       }
