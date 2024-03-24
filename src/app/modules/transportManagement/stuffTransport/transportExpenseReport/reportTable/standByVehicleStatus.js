@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
+import { _dateFormatterTwo } from "../../../../_helper/_dateFormate";
 import NewIcon from "../../../../_helper/_helperIcons/newIcon";
 import IViewModal from "../../../../_helper/_viewModal";
 import CommonTable from "../../../../_helper/commonTable";
@@ -20,6 +21,7 @@ export default function StandByVehicleStatus({ rowData, values, getRowData }) {
     "Designation",
     "Email Address",
     "Job Station",
+    "Tour Date",
     "Start Time",
     "End Time",
     "Destination",
@@ -46,6 +48,7 @@ export default function StandByVehicleStatus({ rowData, values, getRowData }) {
               <td className="text-center">{item?.officeMail}</td>
 
               <td className="text-center">{item?.workplace}</td>
+              <td className="text-center">{_dateFormatterTwo(item?.tourDate)}</td>
               <td className="text-center">{item?.bookingTime}</td>
               <td className="text-center">{item?.tourTime}</td>
               <td className="text-center">{item?.tripToAddress}</td>
