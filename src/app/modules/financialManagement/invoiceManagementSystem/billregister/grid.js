@@ -65,7 +65,6 @@ const GridData = ({
   const [selectedItemForPumpFooding, setSelectedItemForPumpFooding] = useState(
     null
   );
-  const[modal,setModal] = useState()
 
   // attachment save actions
   const saveHandler = async () => {
@@ -336,8 +335,8 @@ const GridData = ({
             {gridItem?.billType === 32 && (
               <ViewDamDeliveryBill billRegisterId={gridItem?.billRegisterId} />
             )}
-            {gridItem?.billType === 33   && (
-              <CustomerViewModal landingValues={values} gridItem={gridItem} setModal={setModal} />
+            {gridItem?.billType === 33 && (
+              <CustomerViewModal landingValues={values} gridItem={gridItem} />
             )}
           </IViewModal>
 

@@ -21,10 +21,10 @@ export default function CustomerViewModal({
   landingValues,
   isView = true,
 }) {
-  const [disabled, setDisabled] = useState(false);
+  const [disabled] = useState(false);
   const [singleData, getSingleData, loadingSingleData] = useAxiosGet([]);
   const printRef = useRef();
-  const { profileData, selectedBusinessUnit } = useSelector((state) => {
+  const { selectedBusinessUnit } = useSelector((state) => {
     return {
       profileData: state.authData.profileData,
       selectedBusinessUnit: state.authData.selectedBusinessUnit,
@@ -225,13 +225,27 @@ export default function CustomerViewModal({
                           </thead>
                           <tbody>
                             <tr>
-                              <td className="text-center">{singleData?.row?.strBusinessPartnerCode}</td>
-                              <td className="text-center">{singleData?.row?.strBusinessPartnerName}</td>
-                              <td className="text-center">{singleData?.row?.strBankName}</td>
-                              <td className="text-center">{singleData?.row?.strBankBranchName}</td>
-                              <td className="text-center">{singleData?.row?.strBankAccountNo}</td>
-                              <td className="text-center">{singleData?.row?.strRoutingNo}</td>
-                              <td className="text-right">{singleData?.row?.monTotalAmount}</td>
+                              <td className="text-center">
+                                {singleData?.row?.strBusinessPartnerCode}
+                              </td>
+                              <td className="text-center">
+                                {singleData?.row?.strBusinessPartnerName}
+                              </td>
+                              <td className="text-center">
+                                {singleData?.row?.strBankName}
+                              </td>
+                              <td className="text-center">
+                                {singleData?.row?.strBankBranchName}
+                              </td>
+                              <td className="text-center">
+                                {singleData?.row?.strBankAccountNo}
+                              </td>
+                              <td className="text-center">
+                                {singleData?.row?.strRoutingNo}
+                              </td>
+                              <td className="text-right">
+                                {singleData?.row?.monTotalAmount}
+                              </td>
                             </tr>
                           </tbody>
                         </table>
