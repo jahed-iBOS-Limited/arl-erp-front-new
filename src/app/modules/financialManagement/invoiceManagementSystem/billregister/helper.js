@@ -19,7 +19,6 @@ export const GetBillTypeDDL = async (setter) => {
   try {
     const res = await Axios.get(`/fino/FinanceCommonDDL/GetBillTypeDDL`);
     if (res.status === 200 && res?.data) {
-      console.log("bill type", res?.data);
       setter([{ value: 0, label: "All" }].concat(res?.data));
     }
   } catch (error) {}
