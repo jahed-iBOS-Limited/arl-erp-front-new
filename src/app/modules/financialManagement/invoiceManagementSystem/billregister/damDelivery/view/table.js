@@ -1,28 +1,29 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from "react"; 
+import React, { useEffect, useState } from "react";
+
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { Formik } from "formik";
-import { shallowEqual, useSelector } from "react-redux"; 
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import ICard from "../../../../../_helper/_card";
 import Loading from "../../../../../_helper/_loading";
-// import { getDownlloadFileView_Action } from "../../../../../_helper/_redux/Actions";
+import { getDownlloadFileView_Action } from "../../../../../_helper/_redux/Actions";
 import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet";
+import { toast } from "react-toastify";
 
 function ViewDamDeliveryBill({ billRegisterId }) {
-  const [loading, ] = useState(false);
-  // const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
   // get profile data from store
   const {
     profileData: { accountId: accId },
     selectedBusinessUnit: { value: buId },
-  } = useSelector((state) => {
-    return state.authData;
-  }, shallowEqual);
+  } = useSelector((state) => state.authData, shallowEqual);
 
-  const [, getGridData, loadingGridData] = useAxiosGet();
+  const [gridData, getGridData, loadingGridData] = useAxiosGet();
 
   useEffect(() => {
-    // const url = `/tms/LigterLoadUnload/GetLighterDumpToTruckDeliveryDetaills?lighterVesselId=2012&shipPointId=272&FromDate=2023-12-01&ToDate=2023-12-31&isDumpToTruckApprove=0`;
-    // getGridData("");
+    const url = `/tms/LigterLoadUnload/GetLighterDumpToTruckDeliveryDetails?billRegisterId=${billRegisterId}`;
+    getGridData(url);
   }, [accId, buId]);
 
   return (
@@ -41,30 +42,46 @@ function ViewDamDeliveryBill({ billRegisterId }) {
                 <thead>
                   <tr>
                     <th>SL</th>
-                    <th>Mother Vessel</th>
+                    <th>Buffer Name</th>
+                    <th>Supplier Name</th>
                     <th>Lighter Vessel</th>
-                    <th>Hatch Labor Supplier Name</th>
-                    <th>Port Name</th>
-                    <th>Program Qty</th>
-                    <th>Hatch Labor Rate</th>
+                    <th>Damp to Truck Qty</th>
+                    <th>Damp to Truck Rate</th>
+                    <th>Amount</th>
+                    <th>Labor Qty</th>
+                    <th>Labor Rate</th>
+                    <th>Labor Amount</th>
+                    <th>Other Cost</th>
                     <th>Attachment</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {/* {gridData?.map((item, index) => {
+                  {gridData?.map((item, index) => {
                     return (
                       <>
                         <tr key={index}>
                           <td style={{ width: "30px" }} className="text-center">
                             {index + 1}
                           </td>
-                          <td>{item?.motherVesselName}</td>
+                          <td>{item?.shipPointName}</td>
+                          <td>{item?.supplierName}</td>
                           <td>{item?.lighterVesselName}</td>
-                          <td>{item?.hatchLabour}</td>
-                          <td>{item?.portName}</td>
-                          <td className="text-right">{item?.programQnt}</td>
+                          <td>{item?.dumpToTruckQnt}</td>
+                          <td className="text-right">{item?.dumpToTruckAmount / item?.dumpToTruckQnt}</td>
                           <td className="text-right">
-                            {item?.hatchLabourRate || 0}
+                            {item?.dumpToTruckAmount}
+                          </td>
+                          <td className="text-right">
+                            {item?.dailyLaboureQnt}
+                          </td>
+                          <td className="text-right">
+                            {item?.labourAmount / item?.dailyLaboureQnt}
+                          </td>
+                          <td className="text-right">
+                            {item?.labourAmount}
+                          </td>
+                          <td className="text-right">
+                            {item?.dumpOtherCost}
                           </td>
                           <td className="text-center">
                             <OverlayTrigger
@@ -101,7 +118,7 @@ function ViewDamDeliveryBill({ billRegisterId }) {
                         </tr>
                       </>
                     );
-                  })} */}
+                  })}
                 </tbody>
               </table>
             </form>
