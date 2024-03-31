@@ -57,8 +57,9 @@ const Table = ({ obj }) => {
                 <thead>
                   <tr>
                     <th>SL</th>
+                    <th>Bill No</th>
                     <th style={{ width: "143px" }}>Vehicle No.</th>
-                    <th style={{ width: "143px" }}>Vehicle Type</th>
+                    {/* <th style={{ width: "143px" }}>Vehicle Type</th> */}
                     <th>Millage (KM)</th>
                     <th>Addition Millage (Km)</th>
                     <th>Total Millage (KM)</th>
@@ -127,8 +128,9 @@ const Table = ({ obj }) => {
                     return (
                       <tr key={index}>
                         <td className="text-center"> {index + 1}</td>
+                        <td className="text-center">{item?.billregisterCode}</td>
                         <td className="text-center">{item?.vehicleNo}</td>
-                        <td className="text-center">{item?.vehicleType}</td>
+                        {/* <td className="text-center">{item?.vehicleType}</td> */}
                         <td className="text-center">{item?.millage}</td>
                         <td className="text-center">
                           {item?.additionalMillage}
@@ -181,46 +183,46 @@ const Table = ({ obj }) => {
                     </td>
 
                     <td className="text-center">
-                      <b>{F_totalMillage}</b>
+                      <b>{_fixedPoint(F_totalMillage, true)}</b>
                     </td>
                     <td className="text-center">
-                      <b>{F_otalAdditionalMillage}</b>
+                      <b>{_fixedPoint(F_otalAdditionalMillage, true)}</b>
                     </td>
                     <td className="text-center">
-                      <b>{F_T_totalMillage}</b>
+                      <b>{_fixedPoint(F_T_totalMillage, true)}</b>
                     </td>
                     <td className="text-center">
-                      <b>{F_totalStandardFuelCost}</b>
+                      <b>{_fixedPoint(F_totalStandardFuelCost, true)}</b>
                     </td>
                     <td className="text-center">
-                      <b>{F_totalAdministrativeCost}</b>
+                      <b>{_fixedPoint(F_totalAdministrativeCost, true)}</b>
                     </td>
                     <td className="text-center">
-                      <b>{F_totalDriverExpense}</b>
+                      <b>{_fixedPoint(F_totalDriverExpense, true)}</b>
                     </td>
                     <td className="text-center">
-                      <b>{F_T_totalRouteExpense}</b>
+                      <b>{_fixedPoint(F_T_totalRouteExpense, true)}</b>
                     </td>
                     <td className="text-center">
-                      <b>{F_totalTripFare}</b>
+                      <b>{_fixedPoint(F_totalTripFare, true)}</b>
                     </td>
                     <td className="text-center">
-                      <b>{F_totalDownTripFareCash}</b>
+                      <b>{_fixedPoint(F_totalDownTripFareCash, true)}</b>
                     </td>
                     <td className="text-center">
-                      <b>{F_totalDownTripFareCredit}</b>
+                      <b>{_fixedPoint(F_totalDownTripFareCredit, true)}</b>
                     </td>
                     <td className="text-center">
-                      <b>{F_T_totalTripFare}</b>
+                      <b>{_fixedPoint(F_T_totalTripFare, true)}</b>
                     </td>
                     <td className="text-center">
-                      <b>{F_totalNetIncome}</b>
+                      <b>{_fixedPoint(F_totalNetIncome, true)}</b>
                     </td>
                     <td className="text-center">
-                      <b>{F_totalFuelCredit}</b>
+                      <b>{_fixedPoint(F_totalFuelCredit, true)}</b>
                     </td>
                     <td className="text-center">
-                      <b>{F_totalNetPayable}</b>
+                      <b>{_fixedPoint(F_totalNetPayable, true)}</b>
                     </td>
                     <td className="text-center"></td>
                   </tr>
