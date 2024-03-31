@@ -35,8 +35,6 @@ const DeliveryReportRDLC = () => {
   };
 
   const parameterValues = (values) => {
-    console.log(values, "values in params");
-    console.log(values?.port?.value.toString(), "port");
     return [
       { name: "intpartid", value: `${+values?.type?.value}` },
       {

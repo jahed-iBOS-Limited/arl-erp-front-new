@@ -36,6 +36,9 @@ import ViewSalesCommission from "./salesCommission/view/viewSalesCommission";
 import ViewStevedoreBill from "./stevedoreBill/view/table";
 import ViewSurveyorBill from "./surveyorBill/view/table";
 import ViewTransportBill from "./transportBill/view/viewBillRegister";
+import ICon from "../../../chartering/_chartinghelper/icons/_icon";
+import { useDispatch } from "react-redux";
+import { getDownlloadFileView_Action } from "../../../_helper/_redux/Actions";
 const GridData = ({
   rowDto,
   values,
@@ -65,7 +68,7 @@ const GridData = ({
   const [selectedItemForPumpFooding, setSelectedItemForPumpFooding] = useState(
     null
   );
-  const[modal,setModal] = useState()
+  const dispatch = useDispatch();
 
   // attachment save actions
   const saveHandler = async () => {
@@ -179,39 +182,33 @@ const GridData = ({
                           }}
                         />
                       )}
-                      {tableData?.billType === 5 &&
-                      tableData?.attatchment?.length ? (
-                        <IView
-                          title="View Attachment"
-                          clickHandler={() => {
-                            setAttachmentItemList(tableData?.attatchment);
-                            setAttachmentListModal(true);
-                          }}
-                        />
-                      ) : null}
-                      <button
-                        type="button"
+
+                      <ICon
+                        title={`${
+                          tableData?.attatchment?.length
+                            ? "View Attachment"
+                            : "Upload Attachment"
+                        }`}
                         onClick={(e) => {
-                          e.preventDefault();
-                          setBillId(tableData?.billRegisterId);
-                        }}
-                        style={{
-                          border: "none",
-                          background: "none",
-                          cursor: "pointer",
-                          padding: 0,
+                          if (tableData?.attatchment?.length > 0) {
+                            if (tableData?.attatchment?.length > 1) {
+                              setAttachmentItemList(tableData?.attatchment);
+                              setAttachmentListModal(true);
+                            } else {
+                              dispatch(
+                                getDownlloadFileView_Action(
+                                  tableData?.attatchment[0]
+                                )
+                              );
+                            }
+                          } else {
+                            // e.preventDefault();
+                            setBillId(tableData?.billRegisterId);
+                          }
                         }}
                       >
-                        <OverlayTrigger
-                          overlay={
-                            <Tooltip id="cs-icon">
-                              {"Upload Attachment"}
-                            </Tooltip>
-                          }
-                        >
-                          <i class="far fa-file-image"></i>
-                        </OverlayTrigger>
-                      </button>
+                        <i class="far fa-file-image"></i>
+                      </ICon>
                     </div>
                     {/* </span> */}
                   </td>
@@ -336,8 +333,8 @@ const GridData = ({
             {gridItem?.billType === 32 && (
               <ViewDamDeliveryBill billRegisterId={gridItem?.billRegisterId} />
             )}
-            {gridItem?.billType === 33   && (
-              <CustomerViewModal landingValues={values} gridItem={gridItem} setModal={setModal} />
+            {gridItem?.billType === 33 && (
+              <CustomerViewModal landingValues={values} gridItem={gridItem} />
             )}
           </IViewModal>
 
