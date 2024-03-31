@@ -158,7 +158,7 @@ const RequestForQuotationApprovalGrid = ({
   const rejectSubmitlHandler = () => {
     let confirmObject = {
       title: "Are you sure?",
-      message: `Do you want to reject the selected PR?`,
+      message: `Do you want to reject the selected CS?`,
       yesAlertFunc: () => {
         const filterSelectedData = rowDto?.data?.filter(
           (item) => item?.isSelect
