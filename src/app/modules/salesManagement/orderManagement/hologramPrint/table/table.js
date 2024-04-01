@@ -15,8 +15,10 @@ import PaginationTable from "../../../../_helper/_tablePagination";
 import IViewModal from "../../../../_helper/_viewModal";
 import { inactivePrintedInfo } from "../helper";
 import HologramPrint from "../print/hologram";
+import HologramPrintForAkijCommodities from "../print/hologramForCommodities";
+import RATForm from "../../../../_helper/commonInputFieldsGroups/ratForm";
 
-const initData = { search: "" };
+const initData = { search: "", channel: "", shipPoint: "", type: "" };
 
 const headers = [
   "SL",
@@ -53,7 +55,7 @@ const HologramPrintLanding = () => {
 
   const getData = (values, pageNo, pageSize, search) => {
     const SearchTerm = search ? `searchTerm=${search}&` : "";
-    const url = `/oms/OManagementReport/GetSalesOrderPaginationForPrint?${SearchTerm}AccountId=${accId}&BUnitId=${buId}&ShipPointId=${values?.shipPoint?.value}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=asc&ReportTypeId=${values?.type?.value}`;
+    const url = `/oms/OManagementReport/GetSalesOrderPaginationForPrint?${SearchTerm}AccountId=${accId}&BUnitId=${buId}&ShipPointId=${values?.shipPoint?.value}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc&ReportTypeId=${values?.type?.value}&channelid=${values?.channel?.value}`;
 
     getRowData(url, (resData) => setRowData(resData));
   };
@@ -130,6 +132,16 @@ const HologramPrintLanding = () => {
                         placeholder="Shippoint"
                       />
                     </div>
+                    <RATForm
+                      obj={{
+                        values,
+                        setFieldValue,
+                        region: false,
+                        area: false,
+                        territory: false,
+                        allElement: false,
+                      }}
+                    />
                     <IButton
                       onClick={() => {
                         getData(values, pageNo, pageSize, "");
@@ -243,7 +255,17 @@ const HologramPrintLanding = () => {
                 )}
               </form>
               <IViewModal show={show} onHide={() => setShow(false)}>
-                <HologramPrint setShow={setShow} printData={printData} />
+                {buId === 144 && (
+                  // Akij Essential Ltd.
+                  <HologramPrint setShow={setShow} printData={printData} />
+                )}
+                {buId === 221 && (
+                  // Akij Commodities Ltd.
+                  <HologramPrintForAkijCommodities
+                    setShow={setShow}
+                    printData={printData}
+                  />
+                )}
               </IViewModal>
             </ICard>
           </>
