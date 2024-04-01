@@ -98,7 +98,6 @@ const HologramPrint = ({ setShow, printData }) => {
           </div>
         </div>
         <div className="d-flex justify-content-between">
-          {" "}
           <div className="main_table">
             <table className="table">
               <thead>
