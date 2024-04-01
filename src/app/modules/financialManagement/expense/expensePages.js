@@ -15,6 +15,8 @@ import ExpenseInfoModify from "./expenseInfoModify";
 import BareboatAndInsurancelanding from "./bareboatAndInsurance";
 import DryDocLanding from "./dryDocSchedule";
 import DryDocCreateEdit from "./dryDocSchedule/createEdit";
+import IndustrialTestingCostLanding from "./industrialTestingCost/landing";
+import IndustrialTestingCostEntryForm from "./industrialTestingCost/form/addEditForm";
 // import BareboatAndInsuranceCreateEdit from "./bareboatAndInsurance/CreateEdit";
 export function ExpensePages() {
   return (
@@ -123,6 +125,14 @@ export function ExpensePages() {
       <ContentRoute
         path="/financial-management/expense/drydocschedule"
         component={DryDocLanding}
+      />
+      <ContentRoute
+        path="/financial-management/expense/industrialtestingcost/entry"
+        component={IndustrialTestingCostEntryForm}
+      />
+      <ContentRoute
+        path="/financial-management/expense/industrialtestingcost"
+        component={IndustrialTestingCostLanding}
       />
     </Switch>
   );

@@ -227,7 +227,7 @@ export default function DeliveryReportTable({ id }) {
                     <td>{driver}</td>
                   </tr>
                   <tr>
-                    <td>Oredr Ref. No</td>
+                    <td>Order Ref. No</td>
                     <td>:</td>
                     <td>{orderReferenceNo}</td>
                     <td>Driver Contact No</td>
