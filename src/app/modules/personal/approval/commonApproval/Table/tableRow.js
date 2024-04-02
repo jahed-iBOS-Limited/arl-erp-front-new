@@ -33,6 +33,7 @@ import PaginationTable from "./../../../../_helper/_tablePagination";
 import { saveBOMApproval_api } from "./../helper";
 import "./approval.css";
 import BillOfMaterialTable from "./billOfMaterialTable";
+import RequestForQuotationApprovalGrid from "../requestForQuotation/landing.js";
 
 export function TableRow(props) {
   const [billSubmitBtn, setBillSubmitBtn] = useState(true);
@@ -87,6 +88,7 @@ export function TableRow(props) {
       activity?.label === "Leave Approval" ||
       activity?.label === "Purchase Order" ||
       activity?.label === "Purchase Request" ||
+      activity?.label === "Request For Quotation" ||
       activity?.label === "Item Request" ||
       activity?.label === "Purchase Return" ||
       activity?.label === "Gate Pass"
@@ -411,6 +413,7 @@ export function TableRow(props) {
         activityName?.label === "Leave Approval" ||
         activityName?.label === "Purchase Order" ||
         activityName?.label === "Purchase Request" ||
+        activityName?.label === "Request For Quotation" ||
         activityName?.label === "Item Request" ||
         activityName?.label === "Purchase Return" ||
         activityName?.label === "Gate Pass" ? (
@@ -431,6 +434,14 @@ export function TableRow(props) {
             {}
             {activityName?.label === "Purchase Request" && (
               <PurchaseRequestApprovalGrid
+                onChangeForActivity={onChangeForActivity}
+                activityName={activityName}
+                activityChange={activityChange}
+                selectedPlant={selectedPlant}
+              />
+            )}
+            {activityName?.label === "Request For Quotation" && (
+              <RequestForQuotationApprovalGrid
                 onChangeForActivity={onChangeForActivity}
                 activityName={activityName}
                 activityChange={activityChange}

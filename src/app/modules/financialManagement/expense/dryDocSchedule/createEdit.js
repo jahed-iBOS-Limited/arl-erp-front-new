@@ -11,8 +11,7 @@ import { _todayDate } from "../../../_helper/_todayDate";
 import IDelete from "../../../_helper/_helperIcons/_delete";
 import IView from "../../../_helper/_helperIcons/_view";
 import { toast } from "react-toastify";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import { imarineBaseUrl } from "../../../../App";
+import useAxiosPost from "../../../_helper/customHooks/useAxiosPost"; 
 import * as Yup from "yup";
 import { DropzoneDialogBase } from "material-ui-dropzone";
 import { attachmentUploadAction } from "./helper";
@@ -88,6 +87,7 @@ export default function DryDocCreateEdit() {
     if (id) {
       modifyDataFromApi();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   const saveHandler = (values, cb) => {
