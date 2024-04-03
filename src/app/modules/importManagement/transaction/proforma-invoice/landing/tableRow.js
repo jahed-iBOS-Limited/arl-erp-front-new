@@ -22,6 +22,8 @@ import PurchaseOrder from "../../purchase-order/form/addEditForm";
 import { getLandingData } from "../helper";
 // import IWarningModal from "../../../../_helper/_warningModal";
 import { getSingleDataForPoView } from "../../purchase-order/helper";
+import ExportDocumentaryCredit from "./exportDC";
+import ICon from "../../../../chartering/_chartinghelper/icons/_icon";
 
 const header = [
   "SL",
@@ -39,6 +41,7 @@ const TableRow = () => {
   const [gridData, setGridData] = useState();
   const [isloading, setIsLoading] = useState(false);
   const [isShowModal, setIsShowModal] = useState(false);
+  const [show, setShow] = useState(false);
   //paginationState
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(75);
@@ -229,7 +232,16 @@ const TableRow = () => {
                                   <IEdit />
                                 </span>
                               )}
-
+                              <span className="ml-3">
+                                <ICon
+                                  title={"Download LC Application"}
+                                  onClick={() => {
+                                    setShow(true);
+                                  }}
+                                >
+                                  <i class="fas fa-download"></i>
+                                </ICon>
+                              </span>
                               <span className="ml-3">
                                 <button
                                   className="btn btn-outline-dark mr-1 pointer"
@@ -285,6 +297,13 @@ const TableRow = () => {
                     setRowDto={setRowDto}
                     setIsShowModal={setIsShowModal}
                   />
+                </IViewModal>
+                <IViewModal
+                  modelSize={"md"}
+                  show={show}
+                  onHide={() => setShow(false)}
+                >
+                  <ExportDocumentaryCredit setShow={setShow} />
                 </IViewModal>
                 {/* Pagination Code */}
                 {gridData?.data?.length > 0 && (
