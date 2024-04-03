@@ -17,8 +17,17 @@ import { inactivePrintedInfo } from "../helper";
 import HologramPrint from "../print/hologram";
 import HologramPrintForAkijCommodities from "../print/hologramForCommodities";
 import RATForm from "../../../../_helper/commonInputFieldsGroups/ratForm";
+import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
+import { _todayDate } from "../../../../_helper/_todayDate";
 
-const initData = { search: "", channel: "", shipPoint: "", type: "" };
+const initData = {
+  search: "",
+  channel: "",
+  shipPoint: "",
+  type: "",
+  fromDate: _todayDate(),
+  toDate: _todayDate(),
+};
 
 const headers = [
   "SL",
@@ -55,7 +64,7 @@ const HologramPrintLanding = () => {
 
   const getData = (values, pageNo, pageSize, search) => {
     const SearchTerm = search ? `searchTerm=${search}&` : "";
-    const url = `/oms/OManagementReport/GetSalesOrderPaginationForPrint?${SearchTerm}AccountId=${accId}&BUnitId=${buId}&ShipPointId=${values?.shipPoint?.value}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc&ReportTypeId=${values?.type?.value}&channelid=${values?.channel?.value}`;
+    const url = `/oms/OManagementReport/GetSalesOrderPaginationForPrint?${SearchTerm}AccountId=${accId}&BUnitId=${buId}&ShipPointId=${values?.shipPoint?.value}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc&ReportTypeId=${values?.type?.value}&channelid=${values?.channel?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}`;
 
     getRowData(url, (resData) => setRowData(resData));
   };
@@ -88,6 +97,12 @@ const HologramPrintLanding = () => {
     };
     IConfirmModal(obj);
   };
+
+  // const permittedPersonsForAccountsApprove = [
+  //   1023, //Md. Raihan Kabir
+  //   124921, //Md. Rasel Sarder
+  //   521235, // Md. Monirul Islam
+  // ];
 
   return (
     <>
@@ -142,6 +157,7 @@ const HologramPrintLanding = () => {
                         allElement: false,
                       }}
                     />
+                    <FromDateToDateForm obj={{ values, setFieldValue }} />
                     <IButton
                       onClick={() => {
                         getData(values, pageNo, pageSize, "");
