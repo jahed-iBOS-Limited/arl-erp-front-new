@@ -21,6 +21,7 @@ import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/date
 import { _todayDate } from "../../../../_helper/_todayDate";
 import IApproval from "../../../../_helper/_helperIcons/_approval";
 import useAxiosPut from "../../../../_helper/customHooks/useAxiosPut";
+import { _fixedPoint } from "../../../../_helper/_fixedPoint";
 
 const initData = {
   search: "",
@@ -36,6 +37,7 @@ const headers = [
   "Partner Name",
   "ShipPoint Name",
   "Sales Order Code",
+  "Order Amount",
   "Sales Order Date",
   "Reference Type",
   "Payment Term",
@@ -334,6 +336,9 @@ const HologramPrintLanding = () => {
                             <td>{item?.soldToPartnerName}</td>
                             <td>{item?.shippointName}</td>
                             <td>{item?.salesOrderCode}</td>
+                            <td className="text-right">
+                              {_fixedPoint(item?.totalOrderValue, true)}
+                            </td>
                             <td>{_dateFormatter(item?.salesOrderDate)}</td>
                             <td>{item?.refferenceTypeName}</td>
                             <td>{item?.paymentTermsName}</td>
