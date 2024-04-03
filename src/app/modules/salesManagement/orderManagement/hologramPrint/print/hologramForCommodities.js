@@ -3,7 +3,7 @@ import Barcode from "react-barcode";
 import { shallowEqual, useSelector } from "react-redux";
 import { useReactToPrint } from "react-to-print";
 import IButton from "../../../../_helper/iButton";
-import logo from "../../../../_helper/images/commodities_logo.jpg";
+// import logo from "../../../../_helper/images/commodities_logo.jpg";
 import signature_of_pran_krishna_kundo from "../../../../_helper/images/signature_of_pran_krishno_kundo.png";
 import "./InvoiceRecept.css";
 import { _fixedPoint } from "../../../../_helper/_fixedPoint";
@@ -42,12 +42,12 @@ const HologramPrintForAkijCommodities = ({ setShow, printData }) => {
       <div className="hologram_wrapper" ref={printRef}>
         <div style={{ borderBottom: "1px solid black" }}>
           <div className="hologram_header">
-            <div className="logo">
-              <img
+            <div className="logo" style={{ width: "30%" }}>
+              {/* <img
                 // style={{ width: "70px", height: "70px" }}
                 src={logo}
                 alt="Logo"
-              />
+              /> */}
             </div>
 
             <div className="text-center">
@@ -66,16 +66,18 @@ const HologramPrintForAkijCommodities = ({ setShow, printData }) => {
                 size={70}
               /> 
             </div> */}
-            {salesOrderCode !== "" ? (
-              <Barcode
-                value={salesOrderCode ? salesOrderCode : ""}
-                lineColor="black"
-                displayValue={false}
-                height={60}
-              />
-            ) : (
-              <p>No barcode preview</p>
-            )}
+            <div style={{ width: "30%" }}>
+              {salesOrderCode !== "" ? (
+                <Barcode
+                  value={salesOrderCode ? salesOrderCode : ""}
+                  lineColor="black"
+                  displayValue={false}
+                  height={60}
+                />
+              ) : (
+                <p>No barcode preview</p>
+              )}
+            </div>
           </div>
           <div className="text-center">
             <h3>SALES ORDER</h3>
