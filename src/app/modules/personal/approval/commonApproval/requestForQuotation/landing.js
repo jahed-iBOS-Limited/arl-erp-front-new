@@ -14,6 +14,7 @@ import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import { ItemReqViewTableRow } from "../../../../procurement/purchase-management/purchaseRequestNew/report/tableRow";
 import PaginationSearch from "./../../../../_helper/_search";
 import { approvalApi } from "./helper";
+import { ApprovalModal } from "./viewModal";
 
 let initData = {};
 
@@ -231,7 +232,7 @@ const RequestForQuotationApprovalGrid = ({
             {(loader || rejectPuchaseLoading) && <Loading />}
             {/* Table Start */}
             <Form className="form form-label-right">
-              <div className="row">
+              {/* <div className="row">
                 <div className="col-lg-12">
                   <div className="global-form">
                     <div className="row d-flex justify-content-between align-items-center">
@@ -261,7 +262,7 @@ const RequestForQuotationApprovalGrid = ({
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> */}
               <div>
                 <PaginationSearch
                   placeholder="Request For Quotation Code Search"
@@ -290,7 +291,7 @@ const RequestForQuotationApprovalGrid = ({
                     {/* <th>Due Date</th> */}
                     <th>Quantity</th>
                     <th>Description</th>
-                    {/* <th className="text-right pr-3">Actions</th> */}
+                    <th>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -322,13 +323,9 @@ const RequestForQuotationApprovalGrid = ({
                   </td>             */}
                       <td className="text-center">{item.quantity}</td>
                       <td className="text-center">{item.strNarration}</td>
-                      {/* <td className="text-center">
+                      <td className="text-center">
                         <span
                           onClick={(e) => {
-                            // history.push(
-                            //   `/mngProcurement/purchase-management/purchase-request/report/${item?.transectionId}`
-                            // );
-                            // dispatch(setPRApprovalId(item?.transectionId));
                             setCurrentRowData(item);
                             setIsShowModal(true);
                           }}
@@ -338,17 +335,13 @@ const RequestForQuotationApprovalGrid = ({
                           >
                             <span style={{ cursor: "pointer" }}>
                               <i
-                                className={`fas fa-eye ${
-                                  LastPrApprovalId === item?.transectionId
-                                    ? "text-primary"
-                                    : ""
-                                }`}
+                                className={`fas fa-eye`}
                                 aria-hidden="true"
                               ></i>
                             </span>
                           </OverlayTrigger>
                         </span>
-                      </td> */}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -365,7 +358,7 @@ const RequestForQuotationApprovalGrid = ({
             )}
 
             <IViewModal show={isShowModal} onHide={() => setIsShowModal(false)}>
-              <ItemReqViewTableRow prId={currentRowData?.transectionId} />
+              <ApprovalModal currentRowData={currentRowData} billSubmitBtn={billSubmitBtn} approveSubmitlHandler={approveSubmitlHandler} rejectSubmitlHandler={rejectSubmitlHandler}/>
             </IViewModal>
           </>
         )}

@@ -3,8 +3,9 @@ import { shallowEqual, useSelector } from "react-redux";
 import { Redirect, Switch } from "react-router-dom";
 import { ContentRoute, LayoutSplashScreen } from "../../../_metronic/layout";
 import NotPermittedPage from "../_helper/notPermitted/NotPermittedPage";
-import { ConfigurationPages } from "./configuration/configurationPages";
 import { GatePass } from "./GatePass/GatePass";
+import { ConfigurationPages } from "./configuration/configurationPages";
+import DispatchDeskLanding from "./dispatchDesk";
 import CreateInventoryLoanForm from "./inventoryLoan/form/addEditForm";
 import { ReportsPages } from "./reports/reportsPages";
 import { WarehouseManagementPages } from "./warehouseManagement/warehouseManagementPages";
@@ -50,6 +51,10 @@ export function InventoryManagementPages() {
         <ContentRoute
           path="/inventory-management/gate-pass"
           component={GatePass}
+        />
+        <ContentRoute
+          path="/inventory-management/inventory-DispatchDesk"
+          component={DispatchDeskLanding}
         />
 
         {/* Inventory Load */}
