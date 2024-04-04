@@ -18,7 +18,7 @@ export default function DispatchRequisitionLanding() {
   const saveHandler = (values, cb) => {};
   const history = useHistory();
   const {
-    profileData: { accountId: accId, employeeId },
+    profileData: { accountId: accId, employeeId,userId },
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
   const [pageNo, setPageNo] = useState(0);
@@ -37,19 +37,22 @@ export default function DispatchRequisitionLanding() {
     "Action",
   ];
   const handleGetRowData = (status) => {
+    
     getGridData(
-      `/tms/DocumentDispatch/GetDispatchPasignation?AccountId=${accId}&BusinessUnitId=${buId}&Status=${status}&viewOrder=asc&PageNo=${pageNo}&PageSize=${pageSize}`
+      `/tms/DocumentDispatch/GetDispatchPasignation?AccountId=${accId}&PlantId=0&UserId=${userId}&Status=${status}&viewOrder=asc&PageNo=${pageNo}&PageSize=${pageSize}`
     );
   };
   const setPositionHandler = (pageNo, pageSize, values) => {
+   
     getGridData(
-      `/tms/DocumentDispatch/GetDispatchPasignation?AccountId=${accId}&BusinessUnitId=${buId}&Status=${values?.requisition}&viewOrder=asc&PageNo=${pageNo}&PageSize=${pageSize}`
+      `/tms/DocumentDispatch/GetDispatchPasignation?AccountId=${accId}&PlantId=0&UserId=${userId}&Status=${values?.requisition}&viewOrder=asc&PageNo=${pageNo}&PageSize=${pageSize}`
     );
   };
 
   useEffect(() => {
+  
     getGridData(
-      `/tms/DocumentDispatch/GetDispatchPasignation?AccountId=${accId}&BusinessUnitId=${buId}&Status=send&viewOrder=asc&PageNo=${pageNo}&PageSize=${pageSize}`
+      `/tms/DocumentDispatch/GetDispatchPasignation?AccountId=${accId}&PlantId=0&UserId=${userId}&Status=send&viewOrder=asc&PageNo=${pageNo}&PageSize=${pageSize}`
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -195,7 +198,7 @@ export default function DispatchRequisitionLanding() {
                               style={{ cursor: "pointer" }}
                               onClick={() => {
                                 getDocReceivedApproval(
-                                  `/tms/DocumentDispatch/DocumentReceivedApprovel?DispatchId=${item?.dispatchHeaderId}&UserId=${employeeId}`,
+                                  `/tms/DocumentDispatch/DocumentReceivedApprovel?DispatchId=${item?.dispatchHeaderId}&UserId=${userId}`,
                                   "",
                                   () => {
                                     handleGetRowData(values?.requisition)

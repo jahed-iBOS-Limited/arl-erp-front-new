@@ -43,7 +43,7 @@ export default function DispatchRequisitionCreateEdit() {
   const location = useLocation();
   const [,saveDispatchRequisition,loadDispatchRequisition] =useAxiosPost()
   const {
-    profileData: { accountId: accId,employeeFullName,employeeId ,contact,userId},
+    profileData: { accountId: accId,employeeFullName ,contact,userId},
     selectedBusinessUnit: { value: buId },
     // businessUnitList,
   } = useSelector((state) => state?.authData, shallowEqual);
@@ -55,14 +55,14 @@ export default function DispatchRequisitionCreateEdit() {
     const payload = {
         header: {
           dispatchHeaderId: 0,
-          dispatchType:values?.dispatchType,
+          dispatchType:values?.dispatchType?.label,
           dispatchNote: "", 
           sendReceive: location.state.requisition || "",
           fromLocation: values?.plant?.label,
           fromPlantId:values?.plant?.value,
           toLocation: values?.toLocation?.label || values?.toLocation||"",
-          toPlantId:values?.toLocation?.value || "",
-          senderEnrollId: employeeId,
+          toPlantId:values?.toLocation?.value || 0,
+          senderEnrollId: userId,
           senderName: employeeFullName,
           senderContactNo :contact,
           receiverEnrollId:values.receiverName?.value|| 0,
@@ -77,7 +77,7 @@ export default function DispatchRequisitionCreateEdit() {
           vehicleNo: "",
           sendCost: 0,
           // isOwnerReceive:false,
-          actionById: employeeId,
+          actionById: userId,
           accountId: accId,
           businessUnitId: buId,
           // isActive: true,
@@ -201,7 +201,7 @@ export default function DispatchRequisitionCreateEdit() {
                         setFieldValue("receiverName", valueOption);
                         setFieldValue("contactNo", valueOption?.contactNo);
                         if(!valueOption) return;
-                      getToLocationPlantDDL(`/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${valueOption?.value}&AccId=1&BusinessUnitId=${valueOption?.employeeBusinessUnitId}&OrgUnitTypeId=7`)
+                      getToLocationPlantDDL(`/wms/Plant/GetPlantDDL?AccountId=${accId}&BusinessUnitId=${valueOption?.employeeBusinessUnitId}`)
                       }}
                       loadOptions={loadUserList}
                     />
@@ -259,6 +259,7 @@ export default function DispatchRequisitionCreateEdit() {
                     onChange={(valueOption) => {
                       setFieldValue("toLocation", valueOption);
                     }}
+                    disabled={!values?.receiverName}
                     errors={errors}
                     touched={touched}
                   />

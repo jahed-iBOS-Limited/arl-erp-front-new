@@ -22,7 +22,7 @@ export default function DispatchDeskLanding() {
   const [singleItem, setSingleItem] = useState({});
   //   const history = useHistory();
   const {
-    profileData: { accountId: accId },
+    profileData: { accountId: accId ,userId},
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
   const [pageNo, setPageNo] = useState(0);
@@ -30,20 +30,18 @@ export default function DispatchDeskLanding() {
   const [gridData, getGridData, loadGridData] = useAxiosGet();
 
   const handleGetRowData = (status) => {
-    getGridData(
-      `/tms/DocumentDispatch/GetDispatchPasignation?AccountId=${accId}&BusinessUnitId=${buId}&Status=${status}&viewOrder=asc&PageNo=${pageNo}&PageSize=${pageSize}`
-    );
+  
+    getGridData(`/tms/DocumentDispatch/GetDispatchPasignation?AccountId=${accId}&PlantId=0&UserId=${0}&Status=${status}&viewOrder=asc&PageNo=${pageNo}&PageSize=${pageSize}`)
   };
   const setPositionHandler = (pageNo, pageSize, values) => {
     getGridData(
       `/tms/DocumentDispatch/GetDispatchPasignation?AccountId=${accId}&BusinessUnitId=${buId}&Status=${values?.requisition}&viewOrder=asc&PageNo=${pageNo}&PageSize=${pageSize}`
     );
+    getGridData(`/tms/DocumentDispatch/GetDispatchPasignation?AccountId=${accId}&PlantId=0&UserId=${0}&Status=${values?.requisition}&viewOrder=asc&PageNo=${pageNo}&PageSize=${pageSize}`)
   };
 
   useEffect(() => {
-    getGridData(
-      `/tms/DocumentDispatch/GetDispatchPasignation?AccountId=${accId}&BusinessUnitId=${buId}&Status=send&viewOrder=asc&PageNo=${pageNo}&PageSize=${pageSize}`
-    );
+    getGridData(`/tms/DocumentDispatch/GetDispatchPasignation?AccountId=${accId}&PlantId=0&UserId=${0}&Status=send&viewOrder=asc&PageNo=${pageNo}&PageSize=${pageSize}`)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

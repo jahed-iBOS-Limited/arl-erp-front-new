@@ -12,8 +12,6 @@ import NewSelect from "../../_helper/_select";
 import CommonTable from "../../_helper/commonTable";
 import useAxiosGet from "../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../_helper/customHooks/useAxiosPost";
-import { dispatchReceiveValidationSchema } from "./helper";
-import { header } from "../../financialManagement/financials/ManualReconcile/helpers";
 
 const initData = {
   receiveType: "",
@@ -65,6 +63,7 @@ export default function ReceiveModal() {
     if (!values?.senderName) return toast.warn("Sender Name is required");
     const payload = {
       header: {
+        dispatchType:values?.receiveType?.label,
         dispatchHeaderId: 0,
         sendReceive: "received",
         fromLocation:
@@ -77,10 +76,10 @@ export default function ReceiveModal() {
             : values?.toLocation,
         senderEnrollId: values?.senderName?.value || 0,
         senderName:
-          values?.senderName?.strEmployeeName || values?.senderName || "",
+          values?.senderName?.label || values?.senderName || "",
         senderContactNo: values?.senderContactNo || "",
         receiverEnrollId: values.receiverName?.value || 0,
-        receiverName: values.receiverName?.strEmployeeName || "",
+        receiverName: values.receiverName?.label || "",
         receiverContactNo: values?.receiverContactNo || "",
         remaks: values?.remarks,
         dispatchSenderReceiverEnroll: employeeId,
@@ -288,21 +287,21 @@ export default function ReceiveModal() {
                               );
                               setFieldValue(
                                 "fromLocationDDL",
-                                data?.header?.FromPlantId &&
-                                  data?.header?.FromLocation
-                                  ? {
-                                      value: data?.header?.FromPlantId,
-                                      label: data?.header?.FromLocation,
-                                    }
-                                  : null
-                              );
-                              setFieldValue(
-                                "toLocationDDL",
                                 data?.header?.ToPlantId &&
                                   data?.header?.ToLocation
                                   ? {
                                       value: data?.header?.ToPlantId,
                                       label: data?.header?.ToLocation,
+                                    }
+                                  : null
+                              );
+                              setFieldValue(
+                                "toLocationDDL",
+                                data?.header?.FromPlantId &&
+                                  data?.header?.FromLocation
+                                  ? {
+                                      value: data?.header?.FromPlantId,
+                                      label: data?.header?.FromLocation,
                                     }
                                   : null
                               );
@@ -419,6 +418,7 @@ export default function ReceiveModal() {
                         }}
                         errors={errors}
                         touched={touched}
+                        disabled={true}
                       />
                     </div>
                     <div className="col-lg-3">
@@ -430,6 +430,7 @@ export default function ReceiveModal() {
                         onChange={(valueOption) => {
                           setFieldValue("toLocationDDL", valueOption);
                         }}
+                        disabled={true}
                         errors={errors}
                         touched={touched}
                       />
@@ -452,7 +453,7 @@ export default function ReceiveModal() {
                     </div>
                     <div className="col-lg-3">
                       <InputField
-                        value={values?.toLocation}
+                        value={workPlaceName}
                         label="To Location"
                         name="toLocation"
                         type="text"
