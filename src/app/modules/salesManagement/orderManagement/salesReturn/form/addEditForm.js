@@ -117,13 +117,15 @@ function SalesReturnForm() {
           totalQty: totalQty,
           totalAmount: totalAmount,
           salesReturnType: returnType,
+          shipmentId: item?.intshipmentid,
+          reassons: values?.reason || "",
         };
       }),
 
       row: rows?.map((item) => {
         return {
-          referenceId: 0,
-          referenceCode: "",
+          referenceId: item?.intDeliveryID,
+          referenceCode: item?.strchallan,
           itemId: item?.intItemID,
           itemName: item?.strItemName,
           uoMId: 0,

@@ -19,8 +19,8 @@ function TableGirdThree({ rowDto, values }) {
             <th>SoldToPartner Name </th>
             <th>ShipToPartner Name </th>
             <th>Quantity </th>
-            <th>Labour Cost </th>
             <th>Labour Rate </th>
+            <th>Labour Cost </th>
           </tr>
         </thead>
         <tbody>
@@ -40,10 +40,10 @@ function TableGirdThree({ rowDto, values }) {
                 <td>{itm?.strShipToPartnerName}</td>
                 <td className="text-right">{_fixedPoint(itm?.numQuantity)}</td>
                 <td className="text-right">
-                  {_fixedPoint(itm?.numLabourCost)}
+                  {_fixedPoint(itm?.numLabourRate)}
                 </td>
                 <td className="text-right">
-                  {_fixedPoint(itm?.numLabourRate)}
+                  {_fixedPoint(itm?.numLabourCost)}
                 </td>
               </tr>
             );
@@ -56,10 +56,10 @@ function TableGirdThree({ rowDto, values }) {
               <b>{_fixedPoint(numQuantity, true, 0)}</b>
             </td>
             <td className="text-right">
-              <b>{_fixedPoint(numLabourCost, true, 0)}</b>
-            </td>
-            <td className="text-right">
               <b>{_fixedPoint(numLabourRate, true, 0)}</b>
+            </td>{" "}
+            <td className="text-right">
+              <b>{_fixedPoint(numLabourCost, true, 0)}</b>
             </td>
           </tr>
         </tbody>
