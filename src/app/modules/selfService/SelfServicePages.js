@@ -4,11 +4,15 @@ import { Redirect, Switch } from "react-router-dom";
 import { ContentRoute, LayoutSplashScreen } from "../../../_metronic/layout";
 import DashboardPage from "../../pages/DashboardPage";
 import NotPermittedPage from "../_helper/notPermitted/NotPermittedPage";
+import ResolutionLanding from "../salesManagement/complainManagement/resolution/landing/index.js";
 import MyAsset from "./Assets";
 import AchievementTable from "./achievement/Table/table";
 import AllReport from "./allReport";
 import { CommonApprovalTable } from "./approval/commonApproval/Table/tableHeader";
+import BusinessGlossaryReport from "./businessGlossary";
 import FoodCornerLanding from "./cafeteriaMangement/foodCorner/landing";
+import DispatchRequisitionCreateEdit from "./dispatchRequsitoin/createEditForm.js";
+import DispatchRequisitionLanding from "./dispatchRequsitoin/index.js";
 import ExpenseRegisterCreateForm from "./expenseRegister/Create/addForm";
 import { ExpenseRegister } from "./expenseRegister/index.js";
 import BasicInformationlLanding from "./humanResource/employeeInformation/Table/form";
@@ -28,8 +32,6 @@ import ViewTraining from "./training/viewTraining";
 import { ItemRequest } from "./warehouse/itemRequest";
 import ItemRequestForm from "./warehouse/itemRequest/Form/addEditForm";
 import ViewItemRequestForm from "./warehouse/itemRequest/view/addEditForm";
-import BusinessGlossaryReport from "./businessGlossary";
-import ResolutionLanding from "../salesManagement/complainManagement/resolution/landing/index.js";
 export function SelfServicePages() {
   const userRole = useSelector(
     (state) => state?.authData?.userRole,
@@ -172,6 +174,18 @@ export function SelfServicePages() {
             component={ResolutionLanding}
           />
           <ContentRoute path='/self-service/arl-map' component={Jobstation} />
+          <ContentRoute
+            path='/self-service/DispatchRequisition/edit/:id'
+            component={DispatchRequisitionCreateEdit}
+          />
+          <ContentRoute
+            path='/self-service/DispatchRequisition/create'
+            component={DispatchRequisitionCreateEdit}
+          />
+          <ContentRoute
+            path='/self-service/DispatchRequisition'
+            component={DispatchRequisitionLanding}
+          />
           {/* <ContentRoute
             path="/self-service/humanResource"
             component={HumanResourcePages}
