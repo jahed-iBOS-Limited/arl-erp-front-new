@@ -17,20 +17,39 @@ import { inactivePrintedInfo } from "../helper";
 import HologramPrint from "../print/hologram";
 import HologramPrintForAkijCommodities from "../print/hologramForCommodities";
 import RATForm from "../../../../_helper/commonInputFieldsGroups/ratForm";
+import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
+import { _todayDate } from "../../../../_helper/_todayDate";
+import IApproval from "../../../../_helper/_helperIcons/_approval";
+import useAxiosPut from "../../../../_helper/customHooks/useAxiosPut";
+import { _fixedPoint } from "../../../../_helper/_fixedPoint";
 
-const initData = { search: "", channel: "", shipPoint: "", type: "" };
+const initData = {
+  search: "",
+  channel: "",
+  shipPoint: "",
+  type: "",
+  fromDate: _todayDate(),
+  toDate: _todayDate(),
+};
 
 const headers = [
   "SL",
   "Partner Name",
   "ShipPoint Name",
   "Sales Order Code",
+  "Order Amount",
   "Sales Order Date",
   "Reference Type",
   "Payment Term",
   "Approvement Status",
   "Delivery Status",
   "Action",
+];
+
+const permittedPersonsForAccountsApprove = [
+  1023, //Md. Raihan Kabir
+  124921, //Md. Rasel Sarder
+  521235, // Md. Monirul Islam
 ];
 
 const HologramPrintLanding = () => {
@@ -42,6 +61,7 @@ const HologramPrintLanding = () => {
   const [rowData, setRowData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [permitted, getPermission] = useAxiosGet();
+  const [, approveSalesOrder, loader] = useAxiosPut();
 
   // get user profile data from store
   const {
@@ -55,9 +75,20 @@ const HologramPrintLanding = () => {
 
   const getData = (values, pageNo, pageSize, search) => {
     const SearchTerm = search ? `searchTerm=${search}&` : "";
-    const url = `/oms/OManagementReport/GetSalesOrderPaginationForPrint?${SearchTerm}AccountId=${accId}&BUnitId=${buId}&ShipPointId=${values?.shipPoint?.value}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc&ReportTypeId=${values?.type?.value}&channelid=${values?.channel?.value}`;
+    const url = `/oms/OManagementReport/GetSalesOrderPaginationForPrint?${SearchTerm}AccountId=${accId}&BUnitId=${buId}&ShipPointId=${values?.shipPoint?.value}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc&ReportTypeId=${values?.type?.value}&channelid=${values?.channel?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}`;
 
-    getRowData(url, (resData) => setRowData(resData));
+    getRowData(url, (resData) => {
+      const modifiedData = {
+        ...resData,
+        data: resData?.data?.map((item) => {
+          return {
+            ...item,
+            isSelected: false,
+          };
+        }),
+      };
+      setRowData(modifiedData);
+    });
   };
 
   useEffect(() => {
@@ -80,7 +111,7 @@ const HologramPrintLanding = () => {
       title: "Are you Sure?",
       message: "Are you sure you want to make this unprinted?",
       yesAlertFunc: () => {
-        inactivePrintedInfo(id, setLoading, () => {
+        inactivePrintedInfo(id, userId, setLoading, () => {
           getData(values, pageNo, pageSize, "");
         });
       },
@@ -88,6 +119,62 @@ const HologramPrintLanding = () => {
     };
     IConfirmModal(obj);
   };
+
+  const approveHandler = (values, item, type) => {
+    const payload =
+      type === "bulk"
+        ? rowData?.data
+            ?.filter((element) => element?.isSelected)
+            ?.map((item) => item?.salesOrderId)
+        : [item?.salesOrderId];
+
+    const obj = {
+      title: "Are you Sure?",
+      message: "Are you sure you want to approve for print?",
+      yesAlertFunc: () => {
+        approveSalesOrder(
+          `/oms/OManagementReport/ApproveUnprintedPaperDO?userId=${userId}&isApprove=true`,
+          payload,
+          () => {
+            getData(values, pageNo, pageSize, "");
+          },
+          true
+        );
+      },
+      noAlertFunc: () => {},
+    };
+    IConfirmModal(obj);
+  };
+
+  const rowDataHandler = (name, index, value) => {
+    let _data = [...rowData?.data];
+    _data[index][name] = value;
+    setRowData({ ...rowData, data: _data });
+  };
+
+  const allSelect = (value) => {
+    let _data = [...rowData?.data];
+    const modify = {
+      ...rowData,
+      data: _data.map((item) => {
+        return {
+          ...item,
+          isSelected: item?.isPaperDOApproved ? false : value,
+        };
+      }),
+    };
+    setRowData(modify);
+  };
+
+  const selectedAll = () => {
+    return rowData?.data?.length > 0 &&
+      rowData?.data?.filter((item) => item?.isSelected)?.length ===
+        rowData?.data?.filter((x) => !x?.isPaperDOApproved)?.length
+      ? true
+      : false;
+  };
+
+  const LOADING = isLoading || IsLoading || loading || loader;
 
   return (
     <>
@@ -99,7 +186,7 @@ const HologramPrintLanding = () => {
         {({ values, setFieldValue }) => (
           <>
             <ICard title="Hologram Print">
-              {(isLoading || IsLoading || loading) && <Loading />}
+              {LOADING && <Loading />}
 
               <form className="form form-label-right">
                 <div className="global-form">
@@ -142,6 +229,7 @@ const HologramPrintLanding = () => {
                         allElement: false,
                       }}
                     />
+                    <FromDateToDateForm obj={{ values, setFieldValue }} />
                     <IButton
                       onClick={() => {
                         getData(values, pageNo, pageSize, "");
@@ -150,12 +238,31 @@ const HologramPrintLanding = () => {
                     />
                   </div>
                 </div>
-                <div className="col-lg-3 mt-3">
-                  <PaginationSearch
-                    placeholder="Sales Order"
-                    paginationSearchHandler={paginationSearchHandler}
-                    values={values}
-                  />
+                <div className="d-flex justify-content-between mt-1">
+                  <div>
+                    <PaginationSearch
+                      placeholder="Sales Order/Partner Name"
+                      paginationSearchHandler={paginationSearchHandler}
+                      values={values}
+                    />
+                  </div>
+                  {permittedPersonsForAccountsApprove?.includes(userId) &&
+                    values?.type?.value === 1 &&
+                    rowData?.data?.length > 0 && (
+                      <button
+                        type="button"
+                        className={"btn btn-info  "}
+                        disabled={
+                          rowData?.data?.filter((e) => e?.isSelected)?.length <
+                          1
+                        }
+                        onClick={() => {
+                          approveHandler(values, {}, "bulk");
+                        }}
+                      >
+                        Approve
+                      </button>
+                    )}
                 </div>
                 {rowData?.data?.length > 0 && (
                   <table
@@ -166,6 +273,24 @@ const HologramPrintLanding = () => {
                   >
                     <thead>
                       <tr className="cursor-pointer">
+                        {permittedPersonsForAccountsApprove?.includes(userId) &&
+                          values?.type?.value === 1 &&
+                          rowData?.data?.filter((e) => !e?.isPaperDOApproved)
+                            ?.length > 0 && (
+                            <th
+                              onClick={() => allSelect(!selectedAll(), values)}
+                              style={{ minWidth: "30px" }}
+                            >
+                              {
+                                <input
+                                  type="checkbox"
+                                  value={selectedAll()}
+                                  checked={selectedAll()}
+                                  onChange={() => {}}
+                                />
+                              }
+                            </th>
+                          )}
                         {headers?.map((th, index) => {
                           return <th key={index}> {th} </th>;
                         })}
@@ -175,6 +300,33 @@ const HologramPrintLanding = () => {
                       {rowData?.data?.map((item, index) => {
                         return (
                           <tr key={index}>
+                            {values?.type?.value === 1 &&
+                              permittedPersonsForAccountsApprove?.includes(
+                                userId
+                              ) &&
+                              rowData?.data?.filter(
+                                (e) => !e?.isPaperDOApproved
+                              )?.length > 0 && (
+                                <td
+                                  onClick={() => {
+                                    rowDataHandler(
+                                      "isSelected",
+                                      index,
+                                      !item.isSelected
+                                    );
+                                  }}
+                                  className="text-center"
+                                >
+                                  {!item?.isPaperDOApproved && (
+                                    <input
+                                      type="checkbox"
+                                      value={item?.isSelected}
+                                      checked={item?.isSelected}
+                                      onChange={() => {}}
+                                    />
+                                  )}
+                                </td>
+                              )}
                             <td
                               style={{ width: "40px" }}
                               className="text-center"
@@ -184,6 +336,9 @@ const HologramPrintLanding = () => {
                             <td>{item?.soldToPartnerName}</td>
                             <td>{item?.shippointName}</td>
                             <td>{item?.salesOrderCode}</td>
+                            <td className="text-right">
+                              {_fixedPoint(item?.totalOrderValue, true)}
+                            </td>
                             <td>{_dateFormatter(item?.salesOrderDate)}</td>
                             <td>{item?.refferenceTypeName}</td>
                             <td>{item?.paymentTermsName}</td>
@@ -200,33 +355,61 @@ const HologramPrintLanding = () => {
                               <div className="d-flex justify-content-around">
                                 {permitted ? (
                                   values?.type?.value === 1 ? (
-                                    <span>
-                                      <ICon
-                                        title="Print"
-                                        onClick={() => {
-                                          getPrintData(
-                                            `/oms/OManagementReport/GetSalesOrderPrintCopy?SalesOrderId=${item?.salesOrderId}&UserId=${userId}&BusinessUnitId=${buId}`,
-                                            () => {
-                                              setShow(true);
+                                    item?.isPaperDOApproved ? (
+                                      <span>
+                                        <ICon
+                                          title="Print"
+                                          onClick={() => {
+                                            getPrintData(
+                                              `/oms/OManagementReport/GetSalesOrderPrintCopy?SalesOrderId=${item?.salesOrderId}&UserId=${userId}&BusinessUnitId=${buId}`,
+                                              () => {
+                                                setShow(true);
+                                              }
+                                            );
+                                          }}
+                                        >
+                                          <i class="fas fa-print"></i>
+                                        </ICon>
+                                      </span>
+                                    ) : (
+                                      permittedPersonsForAccountsApprove?.includes(
+                                        userId
+                                      ) &&
+                                      rowData?.data?.filter(
+                                        (e) => e?.isSelected
+                                      )?.length < 1 && (
+                                        <span>
+                                          <IApproval
+                                            title={
+                                              "Approve Sales Order for Print"
                                             }
+                                            onClick={() => {
+                                              approveHandler(
+                                                values,
+                                                item,
+                                                "single"
+                                              );
+                                            }}
+                                          />
+                                        </span>
+                                      )
+                                    )
+                                  ) : (
+                                    permittedPersonsForAccountsApprove?.includes(
+                                      userId
+                                    ) && (
+                                      <ICon
+                                        title={"Make Unprinted"}
+                                        onClick={() => {
+                                          inactiveHandler(
+                                            item?.salesOrderId,
+                                            values
                                           );
                                         }}
                                       >
-                                        <i class="fas fa-print"></i>
+                                        <i class="fas fa-undo-alt"></i>
                                       </ICon>
-                                    </span>
-                                  ) : (
-                                    <ICon
-                                      title={"Make Unprinted"}
-                                      onClick={() => {
-                                        inactiveHandler(
-                                          item?.salesOrderId,
-                                          values
-                                        );
-                                      }}
-                                    >
-                                      <i class="fas fa-undo-alt"></i>
-                                    </ICon>
+                                    )
                                   )
                                 ) : (
                                   ""
