@@ -31,6 +31,7 @@ p {
   /* border-bottom: 1px solid black; */
   align-items: center;
   justify-content: space-between;
+  text-align: right;
   /* height: 130px; */
 }
 
@@ -74,6 +75,7 @@ p {
   display: flex;
   justify-content: space-between;
   margin-top: 120px;
+  text-align: center;
 }
 .hologram_wrapper .signature_wrapper .signature p {
   position: relative;
