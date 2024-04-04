@@ -20,7 +20,6 @@ const initData = {
   dispatchType: "",
   dispatchDate: "",
   fromLocation: "",
-  toLocation: "",
   receiverType: "",
   receiverBu: "",
   receiverName: "",
@@ -37,13 +36,14 @@ export default function DispatchRequisitionCreateEdit() {
   const [objProps, setObjprops] = useState({});
   const [rowData,setRowData] = useState([])
   const [plantListddl, getPlantListddl] = useAxiosGet();
+  const[toLocationPlantDDL,getToLocationPlantDDL,loadToLocatoinPlantDDL] = useAxiosGet()
   const [singleItem,getSingleItem] = useAxiosGet()
   const {id} = useParams()
   // const[isShowModal,setIsShowModal] = useState()
   const location = useLocation();
   const [,saveDispatchRequisition,loadDispatchRequisition] =useAxiosPost()
   const {
-    profileData: { accountId: accId, workPlaceName,employeeFullName,employeeId ,contact,userId},
+    profileData: { accountId: accId,employeeFullName,employeeId ,contact,userId},
     selectedBusinessUnit: { value: buId },
     // businessUnitList,
   } = useSelector((state) => state?.authData, shallowEqual);
@@ -55,10 +55,13 @@ export default function DispatchRequisitionCreateEdit() {
     const payload = {
         header: {
           dispatchHeaderId: 0,
-          dispatchCode: "", // will remove
+          dispatchType:values?.dispatchType,
+          dispatchNote: "", 
           sendReceive: location.state.requisition || "",
-          fromLocation: values?.fromLocation,
-          toLocation: values?.toLocation,
+          fromLocation: values?.plant?.label,
+          fromPlantId:values?.plant?.value,
+          toLocation: values?.toLocation?.label || values?.toLocation||"",
+          toPlantId:values?.toLocation?.value || "",
           senderEnrollId: employeeId,
           senderName: employeeFullName,
           senderContactNo :contact,
@@ -73,13 +76,12 @@ export default function DispatchRequisitionCreateEdit() {
           sendViya: "",
           vehicleNo: "",
           sendCost: 0,
-          isOwnerReceive:false,
+          // isOwnerReceive:false,
           actionById: employeeId,
           accountId: accId,
           businessUnitId: buId,
-          plantId:values?.plant?.value || 0,
-          isActive: true,
-          isSend: false, 
+          // isActive: true,
+          // isSend: false, 
         },
         row: [...rowData]
       }
@@ -139,15 +141,13 @@ export default function DispatchRequisitionCreateEdit() {
   if(id){
     getSingleItem(`/tms/DocumentDispatch/GetDocumentDispatchById?DispatchId=${id}`)
   }
- },[])
+ // eslint-disable-next-line react-hooks/exhaustive-deps
+ },[id])
 
   return (
     <Formik
       enableReinitialize={true}
-      initialValues={{
-        ...initData,
-        fromLocation: workPlaceName,
-      }}
+      initialValues={initData}
         validationSchema={dispatchRequisitionSchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         if(!values?.receiverName) return toast.warn("Receiver name is required")
@@ -173,52 +173,6 @@ export default function DispatchRequisitionCreateEdit() {
               <div className="form-group  global-form row">
               <div className="col-lg-3">
                   <NewSelect
-                    name="plant"
-                    options={plantListddl}
-                    value={values?.plant}
-                    label="Plant"
-                    onChange={(valueOption) => {
-                      setFieldValue("plant", valueOption);
-                    }}
-                    errors={errors}
-                    touched={touched}
-                  />
-                </div>
-                
-                <div className="col-lg-3">
-                  <InputField
-                    value={values?.dispatchDate}
-                    label="Dispatch Date"
-                    name="dispatchDate"
-                    type="date"
-                    onChange={(e) => {
-                      setFieldValue("dispatchDate", e.target.value);
-                    }}
-                  />
-                </div>
-                <div className="col-lg-3">
-                  <InputField
-                    value={values?.fromLocation}
-                    label="From Location"
-                    name="fromLocation"
-                    type="text"
-                    disabled={true}
-                  />
-                </div>
-                <div className="col-lg-3">
-                  <InputField
-                    value={values?.toLocation}
-                    label="To Location"
-                    placeholder="To Location"
-                    name="toLocation"
-                    type="text"
-                    onChange={(e) => {
-                      setFieldValue("toLocation", e.target.value);
-                    }}
-                  />
-                </div>
-                <div className="col-lg-3">
-                  <NewSelect
                     name="receiverType"
                     options={[
                       { value: 1, label: "Internal" },
@@ -229,24 +183,31 @@ export default function DispatchRequisitionCreateEdit() {
                     onChange={(valueOption) => {
                       setFieldValue("receiverName", "");
                       setFieldValue("receiverType", valueOption);
+                      
                     }}
                     errors={errors}
                     touched={touched}
                   />
                 </div>
                 {values?.receiverType?.value === 1 ? (
+                  <>
                   <div className="col-md-3">
                     <label>Receiver Name</label>
                     <SearchAsyncSelect
                       selectedValue={values?.receiverName}
                       isSearchIcon={true}
                       handleChange={(valueOption) => {
+                        setFieldValue("toLocation", "");
                         setFieldValue("receiverName", valueOption);
                         setFieldValue("contactNo", valueOption?.contactNo);
+                        if(!valueOption) return;
+                      getToLocationPlantDDL(`/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${valueOption?.value}&AccId=1&BusinessUnitId=${valueOption?.employeeBusinessUnitId}&OrgUnitTypeId=7`)
                       }}
                       loadOptions={loadUserList}
                     />
                   </div>
+
+                  </>
                 ) :values?.receiverType?.value === 2? (
                   <div className="col-lg-3">
                     <InputField
@@ -261,6 +222,64 @@ export default function DispatchRequisitionCreateEdit() {
                     />
                   </div>
                 ):null}
+                <div className="col-lg-3">
+                  <InputField
+                    value={values?.dispatchDate}
+                    label="Dispatch Date"
+                    name="dispatchDate"
+                    type="date"
+                    onChange={(e) => {
+                      setFieldValue("dispatchDate", e.target.value);
+                    }}
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <NewSelect
+                    name="plant"
+                    options={plantListddl}
+                    value={values?.plant}
+                    label="From Location"
+                    onChange={(valueOption) => {
+                      setFieldValue("plant", valueOption);
+                    }}
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
+                
+                {
+                  values?.receiverType?.value === 1 ? (
+                    <>
+                     <div className="col-lg-3">
+                  <NewSelect
+                    name="toLocation"
+                    options={toLocationPlantDDL}
+                    value={values?.toLocation}
+                    label="To Location"
+                    onChange={(valueOption) => {
+                      setFieldValue("toLocation", valueOption);
+                    }}
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
+                    </>
+                  ) :values?.receiverType?.value === 2 && (
+                    <div className="col-lg-3">
+                  <InputField
+                    value={values?.toLocation}
+                    label="To Location"
+                    placeholder="To Location"
+                    name="toLocation"
+                    type="text"
+                    onChange={(e) => {
+                      setFieldValue("toLocation", e.target.value);
+                    }}
+                  />
+                </div>
+                  )
+                }
+                
                 <div className="col-lg-3">
                   <InputField
                     value={values?.contactNo}
