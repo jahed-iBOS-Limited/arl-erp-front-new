@@ -138,7 +138,10 @@ const SalesReturn = () => {
       if (!values?.narration) {
         return toast.warning("Narration is required");
       }
-      url = `/oms/SalesInformation/SalesChallanReturnApprove?Challan=${item?.deliveryChallan}&unitid=${buId}&intpartid=3&strNarration=${values?.narration}&intInactiveBy=${userId}&intCustomerid=${item?.businessPartnerId}`;
+      url = `/oms/SalesInformation/SalesChallanReturnApprove?salesReturnId=${
+        item?.salesReturnId
+      }&collectionDate=${_todayDate()}&businessUnitId=${buId}&actionBy=${userId}&isWastedItem=false`;
+      // url = `/oms/SalesInformation/SalesChallanReturnApprove?Challan=${item?.deliveryChallan}&unitid=${buId}&intpartid=3&strNarration=${values?.narration}&intInactiveBy=${userId}&intCustomerid=${item?.businessPartnerId}`;
     }
 
     salesReturnApprove_api(
