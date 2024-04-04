@@ -13,6 +13,7 @@ import CommonTable from "../../_helper/commonTable";
 import useAxiosGet from "../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../_helper/customHooks/useAxiosPost";
 import { dispatchReceiveValidationSchema } from "./helper";
+import { header } from "../../financialManagement/financials/ManualReconcile/helpers";
 
 const initData = {
   receiveType: "",
@@ -21,7 +22,9 @@ const initData = {
   receiverName: "",
   receiverContractNo: "",
   fromLocation: "",
+  fromLocationDDL: "",
   toLocation: "",
+  toLocationDDL: "",
   receiveDate: "",
   remarks: "",
   dispatchType: "",
@@ -29,15 +32,21 @@ const initData = {
   qty: "",
   rowRemark: "",
   uom: "",
-  plant:""
+  plant: "",
+  documentNo: "",
 };
 
 export default function ReceiveModal() {
+  const { profileData, selectedBusinessUnit } = useSelector((state) => {
+    return state.authData;
+  }, shallowEqual);
+
   const [objProps, setObjprops] = useState({});
   const [rowData, setRowData] = useState([]);
-  const [plantListddl, getPlantListddl] = useAxiosGet();
   //   const location = useLocation();
   const [, saveDocumentReceive, loadDocumentReceive] = useAxiosPost();
+  const [locationDDL, getLocationDDL, , setLocationDDL] = useAxiosGet();
+  const [singleData, getSingleData] = useAxiosGet();
   const {
     profileData: {
       accountId: accId,
@@ -58,12 +67,18 @@ export default function ReceiveModal() {
       header: {
         dispatchHeaderId: 0,
         sendReceive: "received",
-        fromLocation: values?.fromLocation,
-        toLocation: values?.toLocation,
+        fromLocation:
+          values?.receiveType?.value === 1
+            ? values?.fromLocationDDL?.label
+            : values?.fromLocation,
+        toLocation:
+          values?.receiveType?.value === 1
+            ? values?.toLocationDDL?.label
+            : values?.toLocation,
         senderEnrollId: values?.senderName?.value || 0,
         senderName:
           values?.senderName?.strEmployeeName || values?.senderName || "",
-        senderContactNo: values?.senderContactNo ||"",
+        senderContactNo: values?.senderContactNo || "",
         receiverEnrollId: values.receiverName?.value || 0,
         receiverName: values.receiverName?.strEmployeeName || "",
         receiverContactNo: values?.receiverContactNo || "",
@@ -75,7 +90,7 @@ export default function ReceiveModal() {
         actionById: employeeId,
         accountId: accId,
         businessUnitId: buId,
-        plantId: values?.plant?.value||0,
+        plantId: 0,
       },
       row: [...rowData],
     };
@@ -104,6 +119,15 @@ export default function ReceiveModal() {
       })
       .catch((err) => []);
   };
+  const loadSenderListForDocument = (v) => {
+    if (v?.length < 3) return [];
+    return axios
+      .get(`/tms/DocumentDispatch/DocumentDispatchDDL?Search=${v}`)
+      .then((res) => {
+        return res?.data;
+      })
+      .catch((err) => []);
+  };
   const loadUserList = (v) => {
     if (v?.length < 3) return [];
     return axios
@@ -122,9 +146,8 @@ export default function ReceiveModal() {
         item?.documentMaterialName === values?.parcelName &&
         item?.quantity === +values?.qty &&
         item?.remaks === values?.remarks
-        
     );
-   
+
     if (checkDuplicate) return toast.warn("Duplicate Data Found");
     const newRowItem = {
       rowId: 0,
@@ -144,12 +167,14 @@ export default function ReceiveModal() {
     prevRowData.splice(index, 1);
     setRowData(prevRowData);
   };
-  console.log("rowData",rowData);
+  console.log("rowData", rowData);
   useEffect(() => {
     getUoMList(
       `/item/ItemUOM/GetItemUOMDDL?AccountId=${accId}&BusinessUnitId=${buId}`
     );
-      getPlantListddl( `/mes/MesDDL/GetPlantDDL?AccountId=${accId}&BusinessUnitId=${buId}`)
+    getLocationDDL(
+      `/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${profileData.userId}&AccId=${profileData.accountId}&BusinessUnitId=${selectedBusinessUnit.value}&OrgUnitTypeId=7`
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accId, buId]);
 
@@ -160,7 +185,7 @@ export default function ReceiveModal() {
         ...initData,
         toLocation: workPlaceName,
       }}
-      validationSchema={dispatchReceiveValidationSchema}
+      // validationSchema={dispatchReceiveValidationSchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         if (!values?.receiverName)
           return toast.warn("Receiver name is required");
@@ -181,22 +206,13 @@ export default function ReceiveModal() {
       }) => (
         <>
           {loadDocumentReceive && <Loading />}
-          <IForm title="Dispatch Receive" isHiddenBack={true} getProps={setObjprops}>
+          <IForm
+            title="Dispatch Receive"
+            isHiddenBack={true}
+            getProps={setObjprops}
+          >
             <Form>
               <div className="form-group  global-form row">
-              <div className="col-lg-3">
-                  <NewSelect
-                    name="plant"
-                    options={plantListddl}
-                    value={values?.plant}
-                    label="Plant"
-                    onChange={(valueOption) => {
-                      setFieldValue("plant", valueOption);
-                    }}
-                    errors={errors}
-                    touched={touched}
-                  />
-                </div>
                 <div className="col-lg-3">
                   <NewSelect
                     name="receiveType"
@@ -208,12 +224,116 @@ export default function ReceiveModal() {
                     label="Receive Type"
                     onChange={(valueOption) => {
                       setFieldValue("receiveType", valueOption);
+                      setValues({ ...initData, receiveType: valueOption });
+                      setRowData([]);
                     }}
                     errors={errors}
                     touched={touched}
                   />
                 </div>
+                {/* {values?.receiveType?.value === 2 ? (
+                  <div className="col-lg-3">
+                    <NewSelect
+                      name="plant"
+                      options={plantListddl}
+                      value={values?.plant}
+                      label="Plant"
+                      onChange={(valueOption) => {
+                        setFieldValue("plant", valueOption);
+                      }}
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
+                ) : null} */}
+                {values?.receiveType?.value === 1 ? (
+                  <div className="col-md-3">
+                    <label>Document No</label>
+                    <SearchAsyncSelect
+                      selectedValue={values?.documentNo}
+                      isSearchIcon={true}
+                      handleChange={(valueOption) => {
+                        setFieldValue("documentNo", valueOption || "");
+                        if (valueOption) {
+                          getSingleData(
+                            `/tms/DocumentDispatch/GetDocumentDispatchById?DispatchId=${valueOption?.value}`,
+                            (data) => {
+                              setFieldValue(
+                                "senderName",
+                                data?.header?.SenderEnrollId &&
+                                  data?.header?.SenderName
+                                  ? {
+                                      value: data?.header?.SenderEnrollId,
+                                      label: data?.header?.SenderName,
+                                    }
+                                  : null
+                              );
+                              setFieldValue(
+                                "senderContactNo",
+                                data?.header?.SenderContactNo || ""
+                              );
+                              setFieldValue(
+                                "receiverName",
+                                data?.header?.ReceiverEnrollId &&
+                                  data?.header?.ReceiverName
+                                  ? {
+                                      value: data?.header?.ReceiverEnrollId,
+                                      label: data?.header?.ReceiverName,
+                                    }
+                                  : null
+                              );
+                              setFieldValue(
+                                "receiverContractNo",
+                                data?.header?.ReceiverContactNo || ""
+                              );
+                              setFieldValue(
+                                "fromLocationDDL",
+                                data?.header?.FromPlantId &&
+                                  data?.header?.FromLocation
+                                  ? {
+                                      value: data?.header?.FromPlantId,
+                                      label: data?.header?.FromLocation,
+                                    }
+                                  : null
+                              );
+                              setFieldValue(
+                                "toLocationDDL",
+                                data?.header?.ToPlantId &&
+                                  data?.header?.ToLocation
+                                  ? {
+                                      value: data?.header?.ToPlantId,
+                                      label: data?.header?.ToLocation,
+                                    }
+                                  : null
+                              );
+                              setFieldValue(
+                                "remarks",
+                                data?.header?.Remaks || ""
+                              );
 
+                              setRowData(
+                                data?.row?.map((item) => ({
+                                  ...item,
+                                  dispatchType: item?.DispatchType,
+                                  documentMaterialName:
+                                    item?.DocumentMaterialName,
+                                  quantity: item?.Quantity,
+                                  uom: item?.Uom,
+                                  remaks: item?.Remaks,
+                                  rowId: item?.RowId,
+                                  dispatchHeaderId: item?.DispatchHeaderId,
+                                  uomId: item?.UomId,
+                                  isActive: item?.IsActive,
+                                }))
+                              );
+                            }
+                          );
+                        }
+                      }}
+                      loadOptions={loadSenderListForDocument}
+                    />
+                  </div>
+                ) : null}
                 {values?.receiveType?.value === 1 ? (
                   <div className="col-md-3">
                     <label>Sender Name</label>
@@ -285,25 +405,73 @@ export default function ReceiveModal() {
                     }}
                   />
                 </div>
+                {values?.receiveType?.value === 1 ? (
+                  <>
+                    {" "}
+                    <div className="col-lg-3">
+                      <NewSelect
+                        name="fromLocationDDL"
+                        options={locationDDL}
+                        value={values?.fromLocationDDL}
+                        label="From Location"
+                        onChange={(valueOption) => {
+                          setFieldValue("fromLocationDDL", valueOption);
+                        }}
+                        errors={errors}
+                        touched={touched}
+                      />
+                    </div>
+                    <div className="col-lg-3">
+                      <NewSelect
+                        name="toLocationDDL"
+                        options={locationDDL}
+                        value={values?.toLocationDDL}
+                        label="To Location"
+                        onChange={(valueOption) => {
+                          setFieldValue("toLocationDDL", valueOption);
+                        }}
+                        errors={errors}
+                        touched={touched}
+                      />
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    {" "}
+                    <div className="col-lg-3">
+                      <InputField
+                        value={values?.fromLocation}
+                        label="From Location"
+                        placeholder="From Location"
+                        name="fromLocation"
+                        type="text"
+                        onClick={(e) => {
+                          setFieldValue("fromLocation", e.target.value);
+                        }}
+                      />
+                    </div>
+                    <div className="col-lg-3">
+                      <InputField
+                        value={values?.toLocation}
+                        label="To Location"
+                        name="toLocation"
+                        type="text"
+                        disabled={true}
+                      />
+                    </div>
+                  </>
+                )}
+
                 <div className="col-lg-3">
                   <InputField
-                    value={values?.fromLocation}
-                    label="From Location"
-                    placeholder="From Location"
-                    name="fromLocation"
+                    value={values?.remarks}
+                    label="Remarks"
+                    name="remarks"
+                    placeholder="Remarks"
                     type="text"
-                    onClick={(e) => {
-                      setFieldValue("fromLocation", e.target.value);
+                    onChange={(e) => {
+                      setFieldValue("remarks", e.target.value);
                     }}
-                  />
-                </div>
-                <div className="col-lg-3">
-                  <InputField
-                    value={values?.toLocation}
-                    label="To Location"
-                    name="toLocation"
-                    type="text"
-                    disabled={true}
                   />
                 </div>
                 <div className="col-lg-3">
@@ -314,18 +482,6 @@ export default function ReceiveModal() {
                     type="date"
                     onChange={(e) => {
                       setFieldValue("receiveDate", e.target.value);
-                    }}
-                  />
-                </div>
-                <div className="col-lg-3">
-                  <InputField
-                    value={values?.remarks}
-                    label="Remarks"
-                    name="remarks"
-                    placeholder="Remarks"
-                    type="text"
-                    onChange={(e) => {
-                      setFieldValue("remarks", e.target.value);
                     }}
                   />
                 </div>
@@ -343,112 +499,114 @@ export default function ReceiveModal() {
                 </div>
               </div>
 
-              <div className="form-group  global-form row mt-5">
-                <div className="col-lg-3">
-                  <NewSelect
-                    name="dispatchType"
-                    options={[
-                      { value: 1, label: "Document" },
-                      { value: 2, label: "Material" },
-                    ]}
-                    value={values?.dispatchType}
-                    label="Dispatch Type"
-                    onChange={(valueOption) => {
-                      setFieldValue("parcelName", "");
-                      setFieldValue("qty", "");
-                      setFieldValue("dispatchType", valueOption);
-                    }}
-                    errors={errors}
-                    touched={touched}
-                  />
-                </div>
-                <div className="col-lg-3">
-                  <InputField
-                    value={values?.parcelName}
-                    label={
-                      values?.dispatchType
-                        ? `${values?.dispatchType?.label} Name`
-                        : "Document / Material Name"
-                    }
-                    name="parcelName"
-                    placeholder={
-                      values?.dispatchType
-                        ? `${values?.dispatchType?.label} Name`
-                        : "Document / Material Name"
-                    }
-                    type="text"
-                    onChange={(e) => {
-                      setFieldValue("parcelName", e.target.value);
-                    }}
-                  />
-                </div>
-                <div className="col-lg-3">
-                  <InputField
-                    value={values?.qty}
-                    label="Qty"
-                    name="qty"
-                    placeholder="qty"
-                    type="number"
-                    min={0}
-                    onChange={(e) => {
-                      setFieldValue("qty", e.target.value);
-                    }}
-                  />
-                </div>
-                {values?.dispatchType?.value === 2 && (
+              {values?.receiveType?.value !== 1 && (
+                <div className="form-group  global-form row mt-5">
                   <div className="col-lg-3">
                     <NewSelect
-                      options={uomList}
-                      value={values?.uom}
-                      label="UOM"
-                      name="uom"
-                      placeholder="UOM"
-                      type="text"
+                      name="dispatchType"
+                      options={[
+                        { value: 1, label: "Document" },
+                        { value: 2, label: "Material" },
+                      ]}
+                      value={values?.dispatchType}
+                      label="Dispatch Type"
                       onChange={(valueOption) => {
-                        setFieldValue("uom", valueOption);
+                        setFieldValue("parcelName", "");
+                        setFieldValue("qty", "");
+                        setFieldValue("dispatchType", valueOption);
+                      }}
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
+                  <div className="col-lg-3">
+                    <InputField
+                      value={values?.parcelName}
+                      label={
+                        values?.dispatchType
+                          ? `${values?.dispatchType?.label} Name`
+                          : "Document / Material Name"
+                      }
+                      name="parcelName"
+                      placeholder={
+                        values?.dispatchType
+                          ? `${values?.dispatchType?.label} Name`
+                          : "Document / Material Name"
+                      }
+                      type="text"
+                      onChange={(e) => {
+                        setFieldValue("parcelName", e.target.value);
                       }}
                     />
                   </div>
-                )}
-                <div className="col-lg-3">
-                  <InputField
-                    value={values?.rowRemark}
-                    label="Remarks"
-                    name="rowRemark"
-                    placeholder="Remarks"
-                    type="text"
-                    onChange={(e) => {
-                      setFieldValue("rowRemark", e.target.value);
-                    }}
-                  />
+                  <div className="col-lg-3">
+                    <InputField
+                      value={values?.qty}
+                      label="Qty"
+                      name="qty"
+                      placeholder="qty"
+                      type="number"
+                      min={0}
+                      onChange={(e) => {
+                        setFieldValue("qty", e.target.value);
+                      }}
+                    />
+                  </div>
+                  {values?.dispatchType?.value === 2 && (
+                    <div className="col-lg-3">
+                      <NewSelect
+                        options={uomList}
+                        value={values?.uom}
+                        label="UOM"
+                        name="uom"
+                        placeholder="UOM"
+                        type="text"
+                        onChange={(valueOption) => {
+                          setFieldValue("uom", valueOption);
+                        }}
+                      />
+                    </div>
+                  )}
+                  <div className="col-lg-3">
+                    <InputField
+                      value={values?.rowRemark}
+                      label="Remarks"
+                      name="rowRemark"
+                      placeholder="Remarks"
+                      type="text"
+                      onChange={(e) => {
+                        setFieldValue("rowRemark", e.target.value);
+                      }}
+                    />
+                  </div>
+                  <div className="col-lg-3">
+                    <button
+                      style={{ marginTop: "16px" }}
+                      className="btn btn-primary"
+                      type="button"
+                      onClick={() => {
+                        handleAdd(values, setRowData);
+                        setValues({
+                          ...values,
+                          dispatchType: "",
+                          parcelName: "",
+                          qty: "",
+                          rowRemark: "",
+                          uom: "",
+                        });
+                      }}
+                      disabled={
+                        !values?.dispatchType ||
+                        !values?.parcelName ||
+                        !values?.qty ||
+                        !values?.rowRemark
+                      }
+                    >
+                      Add
+                    </button>
+                  </div>
                 </div>
-                <div className="col-lg-3">
-                  <button
-                    style={{ marginTop: "16px" }}
-                    className="btn btn-primary"
-                    type="button"
-                    onClick={() => {
-                      handleAdd(values, setRowData);
-                      setValues({
-                        ...values,
-                        dispatchType: "",
-                        parcelName: "",
-                        qty: "",
-                        rowRemark: "",
-                        uom: "",
-                      });
-                    }}
-                    disabled={
-                      !values?.dispatchType ||
-                      !values?.parcelName ||
-                      !values?.qty ||
-                      !values?.rowRemark
-                    }
-                  >
-                    Add
-                  </button>
-                </div>
-              </div>
+              )}
 
               <div style={{ marginTop: "15px" }}>
                 <CommonTable
