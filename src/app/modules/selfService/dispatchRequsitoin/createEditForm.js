@@ -2,7 +2,7 @@ import axios from "axios";
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import SearchAsyncSelect from "../../_helper/SearchAsyncSelect";
 import IForm from "../../_helper/_form";
@@ -37,11 +37,13 @@ export default function DispatchRequisitionCreateEdit() {
   const [objProps, setObjprops] = useState({});
   const [rowData,setRowData] = useState([])
   const [plantListddl, getPlantListddl] = useAxiosGet();
+  const [singleItem,getSingleItem] = useAxiosGet()
+  const {id} = useParams()
   // const[isShowModal,setIsShowModal] = useState()
   const location = useLocation();
   const [,saveDispatchRequisition,loadDispatchRequisition] =useAxiosPost()
   const {
-    profileData: { accountId: accId, workPlaceName,employeeFullName,employeeId ,contact},
+    profileData: { accountId: accId, workPlaceName,employeeFullName,employeeId ,contact,userId},
     selectedBusinessUnit: { value: buId },
     // businessUnitList,
   } = useSelector((state) => state?.authData, shallowEqual);
@@ -64,7 +66,7 @@ export default function DispatchRequisitionCreateEdit() {
           receiverName: values.receiverName?.strEmployeeName||values?.receiverName||"",
           receiverContactNo:values?.contactNo,
           documentOwnerSenderReveiveDate :values?.dispatchDate,
-          remaks:values?.remarks,
+          remaks:values?.remarks||"",
           dispatchSenderReceiverEnroll:0,
           dispatchSenderReceiverName:"",
           dispatchSendReveiveDate:"",
@@ -82,7 +84,7 @@ export default function DispatchRequisitionCreateEdit() {
         row: [...rowData]
       }
       saveDispatchRequisition(
-        `/tms/DocumentDispatch/CreateDocumentDispatch`,
+        `/tms/DocumentDispatch/CreateDocumentRequsition`,
         payload,
         ()=>{
           setRowData([])
@@ -116,7 +118,7 @@ export default function DispatchRequisitionCreateEdit() {
         uomId:values?.uom?.value || 0,
         uom:values?.uom?.label || "",
         isActive:true,
-        remaks:values?.rowRemark
+        remaks:values?.rowRemark||""
     }
     setRowData((prev)=>[...prev,newRowItem])
   }
@@ -128,9 +130,16 @@ export default function DispatchRequisitionCreateEdit() {
 
  useEffect(()=>{
   getUoMList(`/item/ItemUOM/GetItemUOMDDL?AccountId=${accId}&BusinessUnitId=${buId}`)
-  getPlantListddl( `/mes/MesDDL/GetPlantDDL?AccountId=${accId}&BusinessUnitId=${buId}`)
+  // getPlantListddl( `/mes/MesDDL/GetPlantDDL?AccountId=${accId}&BusinessUnitId=${buId}`)
+  getPlantListddl(`/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&OrgUnitTypeId=7`)
  // eslint-disable-next-line react-hooks/exhaustive-deps
  },[accId,buId])
+
+ useEffect(()=>{
+  if(id){
+    getSingleItem(`/tms/DocumentDispatch/GetDocumentDispatchById?DispatchId=${id}`)
+  }
+ },[])
 
   return (
     <Formik
@@ -381,8 +390,7 @@ export default function DispatchRequisitionCreateEdit() {
                     disabled={
                       !values?.dispatchType ||
                       !values?.parcelName ||
-                      !values?.qty ||
-                      !values?.rowRemark
+                      !values?.qty 
                     }
                   >
                     Add
@@ -391,7 +399,7 @@ export default function DispatchRequisitionCreateEdit() {
               </div>
 
               <div style={{marginTop:"15px"}}>
-                <CommonTable headersData={["Sl","Dispatch Type","Parcel Name","Quantity","UoM","Action"]}>
+                <CommonTable headersData={["Sl","Dispatch Type","Parcel Name","Quantity","UoM","Remarks","Action"]}>
                     <tbody>
                        {rowData?.map((item,index)=>
                         <tr key={index}>
@@ -400,6 +408,7 @@ export default function DispatchRequisitionCreateEdit() {
                             <td className="text-center">{item?.documentMaterialName}</td>
                             <td className="text-center">{item?.quantity}</td>
                             <td className="text-center">{item?.uom}</td>
+                            <td className="text-center">{item?.remaks}</td>
                             <td className="text-center">
                                 <span onClick={()=>handleRowDelete(index)}>
                                 <IDelete />

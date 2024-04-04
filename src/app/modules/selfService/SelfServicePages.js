@@ -175,6 +175,10 @@ export function SelfServicePages() {
           />
           <ContentRoute path='/self-service/arl-map' component={Jobstation} />
           <ContentRoute
+            path='/self-service/DispatchRequisition/edit/:id'
+            component={DispatchRequisitionCreateEdit}
+          />
+          <ContentRoute
             path='/self-service/DispatchRequisition/create'
             component={DispatchRequisitionCreateEdit}
           />

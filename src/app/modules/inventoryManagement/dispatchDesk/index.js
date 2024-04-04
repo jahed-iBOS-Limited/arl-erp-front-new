@@ -1,41 +1,34 @@
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+// import { useHistory } from "react-router-dom";
 import { _dateFormatter } from "../../_helper/_dateFormate";
 import IForm from "../../_helper/_form";
 import IApproval from "../../_helper/_helperIcons/_approval";
-import IEdit from "../../_helper/_helperIcons/_edit";
 import Loading from "../../_helper/_loading";
 import PaginationTable from "../../_helper/_tablePagination";
+import IViewModal from "../../_helper/_viewModal";
 import CommonTable from "../../_helper/commonTable";
 import useAxiosGet from "../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../_helper/customHooks/useAxiosPost";
+import ReceiveModal from "./receiveModal";
+import SendModal from "./sendModal";
 const initData = {
   requisition: "send",
 };
-export default function DispatchRequisitionLanding() {
+export default function DispatchDeskLanding() {
   const saveHandler = (values, cb) => {};
-  const history = useHistory();
+  const [isShowModal, setShowModal] = useState(false);
+  const [isShowReceiveModal, setShowReceiveModal] = useState(false);
+  const [singleItem, setSingleItem] = useState({});
+  //   const history = useHistory();
   const {
-    profileData: { accountId: accId, employeeId },
+    profileData: { accountId: accId },
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
   const [gridData, getGridData, loadGridData] = useAxiosGet();
-  const [, getDocReceivedApproval, loadDocReceivedApproval] = useAxiosPost();
 
-  const headersData = [
-    "Document No",
-    "Document Type",
-    "Dispatch Date",
-    "From Location",
-    "To Location",
-    "Receiver Name",
-    "Status",
-    "Action",
-  ];
   const handleGetRowData = (status) => {
     getGridData(
       `/tms/DocumentDispatch/GetDispatchPasignation?AccountId=${accId}&BusinessUnitId=${buId}&Status=${status}&viewOrder=asc&PageNo=${pageNo}&PageSize=${pageSize}`
@@ -75,9 +68,9 @@ export default function DispatchRequisitionLanding() {
         touched,
       }) => (
         <>
-          {(loadGridData || loadDocReceivedApproval) && <Loading />}
+          {loadGridData && <Loading />}
           <IForm
-            title="Dispatch Requisition"
+            title="Dispatch Desk"
             isHiddenReset
             isHiddenBack
             isHiddenSave
@@ -88,13 +81,10 @@ export default function DispatchRequisitionLanding() {
                     type="button"
                     className="btn btn-primary"
                     onClick={() => {
-                      history.push({
-                        pathname: "/self-service/DispatchRequisition/create",
-                        state: values,
-                      });
+                      setShowReceiveModal(true);
                     }}
                   >
-                    Create
+                    Receive
                   </button>
                 </div>
               );
@@ -143,19 +133,41 @@ export default function DispatchRequisitionLanding() {
                 </div>
               </div>
               <div style={{ marginTop: "20px", gap: "5px" }}>
-                <CommonTable headersData={headersData}>
+                <CommonTable
+                  headersData={[
+                    "Document No",
+                    "Sender Name",
+                    "Document Type",
+                    {
+                      title:
+                        values?.requisition === "received"
+                          ? "Received Date"
+                          : "Dispatch Date",
+                    },
+                    "From Location",
+                    "To Location",
+                    "Receiver Name",
+                    "Status",
+                    "Action",
+                  ]}
+                >
                   <tbody>
                     {gridData?.data?.map((item, index) => (
                       <tr>
                         <td className="text-center">{item?.dispatchCode}</td>
+                        <td className="text-center">{item?.senderName}</td>
                         <td className="text-center">{item?.dispatchType}</td>
                         <td className="text-center">
-                          {_dateFormatter(item.documentOwnerSenderReveiveDate)}
+                          {values?.requisition === "received"
+                            ? _dateFormatter(item.dispatchSendReveiveDate)
+                            : _dateFormatter(
+                                item.documentOwnerSenderReveiveDate
+                              )}
                         </td>
                         <td className="text-center">{item?.fromLocation}</td>
                         <td className="text-center">{item?.toLocation}</td>
                         <td className="text-center">{item?.receiverName}</td>
-                       {
+                        {
                         values?.requisition === "send" ? (
                           <td className="text-center">
                           { item?.isSend &&
@@ -163,9 +175,9 @@ export default function DispatchRequisitionLanding() {
                           !item?.isOwnerReceive ? (
                             <span style={{ color: "green" }}>Send</span>
                           ) : item?.isReceive && !item?.isOwnerReceive ? (
-                            <span style={{ color: "purple",fontWeight:"bold" }}>Desk Received</span>
+                            <span style={{ color: "purple",fontWeight:"bold" }}>Received</span>
                           ) : item?.isOwnerReceive ? (
-                            <span style={{ color: "green",fontWeight:"bold" }}>Owner Received</span>
+                            <span style={{ color: "green",fontWeight:"bold" }}>Approved</span>
                           ) : (
                             <span style={{ color: "red" }}>Not Send</span>
                           )}
@@ -174,39 +186,29 @@ export default function DispatchRequisitionLanding() {
                           <td className="text-center">
                             {
                                item?.isReceive && !item?.isOwnerReceive ? (
-                                <span style={{ color: "purple",fontWeight:"bold" }}>Desk Received</span>
+                                <span style={{ color: "purple",fontWeight:"bold" }}>Received</span>
                               ) : item?.isOwnerReceive ? (
-                                <span style={{ color: "green",fontWeight:"bold"  }}>Owner Received</span>
+                                <span style={{ color: "green",fontWeight:"bold"  }}>Approved</span>
                               ) : null
                             }
                           </td>
                         )
                        }
                         <td className="text-center">
-                          {values?.requisition === "send" && !item?.isSend ? (
+                          {values?.requisition === "send" && !item?.isSend && (
                             <span
                               style={{ cursor: "pointer" }}
-                              onClick={() =>history.push(`/self-service/DispatchRequisition/edit/${item?.dispatchHeaderId}`)}
+                              onClick={() => console.log("click icon")}
                             >
-                              <IEdit />
+                              <IApproval
+                                title="Send"
+                                onClick={() => {
+                                  setShowModal(true);
+                                  setSingleItem(item);
+                                }}
+                              />
                             </span>
-                          ) : values?.requisition === "received" && item?.isReceive && !item?.isOwnerReceive ?(
-                            <span
-                              style={{ cursor: "pointer" }}
-                              onClick={() => {
-                                getDocReceivedApproval(
-                                  `/tms/DocumentDispatch/DocumentReceivedApprovel?DispatchId=${item?.dispatchHeaderId}&UserId=${employeeId}`,
-                                  "",
-                                  () => {
-                                    handleGetRowData(values?.requisition)
-                                  },
-                                  true
-                                );
-                              }}
-                            >
-                              <IApproval title="Approve User Receive"/>
-                            </span>
-                          ):null}
+                          )}
                         </td>
                       </tr>
                     ))}
@@ -226,6 +228,39 @@ export default function DispatchRequisitionLanding() {
                   />
                 )}
               </div>
+              {isShowModal && (
+                <>
+                  <IViewModal
+                    show={isShowModal}
+                    onHide={() => {
+                      setShowModal(false);
+                      setSingleItem({});
+                    }}
+                  >
+                    <SendModal
+                      singleItem={singleItem}
+                      handleGetRowData={() =>
+                        handleGetRowData(values?.requisition)
+                      }
+                      onHide={() => setShowModal(false)}
+                    />
+                  </IViewModal>
+                </>
+              )}
+              {isShowReceiveModal && (
+                <>
+                  <IViewModal
+                    show={isShowReceiveModal}
+                    onHide={() => {
+                      setShowReceiveModal(false);
+                      setFieldValue("requisition","received")
+                      handleGetRowData("received")
+                    }}
+                  >
+                    <ReceiveModal />
+                  </IViewModal>
+                </>
+              )}
             </Form>
           </IForm>
         </>
