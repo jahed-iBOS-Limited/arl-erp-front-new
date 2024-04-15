@@ -53,6 +53,7 @@ const RequestForQuotationApprovalGrid = ({
   }, [activityChange]);
 
   let cb = () => {
+    setIsShowModal(false);
     getPurchaseReqGridData(
       activityName?.value,
       profileData?.accountId,
@@ -124,22 +125,23 @@ const RequestForQuotationApprovalGrid = ({
   };
 
   // approveSubmitlHandler btn submit handler
-  const approveSubmitlHandler = (values) => {
+  const approveSubmitlHandler = ({ currentRowData, data }) => {
+    console.log("dd", data);
     let confirmObject = {
       title: "Are you sure?",
       message: `Do you want to post the selected approve submit`,
       yesAlertFunc: () => {
-        const filterSelectedData = rowDto?.data?.filter(
-          (item) => item?.isSelect
-        );
-        const payload = filterSelectedData?.map((item) => {
-          return {
-            approvalId: item?.approvalId,
-            reffId: item?.transectionId,
-            quantity: item?.quantity,
+        const filterSelectedData = data?.filter((item) => item?.isSelect);
+
+        const payload = [
+          {
+            approvalId: currentRowData?.approvalId,
+            reffId: currentRowData?.transectionId,
+            quantity: currentRowData?.quantity,
+            supplierId: filterSelectedData?.[0]?.businessPartnerId || 0,
             isApprove: true,
-          };
-        });
+          },
+        ];
 
         let parameter = {
           accid: profileData?.accountId,
@@ -156,20 +158,20 @@ const RequestForQuotationApprovalGrid = ({
   };
 
   //reject handler
-  const rejectSubmitlHandler = () => {
+  const rejectSubmitlHandler = ({ currentRowData, data }) => {
     let confirmObject = {
       title: "Are you sure?",
       message: `Do you want to reject the selected CS?`,
       yesAlertFunc: () => {
-        const filterSelectedData = rowDto?.data?.filter(
-          (item) => item?.isSelect
-        );
-        const payload = filterSelectedData.map((item) => {
-          return {
-            transactionId: item?.transectionId,
+        const filterSelectedData = data?.filter((item) => item?.isSelect);
+
+        const payload = [
+          {
+            transactionId: currentRowData?.transectionId,
+            supplierId: filterSelectedData?.[0]?.businessPartnerId || 0,
             actionBy: profileData?.userId,
-          };
-        });
+          },
+        ];
         rejectPuchase(
           `/procurement/RequestForQuotation/RejectRequestForQuotation`,
           payload,
@@ -275,7 +277,7 @@ const RequestForQuotationApprovalGrid = ({
               <table className="table table-striped table-bordered global-table">
                 <thead>
                   <tr>
-                    <th style={{ width: "20px" }}>
+                    {/* <th style={{ width: "20px" }}>
                       <input
                         type="checkbox"
                         id="parent"
@@ -283,7 +285,7 @@ const RequestForQuotationApprovalGrid = ({
                           allGridCheck(event.target.checked);
                         }}
                       />
-                    </th>
+                    </th> */}
                     <th>SL</th>
                     <th>Reff Code</th>
                     <th>Warehouse Name</th>
@@ -297,7 +299,7 @@ const RequestForQuotationApprovalGrid = ({
                 <tbody>
                   {rowDto?.data?.map((item, i) => (
                     <tr>
-                      <td>
+                      {/* <td>
                         <input
                           id="isSelect"
                           type="checkbox"
@@ -307,7 +309,7 @@ const RequestForQuotationApprovalGrid = ({
                             itemSlectedHandler(e.target.checked, i);
                           }}
                         />
-                      </td>
+                      </td> */}
                       <td className="text-center">{item?.sl}</td>
                       <td>
                         <span className="pl-2">{item.strCode}</span>
@@ -358,7 +360,11 @@ const RequestForQuotationApprovalGrid = ({
             )}
 
             <IViewModal show={isShowModal} onHide={() => setIsShowModal(false)}>
-              <ApprovalModal currentRowData={currentRowData} billSubmitBtn={billSubmitBtn} approveSubmitlHandler={approveSubmitlHandler} rejectSubmitlHandler={rejectSubmitlHandler}/>
+              <ApprovalModal
+                currentRowData={currentRowData}
+                approveSubmitlHandler={approveSubmitlHandler}
+                rejectSubmitlHandler={rejectSubmitlHandler}
+              />
             </IViewModal>
           </>
         )}
