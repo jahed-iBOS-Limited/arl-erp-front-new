@@ -3,12 +3,10 @@ import Barcode from "react-barcode";
 import { shallowEqual, useSelector } from "react-redux";
 import { useReactToPrint } from "react-to-print";
 import IButton from "../../../../_helper/iButton";
-// import logo from "../../../../_helper/images/commodities_logo.jpg";
-import signature_of_pran_krishna_kundo from "../../../../_helper/images/signature_of_pran_krishno_kundo.png";
+import signature_of_pran_krishna_kundo from "../../../../_helper/images/signatureOf_pran_krishno_kundo.png";
+import signature_of_rasel_sardar from "../../../../_helper/images/signature_of_rasel_sardar.png";
 import "./InvoiceRecept.css";
 import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-// import QRCode from "qrcode.react";
-
 const HologramPrintForAkijCommodities = ({ setShow, printData }) => {
   const printRef = useRef();
 
@@ -30,68 +28,69 @@ const HologramPrintForAkijCommodities = ({ setShow, printData }) => {
     soldToPartnerName,
     rowList,
     shippingPoint,
-    contactPerson,
+    // contactPerson,
     phoneNumber,
+    soldToPartnerCode,
   } = printData;
 
-  let totalQty = 0;
+  let totalQty = 0,
+    totalQtyInBag = 0;
 
   return (
     <>
       <IButton onClick={() => printHandler()}>Print</IButton>
       <div className="hologram_wrapper" ref={printRef}>
-        <div style={{ borderBottom: "1px solid black" }}>
+        <div style={{ borderBottom: "1px solid black", paddingBottom: "20px" }}>
           <div className="hologram_header">
-            <div className="logo" style={{ width: "30%" }}>
-              {/* <img
-                // style={{ width: "70px", height: "70px" }}
-                src={logo}
-                alt="Logo"
-              /> */}
-            </div>
+            <div className="logo" style={{ width: "30%" }}></div>
 
             <div className="text-center">
               <p style={{ fontSize: "35px", fontWeight: "500" }}>{buName}</p>
-              <small>{address}</small>
-              <br />
-              <small>
-                Phone: 08444416609, 08000555777, Email:
-                info@youreverydayessentials.com
-              </small>
+              <p style={{ fontSize: "14px" }}>{address}</p>
+
+              <p style={{ fontSize: "14px" }}>
+                Phone: 08444416609, 08000555777
+                <br />
+                Email: trading@akijcommodities.com
+              </p>
             </div>
-            {/* <div className="office_info">
-              <QRCode
-                data-qr={"Sales Order Code"}
-                value={salesOrderCode}
-                size={70}
-              /> 
-            </div> */}
-            <div style={{ width: "30%" }}>
+
+            <div
+              style={{ width: "30%", paddingRight: "30px", paddingTop: "30px" }}
+            >
               {salesOrderCode !== "" ? (
                 <Barcode
                   value={salesOrderCode ? salesOrderCode : ""}
                   lineColor="black"
                   displayValue={false}
-                  height={60}
+                  height={50}
                 />
               ) : (
                 <p>No barcode preview</p>
               )}
             </div>
           </div>
-          <div className="text-center">
-            <h3>SALES ORDER</h3>
+          <div className="text-center mt-3">
+            <h3>SUPPLY ORDER</h3>
           </div>
         </div>
-        <div className="d-flex">
+        <div className="d-flex" style={{ paddingLeft: "25px" }}>
           <div style={{ width: "100%" }}>
             <table className="table delivery_challan_top_table mt-8">
               <tbody>
                 <tr>
+                  <td>Customer Code</td>
+                  <td>:</td>
+                  <td>{soldToPartnerCode}</td>
+                  <td style={{ width: "120px" }}>Delivery From</td>
+                  <td>:</td>
+                  <td>{shippingPoint}</td>
+                </tr>
+                <tr>
                   <td>Sold To Partner</td>
                   <td>:</td>
                   <td>{soldToPartnerName}</td>
-                  <td style={{ width: "120px" }}>Delivery From</td>
+                  <td style={{ width: "120px" }}>ShipPoint</td>
                   <td>:</td>
                   <td>{shippingPoint}</td>
                 </tr>
@@ -99,44 +98,43 @@ const HologramPrintForAkijCommodities = ({ setShow, printData }) => {
                   <td>Ship To Partner</td>
                   <td>:</td>
                   <td>{rowList[0]?.shiptoPartnerName}</td>{" "}
-                  <td style={{ width: "120px" }}>ShipPoint</td>
+                  <td>Contact Person</td>
                   <td>:</td>
-                  <td>{shippingPoint}</td>
+                  <td>{rowList[0]?.shiptoPartnerName}</td>
                 </tr>
-
                 <tr>
                   <td>Address</td>
                   <td>:</td>
                   <td>{rowList[0]?.shiptoPartnerAddress}</td>{" "}
-                  <td>Contact Person</td>
-                  <td>:</td>
-                  <td>{contactPerson}</td>
-                </tr>
-                <tr>
                   <td>Contact No</td>
                   <td>:</td>
                   <td>{phoneNumber}</td>
                 </tr>
               </tbody>
             </table>
-            <div className="main_table">
+            <div className="main_table" style={{ marginTop: "30px" }}>
               <table className="table">
                 <thead>
                   <tr>
                     <th>SL</th>
                     <th>Product Description</th>
                     <th>UoM</th>
-                    <th>Order Quantity</th>
+                    <th>Quantity (bag)</th>
+                    <th>Quantity (M.ton)</th>
                   </tr>
                 </thead>
                 <tbody>
                   {rowList?.map((item, index) => {
                     totalQty += item?.orderQuantity;
+                    totalQtyInBag += item?.orderQuantityBag;
                     return (
                       <tr>
                         <td className="text-center">{index + 1}</td>
                         <td>{item?.itemName}</td>
                         <td>{item?.uomName}</td>
+                        <td className="text-right">
+                          {_fixedPoint(item?.orderQuantityBag, true)}
+                        </td>
                         <td className="text-right">
                           {_fixedPoint(item?.orderQuantity, true)}
                         </td>
@@ -146,6 +144,9 @@ const HologramPrintForAkijCommodities = ({ setShow, printData }) => {
                   <tr style={{ fontWeight: "bold" }}>
                     <td className="text-right" colSpan={3}>
                       Total
+                    </td>
+                    <td className="text-right">
+                      {_fixedPoint(totalQtyInBag, true)}
                     </td>
                     <td className="text-right">
                       {_fixedPoint(totalQty, true)}
@@ -158,31 +159,38 @@ const HologramPrintForAkijCommodities = ({ setShow, printData }) => {
           <div
             style={{
               writingMode: "vertical-rl",
-              transform: "rotate(180deg)",
+              paddingTop: "70px",
             }}
             className="text-center"
           >
-            <h1>CUSTOMER COPY</h1>
+            <h2>CUSTOMER COPY</h2>
           </div>
         </div>
 
         <div className="signature_wrapper">
-          <div className="first signature">
-            <p style={{ marginTop: "90px" }}>Prepared By</p>
+          <div className="first signature" style={{ marginTop: "90px" }}>
+            <p>Prepared By</p>
           </div>
 
-          <div className="third signature">
-            <p style={{ marginTop: "90px" }}>Received By</p>
+          <div className="third signature" style={{ marginTop: "90px" }}>
+            <p>Received By</p>
           </div>
           <div className="third signature">
-            <p style={{ marginTop: "90px" }}>Checked By</p>
+            <img
+              src={signature_of_rasel_sardar}
+              alt="signature"
+              style={{ height: "70px" }}
+            />
+
+            <p>Checked By</p>
           </div>
           <div className="third signature">
             <img
               src={signature_of_pran_krishna_kundo}
               alt="signature"
-              style={{ width: "100px" }}
+              style={{ height: "70px" }}
             />
+
             <p>Approved By</p>
           </div>
         </div>

@@ -27,7 +27,7 @@ const initData = {
   search: "",
   channel: "",
   shipPoint: "",
-  type: "",
+  type: { value: 1, label: "Unprinted" },
   fromDate: _todayDate(),
   toDate: _todayDate(),
 };
