@@ -23,40 +23,56 @@ export default function DispatchRequisitionLanding() {
   } = useSelector((state) => state?.authData, shallowEqual);
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
-  const [gridData, getGridData, loadGridData] = useAxiosGet();
+  const [gridData, getGridData, loadGridData] = useAxiosPost();
   const [, getDocReceivedApproval, loadDocReceivedApproval] = useAxiosPost();
+  const [fromPlantDDL,getFromPlantDDL,,setFromPlant] = useAxiosGet()
 
   const headersData = [
     "Document No",
+    "Dispatch Type",
     "Document Type",
-    "Dispatch Date",
+    "Requisition Date",
+    "Send Date",
+    "Received Date",
     "From Location",
     "To Location",
     "Receiver Name",
     "Status",
     "Action",
   ];
-  const handleGetRowData = (status) => {
-    
+  const handleGetRowData = (status, pageNo, pageSize, plantPayload) => {
+    const payload = plantPayload ? plantPayload : fromPlantDDL;
+   if(status === "send"){
     getGridData(
-      `/tms/DocumentDispatch/GetDispatchPasignation?AccountId=${accId}&PlantId=0&UserId=${userId}&Status=${status}&viewOrder=asc&PageNo=${pageNo}&PageSize=${pageSize}`
+      `/tms/DocumentDispatch/GetRequsitionSendPasignation?AccountId=${accId}&SenderId=${employeeId}&viewOrder=asc&PageNo=${pageNo}&PageSize=${pageSize}`,
+      payload
     );
+   }else{
+    getGridData(
+      `/tms/DocumentDispatch/GetRequsitionReceivePasignation?AccountId=${accId}&ReceiverId=${employeeId}&viewOrder=asc&PageNo=${pageNo}&PageSize=${pageSize}
+      `,
+      payload
+    );
+   }
   };
+ 
   const setPositionHandler = (pageNo, pageSize, values) => {
    
-    getGridData(
-      `/tms/DocumentDispatch/GetDispatchPasignation?AccountId=${accId}&PlantId=0&UserId=${userId}&Status=${values?.requisition}&viewOrder=asc&PageNo=${pageNo}&PageSize=${pageSize}`
-    );
+    handleGetRowData(values?.requisition,pageNo,pageSize)
   };
 
   useEffect(() => {
-  
-    getGridData(
-      `/tms/DocumentDispatch/GetDispatchPasignation?AccountId=${accId}&PlantId=0&UserId=${userId}&Status=send&viewOrder=asc&PageNo=${pageNo}&PageSize=${pageSize}`
-    );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    getFromPlantDDL(`/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&OrgUnitTypeId=7`,
+  (data)=>{
+    const fromPlantPayload = data?.map(item=>item?.value)
+    handleGetRowData("send",pageNo,pageSize,fromPlantPayload)
+    setFromPlant(fromPlantPayload)
+  }
+  )
+   
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userId,buId]);
   return (
     <Formik
       enableReinitialize={true}
@@ -121,7 +137,7 @@ export default function DispatchRequisitionLanding() {
                       checked={values?.requisition === "send"}
                       onChange={(e) => {
                         setFieldValue("requisition", "send");
-                        handleGetRowData("send");
+                        handleGetRowData("send",pageNo,pageSize);
                       }}
                     />
                     Send
@@ -138,7 +154,7 @@ export default function DispatchRequisitionLanding() {
                       checked={values?.requisition === "received"}
                       onChange={(e) => {
                         setFieldValue("requisition", "received");
-                        handleGetRowData("received");
+                        handleGetRowData("received",pageNo,pageSize);
                       }}
                     />
                     Receive
@@ -152,8 +168,15 @@ export default function DispatchRequisitionLanding() {
                       <tr>
                         <td className="text-center">{item?.dispatchCode}</td>
                         <td className="text-center">{item?.dispatchType}</td>
+                        <td className="text-center">{item?.dispatchDescription}</td>
                         <td className="text-center">
-                          {_dateFormatter(item.documentOwnerSenderReveiveDate)}
+                          {_dateFormatter(item.requisitionDate)}
+                        </td>
+                        <td className="text-center">
+                          {_dateFormatter(item.dispatchSendDate)}
+                        </td>
+                        <td className="text-center">
+                          {_dateFormatter(item.dispatchReceiveDate)}
                         </td>
                         <td className="text-center">{item?.fromLocation}</td>
                         <td className="text-center">{item?.toLocation}</td>
@@ -198,10 +221,10 @@ export default function DispatchRequisitionLanding() {
                               style={{ cursor: "pointer" }}
                               onClick={() => {
                                 getDocReceivedApproval(
-                                  `/tms/DocumentDispatch/DocumentReceivedApprovel?DispatchId=${item?.dispatchHeaderId}&UserId=${userId}`,
+                                  `/tms/DocumentDispatch/DocumentReceivedApprovel?DispatchId=${item?.dispatchHeaderId}&UserId=${employeeId}`,
                                   "",
                                   () => {
-                                    handleGetRowData(values?.requisition)
+                                    handleGetRowData(values?.requisition,pageNo,pageSize)
                                   },
                                   true
                                 );

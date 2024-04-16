@@ -46,7 +46,7 @@ export default function SendModal({singleItem,onHide,handleGetRowData}) {
         remaks:singleItem?.remaks,
         dispatchSenderReceiverEnroll:userId,
         dispatchSenderReceiverName:employeeFullName,
-        dispatchSendReveiveDate:values?.dispatchSendReveiveDate,
+        dispatchSendDate:values?.dispatchSendReveiveDate,
         dispatchNote:values?.dispatchNote||"",
         sendViya:values?.sendVia||"",
         vehicleNo:values?.vehicleNo || "",
@@ -60,7 +60,7 @@ export default function SendModal({singleItem,onHide,handleGetRowData}) {
       },
       row:[...rowData?.row]
     }
-    sendDocument(`/tms/DocumentDispatch/SendDocumentFromDispatchDesk`,
+    sendDocument(`/tms/DocumentDispatch/InternalDocumentSend`,
     payload,
     ()=>{
       handleGetRowData()
