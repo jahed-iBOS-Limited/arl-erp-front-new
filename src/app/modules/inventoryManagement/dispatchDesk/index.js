@@ -181,7 +181,7 @@ export default function DispatchDeskLanding() {
                         </td>
                         <td className="text-center">
                           {values?.requisition === "received"
-                            ? _dateFormatter(item.dispatchSendReveiveDate)
+                            ? _dateFormatter(item.dispatchReceiveDate)
                             : _dateFormatter(
                                 item.requisitionDate
                               )}
