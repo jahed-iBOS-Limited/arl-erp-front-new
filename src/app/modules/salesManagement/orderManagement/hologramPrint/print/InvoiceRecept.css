@@ -16,6 +16,7 @@ p {
 }
 .hologram_wrapper {
   /* margin: 0; */
+  margin-top: 20px !important;
   padding: 0;
   box-sizing: border-box;
   /* max-width: 210mm; */
@@ -74,7 +75,7 @@ p {
 .hologram_wrapper .signature_wrapper {
   display: flex;
   justify-content: space-between;
-  margin-top: 90px;
+  margin-top: 30px;
   text-align: center;
 }
 .hologram_wrapper .signature_wrapper .signature {
