@@ -144,9 +144,7 @@ const HologramPrintForAkijCommodities = ({ setShow, printData }) => {
                       <tr>
                         <td className="text-center">{index + 1}</td>
                         <td
-                          style={{
-                            padding: "9px 0px !important",
-                          }}
+                          className="hologram_table_td"
                         >
                           <b>{item?.itemName}</b>
                         </td>
