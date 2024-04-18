@@ -1,0 +1,117 @@
+p {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  
+  .text-left {
+    text-align: left;
+  }
+  
+  .text-center {
+    text-align: center;
+  }
+  
+  .text-right {
+    text-align: right;
+  }
+  
+  .bold {
+    font-weight: 600;
+  }
+  
+  .hologram_wrapper {
+    /* margin: 0; */
+    margin-top: 20px !important;
+    padding: 0;
+    box-sizing: border-box;
+    /* max-width: 210mm; */
+    /* margin: 0 50px; */
+    font-size: 18px !important;
+    /* display: none; */
+    /* border: 1px solid black; */
+  }
+  
+  .hologram_wrapper .hologram_header {
+    display: flex;
+    /* gap: 40px; */
+    /* padding-bottom: 10px; */
+    /* border-bottom: 1px solid black; */
+    align-items: center;
+    justify-content: center;
+    text-align: right;
+    position: relative;
+    /* height: 130px; */
+  }
+  
+  .hologram_wrapper .hologram_header .office_info {
+    /* border: 2px solid black; */
+    margin-right: 70px;
+  }
+  
+  /* .hologram_wrapper .hologram_header .logo {
+    width: 35%;
+    display: flex;
+    justify-content: right;
+  } */
+  
+  .hologram_wrapper .main_table {
+    margin-top: 1rem;
+    width: 100%;
+  }
+  
+  .hologram_wrapper .main_table .table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .hologram_wrapper .main_table .table th {
+    border: 1px solid;
+    padding: 5px;
+    color: black !important;
+  }
+  
+  .hologram_wrapper .main_table .table td {
+    border: 1px solid;
+    padding: 5px;
+    color: black !important;
+  }
+  
+  .hologram_wrapper .main_table .note {
+    display: flex;
+    margin-top: 15px;
+  }
+  
+  .hologram_wrapper .main_table .note ul {
+    margin: 0;
+    padding-left: 30px;
+  }
+  
+  .hologram_wrapper .signature_wrapper {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+    text-align: center;
+  }
+  
+  .hologram_wrapper .signature_wrapper .signature {
+    width: 25%;
+    text-align: center !important;
+    align-content: center;
+  
+  }
+  
+  .hologram_wrapper .signature_wrapper .signature p {
+    position: relative;
+    padding-top: 2px;
+  }
+  
+  @media print {
+    .footer {
+      display: block !important;
+      text-align: center !important;
+    }
+  }
+  
+  .hologram_wrapper .main_table table tbody tr .hologram_table_td {
+    padding: 9px 0px !important;
+  }

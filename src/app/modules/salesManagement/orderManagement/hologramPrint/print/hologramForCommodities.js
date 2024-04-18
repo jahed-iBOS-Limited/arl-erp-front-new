@@ -5,7 +5,7 @@ import { useReactToPrint } from "react-to-print";
 import IButton from "../../../../_helper/iButton";
 import signature_of_pran_krishna_kundo from "../../../../_helper/images/signatureOf_pran_krishno_kundo.png";
 import signature_of_rasel_sardar from "../../../../_helper/images/signature_of_rasel_sardar.png";
-import "./InvoiceRecept.css";
+import "./hologramForCommodities.css";
 import { _fixedPoint } from "../../../../_helper/_fixedPoint";
 const HologramPrintForAkijCommodities = ({ setShow, printData }) => {
   const printRef = useRef();
@@ -42,7 +42,7 @@ const HologramPrintForAkijCommodities = ({ setShow, printData }) => {
       <div className="hologram_wrapper" ref={printRef}>
         <div style={{ borderBottom: "1px solid black", paddingBottom: "20px" }}>
           <div className="hologram_header">
-            <div className="logo" style={{ width: "275px" }}></div>
+            {/* <div className="logo" style={{ width: "275px" }}></div> */}
 
             <div className="text-center">
               <p style={{ fontSize: "35px", fontWeight: "500" }}>{buName}</p>
@@ -56,7 +56,14 @@ const HologramPrintForAkijCommodities = ({ setShow, printData }) => {
             </div>
 
             <div
-              style={{ width: "274px", paddingRight: "30px", paddingTop: "30px" }}
+              style={{
+                width: "274px",
+                paddingRight: "30px",
+                paddingTop: "30px",
+                position: "absolute",
+                right: "-33px",
+                bottom: "-1px",
+              }}
             >
               {salesOrderCode !== "" ? (
                 <Barcode
@@ -77,6 +84,7 @@ const HologramPrintForAkijCommodities = ({ setShow, printData }) => {
                 margin: "auto",
                 border: "1px solid black",
                 padding: "2px",
+                borderRadius: '5px'
               }}
             >
               SUPPLY ORDER
@@ -143,9 +151,7 @@ const HologramPrintForAkijCommodities = ({ setShow, printData }) => {
                     return (
                       <tr>
                         <td className="text-center">{index + 1}</td>
-                        <td
-                          className="hologram_table_td"
-                        >
+                        <td className="hologram_table_td">
                           <b>{item?.itemName}</b>
                         </td>
                         <td>{item?.uomName}</td>
