@@ -58,8 +58,8 @@ const RegistrationLanding = () => {
       values?.vesselType?.value,
       values?.vesselName?.value,
       values?.voyageNo?.value,
-      pageNo,
-      pageSize,
+      _pageNo,
+      _pageSize,
       setGridData,
       setLoading
     );
