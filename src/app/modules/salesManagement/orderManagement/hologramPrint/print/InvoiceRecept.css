@@ -66,11 +66,13 @@ p {
 .hologram_wrapper .main_table .table th {
   border: 1px solid;
   padding: 5px;
+  color: black !important;
 }
 
 .hologram_wrapper .main_table .table td {
   border: 1px solid;
   padding: 5px;
+  color: black !important;
 }
 
 .hologram_wrapper .main_table .note {
