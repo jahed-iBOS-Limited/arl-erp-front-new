@@ -24,7 +24,7 @@ export default function DispatchDeskLanding() {
   const [fromPlantDDL, getFromPlantDDL, , setFromPlant] = useAxiosGet();
   //   const history = useHistory();
   const {
-    profileData: { accountId: accId, employeeId, userId },
+    profileData: { accountId: accId, userId },
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
   const [pageNo, setPageNo] = useState(0);
