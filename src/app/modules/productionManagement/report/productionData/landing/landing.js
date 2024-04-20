@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { Form, Formik } from "formik";
 import React, { useEffect, useRef, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
@@ -16,6 +15,8 @@ import {
   getShopfloorDDL,
 } from "../helper";
 import moment from "moment";
+import { _fixedPoint } from "../../../../_helper/_fixedPoint";
+import _ from "lodash";
 
 const initData = {
   plant: "",
@@ -66,6 +67,7 @@ function ProductionDataLanding() {
       selectedBusinessUnit?.value,
       setPlantDDL
     );
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileData?.accountId, selectedBusinessUnit?.value]);
 
   const printRef = useRef();
@@ -277,11 +279,18 @@ function ProductionDataLanding() {
                               <td className="text-center">{index + 1}</td>
                               <td>{item?.productionOrderCode}</td>
                               <td>{item?.itemName}</td>
-                              <td>{item?.orderQty}</td>
-                              <td>{item?.productionQty}</td>
+                              <td className="text-right">
+                                {_fixedPoint(item?.orderQty)}
+                              </td>
+                              <td className="text-right">
+                                {_fixedPoint(item?.productionQty)}
+                              </td>
                               {item?.count ? (
-                                <td rowSpan={item?.count}>
-                                  <b>{item?.totalProductionQty}</b>
+                                <td
+                                  rowSpan={item?.count}
+                                  className="text-right"
+                                >
+                                  <b>{_fixedPoint(item?.totalProductionQty)}</b>
                                 </td>
                               ) : null}
                               <td>
@@ -301,6 +310,41 @@ function ProductionDataLanding() {
                             </tr>
                           );
                         })}
+
+                        <tr>
+                          <td colSpan={3} className="text-right">
+                            {" "}
+                            Total{" "}
+                          </td>
+
+                          <td className="text-right">
+                            <b>
+                              {" "}
+                              {_fixedPoint(
+                                _.sumBy(gridData, (item) => (+item?.orderQty || 0))
+                              )}
+                            </b>
+                          </td>
+
+                          <td className="text-right">
+                            <b>
+                              {_fixedPoint(
+                                _.sumBy(gridData, (item) => (+item?.productionQty || 0))
+                              )}
+                            </b>
+                          </td>
+                          {/* <td className="text-right">
+                            <b>
+                              {_fixedPoint(
+                                _.sumBy(
+                                  gridData,
+                                  (item) => (+item?.totalProductionQty || 0)
+                                )
+                              )}
+                            </b>
+                          </td> */}
+                          <td colSpan={3}></td>
+                        </tr>
                       </tbody>
                     </table>
                   </div>
