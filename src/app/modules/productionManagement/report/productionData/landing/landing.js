@@ -225,30 +225,36 @@ function ProductionDataLanding() {
               </div>
               {gridData?.length > 0 && (
                 <div ref={printRef} className="col-lg-12 pr-0 pl-0">
-                  <table
-                    id="table-to-xlsx"
-                    className="table table-striped table-bordered mt-3 bj-table bj-table-landing"
-                  >
-                    <thead>
-                      <tr>
-                        <th>SL</th>
-                        <th> Order Number </th>
-                        <th> Item Name (Main Output) </th>
-                        <th> Produce (Input)QTY of Bag </th>
-                        <th> Sub Total MT </th>
-                        <th> Total MT </th>
-                        <th> Production Entry Time & Date </th>
-                        <th> Warehouse Entry Approve Time & Date </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {gridData?.map((item, index) => (
-                        <tr key={index}>
-                          <td className="text-center">{index + 1}</td>
+                  <div className="table-responsive">
+                    <table className="table table-striped table-bordered global-table">
+                      <thead>
+                        <tr>
+                          <th>SL</th>
+                          <th> Order Number </th>
+                          <th> Item Name (Main Output) </th>
+                          <th> Produce (Input)QTY of Bag </th>
+                          <th> Sub Total MT </th>
+                          <th> Total MT </th>
+                          <th> Production Entry Time & Date </th>
+                          <th> Warehouse Entry Approve Time & Date </th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody>
+                        {gridData?.map((item, index) => (
+                          <tr key={index}>
+                            <td className="text-center">{index + 1}</td>
+                            <td>{item?.demo}</td>
+                            <td>{item?.demo}</td>
+                            <td>{item?.demo}</td>
+                            <td>{item?.demo}</td>
+                            <td>{item?.demo}</td>
+                            <td>{item?.demo}</td>
+                            <td>{item?.demo}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               )}
             </>
