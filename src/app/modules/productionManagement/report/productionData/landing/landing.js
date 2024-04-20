@@ -10,12 +10,11 @@ import NewSelect from "../../../../_helper/_select";
 import { _oneMonthLater, _todayDate } from "../../../../_helper/_todayDate";
 import printIcon from "../../../../_helper/images/print-icon.png";
 import {
+  GetProductionDataReport,
   getItemNameDDL,
   getPlantNameDDL_api,
-  getProductionReportData,
   getShopfloorDDL,
 } from "../helper";
-import PaginationSearch from "./../../../../_helper/_search";
 
 const initData = {
   plant: "",
@@ -70,24 +69,22 @@ function ProductionDataLanding() {
   const printRef = useRef();
 
   const girdDataFunc = (values, searchValue) => {
-    getProductionReportData({
+    GetProductionDataReport({
       accId: profileData?.accountId,
       buId: selectedBusinessUnit?.value,
-      pId: values?.plant?.value,
       sId: values?.shopFloor?.value,
-      billType: values?.bomType?.value || 0,
-      isMainItem: values?.itemType?.value,
+      itemId: values?.itemName?.value,
+      billType: values?.bomType?.value,
       fromDate: values?.fromDate,
       toDate: values?.toDate,
       setter: setGridData,
       setLoading,
-      search: searchValue,
     });
   };
 
-  const paginationSearchHandler = (searchValue, values) => {
-    girdDataFunc(values, searchValue);
-  };
+  // const paginationSearchHandler = (searchValue, values) => {
+  //   girdDataFunc(values, searchValue);
+  // };
   return (
     <>
       <ICustomCard title="Production Data">
@@ -210,6 +207,7 @@ function ProductionDataLanding() {
                         !values?.plant ||
                         !values?.shopFloor ||
                         !values?.itemName ||
+                        !values?.bomType ||
                         !values?.fromDate ||
                         !values?.toDate
                       }
@@ -244,13 +242,13 @@ function ProductionDataLanding() {
                   )}
                 </div>
               </Form>
-              <div className="col-lg-12 pr-0 pl-0">
+              {/* <div className="col-lg-12 pr-0 pl-0">
                 <PaginationSearch
                   placeholder="Item Name & Code Search"
                   paginationSearchHandler={paginationSearchHandler}
                   values={values}
                 />
-              </div>
+              </div> */}
               {gridData?.length > 0 && (
                 <div ref={printRef} className="col-lg-12 pr-0 pl-0">
                   <div className="table-responsive">
