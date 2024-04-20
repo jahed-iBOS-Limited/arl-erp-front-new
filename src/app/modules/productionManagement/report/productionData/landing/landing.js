@@ -15,6 +15,7 @@ import {
   getPlantNameDDL_api,
   getShopfloorDDL,
 } from "../helper";
+import moment from "moment";
 
 const initData = {
   plant: "",
@@ -26,6 +27,7 @@ const initData = {
 };
 
 const bomTypeDDL = [
+  { value: 0, label: "All" },
   {
     value: 1,
     label: "Main (Paddy to Rice)",
@@ -85,6 +87,9 @@ function ProductionDataLanding() {
   // const paginationSearchHandler = (searchValue, values) => {
   //   girdDataFunc(values, searchValue);
   // };
+
+  console.log(gridData);
+
   return (
     <>
       <ICustomCard title="Production Data">
@@ -149,7 +154,7 @@ function ProductionDataLanding() {
                         setFieldValue("itemName", valueOption);
                         setGridData([]);
                       }}
-                      options={itemName || []}
+                      options={[{ value: 0, label: "All" }, ...itemName] || []}
                       value={values?.itemName || ""}
                       isSearchable={true}
                       name="itemName"
@@ -266,18 +271,36 @@ function ProductionDataLanding() {
                         </tr>
                       </thead>
                       <tbody>
-                        {gridData?.map((item, index) => (
-                          <tr key={index}>
-                            <td className="text-center">{index + 1}</td>
-                            <td>{item?.demo}</td>
-                            <td>{item?.demo}</td>
-                            <td>{item?.demo}</td>
-                            <td>{item?.demo}</td>
-                            <td>{item?.demo}</td>
-                            <td>{item?.demo}</td>
-                            <td>{item?.demo}</td>
-                          </tr>
-                        ))}
+                        {gridData?.map((item, index) => {
+                          return (
+                            <tr key={index}>
+                              <td className="text-center">{index + 1}</td>
+                              <td>{item?.productionOrderCode}</td>
+                              <td>{item?.itemName}</td>
+                              <td>{item?.orderQty}</td>
+                              <td>{item?.productionQty}</td>
+                              {item?.count ? (
+                                <td rowSpan={item?.count}>
+                                  <b>{item?.totalProductionQty}</b>
+                                </td>
+                              ) : null}
+                              <td>
+                                {item?.productionDate
+                                  ? moment(item?.productionDate).format(
+                                      "YYYY-MM-DD HH:mm:ss"
+                                    )
+                                  : ""}
+                              </td>
+                              <td>
+                                {item?.approveProductionDate
+                                  ? moment(item?.approveProductionDate).format(
+                                      "YYYY-MM-DD HH:mm:ss"
+                                    )
+                                  : ""}
+                              </td>
+                            </tr>
+                          );
+                        })}
                       </tbody>
                     </table>
                   </div>
