@@ -40,9 +40,12 @@ import HologramBaseDeliveryLanding from "./hologramBaseDelivery/landing/form";
 import InvTransactionImport from "./invTransactionImport";
 import { ForminvTransImport } from "./invTransactionImport/Form";
 import ViewInvTransactionFormImport from "./invTransactionImport/View/addEditForm";
+import InventoryAdjustApprove from "./inventoryAdjustApprove";
 import InventoryLoanApproveLanding from "./inventoryLoanApprove";
 import InventoryLoanLandingNew from "./inventoryLoanNew";
 import InventoryLoanCreateEditNew from "./inventoryLoanNew/createEdit";
+import ItemQualityCheckLanding from "./itemQualityCheck";
+import ItemQualityCheckCreateAndEditForm from "./itemQualityCheck/itemQualityCheckCreateEdit";
 import ItemWiseSerialUpdate from "./itemWiseSerialUpdate";
 import ItemWiseSerialCreate from "./itemWiseSerialUpdate/create";
 import ItemWiseSerialEdit from "./itemWiseSerialUpdate/editItemWiseSerial";
@@ -53,7 +56,6 @@ import LiftingPlan from "./liftingPlan";
 import MRRCancel from "./mrrCancel";
 import TargetVSProductionRequestForm from "./targetVSProductionRequest/form/addEditForm";
 import TargetVSProductionRequest from "./targetVSProductionRequest/landing";
-import InventoryAdjustApprove from "./inventoryAdjustApprove";
 
 export function WarehouseManagementPages() {
   const { userRole, selectedBusinessUnit } = useSelector(
@@ -434,6 +436,14 @@ export function WarehouseManagementPages() {
       <ContentRoute
         path="/inventory-management/warehouse-management/inventory-Adjust-Approve"
         component={InventoryAdjustApprove}
+      />
+      <ContentRoute
+        path="/inventory-management/warehouse-management/itemqualitycheck/create"
+        component={ItemQualityCheckCreateAndEditForm}
+      />
+      <ContentRoute
+        path="/inventory-management/warehouse-management/itemqualitycheck"
+        component={ItemQualityCheckLanding}
       />
     </Switch>
   );
