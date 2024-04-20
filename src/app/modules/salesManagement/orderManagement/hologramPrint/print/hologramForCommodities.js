@@ -5,7 +5,7 @@ import { useReactToPrint } from "react-to-print";
 import IButton from "../../../../_helper/iButton";
 import signature_of_pran_krishna_kundo from "../../../../_helper/images/signatureOf_pran_krishno_kundo.png";
 import signature_of_rasel_sardar from "../../../../_helper/images/signature_of_rasel_sardar.png";
-import "./InvoiceRecept.css";
+import "./hologramForCommodities.css";
 import { _fixedPoint } from "../../../../_helper/_fixedPoint";
 const HologramPrintForAkijCommodities = ({ setShow, printData }) => {
   const printRef = useRef();
@@ -20,7 +20,7 @@ const HologramPrintForAkijCommodities = ({ setShow, printData }) => {
     content: () => printRef.current,
     documentTitle: "Customer Copy",
     pageStyle:
-      "@media print{body { -webkit-print-color-adjust: exact; margin: 0mm;}@page {size: portrait ! important}}",
+      "@media print{body { -webkit-print-color-adjust: exact; margin: 0mm;}@page {A5 landscape !important}}",
   });
 
   const {
@@ -42,7 +42,7 @@ const HologramPrintForAkijCommodities = ({ setShow, printData }) => {
       <div className="hologram_wrapper" ref={printRef}>
         <div style={{ borderBottom: "1px solid black", paddingBottom: "20px" }}>
           <div className="hologram_header">
-            <div className="logo" style={{ width: "30%" }}></div>
+            {/* <div className="logo" style={{ width: "275px" }}></div> */}
 
             <div className="text-center">
               <p style={{ fontSize: "35px", fontWeight: "500" }}>{buName}</p>
@@ -56,7 +56,14 @@ const HologramPrintForAkijCommodities = ({ setShow, printData }) => {
             </div>
 
             <div
-              style={{ width: "30%", paddingRight: "30px", paddingTop: "30px" }}
+              style={{
+                width: "274px",
+                paddingRight: "30px",
+                paddingTop: "30px",
+                position: "absolute",
+                right: "-33px",
+                bottom: "-1px",
+              }}
             >
               {salesOrderCode !== "" ? (
                 <Barcode
@@ -71,7 +78,17 @@ const HologramPrintForAkijCommodities = ({ setShow, printData }) => {
             </div>
           </div>
           <div className="text-center mt-3">
-            <h3>SUPPLY ORDER</h3>
+            <h3
+              style={{
+                width: "161px",
+                margin: "auto",
+                border: "1px solid black",
+                padding: "2px",
+                borderRadius: '5px'
+              }}
+            >
+              SUPPLY ORDER
+            </h3>
           </div>
         </div>
         <div className="d-flex" style={{ paddingLeft: "25px" }}>
@@ -81,7 +98,9 @@ const HologramPrintForAkijCommodities = ({ setShow, printData }) => {
                 <tr>
                   <td>Customer Code</td>
                   <td>:</td>
-                  <td>{soldToPartnerCode}</td>
+                  <td>
+                    <b>{soldToPartnerCode}</b>
+                  </td>
                   <td style={{ width: "120px" }}>Delivery From</td>
                   <td>:</td>
                   <td>{shippingPoint}</td>
@@ -89,7 +108,9 @@ const HologramPrintForAkijCommodities = ({ setShow, printData }) => {
                 <tr>
                   <td>Sold To Partner</td>
                   <td>:</td>
-                  <td>{soldToPartnerName}</td>
+                  <td>
+                    <b>{soldToPartnerName}</b>
+                  </td>
                   <td style={{ width: "120px" }}>ShipPoint</td>
                   <td>:</td>
                   <td>{shippingPoint}</td>
@@ -119,8 +140,8 @@ const HologramPrintForAkijCommodities = ({ setShow, printData }) => {
                     <th>SL</th>
                     <th>Product Description</th>
                     <th>UoM</th>
-                    <th>Quantity (bag)</th>
-                    <th>Quantity (M.ton)</th>
+                    <th>Quantity</th>
+                    <th>Weight (M.ton)</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -130,12 +151,14 @@ const HologramPrintForAkijCommodities = ({ setShow, printData }) => {
                     return (
                       <tr>
                         <td className="text-center">{index + 1}</td>
-                        <td>{item?.itemName}</td>
+                        <td className="hologram_table_td">
+                          <b>{item?.itemName}</b>
+                        </td>
                         <td>{item?.uomName}</td>
-                        <td className="text-right">
+                        <td className="text-center">
                           {_fixedPoint(item?.orderQuantityBag, true)}
                         </td>
-                        <td className="text-right">
+                        <td className="text-center">
                           {_fixedPoint(item?.orderQuantity, true)}
                         </td>
                       </tr>
@@ -145,10 +168,10 @@ const HologramPrintForAkijCommodities = ({ setShow, printData }) => {
                     <td className="text-right" colSpan={3}>
                       Total
                     </td>
-                    <td className="text-right">
+                    <td className="text-center">
                       {_fixedPoint(totalQtyInBag, true)}
                     </td>
-                    <td className="text-right">
+                    <td className="text-center">
                       {_fixedPoint(totalQty, true)}
                     </td>
                   </tr>
