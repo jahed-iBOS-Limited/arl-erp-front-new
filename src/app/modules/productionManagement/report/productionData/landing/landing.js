@@ -7,7 +7,7 @@ import ICustomCard from "../../../../_helper/_customCard";
 import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
 import NewSelect from "../../../../_helper/_select";
-import { _todayDate } from "../../../../_helper/_todayDate";
+import { _oneMonthLater, _todayDate } from "../../../../_helper/_todayDate";
 import printIcon from "../../../../_helper/images/print-icon.png";
 import {
   getItemNameDDL,
@@ -20,14 +20,26 @@ import PaginationSearch from "./../../../../_helper/_search";
 const initData = {
   plant: "",
   shopFloor: "",
+  itemName: "",
   bomType: "",
-  itemType: {
-    value: 3,
-    label: "All",
-  },
-  fromDate: _todayDate(),
+  fromDate: _oneMonthLater(),
   toDate: _todayDate(),
 };
+
+const bomTypeDDL = [
+  {
+    value: 1,
+    label: "Main (Paddy to Rice)",
+  },
+  {
+    value: 2,
+    label: "Conversion (Rice to Rice)",
+  },
+  {
+    value: 3,
+    label: "Re-Process (Rice to Rice)",
+  },
+];
 
 function ProductionDataLanding() {
   const [gridData, setGridData] = useState([]);
@@ -115,6 +127,7 @@ function ProductionDataLanding() {
                       value={values?.shopFloor}
                       label="Select Shop Floor"
                       onChange={(valueOption) => {
+                        setGridData([]);
                         setFieldValue("shopFloor", valueOption);
                         setFieldValue("itemName", "");
                         setItemName([]);
@@ -137,12 +150,27 @@ function ProductionDataLanding() {
                       placeholder="Select Item Name"
                       onChange={(valueOption) => {
                         setFieldValue("itemName", valueOption);
+                        setGridData([]);
                       }}
                       options={itemName || []}
                       value={values?.itemName || ""}
                       isSearchable={true}
                       name="itemName"
                       isDisabled={!values?.plant || !values?.shopFloor}
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
+                  <div className="col-lg-3">
+                    <NewSelect
+                      name="bomType"
+                      options={bomTypeDDL || []}
+                      value={values?.bomType}
+                      label="BOM Type"
+                      onChange={(valueOption) => {
+                        setFieldValue("bomType", valueOption);
+                        setGridData([]);
+                      }}
                       errors={errors}
                       touched={touched}
                     />
