@@ -56,8 +56,9 @@ const HologramPrintLanding = () => {
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
   const [, getRowData, isLoading] = useAxiosGet();
-  const [printData, getPrintData, IsLoading] = useAxiosGet();
+  const [printData, getPrintData, IsLoading] = useAxiosPut();
   const [show, setShow] = useState(false);
+  const [showMutipleModal, setShowMutipleModal] = useState(false);
   const [rowData, setRowData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [permitted, getPermission] = useAxiosGet();
@@ -84,6 +85,7 @@ const HologramPrintLanding = () => {
           return {
             ...item,
             isSelected: false,
+            isSelectedPrint: false,
           };
         }),
       };
@@ -246,23 +248,48 @@ const HologramPrintLanding = () => {
                       values={values}
                     />
                   </div>
-                  {permittedPersonsForAccountsApprove?.includes(userId) &&
-                    values?.type?.value === 1 &&
-                    rowData?.data?.length > 0 && (
+                  <div>
+                    {permittedPersonsForAccountsApprove?.includes(userId) &&
+                      values?.type?.value === 1 &&
+                      rowData?.data?.length > 0 && (
+                        <button
+                          type="button"
+                          className={"btn btn-info  "}
+                          disabled={
+                            rowData?.data?.filter((e) => e?.isSelected)
+                              ?.length < 1
+                          }
+                          onClick={() => {
+                            approveHandler(values, {}, "bulk");
+                          }}
+                        >
+                          Approve
+                        </button>
+                      )}
+                    {// check isSelectedPrint than show print button
+                    rowData?.data?.filter((e) => e?.isSelectedPrint)?.length >
+                      0 && (
                       <button
                         type="button"
-                        className={"btn btn-info  "}
-                        disabled={
-                          rowData?.data?.filter((e) => e?.isSelected)?.length <
-                          1
-                        }
+                        className={"btn btn-primary ml-2"}
                         onClick={() => {
-                          approveHandler(values, {}, "bulk");
+                          const payload = rowData?.data
+                            ?.filter((element) => element?.isSelectedPrint)
+                            ?.map((item) => item?.salesOrderId);
+                          setShowMutipleModal(true);
+                          getPrintData(
+                            `/oms/OManagementReport/GetMultipleSalesOrderPrintCopy?UserId=${userId}&BusinessUnitId=${buId}`,
+                            payload,
+                            () => {
+                              setShowMutipleModal(true);
+                            }
+                          );
                         }}
                       >
-                        Approve
+                        Print
                       </button>
                     )}
+                  </div>
                 </div>
                 {rowData?.data?.length > 0 && (
                   <table
@@ -356,12 +383,29 @@ const HologramPrintLanding = () => {
                                 {permitted ? (
                                   values?.type?.value === 1 ? (
                                     item?.isPaperDOApproved ? (
-                                      <span>
+                                      <span
+                                        style={{
+                                          display: "flex",
+                                          justifyContent: "center",
+                                          alignItems: "center",
+                                          gap: "5px",
+                                        }}
+                                      >
                                         <ICon
                                           title="Print"
                                           onClick={() => {
+                                            // getPrintData(
+                                            //   `/oms/OManagementReport/GetSalesOrderPrintCopy?SalesOrderId=${item?.salesOrderId}&UserId=${userId}&BusinessUnitId=${buId}`,
+                                            //   () => {
+                                            //     setShow(true);
+                                            //   }
+                                            // );
+                                            const payload = [
+                                              item?.salesOrderId,
+                                            ];
                                             getPrintData(
-                                              `/oms/OManagementReport/GetSalesOrderPrintCopy?SalesOrderId=${item?.salesOrderId}&UserId=${userId}&BusinessUnitId=${buId}`,
+                                              `/oms/OManagementReport/GetMultipleSalesOrderPrintCopy?UserId=${userId}&BusinessUnitId=${buId}`,
+                                              payload,
                                               () => {
                                                 setShow(true);
                                               }
@@ -370,6 +414,18 @@ const HologramPrintLanding = () => {
                                         >
                                           <i class="fas fa-print"></i>
                                         </ICon>
+                                        <input
+                                          type="checkbox"
+                                          value={item?.isSelectedPrint}
+                                          checked={item?.isSelectedPrint}
+                                          onChange={() => {
+                                            rowDataHandler(
+                                              "isSelectedPrint",
+                                              index,
+                                              !item.isSelectedPrint
+                                            );
+                                          }}
+                                        />
                                       </span>
                                     ) : (
                                       permittedPersonsForAccountsApprove?.includes(
@@ -437,18 +493,33 @@ const HologramPrintLanding = () => {
                   />
                 )}
               </form>
-              <IViewModal show={show} onHide={() => setShow(false)}>
-                {buId === 144 && (
-                  // Akij Essential Ltd.
-                  <HologramPrint setShow={setShow} printData={printData} />
-                )}
-                {buId === 221 && (
-                  // Akij Commodities Ltd.
-                  <HologramPrintForAkijCommodities
-                    setShow={setShow}
-                    printData={printData}
-                  />
-                )}
+
+              {/*  single print modal */}
+              <IViewModal
+                show={show}
+                onHide={() => {
+                  setShow(false);
+                  getData(values, pageNo, pageSize, "");
+                }}
+              >
+                <CommonPrintComp
+                  buId={buId}
+                  printDataList={printData ? printData : []}
+                />
+              </IViewModal>
+
+              {/* mutiple print modal */}
+              <IViewModal
+                show={showMutipleModal}
+                onHide={() => {
+                  setShowMutipleModal(false);
+                  getData(values, pageNo, pageSize, "");
+                }}
+              >
+                <CommonPrintComp
+                  buId={buId}
+                  printDataList={printData}
+                />
               </IViewModal>
             </ICard>
           </>
@@ -459,3 +530,18 @@ const HologramPrintLanding = () => {
 };
 
 export default HologramPrintLanding;
+
+const CommonPrintComp = ({ buId, printDataList }) => {
+  return (
+    <>
+      {buId === 144 && (
+        // Akij Essential Ltd.
+        <HologramPrint printDataList={printDataList} />
+      )}
+      {buId === 221 && (
+        // Akij Commodities Ltd.
+        <HologramPrintForAkijCommodities printDataList={printDataList} />
+      )}
+    </>
+  );
+};
