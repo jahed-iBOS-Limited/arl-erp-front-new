@@ -2,8 +2,9 @@ import React, { useEffect, useRef, useState } from "react";
 import "./chatApp.css";
 import MessageBox from "./messageBox";
 import { getChatResponse } from "./helper";
+import { TimeRemaining } from "./timeRemaining";
 
-const ChatBoatWrapper = () => {
+const ChatBoatWrapper = ({ timeRemainingCB }) => {
   let [text, setText] = useState("");
   // user chatList/ message list
   const [chatList, setChatList] = useState([]);
@@ -22,17 +23,12 @@ const ChatBoatWrapper = () => {
 
   useEffect(() => {}, []);
 
-  const submitHandler = (e, text) => {
-    e.preventDefault();
-
-    // sendMessage(payload, chatList, setChatList);
-  };
-
   useEffect(() => {
     if (chatList.length > 0) {
-      setTimeout(() => {
+      const timer = setTimeout(() => {
         autoScrollToBottom();
       }, 100);
+      return () => clearTimeout(timer);
     }
   }, [chatList]);
 
@@ -53,7 +49,12 @@ const ChatBoatWrapper = () => {
   };
 
   return (
-    <div>
+    <div
+      style={{
+        position: "relative",
+      }}
+    >
+      <TimeRemaining timeRemainingCB={timeRemainingCB} />
       {/* <ICustomCard title="Chat"> */}
       <div className="row">
         <div className="col-lg-12">
