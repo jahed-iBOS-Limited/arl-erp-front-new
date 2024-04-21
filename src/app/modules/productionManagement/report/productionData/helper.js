@@ -40,19 +40,26 @@ export const GetProductionDataReport = async ({
     );
     const data = [...res?.data];
     let newData = data.map((item, index, data) => {
-      let result = {};
-
-      const isPrvItemMatch =
+      let itemOrderNumberMatchResult = {};
+      let itemMatchResult = {};
+      const isItemOrderNumberMatch =
         item?.itemId !== data[index - 1]?.itemId ||
         item?.productionOrderId !== data[index - 1]?.productionOrderId;
+        const isItemMatch =
+        item?.itemId !== data[index - 1]?.itemId 
 
-      if (index === 0 || isPrvItemMatch) {
-        result = itemMatchFn(item, index, data);
+      if (index === 0 || isItemOrderNumberMatch) {
+        itemOrderNumberMatchResult = itemOrderNumberMatchFn(item, index, data);
+      }
+      if (index === 0 || isItemMatch) {
+        itemMatchResult = itemMatchFn(item, index, data);
       }
       return {
         ...item,
-        count: result.count || 0,
-        totalSubTotalMT: result.totalSubTotalMT || 0,
+        itemOrderNumberCount: itemOrderNumberMatchResult.count || 0,
+        totalSubTotalMT: itemOrderNumberMatchResult.totalSubTotalMT || 0,
+        itemMatchCount: itemMatchResult.count || 0,
+        totalTotalMT: itemMatchResult.totalTotalMT || 0,
       };
     });
     // console.log(newData, "newData");
@@ -65,7 +72,7 @@ export const GetProductionDataReport = async ({
   }
 };
 
-let itemMatchFn = (item, index, data) => {
+let itemOrderNumberMatchFn = (item, index, data) => {
   let count = 0;
   let totalSubTotalMT = 0;
   for (let i = index; i < data.length; i++) {
@@ -79,13 +86,30 @@ let itemMatchFn = (item, index, data) => {
       break;
     }
   }
-  console.log(index, "index");
-  console.log(count, totalSubTotalMT, "sum");
   return {
     count,
     totalSubTotalMT,
   };
 };
+
+let itemMatchFn = (item, index, data) => {
+  let count = 0;
+  let totalTotalMT = 0;
+  for (let i = index; i < data.length; i++) {
+    const isPrvItemMatch = item?.itemId === data[i]?.itemId;
+    if (isPrvItemMatch) {
+      count++;
+      totalTotalMT += +data[i]?.subTotalMT || 0;
+    } else {
+      break;
+    }
+  }
+  return {
+    count,
+    totalTotalMT,
+  };
+};
+
 // itemName ddl
 export const getItemNameDDL = async (accId, buId, plantId, sid, setter) => {
   try {
