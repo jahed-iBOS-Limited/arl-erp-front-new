@@ -24,6 +24,7 @@ import { getLandingData } from "../helper";
 import { getSingleDataForPoView } from "../../purchase-order/helper";
 import ExportDocumentaryCredit from "./exportDC";
 import ICon from "../../../../chartering/_chartinghelper/icons/_icon";
+import LCApplicationExport from "./lcApplication";
 
 const header = [
   "SL",
@@ -42,6 +43,7 @@ const TableRow = () => {
   const [isloading, setIsLoading] = useState(false);
   const [isShowModal, setIsShowModal] = useState(false);
   const [show, setShow] = useState(false);
+  const [open, setOpen] = useState(false);
   //paginationState
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(75);
@@ -112,9 +114,9 @@ const TableRow = () => {
       <Formik
         enableReinitialize={true}
         initialValues={{ PiNo: "" }}
-        onSubmit={(values, { setSubmitting, resetForm }) => {}}
+        onSubmit={() => {}}
       >
-        {({ errors, touched, setFieldValue, isValid, values }) => (
+        {({ setFieldValue, values }) => (
           <>
             <Card>
               <CardHeader title="Proforma Invoice">
@@ -234,12 +236,22 @@ const TableRow = () => {
                               )}
                               <span className="ml-3">
                                 <ICon
-                                  title={"Download LC Application"}
+                                  title={"Download LC Application Form"}
                                   onClick={() => {
                                     setShow(true);
                                   }}
                                 >
                                   <i class="fas fa-download"></i>
+                                </ICon>
+                              </span>
+                              <span className="ml-3">
+                                <ICon
+                                  title={"LC Application"}
+                                  onClick={() => {
+                                    setOpen(true);
+                                  }}
+                                >
+                                  <i class="fas fa-file-download"></i>
                                 </ICon>
                               </span>
                               <span className="ml-3">
@@ -298,6 +310,8 @@ const TableRow = () => {
                     setIsShowModal={setIsShowModal}
                   />
                 </IViewModal>
+
+                {/* LC Application Form */}
                 <IViewModal
                   modelSize={"md"}
                   show={show}
@@ -305,6 +319,12 @@ const TableRow = () => {
                 >
                   <ExportDocumentaryCredit setShow={setShow} />
                 </IViewModal>
+
+                {/* LC Application */}
+                <IViewModal show={open} onHide={() => setOpen(false)}>
+                  <LCApplicationExport setOpen={setOpen} />
+                </IViewModal>
+
                 {/* Pagination Code */}
                 {gridData?.data?.length > 0 && (
                   <PaginationTable

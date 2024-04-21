@@ -250,7 +250,7 @@ const AddEditForm = () => {
             strSoldByName: values?.soldBy?.label,
             intSalesOrderCreatedBy: values?.salesOrderCreatedBy?.value,
             strSalesOrderCreatedBy: values?.salesOrderCreatedBy?.label,
-            strPaymentTerms: values?.paymentTerms,
+            strPaymentTerms: values?.paymentTerms?.label,
             remarks: values?.remarks || "",
           });
         } else if ([8].includes(buId)) {
@@ -266,7 +266,7 @@ const AddEditForm = () => {
             strSoldByName: values?.soldBy?.label,
             intSalesOrderCreatedBy: values?.salesOrderCreatedBy?.value,
             strSalesOrderCreatedBy: values?.salesOrderCreatedBy?.label,
-            strPaymentTerms: values?.paymentTerms,
+            strPaymentTerms: values?.paymentTerms?.label,
             remarks: values?.remarks || "",
             strGoodsDescription: values?.particulars || "",
           });
@@ -289,7 +289,7 @@ const AddEditForm = () => {
             strSoldByName: values?.soldBy?.label,
             intSalesOrderCreatedBy: values?.salesOrderCreatedBy?.value,
             strSalesOrderCreatedBy: values?.salesOrderCreatedBy?.label,
-            strPaymentTerms: values?.paymentTerms,
+            strPaymentTerms: values?.paymentTerms?.label,
             remarks: values?.remarks || "",
           });
         }
@@ -332,7 +332,7 @@ const AddEditForm = () => {
           ([4, 186, 138]?.includes(buId) &&
             (!values?.soldBy ||
               !values?.salesOrderCreatedBy ||
-              !values?.paymentTerms))
+              !values?.paymentTerms?.label))
       : !values?.delivery?.label;
   };
 

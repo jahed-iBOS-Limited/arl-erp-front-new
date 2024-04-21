@@ -53,7 +53,7 @@ const SalesInvoiceGridData = ({
                   <th>Partner Name</th>
                   <th>Reference No </th>
                   <th>Project Location</th>
-                  <th>Quantity</th>
+                  <th>Net Qty</th>
                   {values?.type?.value !== 2 && <th>Action</th>}
                 </tr>
               </thead>

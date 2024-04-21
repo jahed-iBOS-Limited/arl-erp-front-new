@@ -1,0 +1,31 @@
+#lc_application body {
+  font-family: Arial, Helvetica, sans-serif;
+  width: 50%;
+  margin-left: 25%;
+}
+#lc_application p {
+  margin: 0px;
+}
+#lc_application #ref {
+  float: left;
+  width: 50%;
+}
+#lc_application #date {
+  text-align: end;
+}
+#lc_application #message {
+  font-size: 15px;
+}
+#lc_application #signature_1 {
+  float: left;
+  width: 20%;
+  margin-right: 50px;
+}
+#lc_application #signature_2 {
+  float: left;
+  width: 20%;
+  padding-top: 6px;
+}
+#lc_application #signatures {
+  text-align: center;
+}

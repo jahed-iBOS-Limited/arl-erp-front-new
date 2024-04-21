@@ -24,25 +24,23 @@ export default function DispatchDeskLanding() {
   const [fromPlantDDL, getFromPlantDDL, , setFromPlant] = useAxiosGet();
   //   const history = useHistory();
   const {
-    profileData: { accountId: accId, userId },
+    profileData: { accountId: accId, userId, employeeId },
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
-  const [gridData, getGridData, loadGridData] = useAxiosPost();
+  const [gridData, getGridData, loadGridData] = useAxiosGet();
 
   const handleGetRowData = (status, pageNo, pageSize, plantPayload) => {
-    const payload = plantPayload ? plantPayload : fromPlantDDL;
+    // const payload = plantPayload ? plantPayload : fromPlantDDL;
    if(status === "send"){
     getGridData(
-      `/tms/DocumentDispatch/GetDispatchsSendPasignation?AccountId=${accId}&SenderId=${0}&ReceiverId=0&viewOrder=asc&PageNo=${pageNo}&PageSize=${pageSize}`,
-      payload
+      `/tms/DocumentDispatch/GetDispatchsSendPasignation?AccountId=${accId}&businessUnitId=${buId}&SenderId=${0}&ReceiverId=0&viewOrder=asc&PageNo=${pageNo}&PageSize=${pageSize}`
     );
    }else{
     getGridData(
-      `/tms/DocumentDispatch/GetDispatchsReceivePasignation?AccountId=${accId}&SenderId=0&ReceiverId=${0}&viewOrder=asc&PageNo=${pageNo}&PageSize=${pageSize}
-      `,
-      payload
+      `/tms/DocumentDispatch/GetDispatchsReceivePasignation?AccountId=${accId}&businessUnitId=${buId}&SenderId=0&ReceiverId=${0}&dispatchReceiverId=${employeeId}&viewOrder=asc&PageNo=${pageNo}&PageSize=${pageSize}
+      `
     );
    }
   };

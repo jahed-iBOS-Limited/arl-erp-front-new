@@ -132,7 +132,9 @@ export default function DispatchRequisitionCreateEdit() {
 
  useEffect(()=>{
   getUoMList(`/item/ItemUOM/GetItemUOMDDL?AccountId=${accId}&BusinessUnitId=${buId}`)
-  getPlantListddl(`/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&OrgUnitTypeId=7`)
+  getPlantListddl(`/wms/ItemPlantWarehouse/GetWareHouseItemPlantWareHouseDDL?accountId=${accId}&businessUnitId=${buId}&PlantId=0`)
+  getToLocationPlantDDL(`/wms/ItemPlantWarehouse/GetWareHouseItemPlantWareHouseDDL?accountId=${accId}&businessUnitId=${buId}&PlantId=0`)
+
  // eslint-disable-next-line react-hooks/exhaustive-deps
  },[accId,buId])
 
@@ -196,11 +198,11 @@ export default function DispatchRequisitionCreateEdit() {
                       selectedValue={values?.receiverName}
                       isSearchIcon={true}
                       handleChange={(valueOption) => {
-                        setFieldValue("toLocation", "");
+                        // setFieldValue("toLocation", "");
                         setFieldValue("receiverName", valueOption);
                         setFieldValue("contactNo", valueOption?.contactNo);
                         if(!valueOption) return;
-                      getToLocationPlantDDL(`/wms/Plant/GetPlantDDL?AccountId=${accId}&BusinessUnitId=${valueOption?.employeeBusinessUnitId}`)
+                      // getToLocationPlantDDL(`/wms/Plant/GetPlantDDL?AccountId=${accId}&BusinessUnitId=${valueOption?.employeeBusinessUnitId}`)
                       }}
                       loadOptions={loadUserList}
                     />
