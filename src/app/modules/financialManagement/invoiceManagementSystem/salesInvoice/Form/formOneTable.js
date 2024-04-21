@@ -182,7 +182,7 @@ const TableTwo = ({ obj }) => {
             totalReturnQty += item.returnQuantity;
             totalReturnAmount += item.returnAmount;
             totalSalesAmount += item?.totalAmount - item?.returnAmount;
-            totalNetQty += (item?.totalDeliveredQty- item?.returnQuantity)
+            totalNetQty += item?.totalDeliveredQty - item?.returnQuantity;
             return (
               <tr
                 className="cursor-pointer"
@@ -221,7 +221,10 @@ const TableTwo = ({ obj }) => {
                   {item?.totalAmount - item?.returnAmount}
                 </td>
                 <td className="text-right">
-                  {item?.totalDeliveredQty- item?.returnQuantity}
+                  {_fixedPoint(
+                    item?.totalDeliveredQty - item?.returnQuantity,
+                    true
+                  )}
                 </td>
               </tr>
             );
