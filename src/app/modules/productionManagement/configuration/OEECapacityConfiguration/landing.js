@@ -1,6 +1,6 @@
 import { Form, Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import IForm from '../../../_helper/_form';
 import IDelete from '../../../_helper/_helperIcons/_delete';
@@ -10,6 +10,7 @@ import NewSelect from '../../../_helper/_select';
 import PaginationTable from '../../../_helper/_tablePagination';
 import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import { setOEECapacityConfigurationAction } from '../../../_helper/reduxForLocalStorage/Actions';
 import {
   getLandingData,
   machineNameDDLApi,
@@ -17,13 +18,15 @@ import {
   shopFloorNameDDLApi,
 } from './util/api';
 
-const initData = {
-  plant: '',
-  shopFloor: '',
-  machine: '',
-};
+
+
 export default function OEECapacityConfigurationLanding() {
+  
+  const initData = useSelector((state)=>{
+    return state.localStorage.OEECapacityConfigurationInitData || {};
+  },shallowEqual)
   const saveHandler = (values, cb) => { };
+  const dispatch = useDispatch()
   const history = useHistory();
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
@@ -75,11 +78,13 @@ export default function OEECapacityConfigurationLanding() {
   };
 
   useEffect(() => {
-    getPlantNameDDL(plantNameDDLApi(buId, accId, userId), (data) =>
-      console.log({ data }),
-    );
+    getPlantNameDDL(plantNameDDLApi(buId, accId, userId));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [buId, userId, accId]);
+  useEffect(()=>{
+    setPositionHandler(pageNo,pageSize,initData)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[initData])
 
   return (
     <Formik
@@ -179,6 +184,7 @@ export default function OEECapacityConfigurationLanding() {
                     touched={touched}
                   />
                 </div>
+               
                 <div className="col-lg-3">
                   <NewSelect
                     name="machine"
@@ -209,6 +215,7 @@ export default function OEECapacityConfigurationLanding() {
                     type="button"
                     className="btn btn-primary mt-5"
                     onClick={() => {
+                      dispatch(setOEECapacityConfigurationAction(values))
                       setPositionHandler(pageNo, pageSize, values);
                     }}
                     disabled={

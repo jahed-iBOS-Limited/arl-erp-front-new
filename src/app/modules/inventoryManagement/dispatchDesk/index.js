@@ -10,6 +10,7 @@ import PaginationTable from "../../_helper/_tablePagination";
 import IViewModal from "../../_helper/_viewModal";
 import CommonTable from "../../_helper/commonTable";
 import useAxiosGet from "../../_helper/customHooks/useAxiosGet";
+import useAxiosPost from "../../_helper/customHooks/useAxiosPost";
 import ReceiveModal from "./receiveModal";
 import SendModal from "./sendModal";
 const initData = {
@@ -20,32 +21,45 @@ export default function DispatchDeskLanding() {
   const [isShowModal, setShowModal] = useState(false);
   const [isShowReceiveModal, setShowReceiveModal] = useState(false);
   const [singleItem, setSingleItem] = useState({});
+  const [fromPlantDDL, getFromPlantDDL, , setFromPlant] = useAxiosGet();
   //   const history = useHistory();
   const {
-    profileData: { accountId: accId },
+    profileData: { accountId: accId, userId, employeeId },
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
   const [gridData, getGridData, loadGridData] = useAxiosGet();
 
-  const handleGetRowData = (status) => {
+  const handleGetRowData = (status, pageNo, pageSize, plantPayload) => {
+    // const payload = plantPayload ? plantPayload : fromPlantDDL;
+   if(status === "send"){
     getGridData(
-      `/tms/DocumentDispatch/GetDispatchPasignation?AccountId=${accId}&BusinessUnitId=${buId}&Status=${status}&viewOrder=asc&PageNo=${pageNo}&PageSize=${pageSize}`
+      `/tms/DocumentDispatch/GetDispatchsSendPasignation?AccountId=${accId}&businessUnitId=${buId}&SenderId=${0}&ReceiverId=0&viewOrder=asc&PageNo=${pageNo}&PageSize=${pageSize}`
     );
+   }else{
+    getGridData(
+      `/tms/DocumentDispatch/GetDispatchsReceivePasignation?AccountId=${accId}&businessUnitId=${buId}&SenderId=0&ReceiverId=${0}&dispatchReceiverId=${employeeId}&viewOrder=asc&PageNo=${pageNo}&PageSize=${pageSize}
+      `
+    );
+   }
   };
   const setPositionHandler = (pageNo, pageSize, values) => {
-    getGridData(
-      `/tms/DocumentDispatch/GetDispatchPasignation?AccountId=${accId}&BusinessUnitId=${buId}&Status=${values?.requisition}&viewOrder=asc&PageNo=${pageNo}&PageSize=${pageSize}`
-    );
+    handleGetRowData(values?.requisition, pageNo, pageSize);
   };
 
   useEffect(() => {
-    getGridData(
-      `/tms/DocumentDispatch/GetDispatchPasignation?AccountId=${accId}&BusinessUnitId=${buId}&Status=send&viewOrder=asc&PageNo=${pageNo}&PageSize=${pageSize}`
+    getFromPlantDDL(
+      `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&OrgUnitTypeId=7`,
+      (data) => {
+        const fromPlantPayload = data?.map((item) => item?.value);
+        handleGetRowData("send", pageNo, pageSize, fromPlantPayload);
+        setFromPlant(fromPlantPayload);
+      }
     );
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [userId, buId]);
 
   return (
     <Formik
@@ -108,7 +122,7 @@ export default function DispatchDeskLanding() {
                       checked={values?.requisition === "send"}
                       onChange={(e) => {
                         setFieldValue("requisition", "send");
-                        handleGetRowData("send");
+                        handleGetRowData("send", pageNo, pageSize);
                       }}
                     />
                     Send
@@ -125,7 +139,7 @@ export default function DispatchDeskLanding() {
                       checked={values?.requisition === "received"}
                       onChange={(e) => {
                         setFieldValue("requisition", "received");
-                        handleGetRowData("received");
+                        handleGetRowData("received", pageNo, pageSize);
                       }}
                     />
                     Receive
@@ -137,12 +151,13 @@ export default function DispatchDeskLanding() {
                   headersData={[
                     "Document No",
                     "Sender Name",
+                    "Dispatch Type",
                     "Document Type",
                     {
                       title:
                         values?.requisition === "received"
                           ? "Received Date"
-                          : "Dispatch Date",
+                          : "Requisition Date",
                     },
                     "From Location",
                     "To Location",
@@ -156,44 +171,61 @@ export default function DispatchDeskLanding() {
                       <tr>
                         <td className="text-center">{item?.dispatchCode}</td>
                         <td className="text-center">{item?.senderName}</td>
-                        <td className="text-center">{item?.dispatchType}</td>
+                        <td className="text-center">
+                          {item?.dispatchType}
+                        </td>
+                        <td className="text-center">
+                          {item?.dispatchDescription}
+                        </td>
                         <td className="text-center">
                           {values?.requisition === "received"
-                            ? _dateFormatter(item.dispatchSendReveiveDate)
+                            ? _dateFormatter(item.dispatchReceiveDate)
                             : _dateFormatter(
-                                item.documentOwnerSenderReveiveDate
+                                item.requisitionDate
                               )}
                         </td>
                         <td className="text-center">{item?.fromLocation}</td>
                         <td className="text-center">{item?.toLocation}</td>
                         <td className="text-center">{item?.receiverName}</td>
-                        {
-                        values?.requisition === "send" ? (
+                        {values?.requisition === "send" ? (
                           <td className="text-center">
-                          { item?.isSend &&
-                          !item?.isReceive &&
-                          !item?.isOwnerReceive ? (
-                            <span style={{ color: "green" }}>Send</span>
-                          ) : item?.isReceive && !item?.isOwnerReceive ? (
-                            <span style={{ color: "purple",fontWeight:"bold" }}>Received</span>
-                          ) : item?.isOwnerReceive ? (
-                            <span style={{ color: "green",fontWeight:"bold" }}>Approved</span>
-                          ) : (
-                            <span style={{ color: "red" }}>Not Send</span>
-                          )}
-                        </td>
+                            {item?.isSend &&
+                            !item?.isReceive &&
+                            !item?.isOwnerReceive ? (
+                              <span style={{ color: "green" }}>Send</span>
+                            ) : item?.isReceive && !item?.isOwnerReceive ? (
+                              <span
+                                style={{ color: "purple", fontWeight: "bold" }}
+                              >
+                                Received
+                              </span>
+                            ) : item?.isOwnerReceive ? (
+                              <span
+                                style={{ color: "green", fontWeight: "bold" }}
+                              >
+                                Approved
+                              </span>
+                            ) : (
+                              <span style={{ color: "red" }}>Not Send</span>
+                            )}
+                          </td>
                         ) : (
                           <td className="text-center">
-                            {
-                               item?.isReceive && !item?.isOwnerReceive ? (
-                                <span style={{ color: "purple",fontWeight:"bold" }}>Received</span>
-                              ) : item?.isOwnerReceive ? (
-                                <span style={{ color: "green",fontWeight:"bold"  }}>Approved</span>
-                              ) : null
-                            }
+                            {item?.isReceive && !item?.isOwnerReceive ? (
+                              <span
+                                style={{ color: "purple", fontWeight: "bold" }}
+                              >
+                                Received
+                              </span>
+                            ) : item?.isOwnerReceive ? (
+                              <span
+                                style={{ color: "green", fontWeight: "bold" }}
+                              >
+                                Approved
+                              </span>
+                            ) : null}
                           </td>
-                        )
-                       }
+                        )}
                         <td className="text-center">
                           {values?.requisition === "send" && !item?.isSend && (
                             <span
@@ -240,7 +272,7 @@ export default function DispatchDeskLanding() {
                     <SendModal
                       singleItem={singleItem}
                       handleGetRowData={() =>
-                        handleGetRowData(values?.requisition)
+                        handleGetRowData(values?.requisition, pageNo, pageSize)
                       }
                       onHide={() => setShowModal(false)}
                     />
@@ -253,8 +285,8 @@ export default function DispatchDeskLanding() {
                     show={isShowReceiveModal}
                     onHide={() => {
                       setShowReceiveModal(false);
-                      setFieldValue("requisition","received")
-                      handleGetRowData("received")
+                      setFieldValue("requisition", "received");
+                      handleGetRowData("received", pageNo, pageSize);
                     }}
                   >
                     <ReceiveModal />

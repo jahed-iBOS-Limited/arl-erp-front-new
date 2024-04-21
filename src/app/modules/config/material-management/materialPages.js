@@ -1,48 +1,50 @@
 import React from "react";
 import { Redirect, Switch } from "react-router-dom";
-import ItemBasicInfo from "./itemBasicInfo";
 import { ContentRoute } from "../../../../_metronic/layout";
-import AddForm from "./itemBasicInfo/basicInfornationCreate/addForm";
-import PriceStructureAddForm from "./priceStructure/priceStructureCreate/addForm";
-import ItemCategory from "./itemCategory";
-import { ItemSubCategory } from "./itemSubCategory";
-import ItemCategoryAddForm from "./itemCategory/WarehouseCreate/addForm";
-import ItemAttributeForm from "./itemAttribute/WarehouseCreate/addForm";
-import ItemAttribute from "./itemAttribute";
-import { UnitOfMeasurement } from "./unitOfMeasurement";
 import { ConfigItemTypeGL } from "./configItemTypeGL";
-import LandingCard from "./itemBasicInfo/basicInfornationEdit/landingCard";
-import ItemSubCategoryAddForm from "./itemSubCategory/plantWarehouseCreate/addForm";
-import ItemSubCategoryEditForm from "./itemSubCategory/businessUnitEdit/editForm";
 import ConfigItemTypeGLEditForm from "./configItemTypeGL/businessUnitEdit/editForm";
 import ConfigItemTypeGLAddForm from "./configItemTypeGL/plantWarehouseCreate/addForm";
+import ItemAttribute from "./itemAttribute";
+import ItemAttributeForm from "./itemAttribute/WarehouseCreate/addForm";
+import ItemBasicInfo from "./itemBasicInfo";
+import AddForm from "./itemBasicInfo/basicInfornationCreate/addForm";
+import LandingCard from "./itemBasicInfo/basicInfornationEdit/landingCard";
+import ItemCategory from "./itemCategory";
+import ItemCategoryAddForm from "./itemCategory/WarehouseCreate/addForm";
+import { ItemSubCategory } from "./itemSubCategory";
+import ItemSubCategoryEditForm from "./itemSubCategory/businessUnitEdit/editForm";
+import ItemSubCategoryAddForm from "./itemSubCategory/plantWarehouseCreate/addForm";
+import PriceStructureAddForm from "./priceStructure/priceStructureCreate/addForm";
+import { UnitOfMeasurement } from "./unitOfMeasurement";
 import UOMAddForm from "./unitOfMeasurement/WarehouseCreate/addForm";
 
-import PriceCpomponentAddForm from "./priceComponent/priceComponentCreate/addForm";
-import PriceStructure from "./priceStructure";
-import PriceCpomponent from "./priceComponent";
-import { TradeOfferSetup } from "./tradeOfferSetup";
-import PriceSetup from "./priceSetup";
-import TradeOfferForm from "./tradeOfferSetup/Form/addEditForm";
-import PriceSetupForm from "./priceSetup/Form/addEditForm";
-import TradeOfferItemGroup from "./tradeOfferItemGroup";
-import TradeOfferItemGroupForm from "./tradeOfferItemGroup/Form/addEditForm";
-import BasicInformationView from "./itemBasicInfo/basicInfoView/landingCard";
-import ItemProfileSetupLinding from "./itemProfileSetup/Table";
-import ItemProfileSetupForm from "./itemProfileSetup/Form/addEditForm";
 import { shallowEqual, useSelector } from "react-redux";
 import findIndex from "../../_helper/_findIndex";
 import NotPermittedPage from "../../_helper/notPermitted/NotPermittedPage";
-import WarehouseCostBridgeLanding from "./warehouseCostBridge/landing";
-import LocalAndForeignItemBridgeTable from "./localAndForeignItemBridge/table/table";
-import LocalAndForeignItemBridgeForm from "./localAndForeignItemBridge/form/form";
+import ItemBridge from "./../../vatManagement/configuration/itemBridge/table/table";
+import DiscountOfferGroupForm from "./discountOfferGroup/form/addEditFrom";
+import DiscountOfferGroupLandingTable from "./discountOfferGroup/landing/table";
+import BasicInformationView from "./itemBasicInfo/basicInfoView/landingCard";
+import BulkUpload from "./itemBasicInfo/basicInfornationTable/bulkUpload";
 import ItemTradeOfferSetup from "./itemBasicInfo/itemTradeOfferSetup/index";
 import ItemBulkUpload from "./itemBulkUpload";
-import DiscountOfferGroupLandingTable from "./discountOfferGroup/landing/table";
-import DiscountOfferGroupForm from "./discountOfferGroup/form/addEditFrom";
-import ItemBridge from "./../../vatManagement/configuration/itemBridge/table/table";
-import BulkUpload from "./itemBasicInfo/basicInfornationTable/bulkUpload";
+import ItemProfileSetupForm from "./itemProfileSetup/Form/addEditForm";
+import ItemProfileSetupLinding from "./itemProfileSetup/Table";
+import LocalAndForeignItemBridgeForm from "./localAndForeignItemBridge/form/form";
+import LocalAndForeignItemBridgeTable from "./localAndForeignItemBridge/table/table";
 import PriceApprove from "./priceApprove";
+import PriceCpomponent from "./priceComponent";
+import PriceCpomponentAddForm from "./priceComponent/priceComponentCreate/addForm";
+import PriceSetup from "./priceSetup";
+import PriceSetupForm from "./priceSetup/Form/addEditForm";
+import PriceStructure from "./priceStructure";
+import QcItemConfigLanding from "./qcItemConfig";
+import QcItemConfigCreate from "./qcItemConfig/addEditForm";
+import TradeOfferItemGroup from "./tradeOfferItemGroup";
+import TradeOfferItemGroupForm from "./tradeOfferItemGroup/Form/addEditForm";
+import { TradeOfferSetup } from "./tradeOfferSetup";
+import TradeOfferForm from "./tradeOfferSetup/Form/addEditForm";
+import WarehouseCostBridgeLanding from "./warehouseCostBridge/landing";
 
 export function MaterialPages() {
   const userRole = useSelector(
@@ -289,6 +291,14 @@ export function MaterialPages() {
       <ContentRoute
         path="/config/material-management/itemBridge"
         component={ItemBridge}
+      />
+      <ContentRoute
+        path="/config/material-management/qc-item-config/:id"
+        component={QcItemConfigCreate}
+      />
+      <ContentRoute
+        path="/config/material-management/qc-item-config"
+        component={QcItemConfigLanding}
       />
     </Switch>
   );

@@ -26,7 +26,7 @@ export default function SendModal({singleItem,onHide,handleGetRowData}) {
   const [rowData,getRowData,loadRowData] = useAxiosGet()
   const [,sendDocument,loadSendDocument] = useAxiosPost()
   const {
-    profileData: { accountId:employeeFullName,employeeId },
+    profileData: { accountId:employeeFullName,userId },
   } = useSelector((state) => state?.authData, shallowEqual);
   console.log("singleItem",singleItem)
   const saveHandler = (values, cb) => {
@@ -44,9 +44,9 @@ export default function SendModal({singleItem,onHide,handleGetRowData}) {
         receiverContactNo:singleItem?.receiverContactNo,
         documentOwnerSenderReveiveDate:singleItem?.documentOwnerSenderReveiveDate,
         remaks:singleItem?.remaks,
-        dispatchSenderReceiverEnroll:employeeId,
+        dispatchSenderReceiverEnroll:userId,
         dispatchSenderReceiverName:employeeFullName,
-        dispatchSendReveiveDate:values?.dispatchSendReveiveDate,
+        dispatchSendDate:values?.dispatchSendReveiveDate,
         dispatchNote:values?.dispatchNote||"",
         sendViya:values?.sendVia||"",
         vehicleNo:values?.vehicleNo || "",
@@ -60,7 +60,7 @@ export default function SendModal({singleItem,onHide,handleGetRowData}) {
       },
       row:[...rowData?.row]
     }
-    sendDocument(`/tms/DocumentDispatch/SendDocumentFromDispatchDesk`,
+    sendDocument(`/tms/DocumentDispatch/InternalDocumentSend`,
     payload,
     ()=>{
       handleGetRowData()

@@ -43,7 +43,7 @@ export default function DispatchRequisitionCreateEdit() {
   const location = useLocation();
   const [,saveDispatchRequisition,loadDispatchRequisition] =useAxiosPost()
   const {
-    profileData: { accountId: accId,employeeFullName,employeeId ,contact,userId},
+    profileData: { accountId: accId,employeeFullName ,contact,employeeId,userId},
     selectedBusinessUnit: { value: buId },
     // businessUnitList,
   } = useSelector((state) => state?.authData, shallowEqual);
@@ -55,24 +55,24 @@ export default function DispatchRequisitionCreateEdit() {
     const payload = {
         header: {
           dispatchHeaderId: 0,
-          dispatchType:values?.dispatchType,
+          dispatchType:values?.receiverType?.label,
           dispatchNote: "", 
           sendReceive: location.state.requisition || "",
           fromLocation: values?.plant?.label,
           fromPlantId:values?.plant?.value,
           toLocation: values?.toLocation?.label || values?.toLocation||"",
-          toPlantId:values?.toLocation?.value || "",
+          toPlantId:values?.toLocation?.value || 0,
           senderEnrollId: employeeId,
           senderName: employeeFullName,
           senderContactNo :contact,
           receiverEnrollId:values.receiverName?.value|| 0,
           receiverName: values.receiverName?.strEmployeeName||values?.receiverName||"",
           receiverContactNo:values?.contactNo,
-          documentOwnerSenderReveiveDate :values?.dispatchDate,
+          // documentOwnerSenderReveiveDate :,
           remaks:values?.remarks||"",
           dispatchSenderReceiverEnroll:0,
           dispatchSenderReceiverName:"",
-          dispatchSendReveiveDate:"",
+          requisitionDate:values?.dispatchDate,
           sendViya: "",
           vehicleNo: "",
           sendCost: 0,
@@ -132,8 +132,9 @@ export default function DispatchRequisitionCreateEdit() {
 
  useEffect(()=>{
   getUoMList(`/item/ItemUOM/GetItemUOMDDL?AccountId=${accId}&BusinessUnitId=${buId}`)
-  // getPlantListddl( `/mes/MesDDL/GetPlantDDL?AccountId=${accId}&BusinessUnitId=${buId}`)
-  getPlantListddl(`/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&OrgUnitTypeId=7`)
+  getPlantListddl(`/wms/ItemPlantWarehouse/GetWareHouseItemPlantWareHouseDDL?accountId=${accId}&businessUnitId=${buId}&PlantId=0`)
+  getToLocationPlantDDL(`/wms/ItemPlantWarehouse/GetWareHouseItemPlantWareHouseDDL?accountId=${accId}&businessUnitId=${buId}&PlantId=0`)
+
  // eslint-disable-next-line react-hooks/exhaustive-deps
  },[accId,buId])
 
@@ -197,11 +198,11 @@ export default function DispatchRequisitionCreateEdit() {
                       selectedValue={values?.receiverName}
                       isSearchIcon={true}
                       handleChange={(valueOption) => {
-                        setFieldValue("toLocation", "");
+                        // setFieldValue("toLocation", "");
                         setFieldValue("receiverName", valueOption);
                         setFieldValue("contactNo", valueOption?.contactNo);
                         if(!valueOption) return;
-                      getToLocationPlantDDL(`/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${valueOption?.value}&AccId=1&BusinessUnitId=${valueOption?.employeeBusinessUnitId}&OrgUnitTypeId=7`)
+                      // getToLocationPlantDDL(`/wms/Plant/GetPlantDDL?AccountId=${accId}&BusinessUnitId=${valueOption?.employeeBusinessUnitId}`)
                       }}
                       loadOptions={loadUserList}
                     />
@@ -225,7 +226,7 @@ export default function DispatchRequisitionCreateEdit() {
                 <div className="col-lg-3">
                   <InputField
                     value={values?.dispatchDate}
-                    label="Dispatch Date"
+                    label="Requisition Date"
                     name="dispatchDate"
                     type="date"
                     onChange={(e) => {
@@ -259,6 +260,7 @@ export default function DispatchRequisitionCreateEdit() {
                     onChange={(valueOption) => {
                       setFieldValue("toLocation", valueOption);
                     }}
+                    disabled={!values?.receiverName}
                     errors={errors}
                     touched={touched}
                   />
