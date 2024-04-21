@@ -6,8 +6,7 @@ export const dispatchRequisitionSchema = Yup.object().shape({
     value: Yup.string().required("Receiver Type is is required"),
   }),
 
-  remarks: Yup.string().required("Remarks is required"),
   toLocation: Yup.string().required("To Location is required"),
-  contactNo: Yup.string().required("contactNo is required"),
-  dispatchDate: Yup.date().required("Dispatch Date is required"),
+  contactNo: Yup.string().required("Contact No is required"),
+  dispatchDate: Yup.date().required("Requisition Date is required"),
 });
