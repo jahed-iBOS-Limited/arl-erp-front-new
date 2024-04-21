@@ -149,7 +149,9 @@ function FormOne({ propsObj }) {
             type="text"
           />
         </div>
-        <div className="col-lg-3">
+
+        {/* Invoice will auto generate */}
+        {/* <div className="col-lg-3">
           <label>Invoice Number</label>
           <InputField
             value={values?.invoiceNo}
@@ -160,7 +162,7 @@ function FormOne({ propsObj }) {
             }}
             type="text"
           />
-        </div>
+        </div> */}
         <div className="col-lg-3">
           <NewSelect
             name="ait"
@@ -209,6 +211,24 @@ function FormOne({ propsObj }) {
               />
             </div>
             <div className="col-lg-3">
+              <NewSelect
+                name="paymentTerms"
+                options={[
+                  { value: 1, label: "Cash" },
+                  { value: 2, label: "Credit" },
+                  { value: 3, label: "Both" },
+                ]}
+                value={values?.paymentTerms}
+                label="Payment Term"
+                onChange={(valueOption) => {
+                  setFieldValue("paymentTerms", valueOption);
+                }}
+                placeholder="Payment Term"
+                errors={errors}
+                touched={touched}
+              />
+            </div>
+            {/* <div className="col-lg-3">
               <InputField
                 label="Payment Terms"
                 value={values?.paymentTerms}
@@ -216,7 +236,7 @@ function FormOne({ propsObj }) {
                 placeholder="Payment Terms"
                 type="text"
               />
-            </div>
+            </div> */}
             <div className="col-lg-3 mt-3">
               <label>Remarks</label>
               <TextArea
