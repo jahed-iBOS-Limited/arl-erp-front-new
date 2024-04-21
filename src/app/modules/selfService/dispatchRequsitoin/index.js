@@ -23,7 +23,7 @@ export default function DispatchRequisitionLanding() {
   } = useSelector((state) => state?.authData, shallowEqual);
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
-  const [gridData, getGridData, loadGridData] = useAxiosPost();
+  const [gridData, getGridData, loadGridData] = useAxiosGet();
   const [, getDocReceivedApproval, loadDocReceivedApproval] = useAxiosPost();
   const [fromPlantDDL,getFromPlantDDL,,setFromPlant] = useAxiosGet()
 
@@ -41,17 +41,15 @@ export default function DispatchRequisitionLanding() {
     "Action",
   ];
   const handleGetRowData = (status, pageNo, pageSize, plantPayload) => {
-    const payload = plantPayload ? plantPayload : fromPlantDDL;
+    // const payload = plantPayload ? plantPayload : fromPlantDDL;
    if(status === "send"){
     getGridData(
-      `/tms/DocumentDispatch/GetRequsitionSendPasignation?AccountId=${accId}&SenderId=${employeeId}&viewOrder=asc&PageNo=${pageNo}&PageSize=${pageSize}`,
-      payload
+      `/tms/DocumentDispatch/GetRequsitionSendPasignation?AccountId=${accId}&businessUnitId=${buId}&SenderId=${employeeId}&viewOrder=asc&PageNo=${pageNo}&PageSize=${pageSize}`
     );
    }else{
     getGridData(
-      `/tms/DocumentDispatch/GetRequsitionReceivePasignation?AccountId=${accId}&ReceiverId=${employeeId}&viewOrder=asc&PageNo=${pageNo}&PageSize=${pageSize}
-      `,
-      payload
+      `/tms/DocumentDispatch/GetRequsitionReceivePasignation?AccountId=${accId}&businessUnitId=${buId}&ReceiverId=${employeeId}&viewOrder=asc&PageNo=${pageNo}&PageSize=${pageSize}
+      `
     );
    }
   };
@@ -73,6 +71,8 @@ export default function DispatchRequisitionLanding() {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userId,buId]);
+
+  console.log("gridData", gridData)
   return (
     <Formik
       enableReinitialize={true}
