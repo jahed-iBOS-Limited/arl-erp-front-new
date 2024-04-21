@@ -41,39 +41,49 @@ export const GetProductionDataReport = async ({
     const data = [...res?.data];
     let newData = data.map((item, index, data) => {
       let result = {};
-      if (index === 0 || item?.itemId !== data[index - 1]?.itemId) {
-        result = itemMatchFn(item?.itemId, index, data);
+
+      const isPrvItemMatch =
+        item?.itemId !== data[index - 1]?.itemId ||
+        item?.productionOrderId !== data[index - 1]?.productionOrderId;
+
+      if (index === 0 || isPrvItemMatch) {
+        result = itemMatchFn(item, index, data);
       }
       return {
         ...item,
         count: result.count || 0,
-        totalProductionQty: result.totalProductionQty || 0,
+        totalSubTotalMT: result.totalSubTotalMT || 0,
       };
     });
-    console.log(data, "data")
+    // console.log(newData, "newData");
     setter(newData);
     setLoading(false);
   } catch (error) {
-    console.log(error, "error")
+    console.log(error, "error");
     setter([]);
     setLoading(false);
   }
 };
 
-let itemMatchFn = (itemId, index, data) => {
+let itemMatchFn = (item, index, data) => {
   let count = 0;
-  let totalProductionQty = 0;
+  let totalSubTotalMT = 0;
   for (let i = index; i < data.length; i++) {
-    if (data[i]?.itemId === itemId) {
+    const isPrvItemMatch =
+      item?.itemId === data[i]?.itemId &&
+      item?.productionOrderId === data[i]?.productionOrderId;
+    if (isPrvItemMatch) {
       count++;
-      totalProductionQty += +data[i]?.productionQty || 0;
+      totalSubTotalMT += +data[i]?.subTotalMT || 0;
     } else {
       break;
     }
   }
+  console.log(index, "index");
+  console.log(count, totalSubTotalMT, "sum");
   return {
     count,
-    totalProductionQty,
+    totalSubTotalMT,
   };
 };
 // itemName ddl

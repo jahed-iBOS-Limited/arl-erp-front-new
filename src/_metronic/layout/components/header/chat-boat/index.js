@@ -4,6 +4,9 @@ import "./style.scss";
 import ChatBoatWrapper from "./chats/chatsApp";
 export default function ChatBoat() {
   const [isChatModal, setChatModal] = useState(false);
+  const timeRemainingCB = () => {
+    setChatModal(false);
+  };
   return (
     <>
       <div className="chat-boat-wrapper">
@@ -15,7 +18,7 @@ export default function ChatBoat() {
             }}
           >
             <i
-              style={{ fontSize: "14px", color:"#28bef1" }}
+              style={{ fontSize: "14px", color: "#28bef1" }}
               class="fa fa-comments"
               aria-hidden="true"
             ></i>
@@ -27,10 +30,10 @@ export default function ChatBoat() {
           <IViewModal
             show={isChatModal}
             onHide={() => setChatModal(false)}
-            title={"iBOS Bot"}
+            title={"iBOS Chatbot"}
             modelSize={"md"}
           >
-            <ChatBoatWrapper />
+            <ChatBoatWrapper timeRemainingCB={timeRemainingCB} />
           </IViewModal>
         </>
       )}
