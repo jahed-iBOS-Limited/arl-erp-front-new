@@ -168,7 +168,7 @@
   margin: 0;
 }
 .message-box .checklist-message-body-other {
-  width: 250px;
+  width: 350px;
   height: auto;
   clear: both;
 }
@@ -194,7 +194,7 @@
 }
 
 .message-box .checklist-message-body-me {
-  width: 250px;
+  width: 350px;
   height: auto;
   box-shadow: 0 3px 10px 0 rgba(125, 196, 166, 0.3);
   background-color: #28bef1;

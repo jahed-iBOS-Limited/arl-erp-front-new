@@ -1,7 +1,7 @@
 import React from "react";
 import avatar from "./avatar.png";
 import ChatAppLoading from "./loading";
-
+import MarkdownPreview from '@uiw/react-markdown-preview';
 const MessageBox = ({
   chatList,
   messagesEndRef,
@@ -47,7 +47,8 @@ const MessageBox = ({
                           alt="avatar"
                         />
                       )}
-                      <p dangerouslySetInnerHTML={{ __html: chat?.text }} />
+                      {/* <p dangerouslySetInnerHTML={{ __html: chat?.text }} /> */}
+                      <MarkdownPreview source={chat?.text} />
                     </div>
                   </li>
                 ))}
