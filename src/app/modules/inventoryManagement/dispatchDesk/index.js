@@ -24,7 +24,7 @@ export default function DispatchDeskLanding() {
   const [fromPlantDDL, getFromPlantDDL, , setFromPlant] = useAxiosGet();
   //   const history = useHistory();
   const {
-    profileData: { accountId: accId, employeeId, userId },
+    profileData: { accountId: accId, userId },
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
   const [pageNo, setPageNo] = useState(0);
@@ -181,7 +181,7 @@ export default function DispatchDeskLanding() {
                         </td>
                         <td className="text-center">
                           {values?.requisition === "received"
-                            ? _dateFormatter(item.dispatchSendReveiveDate)
+                            ? _dateFormatter(item.dispatchReceiveDate)
                             : _dateFormatter(
                                 item.requisitionDate
                               )}

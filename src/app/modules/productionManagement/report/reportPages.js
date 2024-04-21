@@ -16,6 +16,7 @@ import StockReportLanding from "./stockReport/landing/landing";
 import TransferedItemReportLanding from "./transferedItemReport/landing/landing";
 import YeildReport from "./yeildReport";
 import Yeildreport from "./yeildReportNew";
+import ProductionDataLanding from "./productionData/landing/landing";
 
 export function MesReportPages() {
   return (
@@ -105,6 +106,10 @@ export function MesReportPages() {
       <ContentRoute
         path="/production-management/report/OEEProductionSummary"
         component={OeeProductionSummary}
+      />
+        <ContentRoute
+        path="/production-management/report/ProductionData"
+        component={ProductionDataLanding}
       />
     </Switch>
   );
