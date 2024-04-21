@@ -67,7 +67,7 @@ function ProductionDataLanding() {
       selectedBusinessUnit?.value,
       setPlantDDL
     );
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileData?.accountId, selectedBusinessUnit?.value]);
 
   const printRef = useRef();
@@ -259,11 +259,12 @@ function ProductionDataLanding() {
                           <th>SL</th>
                           <th> Order Number </th>
                           <th> Item Name (Main Output) </th>
-                          <th> Produce (Input)QTY of Bag </th>
+                          <th>UOM</th>
+                          <th> Produce Qty </th>
                           <th> Sub Total MT </th>
                           <th> Total MT </th>
-                          <th> Production Entry Time & Date </th>
-                          <th> Warehouse Entry Approve Time & Date </th>
+                          <th> Production Date </th>
+                          <th> Warehouse Approve Date </th>
                         </tr>
                       </thead>
                       <tbody>
@@ -273,31 +274,32 @@ function ProductionDataLanding() {
                               <td className="text-center">{index + 1}</td>
                               <td>{item?.productionOrderCode}</td>
                               <td>{item?.itemName}</td>
-                              <td className="text-right">
-                                {_fixedPoint(item?.orderQty)}
-                              </td>
+                              <td>{item?.uomName}</td>
                               <td className="text-right">
                                 {_fixedPoint(item?.productionQty)}
+                              </td>
+                              <td className="text-right">
+                                {_fixedPoint(item?.subTotalMT)}
                               </td>
                               {item?.count ? (
                                 <td
                                   rowSpan={item?.count}
                                   className="text-right"
                                 >
-                                  <b>{_fixedPoint(item?.totalProductionQty)}</b>
+                                  <b>{_fixedPoint(item?.totalSubTotalMT)}</b>
                                 </td>
                               ) : null}
-                              <td>
+                              <td className="text-center">
                                 {item?.productionDate
                                   ? moment(item?.productionDate).format(
-                                      "YYYY-MM-DD HH:mm:ss"
+                                      "YYYY-MM-DD"
                                     )
                                   : ""}
                               </td>
-                              <td>
+                              <td className="text-center">
                                 {item?.approveProductionDate
                                   ? moment(item?.approveProductionDate).format(
-                                      "YYYY-MM-DD HH:mm:ss"
+                                      "YYYY-MM-DD"
                                     )
                                   : ""}
                               </td>
@@ -315,7 +317,10 @@ function ProductionDataLanding() {
                             <b>
                               {" "}
                               {_fixedPoint(
-                                _.sumBy(gridData, (item) => (+item?.orderQty || 0))
+                                _.sumBy(
+                                  gridData,
+                                  (item) => +item?.productionQty || 0
+                                )
                               )}
                             </b>
                           </td>
@@ -323,7 +328,10 @@ function ProductionDataLanding() {
                           <td className="text-right">
                             <b>
                               {_fixedPoint(
-                                _.sumBy(gridData, (item) => (+item?.productionQty || 0))
+                                _.sumBy(
+                                  gridData,
+                                  (item) => +item?.subTotalMT || 0
+                                )
                               )}
                             </b>
                           </td>
