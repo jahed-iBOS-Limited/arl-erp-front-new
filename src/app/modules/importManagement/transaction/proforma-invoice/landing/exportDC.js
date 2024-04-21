@@ -27,7 +27,7 @@ const ExportDocumentaryCredit = ({ setShow }) => {
         {({ errors, touched, setFieldValue, values }) => (
           <>
             <Card>
-              <CardHeader title="Download LC Application"></CardHeader>
+              <CardHeader title="Download LC Application Form"></CardHeader>
               <CardBody>
                 <div className="row global-form">
                   <div className="col-lg-12 pt-2">
