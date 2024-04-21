@@ -261,8 +261,9 @@ function ProductionDataLanding() {
                           <th> Item Name (Main Output) </th>
                           <th>UOM</th>
                           <th> Produce Qty </th>
-                          <th> IN MT </th>
-                          <th> Total MT </th>
+                          <th> In MT </th>
+                          <th>Sub Total MT </th>
+                          <th>Total MT</th>
                           <th> Production Entry Date & Time </th>
                           <th> Warehouse Approve Date & Time </th>
                         </tr>
@@ -281,12 +282,20 @@ function ProductionDataLanding() {
                               <td className="text-right">
                                 {_fixedPoint(item?.subTotalMT)}
                               </td>
-                              {item?.count ? (
+                              {item?.itemOrderNumberCount ? (
                                 <td
-                                  rowSpan={item?.count}
+                                  rowSpan={item?.itemOrderNumberCount}
                                   className="text-right"
                                 >
                                   <b>{_fixedPoint(item?.totalSubTotalMT)}</b>
+                                </td>
+                              ) : null}
+                              {item?.itemMatchCount ? (
+                                <td
+                                  rowSpan={item?.itemMatchCount}
+                                  className="text-right"
+                                >
+                                  <b>{_fixedPoint(item?.totalTotalMT)}</b>
                                 </td>
                               ) : null}
                               <td className="text-center">
@@ -345,7 +354,7 @@ function ProductionDataLanding() {
                               )}
                             </b>
                           </td> */}
-                          <td colSpan={3}></td>
+                          <td colSpan={4}></td>
                         </tr>
                       </tbody>
                     </table>
