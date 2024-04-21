@@ -1,12 +1,15 @@
 import { Form, Formik } from "formik";
+import _ from "lodash";
+import moment from "moment";
 import React, { useEffect, useRef, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import ReactToPrint from "react-to-print";
 import ICustomCard from "../../../../_helper/_customCard";
+import { _fixedPoint } from "../../../../_helper/_fixedPoint";
 import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
 import NewSelect from "../../../../_helper/_select";
-import { _oneMonthLater, _todayDate } from "../../../../_helper/_todayDate";
+import { _todayDate } from "../../../../_helper/_todayDate";
 import printIcon from "../../../../_helper/images/print-icon.png";
 import {
   GetProductionDataReport,
@@ -14,16 +17,13 @@ import {
   getPlantNameDDL_api,
   getShopfloorDDL,
 } from "../helper";
-import moment from "moment";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import _ from "lodash";
 
 const initData = {
   plant: "",
   shopFloor: "",
   itemName: "",
   bomType: "",
-  fromDate: _oneMonthLater(),
+  fromDate: _todayDate(),
   toDate: _todayDate(),
 };
 
@@ -261,10 +261,10 @@ function ProductionDataLanding() {
                           <th> Item Name (Main Output) </th>
                           <th>UOM</th>
                           <th> Produce Qty </th>
-                          <th> Sub Total MT </th>
+                          <th> IN MT </th>
                           <th> Total MT </th>
-                          <th> Production Date </th>
-                          <th> Warehouse Approve Date </th>
+                          <th> Production Entry Date & Time </th>
+                          <th> Warehouse Approve Date & Time </th>
                         </tr>
                       </thead>
                       <tbody>
@@ -292,14 +292,14 @@ function ProductionDataLanding() {
                               <td className="text-center">
                                 {item?.productionDate
                                   ? moment(item?.productionDate).format(
-                                      "YYYY-MM-DD"
+                                      "YYYY-MM-DD HH:mm A"
                                     )
                                   : ""}
                               </td>
                               <td className="text-center">
                                 {item?.approveProductionDate
                                   ? moment(item?.approveProductionDate).format(
-                                      "YYYY-MM-DD"
+                                      "YYYY-MM-DD HH:mm A"
                                     )
                                   : ""}
                               </td>
@@ -308,7 +308,7 @@ function ProductionDataLanding() {
                         })}
 
                         <tr>
-                          <td colSpan={3} className="text-right">
+                          <td colSpan={4} className="text-right">
                             {" "}
                             Total{" "}
                           </td>
