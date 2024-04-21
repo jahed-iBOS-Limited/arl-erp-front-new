@@ -86,12 +86,6 @@ function ProductionDataLanding() {
     });
   };
 
-  // const paginationSearchHandler = (searchValue, values) => {
-  //   girdDataFunc(values, searchValue);
-  // };
-
-  console.log(gridData);
-
   return (
     <>
       <ICustomCard title="Production Data">
