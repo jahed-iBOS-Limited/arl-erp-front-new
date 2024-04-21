@@ -235,7 +235,9 @@ export const getEmployeeList = async (accId, buId, setter, setLoading) => {
     const res = await axios.get(
       `/domain/EmployeeBasicInformation/GetEmployeeDDL?AccountId=${accId}&BusinessUnitId=${unitId}`
     );
-    setter(res?.data);
+    setter(
+      res?.data?.map((element) => ({ ...element, label: element?.labelCode }))
+    );
     setLoading(false);
   } catch (error) {
     setter([]);
