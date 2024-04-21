@@ -216,7 +216,7 @@ export default function WarehouseApproveFrom({
       othersCostQnt: 1,
       othersCostRate: values?.othersCostRate,
       shipPointId: singleItem?.shipPointId,
-      otherLaborPerson: values.otherLaborPerson,
+      otherLaborPerson: values.othersLabourPerson,
       otherLaborRate: values.othersLabourPersonRate,
       transactionDate: values?.date,
     };
@@ -913,7 +913,7 @@ export default function WarehouseApproveFrom({
                           value={values?.othersLabourPersonRate}
                           label="Others Labour Person Rate"
                           placeholder="Others Labour Person Rate"
-                          name="othersLabourPerson"
+                          name="othersLabourPersonRate"
                           type="number"
                           onChange={(e) => {
                             setFieldValue(
