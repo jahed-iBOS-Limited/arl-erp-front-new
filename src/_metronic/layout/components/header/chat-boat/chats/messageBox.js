@@ -48,7 +48,7 @@ const MessageBox = ({
                         />
                       )}
                       {/* <p dangerouslySetInnerHTML={{ __html: chat?.text }} /> */}
-                      <MarkdownPreview source={chat?.text} />
+                      <MarkdownPreview source={chat?.text} linkTarget="_blank"/>
                     </div>
                   </li>
                 ))}
