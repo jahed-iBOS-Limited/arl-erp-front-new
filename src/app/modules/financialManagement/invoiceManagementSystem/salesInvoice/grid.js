@@ -1,17 +1,18 @@
-import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import { _dateFormatter } from '../../../_helper/_dateFormate';
-import IClose from '../../../_helper/_helperIcons/_close';
-import PaginationTable from '../../../_helper/_tablePagination';
-import IViewModal from '../../../_helper/_viewModal';
-import ICon from '../../../chartering/_chartinghelper/icons/_icon';
-import IView from './../../../_helper/_helperIcons/_view';
-import Loading from './../../../_helper/_loading';
-import { useCementInvoicePrintHandler } from './Form/formHandlerBluePill';
-import CommercialInvoiceReport from './ReportModal/reportModal';
-import { cancelSalesInvoice, getInvoiceDataForPrint } from './helper';
-import InvoiceReceptForCement from './invoiceCement/invoiceRecept';
+import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
+import { toast } from "react-toastify";
+import { _dateFormatter } from "../../../_helper/_dateFormate";
+import IClose from "../../../_helper/_helperIcons/_close";
+import PaginationTable from "../../../_helper/_tablePagination";
+import IViewModal from "../../../_helper/_viewModal";
+import ICon from "../../../chartering/_chartinghelper/icons/_icon";
+import IView from "./../../../_helper/_helperIcons/_view";
+import Loading from "./../../../_helper/_loading";
+import { useCementInvoicePrintHandler } from "./Form/formHandlerBluePill";
+import CommercialInvoiceReport from "./ReportModal/reportModal";
+import { cancelSalesInvoice, getInvoiceDataForPrint } from "./helper";
+import InvoiceReceptForCement from "./invoiceCement/invoiceRecept";
+import { _fixedPoint } from "../../../_helper/_fixedPoint";
 
 const SalesInvoiceGridData = ({
   rowDto,
@@ -45,15 +46,16 @@ const SalesInvoiceGridData = ({
             <table className="table table-striped table-bordered global-table table-font-size-sm">
               <thead>
                 <tr>
-                  <th style={{ width: '40px' }}>SL</th>
+                  <th style={{ width: "40px" }}>SL</th>
                   <th>Invoice No</th>
                   <th>Invoice Date</th>
-                  {values?.type?.value !== 2 && <th>Challan Date</th>}
-                  {values?.type?.value !== 2 && <th>Challan No</th>}
+                  {/* {values?.type?.value !== 2 && <th>Challan Date</th>}
+                  {values?.type?.value !== 2 && <th>Challan No</th>} */}
                   <th>Partner Name</th>
                   <th>Reference No </th>
                   <th>Project Location</th>
                   <th>Net Qty</th>
+                  <th>Invoice Amount</th>
                   {values?.type?.value !== 2 && <th>Action</th>}
                 </tr>
               </thead>
@@ -66,23 +68,24 @@ const SalesInvoiceGridData = ({
                     <td>{tableData?.strInvoiceNumber}</td>
 
                     <td>{_dateFormatter(tableData?.dteInvoiceDate)}</td>
-                    {values?.type?.value !== 2 && (
+                    {/* {values?.type?.value !== 2 && (
                       <td>{_dateFormatter(tableData?.dteChallanDate)}</td>
                     )}
                     {values?.type?.value !== 2 && (
                       <td>{tableData?.strDeliveryCode}</td>
-                    )}
+                    )} */}
                     <td>{tableData?.strPartnerName}</td>
                     <td>{tableData?.strRefference}</td>
                     <td>{tableData?.strProjectLocation}</td>
                     <td className="text-right">{tableData?.numQuantity}</td>
+                    <td  className="text-right">{_fixedPoint(tableData?.invoiceAmount || 0)}</td>
                     {values?.type?.value !== 2 && (
                       <td className="text-center">
                         <div className="d-flex justify-content-around">
                           {buId === 4 && (
                             <span>
                               <ICon
-                                title={'Print Sales Invoice'}
+                                title={"Print Sales Invoice"}
                                 onClick={() => {
                                   if (
                                     values?.channel &&
@@ -96,11 +99,11 @@ const SalesInvoiceGridData = ({
                                       (resData) => {
                                         setInvoiceData(resData);
                                         handleInvoicePrintCement();
-                                      },
+                                      }
                                     );
                                   } else {
                                     toast.warn(
-                                      'Please select a specific distribution channel.',
+                                      "Please select a specific distribution channel."
                                     );
                                   }
                                 }}
@@ -119,7 +122,7 @@ const SalesInvoiceGridData = ({
                                 setLoading,
                                 () => {
                                   getGridData(values, pageNo, pageSize);
-                                },
+                                }
                               );
                             }}
                           >
@@ -136,13 +139,14 @@ const SalesInvoiceGridData = ({
             <table className="table table-striped table-bordered global-table table-font-size-sm">
               <thead>
                 <tr>
-                  <th style={{ width: '20px' }}>SL</th>
-                  <th style={{ width: '80px' }}>Inv No</th>
-                  <th style={{ width: '80px' }}>Inv Date</th>
-                  <th style={{ width: '100px' }}>DO No</th>
-                  <th style={{ width: '100px' }}>Purchase Order No</th>
-                  <th style={{ width: '80px' }}>Total Amount</th>
-                  <th style={{ width: '80px' }}>Action</th>
+                  <th style={{ width: "20px" }}>SL</th>
+                  <th style={{ width: "80px" }}>Inv No</th>
+                  <th style={{ width: "80px" }}>Inv Date</th>
+                  <th style={{ width: "100px" }}>DO No</th>
+                  <th style={{ width: "100px" }}>Purchase Order No</th>
+                  {/* <th>Invoice Amount</th> */}
+                  <th style={{ width: "80px" }}>Total Amount</th>
+                  <th style={{ width: "80px" }}>Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -154,6 +158,7 @@ const SalesInvoiceGridData = ({
                     <td>{_dateFormatter(tableData?.invoiceDate)}</td>
                     <td> {tableData?.doNo} </td>
                     <td>{tableData?.purchaseOrderNo}</td>
+                    {/* <td  className="text-right">{_fixedPoint(tableData?.invoiceAmount || 0)}</td> */}
                     <td className="text-right"> {tableData?.totalAmount} </td>
                     <td className="text-center">
                       {/* <span > */}
