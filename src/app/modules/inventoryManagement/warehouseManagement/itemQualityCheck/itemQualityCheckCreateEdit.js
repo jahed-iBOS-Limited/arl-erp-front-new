@@ -3,6 +3,7 @@ import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import SearchAsyncSelect from "../../../_helper/SearchAsyncSelect";
+import { _dateFormatter } from "../../../_helper/_dateFormate";
 import IForm from "../../../_helper/_form";
 import Loading from "../../../_helper/_loading";
 import NewSelect from "../../../_helper/_select";
@@ -322,6 +323,22 @@ export default function ItemQualityCheckCreateAndEditForm() {
                   </button>
                 </div>
               </div>
+              {
+                headerData?.length > 0 && <div style={{justifyContent:"flex-end",gap:"20px",marginTop:"20px"}} className="d-flex">
+                <div>
+                  <strong>PO-Validity Date : {_dateFormatter(headerData[0]?.poValidityDate)}</strong>
+                </div>
+                <div>
+                  <strong>PO Qty: {headerData[0]?.poQuantity}</strong>
+                </div>
+                <div>
+                  <strong>PO Qty: {headerData[0]?.mrrQuantity}</strong>
+                </div>
+                <div>
+                  <strong>PO Qty: {headerData[0]?.restQuantity}</strong>
+                </div>
+          </div>
+              }
               <div className="mt-4">
                 <HeaderTable
                   headerData={headerData}
