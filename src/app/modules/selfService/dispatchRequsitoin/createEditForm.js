@@ -103,7 +103,7 @@ export default function DispatchRequisitionCreateEdit() {
         `/hcm/HCMDDL/GetEmployeeDDLSearchByBU?AccountId=${accId}&BusinessUnitId=${0}&Search=${v}`
       )
       .then((res) => {
-        const user = res?.data?.map(user=>({...user,label:`${user?.strEmployeeName} - ${user?.employeeBusinessUnit} - [${user?.erpemployeeId}]`}));
+        const user = res?.data?.map(user=>({...user,label:`${user?.strEmployeeName} - ${user?.employeeBusinessUnit} - [${user?.employeeId}]`}));
         return user ;
       })
       .catch((err) => []);
