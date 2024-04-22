@@ -170,7 +170,7 @@ export default function DispatchDeskLanding() {
                     {gridData?.data?.map((item, index) => (
                       <tr>
                         <td className="text-center">{item?.dispatchCode}</td>
-                        <td className="text-center">{item?.senderName}</td>
+                        <td className="text-center">{item?.senderName} [{item?.senderEnrollId}]</td>
                         <td className="text-center">
                           {item?.dispatchType}
                         </td>
@@ -186,7 +186,7 @@ export default function DispatchDeskLanding() {
                         </td>
                         <td className="text-center">{item?.fromLocation}</td>
                         <td className="text-center">{item?.toLocation}</td>
-                        <td className="text-center">{item?.receiverName}</td>
+                        <td className="text-center">{item?.receiverName} [{item?.receiverEnrollId}]</td>
                         {values?.requisition === "send" ? (
                           <td className="text-center">
                             {item?.isSend &&
