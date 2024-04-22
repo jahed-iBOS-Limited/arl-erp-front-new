@@ -5,6 +5,7 @@ import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 
 export default function QualityCheckViewModal({ singleData }) {
   const [modalData, getModalData, loadModalData] = useAxiosGet();
+  let totalSystemDeduction = 0
   useEffect(() => {
     getModalData(
       `/mes/QCTest/GetItemQualityCheckDataById?qualityCheckId=${singleData?.qualityCheckId}`
@@ -64,8 +65,10 @@ export default function QualityCheckViewModal({ singleData }) {
       <CommonTable headersData={["Parameter","Standard Value(%)","Actual Value(%)","System Deduction","Manual Deduction","Remarks"]}>
             <tbody>
                 {
-                    modalData?.rowData?.map((item,index)=>(
-                        <tr key={index}>
+                    modalData?.rowData?.map((item,index)=>{
+                      totalSystemDeduction += item?.systemDeduction
+                        return(
+                          <tr key={index}>
                             <td className="text-center">{item?.parameterName}</td>
                             <td className="text-center">{item?.standardValue}</td>
                             <td className="text-center">{item?.actualValue}</td>
@@ -73,8 +76,15 @@ export default function QualityCheckViewModal({ singleData }) {
                             <td className="text-center">{item?.manualDeduction}</td>
                             <td className="text-center">{item?.remarks}</td>
                         </tr>
-                    ))
+                        )
+                    })
                 }
+                <tr>
+                  <td colSpan={3}>Total</td>
+                  <td>{totalSystemDeduction}</td>
+                  <td></td>
+                  <td></td>
+                </tr>
             </tbody>
         </CommonTable>
     </div>

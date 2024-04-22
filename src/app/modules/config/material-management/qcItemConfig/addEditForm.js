@@ -56,7 +56,11 @@ export default function QcItemConfigCreate() {
 
   useEffect(() => {
     getRowData(
-      `/mes/QCTest/GetQCItemParameterConfigByItem?businessUnitId=${buId}&itemId=${id}`
+      `/mes/QCTest/GetQCItemParameterConfigByItem?businessUnitId=${buId}&itemId=${id}`,
+      (data)=>{
+        const updatedData = data?.filter(item=>item?.standardValue >0 && item?.parameterName !== "")
+        setRowData(updatedData)
+      }
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [buId, id]);
@@ -137,6 +141,7 @@ export default function QcItemConfigCreate() {
                     }}
                     onClick={() => {
                        handleRowAdd(values)
+                       resetForm(initData)
                     }}
                     class="btn btn-primary ml-2"
                     disabled={
