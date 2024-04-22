@@ -175,7 +175,7 @@ export default function ItemQualityCheckCreateAndEditForm() {
   const handleRemarks = (e, parentIndex, childIndex) => {
     const updatedHeaderData = [...headerData];
     const childRowItem = updatedHeaderData[parentIndex]["rowList"][childIndex]
-    childRowItem.remarks= +e.target?.value
+    childRowItem.remarks= e.target?.value
     setHeaderData(updatedHeaderData);
   };
 

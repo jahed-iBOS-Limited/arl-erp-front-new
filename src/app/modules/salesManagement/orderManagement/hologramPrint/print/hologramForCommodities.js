@@ -27,7 +27,7 @@ const HologramPrintForAkijCommodities = ({ printDataList }) => {
   return (
     <>
       <IButton onClick={() => printHandler()}>Print</IButton>
-      <div className="hologram_wrapper" ref={printRef}>
+      <div className="" ref={printRef}>
         {printDataList?.map((printData) => {
           const {
             salesOrderCode,
@@ -42,7 +42,7 @@ const HologramPrintForAkijCommodities = ({ printDataList }) => {
           let totalQty = 0,
             totalQtyInBag = 0;
           return (
-            <div className="page-break">
+            <div className="page-break hologram_wrapper">
               <div
                 style={{
                   borderBottom: "1px solid black",
