@@ -58,7 +58,7 @@ const HologramPrintLanding = () => {
   const [, getRowData, isLoading] = useAxiosGet();
   const [printData, getPrintData, IsLoading] = useAxiosPut();
   const [show, setShow] = useState(false);
-  const [showMutipleModal, setShowMutipleModal] = useState(false);
+  const [showMutipleModal, setShowMultipleModal] = useState(false);
   const [rowData, setRowData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [permitted, getPermission] = useAxiosGet();
@@ -276,13 +276,14 @@ const HologramPrintLanding = () => {
                           const payload = rowData?.data
                             ?.filter((element) => element?.isSelectedPrint)
                             ?.map((item) => item?.salesOrderId);
-                          setShowMutipleModal(true);
+                          setShowMultipleModal(true);
                           getPrintData(
                             `/oms/OManagementReport/GetMultipleSalesOrderPrintCopy?UserId=${userId}&BusinessUnitId=${buId}`,
                             payload,
                             () => {
-                              setShowMutipleModal(true);
-                            }
+                              setShowMultipleModal(true);
+                            },
+                            true
                           );
                         }}
                       >
@@ -408,7 +409,8 @@ const HologramPrintLanding = () => {
                                               payload,
                                               () => {
                                                 setShow(true);
-                                              }
+                                              },
+                                              true
                                             );
                                           }}
                                         >
@@ -512,14 +514,11 @@ const HologramPrintLanding = () => {
               <IViewModal
                 show={showMutipleModal}
                 onHide={() => {
-                  setShowMutipleModal(false);
+                  setShowMultipleModal(false);
                   getData(values, pageNo, pageSize, "");
                 }}
               >
-                <CommonPrintComp
-                  buId={buId}
-                  printDataList={printData}
-                />
+                <CommonPrintComp buId={buId} printDataList={printData} />
               </IViewModal>
             </ICard>
           </>
