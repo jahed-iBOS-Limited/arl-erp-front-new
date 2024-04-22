@@ -133,8 +133,6 @@ export default function DispatchRequisitionCreateEdit() {
  useEffect(()=>{
   getUoMList(`/item/ItemUOM/GetItemUOMDDL?AccountId=${accId}&BusinessUnitId=${buId}`)
   getPlantListddl(`/wms/ItemPlantWarehouse/GetWareHouseItemPlantWareHouseDDL?accountId=${accId}&businessUnitId=${buId}&PlantId=0`)
-  getToLocationPlantDDL(`/wms/ItemPlantWarehouse/GetWareHouseItemPlantWareHouseDDL?accountId=${accId}&businessUnitId=${buId}&PlantId=0`)
-
  // eslint-disable-next-line react-hooks/exhaustive-deps
  },[accId,buId])
 
@@ -190,39 +188,6 @@ export default function DispatchRequisitionCreateEdit() {
                     touched={touched}
                   />
                 </div>
-                {values?.receiverType?.value === 1 ? (
-                  <>
-                  <div className="col-md-3">
-                    <label>Receiver Name</label>
-                    <SearchAsyncSelect
-                      selectedValue={values?.receiverName}
-                      isSearchIcon={true}
-                      handleChange={(valueOption) => {
-                        // setFieldValue("toLocation", "");
-                        setFieldValue("receiverName", valueOption);
-                        setFieldValue("contactNo", valueOption?.contactNo);
-                        if(!valueOption) return;
-                      // getToLocationPlantDDL(`/wms/Plant/GetPlantDDL?AccountId=${accId}&BusinessUnitId=${valueOption?.employeeBusinessUnitId}`)
-                      }}
-                      loadOptions={loadUserList}
-                    />
-                  </div>
-
-                  </>
-                ) :values?.receiverType?.value === 2? (
-                  <div className="col-lg-3">
-                    <InputField
-                      value={values?.receiverName}
-                      label="Receiver Name"
-                      placeholder="Receiver Name"
-                      name="receiverName"
-                      type="text"
-                      onChange={(e) => {
-                        setFieldValue("receiverName", e.target.value);
-                      }}
-                    />
-                  </div>
-                ):null}
                 <div className="col-lg-3">
                   <InputField
                     value={values?.dispatchDate}
@@ -247,6 +212,40 @@ export default function DispatchRequisitionCreateEdit() {
                     touched={touched}
                   />
                 </div>
+                <div className="col-md-3"></div>
+                {values?.receiverType?.value === 1 ? (
+                  <>
+                  <div className="col-md-3">
+                    <label>Receiver Name</label>
+                    <SearchAsyncSelect
+                      selectedValue={values?.receiverName}
+                      isSearchIcon={true}
+                      handleChange={(valueOption) => {
+                        setFieldValue("toLocation", "");
+                        setFieldValue("receiverName", valueOption);
+                        setFieldValue("contactNo", valueOption?.contactNo);
+                        if(!valueOption) return;
+                      getToLocationPlantDDL(`/wms/ItemPlantWarehouse/GetWareHouseItemPlantWareHouseDDL?accountId=${accId}&businessUnitId=${valueOption?.employeeBusinessUnitId}&PlantId=0`)
+                      }}
+                      loadOptions={loadUserList}
+                    />
+                  </div>
+
+                  </>
+                ) :values?.receiverType?.value === 2? (
+                  <div className="col-lg-3">
+                    <InputField
+                      value={values?.receiverName}
+                      label="Receiver Name"
+                      placeholder="Receiver Name"
+                      name="receiverName"
+                      type="text"
+                      onChange={(e) => {
+                        setFieldValue("receiverName", e.target.value);
+                      }}
+                    />
+                  </div>
+                ):null}
                 
                 {
                   values?.receiverType?.value === 1 ? (
@@ -285,7 +284,7 @@ export default function DispatchRequisitionCreateEdit() {
                 <div className="col-lg-3">
                   <InputField
                     value={values?.contactNo}
-                    label="Contact No"
+                    label="Receiver Contact No"
                     placeholder="Contact No"
                     name="contactNo"
                     type="text"
