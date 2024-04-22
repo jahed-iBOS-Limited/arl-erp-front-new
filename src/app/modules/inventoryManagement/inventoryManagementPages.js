@@ -5,10 +5,10 @@ import { ContentRoute, LayoutSplashScreen } from "../../../_metronic/layout";
 import NotPermittedPage from "../_helper/notPermitted/NotPermittedPage";
 import { GatePass } from "./GatePass/GatePass";
 import { ConfigurationPages } from "./configuration/configurationPages";
-import DispatchDeskLanding from "./dispatchDesk";
 import CreateInventoryLoanForm from "./inventoryLoan/form/addEditForm";
 import { ReportsPages } from "./reports/reportsPages";
 import { WarehouseManagementPages } from "./warehouseManagement/warehouseManagementPages";
+import { DispatchDeskPages } from "./dispatchDesk/dispatchDeskPages";
 
 export function InventoryManagementPages() {
 
@@ -44,6 +44,11 @@ export function InventoryManagementPages() {
           component={WarehouseManagementPages}
         />
 
+       <ContentRoute
+          path="/inventory-management/inventory-dispatch"
+          component={DispatchDeskPages}
+        />
+
         <ContentRoute
           path="/inventory-management/reports"
           component={ReportsPages}
@@ -51,10 +56,6 @@ export function InventoryManagementPages() {
         <ContentRoute
           path="/inventory-management/gate-pass"
           component={GatePass}
-        />
-        <ContentRoute
-          path="/inventory-management/inventory-DispatchDesk"
-          component={DispatchDeskLanding}
         />
 
         {/* Inventory Load */}
