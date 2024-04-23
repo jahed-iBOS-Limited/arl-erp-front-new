@@ -205,7 +205,8 @@ const SalesOrderRowTable = ({
                 <td className="text-right">
                   <input
                     type="number"
-                    value={item?.ciRate ? item?.ciRate?.toFixed(4) : 0 || ""}
+                    value={item?.ciRate}
+                    // value={item?.ciRate ? item?.ciRate?.toFixed(4) : 0 || ""}
                     onChange={(e) => {
                       const updatedData = { ...salesQuotationDetails };
                       updatedData.Data.RowData[index].ciRate =
