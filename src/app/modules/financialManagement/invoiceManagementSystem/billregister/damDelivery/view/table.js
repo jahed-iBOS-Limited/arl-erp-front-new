@@ -1,18 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from "react";
-
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import React, { useEffect } from "react";
 import { Formik } from "formik";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { shallowEqual, useSelector } from "react-redux";
 import ICard from "../../../../../_helper/_card";
 import Loading from "../../../../../_helper/_loading";
-import { getDownlloadFileView_Action } from "../../../../../_helper/_redux/Actions";
 import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet";
-import { toast } from "react-toastify";
 
-function ViewDamDeliveryBill({ billRegisterId }) {
-  const [loading, setLoading] = useState(false);
-  const dispatch = useDispatch();
+function ViewDamDeliveryBill({ billRegisterId, billTypeId, values }) {
   // get profile data from store
   const {
     profileData: { accountId: accId },
@@ -22,9 +16,15 @@ function ViewDamDeliveryBill({ billRegisterId }) {
   const [gridData, getGridData, loadingGridData] = useAxiosGet();
 
   useEffect(() => {
-    const url = `/tms/LigterLoadUnload/GetLighterDumpToTruckDeliveryDetails?billRegisterId=${billRegisterId}`;
+    const url = `/tms/LigterLoadUnload/GetLighterDumpToTruckDeliveryDetails?billRegisterId=${billRegisterId}&IntBillTypeId=${billTypeId}`;
     getGridData(url);
   }, [accId, buId]);
+
+  let totalDampToTruckQty = 0,
+    totalAmount = 0,
+    totalLaborQty = 0,
+    totalLaborAmount = 0,
+    totalOtherCost = 0;
 
   return (
     <>
@@ -34,8 +34,8 @@ function ViewDamDeliveryBill({ billRegisterId }) {
         onSubmit={(values) => {}}
       >
         {() => (
-          <ICard title={`View Dam Delivery Bill`}>
-            {(loadingGridData || loading) && <Loading />}
+          <ICard title={`View ${values?.billType?.label}`}>
+            {loadingGridData && <Loading />}
 
             <form className="form form-label-right ">
               <table className="table global-table">
@@ -52,11 +52,16 @@ function ViewDamDeliveryBill({ billRegisterId }) {
                     <th>Labor Rate</th>
                     <th>Labor Amount</th>
                     <th>Other Cost</th>
-                    <th>Attachment</th>
+                    {/* <th>Attachment</th> */}
                   </tr>
                 </thead>
                 <tbody>
                   {gridData?.map((item, index) => {
+                    totalDampToTruckQty += item?.dumpToTruckQnt;
+                    totalAmount += item?.dumpToTruckAmount;
+                    totalLaborQty += item?.dailyLaboureQnt;
+                    totalLaborAmount += item?.labourAmount;
+                    totalOtherCost += item?.dumpOtherCost;
                     return (
                       <>
                         <tr key={index}>
@@ -66,8 +71,10 @@ function ViewDamDeliveryBill({ billRegisterId }) {
                           <td>{item?.shipPointName}</td>
                           <td>{item?.supplierName}</td>
                           <td>{item?.lighterVesselName}</td>
-                          <td>{item?.dumpToTruckQnt}</td>
-                          <td className="text-right">{item?.dumpToTruckAmount / item?.dumpToTruckQnt}</td>
+                          <td className="text-right">{item?.dumpToTruckQnt}</td>
+                          <td className="text-right">
+                            {item?.dumpToTruckRate}
+                          </td>
                           <td className="text-right">
                             {item?.dumpToTruckAmount}
                           </td>
@@ -75,15 +82,11 @@ function ViewDamDeliveryBill({ billRegisterId }) {
                             {item?.dailyLaboureQnt}
                           </td>
                           <td className="text-right">
-                            {item?.labourAmount / item?.dailyLaboureQnt}
+                            {item?.dailyLaboureRate}
                           </td>
-                          <td className="text-right">
-                            {item?.labourAmount}
-                          </td>
-                          <td className="text-right">
-                            {item?.dumpOtherCost}
-                          </td>
-                          <td className="text-center">
+                          <td className="text-right">{item?.labourAmount}</td>
+                          <td className="text-right">{item?.dumpOtherCost}</td>
+                          {/* <td className="text-center">
                             <OverlayTrigger
                               overlay={
                                 <Tooltip id="cs-icon">View Attachment</Tooltip>
@@ -114,11 +117,21 @@ function ViewDamDeliveryBill({ billRegisterId }) {
                                 ></i>
                               </span>
                             </OverlayTrigger>
-                          </td>
+                          </td> */}
                         </tr>
                       </>
                     );
                   })}
+                  <tr style={{ textAlign: "right", fontWeight: "bold" }}>
+                    <td colSpan={4}>Total</td>
+                    <td>{totalDampToTruckQty}</td>
+                    <td> </td>
+                    <td>{totalAmount}</td>
+                    <td>{totalLaborQty}</td>
+                    <td> </td>
+                    <td>{totalLaborAmount}</td>
+                    <td>{totalOtherCost}</td>
+                  </tr>
                 </tbody>
               </table>
             </form>

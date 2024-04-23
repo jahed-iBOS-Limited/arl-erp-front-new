@@ -330,8 +330,16 @@ const GridData = ({
             {gridItem?.billType === 28 && (
               <ViewHatchLaborBill billRegisterId={gridItem?.billRegisterId} />
             )}
-            {gridItem?.billType === 32 && (
-              <ViewDamDeliveryBill billRegisterId={gridItem?.billRegisterId} />
+
+            {[31, 32].includes(gridItem?.billType) && (
+              /* 31: G2G Dump Unload Bill
+              32: G2G Dump Delivery(Load) Bill
+            */
+              <ViewDamDeliveryBill
+                billRegisterId={gridItem?.billRegisterId}
+                billTypeId={gridItem?.billType}
+                values={values}
+              />
             )}
             {gridItem?.billType === 33 && (
               <CustomerViewModal landingValues={values} gridItem={gridItem} />
