@@ -27,6 +27,8 @@ import ExpenseView from "./expenseView";
 import RejectModel from "./rejectModel/form";
 import SupplerInvoiceView from "./supplerInvoiceView";
 import SupplierAdvanceView from "./supplierAdvanceView";
+import ViewDamDeliveryBill from "../billregister/damDelivery/view/table";
+import CustomerViewModal from "../billregister/customerRefund/customerViewModal";
 const GridData = ({
   rowDto,
   setRowDto,
@@ -315,6 +317,20 @@ const GridData = ({
         )}
         {gridItem?.billType === 28 && (
           <ViewHatchLaborBill billRegisterId={gridItem?.billRegisterId} />
+        )}
+        {[31, 32].includes(gridItem?.billType) && (
+          /* 31: G2G Dump Unload Bill
+              32: G2G Dump Delivery(Load) Bill
+            */
+          <ViewDamDeliveryBill
+            billRegisterId={gridItem?.billRegisterId}
+            billTypeId={gridItem?.billType}
+            values={values}
+          />
+        )}
+
+        {gridItem?.billType === 33 && (
+          <CustomerViewModal landingValues={values} gridItem={gridItem} />
         )}
       </IViewModal>
       {/* RejectModel */}
