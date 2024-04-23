@@ -8,9 +8,11 @@ import { _monthFirstDate } from "../../../_helper/_monthFirstDate";
 import NewSelect from "../../../_helper/_select";
 import PaginationTable from "../../../_helper/_tablePagination";
 import { _todayDate } from "../../../_helper/_todayDate";
+import IViewModal from "../../../_helper/_viewModal";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import IForm from "./../../../_helper/_form";
 import Loading from "./../../../_helper/_loading";
+import QualityCheckViewModal from "./viewModal";
 const initData = {
   plant: "",
   warehouse: "",
@@ -35,6 +37,8 @@ export default function ItemQualityCheckLanding() {
 
   const [plantDDL, getPlantDDL] = useAxiosGet();
   const [warehouseDDL, getWarehouseDDL] = useAxiosGet();
+  const [isShowModal,setShowModal] = useState(false)
+  const [singleData,setSingleData] =useState({})
 
   const handleGetLandingData = (pageNo, pageSize, values) => {
     getLandingData(
@@ -53,9 +57,12 @@ export default function ItemQualityCheckLanding() {
     );
   };
 
-  //   const handleRowSelect = (index)=>{
-  //     const updatedLandingData =
-  //   }
+    const handleRowSelect = (e,index)=>{
+      const updatedLandingData = {...landingData}
+      const singleItem = updatedLandingData?.data[index]
+      singleItem.isChecked = e.target.checked
+      setLandingData(updatedLandingData)
+    }
 
   useEffect(() => {
     getPlantDDL(
@@ -183,9 +190,7 @@ export default function ItemQualityCheckLanding() {
                 <table className="table table-striped table-bordered bj-table bj-table-landing">
                   <thead>
                     <tr>
-                      <th>
-                        {/* <input type="checkbox" name="checkbox" checked={false} onChange/> */}
-                        
+                      <th>                        
                       </th>
                       <th>SL</th>
                       <th>Date</th>
@@ -196,7 +201,7 @@ export default function ItemQualityCheckLanding() {
                       <th>Deduct %</th>
                       <th>Deduct Qty</th>
                       <th>Status</th>
-                      <th>QC Final Com</th>
+                      <th>Warehouse Com</th>
                       <th>Procu Final Com</th>
                       <th>Action</th>
                     </tr>
@@ -206,12 +211,14 @@ export default function ItemQualityCheckLanding() {
                       landingData?.data?.map((item, index) => (
                         <tr key={index}>
                           <td>
-                            <input
-                              type="checkbox"
-                              name="checkbox"
-                              checked={item?.isChecked}
-                              onChange={() => console.log("hello")}
-                            />
+                           {
+                            item?.isReceived &&  <input
+                            type="checkbox"
+                            name="checkbox"
+                            checked={item?.isChecked}
+                            onChange={(e) => {handleRowSelect(e,index)}}
+                          />
+                           }
                           </td>
                           <td>{index + 1}</td>
                           <td>{item?.date}</td>
@@ -221,11 +228,17 @@ export default function ItemQualityCheckLanding() {
                           <td>{item?.netWeight}</td>
                           <td>{item?.deductionPercentage}</td>
                           <td>{item?.deductionQuantity}</td>
-                          <td>{item?.actualQuantity}</td>
-                          <td>{item?.actualQuantity}</td>
                           <td>{item?.status}</td>
+                          <td>{item?.actualQuantity}</td>
+                          <td>{item?.actualQuantity}</td>
+                       
                           <td className="text-center">
-                            <span>
+                            <span
+                            onClick={()=>{
+                              setShowModal(true)
+                              setSingleData(item)
+                            }}
+                            >
                               <IView />
                             </span>
                           </td>
@@ -241,6 +254,11 @@ export default function ItemQualityCheckLanding() {
                   />
                 )}
               </div>
+              {
+              isShowModal && <IViewModal title="Qc Item Check" show={isShowModal} onHide={() => setShowModal(false)}>
+                  <QualityCheckViewModal singleData={singleData} />
+                </IViewModal>
+              }
             </Form>
           </IForm>
         </>

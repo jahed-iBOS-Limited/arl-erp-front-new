@@ -18,7 +18,9 @@ const initData = {
 };
 
 const validationSchema =  Yup.object().shape({
-  dispatchSendReveiveDate:Yup.date().required("Date is required")
+  dispatchSendReveiveDate:Yup.date().required("Date is required"),
+  sendVia:Yup.string().required("Send Via is required"),
+  sendCost:Yup.number().required("Send Cost is required"),
 })
 
 export default function SendModal({singleItem,onHide,handleGetRowData}) {
@@ -130,6 +132,24 @@ export default function SendModal({singleItem,onHide,handleGetRowData}) {
                     value={singleItem?.senderName}
                     label="Sender Name"
                     name="senderName"
+                    type="text"
+                    disabled={true}
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <InputField
+                    value={singleItem?.toLocation}
+                    label="Send To"
+                    name="sendTo"
+                    type="text"
+                    disabled={true}
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <InputField
+                    value={singleItem?.receiverName}
+                    label="Receiver Name"
+                    name="receiverName"
                     type="text"
                     disabled={true}
                   />
