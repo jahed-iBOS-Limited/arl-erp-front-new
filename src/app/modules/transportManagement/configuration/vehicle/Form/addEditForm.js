@@ -38,6 +38,7 @@ const initData = {
   fuelAllowanceOuterKM: "",
   capacityInBag: "",
   shipPoint: "",
+  user:"",
 };
 
 export default function VehicleForm({
@@ -152,6 +153,8 @@ export default function VehicleForm({
               ? values?.employeeName.label
               : values.driverName,
           driverContact: values?.contact,
+          vehicleUserEnrollId: values?.user?.value || 0,
+          vehicleUserEnrollName: values?.user?.label || "",
           actionBy: profileData.userId,
           transportMoodId: values?.transportmode.value,
           transportMoodName: values?.transportmode.label,
@@ -186,6 +189,8 @@ export default function VehicleForm({
               ? values?.employeeName?.label
               : values?.driverName,
           driverContact: values?.contact,
+          vehicleUserEnrollId: values?.user?.value || 0,
+          vehicleUserEnrollName: values?.user?.label || "",
           weight: values?.weight,
           volume: values?.volume,
           actionBy: profileData?.userId,

@@ -305,6 +305,19 @@ export default function _Form({
                     touched={touched}
                   />
                 </div>
+                {["Office", "Standby"].includes(values?.vehicleUsePurpose?.label) && (
+                  <div className="col-md-3">
+                    <label>User Enroll & Name</label>
+                    <SearchAsyncSelect
+                      selectedValue={values?.user}
+                      isSearchIcon={true}
+                      handleChange={(valueOption) => {
+                        setFieldValue("user", valueOption);
+                      }}
+                      loadOptions={loadUserList}
+                    />
+                  </div>
+                )}
                 <div className="col-lg-3">
                   <ISelect
                     label="Fuel Type"
