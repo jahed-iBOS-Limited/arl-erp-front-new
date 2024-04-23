@@ -7,6 +7,7 @@ import signature_of_pran_krishna_kundo from "../../../../_helper/images/signatur
 import signature_of_rasel_sardar from "../../../../_helper/images/signature_of_rasel_sardar.png";
 import "./hologramForCommodities.css";
 import { _fixedPoint } from "../../../../_helper/_fixedPoint";
+import moment from "moment";
 const HologramPrintForAkijCommodities = ({ printDataList }) => {
   const printRef = useRef();
 
@@ -23,7 +24,6 @@ const HologramPrintForAkijCommodities = ({ printDataList }) => {
       "@media print{body { -webkit-print-color-adjust: exact; margin: 0mm;}@page {A5 landscape !important}}",
   });
 
-  console.log(printDataList)
   return (
     <>
       <IButton onClick={() => printHandler()}>Print</IButton>
@@ -42,14 +42,14 @@ const HologramPrintForAkijCommodities = ({ printDataList }) => {
           let totalQty = 0,
             totalQtyInBag = 0;
           return (
-            <div className="page-break hologram_wrapper">
+            <div className="page-break CommoditiesHologram_wrapper">
               <div
                 style={{
                   borderBottom: "1px solid black",
                   paddingBottom: "20px",
                 }}
               >
-                <div className="hologram_header">
+                <div className="CommoditiesHologram_header">
                   {/* <div className="logo" style={{ width: "275px" }}></div> */}
 
                   <div className="text-center">
@@ -161,7 +161,7 @@ const HologramPrintForAkijCommodities = ({ printDataList }) => {
                           return (
                             <tr>
                               <td className="text-center">{index + 1}</td>
-                              <td className="hologram_table_td">
+                              <td className="CommoditiesHologram_table_td">
                                 <b>{item?.itemName}</b>
                               </td>
                               <td>{item?.uomName}</td>
@@ -227,6 +227,11 @@ const HologramPrintForAkijCommodities = ({ printDataList }) => {
                   <p>Approved By</p>
                 </div>
               </div>
+              <p
+              className="printing_date_time"
+              >
+                Printing Date & Time: {moment().format("DD-MM-YYYY HH:mm:ss")}
+              </p>
             </div>
           );
         })}
