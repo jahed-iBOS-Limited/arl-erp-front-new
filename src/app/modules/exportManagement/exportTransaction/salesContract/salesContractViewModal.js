@@ -353,7 +353,7 @@ export default function SalesContractView({ quotationId }) {
                         colSpan={quotationData?.Head?.length + 6}
                       >
                         <strong>
-                          FREIGHT CONSIDERATION :{" "}
+                          FREIGHT CONSIDERATION : $
                           {_formatMoney(
                             quotationData?.HeaderData?.FreightAmount || 0
                           )}
