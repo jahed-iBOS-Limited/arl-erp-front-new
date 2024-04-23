@@ -7,6 +7,7 @@ function CommonTable({
   totalBundel,
   totalPieces,
   totalRate,
+  totalAmount,
 }) {
   return (
     <>
@@ -36,7 +37,24 @@ function CommonTable({
                 )}
 
                 <th>QNT.</th>
-                {[144].includes(selectedBusinessUnit?.value) && <th>Rate</th>}
+                {[144].includes(selectedBusinessUnit?.value) && (
+                  <>
+                    <th
+                      style={{
+                        width: "150px",
+                      }}
+                    >
+                      Rate
+                    </th>
+                    <th
+                      style={{
+                        width: "150px",
+                      }}
+                    >
+                      Amount
+                    </th>
+                  </>
+                )}
               </tr>
             </thead>
             <tbody>
@@ -94,9 +112,14 @@ function CommonTable({
                 <td className="text-right"></td>
                 {/*  Akij Essentials Ltd. == 144*/}
                 {[144].includes(selectedBusinessUnit?.value) && (
-                  <td className="text-right">
-                    <b>{totalRate}</b>
-                  </td>
+                  <>
+                    <td className="text-right">
+                      <b>{totalRate}</b>
+                    </td>
+                    <td className="text-right">
+                      <b>{totalAmount}</b>
+                    </td>
+                  </>
                 )}
               </tr>
             </tfoot>
@@ -142,9 +165,16 @@ const CommonTR = ({ index, td, selectedBusinessUnit }) => {
       </td>
       {/*  Akij Essentials Ltd. == 144*/}
       {[144].includes(selectedBusinessUnit?.value) && (
-        <td>
-          <div className="text-right pl-2">{td?.itemPrice}</div>
-        </td>
+        <>
+          <td>
+            <div className="text-right pl-2">{td?.itemPrice}</div>
+          </td>
+          <td>
+            <div className="text-right pl-2">
+              {(+td?.itemPrice || 0) * (+td?.quantity || 0)}
+            </div>
+          </td>
+        </>
       )}
     </tr>
   );

@@ -6,16 +6,6 @@ import ICustomTable from "../../../../_helper/_customTable";
 import { _dateFormatterTwo } from "../../../../_helper/_dateFormate";
 import { getTransportStatusAndInfo } from "../helper";
 import Loading from "./../../../../_helper/_loading";
-const ths = [
-  "Ship To Party",
-  "Address",
-  "Challan No",
-  "Sales Order No",
-  "Item Code",
-  "Product Name",
-  "UoM Name",
-  "Qty",
-];
 
 export default function ShippingPrint({ id, shipmentCode, state }) {
   const [loading, setLoading] = useState(false);
@@ -52,6 +42,21 @@ export default function ShippingPrint({ id, shipmentCode, state }) {
     }
   };
   let totalQuantity = 0;
+  let totalItemPrice = 0;
+  let totalAmount = 0;
+
+  const ths = [
+    "Ship To Party",
+    "Address",
+    "Challan No",
+    "Sales Order No",
+    "Item Code",
+    "Product Name",
+    "UoM Name",
+    "Qty",
+    [144].includes(buId) && "Rate",
+    [144].includes(buId) && "Amount",
+  ];
   return (
     <>
       <ICard
@@ -196,6 +201,9 @@ export default function ShippingPrint({ id, shipmentCode, state }) {
                 <ICustomTable ths={ths}>
                   {shippingPrint?.objRow?.map((itm) => {
                     totalQuantity += itm?.quantity;
+                    totalItemPrice += itm?.itemPrice;
+                    totalAmount +=
+                      (+itm?.itemPrice || 0) * (+itm?.quantity || 0);
                     return (
                       <tr>
                         <td>
@@ -212,6 +220,16 @@ export default function ShippingPrint({ id, shipmentCode, state }) {
                         </td>
                         <td>{itm?.uomName}</td>
                         <td className="text-center">{itm?.quantity}</td>
+                        {/* Akij Essential Limited === 144 */}
+                        {[144].includes(buId) && (
+                          <>
+                            <td className="text-center">{itm?.itemPrice}</td>
+                            <td className="text-center">
+                              {(+itm?.itemPrice || 0) * (+itm?.quantity || 0)}
+                            </td>
+                          </>
+                        )}
+
                         {/* <td className="text-center">{itm?.deliveryValue}</td> */}
                       </tr>
                     );
@@ -225,6 +243,18 @@ export default function ShippingPrint({ id, shipmentCode, state }) {
                     <td className="text-center">
                       <b>{totalQuantity}</b>
                     </td>
+                    {/* Akij Essential Limited === 144 */}
+                    {[144].includes(buId) && (
+                      <>
+                        {" "}
+                        <td className="text-center">
+                          <b>{totalItemPrice}</b>
+                        </td>
+                        <td className="text-center">
+                          <b>{totalAmount}</b>
+                        </td>
+                      </>
+                    )}
                   </tr>
                 </ICustomTable>
               </div>
