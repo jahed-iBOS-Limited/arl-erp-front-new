@@ -153,6 +153,10 @@ export const getSingleById = (id) => (dispatch) => {
             value: item?.driverId,
             label: item?.driverName,
           },
+          user:item?.vehicleUserEnrollId && item?.vehicleUserEnrollName ? {
+            value:item?.vehicleUserEnrollId,
+            label:item?.vehicleUserEnrollName,
+          } : "",
           transportmode: {
             value: item?.transportMoodId,
             label: item?.transportMoodName,
