@@ -35,11 +35,11 @@ export default function DispatchDeskLanding() {
     // const payload = plantPayload ? plantPayload : fromPlantDDL;
    if(status === "send"){
     getGridData(
-      `/tms/DocumentDispatch/GetDispatchsSendPasignation?AccountId=${accId}&businessUnitId=${buId}&SenderId=${0}&ReceiverId=0&viewOrder=asc&PageNo=${pageNo}&PageSize=${pageSize}`
+      `/tms/DocumentDispatch/GetDispatchsSendPasignation?AccountId=${accId}&businessUnitId=${buId}&dispatchDeskSenderId=${employeeId}&SenderId=${0}&ReceiverId=0&viewOrder=asc&PageNo=${pageNo}&PageSize=${pageSize}`
     );
    }else{
     getGridData(
-      `/tms/DocumentDispatch/GetDispatchsReceivePasignation?AccountId=${accId}&businessUnitId=${buId}&SenderId=0&ReceiverId=${0}&dispatchReceiverId=${employeeId}&viewOrder=asc&PageNo=${pageNo}&PageSize=${pageSize}
+      `/tms/DocumentDispatch/GetDispatchsReceivePasignation?AccountId=${accId}&businessUnitId=${buId}&SenderId=0&ReceiverId=${0}&dispatchDeskReceiverId=${employeeId}&viewOrder=asc&PageNo=${pageNo}&PageSize=${pageSize}
       `
     );
    }

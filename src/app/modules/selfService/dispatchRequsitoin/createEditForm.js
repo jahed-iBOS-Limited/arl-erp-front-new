@@ -14,87 +14,99 @@ import CommonTable from "../../_helper/commonTable";
 import useAxiosGet from "../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../_helper/customHooks/useAxiosPost";
 import { dispatchRequisitionSchema } from "./helper";
+import FormikError from "../../_helper/_formikError";
 
 const initData = {
-  plant:"",
+  plant: "",
   dispatchType: "",
   dispatchDate: "",
   fromLocation: "",
   receiverType: "",
   receiverBu: "",
   receiverName: "",
+  senderName: "",
   contactNo: "",
   vehicleNo: "",
   parcelName: "",
   qty: "",
   uom: "",
   remarks: "",
-  rowRemark:"",
+  rowRemark: "",
 };
 
 export default function DispatchRequisitionCreateEdit() {
   const [objProps, setObjprops] = useState({});
-  const [rowData,setRowData] = useState([])
+  const [rowData, setRowData] = useState([]);
   const [plantListddl, getPlantListddl] = useAxiosGet();
-  const[toLocationPlantDDL,getToLocationPlantDDL,loadToLocatoinPlantDDL] = useAxiosGet()
-  const [singleItem,getSingleItem] = useAxiosGet()
-  const {id} = useParams()
+  const [
+    toLocationPlantDDL,
+    getToLocationPlantDDL,
+    loadToLocatoinPlantDDL,
+  ] = useAxiosGet();
+  const [singleItem, getSingleItem] = useAxiosGet();
+  const { id } = useParams();
   // const[isShowModal,setIsShowModal] = useState()
   const location = useLocation();
-  const [,saveDispatchRequisition,loadDispatchRequisition] =useAxiosPost()
+  const [, saveDispatchRequisition, loadDispatchRequisition] = useAxiosPost();
   const {
-    profileData: { accountId: accId,employeeFullName ,contact,employeeId,userId},
+    profileData: {
+      accountId: accId,
+      employeeFullName,
+      contact,
+      employeeId,
+      userId,
+    },
     selectedBusinessUnit: { value: buId },
     // businessUnitList,
   } = useSelector((state) => state?.authData, shallowEqual);
-  const [uomList,getUoMList] = useAxiosGet()
+  const [uomList, getUoMList] = useAxiosGet();
 
   // all handler
   const saveHandler = (values, cb) => {
-    if(rowData?.length <1) return toast.warn("Add minimum one data")
+    if (rowData?.length < 1) return toast.warn("Add minimum one data");
     const payload = {
-        header: {
-          dispatchHeaderId: 0,
-          dispatchType:values?.receiverType?.label,
-          dispatchNote: "", 
-          sendReceive: location.state.requisition || "",
-          fromLocation: values?.plant?.label,
-          fromPlantId:values?.plant?.value,
-          toLocation: values?.toLocation?.label || values?.toLocation||"",
-          toPlantId:values?.toLocation?.value || 0,
-          senderEnrollId: employeeId,
-          senderName: employeeFullName,
-          senderContactNo :contact,
-          receiverEnrollId:values.receiverName?.value|| 0,
-          receiverName: values.receiverName?.strEmployeeName||values?.receiverName||"",
-          receiverContactNo:values?.contactNo,
-          // documentOwnerSenderReveiveDate :,
-          remaks:values?.remarks||"",
-          dispatchSenderReceiverEnroll:0,
-          dispatchSenderReceiverName:"",
-          requisitionDate:values?.dispatchDate,
-          sendViya: "",
-          vehicleNo: "",
-          sendCost: 0,
-          // isOwnerReceive:false,
-          actionById: employeeId,
-          accountId: accId,
-          businessUnitId: buId,
-          // isActive: true,
-          // isSend: false, 
-        },
-        row: [...rowData]
-      }
-      saveDispatchRequisition(
-        `/tms/DocumentDispatch/CreateDocumentRequsition`,
-        payload,
-        ()=>{
-          setRowData([])
-          cb && cb()
-        },
-        true
-      )
-
+      header: {
+        dispatchHeaderId: 0,
+        dispatchType: values?.receiverType?.label,
+        dispatchNote: "",
+        sendReceive: location.state.requisition || "",
+        fromLocation: values?.plant?.label,
+        fromPlantId: values?.plant?.value,
+        toLocation: values?.toLocation?.label || values?.toLocation || "",
+        toPlantId: values?.toLocation?.value || 0,
+        senderEnrollId: employeeId,
+        senderName: employeeFullName,
+        senderContactNo: contact,
+        receiverEnrollId: values.receiverName?.value || 0,
+        receiverName:
+          values.receiverName?.strEmployeeName || values?.receiverName || "",
+        dispatchSenderReceiverEnroll: values?.senderName?.value,
+        dispatchSenderReceiverName: values.senderName?.strEmployeeName,
+        receiverContactNo: values?.contactNo,
+        // documentOwnerSenderReveiveDate :,
+        remaks: values?.remarks || "",
+        requisitionDate: values?.dispatchDate,
+        sendViya: "",
+        vehicleNo: "",
+        sendCost: 0,
+        // isOwnerReceive:false,
+        actionById: employeeId,
+        accountId: accId,
+        businessUnitId: buId,
+        // isActive: true,
+        // isSend: false,
+      },
+      row: [...rowData],
+    };
+    saveDispatchRequisition(
+      `/tms/DocumentDispatch/CreateDocumentRequsition`,
+      payload,
+      () => {
+        setRowData([]);
+        cb && cb();
+      },
+      true
+    );
   };
   const loadUserList = (v) => {
     if (v?.length < 3) return [];
@@ -103,53 +115,68 @@ export default function DispatchRequisitionCreateEdit() {
         `/hcm/HCMDDL/GetEmployeeDDLSearchByBU?AccountId=${accId}&BusinessUnitId=${0}&Search=${v}`
       )
       .then((res) => {
-        const user = res?.data?.map(user=>({...user,label:`${user?.strEmployeeName} - ${user?.employeeBusinessUnit} - [${user?.employeeId}]`}));
-        return user ;
+        const user = res?.data?.map((user) => ({
+          ...user,
+          label: `${user?.strEmployeeName} - ${user?.employeeBusinessUnit} - [${user?.employeeId}]`,
+        }));
+        return user;
       })
       .catch((err) => []);
   };
-  const handleAdd =(values)=>{
-    const checkDuplicate = rowData?.find(item=>item?.dispatchType === values?.dispatchType?.label && item?.documentMaterialName === values?.parcelName && item?.quantity === values?.qty)
-    if(checkDuplicate) return toast.warn("Duplicate Data Found")
+  const handleAdd = (values) => {
+    const checkDuplicate = rowData?.find(
+      (item) =>
+        item?.dispatchType === values?.dispatchType?.label &&
+        item?.documentMaterialName === values?.parcelName &&
+        item?.quantity === values?.qty
+    );
+    if (checkDuplicate) return toast.warn("Duplicate Data Found");
     const newRowItem = {
-        rowId:0,
-        dispatchHeaderId:0,
-        dispatchType:values?.dispatchType?.label.toLowerCase(),
-        documentMaterialName:values?.parcelName,
-        quantity:+values?.qty || 0 ,
-        uomId:values?.uom?.value || 0,
-        uom:values?.uom?.label || "",
-        isActive:true,
-        remaks:values?.rowRemark||""
+      rowId: 0,
+      dispatchHeaderId: 0,
+      dispatchType: values?.dispatchType?.label.toLowerCase(),
+      documentMaterialName: values?.parcelName,
+      quantity: +values?.qty || 0,
+      uomId: values?.uom?.value || 0,
+      uom: values?.uom?.label || "",
+      isActive: true,
+      remaks: values?.rowRemark || "",
+    };
+    setRowData((prev) => [...prev, newRowItem]);
+  };
+  const handleRowDelete = (index) => {
+    const prevRowData = [...rowData];
+    prevRowData.splice(index, 1);
+    setRowData(prevRowData);
+  };
+
+  useEffect(() => {
+    getUoMList(
+      `/item/ItemUOM/GetItemUOMDDL?AccountId=${accId}&BusinessUnitId=${buId}`
+    );
+    getPlantListddl(
+      `/wms/ItemPlantWarehouse/GetWareHouseItemPlantWareHouseDDL?accountId=${accId}&businessUnitId=${buId}&PlantId=0`
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [accId, buId]);
+
+  useEffect(() => {
+    if (id) {
+      getSingleItem(
+        `/tms/DocumentDispatch/GetDocumentDispatchById?DispatchId=${id}`
+      );
     }
-    setRowData((prev)=>[...prev,newRowItem])
-  }
- const handleRowDelete =(index)=>{
-    const prevRowData = [...rowData]
-    prevRowData.splice(index,1)
-    setRowData(prevRowData)
- }
-
- useEffect(()=>{
-  getUoMList(`/item/ItemUOM/GetItemUOMDDL?AccountId=${accId}&BusinessUnitId=${buId}`)
-  getPlantListddl(`/wms/ItemPlantWarehouse/GetWareHouseItemPlantWareHouseDDL?accountId=${accId}&businessUnitId=${buId}&PlantId=0`)
- // eslint-disable-next-line react-hooks/exhaustive-deps
- },[accId,buId])
-
- useEffect(()=>{
-  if(id){
-    getSingleItem(`/tms/DocumentDispatch/GetDocumentDispatchById?DispatchId=${id}`)
-  }
- // eslint-disable-next-line react-hooks/exhaustive-deps
- },[id])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
 
   return (
     <Formik
       enableReinitialize={true}
       initialValues={initData}
-        validationSchema={dispatchRequisitionSchema}
+      validationSchema={dispatchRequisitionSchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
-        if(!values?.receiverName) return toast.warn("Receiver name is required")
+        if (!values?.receiverName)
+          return toast.warn("Receiver name is required");
         saveHandler(values, () => {
           resetForm(initData);
         });
@@ -170,7 +197,7 @@ export default function DispatchRequisitionCreateEdit() {
           <IForm title="Create Dispatch Requisition" getProps={setObjprops}>
             <Form>
               <div className="form-group  global-form row">
-              <div className="col-lg-3">
+                <div className="col-lg-3">
                   <NewSelect
                     name="receiverType"
                     options={[
@@ -182,7 +209,6 @@ export default function DispatchRequisitionCreateEdit() {
                     onChange={(valueOption) => {
                       setFieldValue("receiverName", "");
                       setFieldValue("receiverType", valueOption);
-                      
                     }}
                     errors={errors}
                     touched={touched}
@@ -212,27 +238,43 @@ export default function DispatchRequisitionCreateEdit() {
                     touched={touched}
                   />
                 </div>
-                <div className="col-md-3"></div>
+                <div className="col-md-3">
+                  <label>Dispatch Desk Sender</label>
+                  <SearchAsyncSelect
+                    selectedValue={values?.senderName}
+                    isSearchIcon={true}
+                    handleChange={(valueOption) => {
+                      setFieldValue("senderName", valueOption || "");
+                    }}
+                    loadOptions={loadUserList}
+                  />
+                  <FormikError
+                    errors={errors}
+                    name="senderName"
+                    touched={touched}
+                  />
+                </div>
                 {values?.receiverType?.value === 1 ? (
                   <>
-                  <div className="col-md-3">
-                    <label>Receiver Name</label>
-                    <SearchAsyncSelect
-                      selectedValue={values?.receiverName}
-                      isSearchIcon={true}
-                      handleChange={(valueOption) => {
-                        setFieldValue("toLocation", "");
-                        setFieldValue("receiverName", valueOption);
-                        setFieldValue("contactNo", valueOption?.contactNo);
-                        if(!valueOption) return;
-                      getToLocationPlantDDL(`/wms/ItemPlantWarehouse/GetWareHouseItemPlantWareHouseDDL?accountId=${accId}&businessUnitId=${valueOption?.employeeBusinessUnitId}&PlantId=0`)
-                      }}
-                      loadOptions={loadUserList}
-                    />
-                  </div>
-
+                    <div className="col-md-3">
+                      <label>Receiver Name</label>
+                      <SearchAsyncSelect
+                        selectedValue={values?.receiverName}
+                        isSearchIcon={true}
+                        handleChange={(valueOption) => {
+                          setFieldValue("toLocation", "");
+                          setFieldValue("receiverName", valueOption);
+                          setFieldValue("contactNo", valueOption?.contactNo);
+                          if (!valueOption) return;
+                          getToLocationPlantDDL(
+                            `/wms/ItemPlantWarehouse/GetWareHouseItemPlantWareHouseDDL?accountId=${accId}&businessUnitId=${valueOption?.employeeBusinessUnitId}&PlantId=0`
+                          );
+                        }}
+                        loadOptions={loadUserList}
+                      />
+                    </div>
                   </>
-                ) :values?.receiverType?.value === 2? (
+                ) : values?.receiverType?.value === 2 ? (
                   <div className="col-lg-3">
                     <InputField
                       value={values?.receiverName}
@@ -245,42 +287,42 @@ export default function DispatchRequisitionCreateEdit() {
                       }}
                     />
                   </div>
-                ):null}
-                
-                {
-                  values?.receiverType?.value === 1 ? (
-                    <>
-                     <div className="col-lg-3">
-                  <NewSelect
-                    name="toLocation"
-                    options={toLocationPlantDDL}
-                    value={values?.toLocation}
-                    label="To Location"
-                    onChange={(valueOption) => {
-                      setFieldValue("toLocation", valueOption);
-                    }}
-                    disabled={!values?.receiverName}
-                    errors={errors}
-                    touched={touched}
-                  />
-                </div>
-                    </>
-                  ) :values?.receiverType?.value === 2 && (
+                ) : null}
+
+                {values?.receiverType?.value === 1 ? (
+                  <>
                     <div className="col-lg-3">
-                  <InputField
-                    value={values?.toLocation}
-                    label="To Location"
-                    placeholder="To Location"
-                    name="toLocation"
-                    type="text"
-                    onChange={(e) => {
-                      setFieldValue("toLocation", e.target.value);
-                    }}
-                  />
-                </div>
+                      <NewSelect
+                        name="toLocation"
+                        options={toLocationPlantDDL}
+                        value={values?.toLocation}
+                        label="To Location"
+                        onChange={(valueOption) => {
+                          setFieldValue("toLocation", valueOption);
+                        }}
+                        disabled={!values?.receiverName}
+                        errors={errors}
+                        touched={touched}
+                      />
+                    </div>
+                  </>
+                ) : (
+                  values?.receiverType?.value === 2 && (
+                    <div className="col-lg-3">
+                      <InputField
+                        value={values?.toLocation}
+                        label="To Location"
+                        placeholder="To Location"
+                        name="toLocation"
+                        type="text"
+                        onChange={(e) => {
+                          setFieldValue("toLocation", e.target.value);
+                        }}
+                      />
+                    </div>
                   )
-                }
-                
+                )}
+
                 <div className="col-lg-3">
                   <InputField
                     value={values?.contactNo}
@@ -307,7 +349,6 @@ export default function DispatchRequisitionCreateEdit() {
                 </div>
               </div>
               <div className="form-group  global-form row mt-5">
-                
                 {/* <div className="col-lg-3">
                   <InputField
                     value={values?.vehicleNo}
@@ -341,9 +382,17 @@ export default function DispatchRequisitionCreateEdit() {
                 <div className="col-lg-3">
                   <InputField
                     value={values?.parcelName}
-                    label={values?.dispatchType ? `${values?.dispatchType?.label} Name` :"Document / Material Name"}
+                    label={
+                      values?.dispatchType
+                        ? `${values?.dispatchType?.label} Name`
+                        : "Document / Material Name"
+                    }
                     name="parcelName"
-                    placeholder={values?.dispatchType ? `${values?.dispatchType?.label} Name` :"Document / Material Name"}
+                    placeholder={
+                      values?.dispatchType
+                        ? `${values?.dispatchType?.label} Name`
+                        : "Document / Material Name"
+                    }
                     type="text"
                     onChange={(e) => {
                       setFieldValue("parcelName", e.target.value);
@@ -366,7 +415,7 @@ export default function DispatchRequisitionCreateEdit() {
                 {values?.dispatchType?.value === 2 && (
                   <div className="col-lg-3">
                     <NewSelect
-                     options={uomList}
+                      options={uomList}
                       value={values?.uom}
                       label="UOM"
                       name="uom"
@@ -392,25 +441,24 @@ export default function DispatchRequisitionCreateEdit() {
                 </div>
                 <div className="col-lg-3">
                   <button
-                   style={{marginTop:"16px"}}
+                    style={{ marginTop: "16px" }}
                     className="btn btn-primary"
                     type="button"
-                    onClick={()=>{
-
-                      handleAdd(values,setRowData)
+                    onClick={() => {
+                      handleAdd(values, setRowData);
                       setValues({
                         ...values,
-                        dispatchType:"",
-                        parcelName:"",
-                        qty:"",
-                        rowRemark:"",
-                        uom:""
-                      })
+                        dispatchType: "",
+                        parcelName: "",
+                        qty: "",
+                        rowRemark: "",
+                        uom: "",
+                      });
                     }}
                     disabled={
                       !values?.dispatchType ||
                       !values?.parcelName ||
-                      !values?.qty 
+                      !values?.qty
                     }
                   >
                     Add
@@ -418,25 +466,37 @@ export default function DispatchRequisitionCreateEdit() {
                 </div>
               </div>
 
-              <div style={{marginTop:"15px"}}>
-                <CommonTable headersData={["Sl","Dispatch Type","Parcel Name","Quantity","UoM","Remarks","Action"]}>
-                    <tbody>
-                       {rowData?.map((item,index)=>
-                        <tr key={index}>
-                            <td className="text-center">{index+1}</td>
-                            <td className="text-center">{item?.dispatchType}</td>
-                            <td className="text-center">{item?.documentMaterialName}</td>
-                            <td className="text-center">{item?.quantity}</td>
-                            <td className="text-center">{item?.uom}</td>
-                            <td className="text-center">{item?.remaks}</td>
-                            <td className="text-center">
-                                <span onClick={()=>handleRowDelete(index)}>
-                                <IDelete />
-                                </span>
-                            </td>
-                        </tr>
-                        )}
-                    </tbody>
+              <div style={{ marginTop: "15px" }}>
+                <CommonTable
+                  headersData={[
+                    "Sl",
+                    "Dispatch Type",
+                    "Parcel Name",
+                    "Quantity",
+                    "UoM",
+                    "Remarks",
+                    "Action",
+                  ]}
+                >
+                  <tbody>
+                    {rowData?.map((item, index) => (
+                      <tr key={index}>
+                        <td className="text-center">{index + 1}</td>
+                        <td className="text-center">{item?.dispatchType}</td>
+                        <td className="text-center">
+                          {item?.documentMaterialName}
+                        </td>
+                        <td className="text-center">{item?.quantity}</td>
+                        <td className="text-center">{item?.uom}</td>
+                        <td className="text-center">{item?.remaks}</td>
+                        <td className="text-center">
+                          <span onClick={() => handleRowDelete(index)}>
+                            <IDelete />
+                          </span>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
                 </CommonTable>
               </div>
 
