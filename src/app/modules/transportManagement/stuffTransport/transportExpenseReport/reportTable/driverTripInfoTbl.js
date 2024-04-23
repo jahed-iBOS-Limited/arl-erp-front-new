@@ -48,6 +48,7 @@ export default function DriverTripInfoTbl({ rowData }) {
           <tr>
             <th>SL</th>
             <th>Date</th>
+            <th>Trip Type</th>
             <th>Trip No</th>
             <th>KM</th>
             <th>Vehicle No</th>
@@ -73,6 +74,7 @@ export default function DriverTripInfoTbl({ rowData }) {
                 <td className="text-center">
                   {_dateFormatter(item?.dteTripDate)}
                 </td>
+                <td>{item?.strTripType}</td>
                 <td>{item?.strTripCode}</td>
                 <td className="text-center">{item?.tripKM}</td>
                 <td className="text-center">{item?.strVehicleNo}</td>
