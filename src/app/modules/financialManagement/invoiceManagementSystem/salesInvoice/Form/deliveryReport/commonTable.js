@@ -7,6 +7,7 @@ function CommonTable({
   totalBundel,
   totalPieces,
   totalRate,
+  totalAmount,
 }) {
   return (
     <>
@@ -22,7 +23,7 @@ function CommonTable({
             <thead>
               <tr>
                 <th style={{ width: "35px" }}>SL</th>
-                <th style={{ width: "220px" }}>PRODUCT DESCRIPTION</th>
+                <th style={{ minWidth: "220px" }}>PRODUCT DESCRIPTION</th>
                 {[186]?.includes(selectedBusinessUnit?.value) && (
                   <th>CUSTOMER DESCRIPTION</th>
                 )}
@@ -35,7 +36,20 @@ function CommonTable({
                   </>
                 )}
                 <th>QNT.</th>
-                <th>Rate</th>
+                <th
+                  style={{
+                    width: "150px",
+                  }}
+                >
+                  Rate
+                </th>
+                <th
+                  style={{
+                    width: "150px",
+                  }}
+                >
+                  Amount
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -94,6 +108,9 @@ function CommonTable({
                 <td className="text-right">
                   <b>{totalRate}</b>
                 </td>
+                <td className="text-right">
+                  <b>{totalAmount}</b>
+                </td>
               </tr>
             </tfoot>
           </table>
@@ -138,6 +155,11 @@ const CommonTR = ({ index, td, selectedBusinessUnit }) => {
       </td>
       <td>
         <div className="text-right pl-2">{td?.itemPrice}</div>
+      </td>
+      <td>
+        <div className="text-right pl-2">{
+          (+td.quantity || 0) * (+td?.itemPrice || 0)
+        }</div>
       </td>
     </tr>
   );

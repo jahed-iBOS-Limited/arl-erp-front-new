@@ -84,7 +84,11 @@ export default function DeliveryReportTable({ id }) {
     0
   );
   let totalRate = deliveryOrderReportData?.rows?.reduce(
-    (acc, cur) => (acc += (+cur?.itemPrice || 0)),
+    (acc, cur) => (acc += +cur?.itemPrice || 0),
+    0
+  );
+  let totalAmount = deliveryOrderReportData?.rows?.reduce(
+    (acc, cur) => (acc += (+cur?.itemPrice || 0) * (+cur?.quantity || 0)),
     0
   );
 
@@ -268,6 +272,7 @@ export default function DeliveryReportTable({ id }) {
                 <BongTradersTable
                   deliveryOrderReportData={deliveryOrderReportData}
                   totalQuantity={totalQuantity}
+                  totalAmount={totalAmount}
                 />
               ) : (
                 <CommonTable
@@ -277,6 +282,7 @@ export default function DeliveryReportTable({ id }) {
                   totalPieces={totalPieces}
                   totalBundel={totalBundel}
                   totalRate={totalRate}
+                  totalAmount={totalAmount}
                 />
               )}
 

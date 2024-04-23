@@ -88,6 +88,10 @@ export default function DeliveryReport({ id }) {
     0
   );
 
+  let totalAmount = deliveryOrderReportData?.rows?.reduce(
+    (acc, cur) => (acc += (+cur?.itemPrice || 0) * (+cur?.quantity || 0)),
+    0
+  );
   if (loading) {
     return loading && <ISpinner isShow={loading} />;
   }
@@ -260,6 +264,7 @@ export default function DeliveryReport({ id }) {
                   deliveryOrderReportData={deliveryOrderReportData}
                   totalQuantity={totalQuantity}
                   totalRate={totalRate}
+                  totalAmount={totalAmount}
                 />
               ) : (
                 <CommonTable
@@ -269,6 +274,8 @@ export default function DeliveryReport({ id }) {
                   totalPieces={totalPieces}
                   totalBundel={totalBundel}
                   totalRate={totalRate}
+                  totalAmount={totalAmount}
+
                 />
               )}
 

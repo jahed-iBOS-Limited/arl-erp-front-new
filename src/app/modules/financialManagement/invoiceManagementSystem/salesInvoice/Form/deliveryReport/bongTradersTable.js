@@ -1,6 +1,10 @@
 import React from "react";
 
-function BongTradersTable({ deliveryOrderReportData, totalQuantity, totalRate }) {
+function BongTradersTable({
+  deliveryOrderReportData,
+  totalQuantity,
+  totalRate,
+}) {
   return (
     <>
       <div className="my-8">
@@ -14,6 +18,7 @@ function BongTradersTable({ deliveryOrderReportData, totalQuantity, totalRate })
                 <th>QNT.(TON)</th>
                 <th>QNT.(BAG)</th>
                 <th>Rate</th>
+                <th>Amount</th>
               </tr>
             </thead>
             <tbody>
@@ -53,6 +58,9 @@ function BongTradersTable({ deliveryOrderReportData, totalQuantity, totalRate })
                 <td className="text-right">
                   <b>{totalRate}</b>
                 </td>
+                <td className="text-right">
+                  <b>{totalQuantity * totalRate}</b>
+                </td>
               </tr>
             </tfoot>
           </table>
@@ -80,6 +88,11 @@ const CommonTR = ({ index, td }) => {
       </td>
       <td>
         <div className="text-right pl-2">{td?.itemPrice}</div>
+      </td>
+      <td>
+        <div className="text-right pl-2">
+          {(+td.quantity || 0) * (+td?.itemPrice || 0)}
+        </div>
       </td>
     </tr>
   );
