@@ -228,11 +228,17 @@ export default function SalesContractView({ quotationId }) {
                           (quotationData?.Head?.length + 6) / 2
                         )}
                       >
-                        ISLAMI BANK BANGLADESH PLC <br />
+                        {/* ISLAMI BANK BANGLADESH PLC <br />
                         HEAD OFFICE COMPLEX BRANCH <br />
                         41 DILKUSHA C/A, DHAKA-1000, BANGLADESH. <br />
                         ACCOUNT NO: 20502130100248815, <br />
-                        SWIFT CODE NO: IBBLBDDH213
+                        SWIFT CODE NO: IBBLBDDH213 */}
+                        PUBALI BANK PLC <br />
+                        FARMGATE BRANCH <br />
+                        85, KAZI NAZRUL ISLAM AVENUE, DHAKA-1215 <br />
+                        ACCOUNT NAME: AKIJ ESSENTIAL LIMITED <br />
+                        ACCOUNT NO: 1820901034255 <br />
+                        SWIFT CODE NO: PUBABDDH
                       </td>
                       <td
                         className="font-weight-bold"
@@ -269,8 +275,8 @@ export default function SalesContractView({ quotationId }) {
                       {quotationData?.Head?.map((item, index) => {
                         return <th>{item?.HeaderName?.toUpperCase()}</th>;
                       })}
-                      <th>FOB RATE USD/CTN</th>
-                      <th>TOTAL AMOUNT FOB</th>
+                      <th>RATE USD/CTN</th>
+                      <th>TOTAL AMOUNT</th>
                     </tr>
                     {quotationData?.RowData?.map((item, index) => (
                       <tr>
@@ -296,7 +302,7 @@ export default function SalesContractView({ quotationId }) {
                         className="text-center font-weight-b8old"
                         colSpan={quotationData?.Head?.length + 6 - 3}
                       >
-                        <strong>TOTAL FOB VALUE</strong>
+                        <strong>TOTAL VALUE</strong>
                       </td>
                       <td className="text-center font-weight-bold ">
                         {getTotalCarton(quotationData)}
@@ -306,7 +312,7 @@ export default function SalesContractView({ quotationId }) {
                         {_formatMoney(getTotalFOB(quotationData))}
                       </td>
                     </tr>
-                    <tr>
+                    {/* <tr>
                       <td
                         className="text-center font-weight-bold"
                         colSpan={quotationData?.Head?.length + 6 - 1}
@@ -329,7 +335,7 @@ export default function SalesContractView({ quotationId }) {
                       <td className="text-right font-weight-bold">
                         {_formatMoney(getTotalCNF(quotationData))}
                       </td>
-                    </tr>
+                    </tr> */}
                     <tr>
                       <td
                         className="font-weight-bold"
@@ -338,6 +344,19 @@ export default function SalesContractView({ quotationId }) {
                         <strong>
                           TOTAL AMOUNT (USD) :{" "}
                           {toWords?.convert(getTotalCNF(quotationData) || 0)}
+                        </strong>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        className="font-weight-bold"
+                        colSpan={quotationData?.Head?.length + 6}
+                      >
+                        <strong>
+                          FREIGHT CONSIDERATION :{" "}
+                          {_formatMoney(
+                            quotationData?.HeaderData?.FreightAmount || 0
+                          )}
                         </strong>
                       </td>
                     </tr>
