@@ -1,7 +1,9 @@
 import { Field } from "formik";
-import React from "react";
+import React, { useState } from "react";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import { _fixedPoint } from "../../../../_helper/_fixedPoint";
+import IViewModal from "../../../../_helper/_viewModal";
+import DeliveryReport from "./deliveryReport/table";
 
 export const FormOneTable = ({ obj }) => {
   const { rowDto, buId, allSelect, selectedAll, rowDtoHandler } = obj;
@@ -140,6 +142,8 @@ const TableOne = ({ obj }) => {
 
 const TableTwo = ({ obj }) => {
   const { allSelect, selectedAll, rowDto, rowDtoHandler } = obj;
+  const [isDeliveryReportModal, setIsDeliveryReportModal] = useState(false);
+  const [selectedItem, setSelectedItem] = useState({});
 
   let grandTotalDeliveredQty = 0,
     grandTotalAmount = 0,
@@ -210,7 +214,22 @@ const TableTwo = ({ obj }) => {
                 </td>
                 <td className="text-center">{index + 1}</td>
                 <td className="ml-2">{item?.orderCode}</td>
-                <td className="ml-2">{item?.deliveryCode}</td>
+                <td className="ml-2">
+                  <span
+                    style={{
+                      borderBottom: "1px solid blue",
+                      cursor: "pointer",
+                      color: "blue",
+                    }}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setIsDeliveryReportModal(true);
+                      setSelectedItem(item);
+                    }}
+                  >
+                    {item?.deliveryCode}
+                  </span>
+                </td>
                 <td className="ml-2">{_dateFormatter(item?.deliveryDate)}</td>
                 <td className="text-right">{item?.totalDeliveredQty}</td>
                 <td className="text-right">{item?.totalAmount.toFixed(2)}</td>
@@ -240,6 +259,20 @@ const TableTwo = ({ obj }) => {
           </tr>
         </tbody>
       </table>
+
+      {// Delivery Report Modal
+      isDeliveryReportModal && (
+        <IViewModal
+          show={isDeliveryReportModal}
+          onHide={() => {
+            setIsDeliveryReportModal(false)
+            setSelectedItem({})
+          }}
+        >
+          <DeliveryReport id={selectedItem?.deliveryId} />
+        </IViewModal>
+      )}
+      {}
     </>
   );
 };

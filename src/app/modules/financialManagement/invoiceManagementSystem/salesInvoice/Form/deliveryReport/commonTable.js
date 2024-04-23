@@ -34,9 +34,8 @@ function CommonTable({
                     <th>Pieces</th>
                   </>
                 )}
-
                 <th>QNT.</th>
-                {[144].includes(selectedBusinessUnit?.value) && <th>Rate</th>}
+                <th>Rate</th>
               </tr>
             </thead>
             <tbody>
@@ -92,12 +91,9 @@ function CommonTable({
                   </>
                 )}
                 <td className="text-right"></td>
-                {/*  Akij Essentials Ltd. == 144*/}
-                {[144].includes(selectedBusinessUnit?.value) && (
-                  <td className="text-right">
-                    <b>{totalRate}</b>
-                  </td>
-                )}
+                <td className="text-right">
+                  <b>{totalRate}</b>
+                </td>
               </tr>
             </tfoot>
           </table>
@@ -140,12 +136,9 @@ const CommonTR = ({ index, td, selectedBusinessUnit }) => {
       <td>
         <div className="text-right pl-2">{td?.quantity}</div>
       </td>
-      {/*  Akij Essentials Ltd. == 144*/}
-      {[144].includes(selectedBusinessUnit?.value) && (
-        <td>
-          <div className="text-right pl-2">{td?.itemPrice}</div>
-        </td>
-      )}
+      <td>
+        <div className="text-right pl-2">{td?.itemPrice}</div>
+      </td>
     </tr>
   );
 };

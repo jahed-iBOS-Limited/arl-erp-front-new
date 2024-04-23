@@ -1,22 +1,22 @@
-import React, { useEffect, useState, useRef } from "react";
-import ISpinner from "./../../../../../_helper/_spinner";
-import { useSelector, shallowEqual } from "react-redux";
 import Axios from "axios";
-import ICard from "./../../../../../_helper/_card";
-import cement_log from "./../../../../../_helper/images/cement_logo.png";
+import React, { useEffect, useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
+import ICard from "../../../../../_helper/_card";
+import ISpinner from "../../../../../_helper/_spinner";
 import bluePill_logo from "./../../../../../_helper/images/bluePill_logo.png";
-import "../../style.css";
+import cement_log from "./../../../../../_helper/images/cement_logo.png";
+import "./style.css";
 // import moment from "moment";
 // import { _dateFormatterTwo } from "../../../../../_helper/_dateFormate";
 import { useLocation } from "react-router";
-import CommonTable from "./commonTable";
-import BongTradersTable from "./bongTradersTable";
-import { _todayDate } from "../../../../../_helper/_todayDate";
 import { _currentTime } from "../../../../../_helper/_currentTime";
-export default function DeliveryReportTable({ id }) {
+import { _todayDate } from "../../../../../_helper/_todayDate";
+import BongTradersTable from "./bongTradersTable";
+import CommonTable from "./commonTable";
+export default function DeliveryReport({ id }) {
   const [loading, setLoading] = React.useState(false);
   const { state: landingData } = useLocation();
-  const printRef = useRef();
+
   let { selectedBusinessUnit, profileData } = useSelector(
     (state) => {
       return {
@@ -84,7 +84,7 @@ export default function DeliveryReportTable({ id }) {
     0
   );
   let totalRate = deliveryOrderReportData?.rows?.reduce(
-    (acc, cur) => (acc += (+cur?.itemPrice || 0)),
+    (acc, cur) => (acc += +cur?.itemPrice || 0),
     0
   );
 
@@ -93,17 +93,8 @@ export default function DeliveryReportTable({ id }) {
   }
   return (
     <>
-      <ICard
-        printTitle="Print"
-        title=""
-        isPrint={deliveryOrderReportData?.isPrintable ? true : false}
-        isShowPrintBtn={true}
-        componentRef={printRef}
-        pageStyle={
-          "@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}"
-        }
-      >
-        <div ref={printRef}>
+      <ICard printTitle="Print" title="">
+        <div>
           <div
             style={
               selectedBusinessUnit?.value === 186 ? { marginTop: "2rem" } : {}
@@ -268,6 +259,7 @@ export default function DeliveryReportTable({ id }) {
                 <BongTradersTable
                   deliveryOrderReportData={deliveryOrderReportData}
                   totalQuantity={totalQuantity}
+                  totalRate={totalRate}
                 />
               ) : (
                 <CommonTable
