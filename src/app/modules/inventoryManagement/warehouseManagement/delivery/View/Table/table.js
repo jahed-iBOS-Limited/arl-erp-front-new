@@ -83,6 +83,10 @@ export default function DeliveryReportTable({ id }) {
     (acc, cur) => (acc += cur?.pieces),
     0
   );
+  let totalRate = deliveryOrderReportData?.rows?.reduce(
+    (acc, cur) => (acc += (+cur?.itemPrice || 0)),
+    0
+  );
 
   if (loading) {
     return loading && <ISpinner isShow={loading} />;
@@ -272,6 +276,7 @@ export default function DeliveryReportTable({ id }) {
                   selectedBusinessUnit={selectedBusinessUnit}
                   totalPieces={totalPieces}
                   totalBundel={totalBundel}
+                  totalRate={totalRate}
                 />
               )}
 

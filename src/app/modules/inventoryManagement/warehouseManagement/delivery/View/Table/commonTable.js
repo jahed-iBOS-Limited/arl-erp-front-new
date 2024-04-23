@@ -6,6 +6,7 @@ function CommonTable({
   selectedBusinessUnit,
   totalBundel,
   totalPieces,
+  totalRate,
 }) {
   return (
     <>
@@ -35,6 +36,7 @@ function CommonTable({
                 )}
 
                 <th>QNT.</th>
+                {[144].includes(selectedBusinessUnit?.value) && <th>Rate</th>}
               </tr>
             </thead>
             <tbody>
@@ -89,9 +91,13 @@ function CommonTable({
                     </td>
                   </>
                 )}
-                <td className="text-right">
-                  <b>{totalQuantity}</b>
-                </td>
+                <td className="text-right"></td>
+                {/*  Akij Essentials Ltd. == 144*/}
+                {[144].includes(selectedBusinessUnit?.value) && (
+                  <td className="text-right">
+                    <b>{totalRate}</b>
+                  </td>
+                )}
               </tr>
             </tfoot>
           </table>
@@ -107,33 +113,39 @@ const CommonTR = ({ index, td, selectedBusinessUnit }) => {
       <td> {index + 1} </td>
 
       <td>
-        <div className="text-left pr-2">{td.prodcuctDescription}</div>
+        <div className="text-left pr-2">{td?.prodcuctDescription}</div>
       </td>
       {[186]?.includes(selectedBusinessUnit?.value) && (
         <td>
           <div className="pl-2">
-            {selectedBusinessUnit?.value === 186 && td.customerItemName}
+            {selectedBusinessUnit?.value === 186 && td?.customerItemName}
           </div>
         </td>
       )}
       <td>
-        <div className="pl-2">{td.uom}</div>
+        <div className="pl-2">{td?.uom}</div>
       </td>
       {(selectedBusinessUnit?.value === 171 ||
         selectedBusinessUnit?.value === 224) && (
         <>
           <td>
-            <div className="text-right pl-2">{td.bundel}</div>
+            <div className="text-right pl-2">{td?.bundel}</div>
           </td>
           <td>
-            <div className="text-right pl-2">{td.pieces}</div>
+            <div className="text-right pl-2">{td?.pieces}</div>
           </td>
         </>
       )}
 
       <td>
-        <div className="text-right pl-2">{td.quantity}</div>
+        <div className="text-right pl-2">{td?.quantity}</div>
       </td>
+      {/*  Akij Essentials Ltd. == 144*/}
+      {[144].includes(selectedBusinessUnit?.value) && (
+        <td>
+          <div className="text-right pl-2">{td?.itemPrice}</div>
+        </td>
+      )}
     </tr>
   );
 };
