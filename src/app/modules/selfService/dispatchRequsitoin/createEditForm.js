@@ -306,7 +306,7 @@ export default function DispatchRequisitionCreateEdit() {
                     touched={touched}
                   />
                 </div>
-                <div className="col-md-3">
+                {/* <div className="col-md-3">
                   <label>Dispatch Desk Sender</label>
                   <SearchAsyncSelect
                     selectedValue={values?.senderName}
@@ -321,7 +321,7 @@ export default function DispatchRequisitionCreateEdit() {
                     name="senderName"
                     touched={touched}
                   />
-                </div>
+                </div> */}
                 {values?.receiverType?.value === 1 ? (
                   <>
                     <div className="col-md-3">

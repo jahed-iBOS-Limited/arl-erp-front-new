@@ -29,17 +29,20 @@ export default function DispatchDeskLanding() {
   } = useSelector((state) => state?.authData, shallowEqual);
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
-  const [gridData, getGridData, loadGridData] = useAxiosGet();
+  const [gridData, getGridData, loadGridData, setGridData] = useAxiosGet();
 
   const handleGetRowData = (status, pageNo, pageSize, plantPayload) => {
     // const payload = plantPayload ? plantPayload : fromPlantDDL;
    if(status === "send"){
     getGridData(
-      `/tms/DocumentDispatch/GetDispatchsSendPasignation?AccountId=${accId}&businessUnitId=${buId}&dispatchDeskSenderId=${employeeId}&SenderId=${0}&ReceiverId=0&viewOrder=asc&PageNo=${pageNo}&PageSize=${pageSize}`
+      `/tms/DocumentDispatch/GetDispatchsSendPasignation?AccountId=${accId}&businessUnitId=${buId}&dispatchDeskSenderId=${0}&SenderId=${0}&ReceiverId=0&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`,(rowData)=>{
+          const result =  rowData?.data?.sort((a, b) => (a.isSend === b.isSend ? 0 : a.isSend ? 1 : -1));
+          setGridData({...rowData, data: result});
+      }
     );
    }else{
     getGridData(
-      `/tms/DocumentDispatch/GetDispatchsReceivePasignation?AccountId=${accId}&businessUnitId=${buId}&SenderId=0&ReceiverId=${0}&dispatchDeskReceiverId=${employeeId}&viewOrder=asc&PageNo=${pageNo}&PageSize=${pageSize}
+      `/tms/DocumentDispatch/GetDispatchsReceivePasignation?AccountId=${accId}&businessUnitId=${buId}&SenderId=0&ReceiverId=${0}&dispatchDeskReceiverId=${0}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}
       `
     );
    }
