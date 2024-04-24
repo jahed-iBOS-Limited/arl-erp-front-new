@@ -47,11 +47,11 @@ export default function DispatchRequisitionLanding() {
     // const payload = plantPayload ? plantPayload : fromPlantDDL;
     if (status === "send") {
       getGridData(
-        `/tms/DocumentDispatch/GetRequsitionSendPasignation?AccountId=${accId}&businessUnitId=${buId}&SenderId=${employeeId}&viewOrder=asc&PageNo=${pageNo}&PageSize=${pageSize}`
+        `/tms/DocumentDispatch/GetRequsitionSendPasignation?AccountId=${accId}&businessUnitId=${buId}&SenderId=${employeeId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
       );
     } else {
       getGridData(
-        `/tms/DocumentDispatch/GetRequsitionReceivePasignation?AccountId=${accId}&businessUnitId=${buId}&ReceiverId=${employeeId}&viewOrder=asc&PageNo=${pageNo}&PageSize=${pageSize}
+        `/tms/DocumentDispatch/GetRequsitionReceivePasignation?AccountId=${accId}&businessUnitId=${buId}&ReceiverId=${employeeId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}
       `
       );
     }
