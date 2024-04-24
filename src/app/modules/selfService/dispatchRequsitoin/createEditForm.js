@@ -15,12 +15,14 @@ import useAxiosGet from "../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../_helper/customHooks/useAxiosPost";
 import { dispatchRequisitionSchema } from "./helper";
 import FormikError from "../../_helper/_formikError";
+import { _dateFormatter } from "../../_helper/_dateFormate";
 
 const initData = {
   plant: "",
   dispatchType: "",
   dispatchDate: "",
   fromLocation: "",
+  toLocation: "",
   receiverType: "",
   receiverBu: "",
   receiverName: "",
@@ -43,7 +45,8 @@ export default function DispatchRequisitionCreateEdit() {
     getToLocationPlantDDL,
     loadToLocatoinPlantDDL,
   ] = useAxiosGet();
-  const [singleItem, getSingleItem] = useAxiosGet();
+  const [{ header, row }, getSingleItem] = useAxiosGet();
+  const [modifyData, setModifyData] = useState({});
   const { id } = useParams();
   // const[isShowModal,setIsShowModal] = useState()
   const location = useLocation();
@@ -66,10 +69,10 @@ export default function DispatchRequisitionCreateEdit() {
     if (rowData?.length < 1) return toast.warn("Add minimum one data");
     const payload = {
       header: {
-        dispatchHeaderId: 0,
+        dispatchHeaderId: header?.DispatchHeaderId || 0,
         dispatchType: values?.receiverType?.label,
         dispatchNote: "",
-        sendReceive: location.state.requisition || "",
+        sendReceive: location?.state?.requisition || "",
         fromLocation: values?.plant?.label,
         fromPlantId: values?.plant?.value,
         toLocation: values?.toLocation?.label || values?.toLocation || "",
@@ -98,13 +101,18 @@ export default function DispatchRequisitionCreateEdit() {
       },
       row: [...rowData],
     };
+
     saveDispatchRequisition(
-      `/tms/DocumentDispatch/CreateDocumentRequsition`,
+      id
+        ? `/tms/DocumentDispatch/EditDocumentRequsition`
+        : `/tms/DocumentDispatch/CreateDocumentRequsition`,
       payload,
-      () => {
-        setRowData([]);
-        cb && cb();
-      },
+      id
+        ? null
+        : () => {
+            setRowData([]);
+            cb && cb();
+          },
       true
     );
   };
@@ -169,10 +177,69 @@ export default function DispatchRequisitionCreateEdit() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
+  useEffect(() => {
+    if (header) {
+      setModifyData({
+        dispatchDate: _dateFormatter(header?.RequisitionDate),
+        plant:
+          header?.FromPlantId && header?.FromLocation
+            ? { value: header?.FromPlantId, label: header?.FromLocation }
+            : "",
+        toLocation:
+          header?.ToPlantId && header?.ToLocation
+            ? { value: header?.ToPlantId, label: header?.ToLocation }
+            : header?.ToLocation
+            ? header?.ToLocation
+            : "",
+        receiverType: header?.DispatchType
+          ? {
+              value: header?.DispatchType === "Internal" ? 1 : 2,
+              label: header?.DispatchType,
+            }
+          : "",
+        receiverName:
+          header?.ReceiverEnrollId && header?.ReceiverName
+            ? {
+                value: header?.ReceiverEnrollId,
+                label: header?.ReceiverName,
+                strEmployeeName: header?.ReceiverName,
+              }
+            : header?.ReceiverName
+            ? header?.ReceiverName
+            : "",
+        senderName:
+          header?.SenderEnrollId && header?.SenderName
+            ? {
+                value: header?.SenderEnrollId,
+                label: header?.SenderName,
+              }
+            : "",
+        contactNo: header?.ReceiverContactNo || "",
+        remarks: header?.Remaks || "",
+      });
+    }
+
+    if (row?.length) {
+      const modifyRowDate = row.map((item) => ({
+        rowId: item?.RowId,
+        dispatchHeaderId: item?.DispatchHeaderId,
+        dispatchType: item?.DispatchType,
+        documentMaterialName: item?.DocumentMaterialName,
+        quantity: item?.Quantity || 0,
+        uomId: item?.UomId || 0,
+        uom: item?.Uom || "",
+        isActive: item?.IsActive,
+        remaks: item?.Remaks || "",
+      }));
+      setRowData(modifyRowDate);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [header, row]);
+
   return (
     <Formik
       enableReinitialize={true}
-      initialValues={initData}
+      initialValues={id ? modifyData : initData}
       validationSchema={dispatchRequisitionSchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         if (!values?.receiverName)
@@ -225,6 +292,7 @@ export default function DispatchRequisitionCreateEdit() {
                     }}
                   />
                 </div>
+                {console.log("errors", errors)}
                 <div className="col-lg-3">
                   <NewSelect
                     name="plant"
