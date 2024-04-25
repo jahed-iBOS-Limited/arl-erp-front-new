@@ -56,7 +56,6 @@ export default function _Form({
   }, [selectedBusinessUnit, profileData]);
 
   const addRowHandler = (values) => {
-    console.log("values", values);
     const offerTypeId = values?.offerType?.value;
 
     if (offerTypeId === 1) {
@@ -118,8 +117,6 @@ export default function _Form({
     }
   };
 
-  console.log("rowDto", rowDto);
-
   const distributionChannelHandler = (values) => {
     getDistributionChannelIdApi(
       values?.distributionChannel?.value,
@@ -172,16 +169,14 @@ export default function _Form({
                   <NewSelect
                     name="offerType"
                     options={[
-                      {
-                        value: 1,
-                        label: "Discount on Quantity",
-                      },
+                      { value: 1, label: "Discount on Quantity" },
                       { value: 2, label: "Discount on Rate" },
                     ]}
                     value={values?.offerType}
                     label="Offer Type"
                     onChange={(valueOption) => {
                       setFieldValue("offerType", valueOption);
+                      setFieldValue("isProportionalOffer", false);
                     }}
                     placeholder="Offer Type"
                     errors={errors}
