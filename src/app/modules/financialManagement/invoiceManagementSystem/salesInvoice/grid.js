@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
+import { _fixedPoint } from "../../../_helper/_fixedPoint";
 import IClose from "../../../_helper/_helperIcons/_close";
 import PaginationTable from "../../../_helper/_tablePagination";
 import IViewModal from "../../../_helper/_viewModal";
@@ -12,7 +13,6 @@ import { useCementInvoicePrintHandler } from "./Form/formHandlerBluePill";
 import CommercialInvoiceReport from "./ReportModal/reportModal";
 import { cancelSalesInvoice, getInvoiceDataForPrint } from "./helper";
 import InvoiceReceptForCement from "./invoiceCement/invoiceRecept";
-import { _fixedPoint } from "../../../_helper/_fixedPoint";
 
 const SalesInvoiceGridData = ({
   rowDto,
@@ -78,7 +78,9 @@ const SalesInvoiceGridData = ({
                     <td>{tableData?.strRefference}</td>
                     <td>{tableData?.strProjectLocation}</td>
                     <td className="text-right">{tableData?.numQuantity}</td>
-                    <td  className="text-right">{_fixedPoint(tableData?.invoiceAmount || 0)}</td>
+                    <td className="text-right">
+                      {_fixedPoint(tableData?.invoiceAmount || 0)}
+                    </td>
                     {values?.type?.value !== 2 && (
                       <td className="text-center">
                         <div className="d-flex justify-content-around">
