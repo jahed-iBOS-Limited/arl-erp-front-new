@@ -47,13 +47,23 @@ const SalesInvoiceGridData = ({
               <thead>
                 <tr>
                   <th style={{ width: "40px" }}>SL</th>
-                  <th>Invoice No</th>
-                  <th>Invoice Date</th>
+                  {values?.status?.value === 1 && (
+                    <>
+                      {" "}
+                      <th>Invoice No</th>
+                      <th>Invoice Date</th>
+                    </>
+                  )}
                   {/* {values?.type?.value !== 2 && <th>Challan Date</th>}
                   {values?.type?.value !== 2 && <th>Challan No</th>} */}
                   <th>Partner Name</th>
-                  <th>Reference No </th>
-                  <th>Project Location</th>
+                  {values?.status?.value === 1 && (
+                    <>
+                      {" "}
+                      <th>Reference No </th>
+                      <th>Project Location</th>
+                    </>
+                  )}
                   <th>Net Qty</th>
                   <th>Invoice Amount</th>
                   {values?.type?.value !== 2 && <th>Action</th>}
@@ -65,9 +75,13 @@ const SalesInvoiceGridData = ({
                   <tr key={index}>
                     <td className="text-center"> {index + 1} </td>
 
-                    <td>{tableData?.strInvoiceNumber}</td>
-
-                    <td>{_dateFormatter(tableData?.dteInvoiceDate)}</td>
+                    {values?.status?.value === 1 && (
+                      <>
+                        {" "}
+                        <td>{tableData?.strInvoiceNumber}</td>
+                        <td>{_dateFormatter(tableData?.dteInvoiceDate)}</td>
+                      </>
+                    )}
                     {/* {values?.type?.value !== 2 && (
                       <td>{_dateFormatter(tableData?.dteChallanDate)}</td>
                     )}
@@ -75,62 +89,82 @@ const SalesInvoiceGridData = ({
                       <td>{tableData?.strDeliveryCode}</td>
                     )} */}
                     <td>{tableData?.strPartnerName}</td>
-                    <td>{tableData?.strRefference}</td>
-                    <td>{tableData?.strProjectLocation}</td>
+                    {values?.status?.value === 1 && (
+                      <>
+                        {" "}
+                        <td>{tableData?.strRefference}</td>
+                        <td>{tableData?.strProjectLocation}</td>
+                      </>
+                    )}
                     <td className="text-right">{tableData?.numQuantity}</td>
                     <td className="text-right">
                       {_fixedPoint(tableData?.invoiceAmount || 0)}
                     </td>
                     {values?.type?.value !== 2 && (
                       <td className="text-center">
-                        <div className="d-flex justify-content-around">
-                          {buId === 4 && (
-                            <span>
-                              <ICon
-                                title={"Print Sales Invoice"}
-                                onClick={() => {
-                                  if (
-                                    values?.channel &&
-                                    values?.channel?.value !== 0
-                                  ) {
-                                    getInvoiceDataForPrint(
-                                      tableData?.intUnitId,
-                                      tableData?.strInvoiceNumber,
-                                      tableData?.intPartnerId,
-                                      setLoading,
-                                      (resData) => {
-                                        setInvoiceData(resData);
-                                        handleInvoicePrintCement();
-                                      }
-                                    );
-                                  } else {
-                                    toast.warn(
-                                      "Please select a specific distribution channel."
-                                    );
+                        {values?.status?.value === 1 ? (
+                          <div className="d-flex justify-content-around">
+                            {buId === 4 && (
+                              <span>
+                                <ICon
+                                  title={"Print Sales Invoice"}
+                                  onClick={() => {
+                                    if (
+                                      values?.channel &&
+                                      values?.channel?.value !== 0
+                                    ) {
+                                      getInvoiceDataForPrint(
+                                        tableData?.intUnitId,
+                                        tableData?.strInvoiceNumber,
+                                        tableData?.intPartnerId,
+                                        setLoading,
+                                        (resData) => {
+                                          setInvoiceData(resData);
+                                          handleInvoicePrintCement();
+                                        }
+                                      );
+                                    } else {
+                                      toast.warn(
+                                        "Please select a specific distribution channel."
+                                      );
+                                    }
+                                  }}
+                                >
+                                  <i class="fas fa-print"></i>
+                                </ICon>
+                              </span>
+                            )}
+                            <span
+                              className="cursor-pointer"
+                              onClick={() => {
+                                cancelSalesInvoice(
+                                  accId,
+                                  buId,
+                                  tableData?.intSalesInvoiceId,
+                                  setLoading,
+                                  () => {
+                                    getGridData(values, pageNo, pageSize);
                                   }
-                                }}
-                              >
-                                <i class="fas fa-print"></i>
-                              </ICon>
+                                );
+                              }}
+                            >
+                              <IClose title="Cancel Sales Invoice" />
                             </span>
-                          )}
-                          <span
-                            className="cursor-pointer"
+                          </div>
+                        ) : (
+                          <button
+                            type="button"
+                            className="btn btn-info btn-sm"
                             onClick={() => {
-                              cancelSalesInvoice(
-                                accId,
-                                buId,
-                                tableData?.intSalesInvoiceId,
-                                setLoading,
-                                () => {
-                                  getGridData(values, pageNo, pageSize);
-                                }
-                              );
+                              history.push({
+                                pathname: `/financial-management/invoicemanagement-system/salesInvoice/create`,
+                                state: { ...values, ...tableData },
+                              });
                             }}
                           >
-                            <IClose title="Cancel Sales Invoice" />
-                          </span>
-                        </div>
+                            Create
+                          </button>
+                        )}
                       </td>
                     )}
                   </tr>

@@ -28,11 +28,13 @@ const initData = {
   challanNo: "",
   channel: "",
   type: { value: 1, label: "Details" },
+  status: { value: 1, label: "Complete" },
 };
 
 function SalesInvoiceLanding() {
   const [disabled, setDisabled] = useState(false);
   const [rowDto, setRowDto] = useState([]);
+  const [pendingData, getPendingData, loader] = useAxiosGet();
   const [
     topSheetData,
     getTopSheetData,
@@ -51,23 +53,32 @@ function SalesInvoiceLanding() {
   } = useSelector((state) => state?.authData, shallowEqual);
 
   const getGridData = (values, pageNo = 0, pageSize = 20, search = "") => {
-    if (buId === 4 && values?.type?.value === 2) {
-      const searchTerm = search ? `&search=${search}` : "";
-      getTopSheetData(
-        `/oms/OManagementReport/GetSalesInvoiceLandingTopSheet?BusinessunitId=${buId}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc${searchTerm}`
-      );
-    } else {
-      getSalesInvoiceLanding(
-        accId,
-        buId,
-        values?.fromDate,
-        values?.toDate,
-        values?.channel?.value || 0,
-        pageNo,
-        pageSize,
-        search,
-        setDisabled,
-        setRowDto
+    if (values?.status?.value === 1) {
+      if (buId === 4 && values?.type?.value === 2) {
+        const searchTerm = search ? `&search=${search}` : "";
+        getTopSheetData(
+          `/oms/OManagementReport/GetSalesInvoiceLandingTopSheet?BusinessunitId=${buId}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc${searchTerm}`
+        );
+      } else {
+        getSalesInvoiceLanding(
+          accId,
+          buId,
+          values?.fromDate,
+          values?.toDate,
+          values?.channel?.value || 0,
+          pageNo,
+          pageSize,
+          search,
+          setDisabled,
+          setRowDto
+        );
+      }
+    } else if (values?.status?.value === 2) {
+      getPendingData(
+        `/oms/OManagementReport/GetPendingSalesInvoiceLanding?businessunitId=${buId}&channelId=${values
+          ?.channel?.value || 0}&fromDate=${values?.fromDate}&toDate=${
+          values?.toDate
+        }&pageNo=${pageNo}&pageSize=${pageSize}`
       );
     }
   };
@@ -88,9 +99,15 @@ function SalesInvoiceLanding() {
     if (buId === 4 && values?.type?.value === 2) {
       return topSheetData;
     } else {
-      return rowDto;
+      return values?.status?.value === 1
+        ? rowDto
+        : values?.status?.value === 2
+        ? pendingData
+        : [];
     }
   };
+
+  const isLoading = disabled || loading || loader;
 
   return (
     <>
@@ -110,7 +127,7 @@ function SalesInvoiceLanding() {
                 });
               }}
             >
-              {(disabled || loading) && <Loading />}
+              {isLoading && <Loading />}
               <Form className="form form-label-right">
                 <div className="row global-form global-form-custom">
                   {buId === 4 && (
@@ -155,13 +172,34 @@ function SalesInvoiceLanding() {
                       },
                     }}
                   />
-
+                  {values?.type?.value !== 2 && (
+                    <div className="col-lg-3">
+                      <NewSelect
+                        name="status"
+                        value={values?.status}
+                        label="Status"
+                        placeholder="Status"
+                        options={[
+                          { value: 1, label: "Complete" },
+                          { value: 2, label: "Pending" },
+                        ]}
+                        onChange={(valueOption) => {
+                          setFieldValue("status", valueOption);
+                          setRowDto([]);
+                          setTopSheetData([]);
+                        }}
+                      />
+                    </div>
+                  )}
                   <IButton
                     onClick={() => {
                       getGridData(values, pageNo, pageSize);
                     }}
                     disabled={
-                      !values?.fromDate || !values?.toDate || !values?.channel
+                      !values?.fromDate ||
+                      !values?.toDate ||
+                      !values?.channel ||
+                      !values?.status
                     }
                   />
                 </div>

@@ -6,6 +6,7 @@ import InputField from "../../../../_helper/_inputField";
 import NewSelect from "../../../../_helper/_select";
 import { getInvoiceDataByDate } from "../helper";
 import { FormOneTable } from "./formOneTable";
+import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
 function FormOne({ propsObj }) {
   const {
     distributionChannelDDL,
@@ -29,6 +30,12 @@ function FormOne({ propsObj }) {
   return (
     <>
       <div className="row global-form global-form-custom">
+        <FromDateToDateForm
+          obj={{
+            values,
+            setFieldValue,
+          }}
+        />
         <div className="col-lg-3">
           <NewSelect
             name="distributionChannel"
@@ -91,24 +98,7 @@ function FormOne({ propsObj }) {
             />
           </div>
         </div>
-        <div className="col-lg-3">
-          <label>From Date</label>
-          <InputField
-            value={values?.fromDate}
-            name="fromDate"
-            // placeholder="Date"
-            type="date"
-          />
-        </div>
-        <div className="col-lg-3">
-          <label>To Date</label>
-          <InputField
-            value={values?.toDate}
-            name="toDate"
-            // placeholder="Date"
-            type="date"
-          />
-        </div>
+
         {[8].includes(buId) && (
           <div className="col-lg-3">
             <InputField
