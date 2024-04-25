@@ -2,7 +2,7 @@ import React from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { Redirect, Switch } from "react-router-dom";
 import { ContentRoute } from "../../../../_metronic/layout";
-import DispatchDeskLanding from "../dispatchDesk";
+import DispatchDeskLanding from "./dispatchDesk";
 import NotPermittedPage from "../../_helper/notPermitted/NotPermittedPage";
 
 export function DispatchDeskPages() {

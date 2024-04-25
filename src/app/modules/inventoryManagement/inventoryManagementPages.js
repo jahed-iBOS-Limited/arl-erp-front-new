@@ -8,7 +8,7 @@ import { ConfigurationPages } from "./configuration/configurationPages";
 import CreateInventoryLoanForm from "./inventoryLoan/form/addEditForm";
 import { ReportsPages } from "./reports/reportsPages";
 import { WarehouseManagementPages } from "./warehouseManagement/warehouseManagementPages";
-import { DispatchDeskPages } from "./dispatchDesk/dispatchDeskPages";
+import { DispatchDeskPages } from "./dispatch/dispatchDeskPages";
 
 export function InventoryManagementPages() {
 
