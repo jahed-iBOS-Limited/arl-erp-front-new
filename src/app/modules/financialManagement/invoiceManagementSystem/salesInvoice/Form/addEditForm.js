@@ -1,7 +1,7 @@
 import { Formik } from "formik";
 import React, { useEffect, useRef, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import { useReactToPrint } from "react-to-print";
 import * as Yup from "yup";
 import { _todayDate } from "../../../../_helper/_todayDate";
@@ -24,6 +24,7 @@ import {
   createSalesInvoice,
   getCustomerDDL,
   getEmployeeList,
+  getInvoiceDataByDate,
 } from "../helper";
 import InvoiceReceptBluePill from "../invoiceBluePill/invoiceRecept";
 
@@ -32,7 +33,7 @@ import InvoiceReceptForPolyFibre from "../invoicePolyFibre/invoiceRecept";
 import {
   useBluePillInvoiceHandler,
   useCementInvoicePrintHandler,
-  usePolyFibreInvoicePrintHandler
+  usePolyFibreInvoicePrintHandler,
 } from "./formHandlerBluePill";
 import FormTwo from "./formTwo";
 
@@ -76,6 +77,7 @@ const validationSchema = Yup.object().shape({});
 const AddEditForm = () => {
   const printRef = useRef();
   const history = useHistory();
+  const { state } = useLocation();
   // eslint-disable-next-line no-unused-vars
   const [orderSingleValue, setSingleValue] = useState({});
   const [grandTotal, setGrandTotal] = useState({
@@ -123,8 +125,6 @@ const AddEditForm = () => {
     printRefPolyFibre,
     handleInvoicePrintPolyFibre,
   } = usePolyFibreInvoicePrintHandler();
-
-   
 
   const saveHandler = (values, cb) => {
     if (rowDto?.length > 0) {
@@ -197,8 +197,22 @@ const AddEditForm = () => {
   }, [rowDto]);
 
   useEffect(() => {
+    if (state?.intChannelId) {
+      getInvoiceDataByDate(
+        accId,
+        buId,
+        state?.fromDate,
+        state?.toDate,
+        state?.intPartnerId,
+        "",
+        "",
+        setDisabled,
+        setRowDto
+      );
+    }
+
     getCustomerDDL(accId, buId, setCustomerDDL);
-  }, [accId, buId]);
+  }, [accId, buId, state]);
 
   const allSelect = (value) => {
     let _data = [...rowDto];
@@ -347,12 +361,32 @@ const AddEditForm = () => {
     }
   };
 
+  console.log("state", state);
+
   return (
     <>
       <Formik
         enableReinitialize={true}
         initialValues={
-          [175, 186, 4, 94, 8, 138]?.includes(buId) ? invoiceInitData : initData
+          [175, 186, 4, 94, 8, 138]?.includes(buId)
+            ? {
+                ...invoiceInitData,
+                distributionChannel: state?.intChannelId
+                  ? {
+                      value: state?.intChannelId,
+                      label: state?.strChannelName,
+                    }
+                  : "",
+                customer: state?.intPartnerId
+                  ? {
+                      value: state?.intPartnerId,
+                      label: state?.strPartnerName,
+                    }
+                  : "",
+                fromDate: state?.fromDate,
+                toDate: state?.toDate,
+              }
+            : initData
         }
         validationSchema={validationSchema}
         onSubmit={() => {}}
