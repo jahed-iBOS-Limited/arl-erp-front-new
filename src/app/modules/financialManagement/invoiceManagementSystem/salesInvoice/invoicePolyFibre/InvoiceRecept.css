@@ -14,70 +14,70 @@ p {
 .bold {
   font-weight: 600;
 }
-.print_invoice_wrapper_poly_fibre {
+#print_invoice_wrapper_poly_fibre {
   /* margin: 0; */
   padding: 0;
   box-sizing: border-box;
   /* max-width: 210mm; */
-  margin: 0 50px;
+  /* margin: 0 50px; */
   font-size: 14px !important;
   display: none;
   margin-top: 20px;
   /* border: 1px solid black; */
 }
-.print_invoice_wrapper_poly_fibre .header {
+#print_invoice_wrapper_poly_fibre .header {
   padding-bottom: 10px;
   align-items: center;
   text-align: center;
 }
 
-.print_invoice_wrapper_poly_fibre .header .office_info {
+#print_invoice_wrapper_poly_fibre .header .office_info {
   font-weight: bold;
   font-size: 50px;
 }
 
-/* .print_invoice_wrapper_poly_fibre .header .logo {
+/* #print_invoice_wrapper_poly_fibre .header .logo {
   width: 35%;
   display: flex;
   justify-content: right;
 } */
 
-.print_invoice_wrapper_poly_fibre .main_table {
+#print_invoice_wrapper_poly_fibre .main_table {
   margin-top: 1rem;
 }
 
-.print_invoice_wrapper_poly_fibre .main_table .table {
+#print_invoice_wrapper_poly_fibre .main_table .table {
   width: 100%;
   border-collapse: collapse;
 }
-.print_invoice_wrapper_poly_fibre .main_table .table th {
+#print_invoice_wrapper_poly_fibre .main_table .table th {
   border: 1px solid;
   padding: 5px;
 }
-.print_invoice_wrapper_poly_fibre .main_table .table td {
+#print_invoice_wrapper_poly_fibre .main_table .table td {
   border: 1px solid;
   padding: 5px;
 }
-.print_invoice_wrapper_poly_fibre .main_table .note {
+#print_invoice_wrapper_poly_fibre .main_table .note {
   display: flex;
   margin-top: 15px;
 }
-.print_invoice_wrapper_poly_fibre .main_table .note ul {
+#print_invoice_wrapper_poly_fibre .main_table .note ul {
   margin: 0;
   padding-left: 30px;
 }
-.print_invoice_wrapper_poly_fibre .signature_wrapper {
+#print_invoice_wrapper_poly_fibre .signature_wrapper {
   display: flex;
   justify-content: space-between;
   margin-top: 120px;
 }
-.print_invoice_wrapper_poly_fibre .signature_wrapper .signature p {
+#print_invoice_wrapper_poly_fibre .signature_wrapper .signature p {
   position: relative;
   padding-top: 2px;
 }
 
 @media print {
-  .print_invoice_wrapper_poly_fibre {
+  #print_invoice_wrapper_poly_fibre {
     display: block !important;
   }
 }
