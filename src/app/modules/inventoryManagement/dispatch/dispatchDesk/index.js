@@ -2,15 +2,15 @@ import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 // import { useHistory } from "react-router-dom";
-import { _dateFormatter } from "../../_helper/_dateFormate";
-import IForm from "../../_helper/_form";
-import IApproval from "../../_helper/_helperIcons/_approval";
-import Loading from "../../_helper/_loading";
-import PaginationTable from "../../_helper/_tablePagination";
-import IViewModal from "../../_helper/_viewModal";
-import CommonTable from "../../_helper/commonTable";
-import useAxiosGet from "../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../_helper/customHooks/useAxiosPost";
+import { _dateFormatter } from "../../../_helper/_dateFormate";
+import IForm from "../../../_helper/_form";
+import IApproval from "../../../_helper/_helperIcons/_approval";
+import Loading from "../../../_helper/_loading";
+import PaginationTable from "../../../_helper/_tablePagination";
+import IViewModal from "../../../_helper/_viewModal";
+import CommonTable from "../../../_helper/commonTable";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import ReceiveModal from "./receiveModal";
 import SendModal from "./sendModal";
 const initData = {
@@ -33,19 +33,22 @@ export default function DispatchDeskLanding() {
 
   const handleGetRowData = (status, pageNo, pageSize, plantPayload) => {
     // const payload = plantPayload ? plantPayload : fromPlantDDL;
-   if(status === "send"){
-    getGridData(
-      `/tms/DocumentDispatch/GetDispatchsSendPasignation?AccountId=${accId}&businessUnitId=${buId}&dispatchDeskSenderId=${0}&SenderId=${0}&ReceiverId=0&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`,(rowData)=>{
-          const result =  rowData?.data?.sort((a, b) => (a.isSend === b.isSend ? 0 : a.isSend ? 1 : -1));
-          setGridData({...rowData, data: result});
-      }
-    );
-   }else{
-    getGridData(
-      `/tms/DocumentDispatch/GetDispatchsReceivePasignation?AccountId=${accId}&businessUnitId=${buId}&SenderId=0&ReceiverId=${0}&dispatchDeskReceiverId=${0}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}
+    if (status === "send") {
+      getGridData(
+        `/tms/DocumentDispatch/GetDispatchsSendPasignation?AccountId=${accId}&businessUnitId=${buId}&dispatchDeskSenderId=${0}&SenderId=${0}&ReceiverId=0&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`,
+        (rowData) => {
+          const result = rowData?.data?.sort((a, b) =>
+            a.isSend === b.isSend ? 0 : a.isSend ? 1 : -1
+          );
+          setGridData({ ...rowData, data: result });
+        }
+      );
+    } else {
+      getGridData(
+        `/tms/DocumentDispatch/GetDispatchsReceivePasignation?AccountId=${accId}&businessUnitId=${buId}&SenderId=0&ReceiverId=${0}&dispatchDeskReceiverId=${0}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}
       `
-    );
-   }
+      );
+    }
   };
   const setPositionHandler = (pageNo, pageSize, values) => {
     handleGetRowData(values?.requisition, pageNo, pageSize);
@@ -173,23 +176,23 @@ export default function DispatchDeskLanding() {
                     {gridData?.data?.map((item, index) => (
                       <tr>
                         <td className="text-center">{item?.dispatchCode}</td>
-                        <td className="text-center">{item?.senderName} [{item?.senderEnrollId}]</td>
                         <td className="text-center">
-                          {item?.dispatchType}
+                          {item?.senderName} [{item?.senderEnrollId}]
                         </td>
+                        <td className="text-center">{item?.dispatchType}</td>
                         <td className="text-center">
                           {item?.dispatchDescription}
                         </td>
                         <td className="text-center">
                           {values?.requisition === "received"
                             ? _dateFormatter(item.dispatchReceiveDate)
-                            : _dateFormatter(
-                                item.requisitionDate
-                              )}
+                            : _dateFormatter(item.requisitionDate)}
                         </td>
                         <td className="text-center">{item?.fromLocation}</td>
                         <td className="text-center">{item?.toLocation}</td>
-                        <td className="text-center">{item?.receiverName} [{item?.receiverEnrollId}]</td>
+                        <td className="text-center">
+                          {item?.receiverName} [{item?.receiverEnrollId}]
+                        </td>
                         {values?.requisition === "send" ? (
                           <td className="text-center">
                             {item?.isSend &&
@@ -214,7 +217,12 @@ export default function DispatchDeskLanding() {
                           </td>
                         ) : (
                           <td className="text-center">
-                            {item?.isReceive && !item?.isOwnerReceive ? (
+                            <span
+                              style={{ color: "green", fontWeight: "bold" }}
+                            >
+                              {item?.sendReceive}
+                            </span>
+                            {/* {item?.isReceive && !item?.isOwnerReceive ? (
                               <span
                                 style={{ color: "purple", fontWeight: "bold" }}
                               >
@@ -226,7 +234,7 @@ export default function DispatchDeskLanding() {
                               >
                                 Approved
                               </span>
-                            ) : null}
+                            ) : null} */}
                           </td>
                         )}
                         <td className="text-center">
