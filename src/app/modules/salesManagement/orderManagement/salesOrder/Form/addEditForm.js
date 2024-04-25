@@ -455,7 +455,7 @@ export default function SalesOrderForm({
             isUnloadLabourByCompany: values?.isUnloadLabourByCompany?.value,
             salesOrderValidityDays: collectionDays?.salesOrderValidityDays,
             salesOrderExpiredDate: "2023-06-22T14:08:10.512Z",
-            commissionAgentId: values?.brokerName?.value
+            commissionAgentId: values?.brokerName?.value,
           },
           objRow: newRowDto,
         };
@@ -579,6 +579,7 @@ export default function SalesOrderForm({
           itemName: itm?.itemName,
           numRequestQuantity: +itm?.quantity,
           numItemPrice: _price || 0,
+          tempNumItemPrice: _price || 0,
           //numOrderValue: itm?.itemValue,
           numOrderValue:
             selectedBusinessUnit?.value === 94
@@ -644,12 +645,13 @@ export default function SalesOrderForm({
       specification: "",
       narration: values?.narration,
       numItemPrice: +values.numItemPrice || 0,
+      tempNumItemPrice: +values.numItemPrice || 0,
       transportRate: +values?.transportRate || 0,
       isVatPrice: priceForInternalUseVATAX?.isVatPrice || false,
       vatPrice: priceForInternalUseVATAX?.itemPrice || 0,
       waterProofRate: +values?.waterProofRate || 0,
       pumpChargeRate: +values?.pumpChargeRate || 0,
-      commissionAgentRate: ""
+      commissionAgentRate: "",
     };
 
     if (!values.referenceNo) {
@@ -668,6 +670,7 @@ export default function SalesOrderForm({
           itemId: itm.itemId,
           itemName: itm.itemName,
           numItemPrice: +itm.itemPrice + additionalRate,
+          tempNumItemPrice: +itm.itemPrice + additionalRate,
           waterProofRate: +values?.waterProofRate || 0,
           pumpChargeRate: +values?.pumpChargeRate || 0,
           numOrderValue: +itm.value + +itm.quantity * additionalRate,
@@ -698,6 +701,8 @@ export default function SalesOrderForm({
             itemId: referenceItemDetailsById.itemId,
             itemName: referenceItemDetailsById.itemName,
             numItemPrice: +referenceItemDetailsById.itemPrice + additionalRate,
+            tempNumItemPrice:
+              +referenceItemDetailsById.itemPrice + additionalRate,
             waterProofRate: +values?.waterProofRate || 0,
             numOrderValue:
               referenceItemDetailsById?.value +
@@ -1037,7 +1042,6 @@ export default function SalesOrderForm({
     IConfirmModal(confirmObject);
   };
 
-  console.log(rowDto);
   return (
     <>
       {(isDisabled || loader) && <Loading />}
