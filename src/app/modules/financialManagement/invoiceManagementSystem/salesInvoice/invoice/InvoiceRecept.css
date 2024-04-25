@@ -14,67 +14,67 @@ p {
 .bold {
   font-weight: 600;
 }
-.print_invoice_wrapper {
-  margin: 0;
+.sales_invoice_print_wrapper {
+  /* margin: 0; */
   padding: 0;
   box-sizing: border-box;
-  max-width: 210mm;
-  margin: 0 auto;
+  /* max-width: 210mm; */
+  /* margin: 0 auto; */
   font-size: 14px !important;
   display: none;
   /* border: 1px solid black; */
 }
-.print_invoice_wrapper .header {
+.sales_invoice_print_wrapper .header {
   display: flex;
   gap: 40px;
   padding-bottom: 10px;
   border-bottom: 2px solid rgba(250, 168, 2, 0.586);
 }
-.print_invoice_wrapper .header .office_info {
+.sales_invoice_print_wrapper .header .office_info {
   width: 65%;
   text-align: right;
 }
 
-.print_invoice_wrapper .main_table {
+.sales_invoice_print_wrapper .main_table {
   margin-top: 1rem;
 }
-.print_invoice_wrapper .main_table .table_header {
+.sales_invoice_print_wrapper .main_table .table_header {
   font-size: 20px;
   border-bottom: 1px solid;
-  max-width: 100px;
-  margin: 0 auto;
-  margin-bottom: 5px;
+  /* max-width: 100px; */
+  /* margin: 0 auto; */
+  margin-bottom: 15px;
 }
-.print_invoice_wrapper .main_table .table {
+.sales_invoice_print_wrapper .main_table .table {
   width: 100%;
   border-collapse: collapse;
 }
-.print_invoice_wrapper .main_table .table th {
+.sales_invoice_print_wrapper .main_table .table th {
   border: 1px solid;
   padding: 5px;
 }
-.print_invoice_wrapper .main_table .table td {
+.sales_invoice_print_wrapper .main_table .table td {
   border: 1px solid;
   padding: 5px;
 }
-.print_invoice_wrapper .main_table .note {
+.sales_invoice_print_wrapper .main_table .note {
   display: flex;
   margin-top: 15px;
 }
-.print_invoice_wrapper .main_table .note ul {
+.sales_invoice_print_wrapper .main_table .note ul {
   margin: 0;
   padding-left: 30px;
 }
-.print_invoice_wrapper .signature_wrapper {
+.sales_invoice_print_wrapper .signature_wrapper {
   display: flex;
   justify-content: space-between;
   margin-top: 120px;
 }
-.print_invoice_wrapper .signature_wrapper .signature p {
+.sales_invoice_print_wrapper .signature_wrapper .signature p {
   position: relative;
   padding-top: 2px;
 }
-.print_invoice_wrapper .signature_wrapper .signature p::before {
+.sales_invoice_print_wrapper .signature_wrapper .signature p::before {
   content: "";
   position: absolute;
   height: 1px;
@@ -85,7 +85,7 @@ p {
 }
 
 @media print {
-  .print_invoice_wrapper {
+  .sales_invoice_print_wrapper {
     display: block !important;
   }
 }

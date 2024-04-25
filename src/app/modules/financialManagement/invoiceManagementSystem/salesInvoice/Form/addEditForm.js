@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
 import { Formik } from "formik";
+import React, { useEffect, useRef, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { useReactToPrint } from "react-to-print";
@@ -17,8 +17,8 @@ import {
   ModalProgressBar,
 } from "../../../../../../_metronic/_partials/controls";
 
-import { getDistributionChannelDDL_api } from "../../../../transportManagement/report/challanInformationUpdate/helper";
 import Loading from "../../../../_helper/_loading";
+import { getDistributionChannelDDL_api } from "../../../../transportManagement/report/challanInformationUpdate/helper";
 import {
   createCommercialInvoice,
   createSalesInvoice,
@@ -27,14 +27,14 @@ import {
 } from "../helper";
 import InvoiceReceptBluePill from "../invoiceBluePill/invoiceRecept";
 
+import InvoiceReceptForCement from "../invoiceCement/invoiceRecept";
+import InvoiceReceptForPolyFibre from "../invoicePolyFibre/invoiceRecept";
 import {
   useBluePillInvoiceHandler,
   useCementInvoicePrintHandler,
-  usePolyFibreInvoicePrintHandler,
+  usePolyFibreInvoicePrintHandler
 } from "./formHandlerBluePill";
 import FormTwo from "./formTwo";
-import InvoiceReceptForCement from "../invoiceCement/invoiceRecept";
-import InvoiceReceptForPolyFibre from "../invoicePolyFibre/invoiceRecept";
 
 const initData = {
   customer: "",
@@ -123,6 +123,8 @@ const AddEditForm = () => {
     printRefPolyFibre,
     handleInvoicePrintPolyFibre,
   } = usePolyFibreInvoicePrintHandler();
+
+   
 
   const saveHandler = (values, cb) => {
     if (rowDto?.length > 0) {
@@ -301,7 +303,6 @@ const AddEditForm = () => {
     createSalesInvoice(buId, payload, setDisabled, setInvoiceData, () => {
       cb();
       if ([186, 138].includes(buId)) {
-        // if ( buId === 186) {
         handleInvoicePrintBluePill();
       }
       if (buId === 4) {
@@ -311,9 +312,6 @@ const AddEditForm = () => {
         handleInvoicePrint();
       }
       if ([8].includes(buId)) {
-        // if (customerType === 1) {
-        //   handleInvoicePrintPolyFibre();
-        // }
         handleInvoicePrintPolyFibre();
       }
     });
@@ -451,6 +449,7 @@ const AddEditForm = () => {
 
       {/* Sales invoice print for akij cement company ltd */}
       <InvoiceReceptForCement
+        // printRef={printRefTest}
         printRef={printRefCement}
         invoiceData={invoiceData}
         channelId={channelId}
