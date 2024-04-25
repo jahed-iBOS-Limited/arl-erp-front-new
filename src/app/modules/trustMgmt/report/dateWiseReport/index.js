@@ -13,6 +13,7 @@ export default function DateWiseReport() {
   const [objProps, setObjprops] = useState({});
   // eslint-disable-next-line no-unused-vars
   const [landingData, getData, getLoading, setLoadingData] = useAxiosGet();
+  const [filterObj, setFilterObj] = useState(null);
 
   return (
     <IForm
@@ -25,8 +26,8 @@ export default function DateWiseReport() {
     >
       {(isDisabled || getLoading) && <Loading />}
       <div className="mt-5">
-        <DateWiseReportForm getData={getData} />
-        <DateWiseReportTable landingData={landingData} />
+        <DateWiseReportForm getData={getData} setFilterObj={setFilterObj}/>
+        <DateWiseReportTable landingData={landingData} filterObj={filterObj}/>
       </div>
     </IForm>
   );

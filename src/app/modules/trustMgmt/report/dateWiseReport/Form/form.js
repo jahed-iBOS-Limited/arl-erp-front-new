@@ -18,7 +18,7 @@ const initData = {
   paymentType: ""
 };
 
-export const DateWiseReportForm = ({ getData }) => {
+export const DateWiseReportForm = ({ getData, setFilterObj }) => {
   const [unitDDL, getUnits] = useAxiosGet();
   const [donationPurposeDDL, getDonationPurpose] = useAxiosGet();
   const [causeOfDonationDDL, getCauseOfDonation] = useAxiosGet();
@@ -49,6 +49,7 @@ export const DateWiseReportForm = ({ getData }) => {
   }, []);
 
   const saveHandler = (values, cb) => {
+    setFilterObj({values, saveHandler})
     getData(
       getLadingData(
         "GetAllDonationApplicationList",
@@ -213,6 +214,7 @@ export const DateWiseReportForm = ({ getData }) => {
                     name="status"
                     options={[
                       {value:"All", label:"All"},
+                      {value:"Awaiting Audit", label:"Awaiting Audit"},
                       {value:"Pending", label:"Pending"},
                       {value:"Approved", label:"Approved"},
                       {value:"Rejected", label:"Rejected"}
