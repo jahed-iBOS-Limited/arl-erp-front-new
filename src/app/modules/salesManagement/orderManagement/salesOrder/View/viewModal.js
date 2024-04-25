@@ -80,8 +80,6 @@ export default function ViewForm({ id, show, onHide, isLoading }) {
     return state.salesOrder?.singleData;
   }, shallowEqual);
 
-  console.log({ singleData });
-
   let salesOrderData = useSelector(
     (state) => {
       return {
