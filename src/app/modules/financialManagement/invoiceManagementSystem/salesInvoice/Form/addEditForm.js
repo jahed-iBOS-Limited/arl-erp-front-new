@@ -36,6 +36,7 @@ import {
   usePolyFibreInvoicePrintHandler,
 } from "./formHandlerBluePill";
 import FormTwo from "./formTwo";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 
 const initData = {
   customer: "",
@@ -53,6 +54,7 @@ const initData = {
   advancedPayment: 0,
   companyName: "",
   companyAddress: "",
+  invoiceType: { value: 1, label: "Date Range Base" },
 };
 
 const invoiceInitData = {
@@ -70,6 +72,7 @@ const invoiceInitData = {
   remarks: "",
   particulars: "",
   customerType: "",
+  invoiceType: { value: 1, label: "Date Range Base" },
 };
 
 const validationSchema = Yup.object().shape({});
@@ -96,6 +99,15 @@ const AddEditForm = () => {
   const [invoiceData, setInvoiceData] = useState([]);
   const [employeeList, setEmployeeList] = useState([]);
   const [channelId, setChannelId] = useState(0);
+  const [
+    customerList,
+    getCustomerList,
+    customerLoading,
+    setCustomerList,
+  ] = useAxiosGet();
+  const [SOList, getSOList, soLoading, setSOList] = useAxiosGet();
+  const [, getRowsBySO, loading] = useAxiosGet();
+  const [, getSOInfo] = useAxiosGet();
   // const [customerType, setCustomerType] = useState(0);
 
   // get user profile data from store
@@ -361,7 +373,7 @@ const AddEditForm = () => {
     }
   };
 
-  console.log("state", state);
+  const isLoading = customerLoading || soLoading || disabled || loading;
 
   return (
     <>
@@ -418,7 +430,7 @@ const AddEditForm = () => {
                   </CardHeaderToolbar>
                 </CardHeader>
                 <CardBody>
-                  {disabled && <Loading />}
+                  {isLoading && <Loading />}
                   {// Akij Ready Mix Concrete Ltd & Blue Pill Limited & Akij Cement Company Ltd
                   [175, 186, 4, 94, 8, 138]?.includes(buId) ? (
                     <FormOne
@@ -438,6 +450,14 @@ const AddEditForm = () => {
                         setChannelId,
                         selectedAll,
                         allSelect,
+                        customerList,
+                        getCustomerList,
+                        SOList,
+                        getSOList,
+                        getRowsBySO,
+                        getSOInfo,
+                        setCustomerList,
+                        setSOList,
                         // setCustomerType,
                       }}
                     />
