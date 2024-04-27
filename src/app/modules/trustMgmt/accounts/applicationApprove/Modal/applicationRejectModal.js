@@ -3,7 +3,7 @@ import React from "react";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import { toast } from "react-toastify";
 import TextArea from "../../../../_helper/TextArea";
-import { useDispatch } from "react-redux";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 
@@ -17,8 +17,15 @@ export const ApplicationRejectModal = ({
   setisRejectodal,
   filterObj,
 }) => {
+
+  const {profileData} = useSelector(
+    (state) => state?.authData,
+    shallowEqual
+  );
+
   // eslint-disable-next-line no-unused-vars
   const [landingData, getRejectData] = useAxiosGet();
+
 
   const getLadingData = (
     name,
@@ -112,7 +119,7 @@ export const ApplicationRejectModal = ({
                                 "",
                                 "",
                                 "",
-                                "",
+                                profileData?.userId,
                                 2,
                                 singleData?.intApplicationID,
                                 values?.reason

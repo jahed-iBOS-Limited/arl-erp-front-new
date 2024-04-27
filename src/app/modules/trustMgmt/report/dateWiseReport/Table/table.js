@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import IView from "../../../../_helper/_helperIcons/_view";
@@ -6,14 +6,21 @@ import numberWithCommas from "../../../../_helper/_numberWithCommas";
 import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
 import AttachmentUploaderNew from "../../../../_helper/attachmentUploaderNew";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import IViewModal from "../../../../_helper/_viewModal";
+import { AwaitingAuditModal } from "./awaitingAuditModal";
 
-export const DateWiseReportTable = ({ landingData }) => {
+export const DateWiseReportTable = ({ landingData, filterObj }) => {
   const [, uploadFile] = useAxiosPost();
   const dispatch = useDispatch();
   let totalAmount = landingData?.reduce(
     (sum, data) => sum + data?.monAmount,
     0
   );
+
+  const[awaitingAuditState, setAwaitingAuditState] = useState({
+    data: {},
+    isShowModal: false,
+  });
 
   const handleUploadAttachment = (file, applicationId) => {
     const url = `/hcm/TrustManagement/UpdateDonationApplicationAttachmentById`;
@@ -90,7 +97,17 @@ export const DateWiseReportTable = ({ landingData }) => {
                           <td>{item?.strAccountHolderName}</td>
                           <td className="text-center">{item?.strAccountNo}</td>
                           <td>{item?.strRemarks}</td>
-                          <td>{item?.strStatus}</td>
+                          <td>
+                          {item?.strStatus === "Awaiting Audit" ? (
+                            <button onClick={()=>{
+                              setAwaitingAuditState({data: item, isShowModal: true})
+                            }} type="button" className="btn btn-primary">
+                              {item?.strStatus}
+                            </button>
+                          ) : (
+                            item?.strStatus
+                          )}
+                        </td>
                           <td
                             style={{
                               verticalAlign: "middle",
@@ -159,6 +176,17 @@ export const DateWiseReportTable = ({ landingData }) => {
           </div>
         </div>
       </div>
+      <>
+      <IViewModal
+          show={awaitingAuditState?.isShowModal}
+          modelSize={"lg"}
+          onHide={() => {
+            setAwaitingAuditState({data:{}, isShowModal: false})
+          }}
+        >
+          <AwaitingAuditModal awaitingAuditState={awaitingAuditState} filterObj={filterObj} setAwaitingAuditState={setAwaitingAuditState}/>
+        </IViewModal>
+      </>
     </>
   );
 };
