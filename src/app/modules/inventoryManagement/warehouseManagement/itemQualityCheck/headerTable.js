@@ -9,7 +9,8 @@ import { headerTableHeaders } from "./helper";
 import ItemTable from "./itemTable";
 
 export default function HeaderTable({
-  headerData,
+  parentData,
+  grandParentIndex,
   handleGetEntryCode,
   handleGateEntryHandler,
   handleUnloadDeduct,
@@ -25,7 +26,7 @@ export default function HeaderTable({
 }) {
   return (
     <CommonTable headersData={headerTableHeaders}>
-      {headerData?.map((item, parentIndex) => {
+      {parentData?.map((item, parentIndex) => {
         return (
           <TableTbody
             key={parentIndex}

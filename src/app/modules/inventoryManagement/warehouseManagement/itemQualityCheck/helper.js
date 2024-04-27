@@ -6,10 +6,16 @@ export const headerTableHeaders = [
   "Address",
   "Item Name",
   "UOM",
-  "Gate Entry",
+  
+  {
+    title: "Gate Entry",
+    style: { maxWidth: "80px" },
+  },
   "Vehicle No",
   "Net Weight",
-  "Deduct %",
+  "QC Qty Beg",
+  "QC Qty",
+  "Total QC Qty",
   "Deduct Qty",
   {
     title: "Unload Time Deduct",
@@ -35,7 +41,11 @@ export const gateEntry = async (buId, entryCode) => {
     const api = `/mes/QCTest/GetVehicleGateEntryInformation?businessUnitId=${buId}&GateEntryCode=${entryCode}`;
 
     const response = await axios.get(api);
+      response.data.qcQtyBeg = 0;
+      response.data.qcQty = 0;
+      response.data.totalQcQty = 0;
       response.data.deductionQuantity = 0;
+      response.data.unloadDeductionQuantity = 0;
       response.data.actualQuantity = 0
       return response.data
   } catch (error) {
