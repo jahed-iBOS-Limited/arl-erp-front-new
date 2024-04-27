@@ -6,7 +6,7 @@ import IViewModal from "../../../../_helper/_viewModal";
 import DeliveryReport from "./deliveryReport/table";
 
 export const FormOneTable = ({ obj }) => {
-  const { rowDto, buId, allSelect, selectedAll, rowDtoHandler } = obj;
+  const { rowDto, buId, allSelect, selectedAll, rowDtoHandler, values } = obj;
 
   return (
     <>
@@ -19,7 +19,7 @@ export const FormOneTable = ({ obj }) => {
               />
             ) : (
               <TableTwo
-                obj={{ allSelect, selectedAll, rowDto, rowDtoHandler }}
+                obj={{ allSelect, selectedAll, rowDto, rowDtoHandler, values }}
               />
             )}
           </div>
@@ -141,7 +141,7 @@ const TableOne = ({ obj }) => {
 };
 
 const TableTwo = ({ obj }) => {
-  const { allSelect, selectedAll, rowDto, rowDtoHandler } = obj;
+  const { allSelect, selectedAll, rowDto, rowDtoHandler, values } = obj;
   const [isDeliveryReportModal, setIsDeliveryReportModal] = useState(false);
   const [selectedItem, setSelectedItem] = useState({});
 
@@ -168,7 +168,7 @@ const TableTwo = ({ obj }) => {
               />
             </th>
             <th style={{ width: "45px" }}>SL</th>
-            <th>Delivery Order</th>
+            {values?.invoiceType?.value === 1 && <th>Delivery Order</th>}
             <th>Challan No</th>
             <th>Challan Date</th>
             <th>Primary Qty</th>
@@ -213,7 +213,9 @@ const TableTwo = ({ obj }) => {
                   />
                 </td>
                 <td className="text-center">{index + 1}</td>
-                <td className="ml-2">{item?.orderCode}</td>
+                {values?.invoiceType?.value === 1 && (
+                  <td className="ml-2">{item?.orderCode}</td>
+                )}
                 <td className="ml-2">
                   <span
                     style={{
@@ -249,7 +251,7 @@ const TableTwo = ({ obj }) => {
             );
           })}
           <tr style={{ fontWeight: "bold", textAlign: "right" }}>
-            <td colSpan={5}> Total </td>
+            <td colSpan={values?.invoiceType?.value === 1 ? 5 : 4}> Total </td>
             <td>{_fixedPoint(grandTotalDeliveredQty, true)}</td>
             <td>{_fixedPoint(grandTotalAmount, true)}</td>
             <td>{_fixedPoint(totalReturnQty, true)}</td>
@@ -265,8 +267,8 @@ const TableTwo = ({ obj }) => {
         <IViewModal
           show={isDeliveryReportModal}
           onHide={() => {
-            setIsDeliveryReportModal(false)
-            setSelectedItem({})
+            setIsDeliveryReportModal(false);
+            setSelectedItem({});
           }}
         >
           <DeliveryReport id={selectedItem?.deliveryId} />
