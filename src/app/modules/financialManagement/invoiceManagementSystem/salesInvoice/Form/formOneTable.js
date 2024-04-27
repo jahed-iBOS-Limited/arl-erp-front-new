@@ -4,9 +4,18 @@ import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import { _fixedPoint } from "../../../../_helper/_fixedPoint";
 import IViewModal from "../../../../_helper/_viewModal";
 import DeliveryReport from "./deliveryReport/table";
+import { ChallanListTable } from "./challanListTable";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import { shallowEqual, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import Loading from "../../../../_helper/_loading";
 
 export const FormOneTable = ({ obj }) => {
-  const { rowDto, buId, allSelect, selectedAll, rowDtoHandler, values } = obj;
+  const { rowDto, allSelect, selectedAll, rowDtoHandler, values } = obj;
+  const {
+    profileData: { accountId: accId },
+    selectedBusinessUnit: { value: buId },
+  } = useSelector((state) => state?.authData, shallowEqual);
 
   return (
     <>
@@ -19,7 +28,15 @@ export const FormOneTable = ({ obj }) => {
               />
             ) : (
               <TableTwo
-                obj={{ allSelect, selectedAll, rowDto, rowDtoHandler, values }}
+                obj={{
+                  allSelect,
+                  selectedAll,
+                  rowDto,
+                  rowDtoHandler,
+                  values,
+                  accId,
+                  buId,
+                }}
               />
             )}
           </div>
@@ -141,9 +158,19 @@ const TableOne = ({ obj }) => {
 };
 
 const TableTwo = ({ obj }) => {
-  const { allSelect, selectedAll, rowDto, rowDtoHandler, values } = obj;
+  const {
+    allSelect,
+    selectedAll,
+    rowDto,
+    rowDtoHandler,
+    values,
+    accId,
+    buId,
+  } = obj;
   const [isDeliveryReportModal, setIsDeliveryReportModal] = useState(false);
   const [selectedItem, setSelectedItem] = useState({});
+  const [open, setOpen] = useState(false);
+  const [challanList, getChallanList, loading] = useAxiosGet();
 
   let grandTotalDeliveredQty = 0,
     grandTotalAmount = 0,
@@ -152,8 +179,22 @@ const TableTwo = ({ obj }) => {
     totalSalesAmount = 0,
     totalNetQty = 0;
 
+  const getChallanBySO = (item) => {
+    getChallanList(
+      `/wms/ShopBySales/GetDeliveryInfoBasedOnSalesOrder?accountId=${accId}&businessUnitId=${buId}&salesOrderId=${item?.orderId}`,
+      (resData) => {
+        if (resData?.length > 0) {
+          setOpen(true);
+        } else {
+          toast.warn("Data not found");
+        }
+      }
+    );
+  };
+
   return (
     <>
+      {loading && <Loading />}
       <table className="global-table table">
         <thead>
           <tr onClick={() => allSelect(!selectedAll())}>
@@ -214,7 +255,22 @@ const TableTwo = ({ obj }) => {
                 </td>
                 <td className="text-center">{index + 1}</td>
                 {values?.invoiceType?.value === 1 && (
-                  <td className="ml-2">{item?.orderCode}</td>
+                  <td className="ml-2">
+                    <span
+                      style={{
+                        borderBottom: "1px solid blue",
+                        cursor: "pointer",
+                        color: "blue",
+                      }}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setSelectedItem(item);
+                        getChallanBySO(item);
+                      }}
+                    >
+                      {item?.orderCode}
+                    </span>
+                  </td>
                 )}
                 <td className="ml-2">
                   <span
@@ -275,6 +331,16 @@ const TableTwo = ({ obj }) => {
         </IViewModal>
       )}
       {}
+      <IViewModal
+        title={`Challan List, SO: ${selectedItem?.orderCode}`}
+        show={open}
+        onHide={() => {
+          setOpen(false);
+          setSelectedItem({});
+        }}
+      >
+        <ChallanListTable obj={{ values, challanList }} />
+      </IViewModal>
     </>
   );
 };
