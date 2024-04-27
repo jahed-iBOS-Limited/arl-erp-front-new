@@ -200,6 +200,12 @@ function FormOne({ propsObj }) {
                       setFieldValue("projectLocation", location);
                     }
                   );
+                  getSOInfo(
+                    `/wms/CommercialInvoice/GetPartnerInfoByOrder?OrderId=${valueOption?.value}`,
+                    (resData) => {
+                      setFieldValue("refNumber", resData?.partnerRefferenceNo);
+                    }
+                  );
                   setRowDto([]);
                 }}
                 placeholder="Sales Order"
@@ -278,6 +284,23 @@ function FormOne({ propsObj }) {
               setFieldValue("ait", valueOption);
             }}
             placeholder="AIT"
+            errors={errors}
+            touched={touched}
+          />
+        </div>
+        <div className="col-lg-3">
+          <NewSelect
+            name="vat"
+            options={[
+              { value: true, label: "Include" },
+              { value: false, label: "Exclude" },
+            ]}
+            value={values?.vat}
+            label="VAT"
+            onChange={(valueOption) => {
+              setFieldValue("vat", valueOption);
+            }}
+            placeholder="VAT"
             errors={errors}
             touched={touched}
           />
