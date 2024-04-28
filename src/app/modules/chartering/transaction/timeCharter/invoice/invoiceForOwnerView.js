@@ -8,6 +8,11 @@ import {
   _formatMoney,
   _formatMoneyWithDoller,
 } from "../../../_chartinghelper/_formatMoney";
+// import akijResourceLogo from "../../../_chartinghelper/assets/images/logos/akij-resource.png";
+// import akijShippingLogo from "../../../_chartinghelper/assets/images/logos/shipping.png";
+// import Envelope from "../../../_chartinghelper/assets/images/social/envelope.svg";
+// import Internet from "../../../_chartinghelper/assets/images/social/internet.svg";
+// import WhatsApp from "../../../_chartinghelper/assets/images/social/whatsapp.svg";
 import { ExportPDF } from "../../../_chartinghelper/exportPdf";
 import letterhead from "../../assets/images/shipping_line_pte_letterhead.jpeg";
 import { getOwnerBankInfoDetailsById } from "../helper";
@@ -96,6 +101,7 @@ export default function InvoiceForOwnerView({
         {/* <div className="timeCharterLogo">
           <img src={akijShippingLogo} alt={akijShippingLogo} />
         </div> */}
+       
         <div style={{ margin: "0 40px" }}>
           <h5
             className="text-center uppercase mb-4 statementTitle"
@@ -318,6 +324,7 @@ export default function InvoiceForOwnerView({
 
           {/* Bank Info Section */}
           <BankInfoComponent data={bankInfoData} />
+         
         </div>
       </div>
     </>
