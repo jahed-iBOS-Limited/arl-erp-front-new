@@ -53,6 +53,7 @@ import ShipperLandingAndForm from "./voyage/shipper/table/table";
 import VoyageTable from "./voyage/table/table";
 import { VoyageChecklist } from "./voyageChecklist";
 import { VoyageChecklistDetails } from "./voyageChecklist/components/voyageChecklistDetails";
+import PortDistanceReport from "./reports/portDistance";
 
 export function CharteringPages() {
   const [state, setState] = useState(CharteringState);
@@ -349,6 +350,10 @@ export function CharteringPages() {
         <Route
           path="/chartering/report/certificateDue"
           component={CertificateManagementReport}
+        />
+         <Route
+          path="/chartering/report/PortDistance"
+          component={PortDistanceReport}
         />
 
         {/* ======== Reports ======== */}
