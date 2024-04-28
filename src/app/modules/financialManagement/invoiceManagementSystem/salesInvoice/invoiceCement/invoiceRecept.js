@@ -143,11 +143,13 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
                   <th style={{ width: "90px", ...getStyle }}>Delivery Date</th>
                   <th style={getStyle}>Challan No.</th>
                   <th style={getStyle}>{`${
-                    channelId === 43 ? "Primary Qty" : "Qty (Bag)"
+                    channelId === 43 ? "Primary Qty" : "Qty"
                   }`}</th>
                   {channelId === 43 && <th style={getStyle}>Net Qty</th>}
+                  <th style={getStyle}>UoM</th>
                   <th style={{ ...getStyle, width: "90px" }}>
-                    Unit Price (TK/{`${channelId === 43 ? "M.T" : "Bag"}`})
+                    {/* Unit Price (TK/{`${channelId === 43 ? "M.T" : "Bag"}`}) */}
+                    Unit Price (TK)
                   </th>
                   <th style={getStyle}>Total Amount</th>
                 </tr>
@@ -175,6 +177,8 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
                       {channelId === 43 && (
                         <td className="text-right">{item?.netQty}</td>
                       )}
+                      <td className="text-right">{item?.uom}</td>
+
                       <td className="text-right" style={{ width: "60px" }}>
                         {item?.itemRate}
                       </td>
