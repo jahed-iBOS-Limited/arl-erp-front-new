@@ -2,16 +2,20 @@ import moment from "moment";
 import React, { useEffect, useRef, useState } from "react";
 import ReactToPrint from "react-to-print";
 import { ToWords } from "to-words";
-import akijShippingLogo from "../../../_chartinghelper/assets/images/logos/akijShippingText.svg";
+import Loading from "../../../../_helper/_loading";
 import {
   _formatMoney,
   _formatMoneyWithDoller,
 } from "../../../_chartinghelper/_formatMoney";
+import akijResourceLogo from "../../../_chartinghelper/assets/images/logos/akij-resource.png";
+import akijShippingLogo from "../../../_chartinghelper/assets/images/logos/shipping.png";
+import Envelope from "../../../_chartinghelper/assets/images/social/envelope.svg";
+import Internet from "../../../_chartinghelper/assets/images/social/internet.svg";
+import WhatsApp from "../../../_chartinghelper/assets/images/social/whatsapp.svg";
+import { ExportPDF } from "../../../_chartinghelper/exportPdf";
 import { getOwnerBankInfoDetailsById } from "../helper";
 import { BankInfoComponent } from "./bankInfoComponent";
 import "./style.css";
-import { ExportPDF } from "../../../_chartinghelper/exportPdf";
-import Loading from "../../../../_helper/_loading";
 
 const toWords = new ToWords({
   localeCode: "en-US",
@@ -78,9 +82,52 @@ export default function InvoiceForOwnerView({
           Export PDF
         </button>
       </div>
-      <div ref={printRef} className="p-4 transactionInvoice"  id="pdf-section">
-        <div className="timeCharterLogo">
-          <img src={akijShippingLogo} alt={akijShippingLogo} />
+      <div ref={printRef} className="p-4 transactionInvoice" id="pdf-section">
+        <div className="d-flex" style={{ justifyContent: "space-between" }}>
+          <div>
+            <div>
+              <img
+                src={WhatsApp}
+                alt={WhatsApp}
+                width="15px"
+                height="15px"
+                style={{ marginRight: "5px" }}
+              />
+              +08000555777
+            </div>
+            <div>
+              <img
+                src={Internet}
+                alt={Internet}
+                style={{ marginRight: "5px" }}
+                width="15px"
+                height="15px"
+              />{" "}
+              www.akijshipping.com
+            </div>
+            <div>
+              <img
+                src={Envelope}
+                alt={Envelope}
+                style={{ marginRight: "5px" }}
+                width="15px"
+                height="15px"
+              />{" "}
+              info@akijshipping.com
+            </div>
+          </div>
+          <div className="timeCharterLogo d-flex" style={{ gap: "px" }}>
+            {/* <img src={akijShippingLogo} alt={akijShippingLogo} /> */}
+            <img
+              src={akijShippingLogo}
+              alt={akijShippingLogo}
+              style={{ display: "block" }}
+            />
+            <div>
+              <p style={{ fontSize: "36px",marginBottom:"-12px",color:"#0d8de7",fontStyle:"oblique" }}>AKIJ</p>
+              <p style={{ fontSize: "26px",color:"#0d8de7",marginTop:"-3px" }}>Shipping</p>
+            </div>
+          </div>
         </div>
         <h5 className="text-center uppercase mb-4 statementTitle">
           {values?.transactionName?.label || invoiceHireData?.transactionName}{" "}
@@ -298,6 +345,22 @@ export default function InvoiceForOwnerView({
 
         {/* Bank Info Section */}
         <BankInfoComponent data={bankInfoData} />
+        <hr  style={{marginTop:"80px"}} />
+        <div style={{ justifyContent: "space-between" }} className="d-flex">
+          <div>
+           <p style={{marginBottom:"-5px"}}> <strong style={{fontSize:"16px",color:"#0d8de7"}}>AKIJ SHIPPING LINES PTE LTD</strong></p>
+            <div>
+              <small>
+                <strong >Singapore Office:</strong>Singapore Land Tower,50
+                Raffles Place
+              </small>
+              <small style={{display:"block",marginTop:"-3px"}}>Level 19, Room-08, Singapore 048623.</small>
+            </div>
+          </div>
+          <div>
+            <img src={akijResourceLogo} alt="akijResourceLogo" />
+          </div>
+        </div>
       </div>
     </>
   );
