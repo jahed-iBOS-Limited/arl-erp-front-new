@@ -17,7 +17,7 @@ import { getDistributionChannelDDL_api } from "../../../../transportManagement/r
 import {
   createSalesInvoiceNew,
   getEmployeeList,
-  getInvoiceDataByDate,
+  // getInvoiceDataByDate,
 } from "../helper";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import InvoiceReceptForCement from "../invoiceCement/invoiceRecept";
@@ -39,7 +39,7 @@ const invoiceInitData = {
   remarks: "",
   particulars: "",
   customerType: "",
-  invoiceType: { value: 1, label: "Date Range Base" },
+  invoiceType: { value: 2, label: "SO Base" },
 };
 
 const validationSchema = Yup.object().shape({});
@@ -82,20 +82,58 @@ const SalesInvoiceForm = () => {
     handleInvoicePrintCement,
   } = useCementInvoicePrintHandler();
 
+  const getCustomers = (values) => {
+    getCustomerList(
+      `/oms/OManagementReport/GetCustomerAndSalesOrder?businessUnitId=${buId}&channelId=${values?.distributionChannel?.value}&soldToPartnerId=0&fromDate=${values?.fromDate}&toDate=${values?.toDate}`,
+      (resData) => {
+        const modifiedData = resData?.map((item) => {
+          return {
+            ...item,
+            value: item?.soldToPartnerId,
+            label: `${item?.soldToPartnerName} [${item?.soldToPartnerCode}]`,
+            name: item?.soldToPartnerName,
+          };
+        });
+        setCustomerList(modifiedData);
+      }
+    );
+  };
+
   useEffect(() => {
     if (state?.intChannelId) {
-      getInvoiceDataByDate(
-        accId,
-        buId,
-        state?.fromDate,
-        state?.toDate,
-        state?.intPartnerId,
-        "",
-        "",
-        setDisabled,
-        setRowDto
+      getCustomers({
+        ...state,
+        distributionChannel: {
+          value: state?.intChannelId,
+        },
+      });
+
+      getSOList(
+        `/oms/OManagementReport/GetCustomerAndSalesOrder?businessUnitId=${buId}&channelId=${state?.intChannelId}&soldToPartnerId=${state?.intPartnerId}&fromDate=${state?.fromDate}&toDate=${state?.toDate}`,
+        (resData) => {
+          const modifiedData = resData?.map((item) => {
+            return {
+              ...item,
+              value: item?.salesOrderId,
+              label: item?.salesOrderCode,
+            };
+          });
+          setSOList(modifiedData);
+        }
       );
+      // getInvoiceDataByDate(
+      //   accId,
+      //   buId,
+      //   state?.fromDate,
+      //   state?.toDate,
+      //   state?.intPartnerId,
+      //   "",
+      //   "",
+      //   setDisabled,
+      //   setRowDto
+      // );
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accId, buId, state]);
 
   const allSelect = (value) => {
@@ -138,7 +176,7 @@ const SalesInvoiceForm = () => {
           totalAmount: item?.totalAmount,
           orderNumber: item?.orderNumber,
           customerId: values?.customer?.value,
-          customerName: values?.customer?.label,
+          customerName: values?.customer?.name,
           referance: values?.refNumber,
           projLocation: values?.projectLocation,
           strInvoiceNo: values?.invoiceNo,
@@ -197,6 +235,7 @@ const SalesInvoiceForm = () => {
             ? {
                 value: state?.intPartnerId,
                 label: state?.strPartnerName,
+                name: state?.strPartnerName,
               }
             : "",
           fromDate: state?.fromDate,
@@ -259,6 +298,7 @@ const SalesInvoiceForm = () => {
                       getSOInfo,
                       setCustomerList,
                       setSOList,
+                      getCustomers,
                     }}
                   />
                 </CardBody>
