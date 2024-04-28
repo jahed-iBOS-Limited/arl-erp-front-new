@@ -67,4 +67,7 @@
   .bank-details {
     width: 100%;
   }
+  .statementTitle {
+    margin-top: 120px;
+  }
 }
