@@ -16,15 +16,16 @@ export const getSalesInvoiceLanding = async (
 ) => {
   setLoading(true);
   const searchTerm = search ? `&search=${search}` : "";
-  const commonURL = `/wms/CommercialInvoice/GetCommercialInvoiceLanding?AccountId=${accId}&BusinessUnitId=${buId}&FromDate=${fromDate}&Todate=${toDate}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=asc&channelId=${channelId}`;
+  // const commonURL = `/wms/CommercialInvoice/GetCommercialInvoiceLanding?AccountId=${accId}&BusinessUnitId=${buId}&FromDate=${fromDate}&Todate=${toDate}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=asc&channelId=${channelId}`;
 
   const urlForSomeSelectedUnit = `/oms/OManagementReport/GetSalesInvoiceLanding?BusinessunitId=${buId}&FromDate=${fromDate}&ToDate=${toDate}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc${searchTerm}&channelId=${channelId}`;
 
   try {
     const res = await axios.get(
-      [186, 175, 4, 94, 8, 138].includes(buId)
-        ? urlForSomeSelectedUnit
-        : commonURL
+      // [186, 175, 4, 94, 8, 138].includes(buId)
+      //   ? urlForSomeSelectedUnit
+      //   : commonURL
+      urlForSomeSelectedUnit
     );
     setLoading(false);
     setter(res?.data);
@@ -195,6 +196,30 @@ export const createSalesInvoice = async (
         : readyMix,
       payload
     );
+    if (res?.status === 200) {
+      setDisabled(false);
+      setter(res?.data);
+      toast.success(res?.data?.message);
+      cb();
+    }
+  } catch (error) {
+    toast.error(error?.response?.data?.message);
+    setDisabled(false);
+  }
+};
+
+export const createSalesInvoiceNew = async (
+  payload,
+  setDisabled,
+  setter,
+  cb
+) => {
+  try {
+    setDisabled(true);
+
+    const api = `/oms/OManagementReport/CreateSalesInvoiceByCustomer`;
+
+    const res = await axios.post(api, payload);
     if (res?.status === 200) {
       setDisabled(false);
       setter(res?.data);
