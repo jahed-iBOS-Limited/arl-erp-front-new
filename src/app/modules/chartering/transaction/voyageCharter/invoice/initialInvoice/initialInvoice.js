@@ -172,7 +172,7 @@ function InitialInvoice({ invoiceHireData, formikprops, rowData, setRowData }) {
         {/* <div className="timeCharterLogo">
           <img src={akijShippingLogo} alt={akijShippingLogo} />
         </div> */}
-        <div style={{ margin: "0 40px" }}>
+        <div style={{ margin: "0 30px" }}>
           {" "}
           <h5
             style={{ marginBottom: "3rem" }}
