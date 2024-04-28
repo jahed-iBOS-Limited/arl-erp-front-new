@@ -92,7 +92,8 @@ export default function ManpowerSalesTargetForm() {
         [1, 3]?.includes(values?.type?.value) ? 8 : 6,
         values?.channel?.value,
         setRowData,
-        setLoading
+        setLoading,
+        values?.area?.value
       );
     } else if ([4].includes(values?.type?.value)) {
       setRowData(

@@ -4,10 +4,10 @@ import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
 import TextArea from "../../../../_helper/TextArea";
 import InputField from "../../../../_helper/_inputField";
 import NewSelect from "../../../../_helper/_select";
-import { getInvoiceDataByDate } from "../helper";
-import { FormOneTable } from "./formOneTable";
 import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
-function FormOne({ propsObj }) {
+import { getInvoiceDataByDate } from "../helper";
+import { SalesInvoiceFormTable } from "./table";
+function Form({ propsObj }) {
   const {
     distributionChannelDDL,
     values,
@@ -32,7 +32,6 @@ function FormOne({ propsObj }) {
     getSOInfo,
     setCustomerList,
     setSOList,
-    // setCustomerType,
   } = propsObj;
 
   const getCustomers = (values) => {
@@ -96,6 +95,7 @@ function FormOne({ propsObj }) {
             label="Distribution Channel"
             onChange={(valueOption) => {
               setFieldValue("distributionChannel", valueOption);
+
               setFieldValue("customer", "");
               setChannelId(valueOption?.value);
               setRowDto([]);
@@ -109,27 +109,6 @@ function FormOne({ propsObj }) {
           />
         </div>
 
-        {[8].includes(buId) && (
-          <div className="col-lg-3">
-            <NewSelect
-              name="customerType"
-              options={[
-                { value: 1, label: "In House Customer" },
-                { value: 2, label: "Out Customer" },
-              ]}
-              value={values?.customerType}
-              label="Customer Type"
-              onChange={(valueOption) => {
-                setFieldValue("customerType", valueOption);
-                setFieldValue("customer", "");
-                setRowDto([]);
-              }}
-              placeholder="Customer Type"
-              errors={errors}
-              touched={touched}
-            />
-          </div>
-        )}
         {values?.invoiceType?.value === 1 && (
           <div className="col-lg-3">
             <div>
@@ -219,20 +198,6 @@ function FormOne({ propsObj }) {
           </>
         )}
 
-        {[8].includes(buId) && (
-          <div className="col-lg-3">
-            <InputField
-              label="Particulars"
-              value={values?.particulars}
-              name="particulars"
-              placeholder="Particulars"
-              onChange={(e) => {
-                setFieldValue("particulars", e?.target?.value);
-              }}
-              type="text"
-            />
-          </div>
-        )}
         <div className="col-lg-3">
           <InputField
             value={values?.refNumber}
@@ -260,19 +225,6 @@ function FormOne({ propsObj }) {
           />
         </div>
 
-        {/* Invoice will auto generate */}
-        {/* <div className="col-lg-3">
-          <label>Invoice Number</label>
-          <InputField
-            value={values?.invoiceNo}
-            name="invoiceNo"
-            placeholder="Invoice No"
-            onChange={(e) => {
-              setFieldValue("invoiceNo", e.target.value);
-            }}
-            type="text"
-          />
-        </div> */}
         <div className="col-lg-3">
           <NewSelect
             name="ait"
@@ -307,76 +259,64 @@ function FormOne({ propsObj }) {
             touched={touched}
           />
         </div>
-        {[4, 186, 138]?.includes(buId) && (
-          <>
-            <div className="col-lg-3">
-              <NewSelect
-                name="soldBy"
-                options={employeeList || []}
-                value={values?.soldBy}
-                label="Sold By"
-                onChange={(valueOption) => {
-                  setFieldValue("soldBy", valueOption);
-                }}
-                placeholder="Sold By"
-                errors={errors}
-                touched={touched}
-              />
-            </div>
-            <div className="col-lg-3">
-              <NewSelect
-                name="salesOrderCreatedBy"
-                options={employeeList || []}
-                value={values?.salesOrderCreatedBy}
-                label="Sales Order Created By"
-                onChange={(valueOption) => {
-                  setFieldValue("salesOrderCreatedBy", valueOption);
-                }}
-                placeholder="Sales Order Created By"
-                errors={errors}
-                touched={touched}
-              />
-            </div>
-            <div className="col-lg-3">
-              <NewSelect
-                name="paymentTerms"
-                options={[
-                  { value: 1, label: "Cash" },
-                  { value: 2, label: "Credit" },
-                  { value: 3, label: "Both" },
-                ]}
-                value={values?.paymentTerms}
-                label="Payment Term"
-                onChange={(valueOption) => {
-                  setFieldValue("paymentTerms", valueOption);
-                }}
-                placeholder="Payment Term"
-                errors={errors}
-                touched={touched}
-              />
-            </div>
-            {/* <div className="col-lg-3">
-              <InputField
-                label="Payment Terms"
-                value={values?.paymentTerms}
-                name="paymentTerms"
-                placeholder="Payment Terms"
-                type="text"
-              />
-            </div> */}
-            <div className="col-lg-3 mt-3">
-              <label>Remarks</label>
-              <TextArea
-                name="remarks"
-                value={values?.remarks || ""}
-                label="Remarks"
-                placeholder="Remarks"
-                touched={touched}
-                rows="3"
-              />
-            </div>
-          </>
-        )}
+        <div className="col-lg-3">
+          <NewSelect
+            name="soldBy"
+            options={employeeList || []}
+            value={values?.soldBy}
+            label="Sold By"
+            onChange={(valueOption) => {
+              setFieldValue("soldBy", valueOption);
+            }}
+            placeholder="Sold By"
+            errors={errors}
+            touched={touched}
+          />
+        </div>
+        <div className="col-lg-3">
+          <NewSelect
+            name="salesOrderCreatedBy"
+            options={employeeList || []}
+            value={values?.salesOrderCreatedBy}
+            label="Sales Order Created By"
+            onChange={(valueOption) => {
+              setFieldValue("salesOrderCreatedBy", valueOption);
+            }}
+            placeholder="Sales Order Created By"
+            errors={errors}
+            touched={touched}
+          />
+        </div>
+        <div className="col-lg-3">
+          <NewSelect
+            name="paymentTerms"
+            options={[
+              { value: 1, label: "Cash" },
+              { value: 2, label: "Credit" },
+              { value: 3, label: "Both" },
+            ]}
+            value={values?.paymentTerms}
+            label="Payment Term"
+            onChange={(valueOption) => {
+              setFieldValue("paymentTerms", valueOption);
+            }}
+            placeholder="Payment Term"
+            errors={errors}
+            touched={touched}
+          />
+        </div>
+
+        <div className="col-lg-3 mt-3">
+          <label>Remarks</label>
+          <TextArea
+            name="remarks"
+            value={values?.remarks || ""}
+            label="Remarks"
+            placeholder="Remarks"
+            touched={touched}
+            rows="3"
+          />
+        </div>
         <div className="col-lg-3 mt-5">
           <button
             onClick={() => {
@@ -409,11 +349,11 @@ function FormOne({ propsObj }) {
           </button>
         </div>
       </div>
-      <FormOneTable
+      <SalesInvoiceFormTable
         obj={{ rowDto, buId, allSelect, selectedAll, rowDtoHandler, values }}
       />
     </>
   );
 }
 
-export default FormOne;
+export default Form;
