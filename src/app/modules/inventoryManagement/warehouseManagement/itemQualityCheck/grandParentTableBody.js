@@ -1,5 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
+import { toast } from "react-toastify";
 import IAdd from "../../../_helper/_helperIcons/_add";
+import IDelete from "../../../_helper/_helperIcons/_delete";
+import NewIcon from "../../../_helper/_helperIcons/newIcon";
+import IViewModal from "../../../_helper/_viewModal";
+import CommentModal from "./commentModal";
 import HeaderTable from "./headerTable";
 
 export default function GrandParentTableBody({
@@ -9,14 +14,22 @@ export default function GrandParentTableBody({
   handleGateEntryHandler,
   handleQcQtyBeg,
   handleQcQty,
-  handleAdd
+  handleAdd,
+  handleStatus,
+  handleHeaderRowDelete,
+  handleWarehouseComment
 }) {
+  const [isShowModal, setShowModal] = useState(false);
   return (
     <tbody>
       <tr>
         <td className="text-center">
           <span
           onClick={()=>{
+            if(!grandParentItem?.vehicleNo){
+              toast.warn("Input Gate Entry First")
+              return
+            }
             handleAdd(grandParentIndex,grandParentItem)
           }}
           >
@@ -43,10 +56,10 @@ export default function GrandParentTableBody({
           />
         </td>
         <td className="text-center">
-          {grandParentItem?.vehicleNo ? grandParentItem?.netWeight : ""}
+          {grandParentItem?.vehicleNo ? grandParentItem?.vehicleNo: ""}
         </td>
         <td className="text-center">
-          {grandParentItem?.vehicleNo ? grandParentItem?.vehicleNo : ""}
+          {grandParentItem?.vehicleNo ? grandParentItem?.netWeight : ""}
         </td>
         <td className="text-center">
           {grandParentItem?.vehicleNo ? (
@@ -82,39 +95,55 @@ export default function GrandParentTableBody({
             : 0 || ""}
         </td>
         <td className="text-center">
-          {grandParentItem?.entryCode ? grandParentItem?.deductionQuantity : ""}
+          {grandParentItem?.entryCode ? grandParentItem?.deductionQuantity : 0}
         </td>
         <td className="text-center">
-          {grandParentItem?.entryCode ? grandParentItem?.unloadTimeDeduct : ""}
+          {grandParentItem?.entryCode ? grandParentItem?.unloadDeductionQuantity : 0}
         </td>
         <td className="text-center">
-        {grandParentItem?.entryCode ? grandParentItem?.actualQty : ""}
+        {grandParentItem?.entryCode ? grandParentItem?.actualQuantity : 0}
+        </td>
+        <td className="text-center">
+          {grandParentItem?.vehicleNo ? (
+            <select
+              value={grandParentItem?.status}
+              onChange={(e) => handleStatus(e, grandParentIndex)}
+            >
+              <option value={true}>Receive</option>
+              <option value={false}>Reject</option>
+            </select>
+          ) : (
+            ""
+          )}
+        </td>
+        <td style={{ gap: "5px",border:"none",marginTop:"5px" }} className="text-center d-flex">
+          <span onClick={()=>handleHeaderRowDelete(grandParentIndex)}>
+            <IDelete />
+          </span>
+          <span onClick={() => setShowModal(true)}>
+            <NewIcon iconName={"fa fa-commenting"} />
+          </span>
         </td>
       </tr>
       {grandParentItem?.headersList?.length>0 && (
         <tr>
-          <td colSpan={15}>
+          <td colSpan={17}>
             <HeaderTable
               parentData={grandParentItem?.headersList}
-              grandParentIndex={grandParentItem?.headersList} 
-            //   actualValueHandler={actualValueHandler}
-            //   handleManualDeduction={handleManualDeduction}
-            //   handleRemarks={handleRemarks}
-            //   handleRowItemDelete={handleRowItemDelete}
-            //   totalSystemDeduction={totalSystemDeduction}
+              grandParentIndex={grandParentIndex} 
             />
           </td>
         </tr>
       )}
-      {/* {isShowModal && (
+      {isShowModal && (
         <IViewModal show={isShowModal} onHide={() => setShowModal(false)}>
           <CommentModal
-            item={item}
-            parentIndex={parentIndex}
+            item={grandParentItem}
+            parentIndex={grandParentIndex}
             handleWarehouseComment={handleWarehouseComment}
           />
         </IViewModal>
-      )} */}
+      )}
     </tbody>
   );
 }

@@ -12,7 +12,13 @@ import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import axios from "axios";
 import CommonTable from "../../../_helper/commonTable";
 import GrandParentTableBody from "./grandParentTableBody";
-import { gateEntry, headerTableHeaders } from "./helper";
+import {
+  gateEntry,
+  getRowWithItemId,
+  grandParentTableHeaders,
+  grandParentTotalSum,
+} from "./helper";
+import { QcManagementContext } from "./qcManagementContext";
 const initData = {
   po: "",
   poType: "",
@@ -47,14 +53,30 @@ export default function QualityCheckCreateForm() {
           ...item,
           deductionPercentage: 0,
           isReceived: true,
-          headersList:[]
+          headersList: [],
         }));
         setHeaderData(updatedData);
       }
     );
   };
+  const handleGetQCItemParameterConfig = async (
+    itemId,
+    grandParentIndex,
+    parentIndex
+  ) => {
+    try {
+      const rowData = await getRowWithItemId(buId, itemId);
+      const updatedHeaderData = [...headerData];
+      const parentSingleData =
+        updatedHeaderData[grandParentIndex]["headersList"][parentIndex];
+      parentSingleData.rowList = rowData;
+      setHeaderData(updatedHeaderData);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-  // grand parent handler
+  // Grand parent of First level handler
   const handleGateEntryHandler = async (code, itemId) => {
     try {
       const gateEntryObj = await gateEntry(buId, code);
@@ -70,31 +92,223 @@ export default function QualityCheckCreateForm() {
     }
   };
   const handleGetEntryCode = (e, grandParentIndex) => {
-    const updatedHeaderData = [...headerData]
-    const singleGrandParentItem = updatedHeaderData[grandParentIndex]
-    singleGrandParentItem.entryCode = e.target.value
+    const updatedHeaderData = [...headerData];
+    const singleGrandParentItem = updatedHeaderData[grandParentIndex];
+    singleGrandParentItem.entryCode = e.target.value;
     setHeaderData(updatedHeaderData);
   };
   const handleQcQtyBeg = (e, grandParentIndex) => {
-    const updatedHeaderData = [...headerData]
-    const singleGrandParentItem = updatedHeaderData[grandParentIndex]
-    singleGrandParentItem.qcQtyBeg = e.target.value
+    const updatedHeaderData = [...headerData];
+    const singleGrandParentItem = updatedHeaderData[grandParentIndex];
+    singleGrandParentItem.qcQtyBeg = +e.target.value;
     setHeaderData(updatedHeaderData);
   };
   const handleQcQty = (e, grandParentIndex) => {
-    const updatedHeaderData = [...headerData]
-    const singleGrandParentItem = updatedHeaderData[grandParentIndex]
-    singleGrandParentItem.qcQty = e.target.value
+    const updatedHeaderData = [...headerData];
+    const singleGrandParentItem = updatedHeaderData[grandParentIndex];
+    singleGrandParentItem.qcQty = +e.target.value;
+    setHeaderData(updatedHeaderData);
+  };
+  const handleAdd = (grandParentIndex, grandParentItem) => {
+    const updatedHeaderData = [...headerData];
+    const singleGrandParentItem = updatedHeaderData[grandParentIndex];
+    singleGrandParentItem.headersList = [
+      ...singleGrandParentItem?.headersList,
+      {
+        itemId: grandParentItem?.itemId,
+        itemName: grandParentItem?.itemName,
+        uomName: grandParentItem?.uomName,
+        qcQuantityBag: 0,
+        qcQuantity: 0,
+        deductionPercentage: 0,
+        deductionQuantity: 0,
+        actualQuantity: 0,
+        unloadedDeductionQuantity: 0,
+        remarks: "",
+        rowList: [],
+      },
+    ];
+    setHeaderData(updatedHeaderData);
+  };
+  const handleStatus = (e, grandParentIndex) => {
+    const updatedHeaderData = [...headerData];
+    const singleGrandParentItem = updatedHeaderData[grandParentIndex];
+    singleGrandParentItem.isReceived = e.target.value;
+    setHeaderData(updatedHeaderData);
+  };
+  const handleHeaderRowDelete = (index) => {
+    const updatedHeaderData = [...headerData];
+    updatedHeaderData.splice(index, 1);
+    setHeaderData(updatedHeaderData);
+  };
+  const handleWarehouseComment = (commentValue, item, index) => {
+    const updatedHeaderData = [...headerData];
+    updatedHeaderData[index] = { ...item, warehouseComment: commentValue };
+    setHeaderData(updatedHeaderData);
+  };
+  // Grand Parent handler finish
+
+  // Parent handler start or 2nd level table handler start
+  const handleQcQtyBegForParent = (e, grandParentIndex, parentIndex) => {
+    const updatedHeaderData = [...headerData];
+    const parentSingleData =
+      updatedHeaderData[grandParentIndex]["headersList"][parentIndex];
+    parentSingleData.qcQuantityBag = +e.target.value;
+    setHeaderData(updatedHeaderData);
+  };
+  const handleQcQtyForParent = (e, grandParentIndex, parentIndex) => {
+    const updatedHeaderData = [...headerData];
+    const grandParentSingleItem = updatedHeaderData[grandParentIndex];
+    const parentSingleData = grandParentSingleItem["headersList"][parentIndex];
+    parentSingleData.qcQuantity = +e.target.value;
+    //calculate actual value and deduction qty
+    parentSingleData.deductionPercentage = parentSingleData.rowList.reduce(
+      (acc, item) => {
+        return acc + item?.manualDeduction;
+      },
+      0
+    );
+    parentSingleData.deductionQuantity =
+      (parentSingleData.qcQuantity * parentSingleData.deductionPercentage) /
+      100;
+    parentSingleData.actualQuantity =
+      parentSingleData.qcQuantity -
+      (parentSingleData.deductionQuantity +
+        parentSingleData.unloadedDeductionQuantity);
+    const grandTotalSum = grandParentTotalSum(
+      grandParentSingleItem?.headersList
+    );
+    grandParentSingleItem.actualQuantity = grandTotalSum.actualQuantity;
+    grandParentSingleItem.deductionQuantity = grandTotalSum.deductionQuantity;
+    grandParentSingleItem.totalQcQty = grandTotalSum.qcQuantity;
+    grandParentSingleItem.unloadDeductionQuantity =
+      grandTotalSum.unloadedDeductionQuantity;
+    setHeaderData(updatedHeaderData);
+  };
+  const handleUnloadDeductForParent = (e, grandParentIndex, parentIndex) => {
+    const updatedHeaderData = [...headerData];
+    const grandParentSingleItem = updatedHeaderData[grandParentIndex];
+    const parentSingleData = grandParentSingleItem["headersList"][parentIndex];
+    parentSingleData.unloadedDeductionQuantity = +e.target.value;
+    //calculate actual value and deduction qty
+    parentSingleData.deductionPercentage = parentSingleData.rowList.reduce(
+      (acc, item) => {
+        return acc + item?.manualDeduction;
+      },
+      0
+    );
+    parentSingleData.deductionQuantity =
+      (parentSingleData.qcQuantity * parentSingleData.deductionPercentage) / 100;
+    const checkValidity =
+      parentSingleData.qcQuantity >
+      parentSingleData.deductionQuantity +
+        parentSingleData.unloadedDeductionQuantity;
+    parentSingleData.actualQuantity = checkValidity
+      ? parentSingleData.qcQuantity -
+        (parentSingleData.deductionQuantity +
+          parentSingleData.unloadedDeductionQuantity)
+      : 0;
+
+    //  total qcQty,deducQty,unloadTimeDeduct,ActualQty Calculation
+    const grandTotalSum = grandParentTotalSum(
+      grandParentSingleItem?.headersList
+    );
+    grandParentSingleItem.actualQuantity = grandTotalSum.actualQuantity;
+    grandParentSingleItem.deductionQuantity = grandTotalSum.deductionQuantity;
+    grandParentSingleItem.totalQcQty = grandTotalSum.qcQuantity;
+    grandParentSingleItem.unloadDeductionQuantity =
+      grandTotalSum.unloadedDeductionQuantity;
+    setHeaderData(updatedHeaderData);
+  };
+  const handleRemarksForParent = (e, grandParentIndex, parentIndex) => {
+    const updatedHeaderData = [...headerData];
+    const parentSingleData =
+      updatedHeaderData[grandParentIndex]["headersList"][parentIndex];
+    parentSingleData.remarks = e.target.value;
+    setHeaderData(updatedHeaderData);
+  };
+  const handleHeaderRowDeleteFromParent = (grandParentIndex, parentIndex) => {
+    const updatedHeaderData = [...headerData];
+    updatedHeaderData[grandParentIndex]["headersList"].splice(parentIndex, 1);
+    setHeaderData(updatedHeaderData);
+  };
+  // Parent handler end or 2nd level table handler end
+
+  //row Items handler start
+  const actualValueHandler = (e, grandParentIndex, parentIndex, childIndex) => {
+    const updatedHeaderData = [...headerData];
+    const childRowItem =
+      updatedHeaderData[grandParentIndex]["headersList"][parentIndex][
+        "rowList"
+      ][childIndex];
+    childRowItem.actualValue = +e.target?.value;
+    childRowItem.systemDeduction =
+      +e.target?.value > childRowItem?.standardValue
+        ? +e.target?.value - childRowItem?.standardValue
+        : 0;
+    setHeaderData(updatedHeaderData);
+  };
+  const handleManualDeduction = (
+    e,
+    grandParentIndex,
+    parentIndex,
+    childIndex
+  ) => {
+    const updatedHeaderData = [...headerData];
+    const grandParentSingleItem =updatedHeaderData[grandParentIndex]
+    const parentItem =grandParentSingleItem["headersList"][parentIndex];
+    const childRowItem = parentItem["rowList"][childIndex];
+    childRowItem.manualDeduction = +e.target?.value;
+    //calculate deduction qty value and actual value
+    parentItem.deductionPercentage = parentItem.rowList.reduce((acc, item) => {
+      return acc + item?.manualDeduction;
+    }, 0);
+    parentItem.deductionQuantity =
+      (parentItem.qcQuantity * parentItem.deductionPercentage) / 100;
+    parentItem.actualQuantity =
+      parentItem.qcQuantity -
+      (parentItem.deductionQuantity + parentItem.unloadedDeductionQuantity);
+      //grand total sum
+      const grandTotalSum = grandParentTotalSum(
+        grandParentSingleItem?.headersList
+      );
+      grandParentSingleItem.actualQuantity = grandTotalSum.actualQuantity;
+      grandParentSingleItem.deductionQuantity = grandTotalSum.deductionQuantity;
+      grandParentSingleItem.totalQcQty = grandTotalSum.qcQuantity;
+      grandParentSingleItem.unloadDeductionQuantity =
+        grandTotalSum.unloadedDeductionQuantity;
+    setHeaderData(updatedHeaderData);
+  };
+  const handleRemarks = (e, grandParentIndex, parentIndex, childIndex) => {
+    const updatedHeaderData = [...headerData];
+    const childRowItem =
+      updatedHeaderData[grandParentIndex]["headersList"][parentIndex][
+        "rowList"
+      ][childIndex];
+    childRowItem.remarks = e.target?.value;
+    setHeaderData(updatedHeaderData);
+  };
+  const handleRowItemDelete = (grandParentIndex, parentIndex, childIndex) => {
+    const updatedHeaderData = [...headerData];
+
+    updatedHeaderData[grandParentIndex]["headersList"][parentIndex][
+      "rowList"
+    ].splice(childIndex, 1);
+    //calculate deduction qty value and actual value
+    const rowItem =
+      updatedHeaderData[grandParentIndex]["headersList"][parentIndex];
+    rowItem.deductionPercentage = updatedHeaderData[grandParentIndex][
+      "headersList"
+    ][parentIndex].rowList.reduce((acc, item) => {
+      return acc + item?.systemDeduction;
+    }, 0);
+    rowItem.deductionQuantity =
+      (rowItem.netWeight * rowItem.deductionPercentage) / 100;
+
     setHeaderData(updatedHeaderData);
   };
 
-  const handleAdd =(grandParentIndex,grandParentItem)=>{
-    const updatedHeaderData =[...headerData]
-    const singleGrandParentItem = updatedHeaderData[grandParentIndex]
-    singleGrandParentItem.headersList=[...singleGrandParentItem?.headersList,grandParentItem]
-    setHeaderData(updatedHeaderData)
-  }
-console.log("headerData",headerData);
+  console.log("headerData", headerData);
   // effects
   useEffect(() => {
     getPlantDDL(
@@ -127,7 +341,7 @@ console.log("headerData",headerData);
         touched,
       }) => (
         <>
-          {false && <Loading />}
+          {loadHeaderData && <Loading />}
           <IForm title="Create Item Quality Check" getProps={setObjprops}>
             <Form>
               <div className="form-group  global-form row">
@@ -241,28 +455,46 @@ console.log("headerData",headerData);
                     <strong>PO Qty: {headerData[0]?.poQuantity}</strong>
                   </div>
                   <div>
-                    <strong>PO Qty: {headerData[0]?.mrrQuantity}</strong>
+                    <strong>MRR Qty: {headerData[0]?.mrrQuantity}</strong>
                   </div>
                   <div>
-                    <strong>PO Qty: {headerData[0]?.restQuantity}</strong>
+                    <strong>Rest Qty: {headerData[0]?.restQuantity}</strong>
                   </div>
                 </div>
               )}
               <div className="mt-4">
-                <CommonTable headersData={headerTableHeaders}>
-                  {headerData?.map((grandParentItem, grandParentIndex) => (
-                    <GrandParentTableBody
-                      key={grandParentIndex}
-                      grandParentIndex={grandParentIndex}
-                      grandParentItem={grandParentItem}
-                      handleGetEntryCode={handleGetEntryCode}
-                      handleGateEntryHandler={handleGateEntryHandler}
-                      handleQcQtyBeg={handleQcQtyBeg}
-                      handleQcQty={handleQcQty}
-                      handleAdd={handleAdd}
-                    />
-                  ))}
-                </CommonTable>
+                <QcManagementContext.Provider
+                  value={{
+                    handleGetQCItemParameterConfig,
+                    handleQcQtyBegForParent,
+                    handleQcQtyForParent,
+                    handleUnloadDeductForParent,
+                    handleRemarksForParent,
+                    handleHeaderRowDeleteFromParent,
+                    actualValueHandler,
+                    handleManualDeduction,
+                    handleRemarks,
+                    handleRowItemDelete,
+                  }}
+                >
+                  <CommonTable headersData={grandParentTableHeaders}>
+                    {headerData?.map((grandParentItem, grandParentIndex) => (
+                      <GrandParentTableBody
+                        key={grandParentIndex}
+                        grandParentIndex={grandParentIndex}
+                        grandParentItem={grandParentItem}
+                        handleGetEntryCode={handleGetEntryCode}
+                        handleGateEntryHandler={handleGateEntryHandler}
+                        handleQcQtyBeg={handleQcQtyBeg}
+                        handleQcQty={handleQcQty}
+                        handleAdd={handleAdd}
+                        handleStatus={handleStatus}
+                        handleHeaderRowDelete={handleHeaderRowDelete}
+                        handleWarehouseComment={handleWarehouseComment}
+                      />
+                    ))}
+                  </CommonTable>
+                </QcManagementContext.Provider>
               </div>
 
               <button
