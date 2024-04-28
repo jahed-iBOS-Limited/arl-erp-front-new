@@ -25,30 +25,13 @@ function Form({ propsObj }) {
     selectedAll,
     allSelect,
     customerList,
-    getCustomerList,
     SOList,
     getSOList,
     getRowsBySO,
     getSOInfo,
-    setCustomerList,
     setSOList,
+    getCustomers,
   } = propsObj;
-
-  const getCustomers = (values) => {
-    getCustomerList(
-      `/oms/OManagementReport/GetCustomerAndSalesOrder?businessUnitId=${buId}&channelId=${values?.distributionChannel?.value}&soldToPartnerId=0&fromDate=${values?.fromDate}&toDate=${values?.toDate}`,
-      (resData) => {
-        const modifiedData = resData?.map((item) => {
-          return {
-            ...item,
-            value: item?.soldToPartnerId,
-            label: item?.soldToPartnerName,
-          };
-        });
-        setCustomerList(modifiedData);
-      }
-    );
-  };
 
   return (
     <>
@@ -66,6 +49,9 @@ function Form({ propsObj }) {
               setFieldValue("invoiceType", valueOption);
               setFieldValue("customer", "");
               setFieldValue("projectLocation", "");
+              setFieldValue("distributionChannel", "");
+              setFieldValue("refNumber", "");
+              setFieldValue("salesOrder", "");
               setRowDto([]);
             }}
             placeholder="Invoice Type"
@@ -128,7 +114,13 @@ function Form({ propsObj }) {
                     .get(
                       `/partner/PManagementCommonDDL/GetCustomerNameDDLByChannelId?SearchTerm=${searchValue}&AccountId=${accId}&BusinessUnitId=${buId}&ChannelId=${values?.distributionChannel?.value}`
                     )
-                    .then((res) => res?.data);
+                    .then((res) =>
+                      res?.data?.map((item) => ({
+                        ...item,
+                        label: `${item?.label} [${item?.code}]`,
+                        name: item?.label,
+                      }))
+                    );
                 }}
               />
             </div>
@@ -349,9 +341,11 @@ function Form({ propsObj }) {
           </button>
         </div>
       </div>
-      <SalesInvoiceFormTable
-        obj={{ rowDto, buId, allSelect, selectedAll, rowDtoHandler, values }}
-      />
+      {rowDto?.length > 0 && (
+        <SalesInvoiceFormTable
+          obj={{ rowDto, buId, allSelect, selectedAll, rowDtoHandler, values }}
+        />
+      )}
     </>
   );
 }
