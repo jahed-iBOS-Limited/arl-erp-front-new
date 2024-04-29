@@ -15,6 +15,12 @@ import LCApplication from "./LCApplication/index";
 import { shallowEqual, useSelector } from "react-redux";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 
+const initData = {
+  bank: "",
+  branch: "",
+  type: "",
+};
+
 const LCApplicationExport = ({ obj }) => {
   const { singleItem } = obj;
   const [bankDDL, getBankDDL] = useAxiosGet();
@@ -36,7 +42,11 @@ const LCApplicationExport = ({ obj }) => {
   return (
     <>
       {loader && <Loading />}
-      <Formik enableReinitialize={true} initialValues={{}} onSubmit={() => {}}>
+      <Formik
+        enableReinitialize={true}
+        initialValues={initData}
+        onSubmit={() => {}}
+      >
         {({ errors, touched, setFieldValue, values }) => (
           <>
             <Card>
@@ -84,6 +94,24 @@ const LCApplicationExport = ({ obj }) => {
                       touched={touched}
                     />
                   </div>
+                  <div className="col-lg-3 pt-2">
+                    <NewSelect
+                      options={[
+                        { value: 1, label: "With Dollar Arrange" },
+                        { value: 2, label: "Without Dollar Arrange" },
+                      ]}
+                      value={values?.type}
+                      label="Type"
+                      placeholder="Type"
+                      name="type"
+                      onChange={(valueOption) => {
+                        setFieldValue("type", valueOption);
+                      }}
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
+
                   <IButton
                     className="btn-success btn-sm"
                     onClick={() => {
@@ -99,7 +127,7 @@ const LCApplicationExport = ({ obj }) => {
                     }}
                     disabled={!values?.bank || !values?.branch}
                   >
-                    Download
+                    Preview
                   </IButton>
                   <IViewModal show={show} onHide={() => setShow(false)}>
                     <LCApplication obj={{ values, lcInfo, buName }} />
