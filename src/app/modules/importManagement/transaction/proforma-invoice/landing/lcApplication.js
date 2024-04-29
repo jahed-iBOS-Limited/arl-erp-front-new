@@ -10,21 +10,20 @@ import Loading from "../../../../_helper/_loading";
 import NewSelect from "../../../../_helper/_select";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import IButton from "../../../../_helper/iButton";
-import { downloadDocumentaryCredit } from "../helper";
 import IViewModal from "../../../../_helper/_viewModal";
 import LCApplication from "./LCApplication/index";
 import { shallowEqual, useSelector } from "react-redux";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 
-const LCApplicationExport = ({ setOpen }) => {
+const LCApplicationExport = ({ obj }) => {
+  const { singleItem } = obj;
   const [bankDDL, getBankDDL] = useAxiosGet();
   const [branchDDL, getBranchDDL, loader, setBranchDDL] = useAxiosGet();
-  const [loading, setLoading] = useState(false);
+
   const [show, setShow] = useState(false);
   const [lcInfo, getLCInfo] = useAxiosPost();
 
   const {
-    profileData,
     selectedBusinessUnit: { label: buName },
   } = useSelector((state) => {
     return state.authData;
@@ -36,7 +35,7 @@ const LCApplicationExport = ({ setOpen }) => {
 
   return (
     <>
-      {(loading || loader) && <Loading />}
+      {loader && <Loading />}
       <Formik enableReinitialize={true} initialValues={{}} onSubmit={() => {}}>
         {({ errors, touched, setFieldValue, values }) => (
           <>
@@ -90,7 +89,9 @@ const LCApplicationExport = ({ setOpen }) => {
                     onClick={() => {
                       getLCInfo(
                         `https://devautomation.ibos.io/lc_issuance`,
-                        {},
+                        {
+                          text: singleItem?.pdfTextdata,
+                        },
                         () => {
                           setShow(true);
                         }
