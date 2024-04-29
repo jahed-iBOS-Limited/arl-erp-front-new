@@ -54,7 +54,7 @@ const TableRow = () => {
 
   const [rowDto, setRowDto] = useState([]);
   const [singleDataForPoView, setSingleDataForPoView] = useState({});
-  const [singleItem , setSingleItem] = useState({})
+  const [singleItem, setSingleItem] = useState({});
 
   // get user profile data from store
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
@@ -251,6 +251,7 @@ const TableRow = () => {
                                   title={"LC Application"}
                                   onClick={() => {
                                     setOpen(true);
+                                    setSingleItem(item);
                                   }}
                                 >
                                   <i class="fas fa-file-download"></i>
@@ -317,14 +318,23 @@ const TableRow = () => {
                 <IViewModal
                   modelSize={"md"}
                   show={show}
-                  onHide={() => setShow(false)}
+                  onHide={() => {
+                    setSingleItem({});
+                    setShow(false);
+                  }}
                 >
-                  <LCApplicationFormDownload obj={{setShow, singleItem}}   />
+                  <LCApplicationFormDownload obj={{ setShow, singleItem }} />
                 </IViewModal>
 
                 {/* LC Application */}
-                <IViewModal show={open} onHide={() => setOpen(false)}>
-                  <LCApplicationExport setOpen={setOpen} />
+                <IViewModal
+                  show={open}
+                  onHide={() => {
+                    setSingleItem({});
+                    setOpen(false);
+                  }}
+                >
+                  <LCApplicationExport obj={{ setOpen, singleItem }} />
                 </IViewModal>
 
                 {/* Pagination Code */}
