@@ -1,15 +1,21 @@
 import axios from "axios";
-export const headerTableHeaders = [
+export const grandParentTableHeaders = [
   "",
   "SL",
   "Supplier",
   "Address",
   "Item Name",
   "UOM",
-  "Gate Entry",
+  
+  {
+    title: "Gate Entry",
+    style: { maxWidth: "80px" },
+  },
   "Vehicle No",
   "Net Weight",
-  "Deduct %",
+  "Challan Qty Bag",
+  "Challan Qty",
+  "Total QC Qty",
   "Deduct Qty",
   {
     title: "Unload Time Deduct",
@@ -19,6 +25,19 @@ export const headerTableHeaders = [
   "Status",
   "Action",
 ];
+export const parentTableHeader =[
+  "",
+  "Item Name",
+  "UOM",
+  "QC Qty Bag",
+  "QC Qty",
+  "Deduct %",
+  "Deduct Qty",
+  "Unload Deduct",
+  "Actual Qty",
+  "Remarks",
+  "Action",
+]
 export const headerRowTableHeaders = [
   "#",
   "Parameter",
@@ -35,7 +54,11 @@ export const gateEntry = async (buId, entryCode) => {
     const api = `/mes/QCTest/GetVehicleGateEntryInformation?businessUnitId=${buId}&GateEntryCode=${entryCode}`;
 
     const response = await axios.get(api);
+      response.data.qcQtyBeg = 0;
+      response.data.qcQty = 0;
+      response.data.totalQcQty = 0;
       response.data.deductionQuantity = 0;
+      response.data.unloadDeductionQuantity = 0;
       response.data.actualQuantity = 0
       return response.data
   } catch (error) {
@@ -49,13 +72,36 @@ export const getRowWithItemId = async (buId, itemId) => {
     const response = await axios.get(api);
 
     return response?.data?.map((item) => ({
-      ...item,
-      systemDeduction: 0,
-      manualDeduction: 0,
-      actualValue: 0,
-      rowId:0
+      parameterName:item?.parameterName,
+      standardValue:item?.standardValue,
+      actualValue:0,
+      systemDeduction:0,
+      manualDeduction:0,
+      remarks:"",
     }));
   } catch (error) {
     return error;
   }
 };
+
+
+//grandParentColum's Total Sum
+export const grandParentTotalSum=(arr)=>{
+
+  console.log("arr",arr);
+  const totalSum = arr?.reduce(
+    (acc, item) => ({
+      qcQuantity:acc.qcQuantity + item?.qcQuantity,
+      deductionQuantity:acc.deductionQuantity + item?.deductionQuantity,
+      unloadedDeductionQuantity:acc.unloadedDeductionQuantity +item?.unloadedDeductionQuantity,
+      actualQuantity:acc.actualQuantity + item?.actualQuantity
+    }),
+    {
+      qcQuantity: 0,
+      deductionQuantity: 0,
+      unloadedDeductionQuantity: 0,
+      actualQuantity: 0,
+    }
+  );
+  return totalSum
+}
