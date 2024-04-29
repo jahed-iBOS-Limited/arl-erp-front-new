@@ -1,18 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
 // import CommonTable from "../../../_helper/commonTable";
 import IDelete from "../../../_helper/_helperIcons/_delete";
 import { headerRowTableHeaders } from "./helper";
+import { QcManagementContext } from "./qcManagementContext";
 
 export default function ItemTable({
-parentIndex,
-  itemRows,
-  actualValueHandler,
-  handleManualDeduction,
-  handleRemarks,
-  handleRowItemDelete,
-  totalSystemDeduction
+  grandParentIndex,
+  parentIndex,
+  itemRows
   
 }) {
+  const {actualValueHandler,handleManualDeduction,handleRemarks,handleRowItemDelete} = useContext(QcManagementContext)
   const tableHead = (
     <thead>
       <tr>
@@ -32,7 +30,7 @@ parentIndex,
         <tbody>
           {itemRows &&
             itemRows?.map((item, childIndex) => {
-            totalSystemDeduction += item?.systemDeduction || 0;
+            // totalSystemDeduction += item?.systemDeduction || 0;
               totalActualValue +=  item?.actualValue || 0;
               totalManualDeduction += item?.manualDeduction||0;
               return (
@@ -46,33 +44,35 @@ parentIndex,
                       name="actualValue"
                       type="number"
                       onChange={(e) =>
-                        actualValueHandler(e, parentIndex, childIndex)
+                        actualValueHandler(e, grandParentIndex,parentIndex, childIndex)
                       }
                     />
                   </td>
                   <td>{item?.systemDeduction}</td>
                   <td>
                     <input
-                      value={item?.manualDeduction}
+                      value={item?.manualDeduction||""}
                       name="manualDeduction"
                       type="number"
                       onChange={(e) =>
-                        handleManualDeduction(e, parentIndex, childIndex)
+                        handleManualDeduction(e, grandParentIndex,parentIndex, childIndex)
                       }
                     />
                   </td>
                   <td>
                     <input
-                      value={item?.remarks}
+                      value={item?.remarks||""}
                       name="remarks"
                       type="text"
                       onChange={(e) =>
-                        handleRemarks(e, parentIndex, childIndex)
+                        handleRemarks(e, grandParentIndex,parentIndex, childIndex)
                       }
                     />
                   </td>
                   <td className="text-center">
-                    <span onClick={() => handleRowItemDelete(parentIndex, childIndex)}>
+                    <span 
+                    onClick={() => handleRowItemDelete(grandParentIndex,parentIndex, childIndex)}
+                    >
                       <IDelete />
                     </span>
                   </td>
@@ -83,7 +83,7 @@ parentIndex,
             <td colSpan={3}>Total</td>
             <td>{totalActualValue}</td>
 
-            <td>{totalSystemDeduction}</td>
+            <td>{""}</td>
             <td>{totalManualDeduction}</td>
             <td></td>
             <td></td>
