@@ -23,6 +23,7 @@ const SalesInvoiceLandingTable = ({ obj }) => {
     loading,
     pageSize,
     setPageNo,
+    permitted,
     setLoading,
     setPageSize,
     getGridData,
@@ -135,15 +136,21 @@ const SalesInvoiceLandingTable = ({ obj }) => {
                           <span
                             className="cursor-pointer"
                             onClick={() => {
-                              cancelSalesInvoice(
-                                accId,
-                                buId,
-                                tableData?.intSalesInvoiceId,
-                                setLoading,
-                                () => {
-                                  getGridData(values, pageNo, pageSize);
-                                }
-                              );
+                              if (permitted) {
+                                cancelSalesInvoice(
+                                  accId,
+                                  buId,
+                                  tableData?.strInvoiceNumber,
+                                  setLoading,
+                                  () => {
+                                    getGridData(values, pageNo, pageSize);
+                                  }
+                                );
+                              } else {
+                                toast.warn(
+                                  "Sorry, You are not permitted to cancel the sales invoice"
+                                );
+                              }
                             }}
                           >
                             <IClose title="Cancel Sales Invoice" />

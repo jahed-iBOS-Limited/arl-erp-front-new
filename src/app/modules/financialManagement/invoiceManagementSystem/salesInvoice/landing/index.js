@@ -41,11 +41,12 @@ function SalesInvoiceLandingNew() {
   //paginationState
   const [pageNo, setPageNo] = React.useState(0);
   const [pageSize, setPageSize] = React.useState(20);
+  const [permitted, getPermission] = useAxiosGet();
   const history = useHistory();
 
   // get user data from store
   const {
-    profileData: { accountId: accId },
+    profileData: { accountId: accId, userId },
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
 
@@ -82,6 +83,9 @@ function SalesInvoiceLandingNew() {
 
   useEffect(() => {
     getGridData(initData, pageNo, pageSize);
+    getPermission(
+      `/wms/FertilizerOperation/GetAllModificationPermission?UserEnroll=${userId}&BusinessUnitId=${buId}&Type=YsnSaalesInvoice`
+    );
   }, [accId, buId]);
 
   const setPositionHandler = (pageNo, pageSize, values) => {
@@ -153,6 +157,7 @@ function SalesInvoiceLandingNew() {
                   loading,
                   pageSize,
                   setPageNo,
+                  permitted,
                   setLoading,
                   setPageSize,
                   getGridData,
