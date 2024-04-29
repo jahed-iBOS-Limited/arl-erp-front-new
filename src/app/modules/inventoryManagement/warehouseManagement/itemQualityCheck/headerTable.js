@@ -67,7 +67,7 @@ function TableTbody({ parentItem, parentIndex, grandParentIndex }) {
         <td>{parentItem?.uomName}</td>
         <td>
           <input
-            value={parentItem?.qcQuantityBag}
+            value={parentItem?.qcQuantityBag || ""}
             name="qcQuantityBag"
             type="number"
             // style={{ maxWidth: "60px" }}
@@ -78,9 +78,10 @@ function TableTbody({ parentItem, parentIndex, grandParentIndex }) {
         </td>
         <td>
           <input
-            value={parentItem?.qcQuantity}
+            value={parentItem?.qcQuantity || ""}
             name="qcQuantity"
             type="number"
+            disabled={true}
             // style={{ maxWidth: "50px" }}
             onChange={(e) => {
               handleQcQtyForParent(e, grandParentIndex, parentIndex);
@@ -91,7 +92,7 @@ function TableTbody({ parentItem, parentIndex, grandParentIndex }) {
         <td>{parentItem?.deductionQuantity}</td>
         <td>
           <input
-            value={parentItem?.unloadedDeductionQuantity}
+            value={parentItem?.unloadedDeductionQuantity||""}
             name="unloadedDeductionQuantity"
             type="number"
             // style={{ maxWidth: "50px" }}

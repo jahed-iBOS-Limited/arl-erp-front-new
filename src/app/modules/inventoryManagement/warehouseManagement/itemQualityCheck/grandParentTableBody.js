@@ -65,7 +65,8 @@ export default function GrandParentTableBody({
           {grandParentItem?.vehicleNo ? (
           <input
           style={{ maxWidth: "50px" }}
-          value={grandParentItem?.qcQtyBeg}
+          value={grandParentItem?.qcQtyBeg || ""}
+          min={0}
           name="qcQtyBeg"
           type="number"
             onChange={(e) => {
@@ -79,7 +80,8 @@ export default function GrandParentTableBody({
             ? (
                 <input
                 style={{ maxWidth: "50px" }}
-                value={grandParentItem?.qcQty}
+                value={grandParentItem?.qcQty || ""}
+                min={0}
                 name="qcQty"
                 type="number"
                   onChange={(e) => {
