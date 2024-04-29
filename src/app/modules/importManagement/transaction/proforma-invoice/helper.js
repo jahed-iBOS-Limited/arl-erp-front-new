@@ -619,7 +619,7 @@ export const downloadDocumentaryCredit = async (
   const url = `https://devautomation.ibos.io/bank_lc/create`;
 
   const payload = {
-    bank: bankId,
+    bank: bankId.toString(),
     text: pdfText,
   };
 
