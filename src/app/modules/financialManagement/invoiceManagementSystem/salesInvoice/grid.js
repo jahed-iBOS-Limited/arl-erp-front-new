@@ -140,7 +140,7 @@ const SalesInvoiceGridData = ({
                                 cancelSalesInvoice(
                                   accId,
                                   buId,
-                                  tableData?.intSalesInvoiceId,
+                                  tableData?.strInvoiceNumber,
                                   setLoading,
                                   () => {
                                     getGridData(values, pageNo, pageSize);

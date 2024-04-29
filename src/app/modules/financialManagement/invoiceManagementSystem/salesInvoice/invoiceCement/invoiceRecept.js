@@ -194,7 +194,8 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
                   {channelId === 43 && (
                     <td>{_fixedPoint(totalNetQty, true)}</td>
                   )}
-                  <td>{/* {_fixedPoint(totalItemRate, true)} */}</td>
+                  <td> </td>
+                  <td> </td>
                   <td>{_fixedPoint(grandTotal, true)}</td>
                 </tr>
                 <tr style={{ fontWeight: "bold", textAlign: "left" }}>

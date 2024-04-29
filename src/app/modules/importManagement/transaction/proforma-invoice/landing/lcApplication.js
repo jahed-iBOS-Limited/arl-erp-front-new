@@ -10,21 +10,26 @@ import Loading from "../../../../_helper/_loading";
 import NewSelect from "../../../../_helper/_select";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import IButton from "../../../../_helper/iButton";
-import { downloadDocumentaryCredit } from "../helper";
 import IViewModal from "../../../../_helper/_viewModal";
 import LCApplication from "./LCApplication/index";
 import { shallowEqual, useSelector } from "react-redux";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 
-const LCApplicationExport = ({ setOpen }) => {
+const initData = {
+  bank: "",
+  branch: "",
+  type: "",
+};
+
+const LCApplicationExport = ({ obj }) => {
+  const { singleItem } = obj;
   const [bankDDL, getBankDDL] = useAxiosGet();
   const [branchDDL, getBranchDDL, loader, setBranchDDL] = useAxiosGet();
-  const [loading, setLoading] = useState(false);
+
   const [show, setShow] = useState(false);
   const [lcInfo, getLCInfo] = useAxiosPost();
 
   const {
-    profileData,
     selectedBusinessUnit: { label: buName },
   } = useSelector((state) => {
     return state.authData;
@@ -36,8 +41,12 @@ const LCApplicationExport = ({ setOpen }) => {
 
   return (
     <>
-      {(loading || loader) && <Loading />}
-      <Formik enableReinitialize={true} initialValues={{}} onSubmit={() => {}}>
+      {loader && <Loading />}
+      <Formik
+        enableReinitialize={true}
+        initialValues={initData}
+        onSubmit={() => {}}
+      >
         {({ errors, touched, setFieldValue, values }) => (
           <>
             <Card>
@@ -85,12 +94,32 @@ const LCApplicationExport = ({ setOpen }) => {
                       touched={touched}
                     />
                   </div>
+                  <div className="col-lg-3 pt-2">
+                    <NewSelect
+                      options={[
+                        { value: 1, label: "With Dollar Arrange" },
+                        { value: 2, label: "Without Dollar Arrange" },
+                      ]}
+                      value={values?.type}
+                      label="Type"
+                      placeholder="Type"
+                      name="type"
+                      onChange={(valueOption) => {
+                        setFieldValue("type", valueOption);
+                      }}
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
+
                   <IButton
                     className="btn-success btn-sm"
                     onClick={() => {
                       getLCInfo(
                         `https://devautomation.ibos.io/lc_issuance`,
-                        {},
+                        {
+                          text: singleItem?.pdfTextdata,
+                        },
                         () => {
                           setShow(true);
                         }
@@ -98,7 +127,7 @@ const LCApplicationExport = ({ setOpen }) => {
                     }}
                     disabled={!values?.bank || !values?.branch}
                   >
-                    Download
+                    Preview
                   </IButton>
                   <IViewModal show={show} onHide={() => setShow(false)}>
                     <LCApplication obj={{ values, lcInfo, buName }} />
