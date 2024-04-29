@@ -12,7 +12,8 @@ import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import IButton from "../../../../_helper/iButton";
 import { downloadDocumentaryCredit } from "../helper";
 
-const ExportDocumentaryCredit = ({ setShow }) => {
+const LCApplicationFormDownload = ({ obj }) => {
+  const { singleItem } = obj;
   const [bankDDL, getBankDDL] = useAxiosGet();
   const [loading, setLoading] = useState(false);
 
@@ -48,7 +49,11 @@ const ExportDocumentaryCredit = ({ setShow }) => {
                     className="btn-success btn-sm"
                     onClick={() => {
                       setLoading(true);
-                      downloadDocumentaryCredit(setLoading);
+                      downloadDocumentaryCredit(
+                        values?.bank?.value,
+                        singleItem?.pdfTextdata,
+                        setLoading
+                      );
                     }}
                     disabled={!values?.bank}
                   >
@@ -64,4 +69,4 @@ const ExportDocumentaryCredit = ({ setShow }) => {
   );
 };
 
-export default ExportDocumentaryCredit;
+export default LCApplicationFormDownload;
