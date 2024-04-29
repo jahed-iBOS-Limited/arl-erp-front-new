@@ -256,7 +256,16 @@ export default function QualityCheckCreateForm() {
   };
   const handleHeaderRowDeleteFromParent = (grandParentIndex, parentIndex) => {
     const updatedHeaderData = [...headerData];
+    const grandParentSingleItem = updatedHeaderData[grandParentIndex];
     updatedHeaderData[grandParentIndex]["headersList"].splice(parentIndex, 1);
+    const grandTotalSum = grandParentTotalSum(
+      grandParentSingleItem?.headersList
+    );
+    grandParentSingleItem.actualQuantity = grandTotalSum.actualQuantity;
+    grandParentSingleItem.deductionQuantity = grandTotalSum.deductionQuantity;
+    grandParentSingleItem.totalQcQty = grandTotalSum.qcQuantity;
+    grandParentSingleItem.unloadDeductionQuantity =
+      grandTotalSum.unloadedDeductionQuantity;
     setHeaderData(updatedHeaderData);
   };
   // Parent handler end or 2nd level table handler end
@@ -317,20 +326,29 @@ export default function QualityCheckCreateForm() {
   };
   const handleRowItemDelete = (grandParentIndex, parentIndex, childIndex) => {
     const updatedHeaderData = [...headerData];
-
+    const grandParentSingleItem =updatedHeaderData[grandParentIndex]
+    const parentItem =grandParentSingleItem["headersList"][parentIndex];
     updatedHeaderData[grandParentIndex]["headersList"][parentIndex][
       "rowList"
     ].splice(childIndex, 1);
-    //calculate deduction qty value and actual value
-    const rowItem =
-      updatedHeaderData[grandParentIndex]["headersList"][parentIndex];
-    rowItem.deductionPercentage = updatedHeaderData[grandParentIndex][
-      "headersList"
-    ][parentIndex].rowList.reduce((acc, item) => {
-      return acc + item?.systemDeduction;
-    }, 0);
-    rowItem.deductionQuantity =
-      (rowItem.netWeight * rowItem.deductionPercentage) / 100;
+      //calculate deduction qty value and actual value
+      parentItem.deductionPercentage = parentItem.rowList.reduce((acc, item) => {
+        return acc + item?.manualDeduction;
+      }, 0);
+      parentItem.deductionQuantity =
+        (parentItem.qcQuantity * parentItem.deductionPercentage) / 100;
+      parentItem.actualQuantity =
+        parentItem.qcQuantity -
+        (parentItem.deductionQuantity + parentItem.unloadedDeductionQuantity);
+        //grand total sum
+        const grandTotalSum = grandParentTotalSum(
+          grandParentSingleItem?.headersList
+        );
+        grandParentSingleItem.actualQuantity = grandTotalSum.actualQuantity;
+        grandParentSingleItem.deductionQuantity = grandTotalSum.deductionQuantity;
+        grandParentSingleItem.totalQcQty = grandTotalSum.qcQuantity;
+        grandParentSingleItem.unloadDeductionQuantity =
+          grandTotalSum.unloadedDeductionQuantity;
 
     setHeaderData(updatedHeaderData);
   };
