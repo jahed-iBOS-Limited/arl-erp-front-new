@@ -150,7 +150,7 @@ export const createPI = async (
     values,
     rowDto
   );
-  console.log("createPayloadChange", obj);
+
   try {
     setDisabled(true);
     const res = await Axios.post(
@@ -582,7 +582,7 @@ export const getItemDDL = async (
     );
     // const newData = [...rowDto, ...res?.data];
     const newData = [...res?.data];
-    console.log("newData", [...rowDto, ...res?.data]);
+
     const modifyData = newData?.map((data) => {
       //Doing this just because there is a weired condition based on rowId and the problem is urgent to be fixed
       const { rowId, ...restData } = data || {};
@@ -606,17 +606,22 @@ export const getItemDDL = async (
       };
     });
     setter(modifyData);
-
-    console.log("rowDto", rowDto);
   } catch (error) {
     toast.error(error?.response?.data?.message);
   }
 };
 
-export const downloadDocumentaryCredit = async (setLoading) => {
-  const url = "https://devautomation.ibos.io/hsbc_fill_form";
+export const downloadDocumentaryCredit = async (
+  bankId,
+  pdfText,
+  setLoading
+) => {
+  const url = `https://devautomation.ibos.io/bank_lc/create`;
 
-  const payload = {};
+  const payload = {
+    bank: bankId,
+    text: pdfText,
+  };
 
   fetch(url, {
     method: "POST",
@@ -631,7 +636,7 @@ export const downloadDocumentaryCredit = async (setLoading) => {
         // If the response contains a PDF file
         if (response.headers.get("content-type") === "application/pdf") {
           // Extract the filename from the response headers
-          const filename = "LC Application";
+          const filename = "LC Application Form";
           // Return a promise with the response blob
           return response.blob().then((blob) => {
             // Create a temporary URL for the blob
@@ -645,23 +650,22 @@ export const downloadDocumentaryCredit = async (setLoading) => {
             link.click();
             // Clean up by revoking the object URL
             window.URL.revokeObjectURL(url);
-            console.log("File downloaded successfully as:", filename);
+            toast.success("File downloaded successfully as:", filename);
+
             setLoading(false);
           });
         } else {
-          console.log(
-            "Unexpected response content-type:",
-            response.headers.get("content-type")
-          );
+          toast.warn("Request Failed");
           setLoading(false);
         }
       } else {
-        console.log("Request failed with status code:", response.status);
+        toast.error("Request failed");
+
         setLoading(false);
       }
     })
     .catch((error) => {
-      console.error("Error:", error);
+      toast.error("Something went wrong");
       setLoading(false);
     });
 };
