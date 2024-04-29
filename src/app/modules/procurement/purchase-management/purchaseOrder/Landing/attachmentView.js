@@ -3,9 +3,9 @@ import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import ICustomTable from "../../../../_helper/_customTable";
 import IView from "../../../../_helper/_helperIcons/_view";
+import Loading from "../../../../_helper/_loading";
 import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
 import useAxiosGet from "../customHooks/useAxiosGet";
-import Loading from "../../../../_helper/_loading";
 
 const ths = ["SL", "Attachment"];
 
@@ -15,7 +15,7 @@ export default function AttachmentView({ singleData, orderTypeId }) {
 
   useEffect(() => {
     getRowData(
-      `/procurement/PurchaseOrder/GetPurchaseOrderInformationByPOtoPrint_Id?PurchaseOrderId=${singleData?.purchaseOrderId}&OrderTypeId=${orderTypeId}`
+      `/procurement/PurchaseOrder/GetPurchaseOrderInformationByPOtoPrint_Id?PurchaseOrderId=${singleData?.purchaseOrderId}&OrderTypeId=${singleData?.purchaseOrderTypeId ? singleData?.purchaseOrderTypeId: orderTypeId}`
     );
   }, []);
 
