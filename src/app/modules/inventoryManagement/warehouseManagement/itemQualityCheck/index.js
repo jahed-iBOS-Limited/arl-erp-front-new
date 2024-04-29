@@ -183,6 +183,9 @@ export default function ItemQualityCheckLanding() {
                   </button>
                 </div>
               </div>
+              <div style={{ marginTop: 25 ,display:"flex",justifyContent:"end"}}>
+                <button type="button" className="btn btn-primary">Create MRR</button>
+              </div>
               <div
                 style={{ marginTop: "20px" }}
                 className="scroll-table _table table-responsive"
@@ -198,11 +201,11 @@ export default function ItemQualityCheckLanding() {
                       <th>Address</th>
                       <th>Item Name</th>
                       <th>Net Weight</th>
-                      <th>Deduct %</th>
                       <th>Deduct Qty</th>
+                      <th>Unload Deduct </th>
+                      <th>Actual Qty</th>
+                      <th>Qc Final Com</th>
                       <th>Status</th>
-                      <th>Warehouse Com</th>
-                      <th>Procu Final Com</th>
                       <th>Action</th>
                     </tr>
                   </thead>
@@ -226,11 +229,11 @@ export default function ItemQualityCheckLanding() {
                           <td>{item?.supplierAddress}</td>
                           <td>{item?.itemName}</td>
                           <td>{item?.netWeight}</td>
-                          <td>{item?.deductionPercentage}</td>
                           <td>{item?.deductionQuantity}</td>
+                          <td>{item?.unloadedDeductionQuantity}</td>
+                          <td>{item?.actualQuantity}</td>
+                          <td>NDF</td>
                           <td>{item?.status}</td>
-                          <td>{item?.actualQuantity}</td>
-                          <td>{item?.actualQuantity}</td>
                        
                           <td className="text-center">
                             <span
