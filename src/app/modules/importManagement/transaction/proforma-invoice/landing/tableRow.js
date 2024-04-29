@@ -22,7 +22,7 @@ import PurchaseOrder from "../../purchase-order/form/addEditForm";
 import { getLandingData } from "../helper";
 // import IWarningModal from "../../../../_helper/_warningModal";
 import { getSingleDataForPoView } from "../../purchase-order/helper";
-import ExportDocumentaryCredit from "./exportDC";
+import LCApplicationFormDownload from "./lcApplicationForm";
 import ICon from "../../../../chartering/_chartinghelper/icons/_icon";
 import LCApplicationExport from "./lcApplication";
 
@@ -54,6 +54,7 @@ const TableRow = () => {
 
   const [rowDto, setRowDto] = useState([]);
   const [singleDataForPoView, setSingleDataForPoView] = useState({});
+  const [singleItem , setSingleItem] = useState({})
 
   // get user profile data from store
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
@@ -239,6 +240,7 @@ const TableRow = () => {
                                   title={"Download LC Application Form"}
                                   onClick={() => {
                                     setShow(true);
+                                    setSingleItem(item);
                                   }}
                                 >
                                   <i class="fas fa-download"></i>
@@ -317,7 +319,7 @@ const TableRow = () => {
                   show={show}
                   onHide={() => setShow(false)}
                 >
-                  <ExportDocumentaryCredit setShow={setShow} />
+                  <LCApplicationFormDownload obj={{setShow, singleItem}}   />
                 </IViewModal>
 
                 {/* LC Application */}
