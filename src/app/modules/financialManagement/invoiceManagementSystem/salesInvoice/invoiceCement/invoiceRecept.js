@@ -6,6 +6,13 @@ import { _fixedPoint } from "../../../../_helper/_fixedPoint";
 // import background from "../../../../_helper/letterheadImages/akij_cement_letterhead.jpg";
 import "./InvoiceRecept.css";
 import { cementLetterhead } from "../base64Images/cement";
+import { readymixLetterhead } from "../base64Images/readymix";
+import { MTSLetterhead } from "../base64Images/mts";
+import { essentialLetterhead } from "../base64Images/essential";
+import { bluePillLetterhead } from "../base64Images/bluePill";
+import { polyFibreLetterhead } from "../base64Images/polyFibre";
+import { ispatLetterhead } from "../base64Images/ispat";
+import { buildingLetterhead } from "../base64Images/building";
 
 const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
   const toWords = new ToWords({
@@ -21,7 +28,7 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
   // get user data from store
   const {
     profileData: { employeeFullName: empName, designationName },
-    selectedBusinessUnit: { label: buName },
+    selectedBusinessUnit: { label: buName, value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
 
   let totalQty = 0;
@@ -35,6 +42,25 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
     color: "black !important",
     verticalAlign: "middle",
   };
+
+  const letterhead =
+    buId === 175
+      ? readymixLetterhead
+      : buId === 94
+      ? MTSLetterhead
+      : buId === 144
+      ? essentialLetterhead
+      : buId === 4
+      ? cementLetterhead
+      : buId === 186
+      ? bluePillLetterhead
+      : buId === 8
+      ? polyFibreLetterhead
+      : buId === 224
+      ? ispatLetterhead
+      : buId === 220
+      ? buildingLetterhead
+      : "";
 
   return (
     <div>
@@ -52,7 +78,7 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
         ref={printRef}
         id="print_sales_invoice_wrapper_cement"
         style={{
-          backgroundImage: `url(${cementLetterhead})`,
+          backgroundImage: `url(${letterhead})`,
           backgroundRepeat: "no-repeat",
           // backgroundPosition: "center",
           backgroundPosition: "50% 50%",
@@ -78,7 +104,7 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
                   fontWeight: "bold",
                 }}
               >
-                Invoice {invoiceData[0]?.strInvoiceNo}
+                Invoice: {invoiceData[0]?.strInvoiceNo}
               </p>
             </i>
           </div>
@@ -117,11 +143,13 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
                   <th style={{ width: "90px", ...getStyle }}>Delivery Date</th>
                   <th style={getStyle}>Challan No.</th>
                   <th style={getStyle}>{`${
-                    channelId === 43 ? "Primary Qty" : "Qty (Bag)"
+                    channelId === 43 ? "Primary Qty" : "Qty"
                   }`}</th>
                   {channelId === 43 && <th style={getStyle}>Net Qty</th>}
+                  <th style={getStyle}>UoM</th>
                   <th style={{ ...getStyle, width: "90px" }}>
-                    Unit Price (TK/{`${channelId === 43 ? "M.T" : "Bag"}`})
+                    {/* Unit Price (TK/{`${channelId === 43 ? "M.T" : "Bag"}`}) */}
+                    Unit Price (TK)
                   </th>
                   <th style={getStyle}>Total Amount</th>
                 </tr>
@@ -149,6 +177,8 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
                       {channelId === 43 && (
                         <td className="text-right">{item?.netQty}</td>
                       )}
+                      <td className="text-right">{item?.uom}</td>
+
                       <td className="text-right" style={{ width: "60px" }}>
                         {item?.itemRate}
                       </td>
