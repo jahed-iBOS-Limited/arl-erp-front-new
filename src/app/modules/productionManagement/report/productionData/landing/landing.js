@@ -121,7 +121,7 @@ function ProductionDataLanding() {
                   <div className="col-lg-3">
                     <NewSelect
                       name="shopFloor"
-                      options={shopFloor || []}
+                      options={[{value:0,label:"All"},...shopFloor]}
                       value={values?.shopFloor}
                       label="Select Shop Floor"
                       onChange={(valueOption) => {
