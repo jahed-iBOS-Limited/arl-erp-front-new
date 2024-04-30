@@ -1,28 +1,26 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,jsx-a11y/role-supports-aria-props */
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import {
-  getAssignToDDL,
-  getresponsiblePersonDDL,
-  getDepartmenttDDL,
-  getItemDDLforCreate,
-  getSupplierDDLforCreate,
-  getItemAttributeforCreate,
-  getSingleDataForEdit,
-  saveAssetListEdit,
-  getAssetCategoryList,
-  getBrtaDDL,
-} from "../helper";
+import React, { useEffect, useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
 import IForm from "../../../../_helper/_form";
+import {
+  getAssetCategoryList,
+  getAssignToDDL,
+  getBrtaDDL,
+  getDepartmenttDDL,
+  getItemAttributeforCreate,
+  getItemDDLforCreate,
+  getSingleDataForEdit,
+  getSupplierDDLforCreate,
+  getresponsiblePersonDDL,
+  saveAssetListEdit,
+} from "../helper";
+import Form from "./form";
 
-import { _todayDate } from "../../../../_helper/_todayDate";
 import { useLocation } from "react-router-dom";
-import "../assetList.css";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import "../assetList.css";
 
 export default function AssetListForm({ currentRowData }) {
   const location = useLocation();
@@ -62,7 +60,7 @@ export default function AssetListForm({ currentRowData }) {
 
   useEffect(() => {
     getProfitCenterDDL(
-      `/fino/CostSheet/ProfitCenterDetails?UnitId=${selectedBusinessUnit?.value}`,
+      `/costmgmt/ProfitCenter/GetProfitCenterInformation?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`,
       (data) => {
         const newData = data?.map((itm) => {
           itm.value = itm?.profitCenterId;
