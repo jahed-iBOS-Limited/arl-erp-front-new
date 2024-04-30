@@ -1,44 +1,45 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import {
   Card,
+  CardBody,
   CardHeader,
   CardHeaderToolbar,
-  CardBody,
 } from "../../../../../../_metronic/_partials/controls";
 import IEdit from "../../../../_helper/_helperIcons/_edit";
 // import PaginationTable from "../../../../_helper/_tablePagination";
 // import ICustomTable from "../../../../_helper/_customTable";
 import { Formik } from "formik";
-import NewSelect from "../../../../_helper/_select";
-import InputField from "../../../../_helper/_inputField";
-import IUpdate from "../../../../_helper/_helperIcons/_update";
-import IClose from "../../../../_helper/_helperIcons/_close";
-import Loading from "../../../../_helper/_loading";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import {
-  bankAccountDDL,
-  getBankStatementLanding,
-  getBankAccountByBranchDDL,
-  updateBankStatement,
-  reconcileCancelAction,
-  checkTwoFactorApproval,
-} from "../helpers";
+import { Modal } from "react-bootstrap";
 import { toast } from "react-toastify";
+import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import IClose from "../../../../_helper/_helperIcons/_close";
+import IUpdate from "../../../../_helper/_helperIcons/_update";
+import InputField from "../../../../_helper/_inputField";
+import Loading from "../../../../_helper/_loading";
+import NewSelect from "../../../../_helper/_select";
+import PaginationTable from "../../../../_helper/_tablePagination";
 import { _timeFormatter } from "../../../../_helper/_timeFormatter";
 import { _todayDate } from "../../../../_helper/_todayDate";
 import { SetBankStatementCorrectionAction } from "../../../../_helper/reduxForLocalStorage/Actions";
-import { Modal } from "react-bootstrap";
+import {
+  bankAccountDDL,
+  checkTwoFactorApproval,
+  getBankAccountByBranchDDL,
+  getBankStatementLanding,
+  reconcileCancelAction,
+  updateBankStatement,
+} from "../helpers";
 
 const TableRow = () => {
+  const [pageNo, setPageNo] = useState(0);
+  const [pageSize, setPageSize] = useState(15);
   const [gridData, setGridData] = useState();
   const [isloading, setIsLoading] = useState(false);
   const [backAccountDDL, setBankAccountDDL] = useState([]);
   const [acDDL, setAcDDL] = useState([]);
-  const [pageNo, setPageNo] = React.useState(0);
-  const [pageSize, setPageSize] = React.useState(100000);
 
   const dispatch = useDispatch();
   const { bankStatementCorrection: localStorageData } = useSelector(
@@ -67,18 +68,6 @@ const TableRow = () => {
     toDate: localStorageData?.toDate || _todayDate(),
     fromDate: localStorageData?.fromDate || _todayDate(),
   };
-
-  // const setPositionHandler = (pageNo, pageSize, values) => {
-  //   getBankStatementLanding(
-  //     values.acDDL.value,
-  //     selectedBusinessUnit?.value,
-  //     values?.transactionDate,
-  //     setGridData,
-  //     pageSize,
-  //     pageNo,
-  //     setIsLoading
-  //   );
-  // };
 
   const setDataToGrid = (value, key, index, grid, setter) => {
     let data = [...grid?.data];
@@ -109,9 +98,9 @@ const TableRow = () => {
     );
   };
 
-  const getBankStatementData = (values) => {
+  const getBankStatementData = (pageNo, pageSize, values) => {
     getBankStatementLanding(
-      values.acDDL.value,
+      values?.acDDL?.value,
       selectedBusinessUnit?.value,
       values?.fromDate,
       values?.toDate,
@@ -120,6 +109,11 @@ const TableRow = () => {
       pageNo,
       setIsLoading
     );
+  };
+
+  const setPositionHandler = (pageNo, pageSize, values) => {
+    
+    getBankStatementData(pageNo, pageSize, values);
   };
 
   return (
@@ -258,7 +252,7 @@ const TableRow = () => {
                       }
                       type="button"
                       onClick={() => {
-                        getBankStatementData(values);
+                        getBankStatementData(pageNo,pageSize,values);
                       }}
                     >
                       View
@@ -527,10 +521,11 @@ const TableRow = () => {
                 </div>
 
                 {/* Pagination Code */}
-                {/* {gridData?.data?.length > 0 && (
+                {gridData?.data?.length > 0 && (
                   <PaginationTable
                     count={gridData?.totalCount}
                     setPositionHandler={setPositionHandler}
+                    values={values}
                     paginationState={{
                       pageNo,
                       setPageNo,
@@ -538,7 +533,7 @@ const TableRow = () => {
                       setPageSize,
                     }}
                   />
-                )} */}
+                )}
               </CardBody>
             </Card>
             <Modal

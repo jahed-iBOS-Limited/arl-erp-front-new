@@ -430,7 +430,7 @@ export default function QualityCheckCreateForm() {
         touched,
       }) => (
         <>
-          {loadHeaderData && <Loading />}
+          {(loadHeaderData || loadQcITem) && <Loading />}
           <IForm title="Create Item Quality Check" getProps={setObjprops}>
             <Form>
               <div className="form-group  global-form row">
