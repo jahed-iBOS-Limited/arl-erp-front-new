@@ -27,7 +27,7 @@ const LCApplicationExport = ({ obj }) => {
   const [branchDDL, getBranchDDL, loader, setBranchDDL] = useAxiosGet();
 
   const [show, setShow] = useState(false);
-  const [lcInfo, getLCInfo] = useAxiosPost();
+  const [lcInfo, getLCInfo, loading] = useAxiosPost();
 
   const {
     selectedBusinessUnit: { label: buName },
@@ -41,7 +41,7 @@ const LCApplicationExport = ({ obj }) => {
 
   return (
     <>
-      {loader && <Loading />}
+      {(loader || loading) && <Loading />}
       <Formik
         enableReinitialize={true}
         initialValues={initData}
@@ -122,7 +122,8 @@ const LCApplicationExport = ({ obj }) => {
                         },
                         () => {
                           setShow(true);
-                        }
+                        },
+                        true
                       );
                     }}
                     disabled={!values?.bank || !values?.branch}
