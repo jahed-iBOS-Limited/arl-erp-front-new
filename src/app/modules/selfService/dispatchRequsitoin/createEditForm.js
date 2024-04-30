@@ -120,7 +120,7 @@ export default function DispatchRequisitionCreateEdit() {
     if (v?.length < 3) return [];
     return axios
       .get(
-        `/hcm/HCMDDL/GetEmployeeDDLSearchByBU?AccountId=${accId}&BusinessUnitId=${0}&Search=${v}`
+        `/hcm/HCMDDL/GetEmployeeDDLSearchByBU?AccountId=${accId}&BusinessUnitId=${0}&Search=${v}&strPartName="GetAllEmployeeInfoCommonDDL"`
       )
       .then((res) => {
         const user = res?.data?.map((user) => ({
