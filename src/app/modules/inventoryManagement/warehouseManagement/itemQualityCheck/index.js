@@ -232,7 +232,7 @@ export default function ItemQualityCheckLanding() {
                           <td>{item?.deductionQuantity}</td>
                           <td>{item?.unloadedDeductionQuantity}</td>
                           <td>{item?.actualQuantity}</td>
-                          <td>NDF</td>
+                          <td></td>
                           <td>{item?.status}</td>
                        
                           <td className="text-center">
