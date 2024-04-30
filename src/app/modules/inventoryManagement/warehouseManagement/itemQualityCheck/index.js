@@ -12,7 +12,7 @@ import IViewModal from "../../../_helper/_viewModal";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import IForm from "./../../../_helper/_form";
 import Loading from "./../../../_helper/_loading";
-import QualityCheckViewModal from "./viewModal";
+import QualityCheckViewModal from "./modal/viewModal";
 const initData = {
   plant: "",
   warehouse: "",

@@ -153,8 +153,7 @@ export default function QualityCheckCreateForm() {
     const updatedHeaderData = [...headerData];
     const grandParentItem = updatedHeaderData[grandParentIndex]  
   
-    const challanQtyDeviedResult = (grandParentItem?.qcQty / grandParentItem?.qcQtyBeg)
-    console.log("challanQtyDeviedResult",challanQtyDeviedResult);  
+    const challanQtyDeviedResult = (grandParentItem?.netWeight / grandParentItem?.qcQtyBeg)
     const parentSingleData =grandParentItem["headersList"][parentIndex];
     parentSingleData.qcQuantityBag = +e.target.value;
     parentSingleData.qcQuantity =challanQtyDeviedResult* +e.target.value
@@ -353,7 +352,6 @@ export default function QualityCheckCreateForm() {
     setHeaderData(updatedHeaderData);
   };
 
-  console.log("headerData", headerData);
 
   // save handler
   const saveHandler = (values, cb) => {
@@ -432,7 +430,7 @@ export default function QualityCheckCreateForm() {
         touched,
       }) => (
         <>
-          {loadHeaderData && <Loading />}
+          {(loadHeaderData || loadQcITem) && <Loading />}
           <IForm title="Create Item Quality Check" getProps={setObjprops}>
             <Form>
               <div className="form-group  global-form row">
