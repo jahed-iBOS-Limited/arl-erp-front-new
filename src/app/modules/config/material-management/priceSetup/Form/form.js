@@ -1,14 +1,14 @@
+import { Form, Formik } from "formik";
 import React from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import Select from "react-select";
-import customStyles from "../../../../selectCustomStyle";
-import { ISelect } from "../../../../_helper/_inputDropDown";
-import ICalendar from "../../../../_helper/_inputCalender";
 import { useDispatch } from "react-redux";
-import { getItemByChannelIdAciton } from "../_redux/Actions";
+import Select from "react-select";
+import * as Yup from "yup";
+import ICalendar from "../../../../_helper/_inputCalender";
+import { ISelect } from "../../../../_helper/_inputDropDown";
 import InputField from "../../../../_helper/_inputField";
 import IButton from "../../../../_helper/iButton";
+import customStyles from "../../../../selectCustomStyle";
+import { getItemByChannelIdAciton } from "../_redux/Actions";
 
 // Validation schema
 const validationSchema = Yup.object().shape({
@@ -42,6 +42,8 @@ export default function _Form({
   setDisabled,
   setRowDto,
   businessUnitSet,
+  postData,
+  token,
 }) {
   const dispatch = useDispatch();
 
@@ -165,6 +167,27 @@ export default function _Form({
                     touched={touched}
                   />
                 </div>
+                {selectedBusinessUnit?.value === 144 && (
+                  <IButton
+                    className={"btn-success"}
+                    onClick={() => {
+                      postData(
+                        `https://automation.ibos.io/ItemPriceEntry`,
+                        {
+                          bearer_token: token,
+                        },
+                        () => {},
+                        true
+                      );
+                    }}
+                    disabled={
+                      values?.conditionType?.value !== 2 ||
+                      values?.conditionTypeRef?.value !== 67
+                    }
+                  >
+                    Update from Google Sheet
+                  </IButton>
+                )}
               </div>
 
               <div className="row mt-2 global-form">
