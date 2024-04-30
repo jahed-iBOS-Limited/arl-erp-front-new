@@ -62,22 +62,20 @@ export default function QualityCheckViewModal({ singleData }) {
           </div>
         </div>
       </div>
-      <CommonTable
-        headersData={[
-          "Sl",
-          "Item Name",
-          "UOM",
-          "QC Qty(Bag)",
-          "QC Qty",
-          "Deduct %",
-          "Deduct Qty",
-          "Unload Deduct",
-          "Actual Qty",
-          "Remarks",
-        ]}
-      >
-        {
-          modalData?.headerDetailsList?.map((parentItem, parentIndex)=>(
+      {
+         modalData?.headerDetailsList?.map((parentItem, parentIndex)=>(
+          <CommonTable  headersData={[
+            "Sl",
+            "Item Name",
+            "UOM",
+            "QC Qty(Bag)",
+            "QC Qty",
+            "Deduct %",
+            "Deduct Qty",
+            "Unload Deduct",
+            "Actual Qty",
+            "Remarks",
+          ]}>
             <tbody key={parentIndex}>
                 <tr>
                 <td className="text-center">{_numbering(parentIndex + 1)}</td>
@@ -132,9 +130,10 @@ export default function QualityCheckViewModal({ singleData }) {
                </tr>
               )}
             </tbody>
-          ))
-        }
-      </CommonTable>
+          </CommonTable>
+         ))
+      }
+     
     </div>
   );
 }
