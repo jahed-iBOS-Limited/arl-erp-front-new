@@ -105,3 +105,23 @@ export const grandParentTotalSum=(arr)=>{
   );
   return totalSum
 }
+
+
+export const _numbering = (value) => {
+  let outPut = "";
+  switch (value) {
+    case 1:
+      outPut = "1st";
+      break;
+    case 2:
+      outPut = "2nd";
+      break;
+    case 3:
+      outPut = "3rd";
+      break;
+    default:
+      outPut = `${value}th`;
+      break;
+  }
+  return outPut;
+};
