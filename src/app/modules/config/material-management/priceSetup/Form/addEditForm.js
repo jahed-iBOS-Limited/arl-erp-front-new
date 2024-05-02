@@ -47,6 +47,11 @@ export default function PriceSetupForm({
     shallowEqual
   );
 
+  const { token } = useSelector(
+    (state) => state?.authData.tokenData,
+    shallowEqual
+  );
+
   const businessUnitSet = [
     224,
     144,
@@ -251,6 +256,8 @@ export default function PriceSetupForm({
         setDisabled={setDisabled}
         setRowDto={setRowDto}
         businessUnitSet={businessUnitSet}
+        postData={postData}
+        token={token}
       />
     </IForm>
   );

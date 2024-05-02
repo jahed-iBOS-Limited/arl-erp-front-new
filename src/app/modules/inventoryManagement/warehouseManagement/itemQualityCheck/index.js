@@ -12,7 +12,7 @@ import IViewModal from "../../../_helper/_viewModal";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import IForm from "./../../../_helper/_form";
 import Loading from "./../../../_helper/_loading";
-import QualityCheckViewModal from "./viewModal";
+import QualityCheckViewModal from "./modal/viewModal";
 const initData = {
   plant: "",
   warehouse: "",
@@ -232,7 +232,7 @@ export default function ItemQualityCheckLanding() {
                           <td>{item?.deductionQuantity}</td>
                           <td>{item?.unloadedDeductionQuantity}</td>
                           <td>{item?.actualQuantity}</td>
-                          <td>NDF</td>
+                          <td></td>
                           <td>{item?.status}</td>
                        
                           <td className="text-center">
