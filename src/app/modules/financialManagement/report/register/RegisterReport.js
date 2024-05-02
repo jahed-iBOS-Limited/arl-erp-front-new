@@ -40,6 +40,7 @@ const initData = {
   fromDate: _firstDateofMonth(),
   toDate: _todayDate(),
   sbu: '',
+  distributionChannel:{value:0, label:"All"},
   generalLedger: '',
   profitCenter: '',
 };
@@ -70,6 +71,7 @@ export function RegisterReport({
   );
   const [partnerLedgerModalData, setPartnerLedgerModalData] = useState(null);
   const [isDetailsReport, setIsDetailsReport] = useState(false);
+  const[distributionChannelDDL, getDistributionChannelDDL, , setDistributionChannelDDL]= useAxiosGet()
 
   const [
     profitCenterDDL,
@@ -130,6 +132,7 @@ export function RegisterReport({
         'SL',
         'Partner',
         'Partner Code',
+        'Distribution Channel',
         'Opening',
         'Debit',
         'Credit',
@@ -179,9 +182,27 @@ export function RegisterReport({
                         value={values?.sbu}
                         label="SBU"
                         onChange={(valueOption) => {
-                          setFieldValue('sbu', valueOption);
+                          setFieldValue('sbu', valueOption || "");
+                          setDistributionChannelDDL([]);
+                          if(valueOption){
+                            getDistributionChannelDDL(`/oms/SalesOrder/GetDistributionChannelDDLBySBUId?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&SBUId=${valueOption?.value}`)
+                          }
                         }}
                         placeholder="SBU"
+                        errors={errors}
+                        touched={touched}
+                      />
+                    </div>
+                    <div className="col-md-3 col-lg-2">
+                      <NewSelect
+                        name="distributionChannel"
+                        options={[{value:0, label:"All"}, ...distributionChannelDDL] || []}
+                        value={values?.distributionChannel}
+                        label="Distribution Channel"
+                        onChange={(valueOption) => {
+                          setFieldValue('distributionChannel', valueOption || "");
+                        }}
+                        placeholder="Distribution Channel"
                         errors={errors}
                         touched={touched}
                       />
@@ -343,6 +364,7 @@ export function RegisterReport({
                               <>
                                 <td>{item?.strPartnerName}</td>
                                 <td>{item?.strPartnerCode}</td>
+                                <td>{item?.strDistributionChanne}</td>
                                 <td>{_formatMoney(item?.numOppening)}</td>
                                 <td>{_formatMoney(item?.numDebit)}</td>
                                 <td>{_formatMoney(item?.numCredit)}</td>
