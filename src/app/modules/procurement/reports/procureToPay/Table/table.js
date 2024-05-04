@@ -3,37 +3,38 @@ import React, { useEffect, useRef, useState } from "react";
 import ICustomCard from "../../../../_helper/_customCard";
 import InputField from "../../../../_helper/_inputField";
 
+import { Form, Formik } from "formik";
+import { useDispatch, useSelector } from "react-redux";
 import // setIndentStatementAction,
+
   //setIndentTableIndexAction
   "../../../../_helper/reduxForLocalStorage/Actions";
-import { Formik, Form } from "formik";
-import { useDispatch, useSelector } from "react-redux";
 import {
-  getPurchaseOrgList,
-  getPlantList,
-  getWarehouseList,
-  getProcureToPayReport,
   // getProcureToPayReportXMLDownload,
   generateExcel,
+  getPlantList,
   getProcureToPayExcelReport,
+  getProcureToPayReport,
+  getPurchaseOrgList,
+  getWarehouseList,
 } from "../helper";
 
 import { _dateFormatter } from "./../../../../_helper/_dateFormate";
 // import PaginationTable from "./../../../../_helper/_tablePagination";
-import NewSelect from "../../../../_helper/_select";
 import * as Yup from "yup";
+import NewSelect from "../../../../_helper/_select";
 import { _todayDate } from "../../../../_helper/_todayDate";
 // import IViewModal from "../../../../_helper/_viewModal";
 import { SetReportBillBySupplierAction } from "../../../../_helper/reduxForLocalStorage/Actions";
 // import ReactToPrint from "react-to-print";
-import "../style.css";
 import Loading from "../../../../_helper/_loading";
-import IViewModal from "../../../../_helper/_viewModal";
-import { ItemReqViewTableRow } from "../../../purchase-management/purchaseRequestNew/report/tableRow";
-import { PurchaseOrderViewTableRow } from "../../../purchase-management/purchaseOrder/report/tableRow";
-import { InventoryTransactionReportViewTableRow } from "../../../../inventoryManagement/warehouseManagement/invTransaction/report/tableRow";
 import PaginationTable from "../../../../_helper/_tablePagination";
+import IViewModal from "../../../../_helper/_viewModal";
 import PowerBIReport from "../../../../_helper/commonInputFieldsGroups/PowerBIReport";
+import { InventoryTransactionReportViewTableRow } from "../../../../inventoryManagement/warehouseManagement/invTransaction/report/tableRow";
+import { PurchaseOrderViewTableRow } from "../../../purchase-management/purchaseOrder/report/tableRow";
+import { ItemReqViewTableRow } from "../../../purchase-management/purchaseRequestNew/report/tableRow";
+import "../style.css";
 const validationSchema = Yup.object().shape({
   toDate: Yup.string().when("fromDate", (fromDate, Schema) => {
     if (fromDate) return Schema.required("To date is required");
@@ -618,6 +619,7 @@ const ProcureToPayReportTable = () => {
                               <th>MRR Date</th>
                               <th>Inv Value</th>
                               <th>Payment Date</th>
+                              <th>Expected Payment Date</th>
                               <th>Supplier</th>
                               <th>PO Prepare By</th>
                               <th>Bill Code</th>
@@ -702,6 +704,9 @@ const ProcureToPayReportTable = () => {
                                 <td>{item?.numInvAmount}</td>
                                 <td>
                                   {_dateFormatter(item?.dtePaymentRequestDate)}
+                                </td>
+                                <td>
+                                  {_dateFormatter(item?.expectedPaymenDate)}
                                 </td>
                                 <td>{item?.strBusinessPartnerName}</td>
                                 <td>{item?.poPreparedBy}</td>
