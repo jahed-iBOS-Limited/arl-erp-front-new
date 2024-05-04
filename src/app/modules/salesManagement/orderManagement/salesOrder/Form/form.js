@@ -1246,6 +1246,7 @@ export default function _Form({
                           >
                             Basic Price
                           </th>
+                          {isBUIEssentials && channelBulk && <th>Account Price</th>}
                           {selectedBusinessUnit?.value === 175 ? (
                             <>
                               {" "}
@@ -1418,6 +1419,7 @@ export default function _Form({
                                   )}
                                 </>
                               )}
+                              {isBUIEssentials && channelBulk && <td className="text-center">{itm?.accountsItemPrice}</td>}
                               {selectedBusinessUnit?.value === 175 ? (
                                 <>
                                   <td className="text-center">
