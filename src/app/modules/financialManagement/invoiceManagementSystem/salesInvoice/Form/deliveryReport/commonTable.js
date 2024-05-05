@@ -104,7 +104,9 @@ function CommonTable({
                     </td>
                   </>
                 )}
-                <td className="text-right"></td>
+                <td className="text-right">
+                  <b>{totalQuantity}</b>
+                </td>
                 <td className="text-right">
                   <b>{totalRate}</b>
                 </td>
