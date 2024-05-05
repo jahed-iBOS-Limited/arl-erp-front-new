@@ -206,7 +206,7 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
               </tbody>
             </table>
           </div>
-          <p>On behalf of Akij Cement Company Ltd.</p>
+          <p>On behalf of {buName}</p>
           <div className="signature_wrapper">
             <div className="first signature bold">
               <p>{empName}</p>
