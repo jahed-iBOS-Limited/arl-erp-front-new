@@ -12,6 +12,7 @@ import PaginationTable from "../../../../_helper/_tablePagination";
 import InvoiceReceptForCement from "../invoiceCement/invoiceRecept";
 import IViewModal from "../../../../_helper/_viewModal";
 import CommercialInvoiceReport from "../ReportModal/reportModal";
+import CancelModal from "./cancleModal";
 
 const SalesInvoiceLandingTable = ({ obj }) => {
   const {
@@ -32,6 +33,8 @@ const SalesInvoiceLandingTable = ({ obj }) => {
 
   const [isModalShow, setModalShow] = useState(false);
   const [invoiceData, setInvoiceData] = useState([]);
+  const[isCancelModalShow, setIsCancelModalShow] = useState(false);
+  const [singleRowItem, setSingleRowItem] = useState(null);
 
   const history = useHistory();
 
@@ -137,15 +140,8 @@ const SalesInvoiceLandingTable = ({ obj }) => {
                             className="cursor-pointer"
                             onClick={() => {
                               if (permitted) {
-                                cancelSalesInvoice(
-                                  accId,
-                                  buId,
-                                  tableData?.strInvoiceNumber,
-                                  setLoading,
-                                  () => {
-                                    getGridData(values, pageNo, pageSize);
-                                  }
-                                );
+                                setIsCancelModalShow(true);
+                                setSingleRowItem(tableData);
                               } else {
                                 toast.warn(
                                   "Sorry, You are not permitted to cancel the sales invoice"
@@ -207,6 +203,16 @@ const SalesInvoiceLandingTable = ({ obj }) => {
             }}
           >
             <CommercialInvoiceReport setLoading={setLoading} />
+          </IViewModal>
+        </>
+        <>
+          <IViewModal
+            show={isCancelModalShow}
+            onHide={() => {
+              setIsCancelModalShow(false);
+            }}
+          >
+            <CancelModal parentValues={values} singleRowItem={singleRowItem} setSingleRowItem={setSingleRowItem} setIsCancelModalShow={setIsCancelModalShow} additionalInfo={{accId, buId, getGridData, pageNo, pageSize, setLoading}} />
           </IViewModal>
         </>
       </div>
