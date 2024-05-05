@@ -472,7 +472,8 @@ export function RegisterReport({
                       })}
                       {registerTypeId === 7 ? (
                         <tr>
-                          <td colSpan="3" className="text-right">
+                          {/* remove total row ...order by hussain vai */}
+                          {/* <td colSpan="3" className="text-right">
                             <b>Total</b>
                           </td>
                           <td className="text-right">
@@ -514,7 +515,7 @@ export function RegisterReport({
                           <td className="text-right">
                             <b>{_formatMoney(totalAmount?.toFixed(2))}</b>
                           </td>
-                          <td></td>
+                          <td></td> */}
                         </tr>
                       ) : (
                         <tr>

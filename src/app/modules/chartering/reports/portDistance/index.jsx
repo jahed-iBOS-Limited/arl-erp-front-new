@@ -1,6 +1,6 @@
 import { Formik } from "formik";
 import React, { useEffect } from "react";
-import { shallowEqual, useSelector } from "react-redux";
+import InputField from "../../../_helper/_inputField";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import FormikSelect from "../../_chartinghelper/common/formikSelect";
 import customStyles from "../../_chartinghelper/common/selectCustomStyle";
@@ -76,11 +76,23 @@ const PortDistanceReport = () => {
                       touched={touched}
                     />
                   </div>
+                  <div className="col-lg-3">
+                      <InputField
+                       name="inputDays"
+                       value={values?.inputDays||""}
+                       min={0}
+                       label="Days"
+                       type="number"
+                       onChange={(e)=>{
+                        setFieldValue("inputDays",+e.target?.value)
+                       }}
+                      />
+                  </div>
                   <div>
                     <button
                       onClick={() => {
                         getRowDto(
-                          `/imp/ImportReport/GetMasterPort?formPort=${values?.fromPort?.label}&toPort=${values?.toPort?.label}`
+                          `/imp/ImportReport/GetMasterPort?formPort=${values?.fromPort?.label}&toPort=${values?.toPort?.label}&InputDAYS=${values?.inputDays}`
                         );
                       }}
                       type="button"
@@ -104,6 +116,7 @@ const PortDistanceReport = () => {
                         <th>From Long</th>
                         <th>To Long</th>
                         <th>Distnace</th>
+                        <th>Days</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -118,6 +131,7 @@ const PortDistanceReport = () => {
                             <td className="text-center">{item?.fromLong}</td>
                             <td className="text-center">{item?.toLong}</td>
                             <td className="text-center">{item?.distnace}</td>
+                            <td className="text-center">{item?.numDays}</td>
                           </tr>
                         ))}
                     </tbody>
