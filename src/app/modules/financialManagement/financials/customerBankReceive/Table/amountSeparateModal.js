@@ -94,7 +94,7 @@ function AmountSeparateModal({ selectedItem, separateModalCB }) {
       return toast.warning("Please enter received amount");
     }
     const payload = {
-      JsonString: {
+      jsonString: {
         statementId: selectedItem?.bankStatementId || 0,
         customerId: selectedItem?.customerList?.value || 0,
         customerName: selectedItem?.customerList?.label || "",
@@ -102,7 +102,7 @@ function AmountSeparateModal({ selectedItem, separateModalCB }) {
         actionById: profileData?.userId,
         sbuId: 0,
       },
-      JsonInvoiceInfo: girdData?.map((itm) => {
+      jsonInvoiceInfo: girdData?.map((itm) => {
         return {
           salesInvoiceId: 0,
           salesInvoiceCode: itm?.invoiceNumber,
