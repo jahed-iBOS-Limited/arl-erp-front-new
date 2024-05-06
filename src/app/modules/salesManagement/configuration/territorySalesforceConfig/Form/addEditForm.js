@@ -23,6 +23,7 @@ const initData = {
   email: "",
   point: "",
   distributionChannel: "",
+  salesForceType:"",
 };
 
 export default function TerritorySalesForceConfigForm({
@@ -91,6 +92,7 @@ export default function TerritorySalesForceConfigForm({
       if (id) {
         const payload = rowDto.map((itm) => {
           return {
+            ...itm,
             configId: itm.configId ? itm.configId : 0,
             accountId: profileData.accountId,
             businessUnitId: selectedBusinessUnit.value,
@@ -106,6 +108,7 @@ export default function TerritorySalesForceConfigForm({
       } else {
         const payload = rowDto.map((itm) => {
           return {
+            ...itm,
             territoryTypeId: itm.territoryTypeId,
             territoryId: itm.territoryId,
             employeeId: itm.employeeId,
@@ -132,7 +135,7 @@ export default function TerritorySalesForceConfigForm({
   };
 
   const setter = (payload) => {
-    if (isUniq("employeeId", payload.employeeId, rowDto)) {
+    if (isUniq("territoryId", payload.territoryId, rowDto)) {
       setRowDto([...rowDto, payload]);
     }
   };
