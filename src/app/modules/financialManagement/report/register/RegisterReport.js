@@ -193,8 +193,7 @@ export function RegisterReport({
                         touched={touched}
                       />
                     </div>
-                    {/* remove distribution channel order by hussain vai */}
-                    {/* <div className="col-md-3 col-lg-2">
+                    {["Customer"].includes(partnerTypeName) &&  <div className="col-md-3 col-lg-2">
                       <NewSelect
                         name="distributionChannel"
                         options={[{value:0, label:"All"}, ...distributionChannelDDL] || []}
@@ -207,8 +206,8 @@ export function RegisterReport({
                         errors={errors}
                         touched={touched}
                       />
-                    </div> */}
-
+                    </div>}
+                   
                     {[5, 7].includes(registerTypeId) && (
                       <div className="col-md-3 col-lg-2">
                         <InputField

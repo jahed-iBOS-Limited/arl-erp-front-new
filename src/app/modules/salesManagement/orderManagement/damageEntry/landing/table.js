@@ -47,6 +47,7 @@ const DamageEntryLandingTable = ({ obj }) => {
               )}
               <th>SL</th>
               <th>Challan No</th>
+              <th>Delivery Date</th>
               <th>Customer Name</th>
               <th>Customer Code</th>
               <th style={{ width: "120px" }}>Quantity</th>
@@ -78,6 +79,7 @@ const DamageEntryLandingTable = ({ obj }) => {
                 )}
                 <td className="text-center"> {index + 1}</td>
                 <td> {item?.deliveryChallan}</td>
+                <td className="text-center"> {_dateFormatter(item?.deliveryDate)}</td>
                 <td> {item?.businessPartnerName}</td>
                 <td> {item?.businessPartnerCode}</td>
 

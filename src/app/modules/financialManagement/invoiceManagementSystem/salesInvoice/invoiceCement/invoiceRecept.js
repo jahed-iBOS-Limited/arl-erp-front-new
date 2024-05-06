@@ -206,7 +206,12 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
               </tbody>
             </table>
           </div>
-          <p>On behalf of Akij Cement Company Ltd.</p>
+          <p className="text-danger py-2">Note: If you have any queries against this bill. Please Inform bellow sign within ten days (10), otherwise any kind of objection will not be granted further.</p>
+          <p>On behalf of {buName}</p>
+          <div style={{marginTop:"70px"}} className="d-flex justify-content-between">
+              <p><b>Prepared By</b></p>
+              <p><b>Recieved By</b></p>
+            </div>
           <div className="signature_wrapper">
             <div className="first signature bold">
               <p>{empName}</p>
