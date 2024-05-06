@@ -103,7 +103,7 @@ export const customerBankReconcileNSalesInvoiceApi = async (data, setDisabled, c
   setDisabled(true);
   try {
     const res = await Axios.post(
-      `/fino/BankBranch/customerBankReconcileNSalesInvoiceApi?typeId=1`,
+      `/fino/BankStatment/CustomerBankReconcileNSalesInvoice?typeId=1`,
       data
     );
     toast.success(res?.data?.message || "Submitted successfully");
