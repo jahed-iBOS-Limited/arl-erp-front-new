@@ -237,13 +237,17 @@ export const cancelSalesInvoice = async (
   buId,
   invoiceNumber,
   setLoading,
-  cb
+  cb,
+  setSingleRowItem,
+  userId,
+  values
 ) => {
   setLoading(true);
   try {
     const res = await axios.put(
-      `/oms/OManagementReport/CancelSalesInvoice?BusinessUnitId=${buId}&AccountId=${accId}&InvoiceNumber=${invoiceNumber}`
+      // `/oms/OManagementReport/CancelSalesInvoice?BusinessUnitId=${buId}&AccountId=${accId}&InvoiceNumber=${invoiceNumber}`
       // `/oms/OManagementReport/CancelSalesInvoice?BusinessUnitId=${buId}&AccountId=${accId}&SalesInvoiceId=${invoiceId}`
+      `oms/OManagementReport/CancelSalesInvoice?BusinessUnitId=${buId}&InvoiceNumber=${invoiceNumber}&PartnerId=${setSingleRowItem?.intPartnerId}&ActionBy=${userId}&Reasons=${values?.remarks || ""}`
     );
     toast.success(res?.data?.message);
     cb && cb();

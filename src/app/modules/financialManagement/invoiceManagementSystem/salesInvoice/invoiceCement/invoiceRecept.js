@@ -34,6 +34,8 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
   let totalQty = 0;
   let totalNetQty = 0;
   let grandTotal = 0;
+  let grandVatTotal = 0;
+  let grandTotalWithVat = 0;
   // let totalItemRate = 0;
 
   const getStyle = {
@@ -152,6 +154,8 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
                     Unit Price (TK)
                   </th>
                   <th style={getStyle}>Total Amount</th>
+                  <th style={getStyle}>Vat Amount</th>
+                  <th style={getStyle}>Total Amount(Vat included)</th>
                 </tr>
               </thead>
               <tbody>
@@ -159,6 +163,8 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
                   totalQty += item?.quantity;
                   // totalQty += item?.totalDeliveredQtyCFT;
                   grandTotal += item?.totalAmount || 0;
+                  grandVatTotal += item?.vatAmount || 0;
+                  grandTotalWithVat += item?.amountWithVat || 0;
                   // totalItemRate += item?.itemRate || 0;
                   totalNetQty += item?.netQty || 0;
 
@@ -185,6 +191,12 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
                       <td className="text-right">
                         {_fixedPoint(item?.totalAmount, true)}
                       </td>
+                      <td className="text-right">
+                        {_fixedPoint(item?.vatAmount, true)}
+                      </td>
+                      <td className="text-right">
+                        {_fixedPoint(item?.amountWithVat, true)}
+                      </td>
                     </tr>
                   );
                 })}
@@ -197,16 +209,23 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
                   <td> </td>
                   <td> </td>
                   <td>{_fixedPoint(grandTotal, true)}</td>
+                  <td>{_fixedPoint(grandVatTotal, true)}</td>
+                  <td>{_fixedPoint(grandTotalWithVat, true)}</td>
                 </tr>
                 <tr style={{ fontWeight: "bold", textAlign: "left" }}>
-                  <td colSpan={channelId === 43 ? 10 : 9} className="text-left">
+                  <td colSpan={channelId === 43 ? 12 : 11} className="text-left">
                     IN WORDS: {toWords.convert(grandTotal?.toFixed(0))}
                   </td>
                 </tr>
               </tbody>
             </table>
           </div>
+          <p className="text-danger py-2">Note: If you have any queries against this bill. Please Inform bellow sign within ten days (10), otherwise any kind of objection will not be granted further.</p>
           <p>On behalf of {buName}</p>
+          <div style={{marginTop:"70px"}} className="d-flex justify-content-between">
+              <p><b>Prepared By</b></p>
+              <p><b>Recieved By</b></p>
+            </div>
           <div className="signature_wrapper">
             <div className="first signature bold">
               <p>{empName}</p>

@@ -183,6 +183,10 @@ export default function PurchasePlanningAndScheduling() {
                             Name
                           </th>
                           <th>Uom</th>
+                          <th>PR NO.</th>
+                          <th>PR DATE</th>
+                          <th>REQUIRED DATE</th>
+                          <th>PR Qty</th>
                           <th>
                             Booking Qty
                             <br />
@@ -244,6 +248,10 @@ export default function PurchasePlanningAndScheduling() {
                               <td>{item?.strItemCode || 'N/A'}</td>
                               <td>{item?.strItemName || 'N/A'}</td>
                               <td>{item?.strUoMName || 'N/A'}</td>
+                              <td>{item?.strPurchaseRequestNo || 'N/A'}</td>
+                              <td>{_dateFormatter(item?.dtePurchaseRequestDate || "") || 'N/A'}</td>
+                              <td>{_dateFormatter(item?.dtePurchaseRequestRequiredDate) || 'N/A'}</td>
+                              <td>{item?.numPurchaseRequestQty || 'N/A'}</td>
                               <td>{item?.numContractQty || 0}</td>
                               <td>{item?.strPINumber || 0}</td>
                               <td>{item?.numPiQty || 0}</td>

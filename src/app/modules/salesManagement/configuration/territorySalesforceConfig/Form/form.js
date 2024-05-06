@@ -18,6 +18,7 @@ const validationSchema = Yup.object().shape({
     label: Yup.string().required("Territory type is required"),
     value: Yup.string().required("Territory type is required"),
   }),
+  
   // territory: Yup.object().shape({
   //   label: Yup.string().required("Territory is required"),
   //   value: Yup.string().required("Territory is required"),
@@ -181,6 +182,26 @@ export default function _Form({
                       : ""}
                   </p>
                 </div>
+
+                {[7].includes(values?.territoryType?.levelPosition) &&  <div className="col-lg-3">
+                        <NewSelect
+                          name="salesForceType"
+                          options={[
+                            {value:"TSO", label:"TSO"},
+                            {value: "TerritoryManager", label:"Territory Manager"},
+                            {value:"ProductServiceEngineer", label:"Product Service Engineer"},
+                          ]}
+                          value={values?.salesForceType}
+                          label="SalesForce Type"
+                          onChange={(valueOption) => {
+                            setFieldValue("salesForceType", valueOption);
+                            setRowDto([]);
+                          }}
+                          placeholder="SalesForce Type"
+                          errors={errors}
+                          touched={touched}
+                        />
+                      </div>}
 
                 <>
                   {["area", "region", "territory", "point"].includes(
@@ -418,12 +439,16 @@ export default function _Form({
                         email: values.employee.email,
                         employeeCode: values?.employee?.code,
                         channelId: values?.distributionChannel?.value,
+                        salesForceType:values?.salesForceType?.value || "",
                       };
 
                       if (!obj?.territoryId) {
                         return toast.warn(
                           "Please select territory or area or region or point"
                         );
+                      }
+                      if([7].includes(values?.territoryType?.levelPosition) && !obj?.salesForceType){
+                        return toast.warn("Please Select SalesForce Type")
                       }
                       setter(obj);
                     }}

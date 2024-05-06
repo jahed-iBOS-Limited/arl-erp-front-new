@@ -37,7 +37,7 @@ export function getGridData(accId, buId, data, pageNo, pageSize, search) {
     // `/oms/SalesForceTerritory/GetSalesForceTerritorySearchPagination?${searchPath}AccountId=${accId}&BUnitId=${buId}&status=true&PageNo=1&PageSize=100&viewOrder=desc`
     // `/oms/SalesInformation/getSalesForceConfig?intpartid=1&intChannelid=${0}&intBusinessunitid=${buId}`
 
-    `/oms/SalesInformation/getSalesForceConfig?intpartid=1&intChannelid=${data?.channelId | 0}&intBusinessunitid=${buId}&intSetupPKId=${data?.pkId || 0}&intLevelid=${data?.levelId || 0}&intEnroll=0&intRegionid=${data?.regionId || 0}&intAreaid=${data?.areaId || 0}&intterritoryid=${data?.territoryId || 0}&TerritoryTypeId=${data?.TerritoryTypeId || 0}`
+    `/oms/SalesInformation/getSalesForceConfig?intpartid=1&intChannelid=${data?.channelId | 0}&intBusinessunitid=${buId}&intSetupPKId=${data?.pkId || 0}&intLevelid=${data?.levelId || 0}&intEnroll=0&intRegionid=${data?.regionId || 0}&intAreaid=${data?.areaId || 0}&intterritoryid=${data?.territoryId || 0}&TerritoryTypeId=${data?.TerritoryTypeId || 0}&salesForceType=${data?.salesForceType || ""}`
   );
 }
 
