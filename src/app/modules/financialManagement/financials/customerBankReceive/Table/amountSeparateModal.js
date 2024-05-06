@@ -1,10 +1,15 @@
 import React, { useEffect } from "react";
 import InputField from "../../../../_helper/_inputField";
+import Loading from "../../../../_helper/_loading";
 import { Formik, Form, Field } from "formik";
-import { getInvoiceByPartnerApi } from "../helper";
+import {
+  customerBankReconcileNSalesInvoiceApi,
+  getInvoiceByPartnerApi,
+} from "../helper";
 import { shallowEqual, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
-function AmountSeparateModal({ selectedItem,separateModalCB }) {
+function AmountSeparateModal({ selectedItem, separateModalCB }) {
   let { selectedBusinessUnit, profileData } = useSelector(
     (state) => {
       return state.authData;
@@ -12,7 +17,7 @@ function AmountSeparateModal({ selectedItem,separateModalCB }) {
     { shallowEqual }
   );
   const [girdData, setGridData] = React.useState([]);
-
+  const [loading, setLoading] = React.useState(false);
   const onChangeHandler = (_girdData, idx) => {
     const copyGridData = [..._girdData];
     const actualAmount = +copyGridData[idx].actualAmount || 0;
@@ -50,7 +55,7 @@ function AmountSeparateModal({ selectedItem,separateModalCB }) {
           return {
             ...item,
             receviedAmount: 0,
-            dueAmount: 0,
+            dueAmount: +item.actualAmount || 0,
           };
         }
       });
@@ -61,7 +66,7 @@ function AmountSeparateModal({ selectedItem,separateModalCB }) {
         return {
           ...item,
           receviedAmount: 0,
-          dueAmount: 0,
+          dueAmount: +item.actualAmount || 0,
         };
       });
       setGridData(modifyData);
@@ -73,15 +78,49 @@ function AmountSeparateModal({ selectedItem,separateModalCB }) {
       getInvoiceByPartnerApi(
         selectedBusinessUnit?.value,
         setGridData,
-        selectedItem
+        selectedItem,
+        setLoading
       );
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedItem]);
 
-const saveHandler  = () => {
-  separateModalCB()
-}
+  const saveHandler = () => {
+    const receviedAmountSum = girdData?.reduce(
+      (acc, cur) => acc + (+cur.receviedAmount || 0),
+      0
+    );
+    if (receviedAmountSum === 0) {
+      return toast.warning("Please enter received amount");
+    }
+    const payload = {
+      JsonString: {
+        statementId: selectedItem?.bankStatementId || 0,
+        customerId: selectedItem?.customerList?.value || 0,
+        customerName: selectedItem?.customerList?.label || "",
+        narration: "",
+        actionById: profileData?.userId,
+        sbuId: 0,
+      },
+      JsonInvoiceInfo: girdData?.map((itm) => {
+        return {
+          salesInvoiceId: 0,
+          salesInvoiceCode: itm?.invoiceNumber,
+          invoiceAmount: +itm?.actualAmount || 0,
+          receiveAmount: +itm?.receviedAmount || 0,
+          dueAmount: +itm?.dueAmount || 0,
+          advanceAmount: +itm?.advanceAmount || 0,
+          customerId: selectedItem?.customerList?.value || 0,
+          customerName: selectedItem?.customerList?.label || "",
+          particulars: selectedItem?.particulars || "",
+          chequeNumber: selectedItem?.chequeNo || "",
+        };
+      }),
+    };
+    customerBankReconcileNSalesInvoiceApi(payload, setLoading, () => {
+      separateModalCB();
+    });
+  };
   return (
     <Formik
       enableReinitialize={true}
@@ -100,38 +139,12 @@ const saveHandler  = () => {
         isValid,
       }) => (
         <>
+          {loading && (
+            <>
+              <Loading />
+            </>
+          )}
           <Form className="form form-label-right">
-            {/* <div className="form-group row global-form">
-              <div
-                style={{
-                  marginTop: "18px",
-                }}
-                className="col-lg-3"
-              >
-                <Field
-                  name="isMrp"
-                  component={() => (
-                    <input
-                      style={{
-                        position: "absolute",
-                        top: "7px",
-                      }}
-                      id="isMrp"
-                      type="checkbox"
-                      value={values?.isMrp || false}
-                      checked={values?.isMrp || false}
-                      name="isMrp"
-                      onChange={(e) => {
-                        setFieldValue("isMrp", e.target.checked);
-                      }}
-                    />
-                  )}
-                />
-                <label htmlFor="isMrp" className="ml-5">
-                  Include in MRP Planning?
-                </label>
-              </div>
-            </div> */}
             <div
               className="mt-5"
               style={{
@@ -142,6 +155,13 @@ const saveHandler  = () => {
               <div>
                 <p className="m-1">
                   <b>Account No:</b> {selectedItem?.bankAccountNo}
+                </p>
+
+                <p className="m-1">
+                  <b>Particulars:</b> {selectedItem?.particulars}
+                </p>
+                <p className="m-1">
+                  <b>Cheque No.:</b> {selectedItem?.chequeNo}
                 </p>
                 <p className="m-1">
                   <b>Amount:</b> <span>{selectedItem?.creditAmount}</span>
@@ -154,6 +174,7 @@ const saveHandler  = () => {
                   onClick={() => {
                     saveHandler();
                   }}
+                  disabled={loading}
                 >
                   Save
                 </button>

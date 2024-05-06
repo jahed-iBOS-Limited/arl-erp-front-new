@@ -77,20 +77,41 @@ export const getBankAccountNoDDL = async (accId, buId, setter) => {
     console.log(err);
   }
 };
-export const getInvoiceByPartnerApi = async (buId, setter, selectedItem) => {
+export const getInvoiceByPartnerApi = async (buId, setter, selectedItem, setLoading) => {
+  setLoading(true);
   try {
     const res = await Axios.get(
       `/oms/OManagementReport/GetInvoiceByPartner?BusinessunitId=${buId}&businessPartnerId=${selectedItem?.customerList?.value}`
     );
+    setLoading(false);
     let totalAmount = +selectedItem?.creditAmount || 0;
     setter(
       res?.data?.map((data) => ({
         ...data,
-        dueAmount: +data?.actualAmount || 0,
+        dueAmount: (+data?.actualAmount || 0) - (data?.receviedAmount || 0),
         advanceAmount: data?.invoiceNumber ? 0 : totalAmount ,
+        receviedAmount: data?.receviedAmount || 0,
       }))
     );
   } catch (err) {
+    setLoading(false);
     console.log(err);
+  }
+};
+
+export const customerBankReconcileNSalesInvoiceApi = async (data, setDisabled, cb) => {
+  setDisabled(true);
+  try {
+    const res = await Axios.post(
+      `/fino/BankBranch/customerBankReconcileNSalesInvoiceApi?typeId=1`,
+      data
+    );
+    toast.success(res?.data?.message || "Submitted successfully");
+    setDisabled(false);
+    // getBankStatementData(values);
+    cb();
+  } catch (error) {
+    toast.error(error?.response?.data?.message);
+    setDisabled(false);
   }
 };
