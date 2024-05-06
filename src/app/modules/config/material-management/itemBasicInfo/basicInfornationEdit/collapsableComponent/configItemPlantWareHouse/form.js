@@ -786,7 +786,7 @@ export default function _Form({
                         label="Gross Weight (Kg)"
                         type="number"
                         // disabled={rowDto?.length > 1 || isEdit}
-                        min="0"
+                        // min="0"
                       />
                     </div>
                     <div className="col-lg-3">
@@ -798,7 +798,7 @@ export default function _Form({
                         label="Net Weight (Kg)"
                         type="number"
                         // disabled={rowDto?.length > 1 || isEdit}
-                        min="0"
+                        // min="0"
                       />
                     </div>
                     {/* <div className="col-lg-3" style={{ margin: "20px 0" }}>
