@@ -44,6 +44,7 @@ const [territoryTypeDDL, getTerritoryDDL] = useAxiosGet();
       territoryId: values?.territory?.value || 0,
       levelId: 0,
       pkId: 0,
+      salesForceType:values?.salesForceType?.value || "",
     };
     const userData = {
       TerritoryTypeId: 0,
@@ -149,6 +150,7 @@ const [territoryTypeDDL, getTerritoryDDL] = useAxiosGet();
     region: "",
     area: "",
     territory: "",
+    salesForceType:"",
   };
 
   const isHide = (values, name) => {
@@ -203,9 +205,25 @@ const [territoryTypeDDL, getTerritoryDDL] = useAxiosGet();
                       setFieldValue("region", "");
                       setFieldValue("area", "");
                       setFieldValue("territory", "");
+                      setFieldValue("salesForceType", "");
                     }}
                   />
                 </div>
+                {[7].includes(values?.territoryType?.levelPosition) &&  <div className="col-lg-3">
+                        <NewSelect
+                          name="salesForceType"
+                          options={[
+                            {value:"TSO", label:"TSO"},
+                            {value: "TerritoryManager", label:"Territory Manager"},
+                            {value:"ProductServiceEngineer", label:"Product Service Engineer"},
+                          ]}
+                          value={values?.salesForceType}
+                          label="SalesForce Type"
+                          onChange={(valueOption) => {
+                            setFieldValue("salesForceType", valueOption);
+                          }}                
+                        />
+                      </div>}
                     <RATForm obj={{ setFieldValue, values,  region: isHide(values, "region"), area: isHide(values, "area"), territory: isHide(values, "territory") }} />
                     <div className="col-12 text-right mt-5">
                       <button
