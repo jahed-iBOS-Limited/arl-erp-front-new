@@ -193,7 +193,8 @@ export function RegisterReport({
                         touched={touched}
                       />
                     </div>
-                    <div className="col-md-3 col-lg-2">
+                    {/* remove distribution channel order by hussain vai */}
+                    {/* <div className="col-md-3 col-lg-2">
                       <NewSelect
                         name="distributionChannel"
                         options={[{value:0, label:"All"}, ...distributionChannelDDL] || []}
@@ -206,7 +207,7 @@ export function RegisterReport({
                         errors={errors}
                         touched={touched}
                       />
-                    </div>
+                    </div> */}
 
                     {[5, 7].includes(registerTypeId) && (
                       <div className="col-md-3 col-lg-2">
@@ -472,8 +473,8 @@ export function RegisterReport({
                       })}
                       {registerTypeId === 7 ? (
                         <tr>
-                          {/* remove total row ...order by hussain vai */}
-                          {/* <td colSpan="3" className="text-right">
+                        
+                           <td colSpan="4" className="text-right">
                             <b>Total</b>
                           </td>
                           <td className="text-right">
@@ -515,7 +516,7 @@ export function RegisterReport({
                           <td className="text-right">
                             <b>{_formatMoney(totalAmount?.toFixed(2))}</b>
                           </td>
-                          <td></td> */}
+                          <td></td> 
                         </tr>
                       ) : (
                         <tr>
