@@ -104,7 +104,7 @@ function AmountSeparateModal({ selectedItem, separateModalCB }) {
       },
       jsonInvoiceInfo: girdData?.map((itm) => {
         return {
-          salesInvoiceId: 0,
+          salesInvoiceId: itm?.salesInvoiceId || 0,
           salesInvoiceCode: itm?.invoiceNumber,
           invoiceAmount: +itm?.actualAmount || 0,
           receiveAmount: +itm?.receviedAmount || 0,
