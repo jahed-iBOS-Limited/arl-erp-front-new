@@ -153,18 +153,27 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
                     {/* Unit Price (TK/{`${channelId === 43 ? "M.T" : "Bag"}`}) */}
                     Unit Price (TK)
                   </th>
-                  <th style={getStyle}>Total Amount</th>
+                  <th style={getStyle}>
+                    Total Amount
+                    {[8].includes(buId) ? " (Without VAT)" : ""}
+                  </th>
                   <th style={getStyle}>Vat Amount</th>
                   <th style={getStyle}>Total Amount(Vat included)</th>
                 </tr>
               </thead>
               <tbody>
                 {invoiceData?.map((item, index) => {
+                  const totalAmount = [8].includes(buId)
+                    ? (+item?.totalAmount || 0) - (+item?.vatAmount || 0)
+                    : item?.totalAmount || 0;
+                  const vatAmount = item?.vatAmount || 0;
+                  const amountWithVat = totalAmount + vatAmount;
+
                   totalQty += item?.quantity;
                   // totalQty += item?.totalDeliveredQtyCFT;
-                  grandTotal += item?.totalAmount || 0;
+                  grandTotal += totalAmount;
                   grandVatTotal += item?.vatAmount || 0;
-                  grandTotalWithVat += item?.amountWithVat || 0;
+                  grandTotalWithVat += amountWithVat;
                   // totalItemRate += item?.itemRate || 0;
                   totalNetQty += item?.netQty || 0;
 
@@ -189,13 +198,13 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
                         {item?.itemRate}
                       </td>
                       <td className="text-right">
-                        {_fixedPoint(item?.totalAmount, true)}
+                        {_fixedPoint(totalAmount, true)}
                       </td>
                       <td className="text-right">
                         {_fixedPoint(item?.vatAmount, true)}
                       </td>
                       <td className="text-right">
-                        {_fixedPoint(item?.amountWithVat, true)}
+                        {_fixedPoint(amountWithVat, true)}
                       </td>
                     </tr>
                   );
@@ -213,19 +222,33 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
                   <td>{_fixedPoint(grandTotalWithVat, true)}</td>
                 </tr>
                 <tr style={{ fontWeight: "bold", textAlign: "left" }}>
-                  <td colSpan={channelId === 43 ? 12 : 11} className="text-left">
+                  <td
+                    colSpan={channelId === 43 ? 12 : 11}
+                    className="text-left"
+                  >
                     IN WORDS: {toWords.convert(grandTotal?.toFixed(0))}
                   </td>
                 </tr>
               </tbody>
             </table>
           </div>
-          <p className="text-danger py-2">Note: If you have any queries against this bill. Please Inform bellow sign within ten days (10), otherwise any kind of objection will not be granted further.</p>
+          <p className="text-danger py-2">
+            Note: If you have any queries against this bill. Please Inform
+            bellow sign within ten days (10), otherwise any kind of objection
+            will not be granted further.
+          </p>
           <p>On behalf of {buName}</p>
-          <div style={{marginTop:"70px"}} className="d-flex justify-content-between">
-              <p><b>Prepared By</b></p>
-              <p><b>Recieved By</b></p>
-            </div>
+          <div
+            style={{ marginTop: "70px" }}
+            className="d-flex justify-content-between"
+          >
+            <p>
+              <b>Prepared By</b>
+            </p>
+            <p>
+              <b>Recieved By</b>
+            </p>
+          </div>
           <div className="signature_wrapper">
             <div className="first signature bold">
               <p>{empName}</p>
