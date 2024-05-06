@@ -20,6 +20,8 @@ import { SetFinancialsCustomerBankReceiveAction } from "../../../../_helper/redu
 import { useMemo } from "react";
 import "./style.css";
 import IClose from "../../../../_helper/_helperIcons/_close";
+import IViewModal from "../../../../_helper/_viewModal";
+import AmountSeparateModal from "./amountSeparateModal";
 
 const validationSchema = Yup.object().shape({
   toDate: Yup.string().when("fromDate", (fromDate, Schema) => {
@@ -33,6 +35,8 @@ const CustomerBankReceiveTable = () => {
   const [search, setSearch] = useState("");
   const [, setBankAccountNoDDL] = useState([]);
   const dispatch = useDispatch();
+  const [isAmountSeparateModal, setIsAmountSeparateModal] = useState(false);
+  const [selectedItem, setSelectedItem] = useState({});
 
   const { profileData, selectedBusinessUnit, userRole } = useSelector(
     (state) => state?.authData,
@@ -42,7 +46,6 @@ const CustomerBankReceiveTable = () => {
     (state) => state?.localStorage,
     shallowEqual
   );
-
 
   let initData = {
     fromDate: _todayDate(),
@@ -78,12 +81,15 @@ const CustomerBankReceiveTable = () => {
   }, [userRole]);
 
   const totalAmount = useMemo(() => {
-    let total = 0
-    if(landing?.length > 0){
-      total = landing.reduce((acc, item) => acc + Number(item?.creditAmount), 0)
+    let total = 0;
+    if (landing?.length > 0) {
+      total = landing.reduce(
+        (acc, item) => acc + Number(item?.creditAmount),
+        0
+      );
     }
     return (total || 0).toFixed(2);
-  },[landing])
+  }, [landing]);
 
   return (
     <div className="customer-bank-receive-fin">
@@ -152,18 +158,21 @@ const CustomerBankReceiveTable = () => {
                             fontSize: "14px",
                           }}
                         >
-                          <IClose title="Clear" closer={(e) => {
-                            setSearch("")
-                            getCustomerBankRecLanding(
-                              selectedBusinessUnit?.value,
-                              values?.bankAccountNo?.value,
-                              _dateFormatter(new Date("2021-07-01")),
-                              values?.toDate,
-                              setLoading,
-                              setLanding,
-                              ""
-                            );
-                            }} />
+                          <IClose
+                            title="Clear"
+                            closer={(e) => {
+                              setSearch("");
+                              getCustomerBankRecLanding(
+                                selectedBusinessUnit?.value,
+                                values?.bankAccountNo?.value,
+                                _dateFormatter(new Date("2021-07-01")),
+                                values?.toDate,
+                                setLoading,
+                                setLanding,
+                                ""
+                              );
+                            }}
+                          />
                         </div>
                       )}
                     </div>
@@ -181,7 +190,9 @@ const CustomerBankReceiveTable = () => {
                       </button>
                     </div>
                     <div className="col-lg-4 text-right">
-                      <h5 style={{marginTop: "15px"}}><b>Total</b> : {totalAmount}</h5>
+                      <h5 style={{ marginTop: "15px" }}>
+                        <b>Total</b> : {totalAmount}
+                      </h5>
                     </div>
                   </div>
                 </Form>
@@ -279,61 +290,79 @@ const CustomerBankReceiveTable = () => {
                                     )}
                                   </td>
                                   <td className="text-center align-middle">
-                                    {item?.reconsileStatusId === 1 && (
-                                      <button
-                                        className="btn p-0"
-                                        disabled={
-                                          item?.ysnReconciled ||
-                                          !item?.customerList?.value
-                                        }
-                                        onClick={() => {
-                                          if (!isCreate)
-                                            return toast.warn(
-                                              "You don't have permission"
-                                            );
-
-                                          if (!item?.customerList?.value) {
-                                            return toast.warning(
-                                              "Please add customer"
-                                            );
+                                    <div
+                                      style={{
+                                        display: "flex",
+                                        gap: "5px",
+                                        alignItems: "center",
+                                      }}
+                                    >
+                                      {item?.reconsileStatusId === 1 && (
+                                        <button
+                                          className="btn p-0"
+                                          disabled={
+                                            item?.ysnReconciled ||
+                                            !item?.customerList?.value
                                           }
+                                          onClick={() => {
+                                            if (!isCreate)
+                                              return toast.warn(
+                                                "You don't have permission"
+                                              );
 
-                                          let payload = [
-                                            {
-                                              StatementId:
-                                                item?.bankStatementId,
-                                              BankAccountId:
-                                                item?.bankAccountId || 0,
-                                              CustomerId:
-                                                item?.customerList?.value,
-                                              CustomerName:
-                                                item?.customerList?.label,
-                                              ActionById: profileData?.userId,
-                                              typeId: 1,
-                                              narration: "",
-                                              sbuId: 0,
-                                            },
-                                          ];
-                                          savecustomerBankRec(
-                                            payload,
-                                            setLoading,
-                                            () => {
-                                              landing.splice(index, 1);
-                                              setLanding([...landing]);
+                                            if (!item?.customerList?.value) {
+                                              return toast.warning(
+                                                "Please add customer"
+                                              );
                                             }
-                                          );
-                                        }}
-                                      >
+
+                                            let payload = [
+                                              {
+                                                StatementId:
+                                                  item?.bankStatementId,
+                                                BankAccountId:
+                                                  item?.bankAccountId || 0,
+                                                CustomerId:
+                                                  item?.customerList?.value,
+                                                CustomerName:
+                                                  item?.customerList?.label,
+                                                ActionById: profileData?.userId,
+                                                typeId: 1,
+                                                narration: "",
+                                                sbuId: 0,
+                                              },
+                                            ];
+                                            savecustomerBankRec(
+                                              payload,
+                                              setLoading,
+                                              () => {
+                                                landing.splice(index, 1);
+                                                setLanding([...landing]);
+                                              }
+                                            );
+                                          }}
+                                        >
+                                          <i
+                                            className={
+                                              (item?.partnerId
+                                                ? "text-warning"
+                                                : "text-success") +
+                                              " fa fa-check-circle "
+                                            }
+                                          ></i>
+                                        </button>
+                                      )}
+                                      {/* add icon add */}
+                                      {item?.customerList?.value ? (
                                         <i
-                                          className={
-                                            (item?.partnerId
-                                              ? "text-warning"
-                                              : "text-success") +
-                                            " fa fa-check-circle "
-                                          }
+                                          className="fa fa-plus-circle cursor-pointer"
+                                          onClick={() => {
+                                            setIsAmountSeparateModal(true);
+                                            setSelectedItem(item);
+                                          }}
                                         ></i>
-                                      </button>
-                                    )}
+                                      ) : null}
+                                    </div>
                                   </td>
                                 </tr>
                               ))}
@@ -344,6 +373,26 @@ const CustomerBankReceiveTable = () => {
                     </div>
                   </div>
                 </div>
+                {isAmountSeparateModal && (
+                  <>
+                    <IViewModal
+                      show={isAmountSeparateModal}
+                      onHide={() => {
+                        setIsAmountSeparateModal(false);
+                      }}
+                    >
+                      <AmountSeparateModal
+                        selectedItem={{
+                          ...selectedItem,
+                        }}
+                        separateModalCB={() => {
+                          setIsAmountSeparateModal(false);
+                          viewPurchaseOrderData(values);
+                        }}
+                      />
+                    </IViewModal>
+                  </>
+                )}
               </>
             )}
           </Formik>

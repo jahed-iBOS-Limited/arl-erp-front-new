@@ -7,7 +7,7 @@ export const getPlantList = async (userId, accId, buId, setter) => {
       `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&OrgUnitTypeId=7`
     );
     setter(res?.data);
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getWhList = async (userId, accId, buId, plantId, setter) => {
@@ -16,15 +16,22 @@ export const getWhList = async (userId, accId, buId, plantId, setter) => {
       `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&PlantId=${plantId}&OrgUnitTypeId=8`
     );
     setter(res?.data);
-  } catch (error) { }
+  } catch (error) {}
 };
-
 
 // /fino/BankBranch/GetUnReconcileList?BusinessUnitId=8&AccountNo=9&FromDate=2021-07-01&ToDate=2021-08-07&viewOrder=desc&PageNo=0&PageSize=200&search=
 
 // /fino/BankBranch/GetUnReconcileList?search=20502130100096513&BusinessUnitId=8&AccountNo=9&FromDate=2021-1-1&ToDate=2021-8-1
 
-export const getCustomerBankRecLanding = async (buId, accountNo, fromDate, toDate, setLoading, setter, search = "") => {
+export const getCustomerBankRecLanding = async (
+  buId,
+  accountNo,
+  fromDate,
+  toDate,
+  setLoading,
+  setter,
+  search = ""
+) => {
   setLoading(true);
   try {
     const res = await Axios.get(
@@ -44,11 +51,7 @@ export const getCustomerBankRecLanding = async (buId, accountNo, fromDate, toDat
   }
 };
 
-export const savecustomerBankRec = async (
-  data,
-  setDisabled,
-  cb
-) => {
+export const savecustomerBankRec = async (data, setDisabled, cb) => {
   setDisabled(true);
   try {
     const res = await Axios.post(
@@ -70,6 +73,23 @@ export const getBankAccountNoDDL = async (accId, buId, setter) => {
       `/fino/FinanceCommonDDL/BankAccountNumberDDL?AccountId=${accId}&BusinessUnitId=${buId}`
     );
     setter(res?.data);
+  } catch (err) {
+    console.log(err);
+  }
+};
+export const getInvoiceByPartnerApi = async (buId, setter, selectedItem) => {
+  try {
+    const res = await Axios.get(
+      `/oms/OManagementReport/GetInvoiceByPartner?BusinessunitId=${buId}&businessPartnerId=${selectedItem?.customerList?.value}`
+    );
+    let totalAmount = +selectedItem?.creditAmount || 0;
+    setter(
+      res?.data?.map((data) => ({
+        ...data,
+        dueAmount: +data?.actualAmount || 0,
+        advanceAmount: data?.invoiceNumber ? 0 : totalAmount ,
+      }))
+    );
   } catch (err) {
     console.log(err);
   }
