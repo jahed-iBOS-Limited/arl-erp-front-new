@@ -1,21 +1,22 @@
+import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
-import { Formik, Form } from "formik";
+import { useLocation } from "react-router-dom";
 import * as Yup from "yup";
+import IDelete from "../../../../_helper/_helperIcons/_delete";
 import InputField from "../../../../_helper/_inputField";
 import NewSelect from "../../../../_helper/_select";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import SearchAsyncSelect from "./../../../../_helper/SearchAsyncSelect";
-import FormikError from "./../../../../_helper/_formikError";
 import {
   getControllingUnitList,
-  getRequestTypeList,
   getCostCenterList,
   getCostElementList,
+  getRequestTypeList,
   getUOMList,
 } from "../helper";
-import { useLocation } from "react-router-dom";
+import SearchAsyncSelect from "./../../../../_helper/SearchAsyncSelect";
+import FormikError from "./../../../../_helper/_formikError";
 // import { QuantityCheck } from "../../../../_helper/_QuantityCheck";
 import Axios from "axios";
+import useAxiosGet from "../../purchaseOrder/customHooks/useAxiosGet";
 
 // Validation schema
 const validationSchema = Yup.object().shape({
@@ -60,7 +61,7 @@ export default function _Form({
   const location = useLocation();
   const [uomList, setUOMList] = useState([]);
   const [itemTypeId, setItemTypeId] = useState([]);
-
+ const [itemAvailableQty,getItemAvailableQty,,setItemAvailableQty] = useAxiosGet()
   useEffect(() => {
     getRequestTypeList(setReqTypeList);
     getControllingUnitList(
@@ -69,7 +70,6 @@ export default function _Form({
       setCUList
     );
   }, [selectedBusinessUnit, profileData]);
-
   useEffect(() => {
     let itemType =
       initData?.requestType?.label === "Asset PR"
@@ -380,12 +380,14 @@ export default function _Form({
                   ) : (
                     <div className="row global-form">
                       <div className="col-lg-4">
-                        <label>Item Name</label>
+                        <label>Item Name </label>
                         <SearchAsyncSelect
                           selectedValue={values?.itemName}
                           handleChange={(valueOption) => {
                             setFieldValue("itemName", valueOption);
                             setFieldValue("uomName", "");
+                            setItemAvailableQty(0)
+                            if(!valueOption) return ;
                             getUOMList(
                               valueOption?.value,
                               selectedBusinessUnit?.value,
@@ -393,6 +395,9 @@ export default function _Form({
                               setUOMList,
                               setFieldValue
                             );
+                            getItemAvailableQty(
+                              `/wms/InventoryTransaction/sprRuningQty?businessUnitId=${selectedBusinessUnit?.value}&whId=${location?.state?.wh?.value}&itemId=${valueOption?.value}`
+                            )
                           }}
                           loadOptions={loadUserList}
                           disabled={true}
@@ -424,7 +429,10 @@ export default function _Form({
                           touched={touched}
                         />
                       </div> */}
-                      <div className="col-lg-2 pr-0">
+                      <div style={{position:"relative"}} className="col-lg-3 pr-0">
+                        {
+                          values?.itemName && <span style={{display:"block",position:"absolute", right:0,color:"purple",marginTop:"4px", fontWeight:"bold"}}>Available Qty : {itemAvailableQty.toFixed(2) }</span>
+                        }
                         <NewSelect
                           name="uomName"
                           options={uomList || []}
