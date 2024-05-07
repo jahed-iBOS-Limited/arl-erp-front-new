@@ -158,7 +158,9 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
                   </th>
                   <th style={getStyle}>
                     Total Amount
-                    {[8].includes(buId) ? " (Without VAT)" : ""}
+                    {[8].includes(buId) && invoiceData?.[0]?.isVatinclude
+                      ? " (Without VAT)"
+                      : ""}
                   </th>
                   <th style={getStyle}>Vat Amount</th>
                   <th style={getStyle}>Total Amount(Vat included)</th>
@@ -166,11 +168,28 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
               </thead>
               <tbody>
                 {invoiceData?.map((item, index) => {
-                  const totalAmount = [8].includes(buId)
-                    ? (+item?.totalAmount || 0) - (+item?.vatAmount || 0)
-                    : item?.totalAmount || 0;
-                  const vatAmount = item?.vatAmount || 0;
-                  const amountWithVat = totalAmount + vatAmount;
+                  let totalAmount = 0;
+                  let vatAmount = 0;
+                  let amountWithVat = 0;
+
+                  if ([8].includes(buId)) {
+                    // if vat is included in the price
+                    if (item?.isVatinclude) {
+                      totalAmount =
+                        (+item?.totalAmount || 0) - (+item?.vatAmount || 0);
+                      vatAmount = item?.vatAmount || 0;
+                      amountWithVat = totalAmount + vatAmount;
+                    } else {
+                      // if vat is not included in the price
+                      totalAmount = item?.totalAmount || 0;
+                      vatAmount = 0;
+                      amountWithVat = totalAmount + vatAmount;
+                    }
+                  } else {
+                    totalAmount = item?.totalAmount || 0;
+                    vatAmount = item?.vatAmount || 0;
+                    amountWithVat = totalAmount + vatAmount;
+                  }
 
                   totalQty += item?.quantity;
                   // totalQty += item?.totalDeliveredQtyCFT;
