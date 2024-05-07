@@ -346,12 +346,13 @@ export const getPurchaseRequestbyId = async (prId, setter, setDisabled) => {
   }
 };
 
-export const getReportListPurchaseReq = async (prId, buId, setter) => {
+export const getReportListPurchaseReq = async (prId, buId, setter, cb) => {
   try {
     const res = await Axios.get(
       `/procurement/PurchaseRequest/GetPurchaseRequestInformationByRequestIdPrint?RequestId=${prId}&BusinessUnitId=${buId}`
     );
     setter(res?.data[0]);
+    cb && cb(res?.data[0]);
   } catch (error) { }
 };
 
@@ -446,6 +447,24 @@ export const completePoHandlerAction = async (
     toast.error(error?.response?.data?.message || "Cancel Failed");
   }
 };
+
+
+export function mergeFields(mainArray, secondaryArray, idField) {
+  return mainArray.map((item) => {
+    const matchingItem = secondaryArray.find(
+      (i) => i[idField] === item[idField]
+    );
+    if (matchingItem) {
+      return {
+        ...item,
+        numStockByDate: matchingItem.numStockByDate,
+        numStockRateByDate: matchingItem.numStockRateByDate,
+      };
+    } else {
+      return { ...item, numStockByDate: null, numStockRateByDate: null };
+    }
+  });
+}
 
 
 
