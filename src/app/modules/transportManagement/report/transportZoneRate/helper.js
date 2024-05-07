@@ -62,7 +62,7 @@ export const getLandingData = async (
         const totalRate =
           item?.factoryToGhatTransferRate +
           item?.num7tonRate +
-          item?.handlingCost +
+          // item?.handlingCost +
           item?.labourCost +
           item?.subsidyCostRate;
         return {
