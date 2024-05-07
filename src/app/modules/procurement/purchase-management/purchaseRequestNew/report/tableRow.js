@@ -12,10 +12,12 @@ import { APIUrl } from "../../../../../App";
 import ICustomCard from "../../../../_helper/_customCard";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import IViewModal from "../../../../_helper/_viewModal";
-import { getReportListPurchaseReq } from "../helper";
+import { getReportListPurchaseReq, mergeFields } from "../helper";
 import Loading from "./../../../../_helper/loader/_loader";
 import "./salaryAdvice.css";
 import ViewForm from "./viewForm";
+import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+
 
 // let imageObj = {
 //   8: iMarineIcon,
@@ -25,18 +27,41 @@ const initData = {};
 const validationSchema = Yup.object().shape({});
 
 // this component is used from multiple place, dont change existing props name
-export function ItemReqViewTableRow({ prId }) {
+export function ItemReqViewTableRow({currentRowData : {transectionId} }) {
   const [loading, setLoading] = useState(false);
   const [purchaseReport, setPurchaseReport] = useState("");
   const [isShowModal, setIsShowModal] = useState(false);
+  const[ ,getRuningStockAndQuantityList] = useAxiosPost();
 
   const selectedBusinessUnit = useSelector((state) => {
     return state.authData.selectedBusinessUnit;
   }, shallowEqual);
 
   useEffect(() => {
-    getReportListPurchaseReq(prId, selectedBusinessUnit?.value, setPurchaseReport);
-  }, [prId, selectedBusinessUnit]);
+    getReportListPurchaseReq(transectionId, selectedBusinessUnit?.value, setPurchaseReport, ({getPurchaseRequestPrintHeader, getPurchaseRequestPrintRow, objEmpListDTO}) => {
+      if (getPurchaseRequestPrintRow?.length) {
+          const payload = getPurchaseRequestPrintRow.map((item) => ({
+              BusinessUnitId: getPurchaseRequestPrintHeader?.businessUnitId,
+              WareHouseId: getPurchaseRequestPrintHeader?.warehouseId,
+              ItemId: item?.itemId,
+          }));
+  
+          // Fetch running stock and quantity list
+          getRuningStockAndQuantityList(`/wms/InventoryTransaction/GetRuningStockAndQuantityList`, payload, (res) => {
+              // Merge fields based on itemId
+              const modifiedPrintRow = mergeFields(getPurchaseRequestPrintRow, res, 'ItemId');
+              
+              // Update the purchase report
+              setPurchaseReport({
+                  getPurchaseRequestPrintHeader,
+                  getPurchaseRequestPrintRow: modifiedPrintRow,
+                  objEmpListDTO
+              });
+          });
+      }
+  });
+  
+  }, [transectionId, selectedBusinessUnit]);
 
   const printRef = useRef();
   // const history = useHistory();
@@ -211,8 +236,8 @@ export function ItemReqViewTableRow({ prId }) {
                             <th>Item Name</th>
                             <th style={{width: "260px"}}>Purchase Description</th>
                             <th>Uom</th>
-                            <th>Quantity</th>
-                            {/* <th>Current Stock</th> */}
+                            <th>Requested Quantity</th>
+                            <th>Available Stock</th>
                             <th>Last Price</th>
                           </tr>
                         </thead>
@@ -228,9 +253,9 @@ export function ItemReqViewTableRow({ prId }) {
                                 <td className='text-right'>
                                   {data?.numRequestQuantity}
                                 </td>
-                                {/* <td className='text-right'>
-                                  {data?.currentStock}
-                                </td> */}
+                                <td className='text-right'>
+                                  {data?.numStockByDate || 0}
+                                </td>
                                 <td className='text-right'>
                                   {data?.lastPrice}
                                 </td>
