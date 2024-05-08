@@ -20,9 +20,9 @@ function Form({
   allSelect,
   accId,
   buId,
-  setUploadedImage,
+  // setUploadedImage,
 }) {
-  const [open, setOpen] = useState(false);
+
   return (
     <>
       <Formik
@@ -81,20 +81,18 @@ function Form({
                 </div>
 
                 <FromDateToDateForm obj={{ values, setFieldValue }} />
-                <div className="col-lg-3 mt-5">
+                {/* <div className="col-lg-3 mt-5">
                   <button
                     className="btn btn-primary"
                     type="button"
-                    onClick={() => {
-                      setOpen(true);
-                    }}
+                   
                     disabled={!gridData?.length}
                   >
                     Attach File
                   </button>
-                </div>
+                </div> */}
 
-                <AttachFile obj={{ open, setOpen, setUploadedImage }} />
+               
 
                 <IButton
                   onClick={() => {

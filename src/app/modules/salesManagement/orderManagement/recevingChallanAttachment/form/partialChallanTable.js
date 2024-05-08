@@ -10,12 +10,12 @@ import IViewModal from "../../../../_helper/_viewModal";
 import AttachmentListTable from "./attachmentListTable";
 import { DropzoneDialogBase } from "material-ui-dropzone";
 import { compressfile } from "../../../../_helper/compressfile";
-import { uploadAttachment } from "../helper";
-
+import { empAttachment_action, uploadAttachment } from "../helper";
+import AttachFile from "../../../../_helper/commonInputFieldsGroups/attachemntUpload";
 
 export default function PartialChallanTable({ obj }) {
   const { gridData, allSelect, selectedAll, setGridData } = obj;
-  const {profileData, selectedBusinessUnit} = useSelector((state) => {
+  const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
 
@@ -24,9 +24,9 @@ export default function PartialChallanTable({ obj }) {
   const [fileObjects, setFileObjects] = useState([]);
   const [billId, setBillId] = useState(null);
   const [disabled, setDisabled] = useState(false);
+  const [selectItemRow, setSelectItemRow] = useState({});
 
-
-
+  const [open, setOpen] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -41,37 +41,36 @@ export default function PartialChallanTable({ obj }) {
   let totalAmount = 0;
   let totalDamage = 0;
 
-
-    // attachment save actions
-    const saveHandler = async () => {
-      if (!fileObjects.length) return null;
-      const compressedFile = await compressfile(fileObjects?.map((f) => f.file));
-      uploadAttachment(compressedFile, setDisabled).then((res) => {
-        const attachment = res?.[0] || "";
-        const payload = [
-          {
-            intAccountId: profileData?.accountId,
-            intBusinessUnitId: selectedBusinessUnit?.value,
-            intBillid: +billId,
-            strTitle: attachment?.fileName || "",
-            strAttatchment: attachment?.id || "",
-          },
-        ];
-        if (attachment?.id) {
-          // createBillAttachment(
-          //   `/fino/FinancialStatement/CreateBillAttatchment`,
-          //   payload,
-          //   () => {
-          //     setFileObjects([]);
-          //     ViewOnChangeHandler(values);
-          //   },
-          //   true
-          // );
-        } else {
-          toast.warning("Upload Failed");
-        }
-      });
-    };
+  // attachment save actions
+  const saveHandler = async () => {
+    if (!fileObjects.length) return null;
+    const compressedFile = await compressfile(fileObjects?.map((f) => f.file));
+    uploadAttachment(compressedFile, setDisabled).then((res) => {
+      const attachment = res?.[0] || "";
+      const payload = [
+        {
+          intAccountId: profileData?.accountId,
+          intBusinessUnitId: selectedBusinessUnit?.value,
+          intBillid: +billId,
+          strTitle: attachment?.fileName || "",
+          strAttatchment: attachment?.id || "",
+        },
+      ];
+      if (attachment?.id) {
+        // createBillAttachment(
+        //   `/fino/FinancialStatement/CreateBillAttatchment`,
+        //   payload,
+        //   () => {
+        //     setFileObjects([]);
+        //     ViewOnChangeHandler(values);
+        //   },
+        //   true
+        // );
+      } else {
+        toast.warning("Upload Failed");
+      }
+    });
+  };
   return (
     <>
       <table className="table table-striped table-bordered global-table">
@@ -184,37 +183,35 @@ export default function PartialChallanTable({ obj }) {
                         <td className="text-right">
                           {_fixedPoint(element?.quantity - element?.returnQty)}
                         </td>
-                        <td className="text-center">
-                          <ICon
-                            title={`${
-                              item?.attatchment?.length
-                                ? "View Attachment"
-                                : "Upload Attachment"
-                            }`}
-                            onClick={(e) => {
-                              if (item?.attatchment?.length > 0) {
-                                if (item?.attatchment?.length > 1) {
-                                  setAttachmentItemList(item?.attatchment);
-                                  setAttachmentListModal(true);
-                                } else {
-                                  dispatch(
-                                    getDownlloadFileView_Action(
-                                      item?.attatchment[0]
-                                    )
-                                  );
-                                }
-                              } else {
-                                // e.preventDefault();
-                                setBillId(1);
-                              }
-                            }}
-                          >
-                            <i class="far fa-file-image"></i>
-                          </ICon>
-                        </td>
                       </>
                     );
                   })}
+                  <td className="text-center">
+                    {item?.attatchment && (
+                      <ICon
+                        title={`View Attachment`}
+                        onClick={(e) => {
+                          dispatch(
+                            getDownlloadFileView_Action(item?.attatchment)
+                          );
+                        }}
+                      >
+                        <i class="far fa-file-image"></i>
+                      </ICon>
+                    )}
+
+                    <span
+                      onClick={() => {
+                        setOpen(true);
+                        setSelectItemRow({
+                          rowIndex: index,
+                          setGridData,
+                        });
+                      }}
+                    >
+                      <i class="fa fa-paperclip" aria-hidden="true"></i>
+                    </span>
+                  </td>
                 </tr>
               </>
             );
@@ -244,34 +241,46 @@ export default function PartialChallanTable({ obj }) {
         </IViewModal>
       </>
       <>
-      <DropzoneDialogBase
-            filesLimit={4}
-            acceptedFiles={["image/*", "application/pdf"]}
-            fileObjects={fileObjects}
-            cancelButtonText={"cancel"}
-            submitButtonText={"submit"}
-            maxFileSize={1000000}
-            open={billId}
-            onAdd={(newFileObjs) => {
-              setFileObjects([].concat(newFileObjs));
-            }}
-            onDelete={(deleteFileObj) => {
-              const newData = fileObjects.filter(
-                (item) => item.file.name !== deleteFileObj.file.name
-              );
-              setFileObjects(newData);
-            }}
-            onClose={() => {
-              setBillId(null);
-              setFileObjects([]);
-            }}
-            onSave={() => {
-              setBillId(null);
-              saveHandler();
-            }}
-            showPreviews={true}
-            showFileNamesInPreview={true}
-          />
+        <DropzoneDialogBase
+          filesLimit={1}
+          acceptedFiles={["image/*", "application/pdf"]}
+          fileObjects={fileObjects}
+          cancelButtonText={"cancel"}
+          submitButtonText={"submit"}
+          maxFileSize={1000000}
+          open={open}
+          onAdd={(newFileObjs) => {
+            setFileObjects([].concat(newFileObjs));
+          }}
+          onDelete={(deleteFileObj) => {
+            const newData = fileObjects.filter(
+              (item) => item.file.name !== deleteFileObj.file.name
+            );
+            setFileObjects(newData);
+          }}
+          onClose={() => {
+            setOpen(false);
+            setFileObjects([]);
+            setSelectItemRow({});
+          }}
+          onSave={() => {
+            setOpen(false);
+            empAttachment_action(fileObjects)
+              .then((data) => {
+                const copyGridData = [...gridData];
+                copyGridData[selectItemRow?.rowIndex].attatchment = data[0]?.id;
+                setGridData(copyGridData);
+                setOpen(false);
+                setFileObjects([]);
+                setSelectItemRow({});
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          }}
+          showPreviews={true}
+          showFileNamesInPreview={true}
+        />
       </>
     </>
   );

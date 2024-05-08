@@ -21,7 +21,7 @@ function RecevingChallanAttachmentEntryFrom() {
   const [gridData, , loader, setGridData] = useAxiosGet();
   const [loading, setLoading] = useState(false);
   const [, partialSalesReturnEntry, entryLoader] = useAxiosPost();
-  const [uploadedImage, setUploadedImage] = useState([]);
+  // const [uploadedImage, setUploadedImage] = useState([]);
   const history = useHistory();
 
   // get user profile data from store
@@ -40,7 +40,7 @@ function RecevingChallanAttachmentEntryFrom() {
     getSalesReturnPreData(urlTwo, setLoading, (resData) => {
       const modifyData = resData?.data?.map((item) => ({
         ...item,
-        attatchment: item?.attatchment?.length > 1 ? item?.attatchment : [],
+        attatchment:'',
         isSelected: false,
         rowData: item?.rowData?.map((elem) => ({ ...elem, returnQty: "" })),
       }));
@@ -64,6 +64,7 @@ function RecevingChallanAttachmentEntryFrom() {
       : false;
   };
 
+  console.log(gridData, "gridData")
   const saveHandler = (values) => {
     const selectedItems = gridData?.filter((item) => item.isSelected);
     if (selectedItems?.length === 0) {
@@ -90,7 +91,10 @@ function RecevingChallanAttachmentEntryFrom() {
 
     const rows = selectedItems;
 
+    console.log(rows, "rows")
+
     const payloadForPartialReturn = rows?.map((header) => {
+      console.log(header, "header")
       const totalQty = header?.rowData?.reduce((a, b) => (a += b?.quantity), 0);
       const totalAmount = header?.rowData?.reduce(
         (a, b) => (a += b?.amount),
@@ -130,7 +134,7 @@ function RecevingChallanAttachmentEntryFrom() {
         }),
 
         img: {
-          attatchment: uploadedImage[0]?.id || "",
+          attatchment: header?.attatchment|| "",
         },
       };
     });
@@ -160,7 +164,7 @@ function RecevingChallanAttachmentEntryFrom() {
         allSelect={allSelect}
         accId={accId}
         buId={buId}
-        setUploadedImage={setUploadedImage}
+        // setUploadedImage={setUploadedImage}
       />
     </>
   );
