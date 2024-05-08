@@ -52,6 +52,8 @@ function Form({ propsObj }) {
               setFieldValue("distributionChannel", "");
               setFieldValue("refNumber", "");
               setFieldValue("salesOrder", "");
+              setFieldValue("soldBy", "");
+              setFieldValue("salesOrderCreatedBy", "");
               setRowDto([]);
             }}
             placeholder="Invoice Type"
@@ -165,6 +167,8 @@ function Form({ propsObj }) {
                 label="Sales Order"
                 onChange={(valueOption) => {
                   setFieldValue("salesOrder", valueOption);
+                  setFieldValue("soldBy", {value: valueOption?.soCreatedByEmployeeId, label: valueOption?.soCreatedByEmployeeName});
+                  setFieldValue("salesOrderCreatedBy", {value: valueOption?.soCreatedByEmployeeId, label: valueOption?.soCreatedByEmployeeName});
                   getSOInfo(
                     `/oms/SalesOrder/GetDataBySalesOrderId?AccountId=${accId}&BusinessUnit=${buId}&SalesOrderId=${valueOption?.value}`,
                     (resData) => {
