@@ -1,13 +1,12 @@
 import axios from "axios";
 import { Formik } from "formik";
-import React, { useState } from "react";
+import React from "react";
 import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
 import ICustomCard from "../../../../_helper/_customCard";
 import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
 import RATForm from "../../../../_helper/commonInputFieldsGroups/ratForm";
 import IButton from "../../../../_helper/iButton";
 import PartialChallanTable from "./partialChallanTable";
-import AttachFile from "../../../../_helper/commonInputFieldsGroups/attachemntUpload";
 
 function Form({
   initData,
@@ -20,9 +19,8 @@ function Form({
   allSelect,
   accId,
   buId,
-  setUploadedImage,
 }) {
-  const [open, setOpen] = useState(false);
+
   return (
     <>
       <Formik
@@ -34,7 +32,7 @@ function Form({
       >
         {({ values, setFieldValue, handleSubmit }) => (
           <ICustomCard
-            title={"Damage Entry Form"}
+            title={"Receving Challan Attachment Entry Form"}
             backHandler={() => {
               history.goBack();
             }}
@@ -81,20 +79,8 @@ function Form({
                 </div>
 
                 <FromDateToDateForm obj={{ values, setFieldValue }} />
-                <div className="col-lg-3 mt-5">
-                  <button
-                    className="btn btn-primary"
-                    type="button"
-                    onClick={() => {
-                      setOpen(true);
-                    }}
-                    disabled={!gridData?.length}
-                  >
-                    Attach File
-                  </button>
-                </div>
-
-                <AttachFile obj={{ open, setOpen, setUploadedImage }} />
+                
+               
 
                 <IButton
                   onClick={() => {
