@@ -35,6 +35,7 @@ import { SalesReportOMS } from "./salesReportOMS/index";
 import SalesReturnForm from "./salesReturn/form/addEditForm";
 import SalesReturn from "./salesReturn/landing/table";
 import RecevingChallanAttachmentEntryFrom from "./recevingChallanAttachment/form/addEditForm";
+import RecevingChallanAttachmentEntryLanding from "./recevingChallanAttachment/landing";
 
 export function OrderManagementPages() {
   const { userRole } = useSelector((state) => state?.authData, shallowEqual);
@@ -250,8 +251,13 @@ export function OrderManagementPages() {
       />
 
      <ContentRoute
-        from='/sales-management/ordermanagement/recevingchallanattachment'
+        from='/sales-management/ordermanagement/recevingchallanattachment/entry'
         component={RecevingChallanAttachmentEntryFrom}
+      />
+
+     <ContentRoute
+        from='/sales-management/ordermanagement/recevingchallanattachment'
+        component={RecevingChallanAttachmentEntryLanding}
       />
 
       {/* Sales Order Report Routes */}

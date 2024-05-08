@@ -31,7 +31,7 @@ const initData = {
   sbu: "",
 };
 
-const DamageEntryLanding = () => {
+const RecevingChallanAttachmentEntryLanding = () => {
   const [gridData, setGridData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [pageNo, setPageNo] = useState(0);
@@ -229,10 +229,10 @@ const DamageEntryLanding = () => {
         {({ values, setFieldValue }) => (
           <>
             <ICustomCard
-              title="Damage Entry"
+              title="Receving Challan Attachment"
               createHandler={() => {
                 history.push(
-                  `/sales-management/ordermanagement/damageentry/entry`
+                  `/sales-management/ordermanagement/recevingchallanattachment/entry`
                 );
               }}
             >
@@ -294,4 +294,4 @@ const DamageEntryLanding = () => {
   );
 };
 
-export default DamageEntryLanding;
+export default RecevingChallanAttachmentEntryLanding;
