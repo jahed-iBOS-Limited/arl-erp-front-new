@@ -14,6 +14,7 @@ import { polyFibreLetterhead } from "../base64Images/polyFibre";
 import { ispatLetterhead } from "../base64Images/ispat";
 import { buildingLetterhead } from "../base64Images/building";
 import { magnumLetterhead } from "../base64Images/magnum";
+import { commoditiesLetterhead } from "../base64Images/commodities";
 
 const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
   const toWords = new ToWords({
@@ -65,6 +66,8 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
       ? buildingLetterhead
       : buId === 171
       ? magnumLetterhead
+      : buId === 221
+      ? commoditiesLetterhead
       : "";
 
   return (

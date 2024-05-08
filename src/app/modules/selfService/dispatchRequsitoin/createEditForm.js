@@ -34,6 +34,7 @@ const initData = {
   uom: "",
   remarks: "",
   rowRemark: "",
+  reciverBuName:"",
 };
 
 export default function DispatchRequisitionCreateEdit() {
@@ -59,7 +60,7 @@ export default function DispatchRequisitionCreateEdit() {
       employeeId,
       userId,
     },
-    selectedBusinessUnit: { value: buId },
+    selectedBusinessUnit: { value: buId, label : buName },
     // businessUnitList,
   } = useSelector((state) => state?.authData, shallowEqual);
   const [uomList, getUoMList] = useAxiosGet();
@@ -83,6 +84,8 @@ export default function DispatchRequisitionCreateEdit() {
         receiverEnrollId: values.receiverName?.value || 0,
         receiverName:
           values.receiverName?.strEmployeeName || values?.receiverName || "",
+        ReceiverBusinessUnitId : values?.receiverName?.employeeBusinessUnitId || 0,
+        ReceiverBusinessUnit : values?.receiverName?.employeeBusinessUnit || "",
         dispatchSenderReceiverEnroll: values?.senderName?.value,
         dispatchSenderReceiverName: values.senderName?.strEmployeeName,
         receiverContactNo: values?.contactNo,
@@ -96,6 +99,7 @@ export default function DispatchRequisitionCreateEdit() {
         actionById: employeeId,
         accountId: accId,
         businessUnitId: buId,
+        businessUnit: buName
         // isActive: true,
         // isSend: false,
       },
@@ -203,10 +207,13 @@ export default function DispatchRequisitionCreateEdit() {
                 value: header?.ReceiverEnrollId,
                 label: header?.ReceiverName,
                 strEmployeeName: header?.ReceiverName,
+                employeeBusinessUnitId:header?.ReceiverBusinessUnitId,
+                employeeBusinessUnit: header?.ReceiverBusinessUnitId,
               }
             : header?.ReceiverName
             ? header?.ReceiverName
             : "",
+        reciverBuName:header?.ReceiverBusinessUnitId && header?.ReceiverBusinessUnit ? {value:header?.ReceiverBusinessUnitId, label: header?.ReceiverBusinessUnit} : "",
         senderName:
           header?.SenderEnrollId && header?.SenderName
             ? {
@@ -333,12 +340,22 @@ export default function DispatchRequisitionCreateEdit() {
                           setFieldValue("toLocation", "");
                           setFieldValue("receiverName", valueOption);
                           setFieldValue("contactNo", valueOption?.contactNo);
+                          setFieldValue("reciverBuName", {value: valueOption?.employeeBusinessUnitId, label: valueOption?.employeeBusinessUnit});
                           if (!valueOption) return;
                           getToLocationPlantDDL(
                             `/wms/ItemPlantWarehouse/GetWareHouseItemPlantWareHouseDDL?accountId=${accId}&businessUnitId=${valueOption?.employeeBusinessUnitId}&PlantId=0`
                           );
                         }}
                         loadOptions={loadUserList}
+                      />
+                    </div>
+                    <div className="col-lg-3">
+                      <NewSelect
+                        name="reciverBuName"
+                        options={[]}
+                        value={values?.reciverBuName}
+                        label="Reciver Business Unit"
+                        disabled={true}
                       />
                     </div>
                   </>
