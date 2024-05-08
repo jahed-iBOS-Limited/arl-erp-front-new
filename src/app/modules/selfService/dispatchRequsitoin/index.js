@@ -38,8 +38,9 @@ export default function DispatchRequisitionLanding() {
     "Send Date",
     "Received Date",
     "From Location",
-    "To Location",
     "Receiver Name",
+    "Receiver Business Unit",
+    "Receiver Location",
     "Status",
     "Action",
   ];
@@ -174,6 +175,12 @@ export default function DispatchRequisitionLanding() {
                     ) {
                       header = "Sender Name";
                       return header;
+                    }else if (
+                      values?.requisition === "received" &&
+                      header === "Receiver Business Unit"
+                    ) {
+                      header =  "Sender Business Unit";
+                      return header;
                     }
                     return header;
                   })}
@@ -196,17 +203,20 @@ export default function DispatchRequisitionLanding() {
                           {_dateFormatter(item.dispatchReceiveDate)}
                         </td>
                         <td className="text-center">{item?.fromLocation}</td>
-                        <td className="text-center">{item?.toLocation}</td>
                         <td className="text-center">
                           {values?.requisition === "send"
                             ? item?.receiverName
-                            : item?.senderName}{" "}
+                            : item?.senderName}
                           [
                           {values?.requisition === "send"
                             ? item?.receiverEnrollId
                             : item?.senderEnrollId}
                           ]
                         </td>
+                        <td className="text-center">{values?.requisition === "send"
+                            ? item?.receiverBusinessUnit
+                            : item?.businessUnit}</td>
+                        <td className="text-center">{item?.toLocation}</td>
                         {values?.requisition === "send" ? (
                           <td className="text-center">
                             {item?.isSend &&
