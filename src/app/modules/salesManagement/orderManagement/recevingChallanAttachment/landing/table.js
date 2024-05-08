@@ -54,7 +54,10 @@ const DamageEntryLandingTable = ({ obj }) => {
 
               onUpdateAttachment(
                 `/oms/SalesReturnAndCancelProcess/UpdateReceivedChallanAttachment`,
-                payload
+                payload,
+                ()=>{
+                  setGridData(null)
+                }
               );
             }}
             type="button"
