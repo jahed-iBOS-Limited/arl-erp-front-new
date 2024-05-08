@@ -167,7 +167,9 @@ export default function PartialChallanTable({ obj }) {
                           }}
                           className="ml-2 cursor-pointer"
                         >
-                          <i class="fa fa-paperclip" aria-hidden="true"></i>
+                          <ICon title={`Upload Attachment`}>
+                            <i class="fa fa-paperclip" aria-hidden="true"></i>
+                          </ICon>
                         </span>
                       )}
                     </div>

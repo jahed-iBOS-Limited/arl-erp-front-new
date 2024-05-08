@@ -1,14 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React from "react";
-import { useDispatch } from "react-redux";
+import { DropzoneDialogBase } from "material-ui-dropzone";
+import React, { useState } from "react";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import IApproval from "../../../../_helper/_helperIcons/_approval";
-import IClose from "../../../../_helper/_helperIcons/_close";
 import InputField from "../../../../_helper/_inputField";
 import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
 import ICon from "../../../../chartering/_chartinghelper/icons/_icon";
+import { empAttachment_action } from "../helper";
+import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 
 const DamageEntryLandingTable = ({ obj }) => {
   const {
@@ -18,33 +19,66 @@ const DamageEntryLandingTable = ({ obj }) => {
     allSelect,
     selectedAll,
     setGridData,
-    cancelHandler,
+    // cancelHandler,
     dataChangeHandler,
-    salesReturnApprove,
+    // salesReturnApprove,
   } = obj;
 
+  const { profileData, selectedBusinessUnit } = useSelector((state) => {
+    return state.authData;
+  }, shallowEqual);
+
   const dispatch = useDispatch();
+  const [selectItemRow, setSelectItemRow] = useState({});
+  const [fileObjects, setFileObjects] = useState([]);
+  const [, onUpdateAttachment] = useAxiosPost();
+
+  const [open, setOpen] = useState(false);
 
   return (
     <>
+      {gridData?.data?.some((item) => item?.isSelected) && (
+        <div className="text-right">
+          <button
+            className="btn btn-primary"
+            onClick={() => {
+              const selectedData = gridData?.data?.filter(
+                (item) => item?.isSelected
+              );
+              const payload = selectedData?.map((item) => ({
+                businessUnitId: selectedBusinessUnit?.value,
+                salesreturnId: item?.salesReturnId,
+                attachmentId: item?.attatchment || "",
+                actionBy: profileData?.userId,
+              }));
+
+              onUpdateAttachment(
+                `/oms/SalesReturnAndCancelProcess/UpdateReceivedChallanAttachment`,
+                payload
+              );
+            }}
+            type="button"
+          >
+            Update Attachment
+          </button>
+        </div>
+      )}
       {gridData?.data?.length > 0 && (
         <table className="table table-striped table-bordered global-table">
           <thead>
             <tr>
-              {values?.status?.value === 2 && (
-                <th
-                  onClick={() => allSelect(!selectedAll())}
-                  className="text-center cursor-pointer"
-                  style={{ width: "40px" }}
-                >
-                  <input
-                    type="checkbox"
-                    value={selectedAll()}
-                    checked={selectedAll()}
-                    onChange={() => {}}
-                  />
-                </th>
-              )}
+              <th
+                onClick={() => allSelect(!selectedAll())}
+                className="text-center cursor-pointer"
+                style={{ width: "40px" }}
+              >
+                <input
+                  type="checkbox"
+                  value={selectedAll()}
+                  checked={selectedAll()}
+                  onChange={() => {}}
+                />
+              </th>
               <th>SL</th>
               <th>Challan No</th>
               <th>Delivery Date</th>
@@ -60,31 +94,32 @@ const DamageEntryLandingTable = ({ obj }) => {
           <tbody>
             {gridData?.data?.map((item, index) => (
               <tr key={index}>
-                {!item?.isApprovedBySupervisor && values?.status?.value === 2 && (
-                  <td
-                    onClick={() => {
-                      let _data = [...gridData?.data];
-                      _data[index]["isSelected"] = !item.isSelected;
-                      setGridData({ ...gridData, data: _data });
-                    }}
-                    className="text-center"
-                  >
-                    <input
-                      type="checkbox"
-                      value={item?.isSelected}
-                      checked={item?.isSelected}
-                      onChange={() => {}}
-                    />
-                  </td>
-                )}
+                <td
+                  onClick={() => {
+                    let _data = [...gridData?.data];
+                    _data[index]["isSelected"] = !item.isSelected;
+                    setGridData({ ...gridData, data: _data });
+                  }}
+                  className="text-center"
+                >
+                  <input
+                    type="checkbox"
+                    value={item?.isSelected}
+                    checked={item?.isSelected}
+                    onChange={() => {}}
+                  />
+                </td>
                 <td className="text-center"> {index + 1}</td>
                 <td> {item?.deliveryChallan}</td>
-                <td className="text-center"> {_dateFormatter(item?.deliveryDate)}</td>
+                <td className="text-center">
+                  {" "}
+                  {_dateFormatter(item?.deliveryDate)}
+                </td>
                 <td> {item?.businessPartnerName}</td>
                 <td> {item?.businessPartnerCode}</td>
 
                 <td className="text-right">
-                  {item?.isSelected
+                  {false
                     ? values?.viewAs?.value === 1 && (
                         <InputField
                           value={item?.totalReturnQty}
@@ -131,22 +166,11 @@ const DamageEntryLandingTable = ({ obj }) => {
                     : "Pending"}
                 </td>
                 <td>
-                  <div className="d-flex justify-content-around">
+                  {/* <div className="d-flex justify-content-around">
                     {(!item?.isApprovedByAccount ||
                       !item?.isApprovedBySupervisor) &&
                       item?.isActive && (
                         <>
-                          {/* {[1].includes(values?.viewAs?.value) &&
-                            !item?.isApprovedByAccount &&
-                            !item?.isApprovedBySupervisor && (
-                              <span
-                                onClick={() => {
-                                  getRows(item);
-                                }}
-                              >
-                                <IEdit title="Update and Approve" />
-                              </span>
-                            )} */}
                           {!item?.isApprovedBySupervisor && (
                             <span
                               className="cursor-pointer"
@@ -187,6 +211,40 @@ const DamageEntryLandingTable = ({ obj }) => {
                         <i class="far fa-image"></i>{" "}
                       </ICon>
                     </span>
+                  </div> */}
+
+                  <div className="">
+                    {item?.attatchment && (
+                      <span
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          dispatch(
+                            getDownlloadFileView_Action(item?.attatchment)
+                          );
+                        }}
+                      >
+                        <ICon title={`View Attachment`}>
+                          <i class="far fa-file-image"></i>
+                        </ICon>
+                      </span>
+                    )}
+                    {item?.isSelected && (
+                      <span
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setOpen(true);
+                          setSelectItemRow({
+                            rowIndex: index,
+                            setGridData,
+                          });
+                        }}
+                        className="ml-2 cursor-pointer"
+                      >
+                        <ICon title={`Upload Attachment`}>
+                          <i class="fa fa-paperclip" aria-hidden="true"></i>
+                        </ICon>
+                      </span>
+                    )}
                   </div>
                 </td>
               </tr>
@@ -212,6 +270,48 @@ const DamageEntryLandingTable = ({ obj }) => {
           </tbody>
         </table>
       )}
+      <>
+        <DropzoneDialogBase
+          filesLimit={1}
+          acceptedFiles={["image/*", "application/pdf"]}
+          fileObjects={fileObjects}
+          cancelButtonText={"cancel"}
+          submitButtonText={"submit"}
+          maxFileSize={1000000}
+          open={open}
+          onAdd={(newFileObjs) => {
+            setFileObjects([].concat(newFileObjs));
+          }}
+          onDelete={(deleteFileObj) => {
+            const newData = fileObjects.filter(
+              (item) => item.file.name !== deleteFileObj.file.name
+            );
+            setFileObjects(newData);
+          }}
+          onClose={() => {
+            setOpen(false);
+            setFileObjects([]);
+            setSelectItemRow({});
+          }}
+          onSave={() => {
+            setOpen(false);
+            empAttachment_action(fileObjects)
+              .then((data) => {
+                const copyGridData = [...gridData?.data];
+                copyGridData[selectItemRow?.rowIndex].attatchment = data[0]?.id;
+                setGridData({ data: copyGridData });
+                setOpen(false);
+                setFileObjects([]);
+                setSelectItemRow({});
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          }}
+          showPreviews={true}
+          showFileNamesInPreview={true}
+        />
+      </>
     </>
   );
 };
