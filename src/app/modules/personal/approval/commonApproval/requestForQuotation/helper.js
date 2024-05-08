@@ -131,6 +131,7 @@ export const dummyDataForCSDetails = {
          intItemCategoryId: 588,
          strPartNo: '',
          strDrawingNo: '',
+         numLastPurchaseRate: 120,
          objPartnerHeader: [
             {
                intPartnerRfqid: 1572,
@@ -359,6 +360,7 @@ export const dummyDataForCSDetails = {
          intItemCategoryId: 588,
          strPartNo: '',
          strDrawingNo: '',
+         numLastPurchaseRate: 850,
          objPartnerHeader: [
             {
                intPartnerRfqid: 1572,
@@ -587,6 +589,7 @@ export const dummyDataForCSDetails = {
          intItemCategoryId: 588,
          strPartNo: '',
          strDrawingNo: '',
+         numLastPurchaseRate: 170,
          objPartnerHeader: [
             {
                intPartnerRfqid: 1572,

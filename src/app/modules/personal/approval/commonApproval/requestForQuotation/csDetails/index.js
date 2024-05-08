@@ -16,6 +16,8 @@ import { _dateFormatter } from '../../../../../_helper/_dateFormate';
 import { dummyDataForCSDetails } from '../helper';
 import IViewModal from '../../../../../_helper/_viewModal';
 import { SupplierDetailsModal } from './supplierDetailsModal';
+import { LastPurchaseInfoModal } from './lastPurchaseInfoModal';
+import { ItemReferenceModal } from './itemReferenceModal';
 
 const initData = {
    negotiationRate: '',
@@ -34,6 +36,10 @@ export default function CommonCSDetails() {
    const history = useHistory();
 
    const [isSupplierDetailsModal, setIsSupplierDetailsModal] = useState(false);
+   const [isLastPurchaseInfoModal, setIsLastPurchaseInfoModal] = useState(
+      false
+   );
+   const [isItemReferenceModal, setIsItemReferenceModal] = useState(false);
 
    const backHandler = () => {
       history.goBack();
@@ -104,8 +110,13 @@ export default function CommonCSDetails() {
                      </CardHeader>
                      <CardBody>
                         <div className="d-flex flex-column justify-content-center align-items-center">
-                           <h3 className="my-2">{'Vai Vai Management'}</h3>
-                           <h6>{'Jahed Hossain'}</h6>
+                           <h3 className="my-2">
+                              {'Akij Cement Company Ltd.'}
+                           </h3>
+                           <h6>
+                              {'Nobiganj, Kodomrosul, Bandor, Narayanganj'}
+                           </h6>
+                           <h6>{'ACCL Factory Warehouse'}</h6>
                            <h4>{'Comparative Statement'}</h4>
                         </div>
                         {/* <div className="form-group  global-form"> */}
@@ -241,7 +252,20 @@ export default function CommonCSDetails() {
                                                    >
                                                       <td>{index + 1}</td>
                                                       <td>
-                                                         {item?.strItemName}
+                                                         <p
+                                                            style={{
+                                                               color: 'blue',
+                                                               textDecoration:
+                                                                  'underline',
+                                                            }}
+                                                            onClick={() => {
+                                                               setIsItemReferenceModal(
+                                                                  true
+                                                               );
+                                                            }}
+                                                         >
+                                                            {item?.strItemName}
+                                                         </p>
                                                       </td>
                                                       <td>
                                                          {item?.strUoMname}
@@ -253,9 +277,23 @@ export default function CommonCSDetails() {
                                                          {item?.numRfqquantity}
                                                       </td>
                                                       <td>
-                                                         {
-                                                            item?.numLastPurchaseRate
-                                                         }
+                                                         <p
+                                                            style={{
+                                                               color: 'blue',
+                                                               textDecoration:
+                                                                  'underline',
+                                                            }}
+                                                            className="text-right"
+                                                            onClick={() => {
+                                                               setIsLastPurchaseInfoModal(
+                                                                  true
+                                                               );
+                                                            }}
+                                                         >
+                                                            {
+                                                               item?.numLastPurchaseRate
+                                                            }
+                                                         </p>
                                                       </td>
                                                       {item?.objPartnerHeader?.map(
                                                          partnerData => (
@@ -621,6 +659,18 @@ export default function CommonCSDetails() {
                            onHide={() => setIsSupplierDetailsModal(false)}
                         >
                            <SupplierDetailsModal />
+                        </IViewModal>
+                        <IViewModal
+                           show={isLastPurchaseInfoModal}
+                           onHide={() => setIsLastPurchaseInfoModal(false)}
+                        >
+                           <LastPurchaseInfoModal />
+                        </IViewModal>
+                        <IViewModal
+                           show={isItemReferenceModal}
+                           onHide={() => setIsItemReferenceModal(false)}
+                        >
+                           <ItemReferenceModal />
                         </IViewModal>
                      </CardBody>
                   </Card>
