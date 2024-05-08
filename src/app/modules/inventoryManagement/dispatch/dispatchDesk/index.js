@@ -157,6 +157,7 @@ export default function DispatchDeskLanding() {
                   headersData={[
                     "Document No",
                     "Sender Name",
+                    "Sender Location",
                     "Dispatch Type",
                     "Document Type",
                     {
@@ -165,9 +166,10 @@ export default function DispatchDeskLanding() {
                           ? "Received Date"
                           : "Requisition Date",
                     },
-                    "From Location",
-                    "To Location",
                     "Receiver Name",
+                    "Receiver Business Unit",
+                    "Receiver Location",
+                    "Remarks",
                     "Status",
                     "Action",
                   ]}
@@ -179,6 +181,7 @@ export default function DispatchDeskLanding() {
                         <td className="text-center">
                           {item?.senderName} [{item?.senderEnrollId}]
                         </td>
+                        <td className="text-center">{item?.fromLocation}</td>
                         <td className="text-center">{item?.dispatchType}</td>
                         <td className="text-center">
                           {item?.dispatchDescription}
@@ -188,11 +191,12 @@ export default function DispatchDeskLanding() {
                             ? _dateFormatter(item.dispatchReceiveDate)
                             : _dateFormatter(item.requisitionDate)}
                         </td>
-                        <td className="text-center">{item?.fromLocation}</td>
-                        <td className="text-center">{item?.toLocation}</td>
                         <td className="text-center">
                           {item?.receiverName} [{item?.receiverEnrollId}]
                         </td>
+                        <td className="text-center">{item?.receiverBusinessUnit}</td>
+                        <td className="text-center">{item?.toLocation}</td>
+                        <td className="text-center">{item?.dispatchNote}</td>
                         {values?.requisition === "send" ? (
                           <td className="text-center">
                             {item?.isSend &&
