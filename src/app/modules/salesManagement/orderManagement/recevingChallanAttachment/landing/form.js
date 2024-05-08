@@ -103,6 +103,7 @@ const DamageEntryLandingForm = ({ obj }) => {
                 setGridData([]);
               }}
               placeholder="Status"
+              isDisabled
             />
           </div>
           {values?.viewAs?.value === 2 && (
@@ -138,7 +139,7 @@ const DamageEntryLandingForm = ({ obj }) => {
               !values?.viewAs || (values?.viewAs?.value === 2 && !values?.sbu)
             }
           />
-          {gridData?.data?.length > 0 && values?.status?.value === 2 && (
+          {/* {gridData?.data?.length > 0 && values?.status?.value === 2 && (
             <IButton
               className={"btn-info"}
               onClick={() => {
@@ -147,7 +148,7 @@ const DamageEntryLandingForm = ({ obj }) => {
             >
               Update & Approve
             </IButton>
-          )}
+          )} */}
         </div>
       </form>
     </>
