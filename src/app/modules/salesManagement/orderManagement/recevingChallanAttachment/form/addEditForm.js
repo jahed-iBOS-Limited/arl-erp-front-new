@@ -21,7 +21,6 @@ function RecevingChallanAttachmentEntryFrom() {
   const [gridData, , loader, setGridData] = useAxiosGet();
   const [loading, setLoading] = useState(false);
   const [, partialSalesReturnEntry, entryLoader] = useAxiosPost();
-  // const [uploadedImage, setUploadedImage] = useState([]);
   const history = useHistory();
 
   // get user profile data from store
@@ -64,7 +63,6 @@ function RecevingChallanAttachmentEntryFrom() {
       : false;
   };
 
-  console.log(gridData, "gridData")
   const saveHandler = (values) => {
     const selectedItems = gridData?.filter((item) => item.isSelected);
     if (selectedItems?.length === 0) {
@@ -72,29 +70,10 @@ function RecevingChallanAttachmentEntryFrom() {
       return;
     }
 
-    const qtyCheck = selectedItems?.filter((header) => {
-      return header?.rowData?.find(
-        (row) =>
-          row?.returnQty > row?.quantity ||
-          row?.returnQty >
-            // row?.quantity * (2 / 100) fixed to two decimal
-            _fixedPoint(row?.quantity * (2 / 100), false)
-      );
-    });
-
-    if (qtyCheck?.length) {
-      toast.warn(
-        `Please check return quantities! Return qty can not be greater than 2% of delivery qty*`
-      );
-      return;
-    }
-
     const rows = selectedItems;
 
-    console.log(rows, "rows")
 
     const payloadForPartialReturn = rows?.map((header) => {
-      console.log(header, "header")
       const totalQty = header?.rowData?.reduce((a, b) => (a += b?.quantity), 0);
       const totalAmount = header?.rowData?.reduce(
         (a, b) => (a += b?.amount),
@@ -112,7 +91,7 @@ function RecevingChallanAttachmentEntryFrom() {
           businessPartnerName: header?.soldToPartnerName,
           totalQty: totalQty,
           totalAmount: totalAmount,
-          salesReturnType: 2,
+          salesReturnType: 3, // 3 hard coded for recevingchallanattachment
           actionBy: userId,
         },
         row: header?.rowData?.map((row) => {
@@ -124,7 +103,8 @@ function RecevingChallanAttachmentEntryFrom() {
             uoMId: 0,
             uoMName: "string",
             issueQty: 0,
-            returnQty: row?.returnQty,
+            // returnQty: row?.returnQty,
+            returnQty: 0,
             basePrice: row?.itemPrice,
             returnPercentage: _fixedPoint(
               (row?.returnQty / row?.quantity) * 100,
@@ -164,7 +144,6 @@ function RecevingChallanAttachmentEntryFrom() {
         allSelect={allSelect}
         accId={accId}
         buId={buId}
-        // setUploadedImage={setUploadedImage}
       />
     </>
   );
