@@ -15,7 +15,51 @@ import {
   GetTaxSalesInvoicePrintStatus_api,
 } from "../../createSales/helper";
 import { _formatMoney } from "../../../../_helper/_formatMoney";
+import { debounce } from "lodash";
 
+const printBtnClick = debounce(
+  ({
+    printedObj,
+    rowDto,
+    tableData,
+    profileData,
+    selectedBusinessUnit,
+    values,
+    setTaxSalesInvoiceById,
+    setModelShow,
+    setRowDto,
+    setLoading,
+  }) => {
+    setLoading(false);
+    if (printedObj) {
+      const modifyFilterRowDto = rowDto?.data?.filter(
+        (itm) => itm?.deliveryId !== tableData?.deliveryId
+      );
+      const payload = {
+        accountId: profileData?.accountId,
+        businessUnitId: selectedBusinessUnit?.value,
+        businessUnitName: selectedBusinessUnit?.label,
+        taxBranchId: values?.branch?.value,
+        taxBranchName: values?.branch?.label,
+        taxBranchAddress: values?.branch?.name,
+        deliveryNo: tableData?.deliveryId,
+        deliveryAddress: tableData?.partnerName,
+        vehicleNo: tableData?.vehicleNo || "",
+        deliveryDate: _todayDate(),
+        actionBy: profileData?.userId,
+      };
+      createSalesInvoiceIbosPrint_api(
+        payload,
+        setTaxSalesInvoiceById,
+        setModelShow,
+        modifyFilterRowDto,
+        setRowDto,
+        setLoading
+      );
+    }
+  },
+  1500
+);
 const GridData = ({
   rowDto,
   setRowDto,
@@ -32,22 +76,30 @@ const GridData = ({
   const [salesTableRowDto, setSalesTableRowDto] = useState("");
   return (
     <>
-      <div className='row cash_journal'>
-        <div className='col-lg-12'>
+      <div className="row cash_journal">
+        <div className="col-lg-12">
           <PaginationSearch
-            placeholder='Invoice Search'
+            placeholder="Invoice Search"
             paginationSearchHandler={paginationSearchHandler}
             values={values}
           />
-          <div className='react-bootstrap-table table-responsive'>
+          <div className="react-bootstrap-table table-responsive">
             {rowDto?.data?.length > 0 && (
               <table
-                id='table-to-xlsx'
-                className='table table-striped table-bordered global-table'
+                id="table-to-xlsx"
+                className="table table-striped table-bordered global-table"
               >
                 <thead>
                   <tr>
                     <th style={{ width: "30px" }}>SL</th>
+                    {values?.status === "printed" ? (
+                      <>
+                        {" "}
+                        <th style={{ width: "35px" }}> Reference No</th>
+                      </>
+                    ) : (
+                      <></>
+                    )}
                     {values?.status === "printed" ? (
                       <th style={{ width: "90px" }}>Invoice</th>
                     ) : (
@@ -69,144 +121,146 @@ const GridData = ({
                   </tr>
                 </thead>
                 <tbody>
-                  {rowDto?.data?.map((tableData, index) => (
-                    <tr key={index}>
-                      <td> {tableData?.sl} </td>
-                      <td> {tableData?.invoice || tableData?.deliveryCode} </td>
-                      <td className='text-center'>
-                        {values?.status === "printed"
-                          ? _dateFormatter(tableData?.transferDate)
-                          : _dateFormatter(tableData?.deliveryDate)}
-                      </td>
-                      <td>
-                        {values?.status === "printed"
-                          ? tableData?.transferTo
-                          : tableData?.vehicleNo}
-                      </td>
-                      {values?.status === "unprinted" && (
-                        <td>{tableData?.partnerName}</td>
-                      )}
+                  {rowDto?.data?.map((tableData, index) => {
+                    const duplicatedeliveryNumber = rowDto?.data?.filter(
+                      (i) => i?.deliveryNumber === tableData?.deliveryNumber
+                    );
 
-                      <td className='text-center'>
-                        {Number(
-                          (
-                            tableData?.quantity ||
-                            tableData?.deliveryQuantity ||
-                            0
-                          ).toFixed(3)
+                    return (
+                      <tr
+                        key={index}
+                        style={{
+                          background:
+                            duplicatedeliveryNumber.length > 1 ? "red" : "",
+                        }}
+                      >
+                        <td> {tableData?.sl} </td>
+                        {values?.status === "printed" ? (
+                          <>
+                            <td> {tableData?.deliveryNumber}</td>
+                          </>
+                        ) : (
+                          <></>
                         )}
-                      </td>
-                      <td className='text-right'>
-                        {_formatMoney(tableData?.value?.toFixed(2))}
-                      </td>
-                      <td>
-                        <div className='d-flex justify-content-around'>
-                          {values?.status === "printed" ? (
-                            <>
-                              <IView
-                                clickHandler={() => {
-                                  setSalesTableRowDto(tableData);
-                                  getSalesInvoiceById(
-                                    tableData?.salesId,
-                                    setTaxSalesInvoiceById,
-                                    setLoading
-                                  );
-                                  GetTaxSalesInvoicePrintStatus_api(
-                                    tableData.salesId,
-                                    setSalesInvoicePrintStatus
-                                  );
-                                  setModelShow(true);
-                                }}
-                              />
-                            </>
-                          ) : (
-                            <>
-                              <button
-                                type='button'
-                                className='btn btn-primary'
-                                onClick={() => {
-                                  if (
-                                    tableData?.deliveryId &&
-                                    profileData?.accountId &&
-                                    selectedBusinessUnit?.value
-                                  ) {
-                                    const printedObj = rowDto?.data?.filter(
-                                      (itm) =>
-                                        itm?.deliveryId ===
-                                        tableData?.deliveryId
+                        <td>
+                          {" "}
+                          {tableData?.invoice || tableData?.deliveryCode}{" "}
+                        </td>
+                        <td className="text-center">
+                          {values?.status === "printed"
+                            ? _dateFormatter(tableData?.transferDate)
+                            : _dateFormatter(tableData?.deliveryDate)}
+                        </td>
+                        <td>
+                          {values?.status === "printed"
+                            ? tableData?.transferTo
+                            : tableData?.vehicleNo}
+                        </td>
+                        {values?.status === "unprinted" && (
+                          <td>{tableData?.partnerName}</td>
+                        )}
+
+                        <td className="text-center">
+                          {Number(
+                            (
+                              tableData?.quantity ||
+                              tableData?.deliveryQuantity ||
+                              0
+                            ).toFixed(3)
+                          )}
+                        </td>
+                        <td className="text-right">
+                          {_formatMoney(tableData?.value?.toFixed(2))}
+                        </td>
+                        <td>
+                          <div className="d-flex justify-content-around">
+                            {values?.status === "printed" ? (
+                              <>
+                                <IView
+                                  clickHandler={() => {
+                                    setSalesTableRowDto(tableData);
+                                    getSalesInvoiceById(
+                                      tableData?.salesId,
+                                      setTaxSalesInvoiceById,
+                                      setLoading
                                     );
-                                    let confirmObject = {
-                                      title: "Are you sure?",
-                                      message: `Do you want to remove of ${printedObj[0]?.deliveryCode}?`,
-                                      yesAlertFunc: () => {
-                                        if (printedObj) {
-                                          const modifyFilterRowDto = rowDto?.data?.filter(
-                                            (itm) =>
-                                              itm?.deliveryId !==
-                                              tableData?.deliveryId
-                                          );
-                                          const payload = {
-                                            accountId: profileData?.accountId,
-                                            businessUnitId:
-                                              selectedBusinessUnit?.value,
-                                            businessUnitName:
-                                              selectedBusinessUnit?.label,
-                                            taxBranchId: values?.branch?.value,
-                                            taxBranchName:
-                                              values?.branch?.label,
-                                            taxBranchAddress:
-                                              values?.branch?.name,
-                                            deliveryNo: tableData?.deliveryId,
-                                            deliveryAddress:
-                                              tableData?.partnerName,
-                                            vehicleNo:
-                                              tableData?.vehicleNo || "",
-                                            deliveryDate: _todayDate(),
-                                            actionBy: profileData?.userId,
-                                          };
-                                          createSalesInvoiceIbosPrint_api(
-                                            payload,
+                                    GetTaxSalesInvoicePrintStatus_api(
+                                      tableData.salesId,
+                                      setSalesInvoicePrintStatus
+                                    );
+                                    setModelShow(true);
+                                  }}
+                                />
+                              </>
+                            ) : (
+                              <>
+                                <button
+                                  type="button"
+                                  className="btn btn-primary"
+                                  onClick={() => {
+                                    if (
+                                      tableData?.deliveryId &&
+                                      profileData?.accountId &&
+                                      selectedBusinessUnit?.value
+                                    ) {
+                                      const printedObj = rowDto?.data?.filter(
+                                        (itm) =>
+                                          itm?.deliveryId ===
+                                          tableData?.deliveryId
+                                      );
+                                      let confirmObject = {
+                                        title: "Are you sure?",
+                                        message: `Do you want to remove of ${printedObj[0]?.deliveryCode}?`,
+                                        yesAlertFunc: () => {
+                                          setLoading(true);
+                                          printBtnClick({
+                                            printedObj,
+                                            rowDto,
+                                            tableData,
+                                            profileData,
+                                            selectedBusinessUnit,
+                                            values,
                                             setTaxSalesInvoiceById,
                                             setModelShow,
-                                            modifyFilterRowDto,
-                                            setRowDto
-                                          );
-                                        }
-                                      },
-                                      noAlertFunc: () => {},
-                                    };
-                                    IConfirmModal(confirmObject);
-                                  }
-                                }}
-                              >
-                                Printed
-                              </button>
-                              {[521215, 523988, 3959, 3958].includes(
-                                profileData?.userId
-                              ) && (
-                                <button
-                                  type='button'
-                                  className='btn btn-primary'
-                                  onClick={() => {
-                                    AutoTaxCompleteApi(
-                                      tableData?.deliveryId,
-                                      selectedBusinessUnit?.value,
-                                      setLoading,
-                                      () => {
-                                        commonGridFunc(null, values);
-                                      }
-                                    );
+                                            setRowDto,
+                                            setLoading,
+                                          });
+                                        },
+                                        noAlertFunc: () => {},
+                                      };
+                                      IConfirmModal(confirmObject);
+                                    }
                                   }}
                                 >
-                                  Clear
+                                  Printed
                                 </button>
-                              )}
-                            </>
-                          )}
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
+                                {[521215, 523988, 3959, 3958].includes(
+                                  profileData?.userId
+                                ) && (
+                                  <button
+                                    type="button"
+                                    className="btn btn-primary"
+                                    onClick={() => {
+                                      AutoTaxCompleteApi(
+                                        tableData?.deliveryId,
+                                        selectedBusinessUnit?.value,
+                                        setLoading,
+                                        () => {
+                                          commonGridFunc(null, values);
+                                        }
+                                      );
+                                    }}
+                                  >
+                                    Clear
+                                  </button>
+                                )}
+                              </>
+                            )}
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
             )}
