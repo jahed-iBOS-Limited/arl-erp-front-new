@@ -34,6 +34,7 @@ import SalesQuotationReadyMixForm from "./salesQuotationReadyMix/Form/addEditFor
 import { SalesReportOMS } from "./salesReportOMS/index";
 import SalesReturnForm from "./salesReturn/form/addEditForm";
 import SalesReturn from "./salesReturn/landing/table";
+import RecevingChallanAttachmentEntryFrom from "./recevingChallanAttachment/form/addEditForm";
 
 export function OrderManagementPages() {
   const { userRole } = useSelector((state) => state?.authData, shallowEqual);
@@ -246,6 +247,11 @@ export function OrderManagementPages() {
       <ContentRoute
         from='/sales-management/ordermanagement/damageentry'
         component={DamageEntryLanding}
+      />
+
+     <ContentRoute
+        from='/sales-management/ordermanagement/recevingchallanattachment'
+        component={RecevingChallanAttachmentEntryFrom}
       />
 
       {/* Sales Order Report Routes */}
