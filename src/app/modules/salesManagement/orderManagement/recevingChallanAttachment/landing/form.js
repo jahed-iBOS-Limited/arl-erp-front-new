@@ -103,7 +103,6 @@ const DamageEntryLandingForm = ({ obj }) => {
                 setGridData([]);
               }}
               placeholder="Status"
-              isDisabled
             />
           </div>
           {values?.viewAs?.value === 2 && (
