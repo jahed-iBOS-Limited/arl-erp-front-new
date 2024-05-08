@@ -362,7 +362,7 @@ const PurchaseRequestApprovalGrid = ({
             )}
 
             <IViewModal show={isShowModal} onHide={() => setIsShowModal(false)}>
-              <ItemReqViewTableRow currentRowData={currentRowData} />
+              <ItemReqViewTableRow prId={currentRowData?.transectionId}/>
             </IViewModal>
           </>
         )}

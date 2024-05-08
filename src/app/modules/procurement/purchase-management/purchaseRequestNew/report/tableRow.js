@@ -27,7 +27,7 @@ const initData = {};
 const validationSchema = Yup.object().shape({});
 
 // this component is used from multiple place, dont change existing props name
-export function ItemReqViewTableRow({currentRowData : {transectionId} }) {
+export function ItemReqViewTableRow({prId}) {
   const [loading, setLoading] = useState(false);
   const [purchaseReport, setPurchaseReport] = useState("");
   const [isShowModal, setIsShowModal] = useState(false);
@@ -38,7 +38,7 @@ export function ItemReqViewTableRow({currentRowData : {transectionId} }) {
   }, shallowEqual);
 
   useEffect(() => {
-    getReportListPurchaseReq(transectionId, selectedBusinessUnit?.value, setPurchaseReport, ({getPurchaseRequestPrintHeader, getPurchaseRequestPrintRow, objEmpListDTO}) => {
+    getReportListPurchaseReq(prId, selectedBusinessUnit?.value, setPurchaseReport, ({getPurchaseRequestPrintHeader, getPurchaseRequestPrintRow, objEmpListDTO}) => {
       if (getPurchaseRequestPrintRow?.length) {
           const payload = getPurchaseRequestPrintRow.map((item) => ({
               BusinessUnitId: getPurchaseRequestPrintHeader?.businessUnitId,
@@ -61,7 +61,7 @@ export function ItemReqViewTableRow({currentRowData : {transectionId} }) {
       }
   });
   
-  }, [transectionId, selectedBusinessUnit]);
+  }, [prId, selectedBusinessUnit]);
 
   const printRef = useRef();
   // const history = useHistory();
