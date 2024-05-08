@@ -38,30 +38,60 @@ const DamageEntryLandingTable = ({ obj }) => {
   return (
     <>
       {gridData?.data?.some((item) => item?.isSelected) && (
-        <div className="text-right">
-          <button
-            className="btn btn-primary"
-            onClick={() => {
-              const selectedData = gridData?.data?.filter(
-                (item) => item?.isSelected
-              );
-              const payload = selectedData?.map((item) => ({
-                businessUnitId: selectedBusinessUnit?.value,
-                salesreturnId: item?.salesReturnId,
-                attachmentId: item?.attatchment || "",
-                actionBy: profileData?.userId,
-              }));
+        <>
+          <div className="text-right">
+            <button
+              className="btn btn-primary mr-3"
+              onClick={() => {
+                const selectedData = gridData?.data?.filter(
+                  (item) => item?.isSelected
+                );
+                const payload = selectedData?.map((item) => ({
+                  businessUnitId: selectedBusinessUnit?.value,
+                  salesreturnId: item?.salesReturnId,
+                  attachmentId: "",
+                  actionBy: profileData?.userId,
+                }));
 
-              onUpdateAttachment(
-                `/oms/SalesReturnAndCancelProcess/UpdateReceivedChallanAttachment`,
-                payload
-              );
-            }}
-            type="button"
-          >
-            Update Attachment
-          </button>
-        </div>
+                onUpdateAttachment(
+                  `/oms/SalesReturnAndCancelProcess/DeleteReceivedChallanAttachment`,
+                  payload,
+                  () => {
+                    setGridData(null);
+                  }
+                );
+              }}
+              type="button"
+            >
+              Remove Attachment
+            </button>
+            <button
+              className="btn btn-primary"
+              onClick={() => {
+                const selectedData = gridData?.data?.filter(
+                  (item) => item?.isSelected
+                );
+                const payload = selectedData?.map((item) => ({
+                  businessUnitId: selectedBusinessUnit?.value,
+                  salesreturnId: item?.salesReturnId,
+                  attachmentId: item?.attatchment || "",
+                  actionBy: profileData?.userId,
+                }));
+
+                onUpdateAttachment(
+                  `/oms/SalesReturnAndCancelProcess/UpdateReceivedChallanAttachment`,
+                  payload,
+                  () => {
+                    setGridData(null);
+                  }
+                );
+              }}
+              type="button"
+            >
+              Update Attachment
+            </button>
+          </div>
+        </>
       )}
       {gridData?.data?.length > 0 && (
         <table className="table table-striped table-bordered global-table">
