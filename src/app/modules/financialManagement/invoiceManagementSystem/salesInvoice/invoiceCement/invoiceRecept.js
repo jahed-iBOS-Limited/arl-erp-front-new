@@ -25,6 +25,9 @@ import { directTradingLetterhead } from "../base64Images/directTrading";
 import { eurasiaTradingLetterhead } from "../base64Images/eurasiaTrading";
 import { exoticaTradersLetterhead } from "../base64Images/exoticaTraders";
 import { lineAsiaTradingLetterhead } from "../base64Images/lineAsiaTrading";
+import { nobayonTradersLetterhead } from "../base64Images/nobayonTraders";
+import { optimaTradersLetterhead } from "../base64Images/optimaTraders";
+import { resourceTradersLetterhead } from "../base64Images/resourceTraders";
 
 const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
   const toWords = new ToWords({
@@ -98,6 +101,12 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
       ? exoticaTradersLetterhead
       : buId === 209
       ? lineAsiaTradingLetterhead
+      : buId === 211
+      ? nobayonTradersLetterhead
+      : buId === 214
+      ? optimaTradersLetterhead
+      : buId === 210
+      ? resourceTradersLetterhead
       : "";
 
   return (
