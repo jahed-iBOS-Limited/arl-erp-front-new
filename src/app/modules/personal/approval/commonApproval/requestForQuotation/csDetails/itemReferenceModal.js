@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
+import { _dateFormatter } from '../../../../../_helper/_dateFormate';
+import { ItemReqViewTableRow } from '../../../../../procurement/purchase-management/purchaseRequestNew/report/tableRow';
+import IViewModal from '../../../../../_helper/_viewModal';
 
-export function ItemReferenceModal() {
-   // const [viewData, getViewData, loader, setViewData] = useAxiosGet();
+export function ItemReferenceModal({ selectedItem }) {
+   const [showModal, setShowModal] = useState(false);
 
-   useEffect(() => {
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-   }, []);
    return (
       <div>
          {/* {loader && <Loading />} */}
@@ -23,14 +23,45 @@ export function ItemReferenceModal() {
                </thead>
                <tbody>
                   <tr>
-                     <td className="text-center">{''}</td>
-                     <td></td>
-                     <td></td>
-                     <td></td>
+                     <td className="text-center">
+                        <p
+                           style={{
+                              color: 'blue',
+                              textDecoration: 'underline',
+                              textAlign: 'center',
+                           }}
+                           onClick={() => {
+                              setShowModal(true);
+                           }}
+                        >
+                           {selectedItem?.itemReferenceInfo?.referenceCode ||
+                              ''}
+                        </p>
+                     </td>
+                     <td>
+                        {selectedItem?.itemReferenceInfo?.referenceDate
+                           ? _dateFormatter(
+                                selectedItem?.itemReferenceInfo?.referenceDate
+                             )
+                           : ''}
+                     </td>
+                     <td>
+                        {selectedItem?.itemReferenceInfo?.referenceQuantity ||
+                           ''}
+                     </td>
+                     <td>
+                        {selectedItem?.itemReferenceInfo?.referenceRemarks ||
+                           ''}
+                     </td>
                   </tr>
                </tbody>
             </table>
          </div>
+         <IViewModal show={showModal} onHide={() => setShowModal(false)}>
+            <ItemReqViewTableRow
+               prId={selectedItem?.itemReferenceInfo?.referenceId}
+            />
+         </IViewModal>
       </div>
    );
 }
