@@ -30,6 +30,7 @@ const reports = [
   { value: 9, label: "Order Vs Challan Duration Gap" },
   { value: 10, label: "Item Pending" },
   { value: 11, label: "Market Basket Analysis" },
+  { value: 12, label: "Order vs Delivery vs Collection Date Wise" },
 ];
 
 const getTypes = (values) => {
@@ -159,6 +160,8 @@ export default function SalesDetailsTable({ saveHandler }) {
       ? `709ccf52-b436-4d88-ad5f-992b86e7357d`
       : id === 10
       ? `4e8c5f91-f84f-4b10-bf10-8304e395c2af`
+      : id === 12
+      ? `ca8d1e8f-90f4-4cc2-8c99-e1ca9f290f8d`
       : "";
   };
   const groupId = `e3ce45bb-e65e-43d7-9ad1-4aa4b958b29a`;
@@ -277,6 +280,13 @@ export default function SalesDetailsTable({ saveHandler }) {
       { name: "intpartid", value: `${values?.reportType?.value}` },
     ];
 
+    const twelveParams = [
+      { name: "UnitId", value: `${buId}` },
+      { name: "intchannelid", value: `${values?.channel?.value}` },
+      { name: "fromDate", value: `${values?.fromDate}` },
+      { name: "toDate", value: `${values?.toDate}` },
+    ];
+
     return id === 1
       ? paramsForSalesDetails
       : id === 2
@@ -302,6 +312,8 @@ export default function SalesDetailsTable({ saveHandler }) {
       ? nineParams
       : id === 10
       ? tenParams
+      : id === 12
+      ? twelveParams
       : [];
   };
 
@@ -393,7 +405,7 @@ export default function SalesDetailsTable({ saveHandler }) {
                             </div>
                           )}
 
-                        {[1, 3, 4, 5, 6, 7, 8, 9, 10, 11].includes(
+                        {[1, 3, 4, 5, 6, 7, 8, 9, 10, 11,12].includes(
                           values?.report?.value
                         ) && (
                           <RATForm
