@@ -19,6 +19,7 @@ import { tradersLetterhead } from "../base64Images/traders";
 import { tradingLetterhead } from "../base64Images/trading";
 import { oneTradingLetterhead } from "../base64Images/oneTrading";
 import { batayonTradersLetterhead } from "../base64Images/batayounTraders";
+import { bongoTradersLetterhead } from "../base64Images/bongoTraders";
 
 const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
   const toWords = new ToWords({
@@ -80,6 +81,8 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
       ? oneTradingLetterhead
       :  buId === 212
       ? batayonTradersLetterhead
+      : buId === 178
+      ? bongoTradersLetterhead
       : "";
 
   return (
