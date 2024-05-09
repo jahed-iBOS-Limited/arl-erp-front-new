@@ -1,18 +1,34 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
+import useAxiosGet from '../../../../../_helper/customHooks/useAxiosGet';
+import { _dateFormatter } from '../../../../../_helper/_dateFormate';
+import Loading from '../../../../../_helper/_loading';
+import IViewModal from '../../../../../_helper/_viewModal';
+import { InventoryTransactionReportViewTableRow } from '../../../../../inventoryManagement/warehouseManagement/invTransaction/report/tableRow';
 
-export function LastPurchaseInfoModal() {
-   // const [viewData, getViewData, loader, setViewData] = useAxiosGet();
+export function LastPurchaseInfoModal({ selectedItem }) {
+   const [
+      lastPurchaseInfo,
+      getLastPurchaseInfo,
+      getLoading,
+      setLastPurchaseInfo,
+   ] = useAxiosGet([]);
+   const [isShowModalTwo, setIsShowModalTwo] = React.useState(false);
+   const [currentRowData, setCurrentRowData] = React.useState({});
 
    useEffect(() => {
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-   }, []);
+      getLastPurchaseInfo(
+         `/procurement/RequestForQuotation/GetItemsLastPurchaseInformation?itemId=${selectedItem?.intItemId}`
+      );
+   }, [selectedItem?.intItemId]);
    return (
       <div>
-         {/* {loader && <Loading />} */}
+         {getLoading && <Loading />}
          <h1 className="mt-3">{'Last Purchase Details'}</h1>
 
          <div className="mt-5">
-            <p>Item Name: Test Item</p>
+            <p>Item Name: {lastPurchaseInfo?.itemName || ''}</p>
          </div>
 
          <div className="mt-2">
@@ -29,16 +45,47 @@ export function LastPurchaseInfoModal() {
                </thead>
                <tbody>
                   <tr>
-                     <td className="text-center">{''}</td>
-                     <td></td>
-                     <td></td>
-                     <td></td>
-                     <td></td>
-                     <td></td>
+                     <td className="text-center">{1}</td>
+                     <td className="text-center">
+                        <p
+                           style={{
+                              color: 'blue',
+                              textDecoration: 'underline',
+                           }}
+                           onClick={() => {
+                              setIsShowModalTwo(true);
+                              setCurrentRowData(lastPurchaseInfo);
+                           }}
+                        >
+                           {lastPurchaseInfo?.inventoryTransactionCode || ''}
+                        </p>
+                     </td>
+                     <td>
+                        {lastPurchaseInfo?.inventoryTransactionDate
+                           ? _dateFormatter(
+                                lastPurchaseInfo?.inventoryTransactionDate
+                             )
+                           : ''}
+                     </td>
+                     <td>{lastPurchaseInfo?.grnQuantity || ''}</td>
+                     <td>{lastPurchaseInfo?.purchaseRate || ''}</td>
+                     <td>{`${lastPurchaseInfo?.businessPartnerName ||
+                        ''}(${lastPurchaseInfo?.businessPartnerCode ||
+                        ''})`}</td>
                   </tr>
                </tbody>
             </table>
          </div>
+         <IViewModal
+            show={isShowModalTwo}
+            onHide={() => setIsShowModalTwo(false)}
+         >
+            <InventoryTransactionReportViewTableRow
+               Invid={lastPurchaseInfo?.inventoryTransactionId}
+               grId={0} // need discussion
+               currentRowData={currentRowData}
+            />
+         </IViewModal>
       </div>
    );
 }

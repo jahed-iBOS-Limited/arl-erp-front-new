@@ -34,7 +34,8 @@ export default function CommonCSDetails() {
       setCsDetailsList,
    ] = useAxiosGet([]);
    const history = useHistory();
-
+   const [selectedItem, setSelectedItem] = useState({});
+   const [selectedSupplier, setSelectedSupplier] = useState({});
    const [isSupplierDetailsModal, setIsSupplierDetailsModal] = useState(false);
    const [isLastPurchaseInfoModal, setIsLastPurchaseInfoModal] = useState(
       false
@@ -53,18 +54,15 @@ export default function CommonCSDetails() {
    const selectedBusinessUnit = useSelector(state => {
       return state.authData.selectedBusinessUnit;
    }, shallowEqual);
-
    useEffect(() => {
-      // getCsDetailsList(
-      //    `/procurement/ShipRequestForQuotation/GetComparativeStatementShipById?AccountId=${profileData?.accountId}&BusinessId=${selectedBusinessUnit?.value}&SBUId=80&RequestForQuatationId=${location?.state?.transectionId}`
-      // );
-      setCsDetailsList(dummyDataForCSDetails);
+      getCsDetailsList(
+         `/procurement/RequestForQuotation/GetComparativeStatement?AccountId=1&BusinessUnitId=${selectedBusinessUnit?.value}&SBUId=0&RequestForQuotationId=${location?.state?.transectionId}`
+      );
+      // setCsDetailsList(dummyDataForCSDetails);
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, [location]);
 
    const saveHandler = async (values, cb) => {};
-
-   console.log('csDetailsList', csDetailsList);
 
    const getPercentageValue = item => {
       if (!item?.numDiscountPercentage) {
@@ -111,17 +109,25 @@ export default function CommonCSDetails() {
                      <CardBody>
                         <div className="d-flex flex-column justify-content-center align-items-center">
                            <h3 className="my-2">
-                              {'Akij Cement Company Ltd.'}
+                              {selectedBusinessUnit?.label || ''}
                            </h3>
+                           <h6>{selectedBusinessUnit?.address || ''}</h6>
                            <h6>
-                              {'Nobiganj, Kodomrosul, Bandor, Narayanganj'}
+                              {csDetailsList?.objHeder?.strWarehouseName}{' '}
+                              Warehouse
                            </h6>
-                           <h6>{'ACCL Factory Warehouse'}</h6>
                            <h4>{'Comparative Statement'}</h4>
                         </div>
                         {/* <div className="form-group  global-form"> */}
-                        <div className="row mt-5">
-                           <div className="col-lg-3">
+                        <div
+                           className=" mt-5"
+                           style={{
+                              display: 'flex',
+                              gap: '0px 30px',
+                              flexWrap: 'wrap',
+                           }}
+                        >
+                           {/* <div className="col-lg-3">
                               User Name:{' '}
                               {location?.state?.strRequestForQuotationCode}
                            </div>
@@ -135,7 +141,65 @@ export default function CommonCSDetails() {
                               Preparation Date:{' '}
                               {location?.state?.strDeliveryAddress ||
                                  location?.state?.deliveryAddress}
+                           </div> */}
+                           <div>
+                              <b>RFQ Code:</b>{' '}
+                              {
+                                 csDetailsList?.objHeder
+                                    ?.strRequestForQuotationCode
+                              }
                            </div>
+                           <div>
+                              <b>RFQ Date:</b>{' '}
+                              {csDetailsList?.objHeder?.dteRfqdate
+                                 ? _dateFormatter(
+                                      csDetailsList?.objHeder?.dteRfqdate
+                                   )
+                                 : ''}
+                           </div>
+                           <div>
+                              <b>RFQ Type:</b>{' '}
+                              {csDetailsList?.objHeder?.strRfqTypeName || ''}
+                           </div>
+                           <div>
+                              <b>Currency:</b>{' '}
+                              {csDetailsList?.objHeder?.strCurrencyCode || ''}
+                           </div>
+                           <div>
+                              <b>Delivery Address:</b>{' '}
+                              {csDetailsList?.objHeder?.strDeliveryAddress ||
+                                 ''}
+                           </div>
+                           <div>
+                              <b>Quotation Start Date:</b>{' '}
+                              {csDetailsList?.objHeder?.quotationStartDateTime
+                                 ? _dateFormatter(
+                                      csDetailsList?.objHeder
+                                         ?.quotationStartDateTime
+                                   )
+                                 : ''}
+                           </div>
+                           <div>
+                              <b>Quotation End Date:</b>{' '}
+                              {csDetailsList?.objHeder?.quotationEndDateTime
+                                 ? _dateFormatter(
+                                      csDetailsList?.objHeder
+                                         ?.quotationEndDateTime
+                                   )
+                                 : ''}
+                           </div>
+                           <div>
+                              <b>CS Type:</b>{' '}
+                              {csDetailsList?.objHeder?.strCsType || ''}
+                           </div>
+                           <div>
+                              <b>RFQ References:</b>{' '}
+                              {
+                                 csDetailsList?.objHeder
+                                    ?.strConcatenatedReferenceCode
+                              }
+                           </div>
+
                            {/* <div className="col-lg-3">
                                  {csDetailsList?.objRow?.length > 0 && (
                                     <ReactHtmlTableToExcel
@@ -175,7 +239,7 @@ export default function CommonCSDetails() {
                                                 Description
                                              </th>
                                              <th style={{ width: '70px' }}>
-                                                Quantity
+                                                RFQ Quantity
                                              </th>
                                              <th style={{ width: '100px' }}>
                                                 Last Purchase Rate
@@ -184,10 +248,13 @@ export default function CommonCSDetails() {
                                                 (itm, index) => (
                                                    <>
                                                       <th
-                                                         colSpan={3}
+                                                         colSpan={4}
                                                          onClick={() => {
                                                             setIsSupplierDetailsModal(
                                                                true
+                                                            );
+                                                            setSelectedSupplier(
+                                                               itm
                                                             );
                                                          }}
                                                       >
@@ -226,6 +293,13 @@ export default function CommonCSDetails() {
                                                       </th>
                                                       <th>
                                                          <div>
+                                                            {
+                                                               'CS/Taken Quantity'
+                                                            }
+                                                         </div>
+                                                      </th>
+                                                      <th>
+                                                         <div>
                                                             {'Neg. Rate'}
                                                          </div>
                                                       </th>
@@ -259,6 +333,9 @@ export default function CommonCSDetails() {
                                                                   'underline',
                                                             }}
                                                             onClick={() => {
+                                                               setSelectedItem(
+                                                                  item
+                                                               );
                                                                setIsItemReferenceModal(
                                                                   true
                                                                );
@@ -273,7 +350,7 @@ export default function CommonCSDetails() {
                                                       <td>
                                                          {item?.strDescription}
                                                       </td>
-                                                      <td>
+                                                      <td className="text-center">
                                                          {item?.numRfqquantity}
                                                       </td>
                                                       <td>
@@ -285,6 +362,9 @@ export default function CommonCSDetails() {
                                                             }}
                                                             className="text-right"
                                                             onClick={() => {
+                                                               setSelectedItem(
+                                                                  item
+                                                               );
                                                                setIsLastPurchaseInfoModal(
                                                                   true
                                                                );
@@ -298,6 +378,24 @@ export default function CommonCSDetails() {
                                                       {item?.objPartnerHeader?.map(
                                                          partnerData => (
                                                             <>
+                                                               <td>
+                                                                  {partnerData
+                                                                     ?.objPartnerRow
+                                                                     ?.strNegotiationRemarks
+                                                                     ? partnerData
+                                                                          ?.objPartnerRow
+                                                                          ?.strNegotiationRemarks
+                                                                     : ''}
+                                                               </td>
+                                                               <td className="text-center">
+                                                                  {partnerData
+                                                                     ?.objPartnerRow
+                                                                     ?.numCsOrTakenQuantity
+                                                                     ? partnerData
+                                                                          ?.objPartnerRow
+                                                                          ?.numCsOrTakenQuantity
+                                                                     : ''}
+                                                               </td>
                                                                <td className="text-right">
                                                                   {partnerData
                                                                      ?.objPartnerRow
@@ -319,15 +417,6 @@ export default function CommonCSDetails() {
                                                                           ?.numTotalvalue
                                                                      : ''}
                                                                </td>
-                                                               <td>
-                                                                  {partnerData
-                                                                     ?.objPartnerRow
-                                                                     ?.strRemarks
-                                                                     ? partnerData
-                                                                          ?.objPartnerRow
-                                                                          ?.strRemarks
-                                                                     : ''}
-                                                               </td>
                                                             </>
                                                          )
                                                       )}
@@ -346,6 +435,8 @@ export default function CommonCSDetails() {
                                                 (itm, index) => (
                                                    <>
                                                       <td>{''}</td>
+                                                      <td>{''}</td>
+                                                      <td>{''}</td>
                                                       <td
                                                          className="text-right font-weight-bold "
                                                          style={{
@@ -356,7 +447,6 @@ export default function CommonCSDetails() {
                                                             itm?.sumValue || 0
                                                          ).toFixed(2)}
                                                       </td>
-                                                      <td>{''}</td>
                                                    </>
                                                 )
                                              )}
@@ -373,20 +463,19 @@ export default function CommonCSDetails() {
                                                 (itm, index) => (
                                                    <>
                                                       <td>{''}</td>
+                                                      <td>{''}</td>
                                                       <td
                                                          className="text-right font-weight-bold "
                                                          style={{
                                                             fontSize: '12px',
                                                          }}
                                                       >
-                                                         {`${getPercentageValue(
-                                                            itm
-                                                         ).toFixed(
-                                                            2
-                                                         )} (${itm?.numDiscountPercentage ||
+                                                         {`(${itm?.numDiscountPercentage ||
                                                             0}%)`}
                                                       </td>
-                                                      <td>{''}</td>
+                                                      <td>{`${getPercentageValue(
+                                                         itm
+                                                      ).toFixed(2) || ''}`}</td>
                                                    </>
                                                 )
                                              )}
@@ -403,6 +492,8 @@ export default function CommonCSDetails() {
                                                 (itm, index) => (
                                                    <>
                                                       <td>{''}</td>
+                                                      <td>{''}</td>
+                                                      <td>{''}</td>
                                                       <td
                                                          className="text-right font-weight-bold "
                                                          style={{
@@ -417,7 +508,6 @@ export default function CommonCSDetails() {
                                                             ) || 0)
                                                          ).toFixed(2)}
                                                       </td>
-                                                      <td>{''}</td>
                                                    </>
                                                 )
                                              )}
@@ -434,13 +524,13 @@ export default function CommonCSDetails() {
                                                 (itm, index) => (
                                                    <>
                                                       <td
-                                                         colSpan={3}
+                                                         colSpan={4}
                                                          className="text-right font-weight-bold "
                                                          style={{
                                                             fontSize: '12px',
                                                          }}
                                                       >
-                                                         {itm?.numTransportCost}
+                                                         {'Delivery need'}
                                                       </td>
                                                    </>
                                                 )
@@ -458,7 +548,7 @@ export default function CommonCSDetails() {
                                                 (itm, index) => (
                                                    <>
                                                       <td
-                                                         colSpan={3}
+                                                         colSpan={4}
                                                          className="text-right font-weight-bold "
                                                          style={{
                                                             fontSize: '12px',
@@ -482,6 +572,17 @@ export default function CommonCSDetails() {
                                                 (itm, index) => (
                                                    <>
                                                       <td
+                                                         colSpan={4}
+                                                         className="text-right font-weight-bold "
+                                                         style={{
+                                                            fontSize: '12px',
+                                                         }}
+                                                      >
+                                                         {
+                                                            'Warenty/Gurantee need'
+                                                         }
+                                                      </td>
+                                                      {/* <td
                                                          colSpan={3}
                                                          className="text-right font-weight-bold "
                                                          style={{
@@ -499,7 +600,7 @@ export default function CommonCSDetails() {
                                                             (itm.numOthersCost ||
                                                                0)
                                                          ).toFixed(2)}
-                                                      </td>
+                                                      </td> */}
                                                    </>
                                                 )
                                              )}
@@ -512,7 +613,43 @@ export default function CommonCSDetails() {
                                              >
                                                 Payment Method
                                              </td>
+                                             {/* <td
+                                                colSpan={
+                                                   csDetailsList?.objPartnerHead
+                                                      ?.length > 0
+                                                      ? csDetailsList
+                                                           ?.objPartnerHead
+                                                           ?.length
+                                                      : 4
+                                                }
+                                                className=" "
+                                                style={{
+                                                   fontSize: '12px',
+                                                }}
+                                             >
+                                                {csDetailsList?.objHeder
+                                                   ?.strPaymentTermsName || ''}
+                                             </td> */}
                                              {csDetailsList?.objPartnerHead?.map(
+                                                (itm, index) => (
+                                                   <>
+                                                      <td
+                                                         colSpan={4}
+                                                         className=" "
+                                                         style={{
+                                                            fontSize: '12px',
+                                                         }}
+                                                      >
+                                                         {csDetailsList
+                                                            ?.objHeder
+                                                            ?.strPaymentTermsName ||
+                                                            ''}
+                                                      </td>
+                                                   </>
+                                                )
+                                             )}
+
+                                             {/* {csDetailsList?.objPartnerHead?.map(
                                                 (itm, index) => (
                                                    <>
                                                       <td
@@ -522,11 +659,11 @@ export default function CommonCSDetails() {
                                                             fontSize: '12px',
                                                          }}
                                                       >
-                                                         {itm?.strRemarks}
+                                                         {itm?.strPaymentMethod}
                                                       </td>
                                                    </>
                                                 )
-                                             )}
+                                             )} */}
                                           </tr>
                                           <tr>
                                              <td
@@ -534,43 +671,23 @@ export default function CommonCSDetails() {
                                                 className="text-right font-weight-bold "
                                                 style={{ fontSize: '12px' }}
                                              >
-                                                VAT
+                                                VAT / AIT
                                              </td>
                                              {csDetailsList?.objPartnerHead?.map(
                                                 (itm, index) => (
                                                    <>
                                                       <td
-                                                         colSpan={3}
+                                                         colSpan={4}
                                                          className=" "
                                                          style={{
                                                             fontSize: '12px',
                                                          }}
                                                       >
-                                                         {itm?.strRemarks}
-                                                      </td>
-                                                   </>
-                                                )
-                                             )}
-                                          </tr>
-                                          <tr>
-                                             <td
-                                                colSpan={6}
-                                                className="text-right font-weight-bold "
-                                                style={{ fontSize: '12px' }}
-                                             >
-                                                AIT
-                                             </td>
-                                             {csDetailsList?.objPartnerHead?.map(
-                                                (itm, index) => (
-                                                   <>
-                                                      <td
-                                                         colSpan={3}
-                                                         className=" "
-                                                         style={{
-                                                            fontSize: '12px',
-                                                         }}
-                                                      >
-                                                         {itm?.strRemarks}
+                                                         {csDetailsList
+                                                            ?.objHeder
+                                                            ?.isVatAtiInclude
+                                                            ? 'Included'
+                                                            : 'Excluded'}
                                                       </td>
                                                    </>
                                                 )
@@ -588,13 +705,17 @@ export default function CommonCSDetails() {
                                                 (itm, index) => (
                                                    <>
                                                       <td
-                                                         colSpan={3}
+                                                         colSpan={4}
                                                          className=" "
                                                          style={{
                                                             fontSize: '12px',
                                                          }}
                                                       >
-                                                         {itm?.strRemarks}
+                                                         {csDetailsList
+                                                            ?.objHeder
+                                                            ?.isTdsInclude
+                                                            ? 'Included'
+                                                            : 'Excluded'}
                                                       </td>
                                                    </>
                                                 )
@@ -612,13 +733,17 @@ export default function CommonCSDetails() {
                                                 (itm, index) => (
                                                    <>
                                                       <td
-                                                         colSpan={3}
+                                                         colSpan={4}
                                                          className=" "
                                                          style={{
                                                             fontSize: '12px',
                                                          }}
                                                       >
-                                                         {itm?.strRemarks}
+                                                         {csDetailsList
+                                                            ?.objHeder
+                                                            ?.isTransportCostInclude
+                                                            ? 'Included'
+                                                            : 'Excluded'}
                                                       </td>
                                                    </>
                                                 )
@@ -636,7 +761,7 @@ export default function CommonCSDetails() {
                                                 (itm, index) => (
                                                    <>
                                                       <td
-                                                         colSpan={3}
+                                                         colSpan={4}
                                                          className=" "
                                                          style={{
                                                             fontSize: '12px',
@@ -658,19 +783,21 @@ export default function CommonCSDetails() {
                            show={isSupplierDetailsModal}
                            onHide={() => setIsSupplierDetailsModal(false)}
                         >
-                           <SupplierDetailsModal />
+                           <SupplierDetailsModal
+                              selectedSupplier={selectedSupplier}
+                           />
                         </IViewModal>
                         <IViewModal
                            show={isLastPurchaseInfoModal}
                            onHide={() => setIsLastPurchaseInfoModal(false)}
                         >
-                           <LastPurchaseInfoModal />
+                           <LastPurchaseInfoModal selectedItem={selectedItem} />
                         </IViewModal>
                         <IViewModal
                            show={isItemReferenceModal}
                            onHide={() => setIsItemReferenceModal(false)}
                         >
-                           <ItemReferenceModal />
+                           <ItemReferenceModal selectedItem={selectedItem} />
                         </IViewModal>
                      </CardBody>
                   </Card>
