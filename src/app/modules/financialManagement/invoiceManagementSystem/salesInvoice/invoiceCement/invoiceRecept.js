@@ -16,6 +16,7 @@ import { buildingLetterhead } from "../base64Images/building";
 import { magnumLetterhead } from "../base64Images/magnum";
 import { commoditiesLetterhead } from "../base64Images/commodities";
 import { tradersLetterhead } from "../base64Images/traders";
+import { tradingLetterhead } from "../base64Images/trading";
 
 const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
   const toWords = new ToWords({
@@ -71,6 +72,8 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
       ? commoditiesLetterhead
       : buId === 216
       ? tradersLetterhead
+      :  buId === 213
+      ? tradingLetterhead
       : "";
 
   return (
