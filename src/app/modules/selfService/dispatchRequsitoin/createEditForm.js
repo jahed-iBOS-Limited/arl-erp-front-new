@@ -354,7 +354,7 @@ export default function DispatchRequisitionCreateEdit() {
                         name="reciverBuName"
                         options={[]}
                         value={values?.reciverBuName}
-                        label="Reciver Business Unit"
+                        label="Receiver Business Unit"
                         disabled={true}
                       />
                     </div>
