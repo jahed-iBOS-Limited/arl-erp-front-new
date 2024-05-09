@@ -60,7 +60,7 @@ export default function DispatchDeskLanding() {
       `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&OrgUnitTypeId=7`,
       (data) => {
         const fromPlantPayload = data?.map((item) => item?.value);
-        handleGetRowData("send", pageNo, pageSize, fromPlantPayload);
+        handleGetRowData("send", pageNo, pageSize);
         setFromPlant(fromPlantPayload);
       }
     );
