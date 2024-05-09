@@ -84,8 +84,8 @@ export default function DispatchRequisitionCreateEdit() {
         receiverEnrollId: values.receiverName?.value || 0,
         receiverName:
           values.receiverName?.strEmployeeName || values?.receiverName || "",
-        ReceiverBusinessUnitId : values?.receiverName?.employeeBusinessUnitId || 0,
-        ReceiverBusinessUnit : values?.receiverName?.employeeBusinessUnit || "",
+        receiverBusinessUnitId : values?.receiverName?.employeeBusinessUnitId || 0,
+        receiverBusinessUnit : values?.receiverName?.employeeBusinessUnit || "",
         dispatchSenderReceiverEnroll: values?.senderName?.value,
         dispatchSenderReceiverName: values.senderName?.strEmployeeName,
         receiverContactNo: values?.contactNo,
@@ -281,8 +281,9 @@ export default function DispatchRequisitionCreateEdit() {
                     value={values?.receiverType}
                     label="Receiver Type"
                     onChange={(valueOption) => {
-                      setFieldValue("receiverName", "");
                       setFieldValue("receiverType", valueOption);
+                      setFieldValue("receiverName", "");
+                      setFieldValue("reciverBuName", "");
                     }}
                     errors={errors}
                     touched={touched}
