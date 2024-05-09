@@ -16,6 +16,18 @@ import { buildingLetterhead } from "../base64Images/building";
 import { magnumLetterhead } from "../base64Images/magnum";
 import { commoditiesLetterhead } from "../base64Images/commodities";
 import { tradersLetterhead } from "../base64Images/traders";
+import { tradingLetterhead } from "../base64Images/trading";
+import { oneTradingLetterhead } from "../base64Images/oneTrading";
+import { batayonTradersLetterhead } from "../base64Images/batayounTraders";
+import { bongoTradersLetterhead } from "../base64Images/bongoTraders";
+import { dailyTradingLetterhead } from "../base64Images/dailyTrading";
+import { directTradingLetterhead } from "../base64Images/directTrading";
+import { eurasiaTradingLetterhead } from "../base64Images/eurasiaTrading";
+import { exoticaTradersLetterhead } from "../base64Images/exoticaTraders";
+import { lineAsiaTradingLetterhead } from "../base64Images/lineAsiaTrading";
+import { nobayonTradersLetterhead } from "../base64Images/nobayonTraders";
+import { optimaTradersLetterhead } from "../base64Images/optimaTraders";
+import { resourceTradersLetterhead } from "../base64Images/resourceTraders";
 
 const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
   const toWords = new ToWords({
@@ -71,6 +83,30 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
       ? commoditiesLetterhead
       : buId === 216
       ? tradersLetterhead
+      :  buId === 213
+      ? tradingLetterhead
+      : buId === 181
+      ? oneTradingLetterhead
+      :  buId === 212
+      ? batayonTradersLetterhead
+      : buId === 178
+      ? bongoTradersLetterhead
+      : buId === 182
+      ? dailyTradingLetterhead
+      :  buId === 180
+      ? directTradingLetterhead
+      :  buId === 183
+      ? eurasiaTradingLetterhead
+      : buId === 218
+      ? exoticaTradersLetterhead
+      : buId === 209
+      ? lineAsiaTradingLetterhead
+      : buId === 211
+      ? nobayonTradersLetterhead
+      : buId === 214
+      ? optimaTradersLetterhead
+      : buId === 210
+      ? resourceTradersLetterhead
       : "";
 
   return (
