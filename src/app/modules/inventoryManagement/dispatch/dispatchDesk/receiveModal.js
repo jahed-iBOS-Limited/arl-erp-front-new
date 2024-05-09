@@ -13,6 +13,7 @@ import CommonTable from "../../../_helper/commonTable";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import { dispatchReceiveValidationSchema } from "./helper";
+import FormikError from "../../../_helper/_formikError";
 
 const initData = {
   receiveType: "",
@@ -33,6 +34,7 @@ const initData = {
   uom: "",
   plant: "",
   documentNo: "",
+  reciverBuName:"",
 };
 
 export default function ReceiveModal() {
@@ -50,7 +52,7 @@ export default function ReceiveModal() {
       employeeId,
       userId,
     },
-    selectedBusinessUnit: { value: buId },
+    selectedBusinessUnit: { value: buId, label: buName },
     // businessUnitList,
   } = useSelector((state) => state?.authData, shallowEqual);
   const [uomList, getUoMList] = useAxiosGet();
@@ -76,6 +78,8 @@ export default function ReceiveModal() {
         senderContactNo: values?.senderContactNo || "",
         receiverEnrollId: values.receiverName?.value || 0,
         receiverName: values.receiverName?.label || "",
+        receiverBusinessUnitId : values?.receiverName?.employeeBusinessUnitId || 0,
+        receiverBusinessUnit : values?.receiverName?.employeeBusinessUnit || "",
         receiverContactNo: values?.receiverContractNo || "",
         remaks: values?.remarks,
         dispatchSenderReceiverEnroll: employeeId,
@@ -85,6 +89,7 @@ export default function ReceiveModal() {
         actionById: employeeId,
         accountId: accId,
         businessUnitId: buId,
+        businessUnit: buName
       },
       row: [...rowData],
     };
@@ -252,6 +257,7 @@ export default function ReceiveModal() {
                         setFieldValue("toLocationDDL","");
                         setFieldValue("remarks","");
                         setFieldValue("documentNo", valueOption || "");
+                        setFieldValue("reciverBuName", "");
                         if (valueOption) {
                           getSingleData(
                             `/tms/DocumentDispatch/GetDocumentDispatchById?DispatchId=${valueOption?.value}`,
@@ -277,9 +283,12 @@ export default function ReceiveModal() {
                                   ? {
                                       value: data?.header?.ReceiverEnrollId,
                                       label: data?.header?.ReceiverName,
+                                      employeeBusinessUnitId: data?.header?.ReceiverBusinessUnitId,
+                                      employeeBusinessUnit:  data?.header?.ReceiverBusinessUnitId,
                                     }
                                   : null
                               );
+                              setFieldValue("reciverBuName",  data?.header?.ReceiverBusinessUnitId &&  data?.header?.ReceiverBusinessUnit ? {value: data?.header?.ReceiverBusinessUnitId, label:  data?.header?.ReceiverBusinessUnit} : "")
                               setFieldValue(
                                 "receiverContractNo",
                                 data?.header?.ReceiverContactNo || ""
@@ -348,6 +357,11 @@ export default function ReceiveModal() {
                       loadOptions={loadSenderList}
                       isDisabled={true}
                     />
+                     <FormikError
+                      errors={errors}
+                      name="senderName"
+                      touched={touched}
+                  />
                   </div>
                 ) : values?.receiveType?.value === 2 ? (
                   <div className="col-lg-3">
@@ -386,12 +400,22 @@ export default function ReceiveModal() {
                         "receiverContractNo",
                         valueOption?.contactNo
                       );
+                      setFieldValue("reciverBuName", {value: valueOption?.employeeBusinessUnitId, label: valueOption?.employeeBusinessUnit});
                     }}
                     loadOptions={loadUserList}
                     errors={errors}
                     touched={touched}
                   />
                 </div>
+                <div className="col-lg-3">
+                      <NewSelect
+                        name="reciverBuName"
+                        options={[]}
+                        value={values?.reciverBuName}
+                        label="Receiver Business Unit"
+                        disabled={true}
+                      />
+                    </div>
                 <div className="col-lg-3">
                   <InputField
                     value={values?.receiverContractNo}

@@ -13,6 +13,7 @@ import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import ReceiveModal from "./receiveModal";
 import SendModal from "./sendModal";
+import PaginationSearch from "../../../_helper/_search";
 const initData = {
   requisition: "send",
 };
@@ -31,11 +32,11 @@ export default function DispatchDeskLanding() {
   const [pageSize, setPageSize] = useState(15);
   const [gridData, getGridData, loadGridData, setGridData] = useAxiosGet();
 
-  const handleGetRowData = (status, pageNo, pageSize, plantPayload) => {
-    // const payload = plantPayload ? plantPayload : fromPlantDDL;
+  const handleGetRowData = (status, pageNo, pageSize, searchValue) => {
+    const searchParam = searchValue ? `&search=${searchValue}` : "";
     if (status === "send") {
       getGridData(
-        `/tms/DocumentDispatch/GetDispatchsSendPasignation?AccountId=${accId}&businessUnitId=${buId}&dispatchDeskSenderId=${0}&SenderId=${0}&ReceiverId=0&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`,
+        `/tms/DocumentDispatch/GetDispatchsSendPasignation?AccountId=${accId}&businessUnitId=${buId}&dispatchDeskSenderId=${0}&SenderId=${0}&ReceiverId=0&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}${searchParam}`,
         (rowData) => {
           const result = rowData?.data?.sort((a, b) =>
             a.isSend === b.isSend ? 0 : a.isSend ? 1 : -1
@@ -45,13 +46,13 @@ export default function DispatchDeskLanding() {
       );
     } else {
       getGridData(
-        `/tms/DocumentDispatch/GetDispatchsReceivePasignation?AccountId=${accId}&businessUnitId=${buId}&SenderId=0&ReceiverId=${0}&dispatchDeskReceiverId=${0}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}
+        `/tms/DocumentDispatch/GetDispatchsReceivePasignation?AccountId=${accId}&businessUnitId=${buId}&SenderId=0&ReceiverId=${0}&dispatchDeskReceiverId=${0}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}${searchParam}
       `
       );
     }
   };
-  const setPositionHandler = (pageNo, pageSize, values) => {
-    handleGetRowData(values?.requisition, pageNo, pageSize);
+  const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
+    handleGetRowData(values?.requisition, pageNo, pageSize, searchValue);
   };
 
   useEffect(() => {
@@ -59,13 +60,17 @@ export default function DispatchDeskLanding() {
       `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&OrgUnitTypeId=7`,
       (data) => {
         const fromPlantPayload = data?.map((item) => item?.value);
-        handleGetRowData("send", pageNo, pageSize, fromPlantPayload);
+        handleGetRowData("send", pageNo, pageSize);
         setFromPlant(fromPlantPayload);
       }
     );
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userId, buId]);
+
+  const paginationSearchHandler = (searchValue, values) => {
+    setPositionHandler(pageNo, pageSize, values, searchValue);
+  };
 
   return (
     <Formik
@@ -152,7 +157,14 @@ export default function DispatchDeskLanding() {
                   </label>
                 </div>
               </div>
-              <div style={{ marginTop: "20px", gap: "5px" }}>
+              <div>
+              <PaginationSearch
+              placeholder="Search..."
+              paginationSearchHandler={paginationSearchHandler}
+              values={values}
+              />
+              </div>
+              <div style={{ marginTop: "7px", gap: "5px" }}>
                 <CommonTable
                   headersData={[
                     "Document No",

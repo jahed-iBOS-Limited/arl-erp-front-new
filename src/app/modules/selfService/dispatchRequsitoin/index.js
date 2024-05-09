@@ -13,6 +13,7 @@ import useAxiosGet from "../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../_helper/customHooks/useAxiosPost";
 import IDelete from "../../_helper/_helperIcons/_delete";
 import IConfirmModal from "../../_helper/_confirmModal";
+import PaginationSearch from "../../_helper/_search";
 const initData = {
   requisition: "send",
 };
@@ -44,22 +45,22 @@ export default function DispatchRequisitionLanding() {
     "Status",
     "Action",
   ];
-  const handleGetRowData = (status, pageNo, pageSize, plantPayload) => {
-    // const payload = plantPayload ? plantPayload : fromPlantDDL;
+  const handleGetRowData = (status, pageNo, pageSize, searchValue) => {
+    const searchParam = searchValue ? `&search=${searchValue}` : "";
     if (status === "send") {
       getGridData(
-        `/tms/DocumentDispatch/GetRequsitionSendPasignation?AccountId=${accId}&businessUnitId=${buId}&SenderId=${employeeId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
+        `/tms/DocumentDispatch/GetRequsitionSendPasignation?AccountId=${accId}&businessUnitId=${buId}&SenderId=${employeeId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}${searchParam}`
       );
     } else {
       getGridData(
-        `/tms/DocumentDispatch/GetRequsitionReceivePasignation?AccountId=${accId}&businessUnitId=${buId}&ReceiverId=${employeeId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}
+        `/tms/DocumentDispatch/GetRequsitionReceivePasignation?AccountId=${accId}&businessUnitId=${buId}&ReceiverId=${employeeId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}${searchParam}
       `
       );
     }
   };
 
-  const setPositionHandler = (pageNo, pageSize, values) => {
-    handleGetRowData(values?.requisition, pageNo, pageSize);
+  const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
+    handleGetRowData(values?.requisition, pageNo, pageSize, searchValue);
   };
 
   useEffect(() => {
@@ -67,13 +68,17 @@ export default function DispatchRequisitionLanding() {
       `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&OrgUnitTypeId=7`,
       (data) => {
         const fromPlantPayload = data?.map((item) => item?.value);
-        handleGetRowData("send", pageNo, pageSize, fromPlantPayload);
+        handleGetRowData("send", pageNo, pageSize);
         setFromPlant(fromPlantPayload);
       }
     );
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userId, buId]);
+
+  const paginationSearchHandler = (searchValue, values) => {
+    setPositionHandler(pageNo, pageSize, values, searchValue);
+  };
 
   console.log("gridData", gridData);
   return (
@@ -166,7 +171,14 @@ export default function DispatchRequisitionLanding() {
                   </label>
                 </div>
               </div>
-              <div style={{ marginTop: "20px", gap: "5px" }}>
+              <div>
+              <PaginationSearch
+              placeholder="Search..."
+              paginationSearchHandler={paginationSearchHandler}
+              values={values}
+              />
+              </div>
+              <div style={{ marginTop: "7px", gap: "5px" }}>
                 <CommonTable
                   headersData={headersData.map((header, index) => {
                     if (
@@ -285,7 +297,6 @@ export default function DispatchRequisitionLanding() {
                                               "send",
                                               pageNo,
                                               pageSize,
-                                              null
                                             );
                                           }
                                         );
