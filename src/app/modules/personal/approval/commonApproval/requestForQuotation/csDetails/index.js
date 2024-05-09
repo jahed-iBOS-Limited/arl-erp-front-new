@@ -54,7 +54,6 @@ export default function CommonCSDetails() {
    const selectedBusinessUnit = useSelector(state => {
       return state.authData.selectedBusinessUnit;
    }, shallowEqual);
-   console.log('location', location?.state);
    useEffect(() => {
       getCsDetailsList(
          `/procurement/RequestForQuotation/GetComparativeStatement?AccountId=1&BusinessUnitId=${selectedBusinessUnit?.value}&SBUId=0&RequestForQuotationId=${location?.state?.transectionId}`
@@ -64,8 +63,6 @@ export default function CommonCSDetails() {
    }, [location]);
 
    const saveHandler = async (values, cb) => {};
-
-   console.log('csDetailsList', csDetailsList);
 
    const getPercentageValue = item => {
       if (!item?.numDiscountPercentage) {

@@ -17,8 +17,6 @@ export function LastPurchaseInfoModal({ selectedItem }) {
    const [isShowModalTwo, setIsShowModalTwo] = React.useState(false);
    const [currentRowData, setCurrentRowData] = React.useState({});
 
-   console.log('selectedItem', selectedItem);
-
    useEffect(() => {
       getLastPurchaseInfo(
          `/procurement/RequestForQuotation/GetItemsLastPurchaseInformation?itemId=${selectedItem?.intItemId}`
