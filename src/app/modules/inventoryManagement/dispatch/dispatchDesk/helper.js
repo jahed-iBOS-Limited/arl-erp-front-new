@@ -19,6 +19,7 @@ export const dispatchReceiveValidationSchema = Yup.object().shape({
     then: Yup.string().required("From Location is required"),
     otherwise: Yup.string()
   }),
-  receiverContractNo: Yup.string().required("ReceiverContract is required"),
+  senderName: Yup.string().required("Sender Name is required"),
+  // receiverContractNo: Yup.string().required("ReceiverContract is required"),
   receiveDate: Yup.date().required("Receive Date is required"),
 });
