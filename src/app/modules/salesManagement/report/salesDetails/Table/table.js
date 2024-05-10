@@ -30,6 +30,8 @@ const reports = [
   { value: 9, label: "Order Vs Challan Duration Gap" },
   { value: 10, label: "Item Pending" },
   { value: 11, label: "Market Basket Analysis" },
+  { value: 12, label: "Order vs Delivery vs Collection Date Wise" },
+  { value: 13, label: "Delivery Monitoring Report" },
 ];
 
 const getTypes = (values) => {
@@ -159,6 +161,10 @@ export default function SalesDetailsTable({ saveHandler }) {
       ? `709ccf52-b436-4d88-ad5f-992b86e7357d`
       : id === 10
       ? `4e8c5f91-f84f-4b10-bf10-8304e395c2af`
+      : id === 12
+      ? `ca8d1e8f-90f4-4cc2-8c99-e1ca9f290f8d`
+      :  id === 13
+      ? `8ab614ab-36c6-4c18-bd1b-1d0f872bb774`
       : "";
   };
   const groupId = `e3ce45bb-e65e-43d7-9ad1-4aa4b958b29a`;
@@ -277,6 +283,25 @@ export default function SalesDetailsTable({ saveHandler }) {
       { name: "intpartid", value: `${values?.reportType?.value}` },
     ];
 
+    const twelveParams = [
+      { name: "UnitId", value: `${buId}` },
+      { name: "intchannelid", value: `${values?.channel?.value}` },
+      { name: "fromDate", value: `${values?.fromDate}` },
+      { name: "toDate", value: `${values?.toDate}` },
+    ];
+
+    const thirteenParams = [
+      { name: "intbusinessunitid", value: `${buId}` },
+      { name: "intsalesorganization", value: `${values?.salesOrg?.value}` },
+      { name: "intCustomer", value: `${values?.partner?.value}` },
+      { name: "intchannelid", value: `${values?.channel?.value}` },
+      { name: "intregion", value: `${values?.region?.value}` },
+      { name: "intarea", value: `${values?.area?.value}` },
+      { name: "intterritory", value: `${values?.territory?.value}` },
+      { name: "FromDate", value: `${values?.fromDate}` },
+      { name: "ToDate", value: `${values?.toDate}` },
+    ];
+
     return id === 1
       ? paramsForSalesDetails
       : id === 2
@@ -302,6 +327,10 @@ export default function SalesDetailsTable({ saveHandler }) {
       ? nineParams
       : id === 10
       ? tenParams
+      : id === 12
+      ? twelveParams
+      : id === 13
+      ? thirteenParams
       : [];
   };
 
@@ -393,20 +422,20 @@ export default function SalesDetailsTable({ saveHandler }) {
                             </div>
                           )}
 
-                        {[1, 3, 4, 5, 6, 7, 8, 9, 10, 11].includes(
+                        {[1, 3, 4, 5, 6, 7, 8, 9, 10, 11,12,13].includes(
                           values?.report?.value
                         ) && (
                           <RATForm
                             obj={{
                               values,
                               setFieldValue,
-                              region: [5, 6, 7, 8].includes(
+                              region: [5, 6, 7, 8,13].includes(
                                 values?.report?.value
                               ),
-                              area: [5, 6, 7, 8].includes(
+                              area: [5, 6, 7, 8,13].includes(
                                 values?.report?.value
                               ),
-                              territory: [5, 6, 7, 8].includes(
+                              territory: [5, 6, 7, 8,13].includes(
                                 values?.report?.value
                               ),
                               columnSize: "col-lg-2",
@@ -506,7 +535,7 @@ export default function SalesDetailsTable({ saveHandler }) {
                           </>
                         )}
 
-                        {[3, 10, 11].includes(values?.report?.value) && (
+                        {[3, 10, 11,13].includes(values?.report?.value) && (
                           <>
                             <div className="col-lg-2">
                               <NewSelect
