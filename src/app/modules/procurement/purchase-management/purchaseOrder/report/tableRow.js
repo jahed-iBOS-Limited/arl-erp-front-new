@@ -480,7 +480,7 @@ export function PurchaseOrderViewTableRow({
                             <td></td> */}
                                           <td
                                              className="font-weight-bold text-right"
-                                             colspan="8"
+                                             colspan="9"
                                           >
                                              Total
                                           </td>
