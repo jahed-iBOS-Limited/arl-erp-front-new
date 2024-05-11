@@ -122,7 +122,7 @@ const SalesInvoiceLandingTable = ({ obj }) => {
                                     tableData?.intPartnerId,
                                     setLoading,
                                     (resData) => {
-                                      setInvoiceData([...resData, ...resData, ...resData,...resData, ...resData, ...resData,...resData, ...resData,...resData,...resData, ...resData]);
+                                      setInvoiceData(resData);
                                       handleInvoicePrintCement();
                                     }
                                   );
