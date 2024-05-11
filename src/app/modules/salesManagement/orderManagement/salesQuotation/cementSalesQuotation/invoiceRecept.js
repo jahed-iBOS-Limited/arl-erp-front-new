@@ -11,7 +11,7 @@ const SalesQuotationForCement = ({
   businessPartnerInfo,
 }) => {
   const {
-    profileData: { employeeFullName, designationName },
+    profileData: { employeeFullName, designationName, contact, emailAddress },
   } = useSelector((state) => state?.authData, shallowEqual);
 
   return (
@@ -211,23 +211,34 @@ const SalesQuotationForCement = ({
         <div className="mb-5 mt-1">
           <p>
             If you have any questions or require further clarification regarding
-            the quotation, please do not hesitate to contact our sales team at
-            01711555015 or bashar.accl@akijcement.com. We are always available
-            to assist you and discuss any specific requirements you may need.
+            the quotation, please do not hesitate to contact our sales team at {' '}
+            {contact} or {emailAddress}. We are always available to assist you
+            and discuss any specific requirements you may need.
           </p>
         </div>
         <div className="mb-5">
-        <p className="text-danger py-2">Note: If you have any queries against this bill. Please Inform bellow sign within ten days (10), otherwise any kind of objection will not be granted further.</p>
+          <p className="text-danger py-2">
+            Note: If you have any queries against this bill. Please Inform
+            bellow sign within ten days (10), otherwise any kind of objection
+            will not be granted further.
+          </p>
           <p>On behalf of Akij Cement Company Ltd.</p>
         </div>
       </div>
 
       {/* <p className="bold mt-2 mb-2">Thanking you,</p> */}
 
-      <div style={{marginTop:"70px"}} className="d-flex justify-content-between">
-              <p><b>Prepared By</b></p>
-              <p><b>Recieved By</b></p>
-            </div>
+      <div
+        style={{ marginTop: "70px" }}
+        className="d-flex justify-content-between"
+      >
+        <p>
+          <b>Prepared By</b>
+        </p>
+        <p>
+          <b>Recieved By</b>
+        </p>
+      </div>
 
       <p className="bold mt-2"> {`(${employeeFullName})`} </p>
       <p> {designationName} </p>
