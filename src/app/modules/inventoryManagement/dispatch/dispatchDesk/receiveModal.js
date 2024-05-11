@@ -78,8 +78,8 @@ export default function ReceiveModal() {
         senderContactNo: values?.senderContactNo || "",
         receiverEnrollId: values.receiverName?.value || 0,
         receiverName: values.receiverName?.label || "",
-        receiverBusinessUnitId : values?.receiverName?.employeeBusinessUnitId || 0,
-        receiverBusinessUnit : values?.receiverName?.employeeBusinessUnit || "",
+        receiverBusinessUnitId : values?.receiverName?.businessUnitId || 0,
+        receiverBusinessUnit : values?.receiverName?.businessUnitName || "",
         receiverContactNo: values?.receiverContractNo || "",
         remaks: values?.remarks,
         dispatchSenderReceiverEnroll: employeeId,
@@ -143,7 +143,9 @@ export default function ReceiveModal() {
     if (v?.length < 3) return [];
     return axios
       .get(
-        `/hcm/HCMDDL/GetEmployeeDDLSearchByBU?AccountId=${accId}&BusinessUnitId=${buId}&Search=${v}`
+        // `/hcm/HCMDDL/GetEmployeeDDLSearchByBU?AccountId=${accId}&BusinessUnitId=${buId}&Search=${v}`
+        `/hcm/HCMDDL/GetEmployeeByAcIdDDL?AccountId=${accId}&search=${v}`
+
       )
       .then((res) => {
         return res.data;
@@ -283,8 +285,8 @@ export default function ReceiveModal() {
                                   ? {
                                       value: data?.header?.ReceiverEnrollId,
                                       label: data?.header?.ReceiverName,
-                                      employeeBusinessUnitId: data?.header?.ReceiverBusinessUnitId,
-                                      employeeBusinessUnit:  data?.header?.ReceiverBusinessUnitId,
+                                      businessUnitId: data?.header?.ReceiverBusinessUnitId,
+                                      businessUnitName:  data?.header?.ReceiverBusinessUnitId,
                                     }
                                   : null
                               );
@@ -400,7 +402,7 @@ export default function ReceiveModal() {
                         "receiverContractNo",
                         valueOption?.contactNo
                       );
-                      setFieldValue("reciverBuName", {value: valueOption?.employeeBusinessUnitId, label: valueOption?.employeeBusinessUnit});
+                      setFieldValue("reciverBuName", {value: valueOption?.businessUnitId, label: valueOption?.businessUnitName});
                     }}
                     loadOptions={loadUserList}
                     errors={errors}

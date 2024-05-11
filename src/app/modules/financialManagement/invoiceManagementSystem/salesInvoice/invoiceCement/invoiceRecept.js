@@ -83,19 +83,19 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
       ? commoditiesLetterhead
       : buId === 216
       ? tradersLetterhead
-      :  buId === 213
+      : buId === 213
       ? tradingLetterhead
       : buId === 181
       ? oneTradingLetterhead
-      :  buId === 212
+      : buId === 212
       ? batayonTradersLetterhead
       : buId === 178
       ? bongoTradersLetterhead
       : buId === 182
       ? dailyTradingLetterhead
-      :  buId === 180
+      : buId === 180
       ? directTradingLetterhead
-      :  buId === 183
+      : buId === 183
       ? eurasiaTradingLetterhead
       : buId === 218
       ? exoticaTradersLetterhead
@@ -109,237 +109,309 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
       ? resourceTradersLetterhead
       : "";
 
+  const isVatinclude = invoiceData?.[0]?.isVatinclude || false;
   return (
     <div>
-      {/* <style type="text/css" media="print">
-        {`
-        @page {
-          size: A4 portrait !important;
-          padding: 0;
-          margin: 30px;
-        }
-        
-          `}
-      </style> */}
-      <div
-        ref={printRef}
-        id="print_sales_invoice_wrapper_cement"
-        style={{
-          backgroundImage: `url(${letterhead})`,
-          backgroundRepeat: "no-repeat",
-          // backgroundPosition: "center",
-          backgroundPosition: "50% 50%",
-          backgroundSize: "cover",
-          width: "100%",
-          height: "100%",
-        }}
-      >
-        {" "}
-        <div style={{ margin: "0 50px" }}>
-          <div
-            style={{
-              textAlign: "center",
-              marginBottom: "10px",
-              marginTop: "120px",
-            }}
-          >
-            <i>
-              <p
+      <div ref={printRef} id="print_sales_invoice_wrapper_cement">
+        <div
+          className="invoice-header"
+          style={{
+            backgroundImage: `url(${letterhead})`,
+            backgroundRepeat: "no-repeat",
+            height: "150px",
+            backgroundPosition: "left top",
+            backgroundSize: "cover",
+            position: "fixed",
+            width: "100%",
+            top: "-40px",
+          }}
+        ></div>
+        <div
+          className="invoice-header"
+          style={{
+            backgroundImage: `url(${letterhead})`,
+            backgroundRepeat: "no-repeat",
+            height: "100px",
+            backgroundPosition: "left bottom",
+            backgroundSize: "cover",
+            bottom: "-25px",
+            position: "fixed",
+            width: "100%",
+          }}
+        ></div>
+        <table>
+          <thead>
+            <tr>
+              <td
                 style={{
-                  fontSize: "30px",
-                  textDecoration: "underLine",
-                  fontWeight: "bold",
+                  border: "none",
                 }}
               >
-                Invoice: {invoiceData[0]?.strInvoiceNo}
-              </p>
-            </i>
-          </div>
-          <div>
-            <p>
-              <b>DATE: {_dateFormatter(new Date())}</b>
-            </p>
-            <p>
-              <b>Reference: {invoiceData[0]?.referance}</b>
-            </p>
-            <br />
-            <p>
-              <b>{invoiceData[0]?.customerName}</b>
-            </p>
-            <p>{invoiceData[0]?.businessPartnerAddress}</p>
+                {/* place holder for the fixed-position header */}
+                <div
+                  style={{
+                    height: "110px",
+                  }}
+                ></div>
+              </td>
+            </tr>
+          </thead>
+          {/* CONTENT GOES HERE */}
+          <tbody>
+            <div style={{ margin: "-13px 50px 51px 50px" }}>
+              <div
+                style={{
+                  textAlign: "center",
+                  marginBottom: "10px",
+                  // marginTop: "120px",
+                }}
+              >
+                <i>
+                  <p
+                    style={{
+                      fontSize: "30px",
+                      textDecoration: "underLine",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    Invoice: {invoiceData[0]?.strInvoiceNo}
+                  </p>
+                </i>
+              </div>
+              <div>
+                <p>
+                  <b>DATE: {_dateFormatter(new Date())}</b>
+                </p>
+                <p>
+                  <b>Reference: {invoiceData[0]?.referance}</b>
+                </p>
+                <br />
+                <p>
+                  <b>{invoiceData[0]?.customerName}</b>
+                </p>
+                <p>{invoiceData[0]?.businessPartnerAddress}</p>
 
-            <p style={{ margin: "2px 0" }}>
-              <strong> Delivery Address:</strong> {invoiceData[0]?.projLocation}
-            </p>
+                <p style={{ margin: "2px 0" }}>
+                  <strong> Delivery Address:</strong>{" "}
+                  {invoiceData[0]?.projLocation}
+                </p>
 
-            <p>Dear Sir,</p>
-            <p>
-              We are pleased to issue a bill in favour of our supply as per your
-              purchase order.
-            </p>
-            <br />
-          </div>
-          <div className="main_table">
-            <table className="table">
-              <thead>
-                <tr>
-                  <th style={getStyle}>SL</th>
-                  <th style={getStyle}>Item</th>
-                  <th style={getStyle}>Sales Order</th>
-                  {/* <th style={getStyle}>Destination</th> */}
-                  <th style={{ width: "90px", ...getStyle }}>Delivery Date</th>
-                  <th style={getStyle}>Challan No.</th>
-                  <th style={getStyle}>{`${
-                    channelId === 43 ? "Primary Qty" : "Qty"
-                  }`}</th>
-                  {channelId === 43 && <th style={getStyle}>Net Qty</th>}
-                  <th style={getStyle}>UoM</th>
-                  <th style={{ ...getStyle, width: "90px" }}>
-                    {/* Unit Price (TK/{`${channelId === 43 ? "M.T" : "Bag"}`}) */}
-                    Unit Price (TK)
-                  </th>
-                  <th style={getStyle}>
-                    Total Amount
-                    {[8].includes(buId) && invoiceData?.[0]?.isVatinclude
-                      ? " (Without VAT)"
-                      : ""}
-                  </th>
-                  <th style={getStyle}>Vat Amount</th>
-                  <th style={getStyle}>Total Amount(Vat included)</th>
-                </tr>
-              </thead>
-              <tbody>
-                {invoiceData?.map((item, index) => {
-                  let totalAmount = 0;
-                  let vatAmount = 0;
-                  let amountWithVat = 0;
-
-                  if ([8].includes(buId)) {
-                    // if vat is included in the price
-                    if (item?.isVatinclude) {
-                      totalAmount =
-                        (+item?.totalAmount || 0) - (+item?.vatAmount || 0);
-                      vatAmount = item?.vatAmount || 0;
-                      amountWithVat = totalAmount + vatAmount;
-                    } else {
-                      // if vat is not included in the price
-                      totalAmount = item?.totalAmount || 0;
-                      vatAmount = 0;
-                      amountWithVat = totalAmount + vatAmount;
-                    }
-                  } else {
-                    totalAmount = item?.totalAmount || 0;
-                    vatAmount = item?.vatAmount || 0;
-                    amountWithVat = totalAmount + vatAmount;
-                  }
-
-                  totalQty += item?.quantity;
-                  // totalQty += item?.totalDeliveredQtyCFT;
-                  grandTotal += totalAmount;
-                  grandVatTotal += item?.vatAmount || 0;
-                  grandTotalWithVat += amountWithVat;
-                  // totalItemRate += item?.itemRate || 0;
-                  totalNetQty += item?.netQty || 0;
-
-                  return (
+                <p>Dear Sir,</p>
+                <p>
+                  We are pleased to issue a bill in favour of our supply as per
+                  your purchase order.
+                </p>
+                <br />
+              </div>
+              <div className="main_table">
+                <table className="table">
+                  <thead>
                     <tr>
-                      <td className="text-center">{index + 1}</td>
-                      <td>{item?.itemName}</td>
-                      <td>{item?.orderCode}</td>
-                      {/* <td>{item?.deliveryAddress}</td> */}
-                      <td>{_dateFormatter(item?.deliveriDate)}</td>
-                      <td>{item?.deliveryCode}</td>
-                      <td className="text-right">
-                        {item?.quantity}
-                        {/* {_fixedPoint(item?.totalDeliveredQtyCFT, true)} */}
-                      </td>
-                      {channelId === 43 && (
-                        <td className="text-right">{item?.netQty}</td>
-                      )}
-                      <td className="text-right">{item?.uom}</td>
+                      <th style={getStyle}>SL</th>
+                      <th style={getStyle}>Item</th>
+                      <th style={getStyle}>Sales Order</th>
+                      {/* <th style={getStyle}>Destination</th> */}
+                      <th style={{ width: "90px", ...getStyle }}>
+                        Delivery Date
+                      </th>
+                      <th style={getStyle}>Challan No.</th>
+                      <th style={getStyle}>{`${
+                        channelId === 43 ? "Primary Qty" : "Qty"
+                      }`}</th>
+                      <th style={getStyle}>UoM</th>
+                      {channelId === 43 && <th style={getStyle}>Net Qty</th>}
 
-                      <td className="text-right" style={{ width: "60px" }}>
-                        {item?.itemRate}
-                      </td>
-                      <td className="text-right">
-                        {_fixedPoint(totalAmount, true)}
-                      </td>
-                      <td className="text-right">
-                        {_fixedPoint(item?.vatAmount, true)}
-                      </td>
-                      <td className="text-right">
-                        {_fixedPoint(amountWithVat, true)}
+                      <th style={{ ...getStyle, width: "90px" }}>
+                        {/* Unit Price (TK/{`${channelId === 43 ? "M.T" : "Bag"}`}) */}
+                        Unit Price (TK)
+                      </th>
+                      <th style={getStyle}>
+                        Total Amount
+                        {isVatinclude ? " (Without VAT)" : ""}
+                      </th>
+                      {isVatinclude && (
+                        <>
+                          {" "}
+                          <th style={getStyle}>Vat Amount</th>
+                          <th style={getStyle}>Total Amount(Vat included)</th>
+                        </>
+                      )}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {invoiceData?.map((item, index) => {
+                      let totalAmount = 0;
+                      let vatAmount = 0;
+                      let amountWithVat = 0;
+
+                      if ([8].includes(buId)) {
+                        // if vat is included in the price
+                        if (isVatinclude) {
+                          totalAmount =
+                            (+item?.totalAmount || 0) - (+item?.vatAmount || 0);
+                          vatAmount = item?.vatAmount || 0;
+                          amountWithVat = totalAmount + vatAmount;
+                        } else {
+                          // if vat is not included in the price
+                          totalAmount = item?.totalAmount || 0;
+                          vatAmount = 0;
+                          amountWithVat = totalAmount + vatAmount;
+                        }
+                      } else {
+                        totalAmount = item?.totalAmount || 0;
+                        vatAmount = item?.vatAmount || 0;
+                        amountWithVat = totalAmount + vatAmount;
+                      }
+
+                      totalQty += item?.quantity;
+                      // totalQty += item?.totalDeliveredQtyCFT;
+                      grandTotal += totalAmount;
+                      grandVatTotal += item?.vatAmount || 0;
+                      grandTotalWithVat += amountWithVat;
+                      // totalItemRate += item?.itemRate || 0;
+                      totalNetQty += item?.netQty || 0;
+
+                      return (
+                        <>
+                          <tr>
+                            <td className="text-center">{index + 1}</td>
+                            <td>{item?.itemName}</td>
+                            <td>{item?.orderCode}</td>
+                            {/* <td>{item?.deliveryAddress}</td> */}
+                            <td>{_dateFormatter(item?.deliveriDate)}</td>
+                            <td>{item?.deliveryCode}</td>
+                            <td className="text-right">
+                              {item?.quantity}
+                              {/* {_fixedPoint(item?.totalDeliveredQtyCFT, true)} */}
+                            </td>
+                            <td className="text-right">{item?.uom}</td>
+                            {channelId === 43 && (
+                              <td className="text-right">{item?.netQty}</td>
+                            )}
+
+                            <td
+                              className="text-right"
+                              style={{ width: "60px" }}
+                            >
+                              {item?.itemRate}
+                            </td>
+                            <td className="text-right">
+                              {_fixedPoint(totalAmount, true)}
+                            </td>
+                            {isVatinclude && (
+                              <>
+                                <td className="text-right">
+                                  {_fixedPoint(item?.vatAmount, true)}
+                                </td>
+                                <td className="text-right">
+                                  {_fixedPoint(amountWithVat, true)}
+                                </td>
+                              </>
+                            )}
+                          </tr>
+                        </>
+                      );
+                    })}
+
+                    <tr style={{ textAlign: "right", fontWeight: "bold" }}>
+                      <td colSpan={5}>Grand Total</td>
+                      <td>{_fixedPoint(totalQty, true)}</td>
+                      <td> </td>
+                      {channelId === 43 && (
+                        <td>{_fixedPoint(totalNetQty, true)}</td>
+                      )}
+                      <td> </td>
+                      <td>{_fixedPoint(grandTotal, true)}</td>
+                      {isVatinclude && (
+                        <>
+                          <td>{_fixedPoint(grandVatTotal, true)}</td>
+                          <td>{_fixedPoint(grandTotalWithVat, true)}</td>
+                        </>
+                      )}
+                    </tr>
+                    <tr style={{ fontWeight: "bold", textAlign: "left" }}>
+                      <td
+                        colSpan={
+                          channelId === 43
+                            ? isVatinclude
+                              ? 12
+                              : 10
+                            : isVatinclude
+                            ? 11
+                            : 9
+                        }
+                        className="text-left"
+                      >
+                        IN WORDS: {toWords.convert(grandTotal?.toFixed(0))}
                       </td>
                     </tr>
-                  );
-                })}
-                <tr style={{ textAlign: "right", fontWeight: "bold" }}>
-                  <td colSpan={5}>Grand Total</td>
-                  <td>{_fixedPoint(totalQty, true)}</td>
-                  {channelId === 43 && (
-                    <td>{_fixedPoint(totalNetQty, true)}</td>
-                  )}
-                  <td> </td>
-                  <td> </td>
-                  <td>{_fixedPoint(grandTotal, true)}</td>
-                  <td>{_fixedPoint(grandVatTotal, true)}</td>
-                  <td>{_fixedPoint(grandTotalWithVat, true)}</td>
-                </tr>
-                <tr style={{ fontWeight: "bold", textAlign: "left" }}>
-                  <td
-                    colSpan={channelId === 43 ? 12 : 11}
-                    className="text-left"
-                  >
-                    IN WORDS: {toWords.convert(grandTotal?.toFixed(0))}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <p className="text-danger py-2">
-            Note: If you have any queries against this bill. Please Inform
-            bellow sign within ten days (10), otherwise any kind of objection
-            will not be granted further.
-          </p>
-          <p>On behalf of {buName}</p>
-          <div
-            style={{ marginTop: "70px" }}
-            className="d-flex justify-content-between"
-          >
-            <p>
-              <b>Prepared By</b>
-            </p>
-            <p>
-              <b>Recieved By</b>
-            </p>
-          </div>
-          <div className="signature_wrapper">
-            <div className="first signature bold">
-              <p>{empName}</p>
+                  </tbody>
+                </table>
+              </div>
+              <p className="text-danger py-2">
+                Note: If you have any queries against this bill. Please Inform
+                bellow sign within ten days (10), otherwise any kind of
+                objection will not be granted further.
+              </p>
+              <p>On behalf of {buName}</p>
+              <div
+                style={{ marginTop: "70px" }}
+                className="d-flex justify-content-between"
+              >
+                <p>
+                  <b>Prepared By</b>
+                </p>
+                <p>
+                  <b>Recieved By</b>
+                </p>
+              </div>
+              <div className="signature_wrapper">
+                <div className="first signature bold">
+                  <p>{empName}</p>
+                </div>
+              </div>
+              <p>{designationName}</p>
+              <p>{buName}</p>
+              <div style={{ marginTop: "25px" }}>
+                <p>
+                  <b>Enclose</b>
+                </p>
+                <p>1. Delivery Invoice</p>
+              </div>
+              <div style={{ position: "relative" }}>
+                <p
+                  style={{
+                    bottom: "73px",
+                    textAlign: "center",
+                    position: "fixed",
+                    width: "100%",
+                    fontWeight: "bold",
+                  }}
+                >
+                  This is an automatically generated invoice, no signature is
+                  required.
+                </p>
+              </div>
             </div>
-          </div>
-          <p>{designationName}</p>
-          <p>{buName}</p>
-          <div style={{ marginTop: "25px" }}>
-            <p>
-              <b>Enclose</b>
-            </p>
-            <p>1. Delivery Invoice</p>
-          </div>
-          <div style={{ position: "relative" }}>
-            <p
-              style={{
-                bottom: "70px",
-                textAlign: "center",
-                position: "fixed",
-                width: "100%",
-              }}
-            >
-              This is an automatically generated invoice, no signature is
-              required.
-            </p>
-          </div>
-        </div>
+          </tbody>
+
+          <tfoot>
+            <tr>
+              <td
+                style={{
+                  border: "none",
+                }}
+              >
+                {/* place holder for the fixed-position footer */}
+                <div
+                  style={{
+                    height: "80px",
+                  }}
+                ></div>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
       </div>
     </div>
   );
