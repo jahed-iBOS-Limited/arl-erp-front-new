@@ -81,7 +81,7 @@ const PortDistanceReport = () => {
                        name="inputDays"
                        value={values?.inputDays||""}
                        min={0}
-                       label="Days"
+                       label="Speed"
                        type="number"
                        onChange={(e)=>{
                         setFieldValue("inputDays",+e.target?.value)
@@ -131,7 +131,9 @@ const PortDistanceReport = () => {
                             <td className="text-center">{item?.fromLong}</td>
                             <td className="text-center">{item?.toLong}</td>
                             <td className="text-center">{item?.distnace}</td>
-                            <td className="text-center">{item?.numDays}</td>
+                            <td className="text-center">
+                            {item.numDays ? parseFloat(item?.numDays)?.toFixed(4) : ""}
+                          </td>
                           </tr>
                         ))}
                     </tbody>
