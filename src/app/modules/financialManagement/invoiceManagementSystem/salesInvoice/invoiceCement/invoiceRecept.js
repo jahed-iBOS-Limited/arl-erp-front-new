@@ -83,19 +83,19 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
       ? commoditiesLetterhead
       : buId === 216
       ? tradersLetterhead
-      :  buId === 213
+      : buId === 213
       ? tradingLetterhead
       : buId === 181
       ? oneTradingLetterhead
-      :  buId === 212
+      : buId === 212
       ? batayonTradersLetterhead
       : buId === 178
       ? bongoTradersLetterhead
       : buId === 182
       ? dailyTradingLetterhead
-      :  buId === 180
+      : buId === 180
       ? directTradingLetterhead
-      :  buId === 183
+      : buId === 183
       ? eurasiaTradingLetterhead
       : buId === 218
       ? exoticaTradersLetterhead
@@ -124,18 +124,30 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
       <div
         ref={printRef}
         id="print_sales_invoice_wrapper_cement"
-        style={{
-          backgroundImage: `url(${letterhead})`,
-          backgroundRepeat: "no-repeat",
-          // backgroundPosition: "center",
-          backgroundPosition: "50% 50%",
-          backgroundSize: "cover",
-          width: "100%",
-          height: "100%",
-        }}
+        // style={{
+        //   backgroundImage: `url(${letterhead})`,
+        //   backgroundRepeat: "no-repeat",
+        //   // backgroundPosition: "center",
+        //   backgroundPosition: "50% 50%",
+        //   backgroundSize: "cover",
+        //   width: "100%",
+        //   height: "100%",
+        // }}
       >
-        {" "}
-        <div style={{ margin: "0 50px" }}>
+        <div
+          className="invoice-header"
+          style={{
+            backgroundImage: `url(${letterhead})`,
+            backgroundRepeat: "no-repeat",
+            height: "150px",
+            backgroundPosition: "left top",
+            backgroundSize: "cover",
+            position: "fixed",
+            width: "100%",
+            top: "-40px",
+          }}
+        ></div>
+        <div style={{ margin: "-13px 50px 51px 50px" }}>
           <div
             style={{
               textAlign: "center",
@@ -242,37 +254,50 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
                   totalNetQty += item?.netQty || 0;
 
                   return (
-                    <tr>
-                      <td className="text-center">{index + 1}</td>
-                      <td>{item?.itemName}</td>
-                      <td>{item?.orderCode}</td>
-                      {/* <td>{item?.deliveryAddress}</td> */}
-                      <td>{_dateFormatter(item?.deliveriDate)}</td>
-                      <td>{item?.deliveryCode}</td>
-                      <td className="text-right">
-                        {item?.quantity}
-                        {/* {_fixedPoint(item?.totalDeliveredQtyCFT, true)} */}
-                      </td>
-                      {channelId === 43 && (
-                        <td className="text-right">{item?.netQty}</td>
+                    <>
+                      {index % 7 === 0 && index !== 0 && (
+                        <>
+                          <div
+                            style={{
+                              pageBreakBefore: "always",
+                              marginTop: "15px",
+                            }}
+                          ></div>
+                        </>
                       )}
-                      <td className="text-right">{item?.uom}</td>
+                      <tr>
+                        <td className="text-center">{index + 1}</td>
+                        <td>{item?.itemName}</td>
+                        <td>{item?.orderCode}</td>
+                        {/* <td>{item?.deliveryAddress}</td> */}
+                        <td>{_dateFormatter(item?.deliveriDate)}</td>
+                        <td>{item?.deliveryCode}</td>
+                        <td className="text-right">
+                          {item?.quantity}
+                          {/* {_fixedPoint(item?.totalDeliveredQtyCFT, true)} */}
+                        </td>
+                        {channelId === 43 && (
+                          <td className="text-right">{item?.netQty}</td>
+                        )}
+                        <td className="text-right">{item?.uom}</td>
 
-                      <td className="text-right" style={{ width: "60px" }}>
-                        {item?.itemRate}
-                      </td>
-                      <td className="text-right">
-                        {_fixedPoint(totalAmount, true)}
-                      </td>
-                      <td className="text-right">
-                        {_fixedPoint(item?.vatAmount, true)}
-                      </td>
-                      <td className="text-right">
-                        {_fixedPoint(amountWithVat, true)}
-                      </td>
-                    </tr>
+                        <td className="text-right" style={{ width: "60px" }}>
+                          {item?.itemRate}
+                        </td>
+                        <td className="text-right">
+                          {_fixedPoint(totalAmount, true)}
+                        </td>
+                        <td className="text-right">
+                          {_fixedPoint(item?.vatAmount, true)}
+                        </td>
+                        <td className="text-right">
+                          {_fixedPoint(amountWithVat, true)}
+                        </td>
+                      </tr>
+                    </>
                   );
                 })}
+
                 <tr style={{ textAlign: "right", fontWeight: "bold" }}>
                   <td colSpan={5}>Grand Total</td>
                   <td>{_fixedPoint(totalQty, true)}</td>
@@ -340,6 +365,20 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
             </p>
           </div>
         </div>
+
+        <div
+          className="invoice-header"
+          style={{
+            backgroundImage: `url(${letterhead})`,
+            backgroundRepeat: "no-repeat",
+            height: "100px",
+            backgroundPosition: "left bottom",
+            backgroundSize: "cover",
+            bottom: "-25px",
+            position: "fixed",
+            width: "100%",
+          }}
+        ></div>
       </div>
     </div>
   );
