@@ -5,6 +5,8 @@ import { _dateFormatter } from '../../../../../_helper/_dateFormate';
 import Loading from '../../../../../_helper/_loading';
 import IViewModal from '../../../../../_helper/_viewModal';
 import { InventoryTransactionReportViewTableRow } from '../../../../../inventoryManagement/warehouseManagement/invTransaction/report/tableRow';
+import { PurchaseOrderViewTableRow } from '../../../../../procurement/purchase-management/purchaseOrder/report/tableRow';
+import { set } from 'lodash';
 
 export function SupplierDetailsModal({ selectedSupplier }) {
    const [viewData, getViewData, loader, setViewData] = useAxiosGet();
@@ -71,8 +73,20 @@ export function SupplierDetailsModal({ selectedSupplier }) {
                   {viewData?.map((item, index) => (
                      <>
                         <tr>
-                           <td className="text-center">
-                              {item?.purchaseOrderNo}
+                           <td className="text-left">
+                              <span
+                                 className="pl-2"
+                                 style={{
+                                    color: 'blue',
+                                    textDecoration: 'underline',
+                                 }}
+                                 onClick={() => {
+                                    setIsPOModal(true);
+                                    setCurrentItem(item);
+                                 }}
+                              >
+                                 {item?.purchaseOrderNo}
+                              </span>
                            </td>
                            <td>
                               <span className="pl-2">
@@ -112,8 +126,25 @@ export function SupplierDetailsModal({ selectedSupplier }) {
             </table>
          </div>
          <IViewModal
+            show={isPOModal}
+            onHide={() => {
+               setIsPOModal(false);
+               setCurrentItem({});
+            }}
+            title="View Purchase Order"
+         >
+            <PurchaseOrderViewTableRow
+               poId={currentItem?.purchaseOrderId}
+               orId={currentItem?.purchaseOrderTypeId}
+               isHiddenBackBtn={true}
+            />
+         </IViewModal>
+         <IViewModal
             show={isInvTransModal}
-            onHide={() => setIsInvTransModal(false)}
+            onHide={() => {
+               setIsInvTransModal(false);
+               setCurrentItem({});
+            }}
          >
             <InventoryTransactionReportViewTableRow
                Invid={currentItem?.inventoryTransactionId}

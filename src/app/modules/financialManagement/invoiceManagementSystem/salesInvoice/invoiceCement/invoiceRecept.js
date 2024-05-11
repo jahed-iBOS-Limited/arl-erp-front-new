@@ -109,6 +109,7 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
       ? resourceTradersLetterhead
       : "";
 
+  const isVatinclude = invoiceData?.[0]?.isVatinclude || false;
   return (
     <div>
       <div ref={printRef} id="print_sales_invoice_wrapper_cement">
@@ -217,20 +218,24 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
                       <th style={getStyle}>{`${
                         channelId === 43 ? "Primary Qty" : "Qty"
                       }`}</th>
-                      {channelId === 43 && <th style={getStyle}>Net Qty</th>}
                       <th style={getStyle}>UoM</th>
+                      {channelId === 43 && <th style={getStyle}>Net Qty</th>}
+
                       <th style={{ ...getStyle, width: "90px" }}>
                         {/* Unit Price (TK/{`${channelId === 43 ? "M.T" : "Bag"}`}) */}
                         Unit Price (TK)
                       </th>
                       <th style={getStyle}>
                         Total Amount
-                        {[8].includes(buId) && invoiceData?.[0]?.isVatinclude
-                          ? " (Without VAT)"
-                          : ""}
+                        {isVatinclude ? " (Without VAT)" : ""}
                       </th>
-                      <th style={getStyle}>Vat Amount</th>
-                      <th style={getStyle}>Total Amount(Vat included)</th>
+                      {isVatinclude && (
+                        <>
+                          {" "}
+                          <th style={getStyle}>Vat Amount</th>
+                          <th style={getStyle}>Total Amount(Vat included)</th>
+                        </>
+                      )}
                     </tr>
                   </thead>
                   <tbody>
@@ -241,7 +246,7 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
 
                       if ([8].includes(buId)) {
                         // if vat is included in the price
-                        if (item?.isVatinclude) {
+                        if (isVatinclude) {
                           totalAmount =
                             (+item?.totalAmount || 0) - (+item?.vatAmount || 0);
                           vatAmount = item?.vatAmount || 0;
@@ -279,10 +284,10 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
                               {item?.quantity}
                               {/* {_fixedPoint(item?.totalDeliveredQtyCFT, true)} */}
                             </td>
+                            <td className="text-right">{item?.uom}</td>
                             {channelId === 43 && (
                               <td className="text-right">{item?.netQty}</td>
                             )}
-                            <td className="text-right">{item?.uom}</td>
 
                             <td
                               className="text-right"
@@ -293,12 +298,16 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
                             <td className="text-right">
                               {_fixedPoint(totalAmount, true)}
                             </td>
-                            <td className="text-right">
-                              {_fixedPoint(item?.vatAmount, true)}
-                            </td>
-                            <td className="text-right">
-                              {_fixedPoint(amountWithVat, true)}
-                            </td>
+                            {isVatinclude && (
+                              <>
+                                <td className="text-right">
+                                  {_fixedPoint(item?.vatAmount, true)}
+                                </td>
+                                <td className="text-right">
+                                  {_fixedPoint(amountWithVat, true)}
+                                </td>
+                              </>
+                            )}
                           </tr>
                         </>
                       );
@@ -307,18 +316,30 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
                     <tr style={{ textAlign: "right", fontWeight: "bold" }}>
                       <td colSpan={5}>Grand Total</td>
                       <td>{_fixedPoint(totalQty, true)}</td>
+                      <td> </td>
                       {channelId === 43 && (
                         <td>{_fixedPoint(totalNetQty, true)}</td>
                       )}
                       <td> </td>
-                      <td> </td>
                       <td>{_fixedPoint(grandTotal, true)}</td>
-                      <td>{_fixedPoint(grandVatTotal, true)}</td>
-                      <td>{_fixedPoint(grandTotalWithVat, true)}</td>
+                      {isVatinclude && (
+                        <>
+                          <td>{_fixedPoint(grandVatTotal, true)}</td>
+                          <td>{_fixedPoint(grandTotalWithVat, true)}</td>
+                        </>
+                      )}
                     </tr>
                     <tr style={{ fontWeight: "bold", textAlign: "left" }}>
                       <td
-                        colSpan={channelId === 43 ? 12 : 11}
+                        colSpan={
+                          channelId === 43
+                            ? isVatinclude
+                              ? 12
+                              : 10
+                            : isVatinclude
+                            ? 11
+                            : 9
+                        }
                         className="text-left"
                       >
                         IN WORDS: {toWords.convert(grandTotal?.toFixed(0))}
@@ -360,10 +381,11 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
               <div style={{ position: "relative" }}>
                 <p
                   style={{
-                    bottom: "70px",
+                    bottom: "73px",
                     textAlign: "center",
                     position: "fixed",
                     width: "100%",
+                    fontWeight: "bold",
                   }}
                 >
                   This is an automatically generated invoice, no signature is
