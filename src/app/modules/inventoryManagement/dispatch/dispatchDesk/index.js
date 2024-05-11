@@ -133,7 +133,9 @@ export default function DispatchDeskLanding() {
                       checked={values?.requisition === "send"}
                       onChange={(e) => {
                         setFieldValue("requisition", "send");
-                        handleGetRowData("send", pageNo, pageSize);
+                        setPageNo(0)
+                        setPageSize(15);
+                        handleGetRowData("send", 0, 15);
                       }}
                     />
                     Send
@@ -150,7 +152,9 @@ export default function DispatchDeskLanding() {
                       checked={values?.requisition === "received"}
                       onChange={(e) => {
                         setFieldValue("requisition", "received");
-                        handleGetRowData("received", pageNo, pageSize);
+                        setPageNo(0)
+                        setPageSize(15);
+                        handleGetRowData("received", 0, 15);
                       }}
                     />
                     Receive
