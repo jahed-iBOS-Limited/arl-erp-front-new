@@ -119,7 +119,7 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
             backgroundImage: `url(${letterhead})`,
             backgroundRepeat: "no-repeat",
             height: "150px",
-            backgroundPosition: "left top",
+            backgroundPosition: "left 10px",
             backgroundSize: "cover",
             position: "fixed",
             width: "100%",
@@ -127,14 +127,14 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
           }}
         ></div>
         <div
-          className="invoice-header"
+          className="invoice-footer"
           style={{
             backgroundImage: `url(${letterhead})`,
             backgroundRepeat: "no-repeat",
             height: "100px",
             backgroundPosition: "left bottom",
             backgroundSize: "cover",
-            bottom: "-25px",
+            bottom: "-0px",
             position: "fixed",
             width: "100%",
           }}
@@ -381,7 +381,7 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
               <div style={{ position: "relative" }}>
                 <p
                   style={{
-                    bottom: "73px",
+                    bottom: "100px",
                     textAlign: "center",
                     position: "fixed",
                     width: "100%",
@@ -405,7 +405,7 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
                 {/* place holder for the fixed-position footer */}
                 <div
                   style={{
-                    height: "80px",
+                    height: "150px",
                   }}
                 ></div>
               </td>
