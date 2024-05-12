@@ -1,4 +1,4 @@
-import Axios from "axios";
+import { default as Axios, default as axios } from "axios";
 import moment from "moment";
 import { toast } from "react-toastify";
 
@@ -116,6 +116,38 @@ export const getCustomerStatementTopSheet = async (
   } catch (error) {
     setter([]);
     toast.error(error?.response?.data?.message);
+    setLoading(false);
+  }
+};
+
+export const getRegionAreaTerritory = async ({
+  channelId,
+  regionId,
+  areaId,
+  setter,
+  setLoading,
+  value,
+  label,
+  territoryId,
+}) => {
+  setLoading(true);
+  const region = regionId ? `&regionId=${regionId}` : "";
+  const area = areaId ? `&areaId=${areaId}` : "";
+  const territory = territoryId ? `&territoryId=${territoryId}` : "";
+  try {
+    const res = await axios.get(
+      `/oms/TerritoryInfo/GetTerrotoryRegionAreaByChannel?channelId=${channelId}${region}${area}${territory}`
+    );
+    setter(
+      res?.data?.map((item) => ({
+        ...item,
+        value: item[value],
+        label: item[label],
+      }))
+    );
+    setLoading(false);
+  } catch (error) {
+    setter([]);
     setLoading(false);
   }
 };

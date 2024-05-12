@@ -62,6 +62,14 @@ export default function QualityCheckViewModal({ singleData }) {
           </div>
         </div>
       </div>
+      <div>
+        <p><strong>Bag Qty :{modalData?.bagQty}</strong> </p>
+        <p><strong>Net Weight :{modalData?.netWeight}</strong> </p>
+        <p><strong>Per Bag:{modalData?.kgPerBag}</strong> </p>
+        <p><strong>Deduct Qty:{modalData?.deductionQuantity}</strong> </p>
+        <p><strong>Unload Deduct :{modalData?.unloadedDeductionQuantity}</strong> </p>
+        <p><strong>Total Actual Qty:{modalData?.actualQuantity}</strong> </p>
+      </div>
       {
          modalData?.headerDetailsList?.map((parentItem, parentIndex)=>(
           <CommonTable  headersData={[
