@@ -288,6 +288,9 @@ export default function SupplierAdvance({ purchaseInvoiceValues }) {
                             <SearchAsyncSelect
                               selectedValue={values?.purchaseOrder}
                               handleChange={(valueOption) => {
+                                if(+valueOption?.billId > 0){
+                                  return toast.warn("Advance Entry is not Possible After MRR")
+                                }
                                 setFieldValue("purchaseOrder", valueOption);
                                 GetAdvanceForSupplierById(
                                   valueOption?.value,
