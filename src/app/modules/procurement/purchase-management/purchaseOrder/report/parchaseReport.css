@@ -1,34 +1,28 @@
-.parchaseReport{
-    
-    border: 1px solid black;
-    border-radius:5px;
-
+.parchaseReport {
+   border: 1px solid black;
+   border-radius: 5px;
 }
 
-.reportInfo{
-    display: flex;
-    min-height:150px;   
-    padding: 10px;
+.reportInfo {
+   display: flex;
+   min-height: 150px;
+   padding: 10px;
 }
 
+.reportInfo .reportInfo1 {
+   width: 40%;
+}
 
-.reportInfo .reportInfo1{
-    width:45%;
-} 
+.reportInfo .reportInfo2 {
+   width: 30%;
+}
 
-.reportInfo .reportInfo2{
-    width:25%;
-} 
-
-.reportInfo .reportInfo3{
-    width:30%;
-} 
-
+.reportInfo .reportInfo3 {
+   width: 30%;
+}
 
 @media screen and (min-width: 1400px) {
-    .otherspoinfo{
-        width: 900px;
-    }
-  }
-
-
+   .otherspoinfo {
+      width: 900px;
+   }
+}
