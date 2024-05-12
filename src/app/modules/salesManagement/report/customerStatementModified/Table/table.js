@@ -194,7 +194,7 @@ export default function CustomerStatementModifiedReportTable() {
                         {![4].includes(values?.reportType?.value) && (
                           <FromDateToDateForm obj={{ values, setFieldValue }} />
                         )}
-                        {[1, 2].includes(values?.reportType?.value) && (
+                        {[1, 2,4].includes(values?.reportType?.value) && (
                           <div className="col-lg-3">
                             <NewSelect
                               name="salesOrg"
@@ -281,19 +281,21 @@ export default function CustomerStatementModifiedReportTable() {
                             />
                           </div>
                         )}
-                        {console.log("region",regionDDL)}
+                        
                         {[4].includes(values?.reportType?.value) && (
                            <>
                            <div className="col-lg-3">
                              <NewSelect
                                name="region"
-                               options={regionDDL}
+                               options={regionDDL || []}
                                value={values?.region}
                                label="Region"
                                onChange={(valueOption) => {
                                  setFieldValue("region", valueOption);
                                  setFieldValue("area", "");
                                  setFieldValue("territory", "");
+                                 setRowDto([]);
+                                 setShowRDLC(false)
                                  if (!valueOption) return;
                               getRegionAreaTerritory({
                                 channelId: values?.distributionChannel?.value,
@@ -321,6 +323,7 @@ export default function CustomerStatementModifiedReportTable() {
                                onChange={(valueOption) => {
                                  setFieldValue("area", valueOption);
                                  setFieldValue("territory", "");
+                                 setShowRDLC(false)
                                  if (!valueOption) return;
                                  getRegionAreaTerritory({
                                   channelId: values?.distributionChannel?.value,
@@ -348,6 +351,8 @@ export default function CustomerStatementModifiedReportTable() {
                            label="Territory"
                            onChange={(valueOption) => {
                              setFieldValue("territory",valueOption)
+                             setShowRDLC(false)
+                             setRowDto([]);
                            }}
                            placeholder="Territory"
                            errors={errors}
@@ -378,11 +383,12 @@ export default function CustomerStatementModifiedReportTable() {
                           <div className="col-lg-3">
                             <NewSelect
                               name="customerNameDDL"
-                              options={customerNameDDL || []}
+                              options={customerNameDDL}
                               value={values?.customerNameDDL}
                               label="Customer Name"
                               onChange={(valueOption) => {
                                 setFieldValue("customerNameDDL", valueOption);
+                                setShowRDLC(false)
                                 setRowDto([]);
                               }}
                               placeholder="Customer name"
@@ -524,6 +530,10 @@ export default function CustomerStatementModifiedReportTable() {
                           {
                             name: "intTerritory",
                             value: `${values?.territory?.value || 0}`,
+                          },
+                          {
+                            name: "intCustomer",
+                            value: `${values?.customerNameDDL?.value || 0}`,
                           },
                           {
                             name: "intYear",
