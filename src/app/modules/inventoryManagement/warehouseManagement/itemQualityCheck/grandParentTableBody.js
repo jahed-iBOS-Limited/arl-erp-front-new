@@ -17,7 +17,8 @@ export default function GrandParentTableBody({
   handleAdd,
   handleStatus,
   handleHeaderRowDelete,
-  handleWarehouseComment
+  handleWarehouseComment,
+  handleBagWeightDeductionQty
 }) {
   const [isShowModal, setShowModal] = useState(false);
   return (
@@ -102,6 +103,20 @@ export default function GrandParentTableBody({
         <td className="text-center">
           {grandParentItem?.entryCode ? grandParentItem?.unloadDeductionQuantity : 0}
         </td>
+        <td>
+        {grandParentItem?.vehicleNo ? (
+          <input
+          style={{ maxWidth: "50px" }}
+          value={grandParentItem?.bagWeightDeductQuantity || ""}
+          min={0}
+          name="bagWeightDeductQuantity"
+          type="number"
+            onChange={(e) => {
+              handleBagWeightDeductionQty(e,grandParentIndex);
+            }}
+        />
+          ) : ""}
+        </td>
         <td className="text-center">
         {grandParentItem?.entryCode ? grandParentItem?.actualQuantity : 0}
         </td>
@@ -129,7 +144,7 @@ export default function GrandParentTableBody({
       </tr>
       {grandParentItem?.headersList?.length>0 && (
         <tr>
-          <td colSpan={17}>
+          <td colSpan={18}>
             <HeaderTable
               parentData={grandParentItem?.headersList}
               grandParentIndex={grandParentIndex} 

@@ -21,6 +21,10 @@ export const grandParentTableHeaders = [
     title: "Unload Time Deduct",
     style: { maxWidth: "50px" },
   },
+  {
+    title: "Deduct For Bag",
+    style: { maxWidth: "50px" },
+  },
   "Actual Qty",
   "Status",
   "Action",
