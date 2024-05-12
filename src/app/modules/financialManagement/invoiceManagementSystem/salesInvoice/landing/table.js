@@ -70,7 +70,7 @@ const SalesInvoiceLandingTable = ({ obj }) => {
                 )}
                 <th>Net Qty</th>
                 <th>Invoice Amount</th>
-                {values?.type?.value !== 2 && <th>Action</th>}
+                {values?.status?.value !== 3 && values?.type?.value !== 2 && <th>Action</th>}
               </tr>
             </thead>
             <tbody>
@@ -104,7 +104,7 @@ const SalesInvoiceLandingTable = ({ obj }) => {
                   <td className="text-right">
                     {_fixedPoint(tableData?.invoiceAmount || 0)}
                   </td>
-                  {values?.type?.value !== 2 && (
+                  {values?.status?.value !== 3 && values?.type?.value !== 2 && (
                     <td className="text-center">
                       {values?.status?.value === 1 ? (
                         <div className="d-flex justify-content-around">
