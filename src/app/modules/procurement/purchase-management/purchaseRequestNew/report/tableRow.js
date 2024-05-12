@@ -49,7 +49,7 @@ export function ItemReqViewTableRow({prId}) {
           // Fetch running stock and quantity list
           getRuningStockAndQuantityList(`/wms/InventoryTransaction/GetRuningStockAndQuantityList`, payload, (res) => {
               // Merge fields based on itemId
-              const modifiedPrintRow = mergeFields(getPurchaseRequestPrintRow, res, 'ItemId');
+              const modifiedPrintRow = mergeFields(getPurchaseRequestPrintRow, res, 'itemId');
               
               // Update the purchase report
               setPurchaseReport({
