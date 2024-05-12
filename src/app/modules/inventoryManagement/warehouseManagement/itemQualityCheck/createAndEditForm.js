@@ -109,6 +109,15 @@ export default function QualityCheckCreateForm() {
     singleGrandParentItem.qcQty = +e.target.value;
     setHeaderData(updatedHeaderData);
   };
+  const handleBagWeightDeductionQty=(e,grandParentIndex)=>{
+    const updatedHeaderData = [...headerData];
+    const singleGrandParentItem = {...updatedHeaderData[grandParentIndex]}; 
+    singleGrandParentItem.bagWeightDeductQuantity = +e.target.value;
+    singleGrandParentItem.actualQuantity -= +e.target.value; 
+    updatedHeaderData[grandParentIndex] = singleGrandParentItem; 
+    setHeaderData(updatedHeaderData);
+
+  }
   const handleAdd = (grandParentIndex, grandParentItem) => {
     const updatedHeaderData = [...headerData];
     const singleGrandParentItem = updatedHeaderData[grandParentIndex];
@@ -146,6 +155,8 @@ export default function QualityCheckCreateForm() {
     updatedHeaderData[index] = { ...item, warehouseComment: commentValue };
     setHeaderData(updatedHeaderData);
   };
+
+  
   // Grand Parent handler finish
 
   // Parent handler start or 2nd level table handler start
@@ -377,7 +388,9 @@ export default function QualityCheckCreateForm() {
       unloadedDeductionQuantity:item?.unloadDeduct||0,
       isReceived:item?.isReceived,
       warehouseComment:item?.warehouseComment||"",
-      challanQuantityBag:item?.qcQtyBeg
+      challanQuantityBag:item?.qcQtyBeg,
+      bagWeightDeductQuantity:item?.bagWeightDeductQuantity || 0
+
       },
       headerDetailsList:item?.headersList?.map(parentItem=>({
         qcQuantityBag:parentItem.qcQuantityBag,
@@ -580,6 +593,7 @@ export default function QualityCheckCreateForm() {
                         handleStatus={handleStatus}
                         handleHeaderRowDelete={handleHeaderRowDelete}
                         handleWarehouseComment={handleWarehouseComment}
+                        handleBagWeightDeductionQty={handleBagWeightDeductionQty}
                       />
                     ))}
                   </CommonTable>

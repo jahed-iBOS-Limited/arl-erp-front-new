@@ -125,7 +125,7 @@ function TableTbody({ parentItem, parentIndex, grandParentIndex }) {
       </tr>
       {isOpen && (
         <tr>
-          <td colSpan={15}>
+          <td colSpan={16}>
             <ItemTable
               grandParentIndex={grandParentIndex}
               parentIndex={parentIndex}
