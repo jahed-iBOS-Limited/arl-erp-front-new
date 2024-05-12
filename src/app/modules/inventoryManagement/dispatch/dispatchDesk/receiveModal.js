@@ -286,7 +286,7 @@ export default function ReceiveModal() {
                                       value: data?.header?.ReceiverEnrollId,
                                       label: data?.header?.ReceiverName,
                                       businessUnitId: data?.header?.ReceiverBusinessUnitId,
-                                      businessUnitName:  data?.header?.ReceiverBusinessUnitId,
+                                      businessUnitName:  data?.header?.ReceiverBusinessUnit,
                                     }
                                   : null
                               );

@@ -83,9 +83,9 @@ export default function DispatchRequisitionCreateEdit() {
         senderContactNo: contact,
         receiverEnrollId: values.receiverName?.value || 0,
         receiverName:
-          values.receiverName?.strEmployeeName || values?.receiverName || "",
-        receiverBusinessUnitId : values?.receiverName?.employeeBusinessUnitId || 0,
-        receiverBusinessUnit : values?.receiverName?.employeeBusinessUnit || "",
+          values.receiverName?.label || values?.receiverName || "",
+        receiverBusinessUnitId : values?.receiverName?.businessUnitId || 0,
+        receiverBusinessUnit : values?.receiverName?.businessUnitName || "",
         dispatchSenderReceiverEnroll: values?.senderName?.value,
         dispatchSenderReceiverName: values.senderName?.strEmployeeName,
         receiverContactNo: values?.contactNo,
@@ -124,12 +124,12 @@ export default function DispatchRequisitionCreateEdit() {
     if (v?.length < 3) return [];
     return axios
       .get(
-        `/hcm/HCMDDL/GetEmployeeDDLSearchByBU?AccountId=${accId}&BusinessUnitId=${0}&Search=${v}&strPartName="GetAllEmployeeInfoCommonDDL"`
+        `/hcm/HCMDDL/GetEmployeeByAcIdDDL?AccountId=${accId}&search=${v}`
       )
       .then((res) => {
         const user = res?.data?.map((user) => ({
           ...user,
-          label: `${user?.strEmployeeName} - ${user?.employeeBusinessUnit} - [${user?.employeeId}]`,
+          // label: `${user?.strEmployeeName} - ${user?.businessUnitName} - [${user?.employeeId}]`,
         }));
         return user;
       })
@@ -207,8 +207,8 @@ export default function DispatchRequisitionCreateEdit() {
                 value: header?.ReceiverEnrollId,
                 label: header?.ReceiverName,
                 strEmployeeName: header?.ReceiverName,
-                employeeBusinessUnitId:header?.ReceiverBusinessUnitId,
-                employeeBusinessUnit: header?.ReceiverBusinessUnitId,
+                businessUnitId:header?.ReceiverBusinessUnitId,
+                businessUnitName: header?.ReceiverBusinessUnit,
               }
             : header?.ReceiverName
             ? header?.ReceiverName
@@ -341,10 +341,10 @@ export default function DispatchRequisitionCreateEdit() {
                           setFieldValue("toLocation", "");
                           setFieldValue("receiverName", valueOption);
                           setFieldValue("contactNo", valueOption?.contactNo);
-                          setFieldValue("reciverBuName", {value: valueOption?.employeeBusinessUnitId, label: valueOption?.employeeBusinessUnit});
+                          setFieldValue("reciverBuName", {value: valueOption?.businessUnitId, label: valueOption?.businessUnitName});
                           if (!valueOption) return;
                           getToLocationPlantDDL(
-                            `/wms/ItemPlantWarehouse/GetWareHouseItemPlantWareHouseDDL?accountId=${accId}&businessUnitId=${valueOption?.employeeBusinessUnitId}&PlantId=0`
+                            `/wms/ItemPlantWarehouse/GetWareHouseItemPlantWareHouseDDL?accountId=${accId}&businessUnitId=${valueOption?.businessUnitId}&PlantId=0`
                           );
                         }}
                         loadOptions={loadUserList}
