@@ -70,6 +70,7 @@ function SalesInvoiceLandingForm({ obj }) {
                 options={[
                   { value: 1, label: "Complete" },
                   { value: 2, label: "Pending" },
+                  { value: 3, label: "Canceled" },
                 ]}
                 onChange={(valueOption) => {
                   setFieldValue("status", valueOption);
