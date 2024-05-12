@@ -16,6 +16,7 @@ const initData = {
   channel: '',
   fromDate: '',
   toDate: '',
+  salesOrganization:"",
 };
 
 const validationSchema = Yup.object().shape({
@@ -40,15 +41,19 @@ export default function SalesIncentiveForm() {
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
 
-  const [incentiveData, getIncentiveData, loadIncentiveData] = useAxiosGet();
+  const [incentiveData, getIncentiveData, loadIncentiveData, setIncentiveData] = useAxiosGet();
   const [, incentiveSave, loadIncentiveSave] = useAxiosPost();
   // DDL
   const [boninessUnitDDL, getBusinessUnitDDL] = useAxiosGet();
+  const[salesOrganizationList, getSalesOrganizationList] = useAxiosGet()
 
   console.log({ channelDDL });
 
   const saveHandler = (values, cb) => {
-    const newData = [...incentiveData];
+    const newData = incentiveData?.filter((item)=> item?.isSelected);
+    if(!newData?.length){
+      return toast.warn("Select at least one row");
+    }
 
     const payload = newData?.map((item) => ({
       businessId: buId,
@@ -90,6 +95,8 @@ export default function SalesIncentiveForm() {
         setChannelDDL(ddl);
       },
     );
+
+    getSalesOrganizationList(`/oms/BusinessUnitSalesOrganization/GetPartnerGroupFromSalesOrgDDL?AccountId=${accId}&BUnitId=${buId}`)
   }, [accId, buId]);
   return (
     <Formik
@@ -129,6 +136,20 @@ export default function SalesIncentiveForm() {
                     touched={touched}
                   />
                 </div> */}
+                {![144].includes(buId) && ( <div className="col-lg-3">
+                  <NewSelect
+                    name="salesOrganization"
+                    options={salesOrganizationList}
+                    value={values?.salesOrganization}
+                    label="Sales Organization"
+                    onChange={(valueOption) => {
+                      setFieldValue('salesOrganization', valueOption);
+                      setIncentiveData([]);
+                    }}
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>)}
                 <div className="col-lg-3">
                   <NewSelect
                     name="channel"
@@ -137,6 +158,7 @@ export default function SalesIncentiveForm() {
                     label="Channel"
                     onChange={(valueOption) => {
                       setFieldValue('channel', valueOption);
+                      setIncentiveData([]);
                     }}
                     errors={errors}
                     touched={touched}
@@ -150,6 +172,7 @@ export default function SalesIncentiveForm() {
                     type="date"
                     onChange={(e) => {
                       setFieldValue('fromDate', e.target.value);
+                      setIncentiveData([]);
                     }}
                   />
                 </div>
@@ -163,6 +186,7 @@ export default function SalesIncentiveForm() {
                     min={values?.fromDate}
                     onChange={(e) => {
                       setFieldValue('toDate', e.target.value);
+                      setIncentiveData([]);
                     }}
                   />
                 </div>
@@ -175,7 +199,9 @@ export default function SalesIncentiveForm() {
                     }
                     onClick={() => {
                       console.log('clicked', buId);
-                      const api = `/oms/IncentiveConfig/GetIncenttiveView?businessUnitId=${buId}&certainDate=${values?.toDate}&fromDate=${values?.fromDate}&toDate=${values?.toDate}`;
+                      // const api = `/oms/IncentiveConfig/GetIncenttiveView?businessUnitId=${buId}&certainDate=${values?.toDate}&fromDate=${values?.fromDate}&toDate=${values?.toDate}`;
+                      const api = `/oms/IncentiveConfig/GetIncenttiveViewByDesignation?intunitid=4&fromdate=${values?.fromDate}&todate=${values?.toDate}&intSalesOrganizationId=${values?.salesOrganization?.value}&intChannelId=${values?.channel?.value}&intRATId=0&intLevelid=0`;
+
 
                       const essentialRowDataApi = `/oms/OMSPivotReport/GetEmployeeTargetVsAchForCommission?PartId=${1}&BusinessUnitId=${buId}&ChannelId=${
                         values.channel.value
@@ -210,14 +236,25 @@ export default function SalesIncentiveForm() {
                   <table className="table table-striped table-bordered global-table">
                     <thead>
                       <tr>
+                        <th>
+                         <input
+                          type="checkbox"
+                          checked={incentiveData?.length > 0 && incentiveData.every(item => item?.isSelected)}
+                          onChange={(e) => {
+                            const data = incentiveData.map((item)=> ({...item, isSelected: e.target.checked}))
+                            setIncentiveData(data);
+                          }}
+                        />
+                        </th>
                         <th>Sl</th>
                         <th>Employee</th>
                         <th>Region</th>
                         <th>Area</th>
                         <th>Territory</th>
-                        <th>Target Amount</th>
-                        <th>Sales Amount</th>
-                        <th>Achievement</th>
+                        <th>Zone</th>
+                        <th>Target Quantity</th>
+                        <th>Sales Quantity</th>
+                        <th>Achievement %</th>
                         <th>Incentive Amount</th>
                         <th>Action</th>
                       </tr>
@@ -226,6 +263,17 @@ export default function SalesIncentiveForm() {
                       {incentiveData?.length > 0 &&
                         incentiveData?.map((item, index) => (
                           <tr key={index}>
+                             <td>
+                         <input
+                          type="checkbox"
+                          checked={item?.isSelected}
+                          onChange={(e) => {
+                            const data = [...incentiveData]
+                            data[index]["isSelected"] = e.target.checked;
+                            setIncentiveData(data);
+                          }}
+                        />
+                        </td>
                             <td className="text-center">{index + 1}</td>
                             <td className="text-center">
                               {item?.strEmployeeName}
@@ -233,11 +281,12 @@ export default function SalesIncentiveForm() {
                             <td className="text-center">{item?.strRegoin}</td>
                             <td className="text-center">{item?.strArea}</td>
                             <td className="text-center">{item?.strTeritory}</td>
+                            <td className="text-center">{item?.strZoneName}</td>
                             <td className="text-center">
-                              {item?.numTargetAmount}
+                              {item?.numTargetQuantity}
                             </td>
                             <td className="text-center">
-                              {item?.numSalesAmount}
+                              {item?.numSalesQnt}
                             </td>
                             <td className="text-center">
                               {item?.numAchievement}

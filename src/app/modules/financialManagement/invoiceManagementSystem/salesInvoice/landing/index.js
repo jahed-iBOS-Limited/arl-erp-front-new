@@ -32,6 +32,7 @@ function SalesInvoiceLandingNew() {
   const [load, setLoading] = useState(false);
   const [rowDto, setRowDto] = useState([]);
   const [pendingData, getPendingData, loader] = useAxiosGet();
+  const[cancelData, getCancelData, cancelLoader] = useAxiosGet()
   const [
     topSheetData,
     getTopSheetData,
@@ -78,6 +79,13 @@ function SalesInvoiceLandingNew() {
           values?.toDate
         }&pageNo=${pageNo}&pageSize=${pageSize}`
       );
+    }else if (values?.status?.value === 3) {
+      getCancelData(
+        `/oms/OManagementReport/GetDeletedSalesInvoiceLanding?BusinessunitId=${buId}&ChannelId=${values
+          ?.channel?.value || 0}&FromDate=${values?.fromDate}&ToDate=${
+            values?.toDate
+          }&PageNo=${pageNo}&PageSize=${pageSize}`
+      );
     }
   };
 
@@ -104,11 +112,13 @@ function SalesInvoiceLandingNew() {
         ? rowDto
         : values?.status?.value === 2
         ? pendingData
+        : values?.status?.value === 3
+        ? cancelData
         : [];
     }
   };
 
-  const isLoading = load || loading || loader;
+  const isLoading = load || loading || loader || cancelLoader;
 
   return (
     <>
