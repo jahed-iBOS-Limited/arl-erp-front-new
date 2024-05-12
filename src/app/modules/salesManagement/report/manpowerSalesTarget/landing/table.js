@@ -52,9 +52,11 @@ const initData = {
 };
 
 const types = [
+  { value: 1, label: "Sales Target" },
+  { value: 2, label: "Customer Open Target" },
+  { value: 3, label: "Retailer Open Target" },
   { value: 4, label: "ShipPoint Target" },
   { value: 5, label: "Government Subsidy" },
-  { value: 1, label: "Others" },
 ];
 
 const ManpowerSalesTargetTable = () => {
@@ -72,6 +74,7 @@ const ManpowerSalesTargetTable = () => {
   } = useSelector((state) => state?.authData, shallowEqual);
 
   const getData = (values, pageNo, pageSize) => {
+    setRowData([]);
     const typeId = values?.type?.value;
     if (typeId === 1) {
       getManpowerSalesTargetLandingData(
