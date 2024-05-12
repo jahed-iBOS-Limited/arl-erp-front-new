@@ -203,6 +203,7 @@ export default function ItemQualityCheckLanding() {
                       <th>Net Weight</th>
                       <th>Deduct Qty</th>
                       <th>Unload Deduct </th>
+                      <th>Deduct for Bag</th>
                       <th>Actual Qty</th>
                       <th>Qc Final Com</th>
                       <th>Status</th>
@@ -231,6 +232,7 @@ export default function ItemQualityCheckLanding() {
                           <td>{item?.netWeight}</td>
                           <td>{item?.deductionQuantity}</td>
                           <td>{item?.unloadedDeductionQuantity}</td>
+                          <td>{item?.bagWeightDeductQuantity}</td>
                           <td>{item?.actualQuantity}</td>
                           <td></td>
                           <td>{item?.status}</td>
