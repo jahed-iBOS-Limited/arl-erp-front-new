@@ -1,6 +1,6 @@
 import { Field } from "formik";
 import React, { useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import Loading from "../../../../_helper/_loading";
@@ -9,6 +9,9 @@ import { _fixedPoint } from "../../../../_helper/_fixedPoint";
 import IViewModal from "../../../../_helper/_viewModal";
 import DeliveryReport from "../Form/deliveryReport/table";
 import { ChallanListTable } from "../Form/challanListTable";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
+
 
 export const SalesInvoiceFormTable = ({ obj }) => {
   const { rowDto, allSelect, selectedAll, rowDtoHandler, values } = obj;
@@ -16,6 +19,8 @@ export const SalesInvoiceFormTable = ({ obj }) => {
     profileData: { accountId: accId },
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
+
+  const dispatch = useDispatch();
 
   const [isDeliveryReportModal, setIsDeliveryReportModal] = useState(false);
   const [selectedItem, setSelectedItem] = useState({});
@@ -68,6 +73,7 @@ export const SalesInvoiceFormTable = ({ obj }) => {
             <th>Return Amount</th>
             <th>Sales Amount</th>
             <th>Net Qty</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
@@ -153,6 +159,29 @@ export const SalesInvoiceFormTable = ({ obj }) => {
                     true
                   )}
                 </td>
+                <td>
+               {item?.attachment && (
+                    <OverlayTrigger
+                      overlay={<Tooltip id="cs-icon">View Receiving Challan Attachment</Tooltip>}
+                    >
+                      <span
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          dispatch(
+                            getDownlloadFileView_Action(item?.attachment)
+                          );
+                        }}
+                        className="ml-2"
+                      >
+                        <i
+                          style={{ fontSize: "16px" }}
+                          className={`fa pointer fa-eye`}
+                          aria-hidden="true"
+                        ></i>
+                      </span>
+                    </OverlayTrigger>
+                  )}
+               </td>
               </tr>
             );
           })}
@@ -164,6 +193,7 @@ export const SalesInvoiceFormTable = ({ obj }) => {
             <td>{_fixedPoint(totalReturnAmount, true)}</td>
             <td>{_fixedPoint(totalSalesAmount, true)}</td>
             <td>{_fixedPoint(totalNetQty, true)}</td>
+            <td></td>
           </tr>
         </tbody>
       </table>
