@@ -342,7 +342,12 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
                         }
                         className="text-left"
                       >
-                        IN WORDS: {toWords.convert(grandTotal?.toFixed(0))}
+                        IN WORDS:{" "}
+                        {toWords.convert(
+                          isVatinclude
+                            ? Number(grandTotalWithVat || 0).toFixed(0)
+                            : Number(grandTotal || 0)?.toFixed(0)
+                        )}
                       </td>
                     </tr>
                   </tbody>
