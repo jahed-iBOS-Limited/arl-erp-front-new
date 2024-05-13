@@ -65,9 +65,16 @@ export default function SalesIncentiveForm() {
       monthId: +values?.toDate?.split('-')[1],
       yearId: +values?.toDate?.split('-')[0],
       salesAmount: item?.numSalesAmount,
-      targetAmount: item?.numTargetAmount,
+      targetAmount: item?.numTargetAmount || 0,
       achievement: item?.numAchievement,
       incentiveAmount: item?.numIncentiveAmount,
+      regionId: item?.intRegionId,
+      areaId: item?.intAreaId,
+      territoryId: item?.intTerritoryId,
+      zoneId: item?.intZoneId,
+      channelId: item?.intChannelid,
+      salesQnt: item?.numSalesQnt,
+      targetQnt: item?.numTargetQuantity
     }));
     incentiveSave(
       `/oms/IncentiveConfig/SaveIncentiveConfig?intActionBy=${actionBy}`,

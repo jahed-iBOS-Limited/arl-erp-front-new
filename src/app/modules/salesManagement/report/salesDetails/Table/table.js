@@ -32,6 +32,7 @@ const reports = [
   { value: 11, label: "Market Basket Analysis" },
   { value: 12, label: "Order vs Delivery vs Collection Date Wise" },
   { value: 13, label: "Delivery Monitoring Report" },
+  { value: 14, label: "AEL Product Rate Trend" },
 ];
 
 const getTypes = (values) => {
@@ -165,6 +166,8 @@ export default function SalesDetailsTable({ saveHandler }) {
       ? `ca8d1e8f-90f4-4cc2-8c99-e1ca9f290f8d`
       :  id === 13
       ? `8ab614ab-36c6-4c18-bd1b-1d0f872bb774`
+      : id === 14
+      ? `c5252df3-b81e-431c-8395-86de88f52f11`
       : "";
   };
   const groupId = `e3ce45bb-e65e-43d7-9ad1-4aa4b958b29a`;
@@ -302,6 +305,12 @@ export default function SalesDetailsTable({ saveHandler }) {
       { name: "ToDate", value: `${values?.toDate}` },
     ];
 
+    const fourteenParams = [
+      { name: "UnitId", value: `${buId}` },
+      { name: "fromDate", value: `${values?.fromDate}` },
+      { name: "toDate", value: `${values?.toDate}` },
+    ];
+
     return id === 1
       ? paramsForSalesDetails
       : id === 2
@@ -331,6 +340,8 @@ export default function SalesDetailsTable({ saveHandler }) {
       ? twelveParams
       : id === 13
       ? thirteenParams
+      : id === 14
+      ? fourteenParams
       : [];
   };
 
