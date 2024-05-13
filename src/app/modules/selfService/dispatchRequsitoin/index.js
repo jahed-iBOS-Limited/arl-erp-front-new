@@ -229,45 +229,13 @@ export default function DispatchRequisitionLanding() {
                             ? item?.receiverBusinessUnit
                             : item?.businessUnit}</td>
                         <td className="text-center">{item?.toLocation}</td>
-                        {values?.requisition === "send" ? (
-                          <td className="text-center">
-                            {item?.isSend &&
-                            !item?.isReceive &&
-                            !item?.isOwnerReceive ? (
-                              <span style={{ color: "green" }}>Send</span>
-                            ) : item?.isReceive && !item?.isOwnerReceive ? (
-                              <span
-                                style={{ color: "purple", fontWeight: "bold" }}
-                              >
-                                Desk Received
-                              </span>
-                            ) : item?.isOwnerReceive ? (
-                              <span
+                        <td className="text-center">
+                        <span
                                 style={{ color: "green", fontWeight: "bold" }}
                               >
-                                Owner Received
+                                {item?.sendReceive}
                               </span>
-                            ) : (
-                              <span style={{ color: "red" }}>Not Send</span>
-                            )}
                           </td>
-                        ) : (
-                          <td className="text-center">
-                            {item?.isReceive && !item?.isOwnerReceive ? (
-                              <span
-                                style={{ color: "purple", fontWeight: "bold" }}
-                              >
-                                Desk Received
-                              </span>
-                            ) : item?.isOwnerReceive ? (
-                              <span
-                                style={{ color: "green", fontWeight: "bold" }}
-                              >
-                                Owner Received
-                              </span>
-                            ) : null}
-                          </td>
-                        )}
                         <td className="text-center">
                           {values?.requisition === "send" && !item?.isSend ? (
                             <div className="d-flex justify-content-around">

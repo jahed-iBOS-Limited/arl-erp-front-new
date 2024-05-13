@@ -14,12 +14,16 @@ import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import ReceiveModal from "./receiveModal";
 import SendModal from "./sendModal";
 import PaginationSearch from "../../../_helper/_search";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import IConfirmModal from "../../../_helper/_confirmModal";
+import OwnerSendModal from "./ownerSendModal";
 const initData = {
   requisition: "send",
 };
 export default function DispatchDeskLanding() {
   const saveHandler = (values, cb) => {};
   const [isShowModal, setShowModal] = useState(false);
+  const [isShowSendModal, setShowSendModal] = useState(false);
   const [isShowReceiveModal, setShowReceiveModal] = useState(false);
   const [singleItem, setSingleItem] = useState({});
   const [fromPlantDDL, getFromPlantDDL, , setFromPlant] = useAxiosGet();
@@ -31,6 +35,7 @@ export default function DispatchDeskLanding() {
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
   const [gridData, getGridData, loadGridData, setGridData] = useAxiosGet();
+  const [, receiveHandler, receiveLoader] = useAxiosPost();
 
   const handleGetRowData = (status, pageNo, pageSize, searchValue) => {
     const searchParam = searchValue ? `&search=${searchValue}` : "";
@@ -93,7 +98,7 @@ export default function DispatchDeskLanding() {
         touched,
       }) => (
         <>
-          {loadGridData && <Loading />}
+          {(loadGridData || receiveLoader) && <Loading />}
           <IForm
             title="Dispatch Desk"
             isHiddenReset
@@ -133,7 +138,7 @@ export default function DispatchDeskLanding() {
                       checked={values?.requisition === "send"}
                       onChange={(e) => {
                         setFieldValue("requisition", "send");
-                        setPageNo(0)
+                        setPageNo(0);
                         setPageSize(15);
                         handleGetRowData("send", 0, 15);
                       }}
@@ -152,7 +157,7 @@ export default function DispatchDeskLanding() {
                       checked={values?.requisition === "received"}
                       onChange={(e) => {
                         setFieldValue("requisition", "received");
-                        setPageNo(0)
+                        setPageNo(0);
                         setPageSize(15);
                         handleGetRowData("received", 0, 15);
                       }}
@@ -162,11 +167,11 @@ export default function DispatchDeskLanding() {
                 </div>
               </div>
               <div>
-              <PaginationSearch
-              placeholder="Search..."
-              paginationSearchHandler={paginationSearchHandler}
-              values={values}
-              />
+                <PaginationSearch
+                  placeholder="Search..."
+                  paginationSearchHandler={paginationSearchHandler}
+                  values={values}
+                />
               </div>
               <div style={{ marginTop: "7px", gap: "5px" }}>
                 <CommonTable
@@ -210,68 +215,88 @@ export default function DispatchDeskLanding() {
                         <td className="text-center">
                           {item?.receiverName} [{item?.receiverEnrollId}]
                         </td>
-                        <td className="text-center">{item?.receiverBusinessUnit}</td>
+                        <td className="text-center">
+                          {item?.receiverBusinessUnit}
+                        </td>
                         <td className="text-center">{item?.toLocation}</td>
                         <td className="text-center">{item?.dispatchNote}</td>
-                        {values?.requisition === "send" ? (
-                          <td className="text-center">
-                            {item?.isSend &&
-                            !item?.isReceive &&
-                            !item?.isOwnerReceive ? (
-                              <span style={{ color: "green" }}>Send</span>
-                            ) : item?.isReceive && !item?.isOwnerReceive ? (
-                              <span
-                                style={{ color: "purple", fontWeight: "bold" }}
-                              >
-                                Received
-                              </span>
-                            ) : item?.isOwnerReceive ? (
-                              <span
-                                style={{ color: "green", fontWeight: "bold" }}
-                              >
-                                Approved
-                              </span>
-                            ) : (
-                              <span style={{ color: "red" }}>Not Send</span>
-                            )}
-                          </td>
-                        ) : (
-                          <td className="text-center">
-                            <span
-                              style={{ color: "green", fontWeight: "bold" }}
-                            >
-                              {item?.sendReceive}
-                            </span>
-                            {/* {item?.isReceive && !item?.isOwnerReceive ? (
-                              <span
-                                style={{ color: "purple", fontWeight: "bold" }}
-                              >
-                                Received
-                              </span>
-                            ) : item?.isOwnerReceive ? (
-                              <span
-                                style={{ color: "green", fontWeight: "bold" }}
-                              >
-                                Approved
-                              </span>
-                            ) : null} */}
-                          </td>
-                        )}
                         <td className="text-center">
-                          {values?.requisition === "send" && !item?.isSend && (
-                            <span
-                              style={{ cursor: "pointer" }}
-                              onClick={() => console.log("click icon")}
-                            >
-                              <IApproval
-                                title="Send"
+                          <span style={{ color: "green", fontWeight: "bold" }}>
+                            {item?.sendReceive}
+                          </span>
+                        </td>
+                        <td className="text-center">
+                          {values?.requisition === "send" &&
+                            !item?.isSend &&
+                            item?.isRequisitionDesk && (
+                              <span
+                                style={{ cursor: "pointer" }}
+                                onClick={() => console.log("click icon")}
+                              >
+                                <IApproval
+                                  title="Send"
+                                  onClick={() => {
+                                    setShowModal(true);
+                                    setSingleItem(item);
+                                  }}
+                                />
+                              </span>
+                            )}
+                          {values?.requisition === "send" &&
+                            !item?.isRequisitionDesk && (
+                              <span
+                                style={{ cursor: "pointer" }}
                                 onClick={() => {
-                                  setShowModal(true);
-                                  setSingleItem(item);
+                                  IConfirmModal({
+                                    message: `Are you sure to receive ?`,
+                                    yesAlertFunc: () => {
+                                      receiveHandler(
+                                        `/tms/DocumentDispatch/RequisitionDeskApprovel?DispatchId=${item?.dispatchHeaderId}&UserId=${userId}`,
+                                        null,
+                                        () => {
+                                          handleGetRowData(
+                                            values?.requisition,
+                                            pageNo,
+                                            pageSize
+                                          );
+                                        }
+                                      );
+                                    },
+                                    noAlertFunc: () => {},
+                                  });
                                 }}
-                              />
-                            </span>
-                          )}
+                                className="ml-1"
+                              >
+                                <OverlayTrigger
+                                  overlay={
+                                    <Tooltip id="cs-icon">Receive</Tooltip>
+                                  }
+                                >
+                                  <span>
+                                    <i
+                                      style={{ fontSize: "16px" }}
+                                      class="fa fa-download"
+                                      aria-hidden="true"
+                                    ></i>
+                                  </span>
+                                </OverlayTrigger>
+                              </span>
+                            )}
+                          {values?.requisition === "received" &&
+                            item?.isReceive && !item?.isOwnerDeskSend && (
+                              <span
+                                style={{ cursor: "pointer" }}
+                                onClick={() => console.log("click icon")}
+                              >
+                                <IApproval
+                                  title="Send To Owner"
+                                  onClick={() => {
+                                    setShowSendModal(true);
+                                    setSingleItem(item);
+                                  }}
+                                />
+                              </span>
+                            )}
                         </td>
                       </tr>
                     ))}
@@ -321,6 +346,23 @@ export default function DispatchDeskLanding() {
                     }}
                   >
                     <ReceiveModal />
+                  </IViewModal>
+                </>
+              )}
+              {isShowSendModal && (
+                <>
+                  <IViewModal
+                    show={isShowSendModal}
+                    onHide={() => {
+                      setShowSendModal(false);
+                      setFieldValue("requisition", "received");
+                      handleGetRowData("received", pageNo, pageSize);
+                    }}
+                  >
+                    <OwnerSendModal
+                      handleGetRowData={handleGetRowData}
+                      propsObj={{ status: "received", pageNo, pageSize }}
+                    />
                   </IViewModal>
                 </>
               )}
