@@ -180,7 +180,10 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
               </div>
               <div>
                 <p>
-                  <b>DATE: {_dateFormatter(new Date())}</b>
+                  <b>
+                    DATE:{" "}
+                    {_dateFormatter(invoiceData[0]?.invoiceDate || new Date())}
+                  </b>
                 </p>
                 <p>
                   <b>Reference: {invoiceData[0]?.referance}</b>
@@ -354,9 +357,9 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
                 </table>
               </div>
               <p className="text-danger py-2">
-                Note: If you have any queries against this bill. Please Inform
-                bellow sign within ten days (10), otherwise any kind of
-                objection will not be granted further.
+                Note : If you have any queries regarding this bill, please
+                inform the concerned official within 10 days; otherwise, any
+                kind of objection will not be granted further.
               </p>
               <p>On behalf of {buName}</p>
               <div
