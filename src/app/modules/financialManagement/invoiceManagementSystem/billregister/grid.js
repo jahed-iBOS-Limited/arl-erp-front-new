@@ -182,33 +182,39 @@ const GridData = ({
                           }}
                         />
                       )}
-
-                      <ICon
-                        title={`${
-                          tableData?.attatchment?.length
-                            ? "View Attachment"
-                            : "Upload Attachment"
-                        }`}
+                      {tableData?.billType === 5 &&
+                      tableData?.attatchment?.length ? (
+                        <IView
+                          title="View Attachment"
+                          clickHandler={() => {
+                            setAttachmentItemList(tableData?.attatchment);
+                            setAttachmentListModal(true);
+                          }}
+                        />
+                      ) : null}
+                      <button
+                        type="button"
                         onClick={(e) => {
-                          if (tableData?.attatchment?.length > 0) {
-                            if (tableData?.attatchment?.length > 1) {
-                              setAttachmentItemList(tableData?.attatchment);
-                              setAttachmentListModal(true);
-                            } else {
-                              dispatch(
-                                getDownlloadFileView_Action(
-                                  tableData?.attatchment[0]
-                                )
-                              );
-                            }
-                          } else {
-                            // e.preventDefault();
-                            setBillId(tableData?.billRegisterId);
-                          }
+                          e.preventDefault();
+                          setBillId(tableData?.billRegisterId);
+                        }}
+                        style={{
+                          border: "none",
+                          background: "none",
+                          cursor: "pointer",
+                          padding: 0,
                         }}
                       >
-                        <i class="far fa-file-image"></i>
-                      </ICon>
+                        <OverlayTrigger
+                          overlay={
+                            <Tooltip id="cs-icon">
+                              {"Upload Attachment"}
+                            </Tooltip>
+                          }
+                        >
+                          <i class="far fa-file-image"></i>
+                        </OverlayTrigger>
+                      </button>
                     </div>
                     {/* </span> */}
                   </td>
