@@ -361,6 +361,7 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
                   </div>
                   <div className="col-lg-12">
                     {partnerLedgerGridData?.length >= 0 && (
+                        <div className="table-responsive">
                       <table className="table table-striped table-bordered global-table table-font-size-sm">
                         <thead>
                           <tr>
@@ -423,6 +424,7 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
                           ))}
                         </tbody>
                       </table>
+                      </div>
                     )}
                   </div>
                 </div>

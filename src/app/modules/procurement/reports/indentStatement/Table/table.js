@@ -304,6 +304,7 @@ const PurchaseRequestReportTable = () => {
                         name="fromDate"
                         placeholder="From date"
                         type="date"
+                        style={{ width: "100%" }}
                       />
                     </div>
                   </div>
@@ -315,6 +316,7 @@ const PurchaseRequestReportTable = () => {
                         name="toDate"
                         placeholder="To date"
                         type="date"
+                        style={{ width: "100%" }}
                       />
                     </div>
                   </div>
@@ -365,6 +367,7 @@ const PurchaseRequestReportTable = () => {
                     paginationSearchHandler={paginationSearchHandler}
                     values={values}
                   />
+                    <div className="table-responsive">
                   <table className="table table-striped table-bordered global-table pr-statement-report">
                     <thead>
                       <tr>
@@ -439,6 +442,7 @@ const PurchaseRequestReportTable = () => {
                       </tbody>
                     )}
                   </table>
+                  </div>
                 </div>
               </div>
               <IViewModal
