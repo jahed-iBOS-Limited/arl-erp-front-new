@@ -542,7 +542,8 @@ export default function _Form({
                         <h6>Net Amount : {netAmount}</h6>
                       </div>
                     <div className="col-lg-12 pr-0">
-                      <table
+                    <div className="table-responsive">
+                    <table
                         className={
                           jorunalType === 6 ? "d-none" : "table mt-1 bj-table"
                         }
@@ -582,6 +583,7 @@ export default function _Form({
                           ))}
                         </tbody>
                       </table>
+      </div>
                     </div>
                   </div>
                 </div>

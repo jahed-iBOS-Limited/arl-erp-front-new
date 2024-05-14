@@ -94,6 +94,7 @@ export const FormatSeven = ({
           Detailed particulars of each Account Holder:
         </p>
       </div>
+      <div className="table-responsive">
       <table
         className="table table-striped table-bordered  advice-table table-font-size-sm"
         // style={{ width: "100%" }}
@@ -290,6 +291,7 @@ export const FormatSeven = ({
           </tr>
         </tbody>
       </table>
+      </div>
       <p
         className="font-weight-bold mt-5"
         style={{
