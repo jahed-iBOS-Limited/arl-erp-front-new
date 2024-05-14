@@ -231,7 +231,8 @@ export default function _Form({
                   ></button>
                 </Form>
                 {!type && rowDto?.length > 0 && (
-                  <table className="table table-striped table-bordered bj-table bj-table-landing">
+                 <div className="table-responsive">
+                   <table className="table table-striped table-bordered bj-table bj-table-landing">
                     <thead>
                       <tr>
                         <th>
@@ -337,9 +338,11 @@ export default function _Form({
                       ))}
                     </tbody>
                   </table>
+                 </div>
                 )}
                 {type && rowDtoById?.length > 0 && (
-                  <table className="table table-striped table-bordered bj-table bj-table-landing">
+                 <div className="table-responsive">
+                   <table className="table table-striped table-bordered bj-table bj-table-landing">
                     <thead>
                       <tr>
                         <th>SL</th>
@@ -381,6 +384,7 @@ export default function _Form({
                       ))}
                     </tbody>
                   </table>
+                 </div>
                 )}
               </CardBody>
             </Card>

@@ -230,7 +230,8 @@ export default function InvoiceForOwnerView({
           </div>
 
           {/* Row And Table Section */}
-          <table className="table mt-1 bj-table bj-table-landing">
+         <div className="table-responsive">
+         <table className="table mt-1 bj-table bj-table-landing">
             <thead>
               <tr
                 style={{ borderTop: "1px solid #d6d6d6" }}
@@ -321,6 +322,7 @@ export default function InvoiceForOwnerView({
               ) : null}
             </tbody>
           </table>
+         </div>
 
           {/* Bank Info Section */}
           <BankInfoComponent data={bankInfoData} />

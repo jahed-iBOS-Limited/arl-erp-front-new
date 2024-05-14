@@ -12,7 +12,8 @@ export function ItemReferenceModal({ selectedItem }) {
          <h1 className="mt-3">{'Item Reference'}</h1>
 
          <div className="mt-5">
-            <table className="table table-striped table-bordered global-table">
+           <div className="table-responsive">
+           <table className="table table-striped table-bordered global-table">
                <thead>
                   <tr>
                      <th>Reference No</th>
@@ -56,6 +57,7 @@ export function ItemReferenceModal({ selectedItem }) {
                   </tr>
                </tbody>
             </table>
+           </div>
          </div>
          <IViewModal show={showModal} onHide={() => setShowModal(false)}>
             <ItemReqViewTableRow

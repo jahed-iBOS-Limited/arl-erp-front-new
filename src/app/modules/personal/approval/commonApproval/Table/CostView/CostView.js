@@ -38,7 +38,8 @@ export default function CostViewTable({ item }) {
   return (
     <ICustomCard title={"View of BOM Info"} isDisabled={isDisabled}>
       {isDisabled && <Loading />}
-      <table className="table table-striped table-bordered global-table">
+     <div className="table-responsive">
+     <table className="table table-striped table-bordered global-table">
         {/* {loading && <Loading />} */}
         <thead>
           <th>SL</th>
@@ -59,6 +60,7 @@ export default function CostViewTable({ item }) {
           </tr>
         </tbody>
       </table>
+     </div>
     </ICustomCard>
   );
 }

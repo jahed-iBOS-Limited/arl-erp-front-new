@@ -375,7 +375,8 @@ export default function _Form({
                   {/* Table Header input end */}
                   <div className="row">
                     <div className="col-lg-12">
-                      <table className={"table mt-1 bj-table"}>
+                     <div className="table-responsive">
+                     <table className={"table mt-1 bj-table"}>
                         <thead className={rowDto?.length === 0 && "d-none"}>
                           <tr>
                             <th style={{ width: "30px" }}>SL</th>
@@ -414,6 +415,7 @@ export default function _Form({
                           ))}
                         </tbody>
                       </table>
+                     </div>
                     </div>
                   </div>
 
@@ -492,7 +494,8 @@ export default function _Form({
 
                   <div className="row">
                     <div className="col-lg-12">
-                      <table className={"table mt-1 bj-table"}>
+                     <div className="table-responsive">
+                     <table className={"table mt-1 bj-table"}>
                         <thead
                           className={costElementRowData?.length < 1 && "d-none"}
                         >
@@ -532,6 +535,7 @@ export default function _Form({
                           ))}
                         </tbody>
                       </table>
+                     </div>
                     </div>
                   </div>
                   {/* Bill Of Expense Start End Here */}

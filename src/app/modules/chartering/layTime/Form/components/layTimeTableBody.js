@@ -170,7 +170,8 @@ export default function LayTimeTableBody({
 
   return (
     <>
-      <table className="table mt-3 bj-table bj-table-landing">
+     <div className="table-responsive">
+     <table className="table mt-3 bj-table bj-table-landing">
         <LayTimeTableHeader hideDeleteBtn={hideDeleteBtn} />
         <tbody style={{ fontSize: "15px" }}>
           {rowData?.map((item, index) => {
@@ -672,6 +673,7 @@ export default function LayTimeTableBody({
           ) : null}
         </tbody>
       </table>
+     </div>
     </>
   );
 }

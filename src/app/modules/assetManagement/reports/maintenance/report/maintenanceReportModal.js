@@ -72,7 +72,8 @@ function MaintenanceDetailReport({
             </h6>
             <h3 className="m-0">Estimation Report</h3>
           </div>
-          <table className="table w-100 global-table mt-5 text-right table-upper">
+        <div className="table-responsive">
+        <table className="table w-100 global-table mt-5 text-right table-upper">
             <thead>
               <tr>
                 <td>Vehicle Reg. No :</td>
@@ -122,7 +123,9 @@ function MaintenanceDetailReport({
               </tr>
             </thead>
           </table>
-          <table className="table w-100 global-table">
+        </div>
+         <div className="table-responsive">
+         <table className="table w-100 global-table">
             <thead>
               <tr>
                 <th>SL</th>
@@ -159,6 +162,7 @@ function MaintenanceDetailReport({
               </tr>
             </tbody>
           </table>
+         </div>
           {/* <ICustomTable
             ths={[
               "SL",

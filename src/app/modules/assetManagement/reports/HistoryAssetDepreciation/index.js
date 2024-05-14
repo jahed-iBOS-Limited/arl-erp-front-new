@@ -100,7 +100,8 @@ export default function HistoryAssetDepreciation() {
                   </div>
                   <div className="row">
                      <div className="col-lg-12">
-                        <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+                       <div className="table-responsive">
+                       <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                            <thead>
                               <tr>
                                  <th style={{ width: '30px' }}>SL</th>
@@ -137,6 +138,7 @@ export default function HistoryAssetDepreciation() {
                                  ))}
                            </tbody>
                         </table>
+                       </div>
                         {/* <IViewModal show={show} onHide={() => setShow(false)}>
                            <AssetDepreciationModal id={id} />
                         </IViewModal> */}
