@@ -226,7 +226,8 @@ function FinalInvoice({ invoiceHireData, formikprops, rowData, setRowData }) {
             ) : (
               <div className="headerWrapper">
                <div className="table-responsive">
-               <table className="table mt-3 bj-table bj-table-landing">
+              <div className="table-responsive">
+              <table className="table mt-3 bj-table bj-table-landing">
                   <thead>
                     <tr
                       style={{ borderTop: "1px solid #d6d6d6" }}
@@ -489,6 +490,7 @@ function FinalInvoice({ invoiceHireData, formikprops, rowData, setRowData }) {
                     </tr>
                   </tbody>
                 </table>
+              </div>
                </div>
               </div>
             )}

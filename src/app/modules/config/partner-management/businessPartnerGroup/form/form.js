@@ -112,7 +112,8 @@ export default function _Form({
               <div className="row">
                 <div className="col-lg-6">
                   {rowData?.length > 0 && (
-                    <table className="table table-striped table-bordered global-table">
+                    <div className="table-responsive">
+                      <table className="table table-striped table-bordered global-table">
                       <thead>
                         <tr>
                           {" "}
@@ -135,6 +136,7 @@ export default function _Form({
                         ))}
                       </tbody>
                     </table>
+                    </div>
                   )}
                 </div>
               </div>

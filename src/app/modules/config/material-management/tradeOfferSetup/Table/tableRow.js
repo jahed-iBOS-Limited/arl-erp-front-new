@@ -62,7 +62,8 @@ export function TableRow() {
       {/* Table Start */}
       <div className="row cash_journal">
         <div className="col-lg-12 pr-0 pl-0">
-          <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
+         <div className="table-responsive">
+         <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
             <thead>
               <tr>
                 <th style={{ width: "35px" }}>SL</th>
@@ -104,6 +105,7 @@ export function TableRow() {
               ))}
             </tbody>
           </table>
+         </div>
         </div>
       </div>
       {/* Pagination Code */}

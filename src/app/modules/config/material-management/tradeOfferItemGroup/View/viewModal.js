@@ -39,7 +39,8 @@ export default function ViewForm({ id, show, onHide }) {
         {singleData ? (
           <div className="mt-3">
             {singleData?.objListRowDTO?.length ? (
-              <table className="table table-striped table-bordered">
+             <div className="table-responsive">
+               <table className="table table-striped table-bordered">
                 <thead>
                   <tr>
                     <th>Group Name</th>
@@ -57,6 +58,7 @@ export default function ViewForm({ id, show, onHide }) {
                   ))}
                 </tbody>
               </table>
+             </div>
             ) : (
               <h5>No data found</h5>
             )}

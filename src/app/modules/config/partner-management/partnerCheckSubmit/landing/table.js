@@ -51,7 +51,8 @@ const PartnerCheckSubmitTable = ({ obj }) => {
   return (
     <>
       {filteredData?.data?.length > 0 && (
-        <table
+       <div className="table-responsive">
+         <table
           id="table-to-xlsx"
           className={
             "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
@@ -172,6 +173,7 @@ const PartnerCheckSubmitTable = ({ obj }) => {
             )}
           </tbody>
         </table>
+       </div>
       )}
 
       {filteredData?.data?.length > 0 && (

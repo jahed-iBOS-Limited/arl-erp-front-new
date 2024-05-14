@@ -487,7 +487,8 @@ export default function _Form({
               </div>
               <div>
                 {shipPointRowDto.length ? (
-                  <table className="table table-striped table-bordered">
+                 <div className="table-responsive">
+                   <table className="table table-striped table-bordered">
                     <thead>
                       <tr>
                         <th>SL</th>
@@ -524,6 +525,7 @@ export default function _Form({
                         ))}
                     </tbody>
                   </table>
+                 </div>
                 ) : (
                   ""
                 )}

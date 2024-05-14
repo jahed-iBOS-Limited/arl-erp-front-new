@@ -16,6 +16,7 @@ const toWords = new ToWords({
 function FinalInvoiceChartererView({ rowData, invoiceHireData }) {
   return (
     <>
+      <div className="table-responsive">
       <table className="table mt-3 bj-table bj-table-landing mt-3">
         <thead>
           <tr
@@ -80,6 +81,7 @@ function FinalInvoiceChartererView({ rowData, invoiceHireData }) {
           ) : null}
         </tbody>
       </table>
+      </div>
     </>
   );
 }

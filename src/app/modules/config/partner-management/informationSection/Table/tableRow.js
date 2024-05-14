@@ -118,7 +118,8 @@ export function TableRow({ saveHandler }) {
               <div className="row cash_journal">
                 {loading && <Loading />}
                 <div className="col-lg-12 pr-0 pl-0">
-                  <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing global-table">
+                 <div className="table-responsive">
+                 <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing global-table">
                     <thead>
                       <tr>
                         <th style={{ width: "40px" }}>SL</th>
@@ -173,6 +174,7 @@ export function TableRow({ saveHandler }) {
                       ))}
                     </tbody>
                   </table>
+                 </div>
                 </div>
                 {gridData?.data?.length > 0 && (
                   <PaginationTable

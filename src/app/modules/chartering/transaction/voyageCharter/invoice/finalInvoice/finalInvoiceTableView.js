@@ -16,7 +16,8 @@ const toWords = new ToWords({
 function FinalInvoiceTable({ rowData, invoiceHireData }) {
   return (
     <>
-      <table className="table mt-3 bj-table bj-table-landing mt-3">
+    <div className="table-responsive">
+    <table className="table mt-3 bj-table bj-table-landing mt-3">
         <thead>
           <tr
             style={{ borderTop: "1px solid #d6d6d6" }}
@@ -80,6 +81,7 @@ function FinalInvoiceTable({ rowData, invoiceHireData }) {
           ) : null}
         </tbody>
       </table>
+    </div>
     </>
   );
 }

@@ -350,6 +350,7 @@ export function BasicInfornationTable() {
             />
             <div className="row cash_journal">
               <div className="col-lg-12">
+                <div className="table-responsive">
                 <table className="table table-striped table-bordered mt-1 global-table">
                   <thead>
                     <tr>
@@ -593,6 +594,7 @@ export function BasicInfornationTable() {
                     ))}
                   </tbody>
                 </table>
+                   </div>
                 {products?.data?.length > 0 && (
                   <PaginationTable
                     count={products?.totalCount}

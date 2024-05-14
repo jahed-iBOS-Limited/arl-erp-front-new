@@ -22,7 +22,8 @@ const GridView = ({ rowData }) => {
   return (
     <>
       {rowData?.length > 0 && (
-        <table
+        <div className="table-responsive">
+          <table
           id="table-to-xlsx"
           className={
             "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
@@ -60,6 +61,7 @@ const GridView = ({ rowData }) => {
             })}
           </tbody>
         </table>
+        </div>
       )}
     </>
   );
