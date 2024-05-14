@@ -5,6 +5,7 @@ const YearClosingTable = ({ closingData }) => {
     return (
         <>
             <h4 className='mt-2'>Closing Journal Preview of Income/Expense</h4>
+            <div className="table-responsive">
             <table
                 id={'yearClosingJournalPreview'}
                 className="table table-striped table-bordered global-table mt-0 table-font-size-sm mt-5"
@@ -36,7 +37,9 @@ const YearClosingTable = ({ closingData }) => {
                     )}
                 </tbody>
             </table>
+      </div>
             <h4 className='mt-2'>Closing Balance Preview of Asset/Liabilities</h4>
+            <div className="table-responsive">
             <table
                 id={'yearClosingBalancePreview'}
                 className="table table-striped table-bordered global-table mt-0 table-font-size-sm mt-5"
@@ -68,6 +71,7 @@ const YearClosingTable = ({ closingData }) => {
                     )}
                 </tbody>
             </table>
+      </div>
         </>
     );
 };

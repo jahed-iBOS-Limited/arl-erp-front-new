@@ -420,7 +420,8 @@ export default function _Form({
                     <div className="col-lg-12 pr-0">
                       <div>
                         {rowDto.length > 0 ? (
-                          <table className="table table-striped table-bordered mt-1 bj-table">
+                           <div className="table-responsive">
+      <table className="table table-striped table-bordered mt-1 bj-table">
                             <thead>
                               <tr>
                                 <th>SL</th>
@@ -511,6 +512,7 @@ export default function _Form({
                               })}
                             </tbody>
                           </table>
+                           </div>
                         ) : (
                           ""
                         )}

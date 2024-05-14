@@ -5,6 +5,7 @@ import { _fixedPoint } from "../../../../_helper/_fixedPoint";
 const Table = ({ rows }) => {
   return (
     <>
+      <div className="table-responsive">
       <table
         id="table-to-xlsx"
         className={
@@ -50,6 +51,7 @@ const Table = ({ rows }) => {
           })}
         </tbody>
       </table>
+      </div>
     </>
   );
 };

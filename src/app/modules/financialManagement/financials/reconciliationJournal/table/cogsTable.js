@@ -5,7 +5,8 @@ import { _dateFormatter } from '../../../../_helper/_dateFormate';
 const COGSTable = ({ journalData, landingValues, isDayBased }) => {
    return (
       <>
-         <table
+          <div className="table-responsive">
+          <table
             id={'cogs'}
             className="table table-striped table-bordered global-table mt-0 table-font-size-sm mt-5"
          >
@@ -87,6 +88,7 @@ const COGSTable = ({ journalData, landingValues, isDayBased }) => {
                </>
             </tbody>
          </table>
+      </div>
       </>
    );
 };
