@@ -58,8 +58,9 @@ export default function PurchaseOrder() {
           className=''
           style={{
             position: "absolute",
-            top: "18px",
-            left: "190px",
+            top: "32px",
+            left: "50%",
+            transform: "translateX(-50%)",
           }}
         >
           <div className='d-flex align-items-center'>
