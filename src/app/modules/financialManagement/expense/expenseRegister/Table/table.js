@@ -1,39 +1,37 @@
 /* eslint-disable jsx-a11y/no-distracting-elements */
+import axios from "axios";
+import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+import * as Yup from "yup";
+import {
+  Card,
+  CardBody,
+  CardHeader,
+  CardHeaderToolbar,
+  ModalProgressBar,
+} from "../../../../../../_metronic/_partials/controls";
+import IConfirmModal from "../../../../_helper/_confirmModal";
+import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import FormikError from "../../../../_helper/_formikError";
+import IEdit from "../../../../_helper/_helperIcons/_edit";
+import IView from "../../../../_helper/_helperIcons/_view";
+import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
 import {
   BillSubmit_Api,
   getCountry,
   getCurrency,
+  getExpenseLandingPagination,
   // getExpensePlantDDLAction,
   getSBU,
-  getExpenseLandingPagination,
 } from "../helper";
-import { useHistory } from "react-router-dom";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import IView from "../../../../_helper/_helperIcons/_view";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { Formik, Form } from "formik";
-import IConfirmModal from "../../../../_helper/_confirmModal";
-import Loading from "./../../../../_helper/_loading";
-import PaginationTable from "./../../../../_helper/_tablePagination";
-import {
-  CardHeaderToolbar,
-  Card,
-  ModalProgressBar,
-  CardBody,
-  CardHeader,
-} from "../../../../../../_metronic/_partials/controls";
-import * as Yup from "yup";
-import NewSelect from "./../../../../_helper/_select";
-import { setPersonalExpRegLandingAction } from "./../../../../_helper/reduxForLocalStorage/Actions";
-import { useDispatch } from "react-redux";
 import SearchAsyncSelect from "./../../../../_helper/SearchAsyncSelect";
-import FormikError from "../../../../_helper/_formikError";
-import axios from "axios";
-import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
-import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
+import Loading from "./../../../../_helper/_loading";
+import NewSelect from "./../../../../_helper/_select";
+import PaginationTable from "./../../../../_helper/_tablePagination";
+import { setPersonalExpRegLandingAction } from "./../../../../_helper/reduxForLocalStorage/Actions";
 
 // Validation schema
 const validationSchema = Yup.object().shape({});
@@ -449,7 +447,7 @@ const ExpenseRegisterLanding = () => {
                         touched={touched}
                       />
                     </div>
-                    <div className="col-lg-3 d-flex align-items-center justify-content-end">
+                    <div className="col-lg-3 d-flex align-items-center justify-content-end mt-4">
                       <button
                         className="btn btn-success pointer"
                         onClick={() => {
@@ -622,7 +620,7 @@ const ExpenseRegisterLanding = () => {
                         obj={{ values, setFieldValue, colSize: "col-lg-2" }}
                       />
                     )}
-                    <div className=" col d-flex justify-content-end align-items-end pr-0">
+                    <div className=" col d-flex justify-content-end align-items-end pr-0 mt-4">
                       {!values?.billSubmit && !values?.approval && (
                         <button
                           onClick={() => {
