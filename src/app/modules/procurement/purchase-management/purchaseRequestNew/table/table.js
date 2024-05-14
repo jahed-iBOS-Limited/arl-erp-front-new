@@ -20,7 +20,7 @@ import {
   getPurchaseRequestLanding,
   getSBUList,
   getWhList,
-  postPurchaseReqCancelAction
+  postPurchaseReqCancelAction,
 } from "../helper";
 import { ItemReqViewTableRow } from "../report/tableRow";
 import IConfirmModal from "./../../../../_helper/_confirmModal";
@@ -376,105 +376,110 @@ const PurchaseRequestTable = () => {
                     paginationSearchHandler={paginationSearchHandler}
                     values={values}
                   />
-                  <table className="table table-striped table-bordered global-table table-font-size-sm td">
-                    <thead>
-                      <tr>
-                        <th>SL</th>
-                        <th>Request Code</th>
-                        <th>Purchase Request Type</th>
-                        <th>Warehouse</th>
-                        <th>Request Date</th>
-                        <th>Purpose</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    {loading ? (
-                      <ILoader />
-                    ) : (
-                      <tbody>
-                        {landing?.data?.map((item, index) => (
-                          <tr key={index}>
-                            <td>{item?.sl}</td>
-                            <td>{item?.purchaseRequestCode}</td>
-                            <td>{item?.purchaseRequestTypeName}</td>
-                            <td>{item?.warehouseName}</td>
-                            <td>{_dateFormatter(item?.requestDate)}</td>
-                            <td>{item?.purpose}</td>
-                            <td className="text-center">
-                              {item?.isApproved ? "Approved" : "Pending"}
-                            </td>
-                            <td className="text-center align-middle">
-                              <div className="d-flex justify-content-around">
-                                <span
-                                  onClick={() =>
-                                    history.push({
-                                      pathname: `/mngProcurement/purchase-management/purchase-request/edit/${item?.purchaseRequestId}`,
-                                      item,
-                                      state: {
-                                        ...values,
-                                      },
-                                    })
-                                  }
-                                >
-                                  {!item?.isApproved && <IEdit />}
-                                </span>
-                                <span className="">
-                                  {!item?.isApproved && (
-                                    <IClose
-                                      title="In Active"
-                                      closer={() =>
-                                        approveSubmitlHandler(
-                                          item?.purchaseRequestId
-                                        )
-                                      }
-                                    />
-                                  )}
-                                </span>
-
-                                <span>
-                                  {" "}
-                                  <IView
-                                    classes={
-                                      prTableIndex === item?.purchaseRequestId
-                                        ? "text-primary"
-                                        : ""
+                  <div className="table-responsive">
+                    <table className="table table-striped table-bordered global-table table-font-size-sm td">
+                      <thead>
+                        <tr>
+                          <th>SL</th>
+                          <th>Request Code</th>
+                          <th>Purchase Request Type</th>
+                          <th>Warehouse</th>
+                          <th>Request Date</th>
+                          <th>Purpose</th>
+                          <th>Status</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      {loading ? (
+                        <ILoader />
+                      ) : (
+                        <tbody>
+                          {landing?.data?.map((item, index) => (
+                            <tr key={index}>
+                              <td>{item?.sl}</td>
+                              <td>{item?.purchaseRequestCode}</td>
+                              <td>{item?.purchaseRequestTypeName}</td>
+                              <td>{item?.warehouseName}</td>
+                              <td>{_dateFormatter(item?.requestDate)}</td>
+                              <td>{item?.purpose}</td>
+                              <td className="text-center">
+                                {item?.isApproved ? "Approved" : "Pending"}
+                              </td>
+                              <td className="text-center align-middle">
+                                <div className="d-flex justify-content-around">
+                                  <span
+                                    onClick={() =>
+                                      history.push({
+                                        pathname: `/mngProcurement/purchase-management/purchase-request/edit/${item?.purchaseRequestId}`,
+                                        item,
+                                        state: {
+                                          ...values,
+                                        },
+                                      })
                                     }
-                                    clickHandler={() => {
-                                      setCurrentRowData(item);
-                                      setIsShowModal(true);
-                                    }}
-                                  />{" "}
-                                </span>
-                                {(!item?.isClosed && item?.isApproved)&&
-                                  (profileData?.userId === 509697 ||
-                                    profileData?.userId === 520986) && (
-                                    <OverlayTrigger
-                                      overlay={
-                                        <Tooltip id="cs-icon">Complete</Tooltip>
+                                  >
+                                    {!item?.isApproved && <IEdit />}
+                                  </span>
+                                  <span className="">
+                                    {!item?.isApproved && (
+                                      <IClose
+                                        title="In Active"
+                                        closer={() =>
+                                          approveSubmitlHandler(
+                                            item?.purchaseRequestId
+                                          )
+                                        }
+                                      />
+                                    )}
+                                  </span>
+
+                                  <span>
+                                    {" "}
+                                    <IView
+                                      classes={
+                                        prTableIndex === item?.purchaseRequestId
+                                          ? "text-primary"
+                                          : ""
                                       }
-                                    >
-                                      <span>
-                                        <i
-                                          className="fa fa-check-circle"
-                                          onClick={() =>
-                                            itemCompleteHandler(
-                                              item?.purchaseRequestId,
-                                              profileData?.userId,
-                                              values
-                                            )
-                                          }
-                                        ></i>
-                                      </span>
-                                    </OverlayTrigger>
-                                  )}
-                              </div>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    )}
-                  </table>
+                                      clickHandler={() => {
+                                        setCurrentRowData(item);
+                                        setIsShowModal(true);
+                                      }}
+                                    />{" "}
+                                  </span>
+                                  {!item?.isClosed &&
+                                    item?.isApproved &&
+                                    (profileData?.userId === 509697 ||
+                                      profileData?.userId === 520986) && (
+                                      <OverlayTrigger
+                                        overlay={
+                                          <Tooltip id="cs-icon">
+                                            Complete
+                                          </Tooltip>
+                                        }
+                                      >
+                                        <span>
+                                          <i
+                                            className="fa fa-check-circle"
+                                            onClick={() =>
+                                              itemCompleteHandler(
+                                                item?.purchaseRequestId,
+                                                profileData?.userId,
+                                                values
+                                              )
+                                            }
+                                          ></i>
+                                        </span>
+                                      </OverlayTrigger>
+                                    )}
+                                </div>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      )}
+                    </table>
+                  </div>
                 </div>
               </div>
               <IViewModal

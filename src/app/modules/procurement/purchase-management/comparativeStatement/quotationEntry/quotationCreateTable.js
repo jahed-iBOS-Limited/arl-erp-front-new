@@ -37,6 +37,7 @@ const QuotationCreateRowDtoTable = ({
       <div>
          {rowDto?.objRow?.length > 0 && (
             <>
+            <div className="table-responsive">
                <table className="table table-striped table-bordered mt-3 global-table po-table">
                   <thead>
                      <tr>
@@ -338,6 +339,7 @@ const QuotationCreateRowDtoTable = ({
                      </tr>
                   </tbody>
                </table>
+               </div>
             </>
          )}
       </div>
