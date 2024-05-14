@@ -170,7 +170,7 @@ export default function _Form({
                     </div>
                   </div>
                   <div className="row">
-                    <div className="col-3">
+                    <div className="col-lg-3">
                       <InputField
                         value={values?.billNo}
                         label="Bill No"
@@ -178,7 +178,7 @@ export default function _Form({
                         placeholder="Bill No"
                       />
                     </div>
-                    <div className="col-3">
+                    <div className="col-lg-3">
                       <InputField
                         value={_dateFormatter(values?.billDate)}
                         label="Bill Date"
@@ -187,7 +187,7 @@ export default function _Form({
                         placeholder="Bill Date"
                       />
                     </div>
-                    <div className="col-3">
+                    <div className="col-lg-3">
                       <InputField
                         value={_dateFormatter(values?.paymentDueDate)}
                         label="Payment Due Date"
@@ -206,7 +206,7 @@ export default function _Form({
                         placeholder="Narration"
                       />
                     </div>
-                    <div className="col-3">
+                    <div className="col-lg-3">
                       <div className="row align-items-end">
                         <div className="col-5">
                           <button
@@ -256,7 +256,7 @@ export default function _Form({
                       )}
                     </span>
                   </div>
-
+                  <div className="table-responsive">
                   <table className="table table-striped table-bordered global-table mt-0 table-font-size-sm">
                     <thead className="bg-secondary">
                       <tr>
@@ -326,6 +326,7 @@ export default function _Form({
                       ))}
                     </tbody>
                   </table>
+                  </div>
                 </div>
               </div>
               <button

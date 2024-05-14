@@ -78,7 +78,7 @@ export default function ProjectAccountingView({ id, show, onHide }) {
               {/* general description */}
               <div className="container mt-3">
                 <div className="row d-flex">
-                  <div className="col-3" style={{ marginLeft: "-1.8rem" }}>
+                  <div className="col-lg-3" style={{ marginLeft: "-1.8rem" }}>
                     <p>
                       <span className="fw-bold">Project Name: </span>
                       {projectDescription?.strProjectName || "N/A"}
@@ -92,7 +92,7 @@ export default function ProjectAccountingView({ id, show, onHide }) {
                       {projectDescription?.strLocation || "N/A"}
                     </p>
                   </div>
-                  <div className="col-3">
+                  <div className="col-lg-3">
                     <p>
                       <span className="fw-bold">General Ledger: </span>
                       {projectDescription?.strGl || "N/A"}
@@ -102,7 +102,7 @@ export default function ProjectAccountingView({ id, show, onHide }) {
                       {projectDescription?.strSubGl || "N/A"}
                     </p>
                   </div>
-                  <div className="col-3">
+                  <div className="col-lg-3">
                     <p>
                       <span className="fw-bold">Total Budget Cost: </span>
                       {expenseVariance?.reduce(
@@ -115,7 +115,7 @@ export default function ProjectAccountingView({ id, show, onHide }) {
                         ) || 0}
                     </p>
                   </div>
-                  <div className="col-3">
+                  <div className="col-lg-3">
                     <p>
                       <span className="fw-bold">Expected Revenue: </span>
                       {projectDescription?.numExpectedValue || 0}

@@ -241,7 +241,7 @@ const TableRow = () => {
                       touched={touched}
                     />
                   </div>
-                  <div className="col-3 d-flex align-items-end">
+                  <div className="col-lg-3 d-flex align-items-end">
                     <button
                       className="btn btn-primary"
                       disabled={!isValid || !dirty}
