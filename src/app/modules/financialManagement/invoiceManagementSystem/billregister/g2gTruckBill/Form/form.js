@@ -210,6 +210,7 @@ export default function _Form({
                 style={{
                   fontSize: "15px",
                   fontWeight: "bold",
+                  flexWrap: "wrap",
                 }}
               >
                 <div>
