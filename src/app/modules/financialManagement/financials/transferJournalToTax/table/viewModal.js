@@ -167,6 +167,7 @@ export function BankJournalViewTableRow({ viewData, journalType }) {
                           </div>
                         </div>
                       </div>
+                      <div className="table-responsive">
                       <table className="journalTable" id="table-to-xlsx">
                         <thead>
                           <tr>
@@ -238,6 +239,7 @@ export function BankJournalViewTableRow({ viewData, journalType }) {
                           </tr>
                         </tbody>
                       </table>
+      </div>
                       <div className="mt-5">
                         <div className="d-flex">
                           <p className="mr-2" style={{ fontWeight: "bold" }}>

@@ -94,7 +94,8 @@ export default function HistoryModal({ adjustmentJournalId, landingItem }) {
                                 {journalHistoryData?.length > 0 ? (
                                     <div className="row cash_journal">
                                     <div className="col-lg-12 pr-0 pl-0">
-                                        <table className="table table-striped table-bordered mt-0 bj-table bj-table-landing table-font-size-sm">
+                                       <div className="table-responsive">
+                                       <table className="table table-striped table-bordered mt-0 bj-table bj-table-landing table-font-size-sm">
                                             <thead>
                                                 <tr>
                                                     <th style={{ width: "30px" }}>SL</th>
@@ -116,6 +117,7 @@ export default function HistoryModal({ adjustmentJournalId, landingItem }) {
                                                 ))}
                                             </tbody>
                                         </table>
+                                       </div>
                                     </div>
                                 </div>
                                 ): (

@@ -520,6 +520,7 @@ const TableRow = () => {
                         </span>{" "}
                       </p>
                     </div>
+                    <div className="table-responsive">
                     <table className="table table-striped table-bordered global-table mt-0 forceReconcileTable">
                       <thead>
                         <tr>
@@ -646,6 +647,7 @@ const TableRow = () => {
                         </tr>
                       </tbody>
                     </table>
+     </div>
                   </div>
                   <div className="col-6">
                     <div className="d-flex justify-content-between">
@@ -743,6 +745,7 @@ const TableRow = () => {
                         </span>{" "}
                       </p>
                     </div>
+                    <div className="table-responsive">
                     <table className="table table-striped table-bordered global-table mt-0 forceReconcileTable">
                       <thead>
                         <tr>
@@ -870,6 +873,7 @@ const TableRow = () => {
                         </tr>
                       </tbody>
                     </table>
+     </div>
                   </div>
                 </div>
 

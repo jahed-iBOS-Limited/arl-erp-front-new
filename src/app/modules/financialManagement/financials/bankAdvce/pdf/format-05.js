@@ -79,6 +79,7 @@ export const FormatFive = ({
           {`You are requestd to debit our account No: ${values?.bankAccountNo?.bankAccNo} by settling as per instructions below:`}
         </p>
       </div>
+      <div className="table-responsive">
       <table className="table table-striped table-bordered global-table payorder-advice-table">
         <thead>
           <tr>
@@ -193,6 +194,7 @@ export const FormatFive = ({
           </tr>
         </tbody>
       </table>
+     </div>
       <p
         className=" mt-5"
         style={{

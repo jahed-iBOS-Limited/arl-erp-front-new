@@ -369,6 +369,7 @@ const ViewData = ({ adviceReportData, values }) => {
                                   Detailed particulars of each Account Holder:
                                 </p>
                               </div>
+                              <div className="table-responsive">
                               <table className="table table-striped table-bordered  advice-table table-font-size-sm">
                                 <thead>
                                   {["ibblBEFTN", "scb"].includes(
@@ -903,6 +904,7 @@ const ViewData = ({ adviceReportData, values }) => {
                                   )}
                                 </tbody>
                               </table>
+      </div>
                               <p
                                 className="font-weight-bold mt-5"
                                 style={{

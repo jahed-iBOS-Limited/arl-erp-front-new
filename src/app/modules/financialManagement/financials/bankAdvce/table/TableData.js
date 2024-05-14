@@ -7,6 +7,7 @@ const TableData = ({ adviceReportData, setAdviceReportData }) => {
 
   return (
     adviceReportData?.length > 0 && (
+      <div className="table-responsive">
       <table className={"table table-striped table-bordered global-table mt-0 table-font-size-sm advice_table"}>
         <thead className="bg-secondary">
           <tr>
@@ -100,6 +101,7 @@ const TableData = ({ adviceReportData, setAdviceReportData }) => {
           )}
         </tbody>
       </table>
+      </div>
     )
 
     // adviceReportData?.length > 0 && (

@@ -165,7 +165,8 @@ export default function IncentiveBillPaymentLanding() {
               </div>
 
               <div className="mt-1">
-                <table className="table table-striped table-bordered bj-table bj-table-landing">
+              <div className="table-responsive">
+              <table className="table table-striped table-bordered bj-table bj-table-landing">
                   {tableData?.length ? (
                     <thead>
                       <tr>
@@ -237,6 +238,7 @@ export default function IncentiveBillPaymentLanding() {
                     ))}
                   </tbody>
                 </table>
+      </div>
               </div>
 
               <IViewModal

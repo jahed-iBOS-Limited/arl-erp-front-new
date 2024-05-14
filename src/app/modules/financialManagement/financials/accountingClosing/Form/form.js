@@ -74,7 +74,8 @@ export default function _Form({
           </div>
           <div className="row">
             <div className="col-md-12">
-              <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm">
+             <div className="table-responsive">
+             <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm">
                 <thead>
                   <tr></tr>
                 </thead>
@@ -82,6 +83,7 @@ export default function _Form({
                   <tr></tr>
                 </tbody>
               </table>
+             </div>
             </div>
           </div>
           <button
