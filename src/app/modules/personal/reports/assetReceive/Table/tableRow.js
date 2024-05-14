@@ -122,6 +122,7 @@ export function TableRow(props) {
                        </label>
                       </div>
                     </Form>
+                    <div className='table-responsive'>
                     <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                       <thead>
                         <tr>
@@ -177,6 +178,7 @@ export function TableRow(props) {
                           })}
                       </tbody>
                     </table>
+                    </div>
                   </div>
                 </div>
                 {gridData?.data?.length > 0 && (
