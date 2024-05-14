@@ -351,6 +351,7 @@ const PurchaseRequestTable = () => {
                         name="fromDate"
                         placeholder="From date"
                         type="date"
+                        style={{ width: "100%" }}
                       />
                     </div>
                   </div>
@@ -362,6 +363,7 @@ const PurchaseRequestTable = () => {
                         name="toDate"
                         placeholder="To date"
                         type="date"
+                        style={{ width: "100%" }}
                       />
                     </div>
                   </div>
