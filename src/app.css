@@ -2864,10 +2864,10 @@ body {
     display: none;
   }
 
+  #kt_header_mobile_topbar_toggle .fa-user-circle {
+    font-size: 20px !important;
+  }
   .user-basic-info {
     margin-top: 9px;
-  }
-  #kt_header_mobile_topbar_toggle .fa-user-circle{
-    font-size: 20px !important;
   }
 }

@@ -53,11 +53,11 @@ export function Header() {
           style={{
             display: "flex",
             gap: "15px",
-            minWidth: '100%',
+            width: '100%',
             alignItems: "center",
             marginLeft: "10px",
           }}
-          clsasName="user-basic-info"
+          className="user-basic-info"
         >
           <p className="m-0">
             <b>OID: {commonDDL?.OID}</b>
