@@ -108,7 +108,8 @@ export default function ConfigRenewalAttribute() {
                                     </button>
                                 </div>
                             </div>
-                            <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing mr-1">
+                           <div className="table-responsive">
+                           <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing mr-1">
                                 <thead>
                                     <tr>
                                         <th>SL</th>
@@ -143,6 +144,7 @@ export default function ConfigRenewalAttribute() {
                                     }
                                 </tbody>
                             </table>
+                           </div>
                             <button
                                 type="submit"
                                 style={{ display: "none" }}

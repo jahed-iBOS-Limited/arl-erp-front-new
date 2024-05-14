@@ -151,6 +151,7 @@ export default function _Form({
                   </button>
                 </div>
               </div>
+              <div className="table-responsive">
               <table className="table table-striped table-bordered mt-3 global-table">
                 <thead>
                   <tr>
@@ -206,6 +207,7 @@ export default function _Form({
                   ))}
                 </tbody>
               </table>
+              </div>
               <IViewModal
                 modelSize="lg"
                 show={modalShowDDL}

@@ -63,7 +63,7 @@ export default function SalesOrderReportModal({
             </div>
           </div>
 
-          <div>
+          <div className="table-responsive">
             <table className="table table-striped table-bordered bj-table bj-table-landing">
               <thead>
                 <tr>

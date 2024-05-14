@@ -492,7 +492,7 @@ function _Form({
               )}
             </div>
 
-            <div>
+            <div className="table-responsive">
               <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                 {rowData?.length > 0 && (
                   <thead>

@@ -27,7 +27,7 @@ export default function ICustomTable({ ths, children, id, scrollable }) {
           </div>
         </div>
       ) : (
-        <div>
+        <div className="table-responsive">
           <table
             id={id ? id : ""}
             className="table mt-3 bj-table bj-table-landing"

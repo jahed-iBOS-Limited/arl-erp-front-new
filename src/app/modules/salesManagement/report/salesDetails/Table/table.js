@@ -32,6 +32,8 @@ const reports = [
   { value: 11, label: "Market Basket Analysis" },
   { value: 12, label: "Order vs Delivery vs Collection Date Wise" },
   { value: 13, label: "Delivery Monitoring Report" },
+  { value: 14, label: "AEL Product Rate Trend" },
+  { value: 15, label: "All Achievement Report" },
 ];
 
 const getTypes = (values) => {
@@ -115,6 +117,14 @@ export default function SalesDetailsTable({ saveHandler }) {
   const [salesOrgs, getSalesOrgs] = useAxiosGet();
   const [items, getItems] = useAxiosGet();
   const [rows, getRows, loading] = useAxiosGet();
+  const [loginInfo, getLoginInfo] = useAxiosGet();
+  const { empLevelId, regionId, areaId, territoryInfoId } = loginInfo || {};
+  const intRATId = 
+    empLevelId === 5 ? (regionId || 0) :
+    empLevelId === 6 ? (areaId || 0) :
+    empLevelId === 7 ? (territoryInfoId || 0) : 0;
+  
+
 
   const shippointDDL = useSelector((state) => {
     return state?.commonDDL?.shippointDDL;
@@ -123,8 +133,11 @@ export default function SalesDetailsTable({ saveHandler }) {
   // get selected business unit from store
   const {
     selectedBusinessUnit: { value: buId },
-    profileData: { accountId: accId, userId },
+    profileData: { accountId: accId, userId, employeeId },
   } = useSelector((state) => state.authData, shallowEqual);
+
+
+
 
   useEffect(() => {
     if (buId !== 144) {
@@ -136,6 +149,7 @@ export default function SalesDetailsTable({ saveHandler }) {
     getSalesOrgs(
       `/oms/SalesOrganization/GetSalesOrganizationDDL?AccountId=${accId}&BusinessUnitId=${buId}`
     );
+    getLoginInfo(`/hcm/RemoteAttendance/GetEmployeeLoginInfo?AccountId=${accId}&BusinessUnitId=${buId}&EmployeeId=${employeeId}`)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accId, buId]);
 
@@ -165,6 +179,10 @@ export default function SalesDetailsTable({ saveHandler }) {
       ? `ca8d1e8f-90f4-4cc2-8c99-e1ca9f290f8d`
       :  id === 13
       ? `8ab614ab-36c6-4c18-bd1b-1d0f872bb774`
+      : id === 14
+      ? `c5252df3-b81e-431c-8395-86de88f52f11`
+      :  id === 15
+      ? `41d38697-8e3f-453d-bea1-e3d0f0b49ec2`
       : "";
   };
   const groupId = `e3ce45bb-e65e-43d7-9ad1-4aa4b958b29a`;
@@ -302,6 +320,22 @@ export default function SalesDetailsTable({ saveHandler }) {
       { name: "ToDate", value: `${values?.toDate}` },
     ];
 
+    const fourteenParams = [
+      { name: "UnitId", value: `${buId}` },
+      { name: "fromDate", value: `${values?.fromDate}` },
+      { name: "toDate", value: `${values?.toDate}` },
+    ];
+
+    const fifteenParams = [
+      { name: "intunitid", value: `${buId}` },
+      { name: "intSalesOrganizationId", value: `${values?.salesOrg?.value}` },
+      { name: "intCustomer", value: `${values?.partner?.value}` },
+      { name: "intChannelId", value: `${values?.channel?.value}` },
+      { name: "intRATId", value: `${intRATId || 0}` },
+      { name: "intLevelid", value: `${empLevelId || 0}` },
+      { name: "todate", value: `${values?.toDate}` },
+    ];
+
     return id === 1
       ? paramsForSalesDetails
       : id === 2
@@ -331,6 +365,10 @@ export default function SalesDetailsTable({ saveHandler }) {
       ? twelveParams
       : id === 13
       ? thirteenParams
+      : id === 14
+      ? fourteenParams
+      :  id === 15
+      ? fifteenParams
       : [];
   };
 
@@ -422,7 +460,7 @@ export default function SalesDetailsTable({ saveHandler }) {
                             </div>
                           )}
 
-                        {[1, 3, 4, 5, 6, 7, 8, 9, 10, 11,12,13].includes(
+                        {[1, 3, 4, 5, 6, 7, 8, 9, 10, 11,12,13,15].includes(
                           values?.report?.value
                         ) && (
                           <RATForm
@@ -535,7 +573,7 @@ export default function SalesDetailsTable({ saveHandler }) {
                           </>
                         )}
 
-                        {[3, 10, 11,13].includes(values?.report?.value) && (
+                        {[3, 10, 11,13,15].includes(values?.report?.value) && (
                           <>
                             <div className="col-lg-2">
                               <NewSelect

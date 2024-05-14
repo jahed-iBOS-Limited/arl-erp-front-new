@@ -58,7 +58,8 @@ export default function ViewForm({ id }) {
           <Row>
             <Col>
               {rowDto.length && (
-                <table className="table table-striped table-bordered mt-3">
+              <div className="table-responsive">
+                  <table className="table table-striped table-bordered mt-3">
                   <thead>
                     <tr>
                       <th>SL.</th>
@@ -74,6 +75,7 @@ export default function ViewForm({ id }) {
                     ))}
                   </tbody>
                 </table>
+              </div>
               )}
             </Col>
           </Row>

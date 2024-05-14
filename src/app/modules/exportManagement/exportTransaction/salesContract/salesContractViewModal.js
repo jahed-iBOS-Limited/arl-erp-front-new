@@ -121,6 +121,7 @@ export default function SalesContractView({ quotationId }) {
                     src={essentialLogo}
                     alt="logo"
                   />
+                  <div className="table-responsive">
                   <table
                     id="sales-contract-print"
                     className="table table-striped table-bordered global-table"
@@ -470,6 +471,7 @@ export default function SalesContractView({ quotationId }) {
                       </td>
                     </tr>
                   </table>
+                  </div>
                 </div>
               ) : null}
             </Form>

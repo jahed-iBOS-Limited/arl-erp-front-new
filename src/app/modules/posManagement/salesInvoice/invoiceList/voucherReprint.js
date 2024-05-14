@@ -135,9 +135,10 @@ export default function VoucherReprint({
                 </div>
               </div>
               <div className="row">
-                <div className="col-lg-12 table-responsive">
+                <div className="col-lg-12">
                   {voucherReprintData.length >= 0 && (
-                    <table className="table table-striped table-bordered global-table sales_order_landing_table">
+                    <div className="table-responsive">
+                      <table className="table table-striped table-bordered global-table sales_order_landing_table">
                       <thead>
                         <tr>
                           <th>SL</th>
@@ -199,6 +200,7 @@ export default function VoucherReprint({
                         ))}
                       </tbody>
                     </table>
+                    </div>
                   )}
                 </div>
                 {voucherReprintData?.data?.length > 0 && (

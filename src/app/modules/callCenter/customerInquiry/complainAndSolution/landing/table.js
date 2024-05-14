@@ -112,7 +112,8 @@ const ComplainAndSolutionTable = () => {
                 {(loading || isLoading) && <Loading />}
                 <form className="form form-label-right">
                   {rowData?.length > 0 && (
-                    <table
+                   <div className="table-responsive">
+                     <table
                       className={
                         "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
                       }
@@ -223,6 +224,7 @@ const ComplainAndSolutionTable = () => {
                         );
                       })}
                     </table>
+                   </div>
                   )}
                 </form>
               </CardBody>

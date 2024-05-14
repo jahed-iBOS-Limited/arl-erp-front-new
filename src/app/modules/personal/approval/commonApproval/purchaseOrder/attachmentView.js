@@ -22,7 +22,8 @@ export default function AttachmentView({ attachmentModalInfo }) {
     <>
       {(rowDataLoader || isLoading) && <Loading />}
       <div className="text-right">
-        <table className="table table-striped table-bordered">
+       <div className="table-responsive">
+       <table className="table table-striped table-bordered">
           <thead>
             <tr>
               <th>SL</th>
@@ -49,6 +50,7 @@ export default function AttachmentView({ attachmentModalInfo }) {
               ))}
           </tbody>
         </table>
+       </div>
       </div>
     </>
   );

@@ -188,7 +188,7 @@ export default function _Form({
               </div>)}
 
               {/* rowDto table */}
-              <div>
+              <div className="table-responsive">
                 <table className="table table-striped table-bordered my-5">
                   <thead>
                     <tr className="text-center">

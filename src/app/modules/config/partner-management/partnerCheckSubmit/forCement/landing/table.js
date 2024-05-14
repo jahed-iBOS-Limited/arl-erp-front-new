@@ -304,7 +304,8 @@ const PartnerCheckSubmitTableForCement = () => {
                   />
                 </div>
                 {[175, 186, 4, 94, 8].includes(buId) ? (
-                  <table className="table table-striped table-bordered global-table table-font-size-sm">
+                  <div className="table-responsive">
+                    <table className="table table-striped table-bordered global-table table-font-size-sm">
                     <thead>
                       <tr>
                         <th style={{ width: "40px" }}>SL</th>
@@ -390,8 +391,10 @@ const PartnerCheckSubmitTableForCement = () => {
                       )}
                     </tbody>
                   </table>
+                  </div>
                 ) : (
-                  <table className="table table-striped table-bordered global-table table-font-size-sm">
+                  <div className="table-responsive">
+                    <table className="table table-striped table-bordered global-table table-font-size-sm">
                     <thead>
                       <tr>
                         <th style={{ width: "20px" }}>SL</th>
@@ -435,6 +438,7 @@ const PartnerCheckSubmitTableForCement = () => {
                       ))}
                     </tbody>
                   </table>
+                  </div>
                 )}
                 {rowData?.data?.length > 0 && (
                   <PaginationTable

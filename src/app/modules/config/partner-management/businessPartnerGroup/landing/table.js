@@ -17,7 +17,8 @@ export default function BusinessPartnerGroupLandingTable({ obj }) {
   return (
     <>
       {rowData?.data?.data?.length > 0 && (
-        <table className="table table-striped table-bordered global-table">
+      <div className="table-responsive">
+          <table className="table table-striped table-bordered global-table">
           <thead>
             <tr>
               <th style={{ width: "50px" }}>SL</th>
@@ -90,6 +91,7 @@ export default function BusinessPartnerGroupLandingTable({ obj }) {
             ))}
           </tbody>
         </table>
+      </div>
       )}
     </>
   );
