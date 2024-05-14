@@ -60,6 +60,7 @@ const RowDtoTable = ({
     <div>
       {rowDto?.length > 0 && (
         <>
+          <div className="table-responsive">
           <table className="table table-striped table-bordered mt-3 global-table po-table">
             <thead>
               <tr>
@@ -314,6 +315,7 @@ const RowDtoTable = ({
               })}
             </tbody>
           </table>
+          </div>
           <LastPriceDetails
             anchorEl={anchorEl}
             setAnchorEl={setAnchorEl}

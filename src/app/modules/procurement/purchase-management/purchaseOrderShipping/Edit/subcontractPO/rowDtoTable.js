@@ -28,6 +28,7 @@ const RowDtoTable = ({
     <div>
       {rowDto?.length > 0 && (
         <>
+          <div className="table-responsive">
           <table className="table table-striped table-bordered global-table mt-3">
             <thead>
               <tr>
@@ -193,6 +194,7 @@ const RowDtoTable = ({
               ))}
             </tbody>
           </table>
+          </div>
           <IViewModal
             title="Price structure"
             show={isShowModal}

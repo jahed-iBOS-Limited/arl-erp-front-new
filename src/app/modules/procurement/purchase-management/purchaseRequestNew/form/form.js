@@ -61,7 +61,12 @@ export default function _Form({
   const location = useLocation();
   const [uomList, setUOMList] = useState([]);
   const [itemTypeId, setItemTypeId] = useState([]);
- const [itemAvailableQty,getItemAvailableQty,,setItemAvailableQty] = useAxiosGet()
+  const [
+    itemAvailableQty,
+    getItemAvailableQty,
+    ,
+    setItemAvailableQty,
+  ] = useAxiosGet();
   useEffect(() => {
     getRequestTypeList(setReqTypeList);
     getControllingUnitList(
@@ -386,8 +391,8 @@ export default function _Form({
                           handleChange={(valueOption) => {
                             setFieldValue("itemName", valueOption);
                             setFieldValue("uomName", "");
-                            setItemAvailableQty(0)
-                            if(!valueOption) return ;
+                            setItemAvailableQty(0);
+                            if (!valueOption) return;
                             getUOMList(
                               valueOption?.value,
                               selectedBusinessUnit?.value,
@@ -397,7 +402,7 @@ export default function _Form({
                             );
                             getItemAvailableQty(
                               `/wms/InventoryTransaction/sprRuningQty?businessUnitId=${selectedBusinessUnit?.value}&whId=${location?.state?.wh?.value}&itemId=${valueOption?.value}`
-                            )
+                            );
                           }}
                           loadOptions={loadUserList}
                           disabled={true}
@@ -429,10 +434,24 @@ export default function _Form({
                           touched={touched}
                         />
                       </div> */}
-                      <div style={{position:"relative"}} className="col-lg-3 pr-0">
-                        {
-                          values?.itemName && <span style={{display:"block",position:"absolute", right:0,color:"purple",marginTop:"4px", fontWeight:"bold"}}>Available Qty : {itemAvailableQty.toFixed(2) }</span>
-                        }
+                      <div
+                        style={{ position: "relative" }}
+                        className="col-lg-3 pr-0"
+                      >
+                        {values?.itemName && (
+                          <span
+                            style={{
+                              display: "block",
+                              position: "absolute",
+                              right: 0,
+                              color: "purple",
+                              marginTop: "4px",
+                              fontWeight: "bold",
+                            }}
+                          >
+                            Available Qty : {itemAvailableQty.toFixed(2)}
+                          </span>
+                        )}
                         <NewSelect
                           name="uomName"
                           options={uomList || []}
@@ -465,7 +484,7 @@ export default function _Form({
                             //   "quantity",
                             //   e.target.value.replace(/\D/, "")
                             // );
-                            setFieldValue("quantity", e.target.value)
+                            setFieldValue("quantity", e.target.value);
                           }}
                         />
                       </div>
@@ -476,7 +495,7 @@ export default function _Form({
                           name="rowPurpose"
                           type="text"
                           onChange={(e) => {
-                            setFieldValue("rowPurpose", e.target.value)
+                            setFieldValue("rowPurpose", e.target.value);
                           }}
                         />
                       </div>
@@ -505,52 +524,67 @@ export default function _Form({
                       </div>
                     </div>
                   )}
-
-                  <table className="global-table table">
-                    <thead>
-                      <tr>
-                        <th style={{ width: "40px" }}>SL</th>
-                        {/* <th>Required Date</th> */}
-                        <th style={{ width: "30px" }}>Code</th>
-                        <th>Item Name</th>
-                        <th style={{ width: "50px" }}>UOM</th>
-                        <th style={{ width: "50px" }}>Quantity</th>
-                        <th style={{ width: "120px" }}>Purpose</th>
-                        {type === "viewType" ? (
-                          ""
-                        ) : (
-                          <th style={{ width: "30px" }}>Action</th>
-                        )}
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {rowDto?.map((item, index) => (
-                        <tr key={index}>
-                          <td>{index + 1}</td>
-                          {/* <td className="text-center">{item?.requiredDate}</td> */}
-                          <td className="text-center" style={{ width: "30px" }}>
-                            {item?.itemName?.itemCode || item?.itemName?.code}
-                          </td>
-                          <td className="ml-2" style={{ width: "150px" }}>
-                            {item?.itemName?.itemName}
-                          </td>
-                          <td style={{maxWidth: "50px"}} className="text-center">
-                            {item?.uomName?.label ||
-                              item?.itemName?.baseUoMName}
-                          </td>
-                          <td style={{maxWidth: "50px"}} className="text-center">{item?.quantity}</td>
-                          <td>{item?.rowPurpose}</td>
+                  <div className="table-responsive">
+                    <table className="global-table table">
+                      <thead>
+                        <tr>
+                          <th style={{ width: "40px" }}>SL</th>
+                          {/* <th>Required Date</th> */}
+                          <th style={{ width: "30px" }}>Code</th>
+                          <th>Item Name</th>
+                          <th style={{ width: "50px" }}>UOM</th>
+                          <th style={{ width: "50px" }}>Quantity</th>
+                          <th style={{ width: "120px" }}>Purpose</th>
                           {type === "viewType" ? (
                             ""
                           ) : (
-                            <td style={{maxWidth: "30px"}} className="text-center align-middle">
-                              <IDelete remover={remover} id={index} />
-                            </td>
+                            <th style={{ width: "30px" }}>Action</th>
                           )}
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody>
+                        {rowDto?.map((item, index) => (
+                          <tr key={index}>
+                            <td>{index + 1}</td>
+                            {/* <td className="text-center">{item?.requiredDate}</td> */}
+                            <td
+                              className="text-center"
+                              style={{ width: "30px" }}
+                            >
+                              {item?.itemName?.itemCode || item?.itemName?.code}
+                            </td>
+                            <td className="ml-2" style={{ width: "150px" }}>
+                              {item?.itemName?.itemName}
+                            </td>
+                            <td
+                              style={{ maxWidth: "50px" }}
+                              className="text-center"
+                            >
+                              {item?.uomName?.label ||
+                                item?.itemName?.baseUoMName}
+                            </td>
+                            <td
+                              style={{ maxWidth: "50px" }}
+                              className="text-center"
+                            >
+                              {item?.quantity}
+                            </td>
+                            <td>{item?.rowPurpose}</td>
+                            {type === "viewType" ? (
+                              ""
+                            ) : (
+                              <td
+                                style={{ maxWidth: "30px" }}
+                                className="text-center align-middle"
+                              >
+                                <IDelete remover={remover} id={index} />
+                              </td>
+                            )}
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
 

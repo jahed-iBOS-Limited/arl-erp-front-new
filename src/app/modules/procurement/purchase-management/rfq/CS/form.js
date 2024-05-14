@@ -18,11 +18,9 @@ export default function _Form({
   setSupplier,
   supplier,
   csGridData,
-  rfqSupplier
+  rfqSupplier,
 }) {
   // const { state: usersDDLdata } = useLocation()
-
-
 
   // useEffect(() => {
   //   console.log("hello")
@@ -52,21 +50,18 @@ export default function _Form({
             {disableHandler(!isValid)}
             <Form className="form form-label-right">
               {/* Row d tos one */}
-              <table className="table table-striped table-bordered myTable">
-                <thead>
-                  <tr className="align-middle">
-                    <th rowSpan="2">SL</th>
-                    <th rowSpan="2">Item name</th>
-                    <th rowSpan="2">RFQ Qty.</th>
-                    <th rowSpan="2">Select Supplier</th>
-                    {rfqSupplier?.map((itm, index) => {
-                      return (
-                        <th colSpan="2">
-                          Supplier : {itm?.label}
-                        </th>
-                      );
-                    })}
-                    {/* {csGridData?.map((itm, index) => {
+              <div className="table-responsive">
+                <table className="table table-striped table-bordered myTable">
+                  <thead>
+                    <tr className="align-middle">
+                      <th rowSpan="2">SL</th>
+                      <th rowSpan="2">Item name</th>
+                      <th rowSpan="2">RFQ Qty.</th>
+                      <th rowSpan="2">Select Supplier</th>
+                      {rfqSupplier?.map((itm, index) => {
+                        return <th colSpan="2">Supplier : {itm?.label}</th>;
+                      })}
+                      {/* {csGridData?.map((itm, index) => {
                       return (
                         <th colSpan="2">
                           Supplier : {itm?.supplierName},{itm?.supplierRefNo},{" "}
@@ -74,18 +69,18 @@ export default function _Form({
                         </th>
                       );
                     })} */}
-                  </tr>
-                  <tr className="align-middle">
-                    {rfqSupplier?.map((itm, index) => {
-                      return (
-                        <>
-                          <th>Rate</th>
-                          <th>Value</th>
-                        </>
-                      );
-                    })}
-                  </tr>
-                  {/* <th>
+                    </tr>
+                    <tr className="align-middle">
+                      {rfqSupplier?.map((itm, index) => {
+                        return (
+                          <>
+                            <th>Rate</th>
+                            <th>Value</th>
+                          </>
+                        );
+                      })}
+                    </tr>
+                    {/* <th>
                         <Field
                           name="supplier"
                           placeholder="Select supplier"
@@ -104,16 +99,15 @@ export default function _Form({
                           )}
                         />
                       </th> */}
-                </thead>
-                <tbody>
-                  {toArray(rowDto)?.map((td, index) => {
-                    return (
-                      index === rowDto.length - 1 ?
-                      (<>
-                        <tr key={index}>
-                          <td > {rowDto.length} </td>
-                          <td colSpan="3"> Total </td>
-                          {/* <td> {td?.itemName} </td>
+                  </thead>
+                  <tbody>
+                    {toArray(rowDto)?.map((td, index) => {
+                      return index === rowDto.length - 1 ? (
+                        <>
+                          <tr key={index}>
+                            <td> {rowDto.length} </td>
+                            <td colSpan="3"> Total </td>
+                            {/* <td> {td?.itemName} </td>
                         <td> {td?.rfqQty} </td>
                         <td>
                           <Field
@@ -133,26 +127,43 @@ export default function _Form({
                             )}
                           />
                         </td> */}
-                          {td?.supplierList.map((sup, index) => {
-                            return (
-                              <>
-                                {
-                                  sup?.isLowestRate ?
-                                  <>
-                                    <td style={{ background: "#87F86B", color: 'black', fontWeight: 'bold' }}> {sup?.rate} </td>
-                                    <td style={{ background: "#87F86B", color: 'black', fontWeight: 'bold' }}> {sup?.value} </td>
-                                  </>
-                                  :
-                                  <>
-                                    <td > {sup?.rate} </td>
-                                    <td> {sup?.value} </td>
-                                  </>
-                                }
-                              </>
-                            );
-                          })}
+                            {td?.supplierList.map((sup, index) => {
+                              return (
+                                <>
+                                  {sup?.isLowestRate ? (
+                                    <>
+                                      <td
+                                        style={{
+                                          background: "#87F86B",
+                                          color: "black",
+                                          fontWeight: "bold",
+                                        }}
+                                      >
+                                        {" "}
+                                        {sup?.rate}{" "}
+                                      </td>
+                                      <td
+                                        style={{
+                                          background: "#87F86B",
+                                          color: "black",
+                                          fontWeight: "bold",
+                                        }}
+                                      >
+                                        {" "}
+                                        {sup?.value}{" "}
+                                      </td>
+                                    </>
+                                  ) : (
+                                    <>
+                                      <td> {sup?.rate} </td>
+                                      <td> {sup?.value} </td>
+                                    </>
+                                  )}
+                                </>
+                              );
+                            })}
 
-                          {/* <td
+                            {/* <td
                           style={{ transform: "translateY(4px)" }}
                           className="disable-border"
                         >
@@ -164,52 +175,73 @@ export default function _Form({
                             }}
                           />
                         </td> */}
-                        </tr>
-                      </>)
-                      :
-                      <>
-                        <tr key={index}>
-                          <td> {td?.sl} </td>
-                          <td> {td?.itemName} </td>
-                          <td> {td?.rfqQty} </td>
-                          <td>
-                            <Field
-                              name="supplier"
-                              placeholder="Select supplier"
-                              component={() => (
-                                <Select
-                                  options={rfqSupplier || []}
-                                  defaultValue={rowDto[index]?.supplier}
-                                  onChange={(valueOption) => {
-                                    setFieldValue("supplier", valueOption);
-                                    rowDtoHandler("supplier", valueOption, index);
-                                  }}
-                                  isSearchable={true}
-                                  styles={customStyles}
-                                />
-                              )}
-                            />
-                          </td>
-                          {td?.supplierList.map((sup, index) => {
-                            return (
-                              <>
-                                {
-                                  sup?.isLowestRate ?
-                                  <>
-                                    <td style={{ background: "#87F86B", color: 'black', fontWeight: 'bold' }}> {sup?.rate} </td>
-                                    <td style={{ background: "#87F86B", color: 'black', fontWeight: 'bold' }}> {sup?.value} </td>
-                                  </>
-                                  :
-                                  <>
-                                    <td > {sup?.rate} </td>
-                                    <td> {sup?.value} </td>
-                                  </>
-                                }
-                              </>
-                            );
-                          })}
+                          </tr>
+                        </>
+                      ) : (
+                        <>
+                          <tr key={index}>
+                            <td> {td?.sl} </td>
+                            <td> {td?.itemName} </td>
+                            <td> {td?.rfqQty} </td>
+                            <td>
+                              <Field
+                                name="supplier"
+                                placeholder="Select supplier"
+                                component={() => (
+                                  <Select
+                                    options={rfqSupplier || []}
+                                    defaultValue={rowDto[index]?.supplier}
+                                    onChange={(valueOption) => {
+                                      setFieldValue("supplier", valueOption);
+                                      rowDtoHandler(
+                                        "supplier",
+                                        valueOption,
+                                        index
+                                      );
+                                    }}
+                                    isSearchable={true}
+                                    styles={customStyles}
+                                  />
+                                )}
+                              />
+                            </td>
+                            {td?.supplierList.map((sup, index) => {
+                              return (
+                                <>
+                                  {sup?.isLowestRate ? (
+                                    <>
+                                      <td
+                                        style={{
+                                          background: "#87F86B",
+                                          color: "black",
+                                          fontWeight: "bold",
+                                        }}
+                                      >
+                                        {" "}
+                                        {sup?.rate}{" "}
+                                      </td>
+                                      <td
+                                        style={{
+                                          background: "#87F86B",
+                                          color: "black",
+                                          fontWeight: "bold",
+                                        }}
+                                      >
+                                        {" "}
+                                        {sup?.value}{" "}
+                                      </td>
+                                    </>
+                                  ) : (
+                                    <>
+                                      <td> {sup?.rate} </td>
+                                      <td> {sup?.value} </td>
+                                    </>
+                                  )}
+                                </>
+                              );
+                            })}
 
-                          {/* <td
+                            {/* <td
                           style={{ transform: "translateY(4px)" }}
                           className="disable-border"
                         >
@@ -221,13 +253,13 @@ export default function _Form({
                             }}
                           />
                         </td> */}
-                        </tr>
-                      </>
-
-                    );
-                  })}
-                </tbody>
-              </table>
+                          </tr>
+                        </>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
 
               <button
                 type="submit"
