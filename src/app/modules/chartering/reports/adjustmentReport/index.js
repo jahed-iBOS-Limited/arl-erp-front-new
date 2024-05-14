@@ -111,7 +111,8 @@ const [loading, setLoading] = useState(false)
               </div>
               <div className=" mt-3">
                 <div style={{overflow:"auto"}} className="">
-                  <table className="table table-bordered bj-table bj-table-landing">
+                 <div className="table-responsive">
+                 <table className="table table-bordered bj-table bj-table-landing">
                     <thead>
                       <tr>
                         <th  style={{ minWidth: "30px" }}>
@@ -214,6 +215,7 @@ const [loading, setLoading] = useState(false)
                         ))}
                     </tbody>
                   </table>
+                 </div>
                 </div>
               </div>
             </form>

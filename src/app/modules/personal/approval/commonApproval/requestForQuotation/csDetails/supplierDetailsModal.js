@@ -24,7 +24,7 @@ export function SupplierDetailsModal({ selectedSupplier }) {
          {loader && <Loading />}
          <h1 className="mt-3">{'Supplier Details'}</h1>
 
-         <div>
+         <div className="table-responsive">
             <table className="table table-striped table-bordered global-table">
                <thead>
                   <tr>
@@ -60,7 +60,8 @@ export function SupplierDetailsModal({ selectedSupplier }) {
          </div>
 
          <div className="mt-5">
-            <table className="table table-striped table-bordered global-table">
+           <div className="table-responsive">
+           <table className="table table-striped table-bordered global-table">
                <thead>
                   <tr>
                      <th>PO No</th>
@@ -124,6 +125,7 @@ export function SupplierDetailsModal({ selectedSupplier }) {
                   ))}
                </tbody>
             </table>
+           </div>
          </div>
          <IViewModal
             show={isPOModal}

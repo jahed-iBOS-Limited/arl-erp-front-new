@@ -416,7 +416,8 @@ export function PurchaseOrderViewTableRow({
                                     </div>
                                  </div>
 
-                                 <table
+                                <div className='table-responsive'>
+                                <table
                                     className="global-table table mt-5 mb-5"
                                     id="table-to-xlsx"
                                  >
@@ -492,6 +493,7 @@ export function PurchaseOrderViewTableRow({
                                        </tr>
                                     </tbody>
                                  </table>
+                                </div>
                                  <div className="row otherspoinfo mt-5">
                                     <div className="col-lg-8">
                                        <table className="table custom-table">

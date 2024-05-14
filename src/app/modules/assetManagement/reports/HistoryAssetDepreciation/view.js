@@ -61,7 +61,8 @@ const AssetDepreciationHistoryView = () => {
                   {lodar && <Loading />}
                   <div className="row">
                      <div className="col-lg-12">
-                        <table id="table-to-xlsx" className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+                     <div className="table-responsive">
+                     <table id="table-to-xlsx" className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                            <thead>
                               <tr>
                                  <th style={{ width: '30px' }}>SL</th>
@@ -106,6 +107,7 @@ const AssetDepreciationHistoryView = () => {
                                  </tr>
                            </tbody>
                         </table>
+                     </div>
                      </div>
                   </div>
                </>

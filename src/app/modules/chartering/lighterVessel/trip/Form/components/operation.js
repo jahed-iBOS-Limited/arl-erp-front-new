@@ -468,7 +468,8 @@ export function OperationSection(props) {
       )}
 
       {rowData?.length ? (
-        <table className="table mt-6 bj-table bj-table-landing">
+        <div className="table-responsive">
+          <table className="table mt-6 bj-table bj-table-landing">
           <thead>
             <tr>
               <th>LC No</th>
@@ -544,6 +545,7 @@ export function OperationSection(props) {
             ))}
           </tbody>
         </table>
+        </div>
       ) : null}
 
       {/* Mohter Vessel Modal */}

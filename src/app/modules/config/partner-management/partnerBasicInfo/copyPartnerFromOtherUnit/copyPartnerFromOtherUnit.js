@@ -130,9 +130,10 @@ export default function CopyPartnerFromOtherUnit({ show, onHide, landingValues }
                 </div>
               </div>
               <div className="row">
-                <div className="col-lg-12 table-responsive">
+                <div className="col-lg-12">
                   {gridData?.length ? (
-                    <table className="table table-striped table-bordered global-table sales_order_landing_table">
+                    <div className="table-responsive">
+                      <table className="table table-striped table-bordered global-table sales_order_landing_table">
                       <thead>
                       <tr>
                           <th>SL</th>
@@ -192,6 +193,7 @@ export default function CopyPartnerFromOtherUnit({ show, onHide, landingValues }
                         ))}
                       </tbody>
                     </table>
+                    </div>
                   ) : null}
                 </div>
                 {gridData?.data?.length > 0 && (

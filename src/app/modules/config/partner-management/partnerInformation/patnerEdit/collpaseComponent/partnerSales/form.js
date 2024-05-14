@@ -452,7 +452,8 @@ export default function _Form({
               <div className="row cash_journal bank-journal bank-journal-custom">
                 <div className="col-lg-3 pr-0 pl-0">
                   {rowDto.length > 0 ? (
-                    <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
+                    <div className="table-responsive">
+                      <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
                       <thead>
                         <tr>
                           <th>SL</th>
@@ -504,13 +505,15 @@ export default function _Form({
                         })}
                       </tbody>
                     </table>
+                    </div>
                   ) : (
                     ""
                   )}
                 </div>
                 <div className="col-lg-9 pr-0 pl-0">
                   {rowDtoTwo.length > 0 ? (
-                    <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
+                    <div className="table-responsive">
+                      <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
                       <thead>
                         <tr>
                           <th>SL</th>
@@ -580,6 +583,7 @@ export default function _Form({
                         })}
                       </tbody>
                     </table>
+                    </div>
                   ) : (
                     ""
                   )}
@@ -664,7 +668,8 @@ export default function _Form({
                   <div className="row cash_journal bank-journal bank-journal-custom mr-1">
                     <div className="col-lg-12 pr-0 pl-0">
                       {creditRowDto.length > 0 ? (
-                        <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
+                       <div className="table-responsive">
+                         <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
                           <thead>
                             <tr>
                               <th>SL</th>
@@ -716,6 +721,7 @@ export default function _Form({
                             })}
                           </tbody>
                         </table>
+                       </div>
                       ) : (
                         ""
                       )}
@@ -796,7 +802,8 @@ export default function _Form({
                   <div className="row cash_journal bank-journal bank-journal-custom mr-1">
                     <div className="col-lg-12 pr-0 pl-0">
                       {morgazeRowDto.length > 0 ? (
-                        <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
+                        <div className="table-responsive">
+                          <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
                           <thead>
                             <tr>
                               <th>SL</th>
@@ -843,6 +850,7 @@ export default function _Form({
                             })}
                           </tbody>
                         </table>
+                        </div>
                       ) : (
                         ""
                       )}

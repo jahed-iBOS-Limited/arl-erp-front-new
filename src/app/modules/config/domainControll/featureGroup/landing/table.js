@@ -67,7 +67,8 @@ const FutureGroupLanding = () => {
         </CardHeader>
         <CardBody>
           {isloading && <Loading />}
-          <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+         <div className="table-responsive">
+         <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
             <thead>
               <tr>
                 <th>SL</th>
@@ -107,6 +108,7 @@ const FutureGroupLanding = () => {
                 })}
             </tbody>
           </table>
+         </div>
 
           {/* Pagination Code */}
           {gridData?.data?.length > 0 && (

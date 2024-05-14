@@ -78,7 +78,7 @@ export function PartnerTerritoryUpdate({ value }) {
       </div>
       {gridData?.data?.length > 0 && (
         <>
-          <table className="table table-striped table-bordered global-table">
+          <div className="table-responsive"><table className="table table-striped table-bordered global-table">
             <thead>
               <tr>
                 <th>SL</th>
@@ -130,7 +130,7 @@ export function PartnerTerritoryUpdate({ value }) {
                 </tr>
               ))}
             </tbody>
-          </table>
+          </table></div>
         </>
       )}
       {/* {gridData?.data?.length > 0 && (

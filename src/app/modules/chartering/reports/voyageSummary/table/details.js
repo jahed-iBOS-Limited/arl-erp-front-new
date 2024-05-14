@@ -111,7 +111,8 @@ export default function VoyageDetails({ singleRow }) {
           </div>
         </div>
       </div>
-      <table className="table mt-3 bj-table bj-table-landing">
+     <div className="table-responsive">
+     <table className="table mt-3 bj-table bj-table-landing">
         <thead>
           <tr className="text-left" style={{ backgroundColor: "#dbeafe" }}>
             <td colSpan={chartererHeaders?.length}>
@@ -150,9 +151,11 @@ export default function VoyageDetails({ singleRow }) {
           )}
         </tbody>
       </table>
+     </div>
 
       {/* <h6 className="mt-2 font-weight-bold"></h6> */}
-      <table className="table mt-2 bj-table bj-table-landing">
+     <div className="table-responsive">
+     <table className="table mt-2 bj-table bj-table-landing">
         <thead>
           <tr className="text-left" style={{ backgroundColor: "#dbeafe" }}>
             <td colSpan={12}>
@@ -205,8 +208,10 @@ export default function VoyageDetails({ singleRow }) {
           </tbody>
         )}
       </table>
+     </div>
 
-      <table className="table mt-2 bj-table bj-table-landing">
+    <div className="table-responsive">
+    <table className="table mt-2 bj-table bj-table-landing">
         <thead>
           <tr className="text-left" style={{ backgroundColor: "#dbeafe" }}>
             <td colSpan={purchaseBunkerHeaders?.length}>
@@ -247,7 +252,9 @@ export default function VoyageDetails({ singleRow }) {
           )}
         </tbody>
       </table>
-      <table className="table mt-2 bj-table bj-table-landing">
+    </div>
+     <div className="table-responsive">
+     <table className="table mt-2 bj-table bj-table-landing">
         <thead>
           <tr className="text-left" style={{ backgroundColor: "#dbeafe" }}>
             <td colSpan={bunkerCostHeaders?.length}>
@@ -284,6 +291,7 @@ export default function VoyageDetails({ singleRow }) {
           )}
         </tbody>
       </table>
+     </div>
     </>
   );
 }

@@ -271,7 +271,8 @@ function _Form({
           </>
         )}
       </Formik>
-      <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+     <div className="table-responsive">
+     <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
         {rowData?.length > 0 && (
           <thead>
             <tr>
@@ -422,6 +423,7 @@ function _Form({
             })}
         </tbody>
       </table>
+     </div>
     </>
   );
 }

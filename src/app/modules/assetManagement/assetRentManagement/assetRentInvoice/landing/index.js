@@ -157,7 +157,8 @@ function AssetRentInvoiceLanding() {
                   />
                 )}
                 {gridData?.data?.length > 0 && (
-                  <table className="table table-striped mt-2 table-bordered bj-table bj-table-landing">
+                 <div className="table-responsive">
+                   <table className="table table-striped mt-2 table-bordered bj-table bj-table-landing">
                     <thead>
                       <tr>
                         <th>SL</th>
@@ -243,6 +244,7 @@ function AssetRentInvoiceLanding() {
                       ))}
                     </tbody>
                   </table>
+                 </div>
                 )}
 
                 {gridData?.data?.length > 0 && (

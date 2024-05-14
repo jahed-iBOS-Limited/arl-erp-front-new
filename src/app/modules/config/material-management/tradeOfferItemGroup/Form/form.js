@@ -95,7 +95,8 @@ export default function _Form({
               {/* Row d tos */}
               <div className="mt-3">
                 {rowDto.length ? (
-                  <table className="table table-striped table-bordered">
+                 <div className="table-responsive">
+                   <table className="table table-striped table-bordered">
                     <thead>
                       <tr>
                         <th>Group Name</th>
@@ -122,6 +123,7 @@ export default function _Form({
                       ))}
                     </tbody>
                   </table>
+                 </div>
                 ) : (
                   ""
                 )}

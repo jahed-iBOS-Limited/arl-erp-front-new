@@ -183,7 +183,7 @@ export default function _Form({
                   )}
                   {/* Table Header input end */}
                   <div className="global-table">
-                    <div className="">
+                    <div className="table-responsive">
                       <table className="table">
                         <thead className={rowDto?.length < 1 && "d-none"}>
                           <tr>

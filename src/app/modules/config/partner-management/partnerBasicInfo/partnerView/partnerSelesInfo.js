@@ -76,7 +76,8 @@ export default function PartnerSalesInfo({ sales ,shippintAddress}) {
       <div className="row cash_journal bank-journal bank-journal-custom">
               <div className="col-lg-3 ">
                 {sales?.shipoint?.length >0 &&(
-                  <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
+                  <div className="table-responsive">
+                    <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
                     <thead>
                       <tr>
                         <th>SL</th>
@@ -94,55 +95,56 @@ export default function PartnerSalesInfo({ sales ,shippintAddress}) {
                      ))}
                     </tbody>
                   </table>
+                  </div>
                 ) }
               </div>
               <div className="col-lg-9 ">
                 {shippintAddress?.length > 0 && (
-                  <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
-                    <thead>
-                      <tr>
-                        <th>SL</th>
-                        <th>Ship To Partner Name</th>
-                        <th>Address</th>
-                        <th>Contact</th>
-                        <th>Transport Zone</th>
-                        <th>Operational Zone</th>
+                  <div className="table-responsive"><table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
+                  <thead>
+                    <tr>
+                      <th>SL</th>
+                      <th>Ship To Partner Name</th>
+                      <th>Address</th>
+                      <th>Contact</th>
+                      <th>Transport Zone</th>
+                      <th>Operational Zone</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {shippintAddress?.map((item,index)=>(
+                      <tr key={index}>
+                        <td>{index + 1}</td>
+                        <td>
+                          <div className="pl-2">
+                            {item?.partnerShippingName}
+                          </div>
+                        </td>
+                        <td>
+                          <div className="pl-2">
+                            {item?.partnerShippingAddress}
+                          </div>
+                        </td>
+                        <td>
+                          <div className="pl-2">
+                            {item?.partnerShippingContact}
+                          </div>
+                        </td>
+                        <td>
+                          <div className="pl-2">
+                            {item?.transportZoneName}
+                          </div>
+                        </td>
+                        <td>
+                          <div className="pl-2">
+                            {item?.setUpZoneName}
+                          </div>
+                        </td>
+                    
                       </tr>
-                    </thead>
-                    <tbody>
-                      {shippintAddress?.map((item,index)=>(
-                        <tr key={index}>
-                          <td>{index + 1}</td>
-                          <td>
-                            <div className="pl-2">
-                              {item?.partnerShippingName}
-                            </div>
-                          </td>
-                          <td>
-                            <div className="pl-2">
-                              {item?.partnerShippingAddress}
-                            </div>
-                          </td>
-                          <td>
-                            <div className="pl-2">
-                              {item?.partnerShippingContact}
-                            </div>
-                          </td>
-                          <td>
-                            <div className="pl-2">
-                              {item?.transportZoneName}
-                            </div>
-                          </td>
-                          <td>
-                            <div className="pl-2">
-                              {item?.setUpZoneName}
-                            </div>
-                          </td>
-                      
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                    ))}
+                  </tbody>
+                </table></div>
                 )}
               </div>
       </div>

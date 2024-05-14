@@ -475,7 +475,8 @@ export function TableRow(props) {
           </>
         ) : (
           rowDto?.data?.length <= 0 && (
-            <table className='table table-striped table-bordered global-table'>
+           <div className="table-responsive">
+             <table className='table table-striped table-bordered global-table'>
               {loading && <Loading />}
               <thead>
                 <tr>
@@ -609,6 +610,7 @@ export function TableRow(props) {
                 ))}
               </tbody>
             </table>
+           </div>
           )
         )}
         {activityName?.label === "Bill Of Material" && (

@@ -65,7 +65,7 @@ export function ApprovalModal({
           </div>
         </div>
       </div>
-      <div>
+      <div className="table-responsive">
         <table className="table table-striped table-bordered global-table">
           <thead>
             <tr>

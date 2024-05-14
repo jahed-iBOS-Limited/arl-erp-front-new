@@ -84,7 +84,8 @@ export function TableRow(props) {
                       paginationSearchHandler={paginationSearchHandler}
                     />
 
-                    <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+                   <div className="table-responsive">
+                   <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                       <thead>
                         <tr>
                           <th>SL</th>
@@ -151,6 +152,7 @@ export function TableRow(props) {
                           })}
                       </tbody>
                     </table>
+                   </div>
                   </div>
                 </div>
                 {gridData?.data?.length > 0 && (

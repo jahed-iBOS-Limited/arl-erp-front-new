@@ -104,7 +104,7 @@ const PortDistanceReport = () => {
                 </div>
               </div>
               <div className=" mt-3">
-                <div>
+                <div className="table-responsive">
                   <table className="table table-bordered bj-table bj-table-landing">
                     <thead>
                       <tr>

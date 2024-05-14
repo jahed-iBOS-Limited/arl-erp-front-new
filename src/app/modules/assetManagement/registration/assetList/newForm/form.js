@@ -325,7 +325,8 @@ export default function _Form({
                 <div className="row">
 
                   <div className="col-lg-12">
-                    <table className="table table-striped table-bordered global-table table-font-size-sm">
+                   <div className="table-responsive">
+                   <table className="table table-striped table-bordered global-table table-font-size-sm">
                       <thead>
                         <tr>
                           <th>SL</th>
@@ -382,6 +383,7 @@ export default function _Form({
                       </tbody>
                       {/* )} */}
                     </table>
+                   </div>
                   </div>
                   <>
                     <IViewModal
@@ -406,7 +408,8 @@ export default function _Form({
                 <div className="row">
 
                   <div className="col-lg-12">
-                    <table className="table table-striped table-bordered global-table table-font-size-sm">
+                   <div className="table-responsive">
+                   <table className="table table-striped table-bordered global-table table-font-size-sm">
                       <thead>
                         <tr>
                           <th>SL</th>
@@ -428,6 +431,7 @@ export default function _Form({
                         ))}
                       </tbody>
                     </table>
+                   </div>
                   </div>
                   <>
                     <IViewModal

@@ -32,7 +32,8 @@ export function LastPurchaseInfoModal({ selectedItem }) {
          </div>
 
          <div className="mt-2">
-            <table className="table table-striped table-bordered global-table">
+           <div className="table-responsive">
+           <table className="table table-striped table-bordered global-table">
                <thead>
                   <tr>
                      <th>SL</th>
@@ -75,6 +76,7 @@ export function LastPurchaseInfoModal({ selectedItem }) {
                   </tr>
                </tbody>
             </table>
+           </div>
          </div>
          <IViewModal
             show={isShowModalTwo}
