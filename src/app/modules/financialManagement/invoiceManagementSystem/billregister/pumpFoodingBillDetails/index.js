@@ -42,6 +42,7 @@ export default function PumpFoodingBillDetails({ selectedItemForPumpFooding }) {
             <Form>
               <div>
                 <div>
+                <div className="table-responsive">
                   <table className="table table-striped table-bordered bj-table bj-table-landing">
                     <thead>
                       <tr>
@@ -114,6 +115,7 @@ export default function PumpFoodingBillDetails({ selectedItemForPumpFooding }) {
                       </tr>
                     </tbody>
                   </table>
+                  </div>
                 </div>
               </div>
             </Form>
