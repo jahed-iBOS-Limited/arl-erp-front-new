@@ -9,8 +9,11 @@ export default function ChatBoat() {
   };
   return (
     <>
-      <div className="chat-boat-wrapper">
-        <div style={{ paddingTop: "8px" }} className="chat-icon mr-5">
+      <div className="chat-boat-wrapper" style={{
+        display: "flex",
+        alignItems: "center",
+      }}>
+        <div  className="chat-icon mr-5">
           <span
             className="cursor-pointer"
             onClick={() => {
