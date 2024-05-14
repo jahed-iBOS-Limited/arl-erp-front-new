@@ -38,55 +38,63 @@ function ViewDamDeliveryBill({ billRegisterId, billTypeId, values }) {
             {loadingGridData && <Loading />}
 
             <form className="form form-label-right ">
-              <table className="table global-table">
-                <thead>
-                  <tr>
-                    <th>SL</th>
-                    <th>Buffer Name</th>
-                    <th>Supplier Name</th>
-                    <th>Lighter Vessel</th>
-                    <th>Damp to Truck Qty</th>
-                    <th>Damp to Truck Rate</th>
-                    <th>Amount</th>
-                    <th>Labor Qty</th>
-                    <th>Labor Rate</th>
-                    <th>Labor Amount</th>
-                    <th>Other Cost</th>
-                    {/* <th>Attachment</th> */}
-                  </tr>
-                </thead>
-                <tbody>
-                  {gridData?.map((item, index) => {
-                    totalDampToTruckQty += item?.dumpToTruckQnt;
-                    totalAmount += item?.dumpToTruckAmount;
-                    totalLaborQty += item?.dailyLaboureQnt;
-                    totalLaborAmount += item?.labourAmount;
-                    totalOtherCost += item?.dumpOtherCost;
-                    return (
-                      <>
-                        <tr key={index}>
-                          <td style={{ width: "30px" }} className="text-center">
-                            {index + 1}
-                          </td>
-                          <td>{item?.shipPointName}</td>
-                          <td>{item?.supplierName}</td>
-                          <td>{item?.lighterVesselName}</td>
-                          <td className="text-right">{item?.dumpToTruckQnt}</td>
-                          <td className="text-right">
-                            {item?.dumpToTruckRate}
-                          </td>
-                          <td className="text-right">
-                            {item?.dumpToTruckAmount}
-                          </td>
-                          <td className="text-right">
-                            {item?.dailyLaboureQnt}
-                          </td>
-                          <td className="text-right">
-                            {item?.dailyLaboureRate}
-                          </td>
-                          <td className="text-right">{item?.labourAmount}</td>
-                          <td className="text-right">{item?.dumpOtherCost}</td>
-                          {/* <td className="text-center">
+              <div className="table-responsive">
+                <table className="table global-table">
+                  <thead>
+                    <tr>
+                      <th>SL</th>
+                      <th>Buffer Name</th>
+                      <th>Supplier Name</th>
+                      <th>Lighter Vessel</th>
+                      <th>Damp to Truck Qty</th>
+                      <th>Damp to Truck Rate</th>
+                      <th>Amount</th>
+                      <th>Labor Qty</th>
+                      <th>Labor Rate</th>
+                      <th>Labor Amount</th>
+                      <th>Other Cost</th>
+                      {/* <th>Attachment</th> */}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {gridData?.map((item, index) => {
+                      totalDampToTruckQty += item?.dumpToTruckQnt;
+                      totalAmount += item?.dumpToTruckAmount;
+                      totalLaborQty += item?.dailyLaboureQnt;
+                      totalLaborAmount += item?.labourAmount;
+                      totalOtherCost += item?.dumpOtherCost;
+                      return (
+                        <>
+                          <tr key={index}>
+                            <td
+                              style={{ width: "30px" }}
+                              className="text-center"
+                            >
+                              {index + 1}
+                            </td>
+                            <td>{item?.shipPointName}</td>
+                            <td>{item?.supplierName}</td>
+                            <td>{item?.lighterVesselName}</td>
+                            <td className="text-right">
+                              {item?.dumpToTruckQnt}
+                            </td>
+                            <td className="text-right">
+                              {item?.dumpToTruckRate}
+                            </td>
+                            <td className="text-right">
+                              {item?.dumpToTruckAmount}
+                            </td>
+                            <td className="text-right">
+                              {item?.dailyLaboureQnt}
+                            </td>
+                            <td className="text-right">
+                              {item?.dailyLaboureRate}
+                            </td>
+                            <td className="text-right">{item?.labourAmount}</td>
+                            <td className="text-right">
+                              {item?.dumpOtherCost}
+                            </td>
+                            {/* <td className="text-center">
                             <OverlayTrigger
                               overlay={
                                 <Tooltip id="cs-icon">View Attachment</Tooltip>
@@ -118,22 +126,23 @@ function ViewDamDeliveryBill({ billRegisterId, billTypeId, values }) {
                               </span>
                             </OverlayTrigger>
                           </td> */}
-                        </tr>
-                      </>
-                    );
-                  })}
-                  <tr style={{ textAlign: "right", fontWeight: "bold" }}>
-                    <td colSpan={4}>Total</td>
-                    <td>{totalDampToTruckQty}</td>
-                    <td> </td>
-                    <td>{totalAmount}</td>
-                    <td>{totalLaborQty}</td>
-                    <td> </td>
-                    <td>{totalLaborAmount}</td>
-                    <td>{totalOtherCost}</td>
-                  </tr>
-                </tbody>
-              </table>
+                          </tr>
+                        </>
+                      );
+                    })}
+                    <tr style={{ textAlign: "right", fontWeight: "bold" }}>
+                      <td colSpan={4}>Total</td>
+                      <td>{totalDampToTruckQty}</td>
+                      <td> </td>
+                      <td>{totalAmount}</td>
+                      <td>{totalLaborQty}</td>
+                      <td> </td>
+                      <td>{totalLaborAmount}</td>
+                      <td>{totalOtherCost}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </form>
           </ICard>
         )}

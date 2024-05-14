@@ -187,6 +187,7 @@ export default function _Form({
                   </span>
                 </div>
                 <div className="col-lg-12 mt-4">
+                <div className="table-responsive">
                   <table className="table table-striped table-bordered global-table mt-0 table-font-size-sm">
                     <thead className="bg-secondary">
                       <tr>
@@ -276,6 +277,7 @@ export default function _Form({
                       </tr>
                     </tbody>
                   </table>
+                  </div>
                 </div>
               </div>
               <button
