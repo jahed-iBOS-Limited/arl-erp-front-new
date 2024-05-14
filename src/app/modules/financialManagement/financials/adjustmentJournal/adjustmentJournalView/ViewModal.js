@@ -44,7 +44,8 @@ export function ViewModal({ id, show, onHide }) {
       >
         <div>
           {rowDto.length > 0 ? (
-            <table className="table table-striped table-bordered mt-1 bj-table">
+           <div className="table-responsive">
+             <table className="table table-striped table-bordered mt-1 bj-table">
               <thead>
                 <tr>
                   <th>SL</th>
@@ -90,6 +91,7 @@ export function ViewModal({ id, show, onHide }) {
                 })}
               </tbody>
             </table>
+           </div>
           ) : (
             ""
           )}

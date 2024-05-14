@@ -198,6 +198,7 @@ export function FairPriceReportViewTableRow({ Invid, grId, itemInfo, purchaseOrd
                               ?.vatAmount || 0) + (+totalAmount || 0)).toFixed(4)}
                         </div>
                       </div>
+                      <div className="table-responsive">
                       <table
                         className='table table-striped table-bordered global-table'
                         id='table-to-xlsx'
@@ -244,6 +245,7 @@ export function FairPriceReportViewTableRow({ Invid, grId, itemInfo, purchaseOrd
                           </tr> */}
                         </tbody>
                       </table>
+                      </div>
                       <div className='mt-3'>
                         <div className='d-flex'>
                           <p>Request By:</p>

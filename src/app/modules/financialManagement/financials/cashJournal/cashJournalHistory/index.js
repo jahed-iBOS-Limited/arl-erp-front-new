@@ -96,7 +96,8 @@ export default function HistoryModal({ journalId, journalTypeValue }) {
                                 </div>
                                 <div className="row cash_journal">
                                     <div className="col-lg-12 pr-0 pl-0">
-                                        <table className="table table-striped table-bordered mt-0 bj-table bj-table-landing table-font-size-sm">
+                                    <div className="table-responsive">
+                                    <table className="table table-striped table-bordered mt-0 bj-table bj-table-landing table-font-size-sm">
                                             <thead>
                                                 <tr>
                                                     <th style={{ width: "30px" }}>SL</th>
@@ -118,6 +119,7 @@ export default function HistoryModal({ journalId, journalTypeValue }) {
                                                 ))}
                                             </tbody>
                                         </table>
+      </div>
                                     </div>
                                 </div>
                             </div>

@@ -139,26 +139,26 @@ export default function CustomerRefundModal({
                           </div>
                         </div>
                         <div className="row mt-3">
-                          <div className="col-3">
+                          <div className="col-lg-3">
                             {console.log(sbu)}
                             <p>
                               <b>SBU: </b> {sbu[0]?.label}
                             </p>
                           </div>
 
-                          <div className="col-3">
+                          <div className="col-lg-3">
                             <p>
                               <b>Bill Code: </b>{" "}
                               {singleData?.header?.strBillRegisterCode}
                             </p>
                           </div>
-                          <div className="col-3">
+                          <div className="col-lg-3">
                             <p>
                               <b>Payment Amount: </b>
                               {singleData?.header?.monTotalAmount}
                             </p>
                           </div>
-                          <div className="col-3">
+                          <div className="col-lg-3">
                             <p>
                               <b>Bill Date: </b>
                               {_dateFormatter(
@@ -166,13 +166,13 @@ export default function CustomerRefundModal({
                               )}
                             </p>
                           </div>
-                          <div className="col-3">
+                          <div className="col-lg-3">
                             <p>
                               <b>Narration: </b>{" "}
                               {singleData?.header?.strRemarks}
                             </p>
                           </div>
-                          <div className="col-3 hidden-part">
+                          <div className="col-lg-3 hidden-part">
                             <span
                               onClick={(e) => {
                                 dispatch(

@@ -250,40 +250,40 @@ function OthersBillView({
                             </div>
                           </div>
                           <div className="row mt-3">
-                            <div className="col-3">
+                            <div className="col-lg-3">
                               <p>
                                 <b>SBU: </b> {landingValues?.sbu?.label}
                               </p>
                             </div>
-                            <div className="col-3">
+                            <div className="col-lg-3">
                               <p>
                                 <b>Plant: </b> {landingValues?.plant?.label}
                               </p>
                             </div>
-                            {/* <div className="col-3">
+                            {/* <div className="col-lg-3">
                               <p>
                                 <b>Warehouse: </b> {singleData?.strWarehouseName}
                               </p>
                             </div> */}
-                            {/* <div className="col-3">
+                            {/* <div className="col-lg-3">
                               <p>
                                 <b>Partner Name: </b>{" "}
                                 {singleData?.header?.strPartnerName}
                               </p>
                             </div> */}
-                            <div className="col-3">
+                            <div className="col-lg-3">
                               <p>
                                 <b>Bill Code: </b>{" "}
                                 {singleData?.header?.strBillRegisterCode}
                               </p>
                             </div>
-                            <div className="col-3">
+                            <div className="col-lg-3">
                               <p>
                                 <b>Payment Amount: </b>
                                 {singleData?.header?.monTotalAmount}
                               </p>
                             </div>
-                            <div className="col-3">
+                            <div className="col-lg-3">
                               <p>
                                 <b>Bill Date: </b>
                                 {_dateFormatter(
@@ -291,7 +291,7 @@ function OthersBillView({
                                 )}
                               </p>
                             </div>
-                            <div className="col-3">
+                            <div className="col-lg-3">
                               <p>
                                 <b>Narration: </b>{" "}
                                 {singleData?.header?.strRemarks}

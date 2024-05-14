@@ -5,7 +5,8 @@ import { _dateFormatter } from '../../../../_helper/_dateFormate';
 const DepreciationTable = ({ journalData }) => {
    return (
       <>
-         <table
+          <div className="table-responsive">
+          <table
             id={'depreciation'}
             className="table table-striped table-bordered global-table mt-0 table-font-size-sm mt-5"
          >
@@ -79,6 +80,7 @@ const DepreciationTable = ({ journalData }) => {
                </>
             </tbody>
          </table>
+      </div>
       </>
    );
 };
