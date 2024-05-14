@@ -266,7 +266,10 @@ export default function RateAgreementCreate() {
         <>
           {/* {console.log("error", errors)} */}
           {(rowDataLoading || isLoading) && <Loading />}
-          <IForm title={`Rate Agreement ${id ? "Edit" : "Create"}`} getProps={setObjprops}>
+          <IForm
+            title={`Rate Agreement ${id ? "Edit" : "Create"}`}
+            getProps={setObjprops}
+          >
             <Form onSubmit={handleSubmit}>
               <div
                 style={{ color: "red", marginTop: "8px" }}
@@ -488,118 +491,123 @@ export default function RateAgreementCreate() {
               </div>
 
               {rowData?.length > 0 && (
-                <table
-                  className={
-                    "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
-                  }
-                >
-                  <thead>
-                    <tr className="cursor-pointer">
-                      <th>SL</th>
-                      <th>Supplier Name</th>
-                      <th>Item Rate</th>
-                      <th>Vat (%)</th>
-                      {id && <th>Active Status</th>}
-                      {!id && <th>Action</th>}
-                    </tr>
-                  </thead>
-                  {rowData?.map((item, index) => (
-                    <tr key={index}>
-                      <td className="text-center" style={{ width: "40px" }}>
-                        {index + 1}
-                      </td>
-                      <td className="text-center">{item?.supplierName}</td>
-                      {item?.agreementRowId === 0 ? (
-                        <td className="text-left">
-                          <span style={{ paddingLeft: "16px" }}>
-                            {item?.itemRate}
-                          </span>
+                <div className="table-responsive">
+                  <table
+                    className={
+                      "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+                    }
+                  >
+                    <thead>
+                      <tr className="cursor-pointer">
+                        <th>SL</th>
+                        <th>Supplier Name</th>
+                        <th>Item Rate</th>
+                        <th>Vat (%)</th>
+                        {id && <th>Active Status</th>}
+                        {!id && <th>Action</th>}
+                      </tr>
+                    </thead>
+                    {rowData?.map((item, index) => (
+                      <tr key={index}>
+                        <td className="text-center" style={{ width: "40px" }}>
+                          {index + 1}
                         </td>
-                      ) : (
-                        <td>
-                          <InputField
-                            value={+item?.itemRate}
-                            type="number"
-                            onChange={(e) => {
-                              const data = [...rowData];
-                              data[index]["itemRate"] = +e?.target?.value;
-                              data[index]["createdBy"] = userId;
-                              setRowData(data);
-                            }}
-                            min={0}
-                          />
-                        </td>
-                      )}
-
-                      {item?.agreementRowId === 0 ? (
-                        <td
-                          className="text-left "
-                          style={{ width: "150px", height: "28px" }}
-                        >
-                          <span style={{ paddingLeft: "12px" }}>
-                            {item?.vatPercentage}
-                          </span>
-                        </td>
-                      ) : (
-                        <td>
-                          <InputField
-                            value={+item?.vatPercentage}
-                            type="number"
-                            onChange={(e) => {
-                              const data = [...rowData];
-                              data[index]["vatPercentage"] = +e?.target?.value;
-                              data[index]["createdBy"] = userId;
-                              setRowData(data);
-                            }}
-                            min={0}
-                          />
-                        </td>
-                      )}
-                      {id && item?.agreementRowId ? (
-                        <td className="text-center">
-                          <span
-                            style={
-                              item?.status === "Active"
-                                ? { fontWeight: "bold", color: "green" }
-                                : { fontWeight: "bold", color: "red" }
-                            }
-                          >
-                            {item?.status === "Active" ? "Active" : "Inactive"}
-                          </span>
-                          <span
-                            disabled={!item?.agreementRowId}
-                            className="ml-2 pointer"
-                            onClick={() => {
-                              statusHandler(index, item);
-                            }}
-                          >
-                            <IActiveInActiveIcon
-                              title="Status"
-                              iconTyee={
-                                item?.status === "Active"
-                                  ? "Active"
-                                  : "inActive"
-                              }
-                            />
-                          </span>
-                        </td>
-                      ) : (
-                        id && (
-                          <td className="text-center" disabled>
-                            {item?.agreementRowId === 0 && (
-                              <IDelete remover={deleteRow} id={index} />
-                            )}
+                        <td className="text-center">{item?.supplierName}</td>
+                        {item?.agreementRowId === 0 ? (
+                          <td className="text-left">
+                            <span style={{ paddingLeft: "16px" }}>
+                              {item?.itemRate}
+                            </span>
                           </td>
-                        )
-                      )}
-                      {!id && (
-                        <td className="text-center">
-                          <IDelete remover={deleteRow} id={index} />
-                        </td>
-                      )}
-                    </tr>
-                  ))}
-                </table>
+                        ) : (
+                          <td>
+                            <InputField
+                              value={+item?.itemRate}
+                              type="number"
+                              onChange={(e) => {
+                                const data = [...rowData];
+                                data[index]["itemRate"] = +e?.target?.value;
+                                data[index]["createdBy"] = userId;
+                                setRowData(data);
+                              }}
+                              min={0}
+                            />
+                          </td>
+                        )}
+
+                        {item?.agreementRowId === 0 ? (
+                          <td
+                            className="text-left "
+                            style={{ width: "150px", height: "28px" }}
+                          >
+                            <span style={{ paddingLeft: "12px" }}>
+                              {item?.vatPercentage}
+                            </span>
+                          </td>
+                        ) : (
+                          <td>
+                            <InputField
+                              value={+item?.vatPercentage}
+                              type="number"
+                              onChange={(e) => {
+                                const data = [...rowData];
+                                data[index]["vatPercentage"] = +e?.target
+                                  ?.value;
+                                data[index]["createdBy"] = userId;
+                                setRowData(data);
+                              }}
+                              min={0}
+                            />
+                          </td>
+                        )}
+                        {id && item?.agreementRowId ? (
+                          <td className="text-center">
+                            <span
+                              style={
+                                item?.status === "Active"
+                                  ? { fontWeight: "bold", color: "green" }
+                                  : { fontWeight: "bold", color: "red" }
+                              }
+                            >
+                              {item?.status === "Active"
+                                ? "Active"
+                                : "Inactive"}
+                            </span>
+                            <span
+                              disabled={!item?.agreementRowId}
+                              className="ml-2 pointer"
+                              onClick={() => {
+                                statusHandler(index, item);
+                              }}
+                            >
+                              <IActiveInActiveIcon
+                                title="Status"
+                                iconTyee={
+                                  item?.status === "Active"
+                                    ? "Active"
+                                    : "inActive"
+                                }
+                              />
+                            </span>
+                          </td>
+                        ) : (
+                          id && (
+                            <td className="text-center" disabled>
+                              {item?.agreementRowId === 0 && (
+                                <IDelete remover={deleteRow} id={index} />
+                              )}
+                            </td>
+                          )
+                        )}
+                        {!id && (
+                          <td className="text-center">
+                            <IDelete remover={deleteRow} id={index} />
+                          </td>
+                        )}
+                      </tr>
+                    ))}
+                  </table>
+                </div>
               )}
               <button
                 type="submit"

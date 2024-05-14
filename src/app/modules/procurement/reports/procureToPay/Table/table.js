@@ -7,8 +7,8 @@ import { Form, Formik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import // setIndentStatementAction,
 
-  //setIndentTableIndexAction
-  "../../../../_helper/reduxForLocalStorage/Actions";
+//setIndentTableIndexAction
+"../../../../_helper/reduxForLocalStorage/Actions";
 import {
   // getProcureToPayReportXMLDownload,
   generateExcel,
@@ -42,15 +42,14 @@ const validationSchema = Yup.object().shape({
 });
 
 const parameterValues = (values, unitId) => {
-  
-  console.log("values", values)
+  console.log("values", values);
   return [
     { name: "fDate", value: `${values?.fromDate}` },
     { name: "intUnit", value: `${unitId}` },
     { name: "tDate", value: `${values?.toDate}` },
     { name: "intPurchOrg", value: `${+values?.purchaseOrganization?.value}` },
-    { name: "intPlantId", value: `${values?.plant?.value}`},
-    { name: "intWarehouseId", value: `${values?.wareHouse?.value}`},
+    { name: "intPlantId", value: `${values?.plant?.value}` },
+    { name: "intWarehouseId", value: `${values?.wareHouse?.value}` },
   ];
 };
 
@@ -164,8 +163,8 @@ const ProcureToPayReportTable = () => {
           0,
           data[0]?.totalRows || 0,
           setLoading,
-          setExcelData,
-        )
+          setExcelData
+        );
       }
     );
   };
@@ -178,7 +177,7 @@ const ProcureToPayReportTable = () => {
           validationSchema={validationSchema}
           initialValues={initData}
           //validationSchema={validationSchema}
-          onSubmit={(values, { setSubmitting, resetForm }) => { }}
+          onSubmit={(values, { setSubmitting, resetForm }) => {}}
         >
           {({
             handleSubmit,
@@ -262,12 +261,13 @@ const ProcureToPayReportTable = () => {
                     <label>From Date</label>
                     <div className="d-flex">
                       <InputField
+                        style={{ width: "100%" }}
                         value={values?.fromDate}
                         name="fromDate"
                         placeholder="From date"
                         type="date"
                         onChange={(e) => {
-                          console.log("Values", values)
+                          console.log("Values", values);
                           setLanding([]);
                           setIsReportShow(false);
                           dispatch(
@@ -284,12 +284,13 @@ const ProcureToPayReportTable = () => {
                     <label>To Date</label>
                     <div className="d-flex">
                       <InputField
+                        style={{ width: "100%" }}
                         value={values?.toDate}
                         name="toDate"
                         placeholder="To date"
                         type="date"
                         onChange={(e) => {
-                          console.log("Values", values)
+                          console.log("Values", values);
                           setLanding([]);
                           setIsReportShow(false);
                           dispatch(
@@ -323,7 +324,15 @@ const ProcureToPayReportTable = () => {
                       touched={touched}
                     />
                   </div>
-                  <div className="col-6 text-right mt-5">
+                  <div
+                    className="col-lg-6 text-right mt-5"
+                    style={{
+                      flexWrap: "wrap",
+                      alignItems: "center",
+                      width: " 100%",
+                      gap: "5px",
+                    }}
+                  >
                     <button
                       type="submit"
                       className="btn btn-primary"
