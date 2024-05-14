@@ -25,6 +25,7 @@ const SalesInvoiceGridData = ({
     <>
       <div className="row ">
         <div className="col-lg-12">
+        <div className="table-responsive">
           <table className="table table-striped table-bordered global-table table-font-size-sm">
             <thead>
               <tr>
@@ -65,6 +66,7 @@ const SalesInvoiceGridData = ({
               ))}
             </tbody>
           </table>
+          </div>
         </div>
         {rowDto?.data?.length > 0 && (
           <PaginationTable

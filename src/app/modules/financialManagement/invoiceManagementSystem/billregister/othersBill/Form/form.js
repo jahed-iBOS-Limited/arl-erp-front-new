@@ -136,7 +136,7 @@ export default function _Form({
                     touched={touched}
                   />
                 </div>
-                <div className="col-3">
+                <div className="col-lg-3">
                   <div className="row align-items-end h-100">
                     <div className="col-5">
                       <button
