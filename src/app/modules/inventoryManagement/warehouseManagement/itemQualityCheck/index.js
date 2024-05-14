@@ -22,6 +22,7 @@ const initData = {
 export default function ItemQualityCheckLanding() {
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
+  const[singleItemForMRR,setSingleItemForMRR]=useState(null)
   const {
     profileData: { accountId: accId },
     selectedBusinessUnit: { value: buId },
@@ -61,7 +62,13 @@ export default function ItemQualityCheckLanding() {
       const updatedLandingData = {...landingData}
       const singleItem = updatedLandingData?.data[index]
       singleItem.isChecked = e.target.checked
+      if(e.target.checked){
+        setSingleItemForMRR(singleItem)
+      }else{
+        setSingleItemForMRR(null)
+      }
       setLandingData(updatedLandingData)
+      
     }
 
   useEffect(() => {
@@ -176,6 +183,7 @@ export default function ItemQualityCheckLanding() {
                     className="btn btn-primary"
                     onClick={() => {
                       handleGetLandingData(pageNo, pageSize, values);
+                      setSingleItemForMRR(false)
                     }}
                     disabled={!values?.plant || !values?.warehouse}
                   >
@@ -184,7 +192,20 @@ export default function ItemQualityCheckLanding() {
                 </div>
               </div>
               <div style={{ marginTop: 25 ,display:"flex",justifyContent:"end"}}>
-                <button type="button" className="btn btn-primary">Create MRR</button>
+                <button type="button" className="btn btn-primary"
+                onClick={()=>{
+
+                  // if(!singleItemForMRR?.isGateOut|| (singleItemForMRR?.isGateOut && singleItemForMRR?.isInventoryPosted)){
+                  //   toast.warn("This item can't ready for MRR")
+                  //   return
+                  // }
+                  history.push({
+                    pathname: `/inventory-management/warehouse-management/itemqualitycheck/create-mrr`,
+                    // search: `?potype=${singleItemForMRR?.transactionGroupId}`,
+                    state: {...singleItemForMRR,pageFrom:"ItemQualityCheck"},
+                  });
+                }}
+                >Create MRR</button>
               </div>
               <div
                 style={{ marginTop: "20px" }}
@@ -220,6 +241,7 @@ export default function ItemQualityCheckLanding() {
                             type="checkbox"
                             name="checkbox"
                             checked={item?.isChecked}
+                            disabled={(singleItemForMRR && !item?.isChecked)}
                             onChange={(e) => {handleRowSelect(e,index)}}
                           />
                            }

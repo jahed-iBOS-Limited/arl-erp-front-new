@@ -675,7 +675,8 @@ export default function _Form({
                   {/* It will be hidden when user select bank tranfer from previous page */}
                   <div className="row">
                     <div className="col-lg-12 pr-0">
-                      <table className={"table mt-1 bj-table"}>
+                    <div className="table-responsive">
+                    <table className={"table mt-1 bj-table"}>
                         <thead className={rowDto.length < 1 && "d-none"}>
                           <tr>
                             <th style={{ width: "20px" }}>SL</th>
@@ -774,6 +775,7 @@ export default function _Form({
                           })}
                         </tbody>
                       </table>
+                    </div>
                     </div>
                   </div>
                 </div>

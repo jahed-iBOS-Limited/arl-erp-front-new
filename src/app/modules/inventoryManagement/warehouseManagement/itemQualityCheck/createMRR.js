@@ -1,52 +1,56 @@
-/* eslint-disable eqeqeq */
 import axios from "axios";
 import { Form, Formik } from "formik";
 import { DropzoneDialogBase } from "material-ui-dropzone";
 import React, { useEffect, useState } from "react";
 import { confirmAlert } from "react-confirm-alert";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
-import { getImageuploadStatus } from "../../../../../_helper/_commonApi";
-import { ISelect } from "../../../../../_helper/_inputDropDown";
-import InputField from "../../../../../_helper/_inputField";
-import Loading from "../../../../../_helper/_loading";
-import NewSelect from "../../../../../_helper/_select";
-import { _todayDate } from "../../../../../_helper/_todayDate";
-import { compressfile } from "../../../../../_helper/compressfile";
+import SearchAsyncSelect from "../../../_helper/SearchAsyncSelect";
+import { getImageuploadStatus } from "../../../_helper/_commonApi";
+import IForm from "../../../_helper/_form";
+import FormikError from "../../../_helper/_formikError";
+import { ISelect } from "../../../_helper/_inputDropDown";
+import InputField from "../../../_helper/_inputField";
+import Loading from "../../../_helper/_loading";
+import NewSelect from "../../../_helper/_select";
+import { _todayDate } from "../../../_helper/_todayDate";
+import { compressfile } from "../../../_helper/compressfile";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import RowDtoTable from "../invTransaction/Form/receiveInventory/rowDtoTable";
 import {
-  getItemforReceiveInvAction,
-  getItemforReceiveInvForeignPOAction,
-  getStockDDLAction,
-  getTransactionTypeDDLAction,
-  getpersonnelDDLAction,
-  getreferenceNoReceiveInvDDLAction,
-  getreferenceTypeDDLAction,
-  saveInventoryTransactionOrder,
-} from "../../_redux/Actions";
-import { invTransactionSlice } from "../../_redux/Slice";
-import { getForeignPurchaseDDL, uploadAttachment } from "../../helper";
-import SearchAsyncSelect from "./../../../../../_helper/SearchAsyncSelect";
-import FormikError from "./../../../../../_helper/_formikError";
-import { getSupplierDDL, initData, validationSchema } from "./helper";
-import RowDtoTable from "./rowDtoTable";
+    getItemforReceiveInvAction,
+    getItemforReceiveInvForeignPOAction,
+    getStockDDLAction,
+    getTransactionTypeDDLAction,
+    getpersonnelDDLAction,
+    getreferenceNoReceiveInvDDLAction,
+    getreferenceTypeDDLAction,
+    saveInventoryTransactionOrder,
+} from "../invTransaction/_redux/Actions";
+import { invTransactionSlice } from "../invTransaction/_redux/Slice";
+import {
+    getForeignPurchaseDDL,
+    getSupplierDDL,
+    initData,
+    uploadAttachment,
+    validationSchemaForMRR,
+} from "./helper";
 const { actions: slice } = invTransactionSlice;
-
-export default function ReceiveInvCreateForm({
-  btnRef,
-  resetBtnRef,
-  disableHandler,
-  landingData,
-  isEdit,
-}) {
+export default function CreateMRR() {
   // eslint-disable-next-line no-unused-vars
   const [isDisabled, setDisabled] = useState(false);
+  const [objProps, setObjprops] = useState({});
   const dispatch = useDispatch();
   const [rowDto, setRowDto] = useState([]);
   const [fileObjects, setFileObjects] = useState([]);
   const [open, setOpen] = useState(false);
   const [supplierDDL, setSupplierDDL] = useState(false);
   const [foreignPurchaseDDL, setForeginPurchase] = useState([]);
-
+  const { state } = useLocation();
+  const [qcInformationForMRR, getQcInformationForMRR] = useAxiosGet();
+  const [modifiedIntiData, setModifiedInitData] = useState();
+  const [itemsDDL,setItemsDDL]=useState([])
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state?.authData;
   }, shallowEqual);
@@ -58,7 +62,6 @@ export default function ReceiveInvCreateForm({
     transactionTypeDDL,
     //busiPartnerDDL,
     //personelDDL,
-    itemDDL,
     stockDDL,
     locationTypeDDL,
   } = useSelector((state) => state?.invTransa);
@@ -69,22 +72,15 @@ export default function ReceiveInvCreateForm({
   let netValue = rowDto?.reduce((sum, data) => sum + data?.netValue, 0);
 
   console.log("rowDto", rowDto);
-  console.log("landingData", landingData);
 
   //dispatch action creators
   useEffect(() => {
     dispatch(slice.setItemDDL([]));
-    dispatch(getreferenceTypeDDLAction(landingData?.transGrup?.value));
-    // dispatch(
-    //   getBusinessPartnerDDLAction(
-    //     profileData.accountId,
-    //     selectedBusinessUnit.value
-    //   )
-    // );
+    dispatch(getreferenceTypeDDLAction(state?.transactionGroupId));
     getSupplierDDL(
       profileData.accountId,
       selectedBusinessUnit.value,
-      landingData?.sbu?.value,
+      qcInformationForMRR?.businessUnitId,
       setSupplierDDL
     );
     dispatch(
@@ -98,7 +94,50 @@ export default function ReceiveInvCreateForm({
       dispatch(slice.setTransactionTypeDDL([]));
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [profileData.accountId, selectedBusinessUnit.value]);
+  }, [profileData.accountId, selectedBusinessUnit.value, state]);
+
+  useEffect(() => {
+    getQcInformationForMRR(
+      `/mes/QCTest/GetQcInformationForMrr?transactionRefTypeId=${state?.transactionGroupId}&businessUnitId=${selectedBusinessUnit?.value}&purchaseOrderId=${state?.purchaseOrderId}&gateItemEntryListId=${state?.gateEntryListId}`,
+      (data) => {
+        const makeInitData = {
+          refType: "",
+          refNo: {
+            value: data?.poData?.purchaseOrderId,
+            label: data?.poData?.purchaseOrderCode,
+          },
+          transType: "",
+          busiPartner: {
+            value: data?.poData?.supplierId,
+            label: data?.poData?.supplierName,
+          },
+          personnel: "",
+          remarks: "",
+          item: "",
+          costCenter: "",
+          projName: "",
+          isAllItem: false,
+          getEntry: data?.poData?.gateEntryCode,
+          file: "",
+          challanNO: "",
+          challanDate: "",
+          vatChallan: "",
+          vatAmmount: "",
+          freight: data?.poData?.freight,
+          grossDiscount: data?.poData?.grossDiscount,
+          commission: data?.poData?.commission,
+          foreignPurchase: "",
+          othersCharge: data?.poData?.othersCharge,
+          productCost: data?.poData?.productCost,
+        };
+        const updatedItems = data?.itemData?.map(item=>({...item,value:item?.itemId,label:item?.itemName}))
+        setModifiedInitData(makeInitData);
+        setItemsDDL(updatedItems)
+        
+      }
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state]);
 
   const onChaneForRefType = (refTyp, setFieldValue) => {
     if (refTyp?.label === "PO (Purchase Order)") {
@@ -108,16 +147,16 @@ export default function ReceiveInvCreateForm({
           refTyp?.label,
           profileData?.accountId,
           selectedBusinessUnit?.value,
-          landingData?.sbu?.value,
-          landingData?.plant?.value,
-          landingData?.warehouse?.value,
+          qcInformationForMRR?.poData?.businessUnitId,
+          qcInformationForMRR?.poData?.plantId,
+          qcInformationForMRR?.poData?.warehouseId,
           setFieldValue
         )
       );
     }
     dispatch(
       getTransactionTypeDDLAction(
-        landingData?.transGrup?.value,
+        state?.transactionGroupId,
         refTyp?.value,
         setFieldValue
       )
@@ -154,10 +193,10 @@ export default function ReceiveInvCreateForm({
         setRowDto([
           ...rowDto,
           {
-            referenceId: values?.item?.intReferenceId,
+            referenceId: values?.item?.referenceId, //nai
             itemId: values?.item?.value,
             itemName: values?.item?.itemName,
-            itemCode: values?.item?.code,
+            itemCode: values?.item?.itemCode,
             uoMid: values?.item?.baseUoMId,
             uoMname: values?.item?.baseUoMName,
             refQty: values?.item?.refQty || 0,
@@ -169,10 +208,10 @@ export default function ReceiveInvCreateForm({
               values.refType.label === "NA (Without Reference)"
                 ? 0
                 : values.item.baseValue,
-            location: values.item.locationddl[0],
+            location: values?.item?.locationDDL[0],
             stockType: { value: 1, label: "Open Stock" }, //values?.transType?.label === "Receive For PO To Blocked Stock" ? { value: 2, label: "Block Stock" } : { value: 1, label: "Open Stock" },
             quantity: "",
-            locationddl: values.item.locationddl,
+            locationddl: values.item.locationDDL,
             discount: values?.item?.discount || 0,
             tatalVat: 0,
             totalValue: 0,
@@ -186,7 +225,7 @@ export default function ReceiveInvCreateForm({
         ]);
       }
     } else {
-      let data = itemDDL?.map((data) => {
+      let data = itemsDDL?.map((data) => {
         return {
           referenceId: data?.intReferenceId || 0,
           itemId: data?.value,
@@ -200,10 +239,10 @@ export default function ReceiveInvCreateForm({
           returnQuntity: data.returnQty || 0,
           issueQuantity: data.issueQty,
           baseValue: data.baseValue || 0,
-          location: data.locationddl[0],
+          location: data.locationDDL[0],
           stockType: { value: 1, label: "Open Stock" }, //values?.transType?.label === "Receive For PO To Blocked Stock" ? { value: 2, label: "Block Stock" } : { value: 1, label: "Open Stock" },
           quantity: "",
-          locationddl: data.locationddl,
+          locationddl: data.locationDDL,
           discount: data.discount || 0,
           tatalVat: 0,
           totalValue: 0,
@@ -309,8 +348,8 @@ export default function ReceiveInvCreateForm({
         } else {
           const payload = {
             objHeader: {
-              transactionGroupId: landingData?.transGrup?.value,
-              transactionGroupName: landingData?.transGrup?.label,
+              transactionGroupId: state?.transactionGroupId,
+              transactionGroupName: state?.transactionGroupName,
               transactionTypeId: values.transType.value,
               transactionTypeName: values.transType.label,
               referenceTypeId: values.refType.value,
@@ -321,12 +360,12 @@ export default function ReceiveInvCreateForm({
               accountName: profileData?.accountName,
               businessUnitId: selectedBusinessUnit?.value,
               businessUnitName: selectedBusinessUnit?.label,
-              sbuId: landingData?.sbu?.value,
-              sbuName: landingData?.sbu?.label,
-              plantId: landingData?.plant?.value,
-              plantName: landingData?.plant?.label,
-              warehouseId: landingData?.warehouse?.value,
-              warehouseName: landingData?.warehouse?.label,
+              sbuId: qcInformationForMRR?.businessUnitId,
+              sbuName: qcInformationForMRR?.businessUnitName,
+              plantId: qcInformationForMRR?.plantId,
+              plantName: qcInformationForMRR?.plantName,
+              warehouseId: qcInformationForMRR?.warehouseId,
+              warehouseName: qcInformationForMRR?.warehouseName,
               businessPartnerId: values?.busiPartner.value,
               parsonnelId: values?.personnel?.value || 0,
               costCenterId: values?.costCenter?.value || -1,
@@ -367,11 +406,11 @@ export default function ReceiveInvCreateForm({
               objRow: payload.objRow,
               objtransfer: {},
             };
-            modifyPlyload.objHeader["isPOS"] =
-              landingData?.warehouse?.isPOS &&
-              modifyPlyload?.objHeader?.referenceTypeId === 1
-                ? true
-                : false;
+            //   modifyPlyload.objHeader["isPOS"] =
+            //     landingData?.warehouse?.isPOS &&
+            //     modifyPlyload?.objHeader?.referenceTypeId === 1
+            //       ? true
+            //       : false;
             let compressedFile = [];
             if (fileObjects?.length > 0) {
               compressedFile = await compressfile(
@@ -458,14 +497,15 @@ export default function ReceiveInvCreateForm({
       }
     }
   };
+  console.log("modifiedIntiData", modifiedIntiData);
 
   return (
     <>
       {isDisabled && <Loading />}
       <Formik
         enableReinitialize={true}
-        initialValues={initData}
-        validationSchema={validationSchema}
+        initialValues={modifiedIntiData ? modifiedIntiData : initData}
+        validationSchema={validationSchemaForMRR}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           saveHandler(values, () => {
             resetForm(initData);
@@ -481,14 +521,14 @@ export default function ReceiveInvCreateForm({
           setFieldValue,
           isValid,
         }) => (
-          <>
-            {disableHandler && disableHandler(!isValid)}
+          <IForm title="Create Receive MRR" getProps={setObjprops}>
+            {/* {disableHandler && disableHandler(!isValid)} */}
             <Form className="form form-label-right po-label">
               <div className="form-group row inventory-form">
                 <div className="col-lg-2">
                   <NewSelect
                     label="Reference Type"
-                    options={referenceTypeDDL}
+                    options={[referenceTypeDDL[0]]}
                     value={values?.refType}
                     name="refType"
                     placeholder="Reference Type"
@@ -497,240 +537,93 @@ export default function ReceiveInvCreateForm({
                         setFieldValue("refType", value);
                       }
                       onChaneForRefType(value, setFieldValue);
-                      setFieldValue("refNo", "");
-                      setFieldValue("item", "");
-                      // setFieldValue("transType", "");
-                      setFieldValue("busiPartner", "");
-                      setFieldValue("freight", "");
-                      setFieldValue("grossDiscount", "");
-                      setFieldValue("commission", "");
-                      setFieldValue("productCost", "");
-                      setFieldValue("othersCharge", "");
+                      //   setFieldValue("refNo", "");
+                      //   setFieldValue("item", "");
+                      //   // setFieldValue("transType", "");
+                      //   setFieldValue("busiPartner", "");
+                      //   setFieldValue("freight", "");
+                      //   setFieldValue("grossDiscount", "");
+                      //   setFieldValue("commission", "");
+                      //   setFieldValue("productCost", "");
+                      //   setFieldValue("othersCharge", "");
                       setRowDto([]);
                     }}
                     errors={errors}
                     touched={touched}
                   />
                 </div>
-                {values.refType.label === "Inventory Request" ? (
-                  <div className="col-lg-2">
-                    <label>Reference No</label>
-                    <SearchAsyncSelect
-                      selectedValue={values?.refNo}
-                      handleChange={(valueOption) => {
-                        setFieldValue("refNo", valueOption);
-                        onChangeForRefNo(valueOption, values);
-                        setFieldValue(
-                          "busiPartner",
-                          valueOption?.actionBy
-                            ? {
-                                value: valueOption?.actionBy || 0,
-                                label: valueOption?.actionName || "",
-                              }
-                            : ""
+                <div className="col-lg-2">
+                  <label>Reference No</label>
+                  <SearchAsyncSelect
+                    selectedValue={values?.refNo}
+                    isDisabled={state}
+                    handleChange={(data) => {
+                      setFieldValue("refNo", data);
+                      setFieldValue("item", "");
+                      setFieldValue("othersCharge", data?.othersCharge || 0);
+                      setFieldValue("foreignPurchase", "");
+                      if (
+                        data?.purchaseOrganizationName === "Foreign Procurement"
+                      ) {
+                        dispatch(slice.setItemDDL([]));
+                        getForeignPurchaseDDL(
+                          data?.value,
+                          qcInformationForMRR?.plantId,
+                          setForeginPurchase
                         );
-                        setFieldValue("item", "");
-                        setRowDto([]);
-                      }}
-                      loadOptions={(v) => {
-                        if (v?.length < 3) return [];
-                        return axios
-                          .get(
-                            `/wms/InventoryTransaction/GetReferenceNoForInventoryRequest?searchTerm=${v}&RefTypeId=5&RefTypeName=Inventory%20Request&accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&SbuId=${landingData?.sbu?.value}&PlantId=${landingData?.plant?.value}&WearhouseId=${landingData?.warehouse?.value}&IsActive=true&IsClosed=false`
-                          )
-                          .then((res) => {
-                            const updateList = res?.data.map((item) => ({
-                              ...item,
-                              label: `${item?.label}`,
-                            }));
-                            return updateList;
-                          });
-                      }}
-                      disabled={true}
-                    />
-                    <FormikError
-                      errors={errors}
-                      name="refNo"
-                      touched={touched}
-                    />
-                  </div>
-                ) : values.refType.label === "PO (Purchase Order)" ? (
-                  <div className="col-lg-2">
-                    <label>Reference No</label>
-                    <SearchAsyncSelect
-                      selectedValue={values?.refNo}
-                      handleChange={(data) => {
-                        setFieldValue("refNo", data);
-                        setFieldValue("item", "");
-                        setFieldValue("othersCharge", data?.othersCharge || 0);
-                        setFieldValue("foreignPurchase", "");
-                        if (
-                          data?.purchaseOrganizationName ===
-                          "Foreign Procurement"
-                        ) {
-                          dispatch(slice.setItemDDL([]));
-                          getForeignPurchaseDDL(
-                            data?.value,
-                            landingData?.plant?.value,
-                            setForeginPurchase
-                          );
-                        } else {
-                          dispatch(
-                            getItemforReceiveInvForeignPOAction(
-                              profileData?.accountId,
-                              selectedBusinessUnit?.value,
-                              data?.value,
-                              0
-                            )
-                          );
-                        }
-
-                        // if (
-                        //   values.refType.label === 'STO (Stock Transfer Order)'
-                        // ) {
-                        //   setFieldValue('busiPartner', {
-                        //     value: data.fromPlantId,
-                        //     label:
-                        //       data.fromPlantName + ',' + data.fromWearHouseName,
-                        //   })
-                        // } else {
-                        setFieldValue(
-                          "busiPartner",
-                          data?.supplierId
-                            ? {
-                                value: data?.supplierId || 0,
-                                label: data?.supplierName || "",
-                              }
-                            : ""
-                        );
-                        setFieldValue("freight", data?.freight);
-                        setFieldValue("grossDiscount", data?.grossDiscount);
-                        setFieldValue("commission", data?.commission);
-                        setFieldValue("productCost", data?.productCost);
-                        // }
-                        setRowDto([]);
-                      }}
-                      loadOptions={(v) => {
-                        if (v?.length < 3) return [];
-                        return axios
-                          .get(
-                            `/wms/InventoryTransaction/GetPoNoForInventory?PoTypeId=1&businessUnitId=${selectedBusinessUnit?.value}&SbuId=${landingData?.sbu?.value}&PlantId=${landingData?.plant?.value}&WearhouseId=${landingData?.warehouse?.value}&Search=${v}`
-                          )
-                          .then((res) => {
-                            // const updateList = res?.data.map((item) => ({
-                            //   ...item,
-                            //   label: `${item?.label}`,
-                            // }));
-                            return res?.data;
-                          });
-                      }}
-                    />
-                    <FormikError
-                      errors={errors}
-                      name="refNo"
-                      touched={touched}
-                    />
-                  </div>
-                ) : (
-                  <div className="col-lg-2">
-                    <NewSelect
-                      label="Reference No"
-                      options={referenceNoDDL}
-                      value={values?.refNo}
-                      name="refNo"
-                      placeholder="Reference No"
-                      onChange={(data) => {
-                        setFieldValue("refNo", data);
-                        setFieldValue("item", "");
-                        setFieldValue("othersCharge", data?.othersCharge || 0);
-                        setFieldValue("foreignPurchase", "");
-                        if (
-                          data?.purchaseOrganizationName ===
-                          "Foreign Procurement"
-                        ) {
-                          dispatch(slice.setItemDDL([]));
-                          getForeignPurchaseDDL(
-                            data?.value,
-                            landingData?.plant?.value,
-                            setForeginPurchase
-                          );
-                        } else {
-                          dispatch(
-                            getItemforReceiveInvForeignPOAction(
-                              profileData?.accountId,
-                              selectedBusinessUnit?.value,
-                              data?.value,
-                              0
-                            )
-                          );
-                        }
-
-                        // if (
-                        //   values.refType.label === 'STO (Stock Transfer Order)'
-                        // ) {
-                        //   setFieldValue('busiPartner', {
-                        //     value: data.fromPlantId,
-                        //     label:
-                        //       data.fromPlantName + ',' + data.fromWearHouseName,
-                        //   })
-                        // } else {
-                        setFieldValue(
-                          "busiPartner",
-                          data?.supplierId
-                            ? {
-                                value: data?.supplierId || 0,
-                                label: data?.supplierName || "",
-                              }
-                            : ""
-                        );
-                        setFieldValue("freight", data?.freight);
-                        setFieldValue("grossDiscount", data?.grossDiscount);
-                        setFieldValue("commission", data?.commission);
-                        setFieldValue("productCost", data?.productCost);
-                        // }
-                        setRowDto([]);
-                      }}
-                      // setFieldValue={setFieldValue}
-                      isDisabled={
-                        values.refType.label === "NA (Without Reference)" ||
-                        values.refType === ""
-                      }
-                      errors={errors}
-                      touched={touched}
-                    />
-                  </div>
-                )}
-                {values?.refNo?.purchaseOrganizationName ===
-                  "Foreign Procurement" && (
-                  <div className="col-lg-2">
-                    <NewSelect
-                      label="Invoice"
-                      options={foreignPurchaseDDL}
-                      value={values?.foreignPurchase}
-                      placeholder="Invoice"
-                      name="foreignPurchase"
-                      onChange={(value) => {
-                        setFieldValue("foreignPurchase", value);
-                        setRowDto([]);
-                        if(!value?.isApprove){
-                          return toast.warn("Your 'Invoice Number' invoice has not been approved, Please approve it")
-                        }
+                      } else {
                         dispatch(
                           getItemforReceiveInvForeignPOAction(
                             profileData?.accountId,
                             selectedBusinessUnit?.value,
-                            values?.refNo?.value,
-                            value?.value
+                            data?.value,
+                            0
                           )
                         );
-                      }}
-                      //setFieldValue={setFieldValue}
-                      isDisabled={values.refType === ""}
-                      errors={errors}
-                      touched={touched}
-                    />
-                  </div>
-                )}
+                      }
+
+                      // if (
+                      //   values.refType.label === 'STO (Stock Transfer Order)'
+                      // ) {
+                      //   setFieldValue('busiPartner', {
+                      //     value: data.fromPlantId,
+                      //     label:
+                      //       data.fromPlantName + ',' + data.fromWearHouseName,
+                      //   })
+                      // } else {
+                      setFieldValue(
+                        "busiPartner",
+                        data?.supplierId
+                          ? {
+                              value: data?.supplierId || 0,
+                              label: data?.supplierName || "",
+                            }
+                          : ""
+                      );
+                      setFieldValue("freight", data?.freight);
+                      setFieldValue("grossDiscount", data?.grossDiscount);
+                      setFieldValue("commission", data?.commission);
+                      setFieldValue("productCost", data?.productCost);
+                      // }
+                      setRowDto([]);
+                    }}
+                    loadOptions={(v) => {
+                      if (v?.length < 3) return [];
+                      return axios
+                        .get(
+                          `/wms/InventoryTransaction/GetPoNoForInventory?PoTypeId=1&businessUnitId=${selectedBusinessUnit?.value}&SbuId=${qcInformationForMRR?.businessUnitId}&PlantId=${qcInformationForMRR?.plantId}&WearhouseId=${qcInformationForMRR?.warehouseId}&Search=${v}`
+                        )
+                        .then((res) => {
+                          // const updateList = res?.data.map((item) => ({
+                          //   ...item,
+                          //   label: `${item?.label}`,
+                          // }));
+                          return res?.data;
+                        });
+                    }}
+                  />
+                  <FormikError errors={errors} name="refNo" touched={touched} />
+                </div>
                 <div className="col-lg-2">
                   <NewSelect
                     label="Transaction Type"
@@ -770,16 +663,16 @@ export default function ReceiveInvCreateForm({
                   />
                 </div>
                 {/* <div className="col-lg-3">
-                  <ISelect
-                    label="Personnel"
-                    options={personelDDL}
-                    defaultValue={values?.personnel}
-                    name="personnel"
-                    setFieldValue={setFieldValue}
-                    errors={errors}
-                    touched={touched}
-                  />
-                </div> */}
+                    <ISelect
+                      label="Personnel"
+                      options={personelDDL}
+                      defaultValue={values?.personnel}
+                      name="personnel"
+                      setFieldValue={setFieldValue}
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div> */}
 
                 <div className="col-lg-2">
                   <label>Challan</label>
@@ -927,59 +820,27 @@ export default function ReceiveInvCreateForm({
               </div>
 
               <div className="form-group row inventory-form">
-                {values.refType.label === "NA (Without Reference)" ? (
-                  <div className="col-lg-3">
-                    <label>Item</label>
-                    <SearchAsyncSelect
-                      selectedValue={values.item}
-                      handleChange={(valueOption) => {
-                        setFieldValue("item", valueOption);
-                      }}
-                      loadOptions={(v) => {
-                        if (v?.length < 3) return [];
-                        return axios
-                          .get(
-                            `/wms/InventoryTransaction/GetItemForReceiveInventory?accountId=${profileData.accountId}&businessUnitId=${selectedBusinessUnit?.value}&plantId=${landingData?.plant?.value}&warehouseId=${landingData?.warehouse?.value}&searchTerm=${v}&RefTypeId=${values?.refType?.value}`
-                          )
-                          .then((res) => {
-                            const updateList = res?.data.map((item) => ({
-                              ...item,
-                              label: `${item?.label} [${item?.code}]`,
-                            }));
-                            return updateList;
-                          });
-                      }}
-                      disabled={true}
-                    />
-                    <FormikError
-                      errors={errors}
-                      name="item"
-                      touched={touched}
-                    />
-                  </div>
-                ) : (
-                  <div className="col-lg-3">
-                    <ISelect
-                      label="Item"
-                      options={itemDDL}
-                      value={values.item}
-                      name="item"
-                      setFieldValue={setFieldValue}
-                      isDisabled={
-                        values.isAllItem === true || values.refType === ""
-                      }
-                      isOptionSelected={(option, selectValue) =>
-                        selectValue.some((i) => i === option)
-                      }
-                      errors={errors}
-                      touched={touched}
-                    />
-                  </div>
-                )}
+                <div className="col-lg-3">
+                  <ISelect
+                    label="Item"
+                    options={itemsDDL}
+                    value={values.item}
+                    name="item"
+                    setFieldValue={setFieldValue}
+                    isDisabled={
+                      values.isAllItem === true || values.refType === ""
+                    }
+                    isOptionSelected={(option, selectValue) =>
+                      selectValue.some((i) => i === option)
+                    }
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
                 <div className="col-lg-3">
                   {/* <Field
-                    name="isAllItem"
-                    component={() => ( */}
+                      name="isAllItem"
+                      component={() => ( */}
                   <input
                     style={{
                       position: "absolute",
@@ -998,9 +859,7 @@ export default function ReceiveInvCreateForm({
                       setFieldValue("item", "");
                     }}
                   />
-                  {/* )}
-                    label="isAllItem"
-                  /> */}
+                  
                   <label
                     style={{
                       position: "absolute",
@@ -1051,7 +910,7 @@ export default function ReceiveInvCreateForm({
                 stockDDL={stockDDL}
                 locationTypeDDL={locationTypeDDL}
                 values={values}
-                landingData={landingData}
+                //   landingData={landingData}
               />
 
               <DropzoneDialogBase
@@ -1081,48 +940,48 @@ export default function ReceiveInvCreateForm({
               />
 
               {/* <DropzoneDialogBase
-                filesLimit={5}
-                acceptedFiles={["image/*", "application/pdf"]}
-                fileObjects={fileObjects}
-                cancelButtonText={"cancel"}
-                submitButtonText={"submit"}
-                maxFileSize={3000000000000}
-                open={open}
-                onAdd={(newFileObjs) => {
-                  setFileObjects(fileObjects.concat(newFileObjs));
-                }}
-                onDelete={(deleteFileObj) => {
-                  const newData = fileObjects.filter(
-                    (item) => item.file.name !== deleteFileObj.file.name
-                  );
-                  setFileObjects(newData);
-                }}
-                onClose={() => setOpen(false)}
-                onSave={() => {
-                  setOpen(false);
-                }}
-                showPreviews={true}
-                showFileNamesInPreview={true}
-              /> */}
+                  filesLimit={5}
+                  acceptedFiles={["image/*", "application/pdf"]}
+                  fileObjects={fileObjects}
+                  cancelButtonText={"cancel"}
+                  submitButtonText={"submit"}
+                  maxFileSize={3000000000000}
+                  open={open}
+                  onAdd={(newFileObjs) => {
+                    setFileObjects(fileObjects.concat(newFileObjs));
+                  }}
+                  onDelete={(deleteFileObj) => {
+                    const newData = fileObjects.filter(
+                      (item) => item.file.name !== deleteFileObj.file.name
+                    );
+                    setFileObjects(newData);
+                  }}
+                  onClose={() => setOpen(false)}
+                  onSave={() => {
+                    setOpen(false);
+                  }}
+                  showPreviews={true}
+                  showFileNamesInPreview={true}
+                /> */}
 
               <button
                 type="button"
                 style={{ display: "none" }}
-                ref={btnRef}
+                ref={objProps.btnRef}
                 onClick={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
                 style={{ display: "none" }}
-                ref={resetBtnRef}
+                ref={objProps.resetBtnRef}
                 onSubmit={() => resetForm(initData)}
                 onClick={() => {
                   setRowDto([]);
                 }}
               ></button>
             </Form>
-          </>
+          </IForm>
         )}
       </Formik>
     </>

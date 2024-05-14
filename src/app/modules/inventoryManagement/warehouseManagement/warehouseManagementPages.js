@@ -46,6 +46,7 @@ import InventoryLoanLandingNew from "./inventoryLoanNew";
 import InventoryLoanCreateEditNew from "./inventoryLoanNew/createEdit";
 import ItemQualityCheckLanding from "./itemQualityCheck";
 import QualityCheckCreateForm from "./itemQualityCheck/createAndEditForm";
+import CreateMRR from "./itemQualityCheck/createMRR";
 import ItemWiseSerialUpdate from "./itemWiseSerialUpdate";
 import ItemWiseSerialCreate from "./itemWiseSerialUpdate/create";
 import ItemWiseSerialEdit from "./itemWiseSerialUpdate/editItemWiseSerial";
@@ -440,6 +441,10 @@ export function WarehouseManagementPages() {
       <ContentRoute
         path="/inventory-management/warehouse-management/itemqualitycheck/create"
         component={QualityCheckCreateForm}
+      />
+      <ContentRoute
+        path="/inventory-management/warehouse-management/itemqualitycheck/create-mrr"
+        component={CreateMRR}
       />
       <ContentRoute
         path="/inventory-management/warehouse-management/itemqualitycheck"

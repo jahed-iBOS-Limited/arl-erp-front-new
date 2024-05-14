@@ -17,7 +17,8 @@ export default function IndustrialTestingCostLandingTable({ obj }) {
 
   return (
     <>
-      <table
+     <div className="table-responsive">
+       <table
         id="table-to-xlsx"
         className={
           "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
@@ -48,6 +49,7 @@ export default function IndustrialTestingCostLandingTable({ obj }) {
           })}
         </tbody>
       </table>
+     </div>
     </>
   );
 }

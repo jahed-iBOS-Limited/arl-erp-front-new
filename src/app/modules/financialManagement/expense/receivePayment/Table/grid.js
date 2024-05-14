@@ -1,6 +1,5 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
-import { withRouter } from "react-router-dom";
+import { useHistory, withRouter } from "react-router-dom";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import { _formatMoney } from "../../../../_helper/_formatMoney";
 import Loading from "./../../../../_helper/_loading";
@@ -13,7 +12,8 @@ const GridData = ({ rowDto, values, loading }) => {
       <div className="row cash_journal">
         <div className="col-lg-12 pr-0 pl-0">
           {rowDto?.length > 0 && (
-            <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+            <div className="table-responsive">
+              <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
               <thead>
                 <tr>
                   <th style={{ width: "30px" }}>SL</th>
@@ -73,6 +73,7 @@ const GridData = ({ rowDto, values, loading }) => {
                 ))}
               </tbody>
             </table>
+            </div>
           )}
         </div>
       </div>

@@ -1,12 +1,12 @@
-import React, { useEffect } from "react";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import Loading from "../../../_helper/_loading";
 import { Form, Formik } from "formik";
-import IForm from "../../../_helper/_form";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
+import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
+import { _dateFormatter } from "../../../_helper/_dateFormate";
+import IForm from "../../../_helper/_form";
 import IView from "../../../_helper/_helperIcons/_view";
+import Loading from "../../../_helper/_loading";
 import { getDownlloadFileView_Action } from "../../../_helper/_redux/Actions";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 const initData = {};
 export default function ActivityListModal({ clickedItem }) {
   const dispatch = useDispatch();
@@ -71,6 +71,7 @@ export default function ActivityListModal({ clickedItem }) {
                       {} {_dateFormatter(rowData?._header?.dteToDate)}
                     </div>
                   </div>
+                  <div className="table-responsive">
                   <table className="table table-striped table-bordered global-table mt-3">
                     <thead>
                       <tr>
@@ -110,6 +111,7 @@ export default function ActivityListModal({ clickedItem }) {
                         : null}
                     </tbody>
                   </table>
+                  </div>
                 </div>
               </div>
             </Form>
