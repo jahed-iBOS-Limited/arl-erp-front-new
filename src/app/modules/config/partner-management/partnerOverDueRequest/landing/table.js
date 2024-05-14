@@ -313,7 +313,8 @@ const PartnerOverDueRequestTable = () => {
                       </div>
                     </div>
                   </div>
-                  <table
+                 <div className="table-responsive">
+                 <table
                     className={
                       "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
                     }
@@ -491,6 +492,7 @@ const PartnerOverDueRequestTable = () => {
                       );
                     })}
                   </table>
+                 </div>
 
                   {/* Pagination Code */}
                   {rowData?.length > 0 && (

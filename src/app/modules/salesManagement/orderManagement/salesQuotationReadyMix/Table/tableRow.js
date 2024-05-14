@@ -167,9 +167,10 @@ export function TableRow() {
                   </div>
                 </div>
 
-                <div className="col-lg-12 table-responsive">
+                <div className="col-lg-12">
                   {gridData?.data?.length >= 0 && (
-                    <table className="table table-striped table-bordered global-table sales_order_landing_table">
+                   <div className="table-responsive">
+                     <table className="table table-striped table-bordered global-table sales_order_landing_table">
                       <thead>
                         <tr>
                           <th style={{ width: "35px" }}>SL</th>
@@ -236,6 +237,7 @@ export function TableRow() {
                         ))}
                       </tbody>
                     </table>
+                   </div>
                   )}
                 </div>
                 {gridData?.data?.length > 0 && (

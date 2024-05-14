@@ -389,7 +389,8 @@ export default function SalesOrderLanding() {
                     />
                   </div>
                 </div>
-                <div className="col-lg-12 table-responsive">
+                <div className="col-lg-12">
+                  <div className="table-responsive">
                   <table className="table table-striped table-bordered global-table sales_order_landing_table">
                     <thead>
                       <tr>
@@ -485,6 +486,7 @@ export default function SalesOrderLanding() {
                         ))}
                     </tbody>
                   </table>
+                  </div>
                   {/* Sales Order modal */}
                   <IViewModal
                     title="View Foreign Sales Order"

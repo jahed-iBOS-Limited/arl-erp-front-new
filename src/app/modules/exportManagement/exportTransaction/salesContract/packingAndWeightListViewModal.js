@@ -137,7 +137,7 @@ export default function PackingAndWeightListViewModal({
                     src={essentialLogo}
                     alt="logo"
                   />
-                  <table
+                <div className="table-responsive">  <table
                     id="sales-contract-print"
                     className="table table-striped table-bordered global-table"
                   >
@@ -445,7 +445,7 @@ export default function PackingAndWeightListViewModal({
                         findYourDailyEssentials.com
                       </td>
                     </tr>
-                  </table>
+                  </table></div>
                 </div>
               ) : null}
             </Form>

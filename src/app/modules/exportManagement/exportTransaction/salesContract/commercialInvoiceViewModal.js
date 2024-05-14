@@ -133,7 +133,8 @@ export default function CommercialInvoiceModalView({ commercialId }) {
                     src={essentialLogo}
                     alt="logo"
                   />
-                  <table
+                 <div className="table-responsive">
+                 <table
                     id="sales-contract-print"
                     className="table table-striped table-bordered global-table"
                   >
@@ -471,6 +472,7 @@ export default function CommercialInvoiceModalView({ commercialId }) {
                       </td>
                     </tr>
                   </table>
+                 </div>
                 </div>
               ) : null}
             </Form>

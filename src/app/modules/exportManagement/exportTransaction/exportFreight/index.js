@@ -348,8 +348,9 @@ export default function ExportFreightInfo() {
               <div className="row">
                 {[1]?.includes(values?.type.value) && (
                   <>
-                    <div className="col-lg-12 table-responsive">
-                      <table className="table table-striped table-bordered global-table sales_order_landing_table">
+                    <div className="col-lg-12">
+                    <div className="table-responsive">
+                    <table className="table table-striped table-bordered global-table sales_order_landing_table">
                         <thead>
                           <tr>
                             <th style={{ width: "35px" }}>SL</th>
@@ -411,6 +412,7 @@ export default function ExportFreightInfo() {
                             ))}
                         </tbody>
                       </table>
+                    </div>
 
                       <IViewModal
                         title="View Journal"
@@ -442,8 +444,9 @@ export default function ExportFreightInfo() {
                         />
                       </div>
                     </div>
-                    <div className="col-lg-12 table-responsive">
-                      <table className="table table-striped table-bordered global-table sales_order_landing_table">
+                    <div className="col-lg-12">
+                     <div className="table-responsive">
+                     <table className="table table-striped table-bordered global-table sales_order_landing_table">
                         <thead>
                           <tr>
                             <th>SL</th>
@@ -477,6 +480,7 @@ export default function ExportFreightInfo() {
                             ))}
                         </tbody>
                       </table>
+                     </div>
                       {transportProviderInfo?.data?.length > 0 && (
                         <PaginationTable
                           count={transportProviderInfo?.totalCount}

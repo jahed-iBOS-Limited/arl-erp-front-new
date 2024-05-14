@@ -80,7 +80,8 @@ const DiscountOfferGroupLandingTable = () => {
               <form className="form form-label-right">
                 {/* <div className="global-form row"></div> */}
                 {gridData?.data?.length > 0 && (
-                  <table
+                 <div className="table-responsive">
+                   <table
                     id="table-to-xlsx"
                     className={
                       "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
@@ -107,6 +108,7 @@ const DiscountOfferGroupLandingTable = () => {
                       })}
                     </tbody>
                   </table>
+                 </div>
                 )}
               </form>
               {gridData?.data?.length > 0 && (
