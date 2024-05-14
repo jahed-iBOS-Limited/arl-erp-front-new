@@ -174,6 +174,7 @@ export default function ProductionCost() {
                                     </button>
                                 </div>) : null}
                               
+                                <div className="table-responsive">
                                 <table className="table table-striped table-bordered global-table">
                                     <thead>
                                         <tr>
@@ -203,6 +204,7 @@ export default function ProductionCost() {
                                         ))}
                                     </tbody>
                                 </table>
+     </div>
                             </div>
                         </Form>
                     </IForm>

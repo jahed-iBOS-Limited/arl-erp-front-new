@@ -4,7 +4,8 @@ const TransferTable = ({ jorunalType, values }) => {
   return (
     jorunalType === 6 && (
       <>
-        <table className={"table mt-1 bj-table"}>
+       <div className="table-responsive">
+       <table className={"table mt-1 bj-table"}>
           <thead>
             <tr>
               <th style={{ width: "20px" }}>SL</th>
@@ -41,6 +42,7 @@ const TransferTable = ({ jorunalType, values }) => {
             </tr>
           </tbody>
         </table>
+       </div>
       </>
     )
   );

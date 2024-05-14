@@ -10,7 +10,8 @@ export default function ExcelTable({
 }) {
   return (
     <>
-      <table
+       <div className="table-responsive">
+       <table
         id={id}
         className="table table-striped table-bordered global-table advice-table"
         style={{ width: "100%" }}
@@ -330,6 +331,7 @@ export default function ExcelTable({
           )}
         </tbody>
       </table>
+      </div>
     </>
   );
 }

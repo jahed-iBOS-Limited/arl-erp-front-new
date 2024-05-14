@@ -600,6 +600,7 @@ export default function _Form({
                   {/* Start row part */}
                   <div className='row mt-1 '>
                     <div className='col-lg-12'>
+                    <div className="table-responsive">
                       <table className='table table-striped table-bordered global-table mt-0'>
                         <thead className='bg-secondary'>
                           <tr>
@@ -682,6 +683,7 @@ export default function _Form({
                           </tr>
                         </tbody>
                       </table>
+                      </div>
                     </div>
                   </div>
                 </div>
