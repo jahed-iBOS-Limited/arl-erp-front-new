@@ -105,7 +105,7 @@ export default function DirectAndDumpRateEntry({ id, getLandingData }) {
                     isDisabled={id}
                   />
                 </div>
-                <div className="col-3">
+                <div className="col-lg-3">
                   <label>Supplier</label>
                   <SearchAsyncSelect
                     selectedValue={values.supplier}

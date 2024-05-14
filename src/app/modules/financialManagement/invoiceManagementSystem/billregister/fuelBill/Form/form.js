@@ -72,7 +72,7 @@ export default function _Form({
               <div className="row global-form">
                 <div className="col-12">
                   <div className="row align-items-end">
-                    {/* <div className="col-3">
+                    {/* <div className="col-lg-3">
                       <NewSelect
                         name="supplier"
                         options={supplierDDL || []}
@@ -87,7 +87,7 @@ export default function _Form({
                         touched={touched}
                       />
                     </div> */}
-                    <div className="col-3">
+                    <div className="col-lg-3">
                       <label>Supplier</label>
                       <SearchAsyncSelect
                         selectedValue={values.supplier}
@@ -118,7 +118,7 @@ export default function _Form({
                       />
                     </div>
 
-                    <div className="col-3">
+                    <div className="col-lg-3">
                       <NewSelect
                         name="warehouse"
                         options={
@@ -179,7 +179,7 @@ export default function _Form({
                     </div>
                   </div>
                   <div className="row">
-                    <div className="col-3">
+                    <div className="col-lg-3">
                       <InputField
                         value={values?.billNo}
                         label="Bill No"
@@ -187,7 +187,7 @@ export default function _Form({
                         placeholder="Bill No"
                       />
                     </div>
-                    <div className="col-3">
+                    <div className="col-lg-3">
                       <InputField
                         value={_dateFormatter(values?.billDate)}
                         label="Bill Date"
@@ -196,7 +196,7 @@ export default function _Form({
                         placeholder="Bill Date"
                       />
                     </div>
-                    <div className="col-3">
+                    <div className="col-lg-3">
                       <InputField
                         value={_dateFormatter(values?.paymentDueDate)}
                         label="Payment Due Date"
@@ -215,7 +215,7 @@ export default function _Form({
                         placeholder="Narration"
                       />
                     </div>
-                    <div className="col-3">
+                    <div className="col-lg-3">
                       <div className="row align-items-end">
                         <div className="col-5">
                           <button
