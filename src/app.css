@@ -2838,3 +2838,36 @@ p {
 body {
   -webkit-print-color-adjust: exact !important;
 }
+
+/* ================responsive===============  */
+
+/* .header header-fixed{
+  @media screen and (max-width: 750px) {
+    display: none;
+    
+  }
+} */
+
+
+
+/* @media (min-width: 1399px) {
+}
+
+@media (min-width: 1199px) {
+}
+
+@media (min-width: 991px) {
+} */
+
+@media screen and (max-width: 767px) {
+  .development-env {
+    display: none;
+  }
+
+  .user-basic-info {
+    margin-top: 9px;
+  }
+  #kt_header_mobile_topbar_toggle .fa-user-circle{
+    font-size: 20px !important;
+  }
+}

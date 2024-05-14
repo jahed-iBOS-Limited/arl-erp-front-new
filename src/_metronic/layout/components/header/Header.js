@@ -17,8 +17,10 @@ export function Header() {
   }, shallowEqual);
 
   const manualClickHandler = () => {
-    window.open("https://docs.google.com/document/d/1h8N-fjk3yXEkk1_orlHhBna9VqQT4NqlQER9PEfBzVc/view")
-  }
+    window.open(
+      "https://docs.google.com/document/d/1h8N-fjk3yXEkk1_orlHhBna9VqQT4NqlQER9PEfBzVc/view"
+    );
+  };
 
   const layoutProps = useMemo(() => {
     return {
@@ -37,12 +39,12 @@ export function Header() {
       {/*begin::Header*/}
       <div
         className={`header ${layoutProps.headerClasses}`}
-        id='kt_header'
+        id="kt_header"
         {...layoutProps.headerAttributes}
       >
         {/*begin::Container*/}
         {window?.location?.origin !== "https://erp.ibos.io" && (
-          <b style={{ marginLeft: "23px" }} className='mt-3 danger'>
+          <b  style={{ marginLeft: "23px" }} className="mt-3 danger development-env">
             Development
           </b>
         )}
@@ -51,14 +53,24 @@ export function Header() {
           style={{
             display: "flex",
             gap: "15px",
-            width: '500px',
-            alignItems: 'center',
-            marginLeft: '10px',
+            minWidth: '100%',
+            alignItems: "center",
+            marginLeft: "10px",
           }}
+          clsasName="user-basic-info"
         >
-          <p className="m-0"><b>OID: {commonDDL?.OID}</b></p>
-          <p className="m-0"><b>Enroll No: {profileData?.employeeId}</b></p>
-          <p onClick={() => manualClickHandler()} className="m-0 pointer text-primary"><b>Manual</b></p>
+          <p className="m-0">
+            <b>OID: {commonDDL?.OID}</b>
+          </p>
+          <p className="m-0">
+            <b>Enroll No: {profileData?.employeeId}</b>
+          </p>
+          <p
+            onClick={() => manualClickHandler()}
+            className="m-0 pointer text-primary"
+          >
+            <b>Manual</b>
+          </p>
         </div>
         <div
           className={` ${layoutProps.headerContainerClasses} d-flex align-items-stretch justify-content-between`}
@@ -72,7 +84,6 @@ export function Header() {
           {/*begin::Topbar*/}
 
           <Topbar />
-          
 
           {/*end::Topbar*/}
         </div>
