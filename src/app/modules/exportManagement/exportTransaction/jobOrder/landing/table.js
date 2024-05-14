@@ -35,8 +35,9 @@ export const JobOrderLandingTable = ({ obj }) => {
             />
           </div>
         </div>
-        <div className="col-lg-12 table-responsive">
-          <table className="table table-striped table-bordered global-table sales_order_landing_table">
+        <div className="col-lg-12">
+         <div className="table-responsive">
+         <table className="table table-striped table-bordered global-table sales_order_landing_table">
             <thead>
               <tr>
                 <th style={{ width: "35px" }}>SL</th>
@@ -99,6 +100,7 @@ export const JobOrderLandingTable = ({ obj }) => {
                 ))}
             </tbody>
           </table>
+         </div>
 
           <IViewModal
             title="View Job Order"

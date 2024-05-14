@@ -912,6 +912,7 @@ export default function _Form({
                     )}
                   </>
                 )}
+                <div className="table-responsive">
                 <table className="table table-striped table-bordered my-5 global-table">
                   <thead>
                     <tr className="text-center">
@@ -961,6 +962,7 @@ export default function _Form({
                       ))}
                   </tbody>
                 </table>{" "}
+                </div>
               </>
 
               {/* </div> */}

@@ -1107,6 +1107,7 @@ export default function SalesContractCreateEdit() {
               </div>
               {/* )} */}
               {/* objSpecRow table */}
+              <div className="table-responsive">
               <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                 <thead>
                   <tr>
@@ -1153,9 +1154,11 @@ export default function SalesContractCreateEdit() {
                     })}
                 </tbody>
               </table>
+              </div>
 
               {/* item table */}
-              <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+           <div className="table-responsive">
+           <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                 <thead>
                   <tr>
                     <th>Sl</th>
@@ -1209,6 +1212,7 @@ export default function SalesContractCreateEdit() {
                     })}
                 </tbody>
               </table>
+           </div>
 
               {/* t&c */}
               <div className="form-group global-form row">
@@ -1248,7 +1252,8 @@ export default function SalesContractCreateEdit() {
                 </div>
               </div>
 
-              <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+          <div className="table-responsive">
+          <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                 <thead>
                   <tr>
                     <th>Sl</th>
@@ -1279,6 +1284,7 @@ export default function SalesContractCreateEdit() {
                     })}
                 </tbody>
               </table>
+          </div>
 
               {/* modal */}
 

@@ -266,7 +266,8 @@ const PurchaseOrderApprovalGrid = ({
             </Form>
             {/* Table Start */}
             {rowDto?.data?.length ? (
-              <table className="table table-striped table-bordered global-table">
+             <div className="table-responsive">
+               <table className="table table-striped table-bordered global-table">
                 <thead>
                   <tr>
                     <th style={{ width: "20px" }}>
@@ -393,6 +394,7 @@ const PurchaseOrderApprovalGrid = ({
                   ))}
                 </tbody>
               </table>
+             </div>
             ) : (
               ""
             )}

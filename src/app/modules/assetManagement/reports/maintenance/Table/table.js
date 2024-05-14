@@ -337,7 +337,8 @@ const MaintenanceReportTable = () => {
                 {/* {loading && <Loading />} */}
 
                 <div className="col-lg-12">
-                  <table id="table-to-xlsx" className="table table-striped table-bordered global-table table-font-size-sm">
+               <div className="table-responsive">
+               <table id="table-to-xlsx" className="table table-striped table-bordered global-table table-font-size-sm">
                     <thead>
                       <tr>
                         <th>SL</th>
@@ -399,6 +400,7 @@ const MaintenanceReportTable = () => {
                     </tbody>
                     {/* )} */}
                   </table>
+               </div>
                 </div>
                 <>
                   <IViewModal

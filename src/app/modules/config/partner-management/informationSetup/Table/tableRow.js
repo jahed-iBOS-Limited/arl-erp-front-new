@@ -61,7 +61,8 @@ export function TableRow() {
         {loading && <Loading />}
         <div className="col-lg-12 pr-0 pl-0">
           {gridData?.landingData?.length > 0 && (
-            <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+           <div className="table-responsive">
+             <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
               <thead>
                 <tr>
                   <th>SL</th>
@@ -127,6 +128,7 @@ export function TableRow() {
                 ))}
               </tbody>
             </table>
+           </div>
           )}
         </div>
         {gridData?.data?.length > 0 && (

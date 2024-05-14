@@ -180,7 +180,7 @@ export default function AddGrid({ setRowDto, rowDto, pcDDL, row, setRow }) {
   }, [rowDto]);
 
   return (
-    <div>
+    <div className="table-responsive">
       <table ref={tableRef} className="table  table-striped table-bordered mt-3 global-table">
         <thead>
           <tr className="text-center">

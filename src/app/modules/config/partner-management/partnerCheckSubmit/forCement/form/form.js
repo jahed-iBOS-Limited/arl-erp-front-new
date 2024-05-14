@@ -252,7 +252,8 @@ export default function _Form({
                   </div>
                 </div>
                 {rowData?.length > 0 && (
-                  <table
+                 <div className="table-responsive">
+                   <table
                     className={
                       "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
                     }
@@ -305,6 +306,7 @@ export default function _Form({
                       ))}
                     </tbody>
                   </table>
+                 </div>
                 )}
               </Form>
             </ICustomCard>

@@ -232,6 +232,7 @@ export default function _Form({
                   </div>
                 </div>
               )}
+              <div className="table-responsive">
               <table className="table table-striped table-bordered global-table">
                 <thead>
                   <tr className="text-center">
@@ -273,6 +274,7 @@ export default function _Form({
                     ))}
                 </tbody>
               </table>
+              </div>
 
               <button
                 type="submit"

@@ -102,7 +102,8 @@ export default function ViewJournal({ journalId, sbuId }) {
           >
             <Form>
               <div className="row">
-                <div className="col-lg-12 table-responsive">
+                <div className="col-lg-12">
+                  <div className="table-responsive">
                   <table className="table table-striped table-bordered global-table sales_order_landing_table">
                     <thead>
                       <tr>
@@ -212,6 +213,7 @@ export default function ViewJournal({ journalId, sbuId }) {
                         ))}
                     </tbody>
                   </table>
+                  </div>
                 </div>
               </div>
             </Form>

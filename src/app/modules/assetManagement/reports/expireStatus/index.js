@@ -169,6 +169,7 @@ export default function VehicleExpireStatus() {
                             </div>
                             <div className="row">
                                 <div className="col-lg-12">
+                                    <div className="table-responsive">
                                     <table id="table-to-xlsx" className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                                         <thead>
                                             <tr>
@@ -197,6 +198,7 @@ export default function VehicleExpireStatus() {
                                             }
                                         </tbody>
                                     </table>
+                                    </div>
                                 </div>
                             </div>
                         </Form>

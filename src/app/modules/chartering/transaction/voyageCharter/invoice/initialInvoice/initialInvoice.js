@@ -284,7 +284,8 @@ function InitialInvoice({ invoiceHireData, formikprops, rowData, setRowData }) {
           </div>
           {/* First Section Header */}
           <div className="headerWrapper">
-            <table className="table mt-1 bj-table bj-table-landing mt-3">
+          <div className="table-responsive">
+          <table className="table mt-1 bj-table bj-table-landing mt-3">
               <thead>
                 <tr
                   style={{ borderTop: "1px solid #d6d6d6" }}
@@ -519,6 +520,7 @@ function InitialInvoice({ invoiceHireData, formikprops, rowData, setRowData }) {
                 )}
               </>
             </table>
+          </div>
           </div>
           {/* Bank Info Section */}
           {bankInfoData?.bankName ? (
