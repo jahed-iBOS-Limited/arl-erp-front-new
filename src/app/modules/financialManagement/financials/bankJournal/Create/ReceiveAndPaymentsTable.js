@@ -11,7 +11,8 @@ const ReceiveAndPaymentsTable = ({
   isEdit,
 }) => {
   return (
-    <table className={jorunalType === 6 ? "d-none" : "table mt-1 bj-table"}>
+    <div className="table-responsive">
+      <table className={jorunalType === 6 ? "d-none" : "table mt-1 bj-table"}>
       <thead className={rowDto?.length < 1 && "d-none"}>
         <tr>
           <th style={{ width: "20px" }}>SL</th>
@@ -120,6 +121,7 @@ const ReceiveAndPaymentsTable = ({
         ))}
       </tbody>
     </table>
+    </div>
   );
 };
 
