@@ -387,6 +387,7 @@ export default function HeaderForm() {
                         name="fromDate"
                         placeholder="From date"
                         type="date"
+                        style={{ width: "100%" }}
                       />
                     </div>
                   </div>
@@ -398,6 +399,7 @@ export default function HeaderForm() {
                         name="toDate"
                         placeholder="To date"
                         type="date"
+                        style={{ width: "100%" }}
                       />
                     </div>
                   </div>
