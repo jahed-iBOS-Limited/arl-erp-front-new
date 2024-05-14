@@ -1,7 +1,10 @@
 import { Field, Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import IConfirmModal from "../../../_helper/_confirmModal";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
+import { _formatMoney } from "../../../_helper/_formatMoney";
 import InputField from "../../../_helper/_inputField";
 import { _monthFirstDate } from "../../../_helper/_monthFirstDate";
 import NewSelect from "../../../_helper/_select";
@@ -10,9 +13,6 @@ import { _todayDate } from "../../../_helper/_todayDate";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import IForm from "./../../../_helper/_form";
 import Loading from "./../../../_helper/_loading";
-import { _formatMoney } from "../../../_helper/_formatMoney";
-import IConfirmModal from "../../../_helper/_confirmModal";
-import { toast } from "react-toastify";
 import { dryDockSaveHandler } from "./helper";
 
 const initData = {
@@ -342,7 +342,8 @@ export default function BareboatAndInsurancelanding() {
                 </div>
               </div>
 
-              <table className="table table-striped table-bordered bj-table bj-table-landing mt-3">
+            <div className="table-responsive">
+            <table className="table table-striped table-bordered bj-table bj-table-landing mt-3">
                 <thead>
                   <tr>
                     <th style={{ width: "90px" }}>
@@ -428,6 +429,7 @@ export default function BareboatAndInsurancelanding() {
                   ))}
                 </tbody>
               </table>
+            </div>
 
               {/* Pagination Code */}
               {gridData?.data?.length > 0 && (

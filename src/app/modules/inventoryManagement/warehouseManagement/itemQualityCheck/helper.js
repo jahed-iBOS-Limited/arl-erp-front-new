@@ -1,4 +1,5 @@
 import axios from "axios";
+import * as Yup from 'yup';
 export const grandParentTableHeaders = [
   "",
   "SL",
@@ -128,4 +129,82 @@ export const _numbering = (value) => {
       break;
   }
   return outPut;
+};
+
+// create mrr page function
+export const getSupplierDDL = async (accId, buId, sbuId, setter) => {
+  try {
+    const res = await axios.get(
+      `/procurement/PurchaseOrder/GetSupplierListDDL?AccountId=${accId}&UnitId=${buId}&SBUId=${sbuId}`
+    )
+    if (res.status === 200 && res?.data) {
+      let newData = res?.data?.map(data =>{
+        return {
+          ...data,
+          label:data?.labelValue
+        }
+      })
+      setter(newData)
+    }
+  } catch (error) {
+    
+  }
+}
+export const initData = {
+  refType: '',
+  refNo: '',
+  transType: '',
+  busiPartner: '',
+  personnel: '',
+  remarks: '',
+  item: '',
+  costCenter: '',
+  projName: '',
+  isAllItem: false,
+  getEntry: '',
+  file: '',
+  challanNO:"",
+  challanDate:"",
+  vatChallan:"",
+  vatAmmount:"",
+  freight:"",
+  grossDiscount:"",
+  commission:"",
+  foreignPurchase:"",
+  othersCharge: ""
+}
+export const validationSchemaForMRR = Yup.object().shape({
+  refType: Yup.object().shape({
+    label: Yup.string().required('Refference Type is required'),
+    value: Yup.string().required('Refference Type is required'),
+  }),
+  transType: Yup.object().shape({
+    label: Yup.string().required('Transaction Type is required'),
+    value: Yup.string().required('Transaction Type is required'),
+  }),
+  // item: Yup.object().shape({
+  //   label: Yup.string().required("Item is required"),
+  //   value: Yup.string().required("Item is required")
+  // })
+})
+
+export const uploadAttachment = (attachment) => {
+  let formData = new FormData();
+  attachment.forEach((file) => {
+    formData.append("files", file?.file);
+  });
+  return axios.post("/domain/Document/UploadFile", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+};
+
+export const getForeignPurchaseDDL = async (poId, sbuId, setter) => {
+  try {
+    const res = await axios.get(
+      `/wms/Import/GetImportShipmentDDL?PoId=${poId}&PlantId=${sbuId}`
+    );
+    setter(res?.data);
+  } catch (error) {}
 };

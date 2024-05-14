@@ -1,17 +1,16 @@
-import React, { useEffect, useState } from "react";
-import IViewModal from "../../../../_helper/_viewModal";
-import { getExpenseById } from "../helper";
-import { Formik, Form } from "formik";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import IView from "../../../../_helper/_helperIcons/_view";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
+import { Form, Formik } from "formik";
+import React, { useEffect, useRef, useState } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
-import Loading from "../../../../_helper/_loading";
 import ReactToPrint from "react-to-print";
+import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import { _fixedPoint } from "../../../../_helper/_fixedPoint";
+import IView from "../../../../_helper/_helperIcons/_view";
+import Loading from "../../../../_helper/_loading";
+import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
+import { _todayDate } from "../../../../_helper/_todayDate";
+import IViewModal from "../../../../_helper/_viewModal";
 import printIcon from "../../../../_helper/images/print-icon.png";
-import { useRef } from "react";
+import { getExpenseById } from "../helper";
 
 const initData = {
   expenseCategory: "",
@@ -185,7 +184,8 @@ export default function ViewForm({ id, show, onHide }) {
                       <div className="col-lg-12">
                         <div className="row">
                           <div className="col-lg-12 pr-0 ">
-                            <table className={"table mt-1 bj-table border"}>
+                          <div className="table-responsive">
+                          <table className={"table mt-1 bj-table border"}>
                               <thead className={rowDto.length < 1 && "d-none"}>
                                 <tr>
                                   <th
@@ -392,6 +392,7 @@ export default function ViewForm({ id, show, onHide }) {
                                 ))}
                               </tbody>
                             </table>
+                          </div>
                             <div className="d-flex flex-column justify-content-end align-items-end">
                               <p className="m-0" style={{ fontSize: "15px" }}>
                                 <b>
