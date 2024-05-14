@@ -31,7 +31,8 @@ const CreateBaddebt = ({ tableData }) => {
       {saveJournalLoading && <Loading />}
       <div className="row">
         <div className="col-12">
-          <table className="table table-striped table-bordered global-table mt-0 table-font-size-sm mt-5">
+        <div className="table-responsive">
+        <table className="table table-striped table-bordered global-table mt-0 table-font-size-sm mt-5">
             <thead className="bg-secondary">
               <tr>
                 <th>SL</th>
@@ -89,6 +90,7 @@ const CreateBaddebt = ({ tableData }) => {
           </tr> */}
             </tbody>
           </table>
+      </div>
         </div>
       </div>
     </>

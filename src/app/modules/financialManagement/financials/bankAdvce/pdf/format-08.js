@@ -102,6 +102,7 @@ export const FormatEight = ({
                 the following information we agreed with
               </p>
             </div>
+            <div className="table-responsive">
             <table className="table table-striped table-bordered  advice-table table-font-size-sm">
               <thead>
                 <tr>
@@ -682,6 +683,7 @@ export const FormatEight = ({
                 </tr>
               </tbody>
             </table>
+     </div>
             <p
               className="mt-5"
               style={{

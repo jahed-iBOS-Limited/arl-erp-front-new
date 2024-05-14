@@ -81,6 +81,7 @@ export const FormatSix = ({
           {`You are requested to Debit our Account:  ${values?.bankAccountNo?.bankAccNo} by settling as per instructions below:`}
         </p>
       </div>
+      <div className="table-responsive">
       <table className="table table-striped table-bordered  advice-table table-font-size-sm">
         <thead>
           <tr>
@@ -212,6 +213,7 @@ export const FormatSix = ({
           </tr>
         </tbody>
       </table>
+     </div>
       <p
         className="font-weight-bold mt-5"
         style={{

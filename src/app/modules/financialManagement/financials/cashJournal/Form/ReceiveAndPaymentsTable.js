@@ -12,7 +12,8 @@ const ReceiveAndPaymentsTable = ({
   return (
     <div className="row">
       <div style={{ paddingLeft: "5px" }} className="col-lg-12 pr-0">
-        <table className={jorunalType === 3 ? "d-none" : "table mt-1 bj-table"}>
+      <div className="table-responsive">
+      <table className={jorunalType === 3 ? "d-none" : "table mt-1 bj-table"}>
           <thead className={rowDto?.length < 1 && "d-none"}>
             <tr>
               <th style={{ width: "20px" }}>SL</th>
@@ -89,6 +90,7 @@ const ReceiveAndPaymentsTable = ({
             ))}
           </tbody>
         </table>
+      </div>
       </div>
     </div>
   );

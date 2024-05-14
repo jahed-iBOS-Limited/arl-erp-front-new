@@ -24,7 +24,7 @@ export default function AdjustmentJournalTable({
     "Action"
   ];
   return (
-    <div>
+    <div className="table-responsive">
       <table
         className={
           "table table-striped table-bordered mt-0 bj-table bj-table-landing table-font-size-sm"
