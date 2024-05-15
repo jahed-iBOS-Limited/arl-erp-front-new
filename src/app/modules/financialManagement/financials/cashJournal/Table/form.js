@@ -174,22 +174,22 @@ export default function HeaderForm({
                     </button>
                   </CardHeaderToolbar>
                 </CardHeader>
-                <CardBody>
-                  <div
-                    className="row m-0 align-items-stretch"
-                    style={{
-                      gap: "10px",
-                    }}
-                  >
+                <CardBody
+                  style={{
+                    padding: "10px",
+                  }}
+                >
+                  <div className="row m-0 align-items-stretch">
+                    <div></div>
                     {/* box-one start */}
-                    <div className="col-lg-8 p-0">
+                    <div className="col-lg-9 p-0">
                       <div
                         className="row m-0 bank-journal bank-journal-custom bj-left pb-2"
                         style={{
                           rowGap: "10px",
                         }}
                       >
-                        <div className="col-lg-4">
+                        <div className="col-lg-4 p-0 pr-1">
                           <label>Select SBU</label>
                           <Select
                             onChange={(valueOption) => {
@@ -209,7 +209,7 @@ export default function HeaderForm({
                             touched={touched}
                           />
                         </div>
-                        <div className="col-lg-4">
+                        <div className="col-lg-4 p-0 pr-1">
                           <label>Select Journal Type</label>
                           <Select
                             label="Select Journal Type"
@@ -238,12 +238,10 @@ export default function HeaderForm({
                         </div>
 
                         <div
-                          className="col-lg-4"
+                          className="col-lg-4 p-0"
                           style={{ position: "relative" }}
                         >
-                          <span style={{ paddingRight: "10px" }}>
-                            Journal Code
-                          </span>
+                          <span>Journal Code</span>
                           <IInput value={values.code} name="code" />
 
                           <i
@@ -256,8 +254,148 @@ export default function HeaderForm({
                             }}
                           ></i>
                         </div>
+                      </div>
 
-                        <div className="col-lg-4">
+                      <div className="row m-0 bank-journal bank-journal-custom cashJournal_buttom">
+                        <div className="col-lg-3 p-0 pr-1">
+                          <div className="bank-journal-date">
+                            <div>From Date</div>
+                            <input
+                              className="trans-date cj-landing-date"
+                              value={values?.fromDate}
+                              name="fromDate"
+                              onChange={(e) => {
+                                setFieldValue("fromDate", e.target.value);
+                              }}
+                              type="date"
+                            />
+                          </div>
+                        </div>
+
+                        <div className="col-lg-3 p-0">
+                          <div className="bank-journal-date">
+                            <div>To Date</div>
+                            <input
+                              className="trans-date cj-landing-date"
+                              value={values?.toDate}
+                              name="toDate"
+                              onChange={(e) => {
+                                setFieldValue("toDate", e.target.value);
+                              }}
+                              type="date"
+                            />
+                          </div>
+                        </div>
+
+                        <div
+                          className="col-lg-6"
+                          style={{
+                            display: "flex",
+                            alignContent: "end",
+                          }}
+                        >
+                          <div
+                            role="group"
+                            aria-labelledby="my-radio-group"
+                            className="d-flex justify-content-between align-items-end cashJournalCheckbox"
+                          >
+                            <label>
+                              <input
+                                type="radio"
+                                name="type"
+                                checked={values.type === "notComplated"}
+                                className="mr-1 pointer"
+                                onChange={(e) => {
+                                  setFieldValue("searchEmployee", {
+                                    value: profileData.userId,
+                                    label: profileData.userName,
+                                  });
+                                  setFieldValue("type", "notComplated");
+                                  setRowDto([]);
+                                  dispatch(
+                                    getCashJournalGridData(
+                                      selectedBusinessUnit.value,
+                                      values.sbu.value,
+                                      values?.accountingJournalTypeId?.value,
+                                      false,
+                                      true,
+                                      values.fromDate,
+                                      values.toDate,
+                                      setLoading,
+                                      pageNo,
+                                      pageSize
+                                    )
+                                    //accId, buId, sbuId, accJournalTypeId, isPosted, //isActive, fromdate, todate
+                                  );
+                                }}
+                              />
+                              <span>Not Completed</span>
+                            </label>
+                            <label>
+                              <input
+                                type="radio"
+                                name="type"
+                                checked={values.type === "complated"}
+                                className="mr-1 pointer"
+                                onChange={(e) => {
+                                  setFieldValue("type", "complated");
+                                  setRowDto([]);
+                                  dispatch(
+                                    getCashJournalGridData(
+                                      selectedBusinessUnit.value,
+                                      values.sbu.value,
+                                      values?.accountingJournalTypeId?.value,
+                                      true,
+                                      true,
+                                      values.fromDate,
+                                      values.toDate,
+                                      setLoading,
+                                      pageNo,
+                                      pageSize
+                                    )
+                                    //accId, buId, sbuId, accJournalTypeId, isPosted, //isActive, fromdate, todate
+                                  );
+                                }}
+                              />
+                              <span>Completed</span>
+                            </label>
+
+                            <label>
+                              <input
+                                type="radio"
+                                name="type"
+                                checked={values.type === "canceled"}
+                                className="mr-1 pointer"
+                                onChange={(e) => {
+                                  setFieldValue("type", "canceled");
+                                  setRowDto([]);
+                                  dispatch(
+                                    getCashJournalGridData(
+                                      selectedBusinessUnit.value,
+                                      values.sbu.value,
+                                      values?.accountingJournalTypeId?.value,
+                                      false,
+                                      false,
+                                      values.fromDate,
+                                      values.toDate,
+                                      setLoading,
+                                      pageNo,
+                                      pageSize
+                                    )
+                                    //accId, buId, sbuId, accJournalTypeId, isPosted, //isActive, fromdate, todate
+                                  );
+                                }}
+                              />
+                              <span>Canceled</span>
+                            </label>
+                            {/* <div className=" d-flex bj-add-btn pl-1 h-narration disable-border disabled-feedback border-gray caushJournalButtomCode">
+                            
+                          </div> */}
+                          </div>
+                        </div>
+
+                        <div className="col-lg-12"></div>
+                        <div className="col d-flex align-items-center p-2">
                           <button
                             type="submit"
                             className="btn btn-primary"
@@ -294,144 +432,6 @@ export default function HeaderForm({
                           </button>
                         </div>
                       </div>
-
-                      <div
-                        className="row m-0 bank-journal bank-journal-custom cashJournal_buttom"
-                        style={{
-                          rowGap: "10px",
-                        }}
-                      >
-                        <div className="col-lg-4">
-                          <div className="mr-2 bank-journal bank-journal-custom bank-journal-date d-flex align-items-center">
-                            <div style={{ width: "80px" }}>From Date</div>
-                            <input
-                              className="trans-date cj-landing-date"
-                              value={values?.fromDate}
-                              name="fromDate"
-                              onChange={(e) => {
-                                setFieldValue("fromDate", e.target.value);
-                              }}
-                              type="date"
-                            />
-                          </div>
-                        </div>
-
-                        <div className="col-lg-4">
-                          <div className="mr-2 bank-journal bank-journal-custom bank-journal-date d-flex align-items-center">
-                            <div style={{ width: "70px" }}>To Date</div>
-                            <input
-                              className="trans-date cj-landing-date"
-                              value={values?.toDate}
-                              name="toDate"
-                              onChange={(e) => {
-                                setFieldValue("toDate", e.target.value);
-                              }}
-                              type="date"
-                            />
-                          </div>
-                        </div>
-
-                        <div className="col-lg">
-                          <div
-                            role="group"
-                            aria-labelledby="my-radio-group"
-                            className="d-flex justify-content-between align-items-center cashJournalCheckbox"
-                          >
-                            <label>
-                              <input
-                                type="radio"
-                                name="type"
-                                checked={values.type === "notComplated"}
-                                className="mr-1 pointer"
-                                onChange={(e) => {
-                                  setFieldValue("searchEmployee", {
-                                    value: profileData.userId,
-                                    label: profileData.userName,
-                                  });
-                                  setFieldValue("type", "notComplated");
-                                  setRowDto([]);
-                                  dispatch(
-                                    getCashJournalGridData(
-                                      selectedBusinessUnit.value,
-                                      values.sbu.value,
-                                      values?.accountingJournalTypeId?.value,
-                                      false,
-                                      true,
-                                      values.fromDate,
-                                      values.toDate,
-                                      setLoading,
-                                      pageNo,
-                                      pageSize
-                                    )
-                                    //accId, buId, sbuId, accJournalTypeId, isPosted, //isActive, fromdate, todate
-                                  );
-                                }}
-                              />
-                              Not Completed
-                            </label>
-                            <label>
-                              <input
-                                type="radio"
-                                name="type"
-                                checked={values.type === "complated"}
-                                className="mr-1 pointer"
-                                onChange={(e) => {
-                                  setFieldValue("type", "complated");
-                                  setRowDto([]);
-                                  dispatch(
-                                    getCashJournalGridData(
-                                      selectedBusinessUnit.value,
-                                      values.sbu.value,
-                                      values?.accountingJournalTypeId?.value,
-                                      true,
-                                      true,
-                                      values.fromDate,
-                                      values.toDate,
-                                      setLoading,
-                                      pageNo,
-                                      pageSize
-                                    )
-                                    //accId, buId, sbuId, accJournalTypeId, isPosted, //isActive, fromdate, todate
-                                  );
-                                }}
-                              />
-                              Completed
-                            </label>
-
-                            <label>
-                              <input
-                                type="radio"
-                                name="type"
-                                checked={values.type === "canceled"}
-                                className="mr-1 pointer"
-                                onChange={(e) => {
-                                  setFieldValue("type", "canceled");
-                                  setRowDto([]);
-                                  dispatch(
-                                    getCashJournalGridData(
-                                      selectedBusinessUnit.value,
-                                      values.sbu.value,
-                                      values?.accountingJournalTypeId?.value,
-                                      false,
-                                      false,
-                                      values.fromDate,
-                                      values.toDate,
-                                      setLoading,
-                                      pageNo,
-                                      pageSize
-                                    )
-                                    //accId, buId, sbuId, accJournalTypeId, isPosted, //isActive, fromdate, todate
-                                  );
-                                }}
-                              />
-                              Canceled
-                            </label>
-                            {/* <div className=" d-flex bj-add-btn pl-1 h-narration disable-border disabled-feedback border-gray caushJournalButtomCode">
-                            
-                          </div> */}
-                          </div>
-                        </div>
-                      </div>
                     </div>
                     {/* box-one-end */}
 
@@ -447,6 +447,15 @@ export default function HeaderForm({
                             gap: "10px",
                           }}
                         >
+                          <div
+                            style={{
+                              width: "5px",
+                              height: "100%",
+                              background: "white",
+                              position: "absolute",
+                              top: 0,
+                            }}
+                          ></div>
                           <div className="col-lg-6">
                             <div className="mr-2 bank-journal bank-journal-custom bank-journal-date">
                               <div>Complete Date</div>
@@ -480,12 +489,8 @@ export default function HeaderForm({
                       </div>
                     </div>
                     {/* box-three-end */}
-
-                    <div className="offset-lg-1"></div>
                   </div>
-                  <div
-                    className="mx-2 col-12"
-                  >
+                  <div className="mx-2 col-12">
                     <GridData
                       rowDto={rowDto}
                       pageNo={pageNo}
