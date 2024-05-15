@@ -329,369 +329,373 @@ export default function BalancerReportTable() {
                     </div>
                     <div style={{ width: 600, margin: "auto" }}>
                       <div className="my-5">
-                        <table id="table-to-xlsx" className="w-full">
-                          <tr>
-                            <td
-                              style={{
-                                fontWeight: "bold",
-                                border: "1px solid black",
-                              }}
-                            >
-                              Particulars
-                            </td>
-                            <td
-                              className="text-center"
-                              style={{
-                                fontWeight: "bold",
-                                border: "1px solid black",
-                              }}
-                            >
-                              Budget
-                            </td>
-                            <td
-                              className="text-center"
-                              style={{
-                                fontWeight: "bold",
-                                border: "1px solid black",
-                              }}
-                            >
-                              Actual
-                            </td>
+                        <div className="table-responsive">
+                          <table id="table-to-xlsx" className="w-full">
+                            <tr>
+                              <td
+                                style={{
+                                  fontWeight: "bold",
+                                  border: "1px solid black",
+                                }}
+                              >
+                                Particulars
+                              </td>
+                              <td
+                                className="text-center"
+                                style={{
+                                  fontWeight: "bold",
+                                  border: "1px solid black",
+                                }}
+                              >
+                                Budget
+                              </td>
+                              <td
+                                className="text-center"
+                                style={{
+                                  fontWeight: "bold",
+                                  border: "1px solid black",
+                                }}
+                              >
+                                Actual
+                              </td>
 
-                            <td
-                              className="text-center"
+                              <td
+                                className="text-center"
+                                style={{
+                                  fontWeight: "bold",
+                                  border: "1px solid black",
+                                }}
+                              >
+                                Variance
+                              </td>
+                              {/* <td className="text-right" style={{ fontWeight: "bold" }}>Amount</td> */}
+                            </tr>
+                            <tr
                               style={{
-                                fontWeight: "bold",
+                                background: "#D8D8D8",
                                 border: "1px solid black",
                               }}
                             >
-                              Variance
-                            </td>
-                            {/* <td className="text-right" style={{ fontWeight: "bold" }}>Amount</td> */}
-                          </tr>
-                          <tr
-                            style={{
-                              background: "#D8D8D8",
-                              border: "1px solid black",
-                            }}
-                          >
-                            <td colSpan="4" style={{ fontWeight: "bold" }}>
-                              Assets
-                            </td>
-                          </tr>
-                          <tr>
-                            <td
-                              colSpan="4"
-                              style={{
-                                fontWeight: "bold",
-                                border: "1px solid black",
-                              }}
-                            >
-                              Non-Current Assets
-                            </td>
-                          </tr>
+                              <td colSpan="4" style={{ fontWeight: "bold" }}>
+                                Assets
+                              </td>
+                            </tr>
+                            <tr>
+                              <td
+                                colSpan="4"
+                                style={{
+                                  fontWeight: "bold",
+                                  border: "1px solid black",
+                                }}
+                              >
+                                Non-Current Assets
+                              </td>
+                            </tr>
 
-                          {rowDto?.nonCurrentAssets &&
-                            rowDto?.nonCurrentAssets.map((itm, index) => {
-                              return (
-                                <tr key={index}>
-                                  <td
-                                    className="text-left"
-                                    style={{
-                                      paddingLeft: "20px",
-                                      border: "1px solid black",
-                                    }}
-                                  >
-                                    {itm.strGlName}
-                                  </td>
+                            {rowDto?.nonCurrentAssets &&
+                              rowDto?.nonCurrentAssets.map((itm, index) => {
+                                return (
+                                  <tr key={index}>
+                                    <td
+                                      className="text-left"
+                                      style={{
+                                        paddingLeft: "20px",
+                                        border: "1px solid black",
+                                      }}
+                                    >
+                                      {itm.strGlName}
+                                    </td>
 
-                                  <td className="text-right border border-dark">
-                                    {_formatMoney(itm?.numPlanBalance, 0)}
-                                  </td>
-                                  <td className="text-right border border-dark">
-                                    <span className="pr-1">
-                                      {numberWithCommas(
-                                        parseFloat(itm.numBalance).toFixed()
+                                    <td className="text-right border border-dark">
+                                      {_formatMoney(itm?.numPlanBalance, 0)}
+                                    </td>
+                                    <td className="text-right border border-dark">
+                                      <span className="pr-1">
+                                        {numberWithCommas(
+                                          parseFloat(itm.numBalance).toFixed()
+                                        )}
+                                      </span>
+                                    </td>
+                                    <td className="text-right border border-dark">
+                                      {_formatMoney(
+                                        itm.numBalance - itm?.numPlanBalance,
+                                        0
                                       )}
-                                    </span>
-                                  </td>
-                                  <td className="text-right border border-dark">
-                                    {_formatMoney(
-                                      itm.numBalance - itm?.numPlanBalance,
-                                      0
-                                    )}
-                                  </td>
-                                </tr>
-                              );
-                            })}
-                          <tr style={{ background: "#F2F2F2" }}>
-                            <td
-                              className="border border-dark"
-                              style={{ fontWeight: "bold" }}
-                            >
-                              Total Non-Current Assets
-                            </td>
-                            <td className="text-right border border-dark">
-                              {_formatMoney(
-                                rowDto?.nonCurrentAssetsTotalPlanBalance,
-                                0
-                              )}
-                            </td>
-                            <td className="text-right border border-dark">
-                              {_formatMoney(
-                                rowDto?.nonCurrentAssetsTotalBalance,
-                                0
-                              )}
-                            </td>
-                            <td className="text-right border border-dark">
-                              {_formatMoney(
-                                rowDto?.nonCurrentAssetsTotalBalance -
+                                    </td>
+                                  </tr>
+                                );
+                              })}
+                            <tr style={{ background: "#F2F2F2" }}>
+                              <td
+                                className="border border-dark"
+                                style={{ fontWeight: "bold" }}
+                              >
+                                Total Non-Current Assets
+                              </td>
+                              <td className="text-right border border-dark">
+                                {_formatMoney(
                                   rowDto?.nonCurrentAssetsTotalPlanBalance,
-                                0
-                              )}
-                            </td>
-                          </tr>
-                          <tr>
-                            <td
-                              colSpan="4"
-                              style={{ fontWeight: "bold" }}
-                              className="border border-dark"
-                            >
-                              Current Assets
-                            </td>
-                          </tr>
-                          {rowDto?.currentassets &&
-                            rowDto?.currentassets.map((itm, index) => {
-                              return (
-                                <tr key={index}>
-                                  <td
-                                    className="text-left border border-dark"
-                                    style={{ paddingLeft: "20px" }}
-                                  >
-                                    {itm.strGlName}
-                                  </td>
-                                  <td className="text-right border border-dark">
-                                    {_formatMoney(itm?.numPlanBalance, 0)}
-                                  </td>
-                                  <td
-                                    className="text-right border border-dark"
-                                    style={{ border: "1px solid black" }}
-                                  >
-                                    <span className="pr-1">
-                                      {numberWithCommas(
-                                        parseFloat(itm.numBalance).toFixed()
+                                  0
+                                )}
+                              </td>
+                              <td className="text-right border border-dark">
+                                {_formatMoney(
+                                  rowDto?.nonCurrentAssetsTotalBalance,
+                                  0
+                                )}
+                              </td>
+                              <td className="text-right border border-dark">
+                                {_formatMoney(
+                                  rowDto?.nonCurrentAssetsTotalBalance -
+                                    rowDto?.nonCurrentAssetsTotalPlanBalance,
+                                  0
+                                )}
+                              </td>
+                            </tr>
+                            <tr>
+                              <td
+                                colSpan="4"
+                                style={{ fontWeight: "bold" }}
+                                className="border border-dark"
+                              >
+                                Current Assets
+                              </td>
+                            </tr>
+                            {rowDto?.currentassets &&
+                              rowDto?.currentassets.map((itm, index) => {
+                                return (
+                                  <tr key={index}>
+                                    <td
+                                      className="text-left border border-dark"
+                                      style={{ paddingLeft: "20px" }}
+                                    >
+                                      {itm.strGlName}
+                                    </td>
+                                    <td className="text-right border border-dark">
+                                      {_formatMoney(itm?.numPlanBalance, 0)}
+                                    </td>
+                                    <td
+                                      className="text-right border border-dark"
+                                      style={{ border: "1px solid black" }}
+                                    >
+                                      <span className="pr-1">
+                                        {numberWithCommas(
+                                          parseFloat(itm.numBalance).toFixed()
+                                        )}
+                                      </span>
+                                    </td>
+                                    <td className="text-right border border-dark">
+                                      {_formatMoney(
+                                        itm.numBalance - itm?.numPlanBalance,
+                                        0
                                       )}
-                                    </span>
-                                  </td>
-                                  <td className="text-right border border-dark">
-                                    {_formatMoney(
-                                      itm.numBalance - itm?.numPlanBalance,
-                                      0
-                                    )}
-                                  </td>
-                                </tr>
-                              );
-                            })}
-                          <tr style={{ background: "#F2F2F2" }}>
-                            <td
-                              style={{ fontWeight: "bold" }}
+                                    </td>
+                                  </tr>
+                                );
+                              })}
+                            <tr style={{ background: "#F2F2F2" }}>
+                              <td
+                                style={{ fontWeight: "bold" }}
+                                className="border border-dark"
+                              >
+                                Total Current Assets
+                              </td>
+                              <td className="text-right border border-dark">
+                                {_formatMoney(
+                                  rowDto?.currentassetsTotalPlanBalance,
+                                  0
+                                )}
+                              </td>
+                              <td className="text-rightn border border-dark">
+                                {_formatMoney(
+                                  rowDto?.currentassetsTotalBalance,
+                                  0
+                                )}
+                              </td>
+                              <td className="text-right border border-dark">
+                                {(
+                                  rowDto?.currentassetsTotalBalance || 0
+                                ).toFixed() -
+                                  (
+                                    rowDto?.currentassetsTotalPlanBalance || 0
+                                  ).toFixed()}
+                              </td>
+                            </tr>
+                            <tr style={{ background: "#D8D8D8" }}>
+                              <td
+                                style={{ fontWeight: "bold" }}
+                                className="border border-dark"
+                              >
+                                Total Assets
+                              </td>
+                              <td
+                                className="text-right border border-dark"
+                                style={{ borderBottom: "3px double black" }}
+                              >
+                                {_formatMoney(
+                                  (rowDto?.currentassetsTotalPlanBalance || 0) +
+                                    (rowDto?.nonCurrentAssetsTotalPlanBalance ||
+                                      0),
+                                  0
+                                )}
+                              </td>
+                              <td
+                                className="text-right border border-dark"
+                                style={{ borderBottom: "3px double black" }}
+                              >
+                                {_formatMoney(
+                                  (rowDto?.currentassetsTotalBalance || 0) +
+                                    (rowDto?.nonCurrentAssetsTotalBalance || 0),
+                                  0
+                                )}
+                              </td>
+                              <td
+                                className="text-right border border-dark"
+                                style={{ borderBottom: "3px double black" }}
+                              >
+                                {getTotalAssetsVariance(rowDto)}
+                              </td>
+                            </tr>
+                            <tr style={{ height: "15px" }}></tr>
+                            <tr
+                              style={{ background: "#D8D8D8" }}
                               className="border border-dark"
                             >
-                              Total Current Assets
-                            </td>
-                            <td className="text-right border border-dark">
-                              {_formatMoney(
-                                rowDto?.currentassetsTotalPlanBalance,
-                                0
-                              )}
-                            </td>
-                            <td className="text-rightn border border-dark">
-                              {_formatMoney(
-                                rowDto?.currentassetsTotalBalance,
-                                0
-                              )}
-                            </td>
-                            <td className="text-right border border-dark">
-                              {(
-                                rowDto?.currentassetsTotalBalance || 0
-                              ).toFixed() -
-                                (
-                                  rowDto?.currentassetsTotalPlanBalance || 0
-                                ).toFixed()}
-                            </td>
-                          </tr>
-                          <tr style={{ background: "#D8D8D8" }}>
-                            <td
-                              style={{ fontWeight: "bold" }}
-                              className="border border-dark"
-                            >
-                              Total Assets
-                            </td>
-                            <td
-                              className="text-right border border-dark"
-                              style={{ borderBottom: "3px double black" }}
-                            >
-                              {_formatMoney(
-                                (rowDto?.currentassetsTotalPlanBalance || 0) +
-                                  (rowDto?.nonCurrentAssetsTotalPlanBalance ||
-                                    0),
-                                0
-                              )}
-                            </td>
-                            <td
-                              className="text-right border border-dark"
-                              style={{ borderBottom: "3px double black" }}
-                            >
-                              {_formatMoney(
-                                (rowDto?.currentassetsTotalBalance || 0) +
-                                  (rowDto?.nonCurrentAssetsTotalBalance || 0),
-                                0
-                              )}
-                            </td>
-                            <td
-                              className="text-right border border-dark"
-                              style={{ borderBottom: "3px double black" }}
-                            >
-                              {getTotalAssetsVariance(rowDto)}
-                            </td>
-                          </tr>
-                          <tr style={{ height: "15px" }}></tr>
-                          <tr
-                            style={{ background: "#D8D8D8" }}
-                            className="border border-dark"
-                          >
-                            <td colSpan="4" style={{ fontWeight: "bold" }}>
-                              EQUITY AND LIABILITIES
-                            </td>
-                          </tr>
-                          <tr className="border border-dark">
-                            <td colSpan="4" style={{ fontWeight: "bold" }}>
-                              Equity
-                            </td>
-                          </tr>
+                              <td colSpan="4" style={{ fontWeight: "bold" }}>
+                                EQUITY AND LIABILITIES
+                              </td>
+                            </tr>
+                            <tr className="border border-dark">
+                              <td colSpan="4" style={{ fontWeight: "bold" }}>
+                                Equity
+                              </td>
+                            </tr>
 
-                          {rowDto?.equity &&
-                            rowDto?.equity.map((itm, index) => {
-                              return (
-                                <tr key={index}>
-                                  <td
-                                    className="text-left border border-dark"
-                                    style={{ paddingLeft: "20px" }}
-                                  >
-                                    {itm.strGlName}
-                                  </td>
-                                  <td className="text-right border border-dark">
-                                    {_formatMoney(itm?.numPlanBalance, 0)}
-                                  </td>
-                                  <td
-                                    className="text-right border border-dark"
-                                    style={{ border: "1px solid black" }}
-                                  >
-                                    <span className="pr-1">
-                                      {numberWithCommas(
-                                        parseFloat(itm.numBalance).toFixed()
+                            {rowDto?.equity &&
+                              rowDto?.equity.map((itm, index) => {
+                                return (
+                                  <tr key={index}>
+                                    <td
+                                      className="text-left border border-dark"
+                                      style={{ paddingLeft: "20px" }}
+                                    >
+                                      {itm.strGlName}
+                                    </td>
+                                    <td className="text-right border border-dark">
+                                      {_formatMoney(itm?.numPlanBalance, 0)}
+                                    </td>
+                                    <td
+                                      className="text-right border border-dark"
+                                      style={{ border: "1px solid black" }}
+                                    >
+                                      <span className="pr-1">
+                                        {numberWithCommas(
+                                          parseFloat(itm.numBalance).toFixed()
+                                        )}
+                                      </span>
+                                    </td>
+                                    <td className="text-right border border-dark">
+                                      {_formatMoney(
+                                        itm.numBalance - itm?.numPlanBalance,
+                                        0
                                       )}
-                                    </span>
-                                  </td>
-                                  <td className="text-right border border-dark">
-                                    {_formatMoney(
-                                      itm.numBalance - itm?.numPlanBalance,
-                                      0
-                                    )}
-                                  </td>
-                                </tr>
-                              );
-                            })}
-                          <tr style={{ background: "#F2F2F2" }}>
-                            <td
-                              className="border border-dark"
-                              style={{ fontWeight: "bold" }}
-                            >
-                              Total Equity
-                            </td>
-                            <td className="text-right border border-dark">
-                              {_formatMoney(rowDto?.equityTotalPlanBalance, 0)}
-                            </td>
-                            <td className="text-right border border-dark">
-                              {_formatMoney(rowDto?.equityTotalBalance, 0)}
-                            </td>
-                            <td className="text-right border border-dark">
-                              {_formatMoney(
-                                rowDto?.equityTotalBalance -
+                                    </td>
+                                  </tr>
+                                );
+                              })}
+                            <tr style={{ background: "#F2F2F2" }}>
+                              <td
+                                className="border border-dark"
+                                style={{ fontWeight: "bold" }}
+                              >
+                                Total Equity
+                              </td>
+                              <td className="text-right border border-dark">
+                                {_formatMoney(
                                   rowDto?.equityTotalPlanBalance,
-                                0
-                              )}
-                            </td>
-                          </tr>
-                          <tr className="border border-dark">
-                            <td colSpan="4" style={{ fontWeight: "bold" }}>
-                              Non-Current Liabilities
-                            </td>
-                          </tr>
-                          {/* <tr key="h">
+                                  0
+                                )}
+                              </td>
+                              <td className="text-right border border-dark">
+                                {_formatMoney(rowDto?.equityTotalBalance, 0)}
+                              </td>
+                              <td className="text-right border border-dark">
+                                {_formatMoney(
+                                  rowDto?.equityTotalBalance -
+                                    rowDto?.equityTotalPlanBalance,
+                                  0
+                                )}
+                              </td>
+                            </tr>
+                            <tr className="border border-dark">
+                              <td colSpan="4" style={{ fontWeight: "bold" }}>
+                                Non-Current Liabilities
+                              </td>
+                            </tr>
+                            {/* <tr key="h">
                           <th style={{ width: '60%' }}>Non-Current Liabilities</th>
                           <th>Amount</th>
                         </tr> */}
-                          {rowDto?.nonCurrentLiability &&
-                            rowDto?.nonCurrentLiability.map((itm, index) => {
-                              return (
-                                <tr key={index}>
-                                  <td
-                                    className="text-left border border-dark"
-                                    style={{ paddingLeft: "20px" }}
-                                  >
-                                    {itm.strGlName}
-                                  </td>
-                                  <td className="text-right border border-dark">
-                                    {_formatMoney(itm?.numPlanBalance, 0)}
-                                  </td>
-                                  <td
-                                    className="text-right border border-dark"
-                                    style={{ border: "1px solid black" }}
-                                  >
-                                    <span className="pr-1">
-                                      {numberWithCommas(
-                                        parseFloat(itm.numBalance).toFixed(0)
+                            {rowDto?.nonCurrentLiability &&
+                              rowDto?.nonCurrentLiability.map((itm, index) => {
+                                return (
+                                  <tr key={index}>
+                                    <td
+                                      className="text-left border border-dark"
+                                      style={{ paddingLeft: "20px" }}
+                                    >
+                                      {itm.strGlName}
+                                    </td>
+                                    <td className="text-right border border-dark">
+                                      {_formatMoney(itm?.numPlanBalance, 0)}
+                                    </td>
+                                    <td
+                                      className="text-right border border-dark"
+                                      style={{ border: "1px solid black" }}
+                                    >
+                                      <span className="pr-1">
+                                        {numberWithCommas(
+                                          parseFloat(itm.numBalance).toFixed(0)
+                                        )}
+                                      </span>
+                                    </td>
+                                    <td className="text-right border border-dark">
+                                      {_formatMoney(
+                                        itm.numBalance - itm?.numPlanBalance,
+                                        0
                                       )}
-                                    </span>
-                                  </td>
-                                  <td className="text-right border border-dark">
-                                    {_formatMoney(
-                                      itm.numBalance - itm?.numPlanBalance,
-                                      0
-                                    )}
-                                  </td>
-                                </tr>
-                              );
-                            })}
-                          <tr style={{ background: "#F2F2F2" }}>
-                            <td
-                              style={{ fontWeight: "bold" }}
-                              className="border border-dark"
-                            >
-                              Total Non-Current Liability
-                            </td>
-                            <td className="text-right border border-dark">
-                              {_formatMoney(
-                                rowDto?.nonCurrentLiabilityTotalPlanBalance,
-                                0
-                              )}
-                            </td>
-                            <td className="text-right border border-dark">
-                              {_formatMoney(
-                                rowDto?.nonCurrentLiabilityTotalBalance,
-                                0
-                              )}
-                            </td>
-                            <td className="text-right border border-dark">
-                              {_formatMoney(
-                                rowDto?.nonCurrentLiabilityTotalBalance -
+                                    </td>
+                                  </tr>
+                                );
+                              })}
+                            <tr style={{ background: "#F2F2F2" }}>
+                              <td
+                                style={{ fontWeight: "bold" }}
+                                className="border border-dark"
+                              >
+                                Total Non-Current Liability
+                              </td>
+                              <td className="text-right border border-dark">
+                                {_formatMoney(
                                   rowDto?.nonCurrentLiabilityTotalPlanBalance,
-                                0
-                              )}
-                            </td>
-                          </tr>
-                          {/* <tr key="i">
+                                  0
+                                )}
+                              </td>
+                              <td className="text-right border border-dark">
+                                {_formatMoney(
+                                  rowDto?.nonCurrentLiabilityTotalBalance,
+                                  0
+                                )}
+                              </td>
+                              <td className="text-right border border-dark">
+                                {_formatMoney(
+                                  rowDto?.nonCurrentLiabilityTotalBalance -
+                                    rowDto?.nonCurrentLiabilityTotalPlanBalance,
+                                  0
+                                )}
+                              </td>
+                            </tr>
+                            {/* <tr key="i">
                           <td className="text-center">Total</td>
                           <td className="text-right">
                             <span>
@@ -699,79 +703,79 @@ export default function BalancerReportTable() {
                             </span>
                           </td>
                         </tr> */}
-                          <tr>
-                            <td
-                              className="border border-dark"
-                              colSpan="4"
-                              style={{ fontWeight: "bold" }}
-                            >
-                              Current Liabilities
-                            </td>
-                          </tr>
-                          {/* <tr key="j">
+                            <tr>
+                              <td
+                                className="border border-dark"
+                                colSpan="4"
+                                style={{ fontWeight: "bold" }}
+                              >
+                                Current Liabilities
+                              </td>
+                            </tr>
+                            {/* <tr key="j">
                           <th style={{ width: '60%' }}>Current Liabilities</th>
                           <th>Amount</th>
                         </tr> */}
-                          {rowDto?.currentLiability &&
-                            rowDto?.currentLiability.map((itm, index) => {
-                              return (
-                                <tr key={index}>
-                                  <td
-                                    className="text-left border border-dark"
-                                    style={{ paddingLeft: "20px" }}
-                                  >
-                                    {itm.strGlName}
-                                  </td>
-                                  <td className="text-right border border-dark">
-                                    {_formatMoney(itm?.numPlanBalance, 0)}
-                                  </td>
-                                  <td
-                                    className="text-right border border-dark"
-                                    style={{ border: "1px solid black" }}
-                                  >
-                                    <span className="pr-1">
-                                      {numberWithCommas(
-                                        parseFloat(itm.numBalance).toFixed(0)
+                            {rowDto?.currentLiability &&
+                              rowDto?.currentLiability.map((itm, index) => {
+                                return (
+                                  <tr key={index}>
+                                    <td
+                                      className="text-left border border-dark"
+                                      style={{ paddingLeft: "20px" }}
+                                    >
+                                      {itm.strGlName}
+                                    </td>
+                                    <td className="text-right border border-dark">
+                                      {_formatMoney(itm?.numPlanBalance, 0)}
+                                    </td>
+                                    <td
+                                      className="text-right border border-dark"
+                                      style={{ border: "1px solid black" }}
+                                    >
+                                      <span className="pr-1">
+                                        {numberWithCommas(
+                                          parseFloat(itm.numBalance).toFixed(0)
+                                        )}
+                                      </span>
+                                    </td>
+                                    <td className="text-right border border-dark">
+                                      {_formatMoney(
+                                        itm.numBalance - itm?.numPlanBalance,
+                                        0
                                       )}
-                                    </span>
-                                  </td>
-                                  <td className="text-right border border-dark">
-                                    {_formatMoney(
-                                      itm.numBalance - itm?.numPlanBalance,
-                                      0
-                                    )}
-                                  </td>
-                                </tr>
-                              );
-                            })}
-                          <tr style={{ background: "#F2F2F2" }}>
-                            <td
-                              className="border border-dark"
-                              style={{ fontWeight: "bold" }}
-                            >
-                              Total Current Liabilities
-                            </td>
-                            <td className="text-right border border-dark">
-                              {_formatMoney(
-                                rowDto?.currentLiabilityTotalPlanBalance,
-                                0
-                              )}
-                            </td>
-                            <td className="text-right border border-dark">
-                              {_formatMoney(
-                                rowDto?.currentLiabilityTotalBalance,
-                                0
-                              )}
-                            </td>
-                            <td className="text-right border border-dark">
-                              {_formatMoney(
-                                rowDto?.currentLiabilityTotalBalance -
+                                    </td>
+                                  </tr>
+                                );
+                              })}
+                            <tr style={{ background: "#F2F2F2" }}>
+                              <td
+                                className="border border-dark"
+                                style={{ fontWeight: "bold" }}
+                              >
+                                Total Current Liabilities
+                              </td>
+                              <td className="text-right border border-dark">
+                                {_formatMoney(
                                   rowDto?.currentLiabilityTotalPlanBalance,
-                                0
-                              )}
-                            </td>
-                          </tr>
-                          {/* <tr key="k">
+                                  0
+                                )}
+                              </td>
+                              <td className="text-right border border-dark">
+                                {_formatMoney(
+                                  rowDto?.currentLiabilityTotalBalance,
+                                  0
+                                )}
+                              </td>
+                              <td className="text-right border border-dark">
+                                {_formatMoney(
+                                  rowDto?.currentLiabilityTotalBalance -
+                                    rowDto?.currentLiabilityTotalPlanBalance,
+                                  0
+                                )}
+                              </td>
+                            </tr>
+                            {/* <tr key="k">
                           <td className="text-center">Total</td>
                           <td className="text-right">
                             <span className="pr-1">
@@ -779,49 +783,548 @@ export default function BalancerReportTable() {
                             </span>
                           </td>
                         </tr> */}
-                          <tr style={{ background: "#D8D8D8" }}>
-                            <td
-                              style={{ fontWeight: "bold" }}
+                            <tr style={{ background: "#D8D8D8" }}>
+                              <td
+                                style={{ fontWeight: "bold" }}
+                                className="border border-dark"
+                              >
+                                TOTAL EQUITY AND LIABILITIES
+                              </td>
+                              <td
+                                className="text-right border border-dark"
+                                style={{ borderBottom: "3px double black" }}
+                              >
+                                {_formatMoney(
+                                  equityAndLiaTotalForBudget(rowDto),
+                                  0
+                                )}
+                              </td>
+                              <td
+                                className="text-right border border-dark"
+                                style={{ borderBottom: "3px double black" }}
+                              >
+                                {_formatMoney(equityAndLiaTotal(rowDto), 0)}
+                              </td>
+                              <td
+                                className="text-right border border-dark"
+                                style={{ borderBottom: "3px double black" }}
+                              >
+                                {_formatMoney(
+                                  equityAndLiaTotal(rowDto) -
+                                    equityAndLiaTotalForBudget(rowDto),
+                                  0
+                                )}
+                              </td>
+                            </tr>
+                            <tr style={{ height: "15px" }}></tr>
+                            <tr>
+                              <td
+                                className="text-center d-none"
+                                colSpan={4}
+                              >{`System Generated Report - ${moment().format(
+                                "LLLL"
+                              )}`}</td>
+                            </tr>
+                          </table>
+                        </div>
+                        <div className="table-responsive">
+                          <table id="table-to-xlsx" className="w-full">
+                            <tr>
+                              <td
+                                style={{
+                                  fontWeight: "bold",
+                                  border: "1px solid black",
+                                }}
+                              >
+                                Particulars
+                              </td>
+                              <td
+                                className="text-center"
+                                style={{
+                                  fontWeight: "bold",
+                                  border: "1px solid black",
+                                }}
+                              >
+                                Budget
+                              </td>
+                              <td
+                                className="text-center"
+                                style={{
+                                  fontWeight: "bold",
+                                  border: "1px solid black",
+                                }}
+                              >
+                                Actual
+                              </td>
+
+                              <td
+                                className="text-center"
+                                style={{
+                                  fontWeight: "bold",
+                                  border: "1px solid black",
+                                }}
+                              >
+                                Variance
+                              </td>
+                              {/* <td className="text-right" style={{ fontWeight: "bold" }}>Amount</td> */}
+                            </tr>
+                            <tr
+                              style={{
+                                background: "#D8D8D8",
+                                border: "1px solid black",
+                              }}
+                            >
+                              <td colSpan="4" style={{ fontWeight: "bold" }}>
+                                Assets
+                              </td>
+                            </tr>
+                            <tr>
+                              <td
+                                colSpan="4"
+                                style={{
+                                  fontWeight: "bold",
+                                  border: "1px solid black",
+                                }}
+                              >
+                                Non-Current Assets
+                              </td>
+                            </tr>
+
+                            {rowDto?.nonCurrentAssets &&
+                              rowDto?.nonCurrentAssets.map((itm, index) => {
+                                return (
+                                  <tr key={index}>
+                                    <td
+                                      className="text-left"
+                                      style={{
+                                        paddingLeft: "20px",
+                                        border: "1px solid black",
+                                      }}
+                                    >
+                                      {itm.strGlName}
+                                    </td>
+
+                                    <td className="text-right border border-dark">
+                                      {_formatMoney(itm?.numPlanBalance, 0)}
+                                    </td>
+                                    <td className="text-right border border-dark">
+                                      <span className="pr-1">
+                                        {numberWithCommas(
+                                          parseFloat(itm.numBalance).toFixed()
+                                        )}
+                                      </span>
+                                    </td>
+                                    <td className="text-right border border-dark">
+                                      {_formatMoney(
+                                        itm.numBalance - itm?.numPlanBalance,
+                                        0
+                                      )}
+                                    </td>
+                                  </tr>
+                                );
+                              })}
+                            <tr style={{ background: "#F2F2F2" }}>
+                              <td
+                                className="border border-dark"
+                                style={{ fontWeight: "bold" }}
+                              >
+                                Total Non-Current Assets
+                              </td>
+                              <td className="text-right border border-dark">
+                                {_formatMoney(
+                                  rowDto?.nonCurrentAssetsTotalPlanBalance,
+                                  0
+                                )}
+                              </td>
+                              <td className="text-right border border-dark">
+                                {_formatMoney(
+                                  rowDto?.nonCurrentAssetsTotalBalance,
+                                  0
+                                )}
+                              </td>
+                              <td className="text-right border border-dark">
+                                {_formatMoney(
+                                  rowDto?.nonCurrentAssetsTotalBalance -
+                                    rowDto?.nonCurrentAssetsTotalPlanBalance,
+                                  0
+                                )}
+                              </td>
+                            </tr>
+                            <tr>
+                              <td
+                                colSpan="4"
+                                style={{ fontWeight: "bold" }}
+                                className="border border-dark"
+                              >
+                                Current Assets
+                              </td>
+                            </tr>
+                            {rowDto?.currentassets &&
+                              rowDto?.currentassets.map((itm, index) => {
+                                return (
+                                  <tr key={index}>
+                                    <td
+                                      className="text-left border border-dark"
+                                      style={{ paddingLeft: "20px" }}
+                                    >
+                                      {itm.strGlName}
+                                    </td>
+                                    <td className="text-right border border-dark">
+                                      {_formatMoney(itm?.numPlanBalance, 0)}
+                                    </td>
+                                    <td
+                                      className="text-right border border-dark"
+                                      style={{ border: "1px solid black" }}
+                                    >
+                                      <span className="pr-1">
+                                        {numberWithCommas(
+                                          parseFloat(itm.numBalance).toFixed()
+                                        )}
+                                      </span>
+                                    </td>
+                                    <td className="text-right border border-dark">
+                                      {_formatMoney(
+                                        itm.numBalance - itm?.numPlanBalance,
+                                        0
+                                      )}
+                                    </td>
+                                  </tr>
+                                );
+                              })}
+                            <tr style={{ background: "#F2F2F2" }}>
+                              <td
+                                style={{ fontWeight: "bold" }}
+                                className="border border-dark"
+                              >
+                                Total Current Assets
+                              </td>
+                              <td className="text-right border border-dark">
+                                {_formatMoney(
+                                  rowDto?.currentassetsTotalPlanBalance,
+                                  0
+                                )}
+                              </td>
+                              <td className="text-rightn border border-dark">
+                                {_formatMoney(
+                                  rowDto?.currentassetsTotalBalance,
+                                  0
+                                )}
+                              </td>
+                              <td className="text-right border border-dark">
+                                {(
+                                  rowDto?.currentassetsTotalBalance || 0
+                                ).toFixed() -
+                                  (
+                                    rowDto?.currentassetsTotalPlanBalance || 0
+                                  ).toFixed()}
+                              </td>
+                            </tr>
+                            <tr style={{ background: "#D8D8D8" }}>
+                              <td
+                                style={{ fontWeight: "bold" }}
+                                className="border border-dark"
+                              >
+                                Total Assets
+                              </td>
+                              <td
+                                className="text-right border border-dark"
+                                style={{ borderBottom: "3px double black" }}
+                              >
+                                {_formatMoney(
+                                  (rowDto?.currentassetsTotalPlanBalance || 0) +
+                                    (rowDto?.nonCurrentAssetsTotalPlanBalance ||
+                                      0),
+                                  0
+                                )}
+                              </td>
+                              <td
+                                className="text-right border border-dark"
+                                style={{ borderBottom: "3px double black" }}
+                              >
+                                {_formatMoney(
+                                  (rowDto?.currentassetsTotalBalance || 0) +
+                                    (rowDto?.nonCurrentAssetsTotalBalance || 0),
+                                  0
+                                )}
+                              </td>
+                              <td
+                                className="text-right border border-dark"
+                                style={{ borderBottom: "3px double black" }}
+                              >
+                                {getTotalAssetsVariance(rowDto)}
+                              </td>
+                            </tr>
+                            <tr style={{ height: "15px" }}></tr>
+                            <tr
+                              style={{ background: "#D8D8D8" }}
                               className="border border-dark"
                             >
-                              TOTAL EQUITY AND LIABILITIES
-                            </td>
-                            <td
-                              className="text-right border border-dark"
-                              style={{ borderBottom: "3px double black" }}
-                            >
-                              {_formatMoney(
-                                equityAndLiaTotalForBudget(rowDto),
-                                0
-                              )}
-                            </td>
-                            <td
-                              className="text-right border border-dark"
-                              style={{ borderBottom: "3px double black" }}
-                            >
-                              {_formatMoney(equityAndLiaTotal(rowDto), 0)}
-                            </td>
-                            <td
-                              className="text-right border border-dark"
-                              style={{ borderBottom: "3px double black" }}
-                            >
-                              {_formatMoney(
-                                equityAndLiaTotal(rowDto) -
+                              <td colSpan="4" style={{ fontWeight: "bold" }}>
+                                EQUITY AND LIABILITIES
+                              </td>
+                            </tr>
+                            <tr className="border border-dark">
+                              <td colSpan="4" style={{ fontWeight: "bold" }}>
+                                Equity
+                              </td>
+                            </tr>
+
+                            {rowDto?.equity &&
+                              rowDto?.equity.map((itm, index) => {
+                                return (
+                                  <tr key={index}>
+                                    <td
+                                      className="text-left border border-dark"
+                                      style={{ paddingLeft: "20px" }}
+                                    >
+                                      {itm.strGlName}
+                                    </td>
+                                    <td className="text-right border border-dark">
+                                      {_formatMoney(itm?.numPlanBalance, 0)}
+                                    </td>
+                                    <td
+                                      className="text-right border border-dark"
+                                      style={{ border: "1px solid black" }}
+                                    >
+                                      <span className="pr-1">
+                                        {numberWithCommas(
+                                          parseFloat(itm.numBalance).toFixed()
+                                        )}
+                                      </span>
+                                    </td>
+                                    <td className="text-right border border-dark">
+                                      {_formatMoney(
+                                        itm.numBalance - itm?.numPlanBalance,
+                                        0
+                                      )}
+                                    </td>
+                                  </tr>
+                                );
+                              })}
+                            <tr style={{ background: "#F2F2F2" }}>
+                              <td
+                                className="border border-dark"
+                                style={{ fontWeight: "bold" }}
+                              >
+                                Total Equity
+                              </td>
+                              <td className="text-right border border-dark">
+                                {_formatMoney(
+                                  rowDto?.equityTotalPlanBalance,
+                                  0
+                                )}
+                              </td>
+                              <td className="text-right border border-dark">
+                                {_formatMoney(rowDto?.equityTotalBalance, 0)}
+                              </td>
+                              <td className="text-right border border-dark">
+                                {_formatMoney(
+                                  rowDto?.equityTotalBalance -
+                                    rowDto?.equityTotalPlanBalance,
+                                  0
+                                )}
+                              </td>
+                            </tr>
+                            <tr className="border border-dark">
+                              <td colSpan="4" style={{ fontWeight: "bold" }}>
+                                Non-Current Liabilities
+                              </td>
+                            </tr>
+                            {/* <tr key="h">
+                          <th style={{ width: '60%' }}>Non-Current Liabilities</th>
+                          <th>Amount</th>
+                        </tr> */}
+                            {rowDto?.nonCurrentLiability &&
+                              rowDto?.nonCurrentLiability.map((itm, index) => {
+                                return (
+                                  <tr key={index}>
+                                    <td
+                                      className="text-left border border-dark"
+                                      style={{ paddingLeft: "20px" }}
+                                    >
+                                      {itm.strGlName}
+                                    </td>
+                                    <td className="text-right border border-dark">
+                                      {_formatMoney(itm?.numPlanBalance, 0)}
+                                    </td>
+                                    <td
+                                      className="text-right border border-dark"
+                                      style={{ border: "1px solid black" }}
+                                    >
+                                      <span className="pr-1">
+                                        {numberWithCommas(
+                                          parseFloat(itm.numBalance).toFixed(0)
+                                        )}
+                                      </span>
+                                    </td>
+                                    <td className="text-right border border-dark">
+                                      {_formatMoney(
+                                        itm.numBalance - itm?.numPlanBalance,
+                                        0
+                                      )}
+                                    </td>
+                                  </tr>
+                                );
+                              })}
+                            <tr style={{ background: "#F2F2F2" }}>
+                              <td
+                                style={{ fontWeight: "bold" }}
+                                className="border border-dark"
+                              >
+                                Total Non-Current Liability
+                              </td>
+                              <td className="text-right border border-dark">
+                                {_formatMoney(
+                                  rowDto?.nonCurrentLiabilityTotalPlanBalance,
+                                  0
+                                )}
+                              </td>
+                              <td className="text-right border border-dark">
+                                {_formatMoney(
+                                  rowDto?.nonCurrentLiabilityTotalBalance,
+                                  0
+                                )}
+                              </td>
+                              <td className="text-right border border-dark">
+                                {_formatMoney(
+                                  rowDto?.nonCurrentLiabilityTotalBalance -
+                                    rowDto?.nonCurrentLiabilityTotalPlanBalance,
+                                  0
+                                )}
+                              </td>
+                            </tr>
+                            {/* <tr key="i">
+                          <td className="text-center">Total</td>
+                          <td className="text-right">
+                            <span>
+                              {numberWithCommas(parseFloat(rowDto?.nonCurrentLiabilityTotalBalance).toFixed(2))}
+                            </span>
+                          </td>
+                        </tr> */}
+                            <tr>
+                              <td
+                                className="border border-dark"
+                                colSpan="4"
+                                style={{ fontWeight: "bold" }}
+                              >
+                                Current Liabilities
+                              </td>
+                            </tr>
+                            {/* <tr key="j">
+                          <th style={{ width: '60%' }}>Current Liabilities</th>
+                          <th>Amount</th>
+                        </tr> */}
+                            {rowDto?.currentLiability &&
+                              rowDto?.currentLiability.map((itm, index) => {
+                                return (
+                                  <tr key={index}>
+                                    <td
+                                      className="text-left border border-dark"
+                                      style={{ paddingLeft: "20px" }}
+                                    >
+                                      {itm.strGlName}
+                                    </td>
+                                    <td className="text-right border border-dark">
+                                      {_formatMoney(itm?.numPlanBalance, 0)}
+                                    </td>
+                                    <td
+                                      className="text-right border border-dark"
+                                      style={{ border: "1px solid black" }}
+                                    >
+                                      <span className="pr-1">
+                                        {numberWithCommas(
+                                          parseFloat(itm.numBalance).toFixed(0)
+                                        )}
+                                      </span>
+                                    </td>
+                                    <td className="text-right border border-dark">
+                                      {_formatMoney(
+                                        itm.numBalance - itm?.numPlanBalance,
+                                        0
+                                      )}
+                                    </td>
+                                  </tr>
+                                );
+                              })}
+                            <tr style={{ background: "#F2F2F2" }}>
+                              <td
+                                className="border border-dark"
+                                style={{ fontWeight: "bold" }}
+                              >
+                                Total Current Liabilities
+                              </td>
+                              <td className="text-right border border-dark">
+                                {_formatMoney(
+                                  rowDto?.currentLiabilityTotalPlanBalance,
+                                  0
+                                )}
+                              </td>
+                              <td className="text-right border border-dark">
+                                {_formatMoney(
+                                  rowDto?.currentLiabilityTotalBalance,
+                                  0
+                                )}
+                              </td>
+                              <td className="text-right border border-dark">
+                                {_formatMoney(
+                                  rowDto?.currentLiabilityTotalBalance -
+                                    rowDto?.currentLiabilityTotalPlanBalance,
+                                  0
+                                )}
+                              </td>
+                            </tr>
+                            {/* <tr key="k">
+                          <td className="text-center">Total</td>
+                          <td className="text-right">
+                            <span className="pr-1">
+                              {numberWithCommas(parseFloat(rowDto?.currentLiabilityTotalBalance).toFixed(2))}
+                            </span>
+                          </td>
+                        </tr> */}
+                            <tr style={{ background: "#D8D8D8" }}>
+                              <td
+                                style={{ fontWeight: "bold" }}
+                                className="border border-dark"
+                              >
+                                TOTAL EQUITY AND LIABILITIES
+                              </td>
+                              <td
+                                className="text-right border border-dark"
+                                style={{ borderBottom: "3px double black" }}
+                              >
+                                {_formatMoney(
                                   equityAndLiaTotalForBudget(rowDto),
-                                0
-                              )}
-                            </td>
-                          </tr>
-                          <tr style={{ height: "15px" }}></tr>
-                          <tr>
-                            <td
-                              className="text-center d-none"
-                              colSpan={4}
-                            >{`System Generated Report - ${moment().format(
-                              "LLLL"
-                            )}`}</td>
-                          </tr>
-                        </table>
+                                  0
+                                )}
+                              </td>
+                              <td
+                                className="text-right border border-dark"
+                                style={{ borderBottom: "3px double black" }}
+                              >
+                                {_formatMoney(equityAndLiaTotal(rowDto), 0)}
+                              </td>
+                              <td
+                                className="text-right border border-dark"
+                                style={{ borderBottom: "3px double black" }}
+                              >
+                                {_formatMoney(
+                                  equityAndLiaTotal(rowDto) -
+                                    equityAndLiaTotalForBudget(rowDto),
+                                  0
+                                )}
+                              </td>
+                            </tr>
+                            <tr style={{ height: "15px" }}></tr>
+                            <tr>
+                              <td
+                                className="text-center d-none"
+                                colSpan={4}
+                              >{`System Generated Report - ${moment().format(
+                                "LLLL"
+                              )}`}</td>
+                            </tr>
+                          </table>
+                        </div>
                       </div>
                     </div>
                   </div>

@@ -23,36 +23,38 @@ export default function ViewModal({ singleData, values }) {
       {loader && <Loading />}
       <div className="row mt-5">
         <div className="col-lg-12 cost-of-production">
-          <table
-            id="table-to-xlsx"
-            className="table table-striped table-bordered bj-table bj-table-landing"
-          >
-            <thead>
-              <tr>
-                <th>Particulars</th>
-                <th>Budget Cost</th>
-                <th>Actual Cost</th>
-                <th>Variance</th>
-              </tr>
-            </thead>
-            <tbody>
-              {rowData?.length > 0 &&
-                rowData?.map((item, index) => (
-                  <tr key={index}>
-                    <td>{item?.strParticulars}</td>
-                    <td className="text-right">
-                      {_formatMoney(item?.numBudgetCost)}
-                    </td>
-                    <td className="text-right">
-                      {_formatMoney(item?.numActualCost)}
-                    </td>
-                    <td className="text-right">
-                      {_formatMoney(item?.numVariance)}
-                    </td>
-                  </tr>
-                ))}
-            </tbody>
-          </table>
+          <div className="table-responsive">
+            <table
+              id="table-to-xlsx"
+              className="table table-striped table-bordered bj-table bj-table-landing"
+            >
+              <thead>
+                <tr>
+                  <th>Particulars</th>
+                  <th>Budget Cost</th>
+                  <th>Actual Cost</th>
+                  <th>Variance</th>
+                </tr>
+              </thead>
+              <tbody>
+                {rowData?.length > 0 &&
+                  rowData?.map((item, index) => (
+                    <tr key={index}>
+                      <td>{item?.strParticulars}</td>
+                      <td className="text-right">
+                        {_formatMoney(item?.numBudgetCost)}
+                      </td>
+                      <td className="text-right">
+                        {_formatMoney(item?.numActualCost)}
+                      </td>
+                      <td className="text-right">
+                        {_formatMoney(item?.numVariance)}
+                      </td>
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>

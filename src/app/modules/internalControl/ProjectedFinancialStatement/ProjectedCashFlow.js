@@ -30,29 +30,29 @@ const ProjectedCashFlow = ({ rowDto, values, accountName }) => {
               )}  to  ${_dateFormatter(values?.toDate)}`}{" "}
             </p>
           </div>
-
-          <table style={{ width: "75%" }} className="cashFlowStatement">
-            <tr>
-              <td className="pr-5 text-right">
-                Opening Cash & Cash Equivalent
-              </td>
-              <td
-                style={{
-                  border: "1px solid black",
-                  textAlign: "center",
-                }}
-              >
-                {numberWithCommas(Math.round(rowDto[0]["numPlannedOpening"]))}
-              </td>
-              <td
-                style={{
-                  border: "1px solid black",
-                  textAlign: "center",
-                }}
-              >
-                {numberWithCommas(Math.round(rowDto[0]["numOpening"]))}
-              </td>
-              {/* <td
+          <div className="table-responsive">
+            <table style={{ width: "75%" }} className="cashFlowStatement">
+              <tr>
+                <td className="pr-5 text-right">
+                  Opening Cash & Cash Equivalent
+                </td>
+                <td
+                  style={{
+                    border: "1px solid black",
+                    textAlign: "center",
+                  }}
+                >
+                  {numberWithCommas(Math.round(rowDto[0]["numPlannedOpening"]))}
+                </td>
+                <td
+                  style={{
+                    border: "1px solid black",
+                    textAlign: "center",
+                  }}
+                >
+                  {numberWithCommas(Math.round(rowDto[0]["numOpening"]))}
+                </td>
+                {/* <td
                 style={{
                   border: "1px solid black",
                   textAlign: "center",
@@ -62,148 +62,152 @@ const ProjectedCashFlow = ({ rowDto, values, accountName }) => {
                   rowDto[0]["numPlannedOpening"] - rowDto[0]["numOpening"]
                 )}
               </td> */}
-            </tr>
-            <tr>
-              <td style={{ height: "15px" }}></td>
-              <td className="text-center" style={{ height: "15px" }}>
-                last Period
-              </td>
-              <td className="text-center" style={{ height: "15px" }}>
-                Current Period
-              </td>
-              {/* <td className="text-center" style={{ height: "15px" }}>
+              </tr>
+              <tr>
+                <td style={{ height: "15px" }}></td>
+                <td className="text-center" style={{ height: "15px" }}>
+                  last Period
+                </td>
+                <td className="text-center" style={{ height: "15px" }}>
+                  Current Period
+                </td>
+                {/* <td className="text-center" style={{ height: "15px" }}>
                 Variance
               </td> */}
-            </tr>
-            {rowDto?.map((item, index) => {
-              switch (item.intFSId) {
-                case 9999:
-                  return (
-                    <tr style={{ background: "#e6ecff" }}>
-                      <td colSpan="4">{item?.strName}</td>
-                    </tr>
-                  );
-                case 0:
-                  if (item.strName.startsWith("Net")) {
-                    return (
-                      <tr style={{ background: "#f0f0f5" }}>
-                        <td>{item?.strName}</td>
-                        <td className="text-right" style={{ width: "120px" }}>
-                          {numberWithCommas(Math.round(item?.numPlannedAmount))}
-                        </td>
-                        <td className="text-right" style={{ width: "120px" }}>
-                          {numberWithCommas(Math.round(item?.numAmount))}
-                        </td>
-                        {/* <td className="text-right" style={{ width: "120px" }}>
-                          {_formatMoney(
-                            item?.numPlannedAmount - item?.numAmount
-                          )}
-                        </td> */}
-                      </tr>
-                    );
-                  } else if (index === rowDto.length - 1) {
+              </tr>
+              {rowDto?.map((item, index) => {
+                switch (item.intFSId) {
+                  case 9999:
                     return (
                       <tr style={{ background: "#e6ecff" }}>
-                        <td>{item?.strName}</td>
-                        <td className="text-right" style={{ width: "120px" }}>
-                          {numberWithCommas(Math.round(item?.numPlannedAmount))}
-                        </td>
-                        <td className="text-right" style={{ width: "120px" }}>
-                          <div className="d-flex justify-content-around align-items-center">
-                            <div className="mr-5">
-                              <button
-                                className="btn btn-primary"
-                                disabled={
-                                  !isLastDayOfMonth(values?.toDate) ||
-                                  !values?.businessUnit?.value ||
-                                  !values?.conversionRate ||
-                                  !item?.numAmount
-                                }
-                                onClick={() => {
-                                  sendToAssetLiability(
-                                    `/fino/BudgetFinancial/CreateAssetLiabilityPlan`,
-                                    [
-                                      {
-                                        partName:
-                                          "UpdateFromProjectedCashflowStatement",
-                                        businessUnitId:
-                                          values?.businessUnit?.value,
-                                        dteDate: values?.toDate,
-                                        conversionRate: +values?.conversionRate,
-                                        yearName: "yyyy-yyyy",
-                                        initialAmount: +item?.numAmount,
-                                        actionBy: profileData?.userId,
-                                      },
-                                    ],
-                                    null,
-                                    true
-                                  );
-                                }}
-                              >
-                                Send to Asset/Liability
-                              </button>
-                            </div>
-                            <div>
-                              {numberWithCommas(Math.round(item?.numAmount))}
-                            </div>
-                          </div>
-                        </td>
-                        {/* <td className="text-right" style={{ width: "120px" }}>
+                        <td colSpan="4">{item?.strName}</td>
+                      </tr>
+                    );
+                  case 0:
+                    if (item.strName.startsWith("Net")) {
+                      return (
+                        <tr style={{ background: "#f0f0f5" }}>
+                          <td>{item?.strName}</td>
+                          <td className="text-right" style={{ width: "120px" }}>
+                            {numberWithCommas(
+                              Math.round(item?.numPlannedAmount)
+                            )}
+                          </td>
+                          <td className="text-right" style={{ width: "120px" }}>
+                            {numberWithCommas(Math.round(item?.numAmount))}
+                          </td>
+                          {/* <td className="text-right" style={{ width: "120px" }}>
                           {_formatMoney(
                             item?.numPlannedAmount - item?.numAmount
                           )}
                         </td> */}
+                        </tr>
+                      );
+                    } else if (index === rowDto.length - 1) {
+                      return (
+                        <tr style={{ background: "#e6ecff" }}>
+                          <td>{item?.strName}</td>
+                          <td className="text-right" style={{ width: "120px" }}>
+                            {numberWithCommas(
+                              Math.round(item?.numPlannedAmount)
+                            )}
+                          </td>
+                          <td className="text-right" style={{ width: "120px" }}>
+                            <div className="d-flex justify-content-around align-items-center">
+                              <div className="mr-5">
+                                <button
+                                  className="btn btn-primary"
+                                  disabled={
+                                    !isLastDayOfMonth(values?.toDate) ||
+                                    !values?.businessUnit?.value ||
+                                    !values?.conversionRate ||
+                                    !item?.numAmount
+                                  }
+                                  onClick={() => {
+                                    sendToAssetLiability(
+                                      `/fino/BudgetFinancial/CreateAssetLiabilityPlan`,
+                                      [
+                                        {
+                                          partName:
+                                            "UpdateFromProjectedCashflowStatement",
+                                          businessUnitId:
+                                            values?.businessUnit?.value,
+                                          dteDate: values?.toDate,
+                                          conversionRate: +values?.conversionRate,
+                                          yearName: "yyyy-yyyy",
+                                          initialAmount: +item?.numAmount,
+                                          actionBy: profileData?.userId,
+                                        },
+                                      ],
+                                      null,
+                                      true
+                                    );
+                                  }}
+                                >
+                                  Send to Asset/Liability
+                                </button>
+                              </div>
+                              <div>
+                                {numberWithCommas(Math.round(item?.numAmount))}
+                              </div>
+                            </div>
+                          </td>
+                          {/* <td className="text-right" style={{ width: "120px" }}>
+                          {_formatMoney(
+                            item?.numPlannedAmount - item?.numAmount
+                          )}
+                        </td> */}
+                        </tr>
+                      );
+                    }
+                    return (
+                      <tr>
+                        <td colSpan="4">{item?.strName}</td>
                       </tr>
                     );
-                  }
-                  return (
-                    <tr>
-                      <td colSpan="4">{item?.strName}</td>
-                    </tr>
-                  );
-                case null:
-                  return (
-                    <tr>
-                      <td colSpan="4" style={{ height: "15px" }}></td>
-                    </tr>
-                  );
+                  case null:
+                    return (
+                      <tr>
+                        <td colSpan="4" style={{ height: "15px" }}></td>
+                      </tr>
+                    );
 
-                default:
-                  return (
-                    <tr>
-                      <td
-                        style={{
-                          padding: "0 0 0 5px",
-                          fontWeight: "normal",
-                        }}
-                      >
-                        {item?.strName}
-                      </td>
-                      <td
-                        className="pr-1"
-                        style={{
-                          border: "1px solid black",
-                          textAlign: "right",
-                          width: "120px",
-                          padding: "0",
-                          fontWeight: "normal",
-                        }}
-                      >
-                        {numberWithCommas(Math.round(item?.numPlannedAmount))}
-                      </td>
-                      <td
-                        className="pr-1"
-                        style={{
-                          border: "1px solid black",
-                          textAlign: "right",
-                          width: "120px",
-                          padding: "0",
-                          fontWeight: "normal",
-                        }}
-                      >
-                        {numberWithCommas(Math.round(item?.numAmount))}
-                      </td>
-                      {/* <td
+                  default:
+                    return (
+                      <tr>
+                        <td
+                          style={{
+                            padding: "0 0 0 5px",
+                            fontWeight: "normal",
+                          }}
+                        >
+                          {item?.strName}
+                        </td>
+                        <td
+                          className="pr-1"
+                          style={{
+                            border: "1px solid black",
+                            textAlign: "right",
+                            width: "120px",
+                            padding: "0",
+                            fontWeight: "normal",
+                          }}
+                        >
+                          {numberWithCommas(Math.round(item?.numPlannedAmount))}
+                        </td>
+                        <td
+                          className="pr-1"
+                          style={{
+                            border: "1px solid black",
+                            textAlign: "right",
+                            width: "120px",
+                            padding: "0",
+                            fontWeight: "normal",
+                          }}
+                        >
+                          {numberWithCommas(Math.round(item?.numAmount))}
+                        </td>
+                        {/* <td
                         className="pr-1"
                         style={{
                           border: "1px solid black",
@@ -216,11 +220,12 @@ const ProjectedCashFlow = ({ rowDto, values, accountName }) => {
                         {_formatMoney(item?.numPlannedAmount - item?.numAmount)}
                         1
                       </td> */}
-                    </tr>
-                  );
-              }
-            })}
-          </table>
+                      </tr>
+                    );
+                }
+              })}
+            </table>
+          </div>
         </div>
       )}
     </>

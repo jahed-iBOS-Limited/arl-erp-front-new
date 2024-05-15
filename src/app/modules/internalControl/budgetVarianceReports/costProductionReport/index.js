@@ -1,5 +1,5 @@
 import { Formik } from "formik";
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import {
   Card,
@@ -139,60 +139,61 @@ function CostOfProductionReport() {
                 </div>
                 <div className="row mt-5">
                   <div className="col-lg-12 cost-of-production">
-                    <table
-                      id="table-to-xlsx"
-                      className="table table-striped table-bordered bj-table bj-table-landing"
-                    >
-                      <thead>
-                        <tr>
-                          <th>Item Code</th>
-                          <th>Item Name</th>
-                          <th>Uom</th>
-                          <th>Budget Production Qty</th>
-                          <th>Actual Production Qty</th>
-                          <th>Budget Material Cost</th>
-                          <th>Actual Material Cost</th>
-                          <th>Budget Overhead</th>
-                          <th>Actual Overhead</th>
-                          <th>Budget Total Cost</th>
-                          <th>Actual Total Cost</th>
-                          {/* <th>Action</th> */}
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {rowDto?.length > 0 &&
-                          rowDto?.map((item, index) => (
-                            <tr key={index}>
-                              <td className="text-center">
-                                {item?.strItemCode}
-                              </td>
-                              <td>{item?.strItemName}</td>
-                              <td>{item?.strBaseUomName}</td>
-                              <td className="text-center">
-                                {item?.numBudProdQty}
-                              </td>
-                              <td className="text-center">
-                                {item?.numActProdQty}
-                              </td>
-                              <td className="text-right">
-                                {_formatMoney(item?.numBudMatCost)}
-                              </td>
-                              <td className="text-right">
-                                {_formatMoney(item?.numActMatCost)}
-                              </td>
-                              <td className="text-right">
-                                {_formatMoney(item?.numBudOverhead)}
-                              </td>
-                              <td className="text-right">
-                                {_formatMoney(item?.numActOverhead)}
-                              </td>
-                              <td className="text-right">
-                                {_formatMoney(item?.numBudTotalCost)}
-                              </td>
-                              <td className="text-right">
-                                {_formatMoney(item?.numActTotalCost)}
-                              </td>
-                              {/* <td className="text-center">
+                    <div className="table-responsive">
+                      <table
+                        id="table-to-xlsx"
+                        className="table table-striped table-bordered bj-table bj-table-landing"
+                      >
+                        <thead>
+                          <tr>
+                            <th>Item Code</th>
+                            <th>Item Name</th>
+                            <th>Uom</th>
+                            <th>Budget Production Qty</th>
+                            <th>Actual Production Qty</th>
+                            <th>Budget Material Cost</th>
+                            <th>Actual Material Cost</th>
+                            <th>Budget Overhead</th>
+                            <th>Actual Overhead</th>
+                            <th>Budget Total Cost</th>
+                            <th>Actual Total Cost</th>
+                            {/* <th>Action</th> */}
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {rowDto?.length > 0 &&
+                            rowDto?.map((item, index) => (
+                              <tr key={index}>
+                                <td className="text-center">
+                                  {item?.strItemCode}
+                                </td>
+                                <td>{item?.strItemName}</td>
+                                <td>{item?.strBaseUomName}</td>
+                                <td className="text-center">
+                                  {item?.numBudProdQty}
+                                </td>
+                                <td className="text-center">
+                                  {item?.numActProdQty}
+                                </td>
+                                <td className="text-right">
+                                  {_formatMoney(item?.numBudMatCost)}
+                                </td>
+                                <td className="text-right">
+                                  {_formatMoney(item?.numActMatCost)}
+                                </td>
+                                <td className="text-right">
+                                  {_formatMoney(item?.numBudOverhead)}
+                                </td>
+                                <td className="text-right">
+                                  {_formatMoney(item?.numActOverhead)}
+                                </td>
+                                <td className="text-right">
+                                  {_formatMoney(item?.numBudTotalCost)}
+                                </td>
+                                <td className="text-right">
+                                  {_formatMoney(item?.numActTotalCost)}
+                                </td>
+                                {/* <td className="text-center">
                                 <IView
                                   clickHandler={() => {
                                     setSingleData(item);
@@ -200,10 +201,11 @@ function CostOfProductionReport() {
                                   }}
                                 />
                               </td> */}
-                            </tr>
-                          ))}
-                      </tbody>
-                    </table>
+                              </tr>
+                            ))}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
                 <IViewModal

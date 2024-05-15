@@ -112,37 +112,43 @@ function MaterialPriceVariance() {
                 </div>
                 <div className="row mt-5">
                   <div className="col-lg-12">
-                    <table className="table table-striped table-bordered bj-table bj-table-landing">
-                      <thead>
-                        <tr>
-                          <th style={{ width: "30px" }}>SL</th>
-                          <th>Materials</th>
-                          <th>UOM</th>
-                          <th> Budget Price(Rate)</th>
-                          <th> Actual Price(Rate)</th>
-                          <th>Variance</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {rowDto?.length > 0 &&
-                          rowDto?.map((item, index) => (
-                            <tr key={index}>
-                              <td>{index + 1}</td>
-                              <td>{item?.ItemName}</td>
-                              <td>{item?.UoM}</td>
-                              <td className="text-right">
-                                {numberWithCommas(item?.BudgetPrice.toFixed(2))}
-                              </td>
-                              <td className="text-right">
-                                {numberWithCommas(item?.ActualPrice.toFixed(2))}
-                              </td>
-                              <td className="text-right">
-                                {numberWithCommas(item?.Variance.toFixed(2))}
-                              </td>
-                            </tr>
-                          ))}
-                      </tbody>
-                    </table>
+                    <div className="table-responsive">
+                      <table className="table table-striped table-bordered bj-table bj-table-landing">
+                        <thead>
+                          <tr>
+                            <th style={{ width: "30px" }}>SL</th>
+                            <th>Materials</th>
+                            <th>UOM</th>
+                            <th> Budget Price(Rate)</th>
+                            <th> Actual Price(Rate)</th>
+                            <th>Variance</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {rowDto?.length > 0 &&
+                            rowDto?.map((item, index) => (
+                              <tr key={index}>
+                                <td>{index + 1}</td>
+                                <td>{item?.ItemName}</td>
+                                <td>{item?.UoM}</td>
+                                <td className="text-right">
+                                  {numberWithCommas(
+                                    item?.BudgetPrice.toFixed(2)
+                                  )}
+                                </td>
+                                <td className="text-right">
+                                  {numberWithCommas(
+                                    item?.ActualPrice.toFixed(2)
+                                  )}
+                                </td>
+                                <td className="text-right">
+                                  {numberWithCommas(item?.Variance.toFixed(2))}
+                                </td>
+                              </tr>
+                            ))}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
               </CardBody>

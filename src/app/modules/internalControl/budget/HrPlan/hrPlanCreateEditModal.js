@@ -176,81 +176,83 @@ export default function HrPlanCreateEditModal({
                   </div>
                   <div className="row">
                     <div className="col-lg-12">
-                      <table className="table table-striped table-bordered  global-table">
-                        <thead>
-                          <tr>
-                            <th>Month</th>
-                            <th>Plan Qty</th>
-                            <th>Budget Rate</th>
-                            <th>Total Budget</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {singleData?.map((item, i) => (
+                      <div className="table-responsive">
+                        <table className="table table-striped table-bordered  global-table">
+                          <thead>
                             <tr>
-                              <td>{item?.monthName}</td>
-                              <td style={{ minWidth: "70px" }}>
-                                <InputField
-                                  name="numPlanQty"
-                                  value={
-                                    singleData[i]?.numPlanQty
-                                      ? singleData[i]?.numPlanQty
-                                      : numPlanQty
-                                  }
-                                  type="number"
-                                  onChange={(e) => {
-                                    if (+e.target.value < 0) {
-                                      setNumPlanQty("");
-                                    } else {
-                                      rowDtoHandler(
-                                        i,
-                                        "numPlanQty",
-                                        e.target.value
-                                      );
+                              <th>Month</th>
+                              <th>Plan Qty</th>
+                              <th>Budget Rate</th>
+                              <th>Total Budget</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {singleData?.map((item, i) => (
+                              <tr>
+                                <td>{item?.monthName}</td>
+                                <td style={{ minWidth: "70px" }}>
+                                  <InputField
+                                    name="numPlanQty"
+                                    value={
+                                      singleData[i]?.numPlanQty
+                                        ? singleData[i]?.numPlanQty
+                                        : numPlanQty
                                     }
-                                  }}
-                                />
-                              </td>
-                              <td style={{ minWidth: "70px" }}>
-                                <InputField
-                                  name="numBudgetRate"
-                                  value={
-                                    singleData[i]?.numBudgetRate
-                                      ? singleData[i]?.numBudgetRate
-                                      : numBudgetRate
-                                  }
-                                  type="number"
-                                  onChange={(e) => {
-                                    if (+e.target.value < 0) {
-                                      setBudgetRate("");
-                                    } else {
-                                      rowDtoHandler(
-                                        i,
-                                        "numBudgetRate",
-                                        e.target.value
-                                      );
+                                    type="number"
+                                    onChange={(e) => {
+                                      if (+e.target.value < 0) {
+                                        setNumPlanQty("");
+                                      } else {
+                                        rowDtoHandler(
+                                          i,
+                                          "numPlanQty",
+                                          e.target.value
+                                        );
+                                      }
+                                    }}
+                                  />
+                                </td>
+                                <td style={{ minWidth: "70px" }}>
+                                  <InputField
+                                    name="numBudgetRate"
+                                    value={
+                                      singleData[i]?.numBudgetRate
+                                        ? singleData[i]?.numBudgetRate
+                                        : numBudgetRate
                                     }
-                                  }}
-                                />
-                              </td>
-                              <td style={{ minWidth: "70px" }}>
-                                {item?.numTotalBudget || ""}
+                                    type="number"
+                                    onChange={(e) => {
+                                      if (+e.target.value < 0) {
+                                        setBudgetRate("");
+                                      } else {
+                                        rowDtoHandler(
+                                          i,
+                                          "numBudgetRate",
+                                          e.target.value
+                                        );
+                                      }
+                                    }}
+                                  />
+                                </td>
+                                <td style={{ minWidth: "70px" }}>
+                                  {item?.numTotalBudget || ""}
+                                </td>
+                              </tr>
+                            ))}
+                            <tr>
+                              <td className="text-bold">Grand Total</td>
+                              <td className="text-bold">{totalPlanQuantity}</td>
+                              <td></td>
+                              <td
+                                className="text-bold"
+                                style={{ minWidth: "70px" }}
+                              >
+                                {totalBugetAmount}
                               </td>
                             </tr>
-                          ))}
-                          <tr>
-                            <td className="text-bold">Grand Total</td>
-                            <td className="text-bold">{totalPlanQuantity}</td>
-                            <td></td>
-                            <td
-                              className="text-bold"
-                              style={{ minWidth: "70px" }}
-                            >
-                              {totalBugetAmount}
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
+                          </tbody>
+                        </table>
+                      </div>
                     </div>
                   </div>
                 </>

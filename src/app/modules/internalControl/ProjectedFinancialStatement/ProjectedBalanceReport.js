@@ -47,329 +47,339 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
           </div>
           <div style={{ width: 600, margin: "auto" }}>
             <div className="my-5">
-              <table id="table-to-xlsx" className="w-full">
-                <tr>
-                  <td style={{ fontWeight: "bold", border: "1px solid" }}>
-                    Particulars
-                  </td>
-                  <td
-                    className="text-center"
-                    style={{ fontWeight: "bold", border: "1px solid" }}
+              <div className="table-responsive">
+                <table id="table-to-xlsx" className="w-full">
+                  <tr>
+                    <td style={{ fontWeight: "bold", border: "1px solid" }}>
+                      Particulars
+                    </td>
+                    <td
+                      className="text-center"
+                      style={{ fontWeight: "bold", border: "1px solid" }}
+                    >
+                      Last Period
+                    </td>
+                    <td
+                      className="text-center"
+                      style={{ fontWeight: "bold", border: "1px solid" }}
+                    >
+                      Current Period
+                    </td>
+                    <td
+                      className="text-center"
+                      style={{ fontWeight: "bold", border: "1px solid" }}
+                    >
+                      Variance
+                    </td>
+                    {/* <td className="text-right" style={{ fontWeight: "bold" }}>Amount</td> */}
+                  </tr>
+                  <tr
+                    style={{ background: "#D8D8D8", border: "1px solid black" }}
                   >
-                    Last Period
-                  </td>
-                  <td
-                    className="text-center"
-                    style={{ fontWeight: "bold", border: "1px solid" }}
-                  >
-                    Current Period
-                  </td>
-                  <td
-                    className="text-center"
-                    style={{ fontWeight: "bold", border: "1px solid" }}
-                  >
-                    Variance
-                  </td>
-                  {/* <td className="text-right" style={{ fontWeight: "bold" }}>Amount</td> */}
-                </tr>
-                <tr
-                  style={{ background: "#D8D8D8", border: "1px solid black" }}
-                >
-                  <td colSpan="4" style={{ fontWeight: "bold" }}>
-                    Assets
-                  </td>
-                </tr>
-                <tr style={{ border: "1px solid black" }}>
-                  <td colSpan="4" style={{ fontWeight: "bold" }}>
-                    Non-Current Assets
-                  </td>
-                </tr>
+                    <td colSpan="4" style={{ fontWeight: "bold" }}>
+                      Assets
+                    </td>
+                  </tr>
+                  <tr style={{ border: "1px solid black" }}>
+                    <td colSpan="4" style={{ fontWeight: "bold" }}>
+                      Non-Current Assets
+                    </td>
+                  </tr>
 
-                {balanceReportData?.nonCurrentAssets &&
-                  balanceReportData?.nonCurrentAssets.map((itm, index) => {
-                    return (
-                      <tr key={index}>
-                        <td
-                          className="text-left"
-                          style={{ paddingLeft: "20px", border: "1px solid" }}
-                        >
-                          {itm.strGlName}
-                        </td>
-                        <td
-                          className="text-right"
-                          style={{ border: "1px solid black" }}
-                        >
-                          {numberWithCommas(
-                            Math.round(itm?.numPlanBalance) || 0
-                          )}
-                        </td>
-                        <td
-                          className="text-right"
-                          style={{ border: "1px solid black" }}
-                        >
-                          <span className="pr-1">
-                            {/* {numberWithCommas(
+                  {balanceReportData?.nonCurrentAssets &&
+                    balanceReportData?.nonCurrentAssets.map((itm, index) => {
+                      return (
+                        <tr key={index}>
+                          <td
+                            className="text-left"
+                            style={{ paddingLeft: "20px", border: "1px solid" }}
+                          >
+                            {itm.strGlName}
+                          </td>
+                          <td
+                            className="text-right"
+                            style={{ border: "1px solid black" }}
+                          >
+                            {numberWithCommas(
+                              Math.round(itm?.numPlanBalance) || 0
+                            )}
+                          </td>
+                          <td
+                            className="text-right"
+                            style={{ border: "1px solid black" }}
+                          >
+                            <span className="pr-1">
+                              {/* {numberWithCommas(
                               parseFloat(itm.numBalance).toFixed(2)
                             )} */}
-                            {numberWithCommas(Math.round(itm.numBalance) || 0)}
-                          </span>
-                        </td>
-                        <td
-                          className="text-right"
-                          style={{ border: "1px solid black" }}
-                        >
-                          <span className="pr-1">
+                              {numberWithCommas(
+                                Math.round(itm.numBalance) || 0
+                              )}
+                            </span>
+                          </td>
+                          <td
+                            className="text-right"
+                            style={{ border: "1px solid black" }}
+                          >
+                            <span className="pr-1">
+                              {numberWithCommas(
+                                Math.round(itm.numBalance) -
+                                  Math.round(itm?.numPlanBalance)
+                              )}
+                            </span>
+                            {/* {_formatMoney(itm?.numPlanBalance - itm.numBalance)} */}
+                          </td>
+                          {/* <td></td> */}
+                        </tr>
+                      );
+                    })}
+                  <tr style={{ background: "#F2F2F2" }}>
+                    <td style={{ fontWeight: "bold", border: "1px solid" }}>
+                      Total Non-Current Assets
+                    </td>
+                    <td
+                      className="text-right"
+                      style={{ border: "1px solid black", fontWeight: "bold" }}
+                    >
+                      {numberWithCommas(
+                        Math.round(
+                          balanceReportData?.nonCurrentAssetsTotalPlanBalance
+                        ) || 0
+                      )}
+                    </td>
+                    <td
+                      className="text-right"
+                      style={{ border: "1px solid black", fontWeight: "bold" }}
+                    >
+                      {numberWithCommas(
+                        Math.round(
+                          balanceReportData?.nonCurrentAssetsTotalBalance
+                        ) || 0
+                      )}
+                    </td>
+                    <td
+                      className="text-right"
+                      style={{ border: "1px solid black", fontWeight: "bold" }}
+                    >
+                      {numberWithCommas(
+                        (Math.round(
+                          balanceReportData?.nonCurrentAssetsTotalBalance
+                        ) || 0) -
+                          (Math.round(
+                            balanceReportData?.nonCurrentAssetsTotalPlanBalance
+                          ) || 0)
+                      )}
+                    </td>
+                  </tr>
+                  <tr style={{ border: "1px solid" }}>
+                    <td colSpan="4" style={{ fontWeight: "bold" }}>
+                      Current Assets
+                    </td>
+                  </tr>
+                  {balanceReportData?.currentassets &&
+                    balanceReportData?.currentassets.map((itm, index) => {
+                      return (
+                        <tr key={index}>
+                          <td
+                            className="text-left"
+                            style={{ paddingLeft: "20px", border: "1px solid" }}
+                          >
+                            {itm.strGlName}
+                          </td>
+                          <td
+                            className="text-right"
+                            style={{ border: "1px solid black" }}
+                          >
+                            {numberWithCommas(
+                              Math.round(itm?.numPlanBalance) || 0
+                            )}
+                          </td>
+                          <td
+                            className="text-right"
+                            style={{ border: "1px solid black" }}
+                          >
+                            <span className="pr-1">
+                              {numberWithCommas(
+                                Math.round(itm.numBalance) || 0
+                              )}
+                            </span>
+                          </td>
+                          <td
+                            className="text-right"
+                            style={{ border: "1px solid black" }}
+                          >
                             {numberWithCommas(
                               Math.round(itm.numBalance) -
                                 Math.round(itm?.numPlanBalance)
                             )}
-                          </span>
-                          {/* {_formatMoney(itm?.numPlanBalance - itm.numBalance)} */}
-                        </td>
-                        {/* <td></td> */}
-                      </tr>
-                    );
-                  })}
-                <tr style={{ background: "#F2F2F2" }}>
-                  <td style={{ fontWeight: "bold", border: "1px solid" }}>
-                    Total Non-Current Assets
-                  </td>
-                  <td
-                    className="text-right"
-                    style={{ border: "1px solid black", fontWeight: "bold" }}
-                  >
-                    {numberWithCommas(
-                      Math.round(
-                        balanceReportData?.nonCurrentAssetsTotalPlanBalance
-                      ) || 0
-                    )}
-                  </td>
-                  <td
-                    className="text-right"
-                    style={{ border: "1px solid black", fontWeight: "bold" }}
-                  >
-                    {numberWithCommas(
-                      Math.round(
-                        balanceReportData?.nonCurrentAssetsTotalBalance
-                      ) || 0
-                    )}
-                  </td>
-                  <td
-                    className="text-right"
-                    style={{ border: "1px solid black", fontWeight: "bold" }}
-                  >
-                    {numberWithCommas(
-                      (Math.round(
-                        balanceReportData?.nonCurrentAssetsTotalBalance
-                      ) || 0) -
-                        (Math.round(
-                          balanceReportData?.nonCurrentAssetsTotalPlanBalance
-                        ) || 0)
-                    )}
-                  </td>
-                </tr>
-                <tr style={{ border: "1px solid" }}>
-                  <td colSpan="4" style={{ fontWeight: "bold" }}>
-                    Current Assets
-                  </td>
-                </tr>
-                {balanceReportData?.currentassets &&
-                  balanceReportData?.currentassets.map((itm, index) => {
-                    return (
-                      <tr key={index}>
-                        <td
-                          className="text-left"
-                          style={{ paddingLeft: "20px", border: "1px solid" }}
-                        >
-                          {itm.strGlName}
-                        </td>
-                        <td
-                          className="text-right"
-                          style={{ border: "1px solid black" }}
-                        >
-                          {numberWithCommas(
-                            Math.round(itm?.numPlanBalance) || 0
-                          )}
-                        </td>
-                        <td
-                          className="text-right"
-                          style={{ border: "1px solid black" }}
-                        >
-                          <span className="pr-1">
-                            {numberWithCommas(Math.round(itm.numBalance) || 0)}
-                          </span>
-                        </td>
-                        <td
-                          className="text-right"
-                          style={{ border: "1px solid black" }}
-                        >
-                          {numberWithCommas(
-                            Math.round(itm.numBalance) -
-                              Math.round(itm?.numPlanBalance)
-                          )}
-                        </td>
-                      </tr>
-                    );
-                  })}
-                <tr style={{ background: "#F2F2F2" }}>
-                  <td style={{ fontWeight: "bold", border: "1px solid" }}>
-                    Total Current Assets
-                  </td>
-                  <td
-                    className="text-right"
-                    style={{ border: "1px solid black", fontWeight: "bold" }}
-                  >
-                    {numberWithCommas(
-                      Math.round(
-                        balanceReportData?.currentassetsTotalPlanBalance
-                      ) || 0
-                    )}
-                  </td>
-                  <td
-                    className="text-right"
-                    style={{ border: "1px solid black", fontWeight: "bold" }}
-                  >
-                    {numberWithCommas(
-                      Math.round(
-                        balanceReportData?.currentassetsTotalBalance
-                      ) || 0
-                    )}
-                  </td>
-                  <td
-                    className="text-right"
-                    style={{ border: "1px solid black", fontWeight: "bold" }}
-                  >
-                    {numberWithCommas(
-                      Math.round(
-                        balanceReportData?.currentassetsTotalBalance || 0
-                      ) -
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  <tr style={{ background: "#F2F2F2" }}>
+                    <td style={{ fontWeight: "bold", border: "1px solid" }}>
+                      Total Current Assets
+                    </td>
+                    <td
+                      className="text-right"
+                      style={{ border: "1px solid black", fontWeight: "bold" }}
+                    >
+                      {numberWithCommas(
+                        Math.round(
+                          balanceReportData?.currentassetsTotalPlanBalance
+                        ) || 0
+                      )}
+                    </td>
+                    <td
+                      className="text-right"
+                      style={{ border: "1px solid black", fontWeight: "bold" }}
+                    >
+                      {numberWithCommas(
+                        Math.round(
+                          balanceReportData?.currentassetsTotalBalance
+                        ) || 0
+                      )}
+                    </td>
+                    <td
+                      className="text-right"
+                      style={{ border: "1px solid black", fontWeight: "bold" }}
+                    >
+                      {numberWithCommas(
+                        Math.round(
+                          balanceReportData?.currentassetsTotalBalance || 0
+                        ) -
+                          Math.round(
+                            balanceReportData?.currentassetsTotalPlanBalance ||
+                              0
+                          )
+                      )}
+                    </td>
+                  </tr>
+                  <tr style={{ background: "#D8D8D8" }}>
+                    <td style={{ fontWeight: "bold", border: "1px solid" }}>
+                      Total Assets
+                    </td>
+                    <td
+                      className="text-right"
+                      style={{ border: "1px solid black", fontWeight: "bold" }}
+                    >
+                      {numberWithCommas(
                         Math.round(
                           balanceReportData?.currentassetsTotalPlanBalance || 0
-                        )
-                    )}
-                  </td>
-                </tr>
-                <tr style={{ background: "#D8D8D8" }}>
-                  <td style={{ fontWeight: "bold", border: "1px solid" }}>
-                    Total Assets
-                  </td>
-                  <td
-                    className="text-right"
-                    style={{ border: "1px solid black", fontWeight: "bold" }}
-                  >
-                    {numberWithCommas(
-                      Math.round(
-                        balanceReportData?.currentassetsTotalPlanBalance || 0
-                      ) +
+                        ) +
+                          Math.round(
+                            balanceReportData.nonCurrentAssetsTotalPlanBalance ||
+                              0
+                          )
+                      )}
+                    </td>
+                    <td
+                      className="text-right"
+                      style={{ border: "1px solid black", fontWeight: "bold" }}
+                    >
+                      {numberWithCommas(
                         Math.round(
-                          balanceReportData.nonCurrentAssetsTotalPlanBalance ||
-                            0
-                        )
-                    )}
-                  </td>
-                  <td
-                    className="text-right"
-                    style={{ border: "1px solid black", fontWeight: "bold" }}
-                  >
-                    {numberWithCommas(
-                      Math.round(
-                        balanceReportData?.currentassetsTotalBalance || 0
-                      ) +
-                        Math.round(
-                          balanceReportData?.nonCurrentAssetsTotalBalance || 0
-                        )
-                    )}
-                  </td>
-                  <td
-                    className="text-right"
-                    style={{ border: "1px solid black", fontWeight: "bold" }}
-                  >
-                    {getTotalAssetsVariance(balanceReportData)}
-                  </td>
-                </tr>
-                <tr style={{ height: "15px" }}></tr>
-                <tr style={{ background: "#D8D8D8", border: "1px solid" }}>
-                  <td colSpan="4" style={{ fontWeight: "bold" }}>
-                    EQUITY AND LIABILITIES
-                  </td>
-                </tr>
-                <tr style={{ border: "1px solid" }}>
-                  <td colSpan="4" style={{ fontWeight: "bold" }}>
-                    Equity
-                  </td>
-                </tr>
+                          balanceReportData?.currentassetsTotalBalance || 0
+                        ) +
+                          Math.round(
+                            balanceReportData?.nonCurrentAssetsTotalBalance || 0
+                          )
+                      )}
+                    </td>
+                    <td
+                      className="text-right"
+                      style={{ border: "1px solid black", fontWeight: "bold" }}
+                    >
+                      {getTotalAssetsVariance(balanceReportData)}
+                    </td>
+                  </tr>
+                  <tr style={{ height: "15px" }}></tr>
+                  <tr style={{ background: "#D8D8D8", border: "1px solid" }}>
+                    <td colSpan="4" style={{ fontWeight: "bold" }}>
+                      EQUITY AND LIABILITIES
+                    </td>
+                  </tr>
+                  <tr style={{ border: "1px solid" }}>
+                    <td colSpan="4" style={{ fontWeight: "bold" }}>
+                      Equity
+                    </td>
+                  </tr>
 
-                {balanceReportData?.equity &&
-                  balanceReportData?.equity.map((itm, index) => {
-                    return (
-                      <tr key={index}>
-                        <td
-                          className="text-left"
-                          style={{ paddingLeft: "20px", border: "1px solid" }}
-                        >
-                          {itm.strGlName}
-                        </td>
-                        <td
-                          className="text-right"
-                          style={{ border: "1px solid black" }}
-                        >
-                          {numberWithCommas(
-                            Math.round(itm?.numPlanBalance) || 0
-                          )}
-                        </td>
-                        <td
-                          className="text-right"
-                          style={{ border: "1px solid black" }}
-                        >
-                          <span className="pr-1">
-                            {numberWithCommas(Math.round(itm.numBalance) || 0)}
-                          </span>
-                        </td>
-                        <td
-                          className="text-right"
-                          style={{ border: "1px solid black" }}
-                        >
-                          {numberWithCommas(
-                            (Math.round(itm.numBalance) || 0) -
-                              (Math.round(itm?.numPlanBalance) || 0)
-                          )}
-                        </td>
-                      </tr>
-                    );
-                  })}
-                <tr style={{ background: "#F2F2F2" }}>
-                  <td style={{ fontWeight: "bold", border: "1px solid" }}>
-                    Total Equity
-                  </td>
-                  <td
-                    className="text-right"
-                    style={{ border: "1px solid black", fontWeight: "bold" }}
-                  >
-                    {numberWithCommas(
-                      Math.round(balanceReportData?.equityTotalPlanBalance) || 0
-                    )}
-                  </td>
-                  <td
-                    className="text-right"
-                    style={{ border: "1px solid black", fontWeight: "bold" }}
-                  >
-                    {numberWithCommas(
-                      Math.round(balanceReportData?.equityTotalBalance) || 0
-                    )}
-                  </td>
-                  <td
-                    className="text-right"
-                    style={{ border: "1px solid black", fontWeight: "bold" }}
-                  >
-                    {numberWithCommas(
-                      (Math.round(balanceReportData?.equityTotalBalance) || 0) -
-                        (Math.round(
-                          balanceReportData?.equityTotalPlanBalance
-                        ) || 0)
-                    )}
-                  </td>
-                </tr>
-                {/* <tr key="g">
+                  {balanceReportData?.equity &&
+                    balanceReportData?.equity.map((itm, index) => {
+                      return (
+                        <tr key={index}>
+                          <td
+                            className="text-left"
+                            style={{ paddingLeft: "20px", border: "1px solid" }}
+                          >
+                            {itm.strGlName}
+                          </td>
+                          <td
+                            className="text-right"
+                            style={{ border: "1px solid black" }}
+                          >
+                            {numberWithCommas(
+                              Math.round(itm?.numPlanBalance) || 0
+                            )}
+                          </td>
+                          <td
+                            className="text-right"
+                            style={{ border: "1px solid black" }}
+                          >
+                            <span className="pr-1">
+                              {numberWithCommas(
+                                Math.round(itm.numBalance) || 0
+                              )}
+                            </span>
+                          </td>
+                          <td
+                            className="text-right"
+                            style={{ border: "1px solid black" }}
+                          >
+                            {numberWithCommas(
+                              (Math.round(itm.numBalance) || 0) -
+                                (Math.round(itm?.numPlanBalance) || 0)
+                            )}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  <tr style={{ background: "#F2F2F2" }}>
+                    <td style={{ fontWeight: "bold", border: "1px solid" }}>
+                      Total Equity
+                    </td>
+                    <td
+                      className="text-right"
+                      style={{ border: "1px solid black", fontWeight: "bold" }}
+                    >
+                      {numberWithCommas(
+                        Math.round(balanceReportData?.equityTotalPlanBalance) ||
+                          0
+                      )}
+                    </td>
+                    <td
+                      className="text-right"
+                      style={{ border: "1px solid black", fontWeight: "bold" }}
+                    >
+                      {numberWithCommas(
+                        Math.round(balanceReportData?.equityTotalBalance) || 0
+                      )}
+                    </td>
+                    <td
+                      className="text-right"
+                      style={{ border: "1px solid black", fontWeight: "bold" }}
+                    >
+                      {numberWithCommas(
+                        (Math.round(balanceReportData?.equityTotalBalance) ||
+                          0) -
+                          (Math.round(
+                            balanceReportData?.equityTotalPlanBalance
+                          ) || 0)
+                      )}
+                    </td>
+                  </tr>
+                  {/* <tr key="g">
                           <td className="text-center">Total</td>
                           <td className="text-right">
                             <span clssName="pr-1">
@@ -378,92 +388,94 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
                           </td>
                         </tr> */}
 
-                <tr style={{ border: "1px solid" }}>
-                  <td colSpan="4" style={{ fontWeight: "bold" }}>
-                    Non-Current Liabilities
-                  </td>
-                </tr>
-                {/* <tr key="h">
+                  <tr style={{ border: "1px solid" }}>
+                    <td colSpan="4" style={{ fontWeight: "bold" }}>
+                      Non-Current Liabilities
+                    </td>
+                  </tr>
+                  {/* <tr key="h">
                           <th style={{ width: '60%' }}>Non-Current Liabilities</th>
                           <th>Amount</th>
                         </tr> */}
-                {balanceReportData?.nonCurrentLiability &&
-                  balanceReportData?.nonCurrentLiability.map((itm, index) => {
-                    return (
-                      <tr key={index}>
-                        <td
-                          className="text-left"
-                          style={{ paddingLeft: "20px", border: "1px solid" }}
-                        >
-                          {itm.strGlName}
-                        </td>
-                        <td
-                          className="text-right"
-                          style={{ border: "1px solid black" }}
-                        >
-                          {numberWithCommas(
-                            Math.round(itm?.numPlanBalance) || 0
-                          )}
-                        </td>
-                        <td
-                          className="text-right"
-                          style={{ border: "1px solid black" }}
-                        >
-                          <span className="pr-1">
-                            {numberWithCommas(Math.round(itm.numBalance) || 0)}
-                          </span>
-                        </td>
-                        <td
-                          className="text-right"
-                          style={{ border: "1px solid black" }}
-                        >
-                          {numberWithCommas(
-                            (Math.round(itm.numBalance) || 0) -
-                              (Math.round(itm?.numPlanBalance) || 0)
-                          )}
-                        </td>
-                      </tr>
-                    );
-                  })}
-                <tr style={{ background: "#F2F2F2" }}>
-                  <td style={{ fontWeight: "bold", border: "1px solid" }}>
-                    Total Non-Current Liability
-                  </td>
-                  <td
-                    className="text-right"
-                    style={{ border: "1px solid black", fontWeight: "bold" }}
-                  >
-                    {numberWithCommas(
-                      Math.round(
-                        balanceReportData?.nonCurrentLiabilityTotalPlanBalance
-                      ) || 0
-                    )}
-                  </td>
-                  <td
-                    className="text-right"
-                    style={{ border: "1px solid black", fontWeight: "bold" }}
-                  >
-                    {numberWithCommas(
-                      Math.round(
-                        balanceReportData?.nonCurrentLiabilityTotalBalance
-                      ) || 0
-                    )}
-                  </td>
-                  <td
-                    className="text-right"
-                    style={{ border: "1px solid black", fontWeight: "bold" }}
-                  >
-                    {numberWithCommas(
-                      (Math.round(
-                        balanceReportData?.nonCurrentLiabilityTotalBalance
-                      ) || 0) -
-                        (Math.round(
+                  {balanceReportData?.nonCurrentLiability &&
+                    balanceReportData?.nonCurrentLiability.map((itm, index) => {
+                      return (
+                        <tr key={index}>
+                          <td
+                            className="text-left"
+                            style={{ paddingLeft: "20px", border: "1px solid" }}
+                          >
+                            {itm.strGlName}
+                          </td>
+                          <td
+                            className="text-right"
+                            style={{ border: "1px solid black" }}
+                          >
+                            {numberWithCommas(
+                              Math.round(itm?.numPlanBalance) || 0
+                            )}
+                          </td>
+                          <td
+                            className="text-right"
+                            style={{ border: "1px solid black" }}
+                          >
+                            <span className="pr-1">
+                              {numberWithCommas(
+                                Math.round(itm.numBalance) || 0
+                              )}
+                            </span>
+                          </td>
+                          <td
+                            className="text-right"
+                            style={{ border: "1px solid black" }}
+                          >
+                            {numberWithCommas(
+                              (Math.round(itm.numBalance) || 0) -
+                                (Math.round(itm?.numPlanBalance) || 0)
+                            )}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  <tr style={{ background: "#F2F2F2" }}>
+                    <td style={{ fontWeight: "bold", border: "1px solid" }}>
+                      Total Non-Current Liability
+                    </td>
+                    <td
+                      className="text-right"
+                      style={{ border: "1px solid black", fontWeight: "bold" }}
+                    >
+                      {numberWithCommas(
+                        Math.round(
                           balanceReportData?.nonCurrentLiabilityTotalPlanBalance
-                        ) || 0)
-                    )}
-                  </td>
-                </tr>
-                {/* <tr key="i">
+                        ) || 0
+                      )}
+                    </td>
+                    <td
+                      className="text-right"
+                      style={{ border: "1px solid black", fontWeight: "bold" }}
+                    >
+                      {numberWithCommas(
+                        Math.round(
+                          balanceReportData?.nonCurrentLiabilityTotalBalance
+                        ) || 0
+                      )}
+                    </td>
+                    <td
+                      className="text-right"
+                      style={{ border: "1px solid black", fontWeight: "bold" }}
+                    >
+                      {numberWithCommas(
+                        (Math.round(
+                          balanceReportData?.nonCurrentLiabilityTotalBalance
+                        ) || 0) -
+                          (Math.round(
+                            balanceReportData?.nonCurrentLiabilityTotalPlanBalance
+                          ) || 0)
+                      )}
+                    </td>
+                  </tr>
+                  {/* <tr key="i">
                           <td className="text-center">Total</td>
                           <td className="text-right">
                             <span>
@@ -471,92 +483,94 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
                             </span>
                           </td>
                         </tr> */}
-                <tr style={{ border: "1px solid" }}>
-                  <td colSpan="4" style={{ fontWeight: "bold" }}>
-                    Current Liabilities
-                  </td>
-                </tr>
-                {/* <tr key="j">
+                  <tr style={{ border: "1px solid" }}>
+                    <td colSpan="4" style={{ fontWeight: "bold" }}>
+                      Current Liabilities
+                    </td>
+                  </tr>
+                  {/* <tr key="j">
                           <th style={{ width: '60%' }}>Current Liabilities</th>
                           <th>Amount</th>
                         </tr> */}
-                {balanceReportData?.currentLiability &&
-                  balanceReportData?.currentLiability.map((itm, index) => {
-                    return (
-                      <tr key={index}>
-                        <td
-                          className="text-left"
-                          style={{ paddingLeft: "20px", border: "1px solid" }}
-                        >
-                          {itm.strGlName}
-                        </td>
-                        <td
-                          className="text-right"
-                          style={{ border: "1px solid black" }}
-                        >
-                          {numberWithCommas(
-                            Math.round(itm?.numPlanBalance) || 0
-                          )}
-                        </td>
-                        <td
-                          className="text-right"
-                          style={{ border: "1px solid black" }}
-                        >
-                          <span className="pr-1">
-                            {numberWithCommas(Math.round(itm.numBalance) || 0)}
-                          </span>
-                        </td>
-                        <td
-                          className="text-right"
-                          style={{ border: "1px solid black" }}
-                        >
-                          {numberWithCommas(
-                            (Math.round(itm.numBalance) || 0) -
-                              (Math.round(itm?.numPlanBalance) || 0)
-                          )}
-                        </td>
-                      </tr>
-                    );
-                  })}
-                <tr style={{ background: "#F2F2F2" }}>
-                  <td style={{ fontWeight: "bold", border: "1px solid" }}>
-                    Total Current Liabilities
-                  </td>
-                  <td
-                    className="text-right"
-                    style={{ border: "1px solid black", fontWeight: "bold" }}
-                  >
-                    {numberWithCommas(
-                      Math.round(
-                        balanceReportData?.currentLiabilityTotalPlanBalance
-                      ) || 0
-                    )}
-                  </td>
-                  <td
-                    className="text-right"
-                    style={{ border: "1px solid black", fontWeight: "bold" }}
-                  >
-                    {numberWithCommas(
-                      Math.round(
-                        balanceReportData?.currentLiabilityTotalBalance
-                      ) || 0
-                    )}
-                  </td>
-                  <td
-                    className="text-right"
-                    style={{ border: "1px solid black", fontWeight: "bold" }}
-                  >
-                    {numberWithCommas(
-                      (Math.round(
-                        balanceReportData?.currentLiabilityTotalBalance
-                      ) || 0) -
-                        (Math.round(
+                  {balanceReportData?.currentLiability &&
+                    balanceReportData?.currentLiability.map((itm, index) => {
+                      return (
+                        <tr key={index}>
+                          <td
+                            className="text-left"
+                            style={{ paddingLeft: "20px", border: "1px solid" }}
+                          >
+                            {itm.strGlName}
+                          </td>
+                          <td
+                            className="text-right"
+                            style={{ border: "1px solid black" }}
+                          >
+                            {numberWithCommas(
+                              Math.round(itm?.numPlanBalance) || 0
+                            )}
+                          </td>
+                          <td
+                            className="text-right"
+                            style={{ border: "1px solid black" }}
+                          >
+                            <span className="pr-1">
+                              {numberWithCommas(
+                                Math.round(itm.numBalance) || 0
+                              )}
+                            </span>
+                          </td>
+                          <td
+                            className="text-right"
+                            style={{ border: "1px solid black" }}
+                          >
+                            {numberWithCommas(
+                              (Math.round(itm.numBalance) || 0) -
+                                (Math.round(itm?.numPlanBalance) || 0)
+                            )}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  <tr style={{ background: "#F2F2F2" }}>
+                    <td style={{ fontWeight: "bold", border: "1px solid" }}>
+                      Total Current Liabilities
+                    </td>
+                    <td
+                      className="text-right"
+                      style={{ border: "1px solid black", fontWeight: "bold" }}
+                    >
+                      {numberWithCommas(
+                        Math.round(
                           balanceReportData?.currentLiabilityTotalPlanBalance
-                        ) || 0)
-                    )}
-                  </td>
-                </tr>
-                {/* <tr key="k">
+                        ) || 0
+                      )}
+                    </td>
+                    <td
+                      className="text-right"
+                      style={{ border: "1px solid black", fontWeight: "bold" }}
+                    >
+                      {numberWithCommas(
+                        Math.round(
+                          balanceReportData?.currentLiabilityTotalBalance
+                        ) || 0
+                      )}
+                    </td>
+                    <td
+                      className="text-right"
+                      style={{ border: "1px solid black", fontWeight: "bold" }}
+                    >
+                      {numberWithCommas(
+                        (Math.round(
+                          balanceReportData?.currentLiabilityTotalBalance
+                        ) || 0) -
+                          (Math.round(
+                            balanceReportData?.currentLiabilityTotalPlanBalance
+                          ) || 0)
+                      )}
+                    </td>
+                  </tr>
+                  {/* <tr key="k">
                           <td className="text-center">Total</td>
                           <td className="text-right">
                             <span className="pr-1">
@@ -564,42 +578,45 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
                             </span>
                           </td>
                         </tr> */}
-                <tr style={{ background: "#D8D8D8" }}>
-                  <td style={{ fontWeight: "bold", border: "1px solid" }}>
-                    TOTAL EQUITY AND LIABILITIES
-                  </td>
-                  <td
-                    className="text-right"
-                    style={{ border: "1px solid black", fontWeight: "bold" }}
-                  >
-                    {numberWithCommas(
-                      equityAndLiaTotalForBudget(balanceReportData)
-                    )}
-                  </td>
-                  <td
-                    className="text-right"
-                    style={{ border: "1px solid black", fontWeight: "bold" }}
-                  >
-                    {numberWithCommas(equityAndLiaTotal(balanceReportData))}
-                  </td>
-                  <td
-                    className="text-right"
-                    style={{ border: "1px solid black", fontWeight: "bold" }}
-                  >
-                    {numberWithCommas(
-                       equityAndLiaTotal(balanceReportData)-equityAndLiaTotalForBudget(balanceReportData) 
-                       
-                    )}
-                  </td>
-                </tr>
-                <tr style={{ height: "15px" }}></tr>
-                <tr>
-                  <td
-                    className="text-center d-none"
-                    colSpan={4}
-                  >{`System Generated Report - ${moment().format("LLLL")}`}</td>
-                </tr>
-              </table>
+                  <tr style={{ background: "#D8D8D8" }}>
+                    <td style={{ fontWeight: "bold", border: "1px solid" }}>
+                      TOTAL EQUITY AND LIABILITIES
+                    </td>
+                    <td
+                      className="text-right"
+                      style={{ border: "1px solid black", fontWeight: "bold" }}
+                    >
+                      {numberWithCommas(
+                        equityAndLiaTotalForBudget(balanceReportData)
+                      )}
+                    </td>
+                    <td
+                      className="text-right"
+                      style={{ border: "1px solid black", fontWeight: "bold" }}
+                    >
+                      {numberWithCommas(equityAndLiaTotal(balanceReportData))}
+                    </td>
+                    <td
+                      className="text-right"
+                      style={{ border: "1px solid black", fontWeight: "bold" }}
+                    >
+                      {numberWithCommas(
+                        equityAndLiaTotal(balanceReportData) -
+                          equityAndLiaTotalForBudget(balanceReportData)
+                      )}
+                    </td>
+                  </tr>
+                  <tr style={{ height: "15px" }}></tr>
+                  <tr>
+                    <td
+                      className="text-center d-none"
+                      colSpan={4}
+                    >{`System Generated Report - ${moment().format(
+                      "LLLL"
+                    )}`}</td>
+                  </tr>
+                </table>
+              </div>
             </div>
           </div>
         </div>
