@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useHistory} from "react-router-dom";
-import { useSelector, shallowEqual , useDispatch} from "react-redux";
+import { useHistory } from "react-router-dom";
+import { useSelector, shallowEqual, useDispatch } from "react-redux";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import { Formik } from "formik";
 import Loading from "../../../../_helper/_loading";
@@ -8,18 +8,18 @@ import PaginationTable from "../../../../_helper/_tablePagination";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { Form } from "react-bootstrap";
 import IConfirmModal from "./../../../../_helper/_confirmModal";
-import { getPurchaseOrderGridData,approvalApi } from "./helper";
-import { setPurchaseReturnId } from '../../../../_helper/reduxForLocalStorage/Actions'
-import PaginationSearch from './../../../../_helper/_search'
+import { getPurchaseOrderGridData, approvalApi } from "./helper";
+import { setPurchaseReturnId } from "../../../../_helper/reduxForLocalStorage/Actions";
+import PaginationSearch from "./../../../../_helper/_search";
 
+let initData = {};
 
-
-let initData = {
-
-}
-
-
-const PurchaseReturnApprovalGrid = ({ onChangeForActivity, activityName,activityChange,selectedPlant }) => {
+const PurchaseReturnApprovalGrid = ({
+  onChangeForActivity,
+  activityName,
+  activityChange,
+  selectedPlant,
+}) => {
   const history = useHistory();
 
   const [loader, setLoader] = useState(false);
@@ -27,7 +27,7 @@ const PurchaseReturnApprovalGrid = ({ onChangeForActivity, activityName,activity
   const [pageSize, setPageSize] = React.useState(15);
   const [rowDto, setRowDto] = useState([]);
   const [billSubmitBtn, setBillSubmitBtn] = useState(true);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const profileData = useSelector((state) => {
     return state.authData.profileData;
@@ -38,18 +38,16 @@ const PurchaseReturnApprovalGrid = ({ onChangeForActivity, activityName,activity
     return state.authData.selectedBusinessUnit;
   }, shallowEqual);
 
-
   const lastReturnApprovalId = useSelector((state) => {
     return state.localStorage.lastReturnApprovalId;
-  })
-
+  });
 
   useEffect(() => {
     cb();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activityChange])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activityChange]);
 
-  let cb = () =>{
+  let cb = () => {
     getPurchaseOrderGridData(
       profileData?.accountId,
       selectedBusinessUnit?.value,
@@ -62,8 +60,7 @@ const PurchaseReturnApprovalGrid = ({ onChangeForActivity, activityName,activity
       "",
       selectedPlant?.value
     );
-  }
-  
+  };
 
   // one item select
   const itemSlectedHandler = (value, index) => {
@@ -127,13 +124,13 @@ const PurchaseReturnApprovalGrid = ({ onChangeForActivity, activityName,activity
           accid: profileData?.accountId,
           buId: selectedBusinessUnit?.value,
           userId: profileData?.userId,
-         activityId: activityName?.value
-        }
+          activityId: activityName?.value,
+        };
         console.log(payload);
-        approvalApi(parameter,payload, activityName, cb,setBillSubmitBtn);
+        approvalApi(parameter, payload, activityName, cb, setBillSubmitBtn);
         // setBillSubmitBtn(true);
       },
-      noAlertFunc: () => { },
+      noAlertFunc: () => {},
     };
     IConfirmModal(confirmObject);
   };
@@ -154,7 +151,6 @@ const PurchaseReturnApprovalGrid = ({ onChangeForActivity, activityName,activity
     );
   };
 
-
   const paginationSearchHandler = (value) => {
     getPurchaseOrderGridData(
       profileData?.accountId,
@@ -168,9 +164,8 @@ const PurchaseReturnApprovalGrid = ({ onChangeForActivity, activityName,activity
       value,
       selectedPlant?.value
     );
-    setPageNo(0)
-  }
-
+    setPageNo(0);
+  };
 
   // All item select
   return (
@@ -207,81 +202,84 @@ const PurchaseReturnApprovalGrid = ({ onChangeForActivity, activityName,activity
                         <h1>Purchase Return</h1>
                       </div>
                       <div className="col-lg-3">
-                      <div className="d-flex justify-content-end ">
-                        <button
-                          type="button"
-                          className="approvalButton btn btn-primary mr-1"
-                          onClick={() => approveSubmitlHandler()}
-                          disabled={billSubmitBtn}
-                        >
-                          Approve
-                      </button>
-                      </div>
+                        <div className="d-flex justify-content-end ">
+                          <button
+                            type="button"
+                            className="approvalButton btn btn-primary mr-1"
+                            onClick={() => approveSubmitlHandler()}
+                            disabled={billSubmitBtn}
+                          >
+                            Approve
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
               <div>
-              <PaginationSearch
-                    placeholder="Return PO Code Search"
-                    paginationSearchHandler={paginationSearchHandler}
-                    values={values}
-                  /> 
+                <PaginationSearch
+                  placeholder="Return PO Code Search"
+                  paginationSearchHandler={paginationSearchHandler}
+                  values={values}
+                />
               </div>
             </Form>
             {/* Table Start */}
-            {rowDto?.data?.length ?   <table className="table table-striped table-bordered global-table">
-              <thead>
-                <tr>
-                  <th style={{ width: "20px" }}>
-                    <input
-                      type="checkbox"
-                      id="parent"
-                      onChange={(event) => {
-                        allGridCheck(event.target.checked);
-                      }}
-                    />
-                  </th>
-                  <th>SL</th>
-                  <th>Reff Code</th>
-                  <th>Transaction Date</th>
-                  {/* <th>Due Date</th> */}
-                  <th>Amount</th>
-                  <th>Quantity</th>
-                  <th>Description</th>
-                  <th className="text-right pr-3">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {rowDto?.data?.map((item, i) => (
-                  <tr>
-                    <td>
-                      <input
-                        id="isSelect"
-                        type="checkbox"
-                        value={item?.isSelect}
-                        checked={item?.isSelect}
-                        onChange={(e) => {
-                          itemSlectedHandler(e.target.checked, i);
-                        }}
-                      />
-                    </td>
-                    <td className="text-center">{item.sl}</td>
-                    <td>
-                      <span className="pl-2">{item.strCode}</span>
-                    </td>
-                    <td className="text-center">
-                      {_dateFormatter(item.transectionDate)}
-                    </td>
-                    {/* <td className="text-center">
+            {rowDto?.data?.length ? (
+              <div className="table-responsive">
+                {" "}
+                <table className="table table-striped table-bordered global-table">
+                  <thead>
+                    <tr>
+                      <th style={{ width: "20px" }}>
+                        <input
+                          type="checkbox"
+                          id="parent"
+                          onChange={(event) => {
+                            allGridCheck(event.target.checked);
+                          }}
+                        />
+                      </th>
+                      <th>SL</th>
+                      <th>Reff Code</th>
+                      <th>Transaction Date</th>
+                      {/* <th>Due Date</th> */}
+                      <th>Amount</th>
+                      <th>Quantity</th>
+                      <th>Description</th>
+                      <th className="text-right pr-3">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {rowDto?.data?.map((item, i) => (
+                      <tr>
+                        <td>
+                          <input
+                            id="isSelect"
+                            type="checkbox"
+                            value={item?.isSelect}
+                            checked={item?.isSelect}
+                            onChange={(e) => {
+                              itemSlectedHandler(e.target.checked, i);
+                            }}
+                          />
+                        </td>
+                        <td className="text-center">{item.sl}</td>
+                        <td>
+                          <span className="pl-2">{item.strCode}</span>
+                        </td>
+                        <td className="text-center">
+                          {_dateFormatter(item.transectionDate)}
+                        </td>
+                        {/* <td className="text-center">
                       {_dateFormatter(item.dueDate)}
                     </td> */}
-                    <td className="text-center">{item?.amount}</td>
-                    <td className="text-center">{item?.quantity}</td>
-                    <td className="text-center">{item?.strNarration}</td>
-                    <td className="text-center">
-                      {/* <span
+                        <td className="text-center">{item?.amount}</td>
+                        <td className="text-center">{item?.quantity}</td>
+                        <td className="text-center">{item?.strNarration}</td>
+                        <td className="text-center">
+                          {/* <span
                       className="mr-2"
                       onClick={(e) => singleApprovalndler(item.transectionId)}
                     >
@@ -289,33 +287,41 @@ const PurchaseReturnApprovalGrid = ({ onChangeForActivity, activityName,activity
                       <IApproval />
                     </span> */}
 
-
-                      <span
-                        onClick={(e) => {
-                          history.push({
-                            pathname: `/mngProcurement/purchase-management/purchaseorder/report/${item?.transectionId}/8`,
-                            state: true,
-                          });
-                          dispatch(setPurchaseReturnId(item?.transectionId))
-                        }}
-                      >
-                        <OverlayTrigger
-                          overlay={<Tooltip id="cs-icon">{"View"}</Tooltip>}
-                        >
-                          <span style={{cursor: "pointer"}}>
-                            <i
-                              className={`fas fa-eye ${lastReturnApprovalId === item?.transectionId ? "text-primary" : ""}`}
-                              aria-hidden="true"
-                            ></i>
+                          <span
+                            onClick={(e) => {
+                              history.push({
+                                pathname: `/mngProcurement/purchase-management/purchaseorder/report/${item?.transectionId}/8`,
+                                state: true,
+                              });
+                              dispatch(
+                                setPurchaseReturnId(item?.transectionId)
+                              );
+                            }}
+                          >
+                            <OverlayTrigger
+                              overlay={<Tooltip id="cs-icon">{"View"}</Tooltip>}
+                            >
+                              <span style={{ cursor: "pointer" }}>
+                                <i
+                                  className={`fas fa-eye ${
+                                    lastReturnApprovalId === item?.transectionId
+                                      ? "text-primary"
+                                      : ""
+                                  }`}
+                                  aria-hidden="true"
+                                ></i>
+                              </span>
+                            </OverlayTrigger>
                           </span>
-                        </OverlayTrigger>
-                      </span>
-
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table> : ""}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>{" "}
+              </div>
+            ) : (
+              ""
+            )}
             {rowDto?.data?.length > 0 && (
               <PaginationTable
                 count={rowDto?.totalCount}

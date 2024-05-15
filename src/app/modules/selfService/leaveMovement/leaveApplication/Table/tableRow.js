@@ -309,6 +309,7 @@ export function TableRow({ saveHandler }) {
                 <>
                   {loader && <Loading />}
                   <h6 className="my-2">Leave Application Table</h6>
+                  <div className="table-responsive">
                   <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table mr-1">
                     <thead>
                       <tr>
@@ -413,6 +414,7 @@ export function TableRow({ saveHandler }) {
                       ))}
                     </tbody>
                   </table>
+                  </div>
                 </>
               </div>
             </div>

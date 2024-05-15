@@ -124,6 +124,7 @@ function OtherAllowances({
         </div>
       </div>
       <div className="w-100">
+      <div className="table-responsive">
         <table className="global-table w-100 table-bordered border-secondary">
           <thead>
             <tr>
@@ -163,6 +164,7 @@ function OtherAllowances({
             </tr>
           </tbody>
         </table>
+        </div>
       </div>
     </>
   );

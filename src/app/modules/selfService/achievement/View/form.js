@@ -103,6 +103,7 @@ export default function _Form({
               </div>
               <div className="mt-5">
                 {target?.objRow?.length ? (
+                   <div className='table-responsive'>
                   <table className="table table-striped table-bordered">
                     <thead>
                       <tr>
@@ -209,6 +210,7 @@ export default function _Form({
                       </tr>
                     </tbody>
                   </table>
+                  </div>
                 ) : (
                   <h3>No data found!</h3>
                 )}

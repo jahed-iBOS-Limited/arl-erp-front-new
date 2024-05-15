@@ -213,6 +213,7 @@ const PayslipReport = () => {
                 <div>
                   <h4>Basic Information</h4>
                   <div className="basicInfoTable">
+                  <div className="table-responsive">
                     <table style={{ width: "100%", border: "0" }}>
                       <tbody>
                         <tr>
@@ -345,6 +346,7 @@ const PayslipReport = () => {
                         </tr>
                       </tbody>
                     </table>
+                    </div>
                   </div>
                 </div>
                 <hr style={{ backgroundColor: "#000" }} />
@@ -353,6 +355,7 @@ const PayslipReport = () => {
                 <div>
                   <h4>Attendance Information</h4>
                   <div className="basicInfoTable">
+                  <div className="table-responsive">
                     <table style={{ width: "100%", border: "0" }}>
                       <tbody>
                         <tr>
@@ -421,12 +424,14 @@ const PayslipReport = () => {
                         </tr>
                       </tbody>
                     </table>
+                    </div>
                   </div>
                 </div>
                 <br />
 
                 {/* details information */}
                 <div className="detailsInfoTable">
+                <div className="table-responsive">
                   <table style={{ width: "100%", border: "0" }}>
                     <tbody>
                       <tr
@@ -843,6 +848,7 @@ const PayslipReport = () => {
                       </tr>
                     </tbody>
                   </table>
+                  </div>
                 </div>
 
                 {/* footer */}
