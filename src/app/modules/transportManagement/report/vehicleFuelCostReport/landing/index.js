@@ -157,6 +157,7 @@ function VehicleFuelCostReport() {
                         placeholder="From date"
                         type="date"
                         max={_todayDate()}
+                        style={{width: "100%"}}
                       />
                     </div>
                   </div>
@@ -169,6 +170,7 @@ function VehicleFuelCostReport() {
                         placeholder="To date"
                         type="date"
                         max={_todayDate()}
+                        style={{width: "100%"}}
                       />
                     </div>
                   </div>
