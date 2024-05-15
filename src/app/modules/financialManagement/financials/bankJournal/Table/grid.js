@@ -94,7 +94,7 @@ const GridData = ({
     <>
       {/* Table Start */}
       <div className="row cash_journal">
-        <div className="col-lg-12 pr-0 pl-0">
+        <div className="col-lg-12">
         <div className="table-responsive">
         <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
             <thead>
