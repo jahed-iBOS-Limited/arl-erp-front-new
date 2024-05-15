@@ -7,6 +7,7 @@ function EmpRemuSetupLanding({ landingData }) {
   const [employeeRemSetupId, setEmployeeRemSetupId] = React.useState(0);
   return (
     <>
+     <div className="table-responsive">
       <table className="global-table w-100 table-bordered border-secondary">
         <thead>
           <tr>
@@ -73,6 +74,7 @@ function EmpRemuSetupLanding({ landingData }) {
             })}
         </tbody>
       </table>
+      </div>
     </>
   );
 }

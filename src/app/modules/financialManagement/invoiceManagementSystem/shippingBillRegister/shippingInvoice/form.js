@@ -5,7 +5,6 @@ import { DropzoneDialogBase } from "material-ui-dropzone";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 
-
 import { toast } from "react-toastify";
 import NewSelect from "../../../../_helper/_select";
 import InputField from "../../../../_helper/_inputField";
@@ -176,12 +175,18 @@ export default function _Form({
                           //   e.target.value === "" ||
                           //   re.test(e.target.value)
                           // ) {
-                            setFieldValue("grossInvoiceAmount", number);
-                            if(Number(supplierAmountInfo?.poPendingAdjustment) >= number){
-                              setFieldValue("new_Adv_Adjustment", number);
-                            }else{
-                              setFieldValue("new_Adv_Adjustment", Number(supplierAmountInfo?.poPendingAdjustment));
-                            }
+                          setFieldValue("grossInvoiceAmount", number);
+                          if (
+                            Number(supplierAmountInfo?.poPendingAdjustment) >=
+                            number
+                          ) {
+                            setFieldValue("new_Adv_Adjustment", number);
+                          } else {
+                            setFieldValue(
+                              "new_Adv_Adjustment",
+                              Number(supplierAmountInfo?.poPendingAdjustment)
+                            );
+                          }
                           // }
                         }}
                         name="grossInvoiceAmount"
@@ -542,88 +547,91 @@ export default function _Form({
                   {/* Start row part */}
                   <div className="row mt-1 ">
                     <div className="col-lg-12">
-                      <table className="table table-striped table-bordered global-table mt-0">
-                        <thead className="bg-secondary">
-                          <tr>
-                            <th>SL</th>
-                            <th style={{ width: "55%" }}>GRN No.</th>
-                            <th>Challan No.</th>
-                            <th>GRN Amount</th>
-                            <th>Action</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {grnGridData?.map((item, index) => (
-                            <tr key={index}>
-                              <td className="text-center align-middle">
-                                {index + 1}
-                              </td>
-                              <td
-                                onClick={(e) => {
-                                  setCurrentItem(item);
-                                  setIsShowModalTwo(true);
-                                }}
-                                className="align-middle"
-                              >
-                                <div
-                                  style={{ textDecoration: "underline" }}
-                                  className="pl-2 text-primary pointer"
-                                >
-                                  {item?.referenceName}
-                                </div>
-                              </td>
-                              <td
-                                onClick={(e) => {
-                                  setCurrentItem(item);
-                                  setIsShowModal(true);
-                                }}
-                                className="align-middle"
-                              >
-                                <div
-                                  style={{ textDecoration: "underline" }}
-                                  className="pl-2 text-primary pointer"
-                                >
-                                  {item?.challanNo}
-                                </div>
-                              </td>
-
-                              <td className="align-middle table-input">
-                                <div className="pl-2">
-                                  {item.referenceAmount}
-                                </div>
-                              </td>
-                              <td className="text-center align-middle table-input">
-                                <span
-                                  onClick={() => {
-                                    remover(
-                                      index,
-                                      setFieldValue,
-                                      supplierAmountInfo
-                                    );
-                                    setFieldValue(
-                                      "grossInvoiceAmount",
-                                      totalGrn -
-                                        grnGridData[index].referenceAmount || 0
-                                    );
-                                  }}
-                                >
-                                  <IDelete />
-                                </span>
-                              </td>
+                      <div className="table-responsive">
+                        <table className="table table-striped table-bordered global-table mt-0">
+                          <thead className="bg-secondary">
+                            <tr>
+                              <th>SL</th>
+                              <th style={{ width: "55%" }}>GRN No.</th>
+                              <th>Challan No.</th>
+                              <th>GRN Amount</th>
+                              <th>Action</th>
                             </tr>
-                          ))}
-                          <tr>
-                            <td colspan="2">
-                              <b>Total Amount</b>
-                            </td>
-                            <td></td>
-                            <td>
-                              <b className="pl-2">{totalGrn}</b>
-                            </td>
-                            <td></td>
-                          </tr>
-                        </tbody>
-                      </table>
+                          </thead>
+                          <tbody>
+                            {grnGridData?.map((item, index) => (
+                              <tr key={index}>
+                                <td className="text-center align-middle">
+                                  {index + 1}
+                                </td>
+                                <td
+                                  onClick={(e) => {
+                                    setCurrentItem(item);
+                                    setIsShowModalTwo(true);
+                                  }}
+                                  className="align-middle"
+                                >
+                                  <div
+                                    style={{ textDecoration: "underline" }}
+                                    className="pl-2 text-primary pointer"
+                                  >
+                                    {item?.referenceName}
+                                  </div>
+                                </td>
+                                <td
+                                  onClick={(e) => {
+                                    setCurrentItem(item);
+                                    setIsShowModal(true);
+                                  }}
+                                  className="align-middle"
+                                >
+                                  <div
+                                    style={{ textDecoration: "underline" }}
+                                    className="pl-2 text-primary pointer"
+                                  >
+                                    {item?.challanNo}
+                                  </div>
+                                </td>
+
+                                <td className="align-middle table-input">
+                                  <div className="pl-2">
+                                    {item.referenceAmount}
+                                  </div>
+                                </td>
+                                <td className="text-center align-middle table-input">
+                                  <span
+                                    onClick={() => {
+                                      remover(
+                                        index,
+                                        setFieldValue,
+                                        supplierAmountInfo
+                                      );
+                                      setFieldValue(
+                                        "grossInvoiceAmount",
+                                        totalGrn -
+                                          grnGridData[index].referenceAmount ||
+                                          0
+                                      );
+                                    }}
+                                  >
+                                    <IDelete />
+                                  </span>
+                                </td>
+                              </tr>
+                            ))}
+                            <tr>
+                              <td colspan="2">
+                                <b>Total Amount</b>
+                              </td>
+                              <td></td>
+                              <td>
+                                <b className="pl-2">{totalGrn}</b>
+                              </td>
+                              <td></td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -636,7 +644,7 @@ export default function _Form({
               >
                 <AttachmentComponent currentItem={currentItem} />
               </IViewModal>
-              
+
               <IViewModal
                 show={isShowModalTwo}
                 onHide={() => setIsShowModalTwo(false)}
@@ -676,7 +684,7 @@ export default function _Form({
               ></button>
               <DropzoneDialogBase
                 filesLimit={5}
-                acceptedFiles={["image/*","application/pdf"]}
+                acceptedFiles={["image/*", "application/pdf"]}
                 fileObjects={fileObjects}
                 cancelButtonText={"cancel"}
                 submitButtonText={"submit"}

@@ -251,7 +251,7 @@ export default function _Form({
                       touched={touched}
                     />
                   </div>
-                  <div className="col-2">
+                  <div className="col-lg-2">
                     <NewSelect
                       name="type"
                       options={typeDDL}

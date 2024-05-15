@@ -7,19 +7,19 @@ import IConfirmModal from "../../../../_helper/_confirmModal";
 import Loading from "../../../../_helper/_loading";
 import PaginationTable from "../../../../_helper/_tablePagination";
 import { getGatePassGridData, approvalApi } from "./helper";
-import PaginationSearch from './../../../../_helper/_search'
+import PaginationSearch from "./../../../../_helper/_search";
 import IViewModal from "../../../../_helper/_viewModal";
 import ViewReport from "../../../../inventoryManagement/GatePass/gatePassApplication/View/viewReport";
 import IView from "../../../../_helper/_helperIcons/_view";
 
+let initData = {};
 
-
-let initData = {
-
-}
-
-
-const GatePassApprovalGrid = ({ onChangeForActivity, activityName, activityChange,selectedPlant}) => {
+const GatePassApprovalGrid = ({
+  onChangeForActivity,
+  activityName,
+  activityChange,
+  selectedPlant,
+}) => {
   const [loader, setLoader] = useState(false);
   const [pageNo, setPageNo] = React.useState(0);
   const [pageSize, setPageSize] = React.useState(15);
@@ -44,9 +44,9 @@ const GatePassApprovalGrid = ({ onChangeForActivity, activityName, activityChang
   // })
 
   useEffect(() => {
-    cb()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activityChange])
+    cb();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activityChange]);
 
   let cb = () => {
     getGatePassGridData(
@@ -61,7 +61,7 @@ const GatePassApprovalGrid = ({ onChangeForActivity, activityName, activityChang
       "",
       selectedPlant?.value
     );
-  }
+  };
 
   //setPositionHandler
   const setPositionHandler = (pageNo, pageSize) => {
@@ -140,12 +140,12 @@ const GatePassApprovalGrid = ({ onChangeForActivity, activityName, activityChang
           accid: profileData?.accountId,
           buId: selectedBusinessUnit?.value,
           userId: profileData?.userId,
-         activityId: activityName?.value
-        }
+          activityId: activityName?.value,
+        };
         approvalApi(parameter, payload, cb, setBillSubmitBtn);
         //setBillSubmitBtn(true);
       },
-      noAlertFunc: () => { },
+      noAlertFunc: () => {},
     };
     IConfirmModal(confirmObject);
   };
@@ -163,9 +163,8 @@ const GatePassApprovalGrid = ({ onChangeForActivity, activityName, activityChang
       value,
       selectedPlant?.value
     );
-    setPageNo(0)
-  }
-
+    setPageNo(0);
+  };
 
   // All item select
   return (
@@ -211,7 +210,7 @@ const GatePassApprovalGrid = ({ onChangeForActivity, activityName, activityChang
                             disabled={billSubmitBtn}
                           >
                             Approve
-                      </button>
+                          </button>
                         </div>
                       </div>
                     </div>
@@ -226,75 +225,77 @@ const GatePassApprovalGrid = ({ onChangeForActivity, activityName, activityChang
                 />
               </div>
             </Form>
-            {rowDto?.data?.length ?
-              <table className="table table-striped table-bordered global-table">
-                <thead>
-                  <tr>
-                    <th style={{ width: "20px" }}>
-                      <input
-                        type="checkbox"
-                        id="parent"
-                        onChange={(event) => {
-                          allGridCheck(event.target.checked);
-                        }}
-                      />
-                    </th>
-                    <th>SL</th>
-                    <th>Gate Pass Code</th>
-                    <th>Date</th>
-                    <th>Warehouse Name</th>
-                    <th>Total Quantity</th>
-                    <th style={{ width: "200px" }}>To Address</th>
-                    <th>Remarks</th>
-                    <th className="text-right pr-3">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {rowDto?.data?.map((item, i) => (
+            {rowDto?.data?.length ? (
+              <div className="table-responsive">
+                <table className="table table-striped table-bordered global-table">
+                  <thead>
                     <tr>
-                      <td>
+                      <th style={{ width: "20px" }}>
                         <input
-                          id="isSelect"
                           type="checkbox"
-                          value={item?.isSelect}
-                          checked={item?.isSelect}
-                          onChange={(e) => {
-                            itemSlectedHandler(e.target.checked, i);
+                          id="parent"
+                          onChange={(event) => {
+                            allGridCheck(event.target.checked);
                           }}
                         />
-                      </td>
-                      <td className="text-center">{item?.sl}</td>
-                      <td>
-                        <span className="pl-2">{item.strCode}</span>
-                      </td>
-                      <td className="text-center">
-                        {_dateFormatter(item.transectionDate)}
-                      </td>
-                      <td className="text-center">
-                        {item?.whName}
-                      </td>
-                      <td className="text-center">{item.quantity}</td>
-                      <td className="text-center">{item.plantName}</td>
-                      <td className="text-center">{item.strNarration}</td>
-                      <td className="text-center">
-                        <span className="view">
-                          <IView
-                            clickHandler={() => {
-                              setIsShowModal(true);
-                              setGridDataId(item?.transectionId);
-                              // history.push({
-                              //   pathname: `/inventory-management/gate-pass/gate-pass-application/view/${item?.gatePassId}`,
-                              //   state: item,
-                              // });
+                      </th>
+                      <th>SL</th>
+                      <th>Gate Pass Code</th>
+                      <th>Date</th>
+                      <th>Warehouse Name</th>
+                      <th>Total Quantity</th>
+                      <th style={{ width: "200px" }}>To Address</th>
+                      <th>Remarks</th>
+                      <th className="text-right pr-3">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {rowDto?.data?.map((item, i) => (
+                      <tr>
+                        <td>
+                          <input
+                            id="isSelect"
+                            type="checkbox"
+                            value={item?.isSelect}
+                            checked={item?.isSelect}
+                            onChange={(e) => {
+                              itemSlectedHandler(e.target.checked, i);
                             }}
                           />
-                        </span>
-
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table> : ""}
+                        </td>
+                        <td className="text-center">{item?.sl}</td>
+                        <td>
+                          <span className="pl-2">{item.strCode}</span>
+                        </td>
+                        <td className="text-center">
+                          {_dateFormatter(item.transectionDate)}
+                        </td>
+                        <td className="text-center">{item?.whName}</td>
+                        <td className="text-center">{item.quantity}</td>
+                        <td className="text-center">{item.plantName}</td>
+                        <td className="text-center">{item.strNarration}</td>
+                        <td className="text-center">
+                          <span className="view">
+                            <IView
+                              clickHandler={() => {
+                                setIsShowModal(true);
+                                setGridDataId(item?.transectionId);
+                                // history.push({
+                                //   pathname: `/inventory-management/gate-pass/gate-pass-application/view/${item?.gatePassId}`,
+                                //   state: item,
+                                // });
+                              }}
+                            />
+                          </span>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            ) : (
+              ""
+            )}
             {rowDto?.data?.length > 0 && (
               <PaginationTable
                 count={rowDto?.totalCount}
@@ -303,7 +304,6 @@ const GatePassApprovalGrid = ({ onChangeForActivity, activityName, activityChang
               />
             )}
             <>
-
               <IViewModal
                 show={isShowModal}
                 onHide={() => setIsShowModal(false)}

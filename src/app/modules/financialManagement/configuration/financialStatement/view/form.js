@@ -68,35 +68,37 @@ export default function _Form({
                 <div className="row">
                   <div className="col-lg-12">
                     {rowDto?.length > 0 && (
-                      <table className="table table-striped table-bordered mt-3 ml-4">
-                        <thead>
-                          <tr>
-                            <th>Accounts Category</th>
-                            <th>General Ledger</th>
-                            <th>Action</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {rowDto?.map((itm, index) => (
-                            <tr key={index}>
-                              <td className="text-center">{index + 1}</td>
-                              <td className="text-center">
-                                {itm?.orgComponentName}
-                              </td>
-                              <td className="text-center">
-                                {itm?.orgComponentCode}
-                              </td>
-
-                              <td
-                                className="text-center"
-                                onClick={() => removeHandler(index)}
-                              >
-                                <IDelete id={index} />
-                              </td>
+                      <div className="table-responsive">
+                        <table className="table table-striped table-bordered mt-3 ml-4">
+                          <thead>
+                            <tr>
+                              <th>Accounts Category</th>
+                              <th>General Ledger</th>
+                              <th>Action</th>
                             </tr>
-                          ))}
-                        </tbody>
-                      </table>
+                          </thead>
+                          <tbody>
+                            {rowDto?.map((itm, index) => (
+                              <tr key={index}>
+                                <td className="text-center">{index + 1}</td>
+                                <td className="text-center">
+                                  {itm?.orgComponentName}
+                                </td>
+                                <td className="text-center">
+                                  {itm?.orgComponentCode}
+                                </td>
+
+                                <td
+                                  className="text-center"
+                                  onClick={() => removeHandler(index)}
+                                >
+                                  <IDelete id={index} />
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
                     )}
                   </div>
                 </div>

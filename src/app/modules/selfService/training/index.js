@@ -39,6 +39,7 @@ const TrainingLanding = () => {
       {isDisabled && <Loading />}
       <div className="row">
         <div className="col-lg-12">
+        <div className="table-responsive">
           <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
             <thead>
               <tr>
@@ -126,6 +127,7 @@ const TrainingLanding = () => {
                 ))}
             </tbody>
           </table>
+          </div>
         </div>
       </div>
       <IViewModal

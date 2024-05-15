@@ -17,10 +17,10 @@ import {
   getSendToGLBank,
   // getOthersPartner,
   getNextBankCheque,
-  generateAdviceNo
+  generateAdviceNo,
 } from "../../../financials/bankJournal/helper";
 import FormikError from "../../../../_helper/_formikError";
-import {getInstrumentType} from "../helper"
+import { getInstrumentType } from "../helper";
 
 // Validation schema for bank receive
 const ReceivevalidationSchema = Yup.object().shape({
@@ -99,7 +99,7 @@ export default function _Form({
   jorunalType,
   netAmount,
   partnerTypeDDL,
-  landingValues
+  landingValues,
 }) {
   const [sendToGLBank, setSendToGLBank] = useState([]);
   const [bankAcc, setBankAcc] = useState([]);
@@ -108,7 +108,7 @@ export default function _Form({
   const [instrumentType, setInstrumentType] = useState([]);
 
   useEffect(() => {
-    if ((profileData?.accountId && selectedBusinessUnit?.value)) {
+    if (profileData?.accountId && selectedBusinessUnit?.value) {
       getBankAc(profileData.accountId, selectedBusinessUnit.value, setBankAcc);
       // getPartner(profileData.accountId, selectedBusinessUnit.value, setPartner);
       // getPartnerDetailsDDL(profileData.accountId, selectedBusinessUnit.value, setPartner);
@@ -131,7 +131,6 @@ export default function _Form({
       );
     }
   }, [profileData, selectedBusinessUnit]);
-
 
   return (
     <>
@@ -184,7 +183,7 @@ export default function _Form({
                       <Select
                         onChange={(valueOption) => {
                           setFieldValue("bankAcc", valueOption);
-                          if(values?.instrumentType?.value === 2){
+                          if (values?.instrumentType?.value === 2) {
                             getNextBankCheque(
                               profileData?.accountId,
                               selectedBusinessUnit.value,
@@ -234,7 +233,9 @@ export default function _Form({
                         />
                       </div>
                     ) : (
-                       <> <div className="col-lg-6 pr pl-1 mb-2">
+                      <>
+                        {" "}
+                        <div className="col-lg-6 pr pl-1 mb-2">
                           <label>Partner Type</label>
                           <Select
                             label="Partner Type"
@@ -281,7 +282,6 @@ export default function _Form({
                             touched={touched}
                           />
                         </div>
-
                         <div className="col-lg-6 pr pl-1 mb-2">
                           <label>Select Partner</label>
                           <Select
@@ -302,8 +302,8 @@ export default function _Form({
                             name="partner"
                             touched={touched}
                           />
-                        </div> 
-                      </> 
+                        </div>
+                      </>
                     )}
 
                     {/* This input field will be changed based on previous page */}
@@ -353,25 +353,24 @@ export default function _Form({
                       <Select
                         onChange={(valueOption) => {
                           setFieldValue("instrumentType", valueOption);
-                            if (valueOption?.value === 2) {
-                              if(values?.bankAcc){
-                                getNextBankCheque(
-                                  profileData?.accountId,
-                                  selectedBusinessUnit.value,
-                                  values?.bankAcc?.bankId,
-                                  values?.bankAcc?.bankBranch_Id,
-                                  values?.bankAcc?.value,
-                                  setFieldValue,
-                                  "instrumentNo"
-                                );
-                              }
-                           
-                            } else {
-                              generateAdviceNo(
-                                selectedBusinessUnit?.value,
-                                setFieldValue
+                          if (valueOption?.value === 2) {
+                            if (values?.bankAcc) {
+                              getNextBankCheque(
+                                profileData?.accountId,
+                                selectedBusinessUnit.value,
+                                values?.bankAcc?.bankId,
+                                values?.bankAcc?.bankBranch_Id,
+                                values?.bankAcc?.value,
+                                setFieldValue,
+                                "instrumentNo"
                               );
                             }
+                          } else {
+                            generateAdviceNo(
+                              selectedBusinessUnit?.value,
+                              setFieldValue
+                            );
+                          }
                         }}
                         value={values?.instrumentType}
                         isSearchable={true}
@@ -479,6 +478,11 @@ export default function _Form({
                         ? "d-none"
                         : "row bank-journal-custom bj-right"
                     }
+                    style={{
+                      marginLeft: "0px",
+                      marginRight: "0px",
+                      marginTop: "5px",
+                    }}
                   >
                     <div className="col-lg-3 pl pr-1">
                       <label>Select Transaction</label>
@@ -526,7 +530,7 @@ export default function _Form({
                         onClick={() => {
                           setFieldValue("transaction", "");
                           setFieldValue("amount", "");
-                          setFieldValue("headerNarration",values.narration);
+                          setFieldValue("headerNarration", values.narration);
                           setFieldValue("narration", "");
                           setter(values);
                         }}
@@ -538,52 +542,52 @@ export default function _Form({
                   {/* Table Header input end */}
                   {/* It will be hidden when user select bank tranfer from previous page */}
                   <div className="row">
-                  <div className="offset-8 col-lg-4 mt-2">
-                        <h6>Net Amount : {netAmount}</h6>
-                      </div>
+                    <div className="offset-8 col-lg-4 mt-2">
+                      <h6>Net Amount : {netAmount}</h6>
+                    </div>
                     <div className="col-lg-12 pr-0">
-                    <div className="table-responsive">
-                    <table
-                        className={
-                          jorunalType === 6 ? "d-none" : "table mt-1 bj-table"
-                        }
-                      >
-                        <thead className={rowDto?.length < 1 && "d-none"}>
-                          <tr>
-                            <th style={{ width: "20px" }}>SL</th>
-                            <th style={{ width: "260px" }}>Transaction</th>
-                            <th style={{ width: "100px" }}>Amount</th>
-                            <th>Narration</th>
-                            <th style={{ width: "50px" }}>Actions</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {rowDto?.map((item, index) => (
-                            <tr key={index}>
-                              <td>{index + 1}</td>
-                              <td>
-                                <div className="text-left pl-2">
-                                  {item?.transaction?.label}
-                                </div>
-                              </td>
-                              <td>
-                                <div className="text-right pr-2">
-                                  {item?.amount}
-                                </div>
-                              </td>
-                              <td>
-                                <div className="text-left pl-2">
-                                  {item?.narration}
-                                </div>
-                              </td>
-                              <td className="text-center">
-                                <IDelete remover={remover} id={index} />
-                              </td>
+                      <div className="table-responsive">
+                        <table
+                          className={
+                            jorunalType === 6 ? "d-none" : "table mt-1 bj-table"
+                          }
+                        >
+                          <thead className={rowDto?.length < 1 && "d-none"}>
+                            <tr>
+                              <th style={{ width: "20px" }}>SL</th>
+                              <th style={{ width: "260px" }}>Transaction</th>
+                              <th style={{ width: "100px" }}>Amount</th>
+                              <th>Narration</th>
+                              <th style={{ width: "50px" }}>Actions</th>
                             </tr>
-                          ))}
-                        </tbody>
-                      </table>
-      </div>
+                          </thead>
+                          <tbody>
+                            {rowDto?.map((item, index) => (
+                              <tr key={index}>
+                                <td>{index + 1}</td>
+                                <td>
+                                  <div className="text-left pl-2">
+                                    {item?.transaction?.label}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="text-right pr-2">
+                                    {item?.amount}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="text-left pl-2">
+                                    {item?.narration}
+                                  </div>
+                                </td>
+                                <td className="text-center">
+                                  <IDelete remover={remover} id={index} />
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
                     </div>
                   </div>
                 </div>

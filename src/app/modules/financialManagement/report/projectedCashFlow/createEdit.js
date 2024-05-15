@@ -327,7 +327,8 @@ export default function ProjectedCashFlowCreateEdit() {
                         <h5 style={{ marginTop: "15px", marginBottom: "-5px" }}>
                           New List:
                         </h5>
-                        <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+                        <div className="table-responsive">
+  <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                           <thead>
                             <tr>
                               <th style={{ width: "30px" }}>SL</th>
@@ -362,6 +363,8 @@ export default function ProjectedCashFlowCreateEdit() {
                               ))}
                           </tbody>
                         </table>
+          </div>
+                      
                       </div>
                     </div>
                     <div className="col-lg-6">

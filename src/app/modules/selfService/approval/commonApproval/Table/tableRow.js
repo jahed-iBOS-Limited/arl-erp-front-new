@@ -115,7 +115,6 @@ export function TableRow(props) {
     }
   }, [profileData, selectedBusinessUnit]);
 
-
   useEffect(() => {
     if (
       profileData?.accountId &&
@@ -420,60 +419,63 @@ export function TableRow(props) {
           </>
         ) : (
           rowDto?.data?.length <= 0 && (
-            <table className="table table-striped table-bordered global-table">
-              {loading && <Loading />}
-              <thead>
-                <tr>
-                  <th style={{ width: "20px" }}>
-                    <input
-                      type="checkbox"
-                      id="parent"
-                      onChange={(event) => {
-                        allGridCheck(event.target.checked);
-                      }}
-                    />
-                  </th>
-                  <th>SL</th>
-                  <th>Reff Code</th>
-                  <th>Transaction Date</th>
-                  <th>Due Date</th>
-                  {activityName?.label === "Purchase Order" && <th>Amount</th>}
-                  <th>Quantity</th>
-                  <th>Description</th>
-                  <th className="text-right pr-3">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {rowDto?.data?.map((item, i) => (
+            <div className="table-responsive">
+              <table className="table table-striped table-bordered global-table">
+                {loading && <Loading />}
+                <thead>
                   <tr>
-                    <td>
+                    <th style={{ width: "20px" }}>
                       <input
-                        id="isSelect"
                         type="checkbox"
-                        value={item?.isSelect}
-                        checked={item?.isSelect}
-                        onChange={(e) => {
-                          itemSlectedHandler(e.target.checked, i);
+                        id="parent"
+                        onChange={(event) => {
+                          allGridCheck(event.target.checked);
                         }}
                       />
-                    </td>
-                    <td className="text-center">{i + 1}</td>
-                    <td>
-                      <span className="pl-2">{item.reffCode}</span>
-                    </td>
-                    <td className="text-center">
-                      {_todayDate(item.transectionDate)}
-                    </td>
-                    <td className="text-center">
-                      {_dateFormatter(item.dueDate)}
-                    </td>
+                    </th>
+                    <th>SL</th>
+                    <th>Reff Code</th>
+                    <th>Transaction Date</th>
+                    <th>Due Date</th>
                     {activityName?.label === "Purchase Order" && (
-                      <td className="text-center">{item.amount}</td>
+                      <th>Amount</th>
                     )}
-                    <td className="text-center">{item.quantity}</td>
-                    <td className="text-center">{item.description}</td>
-                    <td className="text-center">
-                      {/* <span
+                    <th>Quantity</th>
+                    <th>Description</th>
+                    <th className="text-right pr-3">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {rowDto?.data?.map((item, i) => (
+                    <tr>
+                      <td>
+                        <input
+                          id="isSelect"
+                          type="checkbox"
+                          value={item?.isSelect}
+                          checked={item?.isSelect}
+                          onChange={(e) => {
+                            itemSlectedHandler(e.target.checked, i);
+                          }}
+                        />
+                      </td>
+                      <td className="text-center">{i + 1}</td>
+                      <td>
+                        <span className="pl-2">{item.reffCode}</span>
+                      </td>
+                      <td className="text-center">
+                        {_todayDate(item.transectionDate)}
+                      </td>
+                      <td className="text-center">
+                        {_dateFormatter(item.dueDate)}
+                      </td>
+                      {activityName?.label === "Purchase Order" && (
+                        <td className="text-center">{item.amount}</td>
+                      )}
+                      <td className="text-center">{item.quantity}</td>
+                      <td className="text-center">{item.description}</td>
+                      <td className="text-center">
+                        {/* <span
                       className="mr-2"
                       onClick={(e) => singleApprovalndler(item.transectionId)}
                     >
@@ -481,71 +483,71 @@ export function TableRow(props) {
                       <IApproval />
                     </span> */}
 
-                      {activityName?.label === "Purchase Request" && (
-                        <span
-                          onClick={(e) => {
-                            history.push(
-                              `/mngProcurement/purchase-management/purchase-request/view/${item?.transectionId}/viewType`
-                            );
-                          }}
-                        >
-                          <OverlayTrigger
-                            overlay={<Tooltip id="cs-icon">{"View"}</Tooltip>}
+                        {activityName?.label === "Purchase Request" && (
+                          <span
+                            onClick={(e) => {
+                              history.push(
+                                `/mngProcurement/purchase-management/purchase-request/view/${item?.transectionId}/viewType`
+                              );
+                            }}
                           >
-                            <span>
-                              <i
-                                className={`fa pointer fa-eye`}
-                                aria-hidden="true"
-                              ></i>
-                            </span>
-                          </OverlayTrigger>
-                        </span>
-                      )}
+                            <OverlayTrigger
+                              overlay={<Tooltip id="cs-icon">{"View"}</Tooltip>}
+                            >
+                              <span>
+                                <i
+                                  className={`fa pointer fa-eye`}
+                                  aria-hidden="true"
+                                ></i>
+                              </span>
+                            </OverlayTrigger>
+                          </span>
+                        )}
 
-                      {activityName?.label === "Purchase Order" && (
-                        <span
-                          onClick={(e) => {
-                            history.push({
-                              pathname: `/mngProcurement/purchase-management/purchaseorder/view/${item?.transectionId}/${item?.intPurchaseOrderTypeId}`,
-                              state: true,
-                            });
-                          }}
-                        >
-                          <OverlayTrigger
-                            overlay={<Tooltip id="cs-icon">{"View"}</Tooltip>}
+                        {activityName?.label === "Purchase Order" && (
+                          <span
+                            onClick={(e) => {
+                              history.push({
+                                pathname: `/mngProcurement/purchase-management/purchaseorder/view/${item?.transectionId}/${item?.intPurchaseOrderTypeId}`,
+                                state: true,
+                              });
+                            }}
                           >
-                            <span>
-                              <i
-                                className={`fa pointer fa-eye`}
-                                aria-hidden="true"
-                              ></i>
-                            </span>
-                          </OverlayTrigger>
-                        </span>
-                      )}
+                            <OverlayTrigger
+                              overlay={<Tooltip id="cs-icon">{"View"}</Tooltip>}
+                            >
+                              <span>
+                                <i
+                                  className={`fa pointer fa-eye`}
+                                  aria-hidden="true"
+                                ></i>
+                              </span>
+                            </OverlayTrigger>
+                          </span>
+                        )}
 
-                      {activityName?.label === "Item Request" && (
-                        <span
-                          onClick={(e) => {
-                            history.push(
-                              `/inventory-management/warehouse-management/item-request/view/${item?.transectionId}`
-                            );
-                          }}
-                        >
-                          <OverlayTrigger
-                            overlay={<Tooltip id="cs-icon">{"View"}</Tooltip>}
+                        {activityName?.label === "Item Request" && (
+                          <span
+                            onClick={(e) => {
+                              history.push(
+                                `/inventory-management/warehouse-management/item-request/view/${item?.transectionId}`
+                              );
+                            }}
                           >
-                            <span>
-                              <i
-                                className={`fa pointer fa-eye`}
-                                aria-hidden="true"
-                              ></i>
-                            </span>
-                          </OverlayTrigger>
-                        </span>
-                      )}
+                            <OverlayTrigger
+                              overlay={<Tooltip id="cs-icon">{"View"}</Tooltip>}
+                            >
+                              <span>
+                                <i
+                                  className={`fa pointer fa-eye`}
+                                  aria-hidden="true"
+                                ></i>
+                              </span>
+                            </OverlayTrigger>
+                          </span>
+                        )}
 
-                      {/* <span>
+                        {/* <span>
                     <OverlayTrigger
                       overlay={<Tooltip id="cs-icon">{"View"}</Tooltip>}
                     >
@@ -557,11 +559,12 @@ export function TableRow(props) {
                       </span>
                     </OverlayTrigger>
                   </span> */}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           )
         )}
         {activityName?.label === "Bill Of Material" && (

@@ -82,137 +82,158 @@ export const FormatSix = ({
           {`You are requested to Debit our Account:  ${values?.bankAccountNo?.bankAccNo} by settling as per instructions below:`}
         </p>
       </div>
-      <table className="table table-striped table-bordered  advice-table table-font-size-sm">
-        <thead>
-          <tr>
-            <td
-              style={{
-                width: "30px",
-                border: "1px solid #000",
-                textAlign: "center",
-              }}
-            >
-              SL Test
-            </td>
-            <td
-              style={{
-                width: "100px",
-                border: "1px solid #000",
-                textAlign: "center",
-              }}
-            >
-              Request For
-            </td>
-            <td
-              style={{
-                border: "1px solid #000",
-                textAlign: "center",
-              }}
-            >
-              Description
-            </td>
-            <td
-              style={{
-                width: "100px",
-                border: "1px solid #000",
-                textAlign: "center",
-              }}
-            >
-              Debiting Amount
-            </td>
-          </tr>
-        </thead>
+      <div className="table-responsive">
+        <table className="table table-striped table-bordered  advice-table table-font-size-sm">
+          <thead>
+            <tr>
+              <td
+                style={{
+                  width: "30px",
+                  border: "1px solid #000",
+                  textAlign: "center",
+                }}
+              >
+                SL Test
+              </td>
+              <td
+                style={{
+                  width: "100px",
+                  border: "1px solid #000",
+                  textAlign: "center",
+                }}
+              >
+                Request For
+              </td>
+              <td
+                style={{
+                  border: "1px solid #000",
+                  textAlign: "center",
+                }}
+              >
+                Description
+              </td>
+              <td
+                style={{
+                  width: "100px",
+                  border: "1px solid #000",
+                  textAlign: "center",
+                }}
+              >
+                Debiting Amount
+              </td>
+            </tr>
+          </thead>
 
-        {/* tbody */}
-        <tbody>
-          {adviceReportData?.map((itm, index) => {
-            return (
-              <tr key={index}>
-                <td
+          {/* tbody */}
+          <tbody>
+            {adviceReportData?.map((itm, index) => {
+              return (
+                <tr key={index}>
+                  <td
+                    style={{
+                      border: "1px solid #000",
+                    }}
+                    className="text-center"
+                  >
+                    <div
+                      className="pl-1"
+                      style={{
+                        ...(fontSize && { fontSize }),
+                      }}
+                    >
+                      {index + 1}
+                    </div>
+                  </td>
+                  <td
+                    style={{
+                      border: "1px solid #000",
+                    }}
+                  >
+                    <div
+                      style={{
+                        ...(fontSize && { fontSize }),
+                      }}
+                      className="text-center"
+                    >
+                      Duty
+                    </div>
+                  </td>
+                  <td
+                    style={{
+                      border: "1px solid #000",
+                    }}
+                  >
+                    <div
+                      className="pl-1"
+                      style={{
+                        ...(fontSize && { fontSize }),
+                      }}
+                    >
+                      {itm?.strNaration}
+                    </div>
+                  </td>
+                  <td
+                    style={{
+                      border: "1px solid #000",
+                    }}
+                  >
+                    <div
+                      className="text-right pr-2"
+                      style={{
+                        ...(fontSize && { fontSize }),
+                      }}
+                    >
+                      {numberWithCommas(itm?.numAmount)}
+                    </div>
+                  </td>
+                </tr>
+              );
+            })}
+            <tr>
+              <td
+                className="font-weight-bold"
+                style={{
+                  border: "1px solid #000",
+                  fontWeight: "bold",
+                }}
+                colSpan="3"
+              >
+                <div
+                  className="font-weight-bold text-left pl-2 text-right"
                   style={{
-                    border: "1px solid #000",
+                    ...(fontSize && { fontSize }),
                   }}
-                  className="text-center"
                 >
-                  <div className="pl-1" style={{
-                      ...(fontSize && { fontSize }),
-                     }}>
-                    {index + 1}
-                  </div>
-                </td>
-                <td
+                  Total
+                </div>
+              </td>
+              <td
+                align="right"
+                className="font-weight-bold"
+                style={{
+                  border: "1px solid #000",
+                  fontWeight: "bold",
+                }}
+              >
+                <div
+                  className="font-weight-bold text-right"
                   style={{
-                    border: "1px solid #000",
+                    ...(fontSize && { fontSize }),
                   }}
                 >
-                  <div style={{
-                      ...(fontSize && { fontSize }),
-                     }} className="text-center">
-                    Duty
-                  </div>
-                </td>
-                <td
-                  style={{
-                    border: "1px solid #000",
-                  }}
-                >
-                  <div className="pl-1" style={{
-                      ...(fontSize && { fontSize }),
-                     }}>
-                    {itm?.strNaration}
-                  </div>
-                </td>
-                <td
-                  style={{
-                    border: "1px solid #000",
-                  }}
-                >
-                  <div className="text-right pr-2" style={{
-                      ...(fontSize && { fontSize }),
-                     }}>
-                    {numberWithCommas(itm?.numAmount)}
-                  </div>
-                </td>
-              </tr>
-            );
-          })}
-          <tr>
-            <td
-              className="font-weight-bold"
-              style={{
-                border: "1px solid #000",
-                fontWeight: "bold",
-              }}
-              colSpan="3"
-            >
-              <div className="font-weight-bold text-left pl-2 text-right" style={{
-                ...(fontSize && { fontSize }),
-                }}>
-                Total
-              </div>
-            </td>
-            <td
-              align="right"
-              className="font-weight-bold"
-              style={{
-                border: "1px solid #000",
-                fontWeight: "bold",
-              }}
-            >
-              <div className="font-weight-bold text-right" style={{
-                ...(fontSize && { fontSize }),
-                }}>
-                {adviceReportData.length > 0 &&
-                  numberWithCommas(
-                    adviceReportData
-                      ?.reduce((acc, item) => acc + item?.numAmount, 0)
-                      ?.toFixed(2)
-                  )}
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+                  {adviceReportData.length > 0 &&
+                    numberWithCommas(
+                      adviceReportData
+                        ?.reduce((acc, item) => acc + item?.numAmount, 0)
+                        ?.toFixed(2)
+                    )}
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
       <p
         className="font-weight-bold mt-5"
         style={{

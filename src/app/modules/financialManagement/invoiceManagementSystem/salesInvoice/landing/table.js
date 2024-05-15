@@ -33,7 +33,7 @@ const SalesInvoiceLandingTable = ({ obj }) => {
 
   const [isModalShow, setModalShow] = useState(false);
   const [invoiceData, setInvoiceData] = useState([]);
-  const[isCancelModalShow, setIsCancelModalShow] = useState(false);
+  const [isCancelModalShow, setIsCancelModalShow] = useState(false);
   const [singleRowItem, setSingleRowItem] = useState(null);
 
   const history = useHistory();
@@ -47,131 +47,136 @@ const SalesInvoiceLandingTable = ({ obj }) => {
     <>
       <div className="row ">
         <div className="col-lg-12">
-          <table className="table table-striped table-bordered global-table table-font-size-sm">
-            <thead>
-              <tr>
-                <th style={{ width: "40px" }}>SL</th>
-                {values?.status?.value === 1 && (
-                  <>
-                    {" "}
-                    <th>Invoice No</th>
-                    <th>Invoice Date</th>
-                  </>
-                )}
-                {/* {values?.type?.value !== 2 && <th>Challan Date</th>}
-                  {values?.type?.value !== 2 && <th>Challan No</th>} */}
-                <th>Partner Name</th>
-                {values?.status?.value === 1 && (
-                  <>
-                    {" "}
-                    <th>Reference No </th>
-                    <th>Project Location</th>
-                  </>
-                )}
-                <th>Net Qty</th>
-                <th>Invoice Amount</th>
-                {values?.status?.value !== 3 && values?.type?.value !== 2 && <th>Action</th>}
-              </tr>
-            </thead>
-            <tbody>
-              {loading && <Loading />}
-              {rowDto?.data?.map((tableData, index) => (
-                <tr key={index}>
-                  <td className="text-center"> {index + 1} </td>
-
+          <div className="table-responsive">
+            <table className="table table-striped table-bordered global-table table-font-size-sm">
+              <thead>
+                <tr>
+                  <th style={{ width: "40px" }}>SL</th>
                   {values?.status?.value === 1 && (
                     <>
                       {" "}
-                      <td>{tableData?.strInvoiceNumber}</td>
-                      <td>{_dateFormatter(tableData?.dteInvoiceDate)}</td>
+                      <th>Invoice No</th>
+                      <th>Invoice Date</th>
                     </>
                   )}
-                  {/* {values?.type?.value !== 2 && (
+                  {/* {values?.type?.value !== 2 && <th>Challan Date</th>}
+                  {values?.type?.value !== 2 && <th>Challan No</th>} */}
+                  <th>Partner Name</th>
+                  {values?.status?.value === 1 && (
+                    <>
+                      {" "}
+                      <th>Reference No </th>
+                      <th>Project Location</th>
+                    </>
+                  )}
+                  <th>Net Qty</th>
+                  <th>Invoice Amount</th>
+                  {values?.status?.value !== 3 && values?.type?.value !== 2 && (
+                    <th>Action</th>
+                  )}
+                </tr>
+              </thead>
+              <tbody>
+                {loading && <Loading />}
+                {rowDto?.data?.map((tableData, index) => (
+                  <tr key={index}>
+                    <td className="text-center"> {index + 1} </td>
+
+                    {values?.status?.value === 1 && (
+                      <>
+                        {" "}
+                        <td>{tableData?.strInvoiceNumber}</td>
+                        <td>{_dateFormatter(tableData?.dteInvoiceDate)}</td>
+                      </>
+                    )}
+                    {/* {values?.type?.value !== 2 && (
                       <td>{_dateFormatter(tableData?.dteChallanDate)}</td>
                     )}
                     {values?.type?.value !== 2 && (
                       <td>{tableData?.strDeliveryCode}</td>
                     )} */}
-                  <td>{tableData?.strPartnerName}</td>
-                  {values?.status?.value === 1 && (
-                    <>
-                      {" "}
-                      <td>{tableData?.strRefference}</td>
-                      <td>{tableData?.strProjectLocation}</td>
-                    </>
-                  )}
-                  <td className="text-right">{tableData?.numQuantity}</td>
-                  <td className="text-right">
-                    {_fixedPoint(tableData?.invoiceAmount || 0)}
-                  </td>
-                  {values?.status?.value !== 3 && values?.type?.value !== 2 && (
-                    <td className="text-center">
-                      {values?.status?.value === 1 ? (
-                        <div className="d-flex justify-content-around">
-                          <span>
-                            <ICon
-                              title={"Print Sales Invoice"}
+                    <td>{tableData?.strPartnerName}</td>
+                    {values?.status?.value === 1 && (
+                      <>
+                        {" "}
+                        <td>{tableData?.strRefference}</td>
+                        <td>{tableData?.strProjectLocation}</td>
+                      </>
+                    )}
+                    <td className="text-right">{tableData?.numQuantity}</td>
+                    <td className="text-right">
+                      {_fixedPoint(tableData?.invoiceAmount || 0)}
+                    </td>
+                    {values?.status?.value !== 3 && values?.type?.value !== 2 && (
+                      <td className="text-center">
+                        {values?.status?.value === 1 ? (
+                          <div className="d-flex justify-content-around">
+                            <span>
+                              <ICon
+                                title={"Print Sales Invoice"}
+                                onClick={() => {
+                                  if (
+                                    values?.channel &&
+                                    values?.channel?.value !== 0
+                                  ) {
+                                    getInvoiceDataForPrint(
+                                      tableData?.intUnitId,
+                                      tableData?.strInvoiceNumber,
+                                      tableData?.intPartnerId,
+                                      setLoading,
+                                      (resData) => {
+                                        setInvoiceData(resData);
+                                        handleInvoicePrintCement();
+                                      }
+                                    );
+                                  } else {
+                                    toast.warn(
+                                      "Please select a specific distribution channel."
+                                    );
+                                  }
+                                }}
+                              >
+                                <i class="fas fa-print"></i>
+                              </ICon>
+                            </span>
+                            <span
+                              className="cursor-pointer"
                               onClick={() => {
-                                if (
-                                  values?.channel &&
-                                  values?.channel?.value !== 0
-                                ) {
-                                  getInvoiceDataForPrint(
-                                    tableData?.intUnitId,
-                                    tableData?.strInvoiceNumber,
-                                    tableData?.intPartnerId,
-                                    setLoading,
-                                    (resData) => {
-                                      setInvoiceData(resData);
-                                      handleInvoicePrintCement();
-                                    }
-                                  );
+                                if (permitted) {
+                                  setIsCancelModalShow(true);
+                                  setSingleRowItem(tableData);
                                 } else {
                                   toast.warn(
-                                    "Please select a specific distribution channel."
+                                    "Sorry, You are not permitted to cancel the sales invoice"
                                   );
                                 }
                               }}
                             >
-                              <i class="fas fa-print"></i>
-                            </ICon>
-                          </span>
-                          <span
-                            className="cursor-pointer"
+                              <IClose title="Cancel Sales Invoice" />
+                            </span>
+                          </div>
+                        ) : (
+                          <button
+                            type="button"
+                            className="btn btn-info btn-sm"
                             onClick={() => {
-                              if (permitted) {
-                                setIsCancelModalShow(true);
-                                setSingleRowItem(tableData);
-                              } else {
-                                toast.warn(
-                                  "Sorry, You are not permitted to cancel the sales invoice"
-                                );
-                              }
+                              history.push({
+                                pathname: `/financial-management/invoicemanagement-system/salesInvoice/create`,
+                                state: { ...values, ...tableData },
+                              });
                             }}
                           >
-                            <IClose title="Cancel Sales Invoice" />
-                          </span>
-                        </div>
-                      ) : (
-                        <button
-                          type="button"
-                          className="btn btn-info btn-sm"
-                          onClick={() => {
-                            history.push({
-                              pathname: `/financial-management/invoicemanagement-system/salesInvoice/create`,
-                              state: { ...values, ...tableData },
-                            });
-                          }}
-                        >
-                          Create
-                        </button>
-                      )}
-                    </td>
-                  )}
-                </tr>
-              ))}
-            </tbody>
-          </table>
+                            Create
+                          </button>
+                        )}
+                      </td>
+                    )}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
           {rowDto?.data?.length > 0 && (
             <PaginationTable
               count={rowDto?.totalCount}
@@ -212,7 +217,20 @@ const SalesInvoiceLandingTable = ({ obj }) => {
               setIsCancelModalShow(false);
             }}
           >
-            <CancelModal parentValues={values} singleRowItem={singleRowItem} setSingleRowItem={setSingleRowItem} setIsCancelModalShow={setIsCancelModalShow} additionalInfo={{accId, buId, getGridData, pageNo, pageSize, setLoading}} />
+            <CancelModal
+              parentValues={values}
+              singleRowItem={singleRowItem}
+              setSingleRowItem={setSingleRowItem}
+              setIsCancelModalShow={setIsCancelModalShow}
+              additionalInfo={{
+                accId,
+                buId,
+                getGridData,
+                pageNo,
+                pageSize,
+                setLoading,
+              }}
+            />
           </IViewModal>
         </>
       </div>

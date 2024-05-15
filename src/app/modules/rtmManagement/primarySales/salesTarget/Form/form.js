@@ -192,7 +192,11 @@ export default function _Form({
                   </div>
                 </div>
                 <div className="col-lg-10">
-                  <div className={"row bank-journal-custom bj-right"}>
+                  <div className={"row bank-journal-custom bj-right"}  style={{
+                      marginLeft: "0px",
+                      marginRight: "0px",
+                      marginTop: "5px",
+                    }}>
                     <div className="col-lg-3 pr-1 pl mb-1">
                       <NewSelect
                         name="itemName"

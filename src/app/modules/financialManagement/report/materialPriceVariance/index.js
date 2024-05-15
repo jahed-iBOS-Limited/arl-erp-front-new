@@ -96,7 +96,8 @@ function MaterialPriceVariance() {
                 </div>
                 <div className="row mt-5">
                   <div className="col-lg-12">
-                    <table className="table table-striped table-bordered bj-table bj-table-landing">
+                  <div className="table-responsive">
+  <table className="table table-striped table-bordered bj-table bj-table-landing">
                       <thead>
                         <tr>
                           <th style={{ width: "30px" }}>SL</th>
@@ -127,6 +128,8 @@ function MaterialPriceVariance() {
                           ))}
                       </tbody>
                     </table>
+</div>
+                  
                   </div>
                 </div>
               </CardBody>

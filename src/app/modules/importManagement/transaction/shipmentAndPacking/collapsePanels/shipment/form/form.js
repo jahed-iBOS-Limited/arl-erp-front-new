@@ -578,42 +578,42 @@ export default function _Form({
                   <div className="col-auto">
                     <div className="row global-form">
                       <div
-                        className="col-6 text-right p-2"
+                        className="col-lg-6 text-right p-2"
                         style={{ fontWeight: "bold" }}
                       >
                         Total PO Amount :
                       </div>
                       <div
-                        className="col-6 text-left p-2"
+                        className="col-lg-6 text-left p-2"
                         style={{ fontWeight: "bold" }}
                       >
                         {numberWithCommas(getTotalAmount(rowDto, "poquantity"))}
                       </div>
                       <div
-                        className="col-6 text-right p-2"
+                        className="col-lg-6 text-right p-2"
                         style={{ fontWeight: "bold" }}
                       >
                         Tolerance Percentage :
                       </div>
                       <div
-                        className="col-6 text-left p-2"
+                        className="col-lg-6 text-left p-2"
                         style={{ fontWeight: "bold" }}
                       >
                         {Number(tollerence)}%
                       </div>
-                      {/* <div className="col-6 text-right p-2" style={{ fontWeight: "bold" }}>Total PO with tollerence :</div>
-                      <div className="col-6 text-left p-2" style={{ fontWeight: "bold" }}>{getTotalAmount(rowDto, "poquantity") * (Number(tollerence) / 100)}</div> */}
+                      {/* <div className="col-lg-6 text-right p-2" style={{ fontWeight: "bold" }}>Total PO with tollerence :</div>
+                      <div className="col-lg-6 text-left p-2" style={{ fontWeight: "bold" }}>{getTotalAmount(rowDto, "poquantity") * (Number(tollerence) / 100)}</div> */}
                       {type !== "view" && (
                         <>
                           {" "}
                           <div
-                            className="col-6 text-right p-2"
+                            className="col-lg-6 text-right p-2"
                             style={{ fontWeight: "bold" }}
                           >
                             Total Added Amount :
                           </div>
                           <div
-                            className="col-6 text-left p-2"
+                            className="col-lg-6 text-left p-2"
                             style={{ fontWeight: "bold" }}
                           >
                             {numberWithCommas(
@@ -625,13 +625,13 @@ export default function _Form({
                       {type === "view" && (
                         <>
                           <div
-                            className="col-6 text-right p-2"
+                            className="col-lg-6 text-right p-2"
                             style={{ fontWeight: "bold" }}
                           >
                             Total Added Amount :
                           </div>
                           <div
-                            className="col-6 text-left p-2"
+                            className="col-lg-6 text-left p-2"
                             style={{ fontWeight: "bold" }}
                           >
                             {numberWithCommas(
@@ -646,7 +646,7 @@ export default function _Form({
                       )}
                       {type !== "view" && (
                         <div
-                          className="col-6 text-right p-2"
+                          className="col-lg-6 text-right p-2"
                           style={{ fontWeight: "bold" }}
                         >
                           Total Shipped Amount :
@@ -654,7 +654,7 @@ export default function _Form({
                       )}
                       {type !== "view" && (
                         <div
-                          className="col-6 text-left p-2"
+                          className="col-lg-6 text-left p-2"
                           style={{ fontWeight: "bold" }}
                         >
                           {numberWithCommas(

@@ -87,44 +87,46 @@ export default function _Form({
               <div className="form-group row mt-2">
                 <div className="col-lg-12">
                   <div className="row px-5">
-                    {/* Start Table Part */}
-                    <table className="table table-striped table-bordered">
-                      <thead>
-                        <tr>
-                          <th>SL</th>
-                          <th>Item Code</th>
-                          <th>Item Name</th>
-                          <th>Ref. No.</th>
-                          <th>Request Qty.</th>
-                          <th>Purpose</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {values?.objRow?.map((item, index) => (
-                          <tr key={index}>
-                            <td className="text-center align-middle">
-                              {index + 1}
-                            </td>
-                            <td className="text-center align-middle">
-                              {item.itemCode}
-                            </td>
-
-                            <td className="text-center align-middle table-input">
-                              {item.itemName}
-                            </td>
-                            <td className="text-center align-middle table-input">
-                              {item.referenceId}
-                            </td>
-                            <td className="text-center align-middle table-input">
-                              {item.requestQuantity}
-                            </td>
-                            <td className="text-center align-middle table-input">
-                              {item.remarks}
-                            </td>
+                    <div className="table-responsive">
+                      {/* Start Table Part */}
+                      <table className="table table-striped table-bordered">
+                        <thead>
+                          <tr>
+                            <th>SL</th>
+                            <th>Item Code</th>
+                            <th>Item Name</th>
+                            <th>Ref. No.</th>
+                            <th>Request Qty.</th>
+                            <th>Purpose</th>
                           </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                        </thead>
+                        <tbody>
+                          {values?.objRow?.map((item, index) => (
+                            <tr key={index}>
+                              <td className="text-center align-middle">
+                                {index + 1}
+                              </td>
+                              <td className="text-center align-middle">
+                                {item.itemCode}
+                              </td>
+
+                              <td className="text-center align-middle table-input">
+                                {item.itemName}
+                              </td>
+                              <td className="text-center align-middle table-input">
+                                {item.referenceId}
+                              </td>
+                              <td className="text-center align-middle table-input">
+                                {item.requestQuantity}
+                              </td>
+                              <td className="text-center align-middle table-input">
+                                {item.remarks}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
                     {/* End Table Part */}
                   </div>
                 </div>

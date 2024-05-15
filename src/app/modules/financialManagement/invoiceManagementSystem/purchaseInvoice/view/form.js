@@ -154,31 +154,34 @@ export default function _Form({
                 <div className="col-lg-8">
                   <div className="row px-5">
                     {/* Start Table Part */}
-                    <table className="table table-striped table-bordered">
-                      <thead>
-                        <tr>
-                          <th>SL</th>
-                          <th>GRN No.</th>
-                          <th>GRN Amount</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {singleData?.objRowListDTO?.map((item, index) => (
-                          <tr key={index}>
-                            <td className="text-center align-middle">
-                              {index + 1}
-                            </td>
-                            <td className="text-center align-middle">
-                              {item?.referenceName}
-                            </td>
-
-                            <td className="text-center align-middle table-input">
-                              {item?.referenceAmount}
-                            </td>
+                    <div className="table-responsive">
+                      <table className="table table-striped table-bordered">
+                        <thead>
+                          <tr>
+                            <th>SL</th>
+                            <th>GRN No.</th>
+                            <th>GRN Amount</th>
                           </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                        </thead>
+                        <tbody>
+                          {singleData?.objRowListDTO?.map((item, index) => (
+                            <tr key={index}>
+                              <td className="text-center align-middle">
+                                {index + 1}
+                              </td>
+                              <td className="text-center align-middle">
+                                {item?.referenceName}
+                              </td>
+
+                              <td className="text-center align-middle table-input">
+                                {item?.referenceAmount}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+
                     {/* End Table Part */}
                   </div>
                 </div>

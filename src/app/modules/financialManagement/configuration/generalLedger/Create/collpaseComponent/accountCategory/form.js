@@ -93,61 +93,67 @@ export default function _Form({
               <div className="form-group row my-5">
                 <div className="col-lg-12">
                   <div>
-                    <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
-                      <thead>
-                        <tr>
-                          <th>Sl</th>
-                          <th>Account Category Code</th>
-                          <th>Account Category</th>
-                          <th>Account Class</th>
-                          <th>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {accountCategoryPagination.map((itm, index) => (
-                          <tr key={index}>
-                            <td>{index + 1}</td>
-                            <td>
-                              <div className="pl-2">
-                                {itm.accountCategoryCode}
-                              </div>
-                            </td>                                              
-                            <td>
-                              <div className="pl-2">
-                                {itm.accountCategoryName}
-                              </div>
-                            </td>
-                            
-                            <td>
-                              <div className="pl-2">{itm.accountClassName}</div>
-                            </td>
-                            <td>
-                              <div className="d-flex justify-content-around">
-                                <span
-                                  className="delete"
-                                  onClick={() => {
-                                    let confirmObject = {
-                                      title: "Are you sure?",
-                                      message:
-                                        "If you delete this, it can not be undone",
-                                      yesAlertFunc: async () => {
-                                        deleteSingleRow(itm?.accountCategoryId);
-                                      },
-                                      noAlertFunc: () => {
-                                        "";
-                                      },
-                                    };
-                                    IConfirmModal(confirmObject);
-                                  }}
-                                >
-                                  <IDelete />
-                                </span>
-                              </div>
-                            </td>
+                    <div className="table-responsive">
+                      <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+                        <thead>
+                          <tr>
+                            <th>Sl</th>
+                            <th>Account Category Code</th>
+                            <th>Account Category</th>
+                            <th>Account Class</th>
+                            <th>Action</th>
                           </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                        </thead>
+                        <tbody>
+                          {accountCategoryPagination.map((itm, index) => (
+                            <tr key={index}>
+                              <td>{index + 1}</td>
+                              <td>
+                                <div className="pl-2">
+                                  {itm.accountCategoryCode}
+                                </div>
+                              </td>
+                              <td>
+                                <div className="pl-2">
+                                  {itm.accountCategoryName}
+                                </div>
+                              </td>
+
+                              <td>
+                                <div className="pl-2">
+                                  {itm.accountClassName}
+                                </div>
+                              </td>
+                              <td>
+                                <div className="d-flex justify-content-around">
+                                  <span
+                                    className="delete"
+                                    onClick={() => {
+                                      let confirmObject = {
+                                        title: "Are you sure?",
+                                        message:
+                                          "If you delete this, it can not be undone",
+                                        yesAlertFunc: async () => {
+                                          deleteSingleRow(
+                                            itm?.accountCategoryId
+                                          );
+                                        },
+                                        noAlertFunc: () => {
+                                          "";
+                                        },
+                                      };
+                                      IConfirmModal(confirmObject);
+                                    }}
+                                  >
+                                    <IDelete />
+                                  </span>
+                                </div>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
               </div>

@@ -14,6 +14,7 @@ const GridData = ({ history, rowDto, loading, setPositionHandler, pageNo,
     <>
       <div className="row cash_journal">
         <div className="col-lg-12">
+        <div className="table-responsive">
           <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
             <thead>
               <tr>
@@ -101,6 +102,7 @@ const GridData = ({ history, rowDto, loading, setPositionHandler, pageNo,
               ))}
             </tbody>
           </table>
+          </div>
         </div>
 
         <IViewModal show={mdalShow} onHide={() => setModalShow(false)}>

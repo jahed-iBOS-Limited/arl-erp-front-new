@@ -91,6 +91,7 @@ const ViewForPLLeave = ({ currentRowData, PrevValues, changeReqDateCb, setIsShow
                   />
                 </div>
               </div>
+              <div className="table-responsive">
               <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table mr-1">
                 <thead>
                   <tr>
@@ -135,6 +136,7 @@ const ViewForPLLeave = ({ currentRowData, PrevValues, changeReqDateCb, setIsShow
                   ))}
                 </tbody>
               </table>
+              </div>
             </Form>
           </>
         )}

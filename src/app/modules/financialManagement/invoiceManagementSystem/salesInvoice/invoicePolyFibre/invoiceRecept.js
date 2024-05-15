@@ -112,61 +112,63 @@ const InvoiceReceptForPolyFibre = ({ printRef, invoiceData }) => {
           </div>
         </div>
         <div className="main_table">
-          <table className="table">
-            <thead>
-              <tr>
-                <th>SL</th>
-                <th>PO NO</th>
-                <th>Particulars</th>
-                <th>Quantity (PCS)</th>
-                <th>Unit</th>
-                <th>Rate</th>
-                <th>Value</th>
-                <th>VAT</th>
-                <th>Total Tk</th>
-              </tr>
-            </thead>
-            <tbody>
-              {invoiceData?.map((item, index) => {
-                totalQty += item.totalDeliveredQtyCFT;
-                totalAmount += item?.totalAmount;
-                grandTotal += item?.totalAmount + item?.vatTotal;
-                vatTotal += item.vatTotal;
+          <div className="table-responsive">
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>SL</th>
+                  <th>PO NO</th>
+                  <th>Particulars</th>
+                  <th>Quantity (PCS)</th>
+                  <th>Unit</th>
+                  <th>Rate</th>
+                  <th>Value</th>
+                  <th>VAT</th>
+                  <th>Total Tk</th>
+                </tr>
+              </thead>
+              <tbody>
+                {invoiceData?.map((item, index) => {
+                  totalQty += item.totalDeliveredQtyCFT;
+                  totalAmount += item?.totalAmount;
+                  grandTotal += item?.totalAmount + item?.vatTotal;
+                  vatTotal += item.vatTotal;
 
-                return (
-                  <tr key={`${index}${item?.poNumber}`}>
-                    <td className="text-center">{index + 1}</td>
-                    <td>{item?.poNumber}</td>
-                    <td>
-                      {item?.strGoodsDescription || item?.goodsDescription}
-                    </td>
-                    <td className="text-right">
-                      {_fixedPoint(item?.totalDeliveredQtyCFT, true)}
-                    </td>
-                    <td className="text-center">{item?.unit || "Pcs"}</td>
-                    <td className="text-right">{item?.itemRate}</td>
-                    <td className="text-right">
-                      {_fixedPoint(item?.totalAmount, true)}
-                    </td>
-                    <td className="text-right">
-                      {_fixedPoint(item?.vatTotal)}
-                    </td>
-                    <td className="text-right">
-                      {_fixedPoint(item?.totalAmount + item?.vatTotal)}
-                    </td>
-                  </tr>
-                );
-              })}
-              <tr style={{ textAlign: "right", fontWeight: "bold" }}>
-                <td colSpan={3}>Grand Total</td>
-                <td>{_fixedPoint(totalQty, true)}</td>
-                <td colSpan={2}></td>
-                <td>{_fixedPoint(totalAmount, true)}</td>
-                <td>{_fixedPoint(vatTotal, true)}</td>
-                <td>{_fixedPoint(grandTotal, true)}</td>
-              </tr>
-            </tbody>
-          </table>
+                  return (
+                    <tr key={`${index}${item?.poNumber}`}>
+                      <td className="text-center">{index + 1}</td>
+                      <td>{item?.poNumber}</td>
+                      <td>
+                        {item?.strGoodsDescription || item?.goodsDescription}
+                      </td>
+                      <td className="text-right">
+                        {_fixedPoint(item?.totalDeliveredQtyCFT, true)}
+                      </td>
+                      <td className="text-center">{item?.unit || "Pcs"}</td>
+                      <td className="text-right">{item?.itemRate}</td>
+                      <td className="text-right">
+                        {_fixedPoint(item?.totalAmount, true)}
+                      </td>
+                      <td className="text-right">
+                        {_fixedPoint(item?.vatTotal)}
+                      </td>
+                      <td className="text-right">
+                        {_fixedPoint(item?.totalAmount + item?.vatTotal)}
+                      </td>
+                    </tr>
+                  );
+                })}
+                <tr style={{ textAlign: "right", fontWeight: "bold" }}>
+                  <td colSpan={3}>Grand Total</td>
+                  <td>{_fixedPoint(totalQty, true)}</td>
+                  <td colSpan={2}></td>
+                  <td>{_fixedPoint(totalAmount, true)}</td>
+                  <td>{_fixedPoint(vatTotal, true)}</td>
+                  <td>{_fixedPoint(grandTotal, true)}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
         <br />
         <p>In Words: {toWords.convert(grandTotal.toFixed(0))}</p>

@@ -30,10 +30,11 @@ export default function CommonTable({
     <div className={`${isScrollable && "loan-scrollable-table"}`}>
       <div
         style={tableStyles}
-        className={`${isScrollable && "scroll-table _table table-responsive"}`}
+        className={`${isScrollable ? "scroll-table _table table-responsive": "table-responsive"}`}
       >
+
         <table
-          className={`table table-striped table-bordered bj-table bj-table-landing ${
+          className={`table table-striped table-bordered bj-table bj-table-landing global-table${
             isScrollable && !columnSticky
               ? "one-column-sticky"
               : isScrollable && columnSticky === 2

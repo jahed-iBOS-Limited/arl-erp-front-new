@@ -95,50 +95,54 @@ function FundPositionReport() {
               <Form>
                 {gridData?.length > 0 && (
                   <div ref={printRef}>
-                    <table className="table table-striped table-bordered bj-table bj-table-landing">
-                      <thead>
-                        <tr>
-                          <th>SL</th>
-                          <th>Particulers</th>
-                          <th>Bank</th>
-                          <th>Amount</th>
-                          <th>Amount</th>
-                          <th>Total Amount</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {gridData?.length > 0 &&
-                          gridData.map((item, index) => (
-                            <tr key={index}>
-                              <td>{index + 1}</td>
+                    <div className="table-responsive">
+                      <table className="table table-striped table-bordered bj-table bj-table-landing">
+                        <thead>
+                          <tr>
+                            <th>SL</th>
+                            <th>Particulers</th>
+                            <th>Bank</th>
+                            <th>Amount</th>
+                            <th>Amount</th>
+                            <th>Total Amount</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {gridData?.length > 0 &&
+                            gridData.map((item, index) => (
+                              <tr key={index}>
+                                <td>{index + 1}</td>
 
-                              <td>
-                                <div className="text-left">{item?.strType}</div>
-                              </td>
-                              <td>
-                                <div className="text-left">
-                                  {item?.strBankCode}
-                                </div>
-                              </td>
-                              <td>
-                                <div className="text-right">
-                                  {_formatMoney(item?.numBalanceA)}
-                                </div>
-                              </td>
-                              <td>
-                                <div className="text-right">
-                                  {_formatMoney(item?.numBalanceB)}
-                                </div>
-                              </td>
-                              <td>
-                                <div className="text-right">
-                                  {_formatMoney(item?.numTotal)}
-                                </div>
-                              </td>
-                            </tr>
-                          ))}
-                      </tbody>
-                    </table>
+                                <td>
+                                  <div className="text-left">
+                                    {item?.strType}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="text-left">
+                                    {item?.strBankCode}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="text-right">
+                                    {_formatMoney(item?.numBalanceA)}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="text-right">
+                                    {_formatMoney(item?.numBalanceB)}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="text-right">
+                                    {_formatMoney(item?.numTotal)}
+                                  </div>
+                                </td>
+                              </tr>
+                            ))}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 )}
                 {/* {gridData?.length > 0 && (
