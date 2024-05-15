@@ -75,57 +75,59 @@ export default function ProjectStatus() {
                   </div>
                 </div>
                 {console.log("dssdfdsf")}
-                <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing mr-1">
-                  <thead>
-                    <tr>
-                      <th>SL</th>
-                      <th>Project Id</th>
-                      <th>Project Name</th>
-                      <th>Material Budget</th>
-                      <th>Labor Budget</th>
-                      <th>Total</th>
-                      <th>Material Actual Cost</th>
-                      <th>Labor Actual Cost</th>
-                      <th>Total</th>
-                      <th>Variance</th>
-                      <th>Variance %</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {rwoData?.length > 0 &&
-                      rwoData?.map((dataItem, dataIndex) => (
-                        <tr key={dataIndex}>
-                          <td>{dataIndex + 1}</td>
-                          <td className="text-center">
-                            {dataItem?.projectCode}
-                          </td>
-                          <td>{dataItem?.projectName}</td>
-                          <td className="text-right">
-                            {dataItem?.materialBudget}
-                          </td>
-                          <td className="text-right">
-                            {dataItem?.laborBudget}
-                          </td>
-                          <td className="text-right">
-                            {dataItem?.totalBudget}
-                          </td>
-                          <td className="text-right">
-                            {dataItem?.materialActual}
-                          </td>
-                          <td className="text-right">
-                            {dataItem?.laborActual}
-                          </td>
-                          <td className="text-right">
-                            {dataItem?.totalActual}
-                          </td>
-                          <td className="text-right">{dataItem?.variance}</td>
-                          <td className="text-right">
-                            {dataItem?.variancePercent}
-                          </td>
-                        </tr>
-                      ))}
-                  </tbody>
-                </table>
+                <div className="table-responsive">
+                  <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing mr-1">
+                    <thead>
+                      <tr>
+                        <th>SL</th>
+                        <th>Project Id</th>
+                        <th>Project Name</th>
+                        <th>Material Budget</th>
+                        <th>Labor Budget</th>
+                        <th>Total</th>
+                        <th>Material Actual Cost</th>
+                        <th>Labor Actual Cost</th>
+                        <th>Total</th>
+                        <th>Variance</th>
+                        <th>Variance %</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {rwoData?.length > 0 &&
+                        rwoData?.map((dataItem, dataIndex) => (
+                          <tr key={dataIndex}>
+                            <td>{dataIndex + 1}</td>
+                            <td className="text-center">
+                              {dataItem?.projectCode}
+                            </td>
+                            <td>{dataItem?.projectName}</td>
+                            <td className="text-right">
+                              {dataItem?.materialBudget}
+                            </td>
+                            <td className="text-right">
+                              {dataItem?.laborBudget}
+                            </td>
+                            <td className="text-right">
+                              {dataItem?.totalBudget}
+                            </td>
+                            <td className="text-right">
+                              {dataItem?.materialActual}
+                            </td>
+                            <td className="text-right">
+                              {dataItem?.laborActual}
+                            </td>
+                            <td className="text-right">
+                              {dataItem?.totalActual}
+                            </td>
+                            <td className="text-right">{dataItem?.variance}</td>
+                            <td className="text-right">
+                              {dataItem?.variancePercent}
+                            </td>
+                          </tr>
+                        ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </Form>
           </IForm>

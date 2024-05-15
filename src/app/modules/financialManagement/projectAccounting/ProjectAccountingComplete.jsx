@@ -164,63 +164,66 @@ const ProjectAccountingComplete = () => {
                     </div>
                     <div className="col-12">
                       <div className="print_wrapper">
-                        <table className="table table-striped table-bordered mt-3 global-table table-font-size-sm">
-                          <thead>
-                            <tr>
-                              <th style={{ width: "50px" }}>SL</th>
-                              <th style={{ width: "100px" }}>
-                                <div className="text-left ml-1">
-                                  Profit Center
-                                </div>
-                              </th>
-                              <th style={{ width: "100px" }}>
-                                <div className="text-left ml-1">
-                                  Cost Center
-                                </div>
-                              </th>
-                              <th style={{ width: "100px" }}>
-                                <div className="text-left ml-1">
-                                  Cost Element
-                                </div>
-                              </th>
-                              <th style={{ width: "100px" }}>
-                                <div className="text-left ml-1">
-                                  Responsible
-                                </div>
-                              </th>
-                              <th style={{ width: "100px" }}>
-                                <div className="text-right mr-1">
-                                  Budget Amount
-                                </div>
-                              </th>
-                            </tr>
-                          </thead>
+                        <div className="table-responsive">
+                          <table className="table table-striped table-bordered mt-3 global-table table-font-size-sm">
+                            <thead>
+                              <tr>
+                                <th style={{ width: "50px" }}>SL</th>
+                                <th style={{ width: "100px" }}>
+                                  <div className="text-left ml-1">
+                                    Profit Center
+                                  </div>
+                                </th>
+                                <th style={{ width: "100px" }}>
+                                  <div className="text-left ml-1">
+                                    Cost Center
+                                  </div>
+                                </th>
+                                <th style={{ width: "100px" }}>
+                                  <div className="text-left ml-1">
+                                    Cost Element
+                                  </div>
+                                </th>
+                                <th style={{ width: "100px" }}>
+                                  <div className="text-left ml-1">
+                                    Responsible
+                                  </div>
+                                </th>
+                                <th style={{ width: "100px" }}>
+                                  <div className="text-right mr-1">
+                                    Budget Amount
+                                  </div>
+                                </th>
+                              </tr>
+                            </thead>
 
-                          <tbody>
-                            {projectInformation?.projectCostingExpense?.map(
-                              (item, index) => (
-                                <tr key={index}>
-                                  <td className="text-center">{index + 1}</td>
-                                  <td className="text-left">
-                                    {item?.strProfitCenter || "N/A"}
-                                  </td>
-                                  <td className="text-left">
-                                    {item?.strCostCenter || "N/A"}
-                                  </td>
-                                  <td className="text-left">
-                                    {item?.strCostElement || "N/A"}
-                                  </td>
-                                  <td className="text-left">
-                                    {item?.strResponsible || "N/A"}
-                                  </td>
-                                  <td className="text-right">
-                                    {item?.numBudgetAmount || "N/A"}
-                                  </td>
-                                </tr>
-                              )
-                            )}
-                          </tbody>
-                        </table>
+                            <tbody>
+                              {projectInformation?.projectCostingExpense?.map(
+                                (item, index) => (
+                                  <tr key={index}>
+                                    <td className="text-center">{index + 1}</td>
+                                    <td className="text-left">
+                                      {item?.strProfitCenter || "N/A"}
+                                    </td>
+                                    <td className="text-left">
+                                      {item?.strCostCenter || "N/A"}
+                                    </td>
+                                    <td className="text-left">
+                                      {item?.strCostElement || "N/A"}
+                                    </td>
+                                    <td className="text-left">
+                                      {item?.strResponsible || "N/A"}
+                                    </td>
+                                    <td className="text-right">
+                                      {item?.numBudgetAmount || "N/A"}
+                                    </td>
+                                  </tr>
+                                )
+                              )}
+                            </tbody>
+                          </table>
+                        </div>
+
                         <div></div>
                       </div>
                     </div>
@@ -239,63 +242,66 @@ const ProjectAccountingComplete = () => {
                     </div>
                     <div className="col-12">
                       <div className="print_wrapper">
-                        <table className="table table-striped table-bordered mt-3 global-table table-font-size-sm">
-                          <thead>
-                            <tr>
-                              <th style={{ width: "50px" }}>SL</th>
-                              <th style={{ width: "100px" }}>
-                                <div className="text-left ml-1">
-                                  Profit Center
-                                </div>
-                              </th>
-                              <th style={{ width: "100px" }}>
-                                <div className="text-left ml-1">
-                                  Cost Center
-                                </div>
-                              </th>
-                              <th style={{ width: "100px" }}>
-                                <div className="text-left ml-1">
-                                  Cost Element
-                                </div>
-                              </th>
-                              {/* <th style={{ width: "100px" }}>
+                        <div className="table-responsive">
+                          <table className="table table-striped table-bordered mt-3 global-table table-font-size-sm">
+                            <thead>
+                              <tr>
+                                <th style={{ width: "50px" }}>SL</th>
+                                <th style={{ width: "100px" }}>
+                                  <div className="text-left ml-1">
+                                    Profit Center
+                                  </div>
+                                </th>
+                                <th style={{ width: "100px" }}>
+                                  <div className="text-left ml-1">
+                                    Cost Center
+                                  </div>
+                                </th>
+                                <th style={{ width: "100px" }}>
+                                  <div className="text-left ml-1">
+                                    Cost Element
+                                  </div>
+                                </th>
+                                {/* <th style={{ width: "100px" }}>
                                 <div className="text-left ml-1">
                                   Responsible
                                 </div>
                               </th> */}
-                              <th style={{ width: "100px" }}>
-                                <div className="text-right mr-1">
-                                  Total Amount
-                                </div>
-                              </th>
-                            </tr>
-                          </thead>
+                                <th style={{ width: "100px" }}>
+                                  <div className="text-right mr-1">
+                                    Total Amount
+                                  </div>
+                                </th>
+                              </tr>
+                            </thead>
 
-                          <tbody>
-                            {projectInformation?.actualProjectCostingExpense?.map(
-                              (item, index) => (
-                                <tr key={index}>
-                                  <td className="text-center">{index + 1}</td>
-                                  <td className="text-left">
-                                    {item?.strProfitCenterName || "N/A"}
-                                  </td>
-                                  <td className="text-left">
-                                    {item?.strCostCenterName || "N/A"}
-                                  </td>
-                                  <td className="text-left">
-                                    {item?.strCostElementName || "N/A"}
-                                  </td>
-                                  {/* <td className="text-left">
+                            <tbody>
+                              {projectInformation?.actualProjectCostingExpense?.map(
+                                (item, index) => (
+                                  <tr key={index}>
+                                    <td className="text-center">{index + 1}</td>
+                                    <td className="text-left">
+                                      {item?.strProfitCenterName || "N/A"}
+                                    </td>
+                                    <td className="text-left">
+                                      {item?.strCostCenterName || "N/A"}
+                                    </td>
+                                    <td className="text-left">
+                                      {item?.strCostElementName || "N/A"}
+                                    </td>
+                                    {/* <td className="text-left">
                                     {item?.strResponsible || "N/A"}
                                   </td> */}
-                                  <td className="text-right">
-                                    {item?.numAmount || "N/A"}
-                                  </td>
-                                </tr>
-                              )
-                            )}
-                          </tbody>
-                        </table>
+                                    <td className="text-right">
+                                      {item?.numAmount || "N/A"}
+                                    </td>
+                                  </tr>
+                                )
+                              )}
+                            </tbody>
+                          </table>
+                        </div>
+
                         <div></div>
                       </div>
                     </div>
@@ -314,48 +320,54 @@ const ProjectAccountingComplete = () => {
                   <div className="row" id="pdf-section">
                     <div className="col-lg-12">
                       <div className="print_wrapper">
-                        <table className="table table-striped table-bordered mt-3 global-table table-font-size-sm">
-                          <thead>
-                            <tr>
-                              <th>SL</th>
-                              <th>Item Code</th>
-                              <th>
-                                <div className="text-left ml-1">Item Name</div>
-                              </th>
-                              <th>
-                                <div className="text-left ml-1">UOM</div>
-                              </th>
-                              <th>
-                                <div className="text-right">Total Quantity</div>
-                              </th>
-                              <th>
-                                <div className="text-right">Total Amount</div>
-                              </th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {inventoryItemList?.map((item, index) => (
-                              <tr key={item?.intProjectInvId}>
-                                <td>{index + 1}</td>
-                                <td className="text-center">
-                                  {item?.strItemCode || "N/A"}
-                                </td>
-                                <td className="text-left">
-                                  {item?.strItem || "N/A"}
-                                </td>
-                                <td className="text-left">
-                                  {item?.strUom || "N/A"}
-                                </td>
-                                <td className="text-right">
-                                  {item?.numQty || 0}
-                                </td>
-                                <td className="text-right">
-                                  {item?.numTotal || 0}
-                                </td>
+                        <div className="table-responsive">
+                          <table className="table table-striped table-bordered mt-3 global-table table-font-size-sm">
+                            <thead>
+                              <tr>
+                                <th>SL</th>
+                                <th>Item Code</th>
+                                <th>
+                                  <div className="text-left ml-1">
+                                    Item Name
+                                  </div>
+                                </th>
+                                <th>
+                                  <div className="text-left ml-1">UOM</div>
+                                </th>
+                                <th>
+                                  <div className="text-right">
+                                    Total Quantity
+                                  </div>
+                                </th>
+                                <th>
+                                  <div className="text-right">Total Amount</div>
+                                </th>
                               </tr>
-                            ))}
-                          </tbody>
-                        </table>
+                            </thead>
+                            <tbody>
+                              {inventoryItemList?.map((item, index) => (
+                                <tr key={item?.intProjectInvId}>
+                                  <td>{index + 1}</td>
+                                  <td className="text-center">
+                                    {item?.strItemCode || "N/A"}
+                                  </td>
+                                  <td className="text-left">
+                                    {item?.strItem || "N/A"}
+                                  </td>
+                                  <td className="text-left">
+                                    {item?.strUom || "N/A"}
+                                  </td>
+                                  <td className="text-right">
+                                    {item?.numQty || 0}
+                                  </td>
+                                  <td className="text-right">
+                                    {item?.numTotal || 0}
+                                  </td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -374,51 +386,57 @@ const ProjectAccountingComplete = () => {
                   <div className="row" id="pdf-section">
                     <div className="col-lg-12">
                       <div className="print_wrapper">
-                        <table className="table table-striped table-bordered mt-3 global-table table-font-size-sm">
-                          <thead>
-                            <tr>
-                              <th>SL</th>
-                              <th>Item Code</th>
-                              <th>
-                                <div className="text-left ml-1">Item Name</div>
-                              </th>
-                              <th>
-                                <div className="text-left ml-1">UOM</div>
-                              </th>
-                              <th>
-                                <div className="text-right">Total Quantity</div>
-                              </th>
-                              <th>
-                                <div className="text-right">Total Amount</div>
-                              </th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {projectInformation?.actualProjectCostingInventory?.map(
-                              (item, index) => (
-                                <tr key={item?.intRowId}>
-                                  <td>{index + 1}</td>
-                                  <td className="text-center">
-                                    {item?.strItemCode || "N/A"}
-                                  </td>
-                                  <td className="text-left">
-                                    {item?.strItemName || "N/A"}
-                                  </td>
-                                  <td className="text-left">
-                                    {item?.strUoMname || "N/A"}
-                                  </td>
-                                  <td className="text-right">
-                                    {item?.numTransactionQuantity || 0}
-                                  </td>
-                                  <td className="text-right">
-                                    {item?.numTransactionQuantity *
-                                      item?.numItemPrice || 0}
-                                  </td>
-                                </tr>
-                              )
-                            )}
-                          </tbody>
-                        </table>
+                        <div className="table-responsive">
+                          <table className="table table-striped table-bordered mt-3 global-table table-font-size-sm">
+                            <thead>
+                              <tr>
+                                <th>SL</th>
+                                <th>Item Code</th>
+                                <th>
+                                  <div className="text-left ml-1">
+                                    Item Name
+                                  </div>
+                                </th>
+                                <th>
+                                  <div className="text-left ml-1">UOM</div>
+                                </th>
+                                <th>
+                                  <div className="text-right">
+                                    Total Quantity
+                                  </div>
+                                </th>
+                                <th>
+                                  <div className="text-right">Total Amount</div>
+                                </th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {projectInformation?.actualProjectCostingInventory?.map(
+                                (item, index) => (
+                                  <tr key={item?.intRowId}>
+                                    <td>{index + 1}</td>
+                                    <td className="text-center">
+                                      {item?.strItemCode || "N/A"}
+                                    </td>
+                                    <td className="text-left">
+                                      {item?.strItemName || "N/A"}
+                                    </td>
+                                    <td className="text-left">
+                                      {item?.strUoMname || "N/A"}
+                                    </td>
+                                    <td className="text-right">
+                                      {item?.numTransactionQuantity || 0}
+                                    </td>
+                                    <td className="text-right">
+                                      {item?.numTransactionQuantity *
+                                        item?.numItemPrice || 0}
+                                    </td>
+                                  </tr>
+                                )
+                              )}
+                            </tbody>
+                          </table>
+                        </div>
                       </div>
                     </div>
                   </div>

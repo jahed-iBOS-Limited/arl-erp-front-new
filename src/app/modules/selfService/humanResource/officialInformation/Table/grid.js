@@ -27,6 +27,7 @@ const GridData = ({
             placeholder="Employee Name & Code Search"
             paginationSearchHandler={paginationSearchHandler}
           />
+           <div className="table-responsive">
           <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
             <thead>
               <tr>
@@ -153,6 +154,7 @@ const GridData = ({
               ))}
             </tbody>
           </table>
+          </div>
         </div>
         <div>
           {rowDto?.data?.length > 0 && (

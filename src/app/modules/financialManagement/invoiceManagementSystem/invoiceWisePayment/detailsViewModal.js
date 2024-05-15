@@ -1,14 +1,14 @@
-import { Form, Formik } from 'formik';
-import React, { useEffect, useState } from 'react';
-import { shallowEqual, useSelector } from 'react-redux';
-import { _dateFormatter } from '../../../_helper/_dateFormate';
-import IForm from '../../../_helper/_form';
-import { _formatMoney } from '../../../_helper/_formatMoney';
-import InputField from '../../../_helper/_inputField';
-import Loading from '../../../_helper/_loading';
-import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
-import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
-import { hasPaymentDetailsEditPermission } from './util/paymentDetailsEditPermission';
+import { Form, Formik } from "formik";
+import React, { useEffect, useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
+import { _dateFormatter } from "../../../_helper/_dateFormate";
+import IForm from "../../../_helper/_form";
+import { _formatMoney } from "../../../_helper/_formatMoney";
+import InputField from "../../../_helper/_inputField";
+import Loading from "../../../_helper/_loading";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
+import { hasPaymentDetailsEditPermission } from "./util/paymentDetailsEditPermission";
 const initData = {};
 export default function DetailsViewModal({ clickedItem, landingValues }) {
   const [detailsData, setDetailsData] = useState([]);
@@ -16,11 +16,7 @@ export default function DetailsViewModal({ clickedItem, landingValues }) {
     return state.authData.profileData;
   }, shallowEqual);
   const saveHandler = (values, cb) => {};
-  const [
-    ,
-    getPaymentDetails,
-    paymentDetailsLoader,
-  ] = useAxiosGet();
+  const [, getPaymentDetails, paymentDetailsLoader] = useAxiosGet();
 
   const [, savePymentDetails, isSavingPaymentDetails] = useAxiosPost();
 
@@ -29,7 +25,7 @@ export default function DetailsViewModal({ clickedItem, landingValues }) {
       `/fino/PaymentOrReceive/GetInvoiceWisePayment?partName=GetById&businessUnitId=${landingValues?.businessUnit?.value}&fromDate=${landingValues?.fromDate}&toDate=${landingValues?.toDate}&status=${landingValues?.status?.value}&deliveryId=${clickedItem?.intDeliveryId}&customerId=${clickedItem?.intCustomerId}`,
       (data) => {
         setDetailsData(data);
-      },
+      }
     );
   };
 
@@ -74,9 +70,7 @@ export default function DetailsViewModal({ clickedItem, landingValues }) {
         };
       });
 
-  
-
-    if (window.confirm('Are you sure about updating the data?')) {
+    if (window.confirm("Are you sure about updating the data?")) {
       savePymentDetails(
         url,
         payload,
@@ -85,8 +79,8 @@ export default function DetailsViewModal({ clickedItem, landingValues }) {
           handleGetPaymentDetailsData();
         },
         true,
-        'Updated Successfully',
-        'Sorry, Could not Update Data!',
+        "Updated Successfully",
+        "Sorry, Could not Update Data!"
       );
     }
 
@@ -114,7 +108,7 @@ export default function DetailsViewModal({ clickedItem, landingValues }) {
         touched,
       }) => (
         <>
-          {(paymentDetailsLoader || isSavingPaymentDetails)&& <Loading />}
+          {(paymentDetailsLoader || isSavingPaymentDetails) && <Loading />}
           <IForm
             title="Payment Receive Details"
             isHiddenReset
@@ -136,61 +130,65 @@ export default function DetailsViewModal({ clickedItem, landingValues }) {
                   Challan No: <strong>{clickedItem?.strChallanNo}</strong>
                 </p>
                 <div className="mt-5">
-                  <table className="table table-striped table-bordered bj-table bj-table-landing">
-                    <thead>
-                      <tr>
-                        <th>Sl</th>
-                        <th>Receive Date</th>
-                        <th>Receive Type</th>
-                        <th>Reference No</th>
-                        <th>Received Amount</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {detailsData?.length > 0 &&
-                        detailsData?.map((item, index) => (
+                  <div className="table-responsive">
+                    <table className="table table-striped table-bordered bj-table bj-table-landing">
+                      <thead>
+                        <tr>
+                          <th>Sl</th>
+                          <th>Receive Date</th>
+                          <th>Receive Type</th>
+                          <th>Reference No</th>
+                          <th>Received Amount</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {detailsData?.length > 0 &&
+                          detailsData?.map((item, index) => (
+                            <tr>
+                              <td>{index + 1}</td>
+                              <td>
+                                {_dateFormatter(item?.dteTransactionDate)}
+                              </td>
+                              <td>{item?.strType}</td>
+                              <td>{item?.strReference}</td>
+                              <td className="text-right">
+                                <InputField
+                                  type="number"
+                                  value={item?.numAmount}
+                                  disabled={
+                                    !hasPaymentDetailsEditPermission(employeeId)
+                                  }
+                                  onChange={(e) => {
+                                    handleChangeAmountById(
+                                      item?.intAutoId,
+                                      e.target.value
+                                    );
+                                  }}
+                                />
+                              </td>
+                            </tr>
+                          ))}
+
+                        {detailsData?.length > 0 && (
                           <tr>
-                            <td>{index + 1}</td>
-                            <td>{_dateFormatter(item?.dteTransactionDate)}</td>
-                            <td>{item?.strType}</td>
-                            <td>{item?.strReference}</td>
+                            <td colSpan="4" className="text-right">
+                              <strong>Total</strong>
+                            </td>
                             <td className="text-right">
-                              <InputField
-                                type="number"
-                                value={item?.numAmount}
-                                disabled={
-                                  !hasPaymentDetailsEditPermission(employeeId)
-                                }
-                                onChange={(e) => {
-                                  handleChangeAmountById(
-                                    item?.intAutoId,
-                                    e.target.value,
-                                  );
-                                }}
-                              />
+                              <strong>
+                                {_formatMoney(
+                                  detailsData?.reduce(
+                                    (acc, cur) => acc + Number(cur?.numAmount),
+                                    0
+                                  )
+                                )}
+                              </strong>
                             </td>
                           </tr>
-                        ))}
-
-                      {detailsData?.length > 0 && (
-                        <tr>
-                          <td colSpan="4" className="text-right">
-                            <strong>Total</strong>
-                          </td>
-                          <td className="text-right">
-                            <strong>
-                              {_formatMoney(
-                                detailsData?.reduce(
-                                  (acc, cur) => acc + Number(cur?.numAmount),
-                                  0,
-                                ),
-                              )}
-                            </strong>
-                          </td>
-                        </tr>
-                      )}
-                    </tbody>
-                  </table>
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
             </Form>
@@ -198,7 +196,7 @@ export default function DetailsViewModal({ clickedItem, landingValues }) {
           <div className="d-flex justify-content-end ">
             {hasPaymentDetailsEditPermission(employeeId) && (
               <button
-                style={{ marginTop: '18px', marginBottom: '20px' }}
+                style={{ marginTop: "18px", marginBottom: "20px" }}
                 type="button"
                 className="btn btn-primary"
                 onClick={handleSave}

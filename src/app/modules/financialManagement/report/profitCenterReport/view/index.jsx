@@ -40,8 +40,8 @@ const ProfitCenterView = ({ currentRowData, landingValues }) => {
                 <Form className="form form-label-right">
                   {getDataByIdLoading && <Loading />}
                   <div className="row">
-                    <div className="col-8"></div>
-                    <div className="col-4">
+                    <div className="col-lg-8"></div>
+                    <div className="col-lg-4">
                       <div className="d-flex align-items-end justify-content-end">
                         {dataById?.length ? (
                           <span>

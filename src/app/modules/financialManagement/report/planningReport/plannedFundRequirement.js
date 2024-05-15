@@ -30,7 +30,8 @@ export default function PlannedFundRequirement({ rowData }) {
             </h4>
           </div>
           <div className="col-lg-12">
-            <table className="table table-striped table-bordered mt-3">
+          <div className="table-responsive">
+ <table className="table table-striped table-bordered mt-3">
               <thead>
                 <tr>
                   <th>Code</th>
@@ -108,6 +109,8 @@ export default function PlannedFundRequirement({ rowData }) {
                 )}
               </tbody>
             </table>
+</div>
+           
           </div>
         </div>
       ) : null}
@@ -120,7 +123,8 @@ export default function PlannedFundRequirement({ rowData }) {
             </h4>
           </div>
           <div className="col-lg-12">
-            <table className="table table-striped table-bordered mt-3">
+          <div className="table-responsive">
+ <table className="table table-striped table-bordered mt-3">
               <thead>
                 <tr>
                   <th>Code</th>
@@ -155,6 +159,8 @@ export default function PlannedFundRequirement({ rowData }) {
                 )}
               </tbody>
             </table>
+</div>
+           
           </div>
         </div>
       ) : null}
@@ -167,7 +173,8 @@ export default function PlannedFundRequirement({ rowData }) {
             </h4>
           </div>
           <div className="col-lg-12">
-            <table className="table table-striped table-bordered mt-3">
+          <div className="table-responsive">
+<table className="table table-striped table-bordered mt-3">
               <thead>
                 <tr>
                   <th>Code</th>
@@ -240,6 +247,8 @@ export default function PlannedFundRequirement({ rowData }) {
                 </tr>
               </tbody>
             </table>
+</div>
+            
           </div>
         </div>
       ) : null}

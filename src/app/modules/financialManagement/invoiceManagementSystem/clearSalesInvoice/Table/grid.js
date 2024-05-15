@@ -95,94 +95,98 @@ const GridData = ({
               />
             </div>
             <div className="col-lg-12">
-              <table className="table table-striped table-bordered global-table table-font-size-sm">
-                <thead>
-                  <tr>
-                    <th style={{ width: "30px" }}>SL</th>
-                    <th style={{ width: "100px" }}>Invocie Date</th>
-                    <th style={{ width: "100px" }}>Invoice No</th>
-                    <th style={{ width: "100px" }}>Partner Code</th>
-                    <th style={{ width: "100px" }}>Partner Name</th>
-                    <th style={{ width: "100px" }}>Partner Address</th>
-                    <th style={{ width: "100px" }}>Invoice Amount</th>
-                    <th style={{ width: "100px" }}>Pending Amount</th>
-                    <th style={{ width: "300px" }} className="printSectionNone">
-                      Action
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {rowDto?.objData?.map((item, index) => (
-                    <>
-                      <tr>
-                        <td className="text-center"> {index + 1}</td>
-                        <td className="text-center">
-                          {" "}
-                          {_dateFormatter(item.transactionDate)}
-                        </td>
-                        <td className="text-center"> {item?.invoiceCode}</td>
-                        <td className="text-center">
-                          {item?.businessPartnerCode}
-                        </td>
-                        <td className="text-center">
-                          {item?.businessPartnerName}
-                        </td>
-                        <td className="text-center">
-                          {item?.businessPartnerAddress}
-                        </td>
-                        <td className="text-right">
-                          <div className="pr-2">
-                            {parseFloat(item?.amount || 0).toFixed(2)}
-                          </div>
-                        </td>
-                        <td className="text-right">
-                          <div className="pr-2">
-                            {parseFloat(
-                              item?.adjustmentPendingAmount || 0
-                            ).toFixed(2)}
-                          </div>
-                        </td>
-                        <td className="text-center printSectionNone">
-                          {cashClearPermission?.isCreate && (
+              <div className="table-responsive">
+                <table className="table table-striped table-bordered global-table table-font-size-sm">
+                  <thead>
+                    <tr>
+                      <th style={{ width: "30px" }}>SL</th>
+                      <th style={{ width: "100px" }}>Invocie Date</th>
+                      <th style={{ width: "100px" }}>Invoice No</th>
+                      <th style={{ width: "100px" }}>Partner Code</th>
+                      <th style={{ width: "100px" }}>Partner Name</th>
+                      <th style={{ width: "100px" }}>Partner Address</th>
+                      <th style={{ width: "100px" }}>Invoice Amount</th>
+                      <th style={{ width: "100px" }}>Pending Amount</th>
+                      <th
+                        style={{ width: "300px" }}
+                        className="printSectionNone"
+                      >
+                        Action
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {rowDto?.objData?.map((item, index) => (
+                      <>
+                        <tr>
+                          <td className="text-center"> {index + 1}</td>
+                          <td className="text-center">
+                            {" "}
+                            {_dateFormatter(item.transactionDate)}
+                          </td>
+                          <td className="text-center"> {item?.invoiceCode}</td>
+                          <td className="text-center">
+                            {item?.businessPartnerCode}
+                          </td>
+                          <td className="text-center">
+                            {item?.businessPartnerName}
+                          </td>
+                          <td className="text-center">
+                            {item?.businessPartnerAddress}
+                          </td>
+                          <td className="text-right">
+                            <div className="pr-2">
+                              {parseFloat(item?.amount || 0).toFixed(2)}
+                            </div>
+                          </td>
+                          <td className="text-right">
+                            <div className="pr-2">
+                              {parseFloat(
+                                item?.adjustmentPendingAmount || 0
+                              ).toFixed(2)}
+                            </div>
+                          </td>
+                          <td className="text-center printSectionNone">
+                            {cashClearPermission?.isCreate && (
+                              <button
+                                type="button"
+                                className="btn btn-primary"
+                                style={{ padding: "5px" }}
+                                onClick={() => {
+                                  setModalShow1(true);
+                                  setCurrentItem(item);
+                                }}
+                              >
+                                Cash
+                              </button>
+                            )}
+                            {bankClearPermission?.isCreate && (
+                              <button
+                                type="button"
+                                className="btn btn-primary ml-1"
+                                onClick={() => {
+                                  setModalShow2(true);
+                                  setCurrentItem(item);
+                                }}
+                                style={{ padding: "5px" }}
+                              >
+                                Bank
+                              </button>
+                            )}
+                            {adjusmentPermission?.isCreate && (
+                              <button
+                                type="button"
+                                className="btn btn-primary ml-1"
+                                onClick={() => {
+                                  setModalShow3(true);
+                                  setCurrentItem(item);
+                                }}
+                                style={{ padding: "5px 5px", width: "86px" }}
+                              >
+                                Adjustment
+                              </button>
+                            )}
                             <button
-                              type="button"
-                              className="btn btn-primary"
-                              style={{ padding: "5px" }}
-                              onClick={() => {
-                                setModalShow1(true);
-                                setCurrentItem(item);
-                              }}
-                            >
-                              Cash
-                            </button>
-                          )}
-                          {bankClearPermission?.isCreate && (
-                            <button
-                              type="button"
-                              className="btn btn-primary ml-1"
-                              onClick={() => {
-                                setModalShow2(true);
-                                setCurrentItem(item);
-                              }}
-                              style={{ padding: "5px" }}
-                            >
-                              Bank
-                            </button>
-                          )}
-                          {adjusmentPermission?.isCreate && (
-                            <button
-                              type="button"
-                              className="btn btn-primary ml-1"
-                              onClick={() => {
-                                setModalShow3(true);
-                                setCurrentItem(item);
-                              }}
-                              style={{ padding: "5px 5px", width: "86px" }}
-                            >
-                              Adjustment
-                            </button>
-                          )}
-                          <button
                               type="button"
                               className="btn btn-primary ml-1"
                               onClick={() => {
@@ -193,49 +197,50 @@ const GridData = ({
                             >
                               View
                             </button>
-                        </td>
-                      </tr>
-                      <CashViewForm
-                        show={modalShow1}
-                        onHide={() => {
-                          setModalShow1(false);
-                        }}
-                        item={currentItem}
-                        generalLedgerDDL={generalLedgerDDL}
-                        gridDataFunc={gridDataFunc}
-                        parentFormValues={values}
-                      />
-                      <BankViewForm
-                        show={modalShow2}
-                        onHide={() => {
-                          setModalShow2(false);
-                        }}
-                        item={currentItem}
-                        parentFormValues={values}
-                        gridDataFunc={gridDataFunc}
-                      />
-                      <AdjustmentViewForm
-                        show={modalShow3}
-                        onHide={() => {
-                          setModalShow3(false);
-                        }}
-                        item={currentItem}
-                        parentFormValues={values}
-                        gridDataFunc={gridDataFunc}
-                      />
-                      <InvoiceReportTable
-                        show={modalShow4}
-                        onHide={() => {
-                          setModalShow4(false);
-                        }}
-                        item={currentItem}
-                        parentFormValues={values}
-                        gridDataFunc={gridDataFunc}
-                      />
-                    </>
-                  ))}
-                </tbody>
-              </table>
+                          </td>
+                        </tr>
+                        <CashViewForm
+                          show={modalShow1}
+                          onHide={() => {
+                            setModalShow1(false);
+                          }}
+                          item={currentItem}
+                          generalLedgerDDL={generalLedgerDDL}
+                          gridDataFunc={gridDataFunc}
+                          parentFormValues={values}
+                        />
+                        <BankViewForm
+                          show={modalShow2}
+                          onHide={() => {
+                            setModalShow2(false);
+                          }}
+                          item={currentItem}
+                          parentFormValues={values}
+                          gridDataFunc={gridDataFunc}
+                        />
+                        <AdjustmentViewForm
+                          show={modalShow3}
+                          onHide={() => {
+                            setModalShow3(false);
+                          }}
+                          item={currentItem}
+                          parentFormValues={values}
+                          gridDataFunc={gridDataFunc}
+                        />
+                        <InvoiceReportTable
+                          show={modalShow4}
+                          onHide={() => {
+                            setModalShow4(false);
+                          }}
+                          item={currentItem}
+                          parentFormValues={values}
+                          gridDataFunc={gridDataFunc}
+                        />
+                      </>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
 
               {rowDto?.objData?.length > 0 && (
                 <div className="printSectionNone">
@@ -248,7 +253,7 @@ const GridData = ({
                       pageSize,
                       setPageSize,
                     }}
-                    rowsPerPageOptions={[5,10,20,50,100,200]}
+                    rowsPerPageOptions={[5, 10, 20, 50, 100, 200]}
                   />
                 </div>
               )}

@@ -133,34 +133,37 @@ export default function ProjectAccountingView({ id, show, onHide }) {
                 </div>
                 <div className="col-12">
                   <div className="print_wrapper">
-                    <table className="table table-striped table-bordered mt-3 global-table table-font-size-sm">
-                      {projectTeam?.length > 0 && (
-                        <thead>
-                          <tr>
-                            <th style={{ width: "50px" }}>SL</th>
-                            <th style={{ width: "100px" }}>
-                              <div className="text-left ml-1">Team Name</div>
-                            </th>
-                            <th style={{ width: "100px" }}>
-                              <div className="text-left ml-1">Role Name</div>
-                            </th>
-                          </tr>
-                        </thead>
-                      )}
-                      <tbody>
-                        {projectTeam?.map((item, index) => (
-                          <tr key={index}>
-                            <td className="text-center">{index + 1}</td>
-                            <td className="text-left">
-                              {item?.strTeamMember || "N/A"}
-                            </td>
-                            <td className="text-left">
-                              {item?.strRole || "N/A"}
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                    <div className="table-responsive">
+                      <table className="table table-striped table-bordered mt-3 global-table table-font-size-sm">
+                        {projectTeam?.length > 0 && (
+                          <thead>
+                            <tr>
+                              <th style={{ width: "50px" }}>SL</th>
+                              <th style={{ width: "100px" }}>
+                                <div className="text-left ml-1">Team Name</div>
+                              </th>
+                              <th style={{ width: "100px" }}>
+                                <div className="text-left ml-1">Role Name</div>
+                              </th>
+                            </tr>
+                          </thead>
+                        )}
+                        <tbody>
+                          {projectTeam?.map((item, index) => (
+                            <tr key={index}>
+                              <td className="text-center">{index + 1}</td>
+                              <td className="text-left">
+                                {item?.strTeamMember || "N/A"}
+                              </td>
+                              <td className="text-left">
+                                {item?.strRole || "N/A"}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+
                     <div></div>
                   </div>
                 </div>
@@ -176,67 +179,77 @@ export default function ProjectAccountingView({ id, show, onHide }) {
                 </div>
                 <div className="col-12">
                   <div className="print_wrapper">
-                    <table className="table table-striped table-bordered mt-3 global-table table-font-size-sm">
-                      {expenseVariance?.length > 0 && (
-                        <thead>
-                          <tr>
-                            <th style={{ width: "50px" }}>SL</th>
-                            <th style={{ width: "100px" }}>
-                              <div className="text-left ml-1">
-                                Porfit Center
-                              </div>
-                            </th>
-                            <th style={{ width: "100px" }}>
-                              <div className="text-left ml-1">Cost Center</div>
-                            </th>
-                            <th style={{ width: "100px" }}>
-                              <div className="text-left ml-1">Cost Element</div>
-                            </th>
-                            <th style={{ width: "100px" }}>
-                              <div className="text-left ml-1">Responsible</div>
-                            </th>
-                            <th style={{ width: "100px" }}>
-                              <div className="text-right mr-1">
-                                Budget Amount
-                              </div>
-                            </th>
-                          </tr>
-                        </thead>
-                      )}
-                      <tbody>
-                        {expenseVariance?.map((item, index) => (
-                          <tr key={index}>
-                            <td className="text-center">{index + 1}</td>
-                            <td className="text-left">
-                              {item?.strProfitCenter || "N/A"}
-                            </td>
-                            <td className="text-left">
-                              {item?.strCostCenter || "N/A"}
-                            </td>
-                            <td className="text-left">
-                              {item?.strCostElement || "N/A"}
-                            </td>
-                            <td className="text-left">
-                              {item?.strResponsible || "N/A"}
-                            </td>
-                            <td className="text-right">
-                              {item?.numBudgetAmount || "N/A"}
-                            </td>
-                          </tr>
-                        ))}
+                    <div className="table-responsive">
+                      <table className="table table-striped table-bordered mt-3 global-table table-font-size-sm">
                         {expenseVariance?.length > 0 && (
-                          <tr>
-                            <td colspan="5">Total</td>
-                            <td className="text-right">
-                              {expenseVariance?.reduce(
-                                (sum, part) => sum + part?.numBudgetAmount || 0,
-                                0
-                              ) || "N/A"}
-                            </td>
-                          </tr>
+                          <thead>
+                            <tr>
+                              <th style={{ width: "50px" }}>SL</th>
+                              <th style={{ width: "100px" }}>
+                                <div className="text-left ml-1">
+                                  Porfit Center
+                                </div>
+                              </th>
+                              <th style={{ width: "100px" }}>
+                                <div className="text-left ml-1">
+                                  Cost Center
+                                </div>
+                              </th>
+                              <th style={{ width: "100px" }}>
+                                <div className="text-left ml-1">
+                                  Cost Element
+                                </div>
+                              </th>
+                              <th style={{ width: "100px" }}>
+                                <div className="text-left ml-1">
+                                  Responsible
+                                </div>
+                              </th>
+                              <th style={{ width: "100px" }}>
+                                <div className="text-right mr-1">
+                                  Budget Amount
+                                </div>
+                              </th>
+                            </tr>
+                          </thead>
                         )}
-                      </tbody>
-                    </table>
+                        <tbody>
+                          {expenseVariance?.map((item, index) => (
+                            <tr key={index}>
+                              <td className="text-center">{index + 1}</td>
+                              <td className="text-left">
+                                {item?.strProfitCenter || "N/A"}
+                              </td>
+                              <td className="text-left">
+                                {item?.strCostCenter || "N/A"}
+                              </td>
+                              <td className="text-left">
+                                {item?.strCostElement || "N/A"}
+                              </td>
+                              <td className="text-left">
+                                {item?.strResponsible || "N/A"}
+                              </td>
+                              <td className="text-right">
+                                {item?.numBudgetAmount || "N/A"}
+                              </td>
+                            </tr>
+                          ))}
+                          {expenseVariance?.length > 0 && (
+                            <tr>
+                              <td colspan="5">Total</td>
+                              <td className="text-right">
+                                {expenseVariance?.reduce(
+                                  (sum, part) =>
+                                    sum + part?.numBudgetAmount || 0,
+                                  0
+                                ) || "N/A"}
+                              </td>
+                            </tr>
+                          )}
+                        </tbody>
+                      </table>
+                    </div>
+
                     <div></div>
                   </div>
                 </div>
@@ -252,67 +265,76 @@ export default function ProjectAccountingView({ id, show, onHide }) {
                 </div>
                 <div className="col-lg-12">
                   <div className="print_wrapper">
-                    <table className="table table-striped table-bordered mt-3 global-table table-font-size-sm">
-                      {inventoryVariance?.length > 0 && (
-                        <thead>
-                          <tr>
-                            <th style={{ width: "50px" }}>SL</th>
-                            <th style={{ width: "100px" }}>Item Code</th>
-                            <th style={{ width: "100px" }}>
-                              <div className="text-left ml-1">Item Name</div>
-                            </th>
-                            <th style={{ width: "100px" }}>UOM</th>
-                            <th style={{ width: "150px" }}>
-                              <div className="text-right mr-1">Return Qty </div>
-                            </th>
-                            <th style={{ width: "150px" }}>
-                              <div className="text-right mr-1">Budget Qty</div>
-                            </th>
+                    <div className="table-responsive">
+                      <table className="table table-striped table-bordered mt-3 global-table table-font-size-sm">
+                        {inventoryVariance?.length > 0 && (
+                          <thead>
+                            <tr>
+                              <th style={{ width: "50px" }}>SL</th>
+                              <th style={{ width: "100px" }}>Item Code</th>
+                              <th style={{ width: "100px" }}>
+                                <div className="text-left ml-1">Item Name</div>
+                              </th>
+                              <th style={{ width: "100px" }}>UOM</th>
+                              <th style={{ width: "150px" }}>
+                                <div className="text-right mr-1">
+                                  Return Qty{" "}
+                                </div>
+                              </th>
+                              <th style={{ width: "150px" }}>
+                                <div className="text-right mr-1">
+                                  Budget Qty
+                                </div>
+                              </th>
 
-                            <th style={{ width: "150px" }}>
-                              <div className="text-right mr-1">
-                                Budget Total
-                              </div>
-                            </th>
-                          </tr>
-                        </thead>
-                      )}
-                      <tbody>
-                        {inventoryVariance?.map((item, index) => (
-                          <tr key={index}>
-                            <td className="text-center">{index + 1}</td>
-                            <td className="text-center">
-                              {item?.strItemCode || "N/A"}
-                            </td>
-                            <td className="text-left">
-                              {item?.strItem || "N/A"}
-                            </td>
-                            <td className="text-center">
-                              {item?.strUom || "N/A"}
-                            </td>
-                            <td className="text-right">
-                              {item?.numReturnQty || 0}
-                            </td>
-                            <td className="text-right">{item?.numQty || 0}</td>
-
-                            <td className="text-right">
-                              {item?.numTotal || 0}
-                            </td>
-                          </tr>
-                        ))}
-                        {projectCostingInventory?.length > 0 && (
-                          <tr>
-                            <td colspan="6">Total</td>
-                            <td className="text-right">
-                              {inventoryVariance?.reduce(
-                                (sum, part) => sum + part?.numTotal,
-                                0
-                              )}
-                            </td>
-                          </tr>
+                              <th style={{ width: "150px" }}>
+                                <div className="text-right mr-1">
+                                  Budget Total
+                                </div>
+                              </th>
+                            </tr>
+                          </thead>
                         )}
-                      </tbody>
-                    </table>
+                        <tbody>
+                          {inventoryVariance?.map((item, index) => (
+                            <tr key={index}>
+                              <td className="text-center">{index + 1}</td>
+                              <td className="text-center">
+                                {item?.strItemCode || "N/A"}
+                              </td>
+                              <td className="text-left">
+                                {item?.strItem || "N/A"}
+                              </td>
+                              <td className="text-center">
+                                {item?.strUom || "N/A"}
+                              </td>
+                              <td className="text-right">
+                                {item?.numReturnQty || 0}
+                              </td>
+                              <td className="text-right">
+                                {item?.numQty || 0}
+                              </td>
+
+                              <td className="text-right">
+                                {item?.numTotal || 0}
+                              </td>
+                            </tr>
+                          ))}
+                          {projectCostingInventory?.length > 0 && (
+                            <tr>
+                              <td colspan="6">Total</td>
+                              <td className="text-right">
+                                {inventoryVariance?.reduce(
+                                  (sum, part) => sum + part?.numTotal,
+                                  0
+                                )}
+                              </td>
+                            </tr>
+                          )}
+                        </tbody>
+                      </table>
+                    </div>
+
                     <div></div>
                   </div>
                 </div>

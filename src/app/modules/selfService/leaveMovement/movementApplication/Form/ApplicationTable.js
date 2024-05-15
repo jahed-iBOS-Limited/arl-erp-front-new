@@ -23,6 +23,7 @@ const ApplicationTable = ({ empId }) => {
     <>
       {loading && <Loading />}
       <h6 className="my-2">Movement Application Table</h6>
+      <div className="table-responsive">
       <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table mr-1">
         <thead>
           <tr>
@@ -77,6 +78,7 @@ const ApplicationTable = ({ empId }) => {
           ))}
         </tbody>
       </table>
+      </div>
     </>
   );
 };

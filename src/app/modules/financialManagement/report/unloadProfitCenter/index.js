@@ -130,7 +130,8 @@ export default function UnallocatedProfitCenter() {
                   </div>
                 </div>
                 <div className="mt-2">
-                  <table className="table table-striped table-bordered bj-table bj-table-landing">
+                <div className="table-responsive">
+ <table className="table table-striped table-bordered bj-table bj-table-landing">
                     <thead>
                       <tr>
                         <th>SL</th>
@@ -161,6 +162,8 @@ export default function UnallocatedProfitCenter() {
                         ))}
                     </tbody>
                   </table>
+</div>
+                 
                 </div>
               </div>
             </Form>

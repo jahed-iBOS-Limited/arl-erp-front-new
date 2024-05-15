@@ -79,101 +79,115 @@ const InvoiceRecept = ({ printRef, invoiceData }) => {
           <p className="text-center bold table_header">
             {invoiceData[0]?.strInvoiceNo}
           </p>
-          <table className="table">
-            <thead>
-              <tr>
-                <th colspan="5" className="text-left">
-                  Name of company: {invoiceData[0]?.customerName}.
-                </th>
-                <th colspan="2" className="text-left">
-                  Ref: {invoiceData[0]?.referance}
-                </th>
-              </tr>
-              <tr>
-                <th
-                  colspan="5"
-                  className="text-left"
-                  style={{ backgroundColor: "rgba(128, 128, 128, 0.107)" }}
-                >
-                  Project Location: {invoiceData[0]?.projLocation}
-                </th>
-                <th colspan="2" className="text-left">
-                  Date: {_dateFormatter(new Date())}
-                  {/* Date: {_dateFormatter(invoiceData[0]?.deliveriDate)} */}
-                </th>
-              </tr>
+          <div className="table-responsive">
+            <table className="table">
+              <thead>
+                <tr>
+                  <th colspan="5" className="text-left">
+                    Name of company: {invoiceData[0]?.customerName}.
+                  </th>
+                  <th colspan="2" className="text-left">
+                    Ref: {invoiceData[0]?.referance}
+                  </th>
+                </tr>
+                <tr>
+                  <th
+                    colspan="5"
+                    className="text-left"
+                    style={{ backgroundColor: "rgba(128, 128, 128, 0.107)" }}
+                  >
+                    Project Location: {invoiceData[0]?.projLocation}
+                  </th>
+                  <th colspan="2" className="text-left">
+                    Date: {_dateFormatter(new Date())}
+                    {/* Date: {_dateFormatter(invoiceData[0]?.deliveriDate)} */}
+                  </th>
+                </tr>
 
-              <tr>
-                <th>SL</th>
-                <th
-                  style={{ minWidth: "90px", maxWidth: "90px", width: "90px" }}
-                >
-                  Casting Date
-                </th>
-                <th>Description</th>
-                <th>Total Quantity (CFT)</th>
-                <th>Total Quantity (CUM)</th>
-                <th>Rate/CFT (TK)</th>
-                <th>Total Amount (BDT)</th>
-                {/* <th>Order Number</th> */}
-              </tr>
-            </thead>
-            <tbody>
-              {invoiceData?.map((item, index) => {
-                totalDeliveryQtyCFT += item?.totalDeliveredQtyCFT;
-                totalDeliveryQtyCUM += item?.totalDeliveredQtyCUM;
-                totalAmount += item?.totalAmount;
-                return (
-                  <tr>
-                    <td className="text-center">{index + 1}</td>
-                    <td
-                      style={{
-                        minWidth: "90px !important",
-                      }}
-                      className="text-center"
-                    >
-                      {_dateFormatter(item?.deliveriDate)}
-                    </td>
-                    <td
-                      style={{
-                        minWidth: "192px",
-                      }}
-                      className="text-left"
-                    >
-                      {item?.itemName}
-                    </td>
-                    <td className="text-right">{item?.totalDeliveredQtyCFT}</td>
-                    <td className="text-right">{item?.totalDeliveredQtyCUM}</td>
-                    <td className="text-right">{item?.itemRate}</td>
-                    <td className="text-right">{item?.totalAmount}</td>
-                  </tr>
-                );
-              })}
-            </tbody>
-            <tfoot>
-              <tr>
-                <td colspan="3" className="text-right bold">
-                  Total
-                </td>
-                <td className="text-right">{totalDeliveryQtyCFT.toFixed(2)}</td>
-                <td className="text-right">{totalDeliveryQtyCUM.toFixed(2)}</td>
-                <td></td>
-                <td className="text-right">{totalAmount.toFixed(0)}</td>
-              </tr>
-              <tr>
-                <td colspan="7" className="bold">
-                  In Words:
-                  <span style={{ textTransform: "capitalize" }}>
-                    {" "}
-                    {toWords.convert(totalAmount.toFixed(0))}
-                    {/* {convertNumberToWords(totalAmount?.toFixed(0))}{" "} */}
-                    {/* {amountToWords(totalAmount?.toFixed(0))}{" "} */}
-                  </span>
-                  {/* TK Only */}
-                </td>
-              </tr>
-            </tfoot>
-          </table>
+                <tr>
+                  <th>SL</th>
+                  <th
+                    style={{
+                      minWidth: "90px",
+                      maxWidth: "90px",
+                      width: "90px",
+                    }}
+                  >
+                    Casting Date
+                  </th>
+                  <th>Description</th>
+                  <th>Total Quantity (CFT)</th>
+                  <th>Total Quantity (CUM)</th>
+                  <th>Rate/CFT (TK)</th>
+                  <th>Total Amount (BDT)</th>
+                  {/* <th>Order Number</th> */}
+                </tr>
+              </thead>
+              <tbody>
+                {invoiceData?.map((item, index) => {
+                  totalDeliveryQtyCFT += item?.totalDeliveredQtyCFT;
+                  totalDeliveryQtyCUM += item?.totalDeliveredQtyCUM;
+                  totalAmount += item?.totalAmount;
+                  return (
+                    <tr>
+                      <td className="text-center">{index + 1}</td>
+                      <td
+                        style={{
+                          minWidth: "90px !important",
+                        }}
+                        className="text-center"
+                      >
+                        {_dateFormatter(item?.deliveriDate)}
+                      </td>
+                      <td
+                        style={{
+                          minWidth: "192px",
+                        }}
+                        className="text-left"
+                      >
+                        {item?.itemName}
+                      </td>
+                      <td className="text-right">
+                        {item?.totalDeliveredQtyCFT}
+                      </td>
+                      <td className="text-right">
+                        {item?.totalDeliveredQtyCUM}
+                      </td>
+                      <td className="text-right">{item?.itemRate}</td>
+                      <td className="text-right">{item?.totalAmount}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="3" className="text-right bold">
+                    Total
+                  </td>
+                  <td className="text-right">
+                    {totalDeliveryQtyCFT.toFixed(2)}
+                  </td>
+                  <td className="text-right">
+                    {totalDeliveryQtyCUM.toFixed(2)}
+                  </td>
+                  <td></td>
+                  <td className="text-right">{totalAmount.toFixed(0)}</td>
+                </tr>
+                <tr>
+                  <td colspan="7" className="bold">
+                    In Words:
+                    <span style={{ textTransform: "capitalize" }}>
+                      {" "}
+                      {toWords.convert(totalAmount.toFixed(0))}
+                      {/* {convertNumberToWords(totalAmount?.toFixed(0))}{" "} */}
+                      {/* {amountToWords(totalAmount?.toFixed(0))}{" "} */}
+                    </span>
+                    {/* TK Only */}
+                  </td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
 
           <div className="note bold">
             <p>Note:</p>

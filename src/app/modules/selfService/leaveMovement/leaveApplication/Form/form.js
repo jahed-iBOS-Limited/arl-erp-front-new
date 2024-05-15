@@ -478,6 +478,7 @@ export default function _Form({
                     <>
                       {loader && <Loading />}
                       <h6 className="my-2">Leave Summary</h6>
+                      <div className="table-responsive">
                       <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
                         <thead>
                           <tr>
@@ -508,6 +509,7 @@ export default function _Form({
                           ))}
                         </tbody>
                       </table>
+                      </div>
                     </>
                   </div>
                 )}

@@ -200,7 +200,7 @@ const InputFields = ({ obj }) => {
             </div>
             <div
                className="d-flex align-items-center justify-content-end"
-               style={{ marginTop: '8px' }}
+               style={{ marginTop: '8px', flexWrap: 'wrap' , gap: '10px'}}
             >
                <button
                   type="button"

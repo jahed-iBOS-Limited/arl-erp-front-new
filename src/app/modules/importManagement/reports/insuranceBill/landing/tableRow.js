@@ -249,7 +249,7 @@ const TableRow = () => {
                       Show
                     </button>
                   </div>
-                  <div className="col-6 d-flex justify-content-end align-items-end">
+                  <div className="col-lg-6 d-flex justify-content-end align-items-end">
                     <button className="btn btn-primary ml-3">Attach Doc</button>
                     <button className="btn btn-primary ml-3">
                       Forward Bill

@@ -112,89 +112,93 @@ export default function MoneyReceiptSubmitLandingTable() {
                 {loading && <Loading />}
                 <div className="col-lg-12">
                   {values?.type?.value === 1 && (
-                    <table className="table table-striped table-bordered global-table">
-                      <thead>
-                        <tr>
-                          <th style={{ width: "40px" }}>SL</th>
-                          <th>Partner Name</th>
-                          <th>Partner Code</th>
-                          <th>Quantity</th>
-                          <th>Delivery Invoice Amount</th>
-                          <th>Salesforce Dues</th>
-                          <th>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {rowData?.map((item, index) => {
-                          return (
-                            <tr key={index}>
-                              <td> {index + 1}</td>
-                              <td>{item?.strSoldToPartnerName}</td>
-                              <td>{item?.strSoldToPartnerCode}</td>
-                              <td className="text-right">
-                                {_fixedPoint(item?.numQuantity, true, 0)}
-                              </td>
-                              <td className="text-right">
-                                {_fixedPoint(
-                                  item?.numDeliveryInvoiceAmount,
-                                  true
-                                )}
-                              </td>
-                              <td className="text-right">
-                                {_fixedPoint(
-                                  item?.numDeliveryInvoiceAmount,
-                                  true
-                                )}
-                              </td>
+                    <div className="table-responsive">
+                      <table className="table table-striped table-bordered global-table">
+                        <thead>
+                          <tr>
+                            <th style={{ width: "40px" }}>SL</th>
+                            <th>Partner Name</th>
+                            <th>Partner Code</th>
+                            <th>Quantity</th>
+                            <th>Delivery Invoice Amount</th>
+                            <th>Salesforce Dues</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {rowData?.map((item, index) => {
+                            return (
+                              <tr key={index}>
+                                <td> {index + 1}</td>
+                                <td>{item?.strSoldToPartnerName}</td>
+                                <td>{item?.strSoldToPartnerCode}</td>
+                                <td className="text-right">
+                                  {_fixedPoint(item?.numQuantity, true, 0)}
+                                </td>
+                                <td className="text-right">
+                                  {_fixedPoint(
+                                    item?.numDeliveryInvoiceAmount,
+                                    true
+                                  )}
+                                </td>
+                                <td className="text-right">
+                                  {_fixedPoint(
+                                    item?.numDeliveryInvoiceAmount,
+                                    true
+                                  )}
+                                </td>
 
-                              <td>
-                                <div className="d-flex justify-content-around">
-                                  <span className="text-center">
-                                    <ICon
-                                      title={"Payment Collection"}
-                                      onClick={() => {
-                                        history.push({
-                                          pathname: `/financial-management/invoicemanagement-system/moneyreceiptsubmit/collection`,
-                                          state: values,
-                                        });
-                                      }}
-                                    >
-                                      <i class="fas fa-money-bill-alt"></i>
-                                    </ICon>
-                                  </span>
-                                </div>
-                              </td>
-                            </tr>
-                          );
-                        })}
-                      </tbody>
-                    </table>
+                                <td>
+                                  <div className="d-flex justify-content-around">
+                                    <span className="text-center">
+                                      <ICon
+                                        title={"Payment Collection"}
+                                        onClick={() => {
+                                          history.push({
+                                            pathname: `/financial-management/invoicemanagement-system/moneyreceiptsubmit/collection`,
+                                            state: values,
+                                          });
+                                        }}
+                                      >
+                                        <i class="fas fa-money-bill-alt"></i>
+                                      </ICon>
+                                    </span>
+                                  </div>
+                                </td>
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      </table>
+                    </div>
                   )}
                   {values?.type?.value === 2 && (
-                    <table className="table table-striped table-bordered global-table">
-                      <thead>
-                        <tr>
-                          <th style={{ width: "40px" }}>SL</th>
-                          <th>Deposit Date</th>
-                          <th>Count</th>
-                          <th>Amount</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {rowData?.map((item, index) => {
-                          return (
-                            <tr key={index}>
-                              <td> {index + 1}</td>
-                              <td>{_dateFormatter(item?.depositDate)}</td>
-                              <td>{item?.count}</td>
-                              <td className="text-right">
-                                {_fixedPoint(item?.amount, true)}
-                              </td>
-                            </tr>
-                          );
-                        })}
-                      </tbody>
-                    </table>
+                    <div className="table-responsive">
+                      <table className="table table-striped table-bordered global-table">
+                        <thead>
+                          <tr>
+                            <th style={{ width: "40px" }}>SL</th>
+                            <th>Deposit Date</th>
+                            <th>Count</th>
+                            <th>Amount</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {rowData?.map((item, index) => {
+                            return (
+                              <tr key={index}>
+                                <td> {index + 1}</td>
+                                <td>{_dateFormatter(item?.depositDate)}</td>
+                                <td>{item?.count}</td>
+                                <td className="text-right">
+                                  {_fixedPoint(item?.amount, true)}
+                                </td>
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      </table>
+                    </div>
                   )}
                 </div>
                 {/* {gridData?.data?.length > 0 && (

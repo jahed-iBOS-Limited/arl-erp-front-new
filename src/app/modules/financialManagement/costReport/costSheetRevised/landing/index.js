@@ -167,7 +167,8 @@ function CostSheetRevisedLanding() {
                         {getDateNumber(obj?.toDate)}
                       </h5>
                     </div>
-                    <table className="table table-striped table-bordered bj-table bj-table-landing"  id="table-to-xlsx">
+                    <div className="table-responsive">
+<table className="table table-striped table-bordered bj-table bj-table-landing"  id="table-to-xlsx">
                       <thead>
                         <tr>
                           <th>Particulars</th>
@@ -227,6 +228,8 @@ function CostSheetRevisedLanding() {
                         </tr>
                       </tbody>
                     </table>
+          </div>
+                    
                   </div>
                 )}
               </Form>

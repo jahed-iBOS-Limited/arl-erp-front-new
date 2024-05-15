@@ -68,42 +68,44 @@ const ViewModal = ({ clickedItem, landingValues }) => {
 
               <div className="mt-2">
                 <b>Previous Repay List</b>
-                <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing mr-1">
-                  <thead>
-                    <tr>
-                      <th>SL</th>
-                      <th>Transaction Date</th>
-                      <th>Acount No</th>
-                      <th>Amount</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {rowData?.map((item, index) => (
-                      <tr key={index}>
-                        <td>{index + 1}</td>
-                        <td>{_dateFormatter(item?.transactionDate)}</td>
-                        <td>{item?.bankAccountNo}</td>
+                <div className="table-responsive">
+                  <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing mr-1">
+                    <thead>
+                      <tr>
+                        <th>SL</th>
+                        <th>Transaction Date</th>
+                        <th>Acount No</th>
+                        <th>Amount</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {rowData?.map((item, index) => (
+                        <tr key={index}>
+                          <td>{index + 1}</td>
+                          <td>{_dateFormatter(item?.transactionDate)}</td>
+                          <td>{item?.bankAccountNo}</td>
+                          <td className="text-right">
+                            {_formatMoney(item?.amount)}
+                          </td>
+                        </tr>
+                      ))}
+                      <tr>
+                        <td colSpan="3" className="text-right">
+                          <b>Balance</b>
+                        </td>
                         <td className="text-right">
-                          {_formatMoney(item?.amount)}
+                          <b>
+                            {_formatMoney(
+                              rowData?.reduce((acc, curr) => {
+                                return acc + curr?.amount;
+                              }, 0)
+                            )}
+                          </b>
                         </td>
                       </tr>
-                    ))}
-                    <tr>
-                      <td colSpan="3" className="text-right">
-                        <b>Balance</b>
-                      </td>
-                      <td className="text-right">
-                        <b>
-                          {_formatMoney(
-                            rowData?.reduce((acc, curr) => {
-                              return acc + curr?.amount;
-                            }, 0)
-                          )}
-                        </b>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+                    </tbody>
+                  </table>
+                </div>
               </div>
 
               <button

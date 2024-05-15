@@ -255,6 +255,8 @@ export default function SalesIncentiveForm() {
                         </th>
                         <th>Sl</th>
                         <th>Employee</th>
+                        <th>Enroll</th>
+                        <th>Designation</th>
                         <th>Region</th>
                         <th>Area</th>
                         <th>Territory</th>
@@ -284,6 +286,12 @@ export default function SalesIncentiveForm() {
                             <td className="text-center">{index + 1}</td>
                             <td className="text-center">
                               {item?.strEmployeeName}
+                            </td>
+                            <td className="text-center">
+                              {item?.intEmployeeId}
+                            </td>
+                            <td className="text-center">
+                              {item?.strDesignation}
                             </td>
                             <td className="text-center">{item?.strRegoin}</td>
                             <td className="text-center">{item?.strArea}</td>

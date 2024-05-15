@@ -92,7 +92,8 @@ function ItemBomCost() {
                 </div> */}
                 <div className="row mt-5">
                   <div className="col-lg-12">
-                    <table className="table table-striped table-bordered bj-table bj-table-landing">
+                  <div className="table-responsive">
+  <table className="table table-striped table-bordered bj-table bj-table-landing">
                       <thead>
                         <tr>
                           <th>SL</th>
@@ -131,6 +132,8 @@ function ItemBomCost() {
                           ))}
                       </tbody>
                     </table>
+</div>
+                  
                   </div>
                 </div>
               </CardBody>

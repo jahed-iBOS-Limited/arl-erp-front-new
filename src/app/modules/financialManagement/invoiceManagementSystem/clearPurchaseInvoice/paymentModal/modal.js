@@ -430,81 +430,84 @@ export default function PaymentModal({
                 </div>
 
                 {/* Transaction Item Table */}
-
-                <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
-                  <thead>
-                    <tr>
-                      <th style={{ width: "70px" }}>GL Code</th>
-                      <th style={{ width: "70px" }}>GL Name</th>
-                      <th style={{ width: "85px" }}>Transaction</th>
-                      <th style={{ width: "60px" }}>Amount</th>
-                      <th style={{ width: "60px" }}>Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {glGridData.map((item, index) => (
+                <div className="table-responsive">
+                  <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
+                    <thead>
                       <tr>
-                        <td>
-                          <div className="pl-2">{item.glCode}</div>
-                        </td>
-                        <td>
-                          <div className="pl-2">{item.glName}</div>
-                        </td>
-                        <td>
-                          <div className="pl-2">NA</div>
-                        </td>
-                        {index === 0 ? (
-                          <td>
-                            <div className="text-right pr-2">
-                              {values?.amount}
-                            </div>
-                          </td>
-                        ) : (
-                          <td>
-                            <div className="text-right pr-2">
-                              {rowDto.length > 0
-                                ? calculateTotalAmount(values.amount)
-                                : values.amount * Math.sign(-1)}
-                            </div>
-                          </td>
-                        )}
-                        <td>
-                          <div className="pl-2"></div>
-                        </td>
+                        <th style={{ width: "70px" }}>GL Code</th>
+                        <th style={{ width: "70px" }}>GL Name</th>
+                        <th style={{ width: "85px" }}>Transaction</th>
+                        <th style={{ width: "60px" }}>Amount</th>
+                        <th style={{ width: "60px" }}>Action</th>
                       </tr>
-                    ))}
+                    </thead>
+                    <tbody>
+                      {glGridData.map((item, index) => (
+                        <tr>
+                          <td>
+                            <div className="pl-2">{item.glCode}</div>
+                          </td>
+                          <td>
+                            <div className="pl-2">{item.glName}</div>
+                          </td>
+                          <td>
+                            <div className="pl-2">NA</div>
+                          </td>
+                          {index === 0 ? (
+                            <td>
+                              <div className="text-right pr-2">
+                                {values?.amount}
+                              </div>
+                            </td>
+                          ) : (
+                            <td>
+                              <div className="text-right pr-2">
+                                {rowDto.length > 0
+                                  ? calculateTotalAmount(values.amount)
+                                  : values.amount * Math.sign(-1)}
+                              </div>
+                            </td>
+                          )}
+                          <td>
+                            <div className="pl-2"></div>
+                          </td>
+                        </tr>
+                      ))}
 
-                    {rowDto?.map((item, index) => (
-                      <tr key={index}>
-                        <td>
-                          <div className="pl-2">{item.glCode}</div>
-                        </td>
-                        <td>
-                          <div className="pl-2">{item.glName}</div>
-                        </td>
-                        <td>
-                          <div className="pl-2">{item.transaction} </div>
-                        </td>
-                        <td>
-                          <div className="text-right pr-2">{item.amount} </div>
-                        </td>
-                        <td>
-                          <div className="d-flex justify-content-around">
-                            <span
-                              className="edit"
-                              onClick={() => {
-                                remover(index);
-                              }}
-                            >
-                              <IDelete />
-                              {/* <IDelete /> */}
-                            </span>
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+                      {rowDto?.map((item, index) => (
+                        <tr key={index}>
+                          <td>
+                            <div className="pl-2">{item.glCode}</div>
+                          </td>
+                          <td>
+                            <div className="pl-2">{item.glName}</div>
+                          </td>
+                          <td>
+                            <div className="pl-2">{item.transaction} </div>
+                          </td>
+                          <td>
+                            <div className="text-right pr-2">
+                              {item.amount}{" "}
+                            </div>
+                          </td>
+                          <td>
+                            <div className="d-flex justify-content-around">
+                              <span
+                                className="edit"
+                                onClick={() => {
+                                  remover(index);
+                                }}
+                              >
+                                <IDelete />
+                                {/* <IDelete /> */}
+                              </span>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
 
                 {/* <button
                   className="btn btn-primary"

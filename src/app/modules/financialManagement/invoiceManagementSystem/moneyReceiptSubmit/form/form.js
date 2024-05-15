@@ -186,42 +186,44 @@ export default function _Form({
                   </button>
                 </div>
               </div>
-              <table className="table table-striped table-bordered global-table">
-                <thead>
-                  <tr>
-                    <th style={{ width: "40px" }}>SL</th>
-                    <th>Delivery Code</th>
-                    <th>Completion Date</th>
-                    <th>Quantity</th>
-                    <th>Delivery Invoice Amount</th>
-                    <th>Salesforce Dues</th>
-                    <th>Amount</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {rowData?.map((item, index) => {
-                    return (
-                      <tr key={index}>
-                        <td> {index + 1}</td>
-                        <td>{item?.strdeliverycode}</td>
-                        <td>{_dateFormatter(item?.dteCompleteDate)}</td>
-                        <td className="text-right">
-                          {_fixedPoint(item?.numQuantity, true, 0)}
-                        </td>
-                        <td className="text-right">
-                          {_fixedPoint(item?.numDeliveryInvoiceAmount, true)}
-                        </td>
-                        <td className="text-right">
-                          {_fixedPoint(item?.monSalesForceDues, true)}
-                        </td>
-                        <td className="text-right">
-                          {_fixedPoint(item?.amount, true)}
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
+              <div className="table-responsive">
+                <table className="table table-striped table-bordered global-table">
+                  <thead>
+                    <tr>
+                      <th style={{ width: "40px" }}>SL</th>
+                      <th>Delivery Code</th>
+                      <th>Completion Date</th>
+                      <th>Quantity</th>
+                      <th>Delivery Invoice Amount</th>
+                      <th>Salesforce Dues</th>
+                      <th>Amount</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {rowData?.map((item, index) => {
+                      return (
+                        <tr key={index}>
+                          <td> {index + 1}</td>
+                          <td>{item?.strdeliverycode}</td>
+                          <td>{_dateFormatter(item?.dteCompleteDate)}</td>
+                          <td className="text-right">
+                            {_fixedPoint(item?.numQuantity, true, 0)}
+                          </td>
+                          <td className="text-right">
+                            {_fixedPoint(item?.numDeliveryInvoiceAmount, true)}
+                          </td>
+                          <td className="text-right">
+                            {_fixedPoint(item?.monSalesForceDues, true)}
+                          </td>
+                          <td className="text-right">
+                            {_fixedPoint(item?.amount, true)}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
             </Form>
           </ICustomCard>
         )}

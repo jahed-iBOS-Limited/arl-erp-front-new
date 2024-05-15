@@ -270,74 +270,75 @@ const MovementApprovalGrid = () => {
             </Form>
             {/* Table Start */}
             {newApplicationData?.data?.length > 0 && (
-              <table className="table table-striped table-bordered bj-table bj-table-landing">
-                <thead>
-                  <tr>
-                    {values?.applicationType?.value === 1 && (
-                      <th style={{ width: "20px" }}>
-                        <input
-                          type="checkbox"
-                          id="parent"
-                          onChange={(event) => {
-                            allGridCheck(event.target.checked);
-                          }}
-                        />
-                      </th>
-                    )}
+              <div className="table-responsive">
+                <table className="table table-striped table-bordered bj-table bj-table-landing">
+                  <thead>
+                    <tr>
+                      {values?.applicationType?.value === 1 && (
+                        <th style={{ width: "20px" }}>
+                          <input
+                            type="checkbox"
+                            id="parent"
+                            onChange={(event) => {
+                              allGridCheck(event.target.checked);
+                            }}
+                          />
+                        </th>
+                      )}
 
-                    <th>SL</th>
-                    <th>Name</th>
-                    <th>From-Date</th>
-                    <th>To-Date</th>
-                    <th>Leave Type</th>
-                    <th>Total Days</th>
-                    {/* {values?.applicationType?.value === 1 ? (
+                      <th>SL</th>
+                      <th>Name</th>
+                      <th>From-Date</th>
+                      <th>To-Date</th>
+                      <th>Leave Type</th>
+                      <th>Total Days</th>
+                      {/* {values?.applicationType?.value === 1 ? (
                         <th>Actions</th>
                       ) : null} */}
-                  </tr>
-                </thead>
-                <tbody>
-                  {newApplicationData?.data?.length > 0 &&
-                    rowDto?.map((data, index) => (
-                      <tr key={index}>
-                        {values?.applicationType?.value === 1 && (
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {newApplicationData?.data?.length > 0 &&
+                      rowDto?.map((data, index) => (
+                        <tr key={index}>
+                          {values?.applicationType?.value === 1 && (
+                            <td>
+                              <input
+                                id="itemCheck"
+                                type="checkbox"
+                                className=""
+                                value={data.itemCheck}
+                                checked={data.itemCheck}
+                                name={data.itemCheck}
+                                onChange={(e) => {
+                                  itemSlectedHandler(e.target.checked, index);
+                                }}
+                              />
+                            </td>
+                          )}
+                          <td>{index + 1}</td>
                           <td>
-                            <input
-                              id="itemCheck"
-                              type="checkbox"
-                              className=""
-                              value={data.itemCheck}
-                              checked={data.itemCheck}
-                              name={data.itemCheck}
-                              onChange={(e) => {
-                                itemSlectedHandler(e.target.checked, index);
-                              }}
-                            />
+                            <div className="pl-2">{data?.employeeName}</div>
                           </td>
-                        )}
-                        <td>{index + 1}</td>
-                        <td>
-                          <div className="pl-2">{data?.employeeName}</div>
-                        </td>
-                        <td>
-                          <div className="text-center pr-2">
-                            {_dateFormatter(data?.startDate)}
-                          </div>
-                        </td>
-                        <td>
-                          <div className="text-center pr-2">
-                            {_dateFormatter(data?.endDate)}
-                          </div>
-                        </td>
-                        <td>
-                          <div className="pl-2">{data.moveType}</div>
-                        </td>
-                        <td>
-                          <div className="text-center pr-2">
-                            {data.totalDays}
-                          </div>
-                        </td>
-                        {/* {values?.applicationType?.value === 1 && (
+                          <td>
+                            <div className="text-center pr-2">
+                              {_dateFormatter(data?.startDate)}
+                            </div>
+                          </td>
+                          <td>
+                            <div className="text-center pr-2">
+                              {_dateFormatter(data?.endDate)}
+                            </div>
+                          </td>
+                          <td>
+                            <div className="pl-2">{data.moveType}</div>
+                          </td>
+                          <td>
+                            <div className="text-center pr-2">
+                              {data.totalDays}
+                            </div>
+                          </td>
+                          {/* {values?.applicationType?.value === 1 && (
                             <td>
                               <div className="d-flex justify-content-center">
                                 <span
@@ -376,10 +377,11 @@ const MovementApprovalGrid = () => {
                               </div>
                             </td>
                           )} */}
-                      </tr>
-                    ))}
-                </tbody>
-              </table>
+                        </tr>
+                      ))}
+                  </tbody>
+                </table>
+              </div>
             )}
             {newApplicationData?.data?.length > 0 && (
               <PaginationTable
