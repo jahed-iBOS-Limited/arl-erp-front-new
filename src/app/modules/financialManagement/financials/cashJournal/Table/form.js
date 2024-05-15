@@ -180,7 +180,6 @@ export default function HeaderForm({
                   }}
                 >
                   <div className="row m-0 align-items-stretch">
-                    <div></div>
                     {/* box-one start */}
                     <div className="col-lg-9 p-0">
                       <div

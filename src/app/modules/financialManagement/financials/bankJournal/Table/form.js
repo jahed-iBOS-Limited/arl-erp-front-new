@@ -115,7 +115,7 @@ export default function HeaderForm({
     setTypeStatus(initData?.type);
   }, [initData]);
 
-  const setPositionHandler = (pageNo, pageSize,values) => {
+  const setPositionHandler = (pageNo, pageSize, values) => {
     gridDataLoad(
       values.sbu.value,
       values?.accountingJournalTypeId?.value,
@@ -156,8 +156,7 @@ export default function HeaderForm({
                           setBankJournalLandingAction({ ...values, code: "" })
                         );
                         history.push({
-                          pathname:
-                            `${window.location.pathname}/create`,
+                          pathname: `${window.location.pathname}/create`,
                           state: {
                             selectedJournal: values.accountingJournalTypeId,
                             selectedSbu: values.sbu,
@@ -171,291 +170,279 @@ export default function HeaderForm({
                     </button>
                   </CardHeaderToolbar>
                 </CardHeader>
-                <CardBody>
-                  <div className="row">
-                    <div className="col-lg-12">
-                      <div className="content_box d-flex">
-                        {/* box-one start */}
+                <CardBody
+                  style={{
+                    padding: "10px",
+                  }}
+                >
+                  <div className="row m-0 align-items-stretch">
+                    {/* box-one start */}
+                    <div className="col-lg-9 p-0">
+                      <div className="row m-0 bank-journal bank-journal-custom bj-left pb-2">
+                        <div className="col-lg-4 p-0 pr-1">
+                          <label>Select SBU</label>
+                          <Select
+                            onChange={(valueOption) => {
+                              setFieldValue("sbu", valueOption);
+                              setRowDto([]);
+                            }}
+                            options={sbuDDl || []}
+                            value={values?.sbu}
+                            isSearchable={true}
+                            styles={customStyles}
+                            placeholder="SBU"
+                            name="sbu"
+                          />
+                          <FormikError
+                            errors={errors}
+                            name="sbu"
+                            touched={touched}
+                          />
+                        </div>
+                        <div className="col-lg-4 p-0 pr-1">
+                          <label>Select Journal Type</label>
+                          <Select
+                            label="Select Journal Type"
+                            options={journalTypeDDL || []}
+                            value={values.accountingJournalTypeId}
+                            name="accountingJournalTypeId"
+                            setFieldValue={setFieldValue}
+                            errors={errors}
+                            touched={touched}
+                            isSearchable={true}
+                            styles={customStyles}
+                            placeholder="Journal Type"
+                            onChange={(valueOption) => {
+                              setFieldValue(
+                                "accountingJournalTypeId",
+                                valueOption
+                              );
+                              setRowDto([]);
+                            }}
+                          />
+                          <FormikError
+                            errors={errors}
+                            name="accountingJournalTypeId"
+                            touched={touched}
+                          />
+                        </div>
                         <div
-                          className="box_one mr-2"
-                          style={{ width: "620px" }}
+                          className="col-lg-4 p-0 pr-1"
+                          style={{ position: "relative" }}
                         >
-                          <div
+                          <span style={{ paddingRight: "10px" }}>
+                            Journal Code
+                          </span>
+                          <IInput value={values.code} name="code" />
+
+                          <i
+                            class="fas fa-search"
                             style={{
-                              paddingBottom: "1px",
-                              marginLeft: "-13px",
-                              paddingLeft: ".50rem",
-                              paddingRight: ".50rem",
+                              position: "absolute",
+                              right: "4px",
+                              top: "21px",
+                              fontSize: "13px",
                             }}
-                            className="d-flex mt-3 bank-journal bank-journal-custom bj-left"
-                          >
-                            <div style={{ width: "175px" }} className="mr-2">
-                              <label>Select SBU</label>
-                              <Select
-                                onChange={(valueOption) => {
-                                  setFieldValue("sbu", valueOption);
-                                  setRowDto([]);
-                                }}
-                                options={sbuDDl || []}
-                                value={values?.sbu}
-                                isSearchable={true}
-                                styles={customStyles}
-                                placeholder="SBU"
-                                name="sbu"
-                              />
-                              <FormikError
-                                errors={errors}
-                                name="sbu"
-                                touched={touched}
-                              />
-                            </div>
-                            <div className="mr-2" style={{ width: "175px" }}>
-                              <label>Select Journal Type</label>
-                              <Select
-                                label="Select Journal Type"
-                                options={journalTypeDDL || []}
-                                value={values.accountingJournalTypeId}
-                                name="accountingJournalTypeId"
-                                setFieldValue={setFieldValue}
-                                errors={errors}
-                                touched={touched}
-                                isSearchable={true}
-                                styles={customStyles}
-                                placeholder="Journal Type"
-                                onChange={(valueOption) => {
-                                  setFieldValue(
-                                    "accountingJournalTypeId",
-                                    valueOption
-                                  );
-                                  setRowDto([]);
-                                }}
-                              />
-                              <FormikError
-                                errors={errors}
-                                name="accountingJournalTypeId"
-                                touched={touched}
-                              />
-                            </div>
-                            <div
-                              className="mr-2"
-                              style={{ width: "175px", position: "relative" }}
-                            >
-                              <span style={{ paddingRight: "10px" }}>
-                                Journal Code
-                              </span>
-                              <IInput value={values.code} name="code" />
+                          ></i>
+                        </div>
 
-                              <i
-                                class="fas fa-search"
-                                style={{
-                                  position: "absolute",
-                                  right: "4px",
-                                  top: "21px",
-                                  fontSize: "13px",
-                                }}
-                              ></i>
-                            </div>
-                            <div
-                              className="text-right"
-                              style={{ marginTop: "9px" }}
-                            >
-                              <button
-                                type="submit"
-                                className="btn btn-primary"
-                                onClick={() => {
-                                  dispatch(
-                                    setBankJournalLandingAction({
-                                      ...values,
-                                      code: "",
-                                    })
-                                  );
-                                  if (!values.code) {
-                                    gridDataLoad(
-                                      values.sbu.value,
-                                      values?.accountingJournalTypeId?.value,
-                                      values.fromDate,
-                                      values.toDate,
-                                      values.type,
-                                      pageNo,
-                                      pageSize
-                                    );
-                                  } else {
-                                    dispatch(
-                                      getBankJournalGridDatabyCode(
-                                        selectedBusinessUnit.value,
-                                        values,
-                                        setFieldValue,
-                                        values?.accountingJournalTypeId?.value,
-                                      )
-                                    );
-                                  }
-                                }}
-                              >
-                                View
-                              </button>
-                            </div>
-                          </div>
-                          <div
-                            style={{
-                              paddingBottom: "4px",
-                              marginLeft: "-13px",
-                              paddingLeft: ".50rem",
-                              paddingRight: ".50rem",
-                            }}
-                            className="d-flex bank-journal bank-journal-custom cashJournal_buttom"
-                          >
-                            <div
-                              style={{ width: "175px" }}
-                              className="mr-2 bank-journal bank-journal-custom bank-journal-date d-flex align-items-center"
-                            >
-                              <div style={{ width: "80px" }}>From Date</div>
-                              <input
-                                className="trans-date cj-landing-date"
-                                value={values?.fromDate}
-                                name="fromDate"
-                                onChange={(e) => {
-                                  setFieldValue("fromDate", e.target.value);
-                                }}
-                                type="date"
-                              />
-                            </div>
-
-                            <div
-                              style={{ width: "175px" }}
-                              className="mr-2 bank-journal bank-journal-custom bank-journal-date d-flex align-items-center"
-                            >
-                              <div style={{ width: "80px" }}>To Date</div>
-                              <input
-                                className="trans-date cj-landing-date"
-                                value={values?.toDate}
-                                name="toDate"
-                                onChange={(e) => {
-                                  setFieldValue("toDate", e.target.value);
-                                }}
-                                type="date"
-                              />
-                            </div>
-                            <div
-                              role="group"
-                              aria-labelledby="my-radio-group"
-                              className="d-flex justify-content-between align-items-center cashJournalCheckbox"
-                            >
-                              {/* style={{width: "105px"}} */}
-                              <label>
-                                <input
-                                  type="radio"
-                                  name="type"
-                                  checked={values.type === "notComplated"}
-                                  className="mr-1 pointer"
-                                  onChange={(e) => {
-                                    setFieldValue("searchEmployee", {
-                                      value: profileData.userId,
-                                      label: profileData.userName,
-                                    });
-                                    setTypeStatus("notComplated");
-                                    setFieldValue("type", "notComplated");
-                                    setRowDto([]);
-                                    dispatch(
-                                      getBankJournalGridData(
-                                        selectedBusinessUnit.value,
-                                        values?.sbu?.value,
-                                        values?.accountingJournalTypeId?.value,
-                                        false,
-                                        true,
-                                        values.fromDate,
-                                        values.toDate,
-                                        setLanding,
-                                        pageNo,
-                                        pageSize
-                                      )
-                                      //accId, buId, sbuId, accJournalTypeId, isPosted, //isActive, fromdate, todate
-                                    );
-                                  }}
-                                />
-                                Not Completed
-                              </label>
-                              <label>
-                                <input
-                                  type="radio"
-                                  name="type"
-                                  checked={values.type === "complated"}
-                                  className="mr-1 pointer"
-                                  onChange={(e) => {
-                                    setTypeStatus("complated");
-                                    setFieldValue("type", "complated");
-                                    setRowDto([]);
-                                    dispatch(
-                                      getBankJournalGridData(
-                                        selectedBusinessUnit.value,
-                                        values?.sbu?.value,
-                                        values?.accountingJournalTypeId?.value,
-                                        true,
-                                        true,
-                                        values.fromDate,
-                                        values.toDate,
-                                        setLanding,
-                                        pageNo,
-                                        pageSize
-                                      )
-                                      //accId, buId, sbuId, accJournalTypeId, isPosted, //isActive, fromdate, todate
-                                    );
-                                  }}
-                                />
-                                Completed
-                              </label>
-
-                              <label>
-                                <input
-                                  type="radio"
-                                  name="type"
-                                  checked={values.type === "canceled"}
-                                  className="mr-1 pointer"
-                                  onChange={(e) => {
-                                    setTypeStatus("canceled");
-                                    setFieldValue("type", "canceled");
-                                    setRowDto([]);
-                                    dispatch(
-                                      getBankJournalGridData(
-                                        selectedBusinessUnit.value,
-                                        values.sbu.value,
-                                        values?.accountingJournalTypeId?.value,
-                                        false,
-                                        false,
-                                        values.fromDate,
-                                        values.toDate,
-                                        setLanding,
-                                        pageNo,
-                                        pageSize
-                                      )
-                                      //accId, buId, sbuId, accJournalTypeId, isPosted, //isActive, fromdate, todate
-                                    );
-                                  }}
-                                />
-                                Canceled
-                              </label>
-                            </div>
+                        <div className="col-lg-3 p-0 pr-1">
+                          <div className="bank-journal-date">
+                            <div>From Date</div>
+                            <input
+                              className="trans-date cj-landing-date"
+                              value={values?.fromDate}
+                              name="fromDate"
+                              onChange={(e) => {
+                                setFieldValue("fromDate", e.target.value);
+                              }}
+                              type="date"
+                            />
                           </div>
                         </div>
-                        {/* box-one-end */}
-
-                        {/* box-three-start */}
+                        <div className="col-lg-3 p-0 pr-1">
+                          <div className="bank-journal-date">
+                            <div>To Date</div>
+                            <input
+                              className="trans-date cj-landing-date"
+                              value={values?.toDate}
+                              name="toDate"
+                              onChange={(e) => {
+                                setFieldValue("toDate", e.target.value);
+                              }}
+                              type="date"
+                            />
+                          </div>
+                        </div>
                         <div
-                          className="box_three ml-2"
-                          style={{ width: "max-content" }}
+                          className="col-lg-6 cashJournal_buttom"
+                          style={{
+                            display: "flex",
+                            alignContent: "end",
+                          }}
+                        >
+                          <div
+                            role="group"
+                            aria-labelledby="my-radio-group"
+                            className="d-flex justify-content-between align-items-end cashJournalCheckbox"
+                          >
+                            {/* style={{width: "105px"}} */}
+                            <label>
+                              <input
+                                type="radio"
+                                name="type"
+                                checked={values.type === "notComplated"}
+                                className="mr-1 pointer"
+                                onChange={(e) => {
+                                  setFieldValue("searchEmployee", {
+                                    value: profileData.userId,
+                                    label: profileData.userName,
+                                  });
+                                  setTypeStatus("notComplated");
+                                  setFieldValue("type", "notComplated");
+                                  setRowDto([]);
+                                  dispatch(
+                                    getBankJournalGridData(
+                                      selectedBusinessUnit.value,
+                                      values?.sbu?.value,
+                                      values?.accountingJournalTypeId?.value,
+                                      false,
+                                      true,
+                                      values.fromDate,
+                                      values.toDate,
+                                      setLanding,
+                                      pageNo,
+                                      pageSize
+                                    )
+                                    //accId, buId, sbuId, accJournalTypeId, isPosted, //isActive, fromdate, todate
+                                  );
+                                }}
+                              />
+                              Not Completed
+                            </label>
+                            <label>
+                              <input
+                                type="radio"
+                                name="type"
+                                checked={values.type === "complated"}
+                                className="mr-1 pointer"
+                                onChange={(e) => {
+                                  setTypeStatus("complated");
+                                  setFieldValue("type", "complated");
+                                  setRowDto([]);
+                                  dispatch(
+                                    getBankJournalGridData(
+                                      selectedBusinessUnit.value,
+                                      values?.sbu?.value,
+                                      values?.accountingJournalTypeId?.value,
+                                      true,
+                                      true,
+                                      values.fromDate,
+                                      values.toDate,
+                                      setLanding,
+                                      pageNo,
+                                      pageSize
+                                    )
+                                    //accId, buId, sbuId, accJournalTypeId, isPosted, //isActive, fromdate, todate
+                                  );
+                                }}
+                              />
+                              Completed
+                            </label>
+
+                            <label>
+                              <input
+                                type="radio"
+                                name="type"
+                                checked={values.type === "canceled"}
+                                className="mr-1 pointer"
+                                onChange={(e) => {
+                                  setTypeStatus("canceled");
+                                  setFieldValue("type", "canceled");
+                                  setRowDto([]);
+                                  dispatch(
+                                    getBankJournalGridData(
+                                      selectedBusinessUnit.value,
+                                      values.sbu.value,
+                                      values?.accountingJournalTypeId?.value,
+                                      false,
+                                      false,
+                                      values.fromDate,
+                                      values.toDate,
+                                      setLanding,
+                                      pageNo,
+                                      pageSize
+                                    )
+                                    //accId, buId, sbuId, accJournalTypeId, isPosted, //isActive, fromdate, todate
+                                  );
+                                }}
+                              />
+                              Canceled
+                            </label>
+                          </div>
+                        </div>
+                        <div className="col-lg-12"></div>
+                        <div className="col d-flex align-items-center p-2">
+                          <button
+                            type="submit"
+                            className="btn btn-primary"
+                            onClick={() => {
+                              dispatch(
+                                setBankJournalLandingAction({
+                                  ...values,
+                                  code: "",
+                                })
+                              );
+                              if (!values.code) {
+                                gridDataLoad(
+                                  values.sbu.value,
+                                  values?.accountingJournalTypeId?.value,
+                                  values.fromDate,
+                                  values.toDate,
+                                  values.type,
+                                  pageNo,
+                                  pageSize
+                                );
+                              } else {
+                                dispatch(
+                                  getBankJournalGridDatabyCode(
+                                    selectedBusinessUnit.value,
+                                    values,
+                                    setFieldValue,
+                                    values?.accountingJournalTypeId?.value
+                                  )
+                                );
+                              }
+                            }}
+                          >
+                            View
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="col-lg-3 p-0">
+                      <div
+                        className="bank-journal bank-journal-custom bj-left py-2"
+                        style={{ height: "100%" }}
+                      >
+                        <div
+                          className="row m-0"
+                          style={{
+                            gap: "10px",
+                          }}
                         >
                           <div
                             style={{
-                              paddingBottom: "30px",
-                              marginLeft: "-13px",
-                              paddingLeft: ".50rem",
-                              paddingRight: ".50rem",
+                              width: "5px",
+                              height: "100%",
+                              background: "white",
+                              position: "absolute",
+                              top: 0,
                             }}
-                            className="d-flex mt-3 bank-journal bank-journal-custom bj-left"
-                          >
-                            <div
-                              style={{ width: "100px" }}
-                              className="mr-2 bank-journal bank-journal-custom bank-journal-date"
-                            >
+                          ></div>
+                          <div className="col-lg-6">
+                            <div className="mr-2 bank-journal bank-journal-custom bank-journal-date">
                               <div>Complete Date</div>
                               <input
                                 className="trans-date cj-landing-date"
@@ -467,24 +454,23 @@ export default function HeaderForm({
                                 type="date"
                               />
                             </div>
-                            <div
-                              className="text-right"
-                              style={{ marginTop: "9px" }}
+                          </div>
+                          <div className="col-lg align-self-end">
+                            <button
+                              type="button"
+                              disabled={approval}
+                              className="btn btn-primary"
+                              onClick={() =>
+                                approvalHandler(
+                                  values.completeDate,
+                                  values?.accountingJournalTypeId
+                                )
+                              }
                             >
-                              <button
-                                type="button"
-                                disabled={approval}
-                                className="btn btn-primary"
-                                onClick={() =>
-                                  approvalHandler(values.completeDate, values?.accountingJournalTypeId)
-                                }
-                              >
-                                Complete
-                              </button>
-                            </div>
+                              Complete
+                            </button>
                           </div>
                         </div>
-                        {/* box-three-end */}
                       </div>
                     </div>
                   </div>
@@ -516,7 +502,21 @@ export default function HeaderForm({
                       setPositionHandler={setPositionHandler}
                       paginationState={{ ...paginationState }}
                       values={values}
-                      rowsPerPageOptions={[15, 25, 50, 75, 100, 200, 300, 400, 500, 1000, 1500, 2500, 5000]}
+                      rowsPerPageOptions={[
+                        15,
+                        25,
+                        50,
+                        75,
+                        100,
+                        200,
+                        300,
+                        400,
+                        500,
+                        1000,
+                        1500,
+                        2500,
+                        5000,
+                      ]}
                     />
                   )}
                 </CardBody>
