@@ -683,9 +683,12 @@ input[type="number"] {
   border: 1px solid darkgray;
 }
 
+
+
 table input[type="text"] {
   min-width: 80px;
 }
+
 table input[type="number"] {
   min-width: 80px;
 }
@@ -2874,8 +2877,11 @@ body {
   #kt_header_mobile_topbar_toggle .fa-user-circle {
     font-size: 20px !important;
   }
-
   .user-basic-info {
     margin-top: 9px;
+  }
+
+  table thead tr th {
+    min-width: 70px
   }
 }
