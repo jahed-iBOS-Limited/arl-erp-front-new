@@ -79,28 +79,30 @@ const VersionModal = ({ versionModalData }) => {
             </div>
 
             {gridData?.length > 0 ? (
-              <table className="global-table table">
-                <thead>
-                  <tr>
-                    <th>SL</th>
-                    <th>Item Name</th>
-                    <th>UoM Name</th>
-                    <th style={{ width: "100px" }}>Plan Quantity</th>
-                    <th style={{ width: "100px" }}>Entry Plan Quantity</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {gridData?.map((item, index) => (
-                    <tr key={index}>
-                      <td className="text-center">{index + 1}</td>
-                      <td className="pl-2">{item?.itemName}</td>
-                      <td className="pl-2">{item?.uomName}</td>
-                      <td className="text-right">{item?.itemPlanQty}</td>
-                      <td className="text-right">{item?.entryItemPlanQty}</td>
+              <div className="table-responsive">
+                <table className="global-table table">
+                  <thead>
+                    <tr>
+                      <th>SL</th>
+                      <th>Item Name</th>
+                      <th>UoM Name</th>
+                      <th style={{ width: "100px" }}>Plan Quantity</th>
+                      <th style={{ width: "100px" }}>Entry Plan Quantity</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {gridData?.map((item, index) => (
+                      <tr key={index}>
+                        <td className="text-center">{index + 1}</td>
+                        <td className="pl-2">{item?.itemName}</td>
+                        <td className="pl-2">{item?.uomName}</td>
+                        <td className="text-right">{item?.itemPlanQty}</td>
+                        <td className="text-right">{item?.entryItemPlanQty}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             ) : null}
           </>
         )}

@@ -158,40 +158,42 @@ function StockReportLanding() {
               </div>
               {gridData?.length > 0 && (
                 <div ref={printRef} className="col-lg-12 pr-0 pl-0">
-                  <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
-                    <thead>
-                      <tr>
-                        <th>SL</th>
-                        <th>Item Code</th>
-                        <th>Item Name</th>
-                        <th>UoM Name</th>
-                        <th>Block Stock</th>
-                        <th>Current Stock</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {gridData?.map((item, index) => (
-                        <tr key={index}>
-                          <td className="text-center">{index + 1}</td>
-                          <td className="text-right">
-                            <span className="pr-2">{item?.itemCode}</span>
-                          </td>
-                          <td className="text-left">
-                            <span className="pl-2">{item?.itemName}</span>
-                          </td>
-                          <td className="text-left">
-                            <span className="pl-2">{item?.uoMname}</span>
-                          </td>
-                          <td className="text-right">
-                            <span className="pr-2">{item?.blockStock}</span>
-                          </td>
-                          <td className="text-right">
-                            <span className="pr-2">{item?.currentStock}</span>
-                          </td>
+                  <div className="table-responsive">
+                    <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+                      <thead>
+                        <tr>
+                          <th>SL</th>
+                          <th>Item Code</th>
+                          <th>Item Name</th>
+                          <th>UoM Name</th>
+                          <th>Block Stock</th>
+                          <th>Current Stock</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody>
+                        {gridData?.map((item, index) => (
+                          <tr key={index}>
+                            <td className="text-center">{index + 1}</td>
+                            <td className="text-right">
+                              <span className="pr-2">{item?.itemCode}</span>
+                            </td>
+                            <td className="text-left">
+                              <span className="pl-2">{item?.itemName}</span>
+                            </td>
+                            <td className="text-left">
+                              <span className="pl-2">{item?.uoMname}</span>
+                            </td>
+                            <td className="text-right">
+                              <span className="pr-2">{item?.blockStock}</span>
+                            </td>
+                            <td className="text-right">
+                              <span className="pr-2">{item?.currentStock}</span>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               )}
             </>

@@ -5,10 +5,7 @@ import Select from "react-select";
 import customStyles from "../../../../selectCustomStyle";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  getLandingPlantDDL,
-  getSalesPlanLanding,
-} from "../helper";
+import { getLandingPlantDDL, getSalesPlanLanding } from "../helper";
 import IEdit from "../../../../_helper/_helperIcons/_edit";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import IViewModal from "../../../../_helper/_viewModal";
@@ -63,7 +60,7 @@ const SalesAndProductionTable = () => {
         setLoading
       );
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileData, selectedBusinessUnit, plant, year]);
 
   const createHandler = () => {
@@ -149,100 +146,102 @@ const SalesAndProductionTable = () => {
       </div>
 
       {gridData?.length > 0 && (
-        <table className="global-table table">
-          <>
-            <thead>
-              <tr>
-                <th>SL</th>
-                <th>Horizon Name</th>
-                <th>Start Date</th>
-                <th>End Date</th>
-                <th>Sales Plan Quantity</th>
-                <th>Production Plan Quantity</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {gridData?.map((item, index) => (
-                <tr key={index}>
-                  <td>{item?.sl}</td>
-                  <td>{item?.horizonName}</td>
-                  <td>{_dateFormatter(item?.startDate)}</td>
-                  <td>{_dateFormatter(item?.endDate)}</td>
-                  <td>{item?.planQTY}</td>
-                  <td>{item?.productionPlanQTY}</td>
-                  <td>
-                    <div className="d-flex justify-content-around">
-                      {/* Edit */}
-                      <span
-                        onClick={() =>
-                          history.push(
-                            `/production-management/salesAndOperationsPlanning/salesAndProductionPlan/edit/${item?.salesPlanId}`
-                          )
-                        }
-                      >
-                        <IEdit />
-                      </span>
-
-                      {/* Extend */}
-                      <span
-                        className="extend"
-                        onClick={() => {
-                          history.push(
-                            `/production-management/salesAndOperationsPlanning/salesAndProductionPlan/${plant.value}/${item?.salesPlanId}/createPP`
-                          );
-                        }}
-                      >
-                        <OverlayTrigger
-                          overlay={
-                            <Tooltip id="cs-icon">
-                              {"Create Production Plan"}
-                            </Tooltip>
-                          }
-                        >
-                          <span>
-                            <i className={`fa fa-arrows-alt`}></i>
-                          </span>
-                        </OverlayTrigger>
-                      </span>
-
-                      {/* View */}
-                      <span
-                        onClick={() =>
-                          history.push(
-                            `/production-management/salesAndOperationsPlanning/salesAndProductionPlan/view/${item?.salesPlanId}`
-                          )
-                        }
-                      >
-                        <span>
-                          <i className={`fa fa-eye`}></i>
-                        </span>
-                      </span>
-
-                      {/* version */}
-                      <span
-                        onClick={() => {
-                          setVersionModalShow(true);
-                          setVersionModalData(item);
-                        }}
-                      >
-                        <OverlayTrigger
-                          overlay={
-                            <Tooltip id="cs-icon">{"Log Version"}</Tooltip>
-                          }
-                        >
-                          <span>
-                            <i className={`fa fa-history`}></i>
-                          </span>
-                        </OverlayTrigger>
-                      </span>
-                    </div>
-                  </td>
+        <div className="table-responsive">
+          <table className="global-table table">
+            <>
+              <thead>
+                <tr>
+                  <th>SL</th>
+                  <th>Horizon Name</th>
+                  <th>Start Date</th>
+                  <th>End Date</th>
+                  <th>Sales Plan Quantity</th>
+                  <th>Production Plan Quantity</th>
+                  <th>Action</th>
                 </tr>
-              ))}
-            </tbody>
-          </>
-        </table>
+              </thead>
+              <tbody>
+                {gridData?.map((item, index) => (
+                  <tr key={index}>
+                    <td>{item?.sl}</td>
+                    <td>{item?.horizonName}</td>
+                    <td>{_dateFormatter(item?.startDate)}</td>
+                    <td>{_dateFormatter(item?.endDate)}</td>
+                    <td>{item?.planQTY}</td>
+                    <td>{item?.productionPlanQTY}</td>
+                    <td>
+                      <div className="d-flex justify-content-around">
+                        {/* Edit */}
+                        <span
+                          onClick={() =>
+                            history.push(
+                              `/production-management/salesAndOperationsPlanning/salesAndProductionPlan/edit/${item?.salesPlanId}`
+                            )
+                          }
+                        >
+                          <IEdit />
+                        </span>
+
+                        {/* Extend */}
+                        <span
+                          className="extend"
+                          onClick={() => {
+                            history.push(
+                              `/production-management/salesAndOperationsPlanning/salesAndProductionPlan/${plant.value}/${item?.salesPlanId}/createPP`
+                            );
+                          }}
+                        >
+                          <OverlayTrigger
+                            overlay={
+                              <Tooltip id="cs-icon">
+                                {"Create Production Plan"}
+                              </Tooltip>
+                            }
+                          >
+                            <span>
+                              <i className={`fa fa-arrows-alt`}></i>
+                            </span>
+                          </OverlayTrigger>
+                        </span>
+
+                        {/* View */}
+                        <span
+                          onClick={() =>
+                            history.push(
+                              `/production-management/salesAndOperationsPlanning/salesAndProductionPlan/view/${item?.salesPlanId}`
+                            )
+                          }
+                        >
+                          <span>
+                            <i className={`fa fa-eye`}></i>
+                          </span>
+                        </span>
+
+                        {/* version */}
+                        <span
+                          onClick={() => {
+                            setVersionModalShow(true);
+                            setVersionModalData(item);
+                          }}
+                        >
+                          <OverlayTrigger
+                            overlay={
+                              <Tooltip id="cs-icon">{"Log Version"}</Tooltip>
+                            }
+                          >
+                            <span>
+                              <i className={`fa fa-history`}></i>
+                            </span>
+                          </OverlayTrigger>
+                        </span>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </>
+          </table>
+        </div>
       )}
 
       <IViewModal

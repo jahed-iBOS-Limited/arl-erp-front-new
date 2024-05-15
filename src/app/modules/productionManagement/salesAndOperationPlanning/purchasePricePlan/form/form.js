@@ -431,72 +431,81 @@ export default function _Form({
                 </button>
               </div>
 
-              <table className="global-table table">
-                <thead>
-                  <tr>
-                    <th>SL</th>
-                    <th>Item Name</th>
-                    <th>Item Code</th>
-                    <th>UoM Name</th>
-                    <th>MRP Quantity</th>
-                    <th>Purchase Quantity</th>
-                    <th>Rate</th>
-                    {/* <th>Action</th> */}
-                  </tr>
-                </thead>
-                <tbody>
-                  {rowDto?.length > 0 &&
-                    rowDto?.map((item, index) => (
-                      <tr key={index}>
-                        <td className="text-center">{index + 1}</td>
-                        <td className="pl-2">{item?.strItemName}</td>
-                        <td className="pl-2">{item?.strItemCode}</td>
-                        <td className="text-center">{item?.strUomName}</td>
-                        <td className="text-center">{item?.numMRPQty}</td>
-                        <td style={{ width: "150px" }} className="text-center">
-                          <input
-                            type="number"
-                            name="purchaseQty"
-                            value={+item?.purchaseQty || ""}
-                            onChange={(e) => {
-                              if (+e.target.value < 0) {
-                                return toast.warn(
-                                  'Purchase quantity can"t be negative'
-                                );
-                              } else {
-                                dataHandler(
-                                  "purchaseQty",
-                                  index,
-                                  +e.target.value
-                                );
-                              }
-                            }}
-                            className="quantity-field form-control"
-                            // disabled={item?.numMRPQty < 0}
-                          />
-                        </td>
-                        <td style={{ width: "150px" }} className="text-center">
-                          <input
-                            type="number"
-                            name="numRate"
-                            value={+item?.numRate || ""}
-                            onChange={(e) => {
-                              if (+e.target.value < 0) {
-                                return toast.warn("Rate can't be negative");
-                              }
-                              dataHandler("numRate", index, +e.target.value);
-                            }}
-                            className="quantity-field form-control"
-                            // disabled={item?.numMRPQty < 0}
-                          />
-                        </td>
-                        {/* <td className="text-center">
+              <div className="table-responsive">
+                <table className="global-table table">
+                  <thead>
+                    <tr>
+                      <th>SL</th>
+                      <th>Item Name</th>
+                      <th>Item Code</th>
+                      <th>UoM Name</th>
+                      <th>MRP Quantity</th>
+                      <th>Purchase Quantity</th>
+                      <th>Rate</th>
+                      {/* <th>Action</th> */}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {rowDto?.length > 0 &&
+                      rowDto?.map((item, index) => (
+                        <tr key={index}>
+                          <td className="text-center">{index + 1}</td>
+                          <td className="pl-2">{item?.strItemName}</td>
+                          <td className="pl-2">{item?.strItemCode}</td>
+                          <td className="text-center">{item?.strUomName}</td>
+                          <td className="text-center">{item?.numMRPQty}</td>
+                          <td
+                            style={{ width: "150px" }}
+                            className="text-center"
+                          >
+                            <input
+                              type="number"
+                              name="purchaseQty"
+                              value={+item?.purchaseQty || ""}
+                              onChange={(e) => {
+                                if (+e.target.value < 0) {
+                                  return toast.warn(
+                                    'Purchase quantity can"t be negative'
+                                  );
+                                } else {
+                                  dataHandler(
+                                    "purchaseQty",
+                                    index,
+                                    +e.target.value
+                                  );
+                                }
+                              }}
+                              className="quantity-field form-control"
+                              // disabled={item?.numMRPQty < 0}
+                            />
+                          </td>
+                          <td
+                            style={{ width: "150px" }}
+                            className="text-center"
+                          >
+                            <input
+                              type="number"
+                              name="numRate"
+                              value={+item?.numRate || ""}
+                              onChange={(e) => {
+                                if (+e.target.value < 0) {
+                                  return toast.warn("Rate can't be negative");
+                                }
+                                dataHandler("numRate", index, +e.target.value);
+                              }}
+                              className="quantity-field form-control"
+                              // disabled={item?.numMRPQty < 0}
+                            />
+                          </td>
+                          {/* <td className="text-center">
                           <IDelete id={index} remover={() => remover(index)} />
                         </td> */}
-                      </tr>
-                    ))}
-                </tbody>
-              </table>
+                        </tr>
+                      ))}
+                  </tbody>
+                </table>
+              </div>
+
               {/* {!fileObject && !id && rowDto?.data?.length > 0 && (
                 <PaginationTable
                   count={rowDto?.totalCount}

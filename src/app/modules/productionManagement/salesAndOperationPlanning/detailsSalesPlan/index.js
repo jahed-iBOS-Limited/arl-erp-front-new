@@ -124,56 +124,62 @@ export default function MonthlySalesPlanLanding() {
               </div>
 
               {gridData?.length > 0 && (
-                <table className="global-table table">
-                  <>
-                    <thead>
-                      <tr>
-                        <th>SL</th>
-                        <th>Horizon Name</th>
-                        <th>Start Date</th>
-                        <th>End Date</th>
-                        <th>Sales Plan Quantity</th>
-                        <th>Production Plan Quantity</th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {gridData?.map((item, index) => (
-                        <tr key={index}>
-                          <td>{item?.sl}</td>
-                          <td>{item?.horizonName}</td>
-                          <td>{_dateFormatter(item?.startDate)}</td>
-                          <td>{_dateFormatter(item?.endDate)}</td>
-                          <td>{item?.planQTY}</td>
-                          <td>{item?.productionPlanQTY}</td>
-                          <td>
-                            <div className="d-flex justify-content-around">
-                              <OverlayTrigger
-                                overlay={
-                                  <Tooltip id="cs-icon">{"Create Details Sales Plan"}</Tooltip>
-                                }
-                              >
-                                <span
-                                  onClick={() => {
-                                    history.push({
-                                      pathname: `/internal-control/budget/detailsalseplan/details`,
-                                      state: {
-                                        monthlyValues: values,
-                                        monthlyItem: item,
-                                      },
-                                    });
-                                  }}
-                                >
-                                  <i className={`fas fas fa-share-square`}></i>
-                                </span>
-                              </OverlayTrigger>
-                            </div>
-                          </td>
+                <div className="table-responsive">
+                  <table className="global-table table">
+                    <>
+                      <thead>
+                        <tr>
+                          <th>SL</th>
+                          <th>Horizon Name</th>
+                          <th>Start Date</th>
+                          <th>End Date</th>
+                          <th>Sales Plan Quantity</th>
+                          <th>Production Plan Quantity</th>
+                          <th>Action</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </>
-                </table>
+                      </thead>
+                      <tbody>
+                        {gridData?.map((item, index) => (
+                          <tr key={index}>
+                            <td>{item?.sl}</td>
+                            <td>{item?.horizonName}</td>
+                            <td>{_dateFormatter(item?.startDate)}</td>
+                            <td>{_dateFormatter(item?.endDate)}</td>
+                            <td>{item?.planQTY}</td>
+                            <td>{item?.productionPlanQTY}</td>
+                            <td>
+                              <div className="d-flex justify-content-around">
+                                <OverlayTrigger
+                                  overlay={
+                                    <Tooltip id="cs-icon">
+                                      {"Create Details Sales Plan"}
+                                    </Tooltip>
+                                  }
+                                >
+                                  <span
+                                    onClick={() => {
+                                      history.push({
+                                        pathname: `/internal-control/budget/detailsalseplan/details`,
+                                        state: {
+                                          monthlyValues: values,
+                                          monthlyItem: item,
+                                        },
+                                      });
+                                    }}
+                                  >
+                                    <i
+                                      className={`fas fas fa-share-square`}
+                                    ></i>
+                                  </span>
+                                </OverlayTrigger>
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </>
+                  </table>
+                </div>
               )}
             </Form>
           </IForm>

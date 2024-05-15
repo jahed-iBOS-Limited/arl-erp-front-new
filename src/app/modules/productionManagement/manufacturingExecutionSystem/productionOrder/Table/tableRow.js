@@ -59,7 +59,7 @@ export function TableRow() {
     manufacturePOTableLanding?.status
   );
   const [isShowModal, setIsShowModal] = useState(false);
-  const [itemRequestId, setItemRequestId] = useState(null)
+  const [itemRequestId, setItemRequestId] = useState(null);
   const [isShowProductionModal, setIsShowProductionModal] = useState(false);
   const [productionOrderId, setProductionOrderId] = useState(null);
   const [warehouseDDL, getWarehouseDDL, warehouseDDLloader] = useAxiosGet();
@@ -146,11 +146,9 @@ export function TableRow() {
         selectedPlant?.value,
         setShopFloorDDL
       );
-    getWarehouseDDL(`/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${profileData?.userId
-      }&AccId=${profileData?.accountId
-      }&BusinessUnitId=${selectedBusinessUnit?.value
-      }&PlantId=${selectedPlant?.value
-      }&OrgUnitTypeId=8`)
+    getWarehouseDDL(
+      `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${profileData?.userId}&AccId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&PlantId=${selectedPlant?.value}&OrgUnitTypeId=8`
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -278,11 +276,9 @@ export function TableRow() {
                         valueOption?.value,
                         setShopFloorDDL
                       );
-                      getWarehouseDDL(`/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${profileData?.userId
-                        }&AccId=${profileData?.accountId
-                        }&BusinessUnitId=${selectedBusinessUnit?.value
-                        }&PlantId=${valueOption?.value
-                        }&OrgUnitTypeId=8`)
+                      getWarehouseDDL(
+                        `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${profileData?.userId}&AccId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&PlantId=${valueOption?.value}&OrgUnitTypeId=8`
+                      );
                       dispatch(
                         SetManufacturePOTableLandingAction({
                           plant: valueOption,
@@ -377,16 +373,21 @@ export function TableRow() {
                     type="button"
                     className="btn btn-primary"
                     onClick={() => {
-
                       const selectedItemRequest = gridData?.data?.filter(
-                        item => item.isItemRequestCheck === true && item?.isBackCalculation === 2
+                        (item) =>
+                          item.isItemRequestCheck === true &&
+                          item?.isBackCalculation === 2
                       );
 
                       const isExist = selectedItemRequest?.some(
-                        item => item?.isBackCalculation === 2
+                        (item) => item?.isBackCalculation === 2
                       );
-                      
-                      if ( selectedDDLShop?.value === 106 && isExist && selectedItemRequest?.length > 1) {
+
+                      if (
+                        selectedDDLShop?.value === 106 &&
+                        isExist &&
+                        selectedItemRequest?.length > 1
+                      ) {
                         return toast.warn(
                           "You cannot have multiple item requests for Shop Floor => Contract Manufacturing (Rice)"
                         );
@@ -401,274 +402,282 @@ export function TableRow() {
               </div>
 
               {gridData?.data?.length > 0 ? (
-                <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
-                  <thead>
-                    <tr>
-                      <th style={{ width: "23px" }}>
-                        <input
-                          type="checkbox"
-                          id="parent"
-                          onChange={(event) => {
-                            allGridCheck(event.target.checked);
-                          }}
-                        />
-                      </th>
-                      <th>SL</th>
-                      <th>Production Order Date</th>
-                      <th>Production Order Code</th>
-                      <th>Item Name</th>
-                      <th>BOM Type</th>
-                      <th>WorkCenter Name</th>
-                      <th>Order Qty</th>
-                      <th>Uom Name</th>
-                      <th>Item Request Code</th>
-                      <th style={{ width: "120px" }}>Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {gridData?.data?.length > 0 &&
-                      gridData?.data?.map((item, index) => (
-                        <tr>
-                          <td>
-                            <input
-                              id="itemCheck"
-                              type="checkbox"
-                              className=""
-                              value={item.isItemRequestCheck}
-                              checked={item.isItemRequestCheck}
-                              name={item.isItemRequestCheck}
-                              onChange={(e) => {
-                                //setFieldValue("itemCheck", e.target.checked);
-                                itemSlectedHandler(e.target.checked, index);
-                              }}
-                              disabled={
-                                item?.isItemRequestFalse || item?.isClose
-                              }
-                            />
-                          </td>
-                          <td className="text-center">{item?.sl}</td>
-                          <td className="text-center">
-                            {_dateFormatter(item?.startDate)}
-                          </td>
-                          <td>
-                            <div className="pl-2">
-                              {item?.productionOrderCode}
-                            </div>
-                          </td>
-                          <td>
-                            <div className="pl-2">
-                              {item?.itemName} [{item?.itemCode}]
-                            </div>
-                          </td>
-                          <td>
-                            <div className="pl-2">
-                              {item?.strBillOfTypeName}
-                            </div>
-                          </td>
-                          <td>
-                            <div className="pl-2">{item?.workCenterName}</div>
-                          </td>
-                          <td>
-                            <div className="text-center">{item?.orderQty}</div>
-                          </td>
-                          <td>
-                            <div className="pl-2">{item?.uomName}</div>
-                          </td>
-                          <td
-                            className="text-center pointer"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setItemRequestId(item?.itemRequestId);
-                              setIsShowModal(true);
+                <div className="table-responsive">
+                  <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+                    <thead>
+                      <tr>
+                        <th style={{ width: "23px" }}>
+                          <input
+                            type="checkbox"
+                            id="parent"
+                            onChange={(event) => {
+                              allGridCheck(event.target.checked);
                             }}
-                          >
-                            <span style={{ color: "rgb(3 88 176)" }}>
-                              {item?.isBackCalculation === 2 ||
-                                item?.isBackCalculation === 0
-                                ? item?.itemRequestCode
-                                : ""}
-                            </span>
-                          </td>
-                          <td>
-                            <div className="d-flex justify-content-around">
-                              <span className="view">
-                                <IView
-                                  clickHandler={() => {
-                                    history.push(
-                                      `/production-management/mes/productionorder/view/${item?.productionOrderId}`
-                                    );
-                                  }}
-                                />
-                              </span>
-
-                              <button
-                                className="edit btn p-0"
-                                onClick={() => {
-                                  history.push(
-                                    `/production-management/mes/productionorder/edit/${item?.productionOrderId}`
-                                  );
+                          />
+                        </th>
+                        <th>SL</th>
+                        <th>Production Order Date</th>
+                        <th>Production Order Code</th>
+                        <th>Item Name</th>
+                        <th>BOM Type</th>
+                        <th>WorkCenter Name</th>
+                        <th>Order Qty</th>
+                        <th>Uom Name</th>
+                        <th>Item Request Code</th>
+                        <th style={{ width: "120px" }}>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {gridData?.data?.length > 0 &&
+                        gridData?.data?.map((item, index) => (
+                          <tr>
+                            <td>
+                              <input
+                                id="itemCheck"
+                                type="checkbox"
+                                className=""
+                                value={item.isItemRequestCheck}
+                                checked={item.isItemRequestCheck}
+                                name={item.isItemRequestCheck}
+                                onChange={(e) => {
+                                  //setFieldValue("itemCheck", e.target.checked);
+                                  itemSlectedHandler(e.target.checked, index);
                                 }}
                                 disabled={
                                   item?.isItemRequestFalse || item?.isClose
                                 }
-                              >
-                                <IEdit />
-                              </button>
-
-                              {item?.isBackCalculation === 0 ? (
-                                <button
-                                  className="btn p-0"
-                                  onClick={() => {
-                                    history.push({
-                                      pathname: `/production-management/mes/productionorder/createSubPO/${item?.productionOrderId}`,
-                                      state: {
-                                        orderQty: item?.orderQty,
-                                        bomId: item?.bomId,
-                                        lotSize: item?.lotSize,
-                                        shopFloorId: item?.shopFloorId
-                                      },
-                                    });
-                                  }}
-                                  disabled={!item?.isBOM || item?.isClose}
-                                >
-                                  <span className="extend">
-                                    <OverlayTrigger
-                                      overlay={
-                                        <Tooltip id="cs-icon">
-                                          {"Create Sub-PO"}
-                                        </Tooltip>
-                                      }
-                                    >
-                                      <span>
-                                        <i className={`fa fa-arrows-alt`}></i>
-                                      </span>
-                                    </OverlayTrigger>
-                                  </span>
-                                </button>
-                              ) : null}
-
-                              {item?.isBackCalculation === 2 ? (
-                                <button
-                                  className="btn p-0"
-                                  onClick={() => {
-                                    setIsShowProductionModal(true);
-                                    setProductionOrderId(item?.productionOrderId);
-                                  }}
-                                >
-                                  <span className="extend">
-                                    <OverlayTrigger
-                                      overlay={
-                                        <Tooltip id="cs-icon">
-                                          {"Production Details"}
-                                        </Tooltip>
-                                      }
-                                    >
-                                      <span>
-                                        <i className={`fa fa-info-circle`}></i>
-                                      </span>
-                                    </OverlayTrigger>
-                                  </span>
-                                </button>
-                              ) : null}
-
-                              {item?.isBackCalculation === 0 && (
-                                <>
-                                  {/* business logic cange by Miraj vai */}
-                                  <button
-                                    className="btn p-0"
-                                    onClick={() => {
-                                      singlePOHandler(
-                                        item?.productionOrderId,
-                                        item?.productionOrderId
+                              />
+                            </td>
+                            <td className="text-center">{item?.sl}</td>
+                            <td className="text-center">
+                              {_dateFormatter(item?.startDate)}
+                            </td>
+                            <td>
+                              <div className="pl-2">
+                                {item?.productionOrderCode}
+                              </div>
+                            </td>
+                            <td>
+                              <div className="pl-2">
+                                {item?.itemName} [{item?.itemCode}]
+                              </div>
+                            </td>
+                            <td>
+                              <div className="pl-2">
+                                {item?.strBillOfTypeName}
+                              </div>
+                            </td>
+                            <td>
+                              <div className="pl-2">{item?.workCenterName}</div>
+                            </td>
+                            <td>
+                              <div className="text-center">
+                                {item?.orderQty}
+                              </div>
+                            </td>
+                            <td>
+                              <div className="pl-2">{item?.uomName}</div>
+                            </td>
+                            <td
+                              className="text-center pointer"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setItemRequestId(item?.itemRequestId);
+                                setIsShowModal(true);
+                              }}
+                            >
+                              <span style={{ color: "rgb(3 88 176)" }}>
+                                {item?.isBackCalculation === 2 ||
+                                item?.isBackCalculation === 0
+                                  ? item?.itemRequestCode
+                                  : ""}
+                              </span>
+                            </td>
+                            <td>
+                              <div className="d-flex justify-content-around">
+                                <span className="view">
+                                  <IView
+                                    clickHandler={() => {
+                                      history.push(
+                                        `/production-management/mes/productionorder/view/${item?.productionOrderId}`
                                       );
                                     }}
-                                    disabled={item?.isClose === true}
-                                  >
-                                    <span>
-                                      <OverlayTrigger
-                                        overlay={
-                                          <Tooltip id="delete-icon">
-                                            {"Close"}
-                                          </Tooltip>
-                                        }
-                                      >
-                                        <span>
-                                          <i
-                                            className="fas fa-times-circle text-danger"
-                                            aria-hidden="true"
-                                          ></i>
-                                        </span>
-                                      </OverlayTrigger>
-                                    </span>
-                                  </button>
-                                </>
-                              )}
+                                  />
+                                </span>
 
-                              {false && (
-                                <>
-                                  {/* Miraj Vai Changes  */}
+                                <button
+                                  className="edit btn p-0"
+                                  onClick={() => {
+                                    history.push(
+                                      `/production-management/mes/productionorder/edit/${item?.productionOrderId}`
+                                    );
+                                  }}
+                                  disabled={
+                                    item?.isItemRequestFalse || item?.isClose
+                                  }
+                                >
+                                  <IEdit />
+                                </button>
+
+                                {item?.isBackCalculation === 0 ? (
                                   <button
                                     className="btn p-0"
                                     onClick={() => {
                                       history.push({
-                                        pathname: `/production-management/mes/productionorder/closed`,
-                                        state: { ...item },
+                                        pathname: `/production-management/mes/productionorder/createSubPO/${item?.productionOrderId}`,
+                                        state: {
+                                          orderQty: item?.orderQty,
+                                          bomId: item?.bomId,
+                                          lotSize: item?.lotSize,
+                                          shopFloorId: item?.shopFloorId,
+                                        },
                                       });
-                                      console.log(item.sl);
                                     }}
-                                    disabled={item?.isClose === true}
+                                    disabled={!item?.isBOM || item?.isClose}
                                   >
-                                    <span>
+                                    <span className="extend">
                                       <OverlayTrigger
                                         overlay={
-                                          <Tooltip id="delete-icon">
-                                            {"Close"}
+                                          <Tooltip id="cs-icon">
+                                            {"Create Sub-PO"}
+                                          </Tooltip>
+                                        }
+                                      >
+                                        <span>
+                                          <i className={`fa fa-arrows-alt`}></i>
+                                        </span>
+                                      </OverlayTrigger>
+                                    </span>
+                                  </button>
+                                ) : null}
+
+                                {item?.isBackCalculation === 2 ? (
+                                  <button
+                                    className="btn p-0"
+                                    onClick={() => {
+                                      setIsShowProductionModal(true);
+                                      setProductionOrderId(
+                                        item?.productionOrderId
+                                      );
+                                    }}
+                                  >
+                                    <span className="extend">
+                                      <OverlayTrigger
+                                        overlay={
+                                          <Tooltip id="cs-icon">
+                                            {"Production Details"}
                                           </Tooltip>
                                         }
                                       >
                                         <span>
                                           <i
-                                            className="fas fa-times-circle text-danger"
-                                            aria-hidden="true"
+                                            className={`fa fa-info-circle`}
                                           ></i>
                                         </span>
                                       </OverlayTrigger>
                                     </span>
                                   </button>
-                                </>
-                              )}
-                              <button
-                                className="btn p-0"
-                                disabled={!item?.isDeleteEnable}
-                                onClick={() => {
-                                  postData(
-                                    // `/mes/ProductionOrder/DeleteProductionOrder?ProductionOrderId=${item?.productionOrderId}`,
-                                    `/mes/ProductionOrder/DeleteProductionOrder?ProductionOrderId=${item?.productionOrderId}&ActionBy=${profileData?.accountId}`,
-                                    null,
-                                    () => {
-                                      getItemTransferInPagination(
-                                        profileData?.accountId,
-                                        selectedBusinessUnit?.value,
-                                        selectedPlant?.value,
-                                        selectedDDLShop?.value,
-                                        setLoader,
-                                        setGridData,
-                                        pageNo,
-                                        pageSize
-                                      );
-                                    },
-                                    true
-                                  );
-                                }}
-                              >
-                                <IDelete />
-                              </button>
-                            </div>
-                          </td>
-                        </tr>
-                      ))}
-                  </tbody>
-                </table>
+                                ) : null}
+
+                                {item?.isBackCalculation === 0 && (
+                                  <>
+                                    {/* business logic cange by Miraj vai */}
+                                    <button
+                                      className="btn p-0"
+                                      onClick={() => {
+                                        singlePOHandler(
+                                          item?.productionOrderId,
+                                          item?.productionOrderId
+                                        );
+                                      }}
+                                      disabled={item?.isClose === true}
+                                    >
+                                      <span>
+                                        <OverlayTrigger
+                                          overlay={
+                                            <Tooltip id="delete-icon">
+                                              {"Close"}
+                                            </Tooltip>
+                                          }
+                                        >
+                                          <span>
+                                            <i
+                                              className="fas fa-times-circle text-danger"
+                                              aria-hidden="true"
+                                            ></i>
+                                          </span>
+                                        </OverlayTrigger>
+                                      </span>
+                                    </button>
+                                  </>
+                                )}
+
+                                {false && (
+                                  <>
+                                    {/* Miraj Vai Changes  */}
+                                    <button
+                                      className="btn p-0"
+                                      onClick={() => {
+                                        history.push({
+                                          pathname: `/production-management/mes/productionorder/closed`,
+                                          state: { ...item },
+                                        });
+                                        console.log(item.sl);
+                                      }}
+                                      disabled={item?.isClose === true}
+                                    >
+                                      <span>
+                                        <OverlayTrigger
+                                          overlay={
+                                            <Tooltip id="delete-icon">
+                                              {"Close"}
+                                            </Tooltip>
+                                          }
+                                        >
+                                          <span>
+                                            <i
+                                              className="fas fa-times-circle text-danger"
+                                              aria-hidden="true"
+                                            ></i>
+                                          </span>
+                                        </OverlayTrigger>
+                                      </span>
+                                    </button>
+                                  </>
+                                )}
+                                <button
+                                  className="btn p-0"
+                                  disabled={!item?.isDeleteEnable}
+                                  onClick={() => {
+                                    postData(
+                                      // `/mes/ProductionOrder/DeleteProductionOrder?ProductionOrderId=${item?.productionOrderId}`,
+                                      `/mes/ProductionOrder/DeleteProductionOrder?ProductionOrderId=${item?.productionOrderId}&ActionBy=${profileData?.accountId}`,
+                                      null,
+                                      () => {
+                                        getItemTransferInPagination(
+                                          profileData?.accountId,
+                                          selectedBusinessUnit?.value,
+                                          selectedPlant?.value,
+                                          selectedDDLShop?.value,
+                                          setLoader,
+                                          setGridData,
+                                          pageNo,
+                                          pageSize
+                                        );
+                                      },
+                                      true
+                                    );
+                                  }}
+                                >
+                                  <IDelete />
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+                    </tbody>
+                  </table>
+                </div>
               ) : (
                 <></>
               )}
@@ -747,7 +756,10 @@ export function TableRow() {
           setIsShowProductionModal(false);
         }}
       >
-        <ProductionDetails productionOrderId={productionOrderId} selectedBusinessUnit={selectedBusinessUnit} />
+        <ProductionDetails
+          productionOrderId={productionOrderId}
+          selectedBusinessUnit={selectedBusinessUnit}
+        />
       </IViewModal>
     </ICustomCard>
   );

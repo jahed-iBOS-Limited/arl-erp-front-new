@@ -442,51 +442,53 @@ export default function _Form({
                   {/* Table Header input end */}
                   <div className="row">
                     <div className="col-lg-12">
-                      <table className={"table mt-1 bj-table"}>
-                        <thead className={rowDto?.length === 0 && "d-none"}>
-                          <tr>
-                            <th style={{ width: "30px" }}>SL</th>
-                            <th style={{ width: "120px" }}>Material</th>
-                            <th style={{ width: "120px" }}>Item Code</th>
-                            <th style={{ width: "100px" }}>Qty</th>
-                            <th style={{ width: "100px" }}>UoM</th>
-                            {/* <th style={{ width: "50px" }}>Actions</th> */}
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {rowDto?.map((item, index) => (
-                            <tr key={index}>
-                              <td>{index + 1}</td>
-                              <td>
-                                <div className="pl-2">
-                                  {item?.material?.label}
-                                </div>
-                              </td>
-                              <td>
-                                <div className="text-center">
-                                  {item?.rowItemCode}
-                                </div>
-                              </td>
-                              <td>
-                                <div className="text-center">
-                                  {item?.quantity}
-                                </div>
-                              </td>
-                              <td>
-                                <div className="text-center">
-                                  {item?.uomName ||
-                                    item?.material?.description ||
-                                    item?.values?.description}
-                                </div>
-                              </td>
+                      <div className="table-responsive">
+                        <table className={"table mt-1 bj-table"}>
+                          <thead className={rowDto?.length === 0 && "d-none"}>
+                            <tr>
+                              <th style={{ width: "30px" }}>SL</th>
+                              <th style={{ width: "120px" }}>Material</th>
+                              <th style={{ width: "120px" }}>Item Code</th>
+                              <th style={{ width: "100px" }}>Qty</th>
+                              <th style={{ width: "100px" }}>UoM</th>
+                              {/* <th style={{ width: "50px" }}>Actions</th> */}
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {rowDto?.map((item, index) => (
+                              <tr key={index}>
+                                <td>{index + 1}</td>
+                                <td>
+                                  <div className="pl-2">
+                                    {item?.material?.label}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="text-center">
+                                    {item?.rowItemCode}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="text-center">
+                                    {item?.quantity}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="text-center">
+                                    {item?.uomName ||
+                                      item?.material?.description ||
+                                      item?.values?.description}
+                                  </div>
+                                </td>
 
-                              {/* <td className="text-center">
+                                {/* <td className="text-center">
                                 <IDelete remover={remover} id={index} />
                               </td> */}
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
                     </div>
                   </div>
 
@@ -565,7 +567,8 @@ export default function _Form({
 
                   <div className="row">
                     <div className="col-lg-12">
-                      <table className={"table mt-1 bj-table"}>
+                    <div className="table-responsive">
+<table className={"table mt-1 bj-table"}>
                         <thead
                           className={costElementRowData?.length < 1 && "d-none"}
                         >
@@ -605,6 +608,8 @@ export default function _Form({
                           ))}
                         </tbody>
                       </table>
+</div>
+                      
                     </div>
                   </div>
                   {/* Bill Of Expense Start End Here */}

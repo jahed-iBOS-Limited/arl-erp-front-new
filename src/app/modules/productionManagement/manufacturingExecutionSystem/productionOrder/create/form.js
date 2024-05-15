@@ -112,7 +112,6 @@ export default function _Form({
     }
   }, [profileData, selectedBusinessUnit]);
 
-
   const params = useParams();
 
   return (
@@ -270,8 +269,11 @@ export default function _Form({
                         getBoMDetailsByBoMId(valueOption?.value, setRowDto);
                         setFieldValue("bomName", valueOption);
                         setFieldValue("prtNumber", "");
-                        setFieldValue("baseUomName", 
-                          params.id ? valueOption?.uomName : valueOption?.baseUomName
+                        setFieldValue(
+                          "baseUomName",
+                          params.id
+                            ? valueOption?.uomName
+                            : valueOption?.baseUomName
                         );
                       }}
                       options={bomName}
@@ -286,15 +288,17 @@ export default function _Form({
                       touched={touched}
                     />
                   </div>
-                  {params?.id && (<div className="col-lg-3">
-                    <IInput
-                      value={values?.bomVersion}
-                      label="Bom Version"
-                      name="bomVersion"
-                      type="string"
-                      disabled={true}
-                    />
-                  </div>)}
+                  {params?.id && (
+                    <div className="col-lg-3">
+                      <IInput
+                        value={values?.bomVersion}
+                        label="Bom Version"
+                        name="bomVersion"
+                        type="string"
+                        disabled={true}
+                      />
+                    </div>
+                  )}
                   <div className="col-lg-3">
                     <IInput
                       value={values?.baseUomName}
@@ -330,7 +334,6 @@ export default function _Form({
                       name="startDate"
                       type="date"
                     />
-
                   </div>
                   <div className="col-lg-3">
                     <IInput
@@ -339,7 +342,6 @@ export default function _Form({
                       name="startTime"
                       type="time"
                     />
-
                   </div>
                   <div className="col-lg-3">
                     <IInput
@@ -349,7 +351,6 @@ export default function _Form({
                       type="date"
                       min={values?.startDate}
                     />
-
                   </div>
                   <div className="col-lg-3">
                     <IInput
@@ -358,7 +359,6 @@ export default function _Form({
                       name="endTime"
                       type="time"
                     />
-
                   </div>
 
                   <div className="col-lg-3">
@@ -376,7 +376,6 @@ export default function _Form({
                         }
                       }}
                     />
-
                   </div>
                   {/* <div className="col-lg-3">
                     <label>PTR (optional)</label>
@@ -407,7 +406,6 @@ export default function _Form({
                         }
                       }}
                     />
-
                   </div>
                   <div className="col-lg-2 d-flex align-items-center">
                     <input
@@ -418,7 +416,6 @@ export default function _Form({
                       name="itemCheck"
                       onChange={(e) => {
                         setShowTable(!isShowTable);
-
                       }}
                       disabled={!values?.bomName}
                     />
@@ -447,36 +444,40 @@ export default function _Form({
                   productionId={productionId}
                   plantName={values?.plantName?.value}
                   subPo={subPo}
-                  shopFloorId ={values?.shopFloor?.value}
+                  shopFloorId={values?.shopFloor?.value}
                 />
               ) : null}
             </Form>
 
-            {isShowTable && values?.bomName && <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
-              <thead>
-                <tr>
-                  <th>SL</th>
-                  <th>Item Code</th>
-                  <th>Item Name</th>
-                  <th>Lot Size</th>
-                  <th>Uom Name</th>
-                  <th>Quantity</th>
-                </tr>
-              </thead>
-              <tbody>
-                {rowDto?.length > 0 &&
-                  rowDto?.map((item, index) => (
+            {isShowTable && values?.bomName && (
+              <div className="table-responsive">
+                <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+                  <thead>
                     <tr>
-                      <td>{index + 1}</td>
-                      <td className="text-center">{item?.itemCode}</td>
-                      <td>{item?.itemName}</td>
-                      <td className="text-center">{item?.lotSize}</td>
-                      <td>{item?.uomName}</td>
-                      <td className="text-center">{item?.quantity}</td>
+                      <th>SL</th>
+                      <th>Item Code</th>
+                      <th>Item Name</th>
+                      <th>Lot Size</th>
+                      <th>Uom Name</th>
+                      <th>Quantity</th>
                     </tr>
-                  ))}
-              </tbody>
-            </table>}
+                  </thead>
+                  <tbody>
+                    {rowDto?.length > 0 &&
+                      rowDto?.map((item, index) => (
+                        <tr>
+                          <td>{index + 1}</td>
+                          <td className="text-center">{item?.itemCode}</td>
+                          <td>{item?.itemName}</td>
+                          <td className="text-center">{item?.lotSize}</td>
+                          <td>{item?.uomName}</td>
+                          <td className="text-center">{item?.quantity}</td>
+                        </tr>
+                      ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
           </>
         )}
       </Formik>

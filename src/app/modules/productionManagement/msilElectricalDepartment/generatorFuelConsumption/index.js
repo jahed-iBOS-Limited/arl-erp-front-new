@@ -50,7 +50,7 @@ export default function FuelConsumption() {
         <Formik
           enableReinitialize={true}
           initialValues={rebConsumptionLanding}
-          onSubmit={(values, { setSubmitting, resetForm }) => { }}
+          onSubmit={(values, { setSubmitting, resetForm }) => {}}
         >
           {({
             handleSubmit,
@@ -131,44 +131,46 @@ export default function FuelConsumption() {
 
                 <div style={{ marginTop: "15px" }}>
                   <div>
-                    <table className="table table-striped table-bordered global-table">
-                      <thead>
-                        <tr>
-                          <th style={{ width: "50px" }}>SL</th>
-                          <th>Date</th>
-                          <th>Shift</th>
-                          <th>Generator Name</th>
-                          <th>Quantity [Liter]</th>
-                          <th>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {landigData?.data?.length > 0 &&
-                          landigData?.data?.map((item, index) => (
-                            <tr key={index}>
-                              <td>{index + 1}</td>
-                              <td className="text-center">
-                                {_dateFormatter(item?.dteDate)}
-                              </td>
-                              <td>{item?.strShift}</td>
-                              <td>{item?.strGeneratorName}</td>
-                              <td className="text-center">
-                                {item?.numQuantityLtr}
-                              </td>
-                              <td className="text-center">
-                                <IEdit
-                                  onClick={() => {
-                                    history.push({
-                                      pathname: `/production-management/msil-Electrical/GeneratorFuelConsumption/edit/${item?.intGeneratorFuelConsumptionId}`,
-                                      state: { ...item },
-                                    });
-                                  }}
-                                />
-                              </td>
-                            </tr>
-                          ))}
-                      </tbody>
-                    </table>
+                    <div className="table-responsive">
+                      <table className="table table-striped table-bordered global-table">
+                        <thead>
+                          <tr>
+                            <th style={{ width: "50px" }}>SL</th>
+                            <th>Date</th>
+                            <th>Shift</th>
+                            <th>Generator Name</th>
+                            <th>Quantity [Liter]</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {landigData?.data?.length > 0 &&
+                            landigData?.data?.map((item, index) => (
+                              <tr key={index}>
+                                <td>{index + 1}</td>
+                                <td className="text-center">
+                                  {_dateFormatter(item?.dteDate)}
+                                </td>
+                                <td>{item?.strShift}</td>
+                                <td>{item?.strGeneratorName}</td>
+                                <td className="text-center">
+                                  {item?.numQuantityLtr}
+                                </td>
+                                <td className="text-center">
+                                  <IEdit
+                                    onClick={() => {
+                                      history.push({
+                                        pathname: `/production-management/msil-Electrical/GeneratorFuelConsumption/edit/${item?.intGeneratorFuelConsumptionId}`,
+                                        state: { ...item },
+                                      });
+                                    }}
+                                  />
+                                </td>
+                              </tr>
+                            ))}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                   {landigData?.data?.length > 0 && (
                     <PaginationTable

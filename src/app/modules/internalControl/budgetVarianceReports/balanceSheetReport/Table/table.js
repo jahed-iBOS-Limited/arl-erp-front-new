@@ -139,7 +139,7 @@ export default function BalancerReportTable() {
             {loading && <Loading />}
             <div className="global-form align-items-end">
               <div className="row">
-                <div className="col-md-2">
+                <div className="col-md-4">
                   <NewSelect
                     name="enterpriseDivision"
                     options={enterpriseDivisionDDL || []}
@@ -165,7 +165,7 @@ export default function BalancerReportTable() {
                     placeholder="Enterprise Division"
                   />
                 </div>
-                <div className="col-lg-2">
+                <div className="col-lg-4">
                   <NewSelect
                     label="Business Unit"
                     options={businessDDL || ""}
@@ -179,7 +179,7 @@ export default function BalancerReportTable() {
                     touched={touched}
                   />
                 </div>
-                <div className="col-lg-2">
+                <div className="col-lg-4">
                   <label>Date</label>
                   <input
                     className="form-control trans-date cj-landing-date"
@@ -193,7 +193,7 @@ export default function BalancerReportTable() {
                     type="date"
                   />
                 </div>
-                <div className="col-lg-2">
+                <div className="col-lg-4">
                   <label>Conversion Rate</label>
                   <input
                     className="form-control trans-date cj-landing-date"
@@ -211,6 +211,9 @@ export default function BalancerReportTable() {
                   className="col-auto"
                   style={{
                     marginTop: "17px",
+                    display: "flex",
+                    flexWrap: "wrap",
+                    gap: "10px",
                   }}
                 >
                   <ButtonStyleOne
@@ -229,17 +232,10 @@ export default function BalancerReportTable() {
                     }}
                     disabled={!values?.business || values?.conversionRate < 1}
                   />
-                </div>
-                <div
-                  className="col-auto"
-                  style={{
-                    marginTop: "17px",
-                  }}
-                >
                   <button
                     type="button"
                     className="btn btn-primary sales_invoice_btn"
-                    style={{ float: "right", marginLeft: "5px" }}
+                    style={{ float: "right" }}
                     onClick={() => {
                       setShowRDLC(true);
                     }}
@@ -247,22 +243,16 @@ export default function BalancerReportTable() {
                   >
                     Details
                   </button>
-                </div>
-              </div>
-              <div className="row mt-2">
-                <div className="col-auto">
                   <button
                     type="button"
                     className="btn btn-primary sales_invoice_btn"
-                    style={{ float: "right", marginLeft: "5px" }}
+                    style={{ float: "right" }}
                     onClick={() => {
                       pdfExport("balanceReport");
                     }}
                   >
                     Export PDF
                   </button>
-                </div>
-                <div className="col-auto">
                   <ReactHTMLTableToExcel
                     id="test-table-xls-button"
                     className="btn btn-primary sales_invoice_btn export-excel"
@@ -275,8 +265,6 @@ export default function BalancerReportTable() {
                     sheet="balanceReport"
                     buttonText="Export Excel"
                   />
-                </div>
-                <div className="col-auto">
                   <ReactToPrint
                     pageStyle={
                       "@media print{body { -webkit-print-color-adjust: exact;}@page {size: A4 portrait ! important; margin-top:20}}"
@@ -285,7 +273,7 @@ export default function BalancerReportTable() {
                       <button
                         type="button"
                         className="btn btn-primary sales_invoice_btn"
-                        style={{ float: "right", marginLeft: "5px" }}
+                        style={{ float: "right"}}
                       >
                         Print
                       </button>

@@ -183,88 +183,90 @@ const AdministrationForWeighment = () => {
                   <>
                     <div className="row">
                       <div className="col-lg-12">
-                        <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
-                          <thead>
-                            <tr>
-                              <th style={{ width: "30px" }}>SL</th>
-                              <th>তারিখ</th>
-                              <th>গাড়ীর নাম্বার</th>
-                              <th>রেজি. নং</th>
-                              <th>চালান নাম্বার</th>
-                              <th>পণ্যের নাম</th>
-                              <th>সাপ্লায়ারের নাম</th>
-                              <th>ওজন নং</th>
-                              <th>1st Weight</th>
-                              <th>2nd Weight</th>
-                              <th>Net Weight</th>
-                              <th>Action</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {rowData?.weightBridge?.length > 0 ? (
-                              rowData?.weightBridge?.map((item, index) => (
-                                <tr key={index}>
-                                  <td>
-                                    {/* {(paginationState?.pageNo - 1) *
+                        <div className="table-responsive">
+                          <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+                            <thead>
+                              <tr>
+                                <th style={{ width: "30px" }}>SL</th>
+                                <th>তারিখ</th>
+                                <th>গাড়ীর নাম্বার</th>
+                                <th>রেজি. নং</th>
+                                <th>চালান নাম্বার</th>
+                                <th>পণ্যের নাম</th>
+                                <th>সাপ্লায়ারের নাম</th>
+                                <th>ওজন নং</th>
+                                <th>1st Weight</th>
+                                <th>2nd Weight</th>
+                                <th>Net Weight</th>
+                                <th>Action</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {rowData?.weightBridge?.length > 0 ? (
+                                rowData?.weightBridge?.map((item, index) => (
+                                  <tr key={index}>
+                                    <td>
+                                      {/* {(paginationState?.pageNo - 1) *
                                       paginationState?.pageSize +
                                       index +
                                       1} */}
-                                    {item?.sl}
-                                  </td>
-                                  <td className="text-center">
-                                    {item?.dteLastWeightDateTime
-                                      ? _dateFormatter(
-                                          item?.dteLastWeightDateTime
-                                        )
-                                      : "N/A"}
-                                  </td>
-                                  <td>{item?.strTruckNumber}</td>
-                                  <td className="text-center">
-                                    {item?.strGateEntryCode}
-                                  </td>
-                                  <td className="text-center">
-                                    {item?.strInvoiceNumber}
-                                  </td>
-                                  <td>{item?.strMaterialName}</td>
-                                  <td>{item?.strSupplierName}</td>
-                                  <td className="text-center">
-                                    {item?.strWeightmentNo}
-                                  </td>
-                                  <td className="text-center">
-                                    {item?.numFirstWeight}
-                                  </td>
-                                  <td className="text-center">
-                                    {item?.numLastWeight}
-                                  </td>
-                                  <td className="text-center">
-                                    {item?.numNetWeight}
-                                  </td>
-                                  <td>
-                                    <div>
-                                      <OverlayTrigger
-                                        overlay={
-                                          <Tooltip id="cs-icon">Edit</Tooltip>
-                                        }
-                                      >
-                                        <span
-                                          className="edit mr-3 mt-1 d-block w-100 text-center"
-                                          onClick={() => {
-                                            setShowModal(true);
-                                            setSelectedRow(item);
-                                          }}
+                                      {item?.sl}
+                                    </td>
+                                    <td className="text-center">
+                                      {item?.dteLastWeightDateTime
+                                        ? _dateFormatter(
+                                            item?.dteLastWeightDateTime
+                                          )
+                                        : "N/A"}
+                                    </td>
+                                    <td>{item?.strTruckNumber}</td>
+                                    <td className="text-center">
+                                      {item?.strGateEntryCode}
+                                    </td>
+                                    <td className="text-center">
+                                      {item?.strInvoiceNumber}
+                                    </td>
+                                    <td>{item?.strMaterialName}</td>
+                                    <td>{item?.strSupplierName}</td>
+                                    <td className="text-center">
+                                      {item?.strWeightmentNo}
+                                    </td>
+                                    <td className="text-center">
+                                      {item?.numFirstWeight}
+                                    </td>
+                                    <td className="text-center">
+                                      {item?.numLastWeight}
+                                    </td>
+                                    <td className="text-center">
+                                      {item?.numNetWeight}
+                                    </td>
+                                    <td>
+                                      <div>
+                                        <OverlayTrigger
+                                          overlay={
+                                            <Tooltip id="cs-icon">Edit</Tooltip>
+                                          }
                                         >
-                                          <IEdit />
-                                        </span>
-                                      </OverlayTrigger>
-                                    </div>
-                                  </td>
-                                </tr>
-                              ))
-                            ) : (
-                              <></>
-                            )}
-                          </tbody>
-                        </table>
+                                          <span
+                                            className="edit mr-3 mt-1 d-block w-100 text-center"
+                                            onClick={() => {
+                                              setShowModal(true);
+                                              setSelectedRow(item);
+                                            }}
+                                          >
+                                            <IEdit />
+                                          </span>
+                                        </OverlayTrigger>
+                                      </div>
+                                    </td>
+                                  </tr>
+                                ))
+                              ) : (
+                                <></>
+                              )}
+                            </tbody>
+                          </table>
+                        </div>
 
                         {rowData?.weightBridge?.length > 0 ? (
                           <PaginationTable

@@ -1,7 +1,13 @@
 import { Formik } from "formik";
 import React from "react";
 import { shallowEqual, useSelector } from "react-redux";
-import { Card, CardBody, CardHeader, CardHeaderToolbar, ModalProgressBar } from "../../../../../_metronic/_partials/controls";
+import {
+  Card,
+  CardBody,
+  CardHeader,
+  CardHeaderToolbar,
+  ModalProgressBar,
+} from "../../../../../_metronic/_partials/controls";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import { validateDigit } from "../../../_helper/validateDigit";
 import { _currentTime } from "../../../_helper/_currentTime";
@@ -16,7 +22,14 @@ const initData = {
   vehicleNo: "",
 };
 
-function GateInByPoModal({ item, setItem, setViewType, setIsShowModel, date, getPendingList }) {
+function GateInByPoModal({
+  item,
+  setItem,
+  setViewType,
+  setIsShowModel,
+  date,
+  getPendingList,
+}) {
   const [, saveData, loading] = useAxiosPost();
 
   const { profileData } = useSelector((state) => {
@@ -70,19 +83,38 @@ function GateInByPoModal({ item, setItem, setViewType, setIsShowModel, date, get
                 <div className="form-group  global-form">
                   <div className="row">
                     <div className="col-lg-3">
-                      <InputField value={values?.driverName} label="Driver Name" name="driverName" type="text" />
+                      <InputField
+                        value={values?.driverName}
+                        label="Driver Name"
+                        name="driverName"
+                        type="text"
+                      />
                     </div>
                     <div className="col-lg-3">
-                      <InputField value={values?.driverMobileNo} label="Driver Mobile No" name="driverMobileNo" type="text" />
+                      <InputField
+                        value={values?.driverMobileNo}
+                        label="Driver Mobile No"
+                        name="driverMobileNo"
+                        type="text"
+                      />
                     </div>
                     <div className="col-lg-3">
-                      <InputField value={values?.vehicleNo} label="Vehicle No" name="vehicleNo" type="text" />
+                      <InputField
+                        value={values?.vehicleNo}
+                        label="Vehicle No"
+                        name="vehicleNo"
+                        type="text"
+                      />
                     </div>
                     <div>
                       <button
                         style={{ marginTop: "18px" }}
                         className="btn btn-primary ml-2"
-                        disabled={!item?.row?.length || !values?.driverName || !values?.vehicleNo}
+                        disabled={
+                          !item?.row?.length ||
+                          !values?.driverName ||
+                          !values?.vehicleNo
+                        }
                         onClick={() => {
                           saveData(
                             `/mes/MSIL/GateInByPOCreateAndEdit`,
@@ -119,7 +151,9 @@ function GateInByPoModal({ item, setItem, setViewType, setIsShowModel, date, get
                             () => {
                               setIsShowModel(false);
                               // setViewType(2);
-                              getPendingList(`/mes/MSIL/GetAllGateInByPOInfoByDate?intBusinessUnitId=${selectedBusinessUnit?.value}&date=${date}`);
+                              getPendingList(
+                                `/mes/MSIL/GetAllGateInByPOInfoByDate?intBusinessUnitId=${selectedBusinessUnit?.value}&date=${date}`
+                              );
                             },
                             true
                           );
@@ -132,42 +166,54 @@ function GateInByPoModal({ item, setItem, setViewType, setIsShowModel, date, get
                 </div>
                 <div className="row">
                   <div className="col-lg-12">
-                    <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
-                      <thead>
-                        <tr>
-                          <th style={{ width: "30px" }}>SL</th>
-                          <th>Item Name</th>
-                          <th>PO Quantity</th>
-                          <th>Total Receive Qty</th>
-                          <th style={{ width: "150px" }}>Receive Qty</th>
-                          <th>Uom</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {item?.row?.length > 0 &&
-                          item?.row?.map((itm, index) => (
-                            <tr key={index}>
-                              <td>{index + 1}</td>
-                              <td>{itm?.strItemName}</td>
-                              <td className="text-center">{itm?.numOrderQty}</td>
-                              <td>{itm?.totalQuantity}</td>
-                              <td>
-                                <IInput
-                                  value={itm?.receiveQuantity}
-                                  name="receiveQuantity"
-                                  type="tel"
-                                  min="0"
-                                  onChange={(e) => {
-                                    const validNum = validateDigit(e.target.value);
-                                    rowDtoHandler("receiveQuantity", validNum, index, item, setItem);
-                                  }}
-                                />
-                              </td>
-                              <td>{itm?.strUoMname}</td>
-                            </tr>
-                          ))}
-                      </tbody>
-                    </table>
+                    <div className="table-responsive">
+                      <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+                        <thead>
+                          <tr>
+                            <th style={{ width: "30px" }}>SL</th>
+                            <th>Item Name</th>
+                            <th>PO Quantity</th>
+                            <th>Total Receive Qty</th>
+                            <th style={{ width: "150px" }}>Receive Qty</th>
+                            <th>Uom</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {item?.row?.length > 0 &&
+                            item?.row?.map((itm, index) => (
+                              <tr key={index}>
+                                <td>{index + 1}</td>
+                                <td>{itm?.strItemName}</td>
+                                <td className="text-center">
+                                  {itm?.numOrderQty}
+                                </td>
+                                <td>{itm?.totalQuantity}</td>
+                                <td>
+                                  <IInput
+                                    value={itm?.receiveQuantity}
+                                    name="receiveQuantity"
+                                    type="tel"
+                                    min="0"
+                                    onChange={(e) => {
+                                      const validNum = validateDigit(
+                                        e.target.value
+                                      );
+                                      rowDtoHandler(
+                                        "receiveQuantity",
+                                        validNum,
+                                        index,
+                                        item,
+                                        setItem
+                                      );
+                                    }}
+                                  />
+                                </td>
+                                <td>{itm?.strUoMname}</td>
+                              </tr>
+                            ))}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
               </CardBody>

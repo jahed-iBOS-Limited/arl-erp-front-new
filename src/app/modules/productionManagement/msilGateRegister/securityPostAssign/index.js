@@ -17,8 +17,8 @@ import Loading from "../../../_helper/_loading";
 import PaginationTable from "../../../_helper/_tablePagination";
 import IViewModal from "../../../_helper/_viewModal";
 import SecurityPostAssignDetailsView from "./detailsViewModal";
-import { useSelector } from 'react-redux';
-import { shallowEqual } from 'react-redux';
+import { useSelector } from "react-redux";
+import { shallowEqual } from "react-redux";
 
 function SecurityPostAssign() {
   const history = useHistory();
@@ -41,7 +41,9 @@ function SecurityPostAssign() {
 
   const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
     getRowData(
-      `/mes/MSIL/GetAllSecurityPostAssignLanding?intBusinessUnitId=${selectedBusinessUnit?.value}&PageNo=${pageNo}&PageSize=${pageSize}&date=${values?.date || ""}`
+      `/mes/MSIL/GetAllSecurityPostAssignLanding?intBusinessUnitId=${
+        selectedBusinessUnit?.value
+      }&PageNo=${pageNo}&PageSize=${pageSize}&date=${values?.date || ""}`
     );
   };
 
@@ -96,7 +98,10 @@ function SecurityPostAssign() {
                         disabled={false}
                         onClick={() => {
                           getRowData(
-                            `/mes/MSIL/GetAllSecurityPostAssignLanding?intBusinessUnitId=${selectedBusinessUnit?.value}&PageNo=${pageNo}&PageSize=${pageSize}&date=${values?.date || ""}`
+                            `/mes/MSIL/GetAllSecurityPostAssignLanding?intBusinessUnitId=${
+                              selectedBusinessUnit?.value
+                            }&PageNo=${pageNo}&PageSize=${pageSize}&date=${values?.date ||
+                              ""}`
                           );
                         }}
                       >
@@ -107,31 +112,33 @@ function SecurityPostAssign() {
                 </div>
                 <div className="row">
                   <div className="col-lg-12">
-                    <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
-                      <thead>
-                        <tr>
-                          <th style={{ width: "30px" }}>SL</th>
-                          <th>তারিখ</th>
-                          <th>শিফট</th>
-                          {/* <th>নাম</th>
+                    <div className="table-responsive">
+                      <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+                        <thead>
+                          <tr>
+                            <th style={{ width: "30px" }}>SL</th>
+                            <th>তারিখ</th>
+                            <th>শিফট</th>
+                            {/* <th>নাম</th>
                           <th>পদবী</th>
                           <th>পোস্ট/স্থান</th>
                           <th>প্রবেশের সময়</th>
                           <th>বহির্গমনের সময়</th>
                           <th>মন্তব্য</th> */}
-                          <th style={{ width: "80px" }}>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {rowData?.securityPostAssignList?.length > 0 &&
-                          rowData?.securityPostAssignList?.map((item, index) => (
-                            <tr key={index}>
-                              <td>{index + 1}</td>
-                              <td className="text-center">
-                                {_dateFormatter(item?.dteDate)}
-                              </td>
-                              <td>{item?.strShiftName}</td>
-                              {/* <td>{item?.strEmployeeName}</td>
+                            <th style={{ width: "80px" }}>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {rowData?.securityPostAssignList?.length > 0 &&
+                            rowData?.securityPostAssignList?.map(
+                              (item, index) => (
+                                <tr key={index}>
+                                  <td>{index + 1}</td>
+                                  <td className="text-center">
+                                    {_dateFormatter(item?.dteDate)}
+                                  </td>
+                                  <td>{item?.strShiftName}</td>
+                                  {/* <td>{item?.strEmployeeName}</td>
                               <td>{item?.strDesignation}</td>
                               <td>{item?.strPostName}</td>
                               <td className="text-center">
@@ -141,28 +148,31 @@ function SecurityPostAssign() {
                                 {_timeFormatter(item?.tmOutTime || "")}
                               </td>
                               <td>{item?.strRemarks}</td> */}
-                              <td className="text-center">
-                                <div className="d-flex align-items-center justify-content-around">
-                                <IEdit
-                                  onClick={() =>
-                                    history.push({
-                                      pathname: `/production-management/msil-gate-register/Security-Post-Assign/edit/${item?.intGateEntryItemListId}`,
-                                      state: { ...item },
-                                    })
-                                  }
-                                />
-                                <IView
-                                  clickHandler={() => {
-                                    setShiftList(item)
-                                    setIsShowModel(true)}
-                                  }
-                                />
-                                </div>
-                              </td>
-                            </tr>
-                          ))}
-                      </tbody>
-                    </table>
+                                  <td className="text-center">
+                                    <div className="d-flex align-items-center justify-content-around">
+                                      <IEdit
+                                        onClick={() =>
+                                          history.push({
+                                            pathname: `/production-management/msil-gate-register/Security-Post-Assign/edit/${item?.intGateEntryItemListId}`,
+                                            state: { ...item },
+                                          })
+                                        }
+                                      />
+                                      <IView
+                                        clickHandler={() => {
+                                          setShiftList(item);
+                                          setIsShowModel(true);
+                                        }}
+                                      />
+                                    </div>
+                                  </td>
+                                </tr>
+                              )
+                            )}
+                        </tbody>
+                      </table>
+                    </div>
+
                     {rowData?.securityPostAssignList?.length > 0 && (
                       <PaginationTable
                         count={rowData?.totalCount}
@@ -183,12 +193,12 @@ function SecurityPostAssign() {
             <IViewModal
               show={isShowModel}
               onHide={() => {
-              setIsShowModel(false);
-            }}
+                setIsShowModel(false);
+              }}
             >
-              <SecurityPostAssignDetailsView 
-              shiftList = {shiftList}
-              setShiftList = {setShiftList}
+              <SecurityPostAssignDetailsView
+                shiftList={shiftList}
+                setShiftList={setShiftList}
               />
             </IViewModal>
           </>

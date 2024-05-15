@@ -57,7 +57,7 @@ const ItemOverallCost = () => {
     getGridData(
       `/mes/ShopFloor/GetItemOverallCostReport?billOfMaterialId=307&warehouseId=28`
     );
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileData, selectedBusinessUnit]);
 
   useEffect(() => {
@@ -181,44 +181,45 @@ const ItemOverallCost = () => {
                   <h5>
                     <b>Material Cost:</b>
                   </h5>
-
-                  <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
-                    <thead>
-                      <tr>
-                        <th style={{ width: "30px" }}>SL</th>
-                        <th>Material Code</th>
-                        <th>Material Name</th>
-                        <th>Amount</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {materialData.length > 0 &&
-                        materialData.map((item, index) => (
-                          <tr>
-                            <td className="text-center">{index + 1}</td>
-                            <td className="text-center">
-                              {item?.MaterialCode}
-                            </td>
-                            <td>{item?.MaterialName}</td>
-                            <td className="text-center">
-                              {_formatMoney(item?.Amount)}
-                            </td>
-                          </tr>
-                        ))}
-                      {materialData.length > 0 && (
-                        <>
-                          <tr>
-                            <td colspan="3">
-                              <b>Total</b>
-                            </td>
-                            <td className="text-center">
-                              {materialTotal.toFixed(4)}
-                            </td>
-                          </tr>
-                        </>
-                      )}
-                    </tbody>
-                  </table>
+                  <div className="table-responsive">
+                    <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+                      <thead>
+                        <tr>
+                          <th style={{ width: "30px" }}>SL</th>
+                          <th>Material Code</th>
+                          <th>Material Name</th>
+                          <th>Amount</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {materialData.length > 0 &&
+                          materialData.map((item, index) => (
+                            <tr>
+                              <td className="text-center">{index + 1}</td>
+                              <td className="text-center">
+                                {item?.MaterialCode}
+                              </td>
+                              <td>{item?.MaterialName}</td>
+                              <td className="text-center">
+                                {_formatMoney(item?.Amount)}
+                              </td>
+                            </tr>
+                          ))}
+                        {materialData.length > 0 && (
+                          <>
+                            <tr>
+                              <td colspan="3">
+                                <b>Total</b>
+                              </td>
+                              <td className="text-center">
+                                {materialTotal.toFixed(4)}
+                              </td>
+                            </tr>
+                          </>
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
 
@@ -227,58 +228,59 @@ const ItemOverallCost = () => {
                   <h5>
                     <b>Overhead Cost:</b>
                   </h5>
-
-                  <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
-                    <thead>
-                      <tr>
-                        <th style={{ width: "30px" }}>SL</th>
-                        <th>Cost Center</th>
-                        <th>Cost of Element</th>
-                        <th>Amount</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {overCostData.length > 0 &&
-                        overCostData.map((item, index) => (
-                          <tr>
-                            <td className="text-center">{index + 1}</td>
-                            <td>{item?.CostCenter}</td>
-                            <td>{item?.CostElement}</td>
-                            <td className="text-center">
-                              {_formatMoney(item?.Amount)}
-                            </td>
-                          </tr>
-                        ))}
-                      {overCostData.length > 0 && (
-                        <>
-                          <tr>
-                            <td colspan="3">
-                              <b>Total</b>
-                            </td>
-                            <td className="text-center">
-                              {overCostTotal.toFixed(4)}
-                            </td>
-                          </tr>
-                          <tr>
-                            <td colspan="3">
-                              <b>Grand Total</b>
-                            </td>
-                            <td className="text-center">
-                              {grandTotal.toFixed(4)}
-                            </td>
-                          </tr>
-                          <tr>
-                            <td colspan="3">
-                              <b>Per Unit Cost</b>
-                            </td>
-                            <td className="text-center">
-                              {perUnitCost.toFixed(4)}
-                            </td>
-                          </tr>
-                        </>
-                      )}
-                    </tbody>
-                  </table>
+                  <div className="table-responsive">
+                    <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+                      <thead>
+                        <tr>
+                          <th style={{ width: "30px" }}>SL</th>
+                          <th>Cost Center</th>
+                          <th>Cost of Element</th>
+                          <th>Amount</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {overCostData.length > 0 &&
+                          overCostData.map((item, index) => (
+                            <tr>
+                              <td className="text-center">{index + 1}</td>
+                              <td>{item?.CostCenter}</td>
+                              <td>{item?.CostElement}</td>
+                              <td className="text-center">
+                                {_formatMoney(item?.Amount)}
+                              </td>
+                            </tr>
+                          ))}
+                        {overCostData.length > 0 && (
+                          <>
+                            <tr>
+                              <td colspan="3">
+                                <b>Total</b>
+                              </td>
+                              <td className="text-center">
+                                {overCostTotal.toFixed(4)}
+                              </td>
+                            </tr>
+                            <tr>
+                              <td colspan="3">
+                                <b>Grand Total</b>
+                              </td>
+                              <td className="text-center">
+                                {grandTotal.toFixed(4)}
+                              </td>
+                            </tr>
+                            <tr>
+                              <td colspan="3">
+                                <b>Per Unit Cost</b>
+                              </td>
+                              <td className="text-center">
+                                {perUnitCost.toFixed(4)}
+                              </td>
+                            </tr>
+                          </>
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
             </Form>

@@ -167,71 +167,73 @@ export default function REBConsumption() {
 
               <div style={{ marginTop: "15px" }}>
                 <div>
-                  <table className="table table-striped table-bordered global-table">
-                    <thead>
-                      <tr>
-                        <th style={{ minWidth: "50px" }}>SL</th>
-                        <th>Date</th>
-                        <th>Shift</th>
-                        <th>REB Consumption Type Name</th>
-                        <th>Previous KWH (Meter Reading)</th>
-                        <th>Present KWH (Meter Reading)</th>
-                        <th>Total REB Consumption</th>
-                        <th>Total REB Consumption Unit</th>
-                        {selectedBusinessUnit?.value === 4 ? (
-                          <th>Time</th>
-                        ) : null}
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {landingData?.data?.length > 0 &&
-                        landingData?.data?.map((item, index) => (
-                          <tr key={index}>
-                            <td>{index + 1}</td>
-                            <td className="text-center">
-                              {_dateFormatter(item?.dteDate)}
-                            </td>
-                            <td>{item?.strShift}</td>
-                            <td>{item?.stRebconsumptionTypeName}</td>
-                            <td className="text-center">
-                              {(item?.intStartKwh || 0) +
-                                (item?.intStartKwh2 || 0) +
-                                (item?.intStartKwh3 || 0) +
-                                (item?.intStartKwh4 || 0)}
-                            </td>
-                            <td className="text-center">
-                              {(item?.intEndKwh || 0) +
-                                (item?.intEndKwh2 || 0) +
-                                (item?.intEndKwh3 || 0) +
-                                (item?.intEndKwh4 || 0)}
-                            </td>
-                            <td className="text-center">
-                              {item?.intTotalRebconsumedUnitCal}
-                            </td>
-                            <td className="text-center">
-                              {item?.intTotalRebconsumpedAfterMultiplyCal}
-                            </td>
-                            {selectedBusinessUnit?.value === 4 ? (
+                  <div className="table-responsive">
+                    <table className="table table-striped table-bordered global-table">
+                      <thead>
+                        <tr>
+                          <th style={{ minWidth: "50px" }}>SL</th>
+                          <th>Date</th>
+                          <th>Shift</th>
+                          <th>REB Consumption Type Name</th>
+                          <th>Previous KWH (Meter Reading)</th>
+                          <th>Present KWH (Meter Reading)</th>
+                          <th>Total REB Consumption</th>
+                          <th>Total REB Consumption Unit</th>
+                          {selectedBusinessUnit?.value === 4 ? (
+                            <th>Time</th>
+                          ) : null}
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {landingData?.data?.length > 0 &&
+                          landingData?.data?.map((item, index) => (
+                            <tr key={index}>
+                              <td>{index + 1}</td>
                               <td className="text-center">
-                                {/* {convertTime(item?.tmReadingTime)} */}
-                                {timeFormatter(item?.tmReadingTime)}
+                                {_dateFormatter(item?.dteDate)}
                               </td>
-                            ) : null}
-                            <td className="text-center">
-                              <IEdit
-                                onClick={() => {
-                                  history.push({
-                                    pathname: `/production-management/msil-Electrical/REBConsumption/edit/${item?.intRebconsumptionId}`,
-                                    state: { ...item },
-                                  });
-                                }}
-                              />
-                            </td>
-                          </tr>
-                        ))}
-                    </tbody>
-                  </table>
+                              <td>{item?.strShift}</td>
+                              <td>{item?.stRebconsumptionTypeName}</td>
+                              <td className="text-center">
+                                {(item?.intStartKwh || 0) +
+                                  (item?.intStartKwh2 || 0) +
+                                  (item?.intStartKwh3 || 0) +
+                                  (item?.intStartKwh4 || 0)}
+                              </td>
+                              <td className="text-center">
+                                {(item?.intEndKwh || 0) +
+                                  (item?.intEndKwh2 || 0) +
+                                  (item?.intEndKwh3 || 0) +
+                                  (item?.intEndKwh4 || 0)}
+                              </td>
+                              <td className="text-center">
+                                {item?.intTotalRebconsumedUnitCal}
+                              </td>
+                              <td className="text-center">
+                                {item?.intTotalRebconsumpedAfterMultiplyCal}
+                              </td>
+                              {selectedBusinessUnit?.value === 4 ? (
+                                <td className="text-center">
+                                  {/* {convertTime(item?.tmReadingTime)} */}
+                                  {timeFormatter(item?.tmReadingTime)}
+                                </td>
+                              ) : null}
+                              <td className="text-center">
+                                <IEdit
+                                  onClick={() => {
+                                    history.push({
+                                      pathname: `/production-management/msil-Electrical/REBConsumption/edit/${item?.intRebconsumptionId}`,
+                                      state: { ...item },
+                                    });
+                                  }}
+                                />
+                              </td>
+                            </tr>
+                          ))}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
                 {landingData?.data?.length > 0 && (
                   <PaginationTable

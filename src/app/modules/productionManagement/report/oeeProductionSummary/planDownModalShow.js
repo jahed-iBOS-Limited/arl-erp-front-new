@@ -3,7 +3,7 @@ import { dateFormatWithMonthName } from "../../../_helper/_dateFormate";
 import Loading from "../../../_helper/_loading";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 
-export default function PlanDownModalShow({ values,singleData }) {
+export default function PlanDownModalShow({ values, singleData }) {
   const [rowData, getRowData, loadingRowData] = useAxiosGet();
 
   useEffect(() => {
@@ -14,7 +14,7 @@ export default function PlanDownModalShow({ values,singleData }) {
   }, [values]);
 
   // total time initial value
-  let totalTime=0
+  let totalTime = 0;
   return (
     <>
       {loadingRowData && <Loading />}
@@ -49,44 +49,52 @@ export default function PlanDownModalShow({ values,singleData }) {
           style={{ maxHeight: "550px" }}
           className="scroll-table _table table-responsive"
         >
-          <table className="table table-striped three-column-sticky table-bordered bj-table bj-table-landing">
-            <thead>
-              <tr>
-                <th className="text-center">Date</th>
-                <th className="text-center">Machine Name</th>
-                <th style={{ minWidth: "200px" }} className="text-center">
-                  Reason
-                </th>
-                <th className="text-center">Loss Time (Min)</th>
-              </tr>
-            </thead>
-            <tbody>
-              {rowData?.map((item, index) =>{
-                //total down time calculation
-                totalTime += item?.numPlannedDowntimeMin
-                return  (
-                  <tr key={index}>
-                <td className="text-center">
-                  {dateFormatWithMonthName(
-                    item?.dteProductionDate?.split("T")[0]
-                  )}
-                </td>
-                <td className="text-center">{item?.strMachineName}</td>
-                <td className="text-center">{item?.strDownTimeReason}</td>
-                <td className="text-center">{item?.numPlannedDowntimeMin}</td>
-              </tr>
-                )
-              })}
-              <tr>
-                <td colSpan={3} className="text-center">
-                  <strong>Total Loss Time</strong>
-                </td>
-                <td className="text-center">
-                  <strong>{totalTime}</strong>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <div className="table-responsive">
+            <div className="table-responsive">
+              <table className="table table-striped three-column-sticky table-bordered bj-table bj-table-landing">
+                <thead>
+                  <tr>
+                    <th className="text-center">Date</th>
+                    <th className="text-center">Machine Name</th>
+                    <th style={{ minWidth: "200px" }} className="text-center">
+                      Reason
+                    </th>
+                    <th className="text-center">Loss Time (Min)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {rowData?.map((item, index) => {
+                    //total down time calculation
+                    totalTime += item?.numPlannedDowntimeMin;
+                    return (
+                      <tr key={index}>
+                        <td className="text-center">
+                          {dateFormatWithMonthName(
+                            item?.dteProductionDate?.split("T")[0]
+                          )}
+                        </td>
+                        <td className="text-center">{item?.strMachineName}</td>
+                        <td className="text-center">
+                          {item?.strDownTimeReason}
+                        </td>
+                        <td className="text-center">
+                          {item?.numPlannedDowntimeMin}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                  <tr>
+                    <td colSpan={3} className="text-center">
+                      <strong>Total Loss Time</strong>
+                    </td>
+                    <td className="text-center">
+                      <strong>{totalTime}</strong>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
       </div>
     </>

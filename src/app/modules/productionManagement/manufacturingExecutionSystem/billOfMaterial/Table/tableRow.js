@@ -211,117 +211,121 @@ export function TableRow() {
                 placeholder="BOM Code Search"
                 paginationSearchHandler={paginationSearchHandler}
               />
-              <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
-                <thead>
-                  <tr>
-                    <th style={{ width: "30px" }}>SL</th>
-                    <th style={{ width: "90px" }}>Item Code</th>
-                    <th>BOM Name</th>
-                    <th>BOM Version Name</th>
-                    {[144, 189, 188].includes(selectedBusinessUnit?.value) && (
-                      <th>BOM Type</th>
-                    )}
-                    {/* <th style={{ width: "50px" }}>BOM Code</th> */}
-                    <th style={{ width: "60px" }}>Lot Size</th>
-                    <th style={{ width: "90px" }}>UoM</th>
-                    <th style={{ width: "90px" }}>Status</th>
-                    <th style={{ width: "90px" }}>Standard</th>
-                    <th style={{ width: "90px" }}>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {gridData?.data?.length > 0 &&
-                    gridData?.data?.map((item, index) => (
-                      <tr key={index}>
-                        {/* key={item.businessUnitId} */}
-                        <td>{item?.sl}</td>
-                        <td>
-                          <div className="text-center">{item?.itemCode}</div>
-                        </td>
-                        <td>{item?.billOfMaterialName}</td>
-                        <td>{item?.boMItemVersionName}</td>
-                        {[144, 189, 188].includes(
-                          selectedBusinessUnit?.value
-                        ) && <td>{item?.billOfMaterialTypeName}</td>}
-                        {/* <td>
+              <div className="table-responsive">
+                <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+                  <thead>
+                    <tr>
+                      <th style={{ width: "30px" }}>SL</th>
+                      <th style={{ width: "90px" }}>Item Code</th>
+                      <th>BOM Name</th>
+                      <th>BOM Version Name</th>
+                      {[144, 189, 188].includes(
+                        selectedBusinessUnit?.value
+                      ) && <th>BOM Type</th>}
+                      {/* <th style={{ width: "50px" }}>BOM Code</th> */}
+                      <th style={{ width: "60px" }}>Lot Size</th>
+                      <th style={{ width: "90px" }}>UoM</th>
+                      <th style={{ width: "90px" }}>Status</th>
+                      <th style={{ width: "90px" }}>Standard</th>
+                      <th style={{ width: "90px" }}>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {gridData?.data?.length > 0 &&
+                      gridData?.data?.map((item, index) => (
+                        <tr key={index}>
+                          {/* key={item.businessUnitId} */}
+                          <td>{item?.sl}</td>
+                          <td>
+                            <div className="text-center">{item?.itemCode}</div>
+                          </td>
+                          <td>{item?.billOfMaterialName}</td>
+                          <td>{item?.boMItemVersionName}</td>
+                          {[144, 189, 188].includes(
+                            selectedBusinessUnit?.value
+                          ) && <td>{item?.billOfMaterialTypeName}</td>}
+                          {/* <td>
                       <div className="text-center">
                         {item.billOfMaterialCode}
                       </div>
                     </td> */}
-                        {/* <td>
+                          {/* <td>
                       <div className="text-left pl-2">{item.plantName}</div>
                     </td> */}
-                        <td>
-                          <div className="text-center">{item?.lotSize}</div>
-                        </td>
-                        <td>
-                          <div className="text-left pl-2">{item?.uoMName}</div>
-                        </td>
-                        <td>
-                          <div
-                            style={{
-                              color: item?.isApproved ? "green" : "#ff9f1a",
-                              fontWeight: 800,
-                            }}
-                            className="text-center pl-2"
-                          >
-                            {item?.isApproved ? "Approved" : "Pending"}
-                          </div>
-                        </td>
-                        <td>
-                          {item?.isStandardBoM ? (
-                            <div className="text-left pl-2">Yes</div>
-                          ) : (
-                            <div className="text-left pl-2">No</div>
-                          )}
-                        </td>
-                        <td>
-                          <div className="d-flex justify-content-center">
-                            <span className="view mr-3 mt-1">
-                              <IView
-                                clickHandler={() => {
-                                  history.push(
-                                    `/production-management/mes/bill-of-material/view/${item?.billOfMaterialId}`
-                                  );
-                                }}
-                              />
-                            </span>
-                            <span
-                              className="edit mr-3 mt-1"
-                              onClick={() => {
-                                if (
-                                  [2]?.includes(IsBackCalcualtion) &&
-                                  item?.productionOrderId?.length
-                                ) {
-                                  alert(
-                                    `Please complete the production order below then edit the bill of materials : ${item?.productionOrderId}`
-                                  );
-                                } else {
-                                  history.push({
-                                    pathname: `/production-management/mes/bill-of-material/edit/${item?.billOfMaterialId}`,
-                                    state: { plantId: item.plantId },
-                                  });
-                                }
+                          <td>
+                            <div className="text-center">{item?.lotSize}</div>
+                          </td>
+                          <td>
+                            <div className="text-left pl-2">
+                              {item?.uoMName}
+                            </div>
+                          </td>
+                          <td>
+                            <div
+                              style={{
+                                color: item?.isApproved ? "green" : "#ff9f1a",
+                                fontWeight: 800,
                               }}
+                              className="text-center pl-2"
                             >
-                              <IEdit />
-                            </span>
-                            <span className="view">
-                              <CostView
-                                title={"Cost View"}
-                                clickHandler={() => {
-                                  setisShowModalForCostView(true);
-                                  setItem(item);
-                                  console.log("item: ", item);
+                              {item?.isApproved ? "Approved" : "Pending"}
+                            </div>
+                          </td>
+                          <td>
+                            {item?.isStandardBoM ? (
+                              <div className="text-left pl-2">Yes</div>
+                            ) : (
+                              <div className="text-left pl-2">No</div>
+                            )}
+                          </td>
+                          <td>
+                            <div className="d-flex justify-content-center">
+                              <span className="view mr-3 mt-1">
+                                <IView
+                                  clickHandler={() => {
+                                    history.push(
+                                      `/production-management/mes/bill-of-material/view/${item?.billOfMaterialId}`
+                                    );
+                                  }}
+                                />
+                              </span>
+                              <span
+                                className="edit mr-3 mt-1"
+                                onClick={() => {
+                                  if (
+                                    [2]?.includes(IsBackCalcualtion) &&
+                                    item?.productionOrderId?.length
+                                  ) {
+                                    alert(
+                                      `Please complete the production order below then edit the bill of materials : ${item?.productionOrderId}`
+                                    );
+                                  } else {
+                                    history.push({
+                                      pathname: `/production-management/mes/bill-of-material/edit/${item?.billOfMaterialId}`,
+                                      state: { plantId: item.plantId },
+                                    });
+                                  }
                                 }}
-                              />
-                            </span>
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
-                </tbody>
-              </table>
+                              >
+                                <IEdit />
+                              </span>
+                              <span className="view">
+                                <CostView
+                                  title={"Cost View"}
+                                  clickHandler={() => {
+                                    setisShowModalForCostView(true);
+                                    setItem(item);
+                                    console.log("item: ", item);
+                                  }}
+                                />
+                              </span>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
           {/* Pagination Code */}

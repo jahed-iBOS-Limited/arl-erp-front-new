@@ -42,39 +42,42 @@ function GateOutDelivary() {
             {lodar && <Loading />}
             <div className="row">
               <div className="col-lg-12">
-                <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
-                  <thead>
-                    <tr>
-                      <th style={{ width: "30px" }}>SL</th>
-                      <th>Date</th>
-                      <th>Out Time</th>
-                      <th>Gate Pass Code</th>
-                      <th>Item Name</th>
-                      <th>UoM</th>
-                      <th>Remarks</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {rowData?.gateOutByGatePassList?.length > 0 &&
-                      rowData?.gateOutByGatePassList?.map((item, index) => (
-                        <tr key={index}>
-                          <td>{index + 1}</td>
-                          <td className="text-center">
-                            {_dateFormatter(item?.dteDate)}
-                          </td>
-                          <td className="text-center">
-                            {_timeFormatter(item?.tmOutTime || "")}
-                          </td>
-                          <td className="text-center">
-                            {item?.strGatePassCode}
-                          </td>
-                          <td>{item?.strItemName}</td>
-                          <td>{item?.strUoM}</td>
-                          <td>{item?.strRemarks}</td>
-                        </tr>
-                      ))}
-                  </tbody>
-                </table>
+                <div className="table-responsive">
+                  <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+                    <thead>
+                      <tr>
+                        <th style={{ width: "30px" }}>SL</th>
+                        <th>Date</th>
+                        <th>Out Time</th>
+                        <th>Gate Pass Code</th>
+                        <th>Item Name</th>
+                        <th>UoM</th>
+                        <th>Remarks</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {rowData?.gateOutByGatePassList?.length > 0 &&
+                        rowData?.gateOutByGatePassList?.map((item, index) => (
+                          <tr key={index}>
+                            <td>{index + 1}</td>
+                            <td className="text-center">
+                              {_dateFormatter(item?.dteDate)}
+                            </td>
+                            <td className="text-center">
+                              {_timeFormatter(item?.tmOutTime || "")}
+                            </td>
+                            <td className="text-center">
+                              {item?.strGatePassCode}
+                            </td>
+                            <td>{item?.strItemName}</td>
+                            <td>{item?.strUoM}</td>
+                            <td>{item?.strRemarks}</td>
+                          </tr>
+                        ))}
+                    </tbody>
+                  </table>
+                </div>
+
                 {rowData?.gateOutByGatePassList?.length > 0 && (
                   <PaginationTable
                     count={rowData?.totalCount}

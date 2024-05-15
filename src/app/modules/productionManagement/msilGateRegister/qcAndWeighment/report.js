@@ -3,14 +3,23 @@ import React, { useEffect, useRef, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import ReactToPrint from "react-to-print";
 import { toast } from "react-toastify";
-import { Card, CardBody, CardHeader, CardHeaderToolbar, ModalProgressBar } from "../../../../../_metronic/_partials/controls";
+import {
+  Card,
+  CardBody,
+  CardHeader,
+  CardHeaderToolbar,
+  ModalProgressBar,
+} from "../../../../../_metronic/_partials/controls";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { _dateFormatter, _dateTimeFormatter } from "../../../_helper/_dateFormate";
+import {
+  _dateFormatter,
+  _dateTimeFormatter,
+} from "../../../_helper/_dateFormate";
 import InputField from "../../../_helper/_inputField";
 import Loading from "../../../_helper/_loading";
 import NewSelect from "../../../_helper/_select";
 import { _timeFormatter } from "../../../_helper/_timeFormatter";
-import './style.css';
+import "./style.css";
 
 const initData = {
   fromDateTime: "",
@@ -24,16 +33,11 @@ function WeightmentReport() {
   const [rowData, getRowData, lodar] = useAxiosGet();
 
   const [loading, setLoading] = useState(false);
-  const [
-    shipPoint,
-    getShipPoint,
-    shipPointLoader
-  ] = useAxiosGet();
+  const [shipPoint, getShipPoint, shipPointLoader] = useAxiosGet();
 
   const { profileData } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
-
 
   const businessUnitDDL = useSelector((state) => {
     return state.authData.businessUnitList;
@@ -48,7 +52,8 @@ function WeightmentReport() {
     if (selectedBusinessUnit) {
       initData.businessUnit = selectedBusinessUnit;
     }
-    getShipPoint(`/mes/MSIL/GetAllMSIL?PartName=GetShipPointForVehicleEntry&BusinessUnitId=${initData?.businessUnit?.value}&AutoId=${profileData?.userId}`,
+    getShipPoint(
+      `/mes/MSIL/GetAllMSIL?PartName=GetShipPointForVehicleEntry&BusinessUnitId=${initData?.businessUnit?.value}&AutoId=${profileData?.userId}`,
       (data) => {
         initData.shipPoint = data[0];
         setLoading(false);
@@ -81,7 +86,7 @@ function WeightmentReport() {
         enableReinitialize={true}
         initialValues={initData}
         // validationSchema={{}}
-        onSubmit={() => { }}
+        onSubmit={() => {}}
       >
         {({ values, setFieldValue, isValid, errors, touched }) => (
           <>
@@ -103,10 +108,11 @@ function WeightmentReport() {
                         onChange={(valueOption) => {
                           if (valueOption) {
                             setFieldValue("businessUnit", valueOption);
-                            getShipPoint(`/mes/MSIL/GetAllMSIL?PartName=GetShipPointForVehicleEntry&BusinessUnitId=${valueOption?.value
-                              }&AutoId=${profileData?.userId}`,
+                            getShipPoint(
+                              `/mes/MSIL/GetAllMSIL?PartName=GetShipPointForVehicleEntry&BusinessUnitId=${valueOption?.value}&AutoId=${profileData?.userId}`,
                               (data) => {
-                                if (data === []) return toast.warn("No Ship Point Found")
+                                if (data === [])
+                                  return toast.warn("No Ship Point Found");
                                 setFieldValue("shipPoint", data[0]);
                               }
                             );
@@ -163,7 +169,11 @@ function WeightmentReport() {
                         value={values?.type}
                         label="Type"
                         name="type"
-                        options={[{ value: 0, label: "All" }, { value: 1, label: "Bulk" }, { value: 2, label: "Others" }]}
+                        options={[
+                          { value: 0, label: "All" },
+                          { value: 1, label: "Bulk" },
+                          { value: 2, label: "Others" },
+                        ]}
                         onChange={(valueOption) => {
                           setFieldValue("type", valueOption);
                         }}
@@ -175,11 +185,14 @@ function WeightmentReport() {
                       <button
                         style={{ marginTop: "18px" }}
                         className="btn btn-primary"
-                        disabled={!values?.fromDateTime || !values?.toDateTime || !values?.type}
+                        disabled={
+                          !values?.fromDateTime ||
+                          !values?.toDateTime ||
+                          !values?.type
+                        }
                         onClick={() => {
                           getRowData(
-                            `/mes/MSIL/GetAllMSIL?PartName=WeightDetailsReport&FromDate=${values?.fromDateTime}&ToDate=${values?.toDateTime}&BusinessUnitId=${values?.businessUnit?.value}&typeId=${values?.type?.value}&AutoId=${values?.shipPoint?.value
-                            }`
+                            `/mes/MSIL/GetAllMSIL?PartName=WeightDetailsReport&FromDate=${values?.fromDateTime}&ToDate=${values?.toDateTime}&BusinessUnitId=${values?.businessUnit?.value}&typeId=${values?.type?.value}&AutoId=${values?.shipPoint?.value}`
                           );
                         }}
                       >
@@ -195,8 +208,12 @@ function WeightmentReport() {
                           <button
                             type="button"
                             disabled={rowData?.length < 1}
-                            className="btn btn-primary px-3 py-2">
-                            <i className="mr-1 fa fa-print pointer" aria-hidden="true"></i>
+                            className="btn btn-primary px-3 py-2"
+                          >
+                            <i
+                              className="mr-1 fa fa-print pointer"
+                              aria-hidden="true"
+                            ></i>
                             Print
                           </button>
                         )}
@@ -205,59 +222,98 @@ function WeightmentReport() {
                     </div>
                   </div>
                 </div>
-                <div ref={printRef} className="row weightment-report" >
+                <div ref={printRef} className="row weightment-report">
                   <div className="col-lg-12 weightment-report-header">
                     <div className="titleContent text-center">
-                      <h1 className="mt-3 font-weight-bold">{selectedBusinessUnit?.label}</h1>
+                      <h1 className="mt-3 font-weight-bold">
+                        {selectedBusinessUnit?.label}
+                      </h1>
                       <h2 className="font-weight-bold">Weight Details</h2>
                       <div className="d-flex justify-content-around">
-                        <h4>From Date & Time : {`${_dateFormatter(values?.fromDateTime.split("T")[0])} - ${_timeFormatter(values?.fromDateTime.split("T")[1] || "")}`}</h4>
-                        <h4>To Date & Time : {`${_dateFormatter(values?.toDateTime.split("T")[0])} - ${_timeFormatter(values?.toDateTime.split("T")[1] || "")}`}</h4>
+                        <h4>
+                          From Date & Time :{" "}
+                          {`${_dateFormatter(
+                            values?.fromDateTime.split("T")[0]
+                          )} - ${_timeFormatter(
+                            values?.fromDateTime.split("T")[1] || ""
+                          )}`}
+                        </h4>
+                        <h4>
+                          To Date & Time :{" "}
+                          {`${_dateFormatter(
+                            values?.toDateTime.split("T")[0]
+                          )} - ${_timeFormatter(
+                            values?.toDateTime.split("T")[1] || ""
+                          )}`}
+                        </h4>
                       </div>
                     </div>
                   </div>
                   <div className="col-lg-12">
-                    <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
-                      <thead>
-                        <tr>
-                          <th style={{ width: "30px" }}>SL</th>
-                          <th>Reg. No</th>
-                          <th>Vehcile</th>
-                          <th style={{ width: "200px" }}>Challan No</th>
-                          <th>Material</th>
-                          <th>Gross</th>
-                          <th>Tare</th>
-                          <th>Real Net</th>
-                          <th>Quantity</th>
-                          <th>Date Time</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {rowData?.length > 0 &&
-                          rowData?.map((item, index) => (
-                            <tr key={index}>
-                              <td>{index + 1}</td>
-                              <td className="text-center">{item?.entryCode}</td>
-                              <td>{item?.vehicleNumber}</td>
-                              <td className="text-center">{item?.challanNo}</td>
-                              <td className="text-left">{item?.materialDescription}</td>
-                              <td className="text-center">{item?.firstWeight}</td>
-                              <td className="text-center">{item?.secondWeight}</td>
-                              <td className="text-center"> {item?.netWeight}</td>
-                              <td className="text-center">{item?.quantity}</td>
-                              <td className="text-center">{_dateTimeFormatter(item?.secondWeightDate)}</td>
-                            </tr>
-                          ))}
-                        <tr>
-                          <td colSpan={5} className="text-right">Total</td>
-                          <td className="text-center">{totalGross}</td>
-                          <td className="text-center">{totalTare}</td>
-                          <td className="text-center">{totalRealNet}</td>
-                          <td className="text-center">{totalQuantity.toFixed(2)}</td>
-                          <td>{""}</td>
-                        </tr>
-                      </tbody>
-                    </table>
+                    <div className="table-responsive">
+                      <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+                        <thead>
+                          <tr>
+                            <th style={{ width: "30px" }}>SL</th>
+                            <th>Reg. No</th>
+                            <th>Vehcile</th>
+                            <th style={{ width: "200px" }}>Challan No</th>
+                            <th>Material</th>
+                            <th>Gross</th>
+                            <th>Tare</th>
+                            <th>Real Net</th>
+                            <th>Quantity</th>
+                            <th>Date Time</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {rowData?.length > 0 &&
+                            rowData?.map((item, index) => (
+                              <tr key={index}>
+                                <td>{index + 1}</td>
+                                <td className="text-center">
+                                  {item?.entryCode}
+                                </td>
+                                <td>{item?.vehicleNumber}</td>
+                                <td className="text-center">
+                                  {item?.challanNo}
+                                </td>
+                                <td className="text-left">
+                                  {item?.materialDescription}
+                                </td>
+                                <td className="text-center">
+                                  {item?.firstWeight}
+                                </td>
+                                <td className="text-center">
+                                  {item?.secondWeight}
+                                </td>
+                                <td className="text-center">
+                                  {" "}
+                                  {item?.netWeight}
+                                </td>
+                                <td className="text-center">
+                                  {item?.quantity}
+                                </td>
+                                <td className="text-center">
+                                  {_dateTimeFormatter(item?.secondWeightDate)}
+                                </td>
+                              </tr>
+                            ))}
+                          <tr>
+                            <td colSpan={5} className="text-right">
+                              Total
+                            </td>
+                            <td className="text-center">{totalGross}</td>
+                            <td className="text-center">{totalTare}</td>
+                            <td className="text-center">{totalRealNet}</td>
+                            <td className="text-center">
+                              {totalQuantity.toFixed(2)}
+                            </td>
+                            <td>{""}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
               </CardBody>

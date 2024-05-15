@@ -66,7 +66,9 @@ export default function MillProductionCreateEdit() {
       `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&OrgUnitTypeId=7`
     );
 
-    getShiftDDL(`/mes/MesDDL/GetProductionShiftDDL?AccountId=${accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`)
+    getShiftDDL(
+      `/mes/MesDDL/GetProductionShiftDDL?AccountId=${accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userId, accountId, selectedBusinessUnit?.value]);
   const saveHandler = (values, cb) => {
@@ -134,7 +136,7 @@ export default function MillProductionCreateEdit() {
           >
             <Form>
               <div className="form-group  global-form row">
-              <div className="col-lg-2">
+                <div className="col-lg-2">
                   <NewSelect
                     name="shift"
                     options={shiftDDL || []}
@@ -429,37 +431,43 @@ export default function MillProductionCreateEdit() {
                       <h4>Material Issue Details by BOM</h4>
                     </div>
                   </div>
-                  <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
-                    <thead>
-                      <tr>
-                        <th>Sl</th>
-                        <th>Raw Materials</th>
-                        <th>UoM</th>
-                        <th>QTY(%)</th>
-                        <th>Moisture(%)</th>
-                        {/* <th>Process Loss(%)</th>
+                  <div className="table-responsive">
+                    <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+                      <thead>
+                        <tr>
+                          <th>Sl</th>
+                          <th>Raw Materials</th>
+                          <th>UoM</th>
+                          <th>QTY(%)</th>
+                          <th>Moisture(%)</th>
+                          {/* <th>Process Loss(%)</th>
                         <th>Bom Version</th> */}
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {materialIssueDetails?.data?.length > 0 &&
-                        materialIssueDetails?.data?.map((item, index) => {
-                          return (
-                            <tr key={index}>
-                              <td>{index + 1}</td>
-                              <td className="text-left">{item.strItemName}</td>
-                              <td className="text-center">{item.strUomName}</td>
-                              <td className="text-center">
-                                {item.numQuantity}
-                              </td>
-                              <td className="text-center">
-                                {item.numMoisturQuantity}
-                              </td>
-                            </tr>
-                          );
-                        })}
-                    </tbody>
-                  </table>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {materialIssueDetails?.data?.length > 0 &&
+                          materialIssueDetails?.data?.map((item, index) => {
+                            return (
+                              <tr key={index}>
+                                <td>{index + 1}</td>
+                                <td className="text-left">
+                                  {item.strItemName}
+                                </td>
+                                <td className="text-center">
+                                  {item.strUomName}
+                                </td>
+                                <td className="text-center">
+                                  {item.numQuantity}
+                                </td>
+                                <td className="text-center">
+                                  {item.numMoisturQuantity}
+                                </td>
+                              </tr>
+                            );
+                          })}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
               <div className="form-group  global-form row">
@@ -555,7 +563,12 @@ export default function MillProductionCreateEdit() {
                     className="btn btn-primary mt-5"
                     type="button"
                     onClick={() => {
-                      if (+getRemainingBreakdown(values) + +values?.breakdownHour + +values?.numRunningHour > 24) {
+                      if (
+                        +getRemainingBreakdown(values) +
+                          +values?.breakdownHour +
+                          +values?.numRunningHour >
+                        24
+                      ) {
                         return toast.warning(
                           "Total Breakdown Hour cannot be greater than 24"
                         );
@@ -606,7 +619,8 @@ export default function MillProductionCreateEdit() {
               </div>
               <div className="row">
                 <div className="col-lg-12">
-                  <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+                <div className="table-responsive">
+  <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                     <thead>
                       <tr>
                         <th>Sl</th>
@@ -644,6 +658,8 @@ export default function MillProductionCreateEdit() {
                         })}
                     </tbody>
                   </table>
+</div>
+                
                 </div>
               </div>
               <button

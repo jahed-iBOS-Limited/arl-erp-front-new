@@ -85,120 +85,150 @@ export default function QualityReport() {
                   className="loan-scrollable-table"
                 >
                   <div className="scroll-table _table">
-                    <table className="table table-striped table-bordered bj-table bj-table-landing">
-                      <thead>
-                        <tr>
-                          <th style={{ minWidth: "50px" }}>SL</th>
-                          <th style={{ minWidth: "70px" }}>Heat No</th>
-                          <th style={{ minWidth: "110px" }}>Date of Physical test</th>
-                          <th style={{ minWidth: "110px" }}>Physical test time</th>
-                          <th style={{ minWidth: "150px" }}>Grade</th>
-                          <th style={{ minWidth: "90px" }}>Actual Area</th>
-                          <th style={{ minWidth: "90px" }}>Nominal dia mm</th>
-                          <th style={{ minWidth: "90px" }}>Actual Dia mm</th>
-                          <th style={{ minWidth: "90px" }}>Actual unit Wt Kg</th>
-                          <th style={{ minWidth: "90px" }}>Elongation After fracture %</th>
-                          <th style={{ minWidth: "90px" }}>Yield Load Kn</th>
-                          <th style={{ minWidth: "90px" }}>Yield strength MPa</th>
-                          <th style={{ minWidth: "90px" }}>Maximum force Kn</th>
-                          <th style={{ minWidth: "90px" }}>Tensile Strength MPa</th>
-                          <th style={{ minWidth: "90px" }}>Rupture Load</th>
-                          <th style={{ minWidth: "90px" }}>TS/YS Ratio</th>
-                          <th style={{ minWidth: "90px" }}>Bend Test</th>
-                          <th style={{ minWidth: "90px" }}>Production by nature of billet</th>
-                          <th style={{ minWidth: "90px" }}>Billet Tempreture C</th>
-                          <th style={{ minWidth: "90px" }}>Furnace Tempreture C</th>
-                          <th style={{ minWidth: "90px" }}>TMT Water Tempreture C</th>
-                          <th style={{ minWidth: "90px" }}>Bar entry Tempreture C</th>
-                          <th style={{ minWidth: "90px" }}>Bar exite Tempreture C</th>
-                          <th style={{ minWidth: "90px" }}>Water flow</th>
-                          <th style={{ minWidth: "90px" }}>Water Pressure</th>
-                          <th>Remarks</th>
-                          <th style={{ minWidth: "50px" }}>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {landigData?.length > 0 &&
-                          landigData?.map((item, index) => (
-                            <tr key={index}>
-                              <td className="text-center">{index + 1}</td>
-                              <td className="text-center">{item.strHeatNo}</td>
-                              <td className="text-center">
-                                {_dateFormatter(item?.dteTestDate)}
-                              </td>
-                              <td className="text-center">
-                                {_timeFormatter(item?.tmTestTime)}
-                              </td>
-                              <td>{item.strGrade}</td>
-                              <td className="text-center">
-                                {item?.numActualArea}
-                              </td>
-                              <td>{item?.strNominalDia}</td>
-                              <td className="text-center">
-                                {item?.numActualDia}
-                              </td>
-                              <td className="text-center">
-                                {item?.numActualUnitWtKg}
-                              </td>
-                              <td className="text-center">
-                                {item?.numElongationAfterFracture}
-                              </td>
-                              <td className="text-center">
-                                {item?.numYieldLoad}
-                              </td>
-                              <td className="text-center">
-                                {item?.numYieldStrengthCal.toFixed(6)}
-                              </td>
-                              <td className="text-center">
-                                {item?.numMaximumForce}
-                              </td>
-                              <td className="text-center">
-                                {item?.numTensileStrengthCal.toFixed(6)}
-                              </td>
-                              <td className="text-center">
-                                {item?.numRuptureLoad}
-                              </td>
-                              <td className="text-center">
-                                {item?.numTsYsratioCal}
-                              </td>
-                              <td>{item?.strBendTest}</td>
-                              <td>{item?.strNatureOfBillet}</td>
-                              <td className="text-center">
-                                {item?.numBilletTempreture}
-                              </td>
-                              <td className="text-center">
-                                {item?.numFurnaceTempreture}
-                              </td>
-                              <td className="text-center">
-                                {item?.numTmtwaterTempreture}
-                              </td>
-                              <td className="text-center">
-                                {item?.numBarEntryTempreture}
-                              </td>
-                              <td className="text-center">
-                                {item?.numBarExitTempreture}
-                              </td>
-                              <td className="text-center">
-                                {item?.numWaterFlow}
-                              </td>
-                              <td className="text-center">
-                                {item?.numWaterPressure}
-                              </td>
-                              <td>{item?.strRemarks}</td>
-                              <td className="text-center">
-                                <IEdit
-                                  onClick={() => {
-                                    history.push({
-                                      pathname: `/production-management/msil-Rolling/QualityReport/edit/${item?.intRollingQualityDataId}`,
-                                      state: { ...item },
-                                    });
-                                  }}
-                                />
-                              </td>
-                            </tr>
-                          ))}
-                      </tbody>
-                    </table>
+                    <div className="table-responsive">
+                      <table className="table table-striped table-bordered bj-table bj-table-landing">
+                        <thead>
+                          <tr>
+                            <th style={{ minWidth: "50px" }}>SL</th>
+                            <th style={{ minWidth: "70px" }}>Heat No</th>
+                            <th style={{ minWidth: "110px" }}>
+                              Date of Physical test
+                            </th>
+                            <th style={{ minWidth: "110px" }}>
+                              Physical test time
+                            </th>
+                            <th style={{ minWidth: "150px" }}>Grade</th>
+                            <th style={{ minWidth: "90px" }}>Actual Area</th>
+                            <th style={{ minWidth: "90px" }}>Nominal dia mm</th>
+                            <th style={{ minWidth: "90px" }}>Actual Dia mm</th>
+                            <th style={{ minWidth: "90px" }}>
+                              Actual unit Wt Kg
+                            </th>
+                            <th style={{ minWidth: "90px" }}>
+                              Elongation After fracture %
+                            </th>
+                            <th style={{ minWidth: "90px" }}>Yield Load Kn</th>
+                            <th style={{ minWidth: "90px" }}>
+                              Yield strength MPa
+                            </th>
+                            <th style={{ minWidth: "90px" }}>
+                              Maximum force Kn
+                            </th>
+                            <th style={{ minWidth: "90px" }}>
+                              Tensile Strength MPa
+                            </th>
+                            <th style={{ minWidth: "90px" }}>Rupture Load</th>
+                            <th style={{ minWidth: "90px" }}>TS/YS Ratio</th>
+                            <th style={{ minWidth: "90px" }}>Bend Test</th>
+                            <th style={{ minWidth: "90px" }}>
+                              Production by nature of billet
+                            </th>
+                            <th style={{ minWidth: "90px" }}>
+                              Billet Tempreture C
+                            </th>
+                            <th style={{ minWidth: "90px" }}>
+                              Furnace Tempreture C
+                            </th>
+                            <th style={{ minWidth: "90px" }}>
+                              TMT Water Tempreture C
+                            </th>
+                            <th style={{ minWidth: "90px" }}>
+                              Bar entry Tempreture C
+                            </th>
+                            <th style={{ minWidth: "90px" }}>
+                              Bar exite Tempreture C
+                            </th>
+                            <th style={{ minWidth: "90px" }}>Water flow</th>
+                            <th style={{ minWidth: "90px" }}>Water Pressure</th>
+                            <th>Remarks</th>
+                            <th style={{ minWidth: "50px" }}>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {landigData?.length > 0 &&
+                            landigData?.map((item, index) => (
+                              <tr key={index}>
+                                <td className="text-center">{index + 1}</td>
+                                <td className="text-center">
+                                  {item.strHeatNo}
+                                </td>
+                                <td className="text-center">
+                                  {_dateFormatter(item?.dteTestDate)}
+                                </td>
+                                <td className="text-center">
+                                  {_timeFormatter(item?.tmTestTime)}
+                                </td>
+                                <td>{item.strGrade}</td>
+                                <td className="text-center">
+                                  {item?.numActualArea}
+                                </td>
+                                <td>{item?.strNominalDia}</td>
+                                <td className="text-center">
+                                  {item?.numActualDia}
+                                </td>
+                                <td className="text-center">
+                                  {item?.numActualUnitWtKg}
+                                </td>
+                                <td className="text-center">
+                                  {item?.numElongationAfterFracture}
+                                </td>
+                                <td className="text-center">
+                                  {item?.numYieldLoad}
+                                </td>
+                                <td className="text-center">
+                                  {item?.numYieldStrengthCal.toFixed(6)}
+                                </td>
+                                <td className="text-center">
+                                  {item?.numMaximumForce}
+                                </td>
+                                <td className="text-center">
+                                  {item?.numTensileStrengthCal.toFixed(6)}
+                                </td>
+                                <td className="text-center">
+                                  {item?.numRuptureLoad}
+                                </td>
+                                <td className="text-center">
+                                  {item?.numTsYsratioCal}
+                                </td>
+                                <td>{item?.strBendTest}</td>
+                                <td>{item?.strNatureOfBillet}</td>
+                                <td className="text-center">
+                                  {item?.numBilletTempreture}
+                                </td>
+                                <td className="text-center">
+                                  {item?.numFurnaceTempreture}
+                                </td>
+                                <td className="text-center">
+                                  {item?.numTmtwaterTempreture}
+                                </td>
+                                <td className="text-center">
+                                  {item?.numBarEntryTempreture}
+                                </td>
+                                <td className="text-center">
+                                  {item?.numBarExitTempreture}
+                                </td>
+                                <td className="text-center">
+                                  {item?.numWaterFlow}
+                                </td>
+                                <td className="text-center">
+                                  {item?.numWaterPressure}
+                                </td>
+                                <td>{item?.strRemarks}</td>
+                                <td className="text-center">
+                                  <IEdit
+                                    onClick={() => {
+                                      history.push({
+                                        pathname: `/production-management/msil-Rolling/QualityReport/edit/${item?.intRollingQualityDataId}`,
+                                        state: { ...item },
+                                      });
+                                    }}
+                                  />
+                                </td>
+                              </tr>
+                            ))}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
               </Form>

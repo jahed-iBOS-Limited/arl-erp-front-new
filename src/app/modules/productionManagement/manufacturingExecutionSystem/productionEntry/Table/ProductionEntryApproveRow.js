@@ -12,11 +12,7 @@ import { SetManufacturePETableLandingAction } from "../../../../_helper/reduxFor
 import customStyles from "../../../../selectCustomStyle";
 import ProductionEntryViewModal from "../View/ViewModal";
 import BackCalculationPEViewModal from "../ViewForBackCalculation/ViewModal";
-import {
-  getGridData,
-  getPlantNameDDL,
-  getShopFloorDDL
-} from "../helper";
+import { getGridData, getPlantNameDDL, getShopFloorDDL } from "../helper";
 import PaginationTable from "./../../../../_helper/_tablePagination";
 import NewSelect from "../../../../_helper/_select";
 
@@ -37,7 +33,7 @@ export function ProductionEntryApproveRow({ dataForBackCalculationCheck }) {
     {}
   );
   const [loading, setLoading] = useState(false);
-  const [status, setStatus] = useState({value: false, label:"Pending"}); 
+  const [status, setStatus] = useState({ value: false, label: "Pending" });
 
   //paginationState
   const [pageNo, setPageNo] = React.useState(0);
@@ -72,7 +68,6 @@ export function ProductionEntryApproveRow({ dataForBackCalculationCheck }) {
     );
   }, [profileData.accountId, selectedBusinessUnit.value]);
 
-
   //setPositionHandler
   const setPositionHandler = (pageNo, pageSize, searchValue) => {
     if (!selectPlant || !selectedDDLShop)
@@ -89,7 +84,7 @@ export function ProductionEntryApproveRow({ dataForBackCalculationCheck }) {
       searchValue,
       fromDate,
       toDate,
-      status?.value,
+      status?.value
     );
   };
 
@@ -120,7 +115,7 @@ export function ProductionEntryApproveRow({ dataForBackCalculationCheck }) {
         "",
         fromDate,
         toDate,
-        status?.value,
+        status?.value
       );
     selectPlant?.value &&
       getShopFloorDDL(
@@ -224,15 +219,18 @@ export function ProductionEntryApproveRow({ dataForBackCalculationCheck }) {
               />
             </div>
             <div className="col-lg-2">
-            <NewSelect
-            name="status"
-            options={[{ value: false, label: "Pending" },{value:true, label:"Approved"}]}
-            value={status}
-            label="Status"
-            onChange={(valueOption) => {
-              setStatus(valueOption)
-            }}
-          />
+              <NewSelect
+                name="status"
+                options={[
+                  { value: false, label: "Pending" },
+                  { value: true, label: "Approved" },
+                ]}
+                value={status}
+                label="Status"
+                onChange={(valueOption) => {
+                  setStatus(valueOption);
+                }}
+              />
             </div>
             <div style={{ marginTop: "10px" }} className="col-lg-1 ml-5">
               <button
@@ -251,7 +249,7 @@ export function ProductionEntryApproveRow({ dataForBackCalculationCheck }) {
                     "",
                     fromDate,
                     toDate,
-                    status?.value,
+                    status?.value
                   );
                 }}
               >
@@ -270,61 +268,62 @@ export function ProductionEntryApproveRow({ dataForBackCalculationCheck }) {
           />
           <div className="row">
             <div className="col-lg-12">
-              <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
-                <thead>
-                  <tr>
-                    {/* <th style={{ width: "30px" }}>SL</th> */}
-                    <th style={{ width: "30px" }}>SL</th>
-                    <th style={{ width: "50px" }}>Production Date</th>
-                    <th style={{ width: "50px" }}>Shift</th>
-                    <th style={{ width: "50px" }}>Item Name</th>
-                    <th style={{ width: "50px" }}>UoM Name</th>
-                    <th style={{ width: "50px" }}>Production Order Code</th>
-                    <th style={{ width: "50px" }}>Production Qty</th>
-                    <th style={{ width: "50px" }}>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {landingData?.data?.map((item, index) => (
-                    <tr key={index}>
-                      <td>{item?.sl}</td>
-                      <td className="text-center">
-                        {_dateFormatter(item?.date)}
-                      </td>
-                      <td>
-                        <div className="pl-2">{item?.shiftName}</div>
-                      </td>
-                      <td>
-                        <div className="pl-2">{item?.itemName}</div>
-                      </td>
-                      <td>
-                        <div className="pl-2">{item?.uomName}</div>
-                      </td>
-                      <td>
-                        {/* <div className="text-center">{item?.productionOrderCode}</div> */}
-                        <div className="text-center">
-                          {/* {item?.referenceCode} */}
-                          {item?.productionOrderCode ? (
-                            <span
-                              className="text-primary font-weight-bold cursor-pointer mr-2"
-                              style={{ textDecoration: "underline" }}
-                              onClick={() => {
-                                history.push(
-                                  `/production-management/mes/productionorder/view/${item?.productionOrderNo}`
-                                );
-                              }}
-                            >
-                              {item?.productionOrderCode || ""}
-                            </span>
-                          ) : (
-                            <span>{item?.productionCode || ""}</span>
-                          )}
-                        </div>
-                      </td>
-                      <td className="text-center">{item?.productionQty}</td>
-                      <td>
-                        <div class="d-flex align-items-center justify-content-center">
-                          {/* {productionEntry?.isView && (
+              <div className="table-responsive">
+                <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+                  <thead>
+                    <tr>
+                      {/* <th style={{ width: "30px" }}>SL</th> */}
+                      <th style={{ width: "30px" }}>SL</th>
+                      <th style={{ width: "50px" }}>Production Date</th>
+                      <th style={{ width: "50px" }}>Shift</th>
+                      <th style={{ width: "50px" }}>Item Name</th>
+                      <th style={{ width: "50px" }}>UoM Name</th>
+                      <th style={{ width: "50px" }}>Production Order Code</th>
+                      <th style={{ width: "50px" }}>Production Qty</th>
+                      <th style={{ width: "50px" }}>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {landingData?.data?.map((item, index) => (
+                      <tr key={index}>
+                        <td>{item?.sl}</td>
+                        <td className="text-center">
+                          {_dateFormatter(item?.date)}
+                        </td>
+                        <td>
+                          <div className="pl-2">{item?.shiftName}</div>
+                        </td>
+                        <td>
+                          <div className="pl-2">{item?.itemName}</div>
+                        </td>
+                        <td>
+                          <div className="pl-2">{item?.uomName}</div>
+                        </td>
+                        <td>
+                          {/* <div className="text-center">{item?.productionOrderCode}</div> */}
+                          <div className="text-center">
+                            {/* {item?.referenceCode} */}
+                            {item?.productionOrderCode ? (
+                              <span
+                                className="text-primary font-weight-bold cursor-pointer mr-2"
+                                style={{ textDecoration: "underline" }}
+                                onClick={() => {
+                                  history.push(
+                                    `/production-management/mes/productionorder/view/${item?.productionOrderNo}`
+                                  );
+                                }}
+                              >
+                                {item?.productionOrderCode || ""}
+                              </span>
+                            ) : (
+                              <span>{item?.productionCode || ""}</span>
+                            )}
+                          </div>
+                        </td>
+                        <td className="text-center">{item?.productionQty}</td>
+                        <td>
+                          <div class="d-flex align-items-center justify-content-center">
+                            {/* {productionEntry?.isView && (
                             <button class="btn borderlessBtn">
                               <span className="text-center mx-2">
                                 <IView
@@ -375,46 +374,47 @@ export function ProductionEntryApproveRow({ dataForBackCalculationCheck }) {
                               <IEdit />
                             </span>
                           </button> */}
-                          {/* APPROVAL */}
-                          {item?.isApprove ? (
-                            <button
-                              class="btn borderlessBtn"
-                              disabled={item?.isApprove === true}
-                            >
-                              <span>
-                                <IApproval
-                                  title="Can't Approval"
-                                  classes="text-success"
-                                />
-                              </span>
-                            </button>
-                          ) : (
-                            <button
-                              class="btn borderlessBtn"
-                              onClick={() => {
-                                const path =
-                                  dataForBackCalculationCheck?.isBackCalculation ===
-                                  1
-                                    ? `/production-management/mes/productionentry/approveBackCalculation/${item?.productionId}`
-                                    : `/production-management/mes/productionentry/approval/${item?.productionId}/${dataForBackCalculationCheck?.isBackCalculation}`;
+                            {/* APPROVAL */}
+                            {item?.isApprove ? (
+                              <button
+                                class="btn borderlessBtn"
+                                disabled={item?.isApprove === true}
+                              >
+                                <span>
+                                  <IApproval
+                                    title="Can't Approval"
+                                    classes="text-success"
+                                  />
+                                </span>
+                              </button>
+                            ) : (
+                              <button
+                                class="btn borderlessBtn"
+                                onClick={() => {
+                                  const path =
+                                    dataForBackCalculationCheck?.isBackCalculation ===
+                                    1
+                                      ? `/production-management/mes/productionentry/approveBackCalculation/${item?.productionId}`
+                                      : `/production-management/mes/productionentry/approval/${item?.productionId}/${dataForBackCalculationCheck?.isBackCalculation}`;
 
-                                history.push(path);
-                              }}
-                            >
-                              <span>
-                                <IApproval
-                                  title="Approval"
-                                  classes="text-primary"
-                                />
-                              </span>
-                            </button>
-                          )}
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+                                  history.push(path);
+                                }}
+                              >
+                                <span>
+                                  <IApproval
+                                    title="Approval"
+                                    classes="text-primary"
+                                  />
+                                </span>
+                              </button>
+                            )}
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>

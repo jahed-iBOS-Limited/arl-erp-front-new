@@ -35,15 +35,19 @@ export default function MedicalStockForm() {
     if (!itemList?.length) return toast.warn("Please select atleast one row");
     const negativeQty = itemList?.every((item) => item?.numStockQty > 0);
     if (!negativeQty) return toast.warn("Quantity can't be empty or zero");
-    const payload = itemList?.length > 0 && itemList?.map(item => ({
-      ...item,
-      stockType: 1,
-    }));
+    const payload =
+      itemList?.length > 0 &&
+      itemList?.map((item) => ({
+        ...item,
+        stockType: 1,
+      }));
     saveMedicalStock(`/mes/MSIL/SaveMedicalStock`, payload, cb, true);
   };
 
   const addHandler = (values, resetForm, setFieldValue) => {
-    const isExists = itemList.filter((item) => item?.intMedicineItemId === values?.itemName?.value);
+    const isExists = itemList.filter(
+      (item) => item?.intMedicineItemId === values?.itemName?.value
+    );
     if (isExists?.length > 0) return toast.warn("Already exists item");
     setItemList([
       {
@@ -74,13 +78,19 @@ export default function MedicalStockForm() {
   };
 
   useEffect(() => {
-    getItemName(`/mes/MesDDL/GetAllMedicineListDDL?BusinessunitId=${selectedBusinessUnit?.value}`);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    getItemName(
+      `/mes/MesDDL/GetAllMedicineListDDL?BusinessunitId=${selectedBusinessUnit?.value}`
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedBusinessUnit]);
 
   return (
     <>
-      <IForm title="Medicine Stock Entry" getProps={setObjprops} isHiddenReset={true}>
+      <IForm
+        title="Medicine Stock Entry"
+        getProps={setObjprops}
+        isHiddenReset={true}
+      >
         <>
           <Formik
             enableReinitialize={true}
@@ -91,7 +101,15 @@ export default function MedicalStockForm() {
               });
             }}
           >
-            {({ handleSubmit, resetForm, values, setFieldValue, isValid, errors, touched }) => (
+            {({
+              handleSubmit,
+              resetForm,
+              values,
+              setFieldValue,
+              isValid,
+              errors,
+              touched,
+            }) => (
               <>
                 <Form className="form form-label-right">
                   {loading && <Loading />}
@@ -117,7 +135,13 @@ export default function MedicalStockForm() {
                         />
                       </div>
                       <div className="col-lg-3">
-                        <InputField value={values?.uom} label="UoM" name="uom" type="text" disabled={true} />
+                        <InputField
+                          value={values?.uom}
+                          label="UoM"
+                          name="uom"
+                          type="text"
+                          disabled={true}
+                        />
                       </div>
                       <div className="col-lg-3">
                         <IInput
@@ -140,7 +164,9 @@ export default function MedicalStockForm() {
                               addHandler(values, resetForm, setFieldValue);
                             }}
                             className="btn btn-primary"
-                            disabled={!values?.itemName || !values?.uom || !values?.qty}
+                            disabled={
+                              !values?.itemName || !values?.uom || !values?.qty
+                            }
                           >
                             ADD
                           </button>
@@ -150,46 +176,67 @@ export default function MedicalStockForm() {
                   </div>
                   <div className="row">
                     <div className="col-lg-12">
-                      <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
-                        <thead>
-                          <tr>
-                            <th style={{ width: "30px" }}>SL</th>
-                            <th className="text-left">Item Code</th>
-                            <th>Item Name</th>
-                            <th>UoM</th>
-                            <th>Quantity</th>
-                            <th style={{ width: "50px" }}>Action</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {itemList?.length > 0 &&
-                            itemList?.map((item, index) => (
-                              <tr key={index}>
-                                <td>{index + 1}</td>
-                                <td className="text-center">{item?.strMedicineItemCode}</td>
-                                <td className="text-center">{item?.strMedicineItemName}</td>
-                                <td className="text-center">{item?.strUoMname}</td>
-                                <td className="text-center">{item?.numStockQty}</td>
-                                <td className="text-center">
-                                  <OverlayTrigger overlay={<Tooltip id="cs-icon">{"Remove"}</Tooltip>}>
-                                    <span>
-                                      <i
-                                        className={`fa fa-trash`}
-                                        onClick={() => {
-                                          removeHandler(index);
-                                        }}
-                                      ></i>
-                                    </span>
-                                  </OverlayTrigger>
-                                </td>
-                              </tr>
-                            ))}
-                        </tbody>
-                      </table>
+                      <div className="table-responsive">
+                        <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+                          <thead>
+                            <tr>
+                              <th style={{ width: "30px" }}>SL</th>
+                              <th className="text-left">Item Code</th>
+                              <th>Item Name</th>
+                              <th>UoM</th>
+                              <th>Quantity</th>
+                              <th style={{ width: "50px" }}>Action</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {itemList?.length > 0 &&
+                              itemList?.map((item, index) => (
+                                <tr key={index}>
+                                  <td>{index + 1}</td>
+                                  <td className="text-center">
+                                    {item?.strMedicineItemCode}
+                                  </td>
+                                  <td className="text-center">
+                                    {item?.strMedicineItemName}
+                                  </td>
+                                  <td className="text-center">
+                                    {item?.strUoMname}
+                                  </td>
+                                  <td className="text-center">
+                                    {item?.numStockQty}
+                                  </td>
+                                  <td className="text-center">
+                                    <OverlayTrigger
+                                      overlay={
+                                        <Tooltip id="cs-icon">
+                                          {"Remove"}
+                                        </Tooltip>
+                                      }
+                                    >
+                                      <span>
+                                        <i
+                                          className={`fa fa-trash`}
+                                          onClick={() => {
+                                            removeHandler(index);
+                                          }}
+                                        ></i>
+                                      </span>
+                                    </OverlayTrigger>
+                                  </td>
+                                </tr>
+                              ))}
+                          </tbody>
+                        </table>
+                      </div>
                     </div>
                   </div>
 
-                  <button type="submit" style={{ display: "none" }} ref={objProps?.btnRef} onSubmit={() => handleSubmit()}></button>
+                  <button
+                    type="submit"
+                    style={{ display: "none" }}
+                    ref={objProps?.btnRef}
+                    onSubmit={() => handleSubmit()}
+                  ></button>
                 </Form>
               </>
             )}

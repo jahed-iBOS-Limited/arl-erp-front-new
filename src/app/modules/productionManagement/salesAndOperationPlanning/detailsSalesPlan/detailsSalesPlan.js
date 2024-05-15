@@ -345,7 +345,8 @@ export default function DetailsSalesPlanLanding() {
               </div>
 
               {gridData?.data?.length > 0 && (
-                <table className="global-table table">
+                          <div className="table-responsive">
+<table className="global-table table">
                   <>
                     <thead>
                       <tr>
@@ -408,6 +409,8 @@ export default function DetailsSalesPlanLanding() {
                     </tbody>
                   </>
                 </table>
+                          </div>
+                
               )}
             </Form>
           </IForm>

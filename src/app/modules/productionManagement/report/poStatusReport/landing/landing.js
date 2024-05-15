@@ -13,7 +13,7 @@ import {
   getShopfloorDDL,
   getBOMItemDDL,
   getPoStatusReport,
-  getProductionCodeDDL
+  getProductionCodeDDL,
 } from "../helper";
 
 const initData = {
@@ -60,7 +60,7 @@ function PoStatusReportLanding() {
 
   const printRef = useRef();
 
-  console.log(gridData)
+  console.log(gridData);
 
   return (
     <>
@@ -130,7 +130,7 @@ function PoStatusReportLanding() {
                           selectedBusinessUnit?.value,
                           valueOption?.value,
                           setProductionCodeDDL
-                        )
+                        );
                       }}
                       placeholder="Select Item"
                       errors={errors}
@@ -196,82 +196,84 @@ function PoStatusReportLanding() {
 
               {gridData?.length > 0 && (
                 <div ref={printRef} className="col-lg-12 pr-0 pl-0">
-                  <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
-                    <thead>
-                      <tr>
-                        <th>Lv</th>
-                        {/* <th>Item ID</th> */}
-                        <th>Item Code</th>
-                        <th>Item Name</th>
-                        <th>PO Code</th>
-                        <th>PO Qty</th>
-                        <th>UoM</th>
-                        <th>PO Status</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {gridData?.map((item, index) => (
-                        <>
-                          {yellowMaker(
-                            item?.itemLv,
-                            index,
-                            item?.parentItemid,
-                            gridData[index - 1]?.parentItemid
-                          ) && (
-                            <>
-                              <tr>
-                                <td
-                                  colSpan={6}
-                                  align="left"
-                                  style={{ backgroundColor: "#FEF3C7" }}
-                                >
-                                  <div className="text-left pl-2">
-                                    {yellowMaker(
-                                      item?.itemLv,
-                                      index,
-                                      item?.parentItemid,
-                                      gridData[index - 1]?.parentItemid
-                                    )}
-                                  </div>
-                                </td>
-                              </tr>
-                            </>
-                          )}
+                  <div className="table-responsive">
+                    <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+                      <thead>
+                        <tr>
+                          <th>Lv</th>
+                          {/* <th>Item ID</th> */}
+                          <th>Item Code</th>
+                          <th>Item Name</th>
+                          <th>PO Code</th>
+                          <th>PO Qty</th>
+                          <th>UoM</th>
+                          <th>PO Status</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {gridData?.map((item, index) => (
+                          <>
+                            {yellowMaker(
+                              item?.itemLv,
+                              index,
+                              item?.parentItemid,
+                              gridData[index - 1]?.parentItemid
+                            ) && (
+                              <>
+                                <tr>
+                                  <td
+                                    colSpan={6}
+                                    align="left"
+                                    style={{ backgroundColor: "#FEF3C7" }}
+                                  >
+                                    <div className="text-left pl-2">
+                                      {yellowMaker(
+                                        item?.itemLv,
+                                        index,
+                                        item?.parentItemid,
+                                        gridData[index - 1]?.parentItemid
+                                      )}
+                                    </div>
+                                  </td>
+                                </tr>
+                              </>
+                            )}
 
-                          <tr key={index}>
-                            <td className="text-center">
-                              <span className="pl-2">{item?.itemLv}</span>
-                            </td>
-                            {/* <td className="text-left">
+                            <tr key={index}>
+                              <td className="text-center">
+                                <span className="pl-2">{item?.itemLv}</span>
+                              </td>
+                              {/* <td className="text-left">
                               <span className="pl-2">{item?.itemid}</span>
                             </td> */}
-                            <td>
-                              <div className="text-right pr-2">
-                                {item?.itemCode}
-                              </div>
-                            </td>
-                            <td className="text-left">
-                              <span className="pl-2">{item?.itemName}</span>
-                            </td>
-                            <td className="text-left">
-                              <span className="pl-2">{item?.poCode}</span>
-                            </td>
-                            <td className="text-right">
-                              <span className="pr-2">
-                                {item?.poQty}
-                              </span>
-                            </td>
-                            <td>
-                              <div className="pl-2">{item?.uomName}</div>
-                            </td>
-                            <td>
-                              <div className="pl-2">{item?.poStatus?"true":"false"}</div>
-                            </td>
-                          </tr>
-                        </>
-                      ))}
-                    </tbody>
-                  </table>
+                              <td>
+                                <div className="text-right pr-2">
+                                  {item?.itemCode}
+                                </div>
+                              </td>
+                              <td className="text-left">
+                                <span className="pl-2">{item?.itemName}</span>
+                              </td>
+                              <td className="text-left">
+                                <span className="pl-2">{item?.poCode}</span>
+                              </td>
+                              <td className="text-right">
+                                <span className="pr-2">{item?.poQty}</span>
+                              </td>
+                              <td>
+                                <div className="pl-2">{item?.uomName}</div>
+                              </td>
+                              <td>
+                                <div className="pl-2">
+                                  {item?.poStatus ? "true" : "false"}
+                                </div>
+                              </td>
+                            </tr>
+                          </>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               )}
             </>

@@ -231,68 +231,71 @@ export default function _Form({
                 </div>
               </div>
 
-              <table className="global-table table">
-                <thead>
-                  <tr>
-                    <th>SL</th>
-                    <th>Item Name</th>
-                    <th>BOM</th>
-                    <th>UoM Name</th>
-                    <th style={{ width: "150px" }}>Plan Quantity</th>
-                    <th style={{ width: "150px" }}>Rate</th>
-                    {/* <th>Action</th> */}
-                  </tr>
-                </thead>
-                <tbody>
-                  {/* {console.log(rowDto)} */}
-                  {rowDto?.data?.map((item, index) => (
-                    <tr key={index}>
-                      <td className="text-center">{index + 1}</td>
-                      <td className="pl-2">{item?.itemName}</td>
-                      <td className="pl-2">{item?.bomname}</td>
-                      <td className="text-center">{item?.uomName}</td>
-                      <td className="text-center">
-                        <input
-                          type="number"
-                          name="itemPlanQty"
-                          value={item?.itemPlanQty}
-                          onChange={(e) => {
-                            dataHandler(
-                              "itemPlanQty",
-                              item,
-                              +e.target.value,
-                              setRowDto,
-                              rowDto
-                            );
-                          }}
-                          className="quantity-field form-control text-right"
-                          min="0"
-                          disabled
-                        />
-                      </td>
-                      <td className="text-center">
-                        <input
-                          type="number"
-                          name="rate"
-                          value={item?.rate}
-                          onChange={(e) => {
-                            dataHandler(
-                              "rate",
-                              item,
-                              e.target.value,
-                              setRowDto,
-                              rowDto
-                            );
-                          }}
-                          className="quantity-field form-control text-right"
-                          min="0"
-                          disabled
-                        />
-                      </td>
+              <div className="table-responsive">
+                <table className="global-table table">
+                  <thead>
+                    <tr>
+                      <th>SL</th>
+                      <th>Item Name</th>
+                      <th>BOM</th>
+                      <th>UoM Name</th>
+                      <th style={{ width: "150px" }}>Plan Quantity</th>
+                      <th style={{ width: "150px" }}>Rate</th>
+                      {/* <th>Action</th> */}
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {/* {console.log(rowDto)} */}
+                    {rowDto?.data?.map((item, index) => (
+                      <tr key={index}>
+                        <td className="text-center">{index + 1}</td>
+                        <td className="pl-2">{item?.itemName}</td>
+                        <td className="pl-2">{item?.bomname}</td>
+                        <td className="text-center">{item?.uomName}</td>
+                        <td className="text-center">
+                          <input
+                            type="number"
+                            name="itemPlanQty"
+                            value={item?.itemPlanQty}
+                            onChange={(e) => {
+                              dataHandler(
+                                "itemPlanQty",
+                                item,
+                                +e.target.value,
+                                setRowDto,
+                                rowDto
+                              );
+                            }}
+                            className="quantity-field form-control text-right"
+                            min="0"
+                            disabled
+                          />
+                        </td>
+                        <td className="text-center">
+                          <input
+                            type="number"
+                            name="rate"
+                            value={item?.rate}
+                            onChange={(e) => {
+                              dataHandler(
+                                "rate",
+                                item,
+                                e.target.value,
+                                setRowDto,
+                                rowDto
+                              );
+                            }}
+                            className="quantity-field form-control text-right"
+                            min="0"
+                            disabled
+                          />
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
               {!fileObject && !id && rowDto?.data?.length > 0 && (
                 <PaginationTable
                   count={rowDto?.totalCount}

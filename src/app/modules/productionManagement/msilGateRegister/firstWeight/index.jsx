@@ -78,7 +78,12 @@ function FirstWeight() {
 
   const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
     getRowData(
-      `/mes/WeightBridge/GetAllWeightBridgeLanding?PageNo=${pageNo}&PageSize=${pageSize}&AccountId=${profileData?.accountId}&BusinessUnitId=${values?.businessUnit?.value}&shipPointId=${initData?.shipPoint?.value}&WeightDate=${values?.date ||""}&WeightTypeId=1&search=${searchValue}&Status=${
+      `/mes/WeightBridge/GetAllWeightBridgeLanding?PageNo=${pageNo}&PageSize=${pageSize}&AccountId=${
+        profileData?.accountId
+      }&BusinessUnitId=${values?.businessUnit?.value}&shipPointId=${
+        initData?.shipPoint?.value
+      }&WeightDate=${values?.date ||
+        ""}&WeightTypeId=1&search=${searchValue}&Status=${
         values?.status?.value
       }`
     );
@@ -127,7 +132,8 @@ function FirstWeight() {
                             getShipPoint(
                               `/mes/MSIL/GetAllMSIL?PartName=GetShipPointForVehicleEntry&BusinessUnitId=${valueOption?.value}&AutoId=${profileData?.userId}`,
                               (data) => {
-                                if (data ===[]) return toast.warn("No Ship Point Found")
+                                if (data === [])
+                                  return toast.warn("No Ship Point Found");
                                 setFieldValue("shipPoint", data[0]);
                               }
                             );
@@ -200,7 +206,9 @@ function FirstWeight() {
                               profileData?.accountId
                             }&BusinessUnitId=${
                               values?.businessUnit?.value
-                            }&shipPointId=${values?.shipPoint?.value}&WeightDate=${values?.date ||
+                            }&shipPointId=${
+                              values?.shipPoint?.value
+                            }&WeightDate=${values?.date ||
                               ""}&WeightTypeId=1&Status=${
                               values?.status?.value
                             }`
@@ -221,139 +229,142 @@ function FirstWeight() {
                 </div>
                 <div className="row">
                   <div className="col-lg-12">
-                    <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
-                      <thead>
-                        <tr>
-                          <th style={{ width: "30px" }}>SL</th>
-                          <th>তারিখ</th>
-                          <th>গাড়ীর নাম্বার</th>
-                          <th>রেজি. নং</th>
-                          <th>চালান নাম্বার</th>
-                          <th>পণ্যের নাম</th>
-                          <th>ক্লায়েন্টের ধরণ</th>
-                          <th>সাপ্লায়ার/কাস্টমারের নাম</th>
-                          <th>ওজন নং</th>
-                          <th>1st Weight</th>
-                          <th>1st Weight Time</th>
+                    <div className="table-responsive">
+                      <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+                        <thead>
+                          <tr>
+                            <th style={{ width: "30px" }}>SL</th>
+                            <th>তারিখ</th>
+                            <th>গাড়ীর নাম্বার</th>
+                            <th>রেজি. নং</th>
+                            <th>চালান নাম্বার</th>
+                            <th>পণ্যের নাম</th>
+                            <th>ক্লায়েন্টের ধরণ</th>
+                            <th>সাপ্লায়ার/কাস্টমারের নাম</th>
+                            <th>ওজন নং</th>
+                            <th>1st Weight</th>
+                            <th>1st Weight Time</th>
 
-                          {selectedBusinessUnit?.value === 171 ||
-                          selectedBusinessUnit?.value === 224 ? (
-                            <>
-                              <th style={{ width: "110px" }}>
-                                Quality Checked
-                              </th>
-                              <th style={{ width: "60px" }}>Action</th>
-                            </>
-                          ) : null}
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {rowData?.weightBridge?.length > 0 &&
-                          rowData?.weightBridge?.map((item, index) => (
-                            <tr key={index}>
-                              <td>{index + 1}</td>
-                              <td className="text-center">
-                                {_dateFormatter(item?.dteFirstWeightDateTime)}
-                              </td>
-                              <td>{item?.strTruckNumber}</td>
-                              <td className="text-center">
-                                {item?.strGateEntryCode}
-                              </td>
-                              <td>{item?.strInvoiceNumber}</td>
-                              <td>{item?.strMaterialName}</td>
-                              <td>
-                                {item?.intClientTypeId === 2
-                                  ? "কাস্টমার"
-                                  : "সাপ্লায়ার"}
-                              </td>
-                              <td>{item?.strSupplierName}</td>
-                              <td className="text-center">
-                                {item?.strWeightmentNo}
-                              </td>
+                            {selectedBusinessUnit?.value === 171 ||
+                            selectedBusinessUnit?.value === 224 ? (
+                              <>
+                                <th style={{ width: "110px" }}>
+                                  Quality Checked
+                                </th>
+                                <th style={{ width: "60px" }}>Action</th>
+                              </>
+                            ) : null}
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {rowData?.weightBridge?.length > 0 &&
+                            rowData?.weightBridge?.map((item, index) => (
+                              <tr key={index}>
+                                <td>{index + 1}</td>
+                                <td className="text-center">
+                                  {_dateFormatter(item?.dteFirstWeightDateTime)}
+                                </td>
+                                <td>{item?.strTruckNumber}</td>
+                                <td className="text-center">
+                                  {item?.strGateEntryCode}
+                                </td>
+                                <td>{item?.strInvoiceNumber}</td>
+                                <td>{item?.strMaterialName}</td>
+                                <td>
+                                  {item?.intClientTypeId === 2
+                                    ? "কাস্টমার"
+                                    : "সাপ্লায়ার"}
+                                </td>
+                                <td>{item?.strSupplierName}</td>
+                                <td className="text-center">
+                                  {item?.strWeightmentNo}
+                                </td>
 
-                              <td className="text-center">
-                                {item?.numFirstWeight}
-                              </td>
-                              <td className="text-center">
-                                {extractTimeFromDateTime(
-                                  item?.dteFirstWeightDateTime
-                                )}
-                              </td>
-                              {selectedBusinessUnit?.value === 171 ||
-                              selectedBusinessUnit?.value === 224 ? (
-                                <>
-                                  {item?.intClientTypeId === 1 ? (
-                                    <td
-                                      style={{
-                                        backgroundColor: item?.isQualityChecked
-                                          ? "#2EFF2E"
-                                          : "#FF5C5C",
-                                      }}
-                                      className="text-center"
-                                    >
-                                      {item?.isQualityChecked
-                                        ? "QC Passed"
-                                        : "QC Not Passed"}
-                                    </td>
-                                  ) : (
-                                    <td></td>
+                                <td className="text-center">
+                                  {item?.numFirstWeight}
+                                </td>
+                                <td className="text-center">
+                                  {extractTimeFromDateTime(
+                                    item?.dteFirstWeightDateTime
                                   )}
-                                  <td className="text-center">
+                                </td>
+                                {selectedBusinessUnit?.value === 171 ||
+                                selectedBusinessUnit?.value === 224 ? (
+                                  <>
                                     {item?.intClientTypeId === 1 ? (
-                                      <div className="d-flex justify-content-around">
-                                        <div>
-                                          <OverlayTrigger
-                                            overlay={
-                                              <Tooltip id="cs-icon">
-                                                {"Grading"}
-                                              </Tooltip>
-                                            }
-                                          >
-                                            <span>
-                                              <i
-                                                className={`fas fa-plus-square`}
-                                                style={{ cursor: "pointer" }}
-                                                onClick={() => {
-                                                  if (item?.isQualityChecked)
-                                                    return toast.warn(
-                                                      "QC already passed"
-                                                    );
-                                                  history.push({
-                                                    pathname: `/production-management/msil-gate-register/First-Weight/grading/${item?.intWeightmentId}`,
-                                                    state: { ...item },
-                                                  });
-                                                }}
-                                              ></i>
-                                            </span>
-                                          </OverlayTrigger>
-                                        </div>
-                                        <div>
-                                          <span
-                                            onClick={() => {
-                                              if (!item?.isQualityChecked)
-                                                return toast.warn(
-                                                  "Please enter QC grade first"
+                                      <td
+                                        style={{
+                                          backgroundColor: item?.isQualityChecked
+                                            ? "#2EFF2E"
+                                            : "#FF5C5C",
+                                        }}
+                                        className="text-center"
+                                      >
+                                        {item?.isQualityChecked
+                                          ? "QC Passed"
+                                          : "QC Not Passed"}
+                                      </td>
+                                    ) : (
+                                      <td></td>
+                                    )}
+                                    <td className="text-center">
+                                      {item?.intClientTypeId === 1 ? (
+                                        <div className="d-flex justify-content-around">
+                                          <div>
+                                            <OverlayTrigger
+                                              overlay={
+                                                <Tooltip id="cs-icon">
+                                                  {"Grading"}
+                                                </Tooltip>
+                                              }
+                                            >
+                                              <span>
+                                                <i
+                                                  className={`fas fa-plus-square`}
+                                                  style={{ cursor: "pointer" }}
+                                                  onClick={() => {
+                                                    if (item?.isQualityChecked)
+                                                      return toast.warn(
+                                                        "QC already passed"
+                                                      );
+                                                    history.push({
+                                                      pathname: `/production-management/msil-gate-register/First-Weight/grading/${item?.intWeightmentId}`,
+                                                      state: { ...item },
+                                                    });
+                                                  }}
+                                                ></i>
+                                              </span>
+                                            </OverlayTrigger>
+                                          </div>
+                                          <div>
+                                            <span
+                                              onClick={() => {
+                                                if (!item?.isQualityChecked)
+                                                  return toast.warn(
+                                                    "Please enter QC grade first"
+                                                  );
+                                                setWeightmentId(
+                                                  item?.intWeightmentId
                                                 );
-                                              setWeightmentId(
-                                                item?.intWeightmentId
-                                              );
-                                              setIsShowModal(true);
-                                            }}
-                                          >
-                                            <IView
-                                              styles={{ fontSize: "17px" }}
-                                            />
-                                          </span>
+                                                setIsShowModal(true);
+                                              }}
+                                            >
+                                              <IView
+                                                styles={{ fontSize: "17px" }}
+                                              />
+                                            </span>
+                                          </div>
                                         </div>
-                                      </div>
-                                    ) : null}
-                                  </td>
-                                </>
-                              ) : null}
-                            </tr>
-                          ))}
-                      </tbody>
-                    </table>
+                                      ) : null}
+                                    </td>
+                                  </>
+                                ) : null}
+                              </tr>
+                            ))}
+                        </tbody>
+                      </table>
+                    </div>
+
                     {rowData?.weightBridge?.length > 0 && (
                       <PaginationTable
                         count={rowData?.totalCount}
