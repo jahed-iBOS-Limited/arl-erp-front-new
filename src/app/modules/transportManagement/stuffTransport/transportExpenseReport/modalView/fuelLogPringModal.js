@@ -74,7 +74,7 @@ export default function FuelLogPringModal({ item, values }) {
             </p>
           </div>
         </div>
-        <div>
+        <div className="table-responsive">
           <table id="" className={"table table-striped table-bordered global-table"}>
             <thead>
               <tr style={{height:"50px"}} className="cursor-pointer">

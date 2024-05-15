@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { useHistory } from "react-router-dom";
 import { Formik } from "formik";
+import React, { useEffect, useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import ICustomCard from "../../../../_helper/_customCard";
 import Loading from "../../../../_helper/_loading";
 import IEdit from "./../../../../_helper/_helperIcons/_edit";
-import { GetAllowForModificationLanding_api } from "./../helper";
 import PaginationTable from "./../../../../_helper/_tablePagination";
+import { GetAllowForModificationLanding_api } from "./../helper";
 
 const initData = {
   shipPoint: "",
@@ -83,7 +83,8 @@ export function ShipmentCostRatePermitLanding() {
         }) => (
           <>
             <div className="col-lg-12 pr-0 pl-0">
-              <table className="table table-striped table-bordered global-table">
+            <div className="table-responsive">
+            <table className="table table-striped table-bordered global-table">
                 <thead>
                   <tr>
                     <th>SL</th>
@@ -118,6 +119,7 @@ export function ShipmentCostRatePermitLanding() {
                     ))}
                 </tbody>
               </table>
+            </div>
               {/* Pagination Code */}
               {gridData?.data?.length > 0 && (
                 <PaginationTable

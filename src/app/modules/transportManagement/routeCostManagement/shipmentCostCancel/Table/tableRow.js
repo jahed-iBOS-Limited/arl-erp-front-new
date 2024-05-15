@@ -1,19 +1,18 @@
 /* eslint-disable no-unused-vars */
-import React, { useEffect, useState, useRef } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { billSubmitApi, getGridData, cancelShipmentCost } from "../helper";
+import React, { useEffect, useRef, useState } from "react";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { billSubmitApi, cancelShipmentCost, getGridData } from "../helper";
 // import IEdit from "../../../../_helper/_helperIcons/_edit";
 import { SearchForm } from "./form";
 // import IView from "../../../../_helper/_helperIcons/_view";
 // import printIcon from "../../../../_helper/images/print-icon.png";
-import SalesInvoiceModel from "../viewModal";
 import ICustomCard from "../../../../_helper/_customCard";
 import Loading from "../../../../_helper/_loading";
 import PaginationSearch from "../../../../_helper/_search";
+import { _todayDate } from "../../../../_helper/_todayDate";
 import IViewModal from "../../../../_helper/_viewModal";
 import ShipmentCostViewForm from "../view/addEditForm";
-import { _todayDate } from "../../../../_helper/_todayDate";
+import SalesInvoiceModel from "../viewModal";
 import IConfirmModal from "./../../../../_helper/_confirmModal";
 // import ReactToPrint from "react-to-print";
 import { setShipmentCostLadingAction } from "../../../../_helper/reduxForLocalStorage/Actions";
@@ -230,7 +229,7 @@ export function TableRow() {
                 </div>
                 <div className="col-lg-12">
                   <div
-                    className="print_wrapper"
+                    className="print_wrapper table-responsive"
                     componentRef={printRef}
                     ref={printRef}
                   >

@@ -16,7 +16,8 @@ console.log({gridData})
   return (
     <div className="row">
       <div className="col-lg-12 ">
-        <table className={"table table-responsive display-table mt-1 bj-table"}>
+      <div className="table-responsive">
+      <table className={"table table-responsive display-table mt-1 bj-table"}>
           <thead className={`${gridData?.length < 1 && "d-none"}`}>
             <tr>
               <th style={{ width: "30px" }}>SL</th>
@@ -69,6 +70,7 @@ console.log({gridData})
             ))}
           </tbody>
         </table>
+      </div>
       </div>
     </div>
   );

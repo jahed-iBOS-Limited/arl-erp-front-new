@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from "react";
-import { Form, Row, Col } from "react-bootstrap";
+import { Col, Form, Row } from "react-bootstrap";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import IViewModal from "../../../../_helper/_viewModal";
 import { getTransportRouteById } from "../_redux/Actions";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
 
 export default function ViewForm({ id, show, onHide }) {
   const dispatch = useDispatch();
@@ -53,7 +53,7 @@ export default function ViewForm({ id, show, onHide }) {
                 </Col>
               </Row>
             </div>
-            <div>
+            <div className="table-responsive">
               <table className="table table-striped table-bordered global-table">
                 <thead>
                   <tr>

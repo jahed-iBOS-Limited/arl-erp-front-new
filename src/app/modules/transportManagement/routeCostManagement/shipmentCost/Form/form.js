@@ -1,32 +1,31 @@
 /* eslint-disable eqeqeq */
+import { Field, Form, Formik } from "formik";
+import { DropzoneDialogBase } from "material-ui-dropzone";
 import React, { useEffect, useState } from "react";
-import { Formik, Form, Field } from "formik";
-import { useHistory } from "react-router-dom";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import NewSelect from "../../../../_helper/_select";
-import InputField from "../../../../_helper/_inputField";
-import { getComponentDDL, GetSupplierFuelStationDDL_api } from "../helper";
-import ICustomCard from "../../../../_helper/_customCard";
-import { useLocation } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useHistory, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
+import * as Yup from "yup";
+import IConfirmModal from "../../../../_helper/_confirmModal";
+import ICustomCard from "../../../../_helper/_customCard";
+import { _fixedPoint } from "../../../../_helper/_fixedPoint";
+import IDelete from "../../../../_helper/_helperIcons/_delete";
+import InputField from "../../../../_helper/_inputField";
+import Loading from "../../../../_helper/_loading";
+import NewSelect from "../../../../_helper/_select";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import { GetSupplierFuelStationDDL_api, getComponentDDL } from "../helper";
+import IView from "./../../../../_helper/_helperIcons/_view";
+import { getDownlloadFileView_Action } from "./../../../../_helper/_redux/Actions";
 import {
-  GetVehicleFuelTypeDDL_api,
   GetSupplierListDDL_api,
-  multipleAttachment_action,
+  GetVehicleFuelTypeDDL_api,
   getBusinessUnitDDL_api,
+  multipleAttachment_action,
 } from "./../helper";
 import ChalanInfo from "./ChalanInfo";
-import { DropzoneDialogBase } from "material-ui-dropzone";
-import * as Yup from "yup";
-import IView from "./../../../../_helper/_helperIcons/_view";
-import { useDispatch } from "react-redux";
-import { getDownlloadFileView_Action } from "./../../../../_helper/_redux/Actions";
 import AttachmentGrid from "./attachmentGrid";
-import IConfirmModal from "../../../../_helper/_confirmModal";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import Loading from "../../../../_helper/_loading";
 import "./form.scss";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
 // Validation schema
 const validationSchema = Yup.object().shape({
   extraMillage: Yup.string()
@@ -1179,7 +1178,7 @@ export default function _Form({
                   </div>
 
                   {/* Vehicle Reant table */}
-                  <div className="col-lg-6">
+                  <div className="col-lg-6 table-responsive">
                     <table className={"table global-table"}>
                       <thead>
                         <tr>

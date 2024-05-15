@@ -74,7 +74,7 @@ export default function FuelRateConfig() {
             }}
           >
             <Form>
-              <div>
+              <div className="table-responsive">
                 <table className="table table-striped table-bordered global-table">
                   <thead>
                     <tr>

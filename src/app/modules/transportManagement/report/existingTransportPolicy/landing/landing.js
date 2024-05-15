@@ -1,15 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { Form, Formik } from "formik";
 import React, { useEffect, useRef, useState } from "react";
-import ICustomCard from "../../../../_helper/_customCard";
-import { useSelector } from "react-redux";
-import { shallowEqual } from "react-redux";
-import { Formik } from "formik";
-import { Form } from "formik";
-import Loading from "../../../../_helper/_loading";
-import { getexistingTranportPolicyLandingData } from "../helper";
-import ReactToPrint from "react-to-print";
-import printIcon from "../../../../_helper/images/print-icon.png";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
+import { shallowEqual, useSelector } from "react-redux";
+import ReactToPrint from "react-to-print";
+import ICustomCard from "../../../../_helper/_customCard";
+import Loading from "../../../../_helper/_loading";
+import printIcon from "../../../../_helper/images/print-icon.png";
+import { getexistingTranportPolicyLandingData } from "../helper";
 
 const initData = {};
 
@@ -89,7 +87,7 @@ function ExistingTransportPolicyLanding() {
                 </div>
                 <div className="row">
                   {loading && <Loading />}
-                  <div className="col-lg-12">
+                  <div className="col-lg-12 table-responsive">
                     <table
                       className="table table-striped table-bordered global-table"
                       id="table-to-xlsx"

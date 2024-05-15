@@ -1,26 +1,26 @@
+import axios from "axios";
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { shallowEqual, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import { toast } from "react-toastify";
+import IConfirmModal from "../../../_helper/_confirmModal";
+import { _dateFormatter } from "../../../_helper/_dateFormate";
+import IDelete from "../../../_helper/_helperIcons/_delete";
+import IEdit from "../../../_helper/_helperIcons/_edit";
 import IView from "../../../_helper/_helperIcons/_view";
 import InputField from "../../../_helper/_inputField";
+import NewSelect from "../../../_helper/_select";
 import { _todayDate } from "../../../_helper/_todayDate";
+import IViewModal from "../../../_helper/_viewModal";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import IForm from "./../../../_helper/_form";
 import Loading from "./../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import IEdit from "../../../_helper/_helperIcons/_edit";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IViewModal from "../../../_helper/_viewModal";
-import ViewManualShipment from "./view";
-import IDelete from "../../../_helper/_helperIcons/_delete";
-import IConfirmModal from "../../../_helper/_confirmModal";
-import { getDataForPrint, DataPrintHandler } from "./utils";
 import cementLogo from "./images/cementLogo.png";
-import './styles.css'
-import axios from "axios";
-import { toast } from "react-toastify";
+import './styles.css';
+import { DataPrintHandler, getDataForPrint } from "./utils";
+import ViewManualShipment from "./view";
 
 const initData = {
   shipPoint: "",
@@ -295,7 +295,7 @@ export default function ManualShipment() {
                   </div>
                   <div></div>
                 </div>
-                <div className="weight-report-header center mt-5">
+                <div className="weight-report-header center mt-5 table-responsive">
                   <table className="w-100">
                     <tr>
                       <td>Entry Code: {printData?.headerDTO?.strGateEntryCode}</td>
@@ -309,7 +309,7 @@ export default function ManualShipment() {
                     </tr>
                   </table>
                   <div className="row">
-                    <div className="col-lg-12">
+                    <div className="col-lg-12 table-responsive">
                       <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                         <thead>
                           <tr>

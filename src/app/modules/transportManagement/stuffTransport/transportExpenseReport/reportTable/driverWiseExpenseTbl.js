@@ -7,6 +7,7 @@ export default function DriverWiseExpenseTbl({ rowData }) {
       <h4 className="text-center mt-5">
         <strong>Driver Date Wise Expense</strong>
       </h4>
+      <div className="table-responsive">
       <table className="table table-striped table-bordered bj-table bj-table-landing">
         <thead>
           <tr>
@@ -40,6 +41,7 @@ export default function DriverWiseExpenseTbl({ rowData }) {
           ))}
         </tbody>
       </table>
+      </div>
     </div>
   );
 }

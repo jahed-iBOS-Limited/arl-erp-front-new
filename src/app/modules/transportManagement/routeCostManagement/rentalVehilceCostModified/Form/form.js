@@ -1,5 +1,5 @@
+import { Form, Formik } from "formik";
 import React from "react";
-import { Formik, Form } from "formik";
 import { IInput } from "../../../../_helper/_input";
 import { editTripInfo } from "../helper";
 
@@ -36,7 +36,7 @@ export default function _Form({
         }) => (
           <>
             <Form className="form form-label-right">
-              <div className="col-md-12">
+              <div className="col-md-12 table-responsive">
                 <table className="table table-striped table-bordered global-table">
                   <thead>
                     <tr>

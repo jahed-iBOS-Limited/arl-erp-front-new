@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import InfoCircle from "../../../../_helper/_helperIcons/_infoCircle";
+import { toast } from "react-toastify";
 import { dateFormatWithMonthName } from "../../../../_helper/_dateFormate";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import "./style.css";
+import { _fixedPoint } from "../../../../_helper/_fixedPoint";
+import InfoCircle from "../../../../_helper/_helperIcons/_infoCircle";
 import Loading from "../../../../_helper/_loading";
 import IViewModal from "../../../../_helper/_viewModal";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import TripCostDetailsTable from "./details";
-import { toast } from "react-toastify";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
+import "./style.css";
 
 const Table = ({ obj }) => {
   const { accId, buId, gridData, values, buName, printRef } = obj;
@@ -52,7 +52,7 @@ const Table = ({ obj }) => {
             </div>
           </div>
           <div className="loan-scrollable-tafble">
-            <div className="scroll-table _tafble">
+            <div className="scroll-table _tafble table-responsive">
               <table className="table table-striped table-bordered global-table">
                 <thead>
                   <tr>

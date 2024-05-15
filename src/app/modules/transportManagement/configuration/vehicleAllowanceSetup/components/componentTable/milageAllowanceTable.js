@@ -19,7 +19,7 @@ const MilageAllowanceTable = ({
   console.log({ gridData });
   return (
     <div className="row">
-      <div className="col-lg-12">
+      <div className="col-lg-12 table-responsive">
         <table className={"table table-responsive mt-1 bj-table"}>
           <thead className={`${gridData?.length < 1 && "d-none"}`}>
             <tr>

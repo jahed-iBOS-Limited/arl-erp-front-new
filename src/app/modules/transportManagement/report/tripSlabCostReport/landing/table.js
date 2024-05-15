@@ -1,15 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useRef } from "react";
-import { useSelector } from "react-redux";
-import { shallowEqual } from "react-redux";
-import { getLandingData } from "../helper";
-import { Formik } from "formik";
-import { Form } from "formik";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
+import { Form, Formik } from "formik";
+import React, { useRef, useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
 import ICard from "../../../../_helper/_card";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import { _fixedPoint } from "../../../../_helper/_fixedPoint";
+import Loading from "../../../../_helper/_loading";
+import NewSelect from "../../../../_helper/_select";
+import { getLandingData } from "../helper";
 const initData = {
   shipPoint: "",
 };
@@ -92,6 +90,7 @@ function TripSlabCostReport() {
                   <h2>{selectedBusinessUnit?.label}</h2>
                   <h6> Thana Wise Transport Rate </h6>
                 </div>
+                <div className="table-responsive">
                 <table
                   className="table table-striped table-bordered global-table"
                   id="table-to-xlsx"
@@ -152,6 +151,7 @@ function TripSlabCostReport() {
                     ))}
                   </tbody>
                 </table>
+                </div>
               </Form>
             </>
           )}

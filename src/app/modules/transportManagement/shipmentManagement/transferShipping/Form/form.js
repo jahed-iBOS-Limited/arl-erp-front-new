@@ -1,22 +1,21 @@
-import React, { useState, useEffect } from "react";
-import { Formik, Form, Field } from "formik";
+import axios from "axios";
+import { Field, Form, Formik } from "formik";
+import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import Select from "react-select";
+import { toast } from "react-toastify";
 import * as Yup from "yup";
-import { ISelect } from "../../../../_helper/_inputDropDown";
+import { Input } from "../../../../../../_metronic/_partials/controls";
+import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
+import FormikError from "../../../../_helper/_formikError";
 import { IInput } from "../../../../_helper/_input";
 import ICalendar from "../../../../_helper/_inputCalender";
-import Select from "react-select";
-import customStyles from "../../../../selectCustomStyle";
-import { useDispatch } from "react-redux";
-import { GetPendingDeliveryDDLAction } from "../_redux/Actions";
-import { Input } from "../../../../../../_metronic/_partials/controls";
-import { getLoadingPointDDLAction } from "../_redux/Actions";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import axios from "axios";
-import FormikError from "../../../../_helper/_formikError";
-import { toast } from "react-toastify";
+import { ISelect } from "../../../../_helper/_inputDropDown";
 import InputField from "../../../../_helper/_inputField";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import Loading from "../../../../_helper/_loading";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import customStyles from "../../../../selectCustomStyle";
+import { GetPendingDeliveryDDLAction, getLoadingPointDDLAction } from "../_redux/Actions";
 // Validation schema
 const validationSchema = Yup.object().shape({
   Vehicle: Yup.object().shape({
@@ -702,9 +701,10 @@ export default function _Form({
               <hr className="m-1"></hr>
 
               <div className="row cash_journal bank-journal bank-journal-custom">
-                <div className="col-lg-12 pr-0 pl-0">
+                <div className="col-lg-12 pr-0 pl-0 ">
                   {rowDto?.length >= 0 && (
-                    <table className="table table-striped table-bordered mt-1 bj-table bj-table-landing sales_order_landing_table">
+                    <div className="table-responsive">
+                      <table className="table table-striped table-bordered mt-1 bj-table bj-table-landing sales_order_landing_table">
                       <thead>
                         <tr>
                           <th style={{ width: "35px" }}>SL</th>
@@ -763,6 +763,7 @@ export default function _Form({
                         ))}
                       </tbody>
                     </table>
+                    </div>
                   )}
                 </div>
               </div>

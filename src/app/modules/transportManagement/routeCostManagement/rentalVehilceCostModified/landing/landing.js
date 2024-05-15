@@ -1,32 +1,32 @@
-import React, { useState, useRef, useEffect } from "react";
 import Axios from "axios";
-import { Formik, Form } from "formik";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import * as Yup from "yup";
-import Loading from "../../../../_helper/_loading";
+import { Form, Formik } from "formik";
+import React, { useEffect, useRef, useState } from "react";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router";
 import ReactToPrint from "react-to-print";
-import PaginationSearch from "../../../../_helper/_search";
-import printIcon from "../../../../_helper/images/print-icon.png";
+import { toast } from "react-toastify";
+import * as Yup from "yup";
 import {
-  EditRentalVehicleBillSubmit_api,
-  GetRentalVehicleCostLandingPasignation_api,
-} from "../helper";
-import {
-  ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
+  ModalProgressBar,
 } from "../../../../../../_metronic/_partials/controls";
-import IConfirmModal from "../../../../_helper/_confirmModal";
-import { toast } from "react-toastify";
-import { useHistory } from "react-router";
-import { setRentalVehilceCostLandingAction } from "../../../../_helper/reduxForLocalStorage/Actions";
 import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
+import IConfirmModal from "../../../../_helper/_confirmModal";
 import FormikError from "../../../../_helper/_formikError";
+import InputField from "../../../../_helper/_inputField";
+import Loading from "../../../../_helper/_loading";
+import PaginationSearch from "../../../../_helper/_search";
+import NewSelect from "../../../../_helper/_select";
+import { _todayDate } from "../../../../_helper/_todayDate";
+import printIcon from "../../../../_helper/images/print-icon.png";
+import { setRentalVehilceCostLandingAction } from "../../../../_helper/reduxForLocalStorage/Actions";
+import {
+  EditRentalVehicleBillSubmit_api,
+  GetRentalVehicleCostLandingPasignation_api,
+} from "../helper";
 import IEdit from './../../../../_helper/_helperIcons/_edit';
 
 const validationSchema = Yup.object().shape({
@@ -403,7 +403,7 @@ const RentalVehilceCostModifiedLanding = () => {
                     <div className="loan-scrollable-table scroll-table-auto">
                       <div
                         style={{ maxHeight: "540px" }}
-                        className="scroll-table _table scroll-table-auto"
+                        className="scroll-table _table scroll-table-auto table-responsive"
                       >
                         {values?.itemLists?.length > 0 && (
                           <table

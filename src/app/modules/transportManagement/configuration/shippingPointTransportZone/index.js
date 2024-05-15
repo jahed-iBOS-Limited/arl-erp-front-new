@@ -3,12 +3,12 @@ import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import IConfirmModal from "../../../_helper/_confirmModal";
 import IDelete from "../../../_helper/_helperIcons/_delete";
 import IEdit from "../../../_helper/_helperIcons/_edit";
 import NewSelect from "../../../_helper/_select";
 import PaginationTable from "../../../_helper/_tablePagination";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import IForm from "./../../../_helper/_form";
 import Loading from "./../../../_helper/_loading";
 const initData = {
@@ -167,7 +167,8 @@ export default function ShippingPointTransportZoneLanding() {
               </div>
               <div className="row">
                 <div className="col-lg-12">
-                  <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+                <div className="table-responsive">
+                <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                     <thead>
                       <tr>
                         <th>SL</th>
@@ -205,6 +206,7 @@ export default function ShippingPointTransportZoneLanding() {
                       })}
                     </tbody>
                   </table>
+                </div>
                   {rowData?.wareHouseZones?.length > 0 && (
                     <PaginationTable
                       count={rowData?.wareHouseZones?.length}

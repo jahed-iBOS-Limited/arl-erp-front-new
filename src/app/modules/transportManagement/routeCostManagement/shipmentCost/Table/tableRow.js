@@ -238,11 +238,12 @@ export function TableRow() {
                 </div>
                 <div className="col-lg-12">
                   <div
-                    className="print_wrapper"
+                    className="print_wrapper "
                     componentRef={printRef}
                     ref={printRef}
                   >
-                    <table className="table table-striped table-bordered global-table">
+                 <div className="table-responsive">
+                 <table className="table table-striped table-bordered global-table">
                       <thead>
                         <tr>
                           {isBillSubmit && (
@@ -405,6 +406,7 @@ export function TableRow() {
                         )}
                       </tbody>
                     </table>
+                 </div>
                   </div>
                   <IViewModal
                     show={showModal}
