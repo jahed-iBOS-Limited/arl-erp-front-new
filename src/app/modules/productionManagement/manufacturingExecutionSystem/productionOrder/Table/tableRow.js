@@ -249,16 +249,7 @@ export function TableRow() {
       <Formik>
         <>
           {(loader || warehouseDDLloader) && <Loading />}
-          <div
-            style={{
-              paddingBottom: "8px",
-              marginLeft: "-13px",
-              paddingLeft: ".50rem",
-              paddingRight: ".50rem",
-              width: "max-content",
-            }}
-            className="d-flex mt-3 bank-journal bank-journal-custom bj-left expenseRegister"
-          >
+          <div className="global-form">
             {/* Header Start */}
             <div>
               <div className="row">

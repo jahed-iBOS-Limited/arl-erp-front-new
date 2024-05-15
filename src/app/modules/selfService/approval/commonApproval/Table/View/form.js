@@ -184,7 +184,7 @@ export default function _Form({
                         isDisabled={true}
                       />
                     </div>
-                    <div style={{ width: 100 }} className="col-lg-12">
+                    <div className="col-lg-12">
                       <label>Bom Name</label>
                       <InputField
                         value={values?.bomName || ""}
@@ -194,7 +194,7 @@ export default function _Form({
                         disabled={true}
                       />
                     </div>
-                    <div style={{ width: 100 }} className="col-lg-12">
+                    <div className="col-lg-12">
                       <label>Bom Version</label>
                       <InputField
                         value={values?.bomVersion}

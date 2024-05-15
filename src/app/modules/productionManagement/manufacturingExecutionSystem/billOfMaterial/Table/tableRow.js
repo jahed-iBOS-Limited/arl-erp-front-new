@@ -139,68 +139,57 @@ export function TableRow() {
       <Formik>
         <>
           {loading && <Loading />}
-          <div
-            style={{
-              paddingBottom: "8px",
-              marginLeft: "-13px",
-              paddingLeft: ".50rem",
-              paddingRight: ".50rem",
-              width: "max-content",
-            }}
-            className="d-flex mt-3 bank-journal bank-journal-custom bj-left expenseRegister"
-          >
-            <div style={{ width: "375px" }}>
-              <div className="row">
-                <div className="col-lg-6">
-                  <label>Plant</label>
-                  <Select
-                    onChange={(valueOption) => {
-                      // dispatch(setBomLandingAction(valueOption));
-                      setSelectedDDLItem(valueOption);
-                      setselectedDDLShop("");
-                      dispatch(
-                        SetManufactureBOMTableLandingAction({
-                          plant: valueOption,
-                          shopfloor: "",
-                        })
-                      );
-                    }}
-                    value={selectedDDLItem}
-                    options={plantDDL || []}
-                    isSearchable={true}
-                    styles={customStyles}
-                    name={plantDDL}
-                  />
-                </div>
-                <div className="col-lg-6">
-                  <label>Shop Floor</label>
-                  <Select
-                    name={shopFloorDDL}
-                    options={shopFloorDDL || []}
-                    value={selectedDDLShop}
-                    onChange={(valueOption) => {
-                      setselectedDDLShop(valueOption);
-                      GetBillofMaterialPagination(
-                        profileData?.accountId,
-                        selectedBusinessUnit?.value,
-                        selectedDDLItem?.value,
-                        valueOption?.value,
-                        setLoading,
-                        setGridData,
-                        pageNo,
-                        pageSize
-                      );
-                      dispatch(
-                        SetManufactureBOMTableLandingAction({
-                          plant: selectedDDLItem,
-                          shopfloor: valueOption,
-                        })
-                      );
-                    }}
-                    isSearchable={true}
-                    styles={customStyles}
-                  />
-                </div>
+          <div className="global-form">
+            <div className="row">
+              <div className="col-lg-4">
+                <label>Plant</label>
+                <Select
+                  onChange={(valueOption) => {
+                    // dispatch(setBomLandingAction(valueOption));
+                    setSelectedDDLItem(valueOption);
+                    setselectedDDLShop("");
+                    dispatch(
+                      SetManufactureBOMTableLandingAction({
+                        plant: valueOption,
+                        shopfloor: "",
+                      })
+                    );
+                  }}
+                  value={selectedDDLItem}
+                  options={plantDDL || []}
+                  isSearchable={true}
+                  styles={customStyles}
+                  name={plantDDL}
+                />
+              </div>
+              <div className="col-lg-4">
+                <label>Shop Floor</label>
+                <Select
+                  name={shopFloorDDL}
+                  options={shopFloorDDL || []}
+                  value={selectedDDLShop}
+                  onChange={(valueOption) => {
+                    setselectedDDLShop(valueOption);
+                    GetBillofMaterialPagination(
+                      profileData?.accountId,
+                      selectedBusinessUnit?.value,
+                      selectedDDLItem?.value,
+                      valueOption?.value,
+                      setLoading,
+                      setGridData,
+                      pageNo,
+                      pageSize
+                    );
+                    dispatch(
+                      SetManufactureBOMTableLandingAction({
+                        plant: selectedDDLItem,
+                        shopfloor: valueOption,
+                      })
+                    );
+                  }}
+                  isSearchable={true}
+                  styles={customStyles}
+                />
               </div>
             </div>
           </div>

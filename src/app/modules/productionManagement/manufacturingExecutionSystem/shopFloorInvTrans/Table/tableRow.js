@@ -113,83 +113,76 @@ export function TableRow() {
           </button>
         )}
       >
-        <div
-          style={{
-            paddingBottom: "8px",
-            marginLeft: "-13px",
-            paddingLeft: ".50rem",
-            paddingRight: ".50rem",
-            width: "max-content",
-          }}
-          className="d-flex mt-3 global-form"
-        >
-          <div style={{ width: "175px" }} className="mr-4">
-            <label>Plant Name</label>
-            <Select
-              onChange={(valueOption) => {
-                setSelectedPlant(valueOption);
-                getShopfloorDDL(
-                  profileData?.accountId,
-                  selectedBusinessUnit?.value,
-                  valueOption?.value,
-                  setShopFloorDDL
-                );
-                setSelectedShopFloorDDL("");
-              }}
-              value={selectedPlant}
-              options={plantDDL}
-              isSearchable={true}
-              styles={customStyles}
-            />
-          </div>
-          <div style={{ width: "175px" }} className="mr-4">
-            <label>Shop Floor</label>
-            <Select
-              onChange={(valueOption) => {
-                setSelectedShopFloorDDL(valueOption);
-              }}
-              value={selectedShopFloorDDL}
-              options={shopfloorDDL}
-              isSearchable={true}
-              styles={customStyles}
-            />
-          </div>
-          <div style={{ width: "175px" }} className="mr-4">
-            <label>Transaction Type</label>
-            <Select
-              onChange={(valueOption) => {
-                setSelectedTransactionType(valueOption);
-                setGridData([]);
-              }}
-              value={selectedTransactionType}
-              options={transactionTypeDDL}
-              isSearchable={true}
-              styles={customStyles}
-            />
-          </div>
-          <div style={{ width: "175px" }} className="mr-4">
-            <button
-              type="button"
-              className="btn btn-primary mt-5"
-              onClick={() => {
-                ShopFloorTransactionLandingAction(
-                  selectedPlant?.value,
-                  selectedShopFloorDDL?.value,
-                  selectedTransactionType?.value,
-                  setGridData,
-                  setLoader
-                );
-                dispatch(
-                  SetShopFloorInventoryTransactionAction({
-                    selectedPlant,
-                    selectedShopFloorDDL,
-                    selectedTransactionType,
-                  })
-                );
-              }}
-            >
-              View
-            </button>
+        <div className=" global-form">
+          <div className="row">
+            <div className="col-lg-3">
+              <label>Plant Name</label>
+              <Select
+                onChange={(valueOption) => {
+                  setSelectedPlant(valueOption);
+                  getShopfloorDDL(
+                    profileData?.accountId,
+                    selectedBusinessUnit?.value,
+                    valueOption?.value,
+                    setShopFloorDDL
+                  );
+                  setSelectedShopFloorDDL("");
+                }}
+                value={selectedPlant}
+                options={plantDDL}
+                isSearchable={true}
+                styles={customStyles}
+              />
+            </div>
+            <div className="col-lg-3">
+              <label>Shop Floor</label>
+              <Select
+                onChange={(valueOption) => {
+                  setSelectedShopFloorDDL(valueOption);
+                }}
+                value={selectedShopFloorDDL}
+                options={shopfloorDDL}
+                isSearchable={true}
+                styles={customStyles}
+              />
+            </div>
+            <div className="col-lg-3">
+              <label>Transaction Type</label>
+              <Select
+                onChange={(valueOption) => {
+                  setSelectedTransactionType(valueOption);
+                  setGridData([]);
+                }}
+                value={selectedTransactionType}
+                options={transactionTypeDDL}
+                isSearchable={true}
+                styles={customStyles}
+              />
+            </div>
+            <div className="col-lg-2">
+              <button
+                type="button"
+                className="btn btn-primary mt-5"
+                onClick={() => {
+                  ShopFloorTransactionLandingAction(
+                    selectedPlant?.value,
+                    selectedShopFloorDDL?.value,
+                    selectedTransactionType?.value,
+                    setGridData,
+                    setLoader
+                  );
+                  dispatch(
+                    SetShopFloorInventoryTransactionAction({
+                      selectedPlant,
+                      selectedShopFloorDDL,
+                      selectedTransactionType,
+                    })
+                  );
+                }}
+              >
+                View
+              </button>
+            </div>
           </div>
         </div>
         {/* Table Start */}

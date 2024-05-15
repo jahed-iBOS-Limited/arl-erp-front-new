@@ -128,15 +128,8 @@ export function ProductionEntryApproveRow({ dataForBackCalculationCheck }) {
 
   return (
     <>
-      <div className="d-flex mt-3 bank-journal bank-journal-custom bj-left expenseRegister">
-        <div
-          style={{
-            width: "100%",
-            paddingLeft: "10px",
-            paddingRight: "10px",
-            paddingBottom: "10px",
-          }}
-        >
+      <div className="">
+        <div className="global-form">
           <div className="row">
             <div className="col-lg-2">
               <label>Plant</label>

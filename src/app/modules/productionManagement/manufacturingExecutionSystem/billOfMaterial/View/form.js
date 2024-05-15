@@ -143,7 +143,7 @@ export default function _Form({
           <>
             <Form className="form form-label-right">
               <div className="row mt-2">
-                <div className="col-lg-4">
+                <div className="col-lg-4 mb-2">
                   <div className="row global-form px-0 py-2 m-0">
                     <div className="col-lg-9 my-2">
                       <NewSelect
@@ -229,7 +229,7 @@ export default function _Form({
                         isDisabled={true}
                       />
                     </div>
-                    <div style={{ width: 100 }} className="col-lg-12">
+                    <div className="col-lg-12">
                       <label>Bom Name</label>
                       <InputField
                         value={values?.bomName || ""}
@@ -239,7 +239,7 @@ export default function _Form({
                         disabled={true}
                       />
                     </div>
-                    <div style={{ width: 100 }} className="col-lg-12">
+                    <div className="col-lg-12">
                       <label>Bom Version</label>
                       <InputField
                         value={values?.bomVersion}
@@ -250,7 +250,7 @@ export default function _Form({
                       />
                     </div>
                     {[144, 188, 189].includes(selectedBusinessUnit?.value) && (
-                      <div style={{ width: 100 }} className="col-lg-12">
+                      <div className="col-lg-12">
                         <NewSelect
                           name="bomType"
                           options={bomTypeDDL || []}

@@ -155,15 +155,8 @@ export function TableRow({ dataForBackCalculationCheck }) {
 
   return (
     <>
-      <div className="d-flex mt-3 bank-journal bank-journal-custom bj-left expenseRegister">
-        <div
-          style={{
-            width: "100%",
-            paddingLeft: "10px",
-            paddingRight: "10px",
-            paddingBottom: "10px",
-          }}
-        >
+      <div>
+        <div className="global-form">
           <div className="row">
             <div className="col-lg-3">
               <label>Plant</label>

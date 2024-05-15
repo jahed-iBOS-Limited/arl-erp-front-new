@@ -162,75 +162,68 @@ export function TableRow() {
                 </button>
               )}
             >
-              <div
-                style={{
-                  paddingBottom: "8px",
-                  marginLeft: "-13px",
-                  paddingLeft: ".50rem",
-                  paddingRight: ".50rem",
-                  width: "max-content",
-                }}
-                className="d-flex mt-3 global-form"
-              >
-                <div className="col-lg-3 pb-2">
-                  <NewSelect
-                    name="sbu"
-                    options={sbuDDL}
-                    value={values?.sbu}
-                    onChange={(valueOption) => {
-                      setFieldValue("sbu", valueOption);
-                    }}
-                    errors={errors}
-                    touched={touched}
-                    placeholder="SBU"
-                  />
-                </div>
-                <div className="col-lg-3 pb-2">
-                  <NewSelect
-                    name="plant"
-                    options={plantDDL}
-                    value={values?.plant}
-                    onChange={(valueOption) => {
-                      setFieldValue("warehouse", "");
-                      // setSelectedPlant(valueOption);
-                      setFieldValue("plant", valueOption);
-                      getWareHouseDDL_api(
-                        profileData?.userId,
-                        profileData?.accountId,
-                        selectedBusinessUnit?.value,
-                        valueOption?.value,
-                        setWareHouseDDL
-                      );
-                    }}
-                    errors={errors}
-                    touched={touched}
-                    placeholder="Plant"
-                  />
-                </div>
-                <div className="col-lg-3 pb-2">
-                  <NewSelect
-                    name="warehouse"
-                    options={wareHouseDDL}
-                    value={values?.warehouse}
-                    onChange={(valueOption) => {
-                      setFieldValue("warehouse", valueOption);
-                    }}
-                    errors={errors}
-                    touched={touched}
-                    placeholder="Warehouse"
-                  />
-                </div>
-                <div style={{ width: "175px" }} className="mr-4">
-                  <button
-                    type="button"
-                    className="btn btn-primary mt-6"
-                    onClick={() => {
-                      viewReceiveShopFloorData(values);
-                      dispatch(setreceiveShopFloorLandingAction(values));
-                    }}
-                  >
-                    View
-                  </button>
+              <div className="global-form">
+                <div className="row">
+                  <div className="col-lg-3 pb-2">
+                    <NewSelect
+                      name="sbu"
+                      options={sbuDDL}
+                      value={values?.sbu}
+                      onChange={(valueOption) => {
+                        setFieldValue("sbu", valueOption);
+                      }}
+                      errors={errors}
+                      touched={touched}
+                      placeholder="SBU"
+                    />
+                  </div>
+                  <div className="col-lg-3 pb-2">
+                    <NewSelect
+                      name="plant"
+                      options={plantDDL}
+                      value={values?.plant}
+                      onChange={(valueOption) => {
+                        setFieldValue("warehouse", "");
+                        // setSelectedPlant(valueOption);
+                        setFieldValue("plant", valueOption);
+                        getWareHouseDDL_api(
+                          profileData?.userId,
+                          profileData?.accountId,
+                          selectedBusinessUnit?.value,
+                          valueOption?.value,
+                          setWareHouseDDL
+                        );
+                      }}
+                      errors={errors}
+                      touched={touched}
+                      placeholder="Plant"
+                    />
+                  </div>
+                  <div className="col-lg-3 pb-2">
+                    <NewSelect
+                      name="warehouse"
+                      options={wareHouseDDL}
+                      value={values?.warehouse}
+                      onChange={(valueOption) => {
+                        setFieldValue("warehouse", valueOption);
+                      }}
+                      errors={errors}
+                      touched={touched}
+                      placeholder="Warehouse"
+                    />
+                  </div>
+                  <div style={{ width: "175px" }} className="mr-4">
+                    <button
+                      type="button"
+                      className="btn btn-primary mt-6"
+                      onClick={() => {
+                        viewReceiveShopFloorData(values);
+                        dispatch(setreceiveShopFloorLandingAction(values));
+                      }}
+                    >
+                      View
+                    </button>
+                  </div>
                 </div>
               </div>
               {loader && <Loading />}

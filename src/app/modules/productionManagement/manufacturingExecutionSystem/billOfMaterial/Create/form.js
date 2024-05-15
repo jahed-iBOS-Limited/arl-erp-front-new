@@ -305,7 +305,7 @@ export default function _Form({
                         isDisabled={isEdit}
                       />
                     </div>
-                    <div style={{ width: 100 }} className="col-lg-12">
+                    <div className="col-lg-12">
                       <label>Bom Name</label>
                       <InputField
                         value={values?.bomName || ""}
@@ -315,7 +315,7 @@ export default function _Form({
                         disabled
                       />
                     </div>
-                    <div style={{ width: 100 }} className="col-lg-12">
+                    <div className="col-lg-12">
                       <label>Bom Version</label>
                       <InputField
                         value={values?.bomVersion}
@@ -325,7 +325,7 @@ export default function _Form({
                       />
                     </div>
                     {[144, 188, 189].includes(selectedBusinessUnit?.value) && (
-                      <div style={{ width: 100 }} className="col-lg-12">
+                      <div className="col-lg-12">
                         <NewSelect
                           name="bomType"
                           options={bomTypeDDL || []}
