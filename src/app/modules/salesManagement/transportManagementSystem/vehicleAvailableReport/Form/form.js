@@ -9,12 +9,9 @@ import { _numberValidation } from "../../../../_helper/_numberValidation";
 
 // Validation schema
 const validationSchema = Yup.object().shape({
-  requestDate: Yup.string()
-    .required("Request Date is required"),
-    validTill: Yup.string()
-    .required("Valid Till Date is required"),
-    dueDate: Yup.string()
-    .required("Due Date is required"),
+  requestDate: Yup.string().required("Request Date is required"),
+  validTill: Yup.string().required("Valid Till Date is required"),
+  dueDate: Yup.string().required("Due Date is required"),
 });
 
 export default function _Form({
@@ -28,7 +25,7 @@ export default function _Form({
   addItemtoTheGrid,
   rowlebelData,
   id,
-  location
+  location,
 }) {
   return (
     <>
@@ -105,7 +102,7 @@ export default function _Form({
                   />
                 </div> */}
                 <div className="col-lg-2">
-                <InputField
+                  <InputField
                     value={values?.referenceId}
                     label="Reference No."
                     placeholder="Reference No."
@@ -124,7 +121,7 @@ export default function _Form({
                   />
                 </div>
                 <div className="col-lg-2">
-                <InputField
+                  <InputField
                     value={values?.quantity}
                     type="tel"
                     label="Quantity"
@@ -144,64 +141,71 @@ export default function _Form({
                   />
                 </div>
                 <div className="col-lg-2 mt-9">
-                      <button
-                        className="btn btn-primary"
-                        onClick={(e) => addItemtoTheGrid(values)}
-                        type="button"
-                        disabled={!values?.remarks && !values?.quantity && !values?.referenceId}
-                      >
-                        Add
-                      </button>
-                    </div>
+                  <button
+                    className="btn btn-primary"
+                    onClick={(e) => addItemtoTheGrid(values)}
+                    type="button"
+                    disabled={
+                      !values?.remarks &&
+                      !values?.quantity &&
+                      !values?.referenceId
+                    }
+                  >
+                    Add
+                  </button>
+                </div>
               </div>
 
               <div className="form-group row mt-2">
                 <div className="col-lg-12">
                   <div className="row px-5">
                     {/* Start Table Part */}
-                    <table className="table table-striped table-bordered">
-                      <thead>
-                        <tr>
-                          <th>SL</th>
-                          <th>Item Code</th>
-                          <th>Item Name</th>
-                          <th>Ref. No.</th>
-                          <th>Request Qty.</th>
-                          <th>Purpose</th>
-                          <th>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {rowlebelData?.map((item, index) => (
-                          <tr key={index}>
-                            <td className="text-center align-middle">
-                              {index + 1}
-                            </td>
-                            <td className="text-center align-middle">
-                              {item.itemCode}
-                            </td>
-
-                            <td className="text-center align-middle table-input">
-                              {item.itemName}
-                            </td>
-                            <td className="text-center align-middle table-input">
-                              {item.referenceId}
-                            </td>
-                            <td className="text-center align-middle table-input">
-                              {item.requestQuantity}
-                            </td>
-                            <td className="text-center align-middle table-input">
-                              {item.remarks}
-                            </td>
-                            <td className="text-center align-middle table-input">
-                              <span onClick={() => remover(item.itemId)}>
-                                <IDelete />
-                              </span>
-                            </td>
+                    <div className="table-responsive">
+                      <table className="table table-striped table-bordered">
+                        <thead>
+                          <tr>
+                            <th>SL</th>
+                            <th>Item Code</th>
+                            <th>Item Name</th>
+                            <th>Ref. No.</th>
+                            <th>Request Qty.</th>
+                            <th>Purpose</th>
+                            <th>Action</th>
                           </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                        </thead>
+                        <tbody>
+                          {rowlebelData?.map((item, index) => (
+                            <tr key={index}>
+                              <td className="text-center align-middle">
+                                {index + 1}
+                              </td>
+                              <td className="text-center align-middle">
+                                {item.itemCode}
+                              </td>
+
+                              <td className="text-center align-middle table-input">
+                                {item.itemName}
+                              </td>
+                              <td className="text-center align-middle table-input">
+                                {item.referenceId}
+                              </td>
+                              <td className="text-center align-middle table-input">
+                                {item.requestQuantity}
+                              </td>
+                              <td className="text-center align-middle table-input">
+                                {item.remarks}
+                              </td>
+                              <td className="text-center align-middle table-input">
+                                <span onClick={() => remover(item.itemId)}>
+                                  <IDelete />
+                                </span>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+
                     {/* End Table Part */}
                   </div>
                 </div>

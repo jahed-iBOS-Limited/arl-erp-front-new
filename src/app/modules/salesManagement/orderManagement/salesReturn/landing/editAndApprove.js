@@ -89,58 +89,59 @@ const EditAndApprove = ({ rows, setRows, setOpen, getLanding, preValues }) => {
             >
               <form>
                 {rows?.data?.length > 0 && (
-                  <table className="table table-striped table-bordered global-table">
-                    <thead>
-                      <tr>
-                        <th>SL</th>
-                        <th>Challan No</th>
-                        <th>Customer Name</th>
-                        <th>Customer Code</th>
-                        <th style={{ width: "120px" }}>Quantity</th>
-                        <th style={{ width: "120px" }}>Amount</th>
-                        <th>Entry Date</th>
-                        {/* <th>Status</th>
+                  <div className="table-responsive">
+                    <table className="table table-striped table-bordered global-table">
+                      <thead>
+                        <tr>
+                          <th>SL</th>
+                          <th>Challan No</th>
+                          <th>Customer Name</th>
+                          <th>Customer Code</th>
+                          <th style={{ width: "120px" }}>Quantity</th>
+                          <th style={{ width: "120px" }}>Amount</th>
+                          <th>Entry Date</th>
+                          {/* <th>Status</th>
                         <th>Action</th> */}
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {rows?.data?.map((item, index) => (
-                        <tr key={index}>
-                          <td className="text-center"> {index + 1}</td>
-                          <td> {item?.deliveryChallan}</td>
-                          <td> {item?.businessPartnerName}</td>
-                          <td> {item?.businessPartnerCode}</td>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {rows?.data?.map((item, index) => (
+                          <tr key={index}>
+                            <td className="text-center"> {index + 1}</td>
+                            <td> {item?.deliveryChallan}</td>
+                            <td> {item?.businessPartnerName}</td>
+                            <td> {item?.businessPartnerCode}</td>
 
-                          <td className="text-right">
-                            <InputField
-                              value={item?.quantity}
-                              name="quantity"
-                              placeholder="Quantity"
-                              type="number"
-                              onChange={(e) => {
-                                dataChangeHandler(
-                                  index,
-                                  "quantity",
-                                  e?.target?.value
-                                );
-                              }}
-                              onBlur={(e) => {
-                                if (e?.target?.value > item?.numDeliveryQnt) {
-                                  toast.warn(
-                                    "Damage qty can not be greater than delivery qty"
+                            <td className="text-right">
+                              <InputField
+                                value={item?.quantity}
+                                name="quantity"
+                                placeholder="Quantity"
+                                type="number"
+                                onChange={(e) => {
+                                  dataChangeHandler(
+                                    index,
+                                    "quantity",
+                                    e?.target?.value
                                   );
-                                }
-                              }}
-                            />
-                          </td>
-                          <td className="text-right">
-                            {_fixedPoint(
-                              item?.returnAmount || item?.totalReturnAmount,
-                              true
-                            )}
-                          </td>
-                          <td> {_dateFormatter(item?.returnDateTime)}</td>
-                          {/* <td>
+                                }}
+                                onBlur={(e) => {
+                                  if (e?.target?.value > item?.numDeliveryQnt) {
+                                    toast.warn(
+                                      "Damage qty can not be greater than delivery qty"
+                                    );
+                                  }
+                                }}
+                              />
+                            </td>
+                            <td className="text-right">
+                              {_fixedPoint(
+                                item?.returnAmount || item?.totalReturnAmount,
+                                true
+                              )}
+                            </td>
+                            <td> {_dateFormatter(item?.returnDateTime)}</td>
+                            {/* <td>
                             {item?.isApprovedBySupervisor &&
                             item?.isApprovedByAccount
                               ? "Approved by Supervisor and Account"
@@ -150,40 +151,42 @@ const EditAndApprove = ({ rows, setRows, setOpen, getLanding, preValues }) => {
                               ? "Canceled"
                               : "Pending"}
                           </td> */}
-                          {/* <td></td> */}
+                            {/* <td></td> */}
+                          </tr>
+                        ))}
+                        <tr style={{ textAlign: "right", fontWeight: "bold" }}>
+                          <td
+                            colSpan={values?.status?.value === 2 ? 5 : 4}
+                            className="text-right"
+                          >
+                            <b>Total</b>
+                          </td>
+                          <td>
+                            {_fixedPoint(
+                              rows?.data?.reduce(
+                                (a, b) =>
+                                  a + +b?.quantity || +b?.totalReturnQty,
+                                0
+                              ),
+                              true,
+                              0
+                            )}
+                          </td>
+                          <td>
+                            {_fixedPoint(
+                              rows?.data?.reduce(
+                                (a, b) =>
+                                  a + +b?.returnAmount || +b?.totalReturnAmount,
+                                0
+                              ),
+                              true
+                            )}
+                          </td>
+                          <td colSpan={3}></td>
                         </tr>
-                      ))}
-                      <tr style={{ textAlign: "right", fontWeight: "bold" }}>
-                        <td
-                          colSpan={values?.status?.value === 2 ? 5 : 4}
-                          className="text-right"
-                        >
-                          <b>Total</b>
-                        </td>
-                        <td>
-                          {_fixedPoint(
-                            rows?.data?.reduce(
-                              (a, b) => a + +b?.quantity || +b?.totalReturnQty,
-                              0
-                            ),
-                            true,
-                            0
-                          )}
-                        </td>
-                        <td>
-                          {_fixedPoint(
-                            rows?.data?.reduce(
-                              (a, b) =>
-                                a + +b?.returnAmount || +b?.totalReturnAmount,
-                              0
-                            ),
-                            true
-                          )}
-                        </td>
-                        <td colSpan={3}></td>
-                      </tr>
-                    </tbody>
-                  </table>
+                      </tbody>
+                    </table>{" "}
+                  </div>
                 )}
               </form>
             </ICustomCard>

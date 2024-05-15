@@ -32,7 +32,7 @@ export default function ComplainAssignConfigCreateEdit() {
   const { state } = useLocation();
 
   const {
-    profileData: { accountId: accId , userId},
+    profileData: { accountId: accId, userId },
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
   const { id } = useParams();
@@ -58,7 +58,7 @@ export default function ComplainAssignConfigCreateEdit() {
         userId: values?.user?.value,
         issueTypeName: values?.issueType?.label,
         issueTypeId: values?.issueType?.value,
-        process: values?.process?.label
+        process: values?.process?.label,
       },
     ]);
     resetForm();
@@ -87,7 +87,9 @@ export default function ComplainAssignConfigCreateEdit() {
       saveComplaintAssign(
         `/oms/CustomerPoint/CreateComplaintAssign`,
         payload,
-        () => {setRowData([])},
+        () => {
+          setRowData([]);
+        },
         true
       );
     } else {
@@ -262,7 +264,9 @@ export default function ComplainAssignConfigCreateEdit() {
                     }}
                     className="btn btn-primary btn-sm"
                     style={{ marginTop: "18px" }}
-                    disabled={!values?.user || !values?.issueType || !values?.process}
+                    disabled={
+                      !values?.user || !values?.issueType || !values?.process
+                    }
                   >
                     Add
                   </button>
@@ -271,39 +275,37 @@ export default function ComplainAssignConfigCreateEdit() {
 
               <div className="row ">
                 <div className="col-lg-12">
-                  <table className="table table-striped table-bordered global-table table-font-size-sm">
-                    <thead>
-                      <tr>
-                        <th>Sl</th>
-                        <th>Employee Name</th>
-                        <th>Business Unit</th>
-                        <th>Issue Type</th>
-                        <th>Process</th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {rowData?.length > 0 &&
-                        rowData?.map((item, index) => (
-                          <tr key={index}>
-                            <td>{index + 1}</td>
-                            <td>{item?.userName}</td>
-                            <td>
-                              {item?.businessUnitName}
-                            </td>
-                            <td>
-                              {item?.issueTypeName}
-                            </td>
-                            <td>{item?.process}</td>
-                            <td className="text-center">
-                              <span onClick={() => HandleDelete(item)}>
-                                <IDelete />
-                              </span>
-                            </td>
-                          </tr>
-                        ))}
-                    </tbody>
-                  </table>
+                  <div className="table-responsive">
+                    <table className="table table-striped table-bordered global-table table-font-size-sm">
+                      <thead>
+                        <tr>
+                          <th>Sl</th>
+                          <th>Employee Name</th>
+                          <th>Business Unit</th>
+                          <th>Issue Type</th>
+                          <th>Process</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {rowData?.length > 0 &&
+                          rowData?.map((item, index) => (
+                            <tr key={index}>
+                              <td>{index + 1}</td>
+                              <td>{item?.userName}</td>
+                              <td>{item?.businessUnitName}</td>
+                              <td>{item?.issueTypeName}</td>
+                              <td>{item?.process}</td>
+                              <td className="text-center">
+                                <span onClick={() => HandleDelete(item)}>
+                                  <IDelete />
+                                </span>
+                              </td>
+                            </tr>
+                          ))}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
 

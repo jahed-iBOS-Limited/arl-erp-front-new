@@ -118,8 +118,7 @@ export default function ServiceSalesLanding() {
                           }&businessUnitId=${
                             selectedBusinessUnit?.value
                           }&customerId=${values?.customer?.value ||
-                            0}&itemId=${
-                            0}&pageNo=${pageNo}&pageSize=${pageSize}`
+                            0}&itemId=${0}&pageNo=${pageNo}&pageSize=${pageSize}`
                         );
                       }}
                     >
@@ -128,46 +127,60 @@ export default function ServiceSalesLanding() {
                   </div>
                 </div>
                 <div className="mt-5">
-                  <table className="table table-striped table-bordered bj-table bj-table-landing">
-                    <thead>
-                      <tr>
-                      <th style={{maxWidth:"20px"}}>SL</th>
-                        <th>Order Code</th>
-                        <th>Customer</th>
-                        <th>Item Name</th>
-                        <th>Salaes Type Name</th>
-                        <th>Payment Type</th>
-                        <th>Schedule Type</th>
-                        <th>Due Invoice</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {scheduleList?.data?.map((item, index) => (
-                        <tr key={index}>
-                          <td>{index + 1}</td>
-                          <td>{item?.strServiceSalesOrderCode}</td>
-                          <td>{(()=>{
-                              const itemStrings = item?.items?.map(singleItem => {
-                                const itemName = singleItem.strItemName || 'N/A';
-                                const qty = typeof singleItem.numSalesQty === 'number' ? singleItem.numSalesQty : 'N/A';
-                                const rate = typeof singleItem.numRate === 'number' ? singleItem.numRate : 'N/A';
-                              
-                                return `${itemName} - Qty: ${qty}, Rate: ${rate}`;
-                              });
-                              
-                              return itemStrings?.join(' / ');
-                            })()}</td>
-                          <td>{item?.strCustomerName}</td>
-                          <td>{item?.strSalesTypeName}</td>
-                          <td>{item?.strPaymentType}</td>
-                          <td>{item?.strScheduleTypeName}</td>
-                          <td className="text-center">
-                            {`${item?.invoiceCollectionCount} / ${item?.intInvoiceCount}`}
-                          </td>
+                  <div className="table-responsive">
+                    <table className="table table-striped table-bordered bj-table bj-table-landing">
+                      <thead>
+                        <tr>
+                          <th style={{ maxWidth: "20px" }}>SL</th>
+                          <th>Order Code</th>
+                          <th>Customer</th>
+                          <th>Item Name</th>
+                          <th>Salaes Type Name</th>
+                          <th>Payment Type</th>
+                          <th>Schedule Type</th>
+                          <th>Due Invoice</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody>
+                        {scheduleList?.data?.map((item, index) => (
+                          <tr key={index}>
+                            <td>{index + 1}</td>
+                            <td>{item?.strServiceSalesOrderCode}</td>
+                            <td>
+                              {(() => {
+                                const itemStrings = item?.items?.map(
+                                  (singleItem) => {
+                                    const itemName =
+                                      singleItem.strItemName || "N/A";
+                                    const qty =
+                                      typeof singleItem.numSalesQty === "number"
+                                        ? singleItem.numSalesQty
+                                        : "N/A";
+                                    const rate =
+                                      typeof singleItem.numRate === "number"
+                                        ? singleItem.numRate
+                                        : "N/A";
+
+                                    return `${itemName} - Qty: ${qty}, Rate: ${rate}`;
+                                  }
+                                );
+
+                                return itemStrings?.join(" / ");
+                              })()}
+                            </td>
+                            <td>{item?.strCustomerName}</td>
+                            <td>{item?.strSalesTypeName}</td>
+                            <td>{item?.strPaymentType}</td>
+                            <td>{item?.strScheduleTypeName}</td>
+                            <td className="text-center">
+                              {`${item?.invoiceCollectionCount} / ${item?.intInvoiceCount}`}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+
                   {scheduleList?.data?.length > 0 && (
                     <PaginationTable
                       count={scheduleList?.totalCount}

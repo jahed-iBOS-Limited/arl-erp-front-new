@@ -78,58 +78,61 @@ const RevenueVariance = ({ obj }) => {
                   Submit
                 </button>
               </div>
-              <table className="table mt-3 bj-table bj-table-landing">
-                <thead
-                  style={{
-                    borderTop: "1px solid rgb(207, 203, 203)",
-                  }}
-                >
-                  <tr>
-                    <th colSpan={2}>First Week</th>
-                    <th colSpan={2}>Second Week</th>
-                    <th colSpan={2}>Third Week</th>
-                    <th colSpan={2}>Fourth Week</th>
-                  </tr>
-                  <tr>
-                    <th>Target</th>
-                    <th>Revenue</th>
-                    <th>Target</th>
-                    <th>Revenue</th>
-                    <th>Target</th>
-                    <th>Revenue</th>
-                    <th>Target</th>
-                    <th>Revenue</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td className="text-center">
-                      {_fixedPoint(item?.decFirstWeekTarget, true)}
-                    </td>
-                    <td className="text-center">
-                      {_fixedPoint(item?.decFirstWeekRevenue, true)}
-                    </td>
-                    <td className="text-center">
-                      {_fixedPoint(item?.decSecondWeekTarget, true)}
-                    </td>
-                    <td className="text-center">
-                      {_fixedPoint(item?.decSecondWeekRevenue, true)}
-                    </td>
-                    <td className="text-center">
-                      {_fixedPoint(item?.decThirdWeekTarget, true)}
-                    </td>
-                    <td className="text-center">
-                      {_fixedPoint(item?.decThirdWeekRevenue, true)}
-                    </td>
-                    <td className="text-center">
-                      {_fixedPoint(item?.decFourthWeekTarget, true)}
-                    </td>
-                    <td className="text-center">
-                      {_fixedPoint(item?.decFourthWeekRevenue, true)}
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+              <div className="table-responsive">
+                <table className="table mt-3 bj-table bj-table-landing">
+                  <thead
+                    style={{
+                      borderTop: "1px solid rgb(207, 203, 203)",
+                    }}
+                  >
+                    <tr>
+                      <th colSpan={2}>First Week</th>
+                      <th colSpan={2}>Second Week</th>
+                      <th colSpan={2}>Third Week</th>
+                      <th colSpan={2}>Fourth Week</th>
+                    </tr>
+                    <tr>
+                      <th>Target</th>
+                      <th>Revenue</th>
+                      <th>Target</th>
+                      <th>Revenue</th>
+                      <th>Target</th>
+                      <th>Revenue</th>
+                      <th>Target</th>
+                      <th>Revenue</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td className="text-center">
+                        {_fixedPoint(item?.decFirstWeekTarget, true)}
+                      </td>
+                      <td className="text-center">
+                        {_fixedPoint(item?.decFirstWeekRevenue, true)}
+                      </td>
+                      <td className="text-center">
+                        {_fixedPoint(item?.decSecondWeekTarget, true)}
+                      </td>
+                      <td className="text-center">
+                        {_fixedPoint(item?.decSecondWeekRevenue, true)}
+                      </td>
+                      <td className="text-center">
+                        {_fixedPoint(item?.decThirdWeekTarget, true)}
+                      </td>
+                      <td className="text-center">
+                        {_fixedPoint(item?.decThirdWeekRevenue, true)}
+                      </td>
+                      <td className="text-center">
+                        {_fixedPoint(item?.decFourthWeekTarget, true)}
+                      </td>
+                      <td className="text-center">
+                        {_fixedPoint(item?.decFourthWeekRevenue, true)}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
               <div className="global-form">
                 <label>Reason</label>
                 <TextArea

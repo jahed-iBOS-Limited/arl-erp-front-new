@@ -96,60 +96,63 @@ export function TableRow() {
       </div>
       {loading && <Loading />}
 
-      <table className="table table-striped table-bordered global-table">
-        <thead>
-          <tr>
-            <th>SL</th>
-            <th>Item Name</th>
+      <div className="table-responsive">
+        <table className="table table-striped table-bordered global-table">
+          <thead>
+            <tr>
+              <th>SL</th>
+              <th>Item Name</th>
 
-            <th>Vehicle Capacity</th>
-            <th>Quantity</th>
-            <th>Load Amount</th>
-            <th>Unload Amount</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {landingPageData?.data?.map((item, index) => (
-            <tr key={index}>
-              <td> {item.sl}</td>
-              <td>
-                <div className="pl-2">{item?.itemName || item?.itemName}</div>
-              </td>
-              <td>
-                <div className="pl-2">{item?.vehicleCapacityName}</div>
-              </td>
-              <td>
-                <div className="pl-2">{item?.quantity || item?.quantity}</div>
-              </td>
-              <td>
-                <div className="pl-2">
-                  {item?.loadAmount || item?.loadAmount}
-                </div>
-              </td>
-              <td>
-                <div className="pl-2">
-                  {item?.unloadAmount || item?.unloadAmount}
-                </div>
-              </td>
-              <td>
-                <div className="d-flex justify-content-around">
-                  <span
-                    className="edit"
-                    onClick={() => {
-                      history.push(
-                        `/sales-management/configuration/loadunloadbillconfig/edit/${item.itemId}`
-                      );
-                    }}
-                  >
-                    <IEdit />
-                  </span>
-                </div>
-              </td>
+              <th>Vehicle Capacity</th>
+              <th>Quantity</th>
+              <th>Load Amount</th>
+              <th>Unload Amount</th>
+              <th>Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {landingPageData?.data?.map((item, index) => (
+              <tr key={index}>
+                <td> {item.sl}</td>
+                <td>
+                  <div className="pl-2">{item?.itemName || item?.itemName}</div>
+                </td>
+                <td>
+                  <div className="pl-2">{item?.vehicleCapacityName}</div>
+                </td>
+                <td>
+                  <div className="pl-2">{item?.quantity || item?.quantity}</div>
+                </td>
+                <td>
+                  <div className="pl-2">
+                    {item?.loadAmount || item?.loadAmount}
+                  </div>
+                </td>
+                <td>
+                  <div className="pl-2">
+                    {item?.unloadAmount || item?.unloadAmount}
+                  </div>
+                </td>
+                <td>
+                  <div className="d-flex justify-content-around">
+                    <span
+                      className="edit"
+                      onClick={() => {
+                        history.push(
+                          `/sales-management/configuration/loadunloadbillconfig/edit/${item.itemId}`
+                        );
+                      }}
+                    >
+                      <IEdit />
+                    </span>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
       {landingPageData?.data?.length > 0 && (
         <PaginationTable
           count={landingPageData?.count}
