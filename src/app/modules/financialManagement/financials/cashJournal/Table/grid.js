@@ -235,6 +235,7 @@ const GridData = ({
                   <td></td>
                   <td></td>
                   <td></td>
+                  <td></td>
                   <td>
                     <b className="pl-2">Total</b>
                   </td>
