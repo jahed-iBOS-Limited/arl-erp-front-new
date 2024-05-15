@@ -31,7 +31,7 @@ export default function TableRow({
           pgiShippoint: {
             value: shippointDDL[0]?.value,
             label: shippointDDL[0]?.label,
-          }
+          },
         }}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           saveHandler(values, () => {
@@ -135,89 +135,94 @@ export default function TableRow({
             <div className="row cash_journal">
               <div className="col-lg-12 pr-0 pl-0">
                 {gridData?.length >= 0 && (
-                  <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
-                    <thead>
-                      <tr>
-                        <th style={{ width: "90px" }}>
-                          <input
-                            type="checkbox"
-                            id="parent"
-                            onChange={(event) => {
-                              allGridCheck(event.target.checked);
-                            }}
-                          />
-                        </th>
-                        <th>Shipment Id</th>
-                        <th>Shipment Code</th>
-                        <th>No of Challan</th>
-                        <th style={{ width: "150px" }}>Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {gridData?.map((td, index) => (
-                        <tr key={index}>
-                          <td>
-                            <Field
-                              name={values.itemCheck}
-                              component={() => (
-                                <input
-                                  id="itemCheck"
-                                  type="checkbox"
-                                  className="ml-2"
-                                  value={td.itemCheck}
-                                  checked={td.itemCheck}
-                                  name={td.itemCheck}
-                                  onChange={(e) => {
-                                    itemSlectedHandler(e.target.checked, index);
-                                  }}
-                                />
-                              )}
-                              label="Transshipment"
+                  <div className="table-responsive">
+                    <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
+                      <thead>
+                        <tr>
+                          <th style={{ width: "90px" }}>
+                            <input
+                              type="checkbox"
+                              id="parent"
+                              onChange={(event) => {
+                                allGridCheck(event.target.checked);
+                              }}
                             />
-                          </td>
-                          <td>
-                            <div className="text-right pr-2">
-                              {td.shipmentId}
-                            </div>
-                          </td>
-                          <td className="text-center">
-                            <div className="text-right pr-2">
-                              {td.shipmentCode}
-                            </div>
-                          </td>
-                          <td>
-                            <div className="text-right pr-2">
-                              {td.deliveryChallanCount}
-                            </div>
-                          </td>
-                          <td>
-                            <div className="d-flex justify-content-around">
-                              <button
-                                type="button"
-                                className="prurchaseBtn ml-4 small-button"
-                                onClick={() => {
-                                  if (IsPGICheck) {
-                                    savePgiData(td.shipmentId);
-                                    dispatch(
-                                      getPGIGridData(
-                                        profileData.accountId,
-                                        selectedBusinessUnit.value
-                                      )
-                                    );
-                                    window.location.reload(false);
-                                  } else {
-                                    alert("Inventory is not true!");
-                                  }
-                                }}
-                              >
-                                Create PGI
-                              </button>
-                            </div>
-                          </td>
+                          </th>
+                          <th>Shipment Id</th>
+                          <th>Shipment Code</th>
+                          <th>No of Challan</th>
+                          <th style={{ width: "150px" }}>Actions</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody>
+                        {gridData?.map((td, index) => (
+                          <tr key={index}>
+                            <td>
+                              <Field
+                                name={values.itemCheck}
+                                component={() => (
+                                  <input
+                                    id="itemCheck"
+                                    type="checkbox"
+                                    className="ml-2"
+                                    value={td.itemCheck}
+                                    checked={td.itemCheck}
+                                    name={td.itemCheck}
+                                    onChange={(e) => {
+                                      itemSlectedHandler(
+                                        e.target.checked,
+                                        index
+                                      );
+                                    }}
+                                  />
+                                )}
+                                label="Transshipment"
+                              />
+                            </td>
+                            <td>
+                              <div className="text-right pr-2">
+                                {td.shipmentId}
+                              </div>
+                            </td>
+                            <td className="text-center">
+                              <div className="text-right pr-2">
+                                {td.shipmentCode}
+                              </div>
+                            </td>
+                            <td>
+                              <div className="text-right pr-2">
+                                {td.deliveryChallanCount}
+                              </div>
+                            </td>
+                            <td>
+                              <div className="d-flex justify-content-around">
+                                <button
+                                  type="button"
+                                  className="prurchaseBtn ml-4 small-button"
+                                  onClick={() => {
+                                    if (IsPGICheck) {
+                                      savePgiData(td.shipmentId);
+                                      dispatch(
+                                        getPGIGridData(
+                                          profileData.accountId,
+                                          selectedBusinessUnit.value
+                                        )
+                                      );
+                                      window.location.reload(false);
+                                    } else {
+                                      alert("Inventory is not true!");
+                                    }
+                                  }}
+                                >
+                                  Create PGI
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 )}
               </div>
             </div>

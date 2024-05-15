@@ -209,106 +209,108 @@ const CustomerSalesTarget = () => {
               <div className="row cash_journal">
                 <div className="col-lg-12">
                   {rowDto?.length > 0 && (
-                    <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
-                      <thead>
-                        <tr>
-                          <th style={{ width: "30px" }}>SL</th>
-                          <th>Distribution Channel</th>
-                          <th style={{ width: "190px" }}>Target Year</th>
-                          <th>Target Month</th>
-                          <th>Target Start Date</th>
-                          <th>End Date</th>
-                          <th>Target Quantity</th>
-                          <th>isApprove</th>
-                          <th style={{ width: "90px" }}>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {rowDto?.map((td, index) => (
-                          <tr key={index}>
-                            <td className="text-center">{td?.sl}</td>
-                            <td>
-                              <div className="pl-2">
-                                {td?.distributionChannelName}
-                              </div>
-                            </td>
-                            <td>
-                              <div className="pl-2">{td?.targetYear}</div>
-                            </td>
-                            <td>
-                              <div className="pl-2">
-                                {getMonth(td?.targetMonth)}
-                              </div>
-                            </td>
-                            <td>
-                              <div className="pl-2">
-                                {_dateFormatter(td?.targetStartDate)}
-                              </div>
-                            </td>
-                            <td>
-                              <div className="pl-2">
-                                {_dateFormatter(td?.targetEndDate)}
-                              </div>
-                            </td>
-                            <td>
-                              <div className="pl-2">{td?.targetQuantity}</div>
-                            </td>
-
-                            <td>
-                              <div className="pl-2">
-                                {td?.isApprove ? "Yes" : "No"}
-                              </div>
-                            </td>
-                            <td>
-                              <div className="d-flex justify-content-center">
-                                <span style={{ paddingLeft: "5px" }}>
-                                  <IView
-                                    clickHandler={() =>
-                                      history.push({
-                                        pathname: `/sales-management/report/customersalestarget/view/${td?.targetId}`,
-                                        state: values,
-                                      })
-                                    }
-                                  ></IView>
-                                </span>
-
-                                {td?.isEditPermission && !td?.isApprove && (
-                                  <>
-                                    <span
-                                      onClick={() => {
-                                        history.push({
-                                          pathname: `/sales-management/report/customersalestarget/edit/${td?.targetId}`,
-                                          state: values,
-                                        });
-                                      }}
-                                      style={{ marginLeft: "10px" }}
-                                    >
-                                      <IEdit />
-                                    </span>
-                                    <span
-                                      onClick={() => {
-                                        history.push({
-                                          pathname: `/sales-management/report/customersalestarget/approve/${td?.targetId}`,
-                                          state: values,
-                                        });
-                                      }}
-                                      style={{
-                                        marginLeft: "10px",
-                                        visibility: `${
-                                          td.isApprove ? "hidden" : "block"
-                                        }`,
-                                      }}
-                                    >
-                                      <IApproval />
-                                    </span>
-                                  </>
-                                )}
-                              </div>
-                            </td>
+                    <div className="table-responsive">
+                      <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
+                        <thead>
+                          <tr>
+                            <th style={{ width: "30px" }}>SL</th>
+                            <th>Distribution Channel</th>
+                            <th style={{ width: "190px" }}>Target Year</th>
+                            <th>Target Month</th>
+                            <th>Target Start Date</th>
+                            <th>End Date</th>
+                            <th>Target Quantity</th>
+                            <th>isApprove</th>
+                            <th style={{ width: "90px" }}>Action</th>
                           </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                        </thead>
+                        <tbody>
+                          {rowDto?.map((td, index) => (
+                            <tr key={index}>
+                              <td className="text-center">{td?.sl}</td>
+                              <td>
+                                <div className="pl-2">
+                                  {td?.distributionChannelName}
+                                </div>
+                              </td>
+                              <td>
+                                <div className="pl-2">{td?.targetYear}</div>
+                              </td>
+                              <td>
+                                <div className="pl-2">
+                                  {getMonth(td?.targetMonth)}
+                                </div>
+                              </td>
+                              <td>
+                                <div className="pl-2">
+                                  {_dateFormatter(td?.targetStartDate)}
+                                </div>
+                              </td>
+                              <td>
+                                <div className="pl-2">
+                                  {_dateFormatter(td?.targetEndDate)}
+                                </div>
+                              </td>
+                              <td>
+                                <div className="pl-2">{td?.targetQuantity}</div>
+                              </td>
+
+                              <td>
+                                <div className="pl-2">
+                                  {td?.isApprove ? "Yes" : "No"}
+                                </div>
+                              </td>
+                              <td>
+                                <div className="d-flex justify-content-center">
+                                  <span style={{ paddingLeft: "5px" }}>
+                                    <IView
+                                      clickHandler={() =>
+                                        history.push({
+                                          pathname: `/sales-management/report/customersalestarget/view/${td?.targetId}`,
+                                          state: values,
+                                        })
+                                      }
+                                    ></IView>
+                                  </span>
+
+                                  {td?.isEditPermission && !td?.isApprove && (
+                                    <>
+                                      <span
+                                        onClick={() => {
+                                          history.push({
+                                            pathname: `/sales-management/report/customersalestarget/edit/${td?.targetId}`,
+                                            state: values,
+                                          });
+                                        }}
+                                        style={{ marginLeft: "10px" }}
+                                      >
+                                        <IEdit />
+                                      </span>
+                                      <span
+                                        onClick={() => {
+                                          history.push({
+                                            pathname: `/sales-management/report/customersalestarget/approve/${td?.targetId}`,
+                                            state: values,
+                                          });
+                                        }}
+                                        style={{
+                                          marginLeft: "10px",
+                                          visibility: `${
+                                            td.isApprove ? "hidden" : "block"
+                                          }`,
+                                        }}
+                                      >
+                                        <IApproval />
+                                      </span>
+                                    </>
+                                  )}
+                                </div>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
                   )}
                 </div>
               </div>

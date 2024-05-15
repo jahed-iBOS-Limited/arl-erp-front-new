@@ -143,69 +143,71 @@ const CustomerCollectionTarget = () => {
               <div className="row cash_journal">
                 <div className="col-lg-12">
                   {gridData?.data?.length > 0 && (
-                    <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
-                      <thead>
-                        <tr>
-                          {headers?.map((th, i) => (
-                            <th key={i}>{th}</th>
-                          ))}
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {gridData?.data?.map((td, index) => (
-                          <tr key={index}>
-                            <td className="text-center">{td?.sl}</td>
-                            <td>{td?.customerName}</td>
-                            <td>{td?.regionName}</td>
-                            <td>{td?.areaName}</td>
-                            <td>{td?.territoryName}</td>
-                            <td>{getMonth(td?.monthId)}</td>
-                            <td>{td?.yearId}</td>
-                            <td className="text-right">
-                              {_fixedPoint(td?.amount, true)}
-                            </td>
-                            <td style={{ width: "70px" }}>
-                              <div className="d-flex justify-content-around">
-                                {
-                                  <>
-                                    {/* <span onClick={() => {}}>
+                    <div className="table-responsive">
+                      <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
+                        <thead>
+                          <tr>
+                            {headers?.map((th, i) => (
+                              <th key={i}>{th}</th>
+                            ))}
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {gridData?.data?.map((td, index) => (
+                            <tr key={index}>
+                              <td className="text-center">{td?.sl}</td>
+                              <td>{td?.customerName}</td>
+                              <td>{td?.regionName}</td>
+                              <td>{td?.areaName}</td>
+                              <td>{td?.territoryName}</td>
+                              <td>{getMonth(td?.monthId)}</td>
+                              <td>{td?.yearId}</td>
+                              <td className="text-right">
+                                {_fixedPoint(td?.amount, true)}
+                              </td>
+                              <td style={{ width: "70px" }}>
+                                <div className="d-flex justify-content-around">
+                                  {
+                                    <>
+                                      {/* <span onClick={() => {}}>
                                       <IEdit />
                                     </span> */}
-                                    <span
-                                      onClick={() => {
-                                        deleteHandler(
-                                          td?.collectionTargetId,
-                                          values
-                                        );
-                                      }}
-                                    >
-                                      <IDelete />
-                                    </span>
-                                  </>
-                                }
-                              </div>
+                                      <span
+                                        onClick={() => {
+                                          deleteHandler(
+                                            td?.collectionTargetId,
+                                            values
+                                          );
+                                        }}
+                                      >
+                                        <IDelete />
+                                      </span>
+                                    </>
+                                  }
+                                </div>
+                              </td>
+                            </tr>
+                          ))}
+                          <tr>
+                            <td colSpan={7} className="text-right">
+                              <b>Total</b>
                             </td>
+                            <td className="text-right">
+                              <b>
+                                {_fixedPoint(
+                                  gridData?.data?.reduce(
+                                    (a, b) => a + b?.amount,
+                                    0
+                                  ),
+                                  true
+                                )}
+                              </b>
+                            </td>
+                            <td></td>
                           </tr>
-                        ))}
-                        <tr>
-                          <td colSpan={7} className="text-right">
-                            <b>Total</b>
-                          </td>
-                          <td className="text-right">
-                            <b>
-                              {_fixedPoint(
-                                gridData?.data?.reduce(
-                                  (a, b) => a + b?.amount,
-                                  0
-                                ),
-                                true
-                              )}
-                            </b>
-                          </td>
-                          <td></td>
-                        </tr>
-                      </tbody>
-                    </table>
+                        </tbody>
+                      </table>{" "}
+                    </div>
                   )}
                 </div>
               </div>

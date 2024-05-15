@@ -61,7 +61,10 @@ export default function ServiceSalesCreate() {
         0
       );
       // let vat = itemList[0]?.vat || 0;
-      const vat = itemList.reduce((sum, item) => sum + (item?.vatAmount || 0), 0);
+      const vat = itemList.reduce(
+        (sum, item) => sum + (item?.vatAmount || 0),
+        0
+      );
       let netAmount = amount + (amount * vat) / 100;
       setActualAmount(amount);
       setActualVatAmount(vat);
@@ -620,49 +623,51 @@ export default function ServiceSalesCreate() {
               {itemList?.length > 0 && (
                 <div className="mt-5">
                   <div>
-                    <table className="table table-striped table-bordered bj-table bj-table-landing">
-                      <thead>
-                        <tr>
-                          <th>Item Code</th>
-                          <th>Item Name</th>
-                          <th>Qty</th>
-                          <th>Rate</th>
-                          <th>Amount</th>
-                          <th>Vat %</th>
-                          <th>Vat Amount</th>
-                          <th>Net Amount</th>
-                          <th>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {itemList?.map((item, index) => (
-                          <tr key={index}>
-                            <td>{item?.strItemCode}</td>
-                            <td>{item?.label}</td>
-                            <td className="text-center">{item?.qty}</td>
-                            <td className="text-center">{item?.rate}</td>
-                            <td className="text-right">{item?.amount}</td>
-                            <td className="text-center">{item?.vat}</td>
-                            <td className="text-center">{item?.vatAmount}</td>
-                            <td className="text-right">{item?.netAmount}</td>
-                            <td className="text-center">
-                              <IDelete
-                                style={{ fontSize: "16px" }}
-                                remover={(index) => {
-                                  let data = itemList.filter(
-                                    (item, i) => i !== index
-                                  );
-                                  setItemList(data);
-                                  setSheduleList([]);
-                                  setSheduleListFOneTime([]);
-                                }}
-                                id={index}
-                              />
-                            </td>
+                    <div className="table-responsive">
+                      <table className="table table-striped table-bordered bj-table bj-table-landing">
+                        <thead>
+                          <tr>
+                            <th>Item Code</th>
+                            <th>Item Name</th>
+                            <th>Qty</th>
+                            <th>Rate</th>
+                            <th>Amount</th>
+                            <th>Vat %</th>
+                            <th>Vat Amount</th>
+                            <th>Net Amount</th>
+                            <th>Action</th>
                           </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                        </thead>
+                        <tbody>
+                          {itemList?.map((item, index) => (
+                            <tr key={index}>
+                              <td>{item?.strItemCode}</td>
+                              <td>{item?.label}</td>
+                              <td className="text-center">{item?.qty}</td>
+                              <td className="text-center">{item?.rate}</td>
+                              <td className="text-right">{item?.amount}</td>
+                              <td className="text-center">{item?.vat}</td>
+                              <td className="text-center">{item?.vatAmount}</td>
+                              <td className="text-right">{item?.netAmount}</td>
+                              <td className="text-center">
+                                <IDelete
+                                  style={{ fontSize: "16px" }}
+                                  remover={(index) => {
+                                    let data = itemList.filter(
+                                      (item, i) => i !== index
+                                    );
+                                    setItemList(data);
+                                    setSheduleList([]);
+                                    setSheduleListFOneTime([]);
+                                  }}
+                                  id={index}
+                                />
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
               )}
@@ -671,40 +676,44 @@ export default function ServiceSalesCreate() {
                 <div className="mt-5">
                   <div>
                     {scheduleList?.length > 0 && (
-                      <table className="table table-striped table-bordered bj-table bj-table-landing">
-                        <thead>
-                          <tr>
-                            <th>SL</th>
-                            <th>Due Date</th>
-                            <th>Vat %</th>
-                            <th>Vat Amount</th>
-                            <th>Amount</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {scheduleList?.map((item, index) => (
-                            <tr key={index}>
-                              <td>{index + 1}</td>
-                              <td>
-                                <InputField
-                                  value={item?.dueDate}
-                                  type="date"
-                                  disabled
-                                  onChange={(e) => {
-                                    let data = [...scheduleList];
-                                    data[index]["dueDate"] = e.target.value;
-                                    setFieldValue("validTo", e.target.value);
-                                    setSheduleList(data);
-                                  }}
-                                />
-                              </td>
-                              <td className="text-right">{item?.vat}</td>
-                              <td className="text-right">{item?.vatAmount}</td>
-                              <td className="text-right">{item?.amount}</td>
+                      <div className="table-responsive">
+                        <table className="table table-striped table-bordered bj-table bj-table-landing">
+                          <thead>
+                            <tr>
+                              <th>SL</th>
+                              <th>Due Date</th>
+                              <th>Vat %</th>
+                              <th>Vat Amount</th>
+                              <th>Amount</th>
                             </tr>
-                          ))}
-                        </tbody>
-                      </table>
+                          </thead>
+                          <tbody>
+                            {scheduleList?.map((item, index) => (
+                              <tr key={index}>
+                                <td>{index + 1}</td>
+                                <td>
+                                  <InputField
+                                    value={item?.dueDate}
+                                    type="date"
+                                    disabled
+                                    onChange={(e) => {
+                                      let data = [...scheduleList];
+                                      data[index]["dueDate"] = e.target.value;
+                                      setFieldValue("validTo", e.target.value);
+                                      setSheduleList(data);
+                                    }}
+                                  />
+                                </td>
+                                <td className="text-right">{item?.vat}</td>
+                                <td className="text-right">
+                                  {item?.vatAmount}
+                                </td>
+                                <td className="text-right">{item?.amount}</td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
                     )}
                   </div>
                 </div>
@@ -714,169 +723,175 @@ export default function ServiceSalesCreate() {
                 <div className="mt-5">
                   <div>
                     {scheduleListFOneTime?.length > 0 && (
-                      <table className="table table-striped table-bordered bj-table bj-table-landing">
-                        <thead>
-                          <tr>
-                            <th>SL</th>
-                            <th>Due Date</th>
-                            <th>Percentage</th>
-                            <th>Amount</th>
-                            <th>Actual Vat Amount</th>
-                            <th>Remarks</th>
-                            <th>Action</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {scheduleListFOneTime?.map((item, index) => (
-                            <tr key={index}>
-                              <td>{index + 1}</td>
-                              <td>
-                                <InputField
-                                  value={item?.dueDate}
-                                  type="date"
-                                  onChange={(e) => {
-                                    let data = [...scheduleListFOneTime];
-                                    data[index]["dueDate"] = e.target.value;
-                                    setSheduleListFOneTime(data);
-                                  }}
-                                />
-                              </td>
-                              <td>
-                                {console.log("itemList", itemList)}
-                                <InputField
-                                  value={item?.percentage || ""}
-                                  type="number"
-                                  onChange={(e) => {
-                                    const newValue = +e.target.value;
-                                    let totalPercentage = getTotalPersecentage(
-                                      newValue,
-                                      index
-                                    );
-                                    if (totalPercentage > 100) {
-                                      return toast.warn(
-                                        "Total percentage should be 100"
+                      <div className="table-responsive">
+                        <table className="table table-striped table-bordered bj-table bj-table-landing">
+                          <thead>
+                            <tr>
+                              <th>SL</th>
+                              <th>Due Date</th>
+                              <th>Percentage</th>
+                              <th>Amount</th>
+                              <th>Actual Vat Amount</th>
+                              <th>Remarks</th>
+                              <th>Action</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {scheduleListFOneTime?.map((item, index) => (
+                              <tr key={index}>
+                                <td>{index + 1}</td>
+                                <td>
+                                  <InputField
+                                    value={item?.dueDate}
+                                    type="date"
+                                    onChange={(e) => {
+                                      let data = [...scheduleListFOneTime];
+                                      data[index]["dueDate"] = e.target.value;
+                                      setSheduleListFOneTime(data);
+                                    }}
+                                  />
+                                </td>
+                                <td>
+                                  {console.log("itemList", itemList)}
+                                  <InputField
+                                    value={item?.percentage || ""}
+                                    type="number"
+                                    onChange={(e) => {
+                                      const newValue = +e.target.value;
+                                      let totalPercentage = getTotalPersecentage(
+                                        newValue,
+                                        index
                                       );
-                                    }
-                                    let updatedScheduleList = [
-                                      ...scheduleListFOneTime,
-                                    ];
-                                    updatedScheduleList[
-                                      index
-                                    ].percentage = newValue;
-                                    updatedScheduleList[index].amount =
-                                      ((newValue || 0) / 100) *
-                                      (actualAmount || 0);
+                                      if (totalPercentage > 100) {
+                                        return toast.warn(
+                                          "Total percentage should be 100"
+                                        );
+                                      }
+                                      let updatedScheduleList = [
+                                        ...scheduleListFOneTime,
+                                      ];
+                                      updatedScheduleList[
+                                        index
+                                      ].percentage = newValue;
+                                      updatedScheduleList[index].amount =
+                                        ((newValue || 0) / 100) *
+                                        (actualAmount || 0);
 
-                                    updatedScheduleList[
-                                      index
-                                    ].scheduleListFOneTimeVat =
-                                      actualVatAmount * (newValue / 100) || 0;
+                                      updatedScheduleList[
+                                        index
+                                      ].scheduleListFOneTimeVat =
+                                        actualVatAmount * (newValue / 100) || 0;
 
-                                    setSheduleListFOneTime(updatedScheduleList);
-                                  }}
-                                />
-                              </td>
-                              <td className="text-center">
-                                {((item?.percentage || 0) / 100) *
-                                  (actualAmount || 0)}
-                              </td>
-                              <td className="text-center">
-                                {item?.scheduleListFOneTimeVat}
-                              </td>
-                              <td>
-                                <InputField
-                                  value={item?.remarks}
-                                  type="text"
-                                  onChange={(e) => {
-                                    let updatedScheduleList = [
-                                      ...scheduleListFOneTime,
-                                    ];
-                                    updatedScheduleList[index].remarks =
-                                      e.target.value;
-
-                                    setSheduleListFOneTime(updatedScheduleList);
-                                  }}
-                                />
-                              </td>
-                              <td>
-                                <div className="d-flex justify-content-around">
-                                  <OverlayTrigger
-                                    overlay={
-                                      <Tooltip id="cs-icon">{"Add"}</Tooltip>
-                                    }
-                                  >
-                                    <span>
-                                      <i
-                                        style={{
-                                          fontSize: "16px",
-                                          cursor: "pointer",
-                                        }}
-                                        className="fa fa-plus-square"
-                                        onClick={() => {
-                                          const newValue =
-                                            scheduleListFOneTime[index][
-                                              "percentage"
-                                            ];
-
-                                          if (!newValue) {
-                                            return toast.warn(
-                                              "Please add percentage"
-                                            );
-                                          }
-
-                                          let totalPercentage = scheduleListFOneTime.reduce(
-                                            (acc, curr, currIndex) => {
-                                              if (currIndex === index) {
-                                                return acc + newValue;
-                                              } else {
-                                                return acc + curr.percentage;
-                                              }
-                                            },
-                                            0
-                                          );
-
-                                          if (totalPercentage >= 100) {
-                                            return toast.warn(
-                                              "Total percentage already 100"
-                                            );
-                                          }
-
-                                          let updatedScheduleList = [
-                                            ...scheduleListFOneTime,
-                                          ];
-
-                                          setSheduleListFOneTime([
-                                            ...updatedScheduleList,
-                                            {
-                                              dueDate: _todayDate(),
-                                              percentage: 0,
-                                              amount: 0,
-                                              remarks: "",
-                                            },
-                                          ]);
-                                        }}
-                                      ></i>
-                                    </span>
-                                  </OverlayTrigger>
-
-                                  <IDelete
-                                    style={{ fontSize: "16px" }}
-                                    id={index}
-                                    remover={(index) => {
-                                      let updatedScheduleList = scheduleListFOneTime?.filter(
-                                        (schedule, i) => i !== index
-                                      );
                                       setSheduleListFOneTime(
                                         updatedScheduleList
                                       );
                                     }}
                                   />
-                                </div>
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
+                                </td>
+                                <td className="text-center">
+                                  {((item?.percentage || 0) / 100) *
+                                    (actualAmount || 0)}
+                                </td>
+                                <td className="text-center">
+                                  {item?.scheduleListFOneTimeVat}
+                                </td>
+                                <td>
+                                  <InputField
+                                    value={item?.remarks}
+                                    type="text"
+                                    onChange={(e) => {
+                                      let updatedScheduleList = [
+                                        ...scheduleListFOneTime,
+                                      ];
+                                      updatedScheduleList[index].remarks =
+                                        e.target.value;
+
+                                      setSheduleListFOneTime(
+                                        updatedScheduleList
+                                      );
+                                    }}
+                                  />
+                                </td>
+                                <td>
+                                  <div className="d-flex justify-content-around">
+                                    <OverlayTrigger
+                                      overlay={
+                                        <Tooltip id="cs-icon">{"Add"}</Tooltip>
+                                      }
+                                    >
+                                      <span>
+                                        <i
+                                          style={{
+                                            fontSize: "16px",
+                                            cursor: "pointer",
+                                          }}
+                                          className="fa fa-plus-square"
+                                          onClick={() => {
+                                            const newValue =
+                                              scheduleListFOneTime[index][
+                                                "percentage"
+                                              ];
+
+                                            if (!newValue) {
+                                              return toast.warn(
+                                                "Please add percentage"
+                                              );
+                                            }
+
+                                            let totalPercentage = scheduleListFOneTime.reduce(
+                                              (acc, curr, currIndex) => {
+                                                if (currIndex === index) {
+                                                  return acc + newValue;
+                                                } else {
+                                                  return acc + curr.percentage;
+                                                }
+                                              },
+                                              0
+                                            );
+
+                                            if (totalPercentage >= 100) {
+                                              return toast.warn(
+                                                "Total percentage already 100"
+                                              );
+                                            }
+
+                                            let updatedScheduleList = [
+                                              ...scheduleListFOneTime,
+                                            ];
+
+                                            setSheduleListFOneTime([
+                                              ...updatedScheduleList,
+                                              {
+                                                dueDate: _todayDate(),
+                                                percentage: 0,
+                                                amount: 0,
+                                                remarks: "",
+                                              },
+                                            ]);
+                                          }}
+                                        ></i>
+                                      </span>
+                                    </OverlayTrigger>
+
+                                    <IDelete
+                                      style={{ fontSize: "16px" }}
+                                      id={index}
+                                      remover={(index) => {
+                                        let updatedScheduleList = scheduleListFOneTime?.filter(
+                                          (schedule, i) => i !== index
+                                        );
+                                        setSheduleListFOneTime(
+                                          updatedScheduleList
+                                        );
+                                      }}
+                                    />
+                                  </div>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
                     )}
                   </div>
                 </div>

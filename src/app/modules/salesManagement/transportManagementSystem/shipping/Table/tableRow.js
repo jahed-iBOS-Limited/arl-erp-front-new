@@ -256,101 +256,108 @@ export function TableRow({
             <div className="row cash_journal">
               <div className="col-lg-12 pr-0 pl-0">
                 {rowDto?.length >= 0 && (
-                  <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
-                    <thead>
-                      <tr>
-                        <th style={{ width: "90px" }}>
-                          <input
-                            type="checkbox"
-                            id="parent"
-                            onChange={(event) => {
-                              allGridCheck(event.target.checked);
-                            }}
-                          />
-                        </th>
-                        <th style={{ width: "50px" }}>Sl</th>
-                        <th style={{ width: "90px" }}>Shipment No</th>
-                        <th style={{ width: "90px" }}>Contact Date</th>
-                        <th>Route Name</th>
-                        <th>Transport Mode</th>
-                        <th>Shipping Type Name</th>
-                        <th>Vehicle Name</th>
-                        <th style={{ width: "90px" }}>Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {rowDto?.map((td, index) => (
-                        <tr key={index}>
-                          <td>
-                            <Field
-                              name={values.itemCheck}
-                              component={() => (
-                                <input
-                                  id="itemCheck"
-                                  type="checkbox"
-                                  className="ml-2"
-                                  value={td.itemCheck}
-                                  checked={
-                                    values.reportType === 2
-                                      ? true
-                                      : td.itemCheck
-                                  }
-                                  name={td.itemCheck}
-                                  onChange={(e) => {
-                                    //setFieldValue("itemCheck", e.target.checked);
-                                    itemSlectedHandler(e.target.checked, index);
-                                  }}
-                                />
-                              )}
-                              label="Transshipment"
+                  <div className="table-responsive">
+                    <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
+                      <thead>
+                        <tr>
+                          <th style={{ width: "90px" }}>
+                            <input
+                              type="checkbox"
+                              id="parent"
+                              onChange={(event) => {
+                                allGridCheck(event.target.checked);
+                              }}
                             />
-                          </td>
-                          <td className="text-center"> {td.sl} </td>
-                          <td className="text-center">
-                            <div className="text-right pl">
-                              {td?.shipmentCode}
-                            </div>
-                          </td>
-                          <td>{_dateFormatter(td?.shipmentDate)}</td>
-                          <td>
-                            <div className="pl-2">{td?.routeName}</div>
-                          </td>
-                          <td>
-                            <div className="pl-2">{td?.transportModeName}</div>
-                          </td>
-                          <td>
-                            <div className="pl-2">{td.shippingTypeName}</div>{" "}
-                          </td>
-                          <td>
-                            <div className="pl-2">{td.vehicleName}</div>{" "}
-                          </td>
-                          <td>
-                            <div className="d-flex justify-content-around">
-                              <span className="view">
-                                <IView
-                                  clickHandler={() => {
+                          </th>
+                          <th style={{ width: "50px" }}>Sl</th>
+                          <th style={{ width: "90px" }}>Shipment No</th>
+                          <th style={{ width: "90px" }}>Contact Date</th>
+                          <th>Route Name</th>
+                          <th>Transport Mode</th>
+                          <th>Shipping Type Name</th>
+                          <th>Vehicle Name</th>
+                          <th style={{ width: "90px" }}>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {rowDto?.map((td, index) => (
+                          <tr key={index}>
+                            <td>
+                              <Field
+                                name={values.itemCheck}
+                                component={() => (
+                                  <input
+                                    id="itemCheck"
+                                    type="checkbox"
+                                    className="ml-2"
+                                    value={td.itemCheck}
+                                    checked={
+                                      values.reportType === 2
+                                        ? true
+                                        : td.itemCheck
+                                    }
+                                    name={td.itemCheck}
+                                    onChange={(e) => {
+                                      //setFieldValue("itemCheck", e.target.checked);
+                                      itemSlectedHandler(
+                                        e.target.checked,
+                                        index
+                                      );
+                                    }}
+                                  />
+                                )}
+                                label="Transshipment"
+                              />
+                            </td>
+                            <td className="text-center"> {td.sl} </td>
+                            <td className="text-center">
+                              <div className="text-right pl">
+                                {td?.shipmentCode}
+                              </div>
+                            </td>
+                            <td>{_dateFormatter(td?.shipmentDate)}</td>
+                            <td>
+                              <div className="pl-2">{td?.routeName}</div>
+                            </td>
+                            <td>
+                              <div className="pl-2">
+                                {td?.transportModeName}
+                              </div>
+                            </td>
+                            <td>
+                              <div className="pl-2">{td.shippingTypeName}</div>{" "}
+                            </td>
+                            <td>
+                              <div className="pl-2">{td.vehicleName}</div>{" "}
+                            </td>
+                            <td>
+                              <div className="d-flex justify-content-around">
+                                <span className="view">
+                                  <IView
+                                    clickHandler={() => {
+                                      history.push(
+                                        `/sales-management/transportmanagement/shipping/view/${td.shipmentId}/${td.shipmentCode}`
+                                      );
+                                    }}
+                                  />
+                                </span>
+                                <span
+                                  className="edit"
+                                  onClick={() => {
                                     history.push(
-                                      `/sales-management/transportmanagement/shipping/view/${td.shipmentId}/${td.shipmentCode}`
+                                      `/sales-management/transportmanagement/shipping/edit/${td.shipmentId}`
                                     );
                                   }}
-                                />
-                              </span>
-                              <span
-                                className="edit"
-                                onClick={() => {
-                                  history.push(
-                                    `/sales-management/transportmanagement/shipping/edit/${td.shipmentId}`
-                                  );
-                                }}
-                              >
-                                <IEdit />
-                              </span>
-                            </div>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                                >
+                                  <IEdit />
+                                </span>
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 )}
               </div>
             </div>

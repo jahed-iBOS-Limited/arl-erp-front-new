@@ -27,9 +27,7 @@ const InvoiceRecept = ({ printRef, invoiceData, businessPartnerInfo }) => {
         <div className="logo">
           <img
             style={{ width: "255px", objectFit: "cover" }}
-            src={`${window?.location?.origin}/domain/Document/DownlloadFile?id=${
-              selectedBusinessUnit?.imageId
-            }`}
+            src={`${window?.location?.origin}/domain/Document/DownlloadFile?id=${selectedBusinessUnit?.imageId}`}
             alt=""
           />
         </div>
@@ -111,41 +109,42 @@ const InvoiceRecept = ({ printRef, invoiceData, businessPartnerInfo }) => {
         </div>
 
         <p className="text-center bold mb-2">{"Commercial Offer"}</p>
-
-        <table className="table">
-          <thead>
-            <tr>
-              <th>Strength in PSI (28 Days Cylinder)</th>
-              <th>Cement Type</th>
-              <th>Payment Mode</th>
-              <th>Including AIT</th>
-              <th>Including VAT</th>
-              <th>Rate/CFT(BDT)</th>
-            </tr>
-          </thead>
-          <tbody>
-            {invoiceData?.map((item, index) => {
-              return (
-                <tr>
-                  <td className="text-left">{item?.itemName}</td>
-                  <td className="text-center">
-                    {/OPC/.test(item?.itemName)
-                      ? "Akij Brand OPC"
-                      : "Akij Brand PCC"}
-                  </td>
-                  <td className="text-center">{`${item?.paymentMode}`}</td>
-                  <td className="text-center">
-                    {item?.isAitinclude ? "Yes" : "No"}
-                  </td>
-                  <td className="text-center">
-                    {item?.isIncludeVat ? "Yes" : "No"}
-                  </td>
-                  <td className="text-center">{item?.itemPrice}</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+        <div className="table-responsive">
+          <table className="table">
+            <thead>
+              <tr>
+                <th>Strength in PSI (28 Days Cylinder)</th>
+                <th>Cement Type</th>
+                <th>Payment Mode</th>
+                <th>Including AIT</th>
+                <th>Including VAT</th>
+                <th>Rate/CFT(BDT)</th>
+              </tr>
+            </thead>
+            <tbody>
+              {invoiceData?.map((item, index) => {
+                return (
+                  <tr>
+                    <td className="text-left">{item?.itemName}</td>
+                    <td className="text-center">
+                      {/OPC/.test(item?.itemName)
+                        ? "Akij Brand OPC"
+                        : "Akij Brand PCC"}
+                    </td>
+                    <td className="text-center">{`${item?.paymentMode}`}</td>
+                    <td className="text-center">
+                      {item?.isAitinclude ? "Yes" : "No"}
+                    </td>
+                    <td className="text-center">
+                      {item?.isIncludeVat ? "Yes" : "No"}
+                    </td>
+                    <td className="text-center">{item?.itemPrice}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
 
         <div className="note bold">
           <p>Note:</p>
