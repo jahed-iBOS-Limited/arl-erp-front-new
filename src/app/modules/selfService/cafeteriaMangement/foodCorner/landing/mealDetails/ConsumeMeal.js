@@ -27,6 +27,7 @@ function ConsumeMeal({ setConsumeData, consumeData }) {
         {true && <ModalProgressBar />}
         <CardHeader title="Consume Meal"></CardHeader>
         <CardBody>
+        <div className="table-responsive">
           <table className="global-table border">
             <thead className="border">
               <tr>
@@ -56,6 +57,7 @@ function ConsumeMeal({ setConsumeData, consumeData }) {
                 })}
             </tbody>
           </table>
+          </div>
         </CardBody>
       </Card>
     </div>

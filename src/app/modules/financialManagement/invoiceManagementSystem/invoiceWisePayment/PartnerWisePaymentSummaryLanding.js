@@ -234,117 +234,119 @@ const PartnerWisePaymentSummaryLanding = () => {
                   </div>
                 </div>
                 <div className="mt-3">
-                  <table className="table table-striped table-bordered bj-table bj-table-landing">
-                    <thead>
-                      <tr>
-                        <th style={{ width: "180px" }}>Customer Name</th>
-                        <th>
-                          Customer <br /> Code
-                        </th>
-                        <th>
-                          Cr <br /> Days
-                        </th>
-                        <th>
-                          Overdue <br /> Days
-                        </th>
-                        <th>
-                          Delivery <br /> Amount
-                        </th>
-                        <th>
-                          Collected <br /> Amount
-                        </th>
-                        <th>
-                          Pending <br /> Amount{" "}
-                        </th>
-                        <th>
-                          VAT <br /> Amount
-                        </th>
-                        <th>
-                          Collected <br /> VAT{" "}
-                        </th>
-                        <th>
-                          Pending <br /> VAT
-                        </th>
-                        <th>
-                          Tax <br /> Amount
-                        </th>
-                        <th>
-                          Tax <br /> Collected
-                        </th>
-                        <th>
-                          Tax <br /> Pending
-                        </th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
+                  <div className="table-responsive">
+                    <table className="table table-striped table-bordered bj-table bj-table-landing">
+                      <thead>
+                        <tr>
+                          <th style={{ width: "180px" }}>Customer Name</th>
+                          <th>
+                            Customer <br /> Code
+                          </th>
+                          <th>
+                            Cr <br /> Days
+                          </th>
+                          <th>
+                            Overdue <br /> Days
+                          </th>
+                          <th>
+                            Delivery <br /> Amount
+                          </th>
+                          <th>
+                            Collected <br /> Amount
+                          </th>
+                          <th>
+                            Pending <br /> Amount{" "}
+                          </th>
+                          <th>
+                            VAT <br /> Amount
+                          </th>
+                          <th>
+                            Collected <br /> VAT{" "}
+                          </th>
+                          <th>
+                            Pending <br /> VAT
+                          </th>
+                          <th>
+                            Tax <br /> Amount
+                          </th>
+                          <th>
+                            Tax <br /> Collected
+                          </th>
+                          <th>
+                            Tax <br /> Pending
+                          </th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
 
-                    <tbody>
-                      {tableData?.length > 0 &&
-                        tableData?.map((item, index) => (
-                          <tr>
-                            <td className="text-left">
-                              {item?.strCustomerName}
-                            </td>
-                            <td className="text-center">
-                              {item?.strCutomerCode}
-                            </td>
-                            <td className="text-center">{item?.intCrDays}</td>
-                            <td className="text-center">
-                              {item?.intOverdueDays}
-                            </td>
-                            <td className="text-right">
-                              {_formatMoney(item?.numDeliveryAmount)}
-                            </td>
-                            <td className="text-right">
-                              {_formatMoney(item?.numDeliveryAmountCollected)}
-                            </td>
-                            <td className="text-right">
-                              {_formatMoney(item?.numDeliveryAmountPending)}
-                            </td>
-                            <td className="text-right">
-                              {_formatMoney(item?.numVatAmount)}
-                            </td>
-                            <td className="text-right">
-                              {_formatMoney(item?.numVatAmountCollected)}
-                            </td>
-                            <td className="text-right">
-                              {_formatMoney(item?.numVatAmountPending)}
-                            </td>
-                            <td className="text-right">
-                              {_formatMoney(item?.numTaxAmount)}
-                            </td>
-                            <td className="text-right">
-                              {_formatMoney(item?.numTaxAmountCollected)}
-                            </td>
-                            <td className="text-right">
-                              {_formatMoney(item?.numTaxAmountPending)}
-                            </td>
-                            <td className="d-flex justify-content-center">
-                              <button
-                                style={{}}
-                                type="button"
-                                className="btn btn-primary"
-                                onClick={() => {
-                                  history.push({
-                                    pathname:
-                                      "/financial-management/invoicemanagement-system/InvoiceWisePayment/individualReport",
-                                    state: {
-                                      values,
-                                      rowData: {
-                                        customerId: item?.intCustomerId,
-                                        customerName: item?.strCustomerName,
+                      <tbody>
+                        {tableData?.length > 0 &&
+                          tableData?.map((item, index) => (
+                            <tr>
+                              <td className="text-left">
+                                {item?.strCustomerName}
+                              </td>
+                              <td className="text-center">
+                                {item?.strCutomerCode}
+                              </td>
+                              <td className="text-center">{item?.intCrDays}</td>
+                              <td className="text-center">
+                                {item?.intOverdueDays}
+                              </td>
+                              <td className="text-right">
+                                {_formatMoney(item?.numDeliveryAmount)}
+                              </td>
+                              <td className="text-right">
+                                {_formatMoney(item?.numDeliveryAmountCollected)}
+                              </td>
+                              <td className="text-right">
+                                {_formatMoney(item?.numDeliveryAmountPending)}
+                              </td>
+                              <td className="text-right">
+                                {_formatMoney(item?.numVatAmount)}
+                              </td>
+                              <td className="text-right">
+                                {_formatMoney(item?.numVatAmountCollected)}
+                              </td>
+                              <td className="text-right">
+                                {_formatMoney(item?.numVatAmountPending)}
+                              </td>
+                              <td className="text-right">
+                                {_formatMoney(item?.numTaxAmount)}
+                              </td>
+                              <td className="text-right">
+                                {_formatMoney(item?.numTaxAmountCollected)}
+                              </td>
+                              <td className="text-right">
+                                {_formatMoney(item?.numTaxAmountPending)}
+                              </td>
+                              <td className="d-flex justify-content-center">
+                                <button
+                                  style={{}}
+                                  type="button"
+                                  className="btn btn-primary"
+                                  onClick={() => {
+                                    history.push({
+                                      pathname:
+                                        "/financial-management/invoicemanagement-system/InvoiceWisePayment/individualReport",
+                                      state: {
+                                        values,
+                                        rowData: {
+                                          customerId: item?.intCustomerId,
+                                          customerName: item?.strCustomerName,
+                                        },
                                       },
-                                    },
-                                  });
-                                }}
-                              >
-                                View
-                              </button>
-                            </td>
-                          </tr>
-                        ))}
-                    </tbody>
-                  </table>
+                                    });
+                                  }}
+                                >
+                                  View
+                                </button>
+                              </td>
+                            </tr>
+                          ))}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
             </Form>

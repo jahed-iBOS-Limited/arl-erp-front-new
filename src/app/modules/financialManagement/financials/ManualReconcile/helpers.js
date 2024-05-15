@@ -125,7 +125,7 @@ export const getBankStatementDataMatch = async (
   search,
   setter,
   setLoading,
-  fromDate,
+  fromDate
 ) => {
   try {
     setLoading(true);
@@ -325,4 +325,5 @@ export const header = {
   justifyContent: "space-between",
   background: "transparent",
   margin: "0",
+  flexWrap: "wrap",
 };

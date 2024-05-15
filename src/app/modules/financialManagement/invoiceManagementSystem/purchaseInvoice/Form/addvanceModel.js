@@ -1,11 +1,11 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import IViewModal from "../../../../_helper/_viewModal";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import InputField from "./../../../../_helper/_inputField";
 import { _todayDate } from "./../../../../_helper/_todayDate";
 import { useSelector, shallowEqual } from "react-redux";
-import Loading from './../../../../_helper/_loading';
+import Loading from "./../../../../_helper/_loading";
 import {
   ModalProgressBar,
   Card,
@@ -34,7 +34,7 @@ export default function AdvanceCreateModel({
   gridData,
   purchaseInvoiceValues,
 }) {
-const [isDisabled, setDisabled] = useState(false)
+  const [isDisabled, setDisabled] = useState(false);
   // get user profile data from store
   const profileData = useSelector((state) => {
     return state.authData.profileData;
@@ -68,10 +68,9 @@ const [isDisabled, setDisabled] = useState(false)
         // title={"Crete Advance"}
         style={{ fontSize: "1.2rem !important" }}
         btnText="Close"
-
       >
         <>
-        {isDisabled && <Loading />}
+          {isDisabled && <Loading />}
           <Formik
             enableReinitialize={true}
             initialValues={{
@@ -132,26 +131,30 @@ const [isDisabled, setDisabled] = useState(false)
                           Total Amount: <b> </b>
                         </div>
                       </div>
-                      <table className="table table-striped table-bordered mt-3 global-table">
-                        <thead>
-                          <tr>
-                            <th style={{ width: "25px" }}>Sl</th>
-                            <th style={{ width: "25px" }}>Date</th>
-                            <th style={{ width: "25px" }}>Amount</th>
-                            <th style={{ width: "25px" }}>Is Bill Register</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {gridData?.map((item, index) => (
-                            <tr key={index}>
-                              <td>{item?.sl}</td>
-                              <td>{item?.sl}</td>
-                              <td>{item?.sl}</td>
-                              <td>{item?.sl}</td>
+                      <div className="table-responsive">
+                        <table className="table table-striped table-bordered mt-3 global-table">
+                          <thead>
+                            <tr>
+                              <th style={{ width: "25px" }}>Sl</th>
+                              <th style={{ width: "25px" }}>Date</th>
+                              <th style={{ width: "25px" }}>Amount</th>
+                              <th style={{ width: "25px" }}>
+                                Is Bill Register
+                              </th>
                             </tr>
-                          ))}
-                        </tbody>
-                      </table>
+                          </thead>
+                          <tbody>
+                            {gridData?.map((item, index) => (
+                              <tr key={index}>
+                                <td>{item?.sl}</td>
+                                <td>{item?.sl}</td>
+                                <td>{item?.sl}</td>
+                                <td>{item?.sl}</td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
                     </Form>
                   </CardBody>
                 </Card>

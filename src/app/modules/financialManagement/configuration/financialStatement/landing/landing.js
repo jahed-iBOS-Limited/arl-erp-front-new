@@ -72,59 +72,49 @@ const FinancialStatement = () => {
               <div className="row cash_journal">
                 <div className="col-lg-12 pr-0 pl-0">
                   {rowDto?.length > 0 && (
-                    <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
-                      <thead>
-                        <tr>
-                          <th style={{ width: "30px" }}>SL</th>
-                          <th style={{ width: "190px" }}>FS Componet Type</th>
-                          <th style={{ width: "190px" }}>FS Componet Code</th>
-                          <th>FS Component</th>
-                          {/* <th>Use For</th> */}
-                          <th style={{ width: "90px" }}>Actions</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {rowDto?.map((td, index) => (
-                          <tr key={index}>
-                            <td className="text-center">{index + 1}</td>
-                            <td>
-                              <div className="pl-2">{td?.fscomponentType}</div>
-                            </td>
-                            <td>
-                              <div className="pl-2">{td?.fscomponentCode}</div>
-                            </td>
-                            <td>
-                              <div className="pl-2">{td?.fscomponentName}</div>
-                            </td>
-                            {/* <td>
+                    <div className="table-responsive">
+                      <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
+                        <thead>
+                          <tr>
+                            <th style={{ width: "30px" }}>SL</th>
+                            <th style={{ width: "190px" }}>FS Componet Type</th>
+                            <th style={{ width: "190px" }}>FS Componet Code</th>
+                            <th>FS Component</th>
+                            {/* <th>Use For</th> */}
+                            <th style={{ width: "90px" }}>Actions</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {rowDto?.map((td, index) => (
+                            <tr key={index}>
+                              <td className="text-center">{index + 1}</td>
+                              <td>
+                                <div className="pl-2">
+                                  {td?.fscomponentType}
+                                </div>
+                              </td>
+                              <td>
+                                <div className="pl-2">
+                                  {td?.fscomponentCode}
+                                </div>
+                              </td>
+                              <td>
+                                <div className="pl-2">
+                                  {td?.fscomponentName}
+                                </div>
+                              </td>
+                              {/* <td>
                               <div className="pl-2">
                                 {td?.generalLedgerName}
                               </div>
                             </td> */}
-                            <td>
-                              <div className="d-flex justify-content-center">
-                                <span
-                                  className="pr-2"
-                                  onClick={() =>
-                                    history.push({
-                                      pathname: `/financial-management/configuration/financialStatement/add/${td?.fscomponentId}/${td?.businessUnitId}`,
-                                      state: {
-                                        fscomponentId: td?.fscomponentId,
-                                        fscomponentName: td?.fscomponentName,
-                                        fscomponentCode: td?.fscomponentCode,
-                                        fscomponentType: td?.fscomponentType,
-                                      },
-                                    })
-                                  }
-                                  style={{ cursor: "pointer" }}
-                                >
-                                  <i class="fa fa-plus" aria-hidden="true"></i>
-                                </span>
-                                <span style={{ paddingLeft: "5px" }}>
-                                  <IView
-                                    clickHandler={() =>
+                              <td>
+                                <div className="d-flex justify-content-center">
+                                  <span
+                                    className="pr-2"
+                                    onClick={() =>
                                       history.push({
-                                        pathname: `/financial-management/configuration/financialStatement/view/${td?.fscomponentId}/${td?.businessUnitId}`,
+                                        pathname: `/financial-management/configuration/financialStatement/add/${td?.fscomponentId}/${td?.businessUnitId}`,
                                         state: {
                                           fscomponentId: td?.fscomponentId,
                                           fscomponentName: td?.fscomponentName,
@@ -133,14 +123,38 @@ const FinancialStatement = () => {
                                         },
                                       })
                                     }
-                                  ></IView>
-                                </span>
-                              </div>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                                    style={{ cursor: "pointer" }}
+                                  >
+                                    <i
+                                      class="fa fa-plus"
+                                      aria-hidden="true"
+                                    ></i>
+                                  </span>
+                                  <span style={{ paddingLeft: "5px" }}>
+                                    <IView
+                                      clickHandler={() =>
+                                        history.push({
+                                          pathname: `/financial-management/configuration/financialStatement/view/${td?.fscomponentId}/${td?.businessUnitId}`,
+                                          state: {
+                                            fscomponentId: td?.fscomponentId,
+                                            fscomponentName:
+                                              td?.fscomponentName,
+                                            fscomponentCode:
+                                              td?.fscomponentCode,
+                                            fscomponentType:
+                                              td?.fscomponentType,
+                                          },
+                                        })
+                                      }
+                                    ></IView>
+                                  </span>
+                                </div>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
                   )}
                 </div>
               </div>

@@ -237,7 +237,14 @@ export default function _Form({
                 </div>
                 <div className="col-lg-10">
                   {/* Table Header input */}
-                  <div className={"row bank-journal-custom bj-right"}>
+                  <div
+                    className={"row bank-journal-custom bj-right"}
+                    style={{
+                      marginLeft: "0px",
+                      marginRight: "0px",
+                      marginTop: "5px",
+                    }}
+                  >
                     <div className="col-lg-3 pl pr-1">
                       <label>Item Name</label>
                       <Select

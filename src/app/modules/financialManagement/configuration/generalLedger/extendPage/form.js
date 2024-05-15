@@ -22,7 +22,9 @@ export default function _Form({
     <>
       <Formik
         enableReinitialize={true}
-        initialValues={{ generalLedgerName: initData.objHeader?.generalLedgerName }}
+        initialValues={{
+          generalLedgerName: initData.objHeader?.generalLedgerName,
+        }}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           saveHandler(values, () => {
             resetForm(initData);
@@ -97,9 +99,7 @@ export default function _Form({
                     }}
                     type="button"
                     className="btn btn-primary addBtn"
-                    disabled={
-                      !values.generalLedgerName || !values.businessUnit
-                    }
+                    disabled={!values.generalLedgerName || !values.businessUnit}
                   >
                     Add
                   </button>
@@ -109,43 +109,49 @@ export default function _Form({
               <div className="row">
                 <div className="col">
                   {rowDto.length ? (
-                    <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
-                      <thead>
-                        <tr>
-                          <th>SL</th>
-                          <th>GL Name</th>
-                          <th>Business Unit Name</th>
-                          <th>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {rowDto.map((itm, idx) => {
-                          return (
-                            <tr key={itm.businessUnitId}>
-                              <td>{idx + 1}</td>
-                              <td>
-                                <div className="pl-2">{itm.generalLedgerName}</div>
-                              </td>
-                              <td>
-                                <div className="pl-2">
-                                  {itm.businessUnitName}
-                                </div>
-                              </td>
-                              <td className="text-center">
-                                <div className="d-flex justify-content-center">
-                                  <span
-                                    className="delete"
-                                    onClick={() => remover(itm.businessUnitId)}
-                                  >
-                                    <IDelete />
-                                  </span>
-                                </div>
-                              </td>
-                            </tr>
-                          );
-                        })}
-                      </tbody>
-                    </table>
+                    <div className="table-responsive">
+                      <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+                        <thead>
+                          <tr>
+                            <th>SL</th>
+                            <th>GL Name</th>
+                            <th>Business Unit Name</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {rowDto.map((itm, idx) => {
+                            return (
+                              <tr key={itm.businessUnitId}>
+                                <td>{idx + 1}</td>
+                                <td>
+                                  <div className="pl-2">
+                                    {itm.generalLedgerName}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="pl-2">
+                                    {itm.businessUnitName}
+                                  </div>
+                                </td>
+                                <td className="text-center">
+                                  <div className="d-flex justify-content-center">
+                                    <span
+                                      className="delete"
+                                      onClick={() =>
+                                        remover(itm.businessUnitId)
+                                      }
+                                    >
+                                      <IDelete />
+                                    </span>
+                                  </div>
+                                </td>
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      </table>
+                    </div>
                   ) : (
                     ""
                   )}

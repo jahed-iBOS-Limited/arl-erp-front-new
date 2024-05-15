@@ -97,7 +97,8 @@ export default function ProductionVarianceReport() {
                   </div>
                 </div>
                 <div className="mt-2">
-                  <table className="table table-striped table-bordered global-table mt-0">
+                <div className="table-responsive">
+  <table className="table table-striped table-bordered global-table mt-0">
                     <thead>
                       <tr>
                         <th>SL</th>
@@ -124,6 +125,8 @@ export default function ProductionVarianceReport() {
                         ))}
                     </tbody>
                   </table>
+</div>
+                
                 </div>
               </div>
             </Form>

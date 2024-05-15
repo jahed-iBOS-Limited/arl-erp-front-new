@@ -86,69 +86,72 @@ export function TableRow() {
               All GL Extend
             </button>
           </div>
-          <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
-            <thead>
-              <tr>
-                <th>SL</th>
-                <th>Code</th>
-                <th>GL Name</th>
-                <th>Account Category</th>
-                <th>Account Class</th>
-                <th>Account Group</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {loading && <Loading />}
-              {gridData?.data?.map((item, index) => (
-                <tr key={item.generalLedgerId}>
-                  <td> {item.sl}</td>
-                  <td>
-                    <div className="pl-2">{item.generalLedgerCode}</div>
-                  </td>
-                  <td>
-                    <div className="pl-2">{item.generalLedgerName}</div>
-                  </td>
-                  <td>
-                    <div className="pl-2">{item.accountCategoryName}</div>
-                  </td>
-                  <td>
-                    <div className="pl-2">{item.accountClassName}</div>
-                  </td>
-                  <td>
-                    <div className="pl-2">{item.accountGroupName}</div>
-                  </td>
-                  <td>
-                    <div className="d-flex justify-content-center">
-                      <span
-                        className="edit"
-                        onClick={() => {
-                          history.push(
-                            `/financial-management/configuration/general-ladger/edit/${item.generalLedgerId}`
-                          );
-                        }}
-                      >
-                        <IEdit />
-                      </span>
-                      <span
-                        className="extend ml-3"
-                        onClick={() => {
-                          history.push({
-                            pathname: `/financial-management/configuration/general-ladger/extend/${item.generalLedgerId}`,
-                            state: {
-                              generalLedgerName: item.generalLedgerName,
-                            },
-                          });
-                        }}
-                      >
-                        <IExtend />
-                      </span>
-                    </div>
-                  </td>
+          <div className="table-responsive">
+            <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+              <thead>
+                <tr>
+                  <th>SL</th>
+                  <th>Code</th>
+                  <th>GL Name</th>
+                  <th>Account Category</th>
+                  <th>Account Class</th>
+                  <th>Account Group</th>
+                  <th>Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {loading && <Loading />}
+                {gridData?.data?.map((item, index) => (
+                  <tr key={item.generalLedgerId}>
+                    <td> {item.sl}</td>
+                    <td>
+                      <div className="pl-2">{item.generalLedgerCode}</div>
+                    </td>
+                    <td>
+                      <div className="pl-2">{item.generalLedgerName}</div>
+                    </td>
+                    <td>
+                      <div className="pl-2">{item.accountCategoryName}</div>
+                    </td>
+                    <td>
+                      <div className="pl-2">{item.accountClassName}</div>
+                    </td>
+                    <td>
+                      <div className="pl-2">{item.accountGroupName}</div>
+                    </td>
+                    <td>
+                      <div className="d-flex justify-content-center">
+                        <span
+                          className="edit"
+                          onClick={() => {
+                            history.push(
+                              `/financial-management/configuration/general-ladger/edit/${item.generalLedgerId}`
+                            );
+                          }}
+                        >
+                          <IEdit />
+                        </span>
+                        <span
+                          className="extend ml-3"
+                          onClick={() => {
+                            history.push({
+                              pathname: `/financial-management/configuration/general-ladger/extend/${item.generalLedgerId}`,
+                              state: {
+                                generalLedgerName: item.generalLedgerName,
+                              },
+                            });
+                          }}
+                        >
+                          <IExtend />
+                        </span>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
           {gridData?.data?.length > 0 && (
             <PaginationTable
               count={gridData?.totalCount}

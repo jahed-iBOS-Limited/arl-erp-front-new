@@ -119,119 +119,122 @@ function InventoryAgingLanding() {
     <>
       {loading && <Loading />}
       <ICustomCard title="Inventory Analysis">
-        
         <Formik enableReinitialize={true} initialValues={initData}>
           {({ values, setFieldValue, errors, touched }) => (
             <>
-            <div className="d-flex justify-content-end mt-1 mb-1 ">
-          <button type="button" className="btn btn-primary mr-1">
-            <ReactToPrint
-              trigger={() => (
-                <i style={{ fontSize: "18px" }} className="fas fa-print"></i>
-              )}
-              content={() => printRef.current}
-            />
-          </button>
-          <button
-            type="button"
-            className="btn btn-primary"
-            disabled={!values?.plant || !values?.wh || !gridData?.length>0}
-            onClick={() => {
-              getInventoryAgingLanding(
-                selectedBusinessUnit.value,
-                values?.wh?.value,
-                values?.fromDate,
-                values?.toDate,
-                (data)=>{
-                  generateExcel(
-                    [
-                      {
-                        text: "SL",
-                        fontSize: 9,
-                        border: "all 000000 thin",
-                        alignment: "center",
-                        textFormat: "text",
-                        bold: true,
+              <div className="d-flex justify-content-end mt-1 mb-1 ">
+                <button type="button" className="btn btn-primary mr-1">
+                  <ReactToPrint
+                    trigger={() => (
+                      <i
+                        style={{ fontSize: "18px" }}
+                        className="fas fa-print"
+                      ></i>
+                    )}
+                    content={() => printRef.current}
+                  />
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  disabled={
+                    !values?.plant || !values?.wh || !gridData?.length > 0
+                  }
+                  onClick={() => {
+                    getInventoryAgingLanding(
+                      selectedBusinessUnit.value,
+                      values?.wh?.value,
+                      values?.fromDate,
+                      values?.toDate,
+                      (data) => {
+                        generateExcel(
+                          [
+                            {
+                              text: "SL",
+                              fontSize: 9,
+                              border: "all 000000 thin",
+                              alignment: "center",
+                              textFormat: "text",
+                              bold: true,
+                            },
+                            {
+                              text: "Code",
+                              fontSize: 9,
+                              border: "all 000000 thin",
+                              alignment: "center",
+                              textFormat: "text",
+                              bold: true,
+                            },
+                            {
+                              text: "Name",
+                              fontSize: 9,
+                              border: "all 000000 thin",
+                              alignment: "center",
+                              textFormat: "text",
+                              bold: true,
+                            },
+                            {
+                              text: "Uom",
+                              fontSize: 9,
+                              border: "all 000000 thin",
+                              alignment: "center",
+                              textFormat: "text",
+                              bold: true,
+                            },
+                            {
+                              text: "Stock Qty",
+                              fontSize: 9,
+                              border: "all 000000 thin",
+                              alignment: "center",
+                              textFormat: "text",
+                              bold: true,
+                            },
+                            {
+                              text: "Stock Cover Day",
+                              fontSize: 9,
+                              border: "all 000000 thin",
+                              alignment: "center",
+                              textFormat: "text",
+                              bold: true,
+                            },
+                            {
+                              text: "Avg Use Day",
+                              fontSize: 9,
+                              border: "all 000000 thin",
+                              alignment: "center",
+                              textFormat: "text",
+                              bold: true,
+                            },
+                            {
+                              text: "Last Issue Day",
+                              fontSize: 9,
+                              border: "all 000000 thin",
+                              alignment: "center",
+                              textFormat: "text",
+                              bold: true,
+                            },
+                            {
+                              text: "Lead Time",
+                              fontSize: 9,
+                              border: "all 000000 thin",
+                              alignment: "center",
+                              textFormat: "text",
+                              bold: true,
+                            },
+                          ],
+                          data,
+                          setLoading
+                        );
                       },
-                      {
-                        text: "Code",
-                        fontSize: 9,
-                        border: "all 000000 thin",
-                        alignment: "center",
-                        textFormat: "text",
-                        bold: true,
-                      },
-                      {
-                        text: "Name",
-                        fontSize: 9,
-                        border: "all 000000 thin",
-                        alignment: "center",
-                        textFormat: "text",
-                        bold: true,
-                      },
-                      {
-                        text: "Uom",
-                        fontSize: 9,
-                        border: "all 000000 thin",
-                        alignment: "center",
-                        textFormat: "text",
-                        bold: true,
-                      },
-                      {
-                        text: "Stock Qty",
-                        fontSize: 9,
-                        border: "all 000000 thin",
-                        alignment: "center",
-                        textFormat: "text",
-                        bold: true,
-                      },
-                      {
-                        text: "Stock Cover Day",
-                        fontSize: 9,
-                        border: "all 000000 thin",
-                        alignment: "center",
-                        textFormat: "text",
-                        bold: true,
-                      },
-                      {
-                        text: "Avg Use Day",
-                        fontSize: 9,
-                        border: "all 000000 thin",
-                        alignment: "center",
-                        textFormat: "text",
-                        bold: true,
-                      },
-                      {
-                        text: "Last Issue Day",
-                        fontSize: 9,
-                        border: "all 000000 thin",
-                        alignment: "center",
-                        textFormat: "text",
-                        bold: true,
-                      },
-                      {
-                        text: "Lead Time",
-                        fontSize: 9,
-                        border: "all 000000 thin",
-                        alignment: "center",
-                        textFormat: "text",
-                        bold: true,
-                      }
-                    ],
-                    data,
-                    setLoading
-                  );
-                },
-                pageNo,
-                15000,
-                setLoading,
-                
-              );
-            }}
-          >
-            Export Excel
-          </button>
-        </div>
+                      pageNo,
+                      15000,
+                      setLoading
+                    );
+                  }}
+                >
+                  Export Excel
+                </button>
+              </div>
               <Form>
                 <div className="row global-form">
                   <div className="col-lg-2">
@@ -308,8 +311,7 @@ function InventoryAgingLanding() {
                           setGridData,
                           pageNo,
                           pageSize,
-                          setLoading,
-
+                          setLoading
                         );
                         setObj({
                           fromDate: values?.fromDate,
@@ -336,58 +338,67 @@ function InventoryAgingLanding() {
                         {getDateNumber(obj?.toDate)}
                       </h5>
                     </div>
-                    <table className="table table-striped table-bordered bj-table bj-table-landing">
-                      <thead>
-                        <tr>
-                          <th>SL</th>
-                          <th>Code</th>
-                          <th>Name</th>
-                          <th>Uom</th>
-                          <th>Stock Qty</th>
-                          <th>Stock Cover Day</th>
-                          <th>Avg Use Day</th>
-                          <th>Last Issue Days</th>
-                          <th>Lead Time</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {gridData?.length > 0 && gridData.map((item, index) => (
-                          <tr key={index}>
-                            <td>{index +1}</td>
-                            <td>
-                              <div className="text-left">{item?.code}</div>
-                            </td>
-                            <td>
-                              <div className="text-left">{item?.itemName}</div>
-                            </td>
-                            <td>
-                              <div className="text-left">{item?.uoM}</div>
-                            </td>
-                            <td>
-                              <div className="text-right">{item?.stockQty}</div>
-                            </td>
-                            <td>
-                              <div className="text-right">
-                                {item?.stockCoverDay}
-                              </div>
-                            </td>
-                            <td>
-                              <div className="text-right">
-                                {item?.avgUseDay}
-                              </div>
-                            </td>
-                            <td>
-                              <div className="text-right">
-                                {item?.lastIssueDays}
-                              </div>
-                            </td>
-                            <td>
-                              <div className="text-right">{item?.leadTime}</div>
-                            </td>
+                    <div className="table-responsive">
+                      <table className="table table-striped table-bordered bj-table bj-table-landing">
+                        <thead>
+                          <tr>
+                            <th>SL</th>
+                            <th>Code</th>
+                            <th>Name</th>
+                            <th>Uom</th>
+                            <th>Stock Qty</th>
+                            <th>Stock Cover Day</th>
+                            <th>Avg Use Day</th>
+                            <th>Last Issue Days</th>
+                            <th>Lead Time</th>
                           </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                        </thead>
+                        <tbody>
+                          {gridData?.length > 0 &&
+                            gridData.map((item, index) => (
+                              <tr key={index}>
+                                <td>{index + 1}</td>
+                                <td>
+                                  <div className="text-left">{item?.code}</div>
+                                </td>
+                                <td>
+                                  <div className="text-left">
+                                    {item?.itemName}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="text-left">{item?.uoM}</div>
+                                </td>
+                                <td>
+                                  <div className="text-right">
+                                    {item?.stockQty}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="text-right">
+                                    {item?.stockCoverDay}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="text-right">
+                                    {item?.avgUseDay}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="text-right">
+                                    {item?.lastIssueDays}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="text-right">
+                                    {item?.leadTime}
+                                  </div>
+                                </td>
+                              </tr>
+                            ))}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 )}
                 {gridData?.length > 0 && (

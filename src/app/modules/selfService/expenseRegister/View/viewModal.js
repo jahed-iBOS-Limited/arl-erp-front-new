@@ -186,6 +186,7 @@ export default function ViewForm({ id, show, onHide }) {
                       <div className="col-lg-12">
                         <div className="row">
                           <div className="col-lg-12 pr-0 ">
+                          <div className="table-responsive">
                             <table className={"table mt-1 bj-table border"}>
                               <thead className={rowDto.length < 1 && "d-none"}>
                                 <tr>
@@ -376,6 +377,7 @@ export default function ViewForm({ id, show, onHide }) {
                                 ))}
                               </tbody>
                             </table>
+                            </div>
                             <div className="d-flex flex-column justify-content-end align-items-end">
                               <p className="m-0" style={{ fontSize: "15px" }}>
                                 <b>Total Expense : {_fixedPoint(total?.totalAmount)}</b>

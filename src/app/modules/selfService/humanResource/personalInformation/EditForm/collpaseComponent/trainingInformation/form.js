@@ -359,6 +359,7 @@ export default function _Form({
                     <div className="row global-table global-form-custom bg_none">
                       <div className="col-lg-12 pr-0 pl-0">
                         {rowDto?.length > 0 && (
+                           <div className="table-responsive">
                           <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
                             <thead>
                               <tr>
@@ -448,6 +449,7 @@ export default function _Form({
                               ))}
                             </tbody>
                           </table>
+                          </div>
                         )}
                       </div>
                     </div>

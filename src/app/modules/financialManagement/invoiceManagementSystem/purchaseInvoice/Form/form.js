@@ -15,8 +15,8 @@ import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions"
 import SearchAsyncSelect from "./../../../../_helper/SearchAsyncSelect";
 import FormikError from "./../../../../_helper/_formikError";
 import axios from "axios";
-import AdvanceCreateModel from './addvanceModel';
-import { GetAdvanceForSupplierById } from './../helper';
+import AdvanceCreateModel from "./addvanceModel";
+import { GetAdvanceForSupplierById } from "./../helper";
 
 // Validation schema
 
@@ -87,9 +87,11 @@ export default function _Form({
 }) {
   const [open, setOpen] = React.useState(false);
   const [isAdvanceCreateModel, setIsAdvanceCreateModel] = React.useState(false);
-  const [advanceForSupplierById, setAdvanceForSupplierById] = React.useState("");
+  const [advanceForSupplierById, setAdvanceForSupplierById] = React.useState(
+    ""
+  );
   const dispatch = useDispatch();
-console.log(advanceForSupplierById)
+  console.log(advanceForSupplierById);
   useEffect(() => {
     if (id && initData) {
       getGRNDDL(
@@ -125,7 +127,7 @@ console.log(advanceForSupplierById)
         onSubmit={(values, { setSubmitting, resetForm }) => {
           saveHandler(values, () => {
             resetForm(initData);
-            setgrnDDLData([])
+            setgrnDDLData([]);
           });
         }}
       >
@@ -186,7 +188,10 @@ console.log(advanceForSupplierById)
                             valueOption?.label,
                             setgrnDDLData
                           );
-                          GetAdvanceForSupplierById(valueOption?.value,setAdvanceForSupplierById )
+                          GetAdvanceForSupplierById(
+                            valueOption?.value,
+                            setAdvanceForSupplierById
+                          );
                           setgrnGridData([]);
                         }}
                         loadOptions={(v) => {
@@ -460,7 +465,7 @@ console.log(advanceForSupplierById)
                       <button
                         className="btn btn-primary"
                         onClick={(e) => {
-                          setIsAdvanceCreateModel(true)
+                          setIsAdvanceCreateModel(true);
                         }}
                         type="button"
                         disabled={!values?.purchaseOrder}
@@ -473,41 +478,43 @@ console.log(advanceForSupplierById)
                   {/* Start row part */}
                   <div className="row mt-2 ">
                     <div className="col-lg-12">
-                      <table className="table table-striped table-bordered">
-                        <thead className="bg-secondary">
-                          <tr>
-                            <th>SL</th>
-                            <th style={{ width: "55%" }}>GRN No.</th>
-                            <th>GRN Amount</th>
-                            <th>Action</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {grnGridData?.map((item, index) => (
-                            <tr key={index}>
-                              <td className="text-center align-middle">
-                                {index + 1}
-                              </td>
-                              <td className="align-middle">
-                                <div className="pl-2">
-                                  {item?.referenceName}
-                                </div>
-                              </td>
-
-                              <td className="align-middle table-input">
-                                <div className="pl-2">
-                                  {item.referenceAmount}
-                                </div>
-                              </td>
-                              <td className="text-center align-middle table-input">
-                                <span onClick={() => remover(index)}>
-                                  <IDelete />
-                                </span>
-                              </td>
+                      <div className="table-responsive">
+                        <table className="table table-striped table-bordered">
+                          <thead className="bg-secondary">
+                            <tr>
+                              <th>SL</th>
+                              <th style={{ width: "55%" }}>GRN No.</th>
+                              <th>GRN Amount</th>
+                              <th>Action</th>
                             </tr>
-                          ))}
-                        </tbody>
-                      </table>
+                          </thead>
+                          <tbody>
+                            {grnGridData?.map((item, index) => (
+                              <tr key={index}>
+                                <td className="text-center align-middle">
+                                  {index + 1}
+                                </td>
+                                <td className="align-middle">
+                                  <div className="pl-2">
+                                    {item?.referenceName}
+                                  </div>
+                                </td>
+
+                                <td className="align-middle table-input">
+                                  <div className="pl-2">
+                                    {item.referenceAmount}
+                                  </div>
+                                </td>
+                                <td className="text-center align-middle table-input">
+                                  <span onClick={() => remover(index)}>
+                                    <IDelete />
+                                  </span>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
                     </div>
                   </div>
                 </div>
