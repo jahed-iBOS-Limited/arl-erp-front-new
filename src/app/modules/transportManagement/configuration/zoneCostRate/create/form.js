@@ -1,13 +1,11 @@
 /* eslint-disable jsx-a11y/no-distracting-elements */
 /* eslint-disable no-unused-vars */
+import { Form, Formik } from "formik";
 import React, { useState } from "react";
-import { Formik, Form } from "formik";
 import * as Yup from "yup";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
-import NewSelect from "../../../../_helper/_select";
-import InputField from "../../../../_helper/_inputField";
 import IDelete from "../../../../_helper/_helperIcons/_delete";
+import InputField from "../../../../_helper/_inputField";
+import NewSelect from "../../../../_helper/_select";
 
 // Validation schema for bank transfer
 const validationSchema = Yup.object().shape({
@@ -510,6 +508,7 @@ export default function _Form({
                 </Form>
                 {rows?.length ? (
                   <div className="col-lg-12 pr-0 pl-0">
+                    <div className="table-responsive">
                     <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                       <thead>
                         <tr>
@@ -538,6 +537,7 @@ export default function _Form({
                         ))}
                       </tbody>
                     </table>
+                    </div>
                   </div>
                 ) : null}
               </>

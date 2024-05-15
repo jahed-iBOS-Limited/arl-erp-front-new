@@ -20,7 +20,7 @@ export default function AttachmentViewModal({ singleData }) {
   return (
     <>
       {loadingAttachmentData && <Loading />}
-      <div style={{ marginTop: "20px" }}>
+      <div style={{ marginTop: "20px" }} className="table-responsive">
         <table className="table table-striped table-bordered global-table">
           <thead>
             <tr>

@@ -1,15 +1,15 @@
+import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
-import ICustomCard from "../../../_helper/_customCard";
-import { Formik, Form } from "formik";
-import InputField from "../../../_helper/_inputField";
-import NewSelect from "../../../_helper/_select";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { getEmployeeRegisterLanding, getDriverNameDDL_api } from "./helper";
-import { shallowEqual, useSelector, useDispatch } from "react-redux";
+import ICustomCard from "../../../_helper/_customCard";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
+import InputField from "../../../_helper/_inputField";
 import Loading from "../../../_helper/_loading";
+import NewSelect from "../../../_helper/_select";
 import PaginationTable from "../../../_helper/_tablePagination";
 import { setEmployeeRegisterLandingAction } from "../../../_helper/reduxForLocalStorage/Actions";
+import { getDriverNameDDL_api, getEmployeeRegisterLanding } from "./helper";
 
 const EmployeeRegisterLanding = () => {
   const history = useHistory();
@@ -187,7 +187,8 @@ const EmployeeRegisterLanding = () => {
 
               {/* Table */}
               {landingData?.data?.length > 0 && (
-                <table className='table table-striped table-bordered global-table'>
+             <div className="table-responsive">
+                 <table className='table table-striped table-bordered global-table'>
                   <thead>
                     <tr>
                       <th>SL</th>
@@ -216,6 +217,7 @@ const EmployeeRegisterLanding = () => {
                       ))}
                   </tbody>
                 </table>
+             </div>
               )}
               {landingData?.data?.length > 0 && (
                 <PaginationTable

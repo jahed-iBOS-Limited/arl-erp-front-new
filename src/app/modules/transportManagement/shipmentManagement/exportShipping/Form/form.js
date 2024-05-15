@@ -1,31 +1,31 @@
 /* eslint-disable jsx-a11y/no-distracting-elements */
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
 import ICalendar from "../../../../_helper/_inputCalender";
-import Loading from "./../../../../_helper/_loading";
-import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import { ISelect } from "../../../../_helper/_inputDropDown";
+import Loading from "./../../../../_helper/_loading";
 // import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import axios from "axios";
 import { Input } from "../../../../../../_metronic/_partials/controls";
 import InputField from "../../../../_helper/_inputField";
 import IViewModal from "../../../../_helper/_viewModal";
-import { getItemListForChallan, getTransportStatusAndInfo } from "../helper";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import {
-  getDeliveryeDatabyId,
-  getDeliveryItemVolumeInfoAction,
   GetPendingDeliveryDDLAction,
+  getDeliveryItemVolumeInfoAction,
+  getDeliveryeDatabyId,
   getStockStatusOnShipmentAction,
   getVehicleNo_action,
 } from "../_redux/Actions";
+import { getItemListForChallan, getTransportStatusAndInfo } from "../helper";
 import SearchAsyncSelect from "./../../../../_helper/SearchAsyncSelect";
 import FormikError from "./../../../../_helper/_formikError";
 import NewSelect from "./../../../../_helper/_select";
 import { getLoadingPointDDLAction } from "./../_redux/Actions";
 import ChallanItemsPreview from "./itemsPreview";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 // import InputField from "../../../../_helper/_inputField";
 // Validation schema
 const validationSchema = Yup.object().shape({
@@ -856,7 +856,8 @@ export default function _Form({
               <div className="row cash_journal bank-journal bank-journal-custom">
                 <div className="col-lg-12 pr-0 pl-0">
                   {rowDto?.length >= 0 && (
-                    <table className="table table-striped table-bordered mt-1 bj-table bj-table-landing sales_order_landing_table">
+                    <div className="table-responsive">
+                      <table className="table table-striped table-bordered mt-1 bj-table bj-table-landing sales_order_landing_table">
                       <thead>
                         <tr>
                           <th style={{ width: "35px" }}>SL</th>
@@ -933,6 +934,7 @@ export default function _Form({
                         ))}
                       </tbody>
                     </table>
+                    </div>
                   )}
                 </div>
               </div>

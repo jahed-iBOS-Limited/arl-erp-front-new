@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
+import { shallowEqual, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { GetTransportOrganizationPagination } from "../helper";
-import PaginationTable from "./../../../../_helper/_tablePagination";
 import IExtend from "../../../../_helper/_helperIcons/_extend";
 import Loading from "../../../../_helper/_loading";
+import { GetTransportOrganizationPagination } from "../helper";
+import PaginationTable from "./../../../../_helper/_tablePagination";
 
 export function TableRow() {
   const [gridData, setGridData] = useState([]);
@@ -53,7 +53,8 @@ export function TableRow() {
       {/* Table Start */}
       <div className="row cash_journal">
         <div className="col-lg-12 pr-0 pl-0">
-          <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+        <div className="table-responsive">
+        <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
             <thead>
               <tr>
                 <th style={{ width: "10%" }}>SL</th>
@@ -93,6 +94,7 @@ export function TableRow() {
               ))}
             </tbody>
           </table>
+        </div>
           {gridData?.data?.length > 0 && (
         <PaginationTable
           count={gridData?.totalCount}

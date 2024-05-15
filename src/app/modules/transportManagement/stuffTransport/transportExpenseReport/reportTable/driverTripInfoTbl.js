@@ -43,6 +43,7 @@ export default function DriverTripInfoTbl({ rowData }) {
       <h4 className="text-center mt-5">
         <strong>Driver Trip Details</strong>
       </h4>
+      <div className="table-responsive">
       <table className="table table-striped table-bordered bj-table bj-table-landing">
         <thead>
           <tr>
@@ -136,6 +137,7 @@ export default function DriverTripInfoTbl({ rowData }) {
           )}
         </tbody>
       </table>
+      </div>
       <div>
         <IViewModal
           show={isShowModal}

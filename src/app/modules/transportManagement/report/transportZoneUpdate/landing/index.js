@@ -1,26 +1,24 @@
-import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
-import { shallowEqual } from "react-redux";
-import { Formik } from "formik";
-import { Form } from "formik";
 import axios from "axios";
+import { Form, Formik } from "formik";
+import React, { useEffect, useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
 import Loading from "../../../../_helper/_loading";
-import NewSelect from "./../../../../_helper/_select";
-import InputField from "./../../../../_helper/_inputField";
-import SearchAsyncSelect from "./../../../../_helper/SearchAsyncSelect";
-import { _dateFormatter } from "./../../../../_helper/_dateFormate";
 import {
-  getDistributionChannelDDL_api,
   GetSupplierAndVehicleInfo_api,
+  getDistributionChannelDDL_api,
   getransportZoneDDL,
 } from "../helper";
 import {
-  ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
+  ModalProgressBar,
 } from "./../../../../../../_metronic/_partials/controls";
+import SearchAsyncSelect from "./../../../../_helper/SearchAsyncSelect";
+import { _dateFormatter } from "./../../../../_helper/_dateFormate";
+import InputField from "./../../../../_helper/_inputField";
+import NewSelect from "./../../../../_helper/_select";
 
 const initData = {
   customer: "",
@@ -216,6 +214,7 @@ function TransportZoneUpdate() {
                     </div>
                   </div>
 
+                  <div className="table-responsive">
                   <table className="table table-striped table-bordered global-table">
                     <thead>
                       <tr>
@@ -249,6 +248,7 @@ function TransportZoneUpdate() {
                       ))}
                     </tbody>
                   </table>
+                  </div>
                 </CardBody>
               </Card>
             </Form>

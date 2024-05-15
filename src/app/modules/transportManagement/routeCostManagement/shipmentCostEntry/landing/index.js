@@ -1,20 +1,19 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { Form, Formik } from "formik";
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
-import { shallowEqual } from "react-redux";
-import { Formik, Form } from "formik";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import ICustomCard from "../../../../_helper/_customCard";
-import Loading from "../../../../_helper/_loading";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { approveItems, getExternalData, getInternalData } from "../helper";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import NewSelect from "../../../../_helper/_select";
+import { shallowEqual, useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import ICustomCard from "../../../../_helper/_customCard";
+import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import IView from "../../../../_helper/_helperIcons/_view";
+import Loading from "../../../../_helper/_loading";
+import NewSelect from "../../../../_helper/_select";
+import PaginationTable from "../../../../_helper/_tablePagination";
+import { _todayDate } from "../../../../_helper/_todayDate";
 import IViewModal from "../../../../_helper/_viewModal";
-import ShipmentCostAuditApproveViewForm from "../intranalModalView/addEditForm";
 import RentalVehicleViewForm from "../extranalModalView/addEditForm";
+import { approveItems, getExternalData, getInternalData } from "../helper";
+import ShipmentCostAuditApproveViewForm from "../intranalModalView/addEditForm";
 
 const initData = {
   fromDate: _todayDate(),
@@ -163,7 +162,7 @@ function ShipmentCostEntryLanding() {
                   </div>
                 </div>
                 <div className="row">
-                  <div className="col-md-12">
+                  <div className="col-md-12 table-responsive">
                     <table className="table table-striped table-bordered global-table">
                       <thead>
                         <tr>

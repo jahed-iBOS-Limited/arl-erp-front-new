@@ -3,7 +3,7 @@ import React from "react";
 const ChallanItemsPreview = ({ rowData }) => {
   const header = ["SL", "Item Name", "Item Qty"];
   return (
-    <div>
+    <div className="table-responsive">
       <table
         className={
           "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"

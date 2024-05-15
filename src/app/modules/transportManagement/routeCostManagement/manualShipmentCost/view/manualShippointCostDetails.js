@@ -1,14 +1,14 @@
 
-import { Form as FormikForm, Formik } from "formik";
+import { Formik, Form as FormikForm } from "formik";
 import React, { useEffect, useRef } from "react";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import { shallowEqual, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import ReactToPrint from "react-to-print";
 import * as Yup from "yup";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import ICustomCard from "../../../../_helper/_customCard";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 // const html2pdf = require("html2pdf.js");
 
 
@@ -216,7 +216,8 @@ export function ManualShippointCostDetails({ currentItem, isHiddenBackBtn, value
                           </tr>
                         </tbody>
                       </table> */}
-                      <table
+                    <div className="table-responsive">
+                    <table
                         className="global-table table py-5 report-container"
                         id="table-to-xlsx"
                       >
@@ -259,6 +260,7 @@ export function ManualShippointCostDetails({ currentItem, isHiddenBackBtn, value
                           )}
                         </tbody>
                       </table>
+                    </div>
                     </div>
                   </div>
                   <div>

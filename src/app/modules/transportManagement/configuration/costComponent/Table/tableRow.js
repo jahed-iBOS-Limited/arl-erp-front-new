@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { useHistory } from "react-router-dom";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import { getTransportrouteCCPagination } from "../helper";
 import { Formik } from "formik";
+import React, { useEffect, useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import ICustomCard from "../../../../_helper/_customCard";
+import IEdit from "../../../../_helper/_helperIcons/_edit";
 import IView from "../../../../_helper/_helperIcons/_view";
 import Loading from "../../../../_helper/_loading";
-import PaginationTable from "./../../../../_helper/_tablePagination";
 import PaginationSearch from "../../../../_helper/_search";
+import { getTransportrouteCCPagination } from "../helper";
+import PaginationTable from "./../../../../_helper/_tablePagination";
 
 export function TableRow() {
   // eslint-disable-next-line no-unused-vars
@@ -79,6 +79,7 @@ export function TableRow() {
                 placeholder="Cost Component Name Search"
                 paginationSearchHandler={paginationSearchHandler}
               />
+              <div className="table-responsive">
               <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                 <thead>
                   <tr>
@@ -130,6 +131,7 @@ export function TableRow() {
                     ))}
                 </tbody>
               </table>
+              </div>
               {gridData?.objdata?.length > 0 && (
                 <PaginationTable
                   count={gridData?.totalCount}

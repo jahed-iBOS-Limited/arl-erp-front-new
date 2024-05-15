@@ -1,28 +1,26 @@
-import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
-import { shallowEqual } from "react-redux";
-import { Formik } from "formik";
-import { Form } from "formik";
 import axios from "axios";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import InputField from "../../../../_helper/_inputField";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import { Form, Formik } from "formik";
+import React, { useEffect, useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import {
-  getDistributionChannelDDL_api,
-  DeliveryChallanInformation_api,
-  GetInfoForChalalnCancell_api,
-  getPermissionForShipmentModification,
-} from "../helper";
-import {
-  ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
+  ModalProgressBar,
 } from "../../../../../../_metronic/_partials/controls";
+import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
+import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import InputField from "../../../../_helper/_inputField";
+import Loading from "../../../../_helper/_loading";
+import NewSelect from "../../../../_helper/_select";
+import {
+  DeliveryChallanInformation_api,
+  GetInfoForChalalnCancell_api,
+  getDistributionChannelDDL_api,
+  getPermissionForShipmentModification,
+} from "../helper";
 
 const initData = {
   customer: "",
@@ -284,6 +282,7 @@ function ShipmentCancel() {
                     )}
                   </div>
 
+                  <div className="table-responsive">
                   <table className="table table-striped table-bordered global-table">
                     <thead>
                       <tr>
@@ -314,6 +313,7 @@ function ShipmentCancel() {
                       ))}
                     </tbody>
                   </table>
+                  </div>
                 </CardBody>
               </Card>
             </Form>

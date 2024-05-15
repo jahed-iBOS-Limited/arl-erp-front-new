@@ -7,8 +7,6 @@ import { useHistory } from "react-router";
 import ReactToPrint from "react-to-print";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
-import ICon from "../../../../chartering/_chartinghelper/icons/_icon";
-import printIcon from "../../../../_helper/images/print-icon.png";
 import IEdit from "../../../../_helper/_helperIcons/_edit";
 import IView from "../../../../_helper/_helperIcons/_view";
 import InputField from "../../../../_helper/_inputField";
@@ -16,6 +14,8 @@ import Loading from "../../../../_helper/_loading";
 import PaginationSearch from "../../../../_helper/_search";
 import NewSelect from "../../../../_helper/_select";
 import { _todayDate } from "../../../../_helper/_todayDate";
+import printIcon from "../../../../_helper/images/print-icon.png";
+import ICon from "../../../../chartering/_chartinghelper/icons/_icon";
 import CancelRentalVehicleCost from "../dialog/cancel";
 import {
   Card,
@@ -24,11 +24,11 @@ import {
   CardHeaderToolbar,
   ModalProgressBar,
 } from "./../../../../../../_metronic/_partials/controls";
-import { setRentalVehilceCostLandingAction } from "./../../../../_helper/reduxForLocalStorage/Actions";
 import SearchAsyncSelect from "./../../../../_helper/SearchAsyncSelect";
 import IConfirmModal from "./../../../../_helper/_confirmModal";
 import { _dateFormatter } from "./../../../../_helper/_dateFormate";
 import FormikError from "./../../../../_helper/_formikError";
+import { setRentalVehilceCostLandingAction } from "./../../../../_helper/reduxForLocalStorage/Actions";
 import {
   EditRentalVehicleBillSubmit_api,
   EditShipmentStandardCost_api,
@@ -416,7 +416,7 @@ const RentalVehilceCostLanding = () => {
                     <div className="loan-scrollable-table scroll-table-auto">
                       <div
                         style={{ maxHeight: "540px" }}
-                        className="scroll-table _table scroll-table-auto"
+                        className="scroll-table _table scroll-table-auto table-responsive"
                       >
                         {values?.itemLists?.length > 0 && (
                           <table

@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { useHistory } from "react-router-dom";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
 import { Formik } from "formik";
+import React, { useEffect, useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import ICustomCard from "../../../../_helper/_customCard";
+import IEdit from "../../../../_helper/_helperIcons/_edit";
 import IView from "../../../../_helper/_helperIcons/_view";
-import { CheckPostListLandingPagination } from "../helper";
 import Loading from "../../../../_helper/_loading";
-import PaginationTable from "./../../../../_helper/_tablePagination";
 import IViewModal from "../../../../_helper/_viewModal";
+import { CheckPostListLandingPagination } from "../helper";
 import CheckPostNewViewForm from "../view/addForm";
+import PaginationTable from "./../../../../_helper/_tablePagination";
 
 export function TableRow() {
   // eslint-disable-next-line no-unused-vars
@@ -78,7 +78,8 @@ export function TableRow() {
         <>
           <div className="row cash_journal">
             <div className="col-lg-12 pr-0 pl-0">
-              <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+            <div className="table-responsive">
+            <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                 <thead>
                   <tr>
                     <th>SL</th>
@@ -124,6 +125,7 @@ export function TableRow() {
                   <CheckPostNewViewForm id={id} />
                 </IViewModal>
               </table>
+            </div>
               {gridData?.data?.length > 0 && (
                 <PaginationTable
                   count={gridData?.totalCount}

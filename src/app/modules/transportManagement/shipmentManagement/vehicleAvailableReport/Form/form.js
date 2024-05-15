@@ -1,10 +1,10 @@
+import { Form, Formik } from "formik";
 import React from "react";
-import { Formik, Form } from "formik";
 import * as Yup from "yup";
+import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import IDelete from "../../../../_helper/_helperIcons/_delete";
 import { ISelect } from "../../../../_helper/_inputDropDown";
 import InputField from "../../../../_helper/_inputField";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
 
 // Validation schema
 const validationSchema = Yup.object().shape({
@@ -153,7 +153,7 @@ export default function _Form({
 
               <div className="form-group row mt-2">
                 <div className="col-lg-12">
-                  <div className="row px-5">
+                  <div className="row px-5 table-responsive">
                     {/* Start Table Part */}
                     <table className="table table-striped table-bordered">
                       <thead>

@@ -1,22 +1,22 @@
-import React, { useEffect, useState, useRef } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
+import React, { useEffect, useRef, useState } from "react";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { billSubmitApi, getGridData } from "../helper";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import { SearchForm } from "./form";
-import IView from "../../../../_helper/_helperIcons/_view";
-import printIcon from "../../../../_helper/images/print-icon.png";
-import SalesInvoiceModel from "../viewModal";
+import ReactToPrint from "react-to-print";
+import { _currentTime } from "../../../../_helper/_currentTime";
 import ICustomCard from "../../../../_helper/_customCard";
+import IEdit from "../../../../_helper/_helperIcons/_edit";
+import IView from "../../../../_helper/_helperIcons/_view";
 import Loading from "../../../../_helper/_loading";
 import PaginationSearch from "../../../../_helper/_search";
-import IViewModal from "../../../../_helper/_viewModal";
-import ShipmentCostViewForm from "../view/addEditForm";
 import { _todayDate } from "../../../../_helper/_todayDate";
-import IConfirmModal from "./../../../../_helper/_confirmModal";
-import ReactToPrint from "react-to-print";
+import IViewModal from "../../../../_helper/_viewModal";
+import printIcon from "../../../../_helper/images/print-icon.png";
 import { setShipmentCostLadingAction } from "../../../../_helper/reduxForLocalStorage/Actions";
-import { _currentTime } from "../../../../_helper/_currentTime";
+import { billSubmitApi, getGridData } from "../helper";
+import ShipmentCostViewForm from "../view/addEditForm";
+import SalesInvoiceModel from "../viewModal";
+import IConfirmModal from "./../../../../_helper/_confirmModal";
+import { SearchForm } from "./form";
 
 export function TableRow() {
   const [gridData, setGridData] = useState([]);
@@ -247,7 +247,7 @@ export function TableRow() {
                 </div>
                 <div className="col-lg-12">
                   <div
-                    className="print_wrapper"
+                    className="print_wrapper table-responsive"
                     componentRef={printRef}
                     ref={printRef}
                   >

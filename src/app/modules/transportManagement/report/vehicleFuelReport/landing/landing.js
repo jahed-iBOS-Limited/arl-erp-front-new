@@ -1,26 +1,25 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useRef } from "react";
-import { useSelector } from "react-redux";
-import { shallowEqual } from "react-redux";
-import { Formik, Form } from "formik";
-import Loading from "../../../../_helper/_loading";
+import { Form, Formik } from "formik";
+import React, { useRef, useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
+import ReactToPrint from "react-to-print";
+import { ModalProgressBar } from "../../../../../../_metronic/_partials/controls";
+import {
+  Card,
+  CardBody,
+  CardHeader,
+  CardHeaderToolbar,
+} from "../../../../../../_metronic/_partials/controls/Card";
+import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import InputField from "../../../../_helper/_inputField";
+import Loading from "../../../../_helper/_loading";
+import NewSelect from "../../../../_helper/_select";
+import { _todayDate } from "../../../../_helper/_todayDate";
+import printIcon from "../../../../_helper/images/print-icon.png";
 import {
   getVehicleDDL,
   getVehicleFuelReportData,
 } from "../helper";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import NewSelect from "../../../../_helper/_select";
-import ReactToPrint from "react-to-print";
-import printIcon from "../../../../_helper/images/print-icon.png";
-import {
-  Card,
-  CardHeader,
-  CardHeaderToolbar,
-  CardBody,
-} from "../../../../../../_metronic/_partials/controls/Card";
-import { ModalProgressBar } from "../../../../../../_metronic/_partials/controls";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
 
 const initData = {
   ownerType: "",
@@ -188,6 +187,7 @@ function VehicleFuelReport() {
                     </div>
                   </div>
 
+                  <div className="table-responsive">
                   <table
                     ref={printRef}
                     className="table table-striped table-bordered global-table"
@@ -237,6 +237,7 @@ function VehicleFuelReport() {
                       ))}
                     </tbody>
                   </table>
+                  </div>
                 </Form>
               </>
             </CardBody>

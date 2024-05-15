@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import { getVehicleGridData } from "../_redux/Actions";
-import Loading from "../../../../_helper/_loading";
-import PaginationTable from "./../../../../_helper/_tablePagination";
-import PaginationSearch from "../../../../_helper/_search";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import { useHistory } from "react-router";
 import { Formik } from "formik";
+import React, { useEffect, useState } from "react";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router";
+import IEdit from "../../../../_helper/_helperIcons/_edit";
+import Loading from "../../../../_helper/_loading";
+import PaginationSearch from "../../../../_helper/_search";
 import NewSelect from "../../../../_helper/_select";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import IButton from "../../../../_helper/iButton";
+import { getVehicleGridData } from "../_redux/Actions";
+import PaginationTable from "./../../../../_helper/_tablePagination";
 
 const initData = {
   shipPoint: { value: 0, label: "All" },
@@ -157,7 +157,8 @@ export function TableRow() {
                   paginationSearchHandler={paginationSearchHandler}
                   values={values}
                 />
-                <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+              <div className="table-responsive">
+              <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                   <thead>
                     <tr>
                       <th>SL</th>
@@ -211,6 +212,7 @@ export function TableRow() {
                       ))}
                   </tbody>
                 </table>
+              </div>
                 {gridData?.data?.length > 0 && (
                   <PaginationTable
                     count={gridData?.totalCount}

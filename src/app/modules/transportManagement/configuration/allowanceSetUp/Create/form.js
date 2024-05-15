@@ -1,12 +1,12 @@
+import { Form, Formik } from "formik";
 import React from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
 import Select from "react-select";
-import customStyles from "../../../../selectCustomStyle";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
+import * as Yup from "yup";
 import FormikError from "../../../../_helper/_formikError";
+import IDelete from "../../../../_helper/_helperIcons/_delete";
 import InputField from "../../../../_helper/_inputField";
 import { NegetiveCheck } from "../../../../_helper/_negitiveCheck";
+import customStyles from "../../../../selectCustomStyle";
 
 // Validation schema for bank transfer
 
@@ -224,7 +224,8 @@ export default function _Form({
                   {/* Table Header input end */}
                   <div className="row">
                     <div className="col-lg-12 pr-0">
-                      <table className={"table table-responsive mt-1 bj-table"}>
+                    <div className="table-responsive">
+                    <table className={"table table-responsive mt-1 bj-table"}>
                         <thead className={gridData.length < 1 && "d-none"}>
                           <tr>
                             <th style={{ width: "30px" }}>SL</th>
@@ -329,6 +330,7 @@ export default function _Form({
                           ))}
                         </tbody>
                       </table>
+                    </div>
                     </div>
                   </div>
                 </div>

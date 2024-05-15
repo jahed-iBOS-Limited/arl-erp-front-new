@@ -1,8 +1,8 @@
+import { Form, Formik } from "formik";
 import React from "react";
-import { Formik, Form } from "formik";
 import * as Yup from "yup";
-import NewSelect from "../../../../_helper/_select";
 import InputField from "../../../../_helper/_inputField";
+import NewSelect from "../../../../_helper/_select";
 import { getFuelStationDDL } from "../helper";
 
 // Validation schema

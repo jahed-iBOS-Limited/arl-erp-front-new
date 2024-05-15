@@ -19,22 +19,22 @@ import { compressfile } from "../../../_helper/compressfile";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import RowDtoTable from "../invTransaction/Form/receiveInventory/rowDtoTable";
 import {
-    getItemforReceiveInvAction,
-    getItemforReceiveInvForeignPOAction,
-    getStockDDLAction,
-    getTransactionTypeDDLAction,
-    getpersonnelDDLAction,
-    getreferenceNoReceiveInvDDLAction,
-    getreferenceTypeDDLAction,
-    saveInventoryTransactionOrder,
+  getItemforReceiveInvAction,
+  getItemforReceiveInvForeignPOAction,
+  getStockDDLAction,
+  getTransactionTypeDDLAction,
+  getpersonnelDDLAction,
+  getreferenceNoReceiveInvDDLAction,
+  getreferenceTypeDDLAction,
+  saveInventoryTransactionOrder,
 } from "../invTransaction/_redux/Actions";
 import { invTransactionSlice } from "../invTransaction/_redux/Slice";
 import {
-    getForeignPurchaseDDL,
-    getSupplierDDL,
-    initData,
-    uploadAttachment,
-    validationSchemaForMRR,
+  getForeignPurchaseDDL,
+  getSupplierDDL,
+  initData,
+  uploadAttachment,
+  validationSchemaForMRR,
 } from "./helper";
 const { actions: slice } = invTransactionSlice;
 export default function CreateMRR() {
@@ -193,12 +193,12 @@ export default function CreateMRR() {
         setRowDto([
           ...rowDto,
           {
-            referenceId: values?.item?.referenceId, //nai
+            referenceId: values?.item?.referenceId, 
             itemId: values?.item?.value,
             itemName: values?.item?.itemName,
             itemCode: values?.item?.itemCode,
-            uoMid: values?.item?.baseUoMId,
-            uoMname: values?.item?.baseUoMName,
+            uoMid: values?.item?.uoMId ||0,
+            uoMname: values?.item?.uoMName||"",
             refQty: values?.item?.refQty || 0,
             restQty: values?.item?.restQty || 0,
             vatValue: values?.item?.vatValue || 0,
@@ -207,7 +207,7 @@ export default function CreateMRR() {
             baseValue:
               values.refType.label === "NA (Without Reference)"
                 ? 0
-                : values.item.baseValue,
+                : values.item.basePrice,
             location: values?.item?.locationDDL[0],
             stockType: { value: 1, label: "Open Stock" }, //values?.transType?.label === "Receive For PO To Blocked Stock" ? { value: 2, label: "Block Stock" } : { value: 1, label: "Open Stock" },
             quantity: "",
@@ -268,6 +268,7 @@ export default function CreateMRR() {
   const rowDtoHandler = (name, value, sl) => {
     let data = [...rowDto];
     let _sl = data[sl];
+    console.log("_sl",_sl);
     if (name === "quantity") {
       _sl[name] = value ? +value : value;
       _sl["tatalVat"] = (_sl?.vatValue / _sl?.refQty) * +value;
@@ -296,6 +297,7 @@ export default function CreateMRR() {
       ],
     });
   };
+  console.log("qcInformationForMRR",qcInformationForMRR);
 
   const saveHandler = async (values, cb) => {
     if (totalVat.toFixed(4) > 0 && values?.vatAmmount < 1)
@@ -360,12 +362,12 @@ export default function CreateMRR() {
               accountName: profileData?.accountName,
               businessUnitId: selectedBusinessUnit?.value,
               businessUnitName: selectedBusinessUnit?.label,
-              sbuId: qcInformationForMRR?.businessUnitId,
-              sbuName: qcInformationForMRR?.businessUnitName,
-              plantId: qcInformationForMRR?.plantId,
-              plantName: qcInformationForMRR?.plantName,
-              warehouseId: qcInformationForMRR?.warehouseId,
-              warehouseName: qcInformationForMRR?.warehouseName,
+              sbuId: qcInformationForMRR?.poData?.sbuId,
+              sbuName: qcInformationForMRR?.poData?.sbuName,
+              plantId: qcInformationForMRR?.poData?.plantId,
+              plantName: qcInformationForMRR?.poData?.plantName,
+              warehouseId: qcInformationForMRR?.poData?.warehouseId,
+              warehouseName: qcInformationForMRR?.poData?.warehouseName,
               businessPartnerId: values?.busiPartner.value,
               parsonnelId: values?.personnel?.value || 0,
               costCenterId: values?.costCenter?.value || -1,

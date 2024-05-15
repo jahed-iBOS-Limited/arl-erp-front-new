@@ -1,7 +1,7 @@
 import { Form, Formik } from "formik";
 import React, { useEffect } from "react";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import { _todayDate } from "../../../_helper/_todayDate";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import IForm from "./../../../_helper/_form";
 import Loading from "./../../../_helper/_loading";
 const initData = {};
@@ -61,7 +61,7 @@ export default function ViewManualShipment({ viewData, intLoadingId }) {
                 </div>
               </div>
               <div className="row">
-                <div className="col-lg-12">
+                <div className="col-lg-12 table-responsive">
                   <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                     <thead>
                       <tr>

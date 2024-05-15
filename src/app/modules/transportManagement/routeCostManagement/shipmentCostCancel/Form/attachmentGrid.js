@@ -51,6 +51,7 @@ function AttachmentGrid({
           </button>
         </div>
       </div>
+      <div className="table-responsive">
       <table className={"table global-table"}>
         <thead>
           <tr>
@@ -84,6 +85,7 @@ function AttachmentGrid({
           ))}
         </tbody>
       </table>
+      </div>
     </div>
   );
 }

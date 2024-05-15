@@ -1,9 +1,9 @@
+import { Form, Formik } from "formik";
 import React from "react";
-import { Formik, Form } from "formik";
 // import * as Yup from "yup";
-import NewSelect from "../../../../_helper/_select";
-import InputField from "../../../../_helper/_inputField";
 import { IInput } from "../../../../_helper/_input";
+import InputField from "../../../../_helper/_inputField";
+import NewSelect from "../../../../_helper/_select";
 // import { updateDistanceKM, updateRentVehicle } from "./helper";
 // import { useLocation } from "react-router";
 
@@ -152,6 +152,7 @@ export default function _Form({
 
               <div className="col-md-10">
                 <h4>Distance KM</h4>
+                <div className="table-responsive">
                 <table className="table table-striped table-bordered global-table">
                   <thead>
                     <tr>
@@ -224,10 +225,12 @@ export default function _Form({
                     ))}
                   </tbody>
                 </table>
+                </div>
               </div>
 
               <div className="col-md-10" style={{ marginTop: "20px" }}>
                 <h4>Vehicle Rent</h4>
+                <div className="table-responsive">
                 <table className="table table-striped table-bordered global-table">
                   <thead>
                     <tr>
@@ -309,10 +312,12 @@ export default function _Form({
                     ))}
                   </tbody>
                 </table>
+                </div>
               </div>
 
               <div className="col-md-10" style={{ marginTop: "20px" }}>
                 <h4>Chalan Info</h4>
+                <div className="table-responsive">
                 <table className="table table-striped table-bordered global-table">
                   <thead>
                     <tr>
@@ -350,6 +355,7 @@ export default function _Form({
                     ))}
                   </tbody>
                 </table>
+                </div>
               </div>
 
               <button

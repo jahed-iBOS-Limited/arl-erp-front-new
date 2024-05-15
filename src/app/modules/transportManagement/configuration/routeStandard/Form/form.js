@@ -1,16 +1,16 @@
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+import { toast } from "react-toastify";
 import * as Yup from "yup";
 import InputField from "../../../../_helper/_inputField";
 import NewSelect from "../../../../_helper/_select";
-import useAxiosGet from "./../../../../_helper/customHooks/useAxiosGet";
-import { useLocation } from "react-router-dom";
-import { toast } from "react-toastify";
 import {
   GetRouteStandardCostByRouteId,
   getComponentNameDDL,
   getDDL,
 } from "../helper";
+import useAxiosGet from "./../../../../_helper/customHooks/useAxiosGet";
 
 // Validation schema
 const validationSchema = Yup.object().shape({
@@ -345,7 +345,8 @@ export default function _Form({
                   </div>
                 </div>
                 {values?.itemLists?.length >= 0 && (
-                  <table className='table table-striped table-bordered global-table'>
+                 <div className="table-responsive">
+                   <table className='table table-striped table-bordered global-table'>
                     <thead>
                       <tr>
                         <th style={{ width: "35px" }}>SL</th>
@@ -381,6 +382,7 @@ export default function _Form({
                       ))}
                     </tbody>
                   </table>
+                 </div>
                 )}
               </div>
 
