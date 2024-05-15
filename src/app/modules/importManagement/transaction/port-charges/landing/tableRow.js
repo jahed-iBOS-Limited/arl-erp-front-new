@@ -83,27 +83,37 @@ export default function TableRow() {
               {true && <ModalProgressBar />}
               <CardHeader title="Service Charges"></CardHeader>
               <CardBody>
-                <div className="d-flex align-items-center justify-content-center">
+                <div
+                  className="d-flex align-items-center justify-content-center"
+                  style={{
+                    flexWrap: "wrap",
+                    gap: "10px",
+                  }}
+                >
                   <span>
                     <span style={{ fontWeight: "900" }}>
                       Beneficiary Name :
-                    </span>{" "}
+                    </span>{" "}<br/>
                     {data?.beneficiaryName}
                   </span>
                   <span className="mx-4">
                     <span style={{ fontWeight: "900" }}>PO No:</span>
+                    <br/>
                     {data?.poNo}
                   </span>
                   <span>
                     <span style={{ fontWeight: "900" }}>LC No :</span>{" "}
+                    <br/>
                     {data?.lcNo}
                   </span>
                   <span className="ml-4">
                     <span style={{ fontWeight: "900" }}>Total PI Amount :</span>{" "}
+                    <br/>
                     {numberWithCommas(data?.totalPiAmount)}
                   </span>
                   <span className="ml-4">
                     <span style={{ fontWeight: "900" }}>Vassel Name :</span>{" "}
+                    <br/>
                     {data?.vasselName}
                   </span>
                 </div>

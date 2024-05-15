@@ -158,125 +158,128 @@ export default function _Form({
 
                       <div>
                         <div className="pl-5 payment pl-5 pr-5">
-                          <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing ">
-                            <tbody>
-                              <tr>
-                                <th>Bill No</th>
-                                <td>
-                                  <InputField
-                                    value={values?.billNo}
-                                    name="billNo"
-                                    disabled={
-                                      viewType === "view" ? true : false
-                                    }
-                                  />
-                                </td>
-                              </tr>
-                              <tr>
-                                <th>Description</th>
-                                <td>
-                                  <InputField
-                                    value={values?.description}
-                                    name="description"
-                                    disabled={
-                                      viewType === "view" ? true : false
-                                    }
-                                  />
-                                </td>
-                              </tr>
-                              <tr>
-                                <th>Instrument</th>
-                                <td>
-                                  <NewSelect
-                                    // options={[]}
-                                    name="instrument"
-                                    value={values?.instrument}
-                                    isDisabled={
-                                      viewType === "view" ? true : false
-                                    }
-                                  />
-                                </td>
-                              </tr>
-                              <tr>
-                                <th>Pay Bank</th>
-                                <td>
-                                  <NewSelect
-                                    options={bankListDDL || []}
-                                    value={values?.payBank}
-                                    name="payBank"
-                                    onChange={(valueOption) => {
-                                      setFieldValue("payBank", valueOption);
-                                    }}
-                                    isDisabled={
-                                      viewType === "view" ? true : false
-                                    }
-                                  />
-                                </td>
-                              </tr>
-                              <tr>
-                                <th>Delivery Date</th>
-                                <td>
-                                  <InputField
-                                    name="deliveryDate"
-                                    value={values?.deliveryDate}
-                                    type="date"
-                                    disabled={
-                                      viewType === "view" ? true : false
-                                    }
-                                  />
-                                </td>
-                              </tr>
-                              <tr>
-                                <th>Amount (BDT)</th>
-                                <td>
-                                  <InputField
-                                    name="amountBDT"
-                                    value={values?.amountBDT}
-                                    disabled={
-                                      viewType === "view" ? true : false
-                                    }
-                                  />
-                                </td>
-                              </tr>
-                              <tr>
-                                <th>Demurrage (BDT)</th>
-                                <td>
-                                  <InputField
-                                    name="demurrage"
-                                    value={values?.demurrage}
-                                    disabled={
-                                      viewType === "view" ? true : false
-                                    }
-                                  />
-                                </td>
-                              </tr>
-                              <tr>
-                                <th>Total (BDT)</th>
-                                <td>
-                                  <InputField
-                                    name="total"
-                                    value={values?.total}
-                                    disabled={
-                                      viewType === "view" ? true : false
-                                    }
-                                  />
-                                </td>
-                              </tr>
-                              <tr>
-                                <th>Payment Date</th>
-                                <td>
-                                  <InputField
-                                    name="paymentDate"
-                                    value={values?.paymentDate}
-                                    type="date"
-                                    disabled={
-                                      viewType === "view" ? true : false
-                                    }
-                                  />
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
+                          <div className="react-bootstrap-table table-responsive">
+                            <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing ">
+                              <tbody>
+                                <tr>
+                                  <th>Bill No</th>
+                                  <td>
+                                    <InputField
+                                      value={values?.billNo}
+                                      name="billNo"
+                                      disabled={
+                                        viewType === "view" ? true : false
+                                      }
+                                    />
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th>Description</th>
+                                  <td>
+                                    <InputField
+                                      value={values?.description}
+                                      name="description"
+                                      disabled={
+                                        viewType === "view" ? true : false
+                                      }
+                                    />
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th>Instrument</th>
+                                  <td>
+                                    <NewSelect
+                                      // options={[]}
+                                      name="instrument"
+                                      value={values?.instrument}
+                                      isDisabled={
+                                        viewType === "view" ? true : false
+                                      }
+                                    />
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th>Pay Bank</th>
+                                  <td>
+                                    <NewSelect
+                                      options={bankListDDL || []}
+                                      value={values?.payBank}
+                                      name="payBank"
+                                      onChange={(valueOption) => {
+                                        setFieldValue("payBank", valueOption);
+                                      }}
+                                      isDisabled={
+                                        viewType === "view" ? true : false
+                                      }
+                                    />
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th>Delivery Date</th>
+                                  <td>
+                                    <InputField
+                                      name="deliveryDate"
+                                      value={values?.deliveryDate}
+                                      type="date"
+                                      disabled={
+                                        viewType === "view" ? true : false
+                                      }
+                                    />
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th>Amount (BDT)</th>
+                                  <td>
+                                    <InputField
+                                      name="amountBDT"
+                                      value={values?.amountBDT}
+                                      disabled={
+                                        viewType === "view" ? true : false
+                                      }
+                                    />
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th>Demurrage (BDT)</th>
+                                  <td>
+                                    <InputField
+                                      name="demurrage"
+                                      value={values?.demurrage}
+                                      disabled={
+                                        viewType === "view" ? true : false
+                                      }
+                                    />
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th>Total (BDT)</th>
+                                  <td>
+                                    <InputField
+                                      name="total"
+                                      value={values?.total}
+                                      disabled={
+                                        viewType === "view" ? true : false
+                                      }
+                                    />
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th>Payment Date</th>
+                                  <td>
+                                    <InputField
+                                      name="paymentDate"
+                                      value={values?.paymentDate}
+                                      type="date"
+                                      disabled={
+                                        viewType === "view" ? true : false
+                                      }
+                                    />
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+
                           <div className="text-right pt-1">
                             {/* <div className="col-lg-3"> */}
 

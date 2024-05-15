@@ -356,29 +356,30 @@ const TableRow = () => {
                   // rowDto?.length > 0 &&
                   <div className="loan-scrollable-table">
                     <div className="scroll-table _table">
-                      <table className="table table-striped table-bordered bj-table bj-table-landing">
-                        <thead>
-                          <tr>
-                            {header?.length > 0 &&
-                              header?.map((item, index) => (
-                                <th key={index} style={item?.style}>
-                                  {item?.name}
-                                </th>
-                              ))}
-                          </tr>
-                        </thead>
+                      <div className="react-bootstrap-table table-responsive">
+                        <table className="table table-striped table-bordered bj-table bj-table-landing">
+                          <thead>
+                            <tr>
+                              {header?.length > 0 &&
+                                header?.map((item, index) => (
+                                  <th key={index} style={item?.style}>
+                                    {item?.name}
+                                  </th>
+                                ))}
+                            </tr>
+                          </thead>
 
-                        <tbody>
-                          {rowDto.length >= 0 &&
-                            rowDto.map((data, index) => (
-                              <tr key={index}>
-                                <td>{index + 1}</td>
-                                <td>
-                                  <div className="text-center">
-                                    {data?.employeeId}
-                                  </div>
-                                </td>
-                                {/* <td>
+                          <tbody>
+                            {rowDto.length >= 0 &&
+                              rowDto.map((data, index) => (
+                                <tr key={index}>
+                                  <td>{index + 1}</td>
+                                  <td>
+                                    <div className="text-center">
+                                      {data?.employeeId}
+                                    </div>
+                                  </td>
+                                  {/* <td>
                                   <div className="pl-2">
                                     {data?.employeeName}
                                   </div>
@@ -438,10 +439,11 @@ const TableRow = () => {
                                     {data?.holiday}
                                   </div>
                                 </td> */}
-                              </tr>
-                            ))}
-                        </tbody>
-                      </table>
+                                </tr>
+                              ))}
+                          </tbody>
+                        </table>
+                      </div>
                     </div>
                   </div>
                 }

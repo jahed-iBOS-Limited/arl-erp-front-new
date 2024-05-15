@@ -19,7 +19,7 @@ import printIcon from "../../../../_helper/images/print-icon.png";
 import { useRef } from "react";
 import { getReportHeaderInfo } from "../../costSummary/helper";
 import { _formatMoney } from "../../../../_helper/_formatMoney";
-import { _firstDateofMonth } from './../../../../_helper/_firstDateOfCurrentMonth';
+import { _firstDateofMonth } from "./../../../../_helper/_firstDateOfCurrentMonth";
 
 const TableRow = () => {
   const [rowDto, setRowDto] = useState([]);
@@ -33,7 +33,7 @@ const TableRow = () => {
     return state.authData;
   }, shallowEqual);
 
-console.log('rowDto: ', rowDto);
+  console.log("rowDto: ", rowDto);
 
   useEffect(() => {
     getCnfDDLForCnFReport(
@@ -79,17 +79,17 @@ console.log('rowDto: ', rowDto);
   let initialToDate = initData?.toDate;
   //this useEffect may need for the future changes, depending on nullable issue.
   useEffect(() => {
-    if(initialFromDate)
-    getCnFDetailsReport(
-      profileData?.accountId,
-      selectedBusinessUnit?.value,
-      "",
-      "",
-      initialFromDate,
-      initialToDate,
-      setRowDto,
-      setLoader
-    );
+    if (initialFromDate)
+      getCnFDetailsReport(
+        profileData?.accountId,
+        selectedBusinessUnit?.value,
+        "",
+        "",
+        initialFromDate,
+        initialToDate,
+        setRowDto,
+        setLoader
+      );
   }, [profileData, selectedBusinessUnit, initialFromDate, initialToDate]);
 
   const header = [
@@ -262,18 +262,16 @@ console.log('rowDto: ', rowDto);
                   </div>
                 </div>
                 {/* Table Start */}
-                
-                  <div
-                    className="scroll-table _table "
-                    ref={printRef}
-                  >
-                    {isPrintable && (
-                      <div className="text-center d-none-print">
-                        <h2> {headerInfo?.businessUnitName} </h2>
-                        <h6> {headerInfo?.businessUnitCode} </h6>
-                        <h6> {headerInfo?.businessUnitAddress} </h6>
-                      </div>
-                    )}
+
+                <div className="scroll-table _table " ref={printRef}>
+                  {isPrintable && (
+                    <div className="text-center d-none-print">
+                      <h2> {headerInfo?.businessUnitName} </h2>
+                      <h6> {headerInfo?.businessUnitCode} </h6>
+                      <h6> {headerInfo?.businessUnitAddress} </h6>
+                    </div>
+                  )}
+                  <div className="react-bootstrap-table table-responsive">
                     <table className="table table-striped table-bordered bj-table bj-table-landing">
                       <thead>
                         <tr>
@@ -297,10 +295,14 @@ console.log('rowDto: ', rowDto);
                               <td className="text-center">
                                 {_dateFormatter(data?.dteDocumentforwardDate)}
                               </td>
-                              <td className="text-center">{_dateFormatter(data?.dtePaymentDate)}</td>
-                              <td className="text-center">{_dateFormatter(data?.dteServiceReceiveDate)}</td>
+                              <td className="text-center">
+                                {_dateFormatter(data?.dtePaymentDate)}
+                              </td>
+                              <td className="text-center">
+                                {_dateFormatter(data?.dteServiceReceiveDate)}
+                              </td>
                               <td className="text-right">
-                                {_formatMoney(data?.numInvoiceAmount , 4)}
+                                {_formatMoney(data?.numInvoiceAmount, 4)}
                               </td>
                               <td>{data?.strCurrencyName}</td>
                               <td>{data?.column3}</td>
@@ -309,7 +311,7 @@ console.log('rowDto: ', rowDto);
                       </tbody>
                     </table>
                   </div>
-               
+                </div>
               </Form>
             </>
           )}
