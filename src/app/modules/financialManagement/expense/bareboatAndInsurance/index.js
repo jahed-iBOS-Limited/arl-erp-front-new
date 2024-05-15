@@ -222,7 +222,7 @@ export default function BareboatAndInsurancelanding() {
             }}
           >
             <Form>
-              <div className="col-lg-4 mb-2 mt-5">
+              <div className="col-lg-12 mb-2 mt-5">
                 <label className="mr-3">
                   <input
                     type="radio"

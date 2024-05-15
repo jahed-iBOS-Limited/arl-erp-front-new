@@ -1,11 +1,11 @@
-import { Form, Formik } from 'formik';
-import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import IForm from '../../../../_helper/_form';
-import Loading from '../../../../_helper/_loading';
-import PaginationSearch from '../../../../_helper/_search';
-import PaginationTable from '../../../../_helper/_tablePagination';
-import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { Form, Formik } from "formik";
+import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
+import IForm from "../../../../_helper/_form";
+import Loading from "../../../../_helper/_loading";
+import PaginationSearch from "../../../../_helper/_search";
+import PaginationTable from "../../../../_helper/_tablePagination";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 
 const initData = {};
 
@@ -25,7 +25,7 @@ function debounce(func, delay) {
 export default function BankBranchLanding() {
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
-  const [searchByText, setSearchByText] = useState('');
+  const [searchByText, setSearchByText] = useState("");
   const [landingData, getLandingData, landingDataLoader] = useAxiosGet();
 
   const saveHandler = (values, cb) => {};
@@ -48,7 +48,7 @@ export default function BankBranchLanding() {
 
   useEffect(() => {
     handleFetchRowData(searchByText, pageNo, pageSize);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchByText, pageNo, pageSize]);
 
   return (
@@ -103,43 +103,45 @@ export default function BankBranchLanding() {
                   placeholder="🔎 Bank name, Branch, Routing No."
                   paginationSearchHandler={paginationSearchHandler}
                 />
-                <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
-                  <thead>
-                    <tr>
-                      <th>SL</th>
-                      <th>Bank Name</th>
-                      <th>Branch Name</th>
-                      <th>Branch Code</th>
-                      <th>Routing No</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {landingData?.data?.length > 0 &&
-                      landingData?.data?.map((item, index) => {
-                        return (
-                          <tr key={index}>
-                            <td
-                              style={{ width: '30px' }}
-                              className="text-center"
-                            >
-                              {index + 1}
-                            </td>
-                            <td>{item?.bankName}</td>
-                            <td>{item?.bankBranchName}</td>
-                            <td>{item?.bankBranchCode}</td>
-                            <td>{item?.routingNo}</td>
-                          </tr>
-                        );
-                      })}
-                  </tbody>
-                </table>
+                <div className="table-responsive">
+                  <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+                    <thead>
+                      <tr>
+                        <th>SL</th>
+                        <th>Bank Name</th>
+                        <th>Branch Name</th>
+                        <th>Branch Code</th>
+                        <th>Routing No</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {landingData?.data?.length > 0 &&
+                        landingData?.data?.map((item, index) => {
+                          return (
+                            <tr key={index}>
+                              <td
+                                style={{ width: "30px" }}
+                                className="text-center"
+                              >
+                                {index + 1}
+                              </td>
+                              <td>{item?.bankName}</td>
+                              <td>{item?.bankBranchName}</td>
+                              <td>{item?.bankBranchCode}</td>
+                              <td>{item?.routingNo}</td>
+                            </tr>
+                          );
+                        })}
+                    </tbody>
+                  </table>
+                </div>
               </>
               <div
                 className="mt-3 mb-20"
                 style={{
-                  position: 'absolute',
-                  right: '30px',
-                  border: '1px solid gray',
+                  position: "absolute",
+                  right: "30px",
+                  border: "1px solid gray",
                 }}
               >
                 <PaginationTable

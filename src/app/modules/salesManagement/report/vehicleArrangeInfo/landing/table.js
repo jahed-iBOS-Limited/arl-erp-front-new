@@ -411,7 +411,7 @@ export default function VehicleArrangeInfo() {
                       )}
 
                       {[2]?.includes(values?.reportType?.value) && (
-                        <div className="col-6 text-right">
+                        <div className="col-lg-6 text-right">
                           <div>
                             <button
                               disabled={

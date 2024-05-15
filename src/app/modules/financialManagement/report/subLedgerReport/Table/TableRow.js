@@ -241,7 +241,8 @@ export function TableRow() {
                             </strong>
                           </p>
                         </div>
-                        <table id="generalLedgerReport" className="table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm">
+                        <div className="table-responsive">
+ <table id="generalLedgerReport" className="table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm">
                           <thead>
                             <tr>
                               <th style={{ width: "30px" }}>Code</th>
@@ -322,6 +323,8 @@ export function TableRow() {
                             </tr>
                           </tbody>
                         </table>
+          </div>
+                       
                       </div>
                     )}
                   </div>

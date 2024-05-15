@@ -311,56 +311,59 @@ const Team = ({
                 <div className="row" id="pdf-section">
                   <div className="col-lg-12">
                     <div className="print_wrapper">
-                      <table className="table table-striped table-bordered mt-3 global-table table-font-size-sm">
-                        {allTeam?.length > 0 && (
-                          <thead>
-                            <tr>
-                              <th style={{ width: "50px" }}>SL</th>
+                      <div className="table-responsive">
+                        <table className="table table-striped table-bordered mt-3 global-table table-font-size-sm">
+                          {allTeam?.length > 0 && (
+                            <thead>
+                              <tr>
+                                <th style={{ width: "50px" }}>SL</th>
 
-                              <th style={{ width: "100px" }}>
-                                <div className="text-left ml-1">
-                                  Team Memeber
-                                </div>
-                              </th>
+                                <th style={{ width: "100px" }}>
+                                  <div className="text-left ml-1">
+                                    Team Memeber
+                                  </div>
+                                </th>
 
-                              <th
-                                className="text-left"
-                                style={{ width: "100px" }}
-                              >
-                                <div className="text-left ml-1">Role</div>
-                              </th>
-                              <th style={{ width: "150px" }}>Action</th>
-                            </tr>
-                          </thead>
-                        )}
-                        <tbody>
-                          {allTeam?.map((item, index) => (
-                            <tr key={index}>
-                              <td className="text-center">{index + 1}</td>
-                              <td className="text-left">
-                                {item?.isEdit
-                                  ? item?.strTeamMember
-                                  : item?.intTeamId?.label}
-                              </td>
-                              <td className="text-left">
-                                {item?.isEdit
-                                  ? item?.strRole || "N/A"
-                                  : item?.intRoleId?.label}
-                              </td>
-                              <td className="text-right">
-                                {" "}
-                                <div className="text-center">
-                                  <span onClick={() => {}}>
-                                    <DeleteOutlined
-                                      onClick={() => removeTeam(index)}
-                                    />
-                                  </span>
-                                </div>
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
+                                <th
+                                  className="text-left"
+                                  style={{ width: "100px" }}
+                                >
+                                  <div className="text-left ml-1">Role</div>
+                                </th>
+                                <th style={{ width: "150px" }}>Action</th>
+                              </tr>
+                            </thead>
+                          )}
+                          <tbody>
+                            {allTeam?.map((item, index) => (
+                              <tr key={index}>
+                                <td className="text-center">{index + 1}</td>
+                                <td className="text-left">
+                                  {item?.isEdit
+                                    ? item?.strTeamMember
+                                    : item?.intTeamId?.label}
+                                </td>
+                                <td className="text-left">
+                                  {item?.isEdit
+                                    ? item?.strRole || "N/A"
+                                    : item?.intRoleId?.label}
+                                </td>
+                                <td className="text-right">
+                                  {" "}
+                                  <div className="text-center">
+                                    <span onClick={() => {}}>
+                                      <DeleteOutlined
+                                        onClick={() => removeTeam(index)}
+                                      />
+                                    </span>
+                                  </div>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+
                       <div></div>
                     </div>
                   </div>

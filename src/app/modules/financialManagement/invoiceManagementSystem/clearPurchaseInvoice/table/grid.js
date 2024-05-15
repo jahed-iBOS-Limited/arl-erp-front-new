@@ -155,94 +155,99 @@ const GridData = () => {
           />
         </div>
         <div className="col-lg-12 pr-0 pl-0">
-          <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing global-table">
-            <thead>
-              <tr>
-                <th style={{ width: "25px" }}>Sl</th>
-                <th>Invoice Code</th>
-                <th>Transaction Date</th>
-                <th>Supplier</th>
-                <th>Warehouse Name</th>
-                <th>PO Amount</th>
-                <th>GRN Amount</th>
-                {/* <th>Invoice Amount</th> */}
-                <th>Payment Amount</th>
-                <th style={{ width: "90px" }}>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {loading && <Loading />}
-              {gridData?.data?.map((item, index) => (
-                <tr key={index}>
-                  <td>{item?.sl}</td>
-                  <td>
-                    <div className="pl-2">{item?.invoiceCode}</div>
-                  </td>
-                  <td>
-                    <div className="text-right pr-2">
-                      {item?.transanctionDate
-                        ? _dateFormatter(item?.transanctionDate)
-                        : "N/A"}
-                    </div>
-                  </td>
-                  <td>
-                    <div className="pl-2">{item?.partnerName}</div>
-                  </td>
-                  <td>
-                    <div className="pl-2">{item?.wareHouseName}</div>
-                  </td>
-                  <td>
-                    <div className="text-right pr-2">{item?.poAmount}</div>
-                  </td>
-                  <td>
-                    <div className="text-right pr-2">{item?.grnAmount}</div>
-                  </td>
-                  <td>
-                    <div className="text-right pr-2">{item?.invoiceAmount}</div>
-                  </td>
-                  <td className="text-center">
-                    <div className="d-flex justify-content-around">
-                      <span className="view">
-                        <IView
-                          clickHandler={() => {
-                            history.push(
-                              `/financial-management/invoicemanagement-system/clearpurchaseinvoice/view/${item?.invoiceId}/${item?.supplierInvoiceId}`
-                            );
-                          }}
-                        />
-                      </span>
-
-                      <OverlayTrigger
-                        overlay={<Tooltip id="cs-icon">{"Payment"}</Tooltip>}
-                      >
-                        <span
-                          onClick={() => {
-                            getGridData(
-                              profileData?.accountId,
-                              selectedBusinessUnit?.value,
-                              item?.sbuId || 0,
-                              item?.partnerId || 0,
-                              cashGlDDL[0]?.value || 0,
-                              item?.invoiceAmount,
-                              bankAcDDL[0]?.value,
-                              setGlGridData
-                            );
-                            setSelectedPurchase(item);
-                            setPaymentModal(true);
-                          }}
-                        >
-                          <i
-                            className={`fa pointer fa-credit-card`}
-                            aria-hidden="true"
-                          ></i>
-                        </span>
-                      </OverlayTrigger>
-                    </div>
-                  </td>
+          <div className="table-responsive">
+            <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing global-table">
+              <thead>
+                <tr>
+                  <th style={{ width: "25px" }}>Sl</th>
+                  <th>Invoice Code</th>
+                  <th>Transaction Date</th>
+                  <th>Supplier</th>
+                  <th>Warehouse Name</th>
+                  <th>PO Amount</th>
+                  <th>GRN Amount</th>
+                  {/* <th>Invoice Amount</th> */}
+                  <th>Payment Amount</th>
+                  <th style={{ width: "90px" }}>Action</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {loading && <Loading />}
+                {gridData?.data?.map((item, index) => (
+                  <tr key={index}>
+                    <td>{item?.sl}</td>
+                    <td>
+                      <div className="pl-2">{item?.invoiceCode}</div>
+                    </td>
+                    <td>
+                      <div className="text-right pr-2">
+                        {item?.transanctionDate
+                          ? _dateFormatter(item?.transanctionDate)
+                          : "N/A"}
+                      </div>
+                    </td>
+                    <td>
+                      <div className="pl-2">{item?.partnerName}</div>
+                    </td>
+                    <td>
+                      <div className="pl-2">{item?.wareHouseName}</div>
+                    </td>
+                    <td>
+                      <div className="text-right pr-2">{item?.poAmount}</div>
+                    </td>
+                    <td>
+                      <div className="text-right pr-2">{item?.grnAmount}</div>
+                    </td>
+                    <td>
+                      <div className="text-right pr-2">
+                        {item?.invoiceAmount}
+                      </div>
+                    </td>
+                    <td className="text-center">
+                      <div className="d-flex justify-content-around">
+                        <span className="view">
+                          <IView
+                            clickHandler={() => {
+                              history.push(
+                                `/financial-management/invoicemanagement-system/clearpurchaseinvoice/view/${item?.invoiceId}/${item?.supplierInvoiceId}`
+                              );
+                            }}
+                          />
+                        </span>
+
+                        <OverlayTrigger
+                          overlay={<Tooltip id="cs-icon">{"Payment"}</Tooltip>}
+                        >
+                          <span
+                            onClick={() => {
+                              getGridData(
+                                profileData?.accountId,
+                                selectedBusinessUnit?.value,
+                                item?.sbuId || 0,
+                                item?.partnerId || 0,
+                                cashGlDDL[0]?.value || 0,
+                                item?.invoiceAmount,
+                                bankAcDDL[0]?.value,
+                                setGlGridData
+                              );
+                              setSelectedPurchase(item);
+                              setPaymentModal(true);
+                            }}
+                          >
+                            <i
+                              className={`fa pointer fa-credit-card`}
+                              aria-hidden="true"
+                            ></i>
+                          </span>
+                        </OverlayTrigger>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
           {gridData?.data?.length > 0 && (
             <PaginationTable
               count={gridData?.totalCount}

@@ -365,7 +365,8 @@ export function TableRow() {
                         <h5>Cheque Register</h5>
                       </div> */}
                       <div className="print_wrapper">
-                        <table className="table table-striped table-bordered mt-3 global-table table-font-size-sm">
+                      <div className="table-responsive">
+               <table className="table table-striped table-bordered mt-3 global-table table-font-size-sm">
                           <thead>
                             <tr>
                               {/* <th style={{ width: "30px" }}>
@@ -573,6 +574,8 @@ export function TableRow() {
                             )}
                           </tbody>
                         </table>
+            </div>
+                     
                         <div></div>
                       </div>
                     </div>

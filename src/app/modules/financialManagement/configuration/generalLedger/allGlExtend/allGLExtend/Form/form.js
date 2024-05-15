@@ -117,78 +117,80 @@ export default function _Form({
               </div>
               <div className="row cash_journal">
                 <div className="col-lg-12 pr-0 pl-0">
-                  <table className="table table-striped table-bordered  global-table">
-                    <thead>
-                      <tr>
-                        {/* {type === "notComplated" ? ( */}
-                        <th style={{ width: "25px" }}>
-                          <input
-                            type="checkbox"
-                            id="parent"
-                            onChange={(event) => {
-                              allGridCheck(event.target.checked);
-                            }}
-                          />
-                        </th>
-                        {/* ) : null} */}
-                        <th>SL</th>
-                        <th>Code</th>
-                        <th>GL Name</th>
-                        <th>Account Category</th>
-                        <th>Account Class</th>
-                        <th>Account Group</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {rowDto?.length > 0 &&
-                        rowDto?.map((item, index) => (
-                          <tr key={index}>
-                            <td>
-                              <input
-                                id="itemCheck"
-                                type="checkbox"
-                                className=""
-                                value={item.itemCheck}
-                                checked={item.itemCheck}
-                                name={item.itemCheck}
-                                onChange={(e) => {
-                                  //setFieldValue("itemCheck", e.target.checked);
-                                  itemSlectedHandler(e.target.checked, index);
-                                }}
-                              />
-                            </td>
-                            <td>
-                              <div className="text-center">{item?.sl}</div>
-                            </td>
-                            <td>
-                              <div className="text-center">
-                                {item?.strGeneralLedgerCode}
-                              </div>
-                            </td>
-                            <td>
-                              <div className="pl-2">
-                                {item?.strGeneralLedgerName}
-                              </div>
-                            </td>
-                            <td>
-                              <div className="pl-2">
-                                {item?.accountCategoryName}
-                              </div>
-                            </td>
-                            <td>
-                              <div className="pl-2">
-                                {item?.accountClassName}
-                              </div>
-                            </td>
-                            <td>
-                              <div className="pl-2">
-                                {item?.accountGroupName}
-                              </div>
-                            </td>
-                          </tr>
-                        ))}
-                    </tbody>
-                  </table>
+                  <div className="table-responsive">
+                    <table className="table table-striped table-bordered  global-table">
+                      <thead>
+                        <tr>
+                          {/* {type === "notComplated" ? ( */}
+                          <th style={{ width: "25px" }}>
+                            <input
+                              type="checkbox"
+                              id="parent"
+                              onChange={(event) => {
+                                allGridCheck(event.target.checked);
+                              }}
+                            />
+                          </th>
+                          {/* ) : null} */}
+                          <th>SL</th>
+                          <th>Code</th>
+                          <th>GL Name</th>
+                          <th>Account Category</th>
+                          <th>Account Class</th>
+                          <th>Account Group</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {rowDto?.length > 0 &&
+                          rowDto?.map((item, index) => (
+                            <tr key={index}>
+                              <td>
+                                <input
+                                  id="itemCheck"
+                                  type="checkbox"
+                                  className=""
+                                  value={item.itemCheck}
+                                  checked={item.itemCheck}
+                                  name={item.itemCheck}
+                                  onChange={(e) => {
+                                    //setFieldValue("itemCheck", e.target.checked);
+                                    itemSlectedHandler(e.target.checked, index);
+                                  }}
+                                />
+                              </td>
+                              <td>
+                                <div className="text-center">{item?.sl}</div>
+                              </td>
+                              <td>
+                                <div className="text-center">
+                                  {item?.strGeneralLedgerCode}
+                                </div>
+                              </td>
+                              <td>
+                                <div className="pl-2">
+                                  {item?.strGeneralLedgerName}
+                                </div>
+                              </td>
+                              <td>
+                                <div className="pl-2">
+                                  {item?.accountCategoryName}
+                                </div>
+                              </td>
+                              <td>
+                                <div className="pl-2">
+                                  {item?.accountClassName}
+                                </div>
+                              </td>
+                              <td>
+                                <div className="pl-2">
+                                  {item?.accountGroupName}
+                                </div>
+                              </td>
+                            </tr>
+                          ))}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
               {/* Row Dto Table End */}

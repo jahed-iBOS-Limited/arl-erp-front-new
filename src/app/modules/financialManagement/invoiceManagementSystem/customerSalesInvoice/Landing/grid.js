@@ -30,72 +30,74 @@ const GridData = ({
         placeholder="Item Name & Code Search"
         paginationSearchHandler={paginationSearchHandler}
       />
-
-      <table className="table table-striped table-bordered global-table">
-        <thead>
-          <tr>
-            {ReportType !== "Complete" && (
-              <th>
-                <input
-                  label="Select"
-                  type="checkbox"
-                  id="isForDepartment"
-                  onChange={(event) => {
-                    allGridCheck(event.target.checked);
-                  }}
-                />
-              </th>
-            )}
-            <th>SL No</th>
-            <th>Delivery Date</th>
-            <th>Delivery Code</th>
-            <th>Customer Code</th>
-            <th>Customer Name</th>
-            <th>Customer Address</th>
-            <th>Total Amount</th>
-          </tr>
-        </thead>
-        <tbody>
-          {loading && <Loading />}
-          {rowdata?.map((td, index) => {
-            return (
-              <tr>
-                {ReportType !== "Complete" && (
-                  <td align="center">
-                    <input
-                      id="isForDepartment"
-                      type="checkbox"
-                      className=""
-                      value={td.itemcheck || ""}
-                      checked={td.itemcheck}
-                      name={td.itemcheck}
-                      onChange={(e) => {
-                        itemData(index);
-                      }}
-                    />
+      <div className="table-responsive">
+        <table className="table table-striped table-bordered global-table">
+          <thead>
+            <tr>
+              {ReportType !== "Complete" && (
+                <th>
+                  <input
+                    label="Select"
+                    type="checkbox"
+                    id="isForDepartment"
+                    onChange={(event) => {
+                      allGridCheck(event.target.checked);
+                    }}
+                  />
+                </th>
+              )}
+              <th>SL No</th>
+              <th>Delivery Date</th>
+              <th>Delivery Code</th>
+              <th>Customer Code</th>
+              <th>Customer Name</th>
+              <th>Customer Address</th>
+              <th>Total Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            {loading && <Loading />}
+            {rowdata?.map((td, index) => {
+              return (
+                <tr>
+                  {ReportType !== "Complete" && (
+                    <td align="center">
+                      <input
+                        id="isForDepartment"
+                        type="checkbox"
+                        className=""
+                        value={td.itemcheck || ""}
+                        checked={td.itemcheck}
+                        name={td.itemcheck}
+                        onChange={(e) => {
+                          itemData(index);
+                        }}
+                      />
+                    </td>
+                  )}
+                  <td> {index + 1} </td>
+                  <td> {_dateFormatter(td.deliveryDate)} </td>
+                  <td> {td.deliveryCode} </td>
+                  <td> {td.billToPartnerCode} </td>
+                  <td> {td.billToPartnerName} </td>
+                  <td>
+                    {td.shipToPartnerName}, {td.shipToPartnerAddress}{" "}
                   </td>
-                )}
-                <td> {index + 1} </td>
-                <td> {_dateFormatter(td.deliveryDate)} </td>
-                <td> {td.deliveryCode} </td>
-                <td> {td.billToPartnerCode} </td>
-                <td> {td.billToPartnerName} </td>
-                <td>
-                  {td.shipToPartnerName}, {td.shipToPartnerAddress}{" "}
-                </td>
-                <td className="text-center"> {td.totalNetValue} </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+                  <td className="text-center"> {td.totalNetValue} </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+
       {gridData?.data?.length > 0 && (
         <PaginationTable
           count={gridData?.totalCount}
           setPositionHandler={setPositionHandler}
           paginationState={{ pageNo, setPageNo, pageSize, setPageSize }}
           values={values}
-          rowsPerPageOptions={[5,10,20,50,100,200]}
+          rowsPerPageOptions={[5, 10, 20, 50, 100, 200]}
         />
       )}
     </>

@@ -388,7 +388,8 @@ function PlanActCashFlow() {
                         </tr>
                       </tbody>
                     </table>) : (
-                      <table className="table table-striped mt-2 table-bordered bj-table bj-table-landing">
+                      <div className="table-responsive">
+ <table className="table table-striped mt-2 table-bordered bj-table bj-table-landing">
                         <thead>
                           <tr>
                             <th>Description</th>
@@ -439,6 +440,8 @@ function PlanActCashFlow() {
                           </tr>
                         </tbody>
                       </table>
+                      </div>
+                     
                     )}
                   </div>
                 </div>

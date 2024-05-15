@@ -80,7 +80,7 @@ export function QuickActionsDropdown() {
               {/* end: Head */}
 
               <div className="row row-paddingless">
-                <div className="col-6">
+                <div className="col-lg-6">
                   <a
                     href="#"
                     className="d-block py-10 px-5 text-center bg-hover-light border-right border-bottom"
@@ -101,7 +101,7 @@ export function QuickActionsDropdown() {
                   </a>
                 </div>
 
-                <div className="col-6">
+                <div className="col-lg-6">
                   <a
                     href="#"
                     className="d-block py-10 px-5 text-center bg-hover-light border-bottom"
@@ -123,7 +123,7 @@ export function QuickActionsDropdown() {
                   </a>
                 </div>
 
-                <div className="col-6">
+                <div className="col-lg-6">
                   <a
                     href="#"
                     className="d-block py-10 px-5 text-center bg-hover-light border-right"
@@ -144,7 +144,7 @@ export function QuickActionsDropdown() {
                   </a>
                 </div>
 
-                <div className="col-6">
+                <div className="col-lg-6">
                   <a
                     href="#"
                     className="d-block py-10 px-5 text-center bg-hover-light"

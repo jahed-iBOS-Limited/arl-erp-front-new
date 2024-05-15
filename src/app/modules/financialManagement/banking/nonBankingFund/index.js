@@ -176,68 +176,71 @@ export default function NonBankingFund() {
                 </div>
 
                 <div className="mt-3">
-                  <table className="table table-striped table-bordered bj-table bj-table-landing">
-                    <thead>
-                      <tr>
-                        <th>SL</th>
-                        <th>Partner Name</th>
-                        <th>Deposite Type</th>
-                        <th>Security Number</th>
-                        <th>Issue Date</th>
-                        <th>End Date</th>
-                        <th>T Days</th>
-                        <th>Purpose</th>
-                        <th>Amount</th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {tableData?.data?.map((item, index) => (
-                        <tr key={index}>
-                          <td>{index + 1}</td>
-                          <td>{item?.nonBankingPartnerName}</td>
-                          <td>{item?.depositTypeName}</td>
-                          <td>{item?.securityNumber}</td>
-                          <td className="text-center">
-                            {_dateFormatter(item?.issueDate)}
-                          </td>
-                          <td className="text-center">
-                            {_dateFormatter(item?.endDate)}
-                          </td>
-                          <td className="text-center">{item?.tdays}</td>
-                          <td>{item?.purpose}</td>
-                          <td className="text-right">
-                            {_formatMoney(item?.amount)}
-                          </td>
-                          <td>
-                            <div className="d-flex justify-content-around ">
-                              <span>
-                                <IView
-                                  clickHandler={() => {
-                                    setClickedItem(item);
-                                    setViewModal(true);
-                                  }}
-                                />
-                              </span>
-                              {!item?.isComplete ? (
-                                <span
-                                  onClick={() => {
-                                    history.push({
-                                      pathname: `/financial-management/banking/NonBankingFund/repay/${item?.depositLoanId}`,
-                                      state: item,
-                                      landinValues: values,
-                                    });
-                                  }}
-                                >
-                                  <IExtend title={"Repay"} />
-                                </span>
-                              ) : null}
-                            </div>
-                          </td>
+                  <div className="table-responsive">
+                    <table className="table table-striped table-bordered bj-table bj-table-landing">
+                      <thead>
+                        <tr>
+                          <th>SL</th>
+                          <th>Partner Name</th>
+                          <th>Deposite Type</th>
+                          <th>Security Number</th>
+                          <th>Issue Date</th>
+                          <th>End Date</th>
+                          <th>T Days</th>
+                          <th>Purpose</th>
+                          <th>Amount</th>
+                          <th>Action</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody>
+                        {tableData?.data?.map((item, index) => (
+                          <tr key={index}>
+                            <td>{index + 1}</td>
+                            <td>{item?.nonBankingPartnerName}</td>
+                            <td>{item?.depositTypeName}</td>
+                            <td>{item?.securityNumber}</td>
+                            <td className="text-center">
+                              {_dateFormatter(item?.issueDate)}
+                            </td>
+                            <td className="text-center">
+                              {_dateFormatter(item?.endDate)}
+                            </td>
+                            <td className="text-center">{item?.tdays}</td>
+                            <td>{item?.purpose}</td>
+                            <td className="text-right">
+                              {_formatMoney(item?.amount)}
+                            </td>
+                            <td>
+                              <div className="d-flex justify-content-around ">
+                                <span>
+                                  <IView
+                                    clickHandler={() => {
+                                      setClickedItem(item);
+                                      setViewModal(true);
+                                    }}
+                                  />
+                                </span>
+                                {!item?.isComplete ? (
+                                  <span
+                                    onClick={() => {
+                                      history.push({
+                                        pathname: `/financial-management/banking/NonBankingFund/repay/${item?.depositLoanId}`,
+                                        state: item,
+                                        landinValues: values,
+                                      });
+                                    }}
+                                  >
+                                    <IExtend title={"Repay"} />
+                                  </span>
+                                ) : null}
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+
                   {tableData?.data?.length > 0 && (
                     <PaginationTable
                       count={tableData?.totalCount}

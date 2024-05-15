@@ -58,7 +58,7 @@ const InvoiceReceptBluePill = ({ printRef, invoiceData }) => {
           />
         </div>
       </div> */}
-      <div style={{margin: '0 40px'}}>
+      <div style={{ margin: "0 40px" }}>
         <p
           style={{ fontSize: "40px", fontWeight: "500", marginTop: "120px" }}
           className="text-center"
@@ -131,43 +131,47 @@ const InvoiceReceptBluePill = ({ printRef, invoiceData }) => {
         </div>
 
         <div className="main_table">
-          <table className="table">
-            <thead>
-              <tr>
-                <th>SL</th>
-                <th>Product Description</th>
-                <th>Customer Description</th>
-                <th>Quantity</th>
-                <th>Unit Price</th>
-                <th>Total Price</th>
-              </tr>
-            </thead>
-            <tbody>
-              {invoiceData?.map((item, index) => {
-                totalAmount += item?.totalAmount || 0;
-                return (
-                  <tr>
-                    <td className="text-center">{index + 1}</td>
-                    <td
-                      style={{
-                        minWidth: "192px",
-                      }}
-                    >
-                      {item?.itemName}
-                    </td>
-                    <td>{item?.customerItemName}</td>
-                    <td className="text-right">{item?.totalDeliveredQtyCFT}</td>
-                    <td className="text-right">
-                      {_fixedPoint(item?.itemRate, true, 0)}
-                    </td>
-                    <td className="text-right">
-                      {_fixedPoint(item?.totalAmount, true)}
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+          <div className="table-responsive">
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>SL</th>
+                  <th>Product Description</th>
+                  <th>Customer Description</th>
+                  <th>Quantity</th>
+                  <th>Unit Price</th>
+                  <th>Total Price</th>
+                </tr>
+              </thead>
+              <tbody>
+                {invoiceData?.map((item, index) => {
+                  totalAmount += item?.totalAmount || 0;
+                  return (
+                    <tr>
+                      <td className="text-center">{index + 1}</td>
+                      <td
+                        style={{
+                          minWidth: "192px",
+                        }}
+                      >
+                        {item?.itemName}
+                      </td>
+                      <td>{item?.customerItemName}</td>
+                      <td className="text-right">
+                        {item?.totalDeliveredQtyCFT}
+                      </td>
+                      <td className="text-right">
+                        {_fixedPoint(item?.itemRate, true, 0)}
+                      </td>
+                      <td className="text-right">
+                        {_fixedPoint(item?.totalAmount, true)}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
 
           <div className="d-flex justify-content-end">
             <div>
