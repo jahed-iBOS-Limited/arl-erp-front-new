@@ -57,53 +57,55 @@ export function TableRow() {
       <div className="row cash_journal">
         <div className="col-lg-12 pr-0 pl-0">
           {gridData?.data?.length >= 0 && (
-            <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
-              <thead>
-                <tr>
-                  <th style={{ width: "35px" }}>SL</th>
-                  <th>Shipping Name</th>
-                  {/* <th>Partner Name</th> */}
-                  <th>Zone Name</th>
-                  <th>Per Bag Price</th>
-                  <th style={{ width: "90px" }}>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {gridData?.data?.map((td, index) => (
-                  <tr key={index}>
-                    <td> {td.sl} </td>
-                    <td>
-                      <div className="pl-2">{td?.shippingName}</div>
-                    </td>
-                    {/* <td>
+            <div className="table-responsive">
+              <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
+                <thead>
+                  <tr>
+                    <th style={{ width: "35px" }}>SL</th>
+                    <th>Shipping Name</th>
+                    {/* <th>Partner Name</th> */}
+                    <th>Zone Name</th>
+                    <th>Per Bag Price</th>
+                    <th style={{ width: "90px" }}>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {gridData?.data?.map((td, index) => (
+                    <tr key={index}>
+                      <td> {td.sl} </td>
+                      <td>
+                        <div className="pl-2">{td?.shippingName}</div>
+                      </td>
+                      {/* <td>
                       <div className="pl-2">{td?.partnerName}</div>
                     </td> */}
-                    <td>
-                      <div className="pl-2">{td?.zoneName}</div>
-                    </td>
-                    <td>
-                      <div className="text-right pr-2">
-                        {td?.numPerBagPrice}
-                      </div>
-                    </td>
-                    <td>
-                      <div className="d-flex justify-content-around">
-                        <span
-                          className="edit"
-                          onClick={() => {
-                            history.push(
-                              `/sales-management/configuration/partnerThanaRate/edit/${td?.intId}`
-                            );
-                          }}
-                        >
-                          <IEdit />
-                        </span>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+                      <td>
+                        <div className="pl-2">{td?.zoneName}</div>
+                      </td>
+                      <td>
+                        <div className="text-right pr-2">
+                          {td?.numPerBagPrice}
+                        </div>
+                      </td>
+                      <td>
+                        <div className="d-flex justify-content-around">
+                          <span
+                            className="edit"
+                            onClick={() => {
+                              history.push(
+                                `/sales-management/configuration/partnerThanaRate/edit/${td?.intId}`
+                              );
+                            }}
+                          >
+                            <IEdit />
+                          </span>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           )}
         </div>
         {gridData?.data?.length > 0 && (

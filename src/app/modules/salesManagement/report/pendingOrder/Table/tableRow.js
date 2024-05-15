@@ -41,7 +41,13 @@ export function TableRow({ initData, initialData, saveHandler }) {
   //Dispatch Get shippoint list action for get shippoint ddl
   useEffect(() => {
     if (actionBy && profileData) {
-      dispatch(getShippointDDL_Action(actionBy, profileData.accountId, selectedBusinessUnit.value));
+      dispatch(
+        getShippointDDL_Action(
+          actionBy,
+          profileData.accountId,
+          selectedBusinessUnit.value
+        )
+      );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [actionBy, profileData]);
@@ -171,86 +177,88 @@ export function TableRow({ initData, initialData, saveHandler }) {
             <div className="row cash_journal">
               <div className="col-lg-12 pr-0 pl-0">
                 {pendingOrderGridData?.data?.length >= 0 && (
-                  <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
-                    <thead>
-                      <tr>
-                        <th style={{ width: "30px" }}>SL</th>
-                        <th style={{ width: "90px" }}>Customer Id</th>
-                        <th>Customer Name</th>
-                        <th>Address</th>
-                        <th style={{ width: "90px" }}>Quantity</th>
-                        <th style={{ width: "90px" }}>Amount</th>
-                        <th style={{ width: "190px" }}>Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {pendingOrderGridData?.data?.map((td, index) => (
-                        <tr key={index}>
-                          <td className="text-center">{++index}</td>
-                          <td>
-                            <div className="text-right pr-2">
-                              {td.soldToPartnerId}
-                            </div>
-                          </td>
-                          <td>
-                            <div className="pl-2">{td.soldToPartnerName}</div>
-                          </td>
-                          <td>
-                            <div className="pl-2">
-                              {td.soldToPartnerAddress}
-                            </div>
-                          </td>
-                          <td>
-                            <div className="text-right pr-2">
-                              {td.pendingQty}
-                            </div>
-                          </td>
-                          <td>
-                            <div className="text-right pr-2">
-                              {td.pendingAmount}
-                            </div>
-                          </td>
-                          <td>
-                            <div className="d-flex justify-content-around">
-                              <button
-                                onClick={() => {
-                                  history.push({
-                                    pathname: `/inventory-management/warehouse-management/delivery/add`,
-                                    state: {
-                                      sbu: {
-                                        value: td?.subID,
-                                        label: td?.subName,
-                                      },
-                                      shipPoint: {
-                                        value: td?.shippointId,
-                                        label: td?.shippointName,
-                                      },
-                                      distributionChannel: {
-                                        value: td?.distributionChannelId,
-                                        label: td?.distributionChannelName,
-                                      },
-                                      soldToParty: {
-                                        value: td?.soldToPartnerId,
-                                        label: td?.soldToPartnerName,
-                                      },
-                                    },
-                                  });
-                                }}
-                                style={{
-                                  padding: "3px 15px",
-                                  marginBottom: "1px",
-                                }}
-                                type="button"
-                                className="btn btn-primary"
-                              >
-                                Create Delivery
-                              </button>
-                            </div>
-                          </td>
+                  <div className="table-responsive">
+                    <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
+                      <thead>
+                        <tr>
+                          <th style={{ width: "30px" }}>SL</th>
+                          <th style={{ width: "90px" }}>Customer Id</th>
+                          <th>Customer Name</th>
+                          <th>Address</th>
+                          <th style={{ width: "90px" }}>Quantity</th>
+                          <th style={{ width: "90px" }}>Amount</th>
+                          <th style={{ width: "190px" }}>Actions</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody>
+                        {pendingOrderGridData?.data?.map((td, index) => (
+                          <tr key={index}>
+                            <td className="text-center">{++index}</td>
+                            <td>
+                              <div className="text-right pr-2">
+                                {td.soldToPartnerId}
+                              </div>
+                            </td>
+                            <td>
+                              <div className="pl-2">{td.soldToPartnerName}</div>
+                            </td>
+                            <td>
+                              <div className="pl-2">
+                                {td.soldToPartnerAddress}
+                              </div>
+                            </td>
+                            <td>
+                              <div className="text-right pr-2">
+                                {td.pendingQty}
+                              </div>
+                            </td>
+                            <td>
+                              <div className="text-right pr-2">
+                                {td.pendingAmount}
+                              </div>
+                            </td>
+                            <td>
+                              <div className="d-flex justify-content-around">
+                                <button
+                                  onClick={() => {
+                                    history.push({
+                                      pathname: `/inventory-management/warehouse-management/delivery/add`,
+                                      state: {
+                                        sbu: {
+                                          value: td?.subID,
+                                          label: td?.subName,
+                                        },
+                                        shipPoint: {
+                                          value: td?.shippointId,
+                                          label: td?.shippointName,
+                                        },
+                                        distributionChannel: {
+                                          value: td?.distributionChannelId,
+                                          label: td?.distributionChannelName,
+                                        },
+                                        soldToParty: {
+                                          value: td?.soldToPartnerId,
+                                          label: td?.soldToPartnerName,
+                                        },
+                                      },
+                                    });
+                                  }}
+                                  style={{
+                                    padding: "3px 15px",
+                                    marginBottom: "1px",
+                                  }}
+                                  type="button"
+                                  className="btn btn-primary"
+                                >
+                                  Create Delivery
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 )}
               </div>
             </div>

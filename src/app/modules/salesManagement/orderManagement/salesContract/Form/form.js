@@ -541,96 +541,99 @@ export default function _Form({
               <div className="row cash_journal bank-journal bank-journal-custom">
                 <div className="col-lg-12 pr-0 pl-0">
                   {values?.itemLists?.length >= 0 && (
-                    <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
-                      <thead>
-                        <tr>
-                          <th style={{ width: "35px" }}>SL</th>
-                          <th>Item Name</th>
-                          <th>Item Code</th>
-                          <th>UoM Name</th>
-                          <th>Quantity</th>
-                          <th>Price</th>
-                          <th>Amount</th>
-                          <th>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {values?.itemLists.map((itm, index) => (
-                          <tr key={itm.itemId}>
-                            <td className="text-center">{index + 1}</td>
-                            <td className="pl-2">{itm.itemName}</td>
-                            <td className="pl-2">{itm.itemCode}</td>
-                            <td className="pl-2">{itm.uomName}</td>
-                            <td className="pr-2">
-                              <InputField
-                                value={
-                                  values?.itemLists[index]?.contactQuantity
-                                }
-                                name={`itemLists.${index}.contactQuantity`}
-                                placeholder="Quantity"
-                                type="tel"
-                                min="0"
-                                onChange={(e) => {
-                                  setFieldValue(
-                                    e.target.name,
-                                    _numberValidation(e)
-                                  );
-                                  setFieldValue(
-                                    `itemLists.${index}.contactValue`,
-                                    values?.itemLists[index]?.itemPrice *
-                                      _numberValidation(e)
-                                  );
-                                }}
-                              />
-                              <ErrorMessage
-                                name={`itemLists.${index}.contactQuantity`}
-                                component="div"
-                                className="invalid-feedback"
-                              />
-                            </td>
-                            <td className="pr-2">
-                              <InputField
-                                value={values?.itemLists[index]?.itemPrice}
-                                name={`itemLists.${index}.itemPrice`}
-                                placeholder="Price"
-                                type="tel"
-                                min="0"
-                                onChange={(e) => {
-                                  setFieldValue(
-                                    e.target.name,
-                                    _numberValidation(e)
-                                  );
-                                  setFieldValue(
-                                    `itemLists.${index}.contactValue`,
-                                    _numberValidation(e) *
-                                      values?.itemLists[index]?.contactQuantity
-                                  );
-                                }}
-                              />
-                              <ErrorMessage
-                                name={`itemLists.${index}.itemPrice`}
-                                component="div"
-                                className="invalid-feedback"
-                              />
-                            </td>
-                            <td className="text-right pr-2">
-                              {itm.contactValue}
-                            </td>
-                            <td className="text-center">
-                              <i
-                                className="fa fa-trash"
-                                onClick={() => {
-                                  let ccdata = values?.itemLists.filter(
-                                    (itm, ind) => ind !== index
-                                  );
-                                  setFieldValue("itemLists", ccdata);
-                                }}
-                              ></i>
-                            </td>
+                    <div className="table-responsive">
+                      <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
+                        <thead>
+                          <tr>
+                            <th style={{ width: "35px" }}>SL</th>
+                            <th>Item Name</th>
+                            <th>Item Code</th>
+                            <th>UoM Name</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Amount</th>
+                            <th>Action</th>
                           </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                        </thead>
+                        <tbody>
+                          {values?.itemLists.map((itm, index) => (
+                            <tr key={itm.itemId}>
+                              <td className="text-center">{index + 1}</td>
+                              <td className="pl-2">{itm.itemName}</td>
+                              <td className="pl-2">{itm.itemCode}</td>
+                              <td className="pl-2">{itm.uomName}</td>
+                              <td className="pr-2">
+                                <InputField
+                                  value={
+                                    values?.itemLists[index]?.contactQuantity
+                                  }
+                                  name={`itemLists.${index}.contactQuantity`}
+                                  placeholder="Quantity"
+                                  type="tel"
+                                  min="0"
+                                  onChange={(e) => {
+                                    setFieldValue(
+                                      e.target.name,
+                                      _numberValidation(e)
+                                    );
+                                    setFieldValue(
+                                      `itemLists.${index}.contactValue`,
+                                      values?.itemLists[index]?.itemPrice *
+                                        _numberValidation(e)
+                                    );
+                                  }}
+                                />
+                                <ErrorMessage
+                                  name={`itemLists.${index}.contactQuantity`}
+                                  component="div"
+                                  className="invalid-feedback"
+                                />
+                              </td>
+                              <td className="pr-2">
+                                <InputField
+                                  value={values?.itemLists[index]?.itemPrice}
+                                  name={`itemLists.${index}.itemPrice`}
+                                  placeholder="Price"
+                                  type="tel"
+                                  min="0"
+                                  onChange={(e) => {
+                                    setFieldValue(
+                                      e.target.name,
+                                      _numberValidation(e)
+                                    );
+                                    setFieldValue(
+                                      `itemLists.${index}.contactValue`,
+                                      _numberValidation(e) *
+                                        values?.itemLists[index]
+                                          ?.contactQuantity
+                                    );
+                                  }}
+                                />
+                                <ErrorMessage
+                                  name={`itemLists.${index}.itemPrice`}
+                                  component="div"
+                                  className="invalid-feedback"
+                                />
+                              </td>
+                              <td className="text-right pr-2">
+                                {itm.contactValue}
+                              </td>
+                              <td className="text-center">
+                                <i
+                                  className="fa fa-trash"
+                                  onClick={() => {
+                                    let ccdata = values?.itemLists.filter(
+                                      (itm, ind) => ind !== index
+                                    );
+                                    setFieldValue("itemLists", ccdata);
+                                  }}
+                                ></i>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>{" "}
+                    </div>
                   )}
                 </div>
               </div>

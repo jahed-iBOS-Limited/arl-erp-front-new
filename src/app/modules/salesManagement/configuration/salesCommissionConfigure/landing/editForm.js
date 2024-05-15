@@ -53,116 +53,118 @@ export default function EditForm({ obj }) {
               saveHandler(values, () => {});
             }}
           >
-            <table className="table table-striped table-bordered global-table">
-              <thead>
-                <tr>
-                  <th>Date</th>
-                  <th>Area Name</th>
-                  <th>BP Rate/bag</th>
-                  <th>BA Rate/bag</th>
-                  <th>CP Rate/bag</th>
-                  {[17, 18].includes(preValues?.commissionType?.value) && (
-                    <>
-                      <th>1-99%</th>
-                      <th>100-999%</th>
-                      <th> {">"}999% </th>
-                    </>
-                  )}
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>
-                    <InputField
-                      value={values?.commissionDate}
-                      name="commissionDate"
-                      placeholder="Date"
-                      type="date"
-                      onChange={(e) => {
-                        setFieldValue("commissionDate", e?.target?.value);
-                      }}
-                    />
-                  </td>{" "}
-                  <td>{values?.areaName}</td>
-                  <td>
-                    <InputField
-                      value={values?.bpcommissionRate}
-                      name="bpcommissionRate"
-                      placeholder="BP"
-                      type="text"
-                      onChange={(e) => {
-                        setFieldValue("bpcommissionRate", e?.target?.value);
-                      }}
-                    />
-                  </td>
-                  <td>
-                    <InputField
-                      value={values?.bacommissionRate}
-                      name="bacommissionRate"
-                      placeholder="BA"
-                      type="text"
-                      onChange={(e) => {
-                        setFieldValue("bacommissionRate", e?.target?.value);
-                      }}
-                    />
-                  </td>
-                  <td>
-                    <InputField
-                      value={values?.cpcommissionRate}
-                      name="cpcommissionRate"
-                      placeholder="CP"
-                      type="text"
-                      onChange={(e) => {
-                        setFieldValue("cpcommissionRate", e?.target?.value);
-                      }}
-                    />
-                  </td>
-                  {[17, 18].includes(preValues?.commissionType?.value) && (
-                    <>
-                      <td>
-                        <InputField
-                          value={values?.firstSlabCommissionRate}
-                          name="firstSlabCommissionRate"
-                          type="text"
-                          onChange={(e) => {
-                            setFieldValue(
-                              "firstSlabCommissionRate",
-                              e?.target?.value
-                            );
-                          }}
-                        />
-                      </td>
-                      <td>
-                        <InputField
-                          value={values?.secondSlabCommissionRate}
-                          name="secondSlabCommissionRate"
-                          type="text"
-                          onChange={(e) => {
-                            setFieldValue(
-                              "secondSlabCommissionRate",
-                              e?.target?.value
-                            );
-                          }}
-                        />
-                      </td>
-                      <td>
-                        <InputField
-                          value={values?.thirdSlabCommissionRate}
-                          name="thirdSlabCommissionRate"
-                          type="text"
-                          onChange={(e) => {
-                            setFieldValue(
-                              "thirdSlabCommissionRate",
-                              e?.target?.value
-                            );
-                          }}
-                        />
-                      </td>
-                    </>
-                  )}
-                </tr>
-              </tbody>
-            </table>
+            <div className="table-responsive">
+              <table className="table table-striped table-bordered global-table">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Area Name</th>
+                    <th>BP Rate/bag</th>
+                    <th>BA Rate/bag</th>
+                    <th>CP Rate/bag</th>
+                    {[17, 18].includes(preValues?.commissionType?.value) && (
+                      <>
+                        <th>1-99%</th>
+                        <th>100-999%</th>
+                        <th> {">"}999% </th>
+                      </>
+                    )}
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <InputField
+                        value={values?.commissionDate}
+                        name="commissionDate"
+                        placeholder="Date"
+                        type="date"
+                        onChange={(e) => {
+                          setFieldValue("commissionDate", e?.target?.value);
+                        }}
+                      />
+                    </td>{" "}
+                    <td>{values?.areaName}</td>
+                    <td>
+                      <InputField
+                        value={values?.bpcommissionRate}
+                        name="bpcommissionRate"
+                        placeholder="BP"
+                        type="text"
+                        onChange={(e) => {
+                          setFieldValue("bpcommissionRate", e?.target?.value);
+                        }}
+                      />
+                    </td>
+                    <td>
+                      <InputField
+                        value={values?.bacommissionRate}
+                        name="bacommissionRate"
+                        placeholder="BA"
+                        type="text"
+                        onChange={(e) => {
+                          setFieldValue("bacommissionRate", e?.target?.value);
+                        }}
+                      />
+                    </td>
+                    <td>
+                      <InputField
+                        value={values?.cpcommissionRate}
+                        name="cpcommissionRate"
+                        placeholder="CP"
+                        type="text"
+                        onChange={(e) => {
+                          setFieldValue("cpcommissionRate", e?.target?.value);
+                        }}
+                      />
+                    </td>
+                    {[17, 18].includes(preValues?.commissionType?.value) && (
+                      <>
+                        <td>
+                          <InputField
+                            value={values?.firstSlabCommissionRate}
+                            name="firstSlabCommissionRate"
+                            type="text"
+                            onChange={(e) => {
+                              setFieldValue(
+                                "firstSlabCommissionRate",
+                                e?.target?.value
+                              );
+                            }}
+                          />
+                        </td>
+                        <td>
+                          <InputField
+                            value={values?.secondSlabCommissionRate}
+                            name="secondSlabCommissionRate"
+                            type="text"
+                            onChange={(e) => {
+                              setFieldValue(
+                                "secondSlabCommissionRate",
+                                e?.target?.value
+                              );
+                            }}
+                          />
+                        </td>
+                        <td>
+                          <InputField
+                            value={values?.thirdSlabCommissionRate}
+                            name="thirdSlabCommissionRate"
+                            type="text"
+                            onChange={(e) => {
+                              setFieldValue(
+                                "thirdSlabCommissionRate",
+                                e?.target?.value
+                              );
+                            }}
+                          />
+                        </td>
+                      </>
+                    )}
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </ICustomCard>
         )}
       </Formik>

@@ -94,109 +94,112 @@ const DamageEntryLandingTable = ({ obj }) => {
         </>
       )}
       {gridData?.data?.length > 0 && (
-        <table className="table table-striped table-bordered global-table">
-          <thead>
-            <tr>
-              <th
-                onClick={() => allSelect(!selectedAll())}
-                className="text-center cursor-pointer"
-                style={{ width: "40px" }}
-              >
-                <input
-                  type="checkbox"
-                  value={selectedAll()}
-                  checked={selectedAll()}
-                  onChange={() => {}}
-                />
-              </th>
-              <th>SL</th>
-              <th>Challan No</th>
-              <th>Delivery Date</th>
-              <th>Customer Name</th>
-              <th>Customer Code</th>
-              <th style={{ width: "120px" }}>Quantity</th>
-              <th style={{ width: "120px" }}>Amount</th>
-              <th>Entry Date</th>
-              <th>Status</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {gridData?.data?.map((item, index) => (
-              <tr key={index}>
-                <td
-                  onClick={() => {
-                    let _data = [...gridData?.data];
-                    _data[index]["isSelected"] = !item.isSelected;
-                    setGridData({ ...gridData, data: _data });
-                  }}
-                  className="text-center"
+        <div className="table-responsive">
+          <table className="table table-striped table-bordered global-table">
+            <thead>
+              <tr>
+                <th
+                  onClick={() => allSelect(!selectedAll())}
+                  className="text-center cursor-pointer"
+                  style={{ width: "40px" }}
                 >
                   <input
                     type="checkbox"
-                    value={item?.isSelected}
-                    checked={item?.isSelected}
+                    value={selectedAll()}
+                    checked={selectedAll()}
                     onChange={() => {}}
                   />
-                </td>
-                <td className="text-center"> {index + 1}</td>
-                <td> {item?.deliveryChallan}</td>
-                <td className="text-center">
-                  {" "}
-                  {_dateFormatter(item?.deliveryDate)}
-                </td>
-                <td> {item?.businessPartnerName}</td>
-                <td> {item?.businessPartnerCode}</td>
+                </th>
+                <th>SL</th>
+                <th>Challan No</th>
+                <th>Delivery Date</th>
+                <th>Customer Name</th>
+                <th>Customer Code</th>
+                <th style={{ width: "120px" }}>Quantity</th>
+                <th style={{ width: "120px" }}>Amount</th>
+                <th>Entry Date</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {gridData?.data?.map((item, index) => (
+                <tr key={index}>
+                  <td
+                    onClick={() => {
+                      let _data = [...gridData?.data];
+                      _data[index]["isSelected"] = !item.isSelected;
+                      setGridData({ ...gridData, data: _data });
+                    }}
+                    className="text-center"
+                  >
+                    <input
+                      type="checkbox"
+                      value={item?.isSelected}
+                      checked={item?.isSelected}
+                      onChange={() => {}}
+                    />
+                  </td>
+                  <td className="text-center"> {index + 1}</td>
+                  <td> {item?.deliveryChallan}</td>
+                  <td className="text-center">
+                    {" "}
+                    {_dateFormatter(item?.deliveryDate)}
+                  </td>
+                  <td> {item?.businessPartnerName}</td>
+                  <td> {item?.businessPartnerCode}</td>
 
-                <td className="text-right">
-                  {false
-                    ? values?.viewAs?.value === 1 && (
-                        <InputField
-                          value={item?.totalReturnQty}
-                          name="totalReturnQty"
-                          placeholder="Quantity"
-                          type="number"
-                          min={0.2}
-                          onChange={(e) => {
-                            dataChangeHandler(
-                              index,
-                              "totalReturnQty",
-                              +e?.target?.value
-                            );
-                          }}
-                          onBlur={(e) => {
-                            if (+e?.target?.value > item?.numDeliveryQnt) {
-                              toast.warn(
-                                "Damage qty can not be greater than delivery qty"
+                  <td className="text-right">
+                    {false
+                      ? values?.viewAs?.value === 1 && (
+                          <InputField
+                            value={item?.totalReturnQty}
+                            name="totalReturnQty"
+                            placeholder="Quantity"
+                            type="number"
+                            min={0.2}
+                            onChange={(e) => {
+                              dataChangeHandler(
+                                index,
+                                "totalReturnQty",
+                                +e?.target?.value
                               );
-                            }
+                            }}
+                            onBlur={(e) => {
+                              if (+e?.target?.value > item?.numDeliveryQnt) {
+                                toast.warn(
+                                  "Damage qty can not be greater than delivery qty"
+                                );
+                              }
 
-                            if (+e?.target?.value < 0.2) {
-                              toast.warn("Return qty can not be less than 0.2");
-                            }
-                          }}
-                        />
-                      )
-                    : _fixedPoint(item?.totalReturnQty, true)}
-                </td>
-                <td className="text-right">
-                  {_fixedPoint(
-                    item?.returnAmount || item?.totalReturnAmount,
-                    true
-                  )}
-                </td>
-                <td> {_dateFormatter(item?.returnDateTime)}</td>
-                <td>
-                  {item?.isApprovedBySupervisor && item?.isApprovedByAccount
-                    ? "Approved by Supervisor and Account"
-                    : item?.isApprovedBySupervisor
-                    ? "Approved by Supervisor"
-                    : !item?.isActive
-                    ? "Canceled"
-                    : "Pending"}
-                </td>
-                <td>
-                  {/* <div className="d-flex justify-content-around">
+                              if (+e?.target?.value < 0.2) {
+                                toast.warn(
+                                  "Return qty can not be less than 0.2"
+                                );
+                              }
+                            }}
+                          />
+                        )
+                      : _fixedPoint(item?.totalReturnQty, true)}
+                  </td>
+                  <td className="text-right">
+                    {_fixedPoint(
+                      item?.returnAmount || item?.totalReturnAmount,
+                      true
+                    )}
+                  </td>
+                  <td> {_dateFormatter(item?.returnDateTime)}</td>
+                  <td>
+                    {item?.isApprovedBySupervisor && item?.isApprovedByAccount
+                      ? "Approved by Supervisor and Account"
+                      : item?.isApprovedBySupervisor
+                      ? "Approved by Supervisor"
+                      : !item?.isActive
+                      ? "Canceled"
+                      : "Pending"}
+                  </td>
+                  <td>
+                    {/* <div className="d-flex justify-content-around">
                     {(!item?.isApprovedByAccount ||
                       !item?.isApprovedBySupervisor) &&
                       item?.isActive && (
@@ -243,62 +246,66 @@ const DamageEntryLandingTable = ({ obj }) => {
                     </span>
                   </div> */}
 
-                  <div className="">
-                    {item?.attatchment && (
-                      <span
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          dispatch(
-                            getDownlloadFileView_Action(item?.attatchment)
-                          );
-                        }}
-                      >
-                        <ICon title={`View Attachment`}>
-                          <i class="far fa-file-image"></i>
-                        </ICon>
-                      </span>
-                    )}
-                    {item?.isSelected && (
-                      <span
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setOpen(true);
-                          setSelectItemRow({
-                            rowIndex: index,
-                            setGridData,
-                          });
-                        }}
-                        className="ml-2 cursor-pointer"
-                      >
-                        <ICon title={`Upload Attachment`}>
-                          <i class="fa fa-paperclip" aria-hidden="true"></i>
-                        </ICon>
-                      </span>
-                    )}
-                  </div>
+                    <div className="">
+                      {item?.attatchment && (
+                        <span
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            dispatch(
+                              getDownlloadFileView_Action(item?.attatchment)
+                            );
+                          }}
+                        >
+                          <ICon title={`View Attachment`}>
+                            <i class="far fa-file-image"></i>
+                          </ICon>
+                        </span>
+                      )}
+                      {item?.isSelected && (
+                        <span
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setOpen(true);
+                            setSelectItemRow({
+                              rowIndex: index,
+                              setGridData,
+                            });
+                          }}
+                          className="ml-2 cursor-pointer"
+                        >
+                          <ICon title={`Upload Attachment`}>
+                            <i class="fa fa-paperclip" aria-hidden="true"></i>
+                          </ICon>
+                        </span>
+                      )}
+                    </div>
+                  </td>
+                </tr>
+              ))}
+              <tr style={{ textAlign: "right", fontWeight: "bold" }}>
+                <td colSpan={5} className="text-right">
+                  <b>Total</b>
                 </td>
+                <td>
+                  {_fixedPoint(
+                    gridData?.data?.reduce((a, b) => a + +b?.totalReturnQty, 0),
+                    true
+                  )}
+                </td>
+                <td>
+                  {_fixedPoint(
+                    gridData?.data?.reduce(
+                      (a, b) => a + b?.totalReturnAmount,
+                      0
+                    ),
+                    true
+                  )}
+                </td>
+                <td colSpan={3}></td>
               </tr>
-            ))}
-            <tr style={{ textAlign: "right", fontWeight: "bold" }}>
-              <td colSpan={5} className="text-right">
-                <b>Total</b>
-              </td>
-              <td>
-                {_fixedPoint(
-                  gridData?.data?.reduce((a, b) => a + +b?.totalReturnQty, 0),
-                  true
-                )}
-              </td>
-              <td>
-                {_fixedPoint(
-                  gridData?.data?.reduce((a, b) => a + b?.totalReturnAmount, 0),
-                  true
-                )}
-              </td>
-              <td colSpan={3}></td>
-            </tr>
-          </tbody>
-        </table>
+            </tbody>
+          </table>{" "}
+        </div>
       )}
       <>
         <DropzoneDialogBase

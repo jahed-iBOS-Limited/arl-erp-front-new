@@ -32,53 +32,55 @@ export default function SalesOrderReportModal({ data, show, onHide }) {
         <Modal.Body id="example-modal-sizes-title-xl">
           <div className="loan-scrollable-table">
             <div>
-              <table className="table table-striped table-bordered bj-table bj-table-landing text-center">
-                <thead>
-                  <tr>
-                    <th style={{ minWidth: "50px" }}>SL</th>
-                    <th style={{ minWidth: "100px" }}>Delivery Date</th>
-                    <th style={{ minWidth: "100px" }}>Delivery Code</th>
-                    <th style={{ minWidth: "75px" }}>Item Code</th>
-                    <th style={{ minWidth: "75px" }}>Item Name</th>
+              <div className="table-responsive">
+                <table className="table table-striped table-bordered bj-table bj-table-landing text-center">
+                  <thead>
+                    <tr>
+                      <th style={{ minWidth: "50px" }}>SL</th>
+                      <th style={{ minWidth: "100px" }}>Delivery Date</th>
+                      <th style={{ minWidth: "100px" }}>Delivery Code</th>
+                      <th style={{ minWidth: "75px" }}>Item Code</th>
+                      <th style={{ minWidth: "75px" }}>Item Name</th>
 
-                    <th style={{ minWidth: "75px" }}>Delivery Quantity</th>
-                    <th style={{ minWidth: "100px" }}>Delivery Value</th>
-                    <th style={{ minWidth: "100px" }}>
-                      Shipment Complete Date
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {data?.map((item, index) => {
-                    totalDeliveryQty += item?.deliveryQty;
-                    totalDeliveryValue += item?.deliveryValue;
-                    return (
-                      <tr key={index}>
-                        <td>{index + 1}</td>
-                        <td>{_dateFormatter(item?.deliveryDate)}</td>
-                        <td>{item?.deliveryCode}</td>
-                        <td>{item?.itemCode}</td>
-                        <td>{item?.itemName}</td>
-                        <td className="text-right">
-                          {_fixedPoint(item?.deliveryQty, true, 0)}
-                        </td>
-                        <td className="text-right">
-                          {_fixedPoint(item?.deliveryValue, true, 0)}
-                        </td>
-                        <td>{_dateFormatter(item?.shipmentCompleteDate)}</td>
-                      </tr>
-                    );
-                  })}
-                  <tr style={{ fontWeight: "bold", textAlign: "right" }}>
-                    <td colSpan={5} className="text-right">
-                      <b>Total</b>
-                    </td>
-                    <td>{_fixedPoint(totalDeliveryQty, true, 0)}</td>
-                    <td>{_fixedPoint(totalDeliveryValue, true, 0)}</td>
-                    <td></td>
-                  </tr>
-                </tbody>
-              </table>
+                      <th style={{ minWidth: "75px" }}>Delivery Quantity</th>
+                      <th style={{ minWidth: "100px" }}>Delivery Value</th>
+                      <th style={{ minWidth: "100px" }}>
+                        Shipment Complete Date
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {data?.map((item, index) => {
+                      totalDeliveryQty += item?.deliveryQty;
+                      totalDeliveryValue += item?.deliveryValue;
+                      return (
+                        <tr key={index}>
+                          <td>{index + 1}</td>
+                          <td>{_dateFormatter(item?.deliveryDate)}</td>
+                          <td>{item?.deliveryCode}</td>
+                          <td>{item?.itemCode}</td>
+                          <td>{item?.itemName}</td>
+                          <td className="text-right">
+                            {_fixedPoint(item?.deliveryQty, true, 0)}
+                          </td>
+                          <td className="text-right">
+                            {_fixedPoint(item?.deliveryValue, true, 0)}
+                          </td>
+                          <td>{_dateFormatter(item?.shipmentCompleteDate)}</td>
+                        </tr>
+                      );
+                    })}
+                    <tr style={{ fontWeight: "bold", textAlign: "right" }}>
+                      <td colSpan={5} className="text-right">
+                        <b>Total</b>
+                      </td>
+                      <td>{_fixedPoint(totalDeliveryQty, true, 0)}</td>
+                      <td>{_fixedPoint(totalDeliveryValue, true, 0)}</td>
+                      <td></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </Modal.Body>
