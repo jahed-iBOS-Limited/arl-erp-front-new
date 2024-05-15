@@ -93,6 +93,7 @@ function ShipmentCostReport() {
                         name="fromDate"
                         placeholder="From date"
                         type="date"
+                        style={{width: "100%"}}
                       />
                     </div>
                   </div>
@@ -104,6 +105,7 @@ function ShipmentCostReport() {
                         name="toDate"
                         placeholder="To date"
                         type="date"
+                        style={{width: "100%"}}
                       />
                     </div>
                   </div>
