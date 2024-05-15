@@ -1,34 +1,32 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
-import { shallowEqual } from "react-redux";
-import { Formik } from "formik";
-import { Form } from "formik";
 import axios from "axios";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import InputField from "../../../../_helper/_inputField";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import { Form, Formik } from "formik";
+import React, { useEffect, useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import {
-  getDistributionChannelDDL_api,
-  DeliveryChallanInformation_api,
-  GetInfoForChalalnCancell_api,
-  getChallanInfo,
-  getSalesOrgDDL,
-  addManualChallanNumber,
-  getSBUList,
-} from "../helper";
-import {
-  ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
+  ModalProgressBar,
 } from "../../../../../../_metronic/_partials/controls";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
+import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import { _fixedPoint } from "../../../../_helper/_fixedPoint";
+import InputField from "../../../../_helper/_inputField";
+import Loading from "../../../../_helper/_loading";
+import NewSelect from "../../../../_helper/_select";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import {
+  DeliveryChallanInformation_api,
+  GetInfoForChalalnCancell_api,
+  addManualChallanNumber,
+  getChallanInfo,
+  getDistributionChannelDDL_api,
+  getSBUList,
+  getSalesOrgDDL,
+} from "../helper";
 
 const initData = {
   customer: "",
@@ -458,7 +456,8 @@ function ChallanInformationUpdate() {
 
                   {gridData?.length > 0 &&
                   [1, 2]?.includes(values?.reportType?.value) ? (
-                    <table className="table table-striped table-bordered global-table">
+                    <div className="table-responsive">
+                       <table className="table table-striped table-bordered global-table">
                       <thead>
                         <tr>
                           <th>SL</th>
@@ -491,8 +490,10 @@ function ChallanInformationUpdate() {
                         ))}
                       </tbody>
                     </table>
+                    </div>
                   ) : (
-                    <table
+                    <div className="table-responsive">
+                      <table
                       className={
                         "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
                       }
@@ -578,6 +579,7 @@ function ChallanInformationUpdate() {
                         })}
                       </tbody>
                     </table>
+                    </div>
                   )}
                 </CardBody>
               </Card>

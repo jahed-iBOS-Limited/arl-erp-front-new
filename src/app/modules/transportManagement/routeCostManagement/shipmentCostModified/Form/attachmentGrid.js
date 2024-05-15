@@ -1,9 +1,9 @@
 import React from "react";
-import InputField from "./../../../../_helper/_inputField";
-import IView from "./../../../../_helper/_helperIcons/_view";
 import { useDispatch } from "react-redux";
-import {  getMultipleFileView_Action } from "./../../../../_helper/_redux/Actions";
 import IDelete from "./../../../../_helper/_helperIcons/_delete";
+import IView from "./../../../../_helper/_helperIcons/_view";
+import InputField from "./../../../../_helper/_inputField";
+import { getMultipleFileView_Action } from "./../../../../_helper/_redux/Actions";
 
 function AttachmentGrid({
   values,
@@ -51,6 +51,7 @@ function AttachmentGrid({
           </button>
         </div>
       </div>
+      <div className="table-responsive">
       <table className={"table global-table"}>
         <thead>
           <tr>
@@ -84,6 +85,7 @@ function AttachmentGrid({
           ))}
         </tbody>
       </table>
+      </div>
     </div>
   );
 }

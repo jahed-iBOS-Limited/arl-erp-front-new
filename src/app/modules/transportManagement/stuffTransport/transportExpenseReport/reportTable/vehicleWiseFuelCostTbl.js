@@ -7,6 +7,7 @@ export default function VehicleWiseFuelCostTbl({ rowData }) {
       <h4 className="text-center mt-5">
         <strong>Vehicle Wise Detail Fuel Cost</strong>
       </h4>
+      <div className="table-responsive">
       <table className="table table-striped table-bordered bj-table bj-table-landing">
         <thead>
           <tr>
@@ -37,6 +38,7 @@ export default function VehicleWiseFuelCostTbl({ rowData }) {
           ))}
         </tbody>
       </table>
+      </div>
     </div>
   );
 }

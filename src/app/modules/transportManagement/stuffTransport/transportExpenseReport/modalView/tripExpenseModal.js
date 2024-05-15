@@ -51,7 +51,7 @@ export default function TripExpenseModal({ item, values }) {
         </div>
       </div>
 
-      <div>
+      <div className="table-responsive">
         <table id="" className={"table table-bordered mt-4"}>
           <thead>
             <tr>

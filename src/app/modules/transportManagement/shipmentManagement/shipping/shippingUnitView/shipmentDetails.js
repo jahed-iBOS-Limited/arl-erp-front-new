@@ -5,7 +5,7 @@ const ShipmentDetailsInfo = ({ rowDto }) => {
   const [open, setOpen] = useState(false);
   const [slabRates, ] = useState([]);
   return (
-    <div>
+    <div className="table-responsive">
       <table className="table table-striped global-table ">
         <thead>
           <tr>
@@ -68,7 +68,8 @@ const ShipmentDetailsInfo = ({ rowDto }) => {
         onHide={() => setOpen(false)}
         title={"Slab Programs"}
       >
-        <table className="table table-striped global-table ">
+       <div className="table-responsive">
+       <table className="table table-striped global-table ">
           <thead>
             <tr>
               <th>SL</th>
@@ -88,6 +89,7 @@ const ShipmentDetailsInfo = ({ rowDto }) => {
             })}
           </tbody>
         </table>
+       </div>
       </IViewModal>
     </div>
   );

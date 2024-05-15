@@ -2,16 +2,16 @@ import axios from "axios";
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
-import IButton from "../../../../_helper/iButton";
 import Loading from "../../../../_helper/_loading";
+import IButton from "../../../../_helper/iButton";
 import {
   CreatePurchasePartner,
-  getDistributionChannelDDL_api,
-  getSalesOrderDetailInfo,
   GetSupplierAndVehicleInfo_api,
   GetSupplierListDDL,
-  productTypeUpdate,
   UpdateBalance,
+  getDistributionChannelDDL_api,
+  getSalesOrderDetailInfo,
+  productTypeUpdate,
 } from "../helper";
 import {
   Card,
@@ -473,7 +473,8 @@ function ShipmentVehicleStatusUpdate() {
 
                   {gridData?.length > 0 ? (
                     [4, 5].includes(values?.reportType?.value) ? (
-                      <table className="table table-striped table-bordered global-table">
+                      <div className="table-responsive">
+                        <table className="table table-striped table-bordered global-table">
                         <thead>
                           <tr>
                             <th>SL</th>
@@ -503,8 +504,10 @@ function ShipmentVehicleStatusUpdate() {
                           ))}
                         </tbody>
                       </table>
+                      </div>
                     ) : [2].includes(values?.reportType?.value) ? (
-                      <table className="table table-striped table-bordered global-table">
+                      <div className="table-responsive">
+                        <table className="table table-striped table-bordered global-table">
                         <thead>
                           <tr>
                             <th>SL</th>
@@ -537,8 +540,10 @@ function ShipmentVehicleStatusUpdate() {
                           ))}
                         </tbody>
                       </table>
+                      </div>
                     ) : [3].includes(values?.reportType?.value) ? (
-                      <table className="table table-striped table-bordered global-table">
+                      <div className="table-responsive">
+                          <table className="table table-striped table-bordered global-table">
                         <thead>
                           <tr>
                             <th>SL</th>
@@ -570,8 +575,10 @@ function ShipmentVehicleStatusUpdate() {
                           ))}
                         </tbody>
                       </table>
+                      </div>
                     ) : (
-                      <table className="table table-striped table-bordered global-table">
+                      <div className="table-responsive">
+                         <table className="table table-striped table-bordered global-table">
                         <thead>
                           <tr>
                             {/* {values?.reportType?.value && (
@@ -672,6 +679,7 @@ function ShipmentVehicleStatusUpdate() {
                           ))}
                         </tbody>
                       </table>
+                      </div>
                     )
                   ) : null}
                 </CardBody>

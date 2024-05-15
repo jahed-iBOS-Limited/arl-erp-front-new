@@ -3,15 +3,14 @@ import React, { useEffect, useState } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import { ISelect } from "../../../../_helper/_inputDropDown";
-import {
-  getSalesContactIncompleteGridData,
-  setGridEmptyAction,
-} from "../_redux/Actions";
-import IViewModal from "./../../../../_helper/_viewModal";
 import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
 import PaginationTable from "../../../../_helper/_tablePagination";
 import { _todayDate } from "../../../../_helper/_todayDate";
+import {
+  getSalesContactIncompleteGridData,
+  setGridEmptyAction,
+} from "../_redux/Actions";
 import {
   Card,
   CardBody,
@@ -19,6 +18,7 @@ import {
   CardHeaderToolbar,
   ModalProgressBar,
 } from "./../../../../../../_metronic/_partials/controls";
+import IViewModal from "./../../../../_helper/_viewModal";
 import { ChallanModal } from "./challanModal";
 
 export function TableRow({
@@ -228,7 +228,8 @@ export function TableRow({
                   <div className="col-lg-12">
                     {incompleteRowDto?.length > 0 && (
                       <>
-                        <table className="table table-striped table-bordered global-table">
+                      <div className="table-responsive">
+                      <table className="table table-striped table-bordered global-table">
                           <thead>
                             <tr>
                               <th style={{ width: "50px" }}>SL</th>
@@ -304,6 +305,7 @@ export function TableRow({
                             ))}
                           </tbody>
                         </table>
+                      </div>
                       </>
                     )}
                   </div>

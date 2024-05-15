@@ -1,20 +1,20 @@
 /* eslint-disable no-use-before-define */
 /* eslint-disable react-hooks/exhaustive-deps */
+import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
-import { Formik, Form } from "formik";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import ICustomCard from "../../../../_helper/_customCard";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
-import IView from "../../../../_helper/_helperIcons/_view";
-import { landingGridData } from "../helper";
-import { useSelector, shallowEqual } from "react-redux";
+import { shallowEqual, useSelector } from "react-redux";
 import * as Yup from "yup";
+import ICustomCard from "../../../../_helper/_customCard";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import IView from "../../../../_helper/_helperIcons/_view";
+import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
-import PaginationTable from "../../../../_helper/_tablePagination";
 import PaginationSearch from "../../../../_helper/_search";
+import NewSelect from "../../../../_helper/_select";
+import PaginationTable from "../../../../_helper/_tablePagination";
+import { _todayDate } from "../../../../_helper/_todayDate";
 import IViewModal from "../../../../_helper/_viewModal";
+import { landingGridData } from "../helper";
 import ShipmentCostViewForm from "../view/addEditForm";
 
 const validationSchema = Yup.object().shape({
@@ -203,6 +203,7 @@ const VehicleInOutReportLanding = () => {
                 paginationSearchHandler={paginationSearchHandler}
                 values={values}
               />
+              <div className="table-responsive">
               <table className="table table-striped table-bordered global-table">
                 <thead>
                   <tr>
@@ -246,6 +247,7 @@ const VehicleInOutReportLanding = () => {
                   ))}
                 </tbody>
               </table>
+              </div>
 
               <IViewModal show={showModal} onHide={() => setShowModal(false)}>
                 <ShipmentCostViewForm id={id} />

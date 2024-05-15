@@ -1,11 +1,11 @@
+import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
-import { Formik, Form } from "formik";
 import * as Yup from "yup";
+import FormikError from "../../../../_helper/_formikError";
+import InputField from "../../../../_helper/_inputField";
+import { getBusinessUnitDDL_api } from "../helper";
 import IDelete from "./../../../../_helper/_helperIcons/_delete";
 import NewSelect from "./../../../../_helper/_select";
-import InputField from "../../../../_helper/_inputField";
-import FormikError from "../../../../_helper/_formikError";
-import { getBusinessUnitDDL_api } from "../helper";
 
 // Validation schema
 const validationSchema = Yup.object().shape({
@@ -119,7 +119,8 @@ export default function _Form({
               </div>
               <div className="row">
                 <div className="col-lg-12 pl-0 pr-0">
-                  <table className={"table mt-1 bj-table"}>
+                <div className="table-responsive">
+                <table className={"table mt-1 bj-table"}>
                     <thead className={rowDto?.length < 1 && "d-none"}>
                       <tr>
                         <th style={{ width: "20px" }}>SL</th>
@@ -143,6 +144,7 @@ export default function _Form({
                       ))}
                     </tbody>
                   </table>
+                </div>
                 </div>
               </div>
               <button

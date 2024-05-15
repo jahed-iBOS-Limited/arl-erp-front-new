@@ -1,9 +1,9 @@
 import React, { useState } from "react";
+import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import IView from "../../../../_helper/_helperIcons/_view";
+import Loading from "../../../../_helper/_loading";
 import IViewModal from "../../../../_helper/_viewModal";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import Loading from "../../../../_helper/_loading";
 
 export default function FuelStationSummaryTbl({ rowData, values }) {
   const [isShowModal, setIsShowModal] = useState(false);
@@ -14,6 +14,7 @@ export default function FuelStationSummaryTbl({ rowData, values }) {
       <h4 className="text-center mt-5">
         <strong>Fuel Station Wise Summary Fuel Cost</strong>
       </h4>
+      <div className="table-responsive">
       <table className="table table-striped table-bordered bj-table bj-table-landing">
         <thead>
           <tr>
@@ -50,12 +51,14 @@ export default function FuelStationSummaryTbl({ rowData, values }) {
           ))}
         </tbody>
       </table>
+      </div>
       <IViewModal
         title={"Fuel Station Name"}
         show={isShowModal}
         onHide={() => setIsShowModal(false)}
       >
-        <table className="table table-striped table-bordered bj-table bj-table-landing">
+       <div className="table-responsive">
+       <table className="table table-striped table-bordered bj-table bj-table-landing">
           <thead>
             <tr>
               <th>SL</th>
@@ -79,6 +82,7 @@ export default function FuelStationSummaryTbl({ rowData, values }) {
             ))}
           </tbody>
         </table>
+       </div>
       </IViewModal>
     </div>
   );

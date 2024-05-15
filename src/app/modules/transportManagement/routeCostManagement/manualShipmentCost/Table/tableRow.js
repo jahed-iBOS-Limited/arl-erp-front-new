@@ -4,18 +4,18 @@ import { useHistory } from "react-router-dom";
 import { getGridData } from "../helper";
 //import IEdit from "../../../../_helper/_helperIcons/_edit";
 import ReactToPrint from "react-to-print";
-import printIcon from "../../../../_helper/images/print-icon.png";
-import { setShipmentCostLadingAction } from "../../../../_helper/reduxForLocalStorage/Actions";
 import ICustomCard from "../../../../_helper/_customCard";
 import IView from "../../../../_helper/_helperIcons/_view";
 import Loading from "../../../../_helper/_loading";
 import PaginationTable from "../../../../_helper/_tablePagination";
 import { _todayDate } from "../../../../_helper/_todayDate";
 import IViewModal from "../../../../_helper/_viewModal";
+import printIcon from "../../../../_helper/images/print-icon.png";
+import { setShipmentCostLadingAction } from "../../../../_helper/reduxForLocalStorage/Actions";
 import ShipmentCostViewForm from "../view/addEditForm";
+import { ManualShippointCostDetails } from "../view/manualShippointCostDetails";
 import SalesInvoiceModel from "../viewModal";
 import { SearchForm } from "./form";
-import { ManualShippointCostDetails } from "../view/manualShippointCostDetails";
 
 export function TableRow() {
   const [gridData, setGridData] = useState([]);
@@ -171,7 +171,8 @@ export function TableRow() {
                     componentRef={printRef}
                     ref={printRef}
                   >
-                    <table className="table table-striped table-bordered global-table">
+                  <div className="table-responsive">
+                  <table className="table table-striped table-bordered global-table">
                       <thead>
                         <tr>
                           <th>SL</th>
@@ -285,6 +286,7 @@ export function TableRow() {
                         {/* )} */}
                       </tbody>
                     </table>
+                  </div>
                   </div>
                   <IViewModal
                     show={manualShippointCostDetails}

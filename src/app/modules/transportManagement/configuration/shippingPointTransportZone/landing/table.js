@@ -1,7 +1,7 @@
 import React from "react";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
 import { useHistory } from "react-router-dom";
 import IDelete from "../../../../_helper/_helperIcons/_delete";
+import IEdit from "../../../../_helper/_helperIcons/_edit";
 import PaginationTable from "../../../../_helper/_tablePagination";
 
 export default function Table({ obj }) {
@@ -19,7 +19,8 @@ export default function Table({ obj }) {
   return (
     <div className="row">
       <div className="col-lg-12">
-        <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+      <div className="table-responsive">
+      <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
           <thead>
             <tr>
               <th>SL</th>
@@ -55,6 +56,7 @@ export default function Table({ obj }) {
             })}
           </tbody>
         </table>
+      </div>
         {rowData?.wareHouseZones?.length > 0 && (
           <PaginationTable
             count={rowData?.wareHouseZones?.length}

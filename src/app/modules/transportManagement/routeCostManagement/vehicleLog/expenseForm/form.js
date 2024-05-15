@@ -1,12 +1,12 @@
+import { Form, Formik } from "formik";
 import React, { useState } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import NewSelect from "../../../../_helper/_select";
-import InputField from "../../../../_helper/_inputField";
-import IView from "../../../../_helper/_helperIcons/_view";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import { getDistrubutionCenterDDL, getCostCenterDDL } from "../helper";
 import { shallowEqual, useSelector } from "react-redux";
+import * as Yup from "yup";
+import IDelete from "../../../../_helper/_helperIcons/_delete";
+import IView from "../../../../_helper/_helperIcons/_view";
+import InputField from "../../../../_helper/_inputField";
+import NewSelect from "../../../../_helper/_select";
+import { getCostCenterDDL, getDistrubutionCenterDDL } from "../helper";
 
 // Validation schema
 const validationSchema = Yup.object().shape({
@@ -278,6 +278,7 @@ export default function _Form({
 
               {/* Table */}
 
+              <div className="table-responsive">
               <table className="table table-striped table-bordered global-table">
                 <thead>
                   <tr>
@@ -321,6 +322,7 @@ export default function _Form({
                     ))}
                 </tbody>
               </table>
+              </div>
 
               <button
                 type="submit"

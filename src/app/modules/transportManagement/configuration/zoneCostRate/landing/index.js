@@ -1,19 +1,19 @@
+import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
+import { shallowEqual, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import { Formik, Form } from "formik";
-import ICustomCard from "../../../../_helper/_customCard";
-import IView from "../../../../_helper/_helperIcons/_view";
 import IConfirmModal from "../../../../_helper/_confirmModal";
+import ICustomCard from "../../../../_helper/_customCard";
+import IEdit from "../../../../_helper/_helperIcons/_edit";
+import IView from "../../../../_helper/_helperIcons/_view";
+import Loading from "../../../../_helper/_loading";
+import NewSelect from "../../../../_helper/_select";
+import PaginationTable from "../../../../_helper/_tablePagination";
 import {
   ZoneCostRateLandingPagination,
-  getShipPointDDL,
   deleteZoneCostSetup,
+  getShipPointDDL,
 } from "../helper";
-import Loading from "../../../../_helper/_loading";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import NewSelect from "../../../../_helper/_select";
 
 const initData = {
   shipPoint: "",
@@ -170,7 +170,7 @@ export function ZoneCostRateLanding() {
                 </div>
               </div>
             </Form>
-            <div className="col-lg-12 pr-0 pl-0">
+            <div className="col-lg-12 pr-0 pl-0 table-responsive">
               <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                 <thead>
                   <tr>

@@ -1,23 +1,23 @@
-import { Form, Formik } from "formik";
-import React, { useState, useEffect } from "react";
 import Axios from "axios";
-import { useSelector, shallowEqual } from "react-redux";
-import SearchAsyncSelect from "./../../../_helper/SearchAsyncSelect";
-import FormikError from "./../../../_helper/_formikError";
-import NewSelect from "./../../../_helper/_select";
+import { Form, Formik } from "formik";
+import React, { useEffect, useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
 } from "../../../../../_metronic/_partials/controls";
+import SearchAsyncSelect from "./../../../_helper/SearchAsyncSelect";
+import FormikError from "./../../../_helper/_formikError";
+import Loading from "./../../../_helper/_loading";
+import NewSelect from "./../../../_helper/_select";
+import IViewModal from "./../../../_helper/_viewModal";
 import {
   GetVehicleDDL,
   GetVehicleNUserInformation_api,
   UpdateVehicleTaggingEntry_api,
 } from "./helper";
-import Loading from "./../../../_helper/_loading";
-import IViewModal from "./../../../_helper/_viewModal";
 import VehicleUserTaggingUpdate from "./updateModel";
 
 const initData = {
@@ -220,7 +220,8 @@ export default function VehicleUserTagging() {
                     </div>
                   </div>
                   {rowDto?.length > 0 && (
-                    <table className="table table-striped table-bordered bj-table bj-table-landing">
+                   <div className="table-responsive">
+                     <table className="table table-striped table-bordered bj-table bj-table-landing">
                       <thead>
                         <tr>
                           <th>SL</th>
@@ -274,6 +275,7 @@ export default function VehicleUserTagging() {
                         ))}
                       </tbody>
                     </table>
+                   </div>
                   )}
 
                   <IViewModal

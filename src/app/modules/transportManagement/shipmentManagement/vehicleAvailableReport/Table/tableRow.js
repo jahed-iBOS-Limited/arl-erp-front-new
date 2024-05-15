@@ -1,19 +1,19 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
+import { shallowEqual, useSelector } from "react-redux";
+import Select from "react-select";
+import ICustomCard from "../../../../_helper/_customCard";
+import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import Loading from "../../../../_helper/_loading";
+import PaginationSearch from "../../../../_helper/_search";
+import PaginationTable from "../../../../_helper/_tablePagination";
+import customStyles from "../../../../selectCustomStyle";
 import {
   getCheckpostListPermissionByUser,
   getItemRequestGridData,
   getVehicleStatusDDL,
 } from "../helper";
-import Select from "react-select";
-import customStyles from "../../../../selectCustomStyle";
-import ICustomCard from "../../../../_helper/_customCard";
-import Loading from "../../../../_helper/_loading";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import PaginationSearch from "../../../../_helper/_search";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
 
 export function TableRow(props) {
   // get user profile data from store
@@ -130,7 +130,8 @@ export function TableRow(props) {
           paginationSearchHandler={paginationSearchHandler}
         />
         {gridData?.length > 0 && (
-          <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
+         <div className="table-responsive">
+           <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
             <thead>
               <tr>
                 <th style={{ width: "50px" }}>Sl</th>
@@ -160,6 +161,7 @@ export function TableRow(props) {
               ))}
             </tbody>
           </table>
+         </div>
         )}
         {gridData?.length > 0 && (
           <PaginationTable

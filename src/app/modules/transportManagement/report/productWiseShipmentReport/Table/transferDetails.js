@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { _dateFormatter } from "./../../../../_helper/_dateFormate";
-import { shipmentTransferDetails_api } from "./../helper";
 import moment from "moment";
+import React, { useEffect, useState } from "react";
+import { _dateFormatter } from "./../../../../_helper/_dateFormate";
 import Loading from './../../../../_helper/_loading';
+import { shipmentTransferDetails_api } from "./../helper";
 function TransferDetails({ currentRowData }) {
   const [rowDto, setRowDto] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -42,7 +42,7 @@ function TransferDetails({ currentRowData }) {
     <>
     {loading && <Loading />}
       <div className="table-responsive">
-        <table className="table global-table">
+        <table className="table global-table table-responsive">
           <thead>
             <tr>
               <th>SL</th>

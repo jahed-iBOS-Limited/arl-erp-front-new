@@ -1,26 +1,23 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect, useRef } from "react";
-import { useSelector } from "react-redux";
-import { shallowEqual } from "react-redux";
-import { getLandingData } from "../helper";
-import { Formik } from "formik";
-import { Form } from "formik";
-import { _todayDate } from "../../../../_helper/_todayDate";
+import { Form, Formik } from "formik";
+import React, { useEffect, useRef, useState } from "react";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import ReactToPrint from "react-to-print";
+import { _formatMoney } from "../../../../_helper/_formatMoney";
 import Loading from "../../../../_helper/_loading";
 import NewSelect from "../../../../_helper/_select";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
-import { setExistingtransportpolicyLandingAction } from "../../../../_helper/reduxForLocalStorage/Actions";
+import { _todayDate } from "../../../../_helper/_todayDate";
 import printIcon from "../../../../_helper/images/print-icon.png";
-import ReactToPrint from "react-to-print";
-import { useDispatch } from "react-redux";
-import { generateJsonToExcel } from "./../../../../_helper/excel/jsonToExcel";
+import { setExistingtransportpolicyLandingAction } from "../../../../_helper/reduxForLocalStorage/Actions";
+import { getLandingData } from "../helper";
 import {
-  ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
+  ModalProgressBar,
 } from "./../../../../../../_metronic/_partials/controls";
+import { generateJsonToExcel } from "./../../../../_helper/excel/jsonToExcel";
 
 const initData = {
   fromDate: _todayDate(),
@@ -238,6 +235,7 @@ function TransportZoneRateReport({ title }) {
                     </div>
                   </div>
 
+                  <div className="table-responsive">
                   <table
                     className="table table-striped table-bordered global-table"
                     componentRef={printRef}
@@ -329,6 +327,7 @@ function TransportZoneRateReport({ title }) {
                       ))}
                     </tbody>
                   </table>
+                  </div>
                 </Form>
               </>
             )}

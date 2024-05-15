@@ -569,7 +569,7 @@ export default function _Form({
                 </div>
 
                 <div className="row">
-                  <div className="col-lg-12">
+                  <div className="col-lg-12 table-responsive">
                     <table className={"table global-table"}>
                       <thead>
                         <tr>
@@ -847,7 +847,7 @@ export default function _Form({
                 </>
 
                 <div className="row">
-                  <div className="col-lg-12">
+                  <div className="col-lg-12 table-responsive">
                     <table className={"table global-table"}>
                       <thead>
                         <tr>
@@ -906,7 +906,7 @@ export default function _Form({
                     <h5 className="mt-1">Vehicle Rent</h5>
                   </div>
                   {/* distanceKM talbe */}
-                  <div className="col-lg-6">
+                  <div className="col-lg-6 table-responsive">
                     <table className={"table global-table"}>
                       <thead>
                         <tr>
@@ -971,7 +971,7 @@ export default function _Form({
                   </div>
 
                   {/* Vehicle Reant table */}
-                  <div className="col-lg-6">
+                  <div className="col-lg-6 table-responsive">
                     <table className={"table global-table"}>
                       <thead>
                         <tr>

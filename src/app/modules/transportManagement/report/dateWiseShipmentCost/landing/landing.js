@@ -140,7 +140,7 @@ function DateWiseShipmentCostReport() {
                   {/* Table Start */}
                   {gridData?.objRowList?.length > 0 && (
                     <div className="common-scrollable-table two-column-sticky">
-                      <div className="scroll-table _table">
+                      <div className="scroll-table _table table-responsive" >
                         <table
                           ref={printRef}
                           className="table table-striped table-bordered global-table"

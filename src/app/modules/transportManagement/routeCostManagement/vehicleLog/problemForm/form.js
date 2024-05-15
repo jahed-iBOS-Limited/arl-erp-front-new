@@ -1,7 +1,7 @@
 import { Form, Formik } from "formik";
 import React from "react";
-import NewSelect from "../../../../_helper/_select";
 import InputField from "../../../../_helper/_inputField";
+import NewSelect from "../../../../_helper/_select";
 
 export default function _Form({
   initData,
@@ -34,6 +34,7 @@ export default function _Form({
 
               {/* Table */}
 
+              <div className="table-responsive">
               <table className="table table-striped table-bordered global-table">
                 <thead>
                   <tr>
@@ -84,6 +85,7 @@ export default function _Form({
                     ))}
                 </tbody>
               </table>
+              </div>
 
               <button
                 type="submit"

@@ -1,8 +1,8 @@
 import React, { useRef } from "react";
-import IViewModal from "./../../../_helper/_viewModal";
-import printIcon from "./../../../_helper/images/print-icon.png";
 import ReactToPrint from "react-to-print";
 import { _dateFormatter } from "./../../../_helper/_dateFormate";
+import IViewModal from "./../../../_helper/_viewModal";
+import printIcon from "./../../../_helper/images/print-icon.png";
 
 const tableTitles = [
   "S.L No",
@@ -105,7 +105,7 @@ export default function SalesInvoiceModel({
                 </div>
               </div>
             </div>
-            <div className="col-lg-12 p-0">
+            <div className="col-lg-12 p-0 table-responsive">
               <table className="table table-striped table-bordered global-table">
                 <thead>
                   <tr className="vendorListHeading">

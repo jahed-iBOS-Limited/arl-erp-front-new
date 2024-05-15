@@ -4,8 +4,6 @@ import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import SearchAsyncSelect from "../../../_helper/SearchAsyncSelect";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
 import IForm from "../../../_helper/_form";
@@ -14,6 +12,8 @@ import InputField from "../../../_helper/_inputField";
 import Loading from "../../../_helper/_loading";
 import NewSelect from "../../../_helper/_select";
 import { _todayDate } from "../../../_helper/_todayDate";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import { updateLoadingSlip } from "./utils";
 
 const initData = {
@@ -507,7 +507,7 @@ export default function ManualShipmentCreate() {
                             </div>
 
                             <div className="row">
-                                <div className="col-lg-12">
+                                <div className="col-lg-12 table-responsive">
                                     <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                                         <thead>
                                             <tr>

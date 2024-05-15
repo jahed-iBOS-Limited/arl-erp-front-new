@@ -26,7 +26,8 @@ const VehicleTripTargetTable = ({ obj }) => {
     <>
       {loader && <Loading />}
       {rowData?.data?.length > 0 && (
-        <table className="table table-striped table-bordered global-table">
+       <div className="table-responsive">
+         <table className="table table-striped table-bordered global-table">
           <thead>
             <tr>
               {details ? <th>Date</th> : <th>SL</th>}
@@ -68,6 +69,7 @@ const VehicleTripTargetTable = ({ obj }) => {
             })}
           </tbody>
         </table>
+       </div>
       )}
       <IViewModal show={open} onHide={() => setOpen(false)}>
         <VehicleTripTargetDetails obj={{ rowData: { data: detailsRowData } }} />
