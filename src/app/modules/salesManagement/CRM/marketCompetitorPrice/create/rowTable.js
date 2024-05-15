@@ -126,6 +126,7 @@ function Building({ rowDto, setRowDto, isView, values }) {
                   item?.numMillRate
                 ) : (
                   <InputField
+                    style={{ minWidth: "90px" }}
                     value={item?.numMillRate}
                     placeholder="Mill Rate"
                     name="numMillRate"
@@ -143,6 +144,7 @@ function Building({ rowDto, setRowDto, isView, values }) {
                   item?.numAvgTransportFare
                 ) : (
                   <InputField
+                    style={{ minWidth: "90px" }}
                     value={item?.numAvgTransportFare}
                     placeholder="Avg. Transport Fare"
                     name="numAvgTransportFare"
@@ -160,6 +162,7 @@ function Building({ rowDto, setRowDto, isView, values }) {
                   item?.numLandingRate
                 ) : (
                   <InputField
+                    style={{ minWidth: "90px" }}
                     value={item?.numLandingRate}
                     placeholder="Landing Rate (Mill)"
                     name="numLandingRate"
@@ -179,6 +182,7 @@ function Building({ rowDto, setRowDto, isView, values }) {
                       item?.numLandingRateMkt
                     ) : (
                       <InputField
+                        style={{ minWidth: "90px" }}
                         value={item?.numLandingRateMkt}
                         placeholder="Landing Rate (Mkt)"
                         name="numLandingRateMkt"
@@ -197,6 +201,7 @@ function Building({ rowDto, setRowDto, isView, values }) {
                   item?.numAvgMarketOffer
                 ) : (
                   <InputField
+                    style={{ minWidth: "90px" }}
                     value={item?.numAvgMarketOffer}
                     placeholder="Avg. Market Offer"
                     name="numAvgMarketOffer"
@@ -214,6 +219,7 @@ function Building({ rowDto, setRowDto, isView, values }) {
                   item?.strRemarks
                 ) : (
                   <InputField
+                    style={{ minWidth: "90px" }}
                     value={item?.strRemarks}
                     placeholder="Avg. Market Offer"
                     name="strRemarks"
@@ -362,6 +368,7 @@ function Bulk({ rowDto, setRowDto, transactionTypeDDL, isView, values }) {
                   item?.numMillRate
                 ) : (
                   <InputField
+                    style={{ minWidth: "90px" }}
                     value={item?.numMillRate}
                     placeholder="Mill Rate"
                     name="numMillRate"
@@ -380,6 +387,7 @@ function Bulk({ rowDto, setRowDto, transactionTypeDDL, isView, values }) {
                   item?.numMktRate
                 ) : (
                   <InputField
+                    style={{ minWidth: "90px" }}
                     value={item?.numMktRate}
                     placeholder="Market Price"
                     name="numMktRate"
@@ -397,6 +405,7 @@ function Bulk({ rowDto, setRowDto, transactionTypeDDL, isView, values }) {
                   item?.strMarketName
                 ) : (
                   <InputField
+                    style={{ minWidth: "90px" }}
                     value={item?.strMarketName}
                     placeholder="Market Name"
                     name="strMarketName"
@@ -414,6 +423,7 @@ function Bulk({ rowDto, setRowDto, transactionTypeDDL, isView, values }) {
                   item?.strDeliveryPoint
                 ) : (
                   <InputField
+                    style={{ minWidth: "90px" }}
                     value={item?.strDeliveryPoint}
                     placeholder="Delivery Point"
                     name="strDeliveryPoint"
@@ -458,6 +468,7 @@ function Bulk({ rowDto, setRowDto, transactionTypeDDL, isView, values }) {
                   item?.numAvgTransportFare
                 ) : (
                   <InputField
+                    style={{ minWidth: "90px" }}
                     value={item?.numAvgTransportFare}
                     placeholder="Avg. Transport Fare"
                     name="numAvgTransportFare"
@@ -475,6 +486,7 @@ function Bulk({ rowDto, setRowDto, transactionTypeDDL, isView, values }) {
                   item?.numLandingRate
                 ) : (
                   <InputField
+                    style={{ minWidth: "90px" }}
                     value={item?.numLandingRate}
                     placeholder="Landing Rate (Mill)"
                     name="numLandingRate"
@@ -494,6 +506,7 @@ function Bulk({ rowDto, setRowDto, transactionTypeDDL, isView, values }) {
                       item?.numLandingRateMkt
                     ) : (
                       <InputField
+                        style={{ minWidth: "90px" }}
                         value={item?.numLandingRateMkt}
                         placeholder="Landing Rate (Mkt)"
                         name="numLandingRateMkt"
@@ -512,6 +525,7 @@ function Bulk({ rowDto, setRowDto, transactionTypeDDL, isView, values }) {
                   item?.numAvgMarketOffer
                 ) : (
                   <InputField
+                    style={{ minWidth: "90px" }}
                     value={item?.numAvgMarketOffer}
                     placeholder="Avg. Market Offer"
                     name="numAvgMarketOffer"
@@ -529,6 +543,7 @@ function Bulk({ rowDto, setRowDto, transactionTypeDDL, isView, values }) {
                   item?.strRemarks
                 ) : (
                   <InputField
+                    style={{ minWidth: "90px" }}
                     value={item?.strRemarks}
                     placeholder="Avg. Market Offer"
                     name="strRemarks"
@@ -654,6 +669,7 @@ function Retail({ rowDto, setRowDto, isView, values }) {
                   item?.numDp
                 ) : (
                   <InputField
+                    style={{ minWidth: "90px" }}
                     value={item?.numDp}
                     placeholder="DP"
                     name="numDp"
@@ -672,6 +688,7 @@ function Retail({ rowDto, setRowDto, isView, values }) {
                   item?.numTp
                 ) : (
                   <InputField
+                    style={{ minWidth: "90px" }}
                     value={item?.numTp}
                     placeholder="TP"
                     name="numTp"
@@ -689,6 +706,7 @@ function Retail({ rowDto, setRowDto, isView, values }) {
                   item?.numMrp
                 ) : (
                   <InputField
+                    style={{ minWidth: "90px" }}
                     value={item?.numMrp}
                     placeholder="MRP"
                     name="numMrp"
@@ -706,6 +724,7 @@ function Retail({ rowDto, setRowDto, isView, values }) {
                   item?.numEdp
                 ) : (
                   <InputField
+                    style={{ minWidth: "90px" }}
                     value={item?.numEdp}
                     placeholder="EDP"
                     name="numEdp"
@@ -724,6 +743,7 @@ function Retail({ rowDto, setRowDto, isView, values }) {
                   item?.numEtp
                 ) : (
                   <InputField
+                    style={{ minWidth: "90px" }}
                     value={item?.numEtp}
                     placeholder="ETP"
                     name="numEtp"
@@ -741,6 +761,7 @@ function Retail({ rowDto, setRowDto, isView, values }) {
                   item?.numAvgMarketOffer
                 ) : (
                   <InputField
+                    style={{ minWidth: "90px" }}
                     value={item?.numAvgMarketOffer}
                     placeholder="Avg. Market Offer"
                     name="numAvgMarketOffer"
@@ -758,6 +779,7 @@ function Retail({ rowDto, setRowDto, isView, values }) {
                   item?.strRemarks
                 ) : (
                   <InputField
+                    style={{ minWidth: "90px" }}
                     value={item?.strRemarks}
                     placeholder="Avg. Market Offer"
                     name="strRemarks"
