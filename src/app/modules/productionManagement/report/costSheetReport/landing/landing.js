@@ -361,134 +361,138 @@ function CostSheetReportLanding() {
                     <>
                       <div className="row">
                         <div ref={printRef} className="col-lg-8">
-                          <table class="table cost-sheet-report-table">
-                            <thead>
-                              <tr className="cost-sheet-report-table-thead-tr">
-                                <th>
-                                  <div className="text-left ">Particulars</div>
-                                </th>
-                                <th>
-                                  <div className="text-right ">Amount</div>
-                                </th>
-                                <th>
-                                  <div className="text-right ">Amount</div>
-                                </th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {/* 1st Part Start */}
-                              {gridData?.length > 0 && (
-                                <>
-                                  {gridData?.map((item) => (
-                                    <>
-                                      {item?.type === "Bill Of Material" && (
-                                        <>
-                                          <tr className="cost-sheet-report-table-tbody-tr">
-                                            <td>
-                                              <div className="text-left pl-2">
-                                                {item?.referenceName}
-                                              </div>
-                                            </td>
-                                            <td></td>
-                                            <td>
-                                              <div className="text-right pr-2">
-                                                {item?.amount.toFixed(2)}
-                                              </div>
-                                            </td>
-                                          </tr>
-                                        </>
-                                      )}
-                                    </>
-                                  ))}
-                                  <tr
-                                    style={{
-                                      borderTop: "1px solid grey",
-                                    }}
-                                    className="cost-sheet-report-table-tbody-tr"
-                                  >
-                                    <td>
-                                      <div className="text-left pl-2">
-                                        <strong>Prime Cost</strong>
-                                      </div>
-                                    </td>
-                                    <td></td>
-                                    <td>
-                                      <div className="text-right pr-2">
-                                        <strong>
-                                          {totalCalculator(
-                                            gridData?.filter(
-                                              (item) =>
-                                                item?.type ===
-                                                "Bill Of Material"
-                                            )
-                                          ).toFixed(2)}
-                                        </strong>
-                                      </div>
-                                    </td>
-                                  </tr>
-                                  {billOfExData?.map((item) => (
-                                    <>
-                                      <tr
-                                        style={{
-                                          borderBottom: "1px solid grey",
-                                        }}
-                                        className="cost-sheet-report-table-tbody-tr"
-                                      >
-                                        <td style={{ height: "30px" }}>
-                                          <div className="text-left pl-2 ">
-                                            <strong>Add: {item?.type}</strong>
-                                          </div>
-                                        </td>
-                                        <td></td>
-                                        <td>
-                                          <div className="text-right pr-2 ">
-                                            <strong>
-                                              {totalCalculator(
-                                                item?.arr
-                                              ).toFixed(2)}
-                                            </strong>
-                                          </div>
-                                        </td>
-                                      </tr>
-                                      {item?.arr?.map((arrItem) => (
-                                        <>
-                                          <tr className="cost-sheet-report-table-tbody-tr">
-                                            <td>
-                                              <div className="text-left pl-6">
-                                                {arrItem?.referenceName}
-                                              </div>
-                                            </td>
-                                            <td>
-                                              <div className="text-right pr-2">
-                                                {arrItem?.amount.toFixed(2)}
-                                              </div>
-                                            </td>
-                                            <td></td>
-                                          </tr>
-                                        </>
-                                      ))}
-                                    </>
-                                  ))}
-                                  <tr
-                                    style={{ height: "50px" }}
-                                    className="cost-sheet-report-table-tbody-tr"
-                                  >
-                                    <td className="pt-4">
-                                      <div className="text-left pl-2">
-                                        <strong>Cost Of Production</strong>
-                                      </div>
-                                    </td>
-                                    <td></td>
-                                    <td className="pt-4">
-                                      <div className="text-right pr-2">
-                                        {totalCalculator(gridData).toFixed(2)}
-                                      </div>
-                                    </td>
-                                  </tr>
-                                </>
-                              )}
-                            </tbody>
-                          </table>
+                          <div className="table-responsive">
+                            <table class="table cost-sheet-report-table">
+                              <thead>
+                                <tr className="cost-sheet-report-table-thead-tr">
+                                  <th>
+                                    <div className="text-left ">
+                                      Particulars
+                                    </div>
+                                  </th>
+                                  <th>
+                                    <div className="text-right ">Amount</div>
+                                  </th>
+                                  <th>
+                                    <div className="text-right ">Amount</div>
+                                  </th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {/* 1st Part Start */}
+                                {gridData?.length > 0 && (
+                                  <>
+                                    {gridData?.map((item) => (
+                                      <>
+                                        {item?.type === "Bill Of Material" && (
+                                          <>
+                                            <tr className="cost-sheet-report-table-tbody-tr">
+                                              <td>
+                                                <div className="text-left pl-2">
+                                                  {item?.referenceName}
+                                                </div>
+                                              </td>
+                                              <td></td>
+                                              <td>
+                                                <div className="text-right pr-2">
+                                                  {item?.amount.toFixed(2)}
+                                                </div>
+                                              </td>
+                                            </tr>
+                                          </>
+                                        )}
+                                      </>
+                                    ))}
+                                    <tr
+                                      style={{
+                                        borderTop: "1px solid grey",
+                                      }}
+                                      className="cost-sheet-report-table-tbody-tr"
+                                    >
+                                      <td>
+                                        <div className="text-left pl-2">
+                                          <strong>Prime Cost</strong>
+                                        </div>
+                                      </td>
+                                      <td></td>
+                                      <td>
+                                        <div className="text-right pr-2">
+                                          <strong>
+                                            {totalCalculator(
+                                              gridData?.filter(
+                                                (item) =>
+                                                  item?.type ===
+                                                  "Bill Of Material"
+                                              )
+                                            ).toFixed(2)}
+                                          </strong>
+                                        </div>
+                                      </td>
+                                    </tr>
+                                    {billOfExData?.map((item) => (
+                                      <>
+                                        <tr
+                                          style={{
+                                            borderBottom: "1px solid grey",
+                                          }}
+                                          className="cost-sheet-report-table-tbody-tr"
+                                        >
+                                          <td style={{ height: "30px" }}>
+                                            <div className="text-left pl-2 ">
+                                              <strong>Add: {item?.type}</strong>
+                                            </div>
+                                          </td>
+                                          <td></td>
+                                          <td>
+                                            <div className="text-right pr-2 ">
+                                              <strong>
+                                                {totalCalculator(
+                                                  item?.arr
+                                                ).toFixed(2)}
+                                              </strong>
+                                            </div>
+                                          </td>
+                                        </tr>
+                                        {item?.arr?.map((arrItem) => (
+                                          <>
+                                            <tr className="cost-sheet-report-table-tbody-tr">
+                                              <td>
+                                                <div className="text-left pl-6">
+                                                  {arrItem?.referenceName}
+                                                </div>
+                                              </td>
+                                              <td>
+                                                <div className="text-right pr-2">
+                                                  {arrItem?.amount.toFixed(2)}
+                                                </div>
+                                              </td>
+                                              <td></td>
+                                            </tr>
+                                          </>
+                                        ))}
+                                      </>
+                                    ))}
+                                    <tr
+                                      style={{ height: "50px" }}
+                                      className="cost-sheet-report-table-tbody-tr"
+                                    >
+                                      <td className="pt-4">
+                                        <div className="text-left pl-2">
+                                          <strong>Cost Of Production</strong>
+                                        </div>
+                                      </td>
+                                      <td></td>
+                                      <td className="pt-4">
+                                        <div className="text-right pr-2">
+                                          {totalCalculator(gridData).toFixed(2)}
+                                        </div>
+                                      </td>
+                                    </tr>
+                                  </>
+                                )}
+                              </tbody>
+                            </table>
+                          </div>
                         </div>
                       </div>
                     </>

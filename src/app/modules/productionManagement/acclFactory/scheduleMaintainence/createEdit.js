@@ -264,45 +264,47 @@ const ScheduleMaintainenceCreate = () => {
 
                 <div className="row mt-5">
                   <div className="col-lg-12">
-                    <table className="table table-striped table-bordered bj-table bj-table-landing">
-                      <thead>
-                        <tr>
-                          <th>SL</th>
-                          <th>Date</th>
-                          <th>Machine</th>
-                          <th>Maintainence Type</th>
-                          <th>Frequency</th>
-                          <th>Responsible</th>
-                          <th>Maintenance Task</th>
-                          <th>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {rowData?.length > 0 &&
-                          rowData?.map((item, index) => (
-                            <tr key={index}>
-                              <td>{index + 1}</td>
-                              <td className="text-center">
-                                {item?.scheduleEndDateTime}
-                              </td>
-                              <td>{item?.machineName}</td>
-                              <td>{item?.maintenanceTypeName}</td>
-                              <td>{item?.frequency}</td>
-                              <td>{item?.resposiblePersonName}</td>
-                              <td>{item?.maintainanceTask}</td>
-                              <td className="text-center">
-                                <span
-                                  onClick={() => {
-                                    deletehandler(index);
-                                  }}
-                                >
-                                  <IDelete />
-                                </span>
-                              </td>
-                            </tr>
-                          ))}
-                      </tbody>
-                    </table>
+                    <div className="table-responsive">
+                      <table className="table table-striped table-bordered bj-table bj-table-landing">
+                        <thead>
+                          <tr>
+                            <th>SL</th>
+                            <th>Date</th>
+                            <th>Machine</th>
+                            <th>Maintainence Type</th>
+                            <th>Frequency</th>
+                            <th>Responsible</th>
+                            <th>Maintenance Task</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {rowData?.length > 0 &&
+                            rowData?.map((item, index) => (
+                              <tr key={index}>
+                                <td>{index + 1}</td>
+                                <td className="text-center">
+                                  {item?.scheduleEndDateTime}
+                                </td>
+                                <td>{item?.machineName}</td>
+                                <td>{item?.maintenanceTypeName}</td>
+                                <td>{item?.frequency}</td>
+                                <td>{item?.resposiblePersonName}</td>
+                                <td>{item?.maintainanceTask}</td>
+                                <td className="text-center">
+                                  <span
+                                    onClick={() => {
+                                      deletehandler(index);
+                                    }}
+                                  >
+                                    <IDelete />
+                                  </span>
+                                </td>
+                              </tr>
+                            ))}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
 

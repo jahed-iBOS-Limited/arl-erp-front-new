@@ -6,7 +6,6 @@ import { IInput } from "../../../../_helper/_input";
 import NewSelect from "../../../../_helper/_select";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 
-
 const validationSchema = Yup.object().shape({});
 export default function _Form({
   initData,
@@ -23,7 +22,7 @@ export default function _Form({
   referrenceCodeDDL,
   itemDDL,
   setItemDDL,
-  receiveFromShopFloorInitData
+  receiveFromShopFloorInitData,
 }) {
   return (
     <>
@@ -72,7 +71,9 @@ export default function _Form({
                     <div className="col-lg-3 pb-2">
                       <label>Warehouse</label>
                       <IInput
-                        value={receiveFromShopFloorInitData?.warehouse?.label || ""}
+                        value={
+                          receiveFromShopFloorInitData?.warehouse?.label || ""
+                        }
                         name="wareHouseName"
                         type="text"
                         disabled={true}
@@ -93,7 +94,7 @@ export default function _Form({
                       <NewSelect
                         name="referenceCode"
                         options={[]}
-                        value={initData?.referenceCode }
+                        value={initData?.referenceCode}
                         errors={errors}
                         touched={touched}
                         label="Reference Code"
@@ -110,7 +111,7 @@ export default function _Form({
                       <NewSelect
                         name="item"
                         options={[]}
-                        value={initData?.item}                      
+                        value={initData?.item}
                         errors={errors}
                         touched={touched}
                         label="Item"
@@ -122,7 +123,7 @@ export default function _Form({
                       <div className="col-lg-1 d-flex align-items-center ">
                         <label className="pr-1 mt-4">All Item</label>
                         <input
-                        style={{marginTop: "18px"}}
+                          style={{ marginTop: "18px" }}
                           value={values?.checkbox}
                           name="checkbox"
                           checked={values?.checkbox}
@@ -141,58 +142,60 @@ export default function _Form({
                   {/* It will be hidden when user select bank tranfer from previous page */}
                   <div className="row">
                     <div className="col-lg-12">
-                      <table className={"table global-table mt-0"}>
-                        <thead className={rowDto?.length < 1 && "d-none"}>
-                          <tr>
-                            <th style={{ width: "20px" }}>SL</th>
-                            <th style={{ width: "150px" }}>Item Name</th>
-                            <th style={{ width: "100px" }}>UoM</th>
-                            <th style={{ width: "100px" }}>Transfer Qty</th>
-                            <th style={{ width: "180px" }}>Location</th>
-                            <th style={{ width: "100px" }}>Bin Number</th>
-                            <th style={{ width: "100px" }}>Receive Qty</th>
-                          </tr>
-                        </thead>
-                        {rowDto?.length > 0 && (
-                          <tbody>
-                            {rowDto?.map((item, index) => (
-                              <tr key={index}>
-                                <td>{index + 1}</td>
-                                <td>
-                                  <div className="text-center">
-                                    {item?.itemName}
-                                  </div>
-                                </td>
-                                <td>
-                                  <div className="text-left pl-2">
-                                    {item?.uoMname }
-                                  </div>
-                                </td>
-                                <td>
-                                  <div className="text-center">
-                                    {item?.transactionQuantity }
-                                  </div>
-                                </td>
-                                <td>
-                                  <div className="text-center">
-                                    {item?.inventoryLocationName }
-                                  </div>
-                                </td>
-                                <td>
-                                  <div className="text-center">
-                                    {item?.binNo }
-                                  </div>
-                                </td>
-                                <td>
-                                  <div className="text-center">
-                                    {item?.transactionQuantity }
-                                  </div>
-                                </td>
-                              </tr>
-                            ))}
-                          </tbody>
-                        )}
-                      </table>
+                      <div className="table-responsive">
+                        <table className={"table global-table mt-0"}>
+                          <thead className={rowDto?.length < 1 && "d-none"}>
+                            <tr>
+                              <th style={{ width: "20px" }}>SL</th>
+                              <th style={{ width: "150px" }}>Item Name</th>
+                              <th style={{ width: "100px" }}>UoM</th>
+                              <th style={{ width: "100px" }}>Transfer Qty</th>
+                              <th style={{ width: "180px" }}>Location</th>
+                              <th style={{ width: "100px" }}>Bin Number</th>
+                              <th style={{ width: "100px" }}>Receive Qty</th>
+                            </tr>
+                          </thead>
+                          {rowDto?.length > 0 && (
+                            <tbody>
+                              {rowDto?.map((item, index) => (
+                                <tr key={index}>
+                                  <td>{index + 1}</td>
+                                  <td>
+                                    <div className="text-center">
+                                      {item?.itemName}
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <div className="text-left pl-2">
+                                      {item?.uoMname}
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <div className="text-center">
+                                      {item?.transactionQuantity}
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <div className="text-center">
+                                      {item?.inventoryLocationName}
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <div className="text-center">
+                                      {item?.binNo}
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <div className="text-center">
+                                      {item?.transactionQuantity}
+                                    </div>
+                                  </td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          )}
+                        </table>
+                      </div>
                     </div>
                   </div>
                 </div>

@@ -24,7 +24,7 @@ export function AdjustmentJournalViewTableRow({ id, typeId }) {
       typeId,
       selectedBusinessUnit?.value,
       setAdjustmentReport,
-      setLoading,
+      setLoading
     );
   }, [id, typeId, selectedBusinessUnit]);
 
@@ -105,7 +105,7 @@ export function AdjustmentJournalViewTableRow({ id, typeId }) {
       >
         <Formik
           enableReinitialize={true}
-          onSubmit={(values, { setSubmitting, resetForm }) => { }}
+          onSubmit={(values, { setSubmitting, resetForm }) => {}}
         >
           {({ handleSubmit, resetForm, values, errors, touched, isValid }) => (
             <>
@@ -151,74 +151,151 @@ export function AdjustmentJournalViewTableRow({ id, typeId }) {
                           </div>
                         </div>
                       </div>
-                      <table className="journalTable" id="table-to-xlsx">
-                        <thead>
-                          <tr>
-                            <th>SL</th>
-                            <th>Head Of Accounts</th>
-                            <th>Transaction</th>
-                            <th>Element</th>
-                            <th>Debit</th>
-                            <th>Credit</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {adjustmentReport?.objRow?.map((data, i) => (
+                      <div className="table-responsive">
+                        <table className="journalTable" id="table-to-xlsx">
+                          <thead>
                             <tr>
-                              <td className="text-center">{i + 1}</td>
-                              <td className="text-left">
-                                {renderHeadOfAcc(data)}
-                              </td>
-                              <td className="text-left">{data?.subGLName}</td>
-                              <td>
-                                {data?.costRevenueName +
-                                  " " +
-                                  data?.elementName}
-                              </td>
-                              {data?.debitCredit === "Debit" ? (
-                                <td>
-                                  <div className="text-right pr-2">
-                                    {selectedBusinessUnit?.value === 102
-                                      ? Math.abs(data?.amount).toFixed(2)
-                                      : Math.abs(data?.amount)}
-                                    {/* {Math.abs(data?.amount)} */}
-                                  </div>
-                                </td>
-                              ) : (
-                                <td>{""}</td>
-                              )}
-                              {data?.debitCredit === "Credit" ? (
-                                <td>
-                                  <div className="text-right pr-2">
-                                    {selectedBusinessUnit?.value === 102
-                                      ? Math.abs(data?.amount).toFixed(2)
-                                      : Math.abs(data?.amount)}
-                                    {/* {Math.abs(data?.amount)} */}
-                                  </div>
-                                </td>
-                              ) : (
-                                <td>{""}</td>
-                              )}
+                              <th>SL</th>
+                              <th>Head Of Accounts</th>
+                              <th>Transaction</th>
+                              <th>Element</th>
+                              <th>Debit</th>
+                              <th>Credit</th>
                             </tr>
-                          ))}
-                          <tr>
-                            <td className="text-center"></td>
-                            <td className="text-center"></td>
-                            <td className="font-weight-bold text-center ml-1">
-                              Total
-                            </td>
-                            <td className="text-center"></td>
-                            <td className="text-right pr-2">
-                              {_formatMoney(totalDebitCreditAmount?.totalDebit)}
-                            </td>
-                            <td className="text-right pr-2">
-                              {_formatMoney(
-                                totalDebitCreditAmount?.totalCredit
-                              )}
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
+                          </thead>
+                          <tbody>
+                            {adjustmentReport?.objRow?.map((data, i) => (
+                              <tr>
+                                <td className="text-center">{i + 1}</td>
+                                <td className="text-left">
+                                  {renderHeadOfAcc(data)}
+                                </td>
+                                <td className="text-left">{data?.subGLName}</td>
+                                <td>
+                                  {data?.costRevenueName +
+                                    " " +
+                                    data?.elementName}
+                                </td>
+                                {data?.debitCredit === "Debit" ? (
+                                  <td>
+                                    <div className="text-right pr-2">
+                                      {selectedBusinessUnit?.value === 102
+                                        ? Math.abs(data?.amount).toFixed(2)
+                                        : Math.abs(data?.amount)}
+                                      {/* {Math.abs(data?.amount)} */}
+                                    </div>
+                                  </td>
+                                ) : (
+                                  <td>{""}</td>
+                                )}
+                                {data?.debitCredit === "Credit" ? (
+                                  <td>
+                                    <div className="text-right pr-2">
+                                      {selectedBusinessUnit?.value === 102
+                                        ? Math.abs(data?.amount).toFixed(2)
+                                        : Math.abs(data?.amount)}
+                                      {/* {Math.abs(data?.amount)} */}
+                                    </div>
+                                  </td>
+                                ) : (
+                                  <td>{""}</td>
+                                )}
+                              </tr>
+                            ))}
+                            <tr>
+                              <td className="text-center"></td>
+                              <td className="text-center"></td>
+                              <td className="font-weight-bold text-center ml-1">
+                                Total
+                              </td>
+                              <td className="text-center"></td>
+                              <td className="text-right pr-2">
+                                {_formatMoney(
+                                  totalDebitCreditAmount?.totalDebit
+                                )}
+                              </td>
+                              <td className="text-right pr-2">
+                                {_formatMoney(
+                                  totalDebitCreditAmount?.totalCredit
+                                )}
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div className="table-responsive">
+                        <table className="journalTable" id="table-to-xlsx">
+                          <thead>
+                            <tr>
+                              <th>SL</th>
+                              <th>Head Of Accounts</th>
+                              <th>Transaction</th>
+                              <th>Element</th>
+                              <th>Debit</th>
+                              <th>Credit</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {adjustmentReport?.objRow?.map((data, i) => (
+                              <tr>
+                                <td className="text-center">{i + 1}</td>
+                                <td className="text-left">
+                                  {renderHeadOfAcc(data)}
+                                </td>
+                                <td className="text-left">{data?.subGLName}</td>
+                                <td>
+                                  {data?.costRevenueName +
+                                    " " +
+                                    data?.elementName}
+                                </td>
+                                {data?.debitCredit === "Debit" ? (
+                                  <td>
+                                    <div className="text-right pr-2">
+                                      {selectedBusinessUnit?.value === 102
+                                        ? Math.abs(data?.amount).toFixed(2)
+                                        : Math.abs(data?.amount)}
+                                      {/* {Math.abs(data?.amount)} */}
+                                    </div>
+                                  </td>
+                                ) : (
+                                  <td>{""}</td>
+                                )}
+                                {data?.debitCredit === "Credit" ? (
+                                  <td>
+                                    <div className="text-right pr-2">
+                                      {selectedBusinessUnit?.value === 102
+                                        ? Math.abs(data?.amount).toFixed(2)
+                                        : Math.abs(data?.amount)}
+                                      {/* {Math.abs(data?.amount)} */}
+                                    </div>
+                                  </td>
+                                ) : (
+                                  <td>{""}</td>
+                                )}
+                              </tr>
+                            ))}
+                            <tr>
+                              <td className="text-center"></td>
+                              <td className="text-center"></td>
+                              <td className="font-weight-bold text-center ml-1">
+                                Total
+                              </td>
+                              <td className="text-center"></td>
+                              <td className="text-right pr-2">
+                                {_formatMoney(
+                                  totalDebitCreditAmount?.totalDebit
+                                )}
+                              </td>
+                              <td className="text-right pr-2">
+                                {_formatMoney(
+                                  totalDebitCreditAmount?.totalCredit
+                                )}
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+
                       <div className="mt-5">
                         <div className="d-flex">
                           <p className="font-weight-bold mr-2">

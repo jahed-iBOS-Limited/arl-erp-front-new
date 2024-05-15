@@ -82,67 +82,69 @@ const DistributionPlantEditModal = ({
             <Form>
               <div className="row">
                 <div className="col-lg-12">
-                  <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
-                    <thead>
-                      <tr>
-                        <th>SL</th>
-                        <th>Item Code</th>
-                        <th>Item Name</th>
-                        <th>UoM</th>
-                        <th>Plant</th>
-                        <th>Warehouse</th>
-                        {/* <th>Distribution Plant Qty</th> */}
-                        <th>Plan Qty</th>
-                        <th>Plan Rate</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {rowData?.length > 0 &&
-                        rowData?.map((item, index) => (
-                          <tr key={index}>
-                            <td>{index + 1}</td>
-                            <td>{item?.itemCode}</td>
-                            <td>{item?.itemName}</td>
-                            <td>{item?.itemUoMName}</td>
-                            <td>{item?.strPlantHouseName}</td>
-                            <td>{item?.strWareHouseName}</td>
-                            {/* <td className="text-center">
+                  <div className="table-responsive">
+                    <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+                      <thead>
+                        <tr>
+                          <th>SL</th>
+                          <th>Item Code</th>
+                          <th>Item Name</th>
+                          <th>UoM</th>
+                          <th>Plant</th>
+                          <th>Warehouse</th>
+                          {/* <th>Distribution Plant Qty</th> */}
+                          <th>Plan Qty</th>
+                          <th>Plan Rate</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {rowData?.length > 0 &&
+                          rowData?.map((item, index) => (
+                            <tr key={index}>
+                              <td>{index + 1}</td>
+                              <td>{item?.itemCode}</td>
+                              <td>{item?.itemName}</td>
+                              <td>{item?.itemUoMName}</td>
+                              <td>{item?.strPlantHouseName}</td>
+                              <td>{item?.strWareHouseName}</td>
+                              {/* <td className="text-center">
                               {item?.distributionPlanQty
                                 ? item?.distributionPlanQty
                                 : 0}
                             </td> */}
-                            <td>
-                              <InputField
-                                name="planQty"
-                                type="number"
-                                value={item?.planQty || ""}
-                                onChange={(e) => {
-                                  const modifiedData = [...rowData];
-                                  modifiedData[
-                                    index
-                                  ].planQty = getAbsoluteValue(e);
-                                  setRowData(modifiedData);
-                                }}
-                              />
-                            </td>
-                            <td>
-                              <InputField
-                                name="planRate"
-                                type="number"
-                                value={item?.planRate || ""}
-                                onChange={(e) => {
-                                  const modifiedData = [...rowData];
-                                  modifiedData[
-                                    index
-                                  ].planRate = getAbsoluteValue(e);
-                                  setRowData(modifiedData);
-                                }}
-                              />
-                            </td>
-                          </tr>
-                        ))}
-                    </tbody>
-                  </table>
+                              <td>
+                                <InputField
+                                  name="planQty"
+                                  type="number"
+                                  value={item?.planQty || ""}
+                                  onChange={(e) => {
+                                    const modifiedData = [...rowData];
+                                    modifiedData[
+                                      index
+                                    ].planQty = getAbsoluteValue(e);
+                                    setRowData(modifiedData);
+                                  }}
+                                />
+                              </td>
+                              <td>
+                                <InputField
+                                  name="planRate"
+                                  type="number"
+                                  value={item?.planRate || ""}
+                                  onChange={(e) => {
+                                    const modifiedData = [...rowData];
+                                    modifiedData[
+                                      index
+                                    ].planRate = getAbsoluteValue(e);
+                                    setRowData(modifiedData);
+                                  }}
+                                />
+                              </td>
+                            </tr>
+                          ))}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
 

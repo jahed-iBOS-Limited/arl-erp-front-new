@@ -65,32 +65,38 @@ function DetailsModal({ modalData }) {
       <>
         {gridData?.length > 0 && (
           <div ref={printRef} className="col-lg-12 pr-0 pl-0">
-            <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
-              <thead>
-                <tr>
-                  <th>SL</th>
-                  <th>Transaction Date</th>
-                  <th>Transaction Code</th>
-                  <th>Issued Quantity</th>
-                </tr>
-              </thead>
-              <tbody>
-                {gridData?.map((item, index) => (
-                  <tr key={index}>
-                    <td className="text-center">{index + 1}</td>
-                    <td className="text-center">
-                      <span>{_dateFormatter(item?.transactionDate)}</span>
-                    </td>
-                    <td className="text-center">
-                      <span className="pl-2">{item?.inventoryTransactionCode}</span>
-                    </td>
-                    <td className="text-center">
-                      <span className="pr-2">{Math.abs(item?.issueQuantity)}</span>
-                    </td>
+            <div className="table-responsive">
+              <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+                <thead>
+                  <tr>
+                    <th>SL</th>
+                    <th>Transaction Date</th>
+                    <th>Transaction Code</th>
+                    <th>Issued Quantity</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {gridData?.map((item, index) => (
+                    <tr key={index}>
+                      <td className="text-center">{index + 1}</td>
+                      <td className="text-center">
+                        <span>{_dateFormatter(item?.transactionDate)}</span>
+                      </td>
+                      <td className="text-center">
+                        <span className="pl-2">
+                          {item?.inventoryTransactionCode}
+                        </span>
+                      </td>
+                      <td className="text-center">
+                        <span className="pr-2">
+                          {Math.abs(item?.issueQuantity)}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         )}
       </>

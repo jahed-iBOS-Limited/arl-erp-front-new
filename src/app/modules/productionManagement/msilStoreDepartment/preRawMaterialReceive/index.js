@@ -88,42 +88,44 @@ export default function PreRawMaterialReceive() {
 
                 <div style={{ marginTop: "15px" }}>
                   <div>
-                    <table className="table table-striped table-bordered global-table">
-                      <thead>
-                        <tr>
-                          <th style={{ width: "50px" }}>SL</th>
-                          <th>Receive Date</th>
-                          <th>Supplier Name</th>
-                          <th>Truck Number</th>
-                          <th>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {landigData?.data?.length > 0 &&
-                          landigData?.data?.map((item, index) => (
-                            <tr key={index}>
-                              <td>{index + 1}</td>
-                              <td className="text-center">
-                                {_dateFormatter(item?.dteReceiveDate)}
-                              </td>
-                              <td>{item?.strSupplierName}</td>
-                              <td className="text-center">
-                                {item?.strTruckNumber}
-                              </td>
-                              <td className="text-center">
-                                <IEdit
-                                  onClick={() => {
-                                    history.push({
-                                      pathname: `/production-management/msil-Store/PreRawMaterialReceive/edit/${item?.intPreRawMaterialReceiveId}`,
-                                      state: { ...item },
-                                    });
-                                  }}
-                                />
-                              </td>
-                            </tr>
-                          ))}
-                      </tbody>
-                    </table>
+                    <div className="table-responsive">
+                      <table className="table table-striped table-bordered global-table">
+                        <thead>
+                          <tr>
+                            <th style={{ width: "50px" }}>SL</th>
+                            <th>Receive Date</th>
+                            <th>Supplier Name</th>
+                            <th>Truck Number</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {landigData?.data?.length > 0 &&
+                            landigData?.data?.map((item, index) => (
+                              <tr key={index}>
+                                <td>{index + 1}</td>
+                                <td className="text-center">
+                                  {_dateFormatter(item?.dteReceiveDate)}
+                                </td>
+                                <td>{item?.strSupplierName}</td>
+                                <td className="text-center">
+                                  {item?.strTruckNumber}
+                                </td>
+                                <td className="text-center">
+                                  <IEdit
+                                    onClick={() => {
+                                      history.push({
+                                        pathname: `/production-management/msil-Store/PreRawMaterialReceive/edit/${item?.intPreRawMaterialReceiveId}`,
+                                        state: { ...item },
+                                      });
+                                    }}
+                                  />
+                                </td>
+                              </tr>
+                            ))}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                   {landigData?.data?.length > 0 && (
                     <PaginationTable

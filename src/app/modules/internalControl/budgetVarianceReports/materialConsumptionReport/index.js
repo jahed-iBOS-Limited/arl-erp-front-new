@@ -29,8 +29,6 @@ function MaterialConsumptionVarianceReport() {
     return state.authData.businessUnitList;
   }, shallowEqual);
 
-  
-
   return (
     <>
       <Formik
@@ -116,17 +114,21 @@ function MaterialConsumptionVarianceReport() {
                         !values?.consumptionType.value
                       }
                       onClick={() => {
-                        const [year, month] = values?.monthYear.split("-").map(Number);
-                        const startDate = new Date(Date.UTC(year, month - 1, 1));
+                        const [year, month] = values?.monthYear
+                          .split("-")
+                          .map(Number);
+                        const startDate = new Date(
+                          Date.UTC(year, month - 1, 1)
+                        );
                         const endDate = new Date(Date.UTC(year, month, 0));
-                        const formattedStartDate = startDate.toISOString().split("T")[0];
-                        const formattedEndDate = endDate.toISOString().split("T")[0];
+                        const formattedStartDate = startDate
+                          .toISOString()
+                          .split("T")[0];
+                        const formattedEndDate = endDate
+                          .toISOString()
+                          .split("T")[0];
                         getRowDto(
-                          `/fino/Report/GetRawMaterialConsumptionVarianceReport?intBusinessUnitId=${
-                            values?.currentBusinessUnit?.value
-                          }&fromDate=${formattedStartDate}&toDate=${formattedEndDate}&ConsumptionTypeId=${
-                            values?.consumptionType.value
-                          }`,
+                          `/fino/Report/GetRawMaterialConsumptionVarianceReport?intBusinessUnitId=${values?.currentBusinessUnit?.value}&fromDate=${formattedStartDate}&toDate=${formattedEndDate}&ConsumptionTypeId=${values?.consumptionType.value}`,
                           (data) => {
                             let sl = 0;
                             let arr = [];
@@ -152,81 +154,86 @@ function MaterialConsumptionVarianceReport() {
                 </div>
                 <div className="row mt-5">
                   <div className="col-lg-12">
-                    <table className="table table-striped table-bordered bj-table bj-table-landing material-consumption-variance">
-                      <thead>
-                        <tr>
-                          {values?.consumptionType.value === 1 && <th>FG Item</th>}
-                          {values?.consumptionType.value === 1 && (
-                            <th>FG Item Budget[UoM]</th>
-                          )}
-                          <th>Material Name</th>
-                          <th>UOM</th>
-                          <th>Budget Consumption per unit</th>
-                          <th>Actual Consumption per unit</th>
-                          <th>Variance</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {rowDto?.length > 0 &&
-                          rowDto?.map((item, index) => (
-                            <tr key={index}>
-                              {item?.isShow ? (
-                                <>
-                                  {values?.consumptionType.value === 1 && (
-                                    <td rowSpan={item?.intSectionCount}>
-                                      {item?.fgItemName}
-                                    </td>
-                                  )}
-                                  {values?.consumptionType.value === 1 && (
-                                    <td
-                                    className="text-center"
-                                    rowSpan={item?.intSectionCount}
-                                  >
-                                    {item?.fgItemBudgetWithUom}
-                                  </td>
-                                  )}
-                                 
-                                </>
-                              ) : null}
-                              <td
-                                className={
-                                  item?.isTotal ? "text-left bold" : "text-left"
-                                }
-                              >
-                                {item?.materialName}
-                              </td>
-                              <td>{item?.materialUom}</td>
-                              <td
-                                className={
-                                  item?.isTotal
-                                    ? "text-right bold"
-                                    : "text-right"
-                                }
-                              >
-                                {_formatMoney(item?.budgetConsumption)}
-                              </td>
-                              <td
-                                className={
-                                  item?.isTotal
-                                    ? "text-right bold"
-                                    : "text-right"
-                                }
-                              >
-                                {_formatMoney(item?.actualConsumption)}
-                              </td>
-                              <td
-                                className={
-                                  item?.isTotal
-                                    ? "text-right bold"
-                                    : "text-right"
-                                }
-                              >
-                                {_formatMoney(item?.variance)}
-                              </td>
-                            </tr>
-                          ))}
-                      </tbody>
-                    </table>
+                    <div className="table-responsive">
+                      <table className="table table-striped table-bordered bj-table bj-table-landing material-consumption-variance">
+                        <thead>
+                          <tr>
+                            {values?.consumptionType.value === 1 && (
+                              <th>FG Item</th>
+                            )}
+                            {values?.consumptionType.value === 1 && (
+                              <th>FG Item Budget[UoM]</th>
+                            )}
+                            <th>Material Name</th>
+                            <th>UOM</th>
+                            <th>Budget Consumption per unit</th>
+                            <th>Actual Consumption per unit</th>
+                            <th>Variance</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {rowDto?.length > 0 &&
+                            rowDto?.map((item, index) => (
+                              <tr key={index}>
+                                {item?.isShow ? (
+                                  <>
+                                    {values?.consumptionType.value === 1 && (
+                                      <td rowSpan={item?.intSectionCount}>
+                                        {item?.fgItemName}
+                                      </td>
+                                    )}
+                                    {values?.consumptionType.value === 1 && (
+                                      <td
+                                        className="text-center"
+                                        rowSpan={item?.intSectionCount}
+                                      >
+                                        {item?.fgItemBudgetWithUom}
+                                      </td>
+                                    )}
+                                  </>
+                                ) : null}
+                                <td
+                                  className={
+                                    item?.isTotal
+                                      ? "text-left bold"
+                                      : "text-left"
+                                  }
+                                >
+                                  {item?.materialName}
+                                </td>
+                                <td>{item?.materialUom}</td>
+                                <td
+                                  className={
+                                    item?.isTotal
+                                      ? "text-right bold"
+                                      : "text-right"
+                                  }
+                                >
+                                  {_formatMoney(item?.budgetConsumption)}
+                                </td>
+                                <td
+                                  className={
+                                    item?.isTotal
+                                      ? "text-right bold"
+                                      : "text-right"
+                                  }
+                                >
+                                  {_formatMoney(item?.actualConsumption)}
+                                </td>
+                                <td
+                                  className={
+                                    item?.isTotal
+                                      ? "text-right bold"
+                                      : "text-right"
+                                  }
+                                >
+                                  {_formatMoney(item?.variance)}
+                                </td>
+                              </tr>
+                            ))}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
               </CardBody>

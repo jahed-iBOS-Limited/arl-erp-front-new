@@ -54,7 +54,12 @@ const PowerConsumptionAllSbuCreate = () => {
     setTableData,
   ] = useAxiosGet();
 
-  const [detailsData, getDetailsData, detailsDataLoader, setDetailsData] = useAxiosGet();
+  const [
+    detailsData,
+    getDetailsData,
+    detailsDataLoader,
+    setDetailsData,
+  ] = useAxiosGet();
 
   const { profileData } = useSelector((state) => {
     return state.authData;
@@ -96,12 +101,12 @@ const PowerConsumptionAllSbuCreate = () => {
       });
     }
   }, [id, location]);
-  
 
-  const totalGeneratorHour = detailsData?.data?.totalGenerationRunningHour + detailsData?.data?.totalRebConsumption;
+  const totalGeneratorHour =
+    detailsData?.data?.totalGenerationRunningHour +
+    detailsData?.data?.totalRebConsumption;
 
   const saveHandler = async (values, cb) => {
-
     const postDatapayload = [
       {
         dteDate: values?.dteDate,
@@ -121,9 +126,11 @@ const PowerConsumptionAllSbuCreate = () => {
         numPresentReadingM1: values?.numPresentReadingM1 || null,
         numPresentReadingM2: values?.numPresentReadingM2 || null,
         numPresentReadingM3: values?.numPresentReadingM3 || null,
-        numTotalConsumption: (values?.intConsumptionBusinessUnit?.value === 4 ? 
-        (values?.numPresentReading || 0) - (values?.numPreviousReading || 0)
-      : values?.numTotalConsumption) || null,
+        numTotalConsumption:
+          (values?.intConsumptionBusinessUnit?.value === 4
+            ? (values?.numPresentReading || 0) -
+              (values?.numPreviousReading || 0)
+            : values?.numTotalConsumption) || null,
         numTotalConsumptionM1: values?.numTotalConsumptionM1 || null,
         numTotalConsumptionM2: values?.numTotalConsumptionM2 || null,
         numTotalConsumptionM3: values?.numTotalConsumptionM3 || null,
@@ -183,7 +190,6 @@ const PowerConsumptionAllSbuCreate = () => {
   //     );
   // };
 
-
   return (
     <IForm
       title={
@@ -193,7 +199,10 @@ const PowerConsumptionAllSbuCreate = () => {
       }
       getProps={setObjprops}
     >
-      {(rowDataLoader || tableDataLoader || saveDataLoader || detailsDataLoader) && <Loading />}
+      {(rowDataLoader ||
+        tableDataLoader ||
+        saveDataLoader ||
+        detailsDataLoader) && <Loading />}
       <>
         <Formik
           enableReinitialize={true}
@@ -253,13 +262,20 @@ const PowerConsumptionAllSbuCreate = () => {
                         value={values?.strShift}
                         label="Shift"
                         onChange={(valueOption) => {
-                          getDetailsData(`/mes/MSIL/GetTotalGenerationForAllSBU?BusinessUnitId=${selectedBusinessUnit?.value}&Date=${values?.dteDate}&Shift=${valueOption?.value}`,
-                                (data) => {
-                                  values?.intConsumptionBusinessUnit?.value === 4 ? 
-                                  setFieldValue("numPresentReading", ((data?.data?.totalRebConsumption + data?.data?.totalGenerationRunningHour) - data?.data?.totalAllSbuConsumption) || 0) :
-                                  setFieldValue("numPresentReading", "")
-                                })
-                          setFieldValue("strShift", valueOption);                         
+                          getDetailsData(
+                            `/mes/MSIL/GetTotalGenerationForAllSBU?BusinessUnitId=${selectedBusinessUnit?.value}&Date=${values?.dteDate}&Shift=${valueOption?.value}`,
+                            (data) => {
+                              values?.intConsumptionBusinessUnit?.value === 4
+                                ? setFieldValue(
+                                    "numPresentReading",
+                                    data?.data?.totalRebConsumption +
+                                      data?.data?.totalGenerationRunningHour -
+                                      data?.data?.totalAllSbuConsumption || 0
+                                  )
+                                : setFieldValue("numPresentReading", "");
+                            }
+                          );
+                          setFieldValue("strShift", valueOption);
                           setFieldValue("intConsumptionBusinessUnit", "");
                           setFieldValue("strConsumptionBusinessUnitName", "");
                           setFieldValue("numPresentReading", "");
@@ -292,7 +308,10 @@ const PowerConsumptionAllSbuCreate = () => {
                               label: "Akij Poly Fibre Industries Ltd",
                             },
                             { value: 17, label: "Akij Shipping Lines Ltd" },
-                            { value: 94, label: "Akij Poly Fibre Industries Ltd(Chiller)" },
+                            {
+                              value: 94,
+                              label: "Akij Poly Fibre Industries Ltd(Chiller)",
+                            },
                             {
                               value: 175,
                               label: "Akij Ready Mix Concrete Ltd",
@@ -304,12 +323,21 @@ const PowerConsumptionAllSbuCreate = () => {
                           label="BusinessUnit"
                           onChange={(valueOption) => {
                             if (valueOption) {
-                              getDetailsData(`/mes/MSIL/GetTotalGenerationForAllSBU?BusinessUnitId=${selectedBusinessUnit?.value}&Date=${values?.dteDate}&Shift=${values?.strShift?.value}`,
+                              getDetailsData(
+                                `/mes/MSIL/GetTotalGenerationForAllSBU?BusinessUnitId=${selectedBusinessUnit?.value}&Date=${values?.dteDate}&Shift=${values?.strShift?.value}`,
                                 (data) => {
-                                  valueOption?.value === 4 ? 
-                                  setFieldValue("numPresentReading", ((data?.data?.totalRebConsumption + data?.data?.totalGenerationRunningHour) - data?.data?.totalAllSbuConsumption) || 0) :
-                                  setFieldValue("numPresentReading", "")
-                                })
+                                  valueOption?.value === 4
+                                    ? setFieldValue(
+                                        "numPresentReading",
+                                        data?.data?.totalRebConsumption +
+                                          data?.data
+                                            ?.totalGenerationRunningHour -
+                                          data?.data?.totalAllSbuConsumption ||
+                                          0
+                                      )
+                                    : setFieldValue("numPresentReading", "");
+                                }
+                              );
                               getRowData(
                                 `/mes/MSIL/GetPreviousPowerConsumptionReading?BusinessUnitId=${selectedBusinessUnit?.value}&ConsumptionBusinessUnitId=${valueOption?.value}&Date=${values?.dteDate}`,
                                 (data) => {
@@ -347,7 +375,7 @@ const PowerConsumptionAllSbuCreate = () => {
                               setFieldValue("dteDate", values?.dteDate);
                               setFieldValue("strShift", values?.strShift);
                               setTableData([]);
-                              setDetailsData({})
+                              setDetailsData({});
                             }
                           }}
                           errors={errors}
@@ -358,12 +386,15 @@ const PowerConsumptionAllSbuCreate = () => {
                     ) : null}
                     <div className="col-lg-4">
                       <p>
-                        Total Generator: {values?.intConsumptionBusinessUnit !== 4 ? 
-                        (totalGeneratorHour || 0 ) : 
-                        (totalGeneratorHour - detailsData?.data?.totalAllSbuConsumption) || 0 }
+                        Total Generator:{" "}
+                        {values?.intConsumptionBusinessUnit !== 4
+                          ? totalGeneratorHour || 0
+                          : totalGeneratorHour -
+                              detailsData?.data?.totalAllSbuConsumption || 0}
                       </p>
                       <p>
-                        Total Consumption: {detailsData?.data?.totalAllSbuConsumption || 0}
+                        Total Consumption:{" "}
+                        {detailsData?.data?.totalAllSbuConsumption || 0}
                       </p>
                     </div>
                   </div>
@@ -378,36 +409,38 @@ const PowerConsumptionAllSbuCreate = () => {
                         ) : (
                           <></>
                         )}
-                        {values?.intConsumptionBusinessUnit?.value !== -10 ? 
-                        <>
-                          <div className="col-lg-2">
-                           <InputField
-                              value={values?.startTime}
-                              label="Start Time"
-                              name="startTime"
-                              type="time"
-                              onChange={e => {
-                                 if (!values?.dteDate) return toast.warn('Please select date');
-                                 setFieldValue('startTime', e.target.value);
-                                 
-                              }}
-                           />
-                        </div>
-                        <div className="col-lg-2">
-                           <InputField
-                              value={values?.endTime}
-                              label="End Time"
-                              name="endTime"
-                              type="time"
-                              onChange={e => {
-                                 if (!values?.startTime) return toast.warn('Please Select Start Time');
-                                 setFieldValue('endTime', e.target.value);
-                                 
-                              }}
-                           />
-                        </div>
-                        </> : null
-                        }
+                        {values?.intConsumptionBusinessUnit?.value !== -10 ? (
+                          <>
+                            <div className="col-lg-2">
+                              <InputField
+                                value={values?.startTime}
+                                label="Start Time"
+                                name="startTime"
+                                type="time"
+                                onChange={(e) => {
+                                  if (!values?.dteDate)
+                                    return toast.warn("Please select date");
+                                  setFieldValue("startTime", e.target.value);
+                                }}
+                              />
+                            </div>
+                            <div className="col-lg-2">
+                              <InputField
+                                value={values?.endTime}
+                                label="End Time"
+                                name="endTime"
+                                type="time"
+                                onChange={(e) => {
+                                  if (!values?.startTime)
+                                    return toast.warn(
+                                      "Please Select Start Time"
+                                    );
+                                  setFieldValue("endTime", e.target.value);
+                                }}
+                              />
+                            </div>
+                          </>
+                        ) : null}
                         <div className="col-md-2">
                           <InputField
                             value={values?.numPreviousReading}
@@ -439,14 +472,19 @@ const PowerConsumptionAllSbuCreate = () => {
                                 setFieldValue("numTotalConsumption", "");
                               }
                             }}
-                            disabled={values?.intConsumptionBusinessUnit?.value === 4}
+                            disabled={
+                              values?.intConsumptionBusinessUnit?.value === 4
+                            }
                           />
                         </div>
                         <div className="col-md-2">
                           <InputField
-                            value={values?.intConsumptionBusinessUnit?.value === 4 ? 
-                                ((values?.numPresentReading || 0) - (values?.numPreviousReading || 0))
-                              : values?.numTotalConsumption}
+                            value={
+                              values?.intConsumptionBusinessUnit?.value === 4
+                                ? (values?.numPresentReading || 0) -
+                                  (values?.numPreviousReading || 0)
+                                : values?.numTotalConsumption
+                            }
                             label="Total Consumption"
                             name="numTotalConsumption"
                             type="number"
@@ -685,104 +723,106 @@ const PowerConsumptionAllSbuCreate = () => {
               {tableData?.data?.length > 0 ? (
                 <div className="row">
                   <div className="col-lg-12">
-                    <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
-                      <thead>
-                        <tr>
-                          <th colSpan={4} style={{ width: "30px" }}>
-                            SL
-                          </th>
-                          <th colSpan={4}>Date</th>
-                          <th colSpan={4}>Shift</th>
-                          <th colSpan={4}>Unit Name</th>
-                          <th colSpan={4}>Previous Reading</th>
-                          <th colSpan={4}>Present Reading</th>
-                          <th colSpan={4}>Total Consumption</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {tableData?.data?.map((data, index) => (
-                          <tr key={index}>
-                            <td colSpan={4}>{index + 1}</td>
-                            <td colSpan={4} className="text-center">
-                              {_dateFormatter(data?.dteDate)}
-                            </td>
-                            <td colSpan={4} className="text-center">
-                              {data?.strShift}
-                            </td>
-                            <td colSpan={4} className="text-center">
-                              {data?.strConsumptionBusinessUnitName ||
-                                values?.strConsumptionBusinessUnitName}
-                            </td>
-                            {data?.numPreviousReadingM1 ||
-                            data?.numPreviousReadingM2 ||
-                            data?.numPreviousReadingM3 ? (
-                              <>
-                                <td className="text-center">
-                                  M1 : {data?.numPreviousReading}
-                                </td>
-                                <td className="text-center">
-                                  M2 : {data?.numPreviousReadingM1}
-                                </td>
-                                <td className="text-center">
-                                  M3 : {data?.numPreviousReadingM2}
-                                </td>
-                                <td className="text-center">
-                                  M4 : {data?.numPreviousReadingM3}
-                                </td>
-                              </>
-                            ) : (
-                              <td colSpan={4} className="text-center">
-                                {data?.numPreviousReading}
-                              </td>
-                            )}
-                            {data?.numPresentReadingM1 ||
-                            data?.numPresentReadingM2 ||
-                            data?.numPresentReadingM3 ? (
-                              <>
-                                <td className="text-center">
-                                  M1 : {data?.numPresentReading}
-                                </td>
-                                <td className="text-center">
-                                  M2 : {data?.numPresentReadingM1}
-                                </td>
-                                <td className="text-center">
-                                  M3 : {data?.numPresentReadingM2}
-                                </td>
-                                <td className="text-center">
-                                  M4 : {data?.numPresentReadingM3}
-                                </td>
-                              </>
-                            ) : (
-                              <td colSpan={4} className="text-center">
-                                {data?.numPresentReading}
-                              </td>
-                            )}
-                            {data?.numTotalConsumptionM1 ||
-                            data?.numTotalConsumptionM2 ||
-                            data?.numTotalConsumptionM3 ? (
-                              <>
-                                <td className="text-center">
-                                  M1 : {data?.numTotalConsumption}
-                                </td>
-                                <td className="text-center">
-                                  M2 : {data?.numTotalConsumptionM1}
-                                </td>
-                                <td className="text-center">
-                                  M3 : {data?.numTotalConsumptionM2}
-                                </td>
-                                <td className="text-center">
-                                  M4 : {data?.numTotalConsumptionM3}
-                                </td>
-                              </>
-                            ) : (
-                              <td colSpan={4} className="text-center">
-                                {data?.numTotalConsumption}
-                              </td>
-                            )}
+                    <div className="table-responsive">
+                      <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+                        <thead>
+                          <tr>
+                            <th colSpan={4} style={{ width: "30px" }}>
+                              SL
+                            </th>
+                            <th colSpan={4}>Date</th>
+                            <th colSpan={4}>Shift</th>
+                            <th colSpan={4}>Unit Name</th>
+                            <th colSpan={4}>Previous Reading</th>
+                            <th colSpan={4}>Present Reading</th>
+                            <th colSpan={4}>Total Consumption</th>
                           </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                        </thead>
+                        <tbody>
+                          {tableData?.data?.map((data, index) => (
+                            <tr key={index}>
+                              <td colSpan={4}>{index + 1}</td>
+                              <td colSpan={4} className="text-center">
+                                {_dateFormatter(data?.dteDate)}
+                              </td>
+                              <td colSpan={4} className="text-center">
+                                {data?.strShift}
+                              </td>
+                              <td colSpan={4} className="text-center">
+                                {data?.strConsumptionBusinessUnitName ||
+                                  values?.strConsumptionBusinessUnitName}
+                              </td>
+                              {data?.numPreviousReadingM1 ||
+                              data?.numPreviousReadingM2 ||
+                              data?.numPreviousReadingM3 ? (
+                                <>
+                                  <td className="text-center">
+                                    M1 : {data?.numPreviousReading}
+                                  </td>
+                                  <td className="text-center">
+                                    M2 : {data?.numPreviousReadingM1}
+                                  </td>
+                                  <td className="text-center">
+                                    M3 : {data?.numPreviousReadingM2}
+                                  </td>
+                                  <td className="text-center">
+                                    M4 : {data?.numPreviousReadingM3}
+                                  </td>
+                                </>
+                              ) : (
+                                <td colSpan={4} className="text-center">
+                                  {data?.numPreviousReading}
+                                </td>
+                              )}
+                              {data?.numPresentReadingM1 ||
+                              data?.numPresentReadingM2 ||
+                              data?.numPresentReadingM3 ? (
+                                <>
+                                  <td className="text-center">
+                                    M1 : {data?.numPresentReading}
+                                  </td>
+                                  <td className="text-center">
+                                    M2 : {data?.numPresentReadingM1}
+                                  </td>
+                                  <td className="text-center">
+                                    M3 : {data?.numPresentReadingM2}
+                                  </td>
+                                  <td className="text-center">
+                                    M4 : {data?.numPresentReadingM3}
+                                  </td>
+                                </>
+                              ) : (
+                                <td colSpan={4} className="text-center">
+                                  {data?.numPresentReading}
+                                </td>
+                              )}
+                              {data?.numTotalConsumptionM1 ||
+                              data?.numTotalConsumptionM2 ||
+                              data?.numTotalConsumptionM3 ? (
+                                <>
+                                  <td className="text-center">
+                                    M1 : {data?.numTotalConsumption}
+                                  </td>
+                                  <td className="text-center">
+                                    M2 : {data?.numTotalConsumptionM1}
+                                  </td>
+                                  <td className="text-center">
+                                    M3 : {data?.numTotalConsumptionM2}
+                                  </td>
+                                  <td className="text-center">
+                                    M4 : {data?.numTotalConsumptionM3}
+                                  </td>
+                                </>
+                              ) : (
+                                <td colSpan={4} className="text-center">
+                                  {data?.numTotalConsumption}
+                                </td>
+                              )}
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
               ) : (

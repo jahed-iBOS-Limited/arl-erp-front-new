@@ -704,7 +704,10 @@ export default function BudgetVarianceReport() {
                         placeholder="Report Type"
                       />
                     </div>
-                    <div className="col-md-4 mt-5 pt-1 d-flex">
+                    <div className="col-md-4 mt-5 pt-1 d-flex" style={{
+                        flexWrap: "wrap",
+                        gap: "5px",
+                      }}>
                       <button
                         className="btn btn-primary"
                         type="button"

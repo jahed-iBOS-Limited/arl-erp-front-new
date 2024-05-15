@@ -27,9 +27,9 @@ const initData = {
 export default function MSILSecurityPostAssignCreate() {
   const [objProps, setObjprops] = useState({});
   const [itemList, setItemList] = useState([]);
-  const [postPlaceDDL, setPostPlaceDDL] = useAxiosGet()
-  const [, getRowData, ,] = useAxiosGet()
-  const [nameDDL, setNameDDL] = useAxiosGet()
+  const [postPlaceDDL, setPostPlaceDDL] = useAxiosGet();
+  const [, getRowData, ,] = useAxiosGet();
+  const [nameDDL, setNameDDL] = useAxiosGet();
   const [, saveData] = useAxiosPost();
   const { id } = useParams();
   const location = useLocation();
@@ -44,15 +44,23 @@ export default function MSILSecurityPostAssignCreate() {
   }, shallowEqual);
 
   useEffect(() => {
-    setPostPlaceDDL(`/mes/MesDDL/GetSecurityPostDDL?IntBusinessUnitId=${selectedBusinessUnit?.value}`)
-    setNameDDL(`/mes/MesDDL/GetEmployeeAndDesignationDDL?IntBusinessUnitId=${selectedBusinessUnit?.value}`)
+    setPostPlaceDDL(
+      `/mes/MesDDL/GetSecurityPostDDL?IntBusinessUnitId=${selectedBusinessUnit?.value}`
+    );
+    setNameDDL(
+      `/mes/MesDDL/GetEmployeeAndDesignationDDL?IntBusinessUnitId=${selectedBusinessUnit?.value}`
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, []);
 
   useEffect(() => {
     if (id) {
       getRowData(
-        `/mes/MSIL/GetSecurityPostAssignListByDateShift?date=${_dateFormatter(location?.state?.dteDate)}&ShiftId=${location?.state?.intShiftId}&BusinessunitId=${selectedBusinessUnit?.value}`,
+        `/mes/MSIL/GetSecurityPostAssignListByDateShift?date=${_dateFormatter(
+          location?.state?.dteDate
+        )}&ShiftId=${location?.state?.intShiftId}&BusinessunitId=${
+          selectedBusinessUnit?.value
+        }`,
         (data) => {
           setItemList(data);
         }
@@ -65,7 +73,9 @@ export default function MSILSecurityPostAssignCreate() {
     if (!itemList?.length) return toast.warn("Please add at least one item");
 
     saveData(
-      `/mes/MSIL/SecurityPostAssignCreateAndEdit?date=${id ? _dateFormatter(location?.state?.dteDate) : values?.date}&ShiftId=${id ? location?.state?.intShiftId : values?.shift?.value}`,
+      `/mes/MSIL/SecurityPostAssignCreateAndEdit?date=${
+        id ? _dateFormatter(location?.state?.dteDate) : values?.date
+      }&ShiftId=${id ? location?.state?.intShiftId : values?.shift?.value}`,
       itemList,
       id ? "" : cb,
       true
@@ -92,7 +102,7 @@ export default function MSILSecurityPostAssignCreate() {
         strRemarks: values?.comments || "",
         intActionBy: profileData?.userId,
         dteInsertDate: _todayDate(),
-        isActive: true
+        isActive: true,
       },
       ...itemList,
     ]);
@@ -103,7 +113,7 @@ export default function MSILSecurityPostAssignCreate() {
   //   setItemList([...data]);
   // };
 
-  console.log("itemList", itemList)
+  console.log("itemList", itemList);
 
   return (
     <IForm title="Create Security Post Assign" getProps={setObjprops}>
@@ -111,15 +121,18 @@ export default function MSILSecurityPostAssignCreate() {
       <>
         <Formik
           enableReinitialize={true}
-          initialValues={id ?
-            {
-              ...initData,
-              date: _dateFormatter(location?.state?.dteDate),
-              shift: {
-                value: location?.state?.intShiftId,
-                label: location?.state?.strShiftName
-              }
-            } : initData}
+          initialValues={
+            id
+              ? {
+                  ...initData,
+                  date: _dateFormatter(location?.state?.dteDate),
+                  shift: {
+                    value: location?.state?.intShiftId,
+                    label: location?.state?.strShiftName,
+                  },
+                }
+              : initData
+          }
           onSubmit={(values, { setSubmitting, resetForm, setFieldValue }) => {
             saveHandler(values, () => {
               resetForm(initData);
@@ -148,8 +161,8 @@ export default function MSILSecurityPostAssignCreate() {
                         name="date"
                         type="date"
                         onChange={(e) => {
-                          setFieldValue("date", e.target.value)
-                          setItemList([])
+                          setFieldValue("date", e.target.value);
+                          setItemList([]);
                         }}
                         disabled={id}
                       />
@@ -157,12 +170,17 @@ export default function MSILSecurityPostAssignCreate() {
                     <div className="col-lg-3">
                       <NewSelect
                         name="shift"
-                        options={[{ value: 1, label: "Shift - A" }, { value: 2, label: "Shift - B" }, { value: 3, label: "Shift - C" }, { value: 4, label: "General Shift" }]}
+                        options={[
+                          { value: 1, label: "Shift - A" },
+                          { value: 2, label: "Shift - B" },
+                          { value: 3, label: "Shift - C" },
+                          { value: 4, label: "General Shift" },
+                        ]}
                         value={values?.shift}
                         label="শিফট"
                         onChange={(valueOption) => {
                           setFieldValue("shift", valueOption);
-                          setItemList([])
+                          setItemList([]);
                         }}
                         errors={errors}
                         isDisabled={id}
@@ -176,7 +194,10 @@ export default function MSILSecurityPostAssignCreate() {
                         label="নাম"
                         onChange={(valueOption) => {
                           setFieldValue("name", valueOption);
-                          setFieldValue("designation", valueOption?.strDesignationName)
+                          setFieldValue(
+                            "designation",
+                            valueOption?.strDesignationName
+                          );
                         }}
                         errors={errors}
                       />
@@ -246,52 +267,55 @@ export default function MSILSecurityPostAssignCreate() {
                       </button>
                     </div>
                   </div>
-
                 </div>
-
 
                 <div className="row">
                   <div className="col-lg-12">
-                    <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
-                      <thead>
-                        <tr>
-                          <th>তারিখ </th>
-                          <th>শিফট </th>
-                          <th>নাম </th>
-                          <th>পদবী</th>
-                          <th>পোস্ট/স্থান</th>
-                          <th>প্রবেশের সময়</th>
-                          <th>বহির্গমনের সময়</th>
-                          <th>মন্তব্য</th>
-                          <th style={{ width: "50px" }}>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {itemList?.length > 0 &&
-                          itemList?.map((item, index) => (
-                            <tr key={index}>
-                              <td className="text-center">
-                                {_dateFormatter(item?.dteDate)}
-                              </td>
-                              <td>{item?.strShiftName}</td>
-                              <td>{item?.strEmployeeName}</td>
-                              <td>{item?.strDesignation}</td>
-                              <td>{item?.strPostName}</td>
-                              <td className="text-center">{_timeFormatter(item?.tmInTime || "")}</td>
-                              <td className="text-center">
-                                <InputField
-                                  value={item?.tmOutTime || ""}
-                                  type="time"
-                                  onChange={(e) => {
-                                    const data = [...itemList]
-                                    data[index]["tmOutTime"] = e.target.value;
-                                    setItemList(data);
-                                  }}
-                                />
-                              </td>
-                              <td className="text-center">{item?.strRemarks}</td>
-                              <td className="text-center">
-                                {/* <OverlayTrigger
+                    <div className="table-responsive">
+                      <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+                        <thead>
+                          <tr>
+                            <th>তারিখ </th>
+                            <th>শিফট </th>
+                            <th>নাম </th>
+                            <th>পদবী</th>
+                            <th>পোস্ট/স্থান</th>
+                            <th>প্রবেশের সময়</th>
+                            <th>বহির্গমনের সময়</th>
+                            <th>মন্তব্য</th>
+                            <th style={{ width: "50px" }}>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {itemList?.length > 0 &&
+                            itemList?.map((item, index) => (
+                              <tr key={index}>
+                                <td className="text-center">
+                                  {_dateFormatter(item?.dteDate)}
+                                </td>
+                                <td>{item?.strShiftName}</td>
+                                <td>{item?.strEmployeeName}</td>
+                                <td>{item?.strDesignation}</td>
+                                <td>{item?.strPostName}</td>
+                                <td className="text-center">
+                                  {_timeFormatter(item?.tmInTime || "")}
+                                </td>
+                                <td className="text-center">
+                                  <InputField
+                                    value={item?.tmOutTime || ""}
+                                    type="time"
+                                    onChange={(e) => {
+                                      const data = [...itemList];
+                                      data[index]["tmOutTime"] = e.target.value;
+                                      setItemList(data);
+                                    }}
+                                  />
+                                </td>
+                                <td className="text-center">
+                                  {item?.strRemarks}
+                                </td>
+                                <td className="text-center">
+                                  {/* <OverlayTrigger
                                   overlay={
                                     <Tooltip id="cs-icon">{"Remove"}</Tooltip>
                                   }
@@ -305,11 +329,12 @@ export default function MSILSecurityPostAssignCreate() {
                                     ></i>
                                   </span>
                                 </OverlayTrigger> */}
-                              </td>
-                            </tr>
-                          ))}
-                      </tbody>
-                    </table>
+                                </td>
+                              </tr>
+                            ))}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
 

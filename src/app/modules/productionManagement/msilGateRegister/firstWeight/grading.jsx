@@ -173,28 +173,30 @@ export default function GradingCreate() {
 
                 <div className="row">
                   <div className="col-lg-12">
-                    <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
-                      <thead>
-                        <tr>
-                          <th>পণ্যের নাম</th>
-                          <th>সাপ্লায়ারের নাম</th>
-                          <th>গাড়ীর নাম্বার</th>
-                          <th>চালান নাম্বার</th>
-                          <th>First Weight</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>{location?.state?.strMaterialName}</td>
-                          <td>{location?.state?.strSupplierName}</td>
-                          <td>{location?.state?.strTruckNumber}</td>
-                          <td>{location?.state?.strInvoiceNumber}</td>
-                          <td className="text-center">
-                            {location?.state?.numFirstWeightTon}
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
+                    <div className="table-responsive">
+                      <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+                        <thead>
+                          <tr>
+                            <th>পণ্যের নাম</th>
+                            <th>সাপ্লায়ারের নাম</th>
+                            <th>গাড়ীর নাম্বার</th>
+                            <th>চালান নাম্বার</th>
+                            <th>First Weight</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>{location?.state?.strMaterialName}</td>
+                            <td>{location?.state?.strSupplierName}</td>
+                            <td>{location?.state?.strTruckNumber}</td>
+                            <td>{location?.state?.strInvoiceNumber}</td>
+                            <td className="text-center">
+                              {location?.state?.numFirstWeightTon}
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
 
@@ -206,116 +208,118 @@ export default function GradingCreate() {
 
                 <div className="row">
                   <div className="col-lg-12">
-                    <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
-                      <thead>
-                        <tr>
-                          <th>Item Code</th>
-                          <th>Item Name</th>
-                          <th>UoM</th>
-                          <th>Quantity</th>
-                          <th>Rest Quantity</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {rowData?.length > 0 &&
-                          rowData?.map((item, index) => {
-                            return isLessQuantityRow(index) ||
-                              isOverSizeRow(index) ? null : (
-                              <tr>
-                                <td>{item?.itemCode}</td>
-                                <td>{item?.itemName}</td>
-                                <td>{item?.uomName}</td>
-                                <td
-                                  style={{ width: "200px" }}
-                                  className="disabled-feedback disable-border"
-                                >
-                                  <IInput
-                                    value={rowData[index]?.quantity}
-                                    name="quantity"
-                                    type="number"
-                                    placeholder="Quantity"
-                                    onChange={(e) => {
-                                      rowDataHandler(
-                                        "quantity",
-                                        index,
-                                        e.target.value
-                                      );
-                                    }}
-                                    disabled={
-                                      item?.isRestQuantity ||
-                                      item?.isQuantityDisabled
-                                    }
-                                    step="any"
-                                    min={0}
-                                  />
-                                </td>
-                                <td
-                                  style={{ width: "100px" }}
-                                  className="disabled-feedback disable-border text-center"
-                                >
-                                  <input
-                                    type="checkbox"
-                                    checked={item?.isRestQuantity}
-                                    onChange={(e) => {
-                                      rowCheckboxHandler(
-                                        index,
-                                        e.target.checked
-                                      );
-                                    }}
-                                    disabled={item?.isCheckDisabled}
-                                  />
-                                </td>
-                              </tr>
-                            );
-                          })}
-                        <tr>
-                          <td>{""}</td>
-                          <td>{"Less"}</td>
-                          <td>{""}</td>
-                          <td
-                            style={{ width: "200px" }}
-                            className="disabled-feedback disable-border"
-                          >
-                            <IInput
-                              value={lessQuantity}
-                              name="quantity"
-                              type="number"
-                              placeholder="Less Quantity"
-                              onChange={(e) => {
-                                setLessQuantity(e.target.value);
-                              }}
-                              disabled={false}
-                              step="any"
-                              min={0}
-                            />
-                          </td>
-                          <td></td>
-                        </tr>
-                        <tr>
-                          <td>{""}</td>
-                          <td>{"Over Size"}</td>
-                          <td>{""}</td>
-                          <td
-                            style={{ width: "200px" }}
-                            className="disabled-feedback disable-border"
-                          >
-                            <IInput
-                              value={overSize}
-                              name="oversize"
-                              type="number"
-                              placeholder="Over Size"
-                              onChange={(e) => {
-                                setoverSize(e.target.value);
-                              }}
-                              disabled={false}
-                              step="any"
-                              min={0}
-                            />
-                          </td>
-                          <td></td>
-                        </tr>
-                      </tbody>
-                    </table>
+                    <div className="table-responsive">
+                      <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+                        <thead>
+                          <tr>
+                            <th>Item Code</th>
+                            <th>Item Name</th>
+                            <th>UoM</th>
+                            <th>Quantity</th>
+                            <th>Rest Quantity</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {rowData?.length > 0 &&
+                            rowData?.map((item, index) => {
+                              return isLessQuantityRow(index) ||
+                                isOverSizeRow(index) ? null : (
+                                <tr>
+                                  <td>{item?.itemCode}</td>
+                                  <td>{item?.itemName}</td>
+                                  <td>{item?.uomName}</td>
+                                  <td
+                                    style={{ width: "200px" }}
+                                    className="disabled-feedback disable-border"
+                                  >
+                                    <IInput
+                                      value={rowData[index]?.quantity}
+                                      name="quantity"
+                                      type="number"
+                                      placeholder="Quantity"
+                                      onChange={(e) => {
+                                        rowDataHandler(
+                                          "quantity",
+                                          index,
+                                          e.target.value
+                                        );
+                                      }}
+                                      disabled={
+                                        item?.isRestQuantity ||
+                                        item?.isQuantityDisabled
+                                      }
+                                      step="any"
+                                      min={0}
+                                    />
+                                  </td>
+                                  <td
+                                    style={{ width: "100px" }}
+                                    className="disabled-feedback disable-border text-center"
+                                  >
+                                    <input
+                                      type="checkbox"
+                                      checked={item?.isRestQuantity}
+                                      onChange={(e) => {
+                                        rowCheckboxHandler(
+                                          index,
+                                          e.target.checked
+                                        );
+                                      }}
+                                      disabled={item?.isCheckDisabled}
+                                    />
+                                  </td>
+                                </tr>
+                              );
+                            })}
+                          <tr>
+                            <td>{""}</td>
+                            <td>{"Less"}</td>
+                            <td>{""}</td>
+                            <td
+                              style={{ width: "200px" }}
+                              className="disabled-feedback disable-border"
+                            >
+                              <IInput
+                                value={lessQuantity}
+                                name="quantity"
+                                type="number"
+                                placeholder="Less Quantity"
+                                onChange={(e) => {
+                                  setLessQuantity(e.target.value);
+                                }}
+                                disabled={false}
+                                step="any"
+                                min={0}
+                              />
+                            </td>
+                            <td></td>
+                          </tr>
+                          <tr>
+                            <td>{""}</td>
+                            <td>{"Over Size"}</td>
+                            <td>{""}</td>
+                            <td
+                              style={{ width: "200px" }}
+                              className="disabled-feedback disable-border"
+                            >
+                              <IInput
+                                value={overSize}
+                                name="oversize"
+                                type="number"
+                                placeholder="Over Size"
+                                onChange={(e) => {
+                                  setoverSize(e.target.value);
+                                }}
+                                disabled={false}
+                                step="any"
+                                min={0}
+                              />
+                            </td>
+                            <td></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
 

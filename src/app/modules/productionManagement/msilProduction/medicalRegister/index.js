@@ -26,7 +26,7 @@ import MedicalRegisterDetailsView from "./detailsViewModal";
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
-}
+};
 
 function MedicalRegisterLanding() {
   const history = useHistory();
@@ -48,17 +48,17 @@ function MedicalRegisterLanding() {
   useEffect(() => {
     getRowData(
       // `/mes/MSIL/GetAllMedicalRegisterLanding?PageNo=${pageNo}&PageSize=${pageSize}&BusinessunitId=${selectedBusinessUnit?.value}`
-      `/mes/MSIL/GetAllMedicalRegisterLanding?BusinessunitId=${selectedBusinessUnit?.value}&PageNo=${pageNo}&PageSize=${pageSize}&FromDate=${initData?.fromDate
-      }&ToDate=${initData?.toDate
-      }`
+      `/mes/MSIL/GetAllMedicalRegisterLanding?BusinessunitId=${selectedBusinessUnit?.value}&PageNo=${pageNo}&PageSize=${pageSize}&FromDate=${initData?.fromDate}&ToDate=${initData?.toDate}`
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
     getRowData(
-      `/mes/MSIL/GetAllMedicalRegisterLanding?BusinessunitId=${selectedBusinessUnit?.value}&PageNo=${pageNo}&PageSize=${pageSize}&search=${searchValue || ""}&FromDate=${values?.fromDate
-      }&ToDate=${values?.toDate}`
+      `/mes/MSIL/GetAllMedicalRegisterLanding?BusinessunitId=${
+        selectedBusinessUnit?.value
+      }&PageNo=${pageNo}&PageSize=${pageSize}&search=${searchValue ||
+        ""}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}`
       // `/mes/MSIL/GetAllMedicalRegisterLanding?PageNo=${pageNo}&PageSize=${pageSize}&search=${searchValue ||
       // ""}&date=${values?.date || ""}&BusinessunitId=${selectedBusinessUnit?.value}`
     );
@@ -72,7 +72,7 @@ function MedicalRegisterLanding() {
       <Formik
         enableReinitialize={true}
         initialValues={initData}
-        onSubmit={() => { }}
+        onSubmit={() => {}}
       >
         {({ values, errors, touched, setFieldValue }) => (
           <>
@@ -139,89 +139,84 @@ function MedicalRegisterLanding() {
                   <PaginationSearch
                     placeholder="Search"
                     paginationSearchHandler={paginationSearchHandler}
-                  values={values}
+                    values={values}
                   />
                 </div>
                 <div className="row">
                   <div className="col-lg-12">
-                    <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
-                      <thead>
-                        <tr>
-                          <th style={{ width: "30px" }}>SL</th>
-                          <th>Date</th>
-                          <th>Service Recipient</th>
-                          <th>Gender</th>
-                          <th>Age</th>
-                          <th>Designation</th>
-                          <th>Department</th>
-                          <th>Section</th>
-                          <th>Shift</th>
-                          <th>Doctor</th>
-                          <th style={{ width: "80px" }}>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {rowData?.medicalRegister?.length > 0 &&
-                          rowData?.medicalRegister?.map((item, index) => (
-                            <tr key={index}>
-                              <td>{item?.sl}</td>
-                              <td className="text-center">
-                                {_dateFormatter(item?.dteDate)}
-                              </td>
-                              <td>{item?.strServiceRecipientName}</td>
-                              <td>{item?.strGender}</td>
-                              <td>{item?.intAge}</td>
-                              <td>
-                                {item?.strDesignationName}
-                              </td>
-                              <td>
-                                {item?.strDepartment}
-                              </td>
-                              <td>
-                                {item?.strSectionName}
-                              </td>
-                              <td>
-                                {item?.strShiftName}
-                              </td>
-                              <td>{item?.strDoctorName}</td>
-                              <td className="text-center">
-                                <div className="d-flex align-items-center justify-content-around">
-                                  <IEdit
-                                    onClick={() =>
-                                      history.push({
-                                        pathname: `/production-management/msil-Production/medicalregister/edit/${item?.intMedicalRegisterHeaderId}`,
-                                        state: { ...item },
-                                      })
-                                    }
-                                  />
-                                  <IView
-                                    clickHandler={() => {
-                                      setMedicineListDetails(item);
-                                      setIsShowModel(true);
-                                    }}
-                                  />
-                                  <span
-                                    onClick={() => {
-                                      deleteHandler(
-                                        `/mes/MSIL/DeleteMedicalRegister?Id=${item?.intMedicalRegisterHeaderId}&UserId=${profileData?.userId}&IsActive=false&BusinessunitId=${selectedBusinessUnit?.value}`,
-                                        null,
-                                        () => {
-                                          getRowData(
-                                            `/mes/MSIL/GetAllMedicalRegisterLanding?PageNo=${pageNo}&PageSize=${pageSize}&BusinessunitId=${selectedBusinessUnit?.value}`
-                                          );
-                                        },
-                                        true
-                                      );
-                                    }}
-                                  >
-                                    <IDelete />
-                                  </span>
-                                </div>
-                              </td>
-                            </tr>
-                          ))}
-                      </tbody>
-                    </table>
+                    <div className="table-responsive">
+                      <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+                        <thead>
+                          <tr>
+                            <th style={{ width: "30px" }}>SL</th>
+                            <th>Date</th>
+                            <th>Service Recipient</th>
+                            <th>Gender</th>
+                            <th>Age</th>
+                            <th>Designation</th>
+                            <th>Department</th>
+                            <th>Section</th>
+                            <th>Shift</th>
+                            <th>Doctor</th>
+                            <th style={{ width: "80px" }}>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {rowData?.medicalRegister?.length > 0 &&
+                            rowData?.medicalRegister?.map((item, index) => (
+                              <tr key={index}>
+                                <td>{item?.sl}</td>
+                                <td className="text-center">
+                                  {_dateFormatter(item?.dteDate)}
+                                </td>
+                                <td>{item?.strServiceRecipientName}</td>
+                                <td>{item?.strGender}</td>
+                                <td>{item?.intAge}</td>
+                                <td>{item?.strDesignationName}</td>
+                                <td>{item?.strDepartment}</td>
+                                <td>{item?.strSectionName}</td>
+                                <td>{item?.strShiftName}</td>
+                                <td>{item?.strDoctorName}</td>
+                                <td className="text-center">
+                                  <div className="d-flex align-items-center justify-content-around">
+                                    <IEdit
+                                      onClick={() =>
+                                        history.push({
+                                          pathname: `/production-management/msil-Production/medicalregister/edit/${item?.intMedicalRegisterHeaderId}`,
+                                          state: { ...item },
+                                        })
+                                      }
+                                    />
+                                    <IView
+                                      clickHandler={() => {
+                                        setMedicineListDetails(item);
+                                        setIsShowModel(true);
+                                      }}
+                                    />
+                                    <span
+                                      onClick={() => {
+                                        deleteHandler(
+                                          `/mes/MSIL/DeleteMedicalRegister?Id=${item?.intMedicalRegisterHeaderId}&UserId=${profileData?.userId}&IsActive=false&BusinessunitId=${selectedBusinessUnit?.value}`,
+                                          null,
+                                          () => {
+                                            getRowData(
+                                              `/mes/MSIL/GetAllMedicalRegisterLanding?PageNo=${pageNo}&PageSize=${pageSize}&BusinessunitId=${selectedBusinessUnit?.value}`
+                                            );
+                                          },
+                                          true
+                                        );
+                                      }}
+                                    >
+                                      <IDelete />
+                                    </span>
+                                  </div>
+                                </td>
+                              </tr>
+                            ))}
+                        </tbody>
+                      </table>
+                    </div>
+
                     {rowData?.medicalRegister?.length > 0 && (
                       <PaginationTable
                         count={rowData?.totalCount}

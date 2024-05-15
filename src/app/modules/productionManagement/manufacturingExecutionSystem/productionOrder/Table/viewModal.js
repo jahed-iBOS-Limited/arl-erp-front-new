@@ -346,77 +346,78 @@ export default function ProductionOrderViewFormModel({
                         </div>
                       </div>
                       {/* Start Table Part */}
-                      <table className="table table-striped table-bordered global-table">
-                        <thead>
-                          <tr>
-                            <th>SL</th>
-                            <th>Item Code</th>
-                            <th>Item Name</th>
-                            <th>Reference No</th>
-                            <th>Request Qty.</th>
-                            {/* <th>Purpose</th> */}
-                            <th>Action</th>
-                          </tr>
-                        </thead>
-                        <tbody className="production-order-css">
-                          {rowDto?.map((item, index) => (
-                            <tr key={index}>
-                              <td className="text-center align-middle">
-                                {index + 1}
-                              </td>
-                              <td className="text-center align-middle">
-                                <div className="pl-2">{item?.itemCode}</div>
-                              </td>
-                              <td>
-                                <div className="pl-2">{item?.itemName}</div>
-                              </td>
-                              <td>
-                                <div className="pl-2">
-                                  {item?.productionOrderCode}
-                                </div>
-                              </td>
-                              <td
-                                style={{
-                                  width: "200px",
-                                }}
-                                className="text-center align-middle table-input"
-                              >
-                                <span className="input-div">
-                                  <input
-                                    value={item?.qty || ""}
-                                    className={`${
-                                      item?.isError ? "input-qty" : ""
-                                    }  form-control`}
-                                    onChange={(e) => {
-                                      // Set Error False
-                                      quantityHandler(index, e.target.value);
-                                      const newArr = [...rowDto];
-                                      newArr[index].isError = false;
-                                      setRowDto(newArr);
-                                      // if (
-                                      //   e.target.value <= item?.suggestionQty
-                                      // ) {
-                                      //   // Set Error False
-                                      //   quantityHandler(index, e.target.value);
-                                      //   const newArr = [...rowDto];
-                                      //   newArr[index].isError = false;
-                                      //   setRowDto(newArr);
-                                      // } else {
-                                      //   // Set Error True
-                                      //   quantityHandler(index, e.target.value);
-                                      //   const newArr = [...rowDto];
-                                      //   newArr[index].isError = true;
-                                      //   setRowDto(newArr);
-                                      // }
-                                    }}
-                                    placeholder={item?.suggestionQty}
-                                    type="number"
-                                  />
-                                </span>
-                              </td>
+                      <div className="table-responsive">
+                        <table className="table table-striped table-bordered global-table">
+                          <thead>
+                            <tr>
+                              <th>SL</th>
+                              <th>Item Code</th>
+                              <th>Item Name</th>
+                              <th>Reference No</th>
+                              <th>Request Qty.</th>
+                              {/* <th>Purpose</th> */}
+                              <th>Action</th>
+                            </tr>
+                          </thead>
+                          <tbody className="production-order-css">
+                            {rowDto?.map((item, index) => (
+                              <tr key={index}>
+                                <td className="text-center align-middle">
+                                  {index + 1}
+                                </td>
+                                <td className="text-center align-middle">
+                                  <div className="pl-2">{item?.itemCode}</div>
+                                </td>
+                                <td>
+                                  <div className="pl-2">{item?.itemName}</div>
+                                </td>
+                                <td>
+                                  <div className="pl-2">
+                                    {item?.productionOrderCode}
+                                  </div>
+                                </td>
+                                <td
+                                  style={{
+                                    width: "200px",
+                                  }}
+                                  className="text-center align-middle table-input"
+                                >
+                                  <span className="input-div">
+                                    <input
+                                      value={item?.qty || ""}
+                                      className={`${
+                                        item?.isError ? "input-qty" : ""
+                                      }  form-control`}
+                                      onChange={(e) => {
+                                        // Set Error False
+                                        quantityHandler(index, e.target.value);
+                                        const newArr = [...rowDto];
+                                        newArr[index].isError = false;
+                                        setRowDto(newArr);
+                                        // if (
+                                        //   e.target.value <= item?.suggestionQty
+                                        // ) {
+                                        //   // Set Error False
+                                        //   quantityHandler(index, e.target.value);
+                                        //   const newArr = [...rowDto];
+                                        //   newArr[index].isError = false;
+                                        //   setRowDto(newArr);
+                                        // } else {
+                                        //   // Set Error True
+                                        //   quantityHandler(index, e.target.value);
+                                        //   const newArr = [...rowDto];
+                                        //   newArr[index].isError = true;
+                                        //   setRowDto(newArr);
+                                        // }
+                                      }}
+                                      placeholder={item?.suggestionQty}
+                                      type="number"
+                                    />
+                                  </span>
+                                </td>
 
-                              {/* Assign By Miraj Bhai (BA) */}
-                              {/* <td className="text-center align-middle table-input">
+                                {/* Assign By Miraj Bhai (BA) */}
+                                {/* <td className="text-center align-middle table-input">
                                 <input
                                   value={item?.referenceNo}
                                   name="referenceNo"
@@ -431,15 +432,16 @@ export default function ProductionOrderViewFormModel({
                                 />
                               </td> */}
 
-                              <td className="text-center align-middle table-input">
-                                <span onClick={() => remover(index)}>
-                                  <IDelete />
-                                </span>
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
+                                <td className="text-center align-middle table-input">
+                                  <span onClick={() => remover(index)}>
+                                    <IDelete />
+                                  </span>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
 
                       {errorMsg && (
                         <small style={{ color: "red" }}>

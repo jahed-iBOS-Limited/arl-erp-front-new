@@ -128,114 +128,119 @@ export default function BackCalculationModal({
           >
             <Form>
               <div className="row">
-                <table className="table table-striped table-bordered global-table">
-                  <thead>
-                    <tr>
-                      <th>Sl</th>
-                      <th>Item Name</th>
-                      <th>UOM Name</th>
-                      <th>Qty</th>
-                      <th>Rate</th>
-                      <th>Value</th>
-                      <th>
-                        {values?.isLastProduction ? "Return Qty" : "Rest Qty"}
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {rowData?.length > 0 &&
-                      rowData?.map((item, index) => (
-                        <tr key={item?.itemId}>
-                          <td>{index + 1}</td>
-                          <td>{item?.itemName}</td>
-                          <td>{item?.uomName}</td>
-                          <td>
-                            <InputField
-                              name="requiredQuantity"
-                              type="number"
-                              value={item?.requiredQuantity}
-                              max={item?.numApprovedQuantity}
-                              onChange={(e) => {
-                                if (+e.target.value > item.numApprovedQuantity) {
-                                  return toast.warn(
-                                    `Qty cann't be greater than ${item.numApprovedQuantity}`
-                                  );
-                                }
-                                let requiredQuantity = e?.target?.value;
-                                requiredQuantity =
-                                  requiredQuantity < 0
-                                    ? Math?.abs(requiredQuantity)
-                                    : requiredQuantity;
+                <div className="table-responsive">
+                  <table className="table table-striped table-bordered global-table">
+                    <thead>
+                      <tr>
+                        <th>Sl</th>
+                        <th>Item Name</th>
+                        <th>UOM Name</th>
+                        <th>Qty</th>
+                        <th>Rate</th>
+                        <th>Value</th>
+                        <th>
+                          {values?.isLastProduction ? "Return Qty" : "Rest Qty"}
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {rowData?.length > 0 &&
+                        rowData?.map((item, index) => (
+                          <tr key={item?.itemId}>
+                            <td>{index + 1}</td>
+                            <td>{item?.itemName}</td>
+                            <td>{item?.uomName}</td>
+                            <td>
+                              <InputField
+                                name="requiredQuantity"
+                                type="number"
+                                value={item?.requiredQuantity}
+                                max={item?.numApprovedQuantity}
+                                onChange={(e) => {
+                                  if (
+                                    +e.target.value > item.numApprovedQuantity
+                                  ) {
+                                    return toast.warn(
+                                      `Qty cann't be greater than ${item.numApprovedQuantity}`
+                                    );
+                                  }
+                                  let requiredQuantity = e?.target?.value;
+                                  requiredQuantity =
+                                    requiredQuantity < 0
+                                      ? Math?.abs(requiredQuantity)
+                                      : requiredQuantity;
 
-                                setRowData((prev) => {
-                                  const newRowData = [...prev];
-                                  newRowData[index] = {
-                                    ...newRowData?.[index],
-                                    requiredQuantity,
-                                  };
-                                  return newRowData;
-                                });
-                              }}
-                            />
-                          </td>
-                          <td className="text-right">
-                            {_formatMoney(item?.numStockRateByDate)}
-                          </td>
-                          <td className="text-right">
-                            {_formatMoney(
-                              item?.requiredQuantity * item?.numStockRateByDate
-                            )}
-                          </td>
-                          <td className="text-right">
-                            <strong
-                              className={
-                                (+item?.numApprovedQuantity || 0) -
-                                  (+item?.requiredQuantity || 0) >=
-                                1
-                                  ? "text-warning"
-                                  : ""
-                              }
-                            >
-                              {(+item?.numApprovedQuantity || 0) -
-                                (+item?.requiredQuantity || 0)}
-                            </strong>
-                          </td>
-                        </tr>
-                      ))}
-                    <tr>
-                      <td className="text-center" colSpan={3}>
-                        Total Material Cost
-                      </td>
-                      <td></td>
-                      <td></td>
-                      <td className="text-right">
-                        {_formatMoney(calculateTotalValue)}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="text-center" colSpan={3}>
-                        Total Overhead Cost
-                      </td>
-                      <td></td>
-                      <td></td>
-                      <td className="text-right">
-                        {_formatMoney(calculateTotalExpence())}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="text-center" colSpan={3}>
-                        Total Cost
-                      </td>
-                      <td></td>
-                      <td></td>
-                      <td className="text-right">
-                        {_formatMoney(
-                          calculateTotalValue + calculateTotalExpence()
-                        )}
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+                                  setRowData((prev) => {
+                                    const newRowData = [...prev];
+                                    newRowData[index] = {
+                                      ...newRowData?.[index],
+                                      requiredQuantity,
+                                    };
+                                    return newRowData;
+                                  });
+                                }}
+                              />
+                            </td>
+                            <td className="text-right">
+                              {_formatMoney(item?.numStockRateByDate)}
+                            </td>
+                            <td className="text-right">
+                              {_formatMoney(
+                                item?.requiredQuantity *
+                                  item?.numStockRateByDate
+                              )}
+                            </td>
+                            <td className="text-right">
+                              <strong
+                                className={
+                                  (+item?.numApprovedQuantity || 0) -
+                                    (+item?.requiredQuantity || 0) >=
+                                  1
+                                    ? "text-warning"
+                                    : ""
+                                }
+                              >
+                                {(+item?.numApprovedQuantity || 0) -
+                                  (+item?.requiredQuantity || 0)}
+                              </strong>
+                            </td>
+                          </tr>
+                        ))}
+                      <tr>
+                        <td className="text-center" colSpan={3}>
+                          Total Material Cost
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td className="text-right">
+                          {_formatMoney(calculateTotalValue)}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className="text-center" colSpan={3}>
+                          Total Overhead Cost
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td className="text-right">
+                          {_formatMoney(calculateTotalExpence())}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className="text-center" colSpan={3}>
+                          Total Cost
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td className="text-right">
+                          {_formatMoney(
+                            calculateTotalValue + calculateTotalExpence()
+                          )}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
               </div>
 
               <button

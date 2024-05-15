@@ -422,7 +422,13 @@ export function IncomeStatementReport() {
                         placeholder="Report Type"
                       />
                     </div>
-                    <div className="col-md-4 mt-5 pt-1 d-flex">
+                    <div
+                      className="col-md-4 mt-5 pt-1 d-flex"
+                      style={{
+                        flexWrap: "wrap",
+                        gap: "5px",
+                      }}
+                    >
                       <button
                         className="btn btn-primary"
                         type="button"
@@ -610,9 +616,11 @@ export function IncomeStatementReport() {
                                         </span>
                                       </td>
                                       <td className="text-right">
-                                        {data?.monLastPeriodAmount ? numberWithCommas(
-                                          data?.monLastPeriodAmount.toFixed()
-                                        ) : 0}
+                                        {data?.monLastPeriodAmount
+                                          ? numberWithCommas(
+                                              data?.monLastPeriodAmount.toFixed()
+                                            )
+                                          : 0}
                                       </td>
                                       <td className="text-right">
                                         {data?.monCurrentPeriodAmount &&

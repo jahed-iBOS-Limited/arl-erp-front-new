@@ -94,126 +94,137 @@ export default function MeltingProduction() {
                   className="loan-scrollable-table"
                 >
                   <div className="scroll-table _table">
-                    <table className="table table-striped table-bordered bj-table bj-table-landing">
-                      <thead>
-                        <tr>
-                          <th style={{ minWidth: "50px" }}>SL</th>
-                          <th>Date</th>
-                          <th>Shift</th>
-                          <th style={{ width: "180px" }}>Heat No</th>
-                          <th>Total ScrapCal</th>
-                          <th>Ferro Manganese</th>
-                          <th>Silicon Manganese</th>
-                          <th>Ferro Silicon</th>
-                          <th>Total Chemical Cal</th>
-                          <th>Production Qty Pcs</th>
-                          <th>Production Qty Kgs Cal</th>
-                          <th>Chemical Per MTCal</th>
-                          <th>Heat Start Time</th>
-                          <th>Heat End Time</th>
-                          <th>Total Heat Time</th>
-                          <th>Billet Weight</th>
-                          <th>Wastage Percentage</th>
-                          <th>Wastage Kgs Cal</th>
-                          <th>REB Consumption</th>
-                          <th>MT REB Used Cal</th>
-                          <th>Power Cut Hours</th>
-                          <th>Power Cut Mitutes</th>
-                          <th>M.Panel No</th>
-                          <th>Crucible No</th>
-                          <th>Crucible Lining Heat No</th>
-                          <th style={{ width: "50px" }}>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {landigData?.data?.length > 0 &&
-                          landigData?.data?.map((item, index) => (
-                            <tr key={index}>
-                              <td>{index + 1}</td>
-                              <td className="text-center">
-                                {_dateFormatter(item?.dteDate)}
-                              </td>
-                              <td className="text-center">{item?.strShift}</td>
-                              <td>{item?.strHeatNo}</td>
-                              <td className="text-center">
-                                {item?.numTotalScrapCal}
-                              </td>
-                              <td className="text-center">
-                                {item?.numFerroManganese}
-                              </td>
-                              <td className="text-center">
-                                {item?.numSiliconManganese}
-                              </td>
-                              <td className="text-center">
-                                {item?.numFerroSilicon}
-                              </td>
-                              <td className="text-center">
-                                {item?.numTotalChemicalCal}
-                              </td>
-                              <td className="text-center">
-                                {item?.intProductionQtyPcs}
-                              </td>
-                              <td className="text-center">
-                                {item?.numProductionQtyKgsCal}
-                              </td>
-                              <td className="text-center">
-                                {item?.numChemicalPerMTCal}
-                              </td>
-                              <td className="text-center">
-                                {item?.tmHeatStartTime &&
-                                  _timeFormatter(item?.tmHeatStartTime)}
-                              </td>
-                              <td className="text-center">
-                                {item?.tmHeatEndTime &&
-                                  _timeFormatter(item?.tmHeatEndTime)}
-                              </td>
-                              <td className="text-center">
-                                {item?.tmTotalHeatTime &&
-                                  item?.tmTotalHeatTime?.split(":")?.[0] +
-                                    "H"}{" "}
-                                {item?.tmTotalHeatTime &&
-                                  item?.tmTotalHeatTime?.split(":")?.[1] + "M"}
-                              </td>
-                              <td className="text-center">
-                                {item?.numPerBilletWeight}
-                              </td>
-                              <td className="text-center">
-                                {item?.numWastagePercentage}
-                              </td>
-                              <td className="text-center">
-                                {item?.numWastageKgsCal}
-                              </td>
-                              <td className="text-center">
-                                {item?.numRebconsumption}
-                              </td>
-                              <td className="text-center">
-                                {item?.numPerMTREBUsedCal}
-                              </td>
-                              <td className="text-center">
-                                {item?.tmPowerCutHours &&
-                                  item?.tmPowerCutHours?.split(":")[0]}
-                              </td>
-                              <td className="text-center">
-                                {item?.tmPowerCutMitutes &&
-                                  item?.tmPowerCutMitutes?.split(":")[1]}
-                              </td>
-                              <td className="text-center">{item?.intMpanelNo}</td>
-                              <td className="text-center">{item?.intCrucibleNo}</td>
-                              <td className="text-center">{item?.intCrucibleLiningHeatNo}</td>
-                              <td className="text-center">
-                                <IEdit
-                                  onClick={() => {
-                                    history.push({
-                                      pathname: `/production-management/msil-Production/meltingproduction/edit/${item?.intAutoId}`,
-                                      state: { ...item },
-                                    });
-                                  }}
-                                />
-                              </td>
-                            </tr>
-                          ))}
-                      </tbody>
-                    </table>
+                    <div className="table-responsive">
+                      <table className="table table-striped table-bordered bj-table bj-table-landing">
+                        <thead>
+                          <tr>
+                            <th style={{ minWidth: "50px" }}>SL</th>
+                            <th>Date</th>
+                            <th>Shift</th>
+                            <th style={{ width: "180px" }}>Heat No</th>
+                            <th>Total ScrapCal</th>
+                            <th>Ferro Manganese</th>
+                            <th>Silicon Manganese</th>
+                            <th>Ferro Silicon</th>
+                            <th>Total Chemical Cal</th>
+                            <th>Production Qty Pcs</th>
+                            <th>Production Qty Kgs Cal</th>
+                            <th>Chemical Per MTCal</th>
+                            <th>Heat Start Time</th>
+                            <th>Heat End Time</th>
+                            <th>Total Heat Time</th>
+                            <th>Billet Weight</th>
+                            <th>Wastage Percentage</th>
+                            <th>Wastage Kgs Cal</th>
+                            <th>REB Consumption</th>
+                            <th>MT REB Used Cal</th>
+                            <th>Power Cut Hours</th>
+                            <th>Power Cut Mitutes</th>
+                            <th>M.Panel No</th>
+                            <th>Crucible No</th>
+                            <th>Crucible Lining Heat No</th>
+                            <th style={{ width: "50px" }}>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {landigData?.data?.length > 0 &&
+                            landigData?.data?.map((item, index) => (
+                              <tr key={index}>
+                                <td>{index + 1}</td>
+                                <td className="text-center">
+                                  {_dateFormatter(item?.dteDate)}
+                                </td>
+                                <td className="text-center">
+                                  {item?.strShift}
+                                </td>
+                                <td>{item?.strHeatNo}</td>
+                                <td className="text-center">
+                                  {item?.numTotalScrapCal}
+                                </td>
+                                <td className="text-center">
+                                  {item?.numFerroManganese}
+                                </td>
+                                <td className="text-center">
+                                  {item?.numSiliconManganese}
+                                </td>
+                                <td className="text-center">
+                                  {item?.numFerroSilicon}
+                                </td>
+                                <td className="text-center">
+                                  {item?.numTotalChemicalCal}
+                                </td>
+                                <td className="text-center">
+                                  {item?.intProductionQtyPcs}
+                                </td>
+                                <td className="text-center">
+                                  {item?.numProductionQtyKgsCal}
+                                </td>
+                                <td className="text-center">
+                                  {item?.numChemicalPerMTCal}
+                                </td>
+                                <td className="text-center">
+                                  {item?.tmHeatStartTime &&
+                                    _timeFormatter(item?.tmHeatStartTime)}
+                                </td>
+                                <td className="text-center">
+                                  {item?.tmHeatEndTime &&
+                                    _timeFormatter(item?.tmHeatEndTime)}
+                                </td>
+                                <td className="text-center">
+                                  {item?.tmTotalHeatTime &&
+                                    item?.tmTotalHeatTime?.split(":")?.[0] +
+                                      "H"}{" "}
+                                  {item?.tmTotalHeatTime &&
+                                    item?.tmTotalHeatTime?.split(":")?.[1] +
+                                      "M"}
+                                </td>
+                                <td className="text-center">
+                                  {item?.numPerBilletWeight}
+                                </td>
+                                <td className="text-center">
+                                  {item?.numWastagePercentage}
+                                </td>
+                                <td className="text-center">
+                                  {item?.numWastageKgsCal}
+                                </td>
+                                <td className="text-center">
+                                  {item?.numRebconsumption}
+                                </td>
+                                <td className="text-center">
+                                  {item?.numPerMTREBUsedCal}
+                                </td>
+                                <td className="text-center">
+                                  {item?.tmPowerCutHours &&
+                                    item?.tmPowerCutHours?.split(":")[0]}
+                                </td>
+                                <td className="text-center">
+                                  {item?.tmPowerCutMitutes &&
+                                    item?.tmPowerCutMitutes?.split(":")[1]}
+                                </td>
+                                <td className="text-center">
+                                  {item?.intMpanelNo}
+                                </td>
+                                <td className="text-center">
+                                  {item?.intCrucibleNo}
+                                </td>
+                                <td className="text-center">
+                                  {item?.intCrucibleLiningHeatNo}
+                                </td>
+                                <td className="text-center">
+                                  <IEdit
+                                    onClick={() => {
+                                      history.push({
+                                        pathname: `/production-management/msil-Production/meltingproduction/edit/${item?.intAutoId}`,
+                                        state: { ...item },
+                                      });
+                                    }}
+                                  />
+                                </td>
+                              </tr>
+                            ))}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                   {landigData?.data?.length > 0 && (
                     <PaginationTable

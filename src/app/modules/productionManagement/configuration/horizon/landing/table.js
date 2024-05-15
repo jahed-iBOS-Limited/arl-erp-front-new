@@ -135,8 +135,8 @@ const HorizonLanding = () => {
                           selectedBusinessUnit?.value,
                           valueOption?.value,
                           setHorizonYearDDL
-                        )
-                        setFieldValue("year", '');
+                        );
+                        setFieldValue("year", "");
                       }}
                       errors={errors}
                       touched={touched}
@@ -168,54 +168,58 @@ const HorizonLanding = () => {
                 </div>
               </Form>
               {/* Form End */}
-
-              <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
-                <thead>
-                  <tr>
-                    <th>SL</th>
-                    <th>Horizon Type</th>
-                    <th>Horizon Name</th>
-                    <th>From Date</th>
-                    <th>To Date</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {gridData?.data?.length > 0 &&
-                    gridData?.data?.map((item, index) => {
-                      return (
-                        <tr key={index}>
-                          <td style={{ width: "30px" }} className="text-center">
-                            {index + 1}
-                          </td>
-                          <td>
-                            <span className="pl-2">
-                              {item?.strPlanningHorizonType}
-                            </span>
-                          </td>
-                          <td>
-                            <span className="pl-2">
-                              {item?.strPlanningHorizonName}
-                            </span>
-                          </td>
-                          <td>
-                            <span className="pl-2">
-                              {moment(item?.dteStartDateTime).format(
-                                "YYYY-MM-DD"
-                              )}
-                            </span>
-                          </td>
-                          <td>
-                            <span className="pl-2">
-                              {moment(item?.dteEndDateTime).format(
-                                "YYYY-MM-DD"
-                              )}
-                            </span>
-                          </td>
-                        </tr>
-                      );
-                    })}
-                </tbody>
-              </table>
+              <div className="table-responsive">
+                <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+                  <thead>
+                    <tr>
+                      <th>SL</th>
+                      <th>Horizon Type</th>
+                      <th>Horizon Name</th>
+                      <th>From Date</th>
+                      <th>To Date</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {gridData?.data?.length > 0 &&
+                      gridData?.data?.map((item, index) => {
+                        return (
+                          <tr key={index}>
+                            <td
+                              style={{ width: "30px" }}
+                              className="text-center"
+                            >
+                              {index + 1}
+                            </td>
+                            <td>
+                              <span className="pl-2">
+                                {item?.strPlanningHorizonType}
+                              </span>
+                            </td>
+                            <td>
+                              <span className="pl-2">
+                                {item?.strPlanningHorizonName}
+                              </span>
+                            </td>
+                            <td>
+                              <span className="pl-2">
+                                {moment(item?.dteStartDateTime).format(
+                                  "YYYY-MM-DD"
+                                )}
+                              </span>
+                            </td>
+                            <td>
+                              <span className="pl-2">
+                                {moment(item?.dteEndDateTime).format(
+                                  "YYYY-MM-DD"
+                                )}
+                              </span>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                  </tbody>
+                </table>
+              </div>
 
               {/* Pagination Code */}
               {gridData?.data?.length > 14 && (

@@ -261,79 +261,81 @@ export default function UnloadingRegisterCreate() {
               {selectedRawMaterial?.length > 0 && (
                 <div className="row mt-5">
                   <div className="col-md-8">
-                    <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
-                      <thead>
-                        <tr>
-                          <th style={{ width: "50px" }}>SL</th>
-                          <th>Raw Material</th>
-                          <th>UoM</th>
-                          <th>Quantity</th>
-                          <th style={{ width: "70px" }}>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {selectedRawMaterial.map((item, index) => (
+                    <div className="table-responsive">
+                      <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+                        <thead>
                           <tr>
-                            <td className="text-center">{index + 1}</td>
-                            <td>{item?.label}</td>
-                            <td className="text-center">{item?.uoM}</td>
-                            <td>
-                              <InputField
-                                name="quantity"
-                                value={item?.quantity}
-                                type="number"
-                                onChange={(e) => {
-                                  const modifiedSelectedRawMaterial = selectedRawMaterial.map(
-                                    (nestedItem) =>
-                                      nestedItem?.value === item?.value
-                                        ? {
-                                            ...nestedItem,
-                                            quantity: e.target.value || "",
-                                            quantityError: null,
-                                          }
-                                        : nestedItem
-                                  );
-                                  setSelectedRawMaterial(
-                                    modifiedSelectedRawMaterial
-                                  );
-                                }}
-                              />
-                              {item?.quantityError && (
-                                <p
-                                  style={{
-                                    fontSize: "0.9rem",
-                                    fontWeight: 400,
-                                    width: "100%",
-                                    marginTop: "0",
-                                    marginBottom: "0",
-                                  }}
-                                  className="text-danger"
-                                >
-                                  {item?.quantityError}
-                                </p>
-                              )}
-                            </td>
-                            <td
-                              className="text-center"
-                              style={{ width: "60px" }}
-                            >
-                              <IDelete
-                                remover={(givenValue) => {
-                                  let modifiedSelectedRawMaterial = selectedRawMaterial.filter(
-                                    (nestedItem) =>
-                                      nestedItem?.value !== givenValue
-                                  );
-                                  setSelectedRawMaterial(
-                                    modifiedSelectedRawMaterial
-                                  );
-                                }}
-                                id={item?.value}
-                              />
-                            </td>
+                            <th style={{ width: "50px" }}>SL</th>
+                            <th>Raw Material</th>
+                            <th>UoM</th>
+                            <th>Quantity</th>
+                            <th style={{ width: "70px" }}>Action</th>
                           </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                        </thead>
+                        <tbody>
+                          {selectedRawMaterial.map((item, index) => (
+                            <tr>
+                              <td className="text-center">{index + 1}</td>
+                              <td>{item?.label}</td>
+                              <td className="text-center">{item?.uoM}</td>
+                              <td>
+                                <InputField
+                                  name="quantity"
+                                  value={item?.quantity}
+                                  type="number"
+                                  onChange={(e) => {
+                                    const modifiedSelectedRawMaterial = selectedRawMaterial.map(
+                                      (nestedItem) =>
+                                        nestedItem?.value === item?.value
+                                          ? {
+                                              ...nestedItem,
+                                              quantity: e.target.value || "",
+                                              quantityError: null,
+                                            }
+                                          : nestedItem
+                                    );
+                                    setSelectedRawMaterial(
+                                      modifiedSelectedRawMaterial
+                                    );
+                                  }}
+                                />
+                                {item?.quantityError && (
+                                  <p
+                                    style={{
+                                      fontSize: "0.9rem",
+                                      fontWeight: 400,
+                                      width: "100%",
+                                      marginTop: "0",
+                                      marginBottom: "0",
+                                    }}
+                                    className="text-danger"
+                                  >
+                                    {item?.quantityError}
+                                  </p>
+                                )}
+                              </td>
+                              <td
+                                className="text-center"
+                                style={{ width: "60px" }}
+                              >
+                                <IDelete
+                                  remover={(givenValue) => {
+                                    let modifiedSelectedRawMaterial = selectedRawMaterial.filter(
+                                      (nestedItem) =>
+                                        nestedItem?.value !== givenValue
+                                    );
+                                    setSelectedRawMaterial(
+                                      modifiedSelectedRawMaterial
+                                    );
+                                  }}
+                                  id={item?.value}
+                                />
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
               )}

@@ -208,44 +208,46 @@ export default function WastageProductionForm({
               </div>
 
               <div>
-                <table className="table table-striped table-bordered global-table">
-                  <thead>
-                    <tr>
-                      <th style={{ width: "50px" }}>SL</th>
-                      <th>Name</th>
-                      <th>Quantity</th>
-                      <th>Avg Weight</th>
-                      <th style={{ width: "50px" }}>Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {productList?.length > 0 &&
-                      productList.map((item, index) => (
-                        <tr key={index}>
-                          <td>{index + 1}</td>
-                          <td>{item?.othersProductName?.othersItemName}</td>
-                          <td className="text-center">{item?.quantity}</td>
-                          <td className="text-center">{item?.avgWeight}</td>
-                          <td className="text-center">
-                            <OverlayTrigger
-                              overlay={
-                                <Tooltip id="cs-icon">{"Remove"}</Tooltip>
-                              }
-                            >
-                              <span>
-                                <i
-                                  className={`fa fa-trash`}
-                                  onClick={() => {
-                                    removeHandler(index);
-                                  }}
-                                ></i>
-                              </span>
-                            </OverlayTrigger>
-                          </td>
-                        </tr>
-                      ))}
-                  </tbody>
-                </table>
+                <div className="table-responsive">
+                  <table className="table table-striped table-bordered global-table">
+                    <thead>
+                      <tr>
+                        <th style={{ width: "50px" }}>SL</th>
+                        <th>Name</th>
+                        <th>Quantity</th>
+                        <th>Avg Weight</th>
+                        <th style={{ width: "50px" }}>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {productList?.length > 0 &&
+                        productList.map((item, index) => (
+                          <tr key={index}>
+                            <td>{index + 1}</td>
+                            <td>{item?.othersProductName?.othersItemName}</td>
+                            <td className="text-center">{item?.quantity}</td>
+                            <td className="text-center">{item?.avgWeight}</td>
+                            <td className="text-center">
+                              <OverlayTrigger
+                                overlay={
+                                  <Tooltip id="cs-icon">{"Remove"}</Tooltip>
+                                }
+                              >
+                                <span>
+                                  <i
+                                    className={`fa fa-trash`}
+                                    onClick={() => {
+                                      removeHandler(index);
+                                    }}
+                                  ></i>
+                                </span>
+                              </OverlayTrigger>
+                            </td>
+                          </tr>
+                        ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
 
               <button

@@ -116,69 +116,74 @@ function Weightbridge() {
                 </div>
                 <div className="row">
                   <div className="col-lg-12">
-                    <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
-                      <thead>
-                        <tr>
-                          <th style={{ width: "30px" }}>SL</th>
-                          <th>ড্রাইভারের নাম</th>
-                          <th>মোবাইল নাম্বার</th>
-                          <th>গাড়ীর নাম্বার</th>
-                          <th>চালান নাম্বার</th>
-                          <th>পণ্যের নাম</th>
-                          <th>সাপ্লায়ারের নাম</th>
-                          <th>ওজন নং</th>
-                          <th>1st Weight</th>
-                          <th>2nd Weight</th>
-                          <th>Net Weight</th>
-                          <th style={{ width: "50px" }}>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {rowData?.data?.length > 0 &&
-                          rowData?.data?.map((item, index) => (
-                            <tr key={index}>
-                              <td>{index + 1}</td>
-                              <td className="text-center">
-                                {item?.strDriverName}
-                              </td>
-                              <td>{item?.strDriverMobileNo}</td>
-                              <td>{item?.strTruckNumber}</td>
-                              <td>{item?.strInvoiceNumber}</td>
-                              <td>{item?.strItemName}</td>
-                              <td>{item?.strSupplierName}</td>
-                              <td className="text-center">
-                                {item?.strWeightNo}
-                              </td>
-                              <td>{item?.numVehicleWeightWithScrap}</td>
-                              <td className="text-center">
-                                {item?.numVehicleWeightWithoutScrap}
-                              </td>
-                              <td>{item?.numScrapWeight}</td>
-                              <td className="text-center">
-                                <div>
-                                  <OverlayTrigger
-                                    overlay={
-                                      <Tooltip id="cs-icon">{"Create"}</Tooltip>
-                                    }
-                                  >
-                                    <span>
-                                      <i
-                                        className={`fas fa-plus-square`}
-                                        onClick={() =>
-                                          history.push({
-                                            pathname: `/production-management/msil-gate-register/Weighbridge/edit/${item?.intGateEntryItemListId}`,
-                                            state: { ...item },
-                                          })
-                                        }
-                                      ></i>
-                                    </span>
-                                  </OverlayTrigger>
-                                </div>
-                              </td>
-                            </tr>
-                          ))}
-                      </tbody>
-                    </table>
+                    <div className="table-responsive">
+                      <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+                        <thead>
+                          <tr>
+                            <th style={{ width: "30px" }}>SL</th>
+                            <th>ড্রাইভারের নাম</th>
+                            <th>মোবাইল নাম্বার</th>
+                            <th>গাড়ীর নাম্বার</th>
+                            <th>চালান নাম্বার</th>
+                            <th>পণ্যের নাম</th>
+                            <th>সাপ্লায়ারের নাম</th>
+                            <th>ওজন নং</th>
+                            <th>1st Weight</th>
+                            <th>2nd Weight</th>
+                            <th>Net Weight</th>
+                            <th style={{ width: "50px" }}>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {rowData?.data?.length > 0 &&
+                            rowData?.data?.map((item, index) => (
+                              <tr key={index}>
+                                <td>{index + 1}</td>
+                                <td className="text-center">
+                                  {item?.strDriverName}
+                                </td>
+                                <td>{item?.strDriverMobileNo}</td>
+                                <td>{item?.strTruckNumber}</td>
+                                <td>{item?.strInvoiceNumber}</td>
+                                <td>{item?.strItemName}</td>
+                                <td>{item?.strSupplierName}</td>
+                                <td className="text-center">
+                                  {item?.strWeightNo}
+                                </td>
+                                <td>{item?.numVehicleWeightWithScrap}</td>
+                                <td className="text-center">
+                                  {item?.numVehicleWeightWithoutScrap}
+                                </td>
+                                <td>{item?.numScrapWeight}</td>
+                                <td className="text-center">
+                                  <div>
+                                    <OverlayTrigger
+                                      overlay={
+                                        <Tooltip id="cs-icon">
+                                          {"Create"}
+                                        </Tooltip>
+                                      }
+                                    >
+                                      <span>
+                                        <i
+                                          className={`fas fa-plus-square`}
+                                          onClick={() =>
+                                            history.push({
+                                              pathname: `/production-management/msil-gate-register/Weighbridge/edit/${item?.intGateEntryItemListId}`,
+                                              state: { ...item },
+                                            })
+                                          }
+                                        ></i>
+                                      </span>
+                                    </OverlayTrigger>
+                                  </div>
+                                </td>
+                              </tr>
+                            ))}
+                        </tbody>
+                      </table>
+                    </div>
+
                     {rowData?.data?.length > 0 && (
                       <PaginationTable
                         count={rowData?.totalCount}

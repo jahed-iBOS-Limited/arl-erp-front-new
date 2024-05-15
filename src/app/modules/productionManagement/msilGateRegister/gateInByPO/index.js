@@ -16,8 +16,8 @@ import { _todayDate } from "../../../_helper/_todayDate";
 import IViewModal from "../../../_helper/_viewModal";
 import GateInByPO from "./gateInByPO";
 import GateInByPoModal from "./viewModal";
-import { useSelector } from 'react-redux';
-import { shallowEqual } from 'react-redux';
+import { useSelector } from "react-redux";
+import { shallowEqual } from "react-redux";
 
 const initData = {
   date: _todayDate(),
@@ -140,7 +140,11 @@ function GateInByPoLanding() {
                             onKeyDown={(e) => {
                               if (e.keyCode === 13) {
                                 getRowData(
-                                  `/mes/MSIL/GetAllGateInByPOInfoByDate?intBusinessUnitId=${selectedBusinessUnit?.value}&date=${_todayDate()}&search=${e.target.value}`
+                                  `/mes/MSIL/GetAllGateInByPOInfoByDate?intBusinessUnitId=${
+                                    selectedBusinessUnit?.value
+                                  }&date=${_todayDate()}&search=${
+                                    e.target.value
+                                  }`
                                 );
                               }
                             }}
@@ -151,7 +155,9 @@ function GateInByPoLanding() {
                               type="button"
                               onClick={() => {
                                 getRowData(
-                                  `/mes/MSIL/GetAllGateInByPOInfoByDate?intBusinessUnitId=${selectedBusinessUnit?.value}&date=${_todayDate()}&search=${searchValue}`
+                                  `/mes/MSIL/GetAllGateInByPOInfoByDate?intBusinessUnitId=${
+                                    selectedBusinessUnit?.value
+                                  }&date=${_todayDate()}&search=${searchValue}`
                                 );
                               }}
                             >
@@ -163,44 +169,48 @@ function GateInByPoLanding() {
                     </div>
                     <div className="row">
                       <div className="col-lg-12">
-                        <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
-                          <thead>
-                            <tr>
-                              <th style={{ width: "30px" }}>SL</th>
-                              <th>Date</th>
-                              <th>PO Number</th>
-                              <th>Supplier Name</th>
-                              <th>Action</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {rowData?.length > 0 &&
-                              rowData?.map((item, index) => (
-                                <tr key={index}>
-                                  <td>{index + 1}</td>
-                                  <td className="text-center">
-                                    {_dateFormatter(item?.dtePurchaseOrderDate)}
-                                  </td>
-                                  <td className="text-center">
-                                    {item?.strPurchaseOrderNo}
-                                  </td>
-                                  <td className="text-center">
-                                    {item?.strBusinessPartnerName}
-                                  </td>
-                                  <td className="text-center">
-                                    <span
-                                      onClick={() => {
-                                        setItem(item);
-                                        setIsShowModel(true);
-                                      }}
-                                    >
-                                      <IView />
-                                    </span>
-                                  </td>
-                                </tr>
-                              ))}
-                          </tbody>
-                        </table>
+                        <div className="table-responsive">
+                          <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+                            <thead>
+                              <tr>
+                                <th style={{ width: "30px" }}>SL</th>
+                                <th>Date</th>
+                                <th>PO Number</th>
+                                <th>Supplier Name</th>
+                                <th>Action</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {rowData?.length > 0 &&
+                                rowData?.map((item, index) => (
+                                  <tr key={index}>
+                                    <td>{index + 1}</td>
+                                    <td className="text-center">
+                                      {_dateFormatter(
+                                        item?.dtePurchaseOrderDate
+                                      )}
+                                    </td>
+                                    <td className="text-center">
+                                      {item?.strPurchaseOrderNo}
+                                    </td>
+                                    <td className="text-center">
+                                      {item?.strBusinessPartnerName}
+                                    </td>
+                                    <td className="text-center">
+                                      <span
+                                        onClick={() => {
+                                          setItem(item);
+                                          setIsShowModel(true);
+                                        }}
+                                      >
+                                        <IView />
+                                      </span>
+                                    </td>
+                                  </tr>
+                                ))}
+                            </tbody>
+                          </table>
+                        </div>
                       </div>
                     </div>
                   </>
