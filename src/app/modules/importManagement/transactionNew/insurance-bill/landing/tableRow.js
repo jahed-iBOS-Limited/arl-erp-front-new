@@ -218,39 +218,40 @@ export default function TableRow() {
                         paginationSearchHandler={paginationSearchHandler}
                         values={values}
                       />
-
-                      <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
-                        <thead>
-                          <tr>
-                            <th style={{ width: "15px" }}>SL</th>
-                            <th>LC Number</th>
-                            <th style={{ width: "50px" }}>Date</th>
-                            <th style={{ width: "50px" }}>PO No</th>
-                            <th>Cover Note No</th>
-                            <th style={{ width: "50px" }}>CN Date</th>
-                            <th>Policy No</th>
-                            <th style={{ width: "50px" }}>Date</th>
-                            <th>Invoice Amt.</th>
-                            <th>Currency</th>
-                            <th>Insured BDT</th>
-                            <th>Premium</th>
-                            <th>VAT</th>
-                            <th>Stamp</th>
-                            <th>Total</th>
-                            <th>Discount</th>
-                            <th>Billing</th>
-                            <th>Store Bill ID</th>
-                            <th>Payment</th>
-                            <th>Discount Rcv.</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {gridData?.data?.length > 0 &&
-                            gridData?.data?.map((item, index) => (
-                              <tr key={index}></tr>
-                            ))}
-                        </tbody>
-                      </table>
+                      <div className="react-bootstrap-table table-responsive">
+                        <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+                          <thead>
+                            <tr>
+                              <th style={{ width: "15px" }}>SL</th>
+                              <th>LC Number</th>
+                              <th style={{ width: "50px" }}>Date</th>
+                              <th style={{ width: "50px" }}>PO No</th>
+                              <th>Cover Note No</th>
+                              <th style={{ width: "50px" }}>CN Date</th>
+                              <th>Policy No</th>
+                              <th style={{ width: "50px" }}>Date</th>
+                              <th>Invoice Amt.</th>
+                              <th>Currency</th>
+                              <th>Insured BDT</th>
+                              <th>Premium</th>
+                              <th>VAT</th>
+                              <th>Stamp</th>
+                              <th>Total</th>
+                              <th>Discount</th>
+                              <th>Billing</th>
+                              <th>Store Bill ID</th>
+                              <th>Payment</th>
+                              <th>Discount Rcv.</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {gridData?.data?.length > 0 &&
+                              gridData?.data?.map((item, index) => (
+                                <tr key={index}></tr>
+                              ))}
+                          </tbody>
+                        </table>
+                      </div>
                     </div>
                     {gridData?.data?.length > 0 && (
                       <PaginationTable

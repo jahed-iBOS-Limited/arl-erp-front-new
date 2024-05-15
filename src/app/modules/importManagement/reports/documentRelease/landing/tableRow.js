@@ -262,21 +262,21 @@ const TableRow = () => {
                   </div>
                 </div>
                 {/* Table Start */}
-                  <div
-                    style={{ maxHeight: "500px" }}
-                    className="scroll-table-auto"
-                  >
-                    <div ref={printRef}>
-                      {isPrintable && (
-                        <div className="text-center d-none-print">
-                          <h2> {headerInfo?.businessUnitName} </h2>
-                          <h6> {headerInfo?.businessUnitCode} </h6>
-                          <h6> {headerInfo?.businessUnitAddress} </h6>
-                        </div>
-                      )}
-
+                <div
+                  style={{ maxHeight: "500px" }}
+                  className="scroll-table-auto"
+                >
+                  <div ref={printRef}>
+                    {isPrintable && (
+                      <div className="text-center d-none-print">
+                        <h2> {headerInfo?.businessUnitName} </h2>
+                        <h6> {headerInfo?.businessUnitCode} </h6>
+                        <h6> {headerInfo?.businessUnitAddress} </h6>
+                      </div>
+                    )}
+                    <div className="react-bootstrap-table table-responsive">
                       <table className="table table-striped table-bordered bj-table bj-table-landing">
-                        <thead style={{position: 'sticky', top: '0'}}>
+                        <thead style={{ position: "sticky", top: "0" }}>
                           <tr>
                             {header?.length > 0 &&
                               header?.map((item, index) => (
@@ -294,7 +294,9 @@ const TableRow = () => {
                                 <td>{index + 1}</td>
                                 <td>{data?.strBankShortName}</td>
                                 <td>{data?.strLCNumber}</td>
-                                <td className="text-center">{_dateFormatter(data?.dteLcDate)}</td>
+                                <td className="text-center">
+                                  {_dateFormatter(data?.dteLcDate)}
+                                </td>
                                 <td>{data?.strLcType}</td>
                                 <td className="text-center">
                                   {_dateFormatter(data?.dteDocReceiveByBank)}
@@ -302,15 +304,19 @@ const TableRow = () => {
                                 <td className="text-center">
                                   {_dateFormatter(data?.dteLastShipmentDate)}
                                 </td>
-                                <td className="text-center">{_dateFormatter(data?.dteLcExpireDate)}</td>
+                                <td className="text-center">
+                                  {_dateFormatter(data?.dteLcExpireDate)}
+                                </td>
                                 <td>{data?.strBusinessPartnerName}</td>
                                 <td>{data?.column2}</td>
                                 <td className="text-right">
-                                  {_formatMoney(data?.numTotalPIAmountFC , 4)}
+                                  {_formatMoney(data?.numTotalPIAmountFC, 4)}
                                 </td>
                                 <td>{data?.strCurrencyName}</td>
                                 <td>{data?.strPolicyNumber}</td>
-                                <td className="text-right">{_formatMoney(data?.numTotalBDT , 4)}</td>
+                                <td className="text-right">
+                                  {_formatMoney(data?.numTotalBDT, 4)}
+                                </td>
                                 {/* <td>{data?.strCnFLCBusinessPartnerName || ""}</td>
                               <td>{data?.employeeId}</td> */}
                               </tr>
@@ -319,6 +325,7 @@ const TableRow = () => {
                       </table>
                     </div>
                   </div>
+                </div>
 
                 {/* } */}
               </Form>

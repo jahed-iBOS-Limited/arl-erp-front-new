@@ -18,7 +18,7 @@ import { useRef } from "react";
 import { getReportHeaderInfo } from "../../costSummary/helper";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import { _firstDateofMonth } from "./../../../../_helper/_firstDateOfCurrentMonth";
-import { _formatMoney } from './../../../../_helper/_formatMoney';
+import { _formatMoney } from "./../../../../_helper/_formatMoney";
 
 const TableRow = () => {
   const [rowDto, setRowDto] = useState([]);
@@ -320,51 +320,59 @@ const TableRow = () => {
                         <h6> {headerInfo?.businessUnitAddress} </h6>
                       </div>
                     )}
-                    <table className="table table-striped table-bordered bj-table bj-table-landing">
-                      <thead>
-                        <tr>
-                          {header?.length > 0 &&
-                            header?.map((item, index) => (
-                              <th key={index} style={item?.style}>
-                                {item?.name}
-                              </th>
-                            ))}
-                        </tr>
-                      </thead>
+                    <div className="react-bootstrap-table table-responsive">
+                      <table className="table table-striped table-bordered bj-table bj-table-landing">
+                        <thead>
+                          <tr>
+                            {header?.length > 0 &&
+                              header?.map((item, index) => (
+                                <th key={index} style={item?.style}>
+                                  {item?.name}
+                                </th>
+                              ))}
+                          </tr>
+                        </thead>
 
-                      <tbody>
-                        {rowDto?.length >= 0 &&
-                          rowDto?.map((data, index) => (
-                            <tr key={index}>
-                              <td>{index + 1}</td>
-                              <td className="text-center">{data?.poNumber}</td>
-                              <td className="text-center">
-                                {data?.providerName}
-                              </td>
-                              <td className="text-center">
-                                {data?.shippedByName}
-                              </td>
-                              <td className="text-center">
-                                {data?.coverNoteNo}
-                              </td>
-                              <td className="text-center">
-                                {_dateFormatter(data?.cnDate)}
-                              </td>
-                              <td className="text-right">{_formatMoney(data?.piAmount, 4)}</td>
-                              <td className="text-center">
-                                {data?.currencyName}
-                              </td>
-                              <td className="text-right">
-                                {_formatMoney(data?.piAmountBdt, 4)}
-                              </td>
-                              <td className="text-right">{_formatMoney(data?.poAmount, 4)}</td>
-                              {/* <td className='text-center'>
+                        <tbody>
+                          {rowDto?.length >= 0 &&
+                            rowDto?.map((data, index) => (
+                              <tr key={index}>
+                                <td>{index + 1}</td>
+                                <td className="text-center">
+                                  {data?.poNumber}
+                                </td>
+                                <td className="text-center">
+                                  {data?.providerName}
+                                </td>
+                                <td className="text-center">
+                                  {data?.shippedByName}
+                                </td>
+                                <td className="text-center">
+                                  {data?.coverNoteNo}
+                                </td>
+                                <td className="text-center">
+                                  {_dateFormatter(data?.cnDate)}
+                                </td>
+                                <td className="text-right">
+                                  {_formatMoney(data?.piAmount, 4)}
+                                </td>
+                                <td className="text-center">
+                                  {data?.currencyName}
+                                </td>
+                                <td className="text-right">
+                                  {_formatMoney(data?.piAmountBdt, 4)}
+                                </td>
+                                <td className="text-right">
+                                  {_formatMoney(data?.poAmount, 4)}
+                                </td>
+                                {/* <td className='text-center'>
                                 {data?.monPOTotal}
                               </td> */}
-                            </tr>
-                          ))}
-                      </tbody>
-                    </table>
+                              </tr>
+                            ))}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 }
               </Form>
