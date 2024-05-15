@@ -1,4 +1,4 @@
-.actionplan-pdf-section table, th, td {
+.actionplan-pdf-section table th td {
     border: 1px solid black;
     border-collapse: collapse;
     background-color: white !important;

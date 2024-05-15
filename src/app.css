@@ -683,6 +683,16 @@ input[type="number"] {
   border: 1px solid darkgray;
 }
 
+
+
+table input[type="text"] {
+  min-width: 80px;
+}
+
+table input[type="number"] {
+  min-width: 80px;
+}
+
 input[type="number"]:focus {
   border: 1px solid darkgray !important;
 }
@@ -2869,5 +2879,9 @@ body {
   }
   .user-basic-info {
     margin-top: 9px;
+  }
+
+  table thead tr th {
+    min-width: 70px
   }
 }
