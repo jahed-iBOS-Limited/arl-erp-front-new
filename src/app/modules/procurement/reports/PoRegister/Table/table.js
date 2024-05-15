@@ -30,9 +30,7 @@ const validationSchema = Yup.object().shape({
 });
 
 const PORegisterTable = () => {
-  
   const { reportPoRegister } = useSelector((state) => state?.localStorage);
-  
 
   const initData = {
     wh: reportPoRegister?.wh || "",
@@ -239,7 +237,7 @@ const PORegisterTable = () => {
                           SetReportPoRegisterAction({
                             ...values,
                             plant: v,
-                            wh:""
+                            wh: "",
                           })
                         );
                       }}
@@ -286,11 +284,12 @@ const PORegisterTable = () => {
                     <label>From Date</label>
                     <div className="d-flex">
                       <InputField
+                       style={{ width: "100%" }}
                         value={values?.fromDate}
                         name="fromDate"
                         placeholder="From date"
                         type="date"
-                        onChange={(e)=>{
+                        onChange={(e) => {
                           dispatch(
                             SetReportPoRegisterAction({
                               ...values,
@@ -305,11 +304,12 @@ const PORegisterTable = () => {
                     <label>To Date</label>
                     <div className="d-flex">
                       <InputField
+                        style={{ width: "100%" }}
                         value={values?.toDate}
                         name="toDate"
                         placeholder="To date"
                         type="date"
-                        onChange={(e)=>{
+                        onChange={(e) => {
                           dispatch(
                             SetReportPoRegisterAction({
                               ...values,
@@ -338,7 +338,7 @@ const PORegisterTable = () => {
                           SetReportPoRegisterAction({
                             ...values,
                             type: v,
-                            typeCode:""
+                            typeCode: "",
                           })
                         );
                       }}
@@ -359,6 +359,7 @@ const PORegisterTable = () => {
                     </label>
                     <div className="d-flex">
                       <InputField
+                      style={{ width: "100%" }}
                         value={values?.typeCode}
                         name="typeCode"
                         placeholder={
@@ -371,8 +372,13 @@ const PORegisterTable = () => {
                             : "Item"
                         }
                         type="text"
-                        onChange={(e) => { 
-                          dispatch(SetReportPoRegisterAction({ ...values, typeCode: e?.target?.value }));
+                        onChange={(e) => {
+                          dispatch(
+                            SetReportPoRegisterAction({
+                              ...values,
+                              typeCode: e?.target?.value,
+                            })
+                          );
                         }}
                       />
                     </div>
@@ -410,45 +416,54 @@ const PORegisterTable = () => {
                     paginationSearchHandler={paginationSearchHandler}
                     values={values}
                   /> */}
-                  <table className="table table-striped table-bordered global-table table-font-size-sm">
-                    <thead>
-                      <tr>
-                        <th>SL</th>
-                        <th>PR No</th>
-                        <th>PR Req Date</th>
-                        <th>PR Approve Date</th>
-                        <th>PO No</th>
-                        <th>PO Value</th>
-                        <th>PO Date</th>
-                        <th>PO Approve Date</th>
-                        <th>Supplier</th>
-                        <th>MRR No</th>
-                        <th>MRR Date</th>
-                        <th>Invoice Date</th>
-                        <th>Payment Amount</th>
-                        {/* <th>Action</th> */}
-                      </tr>
-                    </thead>
-                    {loading ? (
-                      <ILoader />
-                    ) : (
-                      <tbody>
-                        {landing?.map((item, index) => (
-                          <tr key={index}>
-                            <td>{item?.Sl || index + 1}</td>
-                            <td>{item?.indent}</td>
-                            <td>{_dateFormatter(item?.indDate)}</td>
-                            <td>{_dateFormatter(item?.appDate)}</td>
-                            <td>{item?.po}</td>
-                            <td>{numberWithCommas((item?.poValue || 0).toFixed(2))}</td>
-                            <td>{_dateFormatter(item?.poDate)}</td>
-                            <td>{_dateFormatter(item?.appDate)}</td>
-                            <td>{item?.sup}</td>
-                            <td>{item?.mrr}</td>
-                            <td>{_dateFormatter(item?.mrrDate)}</td>
-                            <td>{_dateFormatter(item?.paymentDate)}</td>
-                            <td>{numberWithCommas( (item?.payAmount || 0).toFixed(2))}</td>
-                            {/* <td className="text-center align-middle">
+                  <div className="table-responsive">
+                    <table className="table table-striped table-bordered global-table table-font-size-sm">
+                      <thead>
+                        <tr>
+                          <th>SL</th>
+                          <th>PR No</th>
+                          <th>PR Req Date</th>
+                          <th>PR Approve Date</th>
+                          <th>PO No</th>
+                          <th>PO Value</th>
+                          <th>PO Date</th>
+                          <th>PO Approve Date</th>
+                          <th>Supplier</th>
+                          <th>MRR No</th>
+                          <th>MRR Date</th>
+                          <th>Invoice Date</th>
+                          <th>Payment Amount</th>
+                          {/* <th>Action</th> */}
+                        </tr>
+                      </thead>
+                      {loading ? (
+                        <ILoader />
+                      ) : (
+                        <tbody>
+                          {landing?.map((item, index) => (
+                            <tr key={index}>
+                              <td>{item?.Sl || index + 1}</td>
+                              <td>{item?.indent}</td>
+                              <td>{_dateFormatter(item?.indDate)}</td>
+                              <td>{_dateFormatter(item?.appDate)}</td>
+                              <td>{item?.po}</td>
+                              <td>
+                                {numberWithCommas(
+                                  (item?.poValue || 0).toFixed(2)
+                                )}
+                              </td>
+                              <td>{_dateFormatter(item?.poDate)}</td>
+                              <td>{_dateFormatter(item?.appDate)}</td>
+                              <td>{item?.sup}</td>
+                              <td>{item?.mrr}</td>
+                              <td>{_dateFormatter(item?.mrrDate)}</td>
+                              <td>{_dateFormatter(item?.paymentDate)}</td>
+                              <td>
+                                {numberWithCommas(
+                                  (item?.payAmount || 0).toFixed(2)
+                                )}
+                              </td>
+                              {/* <td className="text-center align-middle">
                               <div className="d-flex justify-content-around">
                                 <span
                                   onClick={() =>
@@ -477,11 +492,12 @@ const PORegisterTable = () => {
                                 </span>
                               </div>
                             </td> */}
-                          </tr>
-                        ))}
-                      </tbody>
-                    )}
-                  </table>
+                            </tr>
+                          ))}
+                        </tbody>
+                      )}
+                    </table>
+                  </div>
                 </div>
               </div>
               {landing?.length > 0 && (

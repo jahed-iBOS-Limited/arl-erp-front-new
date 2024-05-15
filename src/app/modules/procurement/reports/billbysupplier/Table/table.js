@@ -280,6 +280,7 @@ const BillbySupplierReportTable = () => {
                     <label>From Date</label>
                     <div className="d-flex">
                       <InputField
+                      style={{ width: "100%" }}
                         value={values?.fromDate}
                         name="fromDate"
                         placeholder="From date"
@@ -299,6 +300,7 @@ const BillbySupplierReportTable = () => {
                     <label>To Date</label>
                     <div className="d-flex">
                       <InputField
+                       style={{ width: "100%" }}
                         value={values?.toDate}
                         name="toDate"
                         placeholder="To date"
@@ -408,6 +410,7 @@ const BillbySupplierReportTable = () => {
                 {/* {loading && <Loading />} */}
 
                 <div className="col-lg-12">
+                <div className="table-responsive">
                   <table className="table table-striped table-bordered global-table table-font-size-sm">
                     <thead>
                       <tr>
@@ -488,6 +491,7 @@ const BillbySupplierReportTable = () => {
                       </tbody>
                     )}
                   </table>
+                  </div>
                 </div>
                 <>
                   <IViewModal

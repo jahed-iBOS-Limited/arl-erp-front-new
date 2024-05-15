@@ -154,6 +154,7 @@ export default function AddQuotationEntry() {
               </div>
               {/* item block */}
               <div className="mt-2">
+              <div className="table-responsive">
                 <table className="table table-striped table-bordered bj-table bj-table-landing">
                   <thead>
                     <tr>
@@ -206,6 +207,7 @@ export default function AddQuotationEntry() {
                     </tr>
                   </tbody>
                 </table>
+                </div>
               </div>
               {/* terms and conditions block */}
               <div className="form-group global-form row">

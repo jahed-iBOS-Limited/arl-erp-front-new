@@ -98,6 +98,7 @@ export function ReceivePoReportView({ poId, isHiddenBackBtn, values }) {
                       </div>
                       <div className="my-2">
                         <h6 style={{ fontSize: "1.1rem" }}>Item Details</h6>
+                        <div className="table-responsive">
                         <table className="global-table table" id="table-to-xlsx">
                           <thead className="tableHead">
                             <tr>
@@ -140,9 +141,11 @@ export function ReceivePoReportView({ poId, isHiddenBackBtn, values }) {
                             ))}
                           </tbody>
                         </table>
+                        </div>
                       </div>
                       <div className="my-3">
                         <h6 style={{ fontSize: "1.1rem" }}>Item Summary</h6>
+                        <div className="table-responsive">
                         <table className="global-table table" id="table-to-xlsx">
                           <thead className="tableHead">
                             <tr>
@@ -167,9 +170,11 @@ export function ReceivePoReportView({ poId, isHiddenBackBtn, values }) {
                             ))}
                           </tbody>
                         </table>
+                        </div>
                       </div>
                       <div className="my-3">
                         <h6 style={{ fontSize: "1.1rem" }}>Bill Summary</h6>
+                        <div className="table-responsive">
                         <table className="global-table table" id="table-to-xlsx">
                           <thead className="tableHead">
                             <tr>
@@ -239,6 +244,7 @@ export function ReceivePoReportView({ poId, isHiddenBackBtn, values }) {
                             ))}
                           </tbody>
                         </table>
+                        </div>
                       </div>
                     </div>
                   </div>

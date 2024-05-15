@@ -268,6 +268,7 @@ const POPRGRNTable = () => {
                     <label>From Date</label>
                     <div className="d-flex">
                       <InputField
+                      style={{ width: "100%" }}
                         value={values?.fromDate}
                         name="fromDate"
                         placeholder="From date"
@@ -282,6 +283,7 @@ const POPRGRNTable = () => {
                     <label>To Date</label>
                     <div className="d-flex">
                       <InputField
+                      style={{ width: "100%" }}
                         value={values?.toDate}
                         name="toDate"
                         placeholder="To Date"
@@ -325,6 +327,7 @@ const POPRGRNTable = () => {
                     </label>
                     <div className="d-flex">
                       <InputField
+                      style={{ width: "100%" }}
                         value={values?.typeCode}
                         name="typeCode"
                         placeholder={
@@ -381,6 +384,7 @@ const POPRGRNTable = () => {
                     paginationSearchHandler={paginationSearchHandler}
                     values={values}
                   /> */}
+                    <div className="table-responsive">
                     <table className="table table-striped table-bordered global-table table-font-size-sm" id="table-to-xlsx">
                       <thead>
                         <tr>
@@ -424,6 +428,7 @@ const POPRGRNTable = () => {
                         </tbody>
                       )}
                     </table>
+                    </div>
                   </div>
                 </div>
               </div>

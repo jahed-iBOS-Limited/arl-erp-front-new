@@ -61,7 +61,10 @@ const GridData = ({
   return (
     <>
       {/* Table Start */}
-      <div className="row cash_journal">
+      <div className="row cash_journal" 
+        style={{
+        overflowX: "auto",
+        }}>
         <div className="col-lg-12 pr-0 pl-0">
         <div className="table-responsive">
         <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm">
@@ -229,6 +232,7 @@ const GridData = ({
               {rowDto.length > 0 && (
                 <tr>
                   {type === "notComplated" && <td></td>}
+                  <td></td>
                   <td></td>
                   <td></td>
                   <td></td>
