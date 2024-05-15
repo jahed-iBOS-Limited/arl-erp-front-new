@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import { getGridData } from "../helper";
 import Loading from "../../../../_helper/_loading";
 import PaginationTable from "../../../../_helper/_tablePagination";
@@ -19,8 +19,8 @@ import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import InputField from "../../../../_helper/_inputField";
 
 export default function TableRow() {
-  const [gridData, ] = useState({});
-  const [loading, ] = useState(false);
+  const [gridData] = useState({});
+  const [loading] = useState(false);
   //paginationState
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
@@ -120,7 +120,7 @@ export default function TableRow() {
                           Unit
                         </label>
                         <label>
-                          <InputField 
+                          <InputField
                             type="radio"
                             name="privacyType"
                             checked={values?.privacyType === "2"}
@@ -134,8 +134,9 @@ export default function TableRow() {
                         </label>
                       </div>
 
-                      <div className="col-lg-3  mt-4" 
-                      // style={{marginLeft: "-95px"}}
+                      <div
+                        className="col-lg-3  mt-4"
+                        // style={{marginLeft: "-95px"}}
                       >
                         <NewSelect
                           name="privicyType"
@@ -212,30 +213,31 @@ export default function TableRow() {
                         paginationSearchHandler={paginationSearchHandler}
                         values={values}
                       />
-
-                      <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
-                        <thead>
-                          <tr>
-                            <th style={{ width: "20px" }}>SL</th>
-                            <th>LC Number</th>
-                            <th style={{ width: "50px" }}>LC Date</th>
-                            <th style={{ width: "90px" }}>Shipped By</th>
-                            <th>Cover Note No</th>
-                            <th style={{ width: "50px" }}>CN Date</th>
-                            <th>LC/PI Amount</th>
-                            <th>CN Currency</th>
-                            <th>Insured BDT</th>
-                            <th>CN PO Amount</th>
-                            <th>(%) of Total</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {gridData?.data?.length > 0 &&
-                            gridData?.data?.map((item, index) => (
-                              <tr key={index}></tr>
-                            ))}
-                        </tbody>
-                      </table>
+                      <div className="react-bootstrap-table table-responsive">
+                        <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+                          <thead>
+                            <tr>
+                              <th style={{ width: "20px" }}>SL</th>
+                              <th>LC Number</th>
+                              <th style={{ width: "50px" }}>LC Date</th>
+                              <th style={{ width: "90px" }}>Shipped By</th>
+                              <th>Cover Note No</th>
+                              <th style={{ width: "50px" }}>CN Date</th>
+                              <th>LC/PI Amount</th>
+                              <th>CN Currency</th>
+                              <th>Insured BDT</th>
+                              <th>CN PO Amount</th>
+                              <th>(%) of Total</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {gridData?.data?.length > 0 &&
+                              gridData?.data?.map((item, index) => (
+                                <tr key={index}></tr>
+                              ))}
+                          </tbody>
+                        </table>
+                      </div>
                     </div>
                     {gridData?.data?.length > 0 && (
                       <PaginationTable

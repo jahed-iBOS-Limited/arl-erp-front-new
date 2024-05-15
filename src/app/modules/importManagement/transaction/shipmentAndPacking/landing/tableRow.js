@@ -325,105 +325,112 @@ export default function TableRow() {
                     </div>
                   </div>
                 </Form>
-                <table className="global-table table">
-                  <thead>
-                    <tr>
-                      <th>SL</th>
-                      <th>PO No</th>
-                      <th>LC No</th>
-                      <th>Shipment No</th>
-                      <th>Shipment Qty</th>
-                      <th>Invoice No</th>
-                      <th>Invoice Amount (FC)</th>
-                      <th>Packing Number</th>
-                      <th>Status</th>
-                      <th style={{ width: 180 }}>Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {gridData?.data?.map((item, index) => (
-                      <tr key={index}>
-                        <td>{index + 1}</td>
-                        <td>{item?.ponumber}</td>
-                        <td>{item?.lcnumber}</td>
-                        <td className="text-center">{item?.shipmentCode}</td>
-                        <td className="text-center">{item?.shippedQty}</td>
-                        <td className="ml-2 text-center">
-                          {item?.invoiceNumber}
-                        </td>
-                        <td className="ml-2 text-right">
-                          {numberWithCommas(item?.invoiceAmount)}
-                        </td>
-                        <td className="text-center">{item?.packingIds}</td>
-                        <td className="text-center">{item?.isApprove ? "Approved" : "Pending"}</td>
-                        <td className="text-center justify-content-center">
-                          <span className="view">
-                            <IView
-                              clickHandler={() => {
+                <div className="react-bootstrap-table table-responsive">
+                  <table className="global-table table">
+                    <thead>
+                      <tr>
+                        <th>SL</th>
+                        <th>PO No</th>
+                        <th>LC No</th>
+                        <th>Shipment No</th>
+                        <th>Shipment Qty</th>
+                        <th>Invoice No</th>
+                        <th>Invoice Amount (FC)</th>
+                        <th>Packing Number</th>
+                        <th>Status</th>
+                        <th style={{ width: 180 }}>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {gridData?.data?.map((item, index) => (
+                        <tr key={index}>
+                          <td>{index + 1}</td>
+                          <td>{item?.ponumber}</td>
+                          <td>{item?.lcnumber}</td>
+                          <td className="text-center">{item?.shipmentCode}</td>
+                          <td className="text-center">{item?.shippedQty}</td>
+                          <td className="ml-2 text-center">
+                            {item?.invoiceNumber}
+                          </td>
+                          <td className="ml-2 text-right">
+                            {numberWithCommas(item?.invoiceAmount)}
+                          </td>
+                          <td className="text-center">{item?.packingIds}</td>
+                          <td className="text-center">
+                            {item?.isApprove ? "Approved" : "Pending"}
+                          </td>
+                          <td className="text-center justify-content-center">
+                            <span className="view">
+                              <IView
+                                clickHandler={() => {
+                                  history.push({
+                                    pathname: `/managementImport/transaction/shipment/view/${item?.shipmentId}`,
+                                    state: {
+                                      ...item,
+                                      checkbox: "shipmentInformation",
+                                    },
+                                  });
+                                }}
+                              />
+                            </span>
+                            <span
+                              className="ml-5 edit"
+                              onClick={() => {
                                 history.push({
-                                  pathname: `/managementImport/transaction/shipment/view/${item?.shipmentId}`,
+                                  pathname: `/managementImport/transaction/shipment/edit/${item?.shipmentId}`,
                                   state: {
                                     ...item,
                                     checkbox: "shipmentInformation",
                                   },
                                 });
                               }}
-                            />
-                          </span>
-                          <span
-                            className="ml-5 edit"
-                            onClick={() => {
-                              history.push({
-                                pathname: `/managementImport/transaction/shipment/edit/${item?.shipmentId}`,
-                                state: {
-                                  ...item,
-                                  checkbox: "shipmentInformation",
-                                },
-                              });
-                            }}
-                          >
-                            <IEdit />
-                          </span>
-                          <span className="ml-5">
-                            <OverlayTrigger
-                              overlay={<Tooltip id="cs-icon">Packing</Tooltip>}
                             >
-                              <i
-                                class="fas fa-box-open"
-                                aria-hidden="true"
-                                style={{ cursor: "pointer" }}
-                                onClick={() => {
-                                  history.push({
-                                    pathname: `/managementImport/transaction/shipment/create`,
-                                    state: {
-                                      checkbox: "packingInformation",
-                                      shipmentId: item?.shipmentId,
-                                      item: item,
-                                      values: values,
-                                    },
-                                  });
-                                }}
-                              ></i>
-                            </OverlayTrigger>
-                          </span>
-                          {!item?.status && (
+                              <IEdit />
+                            </span>
                             <span className="ml-5">
                               <OverlayTrigger
-                                overlay={<Tooltip id="cs-icon">Delete</Tooltip>}
+                                overlay={
+                                  <Tooltip id="cs-icon">Packing</Tooltip>
+                                }
                               >
                                 <i
-                                  class="fa fa-trash deleteBtn text-danger"
+                                  class="fas fa-box-open"
                                   aria-hidden="true"
                                   style={{ cursor: "pointer" }}
                                   onClick={() => {
-                                    remover(item?.shipmentId);
+                                    history.push({
+                                      pathname: `/managementImport/transaction/shipment/create`,
+                                      state: {
+                                        checkbox: "packingInformation",
+                                        shipmentId: item?.shipmentId,
+                                        item: item,
+                                        values: values,
+                                      },
+                                    });
                                   }}
                                 ></i>
                               </OverlayTrigger>
                             </span>
-                          )}
+                            {!item?.status && (
+                              <span className="ml-5">
+                                <OverlayTrigger
+                                  overlay={
+                                    <Tooltip id="cs-icon">Delete</Tooltip>
+                                  }
+                                >
+                                  <i
+                                    class="fa fa-trash deleteBtn text-danger"
+                                    aria-hidden="true"
+                                    style={{ cursor: "pointer" }}
+                                    onClick={() => {
+                                      remover(item?.shipmentId);
+                                    }}
+                                  ></i>
+                                </OverlayTrigger>
+                              </span>
+                            )}
 
-                          {/* <button
+                            {/* <button
                             className="btn btn-outline-dark mr-1 pointer ml-3"
                             type="button"
                             style={{
@@ -445,11 +452,13 @@ export default function TableRow() {
                           >
                             Packing
                           </button> */}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+
                 {/* Pagination Code */}
                 {gridData?.data?.length > 0 && (
                   <PaginationTable

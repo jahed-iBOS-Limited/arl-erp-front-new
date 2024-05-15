@@ -12,13 +12,11 @@ import numberWithCommas from "../../../../_helper/_numberWithCommas";
 const CalculationForm = ({ initData }) => {
   return (
     <div>
-
       <Formik
-
         enableReinitialize={true}
         initialValues={initData}
         // validationSchema={validationSchema}
-        onSubmit={(values, { setSubmitting, resetForm }) => { }}
+        onSubmit={(values, { setSubmitting, resetForm }) => {}}
       >
         {({ errors, touched, setFieldValue, isValid, values }) => (
           <>
@@ -27,38 +25,57 @@ const CalculationForm = ({ initData }) => {
               <CardHeader title="LC Opening Break Down"></CardHeader>
               <CardBody style={{ background: "#dde3e8", paddingTop: "20px" }}>
                 {/* <h5>Bank</h5> */}
-                <table className="table table-striped table-bordered mt-3 global-table">
-                  <tbody>
-                    <tr>
-                      <td style={{
+                <div className="react-bootstrap-table table-responsive">
+                  <table className="table table-striped table-bordered mt-3 global-table">
+                    <tbody>
+                      <tr>
+                        <td
+                          style={{
                             width: "50%",
-                            fontWeight: "bold"
-                      }}>Swift</td>
-                      <td>{numberWithCommas(values?.swift)}</td>
-                    </tr>
-                    <tr>
-                      <td style={{
+                            fontWeight: "bold",
+                          }}
+                        >
+                          Swift
+                        </td>
+                        <td>{numberWithCommas(values?.swift)}</td>
+                      </tr>
+                      <tr>
+                        <td
+                          style={{
                             width: "50%",
-                            fontWeight: "bold"
-                      }}>Stamp</td>
-                      <td>{numberWithCommas(values?.stamp)}</td>
-                    </tr>
-                    <tr>
-                      <td style={{
+                            fontWeight: "bold",
+                          }}
+                        >
+                          Stamp
+                        </td>
+                        <td>{numberWithCommas(values?.stamp)}</td>
+                      </tr>
+                      <tr>
+                        <td
+                          style={{
                             width: "50%",
-                            fontWeight: "bold"
-                      }} >Stationary</td>
-                      <td>{numberWithCommas(values?.stationary)}</td>
-                    </tr>
-                    <tr>
-                      <td style={{
+                            fontWeight: "bold",
+                          }}
+                        >
+                          Stationary
+                        </td>
+                        <td>{numberWithCommas(values?.stationary)}</td>
+                      </tr>
+                      <tr>
+                        <td
+                          style={{
                             width: "50%",
-                            fontWeight: "bold"
-                      }} >Stamp Charge for Other</td>
-                      <td>{numberWithCommas(values?.stampChargeforOther)}</td>
-                    </tr>
-                  </tbody>
-                </table>
+                            fontWeight: "bold",
+                          }}
+                        >
+                          Stamp Charge for Other
+                        </td>
+                        <td>{numberWithCommas(values?.stampChargeforOther)}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
                 {/* <ICustomTable ths={[]}>
                   <tr>
                     <td>Swift</td>

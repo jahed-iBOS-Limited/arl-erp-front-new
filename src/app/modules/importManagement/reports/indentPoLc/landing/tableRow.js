@@ -453,98 +453,99 @@ const TableRow = () => {
                         <h6> {headerInfo?.businessUnitAddress} </h6>
                       </div>
                     )}
-                    <table className="table table-striped table-bordered bj-table bj-table-landing">
-                      <thead style={style}>
-                        <tr>
-                          {header?.length > 0 &&
-                            header?.map((item, index) => (
-                              <th
-                                style={{
-                                  ...item?.style,
-                                  position: "sticky",
-                                  top: 0,
-                                }}
-                                key={index}
-                              >
-                                {item?.name}
-                              </th>
-                            ))}
-                        </tr>
-                      </thead>
+                    <div className="react-bootstrap-table table-responsive">
+                      <table className="table table-striped table-bordered bj-table bj-table-landing">
+                        <thead style={style}>
+                          <tr>
+                            {header?.length > 0 &&
+                              header?.map((item, index) => (
+                                <th
+                                  style={{
+                                    ...item?.style,
+                                    position: "sticky",
+                                    top: 0,
+                                  }}
+                                  key={index}
+                                >
+                                  {item?.name}
+                                </th>
+                              ))}
+                          </tr>
+                        </thead>
 
-                      <tbody>
-                        {rowDto.length >= 0 &&
-                          rowDto.map((data, index) => (
-                            <tr key={index}>
-                              <td>{index + 1}</td>
-                              <td>{data?.strPoNo}</td>
-                              <td>{data?.strLc}</td>
-                              <td>{data?.lcType}</td>
-                              <td className="text-center">
-                                {_dateFormatter(data?.lcDate)}
-                              </td>
-                              <td>{data?.strBank}</td>
-                              <td className="text-center">
-                                {_dateFormatter(data?.shipDate)}
-                              </td>
-                              <td>{data?.supplier}</td>
-                              <td>{data?.strSource}</td>
-                              <td>{data?.strDestination}</td>
-                              <td className="text-right">
-                                {_formatMoney(data?.totalValue, 4)}
-                              </td>
-                              <td className="text-right">
-                                {_formatMoney(data?.numBank, 4)}
-                              </td>
-                              <td className="text-right">
-                                {_formatMoney(data?.numCleaning, 4)}
-                              </td>
-                              <td className="text-right">
-                                {_formatMoney(data?.numCnF, 4)}
-                              </td>
-                              <td className="text-right">
-                                {_formatMoney(data?.numDocRelease, 4)}
-                              </td>
-                              <td className="text-right">
-                                {_formatMoney(data?.numDuty, 4)}
-                              </td>
-                              <td className="text-right">
-                                {_formatMoney(data?.numHatch, 4)}
-                              </td>
-                              <td className="text-right">
-                                {_formatMoney(data?.numInsurance, 4)}
-                              </td>
-                              <td className="text-right">
-                                {_formatMoney(data?.numMaturity, 4)}
-                              </td>
-                              <td className="text-right">
-                                {_formatMoney(data?.numOther, 4)}
-                              </td>
+                        <tbody>
+                          {rowDto.length >= 0 &&
+                            rowDto.map((data, index) => (
+                              <tr key={index}>
+                                <td>{index + 1}</td>
+                                <td>{data?.strPoNo}</td>
+                                <td>{data?.strLc}</td>
+                                <td>{data?.lcType}</td>
+                                <td className="text-center">
+                                  {_dateFormatter(data?.lcDate)}
+                                </td>
+                                <td>{data?.strBank}</td>
+                                <td className="text-center">
+                                  {_dateFormatter(data?.shipDate)}
+                                </td>
+                                <td>{data?.supplier}</td>
+                                <td>{data?.strSource}</td>
+                                <td>{data?.strDestination}</td>
+                                <td className="text-right">
+                                  {_formatMoney(data?.totalValue, 4)}
+                                </td>
+                                <td className="text-right">
+                                  {_formatMoney(data?.numBank, 4)}
+                                </td>
+                                <td className="text-right">
+                                  {_formatMoney(data?.numCleaning, 4)}
+                                </td>
+                                <td className="text-right">
+                                  {_formatMoney(data?.numCnF, 4)}
+                                </td>
+                                <td className="text-right">
+                                  {_formatMoney(data?.numDocRelease, 4)}
+                                </td>
+                                <td className="text-right">
+                                  {_formatMoney(data?.numDuty, 4)}
+                                </td>
+                                <td className="text-right">
+                                  {_formatMoney(data?.numHatch, 4)}
+                                </td>
+                                <td className="text-right">
+                                  {_formatMoney(data?.numInsurance, 4)}
+                                </td>
+                                <td className="text-right">
+                                  {_formatMoney(data?.numMaturity, 4)}
+                                </td>
+                                <td className="text-right">
+                                  {_formatMoney(data?.numOther, 4)}
+                                </td>
 
-                              <td className="text-right">
-                                {_formatMoney(data?.numPG, 4)}
-                              </td>
-                              <td className="text-right">
-                                {_formatMoney(data?.numPort, 4)}
-                              </td>
-                              <td className="text-right">
-                                {_formatMoney(data?.numScavatory, 4)}
-                              </td>
-                              <td className="text-right">
-                                {_formatMoney(data?.numShipping, 4)}
-                              </td>
-                              <td className="text-right">
-                                {_formatMoney(data?.numSurvey, 4)}
-                              </td>
-                              <td className="text-right">
-                                {_formatMoney(data?.numTransport, 4)}
-                              </td>
-                              <td className="text-right">
-                                {_formatMoney(data?.numUnloading, 4)}
-                              </td>
-                              <td>{data?.currency}</td>
-                              {/* <td>{data?.currencyName}</td> */}
-                              {/* <td className="text-center">
+                                <td className="text-right">
+                                  {_formatMoney(data?.numPG, 4)}
+                                </td>
+                                <td className="text-right">
+                                  {_formatMoney(data?.numPort, 4)}
+                                </td>
+                                <td className="text-right">
+                                  {_formatMoney(data?.numScavatory, 4)}
+                                </td>
+                                <td className="text-right">
+                                  {_formatMoney(data?.numShipping, 4)}
+                                </td>
+                                <td className="text-right">
+                                  {_formatMoney(data?.numSurvey, 4)}
+                                </td>
+                                <td className="text-right">
+                                  {_formatMoney(data?.numTransport, 4)}
+                                </td>
+                                <td className="text-right">
+                                  {_formatMoney(data?.numUnloading, 4)}
+                                </td>
+                                <td>{data?.currency}</td>
+                                {/* <td>{data?.currencyName}</td> */}
+                                {/* <td className="text-center">
                                 <IView
                                   //classes="text-muted"
                                   clickHandler={() => {
@@ -553,7 +554,7 @@ const TableRow = () => {
                                   }}
                                 />
                               </td> */}
-                              {/* <td>
+                                {/* <td>
                                   <div className="pl-2">
                                     {data?.employeeName}
                                   </div>
@@ -613,10 +614,11 @@ const TableRow = () => {
                                     {data?.holiday}
                                   </div>
                                 </td> */}
-                            </tr>
-                          ))}
-                      </tbody>
-                    </table>
+                              </tr>
+                            ))}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 }
               </Form>
