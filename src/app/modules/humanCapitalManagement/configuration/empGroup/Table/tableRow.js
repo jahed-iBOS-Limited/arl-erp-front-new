@@ -28,15 +28,7 @@ export function TableRow() {
 
   return (
     <>
-      <div
-        style={{
-          paddingBottom: "8px",
-          marginLeft: "-13px",
-          paddingLeft: ".50rem",
-          paddingRight: ".50rem",
-          width: "max-content",
-        }}
-      ></div>
+  
       <div className="row cash_journal">
         <div className="col-lg-12 pr-0 pl-0">
           <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">

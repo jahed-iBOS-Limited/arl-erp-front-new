@@ -119,28 +119,30 @@ const PurchasePlanTable = () => {
       </div>
 
       {purchasePlan?.length > 0 && (
-        <table className="global-table table">
-          <thead>
-            <tr>
-              <th>SL</th>
-              <th>Horizon Name</th>
-              <th>Start Date</th>
-              <th>End Date</th>
-              <th>Plan Quantity</th>
-            </tr>
-          </thead>
-          <tbody>
-            {purchasePlan?.map((item, index) => (
-              <tr key={index}>
-                <td>{index + 1}</td>
-                <td>{item?.strMonthName}</td>
-                <td>{_dateFormatter(item?.dteStartDateTime)}</td>
-                <td>{_dateFormatter(item?.dteEndDateTime)}</td>
-                <td className="text-center">{item?.procurementPlanQty}</td>
+        <div className="table-responsive">
+          <table className="global-table table">
+            <thead>
+              <tr>
+                <th>SL</th>
+                <th>Horizon Name</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Plan Quantity</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {purchasePlan?.map((item, index) => (
+                <tr key={index}>
+                  <td>{index + 1}</td>
+                  <td>{item?.strMonthName}</td>
+                  <td>{_dateFormatter(item?.dteStartDateTime)}</td>
+                  <td>{_dateFormatter(item?.dteEndDateTime)}</td>
+                  <td className="text-center">{item?.procurementPlanQty}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
       <IViewModal
         show={versionModalShow}

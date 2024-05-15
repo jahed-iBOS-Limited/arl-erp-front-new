@@ -29,7 +29,7 @@ export function TableRow() {
   const [selectedTransactionType, setSelectedTransactionType] = useState("");
   const [gridData, setGridData] = useState([]);
   const [loader, setLoader] = useState(false);
-  
+
   const [isShowModal, setIsShowModal] = useState(false);
   const [currentRowData, setCurrentRowData] = useState("");
 
@@ -56,7 +56,7 @@ export function TableRow() {
       setSelectedTransactionType(
         shopFloorInventoryTransaction?.selectedTransactionType
       );
-      if(!shopfloorDDL.length){
+      if (!shopfloorDDL.length) {
         getShopfloorDDL(
           profileData?.accountId,
           selectedBusinessUnit?.value,
@@ -72,8 +72,8 @@ export function TableRow() {
         setLoader
       );
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [shopFloorInventoryTransaction, profileData,selectedBusinessUnit]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [shopFloorInventoryTransaction, profileData, selectedBusinessUnit]);
 
   const pushData = () => {
     history.push({
@@ -113,169 +113,163 @@ export function TableRow() {
           </button>
         )}
       >
-        <div
-          style={{
-            paddingBottom: "8px",
-            marginLeft: "-13px",
-            paddingLeft: ".50rem",
-            paddingRight: ".50rem",
-            width: "max-content",
-          }}
-          className="d-flex mt-3 global-form"
-        >
-          <div style={{ width: "175px" }} className="mr-4">
-            <label>Plant Name</label>
-            <Select
-              onChange={(valueOption) => {
-                setSelectedPlant(valueOption);
-                getShopfloorDDL(
-                  profileData?.accountId,
-                  selectedBusinessUnit?.value,
-                  valueOption?.value,
-                  setShopFloorDDL
-                );
-                setSelectedShopFloorDDL("");
-              }}
-              value={selectedPlant}
-              options={plantDDL}
-              isSearchable={true}
-              styles={customStyles}
-            />
-          </div>
-          <div style={{ width: "175px" }} className="mr-4">
-            <label>Shop Floor</label>
-            <Select
-              onChange={(valueOption) => {
-                setSelectedShopFloorDDL(valueOption);
-              }}
-              value={selectedShopFloorDDL}
-              options={shopfloorDDL}
-              isSearchable={true}
-              styles={customStyles}
-            />
-          </div>
-          <div style={{ width: "175px" }} className="mr-4">
-            <label>Transaction Type</label>
-            <Select
-              onChange={(valueOption) => {
-                setSelectedTransactionType(valueOption);
-                setGridData([]);
-              }}
-              value={selectedTransactionType}
-              options={transactionTypeDDL}
-              isSearchable={true}
-              styles={customStyles}
-            />
-          </div>
-          <div style={{ width: "175px" }} className="mr-4">
-            <button
-              type="button"
-              className="btn btn-primary mt-5"
-              onClick={() => {
-                ShopFloorTransactionLandingAction(
-                  selectedPlant?.value,
-                  selectedShopFloorDDL?.value,
-                  selectedTransactionType?.value,
-                  setGridData,
-                  setLoader
-                );
-                dispatch(
-                  SetShopFloorInventoryTransactionAction({
-                    selectedPlant,
-                    selectedShopFloorDDL,
-                    selectedTransactionType,
-                  })
-                );
-              }}
-            >
-              View
-            </button>
+        <div className=" global-form">
+          <div className="row">
+            <div className="col-lg-3">
+              <label>Plant Name</label>
+              <Select
+                onChange={(valueOption) => {
+                  setSelectedPlant(valueOption);
+                  getShopfloorDDL(
+                    profileData?.accountId,
+                    selectedBusinessUnit?.value,
+                    valueOption?.value,
+                    setShopFloorDDL
+                  );
+                  setSelectedShopFloorDDL("");
+                }}
+                value={selectedPlant}
+                options={plantDDL}
+                isSearchable={true}
+                styles={customStyles}
+              />
+            </div>
+            <div className="col-lg-3">
+              <label>Shop Floor</label>
+              <Select
+                onChange={(valueOption) => {
+                  setSelectedShopFloorDDL(valueOption);
+                }}
+                value={selectedShopFloorDDL}
+                options={shopfloorDDL}
+                isSearchable={true}
+                styles={customStyles}
+              />
+            </div>
+            <div className="col-lg-3">
+              <label>Transaction Type</label>
+              <Select
+                onChange={(valueOption) => {
+                  setSelectedTransactionType(valueOption);
+                  setGridData([]);
+                }}
+                value={selectedTransactionType}
+                options={transactionTypeDDL}
+                isSearchable={true}
+                styles={customStyles}
+              />
+            </div>
+            <div className="col-lg-2">
+              <button
+                type="button"
+                className="btn btn-primary mt-5"
+                onClick={() => {
+                  ShopFloorTransactionLandingAction(
+                    selectedPlant?.value,
+                    selectedShopFloorDDL?.value,
+                    selectedTransactionType?.value,
+                    setGridData,
+                    setLoader
+                  );
+                  dispatch(
+                    SetShopFloorInventoryTransactionAction({
+                      selectedPlant,
+                      selectedShopFloorDDL,
+                      selectedTransactionType,
+                    })
+                  );
+                }}
+              >
+                View
+              </button>
+            </div>
           </div>
         </div>
         {/* Table Start */}
         {loader && <Loading />}
         <div className="row cash_journal">
           <div className="col-lg-12 pr-0 pl-0">
-            <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
-              <thead>
-                <tr>
-                  <th>SL</th>
-                  <th>Transaction Code</th>
-                  <th>Transaction Date</th>
-                  <th>Transaction Quantity</th>
-                  {(selectedTransactionType?.value === 2 ||
-                    selectedTransactionType?.value === 3) && (
-                    <>
-                      <th>Reference Code</th>
-                      <th>Receive From</th>
-                    </>
-                  )}
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {gridData?.data?.map((item, index) => (
-                  <tr key={index}>
-                    <td>{item.sl}</td>
-                    <td>
-                      <div className="text-center">
-                        {item?.shopFloorInventoryTransactionCode}
-                      </div>
-                    </td>
-                    <td>
-                      <div className="text-center">
-                        {_dateFormatter(item?.transactionDateTime)}
-                      </div>
-                    </td>
-                    <td>
-                      <div className="pl-2 text-center">{item?.transactionQty}</div>
-                    </td>
-
+            <div className="table-responsive">
+              <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+                <thead>
+                  <tr>
+                    <th>SL</th>
+                    <th>Transaction Code</th>
+                    <th>Transaction Date</th>
+                    <th>Transaction Quantity</th>
                     {(selectedTransactionType?.value === 2 ||
-                      selectedTransactionType?.value === 3 ) && (
+                      selectedTransactionType?.value === 3) && (
                       <>
-                        <td>
-                          <div className="text-center">
-                            {/* {item?.referenceCode} */}
-                            <span
-                                 className="text-primary font-weight-bold cursor-pointer mr-2"
-                                 style={{ textDecoration: 'underline' }}
-                                 onClick={() => {
-                                    setCurrentRowData(item);
-                                    setIsShowModal(true);
-                                 }}
-                              >
-                                 {item?.referenceCode
-                                    ? item?.referenceCode
-                                    : ''}
-                              </span>
-                          </div>
-                        </td>
-                        <td>
-                          <div className="pl-2">{item?.receiveFrom}</div>
-                        </td>
+                        <th>Reference Code</th>
+                        <th>Receive From</th>
                       </>
                     )}
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {gridData?.data?.map((item, index) => (
+                    <tr key={index}>
+                      <td>{item.sl}</td>
+                      <td>
+                        <div className="text-center">
+                          {item?.shopFloorInventoryTransactionCode}
+                        </div>
+                      </td>
+                      <td>
+                        <div className="text-center">
+                          {_dateFormatter(item?.transactionDateTime)}
+                        </div>
+                      </td>
+                      <td>
+                        <div className="pl-2 text-center">
+                          {item?.transactionQty}
+                        </div>
+                      </td>
 
-                    <td>
-                      <div className="d-flex justify-content-around">
-                        <span className="view">
-                          <IView
-                            clickHandler={() => {
-                              history.push({
-                                pathname: `/production-management/mes/shopFloorInventoryTransaction/view/${item?.shopFloorInventoryTransactionId}`,
-                                state: {
-                                  selectedTransactionType,
-                                  selectedPlant,
-                                  selectedShopFloorDDL,
-                                },
-                              });
-                            }}
-                          />
-                        </span>
+                      {(selectedTransactionType?.value === 2 ||
+                        selectedTransactionType?.value === 3) && (
+                        <>
+                          <td>
+                            <div className="text-center">
+                              {/* {item?.referenceCode} */}
+                              <span
+                                className="text-primary font-weight-bold cursor-pointer mr-2"
+                                style={{ textDecoration: "underline" }}
+                                onClick={() => {
+                                  setCurrentRowData(item);
+                                  setIsShowModal(true);
+                                }}
+                              >
+                                {item?.referenceCode ? item?.referenceCode : ""}
+                              </span>
+                            </div>
+                          </td>
+                          <td>
+                            <div className="pl-2">{item?.receiveFrom}</div>
+                          </td>
+                        </>
+                      )}
 
-                        {/* Edit Commented | Assign By Mamun Ahmed */}
-                        {/* <span
+                      <td>
+                        <div className="d-flex justify-content-around">
+                          <span className="view">
+                            <IView
+                              clickHandler={() => {
+                                history.push({
+                                  pathname: `/production-management/mes/shopFloorInventoryTransaction/view/${item?.shopFloorInventoryTransactionId}`,
+                                  state: {
+                                    selectedTransactionType,
+                                    selectedPlant,
+                                    selectedShopFloorDDL,
+                                  },
+                                });
+                              }}
+                            />
+                          </span>
+
+                          {/* Edit Commented | Assign By Mamun Ahmed */}
+                          {/* <span
                           className="edit"
                           onClick={() => {
                             history.push({
@@ -285,21 +279,22 @@ export function TableRow() {
                         >
                           <IEdit />
                         </span> */}
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
-          <IViewModal show={isShowModal} onHide={() => setIsShowModal(false)}>
-            <InventoryTransactionReportViewTableRow
-              Invid={currentRowData?.referenceId}
-              grId={currentRowData?.referenceTypeId}
-              currentRowData={currentRowData}
-            />
-          </IViewModal>
+        <IViewModal show={isShowModal} onHide={() => setIsShowModal(false)}>
+          <InventoryTransactionReportViewTableRow
+            Invid={currentRowData?.referenceId}
+            grId={currentRowData?.referenceTypeId}
+            currentRowData={currentRowData}
+          />
+        </IViewModal>
       </ICustomCard>
     </>
   );

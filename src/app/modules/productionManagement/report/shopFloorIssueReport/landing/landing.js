@@ -190,7 +190,8 @@ function ShopFloorIssueReportLanding() {
               </div>
               {gridData?.length > 0 && (
                 <div ref={printRef} className="col-lg-12 pr-0 pl-0">
-                  <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+                            <div className="table-responsive">
+<table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                     <thead>
                       <tr>
                         <th>SL</th>
@@ -243,6 +244,8 @@ function ShopFloorIssueReportLanding() {
                       ))}
                     </tbody>
                   </table>
+</div>
+                  
                 </div>
               )}
 

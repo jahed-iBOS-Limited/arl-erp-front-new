@@ -25,9 +25,12 @@ const TrailBalanceReport = () => {
     toDate: _todayDate(),
   });
 
-  const { profileData, selectedBusinessUnit, businessUnitList } = useSelector((state) => {
-    return state.authData;
-  }, shallowEqual);
+  const { profileData, selectedBusinessUnit, businessUnitList } = useSelector(
+    (state) => {
+      return state.authData;
+    },
+    shallowEqual
+  );
 
   useEffect(() => {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
@@ -71,21 +74,21 @@ const TrailBalanceReport = () => {
           <>
             <Form className="form form-label-right ">
               <div className="form-group row align-items-end">
-              <div className="col-lg-3">
-                      <NewSelect
-                        name="currentBusinessUnit"
-                        options={businessUnitList}
-                        value={values?.currentBusinessUnit}
-                        label="Business Unit"
-                        onChange={(valueOption) => {
-                          setFieldValue("currentBusinessUnit", valueOption || "");
-                        }}
-                        placeholder="Business Unit"
-                        errors={errors}
-                        touched={touched}
-                        required={true}
-                      />
-                    </div>
+                <div className="col-lg-3">
+                  <NewSelect
+                    name="currentBusinessUnit"
+                    options={businessUnitList}
+                    value={values?.currentBusinessUnit}
+                    label="Business Unit"
+                    onChange={(valueOption) => {
+                      setFieldValue("currentBusinessUnit", valueOption || "");
+                    }}
+                    placeholder="Business Unit"
+                    errors={errors}
+                    touched={touched}
+                    required={true}
+                  />
+                </div>
                 <div className="col-lg-3">
                   <label>From Date</label>
                   <InputField
@@ -107,7 +110,7 @@ const TrailBalanceReport = () => {
                 </div>
                 <div className="col-auto">
                   <button
-                   disabled={!values?.currentBusinessUnit}
+                    disabled={!values?.currentBusinessUnit}
                     type="submit"
                     className="btn btn-primary"
                     onClick={() =>
@@ -242,84 +245,86 @@ const TrailBalanceReport = () => {
                         </p>
                       </div>
                     </div>
-                    <table
-                      id="table-to-xlsx"
-                      className="table table-striped table-bordered global-table table-font-size-sm"
-                      style={{ width: "100%" }}
-                    >
-                      <thead>
-                        <tr>
-                          <th>Account Code</th>
-                          <th>Account Name</th>
-                          <th>Debit</th>
-                          <th>Credit</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {trailBalanceReportData?.map((data, index) => (
-                          <tr key={index}>
-                            <td>
-                              <div className="text-right pr-2">
-                                {data?.generalLedgerCode}
-                              </div>
-                            </td>
-                            <td>
-                              <div className="pl-2">
-                                {data?.generalLedgerName}
-                              </div>
-                            </td>
-                            <td>
-                              <div className="text-right pr-2">
-                                {data?.debit !== 0
-                                  ? numberWithCommas(
-                                      Math.round(data?.debit) || 0
-                                    )
-                                  : " "}
-                              </div>
-                            </td>
-                            <td>
-                              <div className="text-right pr-2">
-                                {data?.credit !== 0
-                                  ? numberWithCommas(
-                                      Math.round(data?.credit) || 0
-                                    )
-                                  : " "}
-                              </div>
-                            </td>
+                    <div className="table-responsive">
+                      <table
+                        id="table-to-xlsx"
+                        className="table table-striped table-bordered global-table table-font-size-sm"
+                        style={{ width: "100%" }}
+                      >
+                        <thead>
+                          <tr>
+                            <th>Account Code</th>
+                            <th>Account Name</th>
+                            <th>Debit</th>
+                            <th>Credit</th>
                           </tr>
-                        ))}
-                        {trailBalanceReportData.length > 0 && (
-                          <>
-                            <tr>
-                              <td></td>
-                              <td style={{ textAlign: "right" }}>Total</td>
+                        </thead>
+                        <tbody>
+                          {trailBalanceReportData?.map((data, index) => (
+                            <tr key={index}>
                               <td>
                                 <div className="text-right pr-2">
-                                  {numberWithCommas(
-                                    Math.round(debitTotal) || 0
-                                  )}
+                                  {data?.generalLedgerCode}
+                                </div>
+                              </td>
+                              <td>
+                                <div className="pl-2">
+                                  {data?.generalLedgerName}
                                 </div>
                               </td>
                               <td>
                                 <div className="text-right pr-2">
-                                  {numberWithCommas(
-                                    Math.round(creditTotal || 0)
-                                  )}
+                                  {data?.debit !== 0
+                                    ? numberWithCommas(
+                                        Math.round(data?.debit) || 0
+                                      )
+                                    : " "}
+                                </div>
+                              </td>
+                              <td>
+                                <div className="text-right pr-2">
+                                  {data?.credit !== 0
+                                    ? numberWithCommas(
+                                        Math.round(data?.credit) || 0
+                                      )
+                                    : " "}
                                 </div>
                               </td>
                             </tr>
-                            <tr>
-                              <td
-                                className="text-center d-none"
-                                colSpan={4}
-                              >{`System Generated Report - ${moment().format(
-                                "LLLL"
-                              )}`}</td>
-                            </tr>
-                          </>
-                        )}
-                      </tbody>
-                    </table>
+                          ))}
+                          {trailBalanceReportData.length > 0 && (
+                            <>
+                              <tr>
+                                <td></td>
+                                <td style={{ textAlign: "right" }}>Total</td>
+                                <td>
+                                  <div className="text-right pr-2">
+                                    {numberWithCommas(
+                                      Math.round(debitTotal) || 0
+                                    )}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="text-right pr-2">
+                                    {numberWithCommas(
+                                      Math.round(creditTotal || 0)
+                                    )}
+                                  </div>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td
+                                  className="text-center d-none"
+                                  colSpan={4}
+                                >{`System Generated Report - ${moment().format(
+                                  "LLLL"
+                                )}`}</td>
+                              </tr>
+                            </>
+                          )}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 )}
               </div>

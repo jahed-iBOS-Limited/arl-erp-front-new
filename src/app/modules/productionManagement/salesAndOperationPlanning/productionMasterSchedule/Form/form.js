@@ -60,7 +60,7 @@ export default function _Form({
     const findDuplicate = rowDto?.find(
       (item) => item?.itemId === values?.item?.value
     );
-    if(values?.item?.value){
+    if (values?.item?.value) {
       if (findDuplicate) {
         toast.warning("Item already added");
       } else {
@@ -78,11 +78,10 @@ export default function _Form({
         };
         setRowDto([...rowDto, rowDataValues]);
       }
-    } else{
-      toast.warn('Add at least one item')
+    } else {
+      toast.warn("Add at least one item");
     }
   };
-
 
   useEffect(() => {
     if (plant && year && month) {
@@ -117,7 +116,6 @@ export default function _Form({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [plant, year, month, item]);
 
-
   return (
     <>
       <Formik
@@ -151,8 +149,8 @@ export default function _Form({
                     placeholder="Plant"
                     onChange={(valueOption) => {
                       setFieldValue("plant", valueOption);
-                      setFieldValue('year', '');
-                      setFieldValue('horizon', '');
+                      setFieldValue("year", "");
+                      setFieldValue("horizon", "");
                       setPlant(valueOption);
                       getProductionMasterSchedulingYear(
                         profileData?.accountId,
@@ -173,7 +171,7 @@ export default function _Form({
                     label="Year"
                     onChange={(valueOption) => {
                       setFieldValue("year", valueOption);
-                      setFieldValue('horizon', '');
+                      setFieldValue("horizon", "");
                       setYear(valueOption);
                       getMasterSchedulingHorizon(
                         profileData?.accountId,
@@ -244,8 +242,8 @@ export default function _Form({
                     label="Item Name"
                     onChange={(valueOption) => {
                       setFieldValue("item", valueOption);
-                      setFieldValue("workCenters", '');
-                      setFieldValue("boMs", '');
+                      setFieldValue("workCenters", "");
+                      setFieldValue("boMs", "");
                       setItem(valueOption);
                     }}
                     placeholder="Item Name"
@@ -322,36 +320,40 @@ export default function _Form({
                 onSubmit={() => resetForm(initData)}
               ></button>
             </Form>
-            <table className="global-table table">
-              <thead>
-                <tr>
-                  <th>SL</th>
-                  <th>Item Name</th>
-                  <th>UoM Name</th>
-                  <th>Work Center</th>
-                  <th>BoM</th>
-                  <th>Production Plan Quantity</th>
-                  <th>Plan Quantity</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {rowDto?.map((item, index) => (
-                  <tr key={item?.sl}>
-                    <td className="text-center">{index + 1}</td>
-                    <td className="pl-2">{item?.itemName}</td>
-                    <td className='pl-2'>{item?.uomName}</td>
-                    <td className="pl-2">{item?.workCenterName}</td>
-                    <td className="pl-2">{item?.boMName}</td>
-                    <td className="pl-2 text-center">{item?.productionPlanQty}</td>
-                    <td className="pl-2 text-center">{item?.itemQTY}</td>
-                    <td className="text-center">
-                      <IDelete id={index} remover={remover} />
-                    </td>
+            <div className="table-responsive">
+              <table className="global-table table">
+                <thead>
+                  <tr>
+                    <th>SL</th>
+                    <th>Item Name</th>
+                    <th>UoM Name</th>
+                    <th>Work Center</th>
+                    <th>BoM</th>
+                    <th>Production Plan Quantity</th>
+                    <th>Plan Quantity</th>
+                    <th>Action</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {rowDto?.map((item, index) => (
+                    <tr key={item?.sl}>
+                      <td className="text-center">{index + 1}</td>
+                      <td className="pl-2">{item?.itemName}</td>
+                      <td className="pl-2">{item?.uomName}</td>
+                      <td className="pl-2">{item?.workCenterName}</td>
+                      <td className="pl-2">{item?.boMName}</td>
+                      <td className="pl-2 text-center">
+                        {item?.productionPlanQty}
+                      </td>
+                      <td className="pl-2 text-center">{item?.itemQTY}</td>
+                      <td className="text-center">
+                        <IDelete id={index} remover={remover} />
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </>
         )}
       </Formik>

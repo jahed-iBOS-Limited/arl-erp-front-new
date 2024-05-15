@@ -14,7 +14,8 @@ const ViewModal = ({ id }) => {
 
   return (
     <div>
-      <table className="global-table table">
+                <div className="table-responsive">
+<table className="global-table table">
         <thead>
           <tr>
             <th>SL</th>
@@ -44,6 +45,8 @@ const ViewModal = ({ id }) => {
           })}
         </tbody>
       </table>
+</div>
+      
     </div>
   );
 };

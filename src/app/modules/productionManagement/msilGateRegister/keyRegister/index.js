@@ -117,56 +117,59 @@ function KeyRegisterLanding() {
                 </div>
                 <div className="row">
                   <div className="col-lg-12">
-                    <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
-                      <thead>
-                        <tr>
-                          <th style={{ width: "30px" }}>SL</th>
-                          <th>তারিখ</th>
-                          <th>চাবি গ্রহনকারীর নাম</th>
-                          <th>পদবী</th>
-                          <th>চাবির স্থান</th>
-                          <th>চাবির সংখ্যা</th>
-                          <th>চাবি প্রদানের সময়</th>
-                          <th>চাবি গ্রহণের সময়</th>
-                          <th>চাবি প্রদানকারীর নাম</th>
-                          <th style={{ width: "50px" }}>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {rowData?.keyRegisterList?.length > 0 &&
-                          rowData?.keyRegisterList?.map((item, index) => (
-                            <tr key={index}>
-                              <td>{index + 1}</td>
-                              <td className="text-center">
-                                {_dateFormatter(item?.dteDate)}
-                              </td>
-                              <td>{item?.strKeyReceiverName}</td>
-                              <td>{item?.strDesignation}</td>
-                              <td>{item?.strKeyLocation}</td>
-                              <td className="text-center">
-                                {item?.numKeyQuantity}
-                              </td>
-                              <td className="text-center">
-                                {_timeFormatter(item?.tmKeyProvideTime || "")}
-                              </td>
-                              <td className="text-center">
-                                {_timeFormatter(item?.tmKeyReceiveTime || "")}
-                              </td>
-                              <td>{item?.strKeyProviderName}</td>
-                              <td className="text-center">
-                                <IEdit
-                                  onClick={() =>
-                                    history.push({
-                                      pathname: `/production-management/msil-gate-register/Key-Register/edit/${item?.intGateKeyRegisterId}`,
-                                      state: { ...item },
-                                    })
-                                  }
-                                />
-                              </td>
-                            </tr>
-                          ))}
-                      </tbody>
-                    </table>
+                    <div className="table-responsive">
+                      <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+                        <thead>
+                          <tr>
+                            <th style={{ width: "30px" }}>SL</th>
+                            <th>তারিখ</th>
+                            <th>চাবি গ্রহনকারীর নাম</th>
+                            <th>পদবী</th>
+                            <th>চাবির স্থান</th>
+                            <th>চাবির সংখ্যা</th>
+                            <th>চাবি প্রদানের সময়</th>
+                            <th>চাবি গ্রহণের সময়</th>
+                            <th>চাবি প্রদানকারীর নাম</th>
+                            <th style={{ width: "50px" }}>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {rowData?.keyRegisterList?.length > 0 &&
+                            rowData?.keyRegisterList?.map((item, index) => (
+                              <tr key={index}>
+                                <td>{index + 1}</td>
+                                <td className="text-center">
+                                  {_dateFormatter(item?.dteDate)}
+                                </td>
+                                <td>{item?.strKeyReceiverName}</td>
+                                <td>{item?.strDesignation}</td>
+                                <td>{item?.strKeyLocation}</td>
+                                <td className="text-center">
+                                  {item?.numKeyQuantity}
+                                </td>
+                                <td className="text-center">
+                                  {_timeFormatter(item?.tmKeyProvideTime || "")}
+                                </td>
+                                <td className="text-center">
+                                  {_timeFormatter(item?.tmKeyReceiveTime || "")}
+                                </td>
+                                <td>{item?.strKeyProviderName}</td>
+                                <td className="text-center">
+                                  <IEdit
+                                    onClick={() =>
+                                      history.push({
+                                        pathname: `/production-management/msil-gate-register/Key-Register/edit/${item?.intGateKeyRegisterId}`,
+                                        state: { ...item },
+                                      })
+                                    }
+                                  />
+                                </td>
+                              </tr>
+                            ))}
+                        </tbody>
+                      </table>
+                    </div>
+
                     {rowData?.keyRegisterList?.length > 0 && (
                       <PaginationTable
                         count={rowData?.totalCount}

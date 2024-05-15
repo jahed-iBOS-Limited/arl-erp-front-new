@@ -38,7 +38,7 @@ export default function DistributionQtyVariance() {
   const businessUnitList = useSelector((state) => {
     return state.authData.businessUnitList;
   }, shallowEqual);
-  const { profileData} = useSelector((state) => {
+  const { profileData } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
 
@@ -96,7 +96,7 @@ export default function DistributionQtyVariance() {
             <Form>
               <div>
                 <div className="form-group  global-form row">
-                <div className="col-lg-3">
+                  <div className="col-lg-3">
                     <NewSelect
                       name="currentBusinessUnit"
                       options={businessUnitList}
@@ -288,53 +288,57 @@ export default function DistributionQtyVariance() {
                 </div>
 
                 <div className="mt-3">
-                  <table className="table table-striped table-bordered bj-table bj-table-landing">
-                    <thead>
-                      <tr>
-                        <th rowSpan="2">SL</th>
-                        <th rowSpan="2">Item Code</th>
-                        <th rowSpan="2">Item Name</th>
-                        <th rowSpan="2">Uom</th>
-                        <th colSpan="2">Plan Quantity</th>
-                        <th colSpan="2">Actual Quantity</th>
-                        <th colSpan="2">Variance Quantity</th>
-                      </tr>
-                      <tr>
-                        <th>Via Trans Shipment</th>
-                        <th>Direct</th>
-                        <th>Via Trans Shipment</th>
-                        <th>Direct</th>
-                        <th>Via Trans Shipment</th>
-                        <th>Direct</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {tableData?.map((item, index) => (
-                        <tr key={index}>
-                          <td className="text-center">{index + 1}</td>
-                          <td className="text-center">{item?.itemCode}</td>
-                          <td>{item?.itemName}</td>
-                          <td>{item?.uomName}</td>
-                          <td className="text-right">
-                            {item?.planQtyTransShipment}
-                          </td>
-                          <td className="text-right">{numberWithCommas(item?.planQtyDirect)}</td>
-                          <td className="text-right">
-                            {item?.actualQtyTransShipment}
-                          </td>
-                          <td className="text-right">
-                          {numberWithCommas(item?.actualQtyDirect)}
-                          </td>
-                          <td className="text-right">
-                          {numberWithCommas(item?.actualQtyDirect)}
-                          </td>
-                          <td className="text-right">
-                            {item?.varianceQtyDirect}
-                          </td>
+                  <div className="table-responsive">
+                    <table className="table table-striped table-bordered bj-table bj-table-landing">
+                      <thead>
+                        <tr>
+                          <th rowSpan="2">SL</th>
+                          <th rowSpan="2">Item Code</th>
+                          <th rowSpan="2">Item Name</th>
+                          <th rowSpan="2">Uom</th>
+                          <th colSpan="2">Plan Quantity</th>
+                          <th colSpan="2">Actual Quantity</th>
+                          <th colSpan="2">Variance Quantity</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                        <tr>
+                          <th>Via Trans Shipment</th>
+                          <th>Direct</th>
+                          <th>Via Trans Shipment</th>
+                          <th>Direct</th>
+                          <th>Via Trans Shipment</th>
+                          <th>Direct</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {tableData?.map((item, index) => (
+                          <tr key={index}>
+                            <td className="text-center">{index + 1}</td>
+                            <td className="text-center">{item?.itemCode}</td>
+                            <td>{item?.itemName}</td>
+                            <td>{item?.uomName}</td>
+                            <td className="text-right">
+                              {item?.planQtyTransShipment}
+                            </td>
+                            <td className="text-right">
+                              {numberWithCommas(item?.planQtyDirect)}
+                            </td>
+                            <td className="text-right">
+                              {item?.actualQtyTransShipment}
+                            </td>
+                            <td className="text-right">
+                              {numberWithCommas(item?.actualQtyDirect)}
+                            </td>
+                            <td className="text-right">
+                              {numberWithCommas(item?.actualQtyDirect)}
+                            </td>
+                            <td className="text-right">
+                              {item?.varianceQtyDirect}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
             </Form>

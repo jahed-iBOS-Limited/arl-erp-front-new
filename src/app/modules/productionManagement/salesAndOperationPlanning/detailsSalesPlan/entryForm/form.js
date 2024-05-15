@@ -502,7 +502,8 @@ export default function _Form({
                 </div>
               </div>
 
-              <table className="global-table table">
+              <div className="table-responsive">
+<table className="global-table table">
                 <thead>
                   <tr>
                     <th>SL</th>
@@ -625,6 +626,8 @@ export default function _Form({
                   ))}
                 </tbody>
               </table>
+</div>
+              
               {!fileObject && !id && rowDto?.data?.length > 0 && (
                 <PaginationTable
                   count={rowDto?.totalCount}

@@ -1,32 +1,29 @@
-import { Form, Formik } from 'formik';
-import React, { useEffect, useState } from 'react';
-import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
-import IForm from '../../../_helper/_form';
-import IDelete from '../../../_helper/_helperIcons/_delete';
-import IEdit from '../../../_helper/_helperIcons/_edit';
-import Loading from '../../../_helper/_loading';
-import NewSelect from '../../../_helper/_select';
-import PaginationTable from '../../../_helper/_tablePagination';
-import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
-import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
-import { setOEECapacityConfigurationAction } from '../../../_helper/reduxForLocalStorage/Actions';
+import { Form, Formik } from "formik";
+import React, { useEffect, useState } from "react";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+import IForm from "../../../_helper/_form";
+import IDelete from "../../../_helper/_helperIcons/_delete";
+import IEdit from "../../../_helper/_helperIcons/_edit";
+import Loading from "../../../_helper/_loading";
+import NewSelect from "../../../_helper/_select";
+import PaginationTable from "../../../_helper/_tablePagination";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
+import { setOEECapacityConfigurationAction } from "../../../_helper/reduxForLocalStorage/Actions";
 import {
   getLandingData,
   machineNameDDLApi,
   plantNameDDLApi,
   shopFloorNameDDLApi,
-} from './util/api';
-
-
+} from "./util/api";
 
 export default function OEECapacityConfigurationLanding() {
-  
-  const initData = useSelector((state)=>{
+  const initData = useSelector((state) => {
     return state.localStorage.OEECapacityConfigurationInitData || {};
-  },shallowEqual)
-  const saveHandler = (values, cb) => { };
-  const dispatch = useDispatch()
+  }, shallowEqual);
+  const saveHandler = (values, cb) => {};
+  const dispatch = useDispatch();
   const history = useHistory();
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
@@ -35,15 +32,9 @@ export default function OEECapacityConfigurationLanding() {
   const [rowData, getRowData, loadingRowData, setRowData] = useAxiosGet();
   //ShopFloor
   const [shopFloorDDL, getShopFloorDDL] = useAxiosGet();
-  const [
-    ,
-    deleteCapacityConfiguration,
-  ] = useAxiosPost();
+  const [, deleteCapacityConfiguration] = useAxiosPost();
   //machineName
-  const [
-    machineNameDDL,
-    getMachineNameDDL,
-  ] = useAxiosGet();
+  const [machineNameDDL, getMachineNameDDL] = useAxiosGet();
   //Redux State
   const {
     selectedBusinessUnit: { value: buId },
@@ -58,22 +49,22 @@ export default function OEECapacityConfigurationLanding() {
         values?.shopFloor?.value,
         values?.machine?.value,
         pageNo,
-        pageSize,
-      ),
+        pageSize
+      )
     );
   };
 
   const handleDeleteCapacityConfig = (nptConfigId, values) => {
-    if (window.confirm('Are you sure to delete the configuration?'))
+    if (window.confirm("Are you sure to delete the configuration?"))
       deleteCapacityConfiguration(
         `/mes/OeeProductWaste/DeleteCapacityConfiguration?id=${nptConfigId}`,
         null,
         (res) => {
           if (res.statuscode === 200) {
-            setPositionHandler(pageNo, pageSize, values)
+            setPositionHandler(pageNo, pageSize, values);
           }
         },
-        true,
+        true
       );
   };
 
@@ -81,10 +72,10 @@ export default function OEECapacityConfigurationLanding() {
     getPlantNameDDL(plantNameDDLApi(buId, accId, userId));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [buId, userId, accId]);
-  useEffect(()=>{
-    setPositionHandler(pageNo,pageSize,initData)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[initData])
+  useEffect(() => {
+    setPositionHandler(pageNo, pageSize, initData);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initData]);
 
   return (
     <Formik
@@ -122,7 +113,7 @@ export default function OEECapacityConfigurationLanding() {
                     onClick={() => {
                       history.push({
                         pathname:
-                          '/production-management/configuration/OEECapacityConfiguration/create',
+                          "/production-management/configuration/OEECapacityConfiguration/create",
                         state: {
                           isEditPage: false,
                           rowData: null,
@@ -145,13 +136,13 @@ export default function OEECapacityConfigurationLanding() {
                     value={values?.plant}
                     label="Plant Name"
                     onChange={(valueOption) => {
-                      setFieldValue('plant', valueOption);
+                      setFieldValue("plant", valueOption);
                       if (valueOption) {
                         getShopFloorDDL(
-                          shopFloorNameDDLApi(accId, buId, valueOption.value),
+                          shopFloorNameDDLApi(accId, buId, valueOption.value)
                         );
                       }
-                      setFieldValue('shopFloor', '');
+                      setFieldValue("shopFloor", "");
                     }}
                     errors={errors}
                     touched={touched}
@@ -164,7 +155,7 @@ export default function OEECapacityConfigurationLanding() {
                     value={values?.shopFloor}
                     label="Shop Floor/Section"
                     onChange={(valueOption) => {
-                      setFieldValue('shopFloor', valueOption);
+                      setFieldValue("shopFloor", valueOption);
                       if (valueOption) {
                         // setPositionHandler(pageNo, pageSize, {
                         //   ...values,
@@ -174,17 +165,17 @@ export default function OEECapacityConfigurationLanding() {
                         //   },
                         // });
                         getMachineNameDDL(
-                          machineNameDDLApi(buId, valueOption?.value),
+                          machineNameDDLApi(buId, valueOption?.value)
                         );
                       }
-                      setFieldValue('machine', '');
+                      setFieldValue("machine", "");
                     }}
                     isDisabled={!values?.plant}
                     errors={errors}
                     touched={touched}
                   />
                 </div>
-               
+
                 <div className="col-lg-3">
                   <NewSelect
                     name="machine"
@@ -192,7 +183,7 @@ export default function OEECapacityConfigurationLanding() {
                     value={values?.machine}
                     label="Work Center/Machine"
                     onChange={(valueOption) => {
-                      setFieldValue('machine', valueOption);
+                      setFieldValue("machine", valueOption);
                       if (valueOption) {
                         setRowData([]);
                       } else {
@@ -215,7 +206,7 @@ export default function OEECapacityConfigurationLanding() {
                     type="button"
                     className="btn btn-primary mt-5"
                     onClick={() => {
-                      dispatch(setOEECapacityConfigurationAction(values))
+                      dispatch(setOEECapacityConfigurationAction(values));
                       setPositionHandler(pageNo, pageSize, values);
                     }}
                     disabled={
@@ -226,76 +217,82 @@ export default function OEECapacityConfigurationLanding() {
                   </button>
                 </div>
               </div>
-              <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
-                <thead>
-                  <tr>
-                    <th>Sl</th>
-                    <th>Plant </th>
-                    <th>Shop Floor</th>
-                    <th>Machine Name</th>
-                    <th>Item</th>
-                    <th>BOM</th>
-                    <th>Machine Capacity PH</th>
-                    <th>SMV Cycle Time</th>
-                    <th>Standard RPM</th>
-                    <th>Std Wastages Qty</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {rowData?.data?.length > 0 &&
-                    rowData?.data?.map((item, index) => (
-                      <tr>
-                        <td className="text-center">{index + 1}</td>
-                        <td className="text-center">{item?.plantName}</td>
-                        <td className="text-center">{item?.shopFloorName}</td>
-                        <td className="text-center">{item?.machineName}</td>
-                        <td className="text-center">{item?.itemName}</td>
-                        <td className="text-center">{item?.bomName}</td>
-                        <td className="text-center">
-                          {+item?.machineCapacityPerHour.toFixed(2)}
-                        </td>
-                        <td className="text-center">
-                          {+item?.smvcycleTime.toFixed(2)}
-                        </td>
-                        <td className="text-center">
-                          {+item?.standerdRpm.toFixed(2)}
-                        </td>
-                        <td className="text-center">
-                          {+item?.stdWastagesQty.toFixed(2)}
-                        </td>
-                        <td>
-                          <div
-                            className="d-flex"
-                            style={{ gap: '10px', justifyContent: 'center' }}
-                          >
-                            <span
-                              onClick={() =>
-                                history.push({
-                                  pathname:
-                                    '/production-management/configuration/OEECapacityConfiguration/edit',
-                                  state: {
-                                    isEditPage: true,
-                                    rowData: item,
-                                  },
-                                })
-                              }
+              <div className="table-responsive">
+                <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+                  <thead>
+                    <tr>
+                      <th>Sl</th>
+                      <th>Plant </th>
+                      <th>Shop Floor</th>
+                      <th>Machine Name</th>
+                      <th>Item</th>
+                      <th>BOM</th>
+                      <th>Machine Capacity PH</th>
+                      <th>SMV Cycle Time</th>
+                      <th>Standard RPM</th>
+                      <th>Std Wastages Qty</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {rowData?.data?.length > 0 &&
+                      rowData?.data?.map((item, index) => (
+                        <tr>
+                          <td className="text-center">{index + 1}</td>
+                          <td className="text-center">{item?.plantName}</td>
+                          <td className="text-center">{item?.shopFloorName}</td>
+                          <td className="text-center">{item?.machineName}</td>
+                          <td className="text-center">{item?.itemName}</td>
+                          <td className="text-center">{item?.bomName}</td>
+                          <td className="text-center">
+                            {+item?.machineCapacityPerHour.toFixed(2)}
+                          </td>
+                          <td className="text-center">
+                            {+item?.smvcycleTime.toFixed(2)}
+                          </td>
+                          <td className="text-center">
+                            {+item?.standerdRpm.toFixed(2)}
+                          </td>
+                          <td className="text-center">
+                            {+item?.stdWastagesQty.toFixed(2)}
+                          </td>
+                          <td>
+                            <div
+                              className="d-flex"
+                              style={{ gap: "10px", justifyContent: "center" }}
                             >
-                              <IEdit />
-                            </span>
-                            <span
-                              onClick={() =>
-                                handleDeleteCapacityConfig(item?.nptConfigId, values)
-                              }
-                            >
-                              <IDelete />
-                            </span>
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
-                </tbody>
-              </table>
+                              <span
+                                onClick={() =>
+                                  history.push({
+                                    pathname:
+                                      "/production-management/configuration/OEECapacityConfiguration/edit",
+                                    state: {
+                                      isEditPage: true,
+                                      rowData: item,
+                                    },
+                                  })
+                                }
+                              >
+                                <IEdit />
+                              </span>
+                              <span
+                                onClick={() =>
+                                  handleDeleteCapacityConfig(
+                                    item?.nptConfigId,
+                                    values
+                                  )
+                                }
+                              >
+                                <IDelete />
+                              </span>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                  </tbody>
+                </table>
+              </div>
+
               {rowData?.data?.length > 0 && (
                 <PaginationTable
                   count={rowData?.totalCount}

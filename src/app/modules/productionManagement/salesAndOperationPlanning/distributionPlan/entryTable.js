@@ -11,7 +11,8 @@ export default function EntryTable({ tableData, setTableData }) {
   };
 
   return (
-    <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+    <div className="table-responsive">
+<table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
       <thead>
         <tr>
           <th>SL</th>
@@ -77,5 +78,7 @@ export default function EntryTable({ tableData, setTableData }) {
           ))}
       </tbody>
     </table>
+    </div>
+    
   );
 }

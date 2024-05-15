@@ -208,78 +208,80 @@ function MonthlyModal({
               <>
                 <div className="row">
                   <div className="col-lg-12">
-                    <table className="table table-striped table-bordered  global-table">
-                      <thead>
-                        <tr>
-                          <th>Year</th>
-                          <th>Month Name</th>
-                          <th>Monthly Value</th>
-                          {singleData?.item?.overheadType?.value === 2 ? (
-                            <>
-                              <th>
-                                {singleData?.values?.gl?.intGeneralLedgerId ===
-                                93
-                                  ? "Production Quantity"
-                                  : "Sales Quantity"}
-                              </th>
-                              <th>UM</th>
-                              <th>Multiplication Result</th>
-                            </>
-                          ) : null}
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {singleData?.item?.monthList?.length > 0 &&
-                          singleData?.item?.monthList?.map((item, i) => (
-                            <tr key={i}>
-                              <td className="text-center">{item?.year}</td>
-                              <td>
-                                {
-                                  monthData.find(
-                                    (month) =>
-                                      month.intMonthId === item?.intMonthId
-                                  )?.strMonthName
-                                }
-                              </td>
-                              <td style={{ minWidth: "70px" }}>
-                                <InputField
-                                  value={+item?.intMonthLyValue || ""}
-                                  type="number"
-                                  onChange={(e) => {
-                                    if (+e.target.value < 0) return;
-                                    let modiFyRow = [
-                                      ...singleData?.item?.monthList,
-                                    ];
-                                    modiFyRow[i]["intMonthLyValue"] =
-                                      +e.target.value || "";
-                                    setSingleData({
-                                      ...singleData,
-                                      item: {
-                                        ...singleData?.item,
-                                        monthList: modiFyRow,
-                                      },
-                                    });
-                                  }}
-                                />
-                              </td>
+                    <div className="table-responsive">
+                      <table className="table table-striped table-bordered  global-table">
+                        <thead>
+                          <tr>
+                            <th>Year</th>
+                            <th>Month Name</th>
+                            <th>Monthly Value</th>
+                            {singleData?.item?.overheadType?.value === 2 ? (
+                              <>
+                                <th>
+                                  {singleData?.values?.gl
+                                    ?.intGeneralLedgerId === 93
+                                    ? "Production Quantity"
+                                    : "Sales Quantity"}
+                                </th>
+                                <th>UM</th>
+                                <th>Multiplication Result</th>
+                              </>
+                            ) : null}
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {singleData?.item?.monthList?.length > 0 &&
+                            singleData?.item?.monthList?.map((item, i) => (
+                              <tr key={i}>
+                                <td className="text-center">{item?.year}</td>
+                                <td>
+                                  {
+                                    monthData.find(
+                                      (month) =>
+                                        month.intMonthId === item?.intMonthId
+                                    )?.strMonthName
+                                  }
+                                </td>
+                                <td style={{ minWidth: "70px" }}>
+                                  <InputField
+                                    value={+item?.intMonthLyValue || ""}
+                                    type="number"
+                                    onChange={(e) => {
+                                      if (+e.target.value < 0) return;
+                                      let modiFyRow = [
+                                        ...singleData?.item?.monthList,
+                                      ];
+                                      modiFyRow[i]["intMonthLyValue"] =
+                                        +e.target.value || "";
+                                      setSingleData({
+                                        ...singleData,
+                                        item: {
+                                          ...singleData?.item,
+                                          monthList: modiFyRow,
+                                        },
+                                      });
+                                    }}
+                                  />
+                                </td>
 
-                              {singleData?.item?.overheadType?.value === 2 ? (
-                                <>
-                                  <td className="text-center">
-                                    {item?.monthlyConversionValue}
-                                  </td>
-                                  <td>{item?.strManagementUomName}</td>
-                                  <td className="text-center">
-                                    {(+item?.intMonthLyValue || 0) *
-                                      (+item?.monthlyConversionValue || 0) ||
-                                      ""}
-                                  </td>
-                                </>
-                              ) : null}
-                            </tr>
-                          ))}
-                      </tbody>
-                    </table>
+                                {singleData?.item?.overheadType?.value === 2 ? (
+                                  <>
+                                    <td className="text-center">
+                                      {item?.monthlyConversionValue}
+                                    </td>
+                                    <td>{item?.strManagementUomName}</td>
+                                    <td className="text-center">
+                                      {(+item?.intMonthLyValue || 0) *
+                                        (+item?.monthlyConversionValue || 0) ||
+                                        ""}
+                                    </td>
+                                  </>
+                                ) : null}
+                              </tr>
+                            ))}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
               </>

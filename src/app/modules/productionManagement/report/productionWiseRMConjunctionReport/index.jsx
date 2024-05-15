@@ -234,98 +234,112 @@ const ProductionWiseRMConjunctionReport = () => {
                   <br />
                 </div>
               </div>
-              <table
-                id="production-wise-rm-conjunction-report-table"
-                className="table table-striped table-bordered bj-table bj-table-landing material-consumption-variance"
-              >
-                <thead>
-                  <tr>
-                    <th>Production Code</th>
-                    <th>Item Name</th>
-                    <th>UOM</th>
-                    <th>
-                      Production <br /> Order Qty
-                    </th>
-                    <th>
-                      Production <br /> Qty
-                    </th>
-                    <th>
-                      Item Name <br /> Raw
-                    </th>
-                    <th>UOM</th>
-                    <th>
-                      Request <br />
-                      Qty Raw
-                    </th>
-                    <th>
-                      Issue <br />
-                      Qty Raw
-                    </th>
-                    <th>WIP Qty</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {productionWiseRMConjunctionReportData?.map((item, index) => (
-                    <tr key={index}>
-                      {item?.isShow ? (
-                        <>
-                          <td rowSpan={item?.intSectionCount}>
-                            {" "}
-                            {item?.productionCode}
-                          </td>
-                          <td
-                            className="text-center"
-                            rowSpan={item?.intSectionCount}
-                          >
-                            {" "}
-                            {item?.itemName}{" "}
-                          </td>
-                          <td
-                            className="text-center"
-                            rowSpan={item?.intSectionCount}
-                          >
-                            {" "}
-                            {item?.UoMRawName}{" "}
-                          </td>
-                          <td
-                            className="text-center"
-                            rowSpan={item?.intSectionCount}
-                          >
-                            {item?.OrderQty}
-                          </td>
-                          <td
-                            className="text-center"
-                            rowSpan={item?.intSectionCount}
-                          >
-                            {item?.productionEntryQuantity}
-                          </td>
-                        </>
-                      ) : null}
-                      <td className={item?.isTotal ? "text-left" : "text-left"}>
-                        {item?.ItemRawName}
-                      </td>
-                      <td className="text-center">
-                        { item?.ItemRawName ? item.UoMRawName : ""}
-                      </td>
-                      <td
-                        className={item?.isTotal ? "text-right" : "text-right"}
-                      >
-                        {item?.RequestQuantityRaw}
-                      </td>
-                      <td
-                        className={item?.isTotal ? "text-right" : "text-right"}
-                      >
-                        {item?.IssueQuantityRaw}
-                      </td>
-                      <td
-                        className={item?.isTotal ? "text-right" : "text-right"}
-                      >
-                        {item?.wip}
-                      </td>
+              <div className="table-responsive">
+                <table
+                  id="production-wise-rm-conjunction-report-table"
+                  className="table table-striped table-bordered bj-table bj-table-landing material-consumption-variance"
+                >
+                  <thead>
+                    <tr>
+                      <th>Production Code</th>
+                      <th>Item Name</th>
+                      <th>UOM</th>
+                      <th>
+                        Production <br /> Order Qty
+                      </th>
+                      <th>
+                        Production <br /> Qty
+                      </th>
+                      <th>
+                        Item Name <br /> Raw
+                      </th>
+                      <th>UOM</th>
+                      <th>
+                        Request <br />
+                        Qty Raw
+                      </th>
+                      <th>
+                        Issue <br />
+                        Qty Raw
+                      </th>
+                      <th>WIP Qty</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {productionWiseRMConjunctionReportData?.map(
+                      (item, index) => (
+                        <tr key={index}>
+                          {item?.isShow ? (
+                            <>
+                              <td rowSpan={item?.intSectionCount}>
+                                {" "}
+                                {item?.productionCode}
+                              </td>
+                              <td
+                                className="text-center"
+                                rowSpan={item?.intSectionCount}
+                              >
+                                {" "}
+                                {item?.itemName}{" "}
+                              </td>
+                              <td
+                                className="text-center"
+                                rowSpan={item?.intSectionCount}
+                              >
+                                {" "}
+                                {item?.UoMRawName}{" "}
+                              </td>
+                              <td
+                                className="text-center"
+                                rowSpan={item?.intSectionCount}
+                              >
+                                {item?.OrderQty}
+                              </td>
+                              <td
+                                className="text-center"
+                                rowSpan={item?.intSectionCount}
+                              >
+                                {item?.productionEntryQuantity}
+                              </td>
+                            </>
+                          ) : null}
+                          <td
+                            className={
+                              item?.isTotal ? "text-left" : "text-left"
+                            }
+                          >
+                            {item?.ItemRawName}
+                          </td>
+                          <td className="text-center">
+                            {item?.ItemRawName ? item.UoMRawName : ""}
+                          </td>
+                          <td
+                            className={
+                              item?.isTotal ? "text-right" : "text-right"
+                            }
+                          >
+                            {item?.RequestQuantityRaw}
+                          </td>
+                          <td
+                            className={
+                              item?.isTotal ? "text-right" : "text-right"
+                            }
+                          >
+                            {item?.IssueQuantityRaw}
+                          </td>
+                          <td
+                            className={
+                              item?.isTotal ? "text-right" : "text-right"
+                            }
+                          >
+                            {item?.wip}
+                          </td>
+                        </tr>
+                      )
+                    )}
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         ) : (

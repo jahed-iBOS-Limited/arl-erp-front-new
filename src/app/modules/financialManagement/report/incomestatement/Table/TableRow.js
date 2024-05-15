@@ -25,9 +25,7 @@ import { SetReportIncomestatementAction } from "./../../../../_helper/reduxForLo
 // import { getBusinessUnitDDL } from "../../cashRegisterReport/Form/helper";
 import moment from "moment";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import {
-  fromDateFromApiNew,
-} from "../../../../_helper/_formDateFromApi";
+import { fromDateFromApiNew } from "../../../../_helper/_formDateFromApi";
 import numberWithCommas from "../../../../_helper/_numberWithCommas";
 import IViewModal from "../../../../_helper/_viewModal";
 import PowerBIReport from "../../../../_helper/commonInputFieldsGroups/PowerBIReport";
@@ -424,7 +422,13 @@ export function TableRow() {
                         placeholder="Report Type"
                       />
                     </div>
-                    <div className="col-md-4 mt-5 pt-1 d-flex">
+                    <div
+                      className="col-md-4 mt-5 pt-1 d-flex"
+                      style={{
+                        flexWrap: "wrap",
+                        gap: "5px",
+                      }}
+                    >
                       <button
                         className="btn btn-primary"
                         type="button"
@@ -555,7 +559,7 @@ export function TableRow() {
                                       {/* {`${values?.fromDate} to ${values?.todate}`} */}
                                     </span>
                                   </th>
-                                 
+
                                   <th style={{ width: "250px" }}>Variance</th>
                                 </tr>
                               </thead>
@@ -603,20 +607,27 @@ export function TableRow() {
                                           }}
                                         >
                                           {" "}
-                                          { data?.monCurrentPeriodAmount?numberWithCommas(
-                                            data?.monCurrentPeriodAmount.toFixed()
-                                          ) : 0}
+                                          {data?.monCurrentPeriodAmount
+                                            ? numberWithCommas(
+                                                data?.monCurrentPeriodAmount.toFixed()
+                                              )
+                                            : 0}
                                         </span>
                                       </td>
                                       <td className="text-right">
-                                        {data?.monLastPeriodAmount? numberWithCommas(
-                                          data?.monLastPeriodAmount.toFixed()
-                                        ) : 0}
+                                        {data?.monLastPeriodAmount
+                                          ? numberWithCommas(
+                                              data?.monLastPeriodAmount.toFixed()
+                                            )
+                                          : 0}
                                       </td>
-                                     
+
                                       <td className="text-right">
                                         {numberWithCommas(
-                                            (data?.monCurrentPeriodAmount - data?.monLastPeriodAmount).toFixed()
+                                          (
+                                            data?.monCurrentPeriodAmount -
+                                            data?.monLastPeriodAmount
+                                          ).toFixed()
                                         )}
                                       </td>
                                     </tr>

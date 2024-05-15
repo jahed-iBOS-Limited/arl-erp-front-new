@@ -186,71 +186,73 @@ export default function _Form({
                   {/* It will be hidden when user select bank tranfer from previous page */}
                   <div className="row">
                     <div className="col-lg-12">
-                      <table className={"table global-table mt-0"}>
-                        <thead className={rowDto?.length < 1 && "d-none"}>
-                          <tr>
-                            <th style={{ width: "20px" }}>SL</th>
-                            <th style={{ width: "100px" }}>Item code</th>
-                            <th style={{ width: "150px" }}>Item Name</th>
-                            <th style={{ width: "100px" }}>UoM</th>
-                            <th style={{ width: "100px" }}>Transfer Qty</th>
-                            <th style={{ width: "180px" }}>Location</th>
-                            <th style={{ width: "100px" }}>Bin Number</th>
-                            <th style={{ width: "100px" }}>Receive Qty</th>
-                            <th style={{ width: "50px" }}>Actions</th>
-                          </tr>
-                        </thead>
-                        {console.log(rowDto, "rowDto")}
-                        {rowDto?.length > 0 && (
-                          <tbody>
-                            {rowDto?.map((item, index) => (
-                              <tr key={index}>
-                                <td>{index + 1}</td>
-                                <td>
-                                  <div className="text-left pl-2">
-                                    {item?.item?.itemCode}
-                                  </div>
-                                </td>
-                                <td>
-                                  <div className="text-center">
-                                    {item?.item?.label
-                                      ? item?.item?.label.split("[")[0]
-                                      : ""}
-                                  </div>
-                                </td>
-                                <td>
-                                  <div className="text-left pl-2">
-                                    {item?.item?.uom}
-                                  </div>
-                                </td>
-                                <td>
-                                  <div className="text-center">
-                                    {item?.item?.transferQty}
-                                  </div>
-                                </td>
-                                <td>
-                                  <div className="text-center">
-                                    {item?.item?.location}
-                                  </div>
-                                </td>
-                                <td>
-                                  <div className="text-center">
-                                    {item?.item?.binNumber}
-                                  </div>
-                                </td>
-                                <td>
-                                  <div className="text-center">
-                                    {item?.item?.transferQty}
-                                  </div>
-                                </td>
-                                <td className="text-center">
-                                  <IDelete remover={remover} id={index} />
-                                </td>
-                              </tr>
-                            ))}
-                          </tbody>
-                        )}
-                      </table>
+                      <div className="table-responsive">
+                        <table className={"table global-table mt-0"}>
+                          <thead className={rowDto?.length < 1 && "d-none"}>
+                            <tr>
+                              <th style={{ width: "20px" }}>SL</th>
+                              <th style={{ width: "100px" }}>Item code</th>
+                              <th style={{ width: "150px" }}>Item Name</th>
+                              <th style={{ width: "100px" }}>UoM</th>
+                              <th style={{ width: "100px" }}>Transfer Qty</th>
+                              <th style={{ width: "180px" }}>Location</th>
+                              <th style={{ width: "100px" }}>Bin Number</th>
+                              <th style={{ width: "100px" }}>Receive Qty</th>
+                              <th style={{ width: "50px" }}>Actions</th>
+                            </tr>
+                          </thead>
+                          {console.log(rowDto, "rowDto")}
+                          {rowDto?.length > 0 && (
+                            <tbody>
+                              {rowDto?.map((item, index) => (
+                                <tr key={index}>
+                                  <td>{index + 1}</td>
+                                  <td>
+                                    <div className="text-left pl-2">
+                                      {item?.item?.itemCode}
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <div className="text-center">
+                                      {item?.item?.label
+                                        ? item?.item?.label.split("[")[0]
+                                        : ""}
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <div className="text-left pl-2">
+                                      {item?.item?.uom}
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <div className="text-center">
+                                      {item?.item?.transferQty}
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <div className="text-center">
+                                      {item?.item?.location}
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <div className="text-center">
+                                      {item?.item?.binNumber}
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <div className="text-center">
+                                      {item?.item?.transferQty}
+                                    </div>
+                                  </td>
+                                  <td className="text-center">
+                                    <IDelete remover={remover} id={index} />
+                                  </td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          )}
+                        </table>
+                      </div>
                     </div>
                   </div>
                 </div>

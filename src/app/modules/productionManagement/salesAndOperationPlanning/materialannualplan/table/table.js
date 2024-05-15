@@ -350,78 +350,80 @@ const MaterialReqPlanLanding = () => {
                   <h5 className="m-0">Material Requirement Plan</h5>
                 </div>
 
-                <table
-                  id="table-to-xlsx"
-                  className="table table-striped table-bordered global-table"
-                >
-                  <>
-                    <thead>
-                      <tr>
-                        <th>SL</th>
-                        <th>Item Name</th>
-                        <th>UoM</th>
-                        <th>{gridData?.objH?.planningHorizonRowName}</th>
-                        <th>{gridData?.objH?.planningHorizonRowName2}</th>
-                        <th>{gridData?.objH?.planningHorizonRowName3}</th>
-                        <th>Total</th>
-                        <th className="printSectionNone">Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {gridData?.objList?.map((item, index) => {
-                        const total = isNaN(
-                          item?.numItemQty01 +
-                            item?.numItemQty02 +
-                            item?.numItemQty03
-                        )
-                          ? 0
-                          : item?.numItemQty01 +
-                            item?.numItemQty02 +
-                            item?.numItemQty03;
-                        return (
-                          <tr key={index + 1}>
-                            <td>{index + 1}</td>
-                            <td>{item?.itemName}</td>
-                            <td>{item?.uomname}</td>
-                            <td className="text-right">
-                              {numberWithCommas(item?.numItemQty01)}
-                            </td>
-                            <td className="text-right">
-                              {numberWithCommas(item?.numItemQty02)}
-                            </td>
-                            <td className="text-right">
-                              {numberWithCommas(item?.numItemQty03)}
-                            </td>
-                            <td className="text-right">{`${
-                              isNaN(total) ? 0 : numberWithCommas(total)
-                            }`}</td>
-                            <td className="text-center printSectionNone">
-                              <span
-                                className="extend"
-                                onClick={() => {
-                                  setShowPRModal(true);
-                                  setPRModalData(item);
-                                }}
-                              >
-                                <OverlayTrigger
-                                  overlay={
-                                    <Tooltip id="cs-icon">
-                                      {"Create PR"}
-                                    </Tooltip>
-                                  }
+                <div className="table-responsive">
+                  <table
+                    id="table-to-xlsx"
+                    className="table table-striped table-bordered global-table"
+                  >
+                    <>
+                      <thead>
+                        <tr>
+                          <th>SL</th>
+                          <th>Item Name</th>
+                          <th>UoM</th>
+                          <th>{gridData?.objH?.planningHorizonRowName}</th>
+                          <th>{gridData?.objH?.planningHorizonRowName2}</th>
+                          <th>{gridData?.objH?.planningHorizonRowName3}</th>
+                          <th>Total</th>
+                          <th className="printSectionNone">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {gridData?.objList?.map((item, index) => {
+                          const total = isNaN(
+                            item?.numItemQty01 +
+                              item?.numItemQty02 +
+                              item?.numItemQty03
+                          )
+                            ? 0
+                            : item?.numItemQty01 +
+                              item?.numItemQty02 +
+                              item?.numItemQty03;
+                          return (
+                            <tr key={index + 1}>
+                              <td>{index + 1}</td>
+                              <td>{item?.itemName}</td>
+                              <td>{item?.uomname}</td>
+                              <td className="text-right">
+                                {numberWithCommas(item?.numItemQty01)}
+                              </td>
+                              <td className="text-right">
+                                {numberWithCommas(item?.numItemQty02)}
+                              </td>
+                              <td className="text-right">
+                                {numberWithCommas(item?.numItemQty03)}
+                              </td>
+                              <td className="text-right">{`${
+                                isNaN(total) ? 0 : numberWithCommas(total)
+                              }`}</td>
+                              <td className="text-center printSectionNone">
+                                <span
+                                  className="extend"
+                                  onClick={() => {
+                                    setShowPRModal(true);
+                                    setPRModalData(item);
+                                  }}
                                 >
-                                  <span>
-                                    <i className={`fa fa-arrows-alt`}></i>
-                                  </span>
-                                </OverlayTrigger>
-                              </span>
-                            </td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </>
-                </table>
+                                  <OverlayTrigger
+                                    overlay={
+                                      <Tooltip id="cs-icon">
+                                        {"Create PR"}
+                                      </Tooltip>
+                                    }
+                                  >
+                                    <span>
+                                      <i className={`fa fa-arrows-alt`}></i>
+                                    </span>
+                                  </OverlayTrigger>
+                                </span>
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </>
+                  </table>
+                </div>
               </div>
             )}
             <IViewModal show={showPRModal} onHide={() => setShowPRModal(false)}>

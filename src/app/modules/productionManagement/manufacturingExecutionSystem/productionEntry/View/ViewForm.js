@@ -113,33 +113,35 @@ export default function ProductionEntryViewForm({ data }) {
         </Row>
         <Row>
           <Col lg="12">
-            <table className="table table-striped table-bordered mt-5 bj-table bj-table-landing">
-              <thead>
-                <tr>
-                  <th style={{ width: "30px" }}>SL</th>
-                  <th style={{ width: "50px" }}>Item Code</th>
-                  <th style={{ width: "50px" }}>Output Item</th>
-                  <th style={{ width: "50px" }}>Output Quantity</th>
-                  <th style={{ width: "50px" }}>QC Quantity</th>
-                </tr>
-              </thead>
-              <tbody>
-                {data?.objRow &&
-                  data?.objRow.map((item, index) => (
-                    <tr key={index}>
-                      <td className="text-center">{index + 1}</td>
-                      <td>
-                        <div className="pl-2">{item.strItemCode}</div>
-                      </td>
-                      <td>
-                        <div className="pl-2">{item.strItemName}</div>
-                      </td>
-                      <td className="text-center">{item.outPutQuantity}</td>
-                      <td className="text-center">{item.approvedQuantity}</td>
-                    </tr>
-                  ))}
-              </tbody>
-            </table>
+            <div className="table-responsive">
+              <table className="table table-striped table-bordered mt-5 bj-table bj-table-landing">
+                <thead>
+                  <tr>
+                    <th style={{ width: "30px" }}>SL</th>
+                    <th style={{ width: "50px" }}>Item Code</th>
+                    <th style={{ width: "50px" }}>Output Item</th>
+                    <th style={{ width: "50px" }}>Output Quantity</th>
+                    <th style={{ width: "50px" }}>QC Quantity</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {data?.objRow &&
+                    data?.objRow.map((item, index) => (
+                      <tr key={index}>
+                        <td className="text-center">{index + 1}</td>
+                        <td>
+                          <div className="pl-2">{item.strItemCode}</div>
+                        </td>
+                        <td>
+                          <div className="pl-2">{item.strItemName}</div>
+                        </td>
+                        <td className="text-center">{item.outPutQuantity}</td>
+                        <td className="text-center">{item.approvedQuantity}</td>
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
+            </div>
           </Col>
         </Row>
       </Form>

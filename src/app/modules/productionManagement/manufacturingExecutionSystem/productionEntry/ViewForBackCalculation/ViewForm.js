@@ -141,31 +141,35 @@ export default function BackCalculationPEViewForm({ data }) {
         </Row>
         <Row>
           <Col lg="12">
-            <table className="table table-striped table-bordered mt-5 bj-table bj-table-landing">
-              <thead>
-                <tr>
-                  <th style={{ width: "30px" }}>SL</th>
-                  <th style={{ width: "50px" }}>Output Item</th>
-                  <th style={{ width: "50px" }}>Output UoM</th>
-                  <th style={{ width: "50px" }}>Output Quantity</th>
-                  <th style={{ width: "50px" }}>QC Quantity</th>
-                </tr>
-              </thead>
-              <tbody>
-                {data?.row?.length > 0 &&
-                  data?.row?.map((item, index) => (
-                    <tr key={index}>
-                      <td className="text-center">{index + 1}</td>
-                      <td>
-                        <div className="pl-2">{item?.itemName}</div>
-                      </td>
-                      <td className="pl-2">{item?.uomname}</td>
-                      <td className="text-center">{item?.numQuantity}</td>
-                      <td className="text-center">{item?.approvedQuantity}</td>
-                    </tr>
-                  ))}
-              </tbody>
-            </table>
+            <div className="table-responsive">
+              <table className="table table-striped table-bordered mt-5 bj-table bj-table-landing">
+                <thead>
+                  <tr>
+                    <th style={{ width: "30px" }}>SL</th>
+                    <th style={{ width: "50px" }}>Output Item</th>
+                    <th style={{ width: "50px" }}>Output UoM</th>
+                    <th style={{ width: "50px" }}>Output Quantity</th>
+                    <th style={{ width: "50px" }}>QC Quantity</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {data?.row?.length > 0 &&
+                    data?.row?.map((item, index) => (
+                      <tr key={index}>
+                        <td className="text-center">{index + 1}</td>
+                        <td>
+                          <div className="pl-2">{item?.itemName}</div>
+                        </td>
+                        <td className="pl-2">{item?.uomname}</td>
+                        <td className="text-center">{item?.numQuantity}</td>
+                        <td className="text-center">
+                          {item?.approvedQuantity}
+                        </td>
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
+            </div>
           </Col>
         </Row>
         {data?.billOfMaterialRow?.length > 0 && (
@@ -174,31 +178,33 @@ export default function BackCalculationPEViewForm({ data }) {
               <h6>
                 <strong>BoM Details :</strong>
               </h6>
-              <table className="table table-striped table-bordered mt-2 bj-table bj-table-landing">
-                <thead>
-                  <tr>
-                    <th style={{ width: "30px" }}>SL</th>
-                    <th style={{ width: "50px" }}>Material</th>
-                    <th style={{ width: "50px" }}>Qty</th>
-                    <th style={{ width: "50px" }}>UoM</th>
-                    <th style={{ width: "50px" }}>BoM version</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {data?.billOfMaterialRow?.length > 0 &&
-                    data?.billOfMaterialRow?.map((item, index) => (
-                      <tr key={index}>
-                        <td className="text-center">{index + 1}</td>
-                        <td>
-                          <div className="pl-2">{item?.material}</div>
-                        </td>
-                        <td className="text-center">{item?.qty}</td>
-                        <td className="pl-2">{item?.uom}</td>
-                        <td className="pl-2">{item?.version}</td>
-                      </tr>
-                    ))}
-                </tbody>
-              </table>
+              <div className="table-responsive">
+                <table className="table table-striped table-bordered mt-2 bj-table bj-table-landing">
+                  <thead>
+                    <tr>
+                      <th style={{ width: "30px" }}>SL</th>
+                      <th style={{ width: "50px" }}>Material</th>
+                      <th style={{ width: "50px" }}>Qty</th>
+                      <th style={{ width: "50px" }}>UoM</th>
+                      <th style={{ width: "50px" }}>BoM version</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {data?.billOfMaterialRow?.length > 0 &&
+                      data?.billOfMaterialRow?.map((item, index) => (
+                        <tr key={index}>
+                          <td className="text-center">{index + 1}</td>
+                          <td>
+                            <div className="pl-2">{item?.material}</div>
+                          </td>
+                          <td className="text-center">{item?.qty}</td>
+                          <td className="pl-2">{item?.uom}</td>
+                          <td className="pl-2">{item?.version}</td>
+                        </tr>
+                      ))}
+                  </tbody>
+                </table>
+              </div>
             </Col>
           </Row>
         )}

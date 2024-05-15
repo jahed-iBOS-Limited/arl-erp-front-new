@@ -109,69 +109,103 @@ const WorkingCapitalVarianceReport = () => {
                 {rowData?.length > 0 && (
                   <div className="row mt-5">
                     <div className="col-lg-12 cost-of-production">
-                      <table
-                        id="table-to-xlsx"
-                        className="table table-striped table-bordered bj-table bj-table-landing"
-                      >
-                        <thead>
-                          <tr>
-                            <th>General Laser Code</th>
-                            <th>General Laser Name</th>
-                            <th>Planned</th>
-                            <th>Actual</th>
-                            <th>Variance</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {rowData?.length > 0 &&
-                            rowData?.map((item, index) => (
-                              <tr key={index}>
-                                <td
-                                  className="text-start"
-                                  // rowSpan={item?.intSectionCount}
-                                >
-                                  {item?.strGlCode}
-                                </td>
-                                <td
-                                  className="text-start"
-                                  style={item?.intGlId === 0 ? {fontWeight:"bold",fontSize:"13px",textAlign:"end"} : {}}
-                                  // rowSpan={item?.intSectionCount}
-                                >
-                                  {item?.strGlName}
-                                </td>
-                                <td
-                                  className="text-end"
-                                  // rowSpan={item?.intSectionCount}
-                                  style={item?.intGlId === 0 ? {fontWeight:"bold",fontSize:"13px",textAlign:"end"} : {textAlign:"end"}}
-                                >
-                                  {numberWithCommas(
-                                    Math.round(item?.numPlanned) || 0
-                                  )}
-                                </td>
-                                <td
-                                  className="text-end"
-                                  style={item?.intGlId === 0 ? {fontWeight:"bold",fontSize:"13px",textAlign:"end"} : {textAlign:"end"}}
-                                  // rowSpan={item?.intSectionCount}
-                                >
-                                  {numberWithCommas(
-                                    Math.round(item?.numActual) || 0
-                                  )}
-                                </td>
-                                <td
-                                  className="text-end text-bold"
-                                  style={item?.intGlId === 0 ? {fontWeight:"bold",fontSize:"13px",textAlign:"end"} : {textAlign:"end"}}
-                                  // rowSpan={item?.intSectionCount}
-                                >
-                                  {numberWithCommas(
-                                    Math.round(
-                                      +item?.numPlanned - +item?.numActual
-                                    ) || 0
-                                  )}
-                                </td>
-                              </tr>
-                            ))}
-                        </tbody>
-                      </table>
+                      <div className="table-responsive">
+                        <table
+                          id="table-to-xlsx"
+                          className="table table-striped table-bordered bj-table bj-table-landing"
+                        >
+                          <thead>
+                            <tr>
+                              <th>General Laser Code</th>
+                              <th>General Laser Name</th>
+                              <th>Planned</th>
+                              <th>Actual</th>
+                              <th>Variance</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {rowData?.length > 0 &&
+                              rowData?.map((item, index) => (
+                                <tr key={index}>
+                                  <td
+                                    className="text-start"
+                                    // rowSpan={item?.intSectionCount}
+                                  >
+                                    {item?.strGlCode}
+                                  </td>
+                                  <td
+                                    className="text-start"
+                                    style={
+                                      item?.intGlId === 0
+                                        ? {
+                                            fontWeight: "bold",
+                                            fontSize: "13px",
+                                            textAlign: "end",
+                                          }
+                                        : {}
+                                    }
+                                    // rowSpan={item?.intSectionCount}
+                                  >
+                                    {item?.strGlName}
+                                  </td>
+                                  <td
+                                    className="text-end"
+                                    // rowSpan={item?.intSectionCount}
+                                    style={
+                                      item?.intGlId === 0
+                                        ? {
+                                            fontWeight: "bold",
+                                            fontSize: "13px",
+                                            textAlign: "end",
+                                          }
+                                        : { textAlign: "end" }
+                                    }
+                                  >
+                                    {numberWithCommas(
+                                      Math.round(item?.numPlanned) || 0
+                                    )}
+                                  </td>
+                                  <td
+                                    className="text-end"
+                                    style={
+                                      item?.intGlId === 0
+                                        ? {
+                                            fontWeight: "bold",
+                                            fontSize: "13px",
+                                            textAlign: "end",
+                                          }
+                                        : { textAlign: "end" }
+                                    }
+                                    // rowSpan={item?.intSectionCount}
+                                  >
+                                    {numberWithCommas(
+                                      Math.round(item?.numActual) || 0
+                                    )}
+                                  </td>
+                                  <td
+                                    className="text-end text-bold"
+                                    style={
+                                      item?.intGlId === 0
+                                        ? {
+                                            fontWeight: "bold",
+                                            fontSize: "13px",
+                                            textAlign: "end",
+                                          }
+                                        : { textAlign: "end" }
+                                    }
+                                    // rowSpan={item?.intSectionCount}
+                                  >
+                                    {numberWithCommas(
+                                      Math.round(
+                                        +item?.numPlanned - +item?.numActual
+                                      ) || 0
+                                    )}
+                                  </td>
+                                </tr>
+                              ))}
+                          </tbody>
+                        </table>
+                      </div>
                     </div>
                   </div>
                 )}

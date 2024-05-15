@@ -148,70 +148,72 @@ export default function _Form({
                   </div>
                 </div>
               </div>
-
-              <table className="global-table table">
-                <thead>
-                  <tr>
-                    <th>SL</th>
-                    <th>Item Name</th>
-                    <th>Sales Plan Quantity</th>
-                    <th>Production Plan Quantity</th>
-                    <th>Start Date</th>
-                    <th>End Date</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {rowDto?.map((item, index) => (
-                    <tr key={index}>
-                      <td className="text-center">{index + 1}</td>
-                      <td className="pl-2">{item?.itemName}</td>
-                      <td className="text-center">
-                        <InputField
-                          value={item?.itemPlanQty}
-                          name="itemPlanQty"
-                          type="number"
-                          onChange={(e) => {
-                            inputHandler(
-                              item,
-                              e?.target?.value,
-                              "itemPlanQty",
-                              rowDto,
-                              setRowDto
-                            );
-                          }}
-                          min="0"
-                          disabled
-                        />
-                      </td>
-                      <td className="text-center">
-                        <InputField
-                          value={+item?.productionPlanningQty || ""}
-                          name="productionPlanningQty"
-                          type="number"
-                          onChange={(e) => {
-                            if (+e.target.value < 0) {
-                              return;
-                            }
-                            inputHandler(
-                              item,
-                              e?.target?.value,
-                              "productionPlanningQty",
-                              rowDto,
-                              setRowDto
-                            );
-                          }}
-                        />
-                      </td>
-                      <td className="pl-2 text-center">
-                        {_dateFormatter(item?.startdateTime)}
-                      </td>
-                      <td className="pl-2 text-center">
-                        {_dateFormatter(item?.enddateTime)}
-                      </td>
+              <div className="table-responsive">
+                <table className="global-table table">
+                  <thead>
+                    <tr>
+                      <th>SL</th>
+                      <th>Item Name</th>
+                      <th>Sales Plan Quantity</th>
+                      <th>Production Plan Quantity</th>
+                      <th>Start Date</th>
+                      <th>End Date</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {rowDto?.map((item, index) => (
+                      <tr key={index}>
+                        <td className="text-center">{index + 1}</td>
+                        <td className="pl-2">{item?.itemName}</td>
+                        <td className="text-center">
+                          <InputField
+                            value={item?.itemPlanQty}
+                            name="itemPlanQty"
+                            type="number"
+                            onChange={(e) => {
+                              inputHandler(
+                                item,
+                                e?.target?.value,
+                                "itemPlanQty",
+                                rowDto,
+                                setRowDto
+                              );
+                            }}
+                            min="0"
+                            disabled
+                          />
+                        </td>
+                        <td className="text-center">
+                          <InputField
+                            value={+item?.productionPlanningQty || ""}
+                            name="productionPlanningQty"
+                            type="number"
+                            onChange={(e) => {
+                              if (+e.target.value < 0) {
+                                return;
+                              }
+                              inputHandler(
+                                item,
+                                e?.target?.value,
+                                "productionPlanningQty",
+                                rowDto,
+                                setRowDto
+                              );
+                            }}
+                          />
+                        </td>
+                        <td className="pl-2 text-center">
+                          {_dateFormatter(item?.startdateTime)}
+                        </td>
+                        <td className="pl-2 text-center">
+                          {_dateFormatter(item?.enddateTime)}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
               <button
                 type="submit"
                 style={{ display: "none" }}

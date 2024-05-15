@@ -21,12 +21,20 @@ function GateInByPO({ item, date }) {
   }, shallowEqual);
 
   useEffect(() => {
-    getRowData(`/mes/MSIL/GetAllGateInByPOLanding?PageNo=${pageNo}&PageSize=${pageSize}&Date=${_dateFormatter(item?.dtePurchaseOrderDate) || date}&BusinessunitId=${selectedBusinessUnit?.value}`);
+    getRowData(
+      `/mes/MSIL/GetAllGateInByPOLanding?PageNo=${pageNo}&PageSize=${pageSize}&Date=${_dateFormatter(
+        item?.dtePurchaseOrderDate
+      ) || date}&BusinessunitId=${selectedBusinessUnit?.value}`
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
-    getRowData(`/mes/MSIL/GetAllGateInByPOLanding?PageNo=${pageNo}&PageSize=${pageSize}&Date=${_dateFormatter(item?.dtePurchaseOrderDate) || date}&BusinessunitId=${selectedBusinessUnit?.value}`);
+    getRowData(
+      `/mes/MSIL/GetAllGateInByPOLanding?PageNo=${pageNo}&PageSize=${pageSize}&Date=${_dateFormatter(
+        item?.dtePurchaseOrderDate
+      ) || date}&BusinessunitId=${selectedBusinessUnit?.value}`
+    );
   };
 
   return (
@@ -42,44 +50,51 @@ function GateInByPO({ item, date }) {
             {lodar && <Loading />}
             <div className="row">
               <div className="col-lg-12">
-                <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
-                  <thead>
-                    <tr>
-                      <th style={{ width: "30px" }}>SL</th>
-                      <th>Date</th>
-                      <th>PO Code</th>
-                      <th>Supplier Name</th>
-                      <th>Vehicle No</th>
-                      <th>Driver Name</th>
-                      <th>Driver Mobile No</th>
-                      <th>Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {rowData?.gateInByPO?.length > 0 &&
-                      rowData?.gateInByPO?.map((item, index) => (
-                        <tr key={index}>
-                          <td>{index + 1}</td>
-                          <td className="text-center">{_dateFormatter(item?.dteDate)}</td>
-                          <td>{item?.strPocode}</td>
-                          <td>{item?.strSupplierName}</td>
-                          <td className="text-center">{item?.strVehicleNo}</td>
-                          <td>{item?.strDriverName}</td>
-                          <td>{item?.strDriverMobileNo}</td>
-                          <td className="text-center">
-                            <span
-                              onClick={() => {
-                                setData(item);
-                                setIsShowModel(true);
-                              }}
-                            >
-                              <IView />
-                            </span>
-                          </td>
-                        </tr>
-                      ))}
-                  </tbody>
-                </table>
+                <div className="table-responsive">
+                  <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+                    <thead>
+                      <tr>
+                        <th style={{ width: "30px" }}>SL</th>
+                        <th>Date</th>
+                        <th>PO Code</th>
+                        <th>Supplier Name</th>
+                        <th>Vehicle No</th>
+                        <th>Driver Name</th>
+                        <th>Driver Mobile No</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {rowData?.gateInByPO?.length > 0 &&
+                        rowData?.gateInByPO?.map((item, index) => (
+                          <tr key={index}>
+                            <td>{index + 1}</td>
+                            <td className="text-center">
+                              {_dateFormatter(item?.dteDate)}
+                            </td>
+                            <td>{item?.strPocode}</td>
+                            <td>{item?.strSupplierName}</td>
+                            <td className="text-center">
+                              {item?.strVehicleNo}
+                            </td>
+                            <td>{item?.strDriverName}</td>
+                            <td>{item?.strDriverMobileNo}</td>
+                            <td className="text-center">
+                              <span
+                                onClick={() => {
+                                  setData(item);
+                                  setIsShowModel(true);
+                                }}
+                              >
+                                <IView />
+                              </span>
+                            </td>
+                          </tr>
+                        ))}
+                    </tbody>
+                  </table>
+                </div>
+
                 {rowData?.gateInByPO?.length > 0 && (
                   <PaginationTable
                     count={rowData?.totalCount}
@@ -104,7 +119,7 @@ function GateInByPO({ item, date }) {
           setIsShowModel(false);
         }}
       >
-        <GateInListViewModal data={data}/>
+        <GateInListViewModal data={data} />
       </IViewModal>
     </>
   );

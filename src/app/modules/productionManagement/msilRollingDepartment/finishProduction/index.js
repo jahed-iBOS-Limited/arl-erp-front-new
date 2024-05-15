@@ -144,64 +144,66 @@ export default function FinishProduction() {
                 </div>
 
                 <div>
-                  <table className="table table-striped table-bordered global-table">
-                    <thead>
-                      <tr>
-                        <th style={{ minWidth: "50px" }}>SL</th>
-                        <th>Date</th>
-                        <th>Shift</th>
-                        <th>Product Name</th>
-                        <th>Production [kgs]</th>
-                        <th>Rod Quantity [kgs]</th>
-                        <th style={{ width: "60px" }}>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {landigData?.data?.length > 0 &&
-                        landigData?.data?.map((item, index) => (
-                          <tr key={index}>
-                            <td style={{ width: "50px" }}>{index + 1}</td>
-                            <td className="text-center">
-                              {_dateFormatter(item?.dteDate)}
-                            </td>
-                            <td>{item?.strShift}</td>
-                            <td>{item?.strMainItemName}</td>
-                            <td className="text-center">
-                              {item?.numProductionQtyKgs}
-                            </td>
-                            <td className="text-center">
-                              {item?.numOddCutRodQtyKgs}
-                            </td>
-                            <td className="text-center">
-                              <div className="d-flex justify-content-between">
-                                <div>
-                                  <IEdit
-                                    onClick={() => {
-                                      history.push({
-                                        pathname: `/production-management/msil-Rolling/FinishProduction/edit/${item?.intFinishProductionId}`,
-                                        state: { ...item },
-                                      });
-                                    }}
-                                  />
+                  <div className="table-responsive">
+                    <table className="table table-striped table-bordered global-table">
+                      <thead>
+                        <tr>
+                          <th style={{ minWidth: "50px" }}>SL</th>
+                          <th>Date</th>
+                          <th>Shift</th>
+                          <th>Product Name</th>
+                          <th>Production [kgs]</th>
+                          <th>Rod Quantity [kgs]</th>
+                          <th style={{ width: "60px" }}>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {landigData?.data?.length > 0 &&
+                          landigData?.data?.map((item, index) => (
+                            <tr key={index}>
+                              <td style={{ width: "50px" }}>{index + 1}</td>
+                              <td className="text-center">
+                                {_dateFormatter(item?.dteDate)}
+                              </td>
+                              <td>{item?.strShift}</td>
+                              <td>{item?.strMainItemName}</td>
+                              <td className="text-center">
+                                {item?.numProductionQtyKgs}
+                              </td>
+                              <td className="text-center">
+                                {item?.numOddCutRodQtyKgs}
+                              </td>
+                              <td className="text-center">
+                                <div className="d-flex justify-content-between">
+                                  <div>
+                                    <IEdit
+                                      onClick={() => {
+                                        history.push({
+                                          pathname: `/production-management/msil-Rolling/FinishProduction/edit/${item?.intFinishProductionId}`,
+                                          state: { ...item },
+                                        });
+                                      }}
+                                    />
+                                  </div>
+                                  <div>
+                                    <span
+                                      onClick={() => {
+                                        rowDeleteHandler(
+                                          item?.intFinishProductionId,
+                                          values
+                                        );
+                                      }}
+                                    >
+                                      <IDelete />
+                                    </span>
+                                  </div>
                                 </div>
-                                <div>
-                                  <span
-                                    onClick={() => {
-                                      rowDeleteHandler(
-                                        item?.intFinishProductionId,
-                                        values
-                                      );
-                                    }}
-                                  >
-                                    <IDelete />
-                                  </span>
-                                </div>
-                              </div>
-                            </td>
-                          </tr>
-                        ))}
-                    </tbody>
-                  </table>
+                              </td>
+                            </tr>
+                          ))}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
                 {landigData?.data?.length > 0 && (
                   <PaginationTable

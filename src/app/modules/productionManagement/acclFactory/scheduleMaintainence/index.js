@@ -199,88 +199,91 @@ export default function ScheduleMaintainence() {
                   </div>
                 </div>
                 <div className="mt-10">
-                  <table className="table table-striped table-bordered bj-table bj-table-landing">
-                    <thead>
-                      <tr>
-                        <th>SL</th>
-                        <th>Schedule End Date</th>
-                        <th>Machine Name</th>
-                        <th>Frequency</th>
-                        <th>Maintenance Type</th>
-                        <th>Responsible Person</th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {tableData?.scheduleMaintenance?.map((item, index) => (
-                        <tr key={index}>
-                          <td>{index + 1}</td>
-                          <td className="text-center">
-                            {_dateFormatter(item?.scheduleEndDateTime)}
-                          </td>
-                          <td>{item?.machineName || ""}</td>
-                          <td>{item?.frequency}</td>
-                          <td>{item?.maintenanceTypeName}</td>
-                          <td>{item?.resposiblePersonName}</td>
-                          <td className="d-flex justify-content-around">
-                            <span
-                              onClick={() => {
-                                setClickedRowData(item);
-                                setIsShowViewModal(true);
-                              }}
-                            >
-                              <IView />
-                            </span>
-                            {item?.completedDateTime === null &&
-                              item?.scheduleEndDateTime > _todayDate() && (
-                                <span
-                                  onClick={() => {
-                                    setClickedRowData(item);
-                                    setIsShowEditModal(true);
-                                  }}
-                                >
-                                  <IEdit />
-                                </span>
-                              )}
-                            {item?.completedDateTime === null &&
-                              item?.scheduleEndDateTime > _todayDate() && (
-                                <span
-                                  className="cursor-pointer"
-                                  onClick={() => {
-                                    setClickedRowData(item);
-                                    setIsShowCompleteModal(true);
-                                  }}
-                                >
-                                  <ICheckout />
-                                </span>
-                              )}
-                            {item?.completedDateTime === null &&
-                              item?.scheduleEndDateTime > _todayDate() && (
-                                <span
-                                  onClick={() => {
-                                    IConfirmModal({
-                                      title: `Schedule Maintainence`,
-                                      message: `Are you sure to delete schedule?`,
-                                      yesAlertFunc: () => {
-                                        deteleSchedule(
-                                          `/mes/ScheduleMaintenance/DeleteScheduleMaintenance?ScheduleId=${item?.scheduleMaintenanceId}&UserId=${profileData?.userId}`,
-                                          null,
-                                          (data) => getData(values),
-                                          true
-                                        );
-                                      },
-                                      noAlertFunc: () => {},
-                                    });
-                                  }}
-                                >
-                                  <IDelete />
-                                </span>
-                              )}
-                          </td>
+                  <div className="table-responsive">
+                    <table className="table table-striped table-bordered bj-table bj-table-landing">
+                      <thead>
+                        <tr>
+                          <th>SL</th>
+                          <th>Schedule End Date</th>
+                          <th>Machine Name</th>
+                          <th>Frequency</th>
+                          <th>Maintenance Type</th>
+                          <th>Responsible Person</th>
+                          <th>Action</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody>
+                        {tableData?.scheduleMaintenance?.map((item, index) => (
+                          <tr key={index}>
+                            <td>{index + 1}</td>
+                            <td className="text-center">
+                              {_dateFormatter(item?.scheduleEndDateTime)}
+                            </td>
+                            <td>{item?.machineName || ""}</td>
+                            <td>{item?.frequency}</td>
+                            <td>{item?.maintenanceTypeName}</td>
+                            <td>{item?.resposiblePersonName}</td>
+                            <td className="d-flex justify-content-around">
+                              <span
+                                onClick={() => {
+                                  setClickedRowData(item);
+                                  setIsShowViewModal(true);
+                                }}
+                              >
+                                <IView />
+                              </span>
+                              {item?.completedDateTime === null &&
+                                item?.scheduleEndDateTime > _todayDate() && (
+                                  <span
+                                    onClick={() => {
+                                      setClickedRowData(item);
+                                      setIsShowEditModal(true);
+                                    }}
+                                  >
+                                    <IEdit />
+                                  </span>
+                                )}
+                              {item?.completedDateTime === null &&
+                                item?.scheduleEndDateTime > _todayDate() && (
+                                  <span
+                                    className="cursor-pointer"
+                                    onClick={() => {
+                                      setClickedRowData(item);
+                                      setIsShowCompleteModal(true);
+                                    }}
+                                  >
+                                    <ICheckout />
+                                  </span>
+                                )}
+                              {item?.completedDateTime === null &&
+                                item?.scheduleEndDateTime > _todayDate() && (
+                                  <span
+                                    onClick={() => {
+                                      IConfirmModal({
+                                        title: `Schedule Maintainence`,
+                                        message: `Are you sure to delete schedule?`,
+                                        yesAlertFunc: () => {
+                                          deteleSchedule(
+                                            `/mes/ScheduleMaintenance/DeleteScheduleMaintenance?ScheduleId=${item?.scheduleMaintenanceId}&UserId=${profileData?.userId}`,
+                                            null,
+                                            (data) => getData(values),
+                                            true
+                                          );
+                                        },
+                                        noAlertFunc: () => {},
+                                      });
+                                    }}
+                                  >
+                                    <IDelete />
+                                  </span>
+                                )}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+
                   {tableData?.scheduleMaintenance?.length && (
                     <PaginationTable
                       count={tableData?.totalCount}

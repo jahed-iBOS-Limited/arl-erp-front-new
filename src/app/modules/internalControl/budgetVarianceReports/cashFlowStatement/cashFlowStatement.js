@@ -312,131 +312,210 @@ export function CashFlowStatement() {
                               )}  to  ${_dateFormatter(values?.toDate)}`}{" "}
                             </p>
                           </div>
-
-                          <table
-                            style={{ width: "75%" }}
-                            className="cashFlowStatement"
-                          >
-                            <tr>
-                              <td className="pr-5 text-right border border-dark">
-                                Opening Cash & Cash Equivalent
-                              </td>
-                              <td
-                                style={{
-                                  border: "1px solid black",
-                                  textAlign: "center",
-                                }}
-                              >
-                                {_formatMoney(rowDto[0]["numPlannedOpening"])}
-                              </td>
-                              <td
-                                style={{
-                                  border: "1px solid black",
-                                  textAlign: "center",
-                                }}
-                              >
-                                {_formatMoney(rowDto[0]["numOpening"])}
-                              </td>
-                              <td
-                                style={{
-                                  border: "1px solid black",
-                                  textAlign: "center",
-                                }}
-                              >
-                                {_formatMoney(
-                                  rowDto[0]["numPlannedOpening"] -
-                                    rowDto[0]["numOpening"]
-                                )}
-                              </td>
-                            </tr>
-                            <tr>
-                              <td
-                                className="border border-dark"
-                                style={{ height: "15px" }}
-                              ></td>
-                              <td
-                                className="text-center border border-dark"
-                                style={{ height: "15px" }}
-                              >
-                                Budget
-                              </td>
-                              <td
-                                className="text-center border border-dark"
-                                style={{ height: "15px" }}
-                              >
-                                Actual
-                              </td>
-                              <td
-                                className="text-center border border-dark"
-                                style={{ height: "15px" }}
-                              >
-                                Variance
-                              </td>
-                            </tr>
-                            {rowDto?.map((item, index) => {
-                              switch (item.intFSId) {
-                                case 9999:
-                                  return (
-                                    <tr style={{ background: "#e6ecff" }}>
-                                      <td
-                                        className="border border-dark"
-                                        colSpan="4"
-                                      >
-                                        {item?.strName}
-                                      </td>
-                                    </tr>
-                                  );
-                                case 0:
-                                  if (item.strName.startsWith("Net")) {
-                                    return (
-                                      <tr style={{ background: "#f0f0f5" }}>
-                                        <td className="border border-dark">
-                                          {item?.strName}
-                                        </td>
-                                        <td
-                                          className="text-right border border-dark"
-                                          style={{ width: "120px" }}
-                                        >
-                                          {_formatMoney(item?.numPlannedAmount)}
-                                        </td>
-                                        <td
-                                          className="text-right border border-dark"
-                                          style={{ width: "120px" }}
-                                        >
-                                          {_formatMoney(item?.numAmount)}
-                                        </td>
-                                        <td
-                                          className="text-right border border-dark"
-                                          style={{ width: "120px" }}
-                                        >
-                                          {_formatMoney(
-                                            item?.numPlannedAmount -
-                                              item?.numAmount
-                                          )}
-                                        </td>
-                                      </tr>
-                                    );
-                                  } else if (index === rowDto.length - 1) {
+                          <div className="table-responsive">
+                            <table
+                              style={{ width: "75%" }}
+                              className="cashFlowStatement"
+                            >
+                              <tr>
+                                <td className="pr-5 text-right border border-dark">
+                                  Opening Cash & Cash Equivalent
+                                </td>
+                                <td
+                                  style={{
+                                    border: "1px solid black",
+                                    textAlign: "center",
+                                  }}
+                                >
+                                  {_formatMoney(rowDto[0]["numPlannedOpening"])}
+                                </td>
+                                <td
+                                  style={{
+                                    border: "1px solid black",
+                                    textAlign: "center",
+                                  }}
+                                >
+                                  {_formatMoney(rowDto[0]["numOpening"])}
+                                </td>
+                                <td
+                                  style={{
+                                    border: "1px solid black",
+                                    textAlign: "center",
+                                  }}
+                                >
+                                  {_formatMoney(
+                                    rowDto[0]["numPlannedOpening"] -
+                                      rowDto[0]["numOpening"]
+                                  )}
+                                </td>
+                              </tr>
+                              <tr>
+                                <td
+                                  className="border border-dark"
+                                  style={{ height: "15px" }}
+                                ></td>
+                                <td
+                                  className="text-center border border-dark"
+                                  style={{ height: "15px" }}
+                                >
+                                  Budget
+                                </td>
+                                <td
+                                  className="text-center border border-dark"
+                                  style={{ height: "15px" }}
+                                >
+                                  Actual
+                                </td>
+                                <td
+                                  className="text-center border border-dark"
+                                  style={{ height: "15px" }}
+                                >
+                                  Variance
+                                </td>
+                              </tr>
+                              {rowDto?.map((item, index) => {
+                                switch (item.intFSId) {
+                                  case 9999:
                                     return (
                                       <tr style={{ background: "#e6ecff" }}>
-                                        <td className="border border-dark">
+                                        <td
+                                          className="border border-dark"
+                                          colSpan="4"
+                                        >
+                                          {item?.strName}
+                                        </td>
+                                      </tr>
+                                    );
+                                  case 0:
+                                    if (item.strName.startsWith("Net")) {
+                                      return (
+                                        <tr style={{ background: "#f0f0f5" }}>
+                                          <td className="border border-dark">
+                                            {item?.strName}
+                                          </td>
+                                          <td
+                                            className="text-right border border-dark"
+                                            style={{ width: "120px" }}
+                                          >
+                                            {_formatMoney(
+                                              item?.numPlannedAmount
+                                            )}
+                                          </td>
+                                          <td
+                                            className="text-right border border-dark"
+                                            style={{ width: "120px" }}
+                                          >
+                                            {_formatMoney(item?.numAmount)}
+                                          </td>
+                                          <td
+                                            className="text-right border border-dark"
+                                            style={{ width: "120px" }}
+                                          >
+                                            {_formatMoney(
+                                              item?.numPlannedAmount -
+                                                item?.numAmount
+                                            )}
+                                          </td>
+                                        </tr>
+                                      );
+                                    } else if (index === rowDto.length - 1) {
+                                      return (
+                                        <tr style={{ background: "#e6ecff" }}>
+                                          <td className="border border-dark">
+                                            {item?.strName}
+                                          </td>
+                                          <td
+                                            className="text-right border border-dark"
+                                            style={{ width: "120px" }}
+                                          >
+                                            {_formatMoney(
+                                              item?.numPlannedAmount
+                                            )}
+                                          </td>
+                                          <td
+                                            className="text-right border border-dark"
+                                            style={{ width: "120px" }}
+                                          >
+                                            {_formatMoney(item?.numAmount)}
+                                          </td>
+                                          <td
+                                            className="text-right border border-dark"
+                                            style={{ width: "120px" }}
+                                          >
+                                            {_formatMoney(
+                                              item?.numPlannedAmount -
+                                                item?.numAmount
+                                            )}
+                                          </td>
+                                        </tr>
+                                      );
+                                    }
+                                    return (
+                                      <tr>
+                                        <td
+                                          className="border border-dark"
+                                          colSpan="4"
+                                        >
+                                          {item?.strName}
+                                        </td>
+                                      </tr>
+                                    );
+                                  case null:
+                                    return (
+                                      <tr>
+                                        <td
+                                          className="text-center border border-dark"
+                                          colSpan="4"
+                                          style={{ height: "15px" }}
+                                        ></td>
+                                      </tr>
+                                    );
+
+                                  default:
+                                    return (
+                                      <tr>
+                                        <td
+                                          className="border border-dark"
+                                          style={{
+                                            padding: "0 0 0 5px",
+                                            fontWeight: "normal",
+                                          }}
+                                        >
                                           {item?.strName}
                                         </td>
                                         <td
-                                          className="text-right border border-dark"
-                                          style={{ width: "120px" }}
+                                          className="pr-1"
+                                          style={{
+                                            border: "1px solid black",
+                                            textAlign: "right",
+                                            width: "120px",
+                                            padding: "0",
+                                            fontWeight: "normal",
+                                          }}
                                         >
                                           {_formatMoney(item?.numPlannedAmount)}
                                         </td>
                                         <td
-                                          className="text-right border border-dark"
-                                          style={{ width: "120px" }}
+                                          className="pr-1"
+                                          style={{
+                                            border: "1px solid black",
+                                            textAlign: "right",
+                                            width: "120px",
+                                            padding: "0",
+                                            fontWeight: "normal",
+                                          }}
                                         >
                                           {_formatMoney(item?.numAmount)}
                                         </td>
                                         <td
-                                          className="text-right border border-dark"
-                                          style={{ width: "120px" }}
+                                          className="pr-1"
+                                          style={{
+                                            border: "1px solid black",
+                                            textAlign: "right",
+                                            width: "120px",
+                                            padding: "0",
+                                            fontWeight: "normal",
+                                          }}
                                         >
                                           {_formatMoney(
                                             item?.numPlannedAmount -
@@ -445,84 +524,10 @@ export function CashFlowStatement() {
                                         </td>
                                       </tr>
                                     );
-                                  }
-                                  return (
-                                    <tr>
-                                      <td
-                                        className="border border-dark"
-                                        colSpan="4"
-                                      >
-                                        {item?.strName}
-                                      </td>
-                                    </tr>
-                                  );
-                                case null:
-                                  return (
-                                    <tr>
-                                      <td
-                                        className="text-center border border-dark"
-                                        colSpan="4"
-                                        style={{ height: "15px" }}
-                                      ></td>
-                                    </tr>
-                                  );
-
-                                default:
-                                  return (
-                                    <tr>
-                                      <td
-                                        className="border border-dark"
-                                        style={{
-                                          padding: "0 0 0 5px",
-                                          fontWeight: "normal",
-                                        }}
-                                      >
-                                        {item?.strName}
-                                      </td>
-                                      <td
-                                        className="pr-1"
-                                        style={{
-                                          border: "1px solid black",
-                                          textAlign: "right",
-                                          width: "120px",
-                                          padding: "0",
-                                          fontWeight: "normal",
-                                        }}
-                                      >
-                                        {_formatMoney(item?.numPlannedAmount)}
-                                      </td>
-                                      <td
-                                        className="pr-1"
-                                        style={{
-                                          border: "1px solid black",
-                                          textAlign: "right",
-                                          width: "120px",
-                                          padding: "0",
-                                          fontWeight: "normal",
-                                        }}
-                                      >
-                                        {_formatMoney(item?.numAmount)}
-                                      </td>
-                                      <td
-                                        className="pr-1"
-                                        style={{
-                                          border: "1px solid black",
-                                          textAlign: "right",
-                                          width: "120px",
-                                          padding: "0",
-                                          fontWeight: "normal",
-                                        }}
-                                      >
-                                        {_formatMoney(
-                                          item?.numPlannedAmount -
-                                            item?.numAmount
-                                        )}
-                                      </td>
-                                    </tr>
-                                  );
-                              }
-                            })}
-                          </table>
+                                }
+                              })}
+                            </table>
+                          </div>
                         </div>
                       )}
                     </>

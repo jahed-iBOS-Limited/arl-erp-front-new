@@ -396,7 +396,8 @@ export default function CargoUnloadingStatementCreate() {
               {selectedRawMaterial?.length > 0 && (
                 <div className="row mt-5">
                   <div className="col-md-12">
-                    <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+                  <div className="table-responsive">
+ <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                       <thead>
                         <tr>
                           <th style={{ width: "50px" }}>SL</th>
@@ -582,6 +583,8 @@ export default function CargoUnloadingStatementCreate() {
                         ))}
                       </tbody>
                     </table>
+</div>
+                   
                   </div>
                 </div>
               )}
