@@ -96,68 +96,76 @@ const InventoryVarianceReport = () => {
                 {rowData?.length > 0 && (
                   <div className="row mt-5">
                     <div className="col-lg-12 cost-of-production">
-                      <table
-                        id="table-to-xlsx"
-                        className="table table-striped table-bordered bj-table bj-table-landing"
-                      >
-                        <thead>
-                          <tr>
-                            <th>SL</th>
-                            <th>Item Name</th>
-                            <th>Item Code</th>
-                            <th>Item Type</th>
-                            <th>Actual (Safety Stock)</th>
-                            <th>Average Stock</th>
-                            <th>Variance</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {rowData?.length > 0 &&
-                            rowData?.map((item, index) => (
-                              <tr key={index}>
-                                <td>{index + 1}</td>
-                                <td
-                                  className="text-center"
-                                  // rowSpan={item?.intSectionCount}
-                                >
-                                  {item?.strItemName}
-                                </td>
-                                <td
-                                  className="text-center"
-                                  // rowSpan={item?.intSectionCount}
-                                >
-                                  {item?.strItemCode}
-                                </td>
-                                <td
-                                  className="text-center"
-                                  // rowSpan={item?.intSectionCount}
-                                >
-                                  {item?.strItemTypeName}
-                                </td>
-                                <td
-                                  className="text-center"
-                                  // rowSpan={item?.intSectionCount}
-                                >
-                                  {numberWithCommas(
-                                    Math.round(item?.numSafetyStockQuantity) || 0
-                                  )}
-                                </td>
-                                <td
-                                  className="text-center"
-                                  // rowSpan={item?.intSectionCount}
-                                >
-                                  {numberWithCommas(
-                                    Math.round(item?.numAvgStock) ||
-                                      0
-                                  )}
-                                </td>
-                                <td>
-                                  {numberWithCommas(Math.round(+item?.numSafetyStockQuantity - +item?.numAvgStock))}
-                                </td>
-                              </tr>
-                            ))}
-                        </tbody>
-                      </table>
+                      <div className="table-responsive">
+                        <table
+                          id="table-to-xlsx"
+                          className="table table-striped table-bordered bj-table bj-table-landing"
+                        >
+                          <thead>
+                            <tr>
+                              <th>SL</th>
+                              <th>Item Name</th>
+                              <th>Item Code</th>
+                              <th>Item Type</th>
+                              <th>Actual (Safety Stock)</th>
+                              <th>Average Stock</th>
+                              <th>Variance</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {rowData?.length > 0 &&
+                              rowData?.map((item, index) => (
+                                <tr key={index}>
+                                  <td>{index + 1}</td>
+                                  <td
+                                    className="text-center"
+                                    // rowSpan={item?.intSectionCount}
+                                  >
+                                    {item?.strItemName}
+                                  </td>
+                                  <td
+                                    className="text-center"
+                                    // rowSpan={item?.intSectionCount}
+                                  >
+                                    {item?.strItemCode}
+                                  </td>
+                                  <td
+                                    className="text-center"
+                                    // rowSpan={item?.intSectionCount}
+                                  >
+                                    {item?.strItemTypeName}
+                                  </td>
+                                  <td
+                                    className="text-center"
+                                    // rowSpan={item?.intSectionCount}
+                                  >
+                                    {numberWithCommas(
+                                      Math.round(
+                                        item?.numSafetyStockQuantity
+                                      ) || 0
+                                    )}
+                                  </td>
+                                  <td
+                                    className="text-center"
+                                    // rowSpan={item?.intSectionCount}
+                                  >
+                                    {numberWithCommas(
+                                      Math.round(item?.numAvgStock) || 0
+                                    )}
+                                  </td>
+                                  <td>
+                                    {numberWithCommas(
+                                      Math.round(
+                                        +item?.numSafetyStockQuantity -
+                                          +item?.numAvgStock
+                                      )
+                                    )}
+                                  </td>
+                                </tr>
+                              ))}
+                          </tbody>
+                        </table>
+                      </div>
                     </div>
                   </div>
                 )}

@@ -388,65 +388,68 @@ export default function DistributionPlanLanding() {
               </div>
               <div className="row">
                 <div className="col-lg-12">
-                  <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
-                    <thead>
-                      <tr>
-                        <th>SL</th>
-                        <th>Distribution Channel Name</th>
-                        <th>Region Name</th>
-                        <th>Area Name</th>
-                        <th>Territory Name</th>
-                        <th>Sales Plan Qty</th>
-                        <th>Distribution Plan Qty</th>
-                        {/* <th>Plant</th> */}
-                        {/* <th>Warehouse</th> */}
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {rowDto?.data?.length > 0 &&
-                        rowDto?.data?.map((item, index) => (
-                          <tr key={index}>
-                            <td>{item?.sl}</td>
-                            <td>{item?.distributionChannelName}</td>
-                            <td>{item?.regionName}</td>
-                            <td>{item?.areaName}</td>
-                            <td>{item?.territoryName}</td>
-                            <td className="text-center">
-                              {item?.salesPlanQty}
-                            </td>
-                            <td className="text-center">
-                              {item?.distributionPlanQty}
-                            </td>
-                            {/* <td>{item?.plantHouseName}</td> */}
-                            {/* <td>{item?.wareHouseName}</td> */}
-                            <td className="text-center">
-                              <div
-                                style={{
-                                  display: "flex",
-                                  alignItems: "center",
-                                  justifyContent: "space-around",
-                                }}
-                              >
-                                <IView
-                                  styles={{ fontSize: "16px" }}
-                                  clickHandler={(e) => {
-                                    setDetailsView(item);
-                                    setIsShowModel(true);
+                  <div className="table-responsive">
+                    <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+                      <thead>
+                        <tr>
+                          <th>SL</th>
+                          <th>Distribution Channel Name</th>
+                          <th>Region Name</th>
+                          <th>Area Name</th>
+                          <th>Territory Name</th>
+                          <th>Sales Plan Qty</th>
+                          <th>Distribution Plan Qty</th>
+                          {/* <th>Plant</th> */}
+                          {/* <th>Warehouse</th> */}
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {rowDto?.data?.length > 0 &&
+                          rowDto?.data?.map((item, index) => (
+                            <tr key={index}>
+                              <td>{item?.sl}</td>
+                              <td>{item?.distributionChannelName}</td>
+                              <td>{item?.regionName}</td>
+                              <td>{item?.areaName}</td>
+                              <td>{item?.territoryName}</td>
+                              <td className="text-center">
+                                {item?.salesPlanQty}
+                              </td>
+                              <td className="text-center">
+                                {item?.distributionPlanQty}
+                              </td>
+                              {/* <td>{item?.plantHouseName}</td> */}
+                              {/* <td>{item?.wareHouseName}</td> */}
+                              <td className="text-center">
+                                <div
+                                  style={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "space-around",
                                   }}
-                                />
-                                <IEdit
-                                  onClick={() => {
-                                    setIsEditModal(true);
-                                    setEditData(item);
-                                  }}
-                                />
-                              </div>
-                            </td>
-                          </tr>
-                        ))}
-                    </tbody>
-                  </table>
+                                >
+                                  <IView
+                                    styles={{ fontSize: "16px" }}
+                                    clickHandler={(e) => {
+                                      setDetailsView(item);
+                                      setIsShowModel(true);
+                                    }}
+                                  />
+                                  <IEdit
+                                    onClick={() => {
+                                      setIsEditModal(true);
+                                      setEditData(item);
+                                    }}
+                                  />
+                                </div>
+                              </td>
+                            </tr>
+                          ))}
+                      </tbody>
+                    </table>
+                  </div>
+
                   {rowDto?.data?.length > 0 && (
                     <PaginationTable
                       count={rowDto?.totalCount}

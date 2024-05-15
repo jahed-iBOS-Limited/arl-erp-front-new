@@ -6,7 +6,7 @@ import { IInput } from "../../../../_helper/_input";
 import ICalendar from "../../../../_helper/_inputCalender";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import { _formatMoney } from "../../../../_helper/_formatMoney";
-import InputField from './../../../../_helper/_inputField';
+import InputField from "./../../../../_helper/_inputField";
 
 // createSchema
 const createSchema = Yup.object().shape({});
@@ -308,42 +308,44 @@ export default function _Form({
               <div className="row cash_journal bank-journal bank-journal-custom">
                 <div className="col-lg-12 pr-0 pl-0">
                   {rowDto?.length >= 0 && (
-                    <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
-                      <thead>
-                        <tr>
-                          <th style={{ width: "35px" }}>SL</th>
-                          <th>Item Name</th>
-                          <th>Item Code</th>
-                          <th>UoM Name</th>
-                          <th>Quantity</th>
-                          <th>Price</th>
-                          <th>Amount</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {rowDto.map((itm, index) => (
-                          <tr key={itm?.itemId}>
-                            <td className="text-center">{++index}</td>
-                            <td className="pl-2">{itm?.itemName}</td>
-                            <td className="pl-2">{itm?.itemCode}</td>
-                            <td className='pl-2'>{itm.uomName}</td>
-                            <td className="text-right pr-2">
-                              {itm?.contactQuantity}
-                            </td>
-                            <td className="text-right pr-2">
-                              {_formatMoney(itm?.itemPrice)}
-                            </td>
-                            <td className="text-right pr-2">
-                              {_formatMoney(
-                                Math.abs(
-                                  +itm?.itemPrice * +itm?.contactQuantity
-                                )
-                              )}
-                            </td>
+                    <div className="table-responsive">
+                      <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
+                        <thead>
+                          <tr>
+                            <th style={{ width: "35px" }}>SL</th>
+                            <th>Item Name</th>
+                            <th>Item Code</th>
+                            <th>UoM Name</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Amount</th>
                           </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                        </thead>
+                        <tbody>
+                          {rowDto.map((itm, index) => (
+                            <tr key={itm?.itemId}>
+                              <td className="text-center">{++index}</td>
+                              <td className="pl-2">{itm?.itemName}</td>
+                              <td className="pl-2">{itm?.itemCode}</td>
+                              <td className="pl-2">{itm.uomName}</td>
+                              <td className="text-right pr-2">
+                                {itm?.contactQuantity}
+                              </td>
+                              <td className="text-right pr-2">
+                                {_formatMoney(itm?.itemPrice)}
+                              </td>
+                              <td className="text-right pr-2">
+                                {_formatMoney(
+                                  Math.abs(
+                                    +itm?.itemPrice * +itm?.contactQuantity
+                                  )
+                                )}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>{" "}
+                    </div>
                   )}
                 </div>
               </div>

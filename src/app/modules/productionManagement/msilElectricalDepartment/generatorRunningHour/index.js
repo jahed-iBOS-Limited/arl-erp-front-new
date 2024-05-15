@@ -56,9 +56,7 @@ export default function GeneratorRunningHour() {
     <Formik
       enableReinitialize={true}
       initialValues={generatorRunningHourLanding}
-      onSubmit={(values, { setSubmitting, resetForm }) => {
-
-      }}
+      onSubmit={(values, { setSubmitting, resetForm }) => {}}
     >
       {({
         handleSubmit,
@@ -83,7 +81,9 @@ export default function GeneratorRunningHour() {
                     type="button"
                     className="btn btn-primary"
                     onClick={() => {
-                      history.push("/production-management/msil-Electrical/GeneratorRunningHour/create");
+                      history.push(
+                        "/production-management/msil-Electrical/GeneratorRunningHour/create"
+                      );
                     }}
                   >
                     Create
@@ -163,102 +163,113 @@ export default function GeneratorRunningHour() {
               </div>
               <div style={{ marginTop: "15px" }}>
                 <div>
-                  <table className="table table-striped table-bordered global-table">
-                    <thead>
-                      <tr>
-                        <th style={{ minWidth: "25px" }}>SL</th>
-                        <th>Date</th>
-                        <th>Shift</th>
-                        <th>Generator Name</th>
-                        {/* <th>{selectedBusinessUnit.value === 4 ? "Generation" : "Running Load"}</th> */}
-                        {
-                          selectedBusinessUnit.value !== 4 && <th>Running Load</th>
-                        }
-                        <th>Start Time</th>
-                        <th>End Time</th>
-                        <th>Total Hour</th>
-                        {selectedBusinessUnit.value === 4 ? <th>Previous Reading</th> : null}
-                        {selectedBusinessUnit.value === 4 ? <th>Present Reading</th> : null}
-                        {selectedBusinessUnit.value === 4 ? <th>Generation(KWh)</th> : null}
-                        {selectedBusinessUnit.value === 4 ? <th>Generation(KW)</th> : null}
+                  <div className="table-responsive">
+                    <table className="table table-striped table-bordered global-table">
+                      <thead>
+                        <tr>
+                          <th style={{ minWidth: "25px" }}>SL</th>
+                          <th>Date</th>
+                          <th>Shift</th>
+                          <th>Generator Name</th>
+                          {/* <th>{selectedBusinessUnit.value === 4 ? "Generation" : "Running Load"}</th> */}
+                          {selectedBusinessUnit.value !== 4 && (
+                            <th>Running Load</th>
+                          )}
+                          <th>Start Time</th>
+                          <th>End Time</th>
+                          <th>Total Hour</th>
+                          {selectedBusinessUnit.value === 4 ? (
+                            <th>Previous Reading</th>
+                          ) : null}
+                          {selectedBusinessUnit.value === 4 ? (
+                            <th>Present Reading</th>
+                          ) : null}
+                          {selectedBusinessUnit.value === 4 ? (
+                            <th>Generation(KWh)</th>
+                          ) : null}
+                          {selectedBusinessUnit.value === 4 ? (
+                            <th>Generation(KW)</th>
+                          ) : null}
 
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {landigData?.data?.length > 0 &&
-                        landigData?.data?.map((item, index) => (
-                          <tr key={index}>
-                            <td>{index + 1}</td>
-                            <td className="text-center">
-                              {_dateFormatter(item?.dteDate)}
-                            </td>
-                            <td className="text-center">{item?.strShift}</td>
-                            <td className="text-center">
-                              {item?.strGeneratorName}
-                            </td>
-                            {/* <td className="text-center">{selectedBusinessUnit.value === 4 ? item.numGeneration : item.intRunningLoad}</td> */}
-                            {selectedBusinessUnit.value !== 4 && <td className="text-center">{item.intRunningLoad}</td>}
-                            <td className="text-center">
-                              {_timeFormatter(item?.tmStartTime)}
-                            </td>
-                            <td className="text-center">
-                              {_timeFormatter(item?.tmEndTime)}
-                            </td>
-                            <td className="text-center">
-                              {item?.tmTotalHour &&
-                                item?.tmTotalHour?.split(":")?.[0] + "H"}{" "}
-                              {item?.tmTotalHour &&
-                                item?.tmTotalHour?.split(":")?.[1] + "M"}
-                            </td>
-
-                            {selectedBusinessUnit.value === 4 ?
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {landigData?.data?.length > 0 &&
+                          landigData?.data?.map((item, index) => (
+                            <tr key={index}>
+                              <td>{index + 1}</td>
                               <td className="text-center">
-                                {item?.numPreviousReading}
+                                {_dateFormatter(item?.dteDate)}
                               </td>
-                              : null
-                            }
-                            {selectedBusinessUnit.value === 4 ?
+                              <td className="text-center">{item?.strShift}</td>
                               <td className="text-center">
-                                {item?.numPresentReading}
+                                {item?.strGeneratorName}
                               </td>
-                              : null
-                            }
-                            {
-                              selectedBusinessUnit.value === 4 && <td className="text-center">{item?.numGeneration}</td>
-                            }
-                            {selectedBusinessUnit.value === 4 ?
-                              <td>
-                                {item?.numGenerationKw}
+                              {/* <td className="text-center">{selectedBusinessUnit.value === 4 ? item.numGeneration : item.intRunningLoad}</td> */}
+                              {selectedBusinessUnit.value !== 4 && (
+                                <td className="text-center">
+                                  {item.intRunningLoad}
+                                </td>
+                              )}
+                              <td className="text-center">
+                                {_timeFormatter(item?.tmStartTime)}
                               </td>
-                              : null
-                            }
+                              <td className="text-center">
+                                {_timeFormatter(item?.tmEndTime)}
+                              </td>
+                              <td className="text-center">
+                                {item?.tmTotalHour &&
+                                  item?.tmTotalHour?.split(":")?.[0] + "H"}{" "}
+                                {item?.tmTotalHour &&
+                                  item?.tmTotalHour?.split(":")?.[1] + "M"}
+                              </td>
 
-                            <td className="text-center">
-                              <IEdit
-                                onClick={() => {
-                                  history.push({
-                                    pathname: `/production-management/msil-Electrical/GeneratorRunningHour/edit/${item?.intGeneratorRunningHourId}`,
-                                    state: { ...item },
-                                  });
-                                }}
-                              />
-                              {selectedBusinessUnit?.value === 4 ?
-                                <span className="ml-2">
-                                  <IView
-                                    title="Breakdown Details"
-                                    clickHandler={() => {
-                                      setCurrentItem(item)
-                                      setShow(true)
-                                    }}
-                                  />
-                                </span>
-                                : null}
-                            </td>
-                          </tr>
-                        ))}
-                    </tbody>
-                  </table>
+                              {selectedBusinessUnit.value === 4 ? (
+                                <td className="text-center">
+                                  {item?.numPreviousReading}
+                                </td>
+                              ) : null}
+                              {selectedBusinessUnit.value === 4 ? (
+                                <td className="text-center">
+                                  {item?.numPresentReading}
+                                </td>
+                              ) : null}
+                              {selectedBusinessUnit.value === 4 && (
+                                <td className="text-center">
+                                  {item?.numGeneration}
+                                </td>
+                              )}
+                              {selectedBusinessUnit.value === 4 ? (
+                                <td>{item?.numGenerationKw}</td>
+                              ) : null}
+
+                              <td className="text-center">
+                                <IEdit
+                                  onClick={() => {
+                                    history.push({
+                                      pathname: `/production-management/msil-Electrical/GeneratorRunningHour/edit/${item?.intGeneratorRunningHourId}`,
+                                      state: { ...item },
+                                    });
+                                  }}
+                                />
+                                {selectedBusinessUnit?.value === 4 ? (
+                                  <span className="ml-2">
+                                    <IView
+                                      title="Breakdown Details"
+                                      clickHandler={() => {
+                                        setCurrentItem(item);
+                                        setShow(true);
+                                      }}
+                                    />
+                                  </span>
+                                ) : null}
+                              </td>
+                            </tr>
+                          ))}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
                 {landigData?.data?.length > 0 && (
                   <PaginationTable
@@ -274,7 +285,11 @@ export default function GeneratorRunningHour() {
                   />
                 )}
               </div>
-              <IViewModal title="Breakdown Details" show={show} onHide={onClose}>
+              <IViewModal
+                title="Breakdown Details"
+                show={show}
+                onHide={onClose}
+              >
                 <BreakdownViewModal currentItem={currentItem} values={values} />
               </IViewModal>
             </Form>

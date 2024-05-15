@@ -34,7 +34,7 @@ export default function RebShutdown() {
     <Formik
       enableReinitialize={true}
       initialValues={initData}
-      onSubmit={(values, { setSubmitting, resetForm }) => { }}
+      onSubmit={(values, { setSubmitting, resetForm }) => {}}
     >
       {({
         handleSubmit,
@@ -59,7 +59,9 @@ export default function RebShutdown() {
                     type="button"
                     className="btn btn-primary"
                     onClick={() => {
-                      history.push("/production-management/msil-Electrical/REBShutdown/create");
+                      history.push(
+                        "/production-management/msil-Electrical/REBShutdown/create"
+                      );
                     }}
                   >
                     Create
@@ -139,53 +141,55 @@ export default function RebShutdown() {
               </div>
               <div style={{ marginTop: "15px" }}>
                 <div>
-                  <table className="table table-striped table-bordered global-table">
-                    <thead>
-                      <tr>
-                        <th style={{ width: "50px" }}>SL</th>
-                        <th>Date</th>
-                        <th>Shift</th>
-                        <th>Start Time</th>
-                        <th>End Time</th>
-                        <th>Total Hour</th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {landigData?.data?.length > 0 &&
-                        landigData?.data?.map((item, index) => (
-                          <tr key={index}>
-                            <td>{index + 1}</td>
-                            <td className="text-center">
-                              {_dateFormatter(item?.dteDate)}
-                            </td>
-                            <td>{item?.strShift}</td>
-                            <td className="text-center">
-                              {_timeFormatter(item?.tmStartTime)}
-                            </td>
-                            <td className="text-center">
-                              {_timeFormatter(item?.tmEndTime)}
-                            </td>
-                            <td className="text-center">
-                              {item?.tmTotalHour &&
-                                item?.tmTotalHour?.split(":")?.[0] + "H"}{" "}
-                              {item?.tmTotalHour &&
-                                item?.tmTotalHour?.split(":")?.[1] + "M"}
-                            </td>
-                            <td className="text-center">
-                              <IEdit
-                                onClick={() => {
-                                  history.push({
-                                    pathname: `/production-management/msil-Electrical/REBShutdown/edit/${item?.intRebshutdownId}`,
-                                    state: { ...item },
-                                  });
-                                }}
-                              />
-                            </td>
-                          </tr>
-                        ))}
-                    </tbody>
-                  </table>
+                  <div className="table-responsive">
+                    <table className="table table-striped table-bordered global-table">
+                      <thead>
+                        <tr>
+                          <th style={{ width: "50px" }}>SL</th>
+                          <th>Date</th>
+                          <th>Shift</th>
+                          <th>Start Time</th>
+                          <th>End Time</th>
+                          <th>Total Hour</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {landigData?.data?.length > 0 &&
+                          landigData?.data?.map((item, index) => (
+                            <tr key={index}>
+                              <td>{index + 1}</td>
+                              <td className="text-center">
+                                {_dateFormatter(item?.dteDate)}
+                              </td>
+                              <td>{item?.strShift}</td>
+                              <td className="text-center">
+                                {_timeFormatter(item?.tmStartTime)}
+                              </td>
+                              <td className="text-center">
+                                {_timeFormatter(item?.tmEndTime)}
+                              </td>
+                              <td className="text-center">
+                                {item?.tmTotalHour &&
+                                  item?.tmTotalHour?.split(":")?.[0] + "H"}{" "}
+                                {item?.tmTotalHour &&
+                                  item?.tmTotalHour?.split(":")?.[1] + "M"}
+                              </td>
+                              <td className="text-center">
+                                <IEdit
+                                  onClick={() => {
+                                    history.push({
+                                      pathname: `/production-management/msil-Electrical/REBShutdown/edit/${item?.intRebshutdownId}`,
+                                      state: { ...item },
+                                    });
+                                  }}
+                                />
+                              </td>
+                            </tr>
+                          ))}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
                 {landigData?.data?.length > 0 && (
                   <PaginationTable

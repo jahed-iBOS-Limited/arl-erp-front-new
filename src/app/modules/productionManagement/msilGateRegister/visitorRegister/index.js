@@ -122,68 +122,71 @@ function VisitorRegisterLanding() {
                 </div>
                 <div className="row">
                   <div className="col-lg-12">
-                    <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
-                      <thead>
-                        <tr>
-                          <th style={{ width: "30px" }}>SL</th>
-                          <th style={{ width: "70px" }}>তারিখ</th>
-                          <th>পরিদর্শকের নাম</th>
-                          <th>পরিদর্শকের প্রতিষ্ঠানের নাম </th>
-                          <th>পরিদর্শকের মোবাইল নম্বর</th>
-                          <th>পরিদর্শকের প্রতিষ্ঠানের ঠিকানা</th>
-                          <th>গাড়ির নাম্বার</th>
-                          <th>রেজি. নং</th>
-                          <th>গাড়ি চালকের নাম</th>
-                          <th>গাড়ি চালকের মোবাইল নম্বর</th>
-                          <th>যে কারণে প্রবেশ করতে চান</th>
-                          <th>যার সাথে দেখা করতে চান তার নাম </th>
-                          <th>যার সাথে দেখা করতে চান তার পদবী</th>
-                          <th>প্রবেশের সময়</th>
-                          <th>বহির্গমনের সময়</th>
-                          <th style={{ width: "50px" }}>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {rowData?.visitorRegisterList?.length > 0 &&
-                          rowData?.visitorRegisterList?.map((item, index) => (
-                            <tr key={index}>
-                              <td>{index + 1}</td>
-                              <td className="text-center">
-                                {_dateFormatter(item?.dteDate)}
-                              </td>
-                              <td>{item?.strVisitorName}</td>
-                              <td>{item?.strVisitorCompany}</td>
-                              <td>{item?.strVisitorMobileNo}</td>
-                              <td>{item?.strAddress}</td>
-                              <td>{item?.strCarNo}</td>
-                              <td className="text-center">
-                                {item?.strEntryCode}
-                              </td>
-                              <td>{item?.strDriverName}</td>
-                              <td>{item?.strDriverMobileNo}</td>
-                              <td>{item?.strVisitingReason}</td>
-                              <td>{item?.strOfficePersonName}</td>
-                              <td>{item?.strOfficePersonDesignation}</td>
-                              <td className="text-center">
-                                {_timeFormatter(item?.tmInTime || "")}
-                              </td>
-                              <td className="text-center">
-                                {_timeFormatter(item?.tmOutTime || "")}
-                              </td>
-                              <td className="text-center">
-                                <IEdit
-                                  onClick={() =>
-                                    history.push({
-                                      pathname: `/production-management/msil-gate-register/Visitor-Register/edit/${item?.intGateVisitorRegisterId}`,
-                                      state: { ...item },
-                                    })
-                                  }
-                                />
-                              </td>
-                            </tr>
-                          ))}
-                      </tbody>
-                    </table>
+                    <div className="table-responsive">
+                      <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+                        <thead>
+                          <tr>
+                            <th style={{ width: "30px" }}>SL</th>
+                            <th style={{ width: "70px" }}>তারিখ</th>
+                            <th>পরিদর্শকের নাম</th>
+                            <th>পরিদর্শকের প্রতিষ্ঠানের নাম </th>
+                            <th>পরিদর্শকের মোবাইল নম্বর</th>
+                            <th>পরিদর্শকের প্রতিষ্ঠানের ঠিকানা</th>
+                            <th>গাড়ির নাম্বার</th>
+                            <th>রেজি. নং</th>
+                            <th>গাড়ি চালকের নাম</th>
+                            <th>গাড়ি চালকের মোবাইল নম্বর</th>
+                            <th>যে কারণে প্রবেশ করতে চান</th>
+                            <th>যার সাথে দেখা করতে চান তার নাম </th>
+                            <th>যার সাথে দেখা করতে চান তার পদবী</th>
+                            <th>প্রবেশের সময়</th>
+                            <th>বহির্গমনের সময়</th>
+                            <th style={{ width: "50px" }}>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {rowData?.visitorRegisterList?.length > 0 &&
+                            rowData?.visitorRegisterList?.map((item, index) => (
+                              <tr key={index}>
+                                <td>{index + 1}</td>
+                                <td className="text-center">
+                                  {_dateFormatter(item?.dteDate)}
+                                </td>
+                                <td>{item?.strVisitorName}</td>
+                                <td>{item?.strVisitorCompany}</td>
+                                <td>{item?.strVisitorMobileNo}</td>
+                                <td>{item?.strAddress}</td>
+                                <td>{item?.strCarNo}</td>
+                                <td className="text-center">
+                                  {item?.strEntryCode}
+                                </td>
+                                <td>{item?.strDriverName}</td>
+                                <td>{item?.strDriverMobileNo}</td>
+                                <td>{item?.strVisitingReason}</td>
+                                <td>{item?.strOfficePersonName}</td>
+                                <td>{item?.strOfficePersonDesignation}</td>
+                                <td className="text-center">
+                                  {_timeFormatter(item?.tmInTime || "")}
+                                </td>
+                                <td className="text-center">
+                                  {_timeFormatter(item?.tmOutTime || "")}
+                                </td>
+                                <td className="text-center">
+                                  <IEdit
+                                    onClick={() =>
+                                      history.push({
+                                        pathname: `/production-management/msil-gate-register/Visitor-Register/edit/${item?.intGateVisitorRegisterId}`,
+                                        state: { ...item },
+                                      })
+                                    }
+                                  />
+                                </td>
+                              </tr>
+                            ))}
+                        </tbody>
+                      </table>
+                    </div>
+
                     {rowData?.visitorRegisterList?.length > 0 && (
                       <PaginationTable
                         count={rowData?.totalCount}

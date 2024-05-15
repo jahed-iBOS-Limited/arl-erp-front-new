@@ -28,7 +28,11 @@ export default function ViewStopageDetails({ modalInfo }) {
   }, [fromDate, toDate, engineName, buId]);
 
   return (
-    <Formik enableReinitialize={true} initialValues={{}} onSubmit={(values) => {}}>
+    <Formik
+      enableReinitialize={true}
+      initialValues={{}}
+      onSubmit={(values) => {}}
+    >
       {() => (
         <IForm
           title="View Stopage Details"
@@ -41,38 +45,47 @@ export default function ViewStopageDetails({ modalInfo }) {
           <form className="form form-label-right ">
             <div className="row">
               <div className="col-lg-12">
-                <table className="table table-striped table-bordered global-table">
-                  <thead>
-                    <tr>
-                      <th>SL</th>
-                      <th>Date</th>
-                      <th>Shift</th>
-                      <th>Time</th>
-                      <th>Stopage Details</th>
-                      <th>Duration (Min)</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {stopageDetailsByEngine?.length > 0
-                      ? stopageDetailsByEngine?.map((item, index) => (
-                          <tr key={index}>
-                            <td style={{ width: "30px" }} className="text-center">
-                              {index + 1}
-                            </td>
-                            <td className="text-center">{_dateFormatter(item?.dteDate)}</td>
-                            <td className="text-center">{item?.strShift}</td>
-                            <td className="text-center">
-                              {`${_timeFormatter(item?.tmStartTime)} - ${_timeFormatter(
-                                item?.tmEndTime
-                              )}`}
-                            </td>
-                            <td>{item?.duration?.split(";")?.[1]}</td>
-                            <td className="text-center">{item?.tmTotalHour}</td>
-                          </tr>
-                        ))
-                      : null}
-                  </tbody>
-                </table>
+                <div className="table-responsive">
+                  <table className="table table-striped table-bordered global-table">
+                    <thead>
+                      <tr>
+                        <th>SL</th>
+                        <th>Date</th>
+                        <th>Shift</th>
+                        <th>Time</th>
+                        <th>Stopage Details</th>
+                        <th>Duration (Min)</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {stopageDetailsByEngine?.length > 0
+                        ? stopageDetailsByEngine?.map((item, index) => (
+                            <tr key={index}>
+                              <td
+                                style={{ width: "30px" }}
+                                className="text-center"
+                              >
+                                {index + 1}
+                              </td>
+                              <td className="text-center">
+                                {_dateFormatter(item?.dteDate)}
+                              </td>
+                              <td className="text-center">{item?.strShift}</td>
+                              <td className="text-center">
+                                {`${_timeFormatter(
+                                  item?.tmStartTime
+                                )} - ${_timeFormatter(item?.tmEndTime)}`}
+                              </td>
+                              <td>{item?.duration?.split(";")?.[1]}</td>
+                              <td className="text-center">
+                                {item?.tmTotalHour}
+                              </td>
+                            </tr>
+                          ))
+                        : null}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
           </form>

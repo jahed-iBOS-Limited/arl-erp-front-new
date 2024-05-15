@@ -127,54 +127,56 @@ function GateOutByGatePassLanding() {
                     </div>
                     <div className="row">
                       <div className="col-lg-12">
-                        <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
-                          <thead>
-                            <tr>
-                              <th style={{ width: "30px" }}>SL</th>
-                              <th>Date</th>
-                              <th>Gate Pass Code</th>
-                              <th>From Address</th>
-                              <th>To Address</th>
-                              <th>Contact</th>
-                              <th>Driver Name</th>
-                              <th>Vehicle Number</th>
-                              <th>Action</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {rowData?.length > 0 &&
-                              rowData?.map((item, index) => (
-                                <tr key={index}>
-                                  <td>{index + 1}</td>
-                                  <td className="text-center">
-                                    {_dateFormatter(item?.dteTransactionDate)}
-                                  </td>
-                                  <td className="text-center">
-                                    {item?.strGatePassCode}
-                                  </td>
-                                  <td className="text-center">
-                                    {item?.strFromAddress}
-                                  </td>
-                                  <td className="text-center">
-                                    {item?.strToAddress}
-                                  </td>
-                                  <td>{item?.strContact}</td>
-                                  <td>{item?.strDriverName}</td>
-                                  <td>{item?.strVehicleNumber}</td>
-                                  <td className="text-center">
-                                    <span
-                                      onClick={() => {
-                                        setItem(item);
-                                        setIsShowModel(true);
-                                      }}
-                                    >
-                                      <IView />
-                                    </span>
-                                  </td>
-                                </tr>
-                              ))}
-                          </tbody>
-                        </table>
+                        <div className="table-responsive">
+                          <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+                            <thead>
+                              <tr>
+                                <th style={{ width: "30px" }}>SL</th>
+                                <th>Date</th>
+                                <th>Gate Pass Code</th>
+                                <th>From Address</th>
+                                <th>To Address</th>
+                                <th>Contact</th>
+                                <th>Driver Name</th>
+                                <th>Vehicle Number</th>
+                                <th>Action</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {rowData?.length > 0 &&
+                                rowData?.map((item, index) => (
+                                  <tr key={index}>
+                                    <td>{index + 1}</td>
+                                    <td className="text-center">
+                                      {_dateFormatter(item?.dteTransactionDate)}
+                                    </td>
+                                    <td className="text-center">
+                                      {item?.strGatePassCode}
+                                    </td>
+                                    <td className="text-center">
+                                      {item?.strFromAddress}
+                                    </td>
+                                    <td className="text-center">
+                                      {item?.strToAddress}
+                                    </td>
+                                    <td>{item?.strContact}</td>
+                                    <td>{item?.strDriverName}</td>
+                                    <td>{item?.strVehicleNumber}</td>
+                                    <td className="text-center">
+                                      <span
+                                        onClick={() => {
+                                          setItem(item);
+                                          setIsShowModel(true);
+                                        }}
+                                      >
+                                        <IView />
+                                      </span>
+                                    </td>
+                                  </tr>
+                                ))}
+                            </tbody>
+                          </table>
+                        </div>
                       </div>
                     </div>
                   </>

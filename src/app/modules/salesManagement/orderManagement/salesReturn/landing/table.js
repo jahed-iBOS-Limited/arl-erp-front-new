@@ -270,154 +270,157 @@ const SalesReturn = () => {
                 </div>
 
                 {gridData?.data?.length > 0 && (
-                  <table className="table table-striped table-bordered global-table">
-                    <thead>
-                      <tr>
-                        <th>SL</th>
-                        <th>Challan No</th>
-                        <th>Customer Name</th>
-                        <th>Customer Code</th>
-                        <th style={{ width: "120px" }}>Quantity</th>
-                        <th style={{ width: "120px" }}>Amount</th>
-                        <th>Entry Date</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {gridData?.data?.map((item, index) => (
-                        <tr key={index}>
-                          <td className="text-center"> {index + 1}</td>
-                          <td> {item?.deliveryChallan}</td>
-                          <td> {item?.businessPartnerName}</td>
-                          <td> {item?.businessPartnerCode}</td>
+                  <div className="table-responsive">
+                    <table className="table table-striped table-bordered global-table">
+                      <thead>
+                        <tr>
+                          <th>SL</th>
+                          <th>Challan No</th>
+                          <th>Customer Name</th>
+                          <th>Customer Code</th>
+                          <th style={{ width: "120px" }}>Quantity</th>
+                          <th style={{ width: "120px" }}>Amount</th>
+                          <th>Entry Date</th>
+                          <th>Status</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {gridData?.data?.map((item, index) => (
+                          <tr key={index}>
+                            <td className="text-center"> {index + 1}</td>
+                            <td> {item?.deliveryChallan}</td>
+                            <td> {item?.businessPartnerName}</td>
+                            <td> {item?.businessPartnerCode}</td>
 
-                          <td className="text-right">
-                            {item?.editMode
-                              ? values?.returnType?.value === 2 &&
-                                values?.viewAs?.value === 1 && (
-                                  <InputField
-                                    value={item?.tempQty}
-                                    name="tempQty"
-                                    placeholder="Quantity"
-                                    type="number"
-                                    onChange={(e) => {
-                                      dataChangeHandler(
-                                        index,
-                                        "tempQty",
-                                        e?.target?.value
-                                      );
-                                    }}
-                                    onBlur={(e) => {
-                                      if (
-                                        e?.target?.value > item?.numDeliveryQnt
-                                      ) {
-                                        toast.warn(
-                                          "Damage qty can not be greater than delivery qty"
+                            <td className="text-right">
+                              {item?.editMode
+                                ? values?.returnType?.value === 2 &&
+                                  values?.viewAs?.value === 1 && (
+                                    <InputField
+                                      value={item?.tempQty}
+                                      name="tempQty"
+                                      placeholder="Quantity"
+                                      type="number"
+                                      onChange={(e) => {
+                                        dataChangeHandler(
+                                          index,
+                                          "tempQty",
+                                          e?.target?.value
                                         );
-                                      }
-                                    }}
-                                  />
-                                )
-                              : _fixedPoint(
-                                  item?.quantity || item?.totalReturnQty,
-                                  true
-                                )}
+                                      }}
+                                      onBlur={(e) => {
+                                        if (
+                                          e?.target?.value >
+                                          item?.numDeliveryQnt
+                                        ) {
+                                          toast.warn(
+                                            "Damage qty can not be greater than delivery qty"
+                                          );
+                                        }
+                                      }}
+                                    />
+                                  )
+                                : _fixedPoint(
+                                    item?.quantity || item?.totalReturnQty,
+                                    true
+                                  )}
+                            </td>
+                            <td className="text-right">
+                              {_fixedPoint(
+                                item?.returnAmount || item?.totalReturnAmount,
+                                true
+                              )}
+                            </td>
+                            <td> {_dateFormatter(item?.returnDateTime)}</td>
+                            <td>
+                              {item?.isApprovedBySupervisor &&
+                              item?.isApprovedByAccount
+                                ? "Approved by Supervisor and Account"
+                                : item?.isApprovedBySupervisor
+                                ? "Approved by Supervisor"
+                                : !item?.isActive
+                                ? "Canceled"
+                                : "Pending"}
+                            </td>
+                            <td>
+                              <div className="d-flex justify-content-around">
+                                {(!item?.isApprovedByAccount ||
+                                  !item?.isApprovedBySupervisor) &&
+                                  item?.isActive && (
+                                    <>
+                                      {values?.returnType?.value === 2 &&
+                                        [1].includes(values?.viewAs?.value) &&
+                                        !item?.isApprovedByAccount &&
+                                        !item?.isApprovedBySupervisor && (
+                                          <span
+                                            onClick={() => {
+                                              getRows(item);
+                                            }}
+                                          >
+                                            <IEdit title="Update and Approve" />
+                                          </span>
+                                        )}
+                                      <span
+                                        className="cursor-pointer"
+                                        onClick={() => {
+                                          cancelHandler(item, values);
+                                        }}
+                                      >
+                                        <IClose title="Cancel Sales Return" />
+                                      </span>
+                                      {[2, 0].includes(values?.status?.value) &&
+                                        ([1].includes(
+                                          values?.returnType?.value
+                                        ) ||
+                                          ([2].includes(
+                                            values?.returnType?.value
+                                          ) &&
+                                            [2].includes(
+                                              values?.viewAs?.value
+                                            ))) && (
+                                          <span
+                                            onClick={() => {
+                                              salesReturnApprove(values, item);
+                                            }}
+                                          >
+                                            <IApproval title="Approve the Sales Return" />
+                                          </span>
+                                        )}
+                                    </>
+                                  )}
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+                        <tr style={{ textAlign: "right", fontWeight: "bold" }}>
+                          <td colSpan={4} className="text-right">
+                            <b>Total</b>
                           </td>
-                          <td className="text-right">
+                          <td>
                             {_fixedPoint(
-                              item?.returnAmount || item?.totalReturnAmount,
+                              gridData?.data?.reduce(
+                                (a, b) => a + b?.totalReturnQty,
+                                0
+                              ),
+                              true,
+                              0
+                            )}
+                          </td>
+                          <td>
+                            {_fixedPoint(
+                              gridData?.data?.reduce(
+                                (a, b) => a + b?.totalReturnAmount,
+                                0
+                              ),
                               true
                             )}
                           </td>
-                          <td> {_dateFormatter(item?.returnDateTime)}</td>
-                          <td>
-                            {item?.isApprovedBySupervisor &&
-                            item?.isApprovedByAccount
-                              ? "Approved by Supervisor and Account"
-                              : item?.isApprovedBySupervisor
-                              ? "Approved by Supervisor"
-                              : !item?.isActive
-                              ? "Canceled"
-                              : "Pending"}
-                          </td>
-                          <td>
-                            <div className="d-flex justify-content-around">
-                              {(!item?.isApprovedByAccount ||
-                                !item?.isApprovedBySupervisor) &&
-                                item?.isActive && (
-                                  <>
-                                    {values?.returnType?.value === 2 &&
-                                      [1].includes(values?.viewAs?.value) &&
-                                      !item?.isApprovedByAccount &&
-                                      !item?.isApprovedBySupervisor && (
-                                        <span
-                                          onClick={() => {
-                                            getRows(item);
-                                          }}
-                                        >
-                                          <IEdit title="Update and Approve" />
-                                        </span>
-                                      )}
-                                    <span
-                                      className="cursor-pointer"
-                                      onClick={() => {
-                                        cancelHandler(item, values);
-                                      }}
-                                    >
-                                      <IClose title="Cancel Sales Return" />
-                                    </span>
-                                    {[2, 0].includes(values?.status?.value) &&
-                                      ([1].includes(
-                                        values?.returnType?.value
-                                      ) ||
-                                        ([2].includes(
-                                          values?.returnType?.value
-                                        ) &&
-                                          [2].includes(
-                                            values?.viewAs?.value
-                                          ))) && (
-                                        <span
-                                          onClick={() => {
-                                            salesReturnApprove(values, item);
-                                          }}
-                                        >
-                                          <IApproval title="Approve the Sales Return" />
-                                        </span>
-                                      )}
-                                  </>
-                                )}
-                            </div>
-                          </td>
+                          <td colSpan={3}></td>
                         </tr>
-                      ))}
-                      <tr style={{ textAlign: "right", fontWeight: "bold" }}>
-                        <td colSpan={4} className="text-right">
-                          <b>Total</b>
-                        </td>
-                        <td>
-                          {_fixedPoint(
-                            gridData?.data?.reduce(
-                              (a, b) => a + b?.totalReturnQty,
-                              0
-                            ),
-                            true,
-                            0
-                          )}
-                        </td>
-                        <td>
-                          {_fixedPoint(
-                            gridData?.data?.reduce(
-                              (a, b) => a + b?.totalReturnAmount,
-                              0
-                            ),
-                            true
-                          )}
-                        </td>
-                        <td colSpan={3}></td>
-                      </tr>
-                    </tbody>
-                  </table>
+                      </tbody>
+                    </table>{" "}
+                  </div>
                 )}
               </form>
               <IViewModal

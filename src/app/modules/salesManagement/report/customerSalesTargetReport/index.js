@@ -266,225 +266,231 @@ const CustomerSalesTargetReport = () => {
 
               {/* Table Start */}
               {rowDto?.objdata?.length > 0 && (
-                <table className="table table-striped table-bordered global-table">
-                  <thead>
-                    <tr>
-                      <th style={{ width: "30px" }}>SL</th>
-                      {values?.reportType?.value === 1 && (
-                        <>
-                          <th>Partner Code</th>
-                          <th>Partner Name</th>
-                          <th>Distribution Channel</th>
-                        </>
-                      )}
-                      <th>Region</th>
-                      {[1, 3].includes(values?.reportType?.value) && (
-                        <th>Area</th>
-                      )}
-                      {values?.reportType?.value === 1 && <th>Territory</th>}
-                      <th>Target Year</th>
-                      <th>Target Month</th>
-                      {values?.reportType?.value === 1 &&
-                        selectedBusinessUnit?.value !== 4 && (
-                          <>
-                            <th>Target Start Date</th>
-                            <th>Target End Date</th>
-                          </>
-                        )}
-                      <th style={{ width: "150px" }}>Target Quantity</th>
-                      <th>Addition Qty</th>
-                      <th>Deduction Qty</th>
-                      <th>isApprove</th>
-                      <th>Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {rowDto?.objdata?.map((td, index) => (
-                      <tr key={index}>
-                        <td className="text-center">{td?.sl}</td>
+                <div className="table-responsive">
+                  <table className="table table-striped table-bordered global-table">
+                    <thead>
+                      <tr>
+                        <th style={{ width: "30px" }}>SL</th>
                         {values?.reportType?.value === 1 && (
                           <>
-                            <td>
-                              <div className="pl-2">
-                                {td?.businessPartnerCode}
-                              </div>
-                            </td>
-                            <td>
-                              <div className="pl-2">
-                                {td?.businessPartnerName}
-                              </div>
-                            </td>
-                            <td>
-                              <div className="pl-2">
-                                {td?.distributionChannelName}
-                              </div>
-                            </td>
+                            <th>Partner Code</th>
+                            <th>Partner Name</th>
+                            <th>Distribution Channel</th>
                           </>
                         )}
-                        <td>
-                          <div className="pl-2">{td?.nl5}</div>
-                        </td>
+                        <th>Region</th>
                         {[1, 3].includes(values?.reportType?.value) && (
-                          <td>
-                            <div className="pl-2">{td?.nl6}</div>
-                          </td>
+                          <th>Area</th>
                         )}
-                        {values?.reportType?.value === 1 && (
-                          <td>
-                            <div className="pl-2">{td?.nl7}</div>
-                          </td>
-                        )}
-                        <td>
-                          <div className="pl-2">{td?.targetYear}</div>
-                        </td>
-                        <td>
-                          <div className="pl-2">
-                            {getMonth(td?.targetMonth)}
-                          </div>
-                        </td>
+                        {values?.reportType?.value === 1 && <th>Territory</th>}
+                        <th>Target Year</th>
+                        <th>Target Month</th>
                         {values?.reportType?.value === 1 &&
                           selectedBusinessUnit?.value !== 4 && (
                             <>
+                              <th>Target Start Date</th>
+                              <th>Target End Date</th>
+                            </>
+                          )}
+                        <th style={{ width: "150px" }}>Target Quantity</th>
+                        <th>Addition Qty</th>
+                        <th>Deduction Qty</th>
+                        <th>isApprove</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {rowDto?.objdata?.map((td, index) => (
+                        <tr key={index}>
+                          <td className="text-center">{td?.sl}</td>
+                          {values?.reportType?.value === 1 && (
+                            <>
                               <td>
                                 <div className="pl-2">
-                                  {_dateFormatter(td?.targetStartDate)}
+                                  {td?.businessPartnerCode}
                                 </div>
                               </td>
                               <td>
                                 <div className="pl-2">
-                                  {_dateFormatter(td?.targetEndDate)}
+                                  {td?.businessPartnerName}
+                                </div>
+                              </td>
+                              <td>
+                                <div className="pl-2">
+                                  {td?.distributionChannelName}
                                 </div>
                               </td>
                             </>
                           )}
-                        <td className="text-right">
-                          <div className="pl-2">
-                            {td?.isEdit ? (
-                              <InputField
-                                value={td?.editedTargetQuantity}
-                                name="editedTargetQuantity"
-                                placeholder="Date"
-                                type="number"
-                                onChange={(e) => {
-                                  rowDataHandler(
-                                    "editedTargetQuantity",
-                                    index,
-                                    e.target.value
-                                  );
-                                }}
-                              />
-                            ) : (
-                              _fixedPoint(td?.targetQuantity)
+                          <td>
+                            <div className="pl-2">{td?.nl5}</div>
+                          </td>
+                          {[1, 3].includes(values?.reportType?.value) && (
+                            <td>
+                              <div className="pl-2">{td?.nl6}</div>
+                            </td>
+                          )}
+                          {values?.reportType?.value === 1 && (
+                            <td>
+                              <div className="pl-2">{td?.nl7}</div>
+                            </td>
+                          )}
+                          <td>
+                            <div className="pl-2">{td?.targetYear}</div>
+                          </td>
+                          <td>
+                            <div className="pl-2">
+                              {getMonth(td?.targetMonth)}
+                            </div>
+                          </td>
+                          {values?.reportType?.value === 1 &&
+                            selectedBusinessUnit?.value !== 4 && (
+                              <>
+                                <td>
+                                  <div className="pl-2">
+                                    {_dateFormatter(td?.targetStartDate)}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="pl-2">
+                                    {_dateFormatter(td?.targetEndDate)}
+                                  </div>
+                                </td>
+                              </>
                             )}
-                          </div>
-                        </td>
-                        <td>
-                          <div className="pl-2">{td?.additionQuantity}</div>
-                        </td>
-                        <td>
-                          <div className="pl-2">{td?.deductionQuantity}</div>
-                        </td>
-                        <td>
-                          <div className="pl-2">
-                            {td?.isApprove ? "Yes" : "No"}
-                          </div>
-                        </td>
-                        <td className="text-center">
-                          {!td?.isEdit ? (
-                            <span
-                              className="cursor-pointer"
-                              onClick={() => {
-                                rowDataHandler("isEdit", index, true);
-                              }}
-                            >
-                              <IEdit />
-                            </span>
-                          ) : (
-                            <span className="d-flex justify-content-between">
+                          <td className="text-right">
+                            <div className="pl-2">
+                              {td?.isEdit ? (
+                                <InputField
+                                  value={td?.editedTargetQuantity}
+                                  name="editedTargetQuantity"
+                                  placeholder="Date"
+                                  type="number"
+                                  onChange={(e) => {
+                                    rowDataHandler(
+                                      "editedTargetQuantity",
+                                      index,
+                                      e.target.value
+                                    );
+                                  }}
+                                />
+                              ) : (
+                                _fixedPoint(td?.targetQuantity)
+                              )}
+                            </div>
+                          </td>
+                          <td>
+                            <div className="pl-2">{td?.additionQuantity}</div>
+                          </td>
+                          <td>
+                            <div className="pl-2">{td?.deductionQuantity}</div>
+                          </td>
+                          <td>
+                            <div className="pl-2">
+                              {td?.isApprove ? "Yes" : "No"}
+                            </div>
+                          </td>
+                          <td className="text-center">
+                            {!td?.isEdit ? (
                               <span
                                 className="cursor-pointer"
                                 onClick={() => {
-                                  rowDataHandler("isEdit", index, false);
+                                  rowDataHandler("isEdit", index, true);
                                 }}
                               >
-                                <IClose title="Cancel" />
+                                <IEdit />
                               </span>
-                              <span
-                                onClick={() => {
-                                  const additionQnt =
-                                    td?.targetQuantity <
-                                    td?.editedTargetQuantity
-                                      ? td?.editedTargetQuantity -
-                                        td?.targetQuantity
-                                      : 0;
+                            ) : (
+                              <span className="d-flex justify-content-between">
+                                <span
+                                  className="cursor-pointer"
+                                  onClick={() => {
+                                    rowDataHandler("isEdit", index, false);
+                                  }}
+                                >
+                                  <IClose title="Cancel" />
+                                </span>
+                                <span
+                                  onClick={() => {
+                                    const additionQnt =
+                                      td?.targetQuantity <
+                                      td?.editedTargetQuantity
+                                        ? td?.editedTargetQuantity -
+                                          td?.targetQuantity
+                                        : 0;
 
-                                  const deductionQnt =
-                                    td?.targetQuantity >
-                                    td?.editedTargetQuantity
-                                      ? td?.targetQuantity -
-                                        td?.editedTargetQuantity
-                                      : 0;
+                                    const deductionQnt =
+                                      td?.targetQuantity >
+                                      td?.editedTargetQuantity
+                                        ? td?.targetQuantity -
+                                          td?.editedTargetQuantity
+                                        : 0;
 
-                                  editSalesTarget(
-                                    {
-                                      businessUnitId:
-                                        selectedBusinessUnit?.value,
-                                      targetId: td?.targetId,
-                                      intTargetRowId: td?.intTargetRowId,
-                                      targetQty: +td?.editedTargetQuantity,
-                                      actionid: profileData?.employeeId,
-                                      enroleid: profileData?.userId,
-                                      additionQnt,
-                                      deductionQnt,
-                                    },
-                                    setLoading,
-                                    () => {
-                                      commonGridFunc(values, pageNo, pageSize);
-                                      rowDataHandler("isEdit", index, false);
-                                    }
-                                  );
-                                }}
-                              >
-                                <IApproval title="Done" />
+                                    editSalesTarget(
+                                      {
+                                        businessUnitId:
+                                          selectedBusinessUnit?.value,
+                                        targetId: td?.targetId,
+                                        intTargetRowId: td?.intTargetRowId,
+                                        targetQty: +td?.editedTargetQuantity,
+                                        actionid: profileData?.employeeId,
+                                        enroleid: profileData?.userId,
+                                        additionQnt,
+                                        deductionQnt,
+                                      },
+                                      setLoading,
+                                      () => {
+                                        commonGridFunc(
+                                          values,
+                                          pageNo,
+                                          pageSize
+                                        );
+                                        rowDataHandler("isEdit", index, false);
+                                      }
+                                    );
+                                  }}
+                                >
+                                  <IApproval title="Done" />
+                                </span>
                               </span>
-                            </span>
+                            )}
+                          </td>
+                        </tr>
+                      ))}
+                      <tr style={{ fontWeight: "bold" }}>
+                        <td
+                          className="text-right"
+                          colSpan={
+                            values?.reportType?.value === 1 &&
+                            selectedBusinessUnit?.value !== 4
+                              ? 11
+                              : values?.reportType?.value === 1 &&
+                                selectedBusinessUnit?.value === 4
+                              ? 9
+                              : values?.reportType?.value === 3
+                              ? 5
+                              : 4
+                          }
+                        >
+                          Total
+                        </td>
+                        <td className="text-right">
+                          {_fixedPoint(
+                            rowDto?.objdata?.reduce(
+                              (a, b) => a + b?.targetQuantity,
+                              0
+                            ),
+                            true,
+                            0
                           )}
                         </td>
+                        <td></td>
+                        <td></td>
+                        <td colSpan={2}></td>
                       </tr>
-                    ))}
-                    <tr style={{ fontWeight: "bold" }}>
-                      <td
-                        className="text-right"
-                        colSpan={
-                          values?.reportType?.value === 1 &&
-                          selectedBusinessUnit?.value !== 4
-                            ? 11
-                            : values?.reportType?.value === 1 &&
-                              selectedBusinessUnit?.value === 4
-                            ? 9
-                            : values?.reportType?.value === 3
-                            ? 5
-                            : 4
-                        }
-                      >
-                        Total
-                      </td>
-                      <td className="text-right">
-                        {_fixedPoint(
-                          rowDto?.objdata?.reduce(
-                            (a, b) => a + b?.targetQuantity,
-                            0
-                          ),
-                          true,
-                          0
-                        )}
-                      </td>
-                      <td></td>
-                      <td></td>
-                      <td colSpan={2}></td>
-                    </tr>
-                  </tbody>
-                </table>
+                    </tbody>
+                  </table>{" "}
+                </div>
               )}
               {rowDto?.objdata?.length > 0 && (
                 <PaginationTable

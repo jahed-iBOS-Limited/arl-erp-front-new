@@ -113,38 +113,31 @@ const GridData = () => {
 
   return (
     <>
-      <div
-        style={{
-          paddingBottom: "8px",
-          marginLeft: "-13px",
-          paddingLeft: ".50rem",
-          paddingRight: ".50rem",
-          width: "max-content",
-        }}
-        className="d-flex mt-3 bank-journal bank-journal-custom bj-left expenseRegister"
-      >
-        {/* Header Start */}
-        <div style={{ width: "175px" }} className="mr-4">
-          <label>Plant Name</label>
-          <Select
-            onChange={(valueOption) => {
-              dispatch(setPlantNameAction(valueOption));
-              getPurchaseClearPagination_api(
-                selectedBusinessUnit?.value,
-                valueOption?.value,
-                profileData?.accountId,
-                setGridData,
-                setLoading,
-                pageNo,
-                pageSize
-              );
-            }}
-            value={plantNameInitData}
-            options={plantDDL || []}
-            isSearchable={true}
-            styles={customStyles}
-            name={plantDDL}
-          />
+      <div className="global-form">
+        <div className="row">
+          <div className="col-lg-4">
+            {/* Header Start */}
+            <label>Plant Name</label>
+            <Select
+              onChange={(valueOption) => {
+                dispatch(setPlantNameAction(valueOption));
+                getPurchaseClearPagination_api(
+                  selectedBusinessUnit?.value,
+                  valueOption?.value,
+                  profileData?.accountId,
+                  setGridData,
+                  setLoading,
+                  pageNo,
+                  pageSize
+                );
+              }}
+              value={plantNameInitData}
+              options={plantDDL || []}
+              isSearchable={true}
+              styles={customStyles}
+              name={plantDDL}
+            />
+          </div>
         </div>
       </div>
       <div className="row cash_journal">

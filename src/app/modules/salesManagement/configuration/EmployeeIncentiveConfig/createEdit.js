@@ -1,28 +1,28 @@
-import { Form, Formik } from 'formik';
-import React, { useEffect, useState } from 'react';
-import { shallowEqual, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import IForm from '../../../_helper/_form';
-import IDelete from '../../../_helper/_helperIcons/_delete';
-import InputField from '../../../_helper/_inputField';
-import Loading from '../../../_helper/_loading';
-import NewSelect from '../../../_helper/_select';
-import AttachmentUploaderNew from '../../../_helper/attachmentUploaderNew';
-import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
-import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
-import { employeeIncentiveValidationSchema } from './helper';
+import { Form, Formik } from "formik";
+import React, { useEffect, useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import IForm from "../../../_helper/_form";
+import IDelete from "../../../_helper/_helperIcons/_delete";
+import InputField from "../../../_helper/_inputField";
+import Loading from "../../../_helper/_loading";
+import NewSelect from "../../../_helper/_select";
+import AttachmentUploaderNew from "../../../_helper/attachmentUploaderNew";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
+import { employeeIncentiveValidationSchema } from "./helper";
 const initData = {
-  salesOrganization: '',
-  distributionChannel: '',
-  incentiveOn: '',
-  calculation: '',
-  effectiveFromDate: '',
-  effectiveToDate: '',
-  basedOn: '',
-  fromSlab: '',
-  toSlab: '',
-  incentive: '',
+  salesOrganization: "",
+  distributionChannel: "",
+  incentiveOn: "",
+  calculation: "",
+  effectiveFromDate: "",
+  effectiveToDate: "",
+  basedOn: "",
+  fromSlab: "",
+  toSlab: "",
+  incentive: "",
 };
 
 export default function KeyRegisterLanding() {
@@ -58,7 +58,7 @@ export default function KeyRegisterLanding() {
           businessUnitId: buId,
           businessUnitName: buName,
           incentiveTypeId: 1, //hard coded entry order by hussain vai
-          incentiveTypename: 'Sales', //hard coded entry order by hussain vai
+          incentiveTypename: "Sales", //hard coded entry order by hussain vai
           salesOrganizationId: values?.salesOrganization?.value,
           salesOrganizationName: values?.salesOrganization?.label,
           distributionChannelId: values?.distributionChannel?.value,
@@ -67,7 +67,7 @@ export default function KeyRegisterLanding() {
           incentiveOnName: values?.incentiveOn?.label,
           calculationById: values?.calculation?.value,
           calculationByName: values?.calculation?.label,
-          attachment: attachmentList[0]?.id || '',
+          attachment: attachmentList[0]?.id || "",
           fromDate: values?.effectiveFromDate,
           toDate: values?.effectiveToDate,
           actionById: actionById,
@@ -81,7 +81,7 @@ export default function KeyRegisterLanding() {
         () => {
           setRowDto([]);
         },
-        true,
+        true
       );
     }
   };
@@ -92,11 +92,11 @@ export default function KeyRegisterLanding() {
         item?.strbasedOnName === values?.basedOn?.label &&
         item?.fromSlabNum === +values?.fromSlab &&
         item?.toSlabNum === +values?.toSlab &&
-        item?.incentiveNum === +values?.incentive,
+        item?.incentiveNum === +values?.incentive
     );
 
     if (findData) {
-      return toast.warn('Duplicate Data');
+      return toast.warn("Duplicate Data");
     } else {
       const item = {
         incentiveConfigRowId: 0,
@@ -108,10 +108,10 @@ export default function KeyRegisterLanding() {
         calculation: values?.calculation?.label,
       };
       setRowDto([...rowDto, item]);
-      setFieldValue('basedOn', '');
-      setFieldValue('fromSlab', '');
-      setFieldValue('toSlab', '');
-      setFieldValue('incentive', '');
+      setFieldValue("basedOn", "");
+      setFieldValue("fromSlab", "");
+      setFieldValue("toSlab", "");
+      setFieldValue("incentive", "");
     }
   };
 
@@ -123,10 +123,10 @@ export default function KeyRegisterLanding() {
 
   useEffect(() => {
     getSalesOrganizationDDL(
-      `/oms/SalesOrganization/GetSalesOrganizationByUnitIdDDL?AccountId=${accId}&BusinessUnitId=${buId}`,
+      `/oms/SalesOrganization/GetSalesOrganizationByUnitIdDDL?AccountId=${accId}&BusinessUnitId=${buId}`
     );
     getDistributionChannelDDL(
-      `/oms/DistributionChannel/GetDistributionChannelDDL?AccountId=${accId}&BUnitId=${buId}`,
+      `/oms/DistributionChannel/GetDistributionChannelDDL?AccountId=${accId}&BUnitId=${buId}`
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accId, buId]);
@@ -163,7 +163,7 @@ export default function KeyRegisterLanding() {
                     value={values?.salesOrganization}
                     label="Sales Organization"
                     onChange={(valueOption) => {
-                      setFieldValue('salesOrganization', valueOption);
+                      setFieldValue("salesOrganization", valueOption);
                     }}
                     errors={errors}
                     touched={touched}
@@ -176,7 +176,7 @@ export default function KeyRegisterLanding() {
                     value={values?.distributionChannel}
                     label="Distribution Channel"
                     onChange={(valueOption) => {
-                      setFieldValue('distributionChannel', valueOption);
+                      setFieldValue("distributionChannel", valueOption);
                     }}
                     errors={errors}
                     touched={touched}
@@ -188,29 +188,29 @@ export default function KeyRegisterLanding() {
                       <NewSelect
                         name="incentiveOn"
                         options={[
-                          { label: 'Basic', value: 1 },
-                          { label: 'Fixed Amount', value: 2 },
+                          { label: "Basic", value: 1 },
+                          { label: "Fixed Amount", value: 2 },
                         ]}
                         value={values?.incentiveOn}
                         label="Incentive On"
                         onChange={(valueOption) => {
                           if (valueOption) {
-                            setFieldValue('incentiveOn', valueOption);
+                            setFieldValue("incentiveOn", valueOption);
                             if (valueOption?.value === 1) {
-                              setFieldValue('calculation', {
-                                label: 'Percentage',
+                              setFieldValue("calculation", {
+                                label: "Percentage",
                                 value: 1,
                               });
                             }
                             if (valueOption?.value === 2) {
-                              setFieldValue('calculation', {
-                                label: 'Amount',
+                              setFieldValue("calculation", {
+                                label: "Amount",
                                 value: 2,
                               });
                             }
                           } else {
-                            setFieldValue('incentiveOn', '');
-                            setFieldValue('calculation', '');
+                            setFieldValue("incentiveOn", "");
+                            setFieldValue("calculation", "");
                           }
                         }}
                         errors={errors}
@@ -221,13 +221,13 @@ export default function KeyRegisterLanding() {
                       <NewSelect
                         name="calculation"
                         options={[
-                          { label: 'Percentage', value: 1 },
-                          { label: 'Amount', value: 2 },
+                          { label: "Percentage", value: 1 },
+                          { label: "Amount", value: 2 },
                         ]}
                         value={values?.calculation}
                         label="Calculate By"
                         onChange={(valueOption) => {
-                          setFieldValue('calculation', valueOption);
+                          setFieldValue("calculation", valueOption);
                         }}
                         isDisabled={true}
                         errors={errors}
@@ -243,7 +243,7 @@ export default function KeyRegisterLanding() {
                     name="effectiveFromDate"
                     type="date"
                     onChange={(e) => {
-                      setFieldValue('effectiveFromDate', e.target.value);
+                      setFieldValue("effectiveFromDate", e.target.value);
                     }}
                   />
                 </div>
@@ -254,7 +254,7 @@ export default function KeyRegisterLanding() {
                     name="effectiveToDate"
                     type="date"
                     onChange={(e) => {
-                      setFieldValue('effectiveToDate', e.target.value);
+                      setFieldValue("effectiveToDate", e.target.value);
                     }}
                   />
                 </div>
@@ -274,11 +274,11 @@ export default function KeyRegisterLanding() {
                   <div className="col-lg-2">
                     <NewSelect
                       name="basedOn"
-                      options={[{ label: 'Achievement', value: 1 }]}
+                      options={[{ label: "Achievement", value: 1 }]}
                       value={values?.basedOn}
                       label="Based On"
                       onChange={(valueOption) => {
-                        setFieldValue('basedOn', valueOption);
+                        setFieldValue("basedOn", valueOption);
                       }}
                       errors={errors}
                       touched={touched}
@@ -292,9 +292,9 @@ export default function KeyRegisterLanding() {
                       label="From Slab"
                       onChange={(e) => {
                         if (+e.target.value < 0) {
-                          setFieldValue('fromSlab', '');
+                          setFieldValue("fromSlab", "");
                         } else {
-                          setFieldValue('fromSlab', e.target.value);
+                          setFieldValue("fromSlab", e.target.value);
                         }
                       }}
                     />
@@ -307,9 +307,9 @@ export default function KeyRegisterLanding() {
                       label="To Slab"
                       onChange={(e) => {
                         if (+e.target.value < 0) {
-                          setFieldValue('toSlab', '');
+                          setFieldValue("toSlab", "");
                         } else {
-                          setFieldValue('toSlab', e.target.value);
+                          setFieldValue("toSlab", e.target.value);
                         }
                       }}
                     />
@@ -321,17 +321,17 @@ export default function KeyRegisterLanding() {
                       type="number"
                       label={`Incentive(${
                         values?.calculation?.value === 1
-                          ? '%'
+                          ? "%"
                           : values?.calculation?.value === 2
-                          ? 'Amount'
-                          : ''
+                          ? "Amount"
+                          : ""
                       })`}
                       pattern="^\d+$"
                       onChange={(e) => {
                         if (+e.target.value < 0) {
-                          setFieldValue('incentive', '');
+                          setFieldValue("incentive", "");
                         } else {
-                          setFieldValue('incentive', e.target.value);
+                          setFieldValue("incentive", e.target.value);
                         }
                       }}
                     />
@@ -356,59 +356,61 @@ export default function KeyRegisterLanding() {
                 </div>
               )}
               <div className="">
-                <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
-                  <thead>
-                    <tr>
-                      <th>SL</th>
-                      <th>Based On</th>
-                      <th>From Slab</th>
-                      <th>To Slab</th>
-                      <th>Incentive</th>
-                      <th>Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {rowDto?.length > 0 &&
-                      rowDto?.map((item, index) => (
-                        <tr key={index}>
-                          <td className="text-center">{index + 1}</td>
-                          <td className="text-center">{item?.basedOn}</td>
-                          <td className="text-center">{item?.fromSlab}</td>
-                          <td className="text-center">{item?.toSlab}</td>
-                          <td className="text-center">
-                            {item?.incentivePercentage}
-                            {item?.calculation === 'Percentage' ? '%' : ''}
-                          </td>
-                          <td className="text-center">
-                            <span
-                              onClick={() => {
-                                handleRowDelete(index);
-                              }}
-                            >
-                              <IDelete />
-                            </span>
-                          </td>
-                        </tr>
-                      ))}
-                  </tbody>
-                </table>
+                <div className="table-responsive">
+                  <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
+                    <thead>
+                      <tr>
+                        <th>SL</th>
+                        <th>Based On</th>
+                        <th>From Slab</th>
+                        <th>To Slab</th>
+                        <th>Incentive</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {rowDto?.length > 0 &&
+                        rowDto?.map((item, index) => (
+                          <tr key={index}>
+                            <td className="text-center">{index + 1}</td>
+                            <td className="text-center">{item?.basedOn}</td>
+                            <td className="text-center">{item?.fromSlab}</td>
+                            <td className="text-center">{item?.toSlab}</td>
+                            <td className="text-center">
+                              {item?.incentivePercentage}
+                              {item?.calculation === "Percentage" ? "%" : ""}
+                            </td>
+                            <td className="text-center">
+                              <span
+                                onClick={() => {
+                                  handleRowDelete(index);
+                                }}
+                              >
+                                <IDelete />
+                              </span>
+                            </td>
+                          </tr>
+                        ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
               <button
                 type="submit"
-                style={{ display: 'none' }}
+                style={{ display: "none" }}
                 ref={objProps?.btnRef}
                 onSubmit={() => {
                   if (loadIncentive?.length > 0) {
                     handleSubmit();
                   } else {
-                    toast.warn('Add Minimum One Data');
+                    toast.warn("Add Minimum One Data");
                   }
                 }}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: 'none' }}
+                style={{ display: "none" }}
                 ref={objProps?.resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

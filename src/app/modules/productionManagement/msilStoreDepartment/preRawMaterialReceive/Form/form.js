@@ -174,52 +174,56 @@ export default function PreRawMaterialReceiveForm({
 
               <div style={{ marginTop: "15px" }}>
                 <div>
-                  <table className="table table-striped table-bordered global-table">
-                    <thead>
-                      <tr>
-                        <th style={{ width: "50px" }}>SL</th>
-                        <th>Item Name</th>
-                        <th>UoM</th>
-                        <th>Receive Qty</th>
-                        <th>Less Qty</th>
-                        <th>Over Size Qty</th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {itemList?.length > 0 &&
-                        itemList.map((item, index) => (
-                          <tr key={index}>
-                            <td>{index + 1}</td>
-                            <td>{item?.strItemName}</td>
-                            <td>{item?.strUoMname}</td>
-                            <td className="text-center">
-                              {item?.numReceiveQty}
-                            </td>
-                            <td className="text-center">{item?.numLessQty}</td>
-                            <td className="text-center">
-                              {item?.numOverSizeQty}
-                            </td>
-                            <td className="text-center">
-                              <OverlayTrigger
-                                overlay={
-                                  <Tooltip id="cs-icon">{"Remove"}</Tooltip>
-                                }
-                              >
-                                <span>
-                                  <i
-                                    className={`fa fa-trash`}
-                                    onClick={() => {
-                                      removeHandler(index);
-                                    }}
-                                  ></i>
-                                </span>
-                              </OverlayTrigger>
-                            </td>
-                          </tr>
-                        ))}
-                    </tbody>
-                  </table>
+                  <div className="table-responsive">
+                    <table className="table table-striped table-bordered global-table">
+                      <thead>
+                        <tr>
+                          <th style={{ width: "50px" }}>SL</th>
+                          <th>Item Name</th>
+                          <th>UoM</th>
+                          <th>Receive Qty</th>
+                          <th>Less Qty</th>
+                          <th>Over Size Qty</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {itemList?.length > 0 &&
+                          itemList.map((item, index) => (
+                            <tr key={index}>
+                              <td>{index + 1}</td>
+                              <td>{item?.strItemName}</td>
+                              <td>{item?.strUoMname}</td>
+                              <td className="text-center">
+                                {item?.numReceiveQty}
+                              </td>
+                              <td className="text-center">
+                                {item?.numLessQty}
+                              </td>
+                              <td className="text-center">
+                                {item?.numOverSizeQty}
+                              </td>
+                              <td className="text-center">
+                                <OverlayTrigger
+                                  overlay={
+                                    <Tooltip id="cs-icon">{"Remove"}</Tooltip>
+                                  }
+                                >
+                                  <span>
+                                    <i
+                                      className={`fa fa-trash`}
+                                      onClick={() => {
+                                        removeHandler(index);
+                                      }}
+                                    ></i>
+                                  </span>
+                                </OverlayTrigger>
+                              </td>
+                            </tr>
+                          ))}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
 

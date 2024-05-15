@@ -18,7 +18,7 @@ const validationSchema = Yup.object().shape({
     label: Yup.string().required("Territory type is required"),
     value: Yup.string().required("Territory type is required"),
   }),
-  
+
   // territory: Yup.object().shape({
   //   label: Yup.string().required("Territory is required"),
   //   value: Yup.string().required("Territory is required"),
@@ -183,25 +183,33 @@ export default function _Form({
                   </p>
                 </div>
 
-                {[7].includes(values?.territoryType?.levelPosition) &&  <div className="col-lg-3">
-                        <NewSelect
-                          name="salesForceType"
-                          options={[
-                            {value:"TSO", label:"TSO"},
-                            {value: "TerritoryManager", label:"Territory Manager"},
-                            {value:"ProductServiceEngineer", label:"Product Service Engineer"},
-                          ]}
-                          value={values?.salesForceType}
-                          label="SalesForce Type"
-                          onChange={(valueOption) => {
-                            setFieldValue("salesForceType", valueOption);
-                            setRowDto([]);
-                          }}
-                          placeholder="SalesForce Type"
-                          errors={errors}
-                          touched={touched}
-                        />
-                      </div>}
+                {[7].includes(values?.territoryType?.levelPosition) && (
+                  <div className="col-lg-3">
+                    <NewSelect
+                      name="salesForceType"
+                      options={[
+                        { value: "TSO", label: "TSO" },
+                        {
+                          value: "TerritoryManager",
+                          label: "Territory Manager",
+                        },
+                        {
+                          value: "ProductServiceEngineer",
+                          label: "Product Service Engineer",
+                        },
+                      ]}
+                      value={values?.salesForceType}
+                      label="SalesForce Type"
+                      onChange={(valueOption) => {
+                        setFieldValue("salesForceType", valueOption);
+                        setRowDto([]);
+                      }}
+                      placeholder="SalesForce Type"
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
+                )}
 
                 <>
                   {["area", "region", "territory", "point"].includes(
@@ -439,7 +447,7 @@ export default function _Form({
                         email: values.employee.email,
                         employeeCode: values?.employee?.code,
                         channelId: values?.distributionChannel?.value,
-                        salesForceType:values?.salesForceType?.value || "",
+                        salesForceType: values?.salesForceType?.value || "",
                       };
 
                       if (!obj?.territoryId) {
@@ -447,8 +455,11 @@ export default function _Form({
                           "Please select territory or area or region or point"
                         );
                       }
-                      if([7].includes(values?.territoryType?.levelPosition) && !obj?.salesForceType){
-                        return toast.warn("Please Select SalesForce Type")
+                      if (
+                        [7].includes(values?.territoryType?.levelPosition) &&
+                        !obj?.salesForceType
+                      ) {
+                        return toast.warn("Please Select SalesForce Type");
                       }
                       setter(obj);
                     }}
@@ -464,39 +475,41 @@ export default function _Form({
               <div className="row">
                 <div className="col">
                   {rowDto.length ? (
-                    <table className="table table-striped table-bordered">
-                      <thead>
-                        <tr>
-                          <th>Sl</th>
-                          <th>
-                            {getTerritoryNameForRowTableHeaderLabel(values) ||
-                              "Territory Name"}
-                          </th>
-                          <th>Sales Person</th>
-                          <th>Email</th>
-                          <th>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {rowDto.map((itm, idx) => (
+                    <div className="table-responsive">
+                      <table className="table table-striped table-bordered">
+                        <thead>
                           <tr>
-                            <td>{idx + 1}</td>
-                            <td>{itm.territoryName}</td>
-                            <td>{`${itm.employeeName}-${itm.employeeCode}`}</td>
-                            <td>{itm.email}</td>
-                            <td className="text-center">
-                              <span>
-                                <i
-                                  onClick={() => remover(itm.employeeId)}
-                                  className="fa fa-trash deleteBtn"
-                                  aria-hidden="true"
-                                ></i>
-                              </span>
-                            </td>
+                            <th>Sl</th>
+                            <th>
+                              {getTerritoryNameForRowTableHeaderLabel(values) ||
+                                "Territory Name"}
+                            </th>
+                            <th>Sales Person</th>
+                            <th>Email</th>
+                            <th>Action</th>
                           </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                        </thead>
+                        <tbody>
+                          {rowDto.map((itm, idx) => (
+                            <tr>
+                              <td>{idx + 1}</td>
+                              <td>{itm.territoryName}</td>
+                              <td>{`${itm.employeeName}-${itm.employeeCode}`}</td>
+                              <td>{itm.email}</td>
+                              <td className="text-center">
+                                <span>
+                                  <i
+                                    onClick={() => remover(itm.employeeId)}
+                                    className="fa fa-trash deleteBtn"
+                                    aria-hidden="true"
+                                  ></i>
+                                </span>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>{" "}
+                    </div>
                   ) : (
                     ""
                   )}

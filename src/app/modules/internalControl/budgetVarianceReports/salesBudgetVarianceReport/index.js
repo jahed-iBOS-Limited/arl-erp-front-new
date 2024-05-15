@@ -154,7 +154,10 @@ const BudgetVsSalesVarient = () => {
                         style={{ marginTop: "20px" }}
                         className="btn btn-primary ml-2"
                         disabled={
-                          !values?.currentBusinessUnit || !values?.profitCenter || !values?.fromDate || !values?.toDate
+                          !values?.currentBusinessUnit ||
+                          !values?.profitCenter ||
+                          !values?.fromDate ||
+                          !values?.toDate
                         }
                         onClick={() => {
                           getRowData(
@@ -177,139 +180,154 @@ const BudgetVsSalesVarient = () => {
                           {getMonth(values?.monthId)}-{values?.yearId}
                         </h5>
                       </div>
-                      <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
-                        <thead>
-                          <tr>
-                            <th rowSpan={2} style={{ width: "30px" }}>
-                              SL
-                            </th>
-                            <th rowSpan={2}>Item Code</th>
-                            <th rowSpan={2}>Item Name</th>
-                            <th rowSpan={2}>Uom</th>
-                            <th colSpan={4}>Volume (MT)</th>
-                            <th colSpan={4}>Value (Tk.)</th>
-                          </tr>
-                          <tr>
-                            <th>Budget</th>
-                            <th>Actual</th>
-                            <th>Variance</th>
-                            <th>Variance %</th>
-                            <th>Budget</th>
-                            <th>Actual</th>
-                            <th>Variance</th>
-                            <th>Variance %</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {rowData?.map((item, index) => (
-                            <tr key={index}>
-                              <td>{index + 1}</td>
-                              <td className="text-center">
-                                {item?.strItemCode}
-                              </td>
-                              <td>{item?.strItemName}</td>
-                              <td>{item?.strUomName}</td>
-
-                              <td className="text-center">
-                                {_formatMoney(item?.numBudgetQty.toFixed(2))}
-                              </td>
-                              <td className="text-center">
-                                {_formatMoney(item?.numSalesQty.toFixed(2))}
-                              </td>
-                              <td className="text-center">
-                                {_formatMoney(item?.varianceQnt.toFixed(2))}
-                              </td>
-                              <td className="text-center">
-                                {item?.numVarienceQtyPercentate?.toFixed(2)}
-                              </td>
-
-                              <td className="text-center">
-                                {_formatMoney(item?.numBudgetValue.toFixed(2))}
-                              </td>
-                              <td className="text-center">
-                                {_formatMoney(item?.numSalesValue.toFixed(2))}
-                              </td>
-                              <td className="text-center">
-                                {_formatMoney(item?.varianceValues.toFixed(2))}
-                              </td>
-                              <td className="text-center">
-                                {item?.numVarienceValuePercentate?.toFixed(2)}
-                              </td>
+                      <div className="table-responsive">
+                        <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+                          <thead>
+                            <tr>
+                              <th rowSpan={2} style={{ width: "30px" }}>
+                                SL
+                              </th>
+                              <th rowSpan={2}>Item Code</th>
+                              <th rowSpan={2}>Item Name</th>
+                              <th rowSpan={2}>Uom</th>
+                              <th colSpan={4}>Volume (MT)</th>
+                              <th colSpan={4}>Value (Tk.)</th>
                             </tr>
-                          ))}
-                          <tr>
-                            <td colSpan={4} className="text-center bold">
-                              Total
-                            </td>
-                            <td className="text-center bold">
-                              {rowData
-                                ?.reduce((a, b) => a + (b.numBudgetQty || 0), 0)
-                                .toFixed(2)}
-                            </td>
-                            <td className="text-center bold">
-                              {rowData
-                                ?.reduce((a, b) => a + (b.numSalesQty || 0), 0)
-                                .toFixed(2)}
-                            </td>
-                            <td className="text-center bold">
-                              {rowData
-                                ?.reduce((a, b) => a + (b.varianceQnt || 0), 0)
-                                .toFixed(2)}
-                            </td>
-                            <td className="text-center bold">
-                              {(
-                                (rowData?.reduce(
-                                  (a, b) => a + (b.varianceQnt || 0),
-                                  0
-                                ) /
-                                  rowData?.reduce(
+                            <tr>
+                              <th>Budget</th>
+                              <th>Actual</th>
+                              <th>Variance</th>
+                              <th>Variance %</th>
+                              <th>Budget</th>
+                              <th>Actual</th>
+                              <th>Variance</th>
+                              <th>Variance %</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {rowData?.map((item, index) => (
+                              <tr key={index}>
+                                <td>{index + 1}</td>
+                                <td className="text-center">
+                                  {item?.strItemCode}
+                                </td>
+                                <td>{item?.strItemName}</td>
+                                <td>{item?.strUomName}</td>
+
+                                <td className="text-center">
+                                  {_formatMoney(item?.numBudgetQty.toFixed(2))}
+                                </td>
+                                <td className="text-center">
+                                  {_formatMoney(item?.numSalesQty.toFixed(2))}
+                                </td>
+                                <td className="text-center">
+                                  {_formatMoney(item?.varianceQnt.toFixed(2))}
+                                </td>
+                                <td className="text-center">
+                                  {item?.numVarienceQtyPercentate?.toFixed(2)}
+                                </td>
+
+                                <td className="text-center">
+                                  {_formatMoney(
+                                    item?.numBudgetValue.toFixed(2)
+                                  )}
+                                </td>
+                                <td className="text-center">
+                                  {_formatMoney(item?.numSalesValue.toFixed(2))}
+                                </td>
+                                <td className="text-center">
+                                  {_formatMoney(
+                                    item?.varianceValues.toFixed(2)
+                                  )}
+                                </td>
+                                <td className="text-center">
+                                  {item?.numVarienceValuePercentate?.toFixed(2)}
+                                </td>
+                              </tr>
+                            ))}
+                            <tr>
+                              <td colSpan={4} className="text-center bold">
+                                Total
+                              </td>
+                              <td className="text-center bold">
+                                {rowData
+                                  ?.reduce(
                                     (a, b) => a + (b.numBudgetQty || 0),
                                     0
-                                  )) *
-                                100
-                              ).toFixed(2)}
-                            </td>
+                                  )
+                                  .toFixed(2)}
+                              </td>
+                              <td className="text-center bold">
+                                {rowData
+                                  ?.reduce(
+                                    (a, b) => a + (b.numSalesQty || 0),
+                                    0
+                                  )
+                                  .toFixed(2)}
+                              </td>
+                              <td className="text-center bold">
+                                {rowData
+                                  ?.reduce(
+                                    (a, b) => a + (b.varianceQnt || 0),
+                                    0
+                                  )
+                                  .toFixed(2)}
+                              </td>
+                              <td className="text-center bold">
+                                {(
+                                  (rowData?.reduce(
+                                    (a, b) => a + (b.varianceQnt || 0),
+                                    0
+                                  ) /
+                                    rowData?.reduce(
+                                      (a, b) => a + (b.numBudgetQty || 0),
+                                      0
+                                    )) *
+                                  100
+                                ).toFixed(2)}
+                              </td>
 
-                            <td className="text-center bold">
-                              {rowData
-                                ?.reduce(
-                                  (a, b) => a + (b.numBudgetValue || 0),
-                                  0
-                                )
-                                .toFixed(2)}
-                            </td>
-                            <td className="text-center bold">
-                              {rowData
-                                ?.reduce(
-                                  (a, b) => a + (b.numSalesValue || 0),
-                                  0
-                                )
-                                .toFixed(2)}
-                            </td>
-                            <td className="text-center bold">
-                              {rowData
-                                ?.reduce(
-                                  (a, b) => a + (b.varianceValues || 0),
-                                  0
-                                )
-                                .toFixed(2)}
-                            </td>
-                            <td className="text-center bold">
-                              {(
-                                (rowData?.reduce(
-                                  (a, b) => a + (b.varianceValues || 0),
-                                  0
-                                ) /
-                                  rowData?.reduce(
+                              <td className="text-center bold">
+                                {rowData
+                                  ?.reduce(
                                     (a, b) => a + (b.numBudgetValue || 0),
                                     0
-                                  )) *
-                                100
-                              ).toFixed(2)}
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
+                                  )
+                                  .toFixed(2)}
+                              </td>
+                              <td className="text-center bold">
+                                {rowData
+                                  ?.reduce(
+                                    (a, b) => a + (b.numSalesValue || 0),
+                                    0
+                                  )
+                                  .toFixed(2)}
+                              </td>
+                              <td className="text-center bold">
+                                {rowData
+                                  ?.reduce(
+                                    (a, b) => a + (b.varianceValues || 0),
+                                    0
+                                  )
+                                  .toFixed(2)}
+                              </td>
+                              <td className="text-center bold">
+                                {(
+                                  (rowData?.reduce(
+                                    (a, b) => a + (b.varianceValues || 0),
+                                    0
+                                  ) /
+                                    rowData?.reduce(
+                                      (a, b) => a + (b.numBudgetValue || 0),
+                                      0
+                                    )) *
+                                  100
+                                ).toFixed(2)}
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
                     </div>
                   </div>
                 )}

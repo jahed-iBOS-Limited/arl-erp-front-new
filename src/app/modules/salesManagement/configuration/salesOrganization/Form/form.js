@@ -142,39 +142,43 @@ export default function _Form({
 
                     {/* table for add rowDto */}
                     {rowDto?.length ? (
-                      <table className="table table-striped table-bordered global-table">
-                        <thead>
-                          <tr>
-                            <th>SL</th>
-                            <th>Organization Name</th>
-                            <th>Business Unit</th>
-                            <th>SBU</th>
-                            <th>Action</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {rowDto.map((itm, idx) => {
-                            return (
-                              <tr key={itm?.businessUnitId}>
-                                <td>{idx + 1}</td>
-                                <td>{itm?.salesOrganizationName}</td>
-                                <td>{itm?.businessUnitName}</td>
-                                <td>{itm?.sbuname}</td>
-                                <td className="text-center">
-                                  <span
-                                    onClick={() => remover(itm?.businessUnitId)}
-                                  >
-                                    <i
-                                      className="fa fa-trash"
-                                      aria-hidden="true"
-                                    ></i>
-                                  </span>
-                                </td>
-                              </tr>
-                            );
-                          })}
-                        </tbody>
-                      </table>
+                      <div className="table-responsive">
+                        <table className="table table-striped table-bordered global-table">
+                          <thead>
+                            <tr>
+                              <th>SL</th>
+                              <th>Organization Name</th>
+                              <th>Business Unit</th>
+                              <th>SBU</th>
+                              <th>Action</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {rowDto.map((itm, idx) => {
+                              return (
+                                <tr key={itm?.businessUnitId}>
+                                  <td>{idx + 1}</td>
+                                  <td>{itm?.salesOrganizationName}</td>
+                                  <td>{itm?.businessUnitName}</td>
+                                  <td>{itm?.sbuname}</td>
+                                  <td className="text-center">
+                                    <span
+                                      onClick={() =>
+                                        remover(itm?.businessUnitId)
+                                      }
+                                    >
+                                      <i
+                                        className="fa fa-trash"
+                                        aria-hidden="true"
+                                      ></i>
+                                    </span>
+                                  </td>
+                                </tr>
+                              );
+                            })}
+                          </tbody>
+                        </table>
+                      </div>
                     ) : (
                       ""
                     )}

@@ -146,42 +146,44 @@ export default function _Form({
               </div>
 
               {rowDto?.length > 0 && (
-                <table className="table table-striped table-bordered mt-3">
-                  <thead>
-                    <tr>
-                      <th>SL</th>
-                      <th>Customer Code</th>
-                      <th>Customer Name</th>
-                      <th>Item Code</th>
-                      <th>Item Name</th>
-                      <th>UoM</th>
-                      <th>Region</th>
-                      <th>Area</th>
-                      <th>Territory</th>
-                      <th>Target Quantity</th>
-                      {/* <th>Rate</th>
+                <div className="table-responsive">
+                  <table className="table table-striped table-bordered mt-3">
+                    <thead>
+                      <tr>
+                        <th>SL</th>
+                        <th>Customer Code</th>
+                        <th>Customer Name</th>
+                        <th>Item Code</th>
+                        <th>Item Name</th>
+                        <th>UoM</th>
+                        <th>Region</th>
+                        <th>Area</th>
+                        <th>Territory</th>
+                        <th>Target Quantity</th>
+                        {/* <th>Rate</th>
                       <th>Target Amount</th> */}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {rowDto?.map((itm, index) => (
-                      <tr key={index}>
-                        <td className="text-center">{index + 1}</td>
-                        <td>{itm?.businessPartnerCode}</td>
-                        <td>{itm?.businessPartnerName}</td>
-                        <td className="text-center">{itm?.itemCode}</td>
-                        <td className="text-center">{itm?.itemName}</td>
-                        <td className="text-center">{itm?.uomname}</td>
-                        <td>{itm?.nl5}</td>
-                        <td>{itm?.nl6}</td>
-                        <td>{itm?.nl7}</td>
-                        <td className="text-center">{itm?.targetQuantity}</td>
-                        {/* <td className="text-center">{itm?.itemSalesRate}</td>
-                        <td className="text-center">{itm?.amount}</td> */}
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody>
+                      {rowDto?.map((itm, index) => (
+                        <tr key={index}>
+                          <td className="text-center">{index + 1}</td>
+                          <td>{itm?.businessPartnerCode}</td>
+                          <td>{itm?.businessPartnerName}</td>
+                          <td className="text-center">{itm?.itemCode}</td>
+                          <td className="text-center">{itm?.itemName}</td>
+                          <td className="text-center">{itm?.uomname}</td>
+                          <td>{itm?.nl5}</td>
+                          <td>{itm?.nl6}</td>
+                          <td>{itm?.nl7}</td>
+                          <td className="text-center">{itm?.targetQuantity}</td>
+                          {/* <td className="text-center">{itm?.itemSalesRate}</td>
+                        <td className="text-center">{itm?.amount}</td> */}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               )}
 
               <button

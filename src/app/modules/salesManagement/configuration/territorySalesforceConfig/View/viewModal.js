@@ -30,26 +30,28 @@ export default function ViewForm({ id, show, onHide }) {
         <div className="row">
           <div className="col">
             {modalData?.objRow?.length ? (
-              <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
-                <thead>
-                  <tr>
-                    <th>Sl</th>
-                    <th>Territory</th>
-                    <th>Sales Person</th>
-                    <th>Email</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {modalData?.objRow?.map((itm, idx) => (
+              <div className="table-responsive">
+                <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
+                  <thead>
                     <tr>
-                      <td>{idx + 1}</td>
-                      <td>{itm.territoryName}</td>
-                      <td>{`${itm.employeeName}-${itm.employeeCode}`}</td>
-                      <td>{itm.email}</td>
+                      <th>Sl</th>
+                      <th>Territory</th>
+                      <th>Sales Person</th>
+                      <th>Email</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {modalData?.objRow?.map((itm, idx) => (
+                      <tr>
+                        <td>{idx + 1}</td>
+                        <td>{itm.territoryName}</td>
+                        <td>{`${itm.employeeName}-${itm.employeeCode}`}</td>
+                        <td>{itm.email}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>{" "}
+              </div>
             ) : (
               <h3>No Data Found</h3>
             )}

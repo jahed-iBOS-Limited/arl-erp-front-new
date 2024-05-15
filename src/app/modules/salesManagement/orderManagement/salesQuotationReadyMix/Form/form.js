@@ -577,37 +577,41 @@ export default function _Form({
                 <div className="row cash_journal bank-journal bank-journal-custom">
                   <div className="col-lg-6 pr-0 pl-0">
                     {specTableData?.length >= 0 && (
-                      <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
-                        <thead>
-                          <tr>
-                            <th style={{ width: "35px" }}>SL</th>
-                            <th>Specification</th>
-                            <th>Value</th>
-                            <th>Item Id</th>
-                            {editItemOnChange && <th>Action</th>}
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {specTableData.map((itm, index) => (
-                            <tr key={itm.specificationId}>
-                              <td className="text-center">{index + 1}</td>
-                              <td className="pl-2">{itm.specification}</td>
-                              <td className="text-right pr-2">{itm.value}</td>
-                              <td className="text-right pr-2">{itm.itemId}</td>
-                              {editItemOnChange && (
-                                <td className="text-center">
-                                  <i
-                                    className="fa fa-trash"
-                                    onClick={() =>
-                                      removerTwo(index, itm.itemId)
-                                    }
-                                  ></i>
-                                </td>
-                              )}
+                      <div className="table-responsive">
+                        <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
+                          <thead>
+                            <tr>
+                              <th style={{ width: "35px" }}>SL</th>
+                              <th>Specification</th>
+                              <th>Value</th>
+                              <th>Item Id</th>
+                              {editItemOnChange && <th>Action</th>}
                             </tr>
-                          ))}
-                        </tbody>
-                      </table>
+                          </thead>
+                          <tbody>
+                            {specTableData.map((itm, index) => (
+                              <tr key={itm.specificationId}>
+                                <td className="text-center">{index + 1}</td>
+                                <td className="pl-2">{itm.specification}</td>
+                                <td className="text-right pr-2">{itm.value}</td>
+                                <td className="text-right pr-2">
+                                  {itm.itemId}
+                                </td>
+                                {editItemOnChange && (
+                                  <td className="text-center">
+                                    <i
+                                      className="fa fa-trash"
+                                      onClick={() =>
+                                        removerTwo(index, itm.itemId)
+                                      }
+                                    ></i>
+                                  </td>
+                                )}
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>{" "}
+                      </div>
                     )}
                   </div>
                   {!values?.isClosed && isEdit && (
@@ -630,47 +634,49 @@ export default function _Form({
               <div className="row cash_journal bank-journal bank-journal-custom">
                 <div className="col-lg-12 pr-0 pl-0">
                   {rowDto?.length >= 0 && (
-                    <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
-                      <thead>
-                        <tr>
-                          <th style={{ width: "35px" }}>SL</th>
-                          <th>Item Name</th>
-                          <th>Item Code</th>
-                          <th>Quantity</th>
-                          <th>Price</th>
-                          <th>Amount</th>
-                          <th>UoM Name</th>
-                          <th>Specification</th>
-                          <th>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {rowDto.map((itm, index) => (
-                          <tr key={itm?.itemId}>
-                            <td className="text-center">{++index}</td>
-                            <td className="pl-2">{itm?.itemName}</td>
-                            <td className="pl-2">{itm?.itemCode}</td>
-                            <td className="text-right pr-2">
-                              {itm?.quotationQuantity}
-                            </td>
-                            <td className="text-right pr-2">
-                              {itm?.itemPrice}
-                            </td>
-                            <td className="text-right pr-2">
-                              {itm?.quotationValue}
-                            </td>
-                            <td className="pl-2">{itm?.uomName}</td>
-                            <td className="pl-2">{itm?.specification}</td>
-                            <td className="text-center">
-                              <i
-                                className="fa fa-trash"
-                                onClick={() => remover(itm?.itemId)}
-                              ></i>
-                            </td>
+                    <div className="table-responsive">
+                      <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
+                        <thead>
+                          <tr>
+                            <th style={{ width: "35px" }}>SL</th>
+                            <th>Item Name</th>
+                            <th>Item Code</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Amount</th>
+                            <th>UoM Name</th>
+                            <th>Specification</th>
+                            <th>Action</th>
                           </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                        </thead>
+                        <tbody>
+                          {rowDto.map((itm, index) => (
+                            <tr key={itm?.itemId}>
+                              <td className="text-center">{++index}</td>
+                              <td className="pl-2">{itm?.itemName}</td>
+                              <td className="pl-2">{itm?.itemCode}</td>
+                              <td className="text-right pr-2">
+                                {itm?.quotationQuantity}
+                              </td>
+                              <td className="text-right pr-2">
+                                {itm?.itemPrice}
+                              </td>
+                              <td className="text-right pr-2">
+                                {itm?.quotationValue}
+                              </td>
+                              <td className="pl-2">{itm?.uomName}</td>
+                              <td className="pl-2">{itm?.specification}</td>
+                              <td className="text-center">
+                                <i
+                                  className="fa fa-trash"
+                                  onClick={() => remover(itm?.itemId)}
+                                ></i>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>{" "}
+                    </div>
                   )}
                 </div>
               </div>

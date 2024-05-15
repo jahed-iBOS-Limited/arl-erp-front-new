@@ -232,115 +232,121 @@ const GetOutByCard = () => {
                   {data?.length > 0 && (
                     <>
                       <div className="col-lg-6">
-                        <table className="w-100">
-                          <tbody className="text-left">
-                            <tr className="mb-3">
-                              <td className="text-left">
-                                <h6>Entry Date</h6>
-                              </td>
-                              <td>
-                                <h6>:</h6>
-                              </td>
-                              <td>
-                                <h6>{_dateFormatter(data?.[0]?.entryDate)}</h6>
-                              </td>
-                            </tr>
-                            <tr className="mb-3">
-                              <td className="text-left">
-                                <h6>Entry Code</h6>
-                              </td>
-                              <td>
-                                <h6>:</h6>
-                              </td>
-                              <td>
-                                <h6>{data?.[0]?.strEntryCode}</h6>
-                              </td>
-                            </tr>
-                            <tr className="mb-3">
-                              <td className="text-left">
-                                <h6>Client Type Name</h6>
-                              </td>
-                              <td>
-                                <h6>:</h6>
-                              </td>
-                              <td>
-                                <h6>{data?.[0]?.strClientTypeName}</h6>
-                              </td>
-                            </tr>
-                            <tr className="mb-3">
-                              <td className="text-left">
-                                <h6>Truck Number</h6>
-                              </td>
-                              <td>
-                                <h6>:</h6>
-                              </td>
-                              <td>
-                                <h6>{data?.[0]?.strTruckNumber}</h6>
-                              </td>
-                            </tr>
-                            <tr className="mb-3">
-                              <td className="text-left">
-                                <h6>Driver Name</h6>
-                              </td>
-                              <td>
-                                <h6>:</h6>
-                              </td>
-                              <td>
-                                <h6>{data?.[0]?.strDriverName}</h6>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
+                        <div className="table-responsive">
+                          <table className="w-100">
+                            <tbody className="text-left">
+                              <tr className="mb-3">
+                                <td className="text-left">
+                                  <h6>Entry Date</h6>
+                                </td>
+                                <td>
+                                  <h6>:</h6>
+                                </td>
+                                <td>
+                                  <h6>
+                                    {_dateFormatter(data?.[0]?.entryDate)}
+                                  </h6>
+                                </td>
+                              </tr>
+                              <tr className="mb-3">
+                                <td className="text-left">
+                                  <h6>Entry Code</h6>
+                                </td>
+                                <td>
+                                  <h6>:</h6>
+                                </td>
+                                <td>
+                                  <h6>{data?.[0]?.strEntryCode}</h6>
+                                </td>
+                              </tr>
+                              <tr className="mb-3">
+                                <td className="text-left">
+                                  <h6>Client Type Name</h6>
+                                </td>
+                                <td>
+                                  <h6>:</h6>
+                                </td>
+                                <td>
+                                  <h6>{data?.[0]?.strClientTypeName}</h6>
+                                </td>
+                              </tr>
+                              <tr className="mb-3">
+                                <td className="text-left">
+                                  <h6>Truck Number</h6>
+                                </td>
+                                <td>
+                                  <h6>:</h6>
+                                </td>
+                                <td>
+                                  <h6>{data?.[0]?.strTruckNumber}</h6>
+                                </td>
+                              </tr>
+                              <tr className="mb-3">
+                                <td className="text-left">
+                                  <h6>Driver Name</h6>
+                                </td>
+                                <td>
+                                  <h6>:</h6>
+                                </td>
+                                <td>
+                                  <h6>{data?.[0]?.strDriverName}</h6>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
                       </div>
                       <div className="col-lg-6">
-                        <table className="w-100">
-                          <tbody className="text-left">
-                            <tr>
-                              <td className="text-left">
-                                <h6>Driver Mobile No</h6>
-                              </td>
-                              <td>
-                                <h6>:</h6>
-                              </td>
-                              <td>
-                                <h6>{data?.[0]?.strDriverMobileNo}</h6>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td className="text-left">
-                                <h6>In Time</h6>
-                              </td>
-                              <td>
-                                <h6>:</h6>
-                              </td>
-                              <td>
-                                <h6>{data?.[0]?.tmInTime}</h6>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td className="text-left">
-                                <h6>Shift Incharge</h6>
-                              </td>
-                              <td>
-                                <h6>:</h6>
-                              </td>
-                              <td>
-                                <h6>{data?.[0]?.strShiftIncharge}</h6>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td className="text-left">
-                                <h6>Net Weight</h6>
-                              </td>
-                              <td>
-                                <h6>:</h6>
-                              </td>
-                              <td>
-                                <h6>{data?.[0]?.netWeight}</h6>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
+                        <div className="table-responsive">
+                          <table className="w-100">
+                            <tbody className="text-left">
+                              <tr>
+                                <td className="text-left">
+                                  <h6>Driver Mobile No</h6>
+                                </td>
+                                <td>
+                                  <h6>:</h6>
+                                </td>
+                                <td>
+                                  <h6>{data?.[0]?.strDriverMobileNo}</h6>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td className="text-left">
+                                  <h6>In Time</h6>
+                                </td>
+                                <td>
+                                  <h6>:</h6>
+                                </td>
+                                <td>
+                                  <h6>{data?.[0]?.tmInTime}</h6>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td className="text-left">
+                                  <h6>Shift Incharge</h6>
+                                </td>
+                                <td>
+                                  <h6>:</h6>
+                                </td>
+                                <td>
+                                  <h6>{data?.[0]?.strShiftIncharge}</h6>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td className="text-left">
+                                  <h6>Net Weight</h6>
+                                </td>
+                                <td>
+                                  <h6>:</h6>
+                                </td>
+                                <td>
+                                  <h6>{data?.[0]?.netWeight}</h6>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
                       </div>
                     </>
                   )}

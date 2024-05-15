@@ -34,34 +34,38 @@ export function DamageViewModal({ values, singleData }) {
           <strong className="mr-5">From Date: {values?.fromDate}</strong>{" "}
           <strong className="ml-5">To Date: {values?.toDate}</strong>
         </div>
-        <table className="table table-striped table-bordered global-table mt-0">
-          <thead>
-            <tr>
-              <th>SL</th>
-              <th>Date</th>
-              <th>Checklist Criteria Type</th>
-              <th>Checklist Criteria</th>
-              <th>Standard Value</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {viewData?.length
-              ? viewData.map((item, index) => {
-                  return (
-                    <tr>
-                      <td>{index + 1}</td>
-                      <td className="text-center">{_dateFormatter(item?.dteCheckedDatetime)}</td>
-                      <td>{item?.strCheckListCriteriaType}</td>
-                      <td>{item?.strCheckListCriteria}</td>
-                      <td>{item?.strStandardValue}</td>
-                      <td className="text-center">{item?.strWorkStatus}</td>
-                    </tr>
-                  );
-                })
-              : null}
-          </tbody>
-        </table>
+        <div className="table-responsive">
+          <table className="table table-striped table-bordered global-table mt-0">
+            <thead>
+              <tr>
+                <th>SL</th>
+                <th>Date</th>
+                <th>Checklist Criteria Type</th>
+                <th>Checklist Criteria</th>
+                <th>Standard Value</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {viewData?.length
+                ? viewData.map((item, index) => {
+                    return (
+                      <tr>
+                        <td>{index + 1}</td>
+                        <td className="text-center">
+                          {_dateFormatter(item?.dteCheckedDatetime)}
+                        </td>
+                        <td>{item?.strCheckListCriteriaType}</td>
+                        <td>{item?.strCheckListCriteria}</td>
+                        <td>{item?.strStandardValue}</td>
+                        <td className="text-center">{item?.strWorkStatus}</td>
+                      </tr>
+                    );
+                  })
+                : null}
+            </tbody>
+          </table>
+        </div>
       </div>
     </>
   );

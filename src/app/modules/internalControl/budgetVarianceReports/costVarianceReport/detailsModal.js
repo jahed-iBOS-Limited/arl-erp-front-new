@@ -52,35 +52,41 @@ export default function DetailsModal({ clickedRow, previousLandingValues }) {
           >
             <Form>
               <div>
-                <table className="table table-striped table-bordered bj-table bj-table-landing">
-                  <thead>
-                    <tr>
-                      <th>SL</th>
-                      <th>Particulars</th>
-                      <th>Budget Cost</th>
-                      <th>Actual Cost</th>
-                      <th>Variance</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {detailsTableData?.length > 0 &&
-                      detailsTableData?.map((item, index) => (
-                        <tr key={index}>
-                          <td>{index + 1}</td>
-                          <td
-                            style={{
-                              fontWeight: item?.isBold ? "800" : "",
-                            }}
-                          >
-                            {item?.strParticulars}
-                          </td>
-                          <td className="text-right">{item?.numBudgetCost}</td>
-                          <td className="text-right">{item?.numActualCost}</td>
-                          <td className="text-right">{item?.numVariance}</td>
-                        </tr>
-                      ))}
-                  </tbody>
-                </table>
+                <div className="table-responsive">
+                  <table className="table table-striped table-bordered bj-table bj-table-landing">
+                    <thead>
+                      <tr>
+                        <th>SL</th>
+                        <th>Particulars</th>
+                        <th>Budget Cost</th>
+                        <th>Actual Cost</th>
+                        <th>Variance</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {detailsTableData?.length > 0 &&
+                        detailsTableData?.map((item, index) => (
+                          <tr key={index}>
+                            <td>{index + 1}</td>
+                            <td
+                              style={{
+                                fontWeight: item?.isBold ? "800" : "",
+                              }}
+                            >
+                              {item?.strParticulars}
+                            </td>
+                            <td className="text-right">
+                              {item?.numBudgetCost}
+                            </td>
+                            <td className="text-right">
+                              {item?.numActualCost}
+                            </td>
+                            <td className="text-right">{item?.numVariance}</td>
+                          </tr>
+                        ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </Form>
           </IForm>

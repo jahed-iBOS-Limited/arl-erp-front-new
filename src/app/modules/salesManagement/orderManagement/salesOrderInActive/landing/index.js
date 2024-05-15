@@ -159,58 +159,62 @@ function SalesOrderInActiveLanding() {
                   </div>
                 </div>
                 {gridData?.length > 0 && (
-                  <table className="table table-striped table-bordered bj-table bj-table-landing">
-                    <thead>
-                      <tr>
-                        <th>SL</th>
-                        <th>Sales Order</th>
-                        <th>Partner Name</th>
-                        <th style={{ width: "120px" }}>Undelivery Quantity</th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {gridData?.map((item, index) => (
-                        <tr key={index}>
-                          <td>{index + 1}</td>
-                          <td>
-                            <div className="pl-2">{item?.salesOrderCode}</div>
-                          </td>
-                          <td>
-                            <div className="pl-2">
-                              {item?.strShipToPartnerName}
-                            </div>
-                          </td>
-                          <td>
-                            <div className="text-right pr-2">
-                              {item?.totalUndeliveryQuantity}
-                            </div>
-                          </td>
-
-                          <td className="action-att-report-print-disabled">
-                            <div className="d-flex justify-content-around">
-                              <span className="view">
-                                <IView
-                                  clickHandler={() => {
-                                    setModalShow(true);
-                                    getSalesOrderInactiveViewData(
-                                      profileData?.accountId,
-                                      selectedBusinessUnit?.value,
-                                      values?.customer?.value,
-                                      item?.salesOrderId,
-                                      setDetails,
-                                      setLoading
-                                    );
-                                  }}
-                                  classes="text-primary"
-                                />
-                              </span>
-                            </div>
-                          </td>
+                  <div className="table-responsive">
+                    <table className="table table-striped table-bordered bj-table bj-table-landing">
+                      <thead>
+                        <tr>
+                          <th>SL</th>
+                          <th>Sales Order</th>
+                          <th>Partner Name</th>
+                          <th style={{ width: "120px" }}>
+                            Undelivery Quantity
+                          </th>
+                          <th>Action</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody>
+                        {gridData?.map((item, index) => (
+                          <tr key={index}>
+                            <td>{index + 1}</td>
+                            <td>
+                              <div className="pl-2">{item?.salesOrderCode}</div>
+                            </td>
+                            <td>
+                              <div className="pl-2">
+                                {item?.strShipToPartnerName}
+                              </div>
+                            </td>
+                            <td>
+                              <div className="text-right pr-2">
+                                {item?.totalUndeliveryQuantity}
+                              </div>
+                            </td>
+
+                            <td className="action-att-report-print-disabled">
+                              <div className="d-flex justify-content-around">
+                                <span className="view">
+                                  <IView
+                                    clickHandler={() => {
+                                      setModalShow(true);
+                                      getSalesOrderInactiveViewData(
+                                        profileData?.accountId,
+                                        selectedBusinessUnit?.value,
+                                        values?.customer?.value,
+                                        item?.salesOrderId,
+                                        setDetails,
+                                        setLoading
+                                      );
+                                    }}
+                                    classes="text-primary"
+                                  />
+                                </span>
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 )}
               </Form>
 

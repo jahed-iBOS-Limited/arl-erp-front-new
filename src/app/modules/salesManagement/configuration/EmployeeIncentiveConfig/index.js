@@ -19,8 +19,8 @@ const initData = {
   effectiveToDate: "",
 };
 export default function CommonLanding() {
-  const [isShowModal,setisShowModal] = useState(false)
-  const [incentiveConfigId,setIncentiveConfigId] = useState("")
+  const [isShowModal, setisShowModal] = useState(false);
+  const [incentiveConfigId, setIncentiveConfigId] = useState("");
   const {
     profileData: { accountId: accId },
     selectedBusinessUnit: { value: buId },
@@ -28,7 +28,7 @@ export default function CommonLanding() {
   // All DDL
   const [salesOrganizationDDL, getSalesOrganizationDDL] = useAxiosGet();
   const [distributionChannelDDL, getDistributionChannelDDL] = useAxiosGet();
-  const [rowData,getRowData,loadRowData] = useAxiosGet()
+  const [rowData, getRowData, loadRowData] = useAxiosGet();
   const saveHandler = (values, cb) => {};
   const history = useHistory();
 
@@ -91,12 +91,17 @@ export default function CommonLanding() {
                 <div className="col-lg-3">
                   <NewSelect
                     name="salesOrganization"
-                    options={[{label:"All",value:0},...salesOrganizationDDL] || []}
+                    options={
+                      [{ label: "All", value: 0 }, ...salesOrganizationDDL] ||
+                      []
+                    }
                     value={values?.salesOrganization}
                     label="Sales Organization"
                     onChange={(valueOption) => {
-                      if(valueOption?.value === 0){
-                        getRowData(`/oms/IncentiveConfig/GetIncentiveLanding?AccountId=${accId}&BusinessUnitId=${buId}&IntSalesOrganizationId=${0}&IntDistributionChannelId=${0}&IntIncentiveOnId=${0}`)
+                      if (valueOption?.value === 0) {
+                        getRowData(
+                          `/oms/IncentiveConfig/GetIncentiveLanding?AccountId=${accId}&BusinessUnitId=${buId}&IntSalesOrganizationId=${0}&IntDistributionChannelId=${0}&IntIncentiveOnId=${0}`
+                        );
                       }
                       setFieldValue("salesOrganization", valueOption);
                     }}
@@ -167,7 +172,9 @@ export default function CommonLanding() {
                       !values?.effectiveToDate
                     }
                     onClick={() => {
-                      getRowData(`/oms/IncentiveConfig/GetIncentiveLanding?AccountId=${accId}&BusinessUnitId=${buId}&IntSalesOrganizationId=${values?.salesOrganization?.value}&IntDistributionChannelId=${values?.distributionChannel?.value}&IntIncentiveOnId=${values?.incentiveOn?.value}&fromDate=${values?.effectiveFormDate}&toDate=${values?.effectiveToDate}`)
+                      getRowData(
+                        `/oms/IncentiveConfig/GetIncentiveLanding?AccountId=${accId}&BusinessUnitId=${buId}&IntSalesOrganizationId=${values?.salesOrganization?.value}&IntDistributionChannelId=${values?.distributionChannel?.value}&IntIncentiveOnId=${values?.incentiveOn?.value}&fromDate=${values?.effectiveFormDate}&toDate=${values?.effectiveToDate}`
+                      );
                     }}
                   >
                     View
@@ -175,7 +182,8 @@ export default function CommonLanding() {
                 </div>
               </div>
               <div>
-                <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
+                <div className="table-responsive">
+                  <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
                     <thead>
                       <tr>
                         <th>SL</th>
@@ -188,22 +196,33 @@ export default function CommonLanding() {
                       </tr>
                     </thead>
                     <tbody>
-                      {
-                        rowData?.map((item,index)=>(
-                          <tr>
-                          <td className="text-center">{index +1 }</td>
-                          <td className="text-center">{item?.distributionChannelName}</td>
-                          <td className="text-center">{_dateFormatterTwo(item?.fromDate)}</td>
-                          <td className="text-center">{_dateFormatterTwo(item?.toDate)}</td>
-                          <td className="text-center">{item?.incentiveOnName}</td>
-                          <td className="text-center">{item?.calculationByName}</td>
+                      {rowData?.map((item, index) => (
+                        <tr>
+                          <td className="text-center">{index + 1}</td>
+                          <td className="text-center">
+                            {item?.distributionChannelName}
+                          </td>
+                          <td className="text-center">
+                            {_dateFormatterTwo(item?.fromDate)}
+                          </td>
+                          <td className="text-center">
+                            {_dateFormatterTwo(item?.toDate)}
+                          </td>
+                          <td className="text-center">
+                            {item?.incentiveOnName}
+                          </td>
+                          <td className="text-center">
+                            {item?.calculationByName}
+                          </td>
                           <td className="text-center">
                             <span>
-                            <IView clickHandler={()=>{
-                              setisShowModal(true)
-                              setIncentiveConfigId(item?.incentiveConfigId)
-                            }}/>
-                            {/* <IEdit
+                              <IView
+                                clickHandler={() => {
+                                  setisShowModal(true);
+                                  setIncentiveConfigId(item?.incentiveConfigId);
+                                }}
+                              />
+                              {/* <IEdit
                             classes="ml-3"
                             onClick={()=>{
                               history.push(`/sales-management/configuration/EmployeeIncentiveConfig/edit/${item?.incentiveConfigId}`)
@@ -212,20 +231,22 @@ export default function CommonLanding() {
                             </span>
                           </td>
                         </tr>
-                        ))
-                      }
-                      
+                      ))}
                     </tbody>
-                </table>
+                  </table>
+                </div>
               </div>
             </Form>
           </IForm>
 
-          <IViewModal show={isShowModal} onHide={()=>{
-            setisShowModal(false)
-            setIncentiveConfigId("")
-          }}>
-            <IncentiveModal incentiveConfigId={incentiveConfigId}/>
+          <IViewModal
+            show={isShowModal}
+            onHide={() => {
+              setisShowModal(false);
+              setIncentiveConfigId("");
+            }}
+          >
+            <IncentiveModal incentiveConfigId={incentiveConfigId} />
           </IViewModal>
         </>
       )}

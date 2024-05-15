@@ -88,65 +88,69 @@ export default function ProductionBreakdown() {
 
                 <div style={{ marginTop: "15px" }}>
                   <div>
-                    <table className="table table-striped table-bordered global-table">
-                      <thead>
-                        <tr>
-                          <th style={{ width: "50px" }}>SL</th>
-                          <th>Shop Floor</th>
-                          <th>Breakdown Type</th>
-                          <th>Machine Name</th>
-                          <th>Sub Machine Name</th>
-                          <th>Parts Name</th>
-                          <th>Breakdown Date</th>
-                          <th>Shift</th>
-                          <th>Start Time</th>
-                          <th>End Time</th>
-                          <th>Total Time</th>
-                          <th>Breakdown Details</th>
-                          <th>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {landigData?.data?.length > 0 &&
-                          landigData?.data?.map((item, index) => (
-                            <tr key={index}>
-                              <td>{index + 1}</td>
-                              <td>{item?.strShopFloorName}</td>
-                              <td>{item?.strBreakDownType}</td>
-                              <td>{item?.strMachineName}</td>
-                              <td>{item?.strBreakDownMachineParts}</td>
-                              <td>{item?.strPartsName}</td>
-                              <td className="text-center">
-                                {_dateFormatter(item?.dteBreakDownDate)}
-                              </td>
+                    <div className="table-responsive">
+                      <table className="table table-striped table-bordered global-table">
+                        <thead>
+                          <tr>
+                            <th style={{ width: "50px" }}>SL</th>
+                            <th>Shop Floor</th>
+                            <th>Breakdown Type</th>
+                            <th>Machine Name</th>
+                            <th>Sub Machine Name</th>
+                            <th>Parts Name</th>
+                            <th>Breakdown Date</th>
+                            <th>Shift</th>
+                            <th>Start Time</th>
+                            <th>End Time</th>
+                            <th>Total Time</th>
+                            <th>Breakdown Details</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {landigData?.data?.length > 0 &&
+                            landigData?.data?.map((item, index) => (
+                              <tr key={index}>
+                                <td>{index + 1}</td>
+                                <td>{item?.strShopFloorName}</td>
+                                <td>{item?.strBreakDownType}</td>
+                                <td>{item?.strMachineName}</td>
+                                <td>{item?.strBreakDownMachineParts}</td>
+                                <td>{item?.strPartsName}</td>
+                                <td className="text-center">
+                                  {_dateFormatter(item?.dteBreakDownDate)}
+                                </td>
 
-                              <td>{item?.strShift}</td>
-                              <td className="text-center">
-                                {_timeFormatter(item?.tmStartTime)}
-                              </td>
-                              <td className="text-center">
-                                {_timeFormatter(item?.tmEndTime)}
-                              </td><td className="text-center">
-                                {item?.tmTotalTime &&
-                                  item?.tmTotalTime?.split(":")?.[0] + "H"}{" "}
-                                {item?.tmTotalTime &&
-                                  item?.tmTotalTime?.split(":")?.[1] + "M"}
-                              </td>
-                              <td>{item?.strRemarks}</td>                             
-                              <td className="text-center">
-                                <IEdit
-                                  onClick={() => {
-                                    history.push({
-                                      pathname: `/production-management/msil-ProductionBreakdown/ProductionBreakdown/edit/${item?.intProductionBreakDownId}`,
-                                      state: { ...item },
-                                    });
-                                  }}
-                                />
-                              </td>
-                            </tr>
-                          ))}
-                      </tbody>
-                    </table>
+                                <td>{item?.strShift}</td>
+                                <td className="text-center">
+                                  {_timeFormatter(item?.tmStartTime)}
+                                </td>
+                                <td className="text-center">
+                                  {_timeFormatter(item?.tmEndTime)}
+                                </td>
+                                <td className="text-center">
+                                  {item?.tmTotalTime &&
+                                    item?.tmTotalTime?.split(":")?.[0] +
+                                      "H"}{" "}
+                                  {item?.tmTotalTime &&
+                                    item?.tmTotalTime?.split(":")?.[1] + "M"}
+                                </td>
+                                <td>{item?.strRemarks}</td>
+                                <td className="text-center">
+                                  <IEdit
+                                    onClick={() => {
+                                      history.push({
+                                        pathname: `/production-management/msil-ProductionBreakdown/ProductionBreakdown/edit/${item?.intProductionBreakDownId}`,
+                                        state: { ...item },
+                                      });
+                                    }}
+                                  />
+                                </td>
+                              </tr>
+                            ))}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                   {landigData?.data?.length > 0 && (
                     <PaginationTable

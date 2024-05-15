@@ -122,7 +122,7 @@ export default function SalesInvoiceLanding() {
                           intScheduleTypeId: item?.intScheduleTypeId,
                           strScheduleTypeName: item?.strScheduleTypeName,
                           intActionBy: profileData?.userId,
-                          strRemarks:item?.remarks || ""
+                          strRemarks: item?.remarks || "",
                         },
                         // row: data?.map((item) => ({
                         //   //   intServiceSalesInvoiceRowId: 0,
@@ -222,181 +222,215 @@ export default function SalesInvoiceLanding() {
                 </div>
                 {[1]?.includes(values?.type?.value) ? (
                   <div className="mt-5">
-                    <table className="table table-striped table-bordered bj-table bj-table-landing">
-                      <thead>
-                        <tr>
-                          <th>
-                            <input
-                              type="checkbox"
-                              checked={
-                                rowData?.length > 0 &&
-                                rowData?.every((item) => item?.isChecked)
-                              }
-                              onChange={(e) => {
-                                setRowData(
-                                  rowData?.map((item) => {
-                                    return {
-                                      ...item,
-                                      isChecked: e?.target?.checked,
-                                    };
-                                  })
-                                );
-                              }}
-                            />
-                          </th>
-                          <th>Customer</th>
-                          <th>Schedule Type</th>
-                          <th>Item Name</th>
-                          <th>Due Date</th>
-                          <th>Payment Percent</th>
-                          <th>Schedule Amount</th>
-                          <th>Remarks</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {rowData?.map((item, index) => (
-                          <tr key={index}>
-                            <td>
+                    <div className="table-responsive">
+                      <table className="table table-striped table-bordered bj-table bj-table-landing">
+                        <thead>
+                          <tr>
+                            <th>
                               <input
                                 type="checkbox"
-                                value={item?.isChecked}
-                                checked={item?.isChecked}
+                                checked={
+                                  rowData?.length > 0 &&
+                                  rowData?.every((item) => item?.isChecked)
+                                }
                                 onChange={(e) => {
-                                  const data = [...rowData];
-                                  data[index]["isChecked"] = e.target.checked;
-                                  console.log("data", data);
-                                  setRowData(data);
+                                  setRowData(
+                                    rowData?.map((item) => {
+                                      return {
+                                        ...item,
+                                        isChecked: e?.target?.checked,
+                                      };
+                                    })
+                                  );
                                 }}
                               />
-                            </td>
-                            <td>{item?.strCustomerName}</td>
-                            <td>{item?.strScheduleTypeName}</td>
-                            <td>{(()=>{
-                              const itemStrings = item?.items?.map(singleItem => {
-                                const itemName = singleItem.strItemName || 'N/A';
-                                const qty = typeof singleItem.numSalesQty === 'number' ? singleItem.numSalesQty : 'N/A';
-                                const rate = typeof singleItem.numRate === 'number' ? singleItem.numRate : 'N/A';
-                              
-                                return `${itemName} - Qty: ${qty}, Rate: ${rate}`;
-                              });
-                              
-                              return itemStrings?.join(' / ');
-                            })()}</td>
-                            <td className="text-center">
-                              {_dateFormatter(item?.dteDueDateTime)}
-                            </td>
-                            <td className="text-center">
-                              {item?.intPaymentByPercent}
-                            </td>
-                            <td className="text-right">
-                              {item?.numScheduleAmount}
-                            </td>
-                            <td><InputField type="text"  onChange={(e) => {
-                                  const data = [...rowData];
-                                  data[index]["remarks"] = e.target.value || "";
-                                  setRowData(data);
-                                }}/></td>
+                            </th>
+                            <th>Customer</th>
+                            <th>Schedule Type</th>
+                            <th>Item Name</th>
+                            <th>Due Date</th>
+                            <th>Payment Percent</th>
+                            <th>Schedule Amount</th>
+                            <th>Remarks</th>
                           </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                        </thead>
+                        <tbody>
+                          {rowData?.map((item, index) => (
+                            <tr key={index}>
+                              <td>
+                                <input
+                                  type="checkbox"
+                                  value={item?.isChecked}
+                                  checked={item?.isChecked}
+                                  onChange={(e) => {
+                                    const data = [...rowData];
+                                    data[index]["isChecked"] = e.target.checked;
+                                    console.log("data", data);
+                                    setRowData(data);
+                                  }}
+                                />
+                              </td>
+                              <td>{item?.strCustomerName}</td>
+                              <td>{item?.strScheduleTypeName}</td>
+                              <td>
+                                {(() => {
+                                  const itemStrings = item?.items?.map(
+                                    (singleItem) => {
+                                      const itemName =
+                                        singleItem.strItemName || "N/A";
+                                      const qty =
+                                        typeof singleItem.numSalesQty ===
+                                        "number"
+                                          ? singleItem.numSalesQty
+                                          : "N/A";
+                                      const rate =
+                                        typeof singleItem.numRate === "number"
+                                          ? singleItem.numRate
+                                          : "N/A";
+
+                                      return `${itemName} - Qty: ${qty}, Rate: ${rate}`;
+                                    }
+                                  );
+
+                                  return itemStrings?.join(" / ");
+                                })()}
+                              </td>
+                              <td className="text-center">
+                                {_dateFormatter(item?.dteDueDateTime)}
+                              </td>
+                              <td className="text-center">
+                                {item?.intPaymentByPercent}
+                              </td>
+                              <td className="text-right">
+                                {item?.numScheduleAmount}
+                              </td>
+                              <td>
+                                <InputField
+                                  type="text"
+                                  onChange={(e) => {
+                                    const data = [...rowData];
+                                    data[index]["remarks"] =
+                                      e.target.value || "";
+                                    setRowData(data);
+                                  }}
+                                />
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 ) : (
                   <div className="mt-5">
-                    <table className="table table-striped table-bordered bj-table bj-table-landing">
-                      <thead>
-                        <tr>
-                          <th style={{maxWidth:"20px"}}>SL</th>
-                          <th>Customer</th>
-                          <th>Item Name</th>
-                          <th>Address</th>
-                          <th>Schedule Type</th>
-                          <th>Sales Type</th>
-                          <th>Sales Order Code</th>
-                          <th>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {rowData?.map((item, index) => (
-                          <tr key={index}>
-                            <td>{index + 1}</td>
-                            <td>{item?.invocieHeader?.strCustomerName}</td>
-                            <td>{(()=>{
-                              const itemStrings = item?.items?.map(singleItem => {
-                                const itemName = singleItem.strItemName || 'N/A';
-                                const qty = typeof singleItem.numSalesQty === 'number' ? singleItem.numSalesQty : 'N/A';
-                                const rate = typeof singleItem.numRate === 'number' ? singleItem.numRate : 'N/A';
-                              
-                                return `${itemName} - Qty: ${qty}, Rate: ${rate}`;
-                              });
-                              
-                              return itemStrings?.join(' / ');
-                            })()}</td>
-                            <td>{item?.invocieHeader?.strCustomerAddress}</td>
-                            <td>{item?.invocieHeader?.strScheduleTypeName}</td>
-                            <td>{item?.invocieHeader?.strSalesTypeName}</td>
-                            <td>
-                              {item?.strServiceSalesOrderCode}
-                            </td>
-                            <td>
-                              <div className="d-flex justify-content-between">
-                                <OverlayTrigger
-                                  overlay={
-                                    <Tooltip id="cs-icon">
-                                      {"Collection"}
-                                    </Tooltip>
-                                  }
-                                >
-                                  <span>
-                                    <i
-                                      onClick={() => {
-                                        IConfirmModal({
-                                          title: "Are you sure ?",
-                                          yesAlertFunc: () => {
-                                            collectionHandler(
-                                              `/oms/ServiceSales/InvoiceCollection?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&serviceSalesInvoiceId=${item?.invocieHeader?.intServiceSalesInvoiceId}`
-                                            );
-                                          },
-                                          noAlertFunc: () => {},
-                                        });
-                                      }}
-                                      style={{
-                                        fontSize: "16px",
-                                        cursor: "pointer",
-                                      }}
-                                      class="fa fa-archive"
-                                      aria-hidden="true"
-                                    ></i>
-                                  </span>
-                                </OverlayTrigger>
-                                <OverlayTrigger
-                                  overlay={
-                                    <Tooltip id="cs-icon">
-                                      {"Print Invoice"}
-                                    </Tooltip>
-                                  }
-                                >
-                                  <span>
-                                    <i
-                                      onClick={() => {
-                                        setSingleItem(item);
-                                        setShowModal(true);
-                                      }}
-                                      style={{
-                                        fontSize: "16px",
-                                        cursor: "pointer",
-                                      }}
-                                      class="fa fa-print"
-                                      aria-hidden="true"
-                                    ></i>
-                                  </span>
-                                </OverlayTrigger>
-                              </div>
-                            </td>
+                    <div className="table-responsive">
+                      <table className="table table-striped table-bordered bj-table bj-table-landing">
+                        <thead>
+                          <tr>
+                            <th style={{ maxWidth: "20px" }}>SL</th>
+                            <th>Customer</th>
+                            <th>Item Name</th>
+                            <th>Address</th>
+                            <th>Schedule Type</th>
+                            <th>Sales Type</th>
+                            <th>Sales Order Code</th>
+                            <th>Action</th>
                           </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                        </thead>
+                        <tbody>
+                          {rowData?.map((item, index) => (
+                            <tr key={index}>
+                              <td>{index + 1}</td>
+                              <td>{item?.invocieHeader?.strCustomerName}</td>
+                              <td>
+                                {(() => {
+                                  const itemStrings = item?.items?.map(
+                                    (singleItem) => {
+                                      const itemName =
+                                        singleItem.strItemName || "N/A";
+                                      const qty =
+                                        typeof singleItem.numSalesQty ===
+                                        "number"
+                                          ? singleItem.numSalesQty
+                                          : "N/A";
+                                      const rate =
+                                        typeof singleItem.numRate === "number"
+                                          ? singleItem.numRate
+                                          : "N/A";
+
+                                      return `${itemName} - Qty: ${qty}, Rate: ${rate}`;
+                                    }
+                                  );
+
+                                  return itemStrings?.join(" / ");
+                                })()}
+                              </td>
+                              <td>{item?.invocieHeader?.strCustomerAddress}</td>
+                              <td>
+                                {item?.invocieHeader?.strScheduleTypeName}
+                              </td>
+                              <td>{item?.invocieHeader?.strSalesTypeName}</td>
+                              <td>{item?.strServiceSalesOrderCode}</td>
+                              <td>
+                                <div className="d-flex justify-content-between">
+                                  <OverlayTrigger
+                                    overlay={
+                                      <Tooltip id="cs-icon">
+                                        {"Collection"}
+                                      </Tooltip>
+                                    }
+                                  >
+                                    <span>
+                                      <i
+                                        onClick={() => {
+                                          IConfirmModal({
+                                            title: "Are you sure ?",
+                                            yesAlertFunc: () => {
+                                              collectionHandler(
+                                                `/oms/ServiceSales/InvoiceCollection?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&serviceSalesInvoiceId=${item?.invocieHeader?.intServiceSalesInvoiceId}`
+                                              );
+                                            },
+                                            noAlertFunc: () => {},
+                                          });
+                                        }}
+                                        style={{
+                                          fontSize: "16px",
+                                          cursor: "pointer",
+                                        }}
+                                        class="fa fa-archive"
+                                        aria-hidden="true"
+                                      ></i>
+                                    </span>
+                                  </OverlayTrigger>
+                                  <OverlayTrigger
+                                    overlay={
+                                      <Tooltip id="cs-icon">
+                                        {"Print Invoice"}
+                                      </Tooltip>
+                                    }
+                                  >
+                                    <span>
+                                      <i
+                                        onClick={() => {
+                                          setSingleItem(item);
+                                          setShowModal(true);
+                                        }}
+                                        style={{
+                                          fontSize: "16px",
+                                          cursor: "pointer",
+                                        }}
+                                        class="fa fa-print"
+                                        aria-hidden="true"
+                                      ></i>
+                                    </span>
+                                  </OverlayTrigger>
+                                </div>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 )}
               </div>

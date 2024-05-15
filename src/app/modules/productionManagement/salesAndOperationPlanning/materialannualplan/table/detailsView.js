@@ -63,7 +63,8 @@ function DetailsView({ obj }) {
                   {/* Finished */}
                   <>
                     <p className=" mb-0">Finished Goods</p>
-                    <table className="table table-striped table-bordered global-table mt-0">
+                    <div className="table-responsive">
+ <table className="table table-striped table-bordered global-table mt-0">
                       {" "}
                       <thead>
                         <tr>
@@ -94,11 +95,14 @@ function DetailsView({ obj }) {
                         })}
                       </tbody>
                     </table>
+</div>
+                   
                   </>
                   {/*Raw Material */}
                   <>
                     <p className=" mb-0">Raw Material</p>
-                    <table className="table table-striped table-bordered global-table mt-0">
+                    <div className="table-responsive">
+<table className="table table-striped table-bordered global-table mt-0">
                       {" "}
                       <thead>
                         <tr>
@@ -140,6 +144,8 @@ function DetailsView({ obj }) {
                         })}
                       </tbody>
                     </table>
+</div>
+                    
                   </>
                 </div>
               </>

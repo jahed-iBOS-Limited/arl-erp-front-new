@@ -97,56 +97,59 @@ const SalesQuotationForCement = ({
             </div>
           </div>
         </div>
-
-        <table className="table mb-5">
-          <thead>
-            <tr>
-              <th className="align-middle" rowSpan={2}>
-                SL
-              </th>
-              <th className="align-middle" rowSpan={2}>
-                Destination
-              </th>
-              <th className="align-middle" rowSpan={2}>
-                Product
-              </th>
-              <th className="align-middle" rowSpan={2}>
-                UOM
-              </th>
-              <th className="align-middle" rowSpan={2}>
-                Transport type
-              </th>
-              <th className="align-middle" colSpan={2}>
-                Price in BDT
-              </th>
-              <th className="align-middle" rowSpan={2}>
-                Remark
-              </th>
-            </tr>
-            <tr>
-              <th className="align-middle">Ex-Factory</th>
-              <th className="align-middle">
-                Reach Price (Inclusive Transport)
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {invoiceData?.map((item, index) => {
-              return (
-                <tr key={index}>
-                  <td className="text-center">{index + 1}</td>
-                  <td className="text-center">{item?.address}</td>
-                  <td className="text-center">{item?.itemName}</td>
-                  <td className="text-center">{item?.uomName}</td>
-                  <td className="text-center">{item?.transportType}</td>
-                  <td className="text-center">{item?.numPriceWithTransport}</td>
-                  <td className="text-center">{item?.itemPrice}</td>
-                  <td className="text-center">{item?.remark}</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+        <div className="table-responsive">
+          <table className="table mb-5">
+            <thead>
+              <tr>
+                <th className="align-middle" rowSpan={2}>
+                  SL
+                </th>
+                <th className="align-middle" rowSpan={2}>
+                  Destination
+                </th>
+                <th className="align-middle" rowSpan={2}>
+                  Product
+                </th>
+                <th className="align-middle" rowSpan={2}>
+                  UOM
+                </th>
+                <th className="align-middle" rowSpan={2}>
+                  Transport type
+                </th>
+                <th className="align-middle" colSpan={2}>
+                  Price in BDT
+                </th>
+                <th className="align-middle" rowSpan={2}>
+                  Remark
+                </th>
+              </tr>
+              <tr>
+                <th className="align-middle">Ex-Factory</th>
+                <th className="align-middle">
+                  Reach Price (Inclusive Transport)
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {invoiceData?.map((item, index) => {
+                return (
+                  <tr key={index}>
+                    <td className="text-center">{index + 1}</td>
+                    <td className="text-center">{item?.address}</td>
+                    <td className="text-center">{item?.itemName}</td>
+                    <td className="text-center">{item?.uomName}</td>
+                    <td className="text-center">{item?.transportType}</td>
+                    <td className="text-center">
+                      {item?.numPriceWithTransport}
+                    </td>
+                    <td className="text-center">{item?.itemPrice}</td>
+                    <td className="text-center">{item?.remark}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
 
         <p className="underline">
           <b>Terms and Conditions:</b>
@@ -211,7 +214,7 @@ const SalesQuotationForCement = ({
         <div className="mb-5 mt-1">
           <p>
             If you have any questions or require further clarification regarding
-            the quotation, please do not hesitate to contact our sales team at {' '}
+            the quotation, please do not hesitate to contact our sales team at{" "}
             {contact} or {emailAddress}. We are always available to assist you
             and discuss any specific requirements you may need.
           </p>
