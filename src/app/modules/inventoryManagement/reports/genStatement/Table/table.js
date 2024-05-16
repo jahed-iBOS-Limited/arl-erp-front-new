@@ -25,7 +25,7 @@ import { setGRNStatementLandingAction } from "./../../../../_helper/reduxForLoca
 import numberWithCommas from "../../../../_helper/_numberWithCommas";
 import { downloadFile } from "../../../../_helper/downloadFile";
 import IViewModal from "../../../../_helper/_viewModal";
-import {InventoryTransactionReportViewTableRow} from "../../../warehouseManagement/invTransaction/report/tableRow"
+import { InventoryTransactionReportViewTableRow } from "../../../warehouseManagement/invTransaction/report/tableRow";
 
 const validationSchema = Yup.object().shape({
   // toDate: Yup.string().when("fromDate", (fromDate, Schema) => {
@@ -49,7 +49,7 @@ const IssueReportTable = () => {
   //paginationState
   const [pageNo, setPageNo] = React.useState(0);
   const [pageSize, setPageSize] = React.useState(20);
-  const [poList, setPoList] = useState([])
+  const [poList, setPoList] = useState([]);
   // ddl state
   const [sbuList, setSbuList] = useState("");
   const [plantList, setPlantList] = useState("");
@@ -89,7 +89,7 @@ const IssueReportTable = () => {
       );
       getTransactionGroupList(setTransGroupDDL);
     }
-    if(GRNStatementLanding?.sbu?.value){
+    if (GRNStatementLanding?.sbu?.value) {
       getGRNStatementLanding(
         profileData?.accountId,
         selectedBusinessUnit?.value,
@@ -110,8 +110,8 @@ const IssueReportTable = () => {
       profileData?.accountId,
       selectedBusinessUnit?.value,
       setPoList
-    )
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileData, selectedBusinessUnit]);
 
   //setPositionHandler
@@ -168,14 +168,15 @@ const IssueReportTable = () => {
   };
 
   const downloadExcelFile = (values) => {
-    let api =  `/wms/GrnStatement/newGrnStatementReportDownload?PurchaseOrganization=${values?.purchaseOrg?.value}&SbuId=${values?.sbu?.value}&PlantId=${values?.plant?.value}&WarehouseId=${values?.wh?.value}&FromDate=${values?.fromDate}&Todate=${values?.toDate}&PageNo=${pageNo}&PageSize=${10000}&viewOrder=desc`
-    downloadFile(
-      api,
-      "GRN Statement",
-      "xlsx",
-      setLoading
-    )
-  }
+    let api = `/wms/GrnStatement/newGrnStatementReportDownload?PurchaseOrganization=${
+      values?.purchaseOrg?.value
+    }&SbuId=${values?.sbu?.value}&PlantId=${values?.plant?.value}&WarehouseId=${
+      values?.wh?.value
+    }&FromDate=${values?.fromDate}&Todate=${
+      values?.toDate
+    }&PageNo=${pageNo}&PageSize=${10000}&viewOrder=desc`;
+    downloadFile(api, "GRN Statement", "xlsx", setLoading);
+  };
 
   return (
     <ICustomCard title="GRN Statement">
@@ -223,7 +224,7 @@ const IssueReportTable = () => {
                       value={values?.purchaseOrg}
                       label="Purchase Organization"
                       onChange={(optionValue) => {
-                        setFieldValue('purchaseOrg', optionValue)
+                        setFieldValue("purchaseOrg", optionValue);
                       }}
                       placeholder="Purchase Organization"
                       errors={errors}
@@ -331,9 +332,7 @@ const IssueReportTable = () => {
                         !values?.fromDate ||
                         !values?.toDate
                       }
-                      onClick={(e) =>
-                        downloadExcelFile(values)
-                      }
+                      onClick={(e) => downloadExcelFile(values)}
                     >
                       Export Excel
                     </button>
@@ -349,67 +348,76 @@ const IssueReportTable = () => {
                     paginationSearchHandler={paginationSearchHandler}
                     values={values}
                   />
-                  <table className="table table-striped table-bordered global-table table-font-size-sm">
-                    <thead>
-                      <tr>
-                        <th>SL</th>
-                        <th>GRN Code</th>
-                        <th>PO No</th>
-                        <th>Supplier Code</th>
-                        <th>Supplier Name</th>
-                        <th>GRN Date</th>
-                        {/* <th>Item ID</th> */}
-                        <th>Item Code</th>
-                        <th>Item Name</th>
-                        <th>UoM</th>
-                        <th>Quantity</th>
-                        <th>Value</th>
-                        <th>VAT</th>
-                        <th>Remarks</th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    {loading ? (
-                      <ILoader />
-                    ) : (
-                      <tbody>
-                        {landing?.data?.map((item, index) => (
-                          <tr key={index}>
-                            <td>{index + 1}</td>
-                            <td>{item?.inventoryTransactionCode}</td>
-                            <td>{item?.referenceCode}</td>
-                            <td>{item?.strBusinessPartnerCode}</td>
-                            <td>{item?.businessPartnerName}</td>
-                            <td>{_dateFormatter(item?.transactionDate)}</td>
-                            {/* <td>{item?.itemId}</td> */}
-                            <td>{item?.strItemCode}</td>
-                            <td>{item?.itemName}</td>
-                            <td>{item?.uoMname}</td>
-                            <td>{item?.transactionQuantity}</td>
-                            <td>{numberWithCommas(( item?.transactionValue || 0).toFixed(2))}</td>
-                            <td>{numberWithCommas(( item?.vatAmount || 0).toFixed(2))}</td>
-                            <td>{item?.remarks}</td>
-                            <td className="text-center align-middle">
-                              {" "}
-                              <span>
-                                <IView
-                                  clickHandler={() =>{
-                                    // history.push({
-                                    //   pathname: `/inventory-management/warehouse-management/inventorytransaction/reportview/${item?.inventoryTransactionId}/${item?.inventoryTransectionGroupId}`,
-                                    //   item,
-                                    // })
-                                    setCurrentItem(item)
-                                    setIsShowModal(true)
-                                  }
-                                  }
-                                />
-                              </span>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    )}
-                  </table>
+                  <div className="table-responsive">
+                    <table className="table table-striped table-bordered global-table table-font-size-sm">
+                      <thead>
+                        <tr>
+                          <th>SL</th>
+                          <th>GRN Code</th>
+                          <th>PO No</th>
+                          <th>Supplier Code</th>
+                          <th>Supplier Name</th>
+                          <th>GRN Date</th>
+                          {/* <th>Item ID</th> */}
+                          <th>Item Code</th>
+                          <th>Item Name</th>
+                          <th>UoM</th>
+                          <th>Quantity</th>
+                          <th>Value</th>
+                          <th>VAT</th>
+                          <th>Remarks</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      {loading ? (
+                        <ILoader />
+                      ) : (
+                        <tbody>
+                          {landing?.data?.map((item, index) => (
+                            <tr key={index}>
+                              <td>{index + 1}</td>
+                              <td>{item?.inventoryTransactionCode}</td>
+                              <td>{item?.referenceCode}</td>
+                              <td>{item?.strBusinessPartnerCode}</td>
+                              <td>{item?.businessPartnerName}</td>
+                              <td>{_dateFormatter(item?.transactionDate)}</td>
+                              {/* <td>{item?.itemId}</td> */}
+                              <td>{item?.strItemCode}</td>
+                              <td>{item?.itemName}</td>
+                              <td>{item?.uoMname}</td>
+                              <td>{item?.transactionQuantity}</td>
+                              <td>
+                                {numberWithCommas(
+                                  (item?.transactionValue || 0).toFixed(2)
+                                )}
+                              </td>
+                              <td>
+                                {numberWithCommas(
+                                  (item?.vatAmount || 0).toFixed(2)
+                                )}
+                              </td>
+                              <td>{item?.remarks}</td>
+                              <td className="text-center align-middle">
+                                {" "}
+                                <span>
+                                  <IView
+                                    clickHandler={() => {
+                                      // history.push({
+                                      //   pathname: `/inventory-management/warehouse-management/inventorytransaction/reportview/${item?.inventoryTransactionId}/${item?.inventoryTransectionGroupId}`,
+                                      //   item,
+                                      // })
+                                      setCurrentItem(item);
+                                      setIsShowModal(true);
+                                    }}
+                                  />
+                                </span>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      )}
+                    </table>
+                  </div>
                 </div>
               </div>
               <IViewModal

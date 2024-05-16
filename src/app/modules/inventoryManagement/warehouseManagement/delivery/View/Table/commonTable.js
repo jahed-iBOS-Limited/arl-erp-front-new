@@ -19,111 +19,113 @@ function CommonTable({
         ) : null}
 
         {deliveryOrderReportData?.rows?.length >= 0 && (
-          <table className="table table-striped table-bordered  global-table">
-            <thead>
-              <tr>
-                <th style={{ width: "35px" }}>SL</th>
-                <th style={{ width: "220px" }}>PRODUCT DESCRIPTION</th>
-                {[186]?.includes(selectedBusinessUnit?.value) && (
-                  <th>CUSTOMER DESCRIPTION</th>
-                )}
-                <th>UOM</th>
-                {(selectedBusinessUnit?.value === 171 ||
-                  selectedBusinessUnit?.value === 224) && (
-                  <>
-                    <th>Bundle</th>
-                    <th>Pieces</th>
-                  </>
-                )}
-
-                <th>QNT.</th>
-                {[144].includes(selectedBusinessUnit?.value) && (
-                  <>
-                    <th
-                      style={{
-                        width: "150px",
-                      }}
-                    >
-                      Rate
-                    </th>
-                    <th
-                      style={{
-                        width: "150px",
-                      }}
-                    >
-                      Amount
-                    </th>
-                  </>
-                )}
-              </tr>
-            </thead>
-            <tbody>
-              {deliveryOrderReportData?.rows
-                ?.filter((itm) => !itm?.isTradeFreeItem)
-                ?.map((td, index) => {
-                  return (
-                    <CommonTR
-                      td={td}
-                      index={index}
-                      selectedBusinessUnit={selectedBusinessUnit}
-                    />
-                  );
-                })}
-              {/* offer item show start */}
-              {deliveryOrderReportData?.rows?.filter(
-                (itm) => itm?.isTradeFreeItem
-              )?.length > 0 && (
+          <div className="table-responsive">
+            <table className="table table-striped table-bordered  global-table">
+              <thead>
                 <tr>
-                  <td colSpan={2} className="text-left">
-                    <b>Offer Item</b>
-                  </td>
+                  <th style={{ width: "35px" }}>SL</th>
+                  <th style={{ width: "220px" }}>PRODUCT DESCRIPTION</th>
+                  {[186]?.includes(selectedBusinessUnit?.value) && (
+                    <th>CUSTOMER DESCRIPTION</th>
+                  )}
+                  <th>UOM</th>
+                  {(selectedBusinessUnit?.value === 171 ||
+                    selectedBusinessUnit?.value === 224) && (
+                    <>
+                      <th>Bundle</th>
+                      <th>Pieces</th>
+                    </>
+                  )}
+
+                  <th>QNT.</th>
+                  {[144].includes(selectedBusinessUnit?.value) && (
+                    <>
+                      <th
+                        style={{
+                          width: "150px",
+                        }}
+                      >
+                        Rate
+                      </th>
+                      <th
+                        style={{
+                          width: "150px",
+                        }}
+                      >
+                        Amount
+                      </th>
+                    </>
+                  )}
                 </tr>
-              )}
-              {deliveryOrderReportData?.rows
-                ?.filter((itm) => itm?.isTradeFreeItem)
-                ?.map((td, index) => {
-                  return (
-                    <CommonTR
-                      td={td}
-                      index={index}
-                      selectedBusinessUnit={selectedBusinessUnit}
-                    />
-                  );
-                })}
-              {/* offer item show end */}
-            </tbody>
-            <tfoot>
-              <tr>
-                <td colSpan="3" className="text-right">
-                  <b>TOTAL</b>
-                </td>
-                {[186]?.includes(selectedBusinessUnit?.value) && <td></td>}
-                {(selectedBusinessUnit?.value === 171 ||
-                  selectedBusinessUnit?.value === 224) && (
-                  <>
-                    <td className="text-right">
-                      <b>{totalBundel}</b>
+              </thead>
+              <tbody>
+                {deliveryOrderReportData?.rows
+                  ?.filter((itm) => !itm?.isTradeFreeItem)
+                  ?.map((td, index) => {
+                    return (
+                      <CommonTR
+                        td={td}
+                        index={index}
+                        selectedBusinessUnit={selectedBusinessUnit}
+                      />
+                    );
+                  })}
+                {/* offer item show start */}
+                {deliveryOrderReportData?.rows?.filter(
+                  (itm) => itm?.isTradeFreeItem
+                )?.length > 0 && (
+                  <tr>
+                    <td colSpan={2} className="text-left">
+                      <b>Offer Item</b>
                     </td>
-                    <td className="text-right">
-                      <b>{totalPieces}</b>
-                    </td>
-                  </>
+                  </tr>
                 )}
-                <td className="text-right"></td>
-                {/*  Akij Essentials Ltd. == 144*/}
-                {[144].includes(selectedBusinessUnit?.value) && (
-                  <>
-                    <td className="text-right">
-                      <b>{totalRate}</b>
-                    </td>
-                    <td className="text-right">
-                      <b>{totalAmount}</b>
-                    </td>
-                  </>
-                )}
-              </tr>
-            </tfoot>
-          </table>
+                {deliveryOrderReportData?.rows
+                  ?.filter((itm) => itm?.isTradeFreeItem)
+                  ?.map((td, index) => {
+                    return (
+                      <CommonTR
+                        td={td}
+                        index={index}
+                        selectedBusinessUnit={selectedBusinessUnit}
+                      />
+                    );
+                  })}
+                {/* offer item show end */}
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td colSpan="3" className="text-right">
+                    <b>TOTAL</b>
+                  </td>
+                  {[186]?.includes(selectedBusinessUnit?.value) && <td></td>}
+                  {(selectedBusinessUnit?.value === 171 ||
+                    selectedBusinessUnit?.value === 224) && (
+                    <>
+                      <td className="text-right">
+                        <b>{totalBundel}</b>
+                      </td>
+                      <td className="text-right">
+                        <b>{totalPieces}</b>
+                      </td>
+                    </>
+                  )}
+                  <td className="text-right"></td>
+                  {/*  Akij Essentials Ltd. == 144*/}
+                  {[144].includes(selectedBusinessUnit?.value) && (
+                    <>
+                      <td className="text-right">
+                        <b>{totalRate}</b>
+                      </td>
+                      <td className="text-right">
+                        <b>{totalAmount}</b>
+                      </td>
+                    </>
+                  )}
+                </tr>
+              </tfoot>
+            </table>
+          </div>
         )}
       </div>
     </>

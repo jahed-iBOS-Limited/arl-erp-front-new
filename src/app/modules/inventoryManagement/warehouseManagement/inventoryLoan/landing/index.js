@@ -12,13 +12,17 @@ import Loading from "../../../../_helper/_loading";
 import NewSelect from "../../../../_helper/_select";
 import PaginationTable from "../../../../_helper/_tablePagination";
 import { _todayDate } from "../../../../_helper/_todayDate";
-import { getBusinessPartnerDDL, getLandingPaginationData, getLoanSingleData } from "../helper";
+import {
+  getBusinessPartnerDDL,
+  getLandingPaginationData,
+  getLoanSingleData,
+} from "../helper";
 import SalesOrderReportModal from "./salesOrderReportModal";
 
 const initData = {
   partner: "",
   fromDate: _todayDate(),
-  toDate:_todayDate(),
+  toDate: _todayDate(),
 };
 
 function InventoryLoadLanding() {
@@ -54,7 +58,7 @@ function InventoryLoadLanding() {
       selectedBusinessUnit?.value &&
       values?.partner
     ) {
-      setGridData([])
+      setGridData([]);
       getLandingPaginationData(
         profileData?.accountId,
         selectedBusinessUnit?.value,
@@ -88,7 +92,7 @@ function InventoryLoadLanding() {
             <>
               <Form>
                 <div className="row global-form">
-                <div className="col-lg-3">
+                  <div className="col-lg-3">
                     <label>From Date</label>
                     <InputField
                       value={values?.fromDate}
@@ -97,7 +101,7 @@ function InventoryLoadLanding() {
                       type="date"
                       onChange={(e) => {
                         setFieldValue("fromDate", e.target.value);
-                        setGridData([])
+                        setGridData([]);
                       }}
                     />
                   </div>
@@ -110,19 +114,21 @@ function InventoryLoadLanding() {
                       type="date"
                       onChange={(e) => {
                         setFieldValue("toDate", e.target.value);
-                        setGridData([])
+                        setGridData([]);
                       }}
                     />
                   </div>
                   <div className="col-lg-3">
                     <NewSelect
                       name="partner"
-                      options={[{value: 0, label: "All"}, ...partnerDDL] || []}
+                      options={
+                        [{ value: 0, label: "All" }, ...partnerDDL] || []
+                      }
                       value={values?.partner}
                       label="Business Partner"
                       onChange={(valueOption) => {
                         setFieldValue("partner", valueOption);
-                        setGridData([])
+                        setGridData([]);
                       }}
                       placeholder="Business Partner"
                       errors={errors}
@@ -143,88 +149,88 @@ function InventoryLoadLanding() {
                   </div>
                 </div>
                 {gridData?.data?.length > 0 && (
-                  <table className="table table-striped table-bordered bj-table bj-table-landing">
-                    <thead>
-                      <tr>
-                        <th>SL</th>
-                        <th>Business Partner Name</th>
-                        <th>Trans Type Name</th>
-                        <th>Warehouse Name</th>
-                        <th>Survey Report No</th>
-                        <th>Lighter Vessel Name</th>
-                        <th>Mother Vessel Name</th>
-                        <th>Trans Date</th>
-                        <th>Item Name</th>
-                        <th>Item Qty</th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {gridData?.data?.map((item, index) => (
-                        <tr key={index}>
-                          <td>
-                            <div className="text-center">{index + 1}</div>
-                          </td>
-                          <td>
-                            <div className="pl-2">{item?.businessPartnerName}</div>
-                          </td>
-                          <td>
-                            <div className="pl-2">{item?.transTypeName}</div>
-                          </td>
-                          <td>
-                            <div className="pl-2">{item?.wareHouseName}</div>
-                          </td>
-                          <td>
-                            <div className="pl-2">
-                              {item?.surveyReportNo}
-                            </div>
-                          </td>
-                          <td>
-                            <div className="pl-2">
-                              {item?.lighterVesselName}
-                            </div>
-                          </td>
-                          <td>
-                            <div className="pl-2">
-                              {item?.motherVesselName}
-                            </div>
-                          </td>
-                          <td>
-                            <div className="text-center">
-                              {_dateFormatter(item?.transDate)}
-                            </div>
-                          </td>
-                          <td>
-                            <div className="pl-2">
-                              {item?.itemName}
-                            </div>
-                          </td>
-                          <td>
-                            <div className="text-right pr-2">
-                              {item?.itemQty}
-                            </div>
-                          </td>
-
-                          <td className="action-att-report-print-disabled">
-                            <div className="d-flex justify-content-around">
-                              <span className="view">
-                                <IView
-                                  clickHandler={() => {
-                                    // setModalShow(true);
-                                    history.push({
-                                      pathname: `/inventory-management/inventory-loan/inventory-loan/create/`,
-                                      state: { loanId: item?.loanId },
-                                    });
-                                  }}
-                                  classes="text-primary"
-                                />
-                              </span>
-                            </div>
-                          </td>
+                  <div className="table-responsive">
+                    <table className="table table-striped table-bordered bj-table bj-table-landing">
+                      <thead>
+                        <tr>
+                          <th>SL</th>
+                          <th>Business Partner Name</th>
+                          <th>Trans Type Name</th>
+                          <th>Warehouse Name</th>
+                          <th>Survey Report No</th>
+                          <th>Lighter Vessel Name</th>
+                          <th>Mother Vessel Name</th>
+                          <th>Trans Date</th>
+                          <th>Item Name</th>
+                          <th>Item Qty</th>
+                          <th>Action</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody>
+                        {gridData?.data?.map((item, index) => (
+                          <tr key={index}>
+                            <td>
+                              <div className="text-center">{index + 1}</div>
+                            </td>
+                            <td>
+                              <div className="pl-2">
+                                {item?.businessPartnerName}
+                              </div>
+                            </td>
+                            <td>
+                              <div className="pl-2">{item?.transTypeName}</div>
+                            </td>
+                            <td>
+                              <div className="pl-2">{item?.wareHouseName}</div>
+                            </td>
+                            <td>
+                              <div className="pl-2">{item?.surveyReportNo}</div>
+                            </td>
+                            <td>
+                              <div className="pl-2">
+                                {item?.lighterVesselName}
+                              </div>
+                            </td>
+                            <td>
+                              <div className="pl-2">
+                                {item?.motherVesselName}
+                              </div>
+                            </td>
+                            <td>
+                              <div className="text-center">
+                                {_dateFormatter(item?.transDate)}
+                              </div>
+                            </td>
+                            <td>
+                              <div className="pl-2">{item?.itemName}</div>
+                            </td>
+                            <td>
+                              <div className="text-right pr-2">
+                                {item?.itemQty}
+                              </div>
+                            </td>
+
+                            <td className="action-att-report-print-disabled">
+                              <div className="d-flex justify-content-around">
+                                <span className="view">
+                                  <IView
+                                    clickHandler={() => {
+                                      // setModalShow(true);
+                                      history.push({
+                                        pathname: `/inventory-management/inventory-loan/inventory-loan/create/`,
+                                        state: { loanId: item?.loanId },
+                                      });
+                                    }}
+                                    classes="text-primary"
+                                  />
+                                </span>
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 )}
 
                 {gridData?.data?.length > 0 && (

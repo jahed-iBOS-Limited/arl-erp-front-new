@@ -2,7 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import NewSelect from "../../../../_helper/_select";
-import { getRefTypeDDL, getTransTypeDDL,getRowAndHeaderLabelData } from "../helper";
+import {
+  getRefTypeDDL,
+  getTransTypeDDL,
+  getRowAndHeaderLabelData,
+} from "../helper";
 import InputField from "../../../../_helper/_inputField";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 
@@ -16,7 +20,7 @@ const validationSchema = Yup.object().shape({
   transType: Yup.object().shape({
     label: Yup.string().required("Transaction Type is required"),
     value: Yup.string().required("Transaction Type is required"),
-  })
+  }),
 });
 
 export default function _Form({
@@ -29,18 +33,15 @@ export default function _Form({
   setRowDto,
   accountId,
   selectedBusinessUnit,
-  location
+  location,
 }) {
-
   //DDL State
-  const [refTypeDDl, setRefTypeDDl] = useState([])
-  const [transTypeDDl, setTransTypeDDl] = useState([])
-
+  const [refTypeDDl, setRefTypeDDl] = useState([]);
+  const [transTypeDDl, setTransTypeDDl] = useState([]);
 
   useEffect(() => {
-    getRefTypeDDL(setRefTypeDDl)
-  },[])
-
+    getRefTypeDDL(setRefTypeDDl);
+  }, []);
 
   return (
     <>
@@ -51,7 +52,7 @@ export default function _Form({
         onSubmit={(values, { setSubmitting, resetForm }) => {
           saveHandler(values, () => {
             resetForm(initData);
-            setRowDto([])
+            setRowDto([]);
           });
         }}
       >
@@ -75,7 +76,7 @@ export default function _Form({
                     label="Reference Type"
                     onChange={(valueOption) => {
                       setFieldValue("reftype", valueOption);
-                      getTransTypeDDL(valueOption?.value,setTransTypeDDl)
+                      getTransTypeDDL(valueOption?.value, setTransTypeDDl);
                     }}
                     placeholder="Reference Type"
                     errors={errors}
@@ -109,7 +110,17 @@ export default function _Form({
                   <button
                     style={{ marginTop: "-7px" }}
                     className="btn btn-primary"
-                    onClick={(e) => getRowAndHeaderLabelData(values?.refNo,accountId,selectedBusinessUnit?.value,location?.state?.sbu?.value,location?.state?.plant?.value,location?.state?.wh?.value,setRowDto)}
+                    onClick={(e) =>
+                      getRowAndHeaderLabelData(
+                        values?.refNo,
+                        accountId,
+                        selectedBusinessUnit?.value,
+                        location?.state?.sbu?.value,
+                        location?.state?.plant?.value,
+                        location?.state?.wh?.value,
+                        setRowDto
+                      )
+                    }
                     type="button"
                     disabled={
                       !values?.reftype || !values?.transType || !values?.refNo
@@ -122,13 +133,18 @@ export default function _Form({
 
               <div className="row global-form">
                 <div className="col-lg-3">
-                   <h6>Transaction Code: {rowDto?.transactionCode} </h6>
+                  <h6>Transaction Code: {rowDto?.transactionCode} </h6>
                 </div>
                 <div className="col-lg-3">
-                   <h6>Refference Code: {rowDto?.refCode} </h6>
+                  <h6>Refference Code: {rowDto?.refCode} </h6>
                 </div>
                 <div className="col-lg-3">
-                   <h6>Transaction Date: { rowDto?.transactionId === 0 ? "" : _dateFormatter(rowDto?.date)} </h6>
+                  <h6>
+                    Transaction Date:{" "}
+                    {rowDto?.transactionId === 0
+                      ? ""
+                      : _dateFormatter(rowDto?.date)}{" "}
+                  </h6>
                 </div>
               </div>
 
@@ -136,46 +152,49 @@ export default function _Form({
                 <div className="col-lg-12">
                   <div className="row px-4">
                     {/* Start Table Part */}
-                    <table
-                      style={{ marginTop: "5px" }}
-                      className="table table-striped table-bordered"
-                    >
-                      <thead>
-                        <tr>
-                          <th>SL</th>
-                          {/* <th>Item Code</th> */}
-                          <th>Item Name</th>
-                          <th>Uom</th>
-                          <th>Quantity</th>
-                          <th>Location</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {rowDto?.rowData?.map((item, index) => (
-                          <tr key={index}>
-                            <td className="text-center align-middle">
-                              {index + 1}
-                            </td>
-                            {/* <td className="text-center align-middle">
+                    <div className="table-responsive">
+                      <table
+                        style={{ marginTop: "5px" }}
+                        className="table table-striped table-bordered"
+                      >
+                        <thead>
+                          <tr>
+                            <th>SL</th>
+                            {/* <th>Item Code</th> */}
+                            <th>Item Name</th>
+                            <th>Uom</th>
+                            <th>Quantity</th>
+                            <th>Location</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {rowDto?.rowData?.map((item, index) => (
+                            <tr key={index}>
+                              <td className="text-center align-middle">
+                                {index + 1}
+                              </td>
+                              {/* <td className="text-center align-middle">
                               {item.itemCode}
                             </td> */}
 
-                            <td className="text-center align-middle table-input">
-                              {item?.itemName}
-                            </td>
-                            <td className="text-center align-middle table-input">
-                              {item?.uomName}
-                            </td>
-                            <td className="text-center align-middle table-input">
-                              {item?.quantity}
-                            </td>
-                            <td className="text-center align-middle table-input">
-                              {item?.inventoryLocationName}
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                              <td className="text-center align-middle table-input">
+                                {item?.itemName}
+                              </td>
+                              <td className="text-center align-middle table-input">
+                                {item?.uomName}
+                              </td>
+                              <td className="text-center align-middle table-input">
+                                {item?.quantity}
+                              </td>
+                              <td className="text-center align-middle table-input">
+                                {item?.inventoryLocationName}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+
                     {/* End Table Part */}
                   </div>
                 </div>

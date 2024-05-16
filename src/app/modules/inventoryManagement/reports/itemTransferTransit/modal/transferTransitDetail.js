@@ -76,46 +76,48 @@ export function TransferTransitDetail({ currentItem }) {
         <div className="row">
           <div className="col-lg-12">
             {loading && <Loading />}
-            <table className="table table-striped table-bordered global-table table-font-size-sm">
-              <thead>
-                <tr>
-                  <th>SL</th>
-                  <th>Item</th>
-                  <th>UoM</th>
-                  <th>Transfer Quantity</th>
-                  <th>Total Receive Quantity</th>
-                  <th>Last Receive Date</th>
-                </tr>
-              </thead>
-              <tbody>
-                {detailData?.objRow?.map((item, index) => {
-                  totalTransfer += item?.transferQty;
-                  totalReceive += item?.receiveQty;
-                  return (
-                    <tr key={index}>
-                      <td style={{ width: "30px" }} className="text-center">
-                        {index + 1}
-                      </td>
-                      <td>{item?.itemName}</td>
-                      <td>{item?.uomName}</td>
-                      <td className="text-right">{item?.transferQty}</td>
-                      <td className="text-right">{item?.receiveQty}</td>
-                      <td>{_dateFormatter(item?.lastReceiveDate)}</td>
-                    </tr>
-                  );
-                })}
-                {detailData?.objRow?.length > 0 && (
-                  <tr style={{ textAlign: "right", fontWeight: "bold" }}>
-                    <td colSpan={3} className="text-right">
-                      Total
-                    </td>
-                    <td>{totalTransfer}</td>
-                    <td>{totalReceive}</td>
-                    <td></td>
+            <div className="table-responsive">
+              <table className="table table-striped table-bordered global-table table-font-size-sm">
+                <thead>
+                  <tr>
+                    <th>SL</th>
+                    <th>Item</th>
+                    <th>UoM</th>
+                    <th>Transfer Quantity</th>
+                    <th>Total Receive Quantity</th>
+                    <th>Last Receive Date</th>
                   </tr>
-                )}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {detailData?.objRow?.map((item, index) => {
+                    totalTransfer += item?.transferQty;
+                    totalReceive += item?.receiveQty;
+                    return (
+                      <tr key={index}>
+                        <td style={{ width: "30px" }} className="text-center">
+                          {index + 1}
+                        </td>
+                        <td>{item?.itemName}</td>
+                        <td>{item?.uomName}</td>
+                        <td className="text-right">{item?.transferQty}</td>
+                        <td className="text-right">{item?.receiveQty}</td>
+                        <td>{_dateFormatter(item?.lastReceiveDate)}</td>
+                      </tr>
+                    );
+                  })}
+                  {detailData?.objRow?.length > 0 && (
+                    <tr style={{ textAlign: "right", fontWeight: "bold" }}>
+                      <td colSpan={3} className="text-right">
+                        Total
+                      </td>
+                      <td>{totalTransfer}</td>
+                      <td>{totalReceive}</td>
+                      <td></td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </ICustomCard>

@@ -105,70 +105,72 @@ export default function _Form({
 
               {/* Table Start */}
               {rowData?.objdata?.length > 0 && (
-                <table className="table table-striped table-bordered global-table">
-                  <thead>
-                    <tr>
-                      <th style={{ width: "30px" }}>SL</th>
-                      <th>Region</th>
-                      <th>Item Id</th>
-                      <th>Item Name</th>
-                      <th>Target Year</th>
-                      <th>Target Month</th>
-                      <th>Target Quantity</th>
-                      <th style={{ width: "150px" }}>Requisition Quantity</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {rowData?.objdata?.map((td, index) => (
-                      <tr key={index}>
-                        <td className="text-center">{td?.sl}</td>
-                        <td>
-                          <div className="pl-2">{td?.nl5}</div>
-                        </td>
-                        <td>
-                          <div className="pl-2">{td?.itemId}</div>
-                        </td>
-                        <td>
-                          <div className="pl-2">{td?.itemName}</div>
-                        </td>
-                        <td>
-                          <div className="pl-2">{td?.targetYear}</div>
-                        </td>
-                        <td>
-                          <div className="pl-2">
-                            {getMonth(td?.targetMonth)}
-                          </div>
-                        </td>
-
-                        <td>
-                          <div className="pl-2">{td?.targetQuantity}</div>
-                        </td>
-                        <td>
-                          <InputField
-                            value={td?.requisitionQty}
-                            name="requisitionQty"
-                            placeholder="Requisition Quantity"
-                            type="number"
-                            onChange={(e) => {
-                              dataChangeHandler(
-                                index,
-                                "requisitionQty",
-                                e?.target?.value
-                              );
-                            }}
-                            onBlur={(e) => {
-                              if (e?.target?.value < td?.targetQuantity) {
-                                toast.warn(
-                                  "Requisition Quantity can not be less than Target Quantity"
-                                );
-                              }
-                            }}
-                          />
-                        </td>
+                <div className="table-responsive">
+                  <table className="table table-striped table-bordered global-table">
+                    <thead>
+                      <tr>
+                        <th style={{ width: "30px" }}>SL</th>
+                        <th>Region</th>
+                        <th>Item Id</th>
+                        <th>Item Name</th>
+                        <th>Target Year</th>
+                        <th>Target Month</th>
+                        <th>Target Quantity</th>
+                        <th style={{ width: "150px" }}>Requisition Quantity</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody>
+                      {rowData?.objdata?.map((td, index) => (
+                        <tr key={index}>
+                          <td className="text-center">{td?.sl}</td>
+                          <td>
+                            <div className="pl-2">{td?.nl5}</div>
+                          </td>
+                          <td>
+                            <div className="pl-2">{td?.itemId}</div>
+                          </td>
+                          <td>
+                            <div className="pl-2">{td?.itemName}</div>
+                          </td>
+                          <td>
+                            <div className="pl-2">{td?.targetYear}</div>
+                          </td>
+                          <td>
+                            <div className="pl-2">
+                              {getMonth(td?.targetMonth)}
+                            </div>
+                          </td>
+
+                          <td>
+                            <div className="pl-2">{td?.targetQuantity}</div>
+                          </td>
+                          <td>
+                            <InputField
+                              value={td?.requisitionQty}
+                              name="requisitionQty"
+                              placeholder="Requisition Quantity"
+                              type="number"
+                              onChange={(e) => {
+                                dataChangeHandler(
+                                  index,
+                                  "requisitionQty",
+                                  e?.target?.value
+                                );
+                              }}
+                              onBlur={(e) => {
+                                if (e?.target?.value < td?.targetQuantity) {
+                                  toast.warn(
+                                    "Requisition Quantity can not be less than Target Quantity"
+                                  );
+                                }
+                              }}
+                            />
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               )}
               {rowData?.objdata?.length > 0 && (
                 <PaginationTable

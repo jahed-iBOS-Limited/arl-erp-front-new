@@ -85,129 +85,131 @@ export default function _Form({
 
         <>
           {rowData?.length > 0 && (
-            <table className="table table-striped table-bordered global-table">
-              <thead>
-                <tr>
-                  <th
-                    className="text-center cursor-pointer"
-                    style={{ width: "30px" }}
-                  >
-                    <input
-                      type="checkbox"
-                      value={selectedAll()}
-                      checked={selectedAll()}
-                      onChange={() => allSelect(!selectedAll())}
-                    />
-                  </th>
-                  <th style={{ width: "30px" }}>SL</th>
-                  <th style={{ width: "100px" }}>Client Name</th>
-                  <th style={{ width: "70px" }}>Demand Date</th>
-                  <th style={{ width: "70px" }}>Type of work</th>
-                  <th style={{ width: "220px" }}>Item/Qty</th>
-                  <th style={{ width: "195px" }}>Casting Date/Time</th>
-                  <th style={{ width: "100px" }}>Remarks</th>
-                  <th>Marketing Concern</th>
-                </tr>
-              </thead>
-              <tbody>
-                {rowData?.map((td, index) => (
-                  <tr key={index}>
-                    <td className="text-center">
+            <div className="table-responsive">
+              <table className="table table-striped table-bordered global-table">
+                <thead>
+                  <tr>
+                    <th
+                      className="text-center cursor-pointer"
+                      style={{ width: "30px" }}
+                    >
                       <input
                         type="checkbox"
-                        value={td?.isSelected}
-                        checked={td?.isSelected}
-                        onChange={() => {
-                          dataChangeHandler(
-                            index,
-                            "isSelected",
-                            !td.isSelected
-                          );
-                        }}
+                        value={selectedAll()}
+                        checked={selectedAll()}
+                        onChange={() => allSelect(!selectedAll())}
                       />
-                    </td>
-                    <td className="text-center">{index + 1}</td>
-                    <td>{td?.strCustomerName}</td>
-                    <td>{_dateFormatter(td?.dteDemandDate)}</td>
-                    <td>{td?.strWorkTypeName}</td>
-                    <td>
-                      <table>
-                        <tbody>
-                          {td?.list?.map((item, nestedIndex) => (
-                            <tr>
-                              <td
-                                className="text-left"
-                                style={{ border: "none", width: "65%" }}
-                              >
-                                {item?.strItem}
-                              </td>
-                              <td style={{ border: "none", width: "35%" }}>
-                                <InputField
-                                  value={item?.numQuantity}
-                                  name="numQuantity"
-                                  placeholder="Lifting Qty"
-                                  type="number"
-                                  onChange={(e) => {
-                                    dataChangeHandler(
-                                      index,
-                                      "numQuantity",
-                                      e?.target?.value,
-                                      nestedIndex?.toString()
-                                    );
-                                  }}
-                                />
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </td>
-                    <td>
-                      <input
-                        style={{ width: "195px" }}
-                        value={td?.dteCastingDate}
-                        name="dteCastingDate"
-                        type="datetime-local"
-                        className="form-control"
-                        onChange={(e) => {
-                          dataChangeHandler(
-                            index,
-                            "dteCastingDate",
-                            e?.target?.value
-                          );
-                        }}
-                      />
-                    </td>
-                    <td>
-                      <input
-                        value={td?.strRemarks}
-                        name="strRemarks"
-                        type="text"
-                        className="form-control"
-                        onChange={(e) => {
-                          dataChangeHandler(
-                            index,
-                            "strRemarks",
-                            e?.target?.value
-                          );
-                        }}
-                      />
-                    </td>
-                    <td>{td?.strCastingProcedureBy}</td>
+                    </th>
+                    <th style={{ width: "30px" }}>SL</th>
+                    <th style={{ width: "100px" }}>Client Name</th>
+                    <th style={{ width: "70px" }}>Demand Date</th>
+                    <th style={{ width: "70px" }}>Type of work</th>
+                    <th style={{ width: "220px" }}>Item/Qty</th>
+                    <th style={{ width: "195px" }}>Casting Date/Time</th>
+                    <th style={{ width: "100px" }}>Remarks</th>
+                    <th>Marketing Concern</th>
                   </tr>
-                ))}
+                </thead>
+                <tbody>
+                  {rowData?.map((td, index) => (
+                    <tr key={index}>
+                      <td className="text-center">
+                        <input
+                          type="checkbox"
+                          value={td?.isSelected}
+                          checked={td?.isSelected}
+                          onChange={() => {
+                            dataChangeHandler(
+                              index,
+                              "isSelected",
+                              !td.isSelected
+                            );
+                          }}
+                        />
+                      </td>
+                      <td className="text-center">{index + 1}</td>
+                      <td>{td?.strCustomerName}</td>
+                      <td>{_dateFormatter(td?.dteDemandDate)}</td>
+                      <td>{td?.strWorkTypeName}</td>
+                      <td>
+                        <table>
+                          <tbody>
+                            {td?.list?.map((item, nestedIndex) => (
+                              <tr>
+                                <td
+                                  className="text-left"
+                                  style={{ border: "none", width: "65%" }}
+                                >
+                                  {item?.strItem}
+                                </td>
+                                <td style={{ border: "none", width: "35%" }}>
+                                  <InputField
+                                    value={item?.numQuantity}
+                                    name="numQuantity"
+                                    placeholder="Lifting Qty"
+                                    type="number"
+                                    onChange={(e) => {
+                                      dataChangeHandler(
+                                        index,
+                                        "numQuantity",
+                                        e?.target?.value,
+                                        nestedIndex?.toString()
+                                      );
+                                    }}
+                                  />
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </td>
+                      <td>
+                        <input
+                          style={{ width: "195px" }}
+                          value={td?.dteCastingDate}
+                          name="dteCastingDate"
+                          type="datetime-local"
+                          className="form-control"
+                          onChange={(e) => {
+                            dataChangeHandler(
+                              index,
+                              "dteCastingDate",
+                              e?.target?.value
+                            );
+                          }}
+                        />
+                      </td>
+                      <td>
+                        <input
+                          value={td?.strRemarks}
+                          name="strRemarks"
+                          type="text"
+                          className="form-control"
+                          onChange={(e) => {
+                            dataChangeHandler(
+                              index,
+                              "strRemarks",
+                              e?.target?.value
+                            );
+                          }}
+                        />
+                      </td>
+                      <td>{td?.strCastingProcedureBy}</td>
+                    </tr>
+                  ))}
 
-                <tr>
-                  <td colSpan="5" className="text-right">
-                    <strong>Total</strong>
-                  </td>
-                  <td colSpan="1" className="text-right">
-                    <strong>{totalMaker}</strong>
-                  </td>
-                  <td colSpan="10"></td>
-                </tr>
-              </tbody>
-            </table>
+                  <tr>
+                    <td colSpan="5" className="text-right">
+                      <strong>Total</strong>
+                    </td>
+                    <td colSpan="1" className="text-right">
+                      <strong>{totalMaker}</strong>
+                    </td>
+                    <td colSpan="10"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           )}
         </>
 

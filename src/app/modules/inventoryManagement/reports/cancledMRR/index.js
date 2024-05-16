@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Form, Formik } from "formik";
-import {  useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import ILoader from "../../../_helper/loader/_loader";
 import ICustomCard from "../../../_helper/_customCard";
 import IView from "../../../_helper/_helperIcons/_view";
@@ -8,7 +8,12 @@ import InputField from "../../../_helper/_inputField";
 import PaginationSearch from "../../../_helper/_search";
 import NewSelect from "../../../_helper/_select";
 import { _todayDate } from "../../../_helper/_todayDate";
-import { getCancledMRRLanding, getPlantList, getSBUList, getWhList } from "./helper";
+import {
+  getCancledMRRLanding,
+  getPlantList,
+  getSBUList,
+  getWhList,
+} from "./helper";
 import IViewModal from "../../../_helper/_viewModal";
 import { InventoryTransactionReportViewTableRow } from "../../warehouseManagement/mrrCancel/report/tableRow";
 
@@ -32,10 +37,7 @@ function CancledMRR() {
   // loading
   const [loading, setLoading] = useState(false);
   // redux data
-  const {
-    profileData,
-    selectedBusinessUnit,
-  } = useSelector((state) => {
+  const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return {
       profileData: state.authData.profileData,
       selectedBusinessUnit: state.authData.selectedBusinessUnit,
@@ -44,9 +46,12 @@ function CancledMRR() {
 
   // get ddl
   useEffect(() => {
-
     if (profileData?.accountId && selectedBusinessUnit?.value) {
-      getSBUList(profileData?.accountId, selectedBusinessUnit?.value, setSbuList);
+      getSBUList(
+        profileData?.accountId,
+        selectedBusinessUnit?.value,
+        setSbuList
+      );
       getPlantList(
         profileData?.userId,
         profileData?.accountId,
@@ -88,7 +93,7 @@ function CancledMRR() {
           <Formik
             enableReinitialize={true}
             initialValues={{ ...initData }}
-            onSubmit={(values, { setSubmitting, resetForm }) => { }}
+            onSubmit={(values, { setSubmitting, resetForm }) => {}}
           >
             {({
               handleSubmit,
@@ -161,6 +166,7 @@ function CancledMRR() {
                         <InputField
                           value={values?.fromDate}
                           name="fromDate"
+                          style={{ width: "100%" }}
                           placeholder="From date"
                           type="date"
                         />
@@ -174,6 +180,7 @@ function CancledMRR() {
                           name="toDate"
                           placeholder="To date"
                           type="date"
+                          style={{ width: "100%" }}
                         />
                       </div>
                     </div>
@@ -189,7 +196,6 @@ function CancledMRR() {
                           !values?.toDate
                         }
                         onClick={() => {
-
                           viewCancledMRR(values);
                         }}
                       >
@@ -223,49 +229,53 @@ function CancledMRR() {
                       paginationSearchHandler={paginationSearchHandler}
                       values={values}
                     />
-                    <table className="table table-striped table-bordered global-table table-font-size-sm">
-                      <thead>
-                        <tr>
-                          <th>SL</th>
-                          <th>Transaction Code</th>
-                          <th>Reference No</th>
-                          <th>Action By</th>
-                          <th>Action</th>
-                        </tr>
-                      </thead>
-                      {loading ? (
-                        <ILoader />
-                      ) : (
-                        <tbody>
-                          {landing?.map((item, index) => (
-                            <tr key={index}>
-                              <td>{index + 1}</td>
-                              <td>{item?.transactionCode}</td>
-                              <td>{item?.referenceCode}</td>
-                              <td>{item?.userName}</td>
-                              <td className="text-center align-middle">
-                                <span>
-                                  <IView
-                                    clickHandler={() => {
-                                      // history.push({
-                                      //   pathname: `/inventory-management/warehouse-management/inventorytransaction/reportview/${item?.inventoryTransactionId}/${item?.inventoryTransectionGroupId}`,
-                                      //   item,
-                                      // })
-                                      setCurrentRowData(item)
-                                      setIsShowModal(true)
-                                    }
-                                    }
-                                  />
-                                </span>
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      )}
-                    </table>
+                    <div className="table-responsive">
+                      <table className="table table-striped table-bordered global-table table-font-size-sm">
+                        <thead>
+                          <tr>
+                            <th>SL</th>
+                            <th>Transaction Code</th>
+                            <th>Reference No</th>
+                            <th>Action By</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        {loading ? (
+                          <ILoader />
+                        ) : (
+                          <tbody>
+                            {landing?.map((item, index) => (
+                              <tr key={index}>
+                                <td>{index + 1}</td>
+                                <td>{item?.transactionCode}</td>
+                                <td>{item?.referenceCode}</td>
+                                <td>{item?.userName}</td>
+                                <td className="text-center align-middle">
+                                  <span>
+                                    <IView
+                                      clickHandler={() => {
+                                        // history.push({
+                                        //   pathname: `/inventory-management/warehouse-management/inventorytransaction/reportview/${item?.inventoryTransactionId}/${item?.inventoryTransectionGroupId}`,
+                                        //   item,
+                                        // })
+                                        setCurrentRowData(item);
+                                        setIsShowModal(true);
+                                      }}
+                                    />
+                                  </span>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        )}
+                      </table>
+                    </div>
                   </div>
                 </div>
-                <IViewModal show={isShowModal} onHide={() => setIsShowModal(false)}>
+                <IViewModal
+                  show={isShowModal}
+                  onHide={() => setIsShowModal(false)}
+                >
                   <InventoryTransactionReportViewTableRow
                     Invid={currentRowData?.transactionId}
                     grId={currentRowData?.transactionGroupId}

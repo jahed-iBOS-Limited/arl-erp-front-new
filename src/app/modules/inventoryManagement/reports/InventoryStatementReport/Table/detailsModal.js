@@ -65,7 +65,7 @@ const DetailsModal = ({ tableItem, values, type }) => {
 
     return grandTotal || 0;
   };
-  
+
   return (
     <>
       {loading && <Loading />}
@@ -132,54 +132,55 @@ const DetailsModal = ({ tableItem, values, type }) => {
             To Date: {values?.toDate} Time: {_timeFormatter(values?.toTime)}
           </h6>
         </div>
-        <table className="table table-striped table-bordered global-table">
-          <thead>
-            <tr>
-              <th>SL</th>
-              <th
-                style={{
-                  width: "80px",
-                }}
-              >
-                Transection Date
-              </th>
-              <th
-                style={{
-                  width: "90px",
-                }}
-              >
-                Transection Code
-              </th>
-              <th
-                style={{
-                  width: "100px",
-                }}
-              >
-                Transection Type
-              </th>
-              <th>Reference No.</th>
-              <th
-                style={{
-                  width: "100px",
-                }}
-              >
-                Qty.
-              </th>
-              <th
-                style={{
-                  width: "100px",
-                }}
-              >
-                Value
-              </th>
-              <th
-                style={{
-                  width: "100px",
-                }}
-              >
-                Rate
-              </th>
-              {/* <th
+        <div className="table-responsive">
+          <table className="table table-striped table-bordered global-table">
+            <thead>
+              <tr>
+                <th>SL</th>
+                <th
+                  style={{
+                    width: "80px",
+                  }}
+                >
+                  Transection Date
+                </th>
+                <th
+                  style={{
+                    width: "90px",
+                  }}
+                >
+                  Transection Code
+                </th>
+                <th
+                  style={{
+                    width: "100px",
+                  }}
+                >
+                  Transection Type
+                </th>
+                <th>Reference No.</th>
+                <th
+                  style={{
+                    width: "100px",
+                  }}
+                >
+                  Qty.
+                </th>
+                <th
+                  style={{
+                    width: "100px",
+                  }}
+                >
+                  Value
+                </th>
+                <th
+                  style={{
+                    width: "100px",
+                  }}
+                >
+                  Rate
+                </th>
+                {/* <th
                 style={{
                   width: "100px",
                 }}
@@ -193,13 +194,13 @@ const DetailsModal = ({ tableItem, values, type }) => {
               >
                 Valuation
               </th> */}
-            </tr>
-          </thead>
-          <tbody>
-            {inventoryLedger?.map((item, index) => {
-              return (
-                <>
-                  {/* {index === 0 && (
+              </tr>
+            </thead>
+            <tbody>
+              {inventoryLedger?.map((item, index) => {
+                return (
+                  <>
+                    {/* {index === 0 && (
                     <tr className="bg-light">
                       <td className="font-weight-bold">{index + 1}</td>
                       <td className="font-weight-bold">{values?.fromDate}</td>
@@ -211,62 +212,65 @@ const DetailsModal = ({ tableItem, values, type }) => {
                       <td>{"-"}</td>
                     </tr>
                   )} */}
-                  <tr>
-                    <td>{index + 1}</td>
-                    <td>{_dateFormatter(item?.dteTransDate)}</td>
-                    <td>{item?.strCode}</td>
-                    <td>{item?.strTransType}</td>
-                    <td>{item?.strReff}</td>
-                    <td className="text-right">
-                      {(item?.numTransQty || 0)?.toFixed(2)}
-                    </td>
-                    <td className="text-right">{item?.numTransValue}</td>
-                    <td className="text-right">
-                      {numberWithCommas(
-                        Math.abs(item?.numRate || 0).toFixed(2)
-                      )}
-                    </td>
-                    {/* <td className="text-right">
+                    <tr>
+                      <td>{index + 1}</td>
+                      <td>{_dateFormatter(item?.dteTransDate)}</td>
+                      <td>{item?.strCode}</td>
+                      <td>{item?.strTransType}</td>
+                      <td>{item?.strReff}</td>
+                      <td className="text-right">
+                        {(item?.numTransQty || 0)?.toFixed(2)}
+                      </td>
+                      <td className="text-right">{item?.numTransValue}</td>
+                      <td className="text-right">
+                        {numberWithCommas(
+                          Math.abs(item?.numRate || 0).toFixed(2)
+                        )}
+                      </td>
+                      {/* <td className="text-right">
                       {item?.isOpening ? "Yes" : "NO"}
                     </td>
                     <td className="text-right">
                       {item?.isValuation ? "Yes" : "NO"}
                     </td> */}
-                  </tr>
+                    </tr>
 
-                  {index === inventoryLedger.length - 1 && (
-                    <tr className="bg-light">
-                      <td className="font-weight-bold">{index + 2}</td>
-                      <td className="font-weight-bold">{values?.toDate}</td>
-                      <td>{"-"}</td>
-                      <td className="font-weight-bold">{"Closing Balance"}</td>
-                      <td>{"-"}</td>
-                      <td className="text-right">
-                        {total?.quantityTotal.toFixed(2)}
-                      </td>
-                      <td className="text-right">
-                        {numberWithCommas(
-                          (
-                            Number(total?.quantityTotal.toFixed(6)) *
-                            Math.abs(item?.numRate || 0)
-                          ).toFixed(2)
-                        )}
-                      </td>
-                      <td className="text-right">
-                        {/* {numberWithCommas(
+                    {index === inventoryLedger.length - 1 && (
+                      <tr className="bg-light">
+                        <td className="font-weight-bold">{index + 2}</td>
+                        <td className="font-weight-bold">{values?.toDate}</td>
+                        <td>{"-"}</td>
+                        <td className="font-weight-bold">
+                          {"Closing Balance"}
+                        </td>
+                        <td>{"-"}</td>
+                        <td className="text-right">
+                          {total?.quantityTotal.toFixed(2)}
+                        </td>
+                        <td className="text-right">
+                          {numberWithCommas(
+                            (
+                              Number(total?.quantityTotal.toFixed(6)) *
+                              Math.abs(item?.numRate || 0)
+                            ).toFixed(2)
+                          )}
+                        </td>
+                        <td className="text-right">
+                          {/* {numberWithCommas(
                           Math.abs(item?.numRate || 0).toFixed(2)
                         )} */}
-                        {getGrandRate(item, total).toFixed(2)}
-                      </td>
-                      {/* <td>{"-"}</td>
+                          {getGrandRate(item, total).toFixed(2)}
+                        </td>
+                        {/* <td>{"-"}</td>
                       <td>{"-"}</td> */}
-                    </tr>
-                  )}
-                </>
-              );
-            })}
-          </tbody>
-        </table>
+                      </tr>
+                    )}
+                  </>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
       </div>
     </>
   );

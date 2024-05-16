@@ -1,9 +1,9 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
-import { Formik, Form } from 'formik'
-import * as Yup from 'yup'
-import { useLocation } from 'react-router-dom'
+import { Formik, Form } from "formik";
+import * as Yup from "yup";
+import { useLocation } from "react-router-dom";
 import { useSelector, shallowEqual, useDispatch } from "react-redux";
 import {
   getCancelInvGridData,
@@ -17,12 +17,11 @@ import Loading from "../../../../_helper/_loading";
 import PaginationTable from "./../../../../_helper/_tablePagination";
 import PaginationSearch from "../../../../_helper/_search";
 import IView from "../../../../_helper/_helperIcons/_view";
-import { setCancelInvPPRAction } from '../../../../_helper/reduxForLocalStorage/Actions'
+import { setCancelInvPPRAction } from "../../../../_helper/reduxForLocalStorage/Actions";
 import customStyles from "../../../../selectCustomStyle";
-import NewSelect from '../../../../_helper/_select'
+import NewSelect from "../../../../_helper/_select";
 
-
-const validationSchema = Yup.object().shape({})
+const validationSchema = Yup.object().shape({});
 
 export function TableRow(props) {
   //paginationState
@@ -34,8 +33,7 @@ export function TableRow(props) {
   const [warehouse, setWarehouse] = useState([]);
 
   const location = useLocation();
-  const dispatch = useDispatch()
-
+  const dispatch = useDispatch();
 
   //const dispatch = useDispatch();
   let history = useHistory();
@@ -63,13 +61,12 @@ export function TableRow(props) {
     );
   }, [profileData.accountId, selectedBusinessUnit.value]);
 
-
   const cancelInventoryLanding = useSelector((state) => {
     return state.localStorage.cancelInvLanding;
-  })
+  });
 
-  useEffect(() =>{
-    if(cancelInventoryLanding){
+  useEffect(() => {
+    if (cancelInventoryLanding) {
       getCancelInvGridData(
         profileData.accountId,
         selectedBusinessUnit.value,
@@ -79,10 +76,10 @@ export function TableRow(props) {
         pageSize,
         cancelInventoryLanding?.sbu?.value || 0,
         cancelInventoryLanding?.plant?.value || 0,
-        cancelInventoryLanding?.wh?.value || 0,
+        cancelInventoryLanding?.wh?.value || 0
       );
     }
-  },[])
+  }, []);
 
   const viewGridData = (values) => {
     getCancelInvGridData(
@@ -94,10 +91,9 @@ export function TableRow(props) {
       pageSize,
       values?.sbu?.value,
       values?.plant?.value,
-      values?.wh?.value,
+      values?.wh?.value
     );
   };
-
 
   //setPositionHandler
   const setPositionHandler = (pageNo, pageSize, searchValue) => {
@@ -117,16 +113,16 @@ export function TableRow(props) {
 
   const pushData = (values) => {
     history.push({
-      pathname: "/inventory-management/warehouse-management/cancelInventory/add",
-      state: values
-    })
-    dispatch(setCancelInvPPRAction(values))
+      pathname:
+        "/inventory-management/warehouse-management/cancelInventory/add",
+      state: values,
+    });
+    dispatch(setCancelInvPPRAction(values));
   };
 
   const paginationSearchHandler = (searchValue) => {
     setPositionHandler(pageNo, pageSize, searchValue);
   };
-
 
   const warehouseDLLFind = (plantId) => {
     getWarehouseDDL(
@@ -146,28 +142,31 @@ export function TableRow(props) {
             enableReinitialize={true}
             initialValues={{ ...cancelInventoryLanding }}
             validationSchema={validationSchema}
-            onSubmit={(values, { setSubmitting, resetForm }) => { }}
+            onSubmit={(values, { setSubmitting, resetForm }) => {}}
           >
             {({ errors, touched, setFieldValue, isValid, values }) => (
               <>
                 <div
-                  style={{ transform: 'translateY(-40px)' }}
+                  style={{ transform: "translateY(-40px)" }}
                   className="text-right"
                 >
                   <button
                     onClick={() => {
-                      pushData(values)
+                      pushData(values);
                     }}
                     disabled={!values?.plant || !values?.sbu || !values?.wh}
                     className="btn btn-primary ml-3"
                   >
                     Create
-                </button>
+                  </button>
                 </div>
-                <Form className="form form-label-left" style={{ marginTop: -35 }}>
+                <Form
+                  className="form form-label-left"
+                  style={{ marginTop: -35 }}
+                >
                   <div
                     className="row global-form"
-                    style={{ background: ' #d6dadd' }}
+                    style={{ background: " #d6dadd" }}
                   >
                     <div className="col-lg-3">
                       <NewSelect
@@ -191,7 +190,7 @@ export function TableRow(props) {
                         label="Select Plant"
                         //value={values?.plant}
                         onChange={(v) => {
-                          setFieldValue("plant", v)
+                          setFieldValue("plant", v);
                           warehouseDLLFind(v.value);
                           setFieldValue("wh", "");
                         }}
@@ -222,8 +221,8 @@ export function TableRow(props) {
                         className="btn btn-primary"
                         disabled={!values?.plant || !values?.sbu || !values?.wh}
                         onClick={(e) => {
-                          viewGridData(values)
-                          dispatch(setCancelInvPPRAction(values))
+                          viewGridData(values);
+                          dispatch(setCancelInvPPRAction(values));
                         }}
                       >
                         View
@@ -238,66 +237,82 @@ export function TableRow(props) {
                       placeholder="Request Code Search"
                       paginationSearchHandler={paginationSearchHandler}
                     />
-
-                    <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm">
-                      <thead>
-                        <tr>
-                          <th>SL</th>
-                          <th>Transaction Code</th>
-                          <th>Reference Type</th>
-                          <th>Transaction Type</th>
-                          <th>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {gridData?.data?.length > 0 &&
-                          gridData?.data.map((item, index) => {
-                            return (
-                              <tr key={index}>
-                                <td style={{ width: "30px" }} className="text-center">
-                                  {index + 1}
-                                </td>
-                                <td>
-                                  <span className="pl-2">{item?.inventoryTransactionCode}</span>
-                                </td>
-                                <td>
-                                  <span className="pl-2">{item?.referenceTypeName}</span>
-                                </td>
-                                <td>
-                                  <span className="pl-2 text-center">
-                                    {item.transactionTypeName}
-                                  </span>
-                                </td>
-
-                                <td style={{ width: "80px" }} className="text-center">
-                                  <div
-                                    style={{
-                                      display: "flex",
-                                      flexDirection: "row",
-                                      justifyContent: "space-around",
-                                    }}
+                    <div className="table-responsive">
+                      <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm">
+                        <thead>
+                          <tr>
+                            <th>SL</th>
+                            <th>Transaction Code</th>
+                            <th>Reference Type</th>
+                            <th>Transaction Type</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {gridData?.data?.length > 0 &&
+                            gridData?.data.map((item, index) => {
+                              return (
+                                <tr key={index}>
+                                  <td
+                                    style={{ width: "30px" }}
+                                    className="text-center"
                                   >
-                                    <IView
-                                      clickHandler={(e) =>
-                                        history.push(
-                                          `/inventory-management/warehouse-management/cancelInventory/view/${item?.inventoryTransactionId}`
-                                        )
-                                      }
-                                    />
-                                  </div>
-                                </td>
-                              </tr>
-                            );
-                          })}
-                      </tbody>
-                    </table>
+                                    {index + 1}
+                                  </td>
+                                  <td>
+                                    <span className="pl-2">
+                                      {item?.inventoryTransactionCode}
+                                    </span>
+                                  </td>
+                                  <td>
+                                    <span className="pl-2">
+                                      {item?.referenceTypeName}
+                                    </span>
+                                  </td>
+                                  <td>
+                                    <span className="pl-2 text-center">
+                                      {item.transactionTypeName}
+                                    </span>
+                                  </td>
+
+                                  <td
+                                    style={{ width: "80px" }}
+                                    className="text-center"
+                                  >
+                                    <div
+                                      style={{
+                                        display: "flex",
+                                        flexDirection: "row",
+                                        justifyContent: "space-around",
+                                      }}
+                                    >
+                                      <IView
+                                        clickHandler={(e) =>
+                                          history.push(
+                                            `/inventory-management/warehouse-management/cancelInventory/view/${item?.inventoryTransactionId}`
+                                          )
+                                        }
+                                      />
+                                    </div>
+                                  </td>
+                                </tr>
+                              );
+                            })}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
                 {gridData?.data?.length > 0 && (
                   <PaginationTable
                     count={gridData.totalCount}
                     setPositionHandler={setPositionHandler}
-                    paginationState={{ pageNo, setPageNo, pageSize, setPageSize }}
+                    paginationState={{
+                      pageNo,
+                      setPageNo,
+                      pageSize,
+                      setPageSize,
+                    }}
                     rowsPerPageOptions={[5, 10, 20, 50, 100, 200]}
                   />
                 )}

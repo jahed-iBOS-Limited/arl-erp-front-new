@@ -365,38 +365,39 @@ export default function _Form({
                   </button>
                 </div>
               </div>
-
-              <table
-                class="table table table-head-custom table-vertical-center inv_rowDto_tbl"
-                style={{ marginTop: "15px" }}
-              >
-                <thead>
-                  <tr>
-                    <th tabindex="0">SL</th>
-                    <th tabindex="0">Item Code</th>
-                    <th tabindex="0">Item Name</th>
-                    <th tabindex="0">Ref Qty</th>
-                    <th tabindex="0">Rest Qty</th>
-                    <th tabindex="0">Location</th>
-                    <th tabindex="0">Stock Type</th>
-                    <th tabindex="0">Quantity</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {rowDto.map((item, i) => (
+              <div className="table-responsive">
+                <table
+                  class="table table table-head-custom table-vertical-center inv_rowDto_tbl"
+                  style={{ marginTop: "15px" }}
+                >
+                  <thead>
                     <tr>
-                      <td tabindex="0">{i}</td>
-                      <td tabindex="0">{item.code}</td>
-                      <td tabindex="0">{item.label}</td>
-                      <td tabindex="0">{item.refQty}</td>
-                      <td tabindex="0">{item.restQty}</td>
-                      <td tabindex="0">{item.location.label}</td>
-                      <td tabindex="0">{item.stockType.label}</td>
-                      <td tabindex="0">{item.quantity}</td>
+                      <th tabindex="0">SL</th>
+                      <th tabindex="0">Item Code</th>
+                      <th tabindex="0">Item Name</th>
+                      <th tabindex="0">Ref Qty</th>
+                      <th tabindex="0">Rest Qty</th>
+                      <th tabindex="0">Location</th>
+                      <th tabindex="0">Stock Type</th>
+                      <th tabindex="0">Quantity</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {rowDto.map((item, i) => (
+                      <tr>
+                        <td tabindex="0">{i}</td>
+                        <td tabindex="0">{item.code}</td>
+                        <td tabindex="0">{item.label}</td>
+                        <td tabindex="0">{item.refQty}</td>
+                        <td tabindex="0">{item.restQty}</td>
+                        <td tabindex="0">{item.location.label}</td>
+                        <td tabindex="0">{item.stockType.label}</td>
+                        <td tabindex="0">{item.quantity}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
 
               <button
                 type="submit"
