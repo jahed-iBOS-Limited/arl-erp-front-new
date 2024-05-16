@@ -70,7 +70,8 @@ const ReportRoleManager = () => {
                 {/* {loading && <Loading />} */}
 
                 <div className="col-lg-12">
-                  <table className="table table-striped table-bordered global-table table-font-size-sm td">
+                <div className="table-responsive">
+                <table className="table table-striped table-bordered global-table table-font-size-sm td">
                     <thead>
                       <tr>
                         <th>SL</th>
@@ -116,6 +117,7 @@ const ReportRoleManager = () => {
                       </tbody>
                     )}
                   </table>
+                 </div>
                 </div>
               </div>
             </>
