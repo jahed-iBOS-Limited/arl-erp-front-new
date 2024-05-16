@@ -54,7 +54,9 @@ const PaymentPrepare = () => {
   useEffect(() => {
     getUnitNameDDL(generateAPI("UnitDDL"));
     getBankAccountDDL(
-      `/costmgmt/BankAccount/GetBankAccountDDL?AccountId=${profileData?.accountId}&BusinssUnitId=${4}`
+      `/costmgmt/BankAccount/GetBankAccountDDL?AccountId=${
+        profileData?.accountId
+      }&BusinssUnitId=${4}`
     );
     getInstrumentTypeDDL(`/costmgmt/Instrument/GetInstrumentTypeDDL`);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -77,15 +79,15 @@ const PaymentPrepare = () => {
     checkedData.forEach((itm) =>
       payload.push({
         paymentScheduleId: itm?.PaymentScheduleId,
-        userId:  profileData?.userId,
+        userId: profileData?.userId,
         bankId: values?.bankAccount?.bankId || 0,
-        bankName:values?.bankAccount?.bankName || '',
+        bankName: values?.bankAccount?.bankName || "",
         bankBranchId: values?.bankAccount?.bankBranch_Id || 0,
-        bankBranchName:values?.bankAccount?.bankBranchName || '',
+        bankBranchName: values?.bankAccount?.bankBranchName || "",
         bankAccountId: values?.bankAccount?.value || 0,
-        bankAccountNumber:values?.bankAccount?.bankAccNo || '',
+        bankAccountNumber: values?.bankAccount?.bankAccNo || "",
         instrumentTypeId: values?.instrumentType?.value,
-        instrumentTypeName:values?.instrumentType?.label,
+        instrumentTypeName: values?.instrumentType?.label,
       })
     );
     let confirmObject = {
@@ -185,8 +187,8 @@ const PaymentPrepare = () => {
                                 name="paymentType"
                                 isHiddenLabel={true}
                                 options={[
-                                  {value: 1, label: 'Zakat'},
-                                  {value: 2, label: 'Donation/Sadaka'}
+                                  { value: 1, label: "Zakat" },
+                                  { value: 2, label: "Donation/Sadaka" },
                                 ]}
                                 value={values?.paymentType}
                                 onChange={(valueOption) => {
@@ -249,7 +251,7 @@ const PaymentPrepare = () => {
                                     values?.businessUnit?.value || 4,
                                     values?.paymentType?.value,
                                     values?.fromDate,
-                                    values?.toDate,
+                                    values?.toDate
                                   )
                                 );
                                 setFilterData({
@@ -259,7 +261,7 @@ const PaymentPrepare = () => {
                                   paymentType: values?.paymentType?.value,
                                 });
                               }}
-                               disabled={!values?.paymentType}
+                              disabled={!values?.paymentType}
                             >
                               Show Report
                             </button>
@@ -269,7 +271,10 @@ const PaymentPrepare = () => {
                     </div>
                     <div className="row mt-5">
                       <div className="col-lg-3">
-                        <AttachmentField attachment={values?.attachment} setFieldValue={setFieldValue}/>
+                        <AttachmentField
+                          attachment={values?.attachment}
+                          setFieldValue={setFieldValue}
+                        />
                       </div>
                       <div className="col-lg-3">
                         <NewSelect
@@ -278,9 +283,9 @@ const PaymentPrepare = () => {
                           value={values?.instrumentType}
                           label="Instrument Type"
                           onChange={(valueOption) => {
-                            if(["Cash"].includes(valueOption?.label)) {
-                              setFieldValue('bankAccount', '');
-                            };
+                            if (["Cash"].includes(valueOption?.label)) {
+                              setFieldValue("bankAccount", "");
+                            }
                             setFieldValue("instrumentType", valueOption);
                           }}
                           errors={errors}
@@ -298,7 +303,9 @@ const PaymentPrepare = () => {
                           }}
                           errors={errors}
                           touched={touched}
-                          isDisabled={["Cash"].includes(values?.instrumentType?.label)}
+                          isDisabled={["Cash"].includes(
+                            values?.instrumentType?.label
+                          )}
                         />
                       </div>
                       <div className="col-lg-2 mt-1">
@@ -306,7 +313,14 @@ const PaymentPrepare = () => {
                           type="button"
                           className="btn btn-primary"
                           style={{ fontSize: "12px", marginTop: "15px" }}
-                          disabled={voucherBtn || (!["Cash"].includes(values?.instrumentType?.label) && !values?.bankAccount) || !values?.instrumentType}
+                          disabled={
+                            voucherBtn ||
+                            (!["Cash"].includes(
+                              values?.instrumentType?.label
+                            ) &&
+                              !values?.bankAccount) ||
+                            !values?.instrumentType
+                          }
                           onClick={() => {
                             voucherSubmitlHandler(values, setFieldValue);
                           }}
@@ -322,81 +336,83 @@ const PaymentPrepare = () => {
                     </div>
                     <div className="row">
                       <div className="col-lg-12">
-                        <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
-                          <thead>
-                            <tr>
-                              <th style={{ width: "20px" }}>
-                                <input
-                                  type="checkbox"
-                                  id="parent"
-                                  checked={
-                                    rowDto?.length > 0 &&
-                                    rowDto?.every((item) => item?.itemCheck)
-                                  }
-                                  onChange={(event) => {
-                                    setRowDto(
-                                      rowDto?.map((item) => ({
-                                        ...item,
-                                        itemCheck: event.target.checked,
-                                      }))
-                                    );
-                                    setVoucherBtn(
-                                      rowDto.some(
-                                        (itm) => itm.itemCheck === true
-                                      )
-                                    );
-                                  }}
-                                />
-                              </th>
-                              <th style={{ width: "20px" }}>SL</th>
-                              <th>Application Id</th>
-                              <th>Applicant Name</th>
-                              <th>Mode Of Payment</th>
-                              <th>Payment Amount</th>
-                              <th>Payment Date</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {rowDto?.length > 0 &&
-                              rowDto.map((data, index) => (
-                                <tr key={index}>
-                                  <td>
-                                    <input
-                                      id="itemCheck"
-                                      type="checkbox"
-                                      className=""
-                                      value={data?.itemCheck}
-                                      checked={data?.itemCheck}
-                                      name={data?.itemCheck}
-                                      onChange={(e) => {
-                                        let data = [...rowDto];
-                                        data[index].itemCheck =
-                                          e.target.checked;
-                                        setRowDto([...data]);
-                                        setVoucherBtn(
-                                          !rowDto.some(
-                                            (itm) => itm.itemCheck === true
-                                          )
-                                        );
-                                      }}
-                                    />
-                                  </td>
-                                  <td>{index + 1}</td>
-                                  <td className="text-center">
-                                    {data?.intApplicationID}
-                                  </td>
-                                  <td>{data?.strApplicantName}</td>
-                                  <td>{data?.strModeOfPayment}</td>
-                                  <td className="text-right">
-                                    {_formatMoney(data?.monAmount, 0)}
-                                  </td>
-                                  <td className="text-center">
-                                    {_dateFormatter(data?.dtePaymentDate)}
-                                  </td>
-                                </tr>
-                              ))}
-                          </tbody>
-                        </table>
+                        <div className="table-responsive">
+                          <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
+                            <thead>
+                              <tr>
+                                <th style={{ width: "20px" }}>
+                                  <input
+                                    type="checkbox"
+                                    id="parent"
+                                    checked={
+                                      rowDto?.length > 0 &&
+                                      rowDto?.every((item) => item?.itemCheck)
+                                    }
+                                    onChange={(event) => {
+                                      setRowDto(
+                                        rowDto?.map((item) => ({
+                                          ...item,
+                                          itemCheck: event.target.checked,
+                                        }))
+                                      );
+                                      setVoucherBtn(
+                                        rowDto.some(
+                                          (itm) => itm.itemCheck === true
+                                        )
+                                      );
+                                    }}
+                                  />
+                                </th>
+                                <th style={{ width: "20px" }}>SL</th>
+                                <th>Application Id</th>
+                                <th>Applicant Name</th>
+                                <th>Mode Of Payment</th>
+                                <th>Payment Amount</th>
+                                <th>Payment Date</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {rowDto?.length > 0 &&
+                                rowDto.map((data, index) => (
+                                  <tr key={index}>
+                                    <td>
+                                      <input
+                                        id="itemCheck"
+                                        type="checkbox"
+                                        className=""
+                                        value={data?.itemCheck}
+                                        checked={data?.itemCheck}
+                                        name={data?.itemCheck}
+                                        onChange={(e) => {
+                                          let data = [...rowDto];
+                                          data[index].itemCheck =
+                                            e.target.checked;
+                                          setRowDto([...data]);
+                                          setVoucherBtn(
+                                            !rowDto.some(
+                                              (itm) => itm.itemCheck === true
+                                            )
+                                          );
+                                        }}
+                                      />
+                                    </td>
+                                    <td>{index + 1}</td>
+                                    <td className="text-center">
+                                      {data?.intApplicationID}
+                                    </td>
+                                    <td>{data?.strApplicantName}</td>
+                                    <td>{data?.strModeOfPayment}</td>
+                                    <td className="text-right">
+                                      {_formatMoney(data?.monAmount, 0)}
+                                    </td>
+                                    <td className="text-center">
+                                      {_dateFormatter(data?.dtePaymentDate)}
+                                    </td>
+                                  </tr>
+                                ))}
+                            </tbody>
+                          </table>
+                        </div>
                       </div>
                     </div>
                   </div>

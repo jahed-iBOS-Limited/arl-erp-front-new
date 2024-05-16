@@ -39,7 +39,11 @@ export default function DocSummaryReport() {
   const printRef = useRef();
 
   useEffect(() => {
-    getBusinessUnitDDL_api(profileData?.userId, profileData?.accountId, setUnitDDL )
+    getBusinessUnitDDL_api(
+      profileData?.userId,
+      profileData?.accountId,
+      setUnitDDL
+    );
   }, [profileData]);
 
   return (
@@ -182,79 +186,81 @@ export default function DocSummaryReport() {
                         </h4>
                       </div>
                       <div className="col-lg-12">
-                        <table className="table table-striped table-bordered table-font-size-sm">
-                          <thead>
-                            <tr>
-                              <th>SL</th>
-                              <th>Document Name</th>
-                              <th>Document No</th>
-                              <th>Renewal Type</th>
-                              <th>Validity</th>
-                              <th>Concern Authority</th>
-                              <th>Authority Address</th>
-                              <th>Documents Status</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {rowDto?.length > 0 &&
-                              rowDto?.map((item, index) => {
-                                return (
-                                  <tr key={index}>
-                                    <td
-                                      style={{ width: "30px" }}
-                                      className="text-center"
-                                    >
-                                      {index + 1}
-                                    </td>
-                                    <td>
-                                      <span className="pl-2">
-                                        {item?.strDocumentName}
-                                      </span>
-                                    </td>
-                                    <td>
-                                      <span className="pl-2">
-                                        {item?.strDocumentNo
-                                          ? item?.strDocumentNo
-                                          : "-"}
-                                      </span>
-                                    </td>
-                                    <td>
-                                      <span className="pl-2">
-                                        {item?.strRenualType
-                                          ? item?.strRenualType
-                                          : "-"}
-                                      </span>
-                                    </td>
-                                    <td className="text-center">
-                                      {_dateFormatter(item?.dteRenewalDate)} -{" "}
-                                      {_dateFormatter(item?.dteExpiryDate)}
-                                    </td>
-                                    <td>
-                                      <span className="pl-2">
-                                        {item?.strAuthorName
-                                          ? item?.strAuthorName
-                                          : "-"}
-                                      </span>
-                                    </td>
-                                    <td>
-                                      <span className="pl-2">
-                                        {item?.strAddress
-                                          ? item?.strAddress
-                                          : "-"}
-                                      </span>
-                                    </td>
-                                    <td>
-                                      <span className="pl-2">
-                                        {item?.strStatus
-                                          ? item?.strStatus
-                                          : "-"}
-                                      </span>
-                                    </td>
-                                  </tr>
-                                );
-                              })}
-                          </tbody>
-                        </table>
+                        <div className="table-responsive">
+                          <table className="table table-striped table-bordered table-font-size-sm">
+                            <thead>
+                              <tr>
+                                <th>SL</th>
+                                <th>Document Name</th>
+                                <th>Document No</th>
+                                <th>Renewal Type</th>
+                                <th>Validity</th>
+                                <th>Concern Authority</th>
+                                <th>Authority Address</th>
+                                <th>Documents Status</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {rowDto?.length > 0 &&
+                                rowDto?.map((item, index) => {
+                                  return (
+                                    <tr key={index}>
+                                      <td
+                                        style={{ width: "30px" }}
+                                        className="text-center"
+                                      >
+                                        {index + 1}
+                                      </td>
+                                      <td>
+                                        <span className="pl-2">
+                                          {item?.strDocumentName}
+                                        </span>
+                                      </td>
+                                      <td>
+                                        <span className="pl-2">
+                                          {item?.strDocumentNo
+                                            ? item?.strDocumentNo
+                                            : "-"}
+                                        </span>
+                                      </td>
+                                      <td>
+                                        <span className="pl-2">
+                                          {item?.strRenualType
+                                            ? item?.strRenualType
+                                            : "-"}
+                                        </span>
+                                      </td>
+                                      <td className="text-center">
+                                        {_dateFormatter(item?.dteRenewalDate)} -{" "}
+                                        {_dateFormatter(item?.dteExpiryDate)}
+                                      </td>
+                                      <td>
+                                        <span className="pl-2">
+                                          {item?.strAuthorName
+                                            ? item?.strAuthorName
+                                            : "-"}
+                                        </span>
+                                      </td>
+                                      <td>
+                                        <span className="pl-2">
+                                          {item?.strAddress
+                                            ? item?.strAddress
+                                            : "-"}
+                                        </span>
+                                      </td>
+                                      <td>
+                                        <span className="pl-2">
+                                          {item?.strStatus
+                                            ? item?.strStatus
+                                            : "-"}
+                                        </span>
+                                      </td>
+                                    </tr>
+                                  );
+                                })}
+                            </tbody>
+                          </table>
+                        </div>
                       </div>
                     </div>
                   )}
