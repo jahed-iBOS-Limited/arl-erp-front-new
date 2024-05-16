@@ -96,7 +96,7 @@ export default function BankStateMentSummary() {
                     style={{ marginTop: "17px" }}
                     className="btn btn-primary ml-3"
                     onClick={() => {
-                      // 
+                      //
 
                       BankStatementSummaryExcel(bankStatementData);
                     }}
@@ -107,78 +107,82 @@ export default function BankStateMentSummary() {
               </div>
               <div className="row">
                 <div className="col-lg-12">
-                  <table
-                    id="table-to-xlsx"
-                    className="table table-striped table-bordered mt-3 bj-table bj-table-landing"
-                  >
-                    <thead>
-                      <tr>
-                        <th style={{ width: "30px" }}>SL</th>
-                        <th>Bank Account Name</th>
-                        <th>Credit Amount</th>
-                        <th>Debit Amount</th>
-                        <th>Current Balance</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {bankStatementData?.length > 0 &&
-                        bankStatementData?.map((item, index) => (
-                          <tr key={index}>
-                            <td>{index + 1}</td>
-                            <td>{item?.bankAccount}</td>
-                            <td className="text-right">{item?.debitAmount}</td>
-                            <td className="text-right">
-                              {// abs
-                              Math.abs(item?.creditAmount)}
-                            </td>
-                            <td className="text-right">
-                              {item?.currentBalance}
-                            </td>
-                          </tr>
-                        ))}
-                      <tr>
-                        <td
-                          style={{
-                            fontWeight: "bold",
-                          }}
-                          colSpan="2"
-                          className="text-right"
-                        >
-                          Total
-                        </td>
-                        <td className="text-right">
-                          {Math.abs(
-                            bankStatementData
-                              ?.reduce(
-                                (acc, curr) => acc + curr?.debitAmount,
-                                0
-                              )
-                              .toFixed(2)
-                          )}
-                        </td>
-                        <td className="text-right">
-                          {Math.abs(
-                            bankStatementData
-                              ?.reduce(
-                                (acc, curr) => acc + curr?.creditAmount,
-                                0
-                              )
-                              .toFixed(2)
-                          )}
-                        </td>
-                        <td className="text-right">
-                          {Math.abs(
-                            bankStatementData
-                              ?.reduce(
-                                (acc, curr) => acc + curr?.currentBalance,
-                                0
-                              )
-                              .toFixed(2)
-                          )}
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
+                  <div className="table-responsive">
+                    <table
+                      id="table-to-xlsx"
+                      className="table table-striped table-bordered mt-3 bj-table bj-table-landing"
+                    >
+                      <thead>
+                        <tr>
+                          <th style={{ width: "30px" }}>SL</th>
+                          <th>Bank Account Name</th>
+                          <th>Credit Amount</th>
+                          <th>Debit Amount</th>
+                          <th>Current Balance</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {bankStatementData?.length > 0 &&
+                          bankStatementData?.map((item, index) => (
+                            <tr key={index}>
+                              <td>{index + 1}</td>
+                              <td>{item?.bankAccount}</td>
+                              <td className="text-right">
+                                {item?.debitAmount}
+                              </td>
+                              <td className="text-right">
+                                {// abs
+                                Math.abs(item?.creditAmount)}
+                              </td>
+                              <td className="text-right">
+                                {item?.currentBalance}
+                              </td>
+                            </tr>
+                          ))}
+                        <tr>
+                          <td
+                            style={{
+                              fontWeight: "bold",
+                            }}
+                            colSpan="2"
+                            className="text-right"
+                          >
+                            Total
+                          </td>
+                          <td className="text-right">
+                            {Math.abs(
+                              bankStatementData
+                                ?.reduce(
+                                  (acc, curr) => acc + curr?.debitAmount,
+                                  0
+                                )
+                                .toFixed(2)
+                            )}
+                          </td>
+                          <td className="text-right">
+                            {Math.abs(
+                              bankStatementData
+                                ?.reduce(
+                                  (acc, curr) => acc + curr?.creditAmount,
+                                  0
+                                )
+                                .toFixed(2)
+                            )}
+                          </td>
+                          <td className="text-right">
+                            {Math.abs(
+                              bankStatementData
+                                ?.reduce(
+                                  (acc, curr) => acc + curr?.currentBalance,
+                                  0
+                                )
+                                .toFixed(2)
+                            )}
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
             </div>

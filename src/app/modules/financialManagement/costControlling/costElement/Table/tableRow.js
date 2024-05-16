@@ -60,57 +60,60 @@ export function TableRow() {
   return (
     <>
       {loading && <Loading />}
-      <table
-        className="table table-striped table-bordered global-table"
-        style={{ width: "100%" }}
-      >
-        <thead>
-          <tr>
-            <th>Sl</th>
-            <th>Code</th>
-            <th>Element Name</th>
-            <th>Controlling Unit</th>
-            <th>Allocation Based</th>
-            <th>General Ledger</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {gridData?.data?.map((data, index) => (
-            <tr key={index}>
-              <td>{data?.sl}</td>
-              <td>
-                <div className="pl-2">{data?.costElementCode}</div>
-              </td>
-              <td>
-                <div className="pl-2">{data?.costElementName}</div>
-              </td>
-              <td>
-                <div className="pl-2">{data?.controllingUnitName}</div>
-              </td>
-              <td>
-                <div className="pl-2">
-                  {data?.allocationBased === true ? "Yes" : "No"}
-                </div>
-              </td>
-              <td>
-                <div className="pl-2">{data?.generalLedgerName}</div>
-              </td>
-              <td className="text-center">
-                <span
-                  onClick={() =>
-                    history.push({
-                      pathname: `/financial-management/cost-controlling/costelement/edit/${data?.costElementId}`,
-                    })
-                  }
-                >
-                  <IEdit />
-                </span>
-              </td>
+      <div className="table-responsive">
+        <table
+          className="table table-striped table-bordered global-table"
+          style={{ width: "100%" }}
+        >
+          <thead>
+            <tr>
+              <th>Sl</th>
+              <th>Code</th>
+              <th>Element Name</th>
+              <th>Controlling Unit</th>
+              <th>Allocation Based</th>
+              <th>General Ledger</th>
+              <th>Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {gridData?.data?.map((data, index) => (
+              <tr key={index}>
+                <td>{data?.sl}</td>
+                <td>
+                  <div className="pl-2">{data?.costElementCode}</div>
+                </td>
+                <td>
+                  <div className="pl-2">{data?.costElementName}</div>
+                </td>
+                <td>
+                  <div className="pl-2">{data?.controllingUnitName}</div>
+                </td>
+                <td>
+                  <div className="pl-2">
+                    {data?.allocationBased === true ? "Yes" : "No"}
+                  </div>
+                </td>
+                <td>
+                  <div className="pl-2">{data?.generalLedgerName}</div>
+                </td>
+                <td className="text-center">
+                  <span
+                    onClick={() =>
+                      history.push({
+                        pathname: `/financial-management/cost-controlling/costelement/edit/${data?.costElementId}`,
+                      })
+                    }
+                  >
+                    <IEdit />
+                  </span>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>{" "}
+      </div>
+
       {gridData?.data?.length > 0 && (
         <PaginationTable
           count={gridData?.totalCount}
