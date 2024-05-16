@@ -166,45 +166,47 @@ const TransferInfoLanding = () => {
                 </div>
                 {values?.transferType?.value === 1 &&
                   gridData?.data?.length > 0 && (
-                    <table
-                      id="table-to-xlsx"
-                      className={
-                        "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
-                      }
-                    >
-                      <thead>
-                        <tr className="cursor-pointer">
-                          {headers?.map((th, index) => {
-                            return <th key={index}> {th} </th>;
+                    <div className="table-responsive">
+                      <table
+                        id="table-to-xlsx"
+                        className={
+                          "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+                        }
+                      >
+                        <thead>
+                          <tr className="cursor-pointer">
+                            {headers?.map((th, index) => {
+                              return <th key={index}> {th} </th>;
+                            })}
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {gridData?.data?.map((item, index) => {
+                            return (
+                              <tr key={index}>
+                                <td> {item?.sl}</td>
+                                <td>{_dateFormatter(item?.transactionDate)}</td>
+                                <td>{item?.itemName}</td>
+                                <td>{item?.warehouseName}</td>
+                                <td className="text-right">
+                                  {_fixedPoint(item?.transactionQuantity, true)}
+                                </td>
+                                <td>
+                                  <div className="d-flex justify-content-around">
+                                    <span className="text-center">
+                                      <IView clickHandler={() => {}} />
+                                    </span>
+                                    <span className="edit" onClick={() => {}}>
+                                      <IEdit title={"Rate Entry"} />
+                                    </span>
+                                  </div>
+                                </td>
+                              </tr>
+                            );
                           })}
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {gridData?.data?.map((item, index) => {
-                          return (
-                            <tr key={index}>
-                              <td> {item?.sl}</td>
-                              <td>{_dateFormatter(item?.transactionDate)}</td>
-                              <td>{item?.itemName}</td>
-                              <td>{item?.warehouseName}</td>
-                              <td className="text-right">
-                                {_fixedPoint(item?.transactionQuantity, true)}
-                              </td>
-                              <td>
-                                <div className="d-flex justify-content-around">
-                                  <span className="text-center">
-                                    <IView clickHandler={() => {}} />
-                                  </span>
-                                  <span className="edit" onClick={() => {}}>
-                                    <IEdit title={"Rate Entry"} />
-                                  </span>
-                                </div>
-                              </td>
-                            </tr>
-                          );
-                        })}
-                      </tbody>
-                    </table>
+                        </tbody>
+                      </table>
+                    </div>
                   )}
 
                 {values?.transferType?.value === 2 && (
@@ -252,54 +254,56 @@ function MotherVesselTransferTable({ obj }) {
 
   return (
     <>
-      <table
-        id="table-to-xlsx"
-        className={
-          "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
-        }
-      >
-        <thead>
-          <tr className="cursor-pointer">
-            {tHeads?.map((th, index) => {
-              return <th key={index}> {th} </th>;
-            })}
-            {values?.transactionType?.value === 19 && <th>Actions</th>}
-          </tr>
-        </thead>
-        <tbody>
-          {gridData?.data?.map((item, index) => {
-            return (
-              <tr key={index}>
-                <td> {index + 1}</td>
+      <div className="table-responsive">
+        <table
+          id="table-to-xlsx"
+          className={
+            "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+          }
+        >
+          <thead>
+            <tr className="cursor-pointer">
+              {tHeads?.map((th, index) => {
+                return <th key={index}> {th} </th>;
+              })}
+              {values?.transactionType?.value === 19 && <th>Actions</th>}
+            </tr>
+          </thead>
+          <tbody>
+            {gridData?.data?.map((item, index) => {
+              return (
+                <tr key={index}>
+                  <td> {index + 1}</td>
 
-                <td>{item?.businessPartnerName}</td>
-                <td>{item?.fromMotherVesselName}</td>
-                <td>{item?.toMotherVesselName}</td>
-                <td>{item?.itemName}</td>
-                <td>{item?.reasons}</td>
+                  <td>{item?.businessPartnerName}</td>
+                  <td>{item?.fromMotherVesselName}</td>
+                  <td>{item?.toMotherVesselName}</td>
+                  <td>{item?.itemName}</td>
+                  <td>{item?.reasons}</td>
 
-                <td className="text-right">
-                  {_fixedPoint(item?.transferQuantity, true)}
-                </td>
-                {values?.transactionType?.value === 19 && (
-                  <td>
-                    <div className="d-flex justify-content-around">
-                      <span className="edit">
-                        <IApproval
-                          title={"Transfer In"}
-                          onClick={() => {
-                            transferIn(item, values);
-                          }}
-                        />
-                      </span>
-                    </div>
+                  <td className="text-right">
+                    {_fixedPoint(item?.transferQuantity, true)}
                   </td>
-                )}
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+                  {values?.transactionType?.value === 19 && (
+                    <td>
+                      <div className="d-flex justify-content-around">
+                        <span className="edit">
+                          <IApproval
+                            title={"Transfer In"}
+                            onClick={() => {
+                              transferIn(item, values);
+                            }}
+                          />
+                        </span>
+                      </div>
+                    </td>
+                  )}
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
     </>
   );
 }

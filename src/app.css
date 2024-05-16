@@ -320,6 +320,17 @@ body {
   background: #fff !important;
 }
 
+@media screen and (max-width: 767px) {
+  .inventory-statement-report tbody td:nth-child(2) {
+    position: unset;
+  }
+
+  .inventory-statement-report thead th:nth-child(2) {
+    position: unset;
+
+  }
+}
+
 .loan-scrollable-table .bg-even {
   background: #fff;
 }
@@ -2877,6 +2888,7 @@ body {
   #kt_header_mobile_topbar_toggle .fa-user-circle {
     font-size: 20px !important;
   }
+
   .user-basic-info {
     margin-top: 9px;
   }

@@ -333,79 +333,81 @@ const GhatCostInfoTable = () => {
                 {[1]?.includes(values?.type?.value) && (
                   <>
                     {gridData?.data?.length > 0 && (
-                      <table
-                        id="table-to-xlsx"
-                        className={
-                          "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
-                        }
-                      >
-                        <thead>
-                          <tr className="cursor-pointer">
-                            {headers?.map((th, index) => {
-                              return <th key={index}> {th} </th>;
-                            })}
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {gridData?.data?.map((item, index) => {
-                            grandTotalQty += item?.totalQuantity;
-                            grandTotalAmount += item?.totalAmount;
-                            return (
-                              <tr key={index}>
-                                <td> {index + 1}</td>
-                                <td> {item?.lighterVesselName}</td>
-                                <td> {item?.shipPointName}</td>
-                                <td> {_dateFormatter(values?.fromDate)}</td>
-                                <td> {_dateFormatter(values?.toDate)}</td>
-                                <td className="text-right">
-                                  {_fixedPoint(item?.totalQuantity, true)}
-                                </td>
-                                <td className="text-right">
-                                  {_fixedPoint(item?.totalAmount, true)}
-                                </td>
-                                <td style={{ width: "100px" }}>
-                                  <div className="d-flex justify-content-around">
-                                    <span
-                                      className="edit"
-                                      onClick={() => {
-                                        history.push({
-                                          pathname: `/vessel-management/allotment/ghatcostinfo/update/${item?.id}`,
-                                          state: item,
-                                        });
-                                      }}
-                                    >
-                                      <IEdit title={"Rate Entry"} />
-                                    </span>
-                                    <span>
-                                      <IDelete
-                                        id={item?.id}
-                                        remover={(id) => {
-                                          deleteHandler(id, values);
-                                        }}
-                                      />
-                                    </span>
-                                  </div>
-                                </td>
-                              </tr>
-                            );
-                          })}
-                          {gridData?.data?.length > 0 && (
-                            <tr style={{ fontWeight: "bold" }}>
-                              <td className="text-right" colSpan={5}>
-                                Total
-                              </td>
-                              <td className="text-right">
-                                {_fixedPoint(grandTotalQty, true)}
-                              </td>
-                              <td className="text-right">
-                                {_fixedPoint(grandTotalAmount, true)}
-                              </td>
-
-                              <td></td>
+                      <div className="table-responsive">
+                        <table
+                          id="table-to-xlsx"
+                          className={
+                            "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+                          }
+                        >
+                          <thead>
+                            <tr className="cursor-pointer">
+                              {headers?.map((th, index) => {
+                                return <th key={index}> {th} </th>;
+                              })}
                             </tr>
-                          )}
-                        </tbody>
-                      </table>
+                          </thead>
+                          <tbody>
+                            {gridData?.data?.map((item, index) => {
+                              grandTotalQty += item?.totalQuantity;
+                              grandTotalAmount += item?.totalAmount;
+                              return (
+                                <tr key={index}>
+                                  <td> {index + 1}</td>
+                                  <td> {item?.lighterVesselName}</td>
+                                  <td> {item?.shipPointName}</td>
+                                  <td> {_dateFormatter(values?.fromDate)}</td>
+                                  <td> {_dateFormatter(values?.toDate)}</td>
+                                  <td className="text-right">
+                                    {_fixedPoint(item?.totalQuantity, true)}
+                                  </td>
+                                  <td className="text-right">
+                                    {_fixedPoint(item?.totalAmount, true)}
+                                  </td>
+                                  <td style={{ width: "100px" }}>
+                                    <div className="d-flex justify-content-around">
+                                      <span
+                                        className="edit"
+                                        onClick={() => {
+                                          history.push({
+                                            pathname: `/vessel-management/allotment/ghatcostinfo/update/${item?.id}`,
+                                            state: item,
+                                          });
+                                        }}
+                                      >
+                                        <IEdit title={"Rate Entry"} />
+                                      </span>
+                                      <span>
+                                        <IDelete
+                                          id={item?.id}
+                                          remover={(id) => {
+                                            deleteHandler(id, values);
+                                          }}
+                                        />
+                                      </span>
+                                    </div>
+                                  </td>
+                                </tr>
+                              );
+                            })}
+                            {gridData?.data?.length > 0 && (
+                              <tr style={{ fontWeight: "bold" }}>
+                                <td className="text-right" colSpan={5}>
+                                  Total
+                                </td>
+                                <td className="text-right">
+                                  {_fixedPoint(grandTotalQty, true)}
+                                </td>
+                                <td className="text-right">
+                                  {_fixedPoint(grandTotalAmount, true)}
+                                </td>
+
+                                <td></td>
+                              </tr>
+                            )}
+                          </tbody>
+                        </table>
+                      </div>
                     )}
                     {gridData?.data?.length > 0 && (
                       <PaginationTable
@@ -429,129 +431,133 @@ const GhatCostInfoTable = () => {
                         style={{ marginLeft: "auto", marginRight: "11px" }}
                       ></div>
                       <div className="col-lg-12">
-                        <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
-                          <thead>
-                            <tr>
-                              <th style={{ width: "20px" }}>Sl</th>
-                              <th>Supplier Name</th>
-                              <th>Ship Point Name</th>
-                              <th>Demand Vehicle</th>
-                              <th>Receive Vehicle</th>
-                              <th>Labour Requirement</th>
-                              <th>Labour Present</th>
-                              <th>Lighter Waiting</th>
-                              <th>Actions</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {vehicleDemandData?.length > 0 &&
-                              vehicleDemandData?.map((item, index) => {
-                                totalDemandVehicle += item?.demandVehicle;
-                                totalLabourRequirement += item?.labourRequired;
-                                totalLabourPresent += item?.presentLabour;
-                                totalLighterWaiting += item?.lighterWaiting;
-                                totalReceiveVehicle += item?.receiveVehicle;
-                                return (
-                                  <>
-                                    <tr
-                                      key={index}
-                                      style={{
-                                        backgroundColor:
-                                          item?.receiveVehicle > 0 && "#C7FF87",
-                                      }}
-                                    >
-                                      <td className="text-center">
-                                        {index + 1}
-                                      </td>
-                                      <td>{item?.supplierName}</td>
-                                      <td>{item?.shipPointName}</td>
-                                      <td className="text-center">
-                                        {item?.demandVehicle || 0}
-                                      </td>
-                                      <td className="text-center">
-                                        {item?.receiveVehicle || 0}
-                                      </td>
-                                      <td className="text-center">
-                                        {item?.labourRequired || 0}
-                                      </td>
-                                      <td className="text-center">
-                                        {item?.presentLabour || 0}
-                                      </td>
-                                      <td className="text-center">
-                                        {item?.lighterWaiting || 0}
-                                      </td>
+                        <div className="table-responsive">
+                          <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+                            <thead>
+                              <tr>
+                                <th style={{ width: "20px" }}>Sl</th>
+                                <th>Supplier Name</th>
+                                <th>Ship Point Name</th>
+                                <th>Demand Vehicle</th>
+                                <th>Receive Vehicle</th>
+                                <th>Labour Requirement</th>
+                                <th>Labour Present</th>
+                                <th>Lighter Waiting</th>
+                                <th>Actions</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {vehicleDemandData?.length > 0 &&
+                                vehicleDemandData?.map((item, index) => {
+                                  totalDemandVehicle += item?.demandVehicle;
+                                  totalLabourRequirement +=
+                                    item?.labourRequired;
+                                  totalLabourPresent += item?.presentLabour;
+                                  totalLighterWaiting += item?.lighterWaiting;
+                                  totalReceiveVehicle += item?.receiveVehicle;
+                                  return (
+                                    <>
+                                      <tr
+                                        key={index}
+                                        style={{
+                                          backgroundColor:
+                                            item?.receiveVehicle > 0 &&
+                                            "#C7FF87",
+                                        }}
+                                      >
+                                        <td className="text-center">
+                                          {index + 1}
+                                        </td>
+                                        <td>{item?.supplierName}</td>
+                                        <td>{item?.shipPointName}</td>
+                                        <td className="text-center">
+                                          {item?.demandVehicle || 0}
+                                        </td>
+                                        <td className="text-center">
+                                          {item?.receiveVehicle || 0}
+                                        </td>
+                                        <td className="text-center">
+                                          {item?.labourRequired || 0}
+                                        </td>
+                                        <td className="text-center">
+                                          {item?.presentLabour || 0}
+                                        </td>
+                                        <td className="text-center">
+                                          {item?.lighterWaiting || 0}
+                                        </td>
 
-                                      <td className="text-center">
-                                        <IEdit
-                                          title={"Edit"}
-                                          onClick={() => {
-                                            setVehicleDemandModal(true);
-                                            setVehicleDemandItem(item);
-                                          }}
-                                        />
-                                      </td>
-                                    </tr>
-                                  </>
-                                );
-                              })}
-                            <tr>
-                              <td
-                                style={{ fontWeight: "bold" }}
-                                colSpan="2"
-                                className="fw-bold"
-                              >
-                                Total
-                              </td>
-                              <td></td>
-                              <td
-                                style={{ fontWeight: "bold" }}
-                                className="text-center"
-                              >
-                                {totalDemandVehicle}
-                              </td>
-                              <td
-                                style={{ fontWeight: "bold" }}
-                                className="text-center"
-                              >
-                                {totalReceiveVehicle}
-                              </td>
-                              {/* <td
+                                        <td className="text-center">
+                                          <IEdit
+                                            title={"Edit"}
+                                            onClick={() => {
+                                              setVehicleDemandModal(true);
+                                              setVehicleDemandItem(item);
+                                            }}
+                                          />
+                                        </td>
+                                      </tr>
+                                    </>
+                                  );
+                                })}
+                              <tr>
+                                <td
+                                  style={{ fontWeight: "bold" }}
+                                  colSpan="2"
+                                  className="fw-bold"
+                                >
+                                  Total
+                                </td>
+                                <td></td>
+                                <td
+                                  style={{ fontWeight: "bold" }}
+                                  className="text-center"
+                                >
+                                  {totalDemandVehicle}
+                                </td>
+                                <td
+                                  style={{ fontWeight: "bold" }}
+                                  className="text-center"
+                                >
+                                  {totalReceiveVehicle}
+                                </td>
+                                {/* <td
                                 style={{ fontWeight: "bold" }}
                                 className="text-center"
                               >
                                 {totalPackingMT}
                               </td> */}
-                              {/* <td
+                                {/* <td
                                 style={{ fontWeight: "bold" }}
                                 className="text-center"
                               >
                                 {totalDumpQtyTon}
                               </td> */}
-                              <td
-                                style={{ fontWeight: "bold" }}
-                                className="text-center"
-                              >
-                                {totalLabourRequirement}
-                              </td>
-                              <td
-                                style={{ fontWeight: "bold" }}
-                                className="text-center"
-                              >
-                                {totalLabourPresent}
-                              </td>
-                              <td
-                                style={{ fontWeight: "bold" }}
-                                className="text-center"
-                              >
-                                {totalLighterWaiting}
-                              </td>
-                              <td
-                                style={{ fontWeight: "bold" }}
-                                className="text-center"
-                              ></td>
-                            </tr>
-                          </tbody>
-                        </table>
+                                <td
+                                  style={{ fontWeight: "bold" }}
+                                  className="text-center"
+                                >
+                                  {totalLabourRequirement}
+                                </td>
+                                <td
+                                  style={{ fontWeight: "bold" }}
+                                  className="text-center"
+                                >
+                                  {totalLabourPresent}
+                                </td>
+                                <td
+                                  style={{ fontWeight: "bold" }}
+                                  className="text-center"
+                                >
+                                  {totalLighterWaiting}
+                                </td>
+                                <td
+                                  style={{ fontWeight: "bold" }}
+                                  className="text-center"
+                                ></td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
                       </div>
                     </div>
                     <IViewModal

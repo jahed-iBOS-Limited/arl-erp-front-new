@@ -92,52 +92,60 @@ const CNFLanding = () => {
             </div>
             <form className="form form-label-right">
               {rowData?.data?.length > 0 && (
-                <table
-                  id="table-to-xlsx"
-                  className={
-                    "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
-                  }
-                >
-                  <thead>
-                    <tr className="cursor-pointer">
-                      {headers?.map((th, index) => {
-                        return <th key={index}> {th} </th>;
+                <div className="table-responsive">
+                  <table
+                    id="table-to-xlsx"
+                    className={
+                      "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+                    }
+                  >
+                    <thead>
+                      <tr className="cursor-pointer">
+                        {headers?.map((th, index) => {
+                          return <th key={index}> {th} </th>;
+                        })}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {rowData?.data?.map((item, index) => {
+                        return (
+                          <tr key={index}>
+                            <td
+                              style={{ width: "40px" }}
+                              className="text-center"
+                            >
+                              {index + 1}
+                            </td>
+                            <td>{item?.cnfagentName}</td>
+                            <td>{item?.phone}</td>
+                            <td
+                              style={{ width: "80px" }}
+                              className="text-center"
+                            >
+                              <div className="d-flex justify-content-around">
+                                <span>
+                                  <IEdit
+                                    onClick={() => {
+                                      setSingleData(item);
+                                      setFormType("edit");
+                                      setShow(true);
+                                    }}
+                                  />
+                                </span>
+                                <span>
+                                  <IDelete
+                                    remover={deleteHandler}
+                                    id={item?.cnFid}
+                                  />
+                                </span>
+                              </div>
+                            </td>
+                          </tr>
+                        );
                       })}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {rowData?.data?.map((item, index) => {
-                      return (
-                        <tr key={index}>
-                          <td style={{ width: "40px" }} className="text-center">
-                            {index + 1}
-                          </td>
-                          <td>{item?.cnfagentName}</td>
-                          <td>{item?.phone}</td>
-                          <td style={{ width: "80px" }} className="text-center">
-                            <div className="d-flex justify-content-around">
-                              <span>
-                                <IEdit
-                                  onClick={() => {
-                                    setSingleData(item);
-                                    setFormType("edit");
-                                    setShow(true);
-                                  }}
-                                />
-                              </span>
-                              <span>
-                                <IDelete
-                                  remover={deleteHandler}
-                                  id={item?.cnFid}
-                                />
-                              </span>
-                            </div>
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
+                    </tbody>
+                  </table>
+                </div>
               )}
 
               {rowData?.data?.length > 0 && (

@@ -12,7 +12,7 @@ import NewSelect from "../../../../_helper/_select";
 import { _todayDate } from "../../../../_helper/_todayDate";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import IButton from "../../../../_helper/iButton"; 
+import IButton from "../../../../_helper/iButton";
 import {
   GetDomesticPortDDL,
   // GetLighterAllotmentPagination,
@@ -313,94 +313,96 @@ const VesselRevenueLanding = () => {
                 </div>
               )}
               {gridData?.length > 0 && (
-                <table
-                  id="table-to-xlsx"
-                  className={
-                    "table table-striped table-bordered bj-table bj-table-landing table-font-size-sm"
-                  }
-                >
-                  <thead>
-                    <tr className="cursor-pointer">
-                      <th
-                        onClick={() => allSelect(!selectedAll())}
-                        style={{ width: "30px" }}
-                      >
-                        <input
-                          type="checkbox"
-                          value={selectedAll()}
-                          checked={selectedAll()}
-                          onChange={() => {}}
-                        />
-                      </th>
-                      {headers?.map((th, index) => {
-                        return <th key={index}> {th} </th>;
+                <div className="table-responsive">
+                  <table
+                    id="table-to-xlsx"
+                    className={
+                      "table table-striped table-bordered bj-table bj-table-landing table-font-size-sm"
+                    }
+                  >
+                    <thead>
+                      <tr className="cursor-pointer">
+                        <th
+                          onClick={() => allSelect(!selectedAll())}
+                          style={{ width: "30px" }}
+                        >
+                          <input
+                            type="checkbox"
+                            value={selectedAll()}
+                            checked={selectedAll()}
+                            onChange={() => {}}
+                          />
+                        </th>
+                        {headers?.map((th, index) => {
+                          return <th key={index}> {th} </th>;
+                        })}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {gridData?.map((item, index) => {
+                        totalQty += item?.surveyQuantity;
+                        totalAmount += item?.carrierTotalAmount;
+                        return (
+                          <tr key={index}>
+                            <td
+                              onClick={() => {
+                                rowDataHandler(
+                                  "isSelected",
+                                  index,
+                                  !item.isSelected
+                                );
+                              }}
+                              className="text-center"
+                              style={
+                                item?.isSelected
+                                  ? {
+                                      backgroundColor: "#aacae3",
+                                      width: "30px",
+                                    }
+                                  : { width: "30px" }
+                              }
+                            >
+                              <input
+                                type="checkbox"
+                                value={item?.isSelected}
+                                checked={item?.isSelected}
+                                onChange={() => {}}
+                              />
+                            </td>
+                            <td> {index + 1}</td>
+                            <td>{item?.motherVesselName}</td>
+                            <td>{item?.lighterVesselName}</td>
+                            <td>{item?.program}</td>
+                            <td>{item?.carrierAgentName}</td>
+                            <td className="text-right">
+                              {_fixedPoint(item?.surveyQuantity, true)}
+                            </td>
+                            <td className="text-right">
+                              {_fixedPoint(item?.carrierRate, true)}
+                            </td>
+                            <td className="text-right">
+                              {_fixedPoint(item?.carrierTotalAmount, true)}
+                            </td>
+                          </tr>
+                        );
                       })}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {gridData?.map((item, index) => {
-                      totalQty += item?.surveyQuantity;
-                      totalAmount += item?.carrierTotalAmount;
-                      return (
-                        <tr key={index}>
-                          <td
-                            onClick={() => {
-                              rowDataHandler(
-                                "isSelected",
-                                index,
-                                !item.isSelected
-                              );
-                            }}
-                            className="text-center"
-                            style={
-                              item?.isSelected
-                                ? {
-                                    backgroundColor: "#aacae3",
-                                    width: "30px",
-                                  }
-                                : { width: "30px" }
-                            }
-                          >
-                            <input
-                              type="checkbox"
-                              value={item?.isSelected}
-                              checked={item?.isSelected}
-                              onChange={() => {}}
-                            />
-                          </td>
-                          <td> {index + 1}</td>
-                          <td>{item?.motherVesselName}</td>
-                          <td>{item?.lighterVesselName}</td>
-                          <td>{item?.program}</td>
-                          <td>{item?.carrierAgentName}</td>
-                          <td className="text-right">
-                            {_fixedPoint(item?.surveyQuantity, true)}
+                      {gridData?.length > 0 && (
+                        <tr style={{ fontWeight: "bold" }}>
+                          <td className="text-right" colSpan={6}>
+                            Total
                           </td>
                           <td className="text-right">
-                            {_fixedPoint(item?.carrierRate, true)}
+                            {_fixedPoint(totalQty, true)}
                           </td>
+                          <td></td>{" "}
                           <td className="text-right">
-                            {_fixedPoint(item?.carrierTotalAmount, true)}
+                            {_fixedPoint(totalAmount, true)}
                           </td>
                         </tr>
-                      );
-                    })}
-                    {gridData?.length > 0 && (
-                      <tr style={{ fontWeight: "bold" }}>
-                        <td className="text-right" colSpan={6}>
-                          Total
-                        </td>
-                        <td className="text-right">
-                          {_fixedPoint(totalQty, true)}
-                        </td>
-                        <td></td>{" "}
-                        <td className="text-right">
-                          {_fixedPoint(totalAmount, true)}
-                        </td>
-                      </tr>
-                    )}
-                  </tbody>
-                </table>
+                      )}
+                    </tbody>
+                  </table>
+                </div>
               )}
             </ICustomCard>
             <AttachFile obj={{ open, setOpen, setUploadedImage }} />
