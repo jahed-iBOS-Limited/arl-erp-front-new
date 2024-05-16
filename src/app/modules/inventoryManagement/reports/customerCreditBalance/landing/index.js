@@ -184,65 +184,67 @@ function CustomerCreditBalanceLanding() {
                     <div className="row">
                       {loading && <Loading />}
                       <div className="col-lg-12">
-                        <table
-                          className="table table-striped table-bordered global-table table-font-size-sm"
-                          id="table-to-xlsx"
-                        >
-                          <thead>
-                            <tr>
-                              <th>Customer Name</th>
-                              <th>Credit Limit Days</th>
-                              <th>Credit Limit</th>
-                              <th>Debit</th>
-                              <th>Collection</th>
-                              <th>Outstanding</th>
-                            </tr>
-                          </thead>
-                          <tbody className="text-center">
-                            {gridData?.map((item, index) => (
-                              <tr key={index}>
-                                <td>
-                                  <div className="text-left pl-2">
-                                    {item?.soldToPArtnerName}
-                                  </div>
-                                </td>
-                                <td>
-                                  <div className="text-right pr-2">
-                                    {item?.collectionDays}
-                                  </div>
-                                </td>
-                                <td>
-                                  <div className="text-right pr-2">
-                                    {numberWithCommas(
-                                      Math.round(item?.creditLimit || 0),
-                                      0
-                                    )}
-                                  </div>
-                                </td>
-                                <td className="text-right">
-                                  <div className="text-right pr-2">
-                                    {numberWithCommas(
-                                      Math.round(item?.debit || 0, 0)
-                                    )}
-                                  </div>
-                                </td>
-                                <td>
-                                  <div className="text-right pr-2">
-                                    {numberWithCommas(
-                                      Math.round(item?.collection || 0),
-                                      0
-                                    )}
-                                  </div>
-                                </td>
-                                <td>
-                                  <div className="text-right pr-2">
-                                    {item?.outstanding}
-                                  </div>
-                                </td>
+                        <div className="table-responsive">
+                          <table
+                            className="table table-striped table-bordered global-table table-font-size-sm"
+                            id="table-to-xlsx"
+                          >
+                            <thead>
+                              <tr>
+                                <th>Customer Name</th>
+                                <th>Credit Limit Days</th>
+                                <th>Credit Limit</th>
+                                <th>Debit</th>
+                                <th>Collection</th>
+                                <th>Outstanding</th>
                               </tr>
-                            ))}
-                          </tbody>
-                        </table>
+                            </thead>
+                            <tbody className="text-center">
+                              {gridData?.map((item, index) => (
+                                <tr key={index}>
+                                  <td>
+                                    <div className="text-left pl-2">
+                                      {item?.soldToPArtnerName}
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <div className="text-right pr-2">
+                                      {item?.collectionDays}
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <div className="text-right pr-2">
+                                      {numberWithCommas(
+                                        Math.round(item?.creditLimit || 0),
+                                        0
+                                      )}
+                                    </div>
+                                  </td>
+                                  <td className="text-right">
+                                    <div className="text-right pr-2">
+                                      {numberWithCommas(
+                                        Math.round(item?.debit || 0, 0)
+                                      )}
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <div className="text-right pr-2">
+                                      {numberWithCommas(
+                                        Math.round(item?.collection || 0),
+                                        0
+                                      )}
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <div className="text-right pr-2">
+                                      {item?.outstanding}
+                                    </div>
+                                  </td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
                       </div>
                     </div>
                   </div>

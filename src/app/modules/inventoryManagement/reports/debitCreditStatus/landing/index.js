@@ -176,71 +176,75 @@ function DebitCreditStatus() {
                     <div className="row">
                       {loading && <Loading />}
                       <div className="col-lg-12">
-                        <table
-                          className="table table-striped table-bordered global-table table-font-size-sm"
-                          id="table-to-xlsx"
-                        >
-                          <thead>
-                            <tr>
-                              <th>SL</th>
-                              <th>Party Name</th>
-                              <th colSpan="2">Credit Type</th>
-                              <th>Debit As on</th>
-                              <th>OD As on</th>
-                              <th>Last Product</th>
-                              <th>Last Payment</th>
-                              <th>Product Lifting Gap</th>
-                            </tr>
-                            <tr>
-                              <th></th>
-                              <th></th>
-                              <th>Days</th>
-                              <th>Credit Limit</th>
-                              <th></th>
-                              <th></th>
-                              <th></th>
-                              <th></th>
-                              <th></th>
-                            </tr>
-                          </thead>
-
-                          <tbody className="text-center">
-                            {gridData?.map((item, index) => (
-                              <tr key={index}>
-                                <td className="text-center">{index + 1}</td>
-                                <td>{item?.partyName}</td>
-                                <td className="text-right">{item?.days}</td>
-                                <td className="text-right">
-                                  {numberWithCommas(
-                                    Math.round(item?.creditLimit || 0),
-                                    0
-                                  )}
-                                </td>
-                                <td className="text-right">
-                                  {numberWithCommas(
-                                    Math.round(item?.debitAsOnDate || 0),
-                                    0
-                                  )}
-                                </td>
-                                <td className="text-right">
-                                  {numberWithCommas(
-                                    Math.round(item?.creditAsOnDate || 0),
-                                    0
-                                  )}
-                                </td>
-                                <td className="text-center">
-                                  {_dateFormatter(item?.lastProductLiftingDate)}
-                                </td>
-                                <td className="text-center">
-                                  {_dateFormatter(item?.lastPaymentDate)}
-                                </td>
-                                <td className="text-center">
-                                  {item?.productLiftingGap}
-                                </td>
+                        <div className="table-responsive">
+                          <table
+                            className="table table-striped table-bordered global-table table-font-size-sm"
+                            id="table-to-xlsx"
+                          >
+                            <thead>
+                              <tr>
+                                <th>SL</th>
+                                <th>Party Name</th>
+                                <th colSpan="2">Credit Type</th>
+                                <th>Debit As on</th>
+                                <th>OD As on</th>
+                                <th>Last Product</th>
+                                <th>Last Payment</th>
+                                <th>Product Lifting Gap</th>
                               </tr>
-                            ))}
-                          </tbody>
-                        </table>
+                              <tr>
+                                <th></th>
+                                <th></th>
+                                <th>Days</th>
+                                <th>Credit Limit</th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                              </tr>
+                            </thead>
+
+                            <tbody className="text-center">
+                              {gridData?.map((item, index) => (
+                                <tr key={index}>
+                                  <td className="text-center">{index + 1}</td>
+                                  <td>{item?.partyName}</td>
+                                  <td className="text-right">{item?.days}</td>
+                                  <td className="text-right">
+                                    {numberWithCommas(
+                                      Math.round(item?.creditLimit || 0),
+                                      0
+                                    )}
+                                  </td>
+                                  <td className="text-right">
+                                    {numberWithCommas(
+                                      Math.round(item?.debitAsOnDate || 0),
+                                      0
+                                    )}
+                                  </td>
+                                  <td className="text-right">
+                                    {numberWithCommas(
+                                      Math.round(item?.creditAsOnDate || 0),
+                                      0
+                                    )}
+                                  </td>
+                                  <td className="text-center">
+                                    {_dateFormatter(
+                                      item?.lastProductLiftingDate
+                                    )}
+                                  </td>
+                                  <td className="text-center">
+                                    {_dateFormatter(item?.lastPaymentDate)}
+                                  </td>
+                                  <td className="text-center">
+                                    {item?.productLiftingGap}
+                                  </td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
                       </div>
                     </div>
                   </div>

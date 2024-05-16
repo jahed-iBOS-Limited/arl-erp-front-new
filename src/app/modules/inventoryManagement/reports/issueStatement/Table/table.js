@@ -1,11 +1,9 @@
-import React, { useEffect, useMemo, useState } from 'react'
-import PaginationSearch from './../../../../_helper/_search'
-import ICustomCard from '../../../../_helper/_customCard'
+import React, { useEffect, useMemo, useState } from "react";
+import PaginationSearch from "./../../../../_helper/_search";
+import ICustomCard from "../../../../_helper/_customCard";
 import InputField from "../../../../_helper/_inputField";
-import { Formik, Form } from 'formik'
-import {
-  useSelector
-} from 'react-redux'
+import { Formik, Form } from "formik";
+import { useSelector } from "react-redux";
 import {
   getSBUList,
   getPlantList,
@@ -15,26 +13,23 @@ import {
   getItemCategoryDDLByTypeId_api,
   ItemSubCategory_api,
   getItemTypeListDDL_api,
-} from '../helper'
-import ILoader from '../../../../_helper/loader/_loader'
-import { _dateFormatter } from './../../../../_helper/_dateFormate'
-import NewSelect from '../../../../_helper/_select'
+} from "../helper";
+import ILoader from "../../../../_helper/loader/_loader";
+import { _dateFormatter } from "./../../../../_helper/_dateFormate";
+import NewSelect from "../../../../_helper/_select";
 import * as Yup from "yup";
-import { _todayDate } from '../../../../_helper/_todayDate';
-import PaginationTable from '../../../../_helper/_tablePagination';
+import { _todayDate } from "../../../../_helper/_todayDate";
+import PaginationTable from "../../../../_helper/_tablePagination";
 // import { downloadFile } from '../../../../_helper/downloadFile';
-import { _formatMoney } from '../../../../_helper/_formatMoney';
-import { generateJsonToExcel } from '../../../../_helper/excel/jsonToExcel';
-import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
-
+import { _formatMoney } from "../../../../_helper/_formatMoney";
+import { generateJsonToExcel } from "../../../../_helper/excel/jsonToExcel";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 
 const validationSchema = Yup.object().shape({
   toDate: Yup.string().when("fromDate", (fromDate, Schema) => {
-    if (fromDate)
-      return Schema.required("To date is required")
-  })
+    if (fromDate) return Schema.required("To date is required");
+  }),
 });
-
 
 let initData = {
   wh: "",
@@ -44,50 +39,49 @@ let initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
   issueId: "",
-  costCente: ""
-}
+  costCente: "",
+};
 
 const IssueReportTable = () => {
-
   //paginationState
-  const [pageNo, setPageNo] = React.useState(0)
-  const [pageSize, setPageSize] = React.useState(100)
+  const [pageNo, setPageNo] = React.useState(0);
+  const [pageSize, setPageSize] = React.useState(100);
 
   // ddl state
-  const [sbuList, setSbuList] = useState('')
-  const [plantList, setPlantList] = useState('')
-  const [whList, setWhList] = useState('')
+  const [sbuList, setSbuList] = useState("");
+  const [plantList, setPlantList] = useState("");
+  const [whList, setWhList] = useState("");
   const [itemTypeOption, setItemTypeOption] = useState([]);
   const [itemCategoryDDL, setItemCategoryDDL] = useState([]);
   const [itemSUBCategoryDDL, setItemSubCategoryDDL] = useState([]);
   const [costCenterDDL, getCostCenterDDL, , setCostCenterDDL] = useAxiosGet();
   // landing
-  const [landing, setLanding] = useState([])
+  const [landing, setLanding] = useState([]);
 
   // loading
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   // redux data
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return {
       profileData: state.authData.profileData,
       selectedBusinessUnit: state.authData.selectedBusinessUnit,
-    }
-  })
+    };
+  });
 
   // get ddl
   useEffect(() => {
-    getSBUList(profileData?.accountId, selectedBusinessUnit?.value, setSbuList)
+    getSBUList(profileData?.accountId, selectedBusinessUnit?.value, setSbuList);
     if (profileData?.accountId && selectedBusinessUnit?.value) {
       getPlantList(
         profileData?.userId,
         profileData?.accountId,
         selectedBusinessUnit?.value,
         setPlantList
-      )
+      );
     }
     getItemTypeListDDL_api(setItemTypeOption);
-  }, [profileData, selectedBusinessUnit])
+  }, [profileData, selectedBusinessUnit]);
 
   //setPositionHandler
   const setPositionHandler = (pageNo, pageSize, values) => {
@@ -107,9 +101,8 @@ const IssueReportTable = () => {
       values?.costCenter?.value || "",
       pageNo,
       pageSize
-    )
-  }
-
+    );
+  };
 
   const viewPurchaseOrderData = (values) => {
     getIssueStatementLanding(
@@ -128,8 +121,8 @@ const IssueReportTable = () => {
       values?.costCenter?.value || "",
       pageNo,
       pageSize
-    )
-  }
+    );
+  };
 
   const paginationSearchHandler = (value, values) => {
     getIssueStatementLanding(
@@ -149,8 +142,8 @@ const IssueReportTable = () => {
       pageNo,
       pageSize,
       value
-    )
-  }
+    );
+  };
 
   // const downloadExcelFile = (values) => {
   //   const itemTypeId = values?.itemType?.value ? `&itemTypeId=${values?.itemType.value}`:""
@@ -174,95 +167,93 @@ const IssueReportTable = () => {
       (data) => {
         const header = [
           {
-            text: 'SL',
-            textFormat: 'number',
-            alignment: 'center:middle',
-            key: 'sl',
+            text: "SL",
+            textFormat: "number",
+            alignment: "center:middle",
+            key: "sl",
           },
           {
-            text: 'Cost Center',
-            textFormat: 'text',
-            alignment: 'center:middle',
-            key: 'strCostCenterName',
+            text: "Cost Center",
+            textFormat: "text",
+            alignment: "center:middle",
+            key: "strCostCenterName",
           },
           {
-            text: 'Issue Code',
-            textFormat: 'text',
-            alignment: 'center:middle',
-            key: 'strInventoryTransactionCode',
+            text: "Issue Code",
+            textFormat: "text",
+            alignment: "center:middle",
+            key: "strInventoryTransactionCode",
           },
           {
-            text: 'Issue Date',
-            textFormat: 'date',
-            alignment: 'center:middle',
-            key: 'dteTransactionDate',
+            text: "Issue Date",
+            textFormat: "date",
+            alignment: "center:middle",
+            key: "dteTransactionDate",
           },
           {
-            text: 'Item Req Code',
-            textFormat: 'text',
-            alignment: 'center:middle',
-            key: 'strItemRequestCode',
+            text: "Item Req Code",
+            textFormat: "text",
+            alignment: "center:middle",
+            key: "strItemRequestCode",
           },
           {
-            text: 'Item Req Date',
-            textFormat: 'date',
-            alignment: 'center:middle',
-            key: 'dteRequestDate',
+            text: "Item Req Date",
+            textFormat: "date",
+            alignment: "center:middle",
+            key: "dteRequestDate",
           },
           {
-            text: 'Item Code',
-            textFormat: 'text',
-            alignment: 'center:middle',
-            key: 'strItemCode',
+            text: "Item Code",
+            textFormat: "text",
+            alignment: "center:middle",
+            key: "strItemCode",
           },
           {
-            text: 'Item Name',
-            textFormat: 'text',
-            alignment: 'center:middle',
-            key: 'strItemName',
+            text: "Item Name",
+            textFormat: "text",
+            alignment: "center:middle",
+            key: "strItemName",
           },
           {
-            text: 'Uom',
-            textFormat: 'text',
-            alignment: 'center:middle',
-            key: 'strUoMName',
+            text: "Uom",
+            textFormat: "text",
+            alignment: "center:middle",
+            key: "strUoMName",
           },
           {
-            text: 'Request Quantity',
-            textFormat: 'number',
-            alignment: 'center:middle',
-            key: 'RequestQty',
+            text: "Request Quantity",
+            textFormat: "number",
+            alignment: "center:middle",
+            key: "RequestQty",
           },
           {
-            text: 'Issue Quantity',
-            textFormat: 'number',
-            alignment: 'center:middle',
-            key: 'IssueQuantity',
+            text: "Issue Quantity",
+            textFormat: "number",
+            alignment: "center:middle",
+            key: "IssueQuantity",
           },
           {
-            text: 'Value',
-            textFormat: 'money',
-            alignment: 'center:middle',
-            key: 'numTotalAmount',
+            text: "Value",
+            textFormat: "money",
+            alignment: "center:middle",
+            key: "numTotalAmount",
           },
           {
-            text: 'Remarks',
-            textFormat: 'text',
-            alignment: 'center:middle',
-            key: 'strRemarks',
+            text: "Remarks",
+            textFormat: "text",
+            alignment: "center:middle",
+            key: "strRemarks",
           },
-
-
-        ]
+        ];
         const _data = data.map((item, index) => {
-          return ({
+          return {
             ...item,
             sl: index + 1,
             dteTransactionDate: _dateFormatter(item?.dteTransactionDate),
             dteRequestDate: _dateFormatter(item?.dteRequestDate),
-          })
-        })
-        generateJsonToExcel(header, _data)
+          };
+        });
+        generateJsonToExcel(header, _data);
       },
       values?.sbu?.value,
       values?.plant?.value,
@@ -275,12 +266,14 @@ const IssueReportTable = () => {
       values?.costCenter?.value || "",
       1,
       pageSize
-    )
+    );
+  };
 
-  }
-
-  const calculateTotal = useMemo(()=> {
-    const total = landing?.reduce((previousValue, item)=> previousValue + (item?.numTotalAmount || 0), 0);
+  const calculateTotal = useMemo(() => {
+    const total = landing?.reduce(
+      (previousValue, item) => previousValue + (item?.numTotalAmount || 0),
+      0
+    );
     return total;
   }, [landing]);
 
@@ -292,20 +285,22 @@ const IssueReportTable = () => {
           validationSchema={validationSchema}
           initialValues={initData}
           //validationSchema={validationSchema}
-          onSubmit={(values, { setSubmitting, resetForm }) => { }}
+          onSubmit={(values, { setSubmitting, resetForm }) => {}}
         >
-          {({ handleSubmit,
+          {({
+            handleSubmit,
             resetForm,
             values,
             errors,
             touched,
             setFieldValue,
-            isValid }) => (
+            isValid,
+          }) => (
             <>
               <Form className="form form-label-left">
                 <div
                   className="row global-form"
-                  style={{ background: ' #d6dadd' }}
+                  style={{ background: " #d6dadd" }}
                 >
                   <div className="cgetIssueStatementLandingol-lg-3 col-xl-2">
                     <NewSelect
@@ -315,20 +310,21 @@ const IssueReportTable = () => {
                       label="SBU"
                       onChange={(v) => {
                         if (v) {
-                          setFieldValue('sbu', v)
-                          setFieldValue('costCenter', "")
-                          getCostCenterDDL(`/costmgmt/CostCenter/GetCostCenterDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&SBUId=${v?.value}`)
+                          setFieldValue("sbu", v);
+                          setFieldValue("costCenter", "");
+                          getCostCenterDDL(
+                            `/costmgmt/CostCenter/GetCostCenterDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&SBUId=${v?.value}`
+                          );
                         } else {
-                          setFieldValue('sbu', "")
-                          setFieldValue('costCenter', "")
-                          setCostCenterDDL([])
+                          setFieldValue("sbu", "");
+                          setFieldValue("costCenter", "");
+                          setCostCenterDDL([]);
                         }
                       }}
                       placeholder="SBU"
                       errors={errors}
                       touched={touched}
-                    />{' '}
-
+                    />{" "}
                   </div>
 
                   <div className="col-lg-3 col-xl-2">
@@ -344,9 +340,9 @@ const IssueReportTable = () => {
                           selectedBusinessUnit?.value,
                           v?.value,
                           setWhList
-                        )
-                        setFieldValue('plant', v)
-                        setFieldValue('wh', "")
+                        );
+                        setFieldValue("plant", v);
+                        setFieldValue("wh", "");
                       }}
                       placeholder="Plant"
                       errors={errors}
@@ -360,7 +356,7 @@ const IssueReportTable = () => {
                       value={values?.wh}
                       label="Warehouse"
                       onChange={(v) => {
-                        setFieldValue('wh', v)
+                        setFieldValue("wh", v);
                       }}
                       placeholder="Warehouse"
                       errors={errors}
@@ -370,11 +366,13 @@ const IssueReportTable = () => {
                   <div className="col-lg-3 col-xl-2">
                     <NewSelect
                       name="costCenter"
-                      options={[{ value: 0, label: "All" }, ...costCenterDDL] || []}
+                      options={
+                        [{ value: 0, label: "All" }, ...costCenterDDL] || []
+                      }
                       value={values?.costCenter}
                       label="Cost Center"
                       onChange={(v) => {
-                        setFieldValue('costCenter', v)
+                        setFieldValue("costCenter", v);
                       }}
                       placeholder="Cost Center"
                       errors={errors}
@@ -443,7 +441,7 @@ const IssueReportTable = () => {
 
                   <div className="col-lg-3 col-xl-2">
                     <label>From Date</label>
-                    <div className="d-flex">
+                    <div className="flex-fill">
                       <InputField
                         value={values?.fromDate}
                         name="fromDate"
@@ -454,7 +452,7 @@ const IssueReportTable = () => {
                   </div>
                   <div className="col-lg-3 col-xl-2">
                     <label>To Date</label>
-                    <div className="d-flex">
+                    <div className="flex-fill">
                       <InputField
                         value={values?.toDate}
                         name="toDate"
@@ -467,9 +465,15 @@ const IssueReportTable = () => {
                     <button
                       type="submit"
                       className="btn btn-primary mr-1"
-                      disabled={!values?.plant || !values?.wh || !values?.sbu || !values?.fromDate || !values?.toDate}
+                      disabled={
+                        !values?.plant ||
+                        !values?.wh ||
+                        !values?.sbu ||
+                        !values?.fromDate ||
+                        !values?.toDate
+                      }
                       onClick={() => {
-                        viewPurchaseOrderData(values)
+                        viewPurchaseOrderData(values);
                       }}
                     >
                       View
@@ -479,12 +483,17 @@ const IssueReportTable = () => {
                       temporary hide this button
 
                     */}
-                    {
-                      landing?.length > 0 &&
+                    {landing?.length > 0 && (
                       <button
                         className="btn btn-primary"
                         type="button"
-                        disabled={!values?.plant || !values?.wh || !values?.sbu || !values?.fromDate || !values?.toDate}
+                        disabled={
+                          !values?.plant ||
+                          !values?.wh ||
+                          !values?.sbu ||
+                          !values?.fromDate ||
+                          !values?.toDate
+                        }
                         onClick={(e) =>
                           // downloadExcelFile(values)
                           generateExcel(values, landing[0]?.TotalRows)
@@ -492,8 +501,7 @@ const IssueReportTable = () => {
                       >
                         Export Excel
                       </button>
-                    }
-
+                    )}
                   </div>
                 </div>
               </Form>
@@ -506,45 +514,62 @@ const IssueReportTable = () => {
                     paginationSearchHandler={paginationSearchHandler}
                     values={values}
                   />
-                  <table className="table table-striped table-bordered global-table table-font-size-sm">
-                    <thead>
-                      <tr>
-                        <th>SL</th>
-                        <th>Cost Center</th>
-                        <th>Issue Code</th>
-                        <th>Issue Date</th>
-                        <th>Item Req Code</th>
-                        <th>Item Req Date</th>
-                        <th>Item Code</th>
-                        <th>Item Name</th>
-                        <th>Uom</th>
-                        <th>Request Quantity</th>
-                        <th>Issue Quantity</th>
-                        <th>Value</th>
-                        <th>Remarks</th>
-                        {/* <th>Action</th> */}
-                      </tr>
-                    </thead>
-                    {loading ? (
-                      <ILoader />
-                    ) : (
-                      <tbody>
-                        {landing?.map((item, index) => (
-                          <tr key={index}>
-                            <td>{index + 1}</td>
-                            <td>{item?.strCostCenterName}</td>
-                            <td style={{ width: "120px" }}>{item?.strInventoryTransactionCode}</td>
-                            <td style={{ width: "70px" }}>{_dateFormatter(item?.dteTransactionDate)}</td>
-                            <td style={{ width: "120px" }}>{item?.strItemRequestCode}</td>
-                            <td style={{ width: "70px" }}>{_dateFormatter(item?.dteRequestDate)}</td>
-                            <td>{item?.strItemCode}</td>
-                            <td >{item?.strItemName}</td>
-                            <td style={{ width: "70px" }}>{item?.strUoMName}</td>
-                            <td style={{ width: "70px" }}>{item?.RequestQty}</td>
-                            <td style={{ width: "70px" }}>{item?.IssueQuantity}</td>
-                            <td style={{ width: "100px" }}>{_formatMoney(item?.numTotalAmount)}</td>
-                            <td>{item?.strRemarks}</td>
-                            {/* <td className="text-center align-middle">
+                  <div className="table-responsive">
+                    <table className="table table-striped table-bordered global-table table-font-size-sm">
+                      <thead>
+                        <tr>
+                          <th>SL</th>
+                          <th>Cost Center</th>
+                          <th>Issue Code</th>
+                          <th>Issue Date</th>
+                          <th>Item Req Code</th>
+                          <th>Item Req Date</th>
+                          <th>Item Code</th>
+                          <th>Item Name</th>
+                          <th>Uom</th>
+                          <th>Request Quantity</th>
+                          <th>Issue Quantity</th>
+                          <th>Value</th>
+                          <th>Remarks</th>
+                          {/* <th>Action</th> */}
+                        </tr>
+                      </thead>
+                      {loading ? (
+                        <ILoader />
+                      ) : (
+                        <tbody>
+                          {landing?.map((item, index) => (
+                            <tr key={index}>
+                              <td>{index + 1}</td>
+                              <td>{item?.strCostCenterName}</td>
+                              <td style={{ width: "120px" }}>
+                                {item?.strInventoryTransactionCode}
+                              </td>
+                              <td style={{ width: "70px" }}>
+                                {_dateFormatter(item?.dteTransactionDate)}
+                              </td>
+                              <td style={{ width: "120px" }}>
+                                {item?.strItemRequestCode}
+                              </td>
+                              <td style={{ width: "70px" }}>
+                                {_dateFormatter(item?.dteRequestDate)}
+                              </td>
+                              <td>{item?.strItemCode}</td>
+                              <td>{item?.strItemName}</td>
+                              <td style={{ width: "70px" }}>
+                                {item?.strUoMName}
+                              </td>
+                              <td style={{ width: "70px" }}>
+                                {item?.RequestQty}
+                              </td>
+                              <td style={{ width: "70px" }}>
+                                {item?.IssueQuantity}
+                              </td>
+                              <td style={{ width: "100px" }}>
+                                {_formatMoney(item?.numTotalAmount)}
+                              </td>
+                              <td>{item?.strRemarks}</td>
+                              {/* <td className="text-center align-middle">
                                 <span>
                                   <IView
                                     clickHandler={() =>
@@ -556,17 +581,18 @@ const IssueReportTable = () => {
                                   />
                                 </span>
                             </td> */}
+                            </tr>
+                          ))}
+                          <tr>
+                            <td className="font-weight-bold">Total</td>
+                            <td colSpan={10}></td>
+                            <td>{_formatMoney(calculateTotal)}</td>
+                            <td></td>
                           </tr>
-                        ))}
-                        <tr>
-                          <td className='font-weight-bold'>Total</td>
-                          <td colSpan={10}></td>
-                          <td>{_formatMoney(calculateTotal)}</td>
-                          <td></td>
-                        </tr>
-                      </tbody>
-                    )}
-                  </table>
+                        </tbody>
+                      )}
+                    </table>
+                  </div>
                 </div>
               </div>
               {landing?.length > 0 && (
@@ -583,7 +609,7 @@ const IssueReportTable = () => {
         </Formik>
       </>
     </ICustomCard>
-  )
-}
+  );
+};
 
-export default IssueReportTable
+export default IssueReportTable;

@@ -455,59 +455,61 @@ export default function _Form({
 
               {/* Table Start */}
               {rowData?.length > 0 && (
-                <table className="table table-striped table-bordered global-table">
-                  <thead>
-                    <tr>
-                      <th style={{ width: "30px" }}>SL</th>
-                      <th>PSI Item</th>
-                      <th>PSI Qty</th>
-                      <th>Shift</th>
-                      <th>Waterproof</th>
-                      <th>No. Of Pump</th>
-                      <th>Pipe (Feet)</th>
-                      <th>Large Tyre</th>
-                      <th>Small Tyre</th>
-                      <th>Cement use (Bag)</th>
-                      <th>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {rowData?.map((td, index) => (
-                      <tr key={index}>
-                        <td className="text-center">{index + 1}</td>
-                        <td>{td?.strItemName}</td>
-                        <td>{td?.numQuantity}</td>
-                        <td>{td?.strShift}</td>
-                        <td>{td?.isWaterProof ? "Yes" : "No"}</td>
-                        <td>{td?.intNumberOfPump}</td>
-                        <td>{td?.intPipeFeet}</td>
-                        <td>{td?.intLargeTyre}</td>
-                        <td>{td?.intSmallTyre}</td>
-                        <td>{td?.intBagCementUse}</td>
-                        <td className="text-center">
-                          {params?.type === "view" ? (
-                            "-"
-                          ) : (
-                            <span
-                              onClick={() => {
-                                removeRowData(index, rowData, setRowData);
-                              }}
-                            >
-                              <IDelete />
-                            </span>
-                          )}
-                        </td>
+                <div className="table-responsive">
+                  <table className="table table-striped table-bordered global-table">
+                    <thead>
+                      <tr>
+                        <th style={{ width: "30px" }}>SL</th>
+                        <th>PSI Item</th>
+                        <th>PSI Qty</th>
+                        <th>Shift</th>
+                        <th>Waterproof</th>
+                        <th>No. Of Pump</th>
+                        <th>Pipe (Feet)</th>
+                        <th>Large Tyre</th>
+                        <th>Small Tyre</th>
+                        <th>Cement use (Bag)</th>
+                        <th>Actions</th>
                       </tr>
-                    ))}
-                    <tr>
-                      <td colSpan="2"></td>
-                      <td colSpan="1" className="text-right">
-                        {totalMaker || 0}
-                      </td>
-                      <td colSpan="10"></td>
-                    </tr>
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody>
+                      {rowData?.map((td, index) => (
+                        <tr key={index}>
+                          <td className="text-center">{index + 1}</td>
+                          <td>{td?.strItemName}</td>
+                          <td>{td?.numQuantity}</td>
+                          <td>{td?.strShift}</td>
+                          <td>{td?.isWaterProof ? "Yes" : "No"}</td>
+                          <td>{td?.intNumberOfPump}</td>
+                          <td>{td?.intPipeFeet}</td>
+                          <td>{td?.intLargeTyre}</td>
+                          <td>{td?.intSmallTyre}</td>
+                          <td>{td?.intBagCementUse}</td>
+                          <td className="text-center">
+                            {params?.type === "view" ? (
+                              "-"
+                            ) : (
+                              <span
+                                onClick={() => {
+                                  removeRowData(index, rowData, setRowData);
+                                }}
+                              >
+                                <IDelete />
+                              </span>
+                            )}
+                          </td>
+                        </tr>
+                      ))}
+                      <tr>
+                        <td colSpan="2"></td>
+                        <td colSpan="1" className="text-right">
+                          {totalMaker || 0}
+                        </td>
+                        <td colSpan="10"></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
               )}
 
               <button

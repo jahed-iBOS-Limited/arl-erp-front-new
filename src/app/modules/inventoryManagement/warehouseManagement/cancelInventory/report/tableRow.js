@@ -14,7 +14,6 @@ import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import ICustomCard from "../../../../_helper/_customCard";
 import iMarineIcon from "../../../../_helper/images/imageakijpoly.png";
 
-
 let imageObj = {
   8: iMarineIcon,
 };
@@ -22,12 +21,9 @@ let imageObj = {
 const initData = {};
 const validationSchema = Yup.object().shape({});
 
-
-
 export function TableRow({ CrId }) {
   const [loading, setLoading] = useState(false);
   const [itemReqReport, setiIemReqReport] = useState("");
-
 
   // const profileData = useSelector((state) => {
   //   return state.authData.profileData;
@@ -50,13 +46,13 @@ export function TableRow({ CrId }) {
   return (
     <>
       <ICustomCard
-        title=''
+        title=""
         renderProps={() => (
           <>
             <ReactToPrint
-              pageStyle='@page { size: 8in 12in !important; margin: 0mm; } @media print { body { -webkit-print-color-adjust: exact;} }'
+              pageStyle="@page { size: 8in 12in !important; margin: 0mm; } @media print { body { -webkit-print-color-adjust: exact;} }"
               trigger={() => (
-                <button className='btn btn-primary'>
+                <button className="btn btn-primary">
                   {/* <img
                             style={{ width: "25px", paddingRight: "5px" }}
                             src={printIcon}
@@ -68,26 +64,26 @@ export function TableRow({ CrId }) {
               content={() => printRef.current}
             />
             <ReactToPrint
-              pageStyle='@page { size: 8in 12in !important; margin: 0mm; } @media print { body { -webkit-print-color-adjust: exact;} }'
+              pageStyle="@page { size: 8in 12in !important; margin: 0mm; } @media print { body { -webkit-print-color-adjust: exact;} }"
               trigger={() => (
-                <button className='btn btn-primary ml-2'>PDF</button>
+                <button className="btn btn-primary ml-2">PDF</button>
               )}
               content={() => printRef.current}
             />
             <ReactHTMLTableToExcel
-              id='test-table-xls-button'
-              className='download-table-xls-button btn btn-primary ml-2'
-              table='table-to-xlsx'
-              filename='tablexls'
-              sheet='tablexls'
-              buttonText='Excel'
+              id="test-table-xls-button"
+              className="download-table-xls-button btn btn-primary ml-2"
+              table="table-to-xlsx"
+              filename="tablexls"
+              sheet="tablexls"
+              buttonText="Excel"
             />
             <button
-              type='button'
+              type="button"
               onClick={() => history.goBack()}
-              className='btn btn-secondary back-btn ml-2'
+              className="btn btn-secondary back-btn ml-2"
             >
-              <i className='fa fa-arrow-left mr-1'></i>
+              <i className="fa fa-arrow-left mr-1"></i>
               Back
             </button>
           </>
@@ -103,46 +99,34 @@ export function TableRow({ CrId }) {
             <>
               {loading && <Loading />}
               <FormikForm>
-                <div className=''>
-                  <div ref={printRef} className='print_wrapper'>
-                    <div className='m-3'>
-                      <div className='d-flex justify-content-between align-items-center'>
+                <div className="">
+                  <div ref={printRef} className="print_wrapper">
+                    <div className="m-3">
+                      <div className="d-flex justify-content-between align-items-center">
                         <div>
-                          <div className='d-flex justify-content-center align-items-center'>
+                          <div className="d-flex justify-content-center align-items-center">
                             {selectedBusinessUnit.value === 8 && (
                               <img
                                 style={{ width: "150px", height: "100px" }}
-                                class=''
+                                class=""
                                 src={imageObj[selectedBusinessUnit?.value]}
-                                alt='img'
+                                alt="img"
                               />
                             )}
                             {/* imageObj[selectedBusinessUnit?.value] */}
                           </div>
                         </div>
-                        <div className='d-flex flex-column justify-content-center align-items-center mt-2'>
-                          <h3>
-                            {
-                              selectedBusinessUnit?.label
-                            }
-                          </h3>
-                          <h6>
-                            {
-                              itemReqReport?.head
-                                ?.businessUnitAddress
-                            }
-                          </h6>
+                        <div className="d-flex flex-column justify-content-center align-items-center mt-2">
+                          <h3>{selectedBusinessUnit?.label}</h3>
+                          <h6>{itemReqReport?.head?.businessUnitAddress}</h6>
                           <h4>Cancel Inventory</h4>
                         </div>
                         <div></div>
                       </div>
-                      <div className='my-3'>
+                      <div className="my-3">
                         Transaction Code:
-                        <span className='font-weight-bold mr-2 ml-1'>
-                          {
-                            itemReqReport?.head
-                              ?.inventoryTransactionCode
-                          }
+                        <span className="font-weight-bold mr-2 ml-1">
+                          {itemReqReport?.head?.inventoryTransactionCode}
                         </span>{" "}
                         {/* Purchase Request Type:
                         <span className='font-weight-bold mr-2'>
@@ -152,68 +136,62 @@ export function TableRow({ CrId }) {
                           }
                         </span>{" "} */}
                         Transection GroupName:
-                        <sapn className='font-weight-bold mr-2 ml-1'>
-          
-                            {itemReqReport?.head
-                              ?.inventoryTransectionGroupName}
+                        <sapn className="font-weight-bold mr-2 ml-1">
+                          {itemReqReport?.head?.inventoryTransectionGroupName}
                         </sapn>
-
                         Reference Type Name:
-                        <sapn className='font-weight-bold mr-2 ml-1'>
-                          {itemReqReport?.head
-                              ?.referenceTypeName}
+                        <sapn className="font-weight-bold mr-2 ml-1">
+                          {itemReqReport?.head?.referenceTypeName}
                         </sapn>
                       </div>
-                      <table
-                        className='table table-striped table-bordered global-table'
-                        id='table-to-xlsx'
-                      >
-                        <thead>
-                          <tr>
-                            <th>SL</th>
-                            <th>Item ID</th>
-                            <th>Item Name</th>
-                            <th>Uom</th>
-                            <th>Location</th>
-                            <th>Quantity</th>
-                            <th>Value</th>
-                            {/* <th>Purpose</th> */}
-                          </tr>
-                        </thead>
-                        <tbody>
-                          
-                          {itemReqReport?.row?.map(
-                            (data, i) => (
+                      <div className="table-responsive">
+                        <table
+                          className="table table-striped table-bordered global-table"
+                          id="table-to-xlsx"
+                        >
+                          <thead>
+                            <tr>
+                              <th>SL</th>
+                              <th>Item ID</th>
+                              <th>Item Name</th>
+                              <th>Uom</th>
+                              <th>Location</th>
+                              <th>Quantity</th>
+                              <th>Value</th>
+                              {/* <th>Purpose</th> */}
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {itemReqReport?.row?.map((data, i) => (
                               <tr>
-                                <td className='text-center'>{i + 1}</td>
-                                <td className='text-right'>{data?.itemId}</td>
+                                <td className="text-center">{i + 1}</td>
+                                <td className="text-right">{data?.itemId}</td>
                                 <td>{data?.itemName}</td>
                                 <td>{data?.uoMname}</td>
                                 <td>{data?.inventoryLocationName}</td>
-                                <td className='text-right'>
+                                <td className="text-right">
                                   {data?.transactionQuantity.toFixed(4)}
                                 </td>
                                 {/* <td className="text-right">{data?.currentStock}</td> */}
-                                <td className='text-right'>
+                                <td className="text-right">
                                   {data?.transactionValue}
                                 </td>
                                 {/* <td>{data?.remarks}</td> */}
                               </tr>
-                            )
-                          )}
-                        </tbody>
-                      </table>
-                      <div className='mt-3'>
-                        <div className='d-flex'>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+
+                      <div className="mt-3">
+                        <div className="d-flex">
                           <p>Request By:</p>
-                          <p className='font-weight-bold ml-2'>
-                            {
-                             itemReqReport?.row ? itemReqReport?.row[0]?.actionByName : ""
-                            }{" "}
-                          
+                          <p className="font-weight-bold ml-2">
+                            {itemReqReport?.row
+                              ? itemReqReport?.row[0]?.actionByName
+                              : ""}{" "}
                           </p>
                         </div>
-                        
                       </div>
                     </div>
                   </div>

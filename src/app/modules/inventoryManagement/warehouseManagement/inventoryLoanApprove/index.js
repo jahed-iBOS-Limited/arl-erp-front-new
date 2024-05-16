@@ -41,17 +41,16 @@ export default function InventoryLoanApproveLanding() {
   const setPositionHandler = (pageNo, pageSize, values) => {
     getLandingData(values, pageNo, pageSize);
   };
-  const handleRateChange = (value,itemQty,index)=>{
-    const data = [...rowData?.data]
-    console.log("rowData",data);
+  const handleRateChange = (value, itemQty, index) => {
+    const data = [...rowData?.data];
+    console.log("rowData", data);
     data[index]["itemRate"] = +value;
     data[index]["itemAmount"] = value * itemQty;
-    setRowData((prevState)=>({
+    setRowData((prevState) => ({
       ...prevState,
-      rowData:data
-    }))
-    
-  }
+      rowData: data,
+    }));
+  };
 
   useEffect(() => {
     getPartnerDDl(
@@ -189,143 +188,155 @@ export default function InventoryLoanApproveLanding() {
                 {rowData?.data?.length > 0 && (
                   <div className="common-scrollable-table">
                     <div className="scroll-table _table">
-                      <table className="table table-striped table-bordered bj-table bj-table-landing">
-                        <thead>
-                          <tr>
-                            <th>SL</th>
-                            <th>Business Unit</th>
-                            <th>Business Partner</th>
-                            <th>Loan & Transaction Type</th>
-                            <th>Transaction Date</th>
-                            <th>Warehouse</th>
-                            <th style={{ minWidth: "80px" }}>Icn Number</th>
-                            <th>Shipment Name</th>
-                            <th>Survey Report No</th>
-                            <th>Mother Vessel</th>
-                            <th>Lighter Vessel</th>
-                            <th>Item</th>
-                            <th
-                              className="table-header"
-                              style={{
-                                backgroundColor: "#ffc107 ",
-                                minWidth: "80px",
-                              }}
-                            >
-                              QTY
-                            </th>
-                            <th
-                              className="table-header"
-                              style={{
-                                backgroundColor: "#ffc107",
-                                minWidth: "80px",
-                              }}
-                            >
-                              Rate
-                            </th>
-                            <th
-                              className="table-header"
-                              style={{
-                                backgroundColor: "#ffc107 ",
-                                minWidth: "80px",
-                              }}
-                            >
-                              Amount
-                            </th>
-                            <th>Action</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {rowData?.data?.map((item, index) => (
-                            <tr key={index}>
-                              <td className="text-center">{index + 1}</td>
-                              <td className="text-center">{item?.sbuName}</td>
-                              <td className="text-center">
-                                {item?.businessPartnerName}
-                              </td>
-                              <td className="text-center">
-                                {`${item?.intLoanTypeName} (${item?.transTypeName})`}
-                              </td>
-                              <td className="text-center">
-                                {_dateFormatter(item?.transDate)}
-                              </td>
-                              <td className="text-center">
-                                {item?.wareHouseName}
-                              </td>
-                              <td className="text-center">{item?.lcnumber}</td>
-                              <td className="text-center">
-                                {item?.shipmentName}
-                              </td>
-                              <td className="text-center">
-                                {item?.surveyReportNo}
-                              </td>
-                              <td className="text-center">
-                                {item?.motherVesselName}
-                              </td>
-                              <td className="text-center">
-                                {item?.lighterVesselName}
-                              </td>
-                              <td className="text-center">{item?.itemName}</td>
-                              <td
-                                style={{ backgroundColor: "#ffc107" }}
-                                className="text-center"
+                      <div className="table-responsive">
+                        <table className="table table-striped table-bordered bj-table bj-table-landing">
+                          <thead>
+                            <tr>
+                              <th>SL</th>
+                              <th>Business Unit</th>
+                              <th>Business Partner</th>
+                              <th>Loan & Transaction Type</th>
+                              <th>Transaction Date</th>
+                              <th>Warehouse</th>
+                              <th style={{ minWidth: "80px" }}>Icn Number</th>
+                              <th>Shipment Name</th>
+                              <th>Survey Report No</th>
+                              <th>Mother Vessel</th>
+                              <th>Lighter Vessel</th>
+                              <th>Item</th>
+                              <th
+                                className="table-header"
+                                style={{
+                                  backgroundColor: "#ffc107 ",
+                                  minWidth: "80px",
+                                }}
                               >
-                                {item?.itemQty}
-                              </td>
-                              {item?.intLoanTypeName === "External Loan" &&
-                              item?.transTypeName === "Receive" ? (
-                                <td>
-                                  <InputField
-                                    name="itemRate"
-                                    value={item?.itemRate}
-                                    type="number"
-                                    onChange={(e)=>{
-                                      handleRateChange(e.target.value,item?.itemQty,index)
-                                    }}
-                                  />
+                                QTY
+                              </th>
+                              <th
+                                className="table-header"
+                                style={{
+                                  backgroundColor: "#ffc107",
+                                  minWidth: "80px",
+                                }}
+                              >
+                                Rate
+                              </th>
+                              <th
+                                className="table-header"
+                                style={{
+                                  backgroundColor: "#ffc107 ",
+                                  minWidth: "80px",
+                                }}
+                              >
+                                Amount
+                              </th>
+                              <th>Action</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {rowData?.data?.map((item, index) => (
+                              <tr key={index}>
+                                <td className="text-center">{index + 1}</td>
+                                <td className="text-center">{item?.sbuName}</td>
+                                <td className="text-center">
+                                  {item?.businessPartnerName}
                                 </td>
-                              ) : (
+                                <td className="text-center">
+                                  {`${item?.intLoanTypeName} (${item?.transTypeName})`}
+                                </td>
+                                <td className="text-center">
+                                  {_dateFormatter(item?.transDate)}
+                                </td>
+                                <td className="text-center">
+                                  {item?.wareHouseName}
+                                </td>
+                                <td className="text-center">
+                                  {item?.lcnumber}
+                                </td>
+                                <td className="text-center">
+                                  {item?.shipmentName}
+                                </td>
+                                <td className="text-center">
+                                  {item?.surveyReportNo}
+                                </td>
+                                <td className="text-center">
+                                  {item?.motherVesselName}
+                                </td>
+                                <td className="text-center">
+                                  {item?.lighterVesselName}
+                                </td>
+                                <td className="text-center">
+                                  {item?.itemName}
+                                </td>
                                 <td
                                   style={{ backgroundColor: "#ffc107" }}
                                   className="text-center"
                                 >
-                                  {item?.itemRate}
+                                  {item?.itemQty}
                                 </td>
-                              )}
-                              <td
-                                style={{
-                                  backgroundColor: "#ffc107",
-                                  marginRight: "3px",
-                                }}
-                                className="text-right"
-                              >
-                                {_formatMoney(Math.round(item?.itemAmount, 2))}
-                              </td>
-                              <td className="text-center">
-                                <button
-                                  type="button"
-                                  className="btn btn-primary"
-                                  onClick={() => {
-                                    approveLoan(
-                                      `/wms/InventoryLoan/ItemInventoryLoanTransaction?LoanId=${item?.loanId}&ItemRate=${item?.itemRate}&NumAmount=${item?.itemAmount}&ActionById=${profileData?.accountId}`,
-                                      "",
-                                      () => {
-                                        getLandingData(
-                                          values,
-                                          pageNo,
-                                          pageSize
+                                {item?.intLoanTypeName === "External Loan" &&
+                                item?.transTypeName === "Receive" ? (
+                                  <td>
+                                    <InputField
+                                      name="itemRate"
+                                      value={item?.itemRate}
+                                      type="number"
+                                      onChange={(e) => {
+                                        handleRateChange(
+                                          e.target.value,
+                                          item?.itemQty,
+                                          index
                                         );
-                                      },
-                                      true
-                                    );
+                                      }}
+                                    />
+                                  </td>
+                                ) : (
+                                  <td
+                                    style={{ backgroundColor: "#ffc107" }}
+                                    className="text-center"
+                                  >
+                                    {item?.itemRate}
+                                  </td>
+                                )}
+                                <td
+                                  style={{
+                                    backgroundColor: "#ffc107",
+                                    marginRight: "3px",
                                   }}
+                                  className="text-right"
                                 >
-                                  Approve
-                                </button>
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
+                                  {_formatMoney(
+                                    Math.round(item?.itemAmount, 2)
+                                  )}
+                                </td>
+                                <td className="text-center">
+                                  <button
+                                    type="button"
+                                    className="btn btn-primary"
+                                    onClick={() => {
+                                      approveLoan(
+                                        `/wms/InventoryLoan/ItemInventoryLoanTransaction?LoanId=${item?.loanId}&ItemRate=${item?.itemRate}&NumAmount=${item?.itemAmount}&ActionById=${profileData?.accountId}`,
+                                        "",
+                                        () => {
+                                          getLandingData(
+                                            values,
+                                            pageNo,
+                                            pageSize
+                                          );
+                                        },
+                                        true
+                                      );
+                                    }}
+                                  >
+                                    Approve
+                                  </button>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
                     </div>
                   </div>
                 )}

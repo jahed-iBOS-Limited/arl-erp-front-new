@@ -1,7 +1,13 @@
 import { Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";
-import { Card, CardBody, CardHeader, CardHeaderToolbar, ModalProgressBar } from "../../../../../_metronic/_partials/controls";
+import {
+  Card,
+  CardBody,
+  CardHeader,
+  CardHeaderToolbar,
+  ModalProgressBar,
+} from "../../../../../_metronic/_partials/controls";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import IEdit from "../../../_helper/_helperIcons/_edit";
 import Loading from "../../../_helper/_loading";
@@ -60,47 +66,50 @@ function ItemWiseSerialUpdate() {
               <CardBody>
                 {lodar && <Loading />}
                 <PaginationSearch
-                      placeholder="PO or MRR Code Search"
-                      paginationSearchHandler={paginationSearchHandler}
-                    />
+                  placeholder="PO or MRR Code Search"
+                  paginationSearchHandler={paginationSearchHandler}
+                />
                 <div className="row">
                   <div className="col-lg-12">
-                    <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
-                      <thead>
-                        <tr>
-                          <th style={{ width: "30px" }}>SL</th>
-                          <th>PO Code</th>
-                          <th>MRR Code</th>
-                          <th>Supplier Name</th>
-                          <th style={{ width: "80px" }}>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {rowData?.header?.length > 0 &&
-                          rowData?.header?.map((item, index) => (
-                            <tr key={index}>
-                              <td>{index + 1}</td>
-                              <td className="text-center">
-                                {item?.purchaseOrderCode}
-                              </td>
-                              <td className="text-center">{item?.mrrcode}</td>
-                              <td>{item?.supplierName || ""}</td>
-                              <td className="text-center">
-                                <div className="d-flex align-items-center justify-content-around">
-                                <IEdit
-                                  onClick={() =>
-                                    history.push({
-                                      pathname: `/inventory-management/warehouse-management/Item-Wise-Serial-Update/edit/${item?.mrrid}`,
-                                      state: { ...item },
-                                    })
-                                  }
-                                />
-                                </div>
-                              </td>
-                            </tr>
-                          ))}
-                      </tbody>
-                    </table>
+                    <div className="table-responsive">
+                      <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+                        <thead>
+                          <tr>
+                            <th style={{ width: "30px" }}>SL</th>
+                            <th>PO Code</th>
+                            <th>MRR Code</th>
+                            <th>Supplier Name</th>
+                            <th style={{ width: "80px" }}>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {rowData?.header?.length > 0 &&
+                            rowData?.header?.map((item, index) => (
+                              <tr key={index}>
+                                <td>{index + 1}</td>
+                                <td className="text-center">
+                                  {item?.purchaseOrderCode}
+                                </td>
+                                <td className="text-center">{item?.mrrcode}</td>
+                                <td>{item?.supplierName || ""}</td>
+                                <td className="text-center">
+                                  <div className="d-flex align-items-center justify-content-around">
+                                    <IEdit
+                                      onClick={() =>
+                                        history.push({
+                                          pathname: `/inventory-management/warehouse-management/Item-Wise-Serial-Update/edit/${item?.mrrid}`,
+                                          state: { ...item },
+                                        })
+                                      }
+                                    />
+                                  </div>
+                                </td>
+                              </tr>
+                            ))}
+                        </tbody>
+                      </table>
+                    </div>
+
                     {rowData?.header?.length > 0 && (
                       <PaginationTable
                         count={rowData?.totalCount}

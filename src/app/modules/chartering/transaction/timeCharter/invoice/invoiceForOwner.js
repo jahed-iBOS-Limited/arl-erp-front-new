@@ -298,7 +298,7 @@ export default function InvoiceForOwner({
       </div>
 
       {/* Row And Table Section */}
-     <div className="table-responsive">
+     {/* <div className="table-responsive"> */}
      <table className="table mt-3 bj-table bj-table-landing">
         <thead>
           <tr
@@ -618,7 +618,7 @@ export default function InvoiceForOwner({
           ) : null}
         </tbody>
       </table>
-     </div>
+     {/* </div> */}
 
       {/* Bank Info Section */}
       <BankInfoComponent data={bankInfoData} />

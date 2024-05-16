@@ -253,91 +253,58 @@ export default function EditInvoiceForOwner({
       </div>
 
       {/* Row And Table Section */}
-    <div className="table-responsive">
-    <table className="table mt-3 bj-table bj-table-landing">
-        <thead>
-          <tr
-            style={{ borderTop: "1px solid #d6d6d6" }}
-            className="text-center"
-          >
-            <th>SR.</th>
-            <th>DESCRIPTION</th>
-            <th>Duration</th>
-            <th>Quantity</th>
-            <th>Debit</th>
-            <th>Credit</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {rowData?.map((item, index) => {
-            if (item?.isChecked) {
-              totalCredit = totalCredit + Number(item?.credit);
-            }
-            if (item?.isChecked) {
-              totalDebit = totalDebit + Number(item?.debit);
-            }
+      {/* <div className="table-responsive"> */}
+        <table className="table mt-3 bj-table bj-table-landing">
+          <thead>
+            <tr
+              style={{ borderTop: "1px solid #d6d6d6" }}
+              className="text-center"
+            >
+              <th>SR.</th>
+              <th>DESCRIPTION</th>
+              <th>Duration</th>
+              <th>Quantity</th>
+              <th>Debit</th>
+              <th>Credit</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {rowData?.map((item, index) => {
+              if (item?.isChecked) {
+                totalCredit = totalCredit + Number(item?.credit);
+              }
+              if (item?.isChecked) {
+                totalDebit = totalDebit + Number(item?.debit);
+              }
 
-            return (
-              <tr key={index}>
-                {/* SL */}
-                <td
-                  className={`${
-                    item?.isChecked ? "isCheckedTrue" : "isCheckedFalse"
-                  } text-center`}
-                >
-                  {index + 1}
-                </td>
+              return (
+                <tr key={index}>
+                  {/* SL */}
+                  <td
+                    className={`${
+                      item?.isChecked ? "isCheckedTrue" : "isCheckedFalse"
+                    } text-center`}
+                  >
+                    {index + 1}
+                  </td>
 
-                {/* Description */}
-                <td
-                  className={`${
-                    item?.isChecked ? "isCheckedTrue" : "isCheckedFalse"
-                  }`}
-                >
-                  {item?.isDescription ? (
-                    <FormikInput
-                      value={item?.description}
-                      name={`${index}description${values?.transactionName?.value}`}
-                      placeholder="Description"
-                      type="text"
-                      onChange={(e) =>
-                        rowDtoHandler(
-                          index,
-                          item?.isDescription?.name,
-                          e.target.value,
-                          item,
-                          rowData
-                        )
-                      }
-                      errors={errors}
-                      touched={touched}
-                      disabled={!item?.isChecked}
-                    />
-                  ) : (
-                    item?.description
-                  )}
-                </td>
-
-                {/* Duration */}
-                <td
-                  className={`${
-                    item?.isChecked ? "isCheckedTrue" : "isCheckedFalse"
-                  } text-center`}
-                  style={{ width: "150px" }}
-                >
-                  {item?.isDuration ? (
-                    <div className="d-flex align-items-center">
+                  {/* Description */}
+                  <td
+                    className={`${
+                      item?.isChecked ? "isCheckedTrue" : "isCheckedFalse"
+                    }`}
+                  >
+                    {item?.isDescription ? (
                       <FormikInput
-                        className="mr-2"
-                        value={item?.duration}
-                        name={`${index}duration${values?.transactionName?.value}`}
-                        placeholder=""
-                        type="number"
+                        value={item?.description}
+                        name={`${index}description${values?.transactionName?.value}`}
+                        placeholder="Description"
+                        type="text"
                         onChange={(e) =>
                           rowDtoHandler(
                             index,
-                            item?.isDuration?.name,
+                            item?.isDescription?.name,
                             e.target.value,
                             item,
                             rowData
@@ -347,233 +314,266 @@ export default function EditInvoiceForOwner({
                         touched={touched}
                         disabled={!item?.isChecked}
                       />
-                      <span>DAYS</span>
-                    </div>
-                  ) : item?.duration > 0 ? (
-                    item.duration
-                  ) : null}
-                </td>
+                    ) : (
+                      item?.description
+                    )}
+                  </td>
 
-                {/* Quantity */}
-                <td
-                  className={`${
-                    item?.isChecked ? "isCheckedTrue" : "isCheckedFalse"
-                  }`}
-                  style={{ width: "150px" }}
-                >
-                  {item?.isQty ? (
-                    <div className="d-flex align-items-center">
-                      <FormikInput
-                        className="mr-2"
-                        value={item?.quantity}
-                        name={`${index}quantity${values?.transactionName?.value}`}
-                        placeholder=""
-                        type="number"
-                        onChange={(e) =>
-                          rowDtoHandler(
-                            index,
-                            item?.isQty?.name,
-                            e.target.value,
-                            item,
-                            rowData
-                          )
-                        }
-                        errors={errors}
-                        touched={touched}
-                        disabled={!item?.isChecked}
+                  {/* Duration */}
+                  <td
+                    className={`${
+                      item?.isChecked ? "isCheckedTrue" : "isCheckedFalse"
+                    } text-center`}
+                    style={{ width: "150px" }}
+                  >
+                    {item?.isDuration ? (
+                      <div className="d-flex align-items-center">
+                        <FormikInput
+                          className="mr-2"
+                          value={item?.duration}
+                          name={`${index}duration${values?.transactionName?.value}`}
+                          placeholder=""
+                          type="number"
+                          onChange={(e) =>
+                            rowDtoHandler(
+                              index,
+                              item?.isDuration?.name,
+                              e.target.value,
+                              item,
+                              rowData
+                            )
+                          }
+                          errors={errors}
+                          touched={touched}
+                          disabled={!item?.isChecked}
+                        />
+                        <span>DAYS</span>
+                      </div>
+                    ) : item?.duration > 0 ? (
+                      item.duration
+                    ) : null}
+                  </td>
+
+                  {/* Quantity */}
+                  <td
+                    className={`${
+                      item?.isChecked ? "isCheckedTrue" : "isCheckedFalse"
+                    }`}
+                    style={{ width: "150px" }}
+                  >
+                    {item?.isQty ? (
+                      <div className="d-flex align-items-center">
+                        <FormikInput
+                          className="mr-2"
+                          value={item?.quantity}
+                          name={`${index}quantity${values?.transactionName?.value}`}
+                          placeholder=""
+                          type="number"
+                          onChange={(e) =>
+                            rowDtoHandler(
+                              index,
+                              item?.isQty?.name,
+                              e.target.value,
+                              item,
+                              rowData
+                            )
+                          }
+                          errors={errors}
+                          touched={touched}
+                          disabled={!item?.isChecked}
+                        />
+                        <span>MT</span>
+                      </div>
+                    ) : null}
+                  </td>
+
+                  {/* Debit | But Debit Will be Credit for Owner */}
+                  <td
+                    className={`${
+                      item?.isChecked ? "isCheckedTrue" : "isCheckedFalse"
+                    } text-right`}
+                    style={{ width: "150px" }}
+                  >
+                    {item?.isCredit ? (
+                      <div className="d-flex align-items-center">
+                        <FormikInput
+                          className="mr-2"
+                          onChange={(e) => {
+                            rowDtoHandler(
+                              index,
+                              item?.isCredit?.name,
+                              e.target.value,
+                              item,
+                              rowData
+                            );
+                          }}
+                          value={item?.credit}
+                          name={`${index}credit${values?.transactionName?.value}`}
+                          placeholder=""
+                          type="number"
+                          errors={errors}
+                          touched={touched}
+                          disabled={!item?.isChecked}
+                        />
+                        <span>USD</span>
+                      </div>
+                    ) : (
+                      _formatMoneyWithDoller(item?.credit?.toFixed(2))
+                    )}
+                  </td>
+
+                  {/* Credit | But Credit Will be Debit For Owner */}
+                  <td
+                    className={`${
+                      item?.isChecked ? "isCheckedTrue" : "isCheckedFalse"
+                    } text-right`}
+                    style={{ width: "150px" }}
+                  >
+                    {item?.isDebit ? (
+                      <div className="d-flex align-items-center">
+                        <FormikInput
+                          className="mr-2"
+                          value={item?.debit}
+                          name={`${index}debit${values?.transactionName?.value}`}
+                          placeholder=""
+                          type="number"
+                          onChange={(e) =>
+                            rowDtoHandler(
+                              index,
+                              item?.isDebit?.name,
+                              e.target.value,
+                              item,
+                              rowData
+                            )
+                          }
+                          errors={errors}
+                          touched={touched}
+                          disabled={!item?.isChecked}
+                        />
+                        <span>USD</span>
+                      </div>
+                    ) : (
+                      _formatMoneyWithDoller(item?.debit?.toFixed(2))
+                    )}
+                  </td>
+
+                  {/* Actions */}
+                  <td className="text-center" style={{ width: "80px" }}>
+                    {/* Add Handler | add btn */}
+                    <span
+                      onClick={() => {
+                        addHandler(index);
+                      }}
+                    >
+                      <i
+                        style={{ fontSize: "16px" }}
+                        className="fa fa-plus-square text-primary mr-2"
                       />
-                      <span>MT</span>
-                    </div>
-                  ) : null}
-                </td>
+                    </span>
 
-                {/* Debit | But Debit Will be Credit for Owner */}
-                <td
-                  className={`${
-                    item?.isChecked ? "isCheckedTrue" : "isCheckedFalse"
-                  } text-right`}
-                  style={{ width: "150px" }}
-                >
-                  {item?.isCredit ? (
-                    <div className="d-flex align-items-center">
-                      <FormikInput
-                        className="mr-2"
+                    {/* Check box */}
+                    <span>
+                      <input
+                        type="checkbox"
+                        checked={item?.isChecked}
+                        disabled={item?.isFixed}
                         onChange={(e) => {
                           rowDtoHandler(
                             index,
-                            item?.isCredit?.name,
-                            e.target.value,
+                            "isChecked",
+                            e.target.checked,
                             item,
                             rowData
                           );
                         }}
-                        value={item?.credit}
-                        name={`${index}credit${values?.transactionName?.value}`}
-                        placeholder=""
-                        type="number"
-                        errors={errors}
-                        touched={touched}
-                        disabled={!item?.isChecked}
                       />
-                      <span>USD</span>
-                    </div>
-                  ) : (
-                    _formatMoneyWithDoller(item?.credit?.toFixed(2))
-                  )}
-                </td>
+                    </span>
 
-                {/* Credit | But Credit Will be Debit For Owner */}
-                <td
-                  className={`${
-                    item?.isChecked ? "isCheckedTrue" : "isCheckedFalse"
-                  } text-right`}
-                  style={{ width: "150px" }}
-                >
-                  {item?.isDebit ? (
-                    <div className="d-flex align-items-center">
-                      <FormikInput
-                        className="mr-2"
-                        value={item?.debit}
-                        name={`${index}debit${values?.transactionName?.value}`}
-                        placeholder=""
-                        type="number"
-                        onChange={(e) =>
-                          rowDtoHandler(
-                            index,
-                            item?.isDebit?.name,
-                            e.target.value,
-                            item,
-                            rowData
-                          )
-                        }
-                        errors={errors}
-                        touched={touched}
-                        disabled={!item?.isChecked}
-                      />
-                      <span>USD</span>
-                    </div>
-                  ) : (
-                    _formatMoneyWithDoller(item?.debit?.toFixed(2))
-                  )}
-                </td>
+                    {/* Delete if new row */}
+                    {item?.isDescription &&
+                    item?.isDuration &&
+                    item?.isCredit &&
+                    item?.isDebit &&
+                    item?.isQty ? (
+                      <>
+                        <span
+                          onClick={() => {
+                            deleteHandler(index);
+                          }}
+                        >
+                          <i
+                            style={{ fontSize: "14px" }}
+                            className="fa fa-trash text-danger ml-2"
+                          />
+                        </span>
+                      </>
+                    ) : null}
+                  </td>
+                </tr>
+              );
+            })}
 
-                {/* Actions */}
-                <td className="text-center" style={{ width: "80px" }}>
-                  {/* Add Handler | add btn */}
-                  <span
-                    onClick={() => {
-                      addHandler(index);
-                    }}
-                  >
-                    <i
-                      style={{ fontSize: "16px" }}
-                      className="fa fa-plus-square text-primary mr-2"
-                    />
-                  </span>
+            {/* Total Section */}
+            <tr>
+              <td colSpan="4" className="text-right mr-3">
+                <strong>Total</strong>
+              </td>
+              {/* Credit Here For Owner */}
+              <td className="text-right">
+                <strong>
+                  {_formatMoneyWithDoller(Number(totalCredit)?.toFixed(2)) || 0}
+                </strong>
+              </td>
 
-                  {/* Check box */}
-                  <span>
-                    <input
-                      type="checkbox"
-                      checked={item?.isChecked}
-                      disabled={item?.isFixed}
-                      onChange={(e) => {
-                        rowDtoHandler(
-                          index,
-                          "isChecked",
-                          e.target.checked,
-                          item,
-                          rowData
-                        );
-                      }}
-                    />
-                  </span>
+              {/* Debit Here For Owner */}
+              <td className="text-right">
+                <strong>
+                  {_formatMoneyWithDoller(Number(totalDebit)?.toFixed(2)) || 0}
+                </strong>
+              </td>
+              <td className="text-center"></td>
+            </tr>
 
-                  {/* Delete if new row */}
-                  {item?.isDescription &&
-                  item?.isDuration &&
-                  item?.isCredit &&
-                  item?.isDebit &&
-                  item?.isQty ? (
-                    <>
-                      <span
-                        onClick={() => {
-                          deleteHandler(index);
-                        }}
-                      >
-                        <i
-                          style={{ fontSize: "14px" }}
-                          className="fa fa-trash text-danger ml-2"
-                        />
-                      </span>
-                    </>
-                  ) : null}
+            {/* Net Payable */}
+            <tr>
+              <td colSpan="4" className="text-right mr-3">
+                <strong>AMOUNT PAYABLE TO OWNERS</strong>
+              </td>
+              <td colSpan="2" className="text-right">
+                <strong>
+                  {_formatMoneyWithDoller(
+                    (
+                      Number(totalCredit)?.toFixed(2) -
+                      Number(totalDebit)?.toFixed(2)
+                    ).toFixed(2)
+                  ) || 0}
+                </strong>
+              </td>
+              <td></td>
+            </tr>
+
+            {/* In Word USD */}
+            {(
+              Number(totalCredit)?.toFixed(2) - Number(totalDebit)?.toFixed(2)
+            ).toFixed(2) ? (
+              <tr>
+                <td colSpan="7" className="text-center">
+                  <div>
+                    <strong>
+                      {`(In Word USD) ${toWords.convert(
+                        (
+                          Number(totalCredit)?.toFixed(2) -
+                          Number(totalDebit)?.toFixed(2)
+                        ).toFixed(2)
+                      )}`}
+                    </strong>
+                  </div>
                 </td>
               </tr>
-            );
-          })}
-
-          {/* Total Section */}
-          <tr>
-            <td colSpan="4" className="text-right mr-3">
-              <strong>Total</strong>
-            </td>
-            {/* Credit Here For Owner */}
-            <td className="text-right">
-              <strong>
-                {_formatMoneyWithDoller(Number(totalCredit)?.toFixed(2)) || 0}
-              </strong>
-            </td>
-
-            {/* Debit Here For Owner */}
-            <td className="text-right">
-              <strong>
-                {_formatMoneyWithDoller(Number(totalDebit)?.toFixed(2)) || 0}
-              </strong>
-            </td>
-            <td className="text-center"></td>
-          </tr>
-
-          {/* Net Payable */}
-          <tr>
-            <td colSpan="4" className="text-right mr-3">
-              <strong>AMOUNT PAYABLE TO OWNERS</strong>
-            </td>
-            <td colSpan="2" className="text-right">
-              <strong>
-                {_formatMoneyWithDoller(
-                  (
-                    Number(totalCredit)?.toFixed(2) -
-                    Number(totalDebit)?.toFixed(2)
-                  ).toFixed(2)
-                ) || 0}
-              </strong>
-            </td>
-            <td></td>
-          </tr>
-
-          {/* In Word USD */}
-          {(
-            Number(totalCredit)?.toFixed(2) - Number(totalDebit)?.toFixed(2)
-          ).toFixed(2) ? (
-            <tr>
-              <td colSpan="7" className="text-center">
-                <div>
-                  <strong>
-                    {`(In Word USD) ${toWords.convert(
-                      (
-                        Number(totalCredit)?.toFixed(2) -
-                        Number(totalDebit)?.toFixed(2)
-                      ).toFixed(2)
-                    )}`}
-                  </strong>
-                </div>
-              </td>
-            </tr>
-          ) : null}
-        </tbody>
-      </table>
-    </div>
+            ) : null}
+          </tbody>
+        </table>
+      {/* </div> */}
 
       {/* Bank Info Section */}
       <BankInfoComponent data={bankInfoData} />

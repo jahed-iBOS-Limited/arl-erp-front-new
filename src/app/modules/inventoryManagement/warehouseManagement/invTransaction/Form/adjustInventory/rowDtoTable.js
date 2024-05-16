@@ -9,42 +9,44 @@ const RowDtoTable = ({
   rowDtoHandler,
   setRowDto,
   values,
-  landingData
+  landingData,
 }) => {
-
   return (
     <div className="mt-2 invTable">
-    {rowDto?.length > 0 && (
-      <>
-        <table className="table table-striped table-bordered inv-table">
-          <thead>
-            <tr>
-              <th>SL</th>
-              <th>Item Code</th>
-              <th>Item Name</th>
-              <th>Uom</th>
-              <th>Location</th>
-              {/* <th>Stock Type</th> */}
-              <th>Current Stock</th>
-              {/* <th>Blocked Stock Qty</th> */}
-              <th>Quantity</th> 
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {rowDto?.map((item, index) => (
-              <tr key={index}>
-                <td className="text-center align-middle"> {index + 1} </td>
-                <td className="text-center align-middle"> {item?.itemCode} </td>
-                <td className="">
-                   {item?.itemName}
-                </td>
-                <td className="">
-                   {item?.uoMname}
-                </td>
-                <td className="text-center align-middle" style={{ width: "200px" }}>
-                  {item?.location?.label}
-                {/* <Select
+      {rowDto?.length > 0 && (
+        <>
+          <div className="table-responsive">
+            <table className="table table-striped table-bordered inv-table">
+              <thead>
+                <tr>
+                  <th>SL</th>
+                  <th>Item Code</th>
+                  <th>Item Name</th>
+                  <th>Uom</th>
+                  <th>Location</th>
+                  {/* <th>Stock Type</th> */}
+                  <th>Current Stock</th>
+                  {/* <th>Blocked Stock Qty</th> */}
+                  <th>Quantity</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {rowDto?.map((item, index) => (
+                  <tr key={index}>
+                    <td className="text-center align-middle"> {index + 1} </td>
+                    <td className="text-center align-middle">
+                      {" "}
+                      {item?.itemCode}{" "}
+                    </td>
+                    <td className="">{item?.itemName}</td>
+                    <td className="">{item?.uoMname}</td>
+                    <td
+                      className="text-center align-middle"
+                      style={{ width: "200px" }}
+                    >
+                      {item?.location?.label}
+                      {/* <Select
                     onChange={(valueOption) => {
                       rowDtoHandler(
                         "location",
@@ -65,8 +67,8 @@ const RowDtoTable = ({
                     options={locationTypeDDL}
                     placeholder="Location"
                   /> */}
-                </td>
-                {/* <td className="disabled-feedback disable-border" style={{ width: "150px" }}>
+                    </td>
+                    {/* <td className="disabled-feedback disable-border" style={{ width: "150px" }}>
                 <Select
                     onChange={(valueOption) => {
                       rowDtoHandler(
@@ -89,31 +91,38 @@ const RowDtoTable = ({
                     placeholder="Stock"
                   />
                 </td> */}
-                {/* <td className="text-center align-middle"> {item?.blockStockQty} </td> */}
-                <td className="text-center align-middle"> {item?.openStockQty} </td>
-                <td style={{ width: "100px" }} className="disabled-feedback disable-border">
-                  <IInput
-                    value={rowDto[index]?.quantity}
-                    name="quantity"
-                    type="number"
-                    placeholder="Quantity"
-                    required
-                    onChange={(e) => {
-                      rowDtoHandler("quantity", e.target.value, index);
-                    }}
-                    step="any"
-                  />
-                </td>
-                <td className="text-center align-middle">
-                  <IDelete remover={remover} id={index} />
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </>
-    )}
-  </div>
+                    {/* <td className="text-center align-middle"> {item?.blockStockQty} </td> */}
+                    <td className="text-center align-middle">
+                      {" "}
+                      {item?.openStockQty}{" "}
+                    </td>
+                    <td
+                      style={{ width: "100px" }}
+                      className="disabled-feedback disable-border"
+                    >
+                      <IInput
+                        value={rowDto[index]?.quantity}
+                        name="quantity"
+                        type="number"
+                        placeholder="Quantity"
+                        required
+                        onChange={(e) => {
+                          rowDtoHandler("quantity", e.target.value, index);
+                        }}
+                        step="any"
+                      />
+                    </td>
+                    <td className="text-center align-middle">
+                      <IDelete remover={remover} id={index} />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </>
+      )}
+    </div>
   );
 };
 
