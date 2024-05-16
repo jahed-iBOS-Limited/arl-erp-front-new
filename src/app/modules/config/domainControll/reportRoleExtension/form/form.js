@@ -156,7 +156,8 @@ export default function _Form({
 
               <div className="row">
                 <div className="col-lg-12">
-                  <table className="global-table table">
+                <div className="table-responsive">
+                <table className="global-table table">
                     <thead>
                       <tr>
                         <th style={{ width: "40px" }}>SL</th>
@@ -193,6 +194,7 @@ export default function _Form({
                       ))}
                     </tbody>
                   </table>
+                </div>
                 </div>
               </div>
 

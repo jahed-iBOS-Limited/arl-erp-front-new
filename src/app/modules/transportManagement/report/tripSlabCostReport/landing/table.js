@@ -73,7 +73,7 @@ function TripSlabCostReport() {
                     />
                   </div>
 
-                  <div className="col d-flex  align-items-end">
+                  <div className="col d-flex  align-items-end mt-2">
                     <button
                       type="button"
                       className="btn btn-primary"

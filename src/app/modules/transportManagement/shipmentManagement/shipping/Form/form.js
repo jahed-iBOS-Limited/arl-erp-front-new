@@ -153,6 +153,22 @@ export default function _Form({
     return state?.commonDDL?.shippointDDL;
   }, shallowEqual);
 
+  const [windowSize, setWindowSize] = useState({
+    width: window.innerWidth,
+});
+const handleResize = () => {
+  setWindowSize({
+      width: window.innerWidth,
+  });
+};
+
+useEffect(() => {
+  window.addEventListener('resize', handleResize);
+  return () => {
+      window.removeEventListener('resize', handleResize);
+  };
+}, []);
+
   useEffect(() => {
     setControls([
       {
@@ -731,13 +747,13 @@ export default function _Form({
                       <div
                         className={
                           values?.Vehicle?.isRental
-                            ? "col-lg-9 d-flex justify-content-between align-items-center"
-                            : "col-lg-11 d-flex justify-content-between align-items-center"
+                            ? `col-lg-9 ${windowSize?.width>1000 ? "d-flex justify-content-between align-items-center":""}`
+                            : `col-lg-11 ${windowSize?.width>1000 ? "d-flex justify-content-between align-items-center":""}`
                         }
                         style={{ marginTop: "10px" }}
                       >
-                        <div>
-                          <b className='mr-2'>
+                        <div className={` ${windowSize?.width<600 && 'col-lg-6 mr-2'}`}>
+                          <b className='mr-2 '>
                             Vehicle Capacity : &nbsp;
                             {rowDto?.length
                               ? values?.unloadVehicleWeight ||
@@ -756,7 +772,7 @@ export default function _Form({
                           </b>
                         </div>
 
-                        <div>
+                        <div className={` ${windowSize?.width<600 && 'col-lg-6 mr-2'}`}>
                           <b className='mr-2'>
                             Product Actual : &nbsp;
                             {rowDto?.length
@@ -781,10 +797,10 @@ export default function _Form({
                           </b>
                         </div>
 
-                        <div>
+                        <div className={` ${windowSize?.width<600 && 'col-lg-6 mr-2'}`}>
                           <b>Total Number Of Challan : {rowDto?.length}</b>{" "}
                         </div>
-                        <div>
+                        <div className={` ${windowSize?.width<600 && 'col-lg-6 mr-2'}`}>
                           <b>
                             Total Quantity :{" "}
                             {rowDto?.reduce((acc, cur) => {
@@ -793,7 +809,7 @@ export default function _Form({
                           </b>{" "}
                         </div>
                         {buId === 4 && (
-                          <div>
+                          <div className={` ${windowSize?.width<600 && 'col-lg-6 mr-2'}`}>
                             <b>Request Vehicle No : {vehicleNo}</b>{" "}
                           </div>
                         )}
