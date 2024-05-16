@@ -2912,4 +2912,8 @@ body {
   table thead tr th {
     min-width: 70px
   }
+
+  .paginationSearch{
+    width: auto !important;
+  }
 }

@@ -86,8 +86,7 @@ export default function _Form({
                 </div>
                 <div className="col-lg-2">
                   <div
-                    style={{ position: "relative", top: "15px" }}
-                    className="mr-5"
+                    className="mr-5 pt-5"
                   >
                     <Field
                       name="isMendatory"
