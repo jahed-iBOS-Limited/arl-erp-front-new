@@ -214,224 +214,229 @@ export default function _Form({
                             buttonText="Export Excel"
                           />
                         </div>
-
-                        <table
-                          id="table-to-xlsx"
-                          className={
-                            "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
-                          }
-                        >
-                          <thead>
-                            <tr className="cursor-pointer">
-                              {!type && (
-                                <th
-                                  onClick={() => allSelect(!selectedAll())}
-                                  style={{ width: "30px" }}
-                                >
-                                  <input
-                                    type="checkbox"
-                                    value={selectedAll()}
-                                    checked={selectedAll()}
-                                    onChange={() => {}}
-                                  />
-                                </th>
-                              )}
-                              {[
-                                "SL",
-                                "Lighter Vessel",
-                                "Item Name",
-                                "Boat Note",
-                                "Side At",
-                                "Loading Start",
-                                "Quantity",
-                                "Loading Complete",
-                                "Sailing Date",
-                              ]?.map((th, index) => {
-                                return <th key={index}> {th} </th>;
-                              })}
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {rowData?.map((item, index) => {
-                              return (
-                                <tr key={index}>
-                                  {!type && (
-                                    <td
-                                      onClick={() => {
-                                        rowDataHandler(
-                                          "isSelected",
-                                          index,
-                                          !item.isSelected
-                                        );
-                                      }}
-                                      className="text-center"
-                                      style={
-                                        item?.isSelected
-                                          ? {
-                                              backgroundColor: "#aacae3",
-                                              width: "30px",
-                                            }
-                                          : { width: "30px" }
-                                      }
-                                    >
-                                      <input
-                                        type="checkbox"
-                                        value={item?.isSelected}
-                                        checked={item?.isSelected}
-                                        onChange={() => {}}
-                                      />
-                                    </td>
-                                  )}
-                                  <td
+                        <div className="table-responsive">
+                          <table
+                            id="table-to-xlsx"
+                            className={
+                              "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+                            }
+                          >
+                            <thead>
+                              <tr className="cursor-pointer">
+                                {!type && (
+                                  <th
+                                    onClick={() => allSelect(!selectedAll())}
                                     style={{ width: "30px" }}
-                                    className="text-center"
                                   >
-                                    {index + 1}
-                                  </td>
-                                  <td>{item?.lighterVessel}</td>
-                                  <td>{item?.itemName}</td>
-                                  <td style={{ minWidth: "70px" }}>
-                                    {view ? (
-                                      item?.boatNote
-                                    ) : (
-                                      <InputField
-                                        value={item?.boatNote}
-                                        name="boatNote"
-                                        type="text"
-                                        onChange={(e) => {
+                                    <input
+                                      type="checkbox"
+                                      value={selectedAll()}
+                                      checked={selectedAll()}
+                                      onChange={() => {}}
+                                    />
+                                  </th>
+                                )}
+                                {[
+                                  "SL",
+                                  "Lighter Vessel",
+                                  "Item Name",
+                                  "Boat Note",
+                                  "Side At",
+                                  "Loading Start",
+                                  "Quantity",
+                                  "Loading Complete",
+                                  "Sailing Date",
+                                ]?.map((th, index) => {
+                                  return <th key={index}> {th} </th>;
+                                })}
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {rowData?.map((item, index) => {
+                                return (
+                                  <tr key={index}>
+                                    {!type && (
+                                      <td
+                                        onClick={() => {
                                           rowDataHandler(
-                                            "boatNote",
+                                            "isSelected",
                                             index,
-                                            e?.target?.value
+                                            !item.isSelected
                                           );
                                         }}
-                                      />
+                                        className="text-center"
+                                        style={
+                                          item?.isSelected
+                                            ? {
+                                                backgroundColor: "#aacae3",
+                                                width: "30px",
+                                              }
+                                            : { width: "30px" }
+                                        }
+                                      >
+                                        <input
+                                          type="checkbox"
+                                          value={item?.isSelected}
+                                          checked={item?.isSelected}
+                                          onChange={() => {}}
+                                        />
+                                      </td>
                                     )}
-                                  </td>
-                                  <td style={{ maxWidth: "190px" }}>
-                                    {view ? (
-                                      moment(item?.sideAt).format("lll")
-                                    ) : (
-                                      <InputField
-                                        style={{
-                                          width: "130px",
-                                        }}
-                                        value={item?.sideAt}
-                                        name="sideAt"
-                                        type="datetime-local"
-                                        onChange={(e) => {
-                                          rowDataHandler(
-                                            "sideAt",
-                                            index,
-                                            e?.target?.value
-                                          );
-                                        }}
-                                      />
-                                    )}
-                                  </td>
-                                  <td style={{ maxWidth: "190px" }}>
-                                    {view ? (
-                                      item?.loadingStart ? (
-                                        moment(item?.loadingStart).format("lll")
+                                    <td
+                                      style={{ width: "30px" }}
+                                      className="text-center"
+                                    >
+                                      {index + 1}
+                                    </td>
+                                    <td>{item?.lighterVessel}</td>
+                                    <td>{item?.itemName}</td>
+                                    <td style={{ minWidth: "70px" }}>
+                                      {view ? (
+                                        item?.boatNote
                                       ) : (
-                                        ""
-                                      )
-                                    ) : (
-                                      <InputField
-                                        style={{
-                                          width: "130px",
-                                        }}
-                                        value={item?.loadingStart}
-                                        name="loadingStart"
-                                        type="datetime-local"
-                                        onChange={(e) => {
-                                          rowDataHandler(
-                                            "loadingStart",
-                                            index,
-                                            e?.target?.value
-                                          );
-                                        }}
-                                      />
-                                    )}
-                                  </td>
-                                  <td
-                                    className="text-right"
-                                    style={{ width: "100px" }}
-                                  >
-                                    {view ? (
-                                      _fixedPoint(item?.surveyQty, true)
-                                    ) : (
-                                      <InputField
-                                        value={item?.surveyQty}
-                                        name="surveyQty"
-                                        type="number"
-                                        onChange={(e) => {
-                                          rowDataHandler(
-                                            "surveyQty",
-                                            index,
-                                            +e?.target?.value
-                                          );
-                                        }}
-                                      />
-                                    )}
-                                  </td>
-                                  <td style={{ maxWidth: "190px" }}>
-                                    {view ? (
-                                      item?.loadingComplete ? (
-                                        moment(item?.loadingComplete).format(
-                                          "lll"
+                                        <InputField
+                                          value={item?.boatNote}
+                                          name="boatNote"
+                                          type="text"
+                                          onChange={(e) => {
+                                            rowDataHandler(
+                                              "boatNote",
+                                              index,
+                                              e?.target?.value
+                                            );
+                                          }}
+                                        />
+                                      )}
+                                    </td>
+                                    <td style={{ maxWidth: "190px" }}>
+                                      {view ? (
+                                        moment(item?.sideAt).format("lll")
+                                      ) : (
+                                        <InputField
+                                          style={{
+                                            width: "130px",
+                                          }}
+                                          value={item?.sideAt}
+                                          name="sideAt"
+                                          type="datetime-local"
+                                          onChange={(e) => {
+                                            rowDataHandler(
+                                              "sideAt",
+                                              index,
+                                              e?.target?.value
+                                            );
+                                          }}
+                                        />
+                                      )}
+                                    </td>
+                                    <td style={{ maxWidth: "190px" }}>
+                                      {view ? (
+                                        item?.loadingStart ? (
+                                          moment(item?.loadingStart).format(
+                                            "lll"
+                                          )
+                                        ) : (
+                                          ""
                                         )
                                       ) : (
-                                        ""
-                                      )
-                                    ) : (
-                                      <InputField
-                                        style={{
-                                          width: "130px",
-                                        }}
-                                        value={item?.loadingComplete}
-                                        name="loadingComplete"
-                                        type="datetime-local"
-                                        onChange={(e) => {
-                                          rowDataHandler(
-                                            "loadingComplete",
-                                            index,
-                                            e?.target?.value
-                                          );
-                                        }}
-                                      />
-                                    )}
-                                  </td>
-                                  <td style={{ maxWidth: "190px" }}>
-                                    {view ? (
-                                      item?.sailingDate ? (
-                                        moment(item?.sailingDate).format("lll")
+                                        <InputField
+                                          style={{
+                                            width: "130px",
+                                          }}
+                                          value={item?.loadingStart}
+                                          name="loadingStart"
+                                          type="datetime-local"
+                                          onChange={(e) => {
+                                            rowDataHandler(
+                                              "loadingStart",
+                                              index,
+                                              e?.target?.value
+                                            );
+                                          }}
+                                        />
+                                      )}
+                                    </td>
+                                    <td
+                                      className="text-right"
+                                      style={{ width: "100px" }}
+                                    >
+                                      {view ? (
+                                        _fixedPoint(item?.surveyQty, true)
                                       ) : (
-                                        ""
-                                      )
-                                    ) : (
-                                      <InputField
-                                        style={{
-                                          width: "130px",
-                                        }}
-                                        value={item?.sailingDate}
-                                        name="sailingDate"
-                                        type="datetime-local"
-                                        onChange={(e) => {
-                                          rowDataHandler(
-                                            "sailingDate",
-                                            index,
-                                            e?.target?.value
-                                          );
-                                        }}
-                                      />
-                                    )}
-                                  </td>
-                                </tr>
-                              );
-                            })}
-                          </tbody>
-                        </table>
+                                        <InputField
+                                          value={item?.surveyQty}
+                                          name="surveyQty"
+                                          type="number"
+                                          onChange={(e) => {
+                                            rowDataHandler(
+                                              "surveyQty",
+                                              index,
+                                              +e?.target?.value
+                                            );
+                                          }}
+                                        />
+                                      )}
+                                    </td>
+                                    <td style={{ maxWidth: "190px" }}>
+                                      {view ? (
+                                        item?.loadingComplete ? (
+                                          moment(item?.loadingComplete).format(
+                                            "lll"
+                                          )
+                                        ) : (
+                                          ""
+                                        )
+                                      ) : (
+                                        <InputField
+                                          style={{
+                                            width: "130px",
+                                          }}
+                                          value={item?.loadingComplete}
+                                          name="loadingComplete"
+                                          type="datetime-local"
+                                          onChange={(e) => {
+                                            rowDataHandler(
+                                              "loadingComplete",
+                                              index,
+                                              e?.target?.value
+                                            );
+                                          }}
+                                        />
+                                      )}
+                                    </td>
+                                    <td style={{ maxWidth: "190px" }}>
+                                      {view ? (
+                                        item?.sailingDate ? (
+                                          moment(item?.sailingDate).format(
+                                            "lll"
+                                          )
+                                        ) : (
+                                          ""
+                                        )
+                                      ) : (
+                                        <InputField
+                                          style={{
+                                            width: "130px",
+                                          }}
+                                          value={item?.sailingDate}
+                                          name="sailingDate"
+                                          type="datetime-local"
+                                          onChange={(e) => {
+                                            rowDataHandler(
+                                              "sailingDate",
+                                              index,
+                                              e?.target?.value
+                                            );
+                                          }}
+                                        />
+                                      )}
+                                    </td>
+                                  </tr>
+                                );
+                              })}
+                            </tbody>
+                          </table>
+                        </div>
                       </>
                     </div>
                   </div>

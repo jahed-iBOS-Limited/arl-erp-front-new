@@ -133,83 +133,87 @@ const VesselLanding = () => {
                 </div>
                 <form className="form form-label-right">
                   {rowData?.data?.length > 0 && (
-                    <table
-                      id="table-to-xlsx"
-                      className={
-                        "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
-                      }
-                    >
-                      <thead>
-                        <tr className="cursor-pointer">
-                          {headers?.map((th, index) => {
-                            return <th key={index}> {th} </th>;
-                          })}
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {rowData?.data?.map((item, index) => {
-                          return (
-                            <tr key={index}>
-                              <td
-                                style={{ width: "40px" }}
-                                className="text-center"
-                              >
-                                {index + 1}
-                              </td>
-                              <td>{item?.mVesselName}</td>
-                              <td>{item?.supplierName}</td>
-                              <td className="text-right">
-                                {item?.freightRate}
-                              </td>
-                              <td className="text-right">
-                                {item?.freightRateDbt}
-                              </td>
-                              <td className="text-right">
-                                {item?.freightCostRate}
-                              </td>
-                              <td className="text-right">
-                                {item?.freightCostRateBdt}
-                              </td>
-                              <td className="text-center">{item?.countPort}</td>
-                              <td>{item?.port}</td>
-                              <td
-                                style={{ width: "80px" }}
-                                className="text-center"
-                              >
-                                <div className="d-flex justify-content-around">
-                                  {isDeleteHidden ? (
-                                    <span>
-                                      <IDelete
-                                        remover={deleteHandler}
-                                        id={item?.mVesselId}
-                                      />
+                    <div className="table-responsive">
+                      <table
+                        id="table-to-xlsx"
+                        className={
+                          "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+                        }
+                      >
+                        <thead>
+                          <tr className="cursor-pointer">
+                            {headers?.map((th, index) => {
+                              return <th key={index}> {th} </th>;
+                            })}
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {rowData?.data?.map((item, index) => {
+                            return (
+                              <tr key={index}>
+                                <td
+                                  style={{ width: "40px" }}
+                                  className="text-center"
+                                >
+                                  {index + 1}
+                                </td>
+                                <td>{item?.mVesselName}</td>
+                                <td>{item?.supplierName}</td>
+                                <td className="text-right">
+                                  {item?.freightRate}
+                                </td>
+                                <td className="text-right">
+                                  {item?.freightRateDbt}
+                                </td>
+                                <td className="text-right">
+                                  {item?.freightCostRate}
+                                </td>
+                                <td className="text-right">
+                                  {item?.freightCostRateBdt}
+                                </td>
+                                <td className="text-center">
+                                  {item?.countPort}
+                                </td>
+                                <td>{item?.port}</td>
+                                <td
+                                  style={{ width: "80px" }}
+                                  className="text-center"
+                                >
+                                  <div className="d-flex justify-content-around">
+                                    {isDeleteHidden ? (
+                                      <span>
+                                        <IDelete
+                                          remover={deleteHandler}
+                                          id={item?.mVesselId}
+                                        />
+                                      </span>
+                                    ) : null}
+                                    <span
+                                      onClick={() => {
+                                        setSingleItem(item);
+                                        setFormType("view");
+                                        setShow(true);
+                                      }}
+                                    >
+                                      <IView />
                                     </span>
-                                  ) : null}
-                                  <span
-                                    onClick={() => {
-                                      setSingleItem(item);
-                                      setFormType("view");
-                                      setShow(true);
-                                    }}
-                                  >
-                                    <IView />
-                                  </span>
-                                  <span
-                                    onClick={() => {
-                                      setSingleItem(item);
-                                      setFormType("edit");
-                                      setShow(true);
-                                    }}
-                                  >
-                                    <IEdit />
-                                  </span>
-                                </div>
-                              </td>
-                            </tr>
-                          );
-                        })}
-                      </tbody>
-                    </table>
+                                    <span
+                                      onClick={() => {
+                                        setSingleItem(item);
+                                        setFormType("edit");
+                                        setShow(true);
+                                      }}
+                                    >
+                                      <IEdit />
+                                    </span>
+                                  </div>
+                                </td>
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      </table>
+                    </div>
                   )}
 
                   {rowData?.data?.length > 0 && (

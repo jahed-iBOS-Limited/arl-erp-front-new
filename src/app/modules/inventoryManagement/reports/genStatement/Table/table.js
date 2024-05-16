@@ -283,7 +283,7 @@ const IssueReportTable = () => {
                   </div> */}
                   <div className="col-lg-3">
                     <label>From Date</label>
-                    <div className="d-flex">
+                    <div className="flex-fill">
                       <InputField
                         value={values?.fromDate}
                         name="fromDate"
@@ -294,7 +294,7 @@ const IssueReportTable = () => {
                   </div>
                   <div className="col-lg-3">
                     <label>To Date</label>
-                    <div className="d-flex">
+                    <div className="flex-fill">
                       <InputField
                         value={values?.toDate}
                         name="toDate"

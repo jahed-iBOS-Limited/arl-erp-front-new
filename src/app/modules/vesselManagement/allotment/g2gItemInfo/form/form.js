@@ -16,7 +16,7 @@ import {
   getItemTypeData,
   getSingleDataEdit,
   setShipPointData,
-  validationSchema
+  validationSchema,
 } from "../helper";
 
 export default function _Form({
@@ -277,56 +277,60 @@ export default function _Form({
               {!id && (
                 <div className="row cash_journal">
                   <div className="col-lg-12">
-                    <table className="table table-striped table-bordered global-table">
-                      <thead>
-                        <tr>
-                          <th style={{ width: "40px" }}>SL</th>
-                          <th>Item Name</th>
-                          <th>Ship Point Name</th>
-                          <th>Busting Bag Qty</th>
-                          <th>CNF Bag Qty</th>
-                          <th>Others Bag Qty</th>
-                          <th>total Qty</th>
-                          <th>Date</th>
-                          <th>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {rowDto &&
-                          rowDto?.map((item, index) => {
-                            return (
-                              <tr key={index}>
-                                <td> {index + 1}</td>
-                                <td>{item?.itemName}</td>
-                                <td>{item?.shippingPointName}</td>
-                                <td className="text-right">
-                                  {item?.bustingBagQnt}
-                                </td>
-                                <td className="text-right">
-                                  {item?.cnfbagQnt}
-                                </td>
-                                <td className="text-right">
-                                  {item?.othersBagQnt}
-                                </td>
-                                <td className="text-right">{item?.totalQty}</td>
-                                <td>{_dateFormatter(item?.dteDate, true)}</td>
-                                <td className="text-center">
-                                  <div className="d-flex justify-content-around">
-                                    <span>
-                                      <IDelete
-                                        id={index}
-                                        remover={(id) => {
-                                          deleteHandler(id, values);
-                                        }}
-                                      />
-                                    </span>
-                                  </div>
-                                </td>
-                              </tr>
-                            );
-                          })}
-                      </tbody>
-                    </table>
+                    <div className="table-responsive">
+                      <table className="table table-striped table-bordered global-table">
+                        <thead>
+                          <tr>
+                            <th style={{ width: "40px" }}>SL</th>
+                            <th>Item Name</th>
+                            <th>Ship Point Name</th>
+                            <th>Busting Bag Qty</th>
+                            <th>CNF Bag Qty</th>
+                            <th>Others Bag Qty</th>
+                            <th>total Qty</th>
+                            <th>Date</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {rowDto &&
+                            rowDto?.map((item, index) => {
+                              return (
+                                <tr key={index}>
+                                  <td> {index + 1}</td>
+                                  <td>{item?.itemName}</td>
+                                  <td>{item?.shippingPointName}</td>
+                                  <td className="text-right">
+                                    {item?.bustingBagQnt}
+                                  </td>
+                                  <td className="text-right">
+                                    {item?.cnfbagQnt}
+                                  </td>
+                                  <td className="text-right">
+                                    {item?.othersBagQnt}
+                                  </td>
+                                  <td className="text-right">
+                                    {item?.totalQty}
+                                  </td>
+                                  <td>{_dateFormatter(item?.dteDate, true)}</td>
+                                  <td className="text-center">
+                                    <div className="d-flex justify-content-around">
+                                      <span>
+                                        <IDelete
+                                          id={index}
+                                          remover={(id) => {
+                                            deleteHandler(id, values);
+                                          }}
+                                        />
+                                      </span>
+                                    </div>
+                                  </td>
+                                </tr>
+                              );
+                            })}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                   {gridData?.data?.length > 0 && (
                     <PaginationTable

@@ -10,7 +10,7 @@ import Loading from "./../../../_helper/_loading";
 export default function VehicleDemandEditModal({
   vehicleDemandItem,
   setVehicleDemandModal,
-  getVehicleDemandData
+  getVehicleDemandData,
 }) {
   const [supplierDDL, getSupplierDDL] = useAxiosGet();
   const [, saveLighterLoad] = useAxiosPost();
@@ -71,7 +71,13 @@ export default function VehicleDemandEditModal({
             <Form>
               <div className="row mt-4">
                 <div className="col-lg-12">
-                  <div style={{ marginLeft: "auto", marginRight: "11px" ,width:"fit-content"}}>
+                  <div
+                    style={{
+                      marginLeft: "auto",
+                      marginRight: "11px",
+                      width: "fit-content",
+                    }}
+                  >
                     <button
                       className="btn btn-primary"
                       onClick={() => {
@@ -101,9 +107,9 @@ export default function VehicleDemandEditModal({
                           payload,
                           (data) => {
                             if (data) {
-                                getVehicleDemandData(
-                                    `/tms/LigterLoadUnload/GetLogisticDemandNReciveInfo?ShipPointId=${vehicleDemandItem?.shipPointId}&AccountId=${accId}&BusinessUnitId=${buId}&DayDate=${vehicleDemandItem?.demandDate}`
-                                  );
+                              getVehicleDemandData(
+                                `/tms/LigterLoadUnload/GetLogisticDemandNReciveInfo?ShipPointId=${vehicleDemandItem?.shipPointId}&AccountId=${accId}&BusinessUnitId=${buId}&DayDate=${vehicleDemandItem?.demandDate}`
+                              );
                               setVehicleDemandModal(false);
                             }
                           },
@@ -114,44 +120,44 @@ export default function VehicleDemandEditModal({
                       Save
                     </button>
                   </div>
-                  <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
-                    <thead>
-                      <tr>
-                        <th style={{ width: "200px" }}>Supplier Name</th>
-                        <th>Demand Vehicle</th>
-                        <th>Packing MT</th>
-                        <th>Dump Qty Ton</th>
-                        <th>Labour Requirement</th>
-                        <th>Labour Present</th>
-                        <th>Lighter Waiting</th>
-
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <td>
-                        <NewSelect
-                          name="supplier"
-                          options={supplierDDL}
-                          value={values?.supplier}
-                          onChange={(valueOption) => {
-                            if (valueOption?.value) {
-                              setFieldValue("supplier", valueOption);
-                            } else {
-                              setFieldValue("supplier", "");
-                            }
-                          }}
-                        />
-                      </td>
-                      <td>
-                        <InputField
-                          value={+values?.demandVehicle || 0}
-                          min="0"
-                          onChange={(e) => {
-                            setFieldValue("demandVehicle", e?.target?.value);
-                          }}
-                        />
-                      </td>
-                      {/* <td>
+                  <div className="table-responsive">
+                    <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+                      <thead>
+                        <tr>
+                          <th style={{ width: "200px" }}>Supplier Name</th>
+                          <th>Demand Vehicle</th>
+                          <th>Packing MT</th>
+                          <th>Dump Qty Ton</th>
+                          <th>Labour Requirement</th>
+                          <th>Labour Present</th>
+                          <th>Lighter Waiting</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <td>
+                          <NewSelect
+                            name="supplier"
+                            options={supplierDDL}
+                            value={values?.supplier}
+                            onChange={(valueOption) => {
+                              if (valueOption?.value) {
+                                setFieldValue("supplier", valueOption);
+                              } else {
+                                setFieldValue("supplier", "");
+                              }
+                            }}
+                          />
+                        </td>
+                        <td>
+                          <InputField
+                            value={+values?.demandVehicle || 0}
+                            min="0"
+                            onChange={(e) => {
+                              setFieldValue("demandVehicle", e?.target?.value);
+                            }}
+                          />
+                        </td>
+                        {/* <td>
                         <InputField
                           value={+values?.receiveVehicle || 0}
                           min="0"
@@ -169,54 +175,54 @@ export default function VehicleDemandEditModal({
                           }}
                         />
                       </td> */}
-                      <td>
-                        <InputField
-                          value={+values?.packingMt || 0}
-                          min="0"
-                          onChange={(e) => {
-                            setFieldValue("packingMt", e?.target?.value);
-                          }}
-                        />
-                      </td>
-                      <td>
-                        <InputField
-                          value={+values?.bufferQty || 0}
-                          min="0"
-                          onChange={(e) => {
-                            setFieldValue("bufferQty", e?.target?.value);
-                          }}
-                        />
-                      </td>
-                      <td>
-                        <InputField
-                          value={+values?.labourRequired || 0}
-                          min="0"
-                          onChange={(e) => {
-                            setFieldValue("labourRequired", e?.target?.value);
-                          }}
-                        />
-                      </td>
-                      <td>
-                        <InputField
-                          value={+values?.labourPresent || 0}
-                          min="0"
-                          onChange={(e) => {
-                            setFieldValue("labourPresent", e?.target?.value);
-                          }}
-                        />
-                      </td>
-                      <td>
-                        <InputField
-                          value={+values?.lighterWaiting || 0}
-                          min="0"
-                          onChange={(e) => {
-                            setFieldValue("lighterWaiting", e?.target?.value);
-                          }}
-                        />
-                      </td>
-
-                    </tbody>
-                  </table>
+                        <td>
+                          <InputField
+                            value={+values?.packingMt || 0}
+                            min="0"
+                            onChange={(e) => {
+                              setFieldValue("packingMt", e?.target?.value);
+                            }}
+                          />
+                        </td>
+                        <td>
+                          <InputField
+                            value={+values?.bufferQty || 0}
+                            min="0"
+                            onChange={(e) => {
+                              setFieldValue("bufferQty", e?.target?.value);
+                            }}
+                          />
+                        </td>
+                        <td>
+                          <InputField
+                            value={+values?.labourRequired || 0}
+                            min="0"
+                            onChange={(e) => {
+                              setFieldValue("labourRequired", e?.target?.value);
+                            }}
+                          />
+                        </td>
+                        <td>
+                          <InputField
+                            value={+values?.labourPresent || 0}
+                            min="0"
+                            onChange={(e) => {
+                              setFieldValue("labourPresent", e?.target?.value);
+                            }}
+                          />
+                        </td>
+                        <td>
+                          <InputField
+                            value={+values?.lighterWaiting || 0}
+                            min="0"
+                            onChange={(e) => {
+                              setFieldValue("lighterWaiting", e?.target?.value);
+                            }}
+                          />
+                        </td>
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
             </Form>

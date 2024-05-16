@@ -606,74 +606,75 @@ export default function _Form({
                           </div>
                         </div>
                         <div className="col-lg-12">
-                          <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
-                            <thead>
-                              <tr>
-                                <th style={{ width: "20px" }}>Sl</th>
-                                <th>
-                                  <input
-                                    type="checkbox"
-                                    checked={
-                                      shipPointData?.length > 0 &&
-                                      shipPointData?.every(
-                                        (item) => item?.isSelected
-                                      )
-                                    }
-                                    onChange={(e) => {
-                                      setShipPointData(
-                                        shipPointData?.map((item) => {
-                                          return {
-                                            ...item,
-                                            isSelected: e?.target?.checked,
-                                          };
-                                        })
-                                      );
-                                    }}
-                                  />
-                                </th>
-                                <th>Ghat Name</th>
-                                <th>Demand Vehicle</th>
-                                {/* <th>Receive Vehicle</th>
+                          <div className="table-responsive">
+                            <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+                              <thead>
+                                <tr>
+                                  <th style={{ width: "20px" }}>Sl</th>
+                                  <th>
+                                    <input
+                                      type="checkbox"
+                                      checked={
+                                        shipPointData?.length > 0 &&
+                                        shipPointData?.every(
+                                          (item) => item?.isSelected
+                                        )
+                                      }
+                                      onChange={(e) => {
+                                        setShipPointData(
+                                          shipPointData?.map((item) => {
+                                            return {
+                                              ...item,
+                                              isSelected: e?.target?.checked,
+                                            };
+                                          })
+                                        );
+                                      }}
+                                    />
+                                  </th>
+                                  <th>Ghat Name</th>
+                                  <th>Demand Vehicle</th>
+                                  {/* <th>Receive Vehicle</th>
                                 <th>Truck Loaded</th> */}
-                                <th>Packing MT</th>
-                                <th>Dump Qty Ton</th>
-                                <th>Labour Requirement</th>
-                                <th>Labour Present</th>
-                                <th>Lighter Waiting</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {shipPointData?.length > 0 &&
-                                shipPointData?.map((item, index) => (
-                                  <tr key={index}>
-                                    <td>{index + 1}</td>
-                                    <td>
-                                      <input
-                                        type="checkbox"
-                                        value={item?.isSelected}
-                                        checked={item?.isSelected}
-                                        onChange={(e) => {
-                                          const data = [...shipPointData];
-                                          data[index]["isSelected"] =
-                                            e.target.checked;
-                                          setShipPointData(data);
-                                        }}
-                                      />
-                                    </td>
-                                    <td>{item?.label}</td>
-                                    <td>
-                                      <InputField
-                                        value={item?.demandVehicle || 0}
-                                        min="0"
-                                        onChange={(e) => {
-                                          const data = [...shipPointData];
-                                          data[index]["demandVehicle"] = +e
-                                            .target.value;
-                                          setShipPointData(data);
-                                        }}
-                                      />
-                                    </td>
-                                    {/* <td>
+                                  <th>Packing MT</th>
+                                  <th>Dump Qty Ton</th>
+                                  <th>Labour Requirement</th>
+                                  <th>Labour Present</th>
+                                  <th>Lighter Waiting</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {shipPointData?.length > 0 &&
+                                  shipPointData?.map((item, index) => (
+                                    <tr key={index}>
+                                      <td>{index + 1}</td>
+                                      <td>
+                                        <input
+                                          type="checkbox"
+                                          value={item?.isSelected}
+                                          checked={item?.isSelected}
+                                          onChange={(e) => {
+                                            const data = [...shipPointData];
+                                            data[index]["isSelected"] =
+                                              e.target.checked;
+                                            setShipPointData(data);
+                                          }}
+                                        />
+                                      </td>
+                                      <td>{item?.label}</td>
+                                      <td>
+                                        <InputField
+                                          value={item?.demandVehicle || 0}
+                                          min="0"
+                                          onChange={(e) => {
+                                            const data = [...shipPointData];
+                                            data[index]["demandVehicle"] = +e
+                                              .target.value;
+                                            setShipPointData(data);
+                                          }}
+                                        />
+                                      </td>
+                                      {/* <td>
                                       <InputField
                                         value={item?.receiveVehicle || 0}
                                         min="0"
@@ -685,7 +686,7 @@ export default function _Form({
                                         }}
                                       />
                                     </td> */}
-                                    {/* <td>
+                                      {/* <td>
                                       <InputField
                                         value={item?.truckLoaded || 0}
                                         min="0"
@@ -697,70 +698,71 @@ export default function _Form({
                                         }}
                                       />
                                     </td> */}
-                                    <td>
-                                      <InputField
-                                        value={item?.packingMt || 0}
-                                        min="0"
-                                        onChange={(e) => {
-                                          const data = [...shipPointData];
-                                          data[index]["packingMt"] = +e.target
-                                            .value;
-                                          setShipPointData(data);
-                                        }}
-                                      />
-                                    </td>
-                                    <td>
-                                      <InputField
-                                        value={item?.bufferQty || 0}
-                                        min="0"
-                                        onChange={(e) => {
-                                          const data = [...shipPointData];
-                                          data[index]["bufferQty"] = +e.target
-                                            .value;
-                                          setShipPointData(data);
-                                        }}
-                                      />
-                                    </td>
-                                    <td>
-                                      <InputField
-                                        value={item?.labourRequired || 0}
-                                        min="0"
-                                        onChange={(e) => {
-                                          const data = [...shipPointData];
-                                          data[index]["labourRequired"] = +e
-                                            .target.value;
-                                          setShipPointData(data);
-                                        }}
-                                      />
-                                    </td>
-                                    <td>
-                                      <InputField
-                                        value={item?.labourPresent || 0}
-                                        min="0"
-                                        onChange={(e) => {
-                                          const data = [...shipPointData];
-                                          data[index]["labourPresent"] = +e
-                                            .target.value;
-                                          setShipPointData(data);
-                                        }}
-                                      />
-                                    </td>
-                                    <td>
-                                      <InputField
-                                        value={item?.lighterWaiting || 0}
-                                        min="0"
-                                        onChange={(e) => {
-                                          const data = [...shipPointData];
-                                          data[index]["lighterWaiting"] = +e
-                                            .target.value;
-                                          setShipPointData(data);
-                                        }}
-                                      />
-                                    </td>
-                                  </tr>
-                                ))}
-                            </tbody>
-                          </table>
+                                      <td>
+                                        <InputField
+                                          value={item?.packingMt || 0}
+                                          min="0"
+                                          onChange={(e) => {
+                                            const data = [...shipPointData];
+                                            data[index]["packingMt"] = +e.target
+                                              .value;
+                                            setShipPointData(data);
+                                          }}
+                                        />
+                                      </td>
+                                      <td>
+                                        <InputField
+                                          value={item?.bufferQty || 0}
+                                          min="0"
+                                          onChange={(e) => {
+                                            const data = [...shipPointData];
+                                            data[index]["bufferQty"] = +e.target
+                                              .value;
+                                            setShipPointData(data);
+                                          }}
+                                        />
+                                      </td>
+                                      <td>
+                                        <InputField
+                                          value={item?.labourRequired || 0}
+                                          min="0"
+                                          onChange={(e) => {
+                                            const data = [...shipPointData];
+                                            data[index]["labourRequired"] = +e
+                                              .target.value;
+                                            setShipPointData(data);
+                                          }}
+                                        />
+                                      </td>
+                                      <td>
+                                        <InputField
+                                          value={item?.labourPresent || 0}
+                                          min="0"
+                                          onChange={(e) => {
+                                            const data = [...shipPointData];
+                                            data[index]["labourPresent"] = +e
+                                              .target.value;
+                                            setShipPointData(data);
+                                          }}
+                                        />
+                                      </td>
+                                      <td>
+                                        <InputField
+                                          value={item?.lighterWaiting || 0}
+                                          min="0"
+                                          onChange={(e) => {
+                                            const data = [...shipPointData];
+                                            data[index]["lighterWaiting"] = +e
+                                              .target.value;
+                                            setShipPointData(data);
+                                          }}
+                                        />
+                                      </td>
+                                    </tr>
+                                  ))}
+                              </tbody>
+                            </table>
+                          </div>
                         </div>
                       </div>
                     </>

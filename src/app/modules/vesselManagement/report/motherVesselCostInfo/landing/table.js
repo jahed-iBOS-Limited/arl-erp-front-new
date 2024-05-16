@@ -129,62 +129,64 @@ export default function MotherVesselCostInfo() {
               {isLoading && <Loading />}
               <div className="row cash_journal">
                 <div className="col-lg-12">
-                  <table className="table table-striped table-bordered global-table">
-                    <thead>
-                      <tr>
-                        <th style={{ width: "40px" }}>SL</th>
-                        <th>Ship Point</th>
-                        <th>Quantity</th>
-                        <th>Rate</th>
-                        <th>Commission</th>
-                        <th>Amount</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {rowData?.map((item, index) => {
-                        return (
-                          <tr key={index}>
-                            <td> {index + 1}</td>
-                            <td>{item?.strShipPointName}</td>
-                            <td>{item?.UnloadQnt}</td>
-                            <td className="text-right">
-                              {item?.numInternationRateTaka}
-                            </td>
-                            <td className="text-right">
-                              {item?.BillClaimAmount}
-                            </td>
-                            <td className="text-right">
-                              {item?.BillClaimAmount}
-                            </td>
-                          </tr>
-                        );
-                      })}
-                      {rowData.length ? (
-                        <>
-                          <tr>
-                            <td colSpan="5" className="text-right">
-                              Total
-                            </td>
-                            <td>000</td>
-                          </tr>
-                          <tr>
-                            <td colSpan="5" className="text-right">
-                              (-)Received Amount
-                            </td>
-                            <td>000</td>
-                          </tr>
-                          <tr>
-                            <td colSpan="5" className="text-right">
-                              Receivable Amount
-                            </td>
-                            <td>000</td>
-                          </tr>
-                        </>
-                      ) : (
-                        ""
-                      )}
-                    </tbody>
-                  </table>
+                  <div className="table-responsive">
+                    <table className="table table-striped table-bordered global-table">
+                      <thead>
+                        <tr>
+                          <th style={{ width: "40px" }}>SL</th>
+                          <th>Ship Point</th>
+                          <th>Quantity</th>
+                          <th>Rate</th>
+                          <th>Commission</th>
+                          <th>Amount</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {rowData?.map((item, index) => {
+                          return (
+                            <tr key={index}>
+                              <td> {index + 1}</td>
+                              <td>{item?.strShipPointName}</td>
+                              <td>{item?.UnloadQnt}</td>
+                              <td className="text-right">
+                                {item?.numInternationRateTaka}
+                              </td>
+                              <td className="text-right">
+                                {item?.BillClaimAmount}
+                              </td>
+                              <td className="text-right">
+                                {item?.BillClaimAmount}
+                              </td>
+                            </tr>
+                          );
+                        })}
+                        {rowData.length ? (
+                          <>
+                            <tr>
+                              <td colSpan="5" className="text-right">
+                                Total
+                              </td>
+                              <td>000</td>
+                            </tr>
+                            <tr>
+                              <td colSpan="5" className="text-right">
+                                (-)Received Amount
+                              </td>
+                              <td>000</td>
+                            </tr>
+                            <tr>
+                              <td colSpan="5" className="text-right">
+                                Receivable Amount
+                              </td>
+                              <td>000</td>
+                            </tr>
+                          </>
+                        ) : (
+                          ""
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
             </Form>
