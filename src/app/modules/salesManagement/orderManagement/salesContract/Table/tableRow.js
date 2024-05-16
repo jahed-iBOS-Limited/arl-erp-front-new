@@ -8,6 +8,9 @@ import IView from "../../../../_helper/_helperIcons/_view";
 import Loading from "../../../../_helper/_loading";
 import PaginationTable from "../../../../_helper/_tablePagination";
 import PaginationSearch from "../../../../_helper/_search";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import IViewModal from "../../../../_helper/_viewModal";
+import SalesContractView from "./salesContractViewModal";
 
 export function TableRow() {
   const dispatch = useDispatch();
@@ -30,6 +33,11 @@ export function TableRow() {
   const gridData = useSelector((state) => {
     return state.salesContact?.gridData;
   }, shallowEqual);
+
+  const [quotationViewModal, setQuotationViewModal] = useState(false);
+  const [contactId, setContactId] = useState(null);
+
+
 
   useEffect(() => {
     if (selectedBusinessUnit && profileData) {
@@ -125,6 +133,20 @@ export function TableRow() {
                           >
                             <IEdit />
                           </span>
+                          <span onClick={()=>{
+                             setContactId(td.salesContactId);
+                             setQuotationViewModal(true);
+                          }}>
+                          <OverlayTrigger
+                              overlay={
+                                <Tooltip id="cs-icon">
+                                  Print
+                                </Tooltip>
+                              }
+                            >
+                              <i class="fa fa-print cursor-pointer" aria-hidden="true"></i>
+                            </OverlayTrigger>
+                          </span>
                         </div>
                       </td>
                     </tr>
@@ -141,6 +163,18 @@ export function TableRow() {
             paginationState={{ pageNo, setPageNo, pageSize, setPageSize }}
           />
         )}
+      </div>
+      <div>
+      <IViewModal
+                    title=""
+                    show={quotationViewModal}
+                    onHide={() => {
+                      setQuotationViewModal(false);
+                      setContactId(null);
+                    }}
+                  >
+                    <SalesContractView contactId={contactId} />
+                  </IViewModal>
       </div>
     </>
   );
