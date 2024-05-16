@@ -290,102 +290,104 @@ function Report({ weightmentId }) {
                       </table>
                     </div>
                   </div>
-                </div>
 
-                <p className="border-style"></p>
-                <br />
-                <br />
-                <div className="weight-report-scale">
-                  <div className="first">
-                    <p>
-                      <strong>First Weight Date</strong> <br />
-                      <span>
-                        {_dateFormatter(reportData[0]?.firstWeightDate)}{" "}
-                        {_timeFormatter(reportData[0]?.firstWeightTime || "")}
-                      </span>
-                    </p>
-                    <p>
-                      <span className="bold">First Weight</span>
-                    </p>
-                    <p>
-                      <span
-                        style={{ fontSize: "16px" }}
-                        className="bold weight-report-scale-border"
-                      >
-                        {reportData[0]?.firstWeight} Kg
-                      </span>
-                    </p>
+                  <p className="border-style"></p>
+                  <br />
+                  <br />
+                  <div className="weight-report-scale">
+                    <div className="first">
+                      <p>
+                        <strong>First Weight Date</strong> <br />
+                        <span>
+                          {_dateFormatter(reportData[0]?.firstWeightDate)}{" "}
+                          {_timeFormatter(reportData[0]?.firstWeightTime || "")}
+                        </span>
+                      </p>
+                      <p>
+                        <span className="bold">First Weight</span>
+                      </p>
+                      <p>
+                        <span
+                          style={{ fontSize: "16px" }}
+                          className="bold weight-report-scale-border"
+                        >
+                          {reportData[0]?.firstWeight} Kg
+                        </span>
+                      </p>
+                    </div>
+                    <div className="second">
+                      <p>
+                        <strong>Second Weight Date</strong>
+                        <br />
+                        <span>
+                          {_dateFormatter(reportData[0]?.lastWeightDate)}{" "}
+                          {_timeFormatter(reportData[0]?.lastWeightTime || "")}
+                        </span>
+                      </p>
+                      <p>
+                        <span className="bold">Second Weight</span>
+                      </p>
+                      <p>
+                        <span
+                          style={{ fontSize: "16px" }}
+                          className="bold weight-report-scale-border"
+                        >
+                          {reportData[0]?.lastWeight} Kg
+                        </span>
+                      </p>
+                    </div>
+                    <div className="third">
+                      <p>
+                        <strong>Net Weight Date</strong> <br />
+                        <span>
+                          {_dateFormatter(reportData[0]?.lastWeightDate)}{" "}
+                          {_timeFormatter(reportData[0]?.lastWeightTime || "")}
+                        </span>
+                      </p>
+                      <p>
+                        <span className="bold">Net Weight</span>
+                      </p>
+                      <p>
+                        <span
+                          style={{ fontSize: "16px" }}
+                          className="bold weight-report-scale-border"
+                        >
+                          {reportData[0]?.netWeight} Kg
+                        </span>
+                      </p>
+                    </div>
                   </div>
-                  <div className="second">
-                    <p>
-                      <strong>Second Weight Date</strong>
-                      <br />
-                      <span>
-                        {_dateFormatter(reportData[0]?.lastWeightDate)}{" "}
-                        {_timeFormatter(reportData[0]?.lastWeightTime || "")}
-                      </span>
-                    </p>
-                    <p>
-                      <span className="bold">Second Weight</span>
-                    </p>
-                    <p>
-                      <span
-                        style={{ fontSize: "16px" }}
-                        className="bold weight-report-scale-border"
-                      >
-                        {reportData[0]?.lastWeight} Kg
-                      </span>
-                    </p>
-                  </div>
-                  <div className="third">
-                    <p>
-                      <strong>Net Weight Date</strong> <br />
-                      <span>
-                        {_dateFormatter(reportData[0]?.lastWeightDate)}{" "}
-                        {_timeFormatter(reportData[0]?.lastWeightTime || "")}
-                      </span>
-                    </p>
-                    <p>
-                      <span className="bold">Net Weight</span>
-                    </p>
-                    <p>
-                      <span
-                        style={{ fontSize: "16px" }}
-                        className="bold weight-report-scale-border"
-                      >
-                        {reportData[0]?.netWeight} Kg
-                      </span>
-                    </p>
-                  </div>
-                </div>
 
-                <br />
-                <div className="weight-report-signature">
-                  <div className="first">
-                    <p>
-                      <span className="bold border-top">Driver Signature</span>
-                    </p>
-                  </div>
-                  <div className="second">
-                    <p>
-                      <span className="bold border-top">
-                        Customer Signature
-                      </span>
-                    </p>
-                  </div>
-                  <div className="third">
-                    <p>
-                      <span className="bold border-top">
-                        Security Signature
-                      </span>
-                    </p>
-                  </div>
-                  <div className="fourth">
-                    <p>
-                      <span className="bold border-top">
-                        Authorized Signature
-                      </span>
-                    </p>
+                  <br />
+                  <div className="weight-report-signature">
+                    <div className="first">
+                      <p>
+                        <span className="bold border-top">
+                          Driver Signature
+                        </span>
+                      </p>
+                    </div>
+                    <div className="second">
+                      <p>
+                        <span className="bold border-top">
+                          Customer Signature
+                        </span>
+                      </p>
+                    </div>
+                    <div className="third">
+                      <p>
+                        <span className="bold border-top">
+                          Security Signature
+                        </span>
+                      </p>
+                    </div>
+                    <div className="fourth">
+                      <p>
+                        <span className="bold border-top">
+                          Authorized Signature
+                        </span>
+                      </p>
+                    </div>
                   </div>
                 </div>
               </CardBody>
