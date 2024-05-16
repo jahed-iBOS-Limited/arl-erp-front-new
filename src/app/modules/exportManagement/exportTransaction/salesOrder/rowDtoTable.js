@@ -135,7 +135,8 @@ const SalesOrderRowTable = ({
         </div>
       </div>
       <>
-        <table className="table table-striped table-bordered mt-3 global-table po-table">
+      <div className="table-responsive">
+ <table className="table table-striped table-bordered mt-3 global-table po-table">
           <thead>
             <tr>
               {/* <th style={{ fontSize: "10px" }}>SL</th>
@@ -383,6 +384,8 @@ const SalesOrderRowTable = ({
               })} */}
           </tbody>
         </table>
+</div>
+       
       </>
       {/* )} */}
     </div>
