@@ -250,7 +250,7 @@ export default function InvoiceForCharterer({
       </div>
 
       {/* Row And Table Section */}
-    <div className="table-responsive">
+    {/* <div className="table-responsive"> */}
     <table className="table mt-3 bj-table bj-table-landing">
         <thead>
           <tr
@@ -569,7 +569,7 @@ export default function InvoiceForCharterer({
           ) : null}
         </tbody>
       </table>
-    </div>
+    {/* </div> */}
 
       {/* Bank Info Section */}
       <BankInfoComponent data={bankInfoData} />

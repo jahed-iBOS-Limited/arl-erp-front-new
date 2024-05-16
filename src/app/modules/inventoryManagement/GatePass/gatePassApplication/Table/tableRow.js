@@ -135,7 +135,7 @@ export function TableRow() {
                           setFieldValue("warehouse", "");
                           setFieldValue("plant", valueOption);
                           setPlantListId(valueOption);
-                          if(valueOption){
+                          if (valueOption) {
                             getWarehouseDDL(
                               setWarehouseList,
                               profileData?.accountId,
@@ -196,7 +196,12 @@ export function TableRow() {
                     <div className="col-lg-2 mt-5">
                       <button
                         className="btn btn-primary"
-                        disabled={!values?.plant || !values?.warehouse || !values?.fromDate || !values?.toDate}
+                        disabled={
+                          !values?.plant ||
+                          !values?.warehouse ||
+                          !values?.fromDate ||
+                          !values?.toDate
+                        }
                         type="button"
                         onClick={() => {
                           getGridData(
@@ -227,85 +232,90 @@ export function TableRow() {
                         paginationSearchHandler={paginationSearchHandler}
                         values={values}
                       />
-
-                      <table className="table table-striped table-bordered global-table">
-                        <thead>
-                          <tr>
-                            <th style={{ width: "20px" }}>SL</th>
-                            <th style={{ width: "50px" }}>Gate Pass Code</th>
-                            <th style={{ width: "50px" }}>Date</th>
-                            <th style={{ width: "50px" }}>Remarks</th>
-                            <th style={{ width: "50px" }}>To Address</th>
-                            <th style={{ width: "50px" }}>Status</th>
-                            <th style={{ width: "50px" }}>Action</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {gridData?.data?.length > 0 &&
-                            gridData?.data?.map((item, index) => (
-                              <tr key={index}>
-                                <td>{pageNo * pageSize + index + 1}</td>
-                                <td>
-                                  <div className="pl-2">
-                                    {item?.gatePassCode}
-                                  </div>
-                                </td>
-                                <td>
-                                  <div className="pl-2">
-                                    {_dateFormatter(item?.gatePassRequestDate)}
-                                  </div>
-                                </td>
-                                <td>
-                                  <div className="pl-2">{item?.strRemarks}</div>
-                                </td>
-                                <td>
-                                  <div className="pl-2">{item?.to}</div>
-                                </td>
-                                <td>
-                                  <div className="pl-2 text-center">
-                                    {item?.status}
-                                  </div>
-                                </td>
-                                <td>
-                                  <div className="d-flex justify-content-center">
-                                    {item?.returnableItem ? (
-                                      <span className="mr-3 view">
-                                        <ReceiveIcon
+                      <div className="table-responsive">
+                        <table className="table table-striped table-bordered global-table">
+                          <thead>
+                            <tr>
+                              <th style={{ width: "20px" }}>SL</th>
+                              <th style={{ width: "50px" }}>Gate Pass Code</th>
+                              <th style={{ width: "50px" }}>Date</th>
+                              <th style={{ width: "50px" }}>Remarks</th>
+                              <th style={{ width: "50px" }}>To Address</th>
+                              <th style={{ width: "50px" }}>Status</th>
+                              <th style={{ width: "50px" }}>Action</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {gridData?.data?.length > 0 &&
+                              gridData?.data?.map((item, index) => (
+                                <tr key={index}>
+                                  <td>{pageNo * pageSize + index + 1}</td>
+                                  <td>
+                                    <div className="pl-2">
+                                      {item?.gatePassCode}
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <div className="pl-2">
+                                      {_dateFormatter(
+                                        item?.gatePassRequestDate
+                                      )}
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <div className="pl-2">
+                                      {item?.strRemarks}
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <div className="pl-2">{item?.to}</div>
+                                  </td>
+                                  <td>
+                                    <div className="pl-2 text-center">
+                                      {item?.status}
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <div className="d-flex justify-content-center">
+                                      {item?.returnableItem ? (
+                                        <span className="mr-3 view">
+                                          <ReceiveIcon
+                                            clickHandler={() => {
+                                              setIsReturnableModal(true);
+                                              setGridDataId(item?.gatePassId);
+                                            }}
+                                          />
+                                        </span>
+                                      ) : null}
+                                      <span className="view">
+                                        <IView
                                           clickHandler={() => {
-                                            setIsReturnableModal(true);
+                                            setIsShowModal(true);
                                             setGridDataId(item?.gatePassId);
                                           }}
                                         />
                                       </span>
-                                    ) : null}
-                                    <span className="view">
-                                      <IView
-                                        clickHandler={() => {
-                                          setIsShowModal(true);
-                                          setGridDataId(item?.gatePassId);
-                                        }}
-                                      />
-                                    </span>
-                                    {item?.status !== "Approved" &&
-                                      item?.status !== "Rejected" && (
-                                        <span
-                                          className="ml-3 edit"
-                                          onClick={() => {
-                                            history.push({
-                                              pathname: `/inventory-management/gate-pass/gate-pass-application/edit/${item?.gatePassId}`,
-                                              state: item,
-                                            });
-                                          }}
-                                        >
-                                          <IEdit />
-                                        </span>
-                                      )}
-                                  </div>
-                                </td>
-                              </tr>
-                            ))}
-                        </tbody>
-                      </table>
+                                      {item?.status !== "Approved" &&
+                                        item?.status !== "Rejected" && (
+                                          <span
+                                            className="ml-3 edit"
+                                            onClick={() => {
+                                              history.push({
+                                                pathname: `/inventory-management/gate-pass/gate-pass-application/edit/${item?.gatePassId}`,
+                                                state: item,
+                                              });
+                                            }}
+                                          >
+                                            <IEdit />
+                                          </span>
+                                        )}
+                                    </div>
+                                  </td>
+                                </tr>
+                              ))}
+                          </tbody>
+                        </table>
+                      </div>
                     </div>
 
                     {/* modal  */}

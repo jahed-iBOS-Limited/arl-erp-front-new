@@ -106,75 +106,81 @@ export default function DispatchReport() {
                   </div>
                 </div>
                 <div className="mt-5">
-                  <table class="table table-striped table-bordered bj-table bj-table-landing">
-                    <thead>
-                      <tr>
-                        <th>SL</th>
-                        <th>Document Type</th>
-                        <th>Document Code</th>
-                        <th>From Location</th>
-                        <th>To Location</th>
-                        <th>Sender Name</th>
-                        <th>Receiver Name</th>
-                        <th>Requisition Date</th>
-                        <th>Dispatch Send Date</th>
-                        <th>Dispatch Receive Date</th>
-                        <th>Owner Receive Date</th>
-                        <th>Status</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {gridData?.map((item, index) => (
-                        <tr key={index}>
-                          <td>
-                            <div className="text-center">{index + 1}</div>
-                          </td>
-                          <td>
-                            <div className="pl-2">{item?.documentType}</div>
-                          </td>
-                          <td>
-                            <div className="pl-2">{item?.documentCode}</div>
-                          </td>
-
-                          <td>
-                            <div className="pl-2">{item?.fromLocation}</div>
-                          </td>
-                          <td>
-                            <div className="pl-2">{item?.toLocation}</div>
-                          </td>
-                          <td>
-                            <div className="pl-2">{item?.senderName}</div>
-                          </td>
-                          <td>
-                            <div className="pl-2">{item?.receiverName}</div>
-                          </td>
-                          <td>
-                            <div className="text-center">
-                              {_dateFormatter(item?.requsitionDate)}
-                            </div>
-                          </td>
-                          <td>
-                            <div className="text-center">
-                              {_dateFormatter(item?.dispatchSendDate)}
-                            </div>
-                          </td>
-                          <td>
-                            <div className="text-center">
-                              {_dateFormatter(item?.dispatchReceiveDate)}
-                            </div>
-                          </td>
-                          <td>
-                            <div className="text-center">
-                              {_dateFormatter(item?.ownerReceiveDate)}
-                            </div>
-                          </td>
-                          <td>
-                            <div className="pl-2"><span className="text-bold">{item?.status}</span></div>
-                          </td>
+                  <div className="table-responsive">
+                    <table class="table table-striped table-bordered bj-table bj-table-landing">
+                      <thead>
+                        <tr>
+                          <th>SL</th>
+                          <th>Document Type</th>
+                          <th>Document Code</th>
+                          <th>From Location</th>
+                          <th>To Location</th>
+                          <th>Sender Name</th>
+                          <th>Receiver Name</th>
+                          <th>Requisition Date</th>
+                          <th>Dispatch Send Date</th>
+                          <th>Dispatch Receive Date</th>
+                          <th>Owner Receive Date</th>
+                          <th>Status</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody>
+                        {gridData?.map((item, index) => (
+                          <tr key={index}>
+                            <td>
+                              <div className="text-center">{index + 1}</div>
+                            </td>
+                            <td>
+                              <div className="pl-2">{item?.documentType}</div>
+                            </td>
+                            <td>
+                              <div className="pl-2">{item?.documentCode}</div>
+                            </td>
+
+                            <td>
+                              <div className="pl-2">{item?.fromLocation}</div>
+                            </td>
+                            <td>
+                              <div className="pl-2">{item?.toLocation}</div>
+                            </td>
+                            <td>
+                              <div className="pl-2">{item?.senderName}</div>
+                            </td>
+                            <td>
+                              <div className="pl-2">{item?.receiverName}</div>
+                            </td>
+                            <td>
+                              <div className="text-center">
+                                {_dateFormatter(item?.requsitionDate)}
+                              </div>
+                            </td>
+                            <td>
+                              <div className="text-center">
+                                {_dateFormatter(item?.dispatchSendDate)}
+                              </div>
+                            </td>
+                            <td>
+                              <div className="text-center">
+                                {_dateFormatter(item?.dispatchReceiveDate)}
+                              </div>
+                            </td>
+                            <td>
+                              <div className="text-center">
+                                {_dateFormatter(item?.ownerReceiveDate)}
+                              </div>
+                            </td>
+                            <td>
+                              <div className="pl-2">
+                                <span className="text-bold">
+                                  {item?.status}
+                                </span>
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
             </Form>

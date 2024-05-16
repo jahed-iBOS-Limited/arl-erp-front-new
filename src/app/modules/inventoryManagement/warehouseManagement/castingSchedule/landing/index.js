@@ -142,136 +142,141 @@ function CastingScheduleLanding() {
                 </div>
 
                 {gridData?.data?.length > 0 && (
-                  <table className="table table-striped table-bordered global-table">
-                    <thead>
-                      <tr>
-                        <th style={{ width: "30px" }}>SL</th>
-                        <th>Ship point</th>
-                        <th>Client Name</th>
-                        <th>Project Address</th>
-                        <th>Contact Person</th>
-                        <th>Type of work</th>
-                        <th>Total Qty</th>
-                        <th>Casting Time</th>
-                        <th>Marketing Concern</th>
-                        <th>Status</th>
-                        <th>Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {gridData?.data?.map((td, index) => (
-                        <tr key={index}>
-                          <td className="text-center">{index + 1}</td>
-                          <td>{td?.strShippingPointName}</td>
-                          <td>{td?.strCustomerName}</td>
-                          <td>{td?.strAddress}</td>
-                          <td>{td?.strContactPerson}</td>
-                          <td>{td?.strWorkTypeName}</td>
-                          <td>{td?.numTotalOrderQuantity}</td>
-                          <td style={{ width: "105px" }}>
-                            {moment(td?.dteCastingDate).format(
-                              "YYYY-MM-DD HH:mm"
-                            )}
-                          </td>
-                          <td>{td?.strCastingProcedureBy}</td>
-                          <td>
-                            {td?.intStatusId === 0 ? (
-                              <span class="badge badge-pill badge-warning">
-                                Pending
-                              </span>
-                            ) : null}
-                            {td?.intStatusId === 1 ? (
-                              <span class="badge badge-pill badge-success">
-                                Approved
-                              </span>
-                            ) : null}
-                            {td?.intStatusId === 2 ? (
-                              <span class="badge badge-pill badge-danger">
-                                Rejected
-                              </span>
-                            ) : null}
-                          </td>
-                          <td style={{ width: "80px" }} className="text-center">
-                            <div className="d-flex justify-content-center">
-                              {/* View Only if Rejected */}
-                              {td?.intStatusId === 2 ||
-                              td?.intStatusId === 1 ? (
-                                <span
-                                  className="mr-2"
-                                  onClick={() => {
-                                    history.push({
-                                      pathname: `/inventory-management/warehouse-management/liftingplanentry/entry/${td?.intId}/view`,
-                                    });
-                                  }}
-                                >
-                                  <IView />
-                                </span>
-                              ) : null}
-
-                              {/* If Pending Then Edit  */}
-                              {td?.intStatusId === 0 ? (
-                                <span
-                                  className="mr-2"
-                                  onClick={() => {
-                                    history.push({
-                                      pathname: `/inventory-management/warehouse-management/liftingplanentry/entry/${td?.intId}/edit`,
-                                    });
-                                  }}
-                                >
-                                  <IEdit />
-                                </span>
-                              ) : null}
-
-                              {td?.intStatusId === 0 ? (
-                                <span
-                                  className="mr-2"
-                                  onClick={() => {
-                                    let confirmObject = {
-                                      title: "Are you sure?",
-                                      message: "Delete Casting Schedule",
-                                      yesAlertFunc: async () => {
-                                        deleteCastingSchedule(
-                                          td?.intId,
-                                          setLoading,
-                                          () => {
-                                            getLandingData(
-                                              values,
-                                              pageNo,
-                                              pageSize
-                                            );
-                                          }
-                                        );
-                                      },
-                                      noAlertFunc: () => {
-                                        "";
-                                      },
-                                    };
-                                    IConfirmModal(confirmObject);
-                                  }}
-                                >
-                                  <IDelete />
-                                </span>
-                              ) : null}
-                            </div>
-                          </td>
+                  <div className="table-responsive">
+                    <table className="table table-striped table-bordered global-table">
+                      <thead>
+                        <tr>
+                          <th style={{ width: "30px" }}>SL</th>
+                          <th>Ship point</th>
+                          <th>Client Name</th>
+                          <th>Project Address</th>
+                          <th>Contact Person</th>
+                          <th>Type of work</th>
+                          <th>Total Qty</th>
+                          <th>Casting Time</th>
+                          <th>Marketing Concern</th>
+                          <th>Status</th>
+                          <th>Actions</th>
                         </tr>
-                      ))}
-                      <tr>
-                        <td colSpan="6" className="text-right">
-                          <strong>Total</strong>
-                        </td>
-                        <td colSpan="1">
-                          <strong>
-                            {gridData?.data?.reduce(
-                              (acc, obj) => acc + +obj?.numTotalOrderQuantity,
-                              0
-                            )}
-                          </strong>
-                        </td>
-                        <td colSpan="10"></td>
-                      </tr>
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody>
+                        {gridData?.data?.map((td, index) => (
+                          <tr key={index}>
+                            <td className="text-center">{index + 1}</td>
+                            <td>{td?.strShippingPointName}</td>
+                            <td>{td?.strCustomerName}</td>
+                            <td>{td?.strAddress}</td>
+                            <td>{td?.strContactPerson}</td>
+                            <td>{td?.strWorkTypeName}</td>
+                            <td>{td?.numTotalOrderQuantity}</td>
+                            <td style={{ width: "105px" }}>
+                              {moment(td?.dteCastingDate).format(
+                                "YYYY-MM-DD HH:mm"
+                              )}
+                            </td>
+                            <td>{td?.strCastingProcedureBy}</td>
+                            <td>
+                              {td?.intStatusId === 0 ? (
+                                <span class="badge badge-pill badge-warning">
+                                  Pending
+                                </span>
+                              ) : null}
+                              {td?.intStatusId === 1 ? (
+                                <span class="badge badge-pill badge-success">
+                                  Approved
+                                </span>
+                              ) : null}
+                              {td?.intStatusId === 2 ? (
+                                <span class="badge badge-pill badge-danger">
+                                  Rejected
+                                </span>
+                              ) : null}
+                            </td>
+                            <td
+                              style={{ width: "80px" }}
+                              className="text-center"
+                            >
+                              <div className="d-flex justify-content-center">
+                                {/* View Only if Rejected */}
+                                {td?.intStatusId === 2 ||
+                                td?.intStatusId === 1 ? (
+                                  <span
+                                    className="mr-2"
+                                    onClick={() => {
+                                      history.push({
+                                        pathname: `/inventory-management/warehouse-management/liftingplanentry/entry/${td?.intId}/view`,
+                                      });
+                                    }}
+                                  >
+                                    <IView />
+                                  </span>
+                                ) : null}
+
+                                {/* If Pending Then Edit  */}
+                                {td?.intStatusId === 0 ? (
+                                  <span
+                                    className="mr-2"
+                                    onClick={() => {
+                                      history.push({
+                                        pathname: `/inventory-management/warehouse-management/liftingplanentry/entry/${td?.intId}/edit`,
+                                      });
+                                    }}
+                                  >
+                                    <IEdit />
+                                  </span>
+                                ) : null}
+
+                                {td?.intStatusId === 0 ? (
+                                  <span
+                                    className="mr-2"
+                                    onClick={() => {
+                                      let confirmObject = {
+                                        title: "Are you sure?",
+                                        message: "Delete Casting Schedule",
+                                        yesAlertFunc: async () => {
+                                          deleteCastingSchedule(
+                                            td?.intId,
+                                            setLoading,
+                                            () => {
+                                              getLandingData(
+                                                values,
+                                                pageNo,
+                                                pageSize
+                                              );
+                                            }
+                                          );
+                                        },
+                                        noAlertFunc: () => {
+                                          "";
+                                        },
+                                      };
+                                      IConfirmModal(confirmObject);
+                                    }}
+                                  >
+                                    <IDelete />
+                                  </span>
+                                ) : null}
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+                        <tr>
+                          <td colSpan="6" className="text-right">
+                            <strong>Total</strong>
+                          </td>
+                          <td colSpan="1">
+                            <strong>
+                              {gridData?.data?.reduce(
+                                (acc, obj) => acc + +obj?.numTotalOrderQuantity,
+                                0
+                              )}
+                            </strong>
+                          </td>
+                          <td colSpan="10"></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
                 )}
 
                 {gridData?.data?.length > 0 && (

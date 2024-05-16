@@ -239,51 +239,50 @@ export function InventoryTransactionReportViewTableRow({
                       </div>
                       <div className="my-3">
                         {/* {itemReqReport?.objHeader?.transactionGroupId === 1 && ( */}
-                          <>
-                            Adjustment Journal Code:
-                            <sapn className="font-weight-bold mr-2 ml-1">
-                              {itemReqReport?.objHeader?.adjustmentJournalCode
-                                ? itemReqReport?.objHeader
-                                    ?.adjustmentJournalCode
-                                : "NA"}
-                            </sapn>
-                            Challan:
-                            <sapn className="font-weight-bold mr-2 ml-1">
-                              {itemReqReport?.objHeader?.challan
-                                ? itemReqReport?.objHeader?.challan
-                                : "NA"}
-                            </sapn>
-                            Challan Date:
-                            <sapn className="font-weight-bold mr-2 ml-1">
-                              {itemReqReport?.objHeader?.challanDateTime
-                                ? _dateFormatter(
-                                    itemReqReport?.objHeader?.challanDateTime
-                                  )
-                                : "NA"}
-                            </sapn>
-                            Vat Challan:
-                            <sapn className="font-weight-bold mr-2 ml-1">
-                              {itemReqReport?.objHeader?.vatChallan
-                                ? itemReqReport?.objHeader?.vatChallan
-                                : "NA"}
-                            </sapn>
-                            Vat Amount:
-                            <sapn className="font-weight-bold mr-2 ml-1">
-                              {itemReqReport?.objHeader?.vatAmount
-                                ? itemReqReport?.objHeader?.vatAmount
-                                : 0}
-                            </sapn>
-                            Others Charge:
-                            <sapn className="font-weight-bold mr-2 ml-1">
-                              {itemReqReport?.objHeader?.othersCharge || 0}
-                            </sapn>
-                            Gate Entry NO:
-                            <sapn className="font-weight-bold mr-2 ml-1">
-                              {itemReqReport?.objHeader?.gateEntryNo
-                                ? itemReqReport?.objHeader?.gateEntryNo
-                                : "NA"}
-                            </sapn>
-                          </>
+                        <>
+                          Adjustment Journal Code:
+                          <sapn className="font-weight-bold mr-2 ml-1">
+                            {itemReqReport?.objHeader?.adjustmentJournalCode
+                              ? itemReqReport?.objHeader?.adjustmentJournalCode
+                              : "NA"}
+                          </sapn>
+                          Challan:
+                          <sapn className="font-weight-bold mr-2 ml-1">
+                            {itemReqReport?.objHeader?.challan
+                              ? itemReqReport?.objHeader?.challan
+                              : "NA"}
+                          </sapn>
+                          Challan Date:
+                          <sapn className="font-weight-bold mr-2 ml-1">
+                            {itemReqReport?.objHeader?.challanDateTime
+                              ? _dateFormatter(
+                                  itemReqReport?.objHeader?.challanDateTime
+                                )
+                              : "NA"}
+                          </sapn>
+                          Vat Challan:
+                          <sapn className="font-weight-bold mr-2 ml-1">
+                            {itemReqReport?.objHeader?.vatChallan
+                              ? itemReqReport?.objHeader?.vatChallan
+                              : "NA"}
+                          </sapn>
+                          Vat Amount:
+                          <sapn className="font-weight-bold mr-2 ml-1">
+                            {itemReqReport?.objHeader?.vatAmount
+                              ? itemReqReport?.objHeader?.vatAmount
+                              : 0}
+                          </sapn>
+                          Others Charge:
+                          <sapn className="font-weight-bold mr-2 ml-1">
+                            {itemReqReport?.objHeader?.othersCharge || 0}
+                          </sapn>
+                          Gate Entry NO:
+                          <sapn className="font-weight-bold mr-2 ml-1">
+                            {itemReqReport?.objHeader?.gateEntryNo
+                              ? itemReqReport?.objHeader?.gateEntryNo
+                              : "NA"}
+                          </sapn>
+                        </>
                         {/* )} */}
                         Comments:
                         <sapn className="font-weight-bold mr-2 ml-1">
@@ -330,144 +329,148 @@ export function InventoryTransactionReportViewTableRow({
                           </>
                         )}
                       </div>
-                      {![4, 9, 13].includes(+grId) ?  <table
-                          className="table table-striped table-bordered global-table"
-                          id="table-to-xlsx"
-                        >
-                          <thead>
-                            <tr>
-                              <th>SL</th>
-                              <th>Item Code</th>
-                              <th>Item Name</th>
-                              {/* {+grId === 13 ? <><th>To Plant Name</th>
+                      {![4, 9, 13].includes(+grId) ? (
+                        <div className="table-responsive">
+                          <table
+                            className="table table-striped table-bordered global-table"
+                            id="table-to-xlsx"
+                          >
+                            <thead>
+                              <tr>
+                                <th>SL</th>
+                                <th>Item Code</th>
+                                <th>Item Name</th>
+                                {/* {+grId === 13 ? <><th>To Plant Name</th>
                               <th>From Plant Name</th>
                               <th>To Warehouse Name</th>
                               <th>From Warehouse Name</th></> : null} */}
-                              <th>Uom</th>
-                              <th>Location</th>
-                              <th>Bin Number</th>
-                              <th>Quantity</th>
-                              <th>Value</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {itemReqReport?.objRow?.map((data, i) => (
-                              <tr>
-                                <td className="text-center">{i + 1}</td>
-                                <td>{data?.itemCode}</td>
-                                <td>{data?.itemName}</td>
-                                {/* {+grId === 13 ? <><td>{data?.toPlantName}</td>
+                                <th>Uom</th>
+                                <th>Location</th>
+                                <th>Bin Number</th>
+                                <th>Quantity</th>
+                                <th>Value</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {itemReqReport?.objRow?.map((data, i) => (
+                                <tr>
+                                  <td className="text-center">{i + 1}</td>
+                                  <td>{data?.itemCode}</td>
+                                  <td>{data?.itemName}</td>
+                                  {/* {+grId === 13 ? <><td>{data?.toPlantName}</td>
                                 <td>{data?.fromPlantName}</td>
                                 <td>{data?.toWarehouseName}</td>
                                 <td>{data?.fromWarehouseName}</td></> : null} */}
-                                <td>{data?.uomName}</td>
-                                <td>
-                                  {data?.inventoryLocationName}
-                                </td>
-                                <td>
-                                  {data?.binNumber}
-                                </td>
-                                <td className="text-right">
-                                  {Math.abs(
-                                    data?.numTransactionQuantity
-                                  ).toFixed(4)}
-                                </td>
-                                {/* <td className="text-right">{data?.currentStock}</td> */}
-                                <td className="text-right">
-                                  {Math.abs(data?.monTransactionValue)}
-                                </td>
-                              </tr>
-                            ))}
-                            <tr>
-                              <td></td>
-                              {/* <td></td>
+                                  <td>{data?.uomName}</td>
+                                  <td>{data?.inventoryLocationName}</td>
+                                  <td>{data?.binNumber}</td>
+                                  <td className="text-right">
+                                    {Math.abs(
+                                      data?.numTransactionQuantity
+                                    ).toFixed(4)}
+                                  </td>
+                                  {/* <td className="text-right">{data?.currentStock}</td> */}
+                                  <td className="text-right">
+                                    {Math.abs(data?.monTransactionValue)}
+                                  </td>
+                                </tr>
+                              ))}
+                              <tr>
+                                <td></td>
+                                {/* <td></td>
                             <td></td>
                             <td></td>
                             <td></td> */}
-                              {/* <td colspan={+grId === 13 ? "9" : "5"}></td> */}
-                              <td colspan={"5"}></td>
-                              <td className="font-weight-bold">Total</td>
-                              {/* <td className="text-right">{data?.currentStock}</td> */}
-                              <td className="text-right">
-                                {totalAmount?.toFixed(4)}
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table> : null}
+                                {/* <td colspan={+grId === 13 ? "9" : "5"}></td> */}
+                                <td colspan={"5"}></td>
+                                <td className="font-weight-bold">Total</td>
+                                {/* <td className="text-right">{data?.currentStock}</td> */}
+                                <td className="text-right">
+                                  {totalAmount?.toFixed(4)}
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      ) : null}
 
                       {[4, 13].includes(+grId) ? (
-                        <table
-                          className="table table-striped table-bordered global-table"
-                          id="table-to-xlsx"
-                        >
-                          <thead>
-                            <tr>
-                              <th>SL</th>
-                              <th>Item ID</th>
-                              <th>Item Name</th>
-
-                              <th>Quantity</th>
-                              <th>From Plant</th>
-                              <th>To Plant</th>
-                              <th>From Warehouse</th>
-                              <th>To Warehouse</th>
-                              <th>Location Name</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {itemReqReport?.transRows?.map((data, i) => (
+                        <div className="table-responsive">
+                          <table
+                            className="table table-striped table-bordered global-table"
+                            id="table-to-xlsx"
+                          >
+                            <thead>
                               <tr>
-                                <td className="text-center">{i + 1}</td>
-                                <td className="text-right">{data?.itemId}</td>
-                                <td>{data?.itemName}</td>
+                                <th>SL</th>
+                                <th>Item ID</th>
+                                <th>Item Name</th>
 
-                                <td className="text-right">
-                                  {Math.abs(data?.transactionQuantity).toFixed(
-                                    4
-                                  )}
-                                </td>
-                                <td>{data?.fromPlantName}</td>
-                                <td>{data?.toPlantName}</td>
-                                <td>{data?.fromWarehouseName}</td>
-                                <td>{data?.toWarehouseName}</td>
-                                {/* <td className="text-right">{data?.currentStock}</td> */}
-                                <td>{data?.fromLocationName}</td>
+                                <th>Quantity</th>
+                                <th>From Plant</th>
+                                <th>To Plant</th>
+                                <th>From Warehouse</th>
+                                <th>To Warehouse</th>
+                                <th>Location Name</th>
                               </tr>
-                            ))}
-                          </tbody>
-                        </table>
+                            </thead>
+                            <tbody>
+                              {itemReqReport?.transRows?.map((data, i) => (
+                                <tr>
+                                  <td className="text-center">{i + 1}</td>
+                                  <td className="text-right">{data?.itemId}</td>
+                                  <td>{data?.itemName}</td>
+
+                                  <td className="text-right">
+                                    {Math.abs(
+                                      data?.transactionQuantity
+                                    ).toFixed(4)}
+                                  </td>
+                                  <td>{data?.fromPlantName}</td>
+                                  <td>{data?.toPlantName}</td>
+                                  <td>{data?.fromWarehouseName}</td>
+                                  <td>{data?.toWarehouseName}</td>
+                                  {/* <td className="text-right">{data?.currentStock}</td> */}
+                                  <td>{data?.fromLocationName}</td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
                       ) : null}
 
                       {[9].includes(+grId) ? (
-                        <table
-                          className="table table-striped table-bordered global-table"
-                          id="table-to-xlsx"
-                        >
-                          <thead>
-                            <tr>
-                              <th>SL</th>
-                              <th>Item Name</th>
-                              <th>Quantity</th>
-                              <th>Receive Quantity</th>
-                              <th>From Location</th>
-                              <th>To Location</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {itemReqReport?.objRow?.map((data, i) => (
+                        <div className="table-responsive">
+                          <table
+                            className="table table-striped table-bordered global-table"
+                            id="table-to-xlsx"
+                          >
+                            <thead>
                               <tr>
-                                <td className="text-center">{i + 1}</td>
-                                <td>{data?.itemName}</td>
-                                <td>
-                                  {Math.abs(data?.numTransactionQuantity)}
-                                </td>
-                                <td>{data?.receiveQuantity}</td>
-                                <td>{data?.fromLocationName}</td>
-                                <td>{data?.toLocationName}</td>
+                                <th>SL</th>
+                                <th>Item Name</th>
+                                <th>Quantity</th>
+                                <th>Receive Quantity</th>
+                                <th>From Location</th>
+                                <th>To Location</th>
                               </tr>
-                            ))}
-                          </tbody>
-                        </table>
+                            </thead>
+                            <tbody>
+                              {itemReqReport?.objRow?.map((data, i) => (
+                                <tr>
+                                  <td className="text-center">{i + 1}</td>
+                                  <td>{data?.itemName}</td>
+                                  <td>
+                                    {Math.abs(data?.numTransactionQuantity)}
+                                  </td>
+                                  <td>{data?.receiveQuantity}</td>
+                                  <td>{data?.fromLocationName}</td>
+                                  <td>{data?.toLocationName}</td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
                       ) : null}
 
                       <div className="mt-3">

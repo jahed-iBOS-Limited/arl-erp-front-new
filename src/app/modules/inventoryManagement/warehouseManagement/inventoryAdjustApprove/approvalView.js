@@ -82,44 +82,46 @@ export default function ApprovalView({
           </button>
         </div>
         {viewData?.length > 0 && (
-          <table className="table table-striped table-bordered bj-table bj-table-landing">
-            <thead>
-              <tr>
-                <th>Sl</th>
-                <th>Trans Code</th>
-                <th>Trans Type</th>
-                <th>Item</th>
-                <th>UOM Name</th>
-                <th>Trans Qty</th>
-                <th>Trans Value</th>
-                <th>Profit Center</th>
-                <th>Plant</th>
-                <th>Warehouse</th>
-                <th>Inventory Location</th>
-              </tr>
-            </thead>
-            <tbody>
-              {viewData?.map((item, index) => (
-                <tr key={index}>
-                  <td>{index + 1}</td>
-                  <td className="text-center">
-                    {item?.strInventoryTransactionCode}
-                  </td>
-                  <td>{item?.strTransactionTypeName}</td>
-                  <td>{item?.strItemName}</td>
-                  <td>{item?.strUoMname}</td>
-                  <td className="text-center">
-                    {item?.numTransactionQuantity}
-                  </td>
-                  <td className="text-center">{item?.monTransactionValue}</td>
-                  <td>{item?.strProfitCenterName}</td>
-                  <td>{item?.strPlantName}</td>
-                  <td>{item?.strWarehouseName}</td>
-                  <td>{item?.strInventoryLocationName}</td>
+          <div className="table-responsive">
+            <table className="table table-striped table-bordered bj-table bj-table-landing">
+              <thead>
+                <tr>
+                  <th>Sl</th>
+                  <th>Trans Code</th>
+                  <th>Trans Type</th>
+                  <th>Item</th>
+                  <th>UOM Name</th>
+                  <th>Trans Qty</th>
+                  <th>Trans Value</th>
+                  <th>Profit Center</th>
+                  <th>Plant</th>
+                  <th>Warehouse</th>
+                  <th>Inventory Location</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {viewData?.map((item, index) => (
+                  <tr key={index}>
+                    <td>{index + 1}</td>
+                    <td className="text-center">
+                      {item?.strInventoryTransactionCode}
+                    </td>
+                    <td>{item?.strTransactionTypeName}</td>
+                    <td>{item?.strItemName}</td>
+                    <td>{item?.strUoMname}</td>
+                    <td className="text-center">
+                      {item?.numTransactionQuantity}
+                    </td>
+                    <td className="text-center">{item?.monTransactionValue}</td>
+                    <td>{item?.strProfitCenterName}</td>
+                    <td>{item?.strPlantName}</td>
+                    <td>{item?.strWarehouseName}</td>
+                    <td>{item?.strInventoryLocationName}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         )}
       </div>
     </>

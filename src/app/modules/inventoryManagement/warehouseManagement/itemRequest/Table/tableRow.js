@@ -1,8 +1,8 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
-import { Formik, Form } from 'formik'
-import * as Yup from 'yup'
+import { Formik, Form } from "formik";
+import * as Yup from "yup";
 import { useSelector, shallowEqual, useDispatch } from "react-redux";
 import InputField from "../../../../_helper/_inputField";
 import {
@@ -18,22 +18,20 @@ import Loading from "../../../../_helper/_loading";
 import PaginationTable from "./../../../../_helper/_tablePagination";
 import PaginationSearch from "../../../../_helper/_search";
 import IEdit from "../../../../_helper/_helperIcons/_edit";
-import NewSelect from '../../../../_helper/_select'
+import NewSelect from "../../../../_helper/_select";
 import IView from "../../../../_helper/_helperIcons/_view";
-import { setItemRequestPPRAction } from '../../../../_helper/reduxForLocalStorage/Actions'
+import { setItemRequestPPRAction } from "../../../../_helper/reduxForLocalStorage/Actions";
 import IClose from "../../../../_helper/_helperIcons/_close";
 import IConfirmModal from "./../../../../_helper/_confirmModal";
-import { postItemReqCancelAction } from "../helper"
+import { postItemReqCancelAction } from "../helper";
 import IViewModal from "../../../../_helper/_viewModal";
 import { ItemReqViewTableRow } from "../report/tableRow";
 
-
-
 const statusData = [
-  { label: 'Approved', value: true },
-  { label: 'Pending', value: false },
-]
-const validationSchema = Yup.object().shape({})
+  { label: "Approved", value: true },
+  { label: "Pending", value: false },
+];
+const validationSchema = Yup.object().shape({});
 
 export function TableRow(props) {
   //paginationState
@@ -41,7 +39,7 @@ export function TableRow(props) {
   const [pageSize, setPageSize] = React.useState(20);
   const [totalCount, setTotalCount] = useState(0);
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   //const dispatch = useDispatch();
   let history = useHistory();
@@ -86,11 +84,11 @@ export function TableRow(props) {
 
   const itemRequestLanding = useSelector((state) => {
     return state.localStorage.itemRequestLanding;
-  })
+  });
 
   const itemTableIndex = useSelector((state) => {
     return state.localStorage.tableItemIndex;
-  })
+  });
 
   const viewGridData = (values) => {
     getItemRequestGridData(
@@ -101,27 +99,24 @@ export function TableRow(props) {
       setLoading,
       setTotalCount,
       pageNo,
-      pageSize,      
+      pageSize,
       values?.privacyType,
       values?.sbu?.value,
       values?.plant?.value,
       values?.wh?.value,
       values?.status?.value,
       values?.fromDate,
-      values?.toDate,
+      values?.toDate
     );
   };
 
   useEffect(() => {
-    cb()
+    cb();
   }, []);
 
-  let cb = () =>{
+  let cb = () => {
     if (itemRequestLanding) {
-      if (
-        profileData.accountId &&
-        selectedBusinessUnit.value
-      ) {
+      if (profileData.accountId && selectedBusinessUnit.value) {
         getItemRequestGridData(
           profileData.accountId,
           selectedBusinessUnit.value,
@@ -137,14 +132,11 @@ export function TableRow(props) {
           itemRequestLanding?.wh?.value,
           itemRequestLanding?.status?.value,
           itemRequestLanding?.fromDate,
-          itemRequestLanding?.toDate,
+          itemRequestLanding?.toDate
         );
       }
     } else {
-      if (
-        profileData.accountId &&
-        selectedBusinessUnit.value
-      ) {
+      if (profileData.accountId && selectedBusinessUnit.value) {
         getItemRequestGridData(
           profileData.accountId,
           selectedBusinessUnit.value,
@@ -158,9 +150,7 @@ export function TableRow(props) {
         );
       }
     }
-  }
-
-  
+  };
 
   const setPositionHandler = (pageNo, pageSize, searchValue) => {
     if (itemRequestLanding) {
@@ -180,7 +170,7 @@ export function TableRow(props) {
         itemRequestLanding?.status?.value,
         itemRequestLanding?.fromDate,
         itemRequestLanding?.toDate,
-        searchValue,
+        searchValue
       );
     } else {
       getItemRequestGridData(
@@ -199,7 +189,7 @@ export function TableRow(props) {
         undefined,
         "",
         "",
-        searchValue,
+        searchValue
       );
     }
   };
@@ -207,15 +197,14 @@ export function TableRow(props) {
   const pushData = (values) => {
     history.push({
       pathname: "/inventory-management/warehouse-management/item-request/add",
-      state: values
-    })
-    dispatch(setItemRequestPPRAction(values))
+      state: values,
+    });
+    dispatch(setItemRequestPPRAction(values));
   };
 
   const paginationSearchHandler = (searchValue) => {
     setPositionHandler(pageNo, pageSize, searchValue);
   };
-
 
   // approveSubmitlHandler btn submit handler
   const approveSubmitlHandler = (Ired) => {
@@ -223,9 +212,7 @@ export function TableRow(props) {
       title: "Are you sure?",
       message: `Do you want to inactive this item req`,
       yesAlertFunc: () => {
-        postItemReqCancelAction(Ired).then(()=>
-        cb())  
-      
+        postItemReqCancelAction(Ired).then(() => cb());
       },
       noAlertFunc: () => {},
     };
@@ -241,37 +228,36 @@ export function TableRow(props) {
         <>
           <Formik
             enableReinitialize={true}
-            initialValues={{ ...itemRequestLanding}}
+            initialValues={{ ...itemRequestLanding }}
             validationSchema={validationSchema}
-            onSubmit={(values, { setSubmitting, resetForm }) => { }}
+            onSubmit={(values, { setSubmitting, resetForm }) => {}}
           >
             {({ errors, touched, setFieldValue, isValid, values }) => (
               <>
                 <div
-                  style={{ transform: 'translateY(-40px)' }}
+                  style={{ transform: "translateY(-40px)" }}
                   className="text-right"
                 >
                   <button
-                    disabled={
-                      !values?.sbu ||
-                      !values?.wh ||
-                      !values?.plant
-                    }
+                    disabled={!values?.sbu || !values?.wh || !values?.plant}
                     onClick={() => {
-                      pushData(values)
+                      pushData(values);
                     }}
                     className="btn btn-primary ml-3"
                   >
                     Create
-                </button>
+                  </button>
                 </div>
-                <Form className="form form-label-left" style={{ marginTop: -35 }}>
+                <Form
+                  className="form form-label-left"
+                  style={{ marginTop: -35 }}
+                >
                   <div
                     className="row global-form"
-                    style={{ background: ' #d6dadd' }}
+                    style={{ background: " #d6dadd" }}
                   >
                     <div className="col-lg-12">
-                      <div className="mt-5">                   
+                      <div className="mt-5">
                         {itemRequestPublic[0]?.isView === true ? (
                           <label>
                             <input
@@ -282,9 +268,9 @@ export function TableRow(props) {
                               style={{ position: "relative", top: "2px" }}
                               onChange={(e) => {
                                 setFieldValue("privacyType", 2);
-                                dispatch(setItemRequestPPRAction(values))
-                                setPageNo(0)
-                                setPageSize(20)
+                                dispatch(setItemRequestPPRAction(values));
+                                setPageNo(0);
+                                setPageSize(20);
                               }}
                             />
                             Public
@@ -300,10 +286,10 @@ export function TableRow(props) {
                             className="mr-1 pointer"
                             style={{ position: "relative", top: "2px" }}
                             onChange={(valueOption) => {
-                              setFieldValue("privacyType", 1);    
-                              dispatch(setItemRequestPPRAction(values))   
-                              setPageNo(0)
-                              setPageSize(20)                                                  
+                              setFieldValue("privacyType", 1);
+                              dispatch(setItemRequestPPRAction(values));
+                              setPageNo(0);
+                              setPageSize(20);
                             }}
                           />
                           Private
@@ -332,13 +318,13 @@ export function TableRow(props) {
                         label="Select Plant"
                         //value={values?.plant}
                         onChange={(v) => {
-                          if(v){                           
-                            setFieldValue("plant", v)
+                          if (v) {
+                            setFieldValue("plant", v);
                             warehouseDLLFind(v.value);
                             setFieldValue("wh", "");
-                          }else{
-                            setFieldValue("plant", v)
-                           // warehouseDLLFind(v.value);
+                          } else {
+                            setFieldValue("plant", v);
+                            // warehouseDLLFind(v.value);
                             setFieldValue("wh", "");
                           }
                         }}
@@ -370,7 +356,7 @@ export function TableRow(props) {
                         value={values?.status}
                         label="Status"
                         onChange={(v) => {
-                          setFieldValue('status', v)
+                          setFieldValue("status", v);
                         }}
                         placeholder="Status"
                         errors={errors}
@@ -379,7 +365,7 @@ export function TableRow(props) {
                     </div>
                     <div className="col-lg-3">
                       <label>From Date</label>
-                      <div className="d-flex">
+                      <div className="flex-fill">
                         <InputField
                           value={values?.fromDate}
                           name="fromDate"
@@ -390,7 +376,7 @@ export function TableRow(props) {
                     </div>
                     <div className="col-lg-3">
                       <label>To Date</label>
-                      <div className="d-flex">
+                      <div className="flex-fill">
                         <InputField
                           value={values?.toDate}
                           name="toDate"
@@ -404,8 +390,8 @@ export function TableRow(props) {
                         type="submit"
                         className="btn btn-primary"
                         onClick={(e) => {
-                          viewGridData(values)
-                          dispatch(setItemRequestPPRAction(values))
+                          viewGridData(values);
+                          dispatch(setItemRequestPPRAction(values));
                         }}
                       >
                         View
@@ -421,81 +407,100 @@ export function TableRow(props) {
                       paginationSearchHandler={paginationSearchHandler}
                     />
 
-                    <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm">
-                      <thead>
-                        <tr>
-                          <th>SL</th>
-                          <th>Request Code</th>
-                          <th>Request Date</th>
-                          <th>Approval Status</th>
-                          <th>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {gridData?.length > 0 &&
-                          gridData?.map((item, index) => {
-                            return (
-                              <tr key={item?.sl}>
-                                <td style={{ width: "30px" }} className="text-center">
-                                  {item?.sl}
-                                </td>
-                                <td>
-                                  <span className="pl-2">{item?.itemRequestCode}</span>
-                                </td>
-                                <td>
-                                  <span className="pl-2">{item?.requestDate}</span>
-                                </td>
-                                <td>
-                                  <span className="pl-2 text-center">
-                                    {item.strApproved}
-                                  </span>
-                                </td>
-
-                                <td style={{ width: "80px" }} className="text-center">
-                                  <div
-                                    style={{
-                                      display: "flex",
-                                      flexDirection: "row",
-                                      justifyContent: "space-around",
-                                    }}
+                    <div className="table-responsive">
+                      <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm">
+                        <thead>
+                          <tr>
+                            <th>SL</th>
+                            <th>Request Code</th>
+                            <th>Request Date</th>
+                            <th>Approval Status</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {gridData?.length > 0 &&
+                            gridData?.map((item, index) => {
+                              return (
+                                <tr key={item?.sl}>
+                                  <td
+                                    style={{ width: "30px" }}
+                                    className="text-center"
                                   >
-                                    {(item.strApproved !== "Approved" && !itemRequestPublic[0]?.isView) && (
-                                     <>
-                                     <span
-                                        className="edit"
-                                        onClick={(e) =>
-                                          history.push(
-                                            `/inventory-management/warehouse-management/item-request/edit/${item?.itemRequestId}`
-                                          )
-                                        }
-                                      >
-                                        <IEdit />
-                                      </span>
-                                      <span className="">
-                                      <IClose
-                                      title="In Active"
-                                      closer={() => approveSubmitlHandler(item?.itemRequestId) }
-                                      />
+                                    {item?.sl}
+                                  </td>
+                                  <td>
+                                    <span className="pl-2">
+                                      {item?.itemRequestCode}
                                     </span>
-                                    </>
-                                    )}
+                                  </td>
+                                  <td>
+                                    <span className="pl-2">
+                                      {item?.requestDate}
+                                    </span>
+                                  </td>
+                                  <td>
+                                    <span className="pl-2 text-center">
+                                      {item.strApproved}
+                                    </span>
+                                  </td>
 
-                                    <IView
-                                      classes={itemTableIndex === item?.itemRequestId ? "text-primary" : "" }
-                                      clickHandler={(e) =>{
-                                         setCurrentRowData(item)
-                                         setIsShowModal(true)
-                                      }
-                                        
-                                      }
-                                    />
-                                  </div>
-                                </td>
-                              </tr>
-                            );
-                          })}
-                      </tbody>
-                    </table>
+                                  <td
+                                    style={{ width: "80px" }}
+                                    className="text-center"
+                                  >
+                                    <div
+                                      style={{
+                                        display: "flex",
+                                        flexDirection: "row",
+                                        justifyContent: "space-around",
+                                      }}
+                                    >
+                                      {item.strApproved !== "Approved" &&
+                                        !itemRequestPublic[0]?.isView && (
+                                          <>
+                                            <span
+                                              className="edit"
+                                              onClick={(e) =>
+                                                history.push(
+                                                  `/inventory-management/warehouse-management/item-request/edit/${item?.itemRequestId}`
+                                                )
+                                              }
+                                            >
+                                              <IEdit />
+                                            </span>
+                                            <span className="">
+                                              <IClose
+                                                title="In Active"
+                                                closer={() =>
+                                                  approveSubmitlHandler(
+                                                    item?.itemRequestId
+                                                  )
+                                                }
+                                              />
+                                            </span>
+                                          </>
+                                        )}
+
+                                      <IView
+                                        classes={
+                                          itemTableIndex === item?.itemRequestId
+                                            ? "text-primary"
+                                            : ""
+                                        }
+                                        clickHandler={(e) => {
+                                          setCurrentRowData(item);
+                                          setIsShowModal(true);
+                                        }}
+                                      />
+                                    </div>
+                                  </td>
+                                </tr>
+                              );
+                            })}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
                 <IViewModal
@@ -508,8 +513,23 @@ export function TableRow(props) {
                   <PaginationTable
                     count={totalCount}
                     setPositionHandler={setPositionHandler}
-                    paginationState={{ pageNo, setPageNo, pageSize, setPageSize }}
-                    rowsPerPageOptions={[5, 10, 20, 50, 100, 200, 300, 400, 500]}
+                    paginationState={{
+                      pageNo,
+                      setPageNo,
+                      pageSize,
+                      setPageSize,
+                    }}
+                    rowsPerPageOptions={[
+                      5,
+                      10,
+                      20,
+                      50,
+                      100,
+                      200,
+                      300,
+                      400,
+                      500,
+                    ]}
                   />
                 )}
               </>

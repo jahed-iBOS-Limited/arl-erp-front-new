@@ -66,60 +66,62 @@ function CollectionReportLanding() {
                   {loading && <Loading />}
 
                   <div className="col-lg-12">
-                    <table className="table table-striped table-bordered global-table table-font-size-sm">
-                      <thead>
-                        <tr>
-                          <th>SL</th>
-                          <th>Partner Name</th>
-                          <th>Partner Code</th>
-                          <th>Partner Address</th>
-                          <th>Delivery Date</th>
-                          {values?.dueType?.value === 0 ? (
-                            <th>Collection Day Over</th>
-                          ) : null}
-                          {values?.dueType?.value === 0 ? (
-                            <th>Collection Day Remaining</th>
-                          ) : null}
-                          {values?.dueType?.value === 2 ? (
-                            <th>Collection Day Over</th>
-                          ) : null}
-                          {values?.dueType?.value === 1 ? (
-                            <th>Collection Day Remaining</th>
-                          ) : null}
-                          <th>Collection Date</th>
-                          <th>Delivery Code</th>
-                        </tr>
-                      </thead>
-                      <tbody className="text-center">
-                        {gridData?.map((item, index) => (
-                          <tr key={index}>
-                            <td>{index + 1}</td>
-                            <td style={{ textAlign: "left" }}>
-                              {item?.soldToPartnerName}
-                            </td>
-                            <td>{item?.soldToPartnerCode}</td>
-                            <td style={{ textAlign: "left" }}>
-                              {item?.shipToPartnerAddress}
-                            </td>
-                            <td>{_dateFormatter(item?.deliveryDate)}</td>
+                    <div className="table-responsive">
+                      <table className="table table-striped table-bordered global-table table-font-size-sm">
+                        <thead>
+                          <tr>
+                            <th>SL</th>
+                            <th>Partner Name</th>
+                            <th>Partner Code</th>
+                            <th>Partner Address</th>
+                            <th>Delivery Date</th>
                             {values?.dueType?.value === 0 ? (
-                              <td>{item?.collectionDayOver}</td>
+                              <th>Collection Day Over</th>
                             ) : null}
                             {values?.dueType?.value === 0 ? (
-                              <td>{item?.collectionDayRemaining}</td>
+                              <th>Collection Day Remaining</th>
                             ) : null}
                             {values?.dueType?.value === 2 ? (
-                              <td>{item?.collectionDayOver}</td>
+                              <th>Collection Day Over</th>
                             ) : null}
                             {values?.dueType?.value === 1 ? (
-                              <td>{item?.collectionDayRemaining}</td>
+                              <th>Collection Day Remaining</th>
                             ) : null}
-                            <td>{_dateFormatter(item?.collectionDate)}</td>
-                            <td>{item?.deliveryCode}</td>
+                            <th>Collection Date</th>
+                            <th>Delivery Code</th>
                           </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                        </thead>
+                        <tbody className="text-center">
+                          {gridData?.map((item, index) => (
+                            <tr key={index}>
+                              <td>{index + 1}</td>
+                              <td style={{ textAlign: "left" }}>
+                                {item?.soldToPartnerName}
+                              </td>
+                              <td>{item?.soldToPartnerCode}</td>
+                              <td style={{ textAlign: "left" }}>
+                                {item?.shipToPartnerAddress}
+                              </td>
+                              <td>{_dateFormatter(item?.deliveryDate)}</td>
+                              {values?.dueType?.value === 0 ? (
+                                <td>{item?.collectionDayOver}</td>
+                              ) : null}
+                              {values?.dueType?.value === 0 ? (
+                                <td>{item?.collectionDayRemaining}</td>
+                              ) : null}
+                              {values?.dueType?.value === 2 ? (
+                                <td>{item?.collectionDayOver}</td>
+                              ) : null}
+                              {values?.dueType?.value === 1 ? (
+                                <td>{item?.collectionDayRemaining}</td>
+                              ) : null}
+                              <td>{_dateFormatter(item?.collectionDate)}</td>
+                              <td>{item?.deliveryCode}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
               </Form>
