@@ -49,18 +49,21 @@ const DetailsModal = ({ tableItem, values }) => {
       >
         <ReactToPrint
           trigger={() => (
-            <i style={{ fontSize: "18px", marginRight:"5px" }} className="fas fa-print"></i>
+            <i
+              style={{ fontSize: "18px", marginRight: "5px" }}
+              className="fas fa-print"
+            ></i>
           )}
           content={() => printRef.current}
         />
         <ReactHTMLTableToExcel
-            id="test-table-xls-button"
-            className="download-table-xls-button btn btn-primary"
-            table="table-to-xlsx"
-            filename="Employee Payroll Details"
-            sheet="tablexls"
-            buttonText="Excel"
-          />
+          id="test-table-xls-button"
+          className="download-table-xls-button btn btn-primary"
+          table="table-to-xlsx"
+          filename="Employee Payroll Details"
+          sheet="tablexls"
+          buttonText="Excel"
+        />
       </div>
 
       <div className="inventoryStatement-reports mt-6 " ref={printRef}>
@@ -87,96 +90,102 @@ const DetailsModal = ({ tableItem, values }) => {
         </div>
         <div className="d-flex justify-content-between">
           <h6>
-            From Date: {values?.fromDate} Time: {_timeFormatter(values?.fromTime)}
+            From Date: {values?.fromDate} Time:{" "}
+            {_timeFormatter(values?.fromTime)}
           </h6>
           <h6>
             To Date: {values?.toDate} Time: {_timeFormatter(values?.toTime)}
           </h6>
         </div>
-        <table className="table table-striped table-bordered global-table" id="table-to-xlsx">
-          <thead>
-            <tr>
-              <th>SL</th>
-              <th>Transection Date</th>
-              <th>Transection Name</th>
-              <th>Reference No.</th>
-              <th>Bin Number</th>
-              <th>Inventory Location</th>
-              {/* <th>Stock Type</th> */}
-              <th>Qty.</th>
-              <th>Value</th>
-              {/* <th>Issue Qty.</th>
+        <div className="table-responsive">
+          <table
+            className="table table-striped table-bordered global-table"
+            id="table-to-xlsx"
+          >
+            <thead>
+              <tr>
+                <th>SL</th>
+                <th>Transection Date</th>
+                <th>Transection Name</th>
+                <th>Reference No.</th>
+                <th>Bin Number</th>
+                <th>Inventory Location</th>
+                {/* <th>Stock Type</th> */}
+                <th>Qty.</th>
+                <th>Value</th>
+                {/* <th>Issue Qty.</th>
               <th>Value</th> */}
-              <th>Balance Qty.</th>
-              <th>Value</th>
-            </tr>
-          </thead>
-          <tbody>
-            {console.log(inventoryLedger)}
-            {inventoryLedger?.row?.map((item, index) => {
-              //balanceQty = balanceQty + item?.receiveQty - item?.issueQty;
-              // balanceValue =
-              //   balanceValue + item?.receiveValue - item?.issueValue;
-              return (
-                <>
-                  {index === 0 && (
-                    <tr className="bg-light">
-                      <td>{index + 1}</td>
-                      <td>{values?.fromDate}</td>
-                      <td>{"Opening Balance"}</td>
-                      <td>{"-"}</td>
-                      <td>{"-"}</td>
-                      <td>{"-"}</td>
-                      {/* <td>{"-"}</td> */}
-                      {/* <td>{"-"}</td> */}
-                      <td className="text-right">0</td>
-                      <td className="text-right">0</td>
-                      {/* <td className="text-right">0</td>
+                <th>Balance Qty.</th>
+                <th>Value</th>
+              </tr>
+            </thead>
+            <tbody>
+              {console.log(inventoryLedger)}
+              {inventoryLedger?.row?.map((item, index) => {
+                //balanceQty = balanceQty + item?.receiveQty - item?.issueQty;
+                // balanceValue =
+                //   balanceValue + item?.receiveValue - item?.issueValue;
+                return (
+                  <>
+                    {index === 0 && (
+                      <tr className="bg-light">
+                        <td>{index + 1}</td>
+                        <td>{values?.fromDate}</td>
+                        <td>{"Opening Balance"}</td>
+                        <td>{"-"}</td>
+                        <td>{"-"}</td>
+                        <td>{"-"}</td>
+                        {/* <td>{"-"}</td> */}
+                        {/* <td>{"-"}</td> */}
+                        <td className="text-right">0</td>
+                        <td className="text-right">0</td>
+                        {/* <td className="text-right">0</td>
                       <td className="text-right">0</td> */}
-                      <td className="text-right">0</td>
-                      <td className="text-right">0</td>
-                    </tr>
-                  )}
-                  <tr>
-                    <td>{index + 2}</td>
-                    <td>{_dateFormatter(item?.transactionDate)}</td>
-                    <td>{item?.transactionName}</td>
-                    <td>{item?.referenceNo}</td>
-                    <td>{item?.binNumber}</td>
-                    <td>{item?.inventoryLocationName}</td>
-                    {/* <td>{item?.stockTypeName}</td> */}
-                    <td className="text-right">{item?.transactionQty}</td>
-                    <td className="text-right">{item?.transactionValue}</td>
-                    {/* <td className="text-right">{item?.issueQty}</td>
+                        <td className="text-right">0</td>
+                        <td className="text-right">0</td>
+                      </tr>
+                    )}
+                    <tr>
+                      <td>{index + 2}</td>
+                      <td>{_dateFormatter(item?.transactionDate)}</td>
+                      <td>{item?.transactionName}</td>
+                      <td>{item?.referenceNo}</td>
+                      <td>{item?.binNumber}</td>
+                      <td>{item?.inventoryLocationName}</td>
+                      {/* <td>{item?.stockTypeName}</td> */}
+                      <td className="text-right">{item?.transactionQty}</td>
+                      <td className="text-right">{item?.transactionValue}</td>
+                      {/* <td className="text-right">{item?.issueQty}</td>
                     <td className="text-right">{item?.issueValue}</td> */}
-                    {/* opening balance 0 */}
-                    <td className="text-right">{item?.balanceQty}</td>
-                    {/* opening balance 0 */}
-                    <td className="text-right">{item?.balanceValue}</td>
-                  </tr>
-                  {console.log(inventoryLedger)}
-                  {index === inventoryLedger?.row?.length - 1 && (
-                    <tr className="bg-light">
-                      <td>{index + 3}</td>
-                      <td>{values?.toDate}</td>
-                      <td>{"Closing Balance"}</td>
-                      <td>{"-"}</td>
-                      <td>{"-"}</td>
-                      <td>{"-"}</td>
-                      {/* <td>{"-"}</td> */}
-                      <td className="text-right">0</td>
-                      <td className="text-right">0</td>
-                      {/* <td className="text-right">0</td>
-                      <td className="text-right">0</td> */}
-                      <td className="text-right">0</td>
-                      <td className="text-right">0</td>
+                      {/* opening balance 0 */}
+                      <td className="text-right">{item?.balanceQty}</td>
+                      {/* opening balance 0 */}
+                      <td className="text-right">{item?.balanceValue}</td>
                     </tr>
-                  )}
-                </>
-              );
-            })}
-          </tbody>
-        </table>
+                    {console.log(inventoryLedger)}
+                    {index === inventoryLedger?.row?.length - 1 && (
+                      <tr className="bg-light">
+                        <td>{index + 3}</td>
+                        <td>{values?.toDate}</td>
+                        <td>{"Closing Balance"}</td>
+                        <td>{"-"}</td>
+                        <td>{"-"}</td>
+                        <td>{"-"}</td>
+                        {/* <td>{"-"}</td> */}
+                        <td className="text-right">0</td>
+                        <td className="text-right">0</td>
+                        {/* <td className="text-right">0</td>
+                      <td className="text-right">0</td> */}
+                        <td className="text-right">0</td>
+                        <td className="text-right">0</td>
+                      </tr>
+                    )}
+                  </>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
       </div>
     </>
   );

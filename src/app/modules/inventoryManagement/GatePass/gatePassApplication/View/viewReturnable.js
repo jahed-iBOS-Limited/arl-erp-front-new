@@ -27,7 +27,8 @@ let imageObj = {
 const initData = {};
 const validationSchema = Yup.object().shape({});
 
-export default function ReturnableModal({ setIsReturnableModal,
+export default function ReturnableModal({
+  setIsReturnableModal,
   gridDataId,
   profileData,
   warehouse,
@@ -38,9 +39,7 @@ export default function ReturnableModal({ setIsReturnableModal,
   fromDate,
   toDate,
   plant,
-}
-
-) {
+}) {
   // console.log("gridDataId",gridDataId)
   const history = useHistory();
   const params = useParams();
@@ -96,15 +95,12 @@ export default function ReturnableModal({ setIsReturnableModal,
               type="button"
               onClick={() => {
                 saveData(
-                  "/wms/GatePass/UpdateGatePassReturnableItem", 
+                  "/wms/GatePass/UpdateGatePassReturnableItem",
                   // rowDto
-                  rowDto.map((item) => (
-                    {
-                      ...item,
-                      numReturnQuantity: item?.calculationgNumReturnQuantity
-                    }
-                  ))
-                  ,
+                  rowDto.map((item) => ({
+                    ...item,
+                    numReturnQuantity: item?.calculationgNumReturnQuantity,
+                  })),
                   () => {
                     setIsReturnableModal(false);
                     getGridData(
@@ -118,10 +114,10 @@ export default function ReturnableModal({ setIsReturnableModal,
                       fromDate,
                       toDate,
                       plant
-                    )
+                    );
                   },
                   true
-                )
+                );
                 setSubject(`Gate Pass Code: ${initDataForEdit?.gatePassCode}`);
                 setMessage(`Dear
                         A Gate pass application has been sent from  Gate pass code: ${initDataForEdit?.gatePassCode}. 
@@ -139,9 +135,17 @@ export default function ReturnableModal({ setIsReturnableModal,
           enableReinitialize={true}
           initialValues={initData}
           validationSchema={validationSchema}
-          onSubmit={(values, { setSubmitting, resetForm }) => { }}
+          onSubmit={(values, { setSubmitting, resetForm }) => {}}
         >
-          {({ handleSubmit, resetForm, values, setFieldValue, errors, touched, isValid }) => (
+          {({
+            handleSubmit,
+            resetForm,
+            values,
+            setFieldValue,
+            errors,
+            touched,
+            isValid,
+          }) => (
             <>
               {loading && <Loading />}
               <FormikForm>
@@ -163,10 +167,20 @@ export default function ReturnableModal({ setIsReturnableModal,
                           </div>
                         </div>
                         <div className="d-flex flex-column justify-content-center align-items-center mt-2">
-                          <h2 style={{ textTransform: "upperCase", fontWeight: "900", }} >
+                          <h2
+                            style={{
+                              textTransform: "upperCase",
+                              fontWeight: "900",
+                            }}
+                          >
                             Gate Pass
                           </h2>
-                          <h4 style={{ textTransform: "upperCase", fontWeight: "900", }} >
+                          <h4
+                            style={{
+                              textTransform: "upperCase",
+                              fontWeight: "900",
+                            }}
+                          >
                             {initDataForEdit?.businessUnitName}
                           </h4>
                           <h5
@@ -254,57 +268,62 @@ export default function ReturnableModal({ setIsReturnableModal,
                           opacity: "0.1",
                         }}
                       >
-                        {initDataForEdit?.status === "Approved" ? 'Approved' : initDataForEdit?.status === "Rejected" ? "Rejected" : "Pending"}
+                        {initDataForEdit?.status === "Approved"
+                          ? "Approved"
+                          : initDataForEdit?.status === "Rejected"
+                          ? "Rejected"
+                          : "Pending"}
                       </p>
-                      <table
-                        className="table table-striped table-bordered global-table"
-                        id="table-to-xlsx"
-                      >
-                        <thead>
-                          <tr>
-                            <th style={{ fontWeight: "900" }}>SL</th>
-                            <th style={{ fontWeight: "900 !important" }}>
-                              Item Name
-                            </th>
-                            <th
-                              style={{
-                                width: "100px",
-                                fontWeight: "900 !important",
-                              }}
-                            >
-                              UoM
-                            </th>
-                            <th style={{ fontWeight: "900 !important" }}>
-                              Remarks
-                            </th>
-                            <th style={{ fontWeight: "900 !important" }}>
-                              Type
-                            </th>
-                            <th
-                              style={{
-                                width: "100px",
-                                fontWeight: "900 !important",
-                              }}
-                            >
-                              Total Quantity
-                            </th>
-                            <th
-                              style={{
-                                width: "100px",
-                                fontWeight: "900 !important",
-                              }}
-                            >
-                              Remaining Quantity
-                            </th>
-                            <th
-                              style={{
-                                width: "100px",
-                                fontWeight: "900 !important",
-                              }}
-                            >
-                              Return Quantity
-                            </th>
-                            {/* <th
+                      <div className="table-responsive">
+                        <table
+                          className="table table-striped table-bordered global-table"
+                          id="table-to-xlsx"
+                        >
+                          <thead>
+                            <tr>
+                              <th style={{ fontWeight: "900" }}>SL</th>
+                              <th style={{ fontWeight: "900 !important" }}>
+                                Item Name
+                              </th>
+                              <th
+                                style={{
+                                  width: "100px",
+                                  fontWeight: "900 !important",
+                                }}
+                              >
+                                UoM
+                              </th>
+                              <th style={{ fontWeight: "900 !important" }}>
+                                Remarks
+                              </th>
+                              <th style={{ fontWeight: "900 !important" }}>
+                                Type
+                              </th>
+                              <th
+                                style={{
+                                  width: "100px",
+                                  fontWeight: "900 !important",
+                                }}
+                              >
+                                Total Quantity
+                              </th>
+                              <th
+                                style={{
+                                  width: "100px",
+                                  fontWeight: "900 !important",
+                                }}
+                              >
+                                Remaining Quantity
+                              </th>
+                              <th
+                                style={{
+                                  width: "100px",
+                                  fontWeight: "900 !important",
+                                }}
+                              >
+                                Return Quantity
+                              </th>
+                              {/* <th
                               style={{
                                 width: "100px",
                                 fontWeight: "900 !important",
@@ -312,48 +331,71 @@ export default function ReturnableModal({ setIsReturnableModal,
                             >
                               Returned Items
                             </th> */}
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {rowDto?.map((item, index) => (
-                            <tr key={index}>
-                              <td>{index + 1}</td>
-                              <td>
-                                {item?.item?.label
-                                  ? item?.item?.label
-                                  : item?.item}
-                              </td>
-                              <td style={{ width: "100px" }}>
-                                {item?.uom?.label
-                                  ? item?.uom?.label
-                                  : item?.uom}
-                              </td>
-                              <td>{item?.strRemarks || ""}</td>
-                              <td>{item?.returnStatus || ""}</td>
-                              <td style={{ width: "100px", fontWeight: "900" }} className="text-right" >{item?.quantity?.toFixed(2) || 0}</td>
-                              <td style={{ width: "100px", fontWeight: "900" }} className="text-right" >{item?.numRemainingQuantity?.toFixed(2)}</td>
-                              <td style={{ width: "100px", fontWeight: "900" }} className="text-right" >
-                                <InputField
-                                  value={item?.calculationgNumReturnQuantity}
-                                  placeholder="Return Qty."
-                                  onChange={(e) => {
-                                    if (+e.target.value > item?.numRemainingQuantity) {
-                                      return toast.warn("Return quantity can not be greater than remaining quantity")
-                                    } else if (+e.target.value < 0) {
-                                      return toast.warn("Quantity can not be negative")
-                                    } else {
-                                      let newArr = [...rowDto];
-                                      newArr[index].calculationgNumReturnQuantity = +e.target.value;
-                                      // newArr[index].numRemainingQuantity = newArr[index].numRemainingQuantity - newArr[index].numReturnQuantity;
-                                      setRowDto(newArr);
-                                    }
-                                  }}
-                                  type="number"
-                                  name="numReturnQuantity"
-                                />
-                              </td>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {rowDto?.map((item, index) => (
+                              <tr key={index}>
+                                <td>{index + 1}</td>
+                                <td>
+                                  {item?.item?.label
+                                    ? item?.item?.label
+                                    : item?.item}
+                                </td>
+                                <td style={{ width: "100px" }}>
+                                  {item?.uom?.label
+                                    ? item?.uom?.label
+                                    : item?.uom}
+                                </td>
+                                <td>{item?.strRemarks || ""}</td>
+                                <td>{item?.returnStatus || ""}</td>
+                                <td
+                                  style={{ width: "100px", fontWeight: "900" }}
+                                  className="text-right"
+                                >
+                                  {item?.quantity?.toFixed(2) || 0}
+                                </td>
+                                <td
+                                  style={{ width: "100px", fontWeight: "900" }}
+                                  className="text-right"
+                                >
+                                  {item?.numRemainingQuantity?.toFixed(2)}
+                                </td>
+                                <td
+                                  style={{ width: "100px", fontWeight: "900" }}
+                                  className="text-right"
+                                >
+                                  <InputField
+                                    value={item?.calculationgNumReturnQuantity}
+                                    placeholder="Return Qty."
+                                    onChange={(e) => {
+                                      if (
+                                        +e.target.value >
+                                        item?.numRemainingQuantity
+                                      ) {
+                                        return toast.warn(
+                                          "Return quantity can not be greater than remaining quantity"
+                                        );
+                                      } else if (+e.target.value < 0) {
+                                        return toast.warn(
+                                          "Quantity can not be negative"
+                                        );
+                                      } else {
+                                        let newArr = [...rowDto];
+                                        newArr[
+                                          index
+                                        ].calculationgNumReturnQuantity = +e
+                                          .target.value;
+                                        // newArr[index].numRemainingQuantity = newArr[index].numRemainingQuantity - newArr[index].numReturnQuantity;
+                                        setRowDto(newArr);
+                                      }
+                                    }}
+                                    type="number"
+                                    name="numReturnQuantity"
+                                  />
+                                </td>
 
-                              {/* <td style={{ width: "100px", fontWeight: "900" }} className="text-center" >
+                                {/* <td style={{ width: "100px", fontWeight: "900" }} className="text-center" >
                                 <input
                                   type="checkbox"
                                   checked={item?.isReturned}
@@ -364,39 +406,46 @@ export default function ReturnableModal({ setIsReturnableModal,
                                   }}
                                 />
                               </td> */}
+                              </tr>
+                            ))}
+                          </tbody>
+                          <tFoot style={{ border: "2px solid #85D7F9" }}>
+                            <tr>
+                              <td
+                                style={{
+                                  textAlign: "right",
+                                  fontSize: "13px",
+                                  fontWeight: "900",
+                                }}
+                                colspan="5"
+                              >
+                                Total Quantity
+                              </td>
+                              <td
+                                className="text-right"
+                                style={{ fontWeight: "900" }}
+                              >
+                                {rowDto
+                                  ?.reduce((acc, cur) => acc + cur.quantity, 0)
+                                  ?.toFixed(2)}
+                              </td>
+                              <td
+                                className="text-right"
+                                style={{ fontWeight: "900" }}
+                              >
+                                {rowDto
+                                  ?.reduce(
+                                    (acc, cur) =>
+                                      acc + cur.numRemainingQuantity,
+                                    0
+                                  )
+                                  ?.toFixed(2)}
+                              </td>
                             </tr>
-                          ))}
-                        </tbody>
-                        <tFoot style={{ border: "2px solid #85D7F9" }}>
-                          <tr>
-                            <td
-                              style={{
-                                textAlign: "right",
-                                fontSize: "13px",
-                                fontWeight: "900",
-                              }}
-                              colspan="5"
-                            >
-                              Total Quantity
-                            </td>
-                            <td
-                              className="text-right"
-                              style={{ fontWeight: "900" }}
-                            >
-                              {rowDto?.reduce((acc, cur) => acc + cur.quantity, 0)?.toFixed(2)}
-                            </td>
-                            <td
-                              className="text-right"
-                              style={{ fontWeight: "900" }}
-                            >
-                              {
-                                rowDto?.reduce((acc, cur) => acc + cur.numRemainingQuantity, 0)?.toFixed(2)
-                              }
-                            </td>
+                          </tFoot>
+                        </table>
+                      </div>
 
-                          </tr>
-                        </tFoot>
-                      </table>
                       <div style={{ display: "flex", marginTop: "20px" }}>
                         <div>
                           <div>
@@ -443,9 +492,7 @@ export default function ReturnableModal({ setIsReturnableModal,
                             className=" ml-2"
                           >
                             {initDataForEdit?.actionByName || ""}[
-                            {_dateFormatter(
-                              initDataForEdit?.dteApproved
-                            )}{" "}
+                            {_dateFormatter(initDataForEdit?.dteApproved)}{" "}
                             {initDataForEdit?.dteApproved
                               ?.split("T")[1]
                               ?.slice(0, 5)}{" "}
@@ -462,9 +509,7 @@ export default function ReturnableModal({ setIsReturnableModal,
                             <p style={{ fontWeight: "900" }}>Approved By:</p>
                             <p style={{ fontWeight: "900" }} className="ml-2">
                               {initDataForEdit?.strApprovedBy} [
-                              {_dateFormatter(
-                                initDataForEdit?.dteApproved
-                              )}{" "}
+                              {_dateFormatter(initDataForEdit?.dteApproved)}{" "}
                               {initDataForEdit?.dteApproved
                                 ?.split("T")[1]
                                 ?.slice(0, 5)}{" "}
@@ -489,8 +534,7 @@ export default function ReturnableModal({ setIsReturnableModal,
                       </div>
                     </div>
                   </div>
-                  <div>
-                  </div>
+                  <div></div>
                 </div>
               </FormikForm>
             </>

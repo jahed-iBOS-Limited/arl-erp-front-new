@@ -137,65 +137,71 @@ export function ItemTransferTransit() {
               <div className="row">
                 <div className="col-lg-12">
                   {loading && <Loading />}
-                  <table className="table table-striped table-bordered global-table table-font-size-sm">
-                    <thead>
-                      <tr>
-                        <th>SL</th>
-                        <th>From Warehouse</th>
-                        <th>Reference No</th>
-                        <th>Transfer Date</th>
-                        <th>To Warehouse</th>
-                        <th>Receive Status</th>
-                        <th>Transfer Quantity</th>
-                        <th>Receive Quantity</th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {gridData?.map((item, index) => {
-                        totalTransfer += item?.transferQty;
-                        totalReceive += item?.receiveQty;
-                        return (
-                          <tr key={index}>
-                            <td
-                              style={{ width: "30px" }}
-                              className="text-center"
-                            >
-                              {index + 1}
-                            </td>
-                            <td>{item?.fromWarehouseName}</td>
-                            <td>{item?.referenceNo}</td>
-                            <td>{_dateFormatterTwo(item?.transferDate)}</td>
-                            <td>{item?.toWarehouseName}</td>
-                            <td>{item?.receiveStatus}</td>
-                            <td className="text-right">{item?.transferQty}</td>
-                            <td className="text-right">{item?.receiveQty}</td>
-                            <td className="text-center">
-                              <button
-                                className="btn"
-                                onClick={(e) => {
-                                  setCurrentItem(item);
-                                  setIsShowRowItemModal(true);
-                                }}
-                              >
-                                <IView />
-                              </button>
-                            </td>
-                          </tr>
-                        );
-                      })}
-                      {gridData?.length > 0 && (
-                        <tr style={{ textAlign: "right", fontWeight: "bold" }}>
-                          <td colSpan={6} className="text-right">
-                            Total
-                          </td>
-                          <td>{totalTransfer}</td>
-                          <td>{totalReceive}</td>
-                          <td></td>
+                  <div className="table-responsive">
+                    <table className="table table-striped table-bordered global-table table-font-size-sm">
+                      <thead>
+                        <tr>
+                          <th>SL</th>
+                          <th>From Warehouse</th>
+                          <th>Reference No</th>
+                          <th>Transfer Date</th>
+                          <th>To Warehouse</th>
+                          <th>Receive Status</th>
+                          <th>Transfer Quantity</th>
+                          <th>Receive Quantity</th>
+                          <th>Action</th>
                         </tr>
-                      )}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody>
+                        {gridData?.map((item, index) => {
+                          totalTransfer += item?.transferQty;
+                          totalReceive += item?.receiveQty;
+                          return (
+                            <tr key={index}>
+                              <td
+                                style={{ width: "30px" }}
+                                className="text-center"
+                              >
+                                {index + 1}
+                              </td>
+                              <td>{item?.fromWarehouseName}</td>
+                              <td>{item?.referenceNo}</td>
+                              <td>{_dateFormatterTwo(item?.transferDate)}</td>
+                              <td>{item?.toWarehouseName}</td>
+                              <td>{item?.receiveStatus}</td>
+                              <td className="text-right">
+                                {item?.transferQty}
+                              </td>
+                              <td className="text-right">{item?.receiveQty}</td>
+                              <td className="text-center">
+                                <button
+                                  className="btn"
+                                  onClick={(e) => {
+                                    setCurrentItem(item);
+                                    setIsShowRowItemModal(true);
+                                  }}
+                                >
+                                  <IView />
+                                </button>
+                              </td>
+                            </tr>
+                          );
+                        })}
+                        {gridData?.length > 0 && (
+                          <tr
+                            style={{ textAlign: "right", fontWeight: "bold" }}
+                          >
+                            <td colSpan={6} className="text-right">
+                              Total
+                            </td>
+                            <td>{totalTransfer}</td>
+                            <td>{totalReceive}</td>
+                            <td></td>
+                          </tr>
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
               <IViewModal

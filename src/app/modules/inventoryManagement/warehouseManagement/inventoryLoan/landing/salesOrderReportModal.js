@@ -64,49 +64,51 @@ export default function SalesOrderReportModal({
           </div>
 
           <div>
-            <table className="table table-striped table-bordered bj-table bj-table-landing">
-              <thead>
-                <tr>
-                  <th>SL</th>
-                  <th>Item Name</th>
-                  <th>Order Quantity</th>
-                  <th>Delivery Quantity</th>
-                  <th>Pending Quantity</th>
-                </tr>
-              </thead>
-              <tbody>
-                {data?.map((item, index) => (
-                  <tr key={index}>
-                    <td>{index + 1}</td>
-                    <td>{item?.itemName}</td>
-                    <td className="text-right">{item?.orderQuantity}</td>
-                    <td className="text-right">{item?.deliveredQuantity}</td>
-                    <td style={{ width: "130px" }}>
-                      <input
-                        name="undeliveryQuantity"
-                        className="form-controls w-100 text-right"
-                        value={item?.undeliveryQuantity}
-                        type="number"
-                        max={item?.orderQuantity}
-                        min="0"
-                        onChange={(e) => {
-                          if (
-                            e.target.value >= 0 &&
-                            e.target.value <= item?.orderQuantity
-                          ) {
-                            rowDtoHandler(
-                              "undeliveryQuantity",
-                              e.target.value,
-                              index
-                            );
-                          }
-                        }}
-                      />
-                    </td>
+            <div className="table-responsive">
+              <table className="table table-striped table-bordered bj-table bj-table-landing">
+                <thead>
+                  <tr>
+                    <th>SL</th>
+                    <th>Item Name</th>
+                    <th>Order Quantity</th>
+                    <th>Delivery Quantity</th>
+                    <th>Pending Quantity</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {data?.map((item, index) => (
+                    <tr key={index}>
+                      <td>{index + 1}</td>
+                      <td>{item?.itemName}</td>
+                      <td className="text-right">{item?.orderQuantity}</td>
+                      <td className="text-right">{item?.deliveredQuantity}</td>
+                      <td style={{ width: "130px" }}>
+                        <input
+                          name="undeliveryQuantity"
+                          className="form-controls w-100 text-right"
+                          value={item?.undeliveryQuantity}
+                          type="number"
+                          max={item?.orderQuantity}
+                          min="0"
+                          onChange={(e) => {
+                            if (
+                              e.target.value >= 0 &&
+                              e.target.value <= item?.orderQuantity
+                            ) {
+                              rowDtoHandler(
+                                "undeliveryQuantity",
+                                e.target.value,
+                                index
+                              );
+                            }
+                          }}
+                        />
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         </Modal.Body>
         <Modal.Footer>

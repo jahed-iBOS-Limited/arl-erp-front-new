@@ -12,15 +12,12 @@ import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import ICustomCard from "../../../../_helper/_customCard";
 import iMarineIcon from "../../../../_helper/images/imageakijpoly.png";
 
-
 let imageObj = {
   8: iMarineIcon,
 };
 
 const initData = {};
 const validationSchema = Yup.object().shape({});
-
-
 
 export function ItemReqViewTableRow({ IrId }) {
   const [loading, setLoading] = useState(false);
@@ -71,7 +68,7 @@ export function ItemReqViewTableRow({ IrId }) {
           enableReinitialize={true}
           initialValues={initData}
           validationSchema={validationSchema}
-          onSubmit={(values, { setSubmitting, resetForm }) => { }}
+          onSubmit={(values, { setSubmitting, resetForm }) => {}}
         >
           {({ handleSubmit, resetForm, values, errors, touched, isValid }) => (
             <>
@@ -124,50 +121,57 @@ export function ItemReqViewTableRow({ IrId }) {
                           {itemReqReport?.objHeader?.purpose}
                         </sapn> */}
                       </div>
-                      <table
-                        className="table table-striped table-bordered global-table"
-                        id="table-to-xlsx"
-                      >
-                        <thead>
-                          <tr>
-                            <th>SL</th>
-                            <th>Item Code</th>
-                            <th>Item Name</th>
-                            <th>Uom</th>
-                            <th>Quantity</th>
-                            <th>Issue Quantity</th>
-                            <th>Current Stock</th>
-                            <th>Purpose</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {itemReqReport?.objRow?.map((data, i) => (
+                      <div className="table-responsive">
+                        <table
+                          className="table table-striped table-bordered global-table"
+                          id="table-to-xlsx"
+                        >
+                          <thead>
                             <tr>
-                              <td className="text-center">{i + 1}</td>
-                              <td className="text-center">{data?.itemCode}</td>
-                              <td>{data?.itemName}</td>
-                              <td className="text-center">{data?.uoMname}</td>
-                              <td className="text-right">
-                                {data?.requestQuantity != null
-                                  ? Number.isInteger(data?.requestQuantity)
-                                    ? data?.requestQuantity
-                                    : data?.requestQuantity.toFixed(2)
-                                  : "N/A"}
-                              </td>
-
-                              <td className="text-right">
-                                {data?.issueQty != null
-                                  ? Number.isInteger(data?.issueQty)
-                                    ? data?.issueQty
-                                    : data?.issueQty.toFixed(2)
-                                  : "N/A"}
-                              </td>
-                              <td className="text-right">{data?.stockQuantity}</td>
-                              <td>{data?.remarks}</td>
+                              <th>SL</th>
+                              <th>Item Code</th>
+                              <th>Item Name</th>
+                              <th>Uom</th>
+                              <th>Quantity</th>
+                              <th>Issue Quantity</th>
+                              <th>Current Stock</th>
+                              <th>Purpose</th>
                             </tr>
-                          ))}
-                        </tbody>
-                      </table>
+                          </thead>
+                          <tbody>
+                            {itemReqReport?.objRow?.map((data, i) => (
+                              <tr>
+                                <td className="text-center">{i + 1}</td>
+                                <td className="text-center">
+                                  {data?.itemCode}
+                                </td>
+                                <td>{data?.itemName}</td>
+                                <td className="text-center">{data?.uoMname}</td>
+                                <td className="text-right">
+                                  {data?.requestQuantity != null
+                                    ? Number.isInteger(data?.requestQuantity)
+                                      ? data?.requestQuantity
+                                      : data?.requestQuantity.toFixed(2)
+                                    : "N/A"}
+                                </td>
+
+                                <td className="text-right">
+                                  {data?.issueQty != null
+                                    ? Number.isInteger(data?.issueQty)
+                                      ? data?.issueQty
+                                      : data?.issueQty.toFixed(2)
+                                    : "N/A"}
+                                </td>
+                                <td className="text-right">
+                                  {data?.stockQuantity}
+                                </td>
+                                <td>{data?.remarks}</td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+
                       <div className="mt-3">
                         <div className="d-flex">
                           <p>Request By:</p>

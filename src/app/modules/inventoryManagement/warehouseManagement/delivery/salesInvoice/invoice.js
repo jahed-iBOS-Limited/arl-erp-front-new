@@ -47,35 +47,36 @@ const SalesInvoice = () => {
             </div>
           </section>
           <section id="salesInvoiceTable">
-            <table className="table table-striped global-table">
-              <tr>
-                <th>DO No</th>
-                <th>Challan No</th>
-                <th>Date of delivery</th>
-                <h1 className="text-center align-middle">
-                  {" "}
-                  Commercial Invoice
-                </h1>
-              </tr>
+            <div className="table-responsive">
+              <table className="table table-striped global-table">
+                <tr>
+                  <th>DO No</th>
+                  <th>Challan No</th>
+                  <th>Date of delivery</th>
+                  <h1 className="text-center align-middle">
+                    {" "}
+                    Commercial Invoice
+                  </h1>
+                </tr>
 
-              <tr className="text-center">
-                <td>DO-65488</td>
-                <td>65296</td>
-                <td>09-11-2021</td>
-              </tr>
-              <tr>
-                <td colSpan="3" className="internal-table">
-                  <div className="row">
-                    <div className="col-lg-6">
-                      {" "}
-                      <h5
-                        style={{ textDecoration: "underline" }}
-                        className="p-2"
-                      >
-                        Company Name & Address:
-                      </h5>{" "}
-                    </div>
-                    {/* <div className="col-lg-6 ">
+                <tr className="text-center">
+                  <td>DO-65488</td>
+                  <td>65296</td>
+                  <td>09-11-2021</td>
+                </tr>
+                <tr>
+                  <td colSpan="3" className="internal-table">
+                    <div className="row">
+                      <div className="col-lg-6">
+                        {" "}
+                        <h5
+                          style={{ textDecoration: "underline" }}
+                          className="p-2"
+                        >
+                          Company Name & Address:
+                        </h5>{" "}
+                      </div>
+                      {/* <div className="col-lg-6 ">
                                         <table className="w-100">
                                             <tr>
                                                 <th className="bt-none">Purchase Order No</th>
@@ -87,15 +88,15 @@ const SalesInvoice = () => {
                                             </tr>
                                         </table>
                                     </div> */}
-                  </div>
-                  <div className="p-2">
-                    <p>
-                      <b>Akij food and beverage ltd.</b>
-                      <p className="mb-0">lalmatia, dhaka.</p>
-                      <p className="mb-0">Phone: </p>
-                      <p>Fax: </p>
-                    </p>
-                    {/* <div className="d-flex">
+                    </div>
+                    <div className="p-2">
+                      <p>
+                        <b>Akij food and beverage ltd.</b>
+                        <p className="mb-0">lalmatia, dhaka.</p>
+                        <p className="mb-0">Phone: </p>
+                        <p>Fax: </p>
+                      </p>
+                      {/* <div className="d-flex">
                                         <p className="mr-3">
                                             <b>Project Name-</b>
                                         </p>
@@ -105,81 +106,85 @@ const SalesInvoice = () => {
                                             gulistan, dhaka.
                                         </p>
                                     </div> */}
-                  </div>
-                </td>
-                <td className="vt-align internal-table">
-                  <div className="pb-5 pl-2 pt-2">
-                    <p style={{ textDecoration: "underline" }}>
-                      <b>Contact Person & Designation:</b>
-                    </p>
-                    <p>Mr. wang youngyoung</p>
-                  </div>
-                  <div
-                    style={{ borderTop: "2px solid rgb(20, 20, 20)" }}
-                    className="p-2"
-                  >
-                    <p>
-                      <b>Contact Number:</b>
-                    </p>
-                    <p>
-                      <b>Mobile No: 01886-584585</b>
-                    </p>
-                  </div>
-                </td>
-              </tr>
-            </table>
-            <div id="second-table">
-              <table className="table table-striped global-table mt-0 pt-0">
-                <tr>
-                  <th>No</th>
-                  <th>Product Description</th>
-                  <th>Quantity</th>
-                  <th>Unit Price (Tk.)</th>
-                  <th>Amount</th>
-                </tr>
-                <tr>
-                  <td className="text-center">1</td>
-                  <td>211-55-MMMM</td>
-                  <td className="text-right">20.00</td>
-                  <td className="text-right">77,2223.00</td>
-                  <td className="text-right">10000000</td>
-                </tr>
-                <tr>
-                  <td colSpan="2" className="text-right pr-2">
-                    {" "}
-                    <p className="pr-1 mb-0">Total Sales</p>
-                  </td>
-                  <td className="text-right">20.00</td>
-                  <td className="text-right">00</td>
-                  <td className="text-right">1887220</td>
-                </tr>
-
-                <tr className="hide-border">
-                  <td colSpan="4" rowSpan="4" className="text-right">
-                    <div
-                      className="w-50 text-left"
-                      style={{ marginLeft: "70%" }}
-                    >
-                      {/* <p className="pr-1 mb-0">VAT</p> */}
-                      <p className="pr-1 mb-0">Transportation Cost</p>
-                      <p className="pr-1 mb-0">Total Amount</p>
-                      <p className="pr-1 mb-0">Advance Received</p>
-                      <p className="pr-1 mb-0">Due Amount</p>
                     </div>
                   </td>
-                  <td className="text-right">10,000</td>
-                </tr>
-                {/* <tr><td className="text-right">10,000</td></tr> */}
-                <tr>
-                  <td className="text-right">10,000</td>
-                </tr>
-                <tr>
-                  <td className="text-right">10,000</td>
-                </tr>
-                <tr>
-                  <td className="text-right">10,000</td>
+                  <td className="vt-align internal-table">
+                    <div className="pb-5 pl-2 pt-2">
+                      <p style={{ textDecoration: "underline" }}>
+                        <b>Contact Person & Designation:</b>
+                      </p>
+                      <p>Mr. wang youngyoung</p>
+                    </div>
+                    <div
+                      style={{ borderTop: "2px solid rgb(20, 20, 20)" }}
+                      className="p-2"
+                    >
+                      <p>
+                        <b>Contact Number:</b>
+                      </p>
+                      <p>
+                        <b>Mobile No: 01886-584585</b>
+                      </p>
+                    </div>
+                  </td>
                 </tr>
               </table>
+            </div>
+
+            <div id="second-table">
+              <div className="table-responsive">
+                <table className="table table-striped global-table mt-0 pt-0">
+                  <tr>
+                    <th>No</th>
+                    <th>Product Description</th>
+                    <th>Quantity</th>
+                    <th>Unit Price (Tk.)</th>
+                    <th>Amount</th>
+                  </tr>
+                  <tr>
+                    <td className="text-center">1</td>
+                    <td>211-55-MMMM</td>
+                    <td className="text-right">20.00</td>
+                    <td className="text-right">77,2223.00</td>
+                    <td className="text-right">10000000</td>
+                  </tr>
+                  <tr>
+                    <td colSpan="2" className="text-right pr-2">
+                      {" "}
+                      <p className="pr-1 mb-0">Total Sales</p>
+                    </td>
+                    <td className="text-right">20.00</td>
+                    <td className="text-right">00</td>
+                    <td className="text-right">1887220</td>
+                  </tr>
+
+                  <tr className="hide-border">
+                    <td colSpan="4" rowSpan="4" className="text-right">
+                      <div
+                        className="w-50 text-left"
+                        style={{ marginLeft: "70%" }}
+                      >
+                        {/* <p className="pr-1 mb-0">VAT</p> */}
+                        <p className="pr-1 mb-0">Transportation Cost</p>
+                        <p className="pr-1 mb-0">Total Amount</p>
+                        <p className="pr-1 mb-0">Advance Received</p>
+                        <p className="pr-1 mb-0">Due Amount</p>
+                      </div>
+                    </td>
+                    <td className="text-right">10,000</td>
+                  </tr>
+                  {/* <tr><td className="text-right">10,000</td></tr> */}
+                  <tr>
+                    <td className="text-right">10,000</td>
+                  </tr>
+                  <tr>
+                    <td className="text-right">10,000</td>
+                  </tr>
+                  <tr>
+                    <td className="text-right">10,000</td>
+                  </tr>
+                </table>
+              </div>
             </div>
           </section>
           <p className="mt-2">

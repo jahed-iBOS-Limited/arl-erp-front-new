@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { shallowEqual, useSelector } from 'react-redux';
-import Loading from '../../../../../_helper/_loading';
-import PaginationTable from '../../../../../_helper/_tablePagination';
-import useAxiosGet from '../../../../../_helper/customHooks/useAxiosGet';
-import { permissionCancel } from '../../helper';
+import React, { useEffect, useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
+import Loading from "../../../../../_helper/_loading";
+import PaginationTable from "../../../../../_helper/_tablePagination";
+import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet";
+import { permissionCancel } from "../../helper";
 
 const ShipmentPointOperatorTable = ({ values }) => {
   // const history = useHistory();
@@ -16,7 +16,7 @@ const ShipmentPointOperatorTable = ({ values }) => {
   } = useSelector((state) => state?.authData, shallowEqual);
   const getData = (values, pageNo = 0, pageSize = 50) => {
     console.log(
-      `/oms/ShipPoint/GetPermissionShipPointLanding?BusinessUnitId=${values?.businessUnit?.value}&PageNo=${pageNo}&PageSize=${pageSize}`,
+      `/oms/ShipPoint/GetPermissionShipPointLanding?BusinessUnitId=${values?.businessUnit?.value}&PageNo=${pageNo}&PageSize=${pageSize}`
     );
     getRowData(
       `/oms/ShipPoint/GetPermissionShipPointLanding?BusinessUnitId=${values?.businessUnit?.value}&PageNo=${pageNo}&PageSize=${pageSize}`,
@@ -25,7 +25,7 @@ const ShipmentPointOperatorTable = ({ values }) => {
           ...resData,
           data: resData?.data?.map((item) => ({ ...item, isSelected: false })),
         });
-      },
+      }
     );
   };
 
@@ -92,53 +92,55 @@ const ShipmentPointOperatorTable = ({ values }) => {
       </div>
 
       {rowData?.data?.length > 0 && (
-        <table className="table table-striped table-bordered global-table">
-          <thead>
-            <tr onClick={() => allSelect(!selectedAll())}>
-              <th style={{ width: '30px' }}>
-                <input
-                  type="checkbox"
-                  value={selectedAll()}
-                  checked={selectedAll()}
-                  onChange={() => {}}
-                />
-              </th>
-              <th style={{ width: '35px' }}>SL</th>
-              <th>User Name</th>
-              <th>ShipPoint</th>
-            </tr>
-          </thead>
-          <tbody>
-            {rowData?.data?.map((item, index) => (
-              <tr
-                style={
-                  item?.isSelected
-                    ? {
-                        backgroundColor: '#aacae3',
-                        width: '30px',
-                      }
-                    : { width: '30px' }
-                }
-                onClick={() => {
-                  rowDataHandler('isSelected', index, !item.isSelected);
-                }}
-                key={index}
-              >
-                <td className="text-center">
+        <div className="table-responsive">
+          <table className="table table-striped table-bordered global-table">
+            <thead>
+              <tr onClick={() => allSelect(!selectedAll())}>
+                <th style={{ width: "30px" }}>
                   <input
                     type="checkbox"
-                    value={item?.isSelected}
-                    checked={item?.isSelected}
+                    value={selectedAll()}
+                    checked={selectedAll()}
                     onChange={() => {}}
                   />
-                </td>
-                <td> {index + 1} </td>
-                <td> {item?.userName} </td>
-                <td> {item?.shipPointName} </td>
+                </th>
+                <th style={{ width: "35px" }}>SL</th>
+                <th>User Name</th>
+                <th>ShipPoint</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {rowData?.data?.map((item, index) => (
+                <tr
+                  style={
+                    item?.isSelected
+                      ? {
+                          backgroundColor: "#aacae3",
+                          width: "30px",
+                        }
+                      : { width: "30px" }
+                  }
+                  onClick={() => {
+                    rowDataHandler("isSelected", index, !item.isSelected);
+                  }}
+                  key={index}
+                >
+                  <td className="text-center">
+                    <input
+                      type="checkbox"
+                      value={item?.isSelected}
+                      checked={item?.isSelected}
+                      onChange={() => {}}
+                    />
+                  </td>
+                  <td> {index + 1} </td>
+                  <td> {item?.userName} </td>
+                  <td> {item?.shipPointName} </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
       {rowData?.data?.length > 0 && (
         <PaginationTable
