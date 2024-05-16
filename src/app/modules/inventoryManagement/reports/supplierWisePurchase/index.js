@@ -133,6 +133,7 @@ export default function SupplierWisePurchase() {
               </div>
               <div className="row mt-5">
                 <div className="col-lg-12 cost-of-production">
+                <div className="table-responsive">
                   <table
                     id="table-to-xlsx"
                     className="table table-striped table-bordered bj-table bj-table-landing"
@@ -176,6 +177,7 @@ export default function SupplierWisePurchase() {
                         ))}
                     </tbody>
                   </table>
+                </div>
                 </div>
               </div>
             </IForm>
