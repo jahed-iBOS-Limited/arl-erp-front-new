@@ -345,58 +345,60 @@ const LighterVesselCreateForm = ({
                     </div>
                   </div>
                   {rows?.length > 0 && (
-                    <table
-                      id="table-to-xlsx"
-                      className={
-                        "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
-                      }
-                    >
-                      <thead>
-                        <tr className="cursor-pointer">
-                          {[
-                            "SL",
-                            "Mother Vessel",
-                            "Lighter Vessel",
-                            "Capacity",
-                            "Carrier Name",
-                            "Carrier Rate",
-                            "Contact No.",
-                            "Action",
-                          ]?.map((th, index) => {
-                            return <th key={index}> {th} </th>;
+                    <div className="table-responsive">
+                      <table
+                        id="table-to-xlsx"
+                        className={
+                          "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+                        }
+                      >
+                        <thead>
+                          <tr className="cursor-pointer">
+                            {[
+                              "SL",
+                              "Mother Vessel",
+                              "Lighter Vessel",
+                              "Capacity",
+                              "Carrier Name",
+                              "Carrier Rate",
+                              "Contact No.",
+                              "Action",
+                            ]?.map((th, index) => {
+                              return <th key={index}> {th} </th>;
+                            })}
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {/* {console.log(rows)} */}
+                          {rows?.map((item, index) => {
+                            console.log("item", item);
+                            return (
+                              <tr key={index}>
+                                <td
+                                  style={{ width: "40px" }}
+                                  className="text-center"
+                                >
+                                  {index + 1}
+                                </td>
+                                <td>{item?.motherVesselName}</td>
+                                <td>{item?.lighterVesselName}</td>
+                                <td>{item?.vesselCapacity}</td>
+                                <td>{item?.carrierAgenName}</td>
+                                <td>{item?.carrierRate}</td>
+                                <td>{item?.contactNo}</td>
+                                <td className="text-center">
+                                  <div className="d-flex justify-content-around">
+                                    <span>
+                                      <IDelete remover={removeRow} id={index} />
+                                    </span>
+                                  </div>
+                                </td>
+                              </tr>
+                            );
                           })}
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {/* {console.log(rows)} */}
-                        {rows?.map((item, index) => {
-                          console.log("item", item);
-                          return (
-                            <tr key={index}>
-                              <td
-                                style={{ width: "40px" }}
-                                className="text-center"
-                              >
-                                {index + 1}
-                              </td>
-                              <td>{item?.motherVesselName}</td>
-                              <td>{item?.lighterVesselName}</td>
-                              <td>{item?.vesselCapacity}</td>
-                              <td>{item?.carrierAgenName}</td>
-                              <td>{item?.carrierRate}</td>
-                              <td>{item?.contactNo}</td>
-                              <td className="text-center">
-                                <div className="d-flex justify-content-around">
-                                  <span>
-                                    <IDelete remover={removeRow} id={index} />
-                                  </span>
-                                </div>
-                              </td>
-                            </tr>
-                          );
-                        })}
-                      </tbody>
-                    </table>
+                        </tbody>
+                      </table>
+                    </div>
                   )}
                 </form>
               </CardBody>

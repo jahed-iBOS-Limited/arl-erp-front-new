@@ -145,7 +145,7 @@ const GudamAllotmentForm = ({
         revenueByTransport: +values?.revenueByTransport || 0,
         portId: values?.port?.value,
         portName: values?.port?.label,
-        actionBy: userId
+        actionBy: userId,
       };
       editGudamAllotment(payload, setIsLoading, () => {
         getData(tableValues, 0, 15);
@@ -423,76 +423,80 @@ const GudamAllotmentForm = ({
                   </div>
                 </form>
                 {formType !== "edit" && (
-                  <table
-                    id="table-to-xlsx"
-                    className={
-                      "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
-                    }
-                  >
-                    <thead>
-                      <tr className="cursor-pointer">
-                        {[
-                          "SL",
-                          "Business Partner",
-                          "Ship to Partner",
-                          "Mother Vessel",
-                          "Item Name",
-                          // "Month",
-                          // "Year",
-                          "Allotment Qty",
-                          "Extra Allotment Qty",
-                          "Revenue Rate (Tk.)",
-                          "Revenue by Transport",
-                          "Action",
-                        ]?.map((th, index) => {
-                          return <th key={index}> {th} </th>;
-                        })}
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {rows?.map((item, index) => {
-                        return (
-                          <tr key={index}>
-                            <td
-                              style={{ width: "40px" }}
-                              className="text-center"
-                            >
-                              {index + 1}
-                            </td>
-                            <td>{item?.soldToPartnerName}</td>
-                            <td>{item?.shipToPartnerName}</td>
-                            <td>{item?.motherVesselName}</td>
-                            <td>{item?.itemName}</td>
-                            {/* <td>{getMonth(item?.monthId)}</td>
+                  <div className="table-responsive">
+                    <table
+                      id="table-to-xlsx"
+                      className={
+                        "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+                      }
+                    >
+                      <thead>
+                        <tr className="cursor-pointer">
+                          {[
+                            "SL",
+                            "Business Partner",
+                            "Ship to Partner",
+                            "Mother Vessel",
+                            "Item Name",
+                            // "Month",
+                            // "Year",
+                            "Allotment Qty",
+                            "Extra Allotment Qty",
+                            "Revenue Rate (Tk.)",
+                            "Revenue by Transport",
+                            "Action",
+                          ]?.map((th, index) => {
+                            return <th key={index}> {th} </th>;
+                          })}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {rows?.map((item, index) => {
+                          return (
+                            <tr key={index}>
+                              <td
+                                style={{ width: "40px" }}
+                                className="text-center"
+                              >
+                                {index + 1}
+                              </td>
+                              <td>{item?.soldToPartnerName}</td>
+                              <td>{item?.shipToPartnerName}</td>
+                              <td>{item?.motherVesselName}</td>
+                              <td>{item?.itemName}</td>
+                              {/* <td>{getMonth(item?.monthId)}</td>
                             <td>{item?.yearId}</td> */}
-                            <td className="text-right">
-                              {_fixedPoint(item?.allotmentQuantity, true)}
-                            </td>
-                            <td className="text-right">
-                              {_fixedPoint(
-                                item?.extraAllotmentQuantity,
-                                true
-                              ) || 0}
-                            </td>
-                            <td className="text-right">{item?.revenueRate}</td>
-                            <td className="text-right">
-                              {item?.revenueByTransport}
-                            </td>
-                            <td
-                              style={{ width: "80px" }}
-                              className="text-center"
-                            >
-                              <div className="d-flex justify-content-around">
-                                <span>
-                                  <IDelete remover={remover} id={index} />
-                                </span>
-                              </div>
-                            </td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
+                              <td className="text-right">
+                                {_fixedPoint(item?.allotmentQuantity, true)}
+                              </td>
+                              <td className="text-right">
+                                {_fixedPoint(
+                                  item?.extraAllotmentQuantity,
+                                  true
+                                ) || 0}
+                              </td>
+                              <td className="text-right">
+                                {item?.revenueRate}
+                              </td>
+                              <td className="text-right">
+                                {item?.revenueByTransport}
+                              </td>
+                              <td
+                                style={{ width: "80px" }}
+                                className="text-center"
+                              >
+                                <div className="d-flex justify-content-around">
+                                  <span>
+                                    <IDelete remover={remover} id={index} />
+                                  </span>
+                                </div>
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
                 )}
               </CardBody>
             </Card>

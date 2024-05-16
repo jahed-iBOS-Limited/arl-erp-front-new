@@ -151,82 +151,84 @@ const MotherVesselVoyageInformationTable = () => {
                   </div>
                 )}
                 {rowData?.data?.length > 0 && (
-                  <table
-                    id="table-to-xlsx"
-                    className={
-                      "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
-                    }
-                  >
-                    <thead>
-                      <tr className="cursor-pointer">
-                        {headers?.map((th, index) => {
-                          return <th key={index}> {th} </th>;
-                        })}
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {rowData?.data?.map((item, index) => {
-                        return (
-                          <tr key={index}>
-                            <td
-                              style={{ width: "40px" }}
-                              className="text-center"
-                            >
-                              {index + 1}
-                            </td>
-                            <td>{item?.voyageCode}</td>
-                            <td>{item?.motherVesselName}</td>
-                            <td>{item?.lcnumber}</td>
-                            <td>{item?.blqnt}</td>
-                            <td>({_dateFormatter(item?.eta)}</td>
+                  <div className="table-responsive">
+                    <table
+                      id="table-to-xlsx"
+                      className={
+                        "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+                      }
+                    >
+                      <thead>
+                        <tr className="cursor-pointer">
+                          {headers?.map((th, index) => {
+                            return <th key={index}> {th} </th>;
+                          })}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {rowData?.data?.map((item, index) => {
+                          return (
+                            <tr key={index}>
+                              <td
+                                style={{ width: "40px" }}
+                                className="text-center"
+                              >
+                                {index + 1}
+                              </td>
+                              <td>{item?.voyageCode}</td>
+                              <td>{item?.motherVesselName}</td>
+                              <td>{item?.lcnumber}</td>
+                              <td>{item?.blqnt}</td>
+                              <td>({_dateFormatter(item?.eta)}</td>
 
-                            <td>{item?.loadingPortName}</td>
-                            <td>{item?.dischargingPortName}</td>
-                            <td>{item?.cnfName}</td>
-                            <td>{item?.stebdoreName}</td>
-                            <td>{item?.narration}</td>
+                              <td>{item?.loadingPortName}</td>
+                              <td>{item?.dischargingPortName}</td>
+                              <td>{item?.cnfName}</td>
+                              <td>{item?.stebdoreName}</td>
+                              <td>{item?.narration}</td>
 
-                            <td
-                              style={{ width: "80px" }}
-                              className="text-center"
-                            >
-                              {
-                                <div className="d-flex justify-content-around">
-                                  <span>
-                                    <IEdit
+                              <td
+                                style={{ width: "80px" }}
+                                className="text-center"
+                              >
+                                {
+                                  <div className="d-flex justify-content-around">
+                                    <span>
+                                      <IEdit
+                                        onClick={() => {
+                                          history.push({
+                                            pathname: `/vessel-management/allotment/mothervesselvoyageinfo/edit/${item?.voyageNo}`,
+                                            state: item,
+                                          });
+                                        }}
+                                      ></IEdit>
+                                    </span>
+                                    <span>
+                                      <IView
+                                        clickHandler={() => {
+                                          history.push({
+                                            pathname: `/vessel-management/allotment/mothervesselvoyageinfo/view/${item?.voyageNo}`,
+                                            state: item,
+                                          });
+                                        }}
+                                      ></IView>
+                                    </span>
+                                    <span
                                       onClick={() => {
-                                        history.push({
-                                          pathname: `/vessel-management/allotment/mothervesselvoyageinfo/edit/${item?.voyageNo}`,
-                                          state: item,
-                                        });
+                                        deleteHandler(item?.voyageNo, values);
                                       }}
-                                    ></IEdit>
-                                  </span>
-                                  <span>
-                                    <IView
-                                      clickHandler={() => {
-                                        history.push({
-                                          pathname: `/vessel-management/allotment/mothervesselvoyageinfo/view/${item?.voyageNo}`,
-                                          state: item,
-                                        });
-                                      }}
-                                    ></IView>
-                                  </span>
-                                  <span
-                                    onClick={() => {
-                                      deleteHandler(item?.voyageNo, values);
-                                    }}
-                                  >
-                                    <IDelete />
-                                  </span>
-                                </div>
-                              }
-                            </td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
+                                    >
+                                      <IDelete />
+                                    </span>
+                                  </div>
+                                }
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
                 )}
                 {rowData?.data?.length > 0 && (
                   <PaginationTable

@@ -32,7 +32,14 @@ const initData = {
   bolgateUnloadRate: "",
 };
 
-const GodownForm = ({ setShow, getData, formType, singleItem, values , businessPartnerDDL}) => {
+const GodownForm = ({
+  setShow,
+  getData,
+  formType,
+  singleItem,
+  values,
+  businessPartnerDDL,
+}) => {
   // get user data from store
   const {
     profileData: { accountId: accId },
@@ -75,7 +82,7 @@ const GodownForm = ({ setShow, getData, formType, singleItem, values , businessP
           label: singleItem?.unloadingSupplier,
         },
         unloadingRate: singleItem?.unloadingRate,
-        bolgateUnloadRate: singleItem?.bolgateUnloadRate || '',
+        bolgateUnloadRate: singleItem?.bolgateUnloadRate || "",
       };
     } else {
       return initData;
@@ -315,66 +322,68 @@ const GodownForm = ({ setShow, getData, formType, singleItem, values , businessP
                   </div>
                 </form>
                 {formType !== "edit" && (
-                  <table
-                    id="table-to-xlsx"
-                    className={
-                      "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
-                    }
-                  >
-                    <thead>
-                      <tr className="cursor-pointer">
-                        {[
-                          "SL",
-                          "Business Partner",
-                          "Transport Zone",
-                          "Godown Name",
-                          "Godown Address",
-                          "Contact No",
-                          "Unloading Supplier",
-                          "Unloading Rate",
-                          "Bolgate Unload Rate",
-                          "Remarks",
-                          "Action",
-                        ]?.map((th, index) => {
-                          return <th key={index}> {th} </th>;
-                        })}
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {rows?.map((item, index) => {
-                        return (
-                          <tr key={index}>
-                            <td
-                              style={{ width: "40px" }}
-                              className="text-center"
-                            >
-                              {index + 1}
-                            </td>
-                            <td>{item?.businessPartnerName}</td>
-                            <td>{item?.transportZoneName}</td>
-                            <td>{item?.shipToParterName}</td>
-                            <td>{item?.shipToParterAddress}</td>
-                            <td>{item?.partnerShippingContact}</td>
-                            <td>{item?.unloadingSupplier}</td>
-                            <td>{item?.unloadingRate}</td>
-                            <td>{item?.bolgateUnloadRate}</td>
-                            <td>{item?.remarks}</td>
+                  <div className="table-responsive">
+                    <table
+                      id="table-to-xlsx"
+                      className={
+                        "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+                      }
+                    >
+                      <thead>
+                        <tr className="cursor-pointer">
+                          {[
+                            "SL",
+                            "Business Partner",
+                            "Transport Zone",
+                            "Godown Name",
+                            "Godown Address",
+                            "Contact No",
+                            "Unloading Supplier",
+                            "Unloading Rate",
+                            "Bolgate Unload Rate",
+                            "Remarks",
+                            "Action",
+                          ]?.map((th, index) => {
+                            return <th key={index}> {th} </th>;
+                          })}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {rows?.map((item, index) => {
+                          return (
+                            <tr key={index}>
+                              <td
+                                style={{ width: "40px" }}
+                                className="text-center"
+                              >
+                                {index + 1}
+                              </td>
+                              <td>{item?.businessPartnerName}</td>
+                              <td>{item?.transportZoneName}</td>
+                              <td>{item?.shipToParterName}</td>
+                              <td>{item?.shipToParterAddress}</td>
+                              <td>{item?.partnerShippingContact}</td>
+                              <td>{item?.unloadingSupplier}</td>
+                              <td>{item?.unloadingRate}</td>
+                              <td>{item?.bolgateUnloadRate}</td>
+                              <td>{item?.remarks}</td>
 
-                            <td
-                              style={{ width: "80px" }}
-                              className="text-center"
-                            >
-                              <div className="d-flex justify-content-around">
-                                <span>
-                                  <IDelete remover={remover} id={index} />
-                                </span>
-                              </div>
-                            </td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
+                              <td
+                                style={{ width: "80px" }}
+                                className="text-center"
+                              >
+                                <div className="d-flex justify-content-around">
+                                  <span>
+                                    <IDelete remover={remover} id={index} />
+                                  </span>
+                                </div>
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
                 )}
               </CardBody>
             </Card>

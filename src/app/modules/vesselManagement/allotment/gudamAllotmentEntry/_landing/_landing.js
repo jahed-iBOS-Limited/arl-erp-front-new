@@ -306,203 +306,209 @@ const GudamAllotmentLanding = () => {
                   </div>
 
                   {[1, 3].includes(values?.reportType?.value) ? (
-                    <table
-                      id="table-to-xlsx"
-                      className={
-                        "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
-                      }
-                    >
-                      <thead>
-                        <tr className="cursor-pointer">
-                          {headers?.map((th, index) => {
-                            return <th key={index}> {th} </th>;
-                          })}
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {rowData?.data?.map((item, index) => {
-                          totalQty += item?.allotmentQuantity;
-                          totalChallanQty += item?.challanQuantity;
-                          totalRemainingQty += item?.remaingQuantity;
-                          totalExtraAllotmentQuantity +=
-                            item?.extraAllotmentQuantity;
-                          return (
-                            <tr key={index}>
-                              <td
-                                style={{ width: "40px" }}
-                                className="text-center"
-                              >
-                                {index + 1}
-                              </td>
-                              <td>{item?.soldToPartnerName}</td>
-                              <td>{item?.shipToPartnerId}</td>
-                              <td>{item?.shipToPartnerName}</td>
-                              <td>{item?.motherVesselName}</td>
-                              <td>{item?.itemName}</td>
-                              <td>{getMonth(item?.monthId)}</td>
-                              <td>{item?.yearId}</td>
-                              <td className="text-right">
-                                {_fixedPoint(item?.allotmentQuantity, true)}
-                              </td>
-                              <td className="text-right">
-                                {_fixedPoint(
-                                  item?.extraAllotmentQuantity,
-                                  true
-                                )}
-                              </td>
-                              <td
-                                className="text-right"
-                                style={
-                                  item?.challanQuantity >
-                                  item?.allotmentQuantity
-                                    ? { backgroundColor: "#f9ee149c" }
-                                    : {}
-                                }
-                              >
-                                {_fixedPoint(item?.challanQuantity, true)}
-                              </td>
-                              <td
-                                className="text-right"
-                                style={
-                                  item?.remaingQuantity < 0
-                                    ? { backgroundColor: "#ff00007d" }
-                                    : {}
-                                }
-                              >
-                                {_fixedPoint(item?.remaingQuantity, true)}
-                              </td>
-                              <td className="text-right">
-                                {item?.revenueRate}
-                              </td>
-                              <td className="text-right">
-                                {(item?.allotmentQuantity || 0) *
-                                  (item?.revenueRate || 0)}
-                              </td>
-                              <td
-                                style={{ width: "80px" }}
-                                className="text-center"
-                              >
-                                <div className="d-flex justify-content-around">
-                                  <span>
-                                    <IEdit
+                    <div className="table-responsive">
+                      <table
+                        id="table-to-xlsx"
+                        className={
+                          "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+                        }
+                      >
+                        <thead>
+                          <tr className="cursor-pointer">
+                            {headers?.map((th, index) => {
+                              return <th key={index}> {th} </th>;
+                            })}
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {rowData?.data?.map((item, index) => {
+                            totalQty += item?.allotmentQuantity;
+                            totalChallanQty += item?.challanQuantity;
+                            totalRemainingQty += item?.remaingQuantity;
+                            totalExtraAllotmentQuantity +=
+                              item?.extraAllotmentQuantity;
+                            return (
+                              <tr key={index}>
+                                <td
+                                  style={{ width: "40px" }}
+                                  className="text-center"
+                                >
+                                  {index + 1}
+                                </td>
+                                <td>{item?.soldToPartnerName}</td>
+                                <td>{item?.shipToPartnerId}</td>
+                                <td>{item?.shipToPartnerName}</td>
+                                <td>{item?.motherVesselName}</td>
+                                <td>{item?.itemName}</td>
+                                <td>{getMonth(item?.monthId)}</td>
+                                <td>{item?.yearId}</td>
+                                <td className="text-right">
+                                  {_fixedPoint(item?.allotmentQuantity, true)}
+                                </td>
+                                <td className="text-right">
+                                  {_fixedPoint(
+                                    item?.extraAllotmentQuantity,
+                                    true
+                                  )}
+                                </td>
+                                <td
+                                  className="text-right"
+                                  style={
+                                    item?.challanQuantity >
+                                    item?.allotmentQuantity
+                                      ? { backgroundColor: "#f9ee149c" }
+                                      : {}
+                                  }
+                                >
+                                  {_fixedPoint(item?.challanQuantity, true)}
+                                </td>
+                                <td
+                                  className="text-right"
+                                  style={
+                                    item?.remaingQuantity < 0
+                                      ? { backgroundColor: "#ff00007d" }
+                                      : {}
+                                  }
+                                >
+                                  {_fixedPoint(item?.remaingQuantity, true)}
+                                </td>
+                                <td className="text-right">
+                                  {item?.revenueRate}
+                                </td>
+                                <td className="text-right">
+                                  {(item?.allotmentQuantity || 0) *
+                                    (item?.revenueRate || 0)}
+                                </td>
+                                <td
+                                  style={{ width: "80px" }}
+                                  className="text-center"
+                                >
+                                  <div className="d-flex justify-content-around">
+                                    <span>
+                                      <IEdit
+                                        onClick={() => {
+                                          setFormType("edit");
+                                          setSingleItem(item);
+                                          setShow(true);
+                                        }}
+                                        id={item?.id}
+                                      />
+                                    </span>
+                                    <span
                                       onClick={() => {
-                                        setFormType("edit");
-                                        setSingleItem(item);
-                                        setShow(true);
+                                        deleteHandler(item?.id, values);
                                       }}
-                                      id={item?.id}
-                                    />
-                                  </span>
-                                  <span
-                                    onClick={() => {
-                                      deleteHandler(item?.id, values);
-                                    }}
-                                  >
-                                    <IDelete />
-                                  </span>
-                                </div>
-                              </td>
-                            </tr>
-                          );
-                        })}
-                        <tr>
-                          <td colSpan={8} className="text-right">
-                            <b>Total</b>
-                          </td>
-                          <td className="text-right">
-                            <b>{_fixedPoint(totalQty, true)}</b>
-                          </td>
-                          <td className="text-right">
-                            <b>
-                              {_fixedPoint(totalExtraAllotmentQuantity, true)}
-                            </b>
-                          </td>
-                          <td className="text-right">
-                            <b>{_fixedPoint(totalChallanQty, true)}</b>
-                          </td>
-                          <td className="text-right">
-                            <b>{_fixedPoint(totalRemainingQty, true)}</b>
-                          </td>
-                          <td className="text-right"></td>
-                          <td className="text-right">
-                            <b>{calculateTotalRevenueAmount(rowData?.data)}</b>
-                          </td>
-                          <td></td>
-                        </tr>
-                      </tbody>
-                    </table>
+                                    >
+                                      <IDelete />
+                                    </span>
+                                  </div>
+                                </td>
+                              </tr>
+                            );
+                          })}
+                          <tr>
+                            <td colSpan={8} className="text-right">
+                              <b>Total</b>
+                            </td>
+                            <td className="text-right">
+                              <b>{_fixedPoint(totalQty, true)}</b>
+                            </td>
+                            <td className="text-right">
+                              <b>
+                                {_fixedPoint(totalExtraAllotmentQuantity, true)}
+                              </b>
+                            </td>
+                            <td className="text-right">
+                              <b>{_fixedPoint(totalChallanQty, true)}</b>
+                            </td>
+                            <td className="text-right">
+                              <b>{_fixedPoint(totalRemainingQty, true)}</b>
+                            </td>
+                            <td className="text-right"></td>
+                            <td className="text-right">
+                              <b>
+                                {calculateTotalRevenueAmount(rowData?.data)}
+                              </b>
+                            </td>
+                            <td></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
                   ) : (
-                    <table
-                      id="table-to-xlsx"
-                      className={
-                        "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
-                      }
-                    >
-                      <thead>
-                        <tr className="cursor-pointer">
-                          <th>Sl</th>
-                          <th>Mother Vessel</th>
-                          <th>Allotment Quantity</th>
-                          <th>Program Quantity</th>
-                          <th>Extra Allotment Quantity</th>
-                          <th>Challan Quantity</th>
-                          <th>Remaining Quantity</th>
-                          <th>Revenue Rate (TK.)</th>
-                          <th>Item Name</th>
-                          <th>Sold To Partner Name</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {rowData?.map((item, index) => {
-                          return (
-                            <tr key={index}>
-                              <td
-                                style={{ width: "40px" }}
-                                className="text-center"
-                              >
-                                {index + 1}
-                              </td>
-                              <td>{item?.motherVesselName}</td>
-                              <td className="text-center">
-                                {item?.allotmentQuantity}
-                              </td>
-                              <td className="text-center">
-                                {item?.programQuantity}
-                              </td>
-                              <td className="text-center">
-                                {item?.extraAllotmentQuantity}
-                              </td>
-                              <td
-                                className="text-center"
-                                style={
-                                  item?.challanQuantity >
-                                  item?.allotmentQuantity
-                                    ? { backgroundColor: "#f9ee149c" }
-                                    : {}
-                                }
-                              >
-                                {item?.challanQuantity}
-                              </td>
-                              <td
-                                className="text-center"
-                                style={
-                                  item?.remaingQuantity < 0
-                                    ? { backgroundColor: "#ff00007d" }
-                                    : {}
-                                }
-                              >
-                                {item?.remaingQuantity}
-                              </td>
-                              <td className="text-right">
-                                {item?.revenueRate}
-                              </td>
-                              <td>{item?.itemName}</td>
-                              <td>{item?.soldToPartnerName}</td>
-                            </tr>
-                          );
-                        })}
-                      </tbody>
-                    </table>
+                    <div className="table-responsive">
+                      <table
+                        id="table-to-xlsx"
+                        className={
+                          "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+                        }
+                      >
+                        <thead>
+                          <tr className="cursor-pointer">
+                            <th>Sl</th>
+                            <th>Mother Vessel</th>
+                            <th>Allotment Quantity</th>
+                            <th>Program Quantity</th>
+                            <th>Extra Allotment Quantity</th>
+                            <th>Challan Quantity</th>
+                            <th>Remaining Quantity</th>
+                            <th>Revenue Rate (TK.)</th>
+                            <th>Item Name</th>
+                            <th>Sold To Partner Name</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {rowData?.map((item, index) => {
+                            return (
+                              <tr key={index}>
+                                <td
+                                  style={{ width: "40px" }}
+                                  className="text-center"
+                                >
+                                  {index + 1}
+                                </td>
+                                <td>{item?.motherVesselName}</td>
+                                <td className="text-center">
+                                  {item?.allotmentQuantity}
+                                </td>
+                                <td className="text-center">
+                                  {item?.programQuantity}
+                                </td>
+                                <td className="text-center">
+                                  {item?.extraAllotmentQuantity}
+                                </td>
+                                <td
+                                  className="text-center"
+                                  style={
+                                    item?.challanQuantity >
+                                    item?.allotmentQuantity
+                                      ? { backgroundColor: "#f9ee149c" }
+                                      : {}
+                                  }
+                                >
+                                  {item?.challanQuantity}
+                                </td>
+                                <td
+                                  className="text-center"
+                                  style={
+                                    item?.remaingQuantity < 0
+                                      ? { backgroundColor: "#ff00007d" }
+                                      : {}
+                                  }
+                                >
+                                  {item?.remaingQuantity}
+                                </td>
+                                <td className="text-right">
+                                  {item?.revenueRate}
+                                </td>
+                                <td>{item?.itemName}</td>
+                                <td>{item?.soldToPartnerName}</td>
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      </table>
+                    </div>
                   )}
 
                   {rowData?.data?.length > 0 &&

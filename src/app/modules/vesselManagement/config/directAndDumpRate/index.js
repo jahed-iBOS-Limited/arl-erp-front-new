@@ -76,76 +76,84 @@ export default function DirectAndDumpRateLanding() {
               </div>
               {landingData?.length > 0 && (
                 <>
-                  <table className="table table-striped table-bordered inv-table">
-                    <thead>
-                      <tr>
-                        <th>SL</th>
-                        <th>Ship Point Name</th>
-                        <th>Direct Delivery Rate (per bag)</th>
-                        <th>Dump Delivery Rate (per bag)</th>
-                        <th>Dump To Truck Rate (per bag)</th>
-                        <th>Truck To Dam Rate (per bag)</th>
-                        <th>Lighter To Bolgate Rate (per bag)</th>
-                        <th>Bolgate To DamRate (per bag)</th>
-                        <th>Truck To Dam Outside Rate (per bag)</th>
-                        <th>BIWTA Rate (per bag)</th>
-                        <th>Ship Sweeping Rate (per bag)</th>
-                        <th>Scale Rate (per bag)</th>
-                        <th>Daily Labor Rate (per bag)</th>
-                        <th>Others Cost Rate (per bag)</th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {landingData?.map((item, index) => (
-                        <tr key={index}>
-                          <td className="text-center">{index + 1}</td>
-                          <td className="text-center">
-                            {item?.strShipPointName}
-                          </td>
-                          <td className="text-center">{item?.decDirectRate}</td>
-                          <td className="text-center">
-                            {item?.decDumpDeliveryRate}
-                          </td>
-                          <td className="text-center">
-                            {item?.decDamToTruckRate}
-                          </td>
-                          <td className="text-center">
-                            {item?.decTruckToDamRate}
-                          </td>
-                          <td className="text-center">
-                            {item?.decLighterToBolgateRate}
-                          </td>
-                          <td className="text-center">
-                            {item?.decBolgateToDamRate}
-                          </td>
-                          <td className="text-center">
-                            {item?.decTruckToDamOutSideRate}
-                          </td>
-                          <td className="text-center">{item?.decBiwtarate}</td>
-                          <td className="text-center">
-                            {item?.decShipSweepingRate}
-                          </td>
-                          <td className="text-center">{item?.decScaleRate}</td>
-                          <td className="text-center">
-                            {item?.decDailyLaboureRate}
-                          </td>
-                          <td className="text-center">
-                            {item?.decOthersCostRate}
-                          </td>
-
-                          <td className="text-center">
-                            <IEdit
-                              onClick={() => {
-                                setId(item?.intAutoid);
-                                setIsShowEntryForm(true);
-                              }}
-                            />
-                          </td>
+                  <div className="table-responsive">
+                    <table className="table table-striped table-bordered inv-table">
+                      <thead>
+                        <tr>
+                          <th>SL</th>
+                          <th>Ship Point Name</th>
+                          <th>Direct Delivery Rate (per bag)</th>
+                          <th>Dump Delivery Rate (per bag)</th>
+                          <th>Dump To Truck Rate (per bag)</th>
+                          <th>Truck To Dam Rate (per bag)</th>
+                          <th>Lighter To Bolgate Rate (per bag)</th>
+                          <th>Bolgate To DamRate (per bag)</th>
+                          <th>Truck To Dam Outside Rate (per bag)</th>
+                          <th>BIWTA Rate (per bag)</th>
+                          <th>Ship Sweeping Rate (per bag)</th>
+                          <th>Scale Rate (per bag)</th>
+                          <th>Daily Labor Rate (per bag)</th>
+                          <th>Others Cost Rate (per bag)</th>
+                          <th>Action</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody>
+                        {landingData?.map((item, index) => (
+                          <tr key={index}>
+                            <td className="text-center">{index + 1}</td>
+                            <td className="text-center">
+                              {item?.strShipPointName}
+                            </td>
+                            <td className="text-center">
+                              {item?.decDirectRate}
+                            </td>
+                            <td className="text-center">
+                              {item?.decDumpDeliveryRate}
+                            </td>
+                            <td className="text-center">
+                              {item?.decDamToTruckRate}
+                            </td>
+                            <td className="text-center">
+                              {item?.decTruckToDamRate}
+                            </td>
+                            <td className="text-center">
+                              {item?.decLighterToBolgateRate}
+                            </td>
+                            <td className="text-center">
+                              {item?.decBolgateToDamRate}
+                            </td>
+                            <td className="text-center">
+                              {item?.decTruckToDamOutSideRate}
+                            </td>
+                            <td className="text-center">
+                              {item?.decBiwtarate}
+                            </td>
+                            <td className="text-center">
+                              {item?.decShipSweepingRate}
+                            </td>
+                            <td className="text-center">
+                              {item?.decScaleRate}
+                            </td>
+                            <td className="text-center">
+                              {item?.decDailyLaboureRate}
+                            </td>
+                            <td className="text-center">
+                              {item?.decOthersCostRate}
+                            </td>
+
+                            <td className="text-center">
+                              <IEdit
+                                onClick={() => {
+                                  setId(item?.intAutoid);
+                                  setIsShowEntryForm(true);
+                                }}
+                              />
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 </>
               )}
             </Form>

@@ -270,55 +270,57 @@ const GudamAllotmentForm = ({
                   </div>
                 </form>
                 {formType !== "edit" && (
-                  <table
-                    id="table-to-xlsx"
-                    className={
-                      "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
-                    }
-                  >
-                    <thead>
-                      <tr className="cursor-pointer">
-                        {[
-                          "SL",
-                          "Port",
-                          "Carrier Agent",
-                          // "Address",
-                          "Number",
-                          "Action",
-                        ]?.map((th, index) => {
-                          return <th key={index}> {th} </th>;
+                  <div className="table-responsive">
+                    <table
+                      id="table-to-xlsx"
+                      className={
+                        "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+                      }
+                    >
+                      <thead>
+                        <tr className="cursor-pointer">
+                          {[
+                            "SL",
+                            "Port",
+                            "Carrier Agent",
+                            // "Address",
+                            "Number",
+                            "Action",
+                          ]?.map((th, index) => {
+                            return <th key={index}> {th} </th>;
+                          })}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {rows?.map((item, index) => {
+                          return (
+                            <tr key={index}>
+                              <td
+                                style={{ width: "40px" }}
+                                className="text-center"
+                              >
+                                {index + 1}
+                              </td>
+                              <td>{item?.portName}</td>
+                              <td>{item?.carrierName}</td>
+                              {/* <td>{item?.address}</td> */}
+                              <td>{item?.phone}</td>
+                              <td
+                                style={{ width: "80px" }}
+                                className="text-center"
+                              >
+                                <div className="d-flex justify-content-around">
+                                  <span>
+                                    <IDelete remover={remover} id={index} />
+                                  </span>
+                                </div>
+                              </td>
+                            </tr>
+                          );
                         })}
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {rows?.map((item, index) => {
-                        return (
-                          <tr key={index}>
-                            <td
-                              style={{ width: "40px" }}
-                              className="text-center"
-                            >
-                              {index + 1}
-                            </td>
-                            <td>{item?.portName}</td>
-                            <td>{item?.carrierName}</td>
-                            {/* <td>{item?.address}</td> */}
-                            <td>{item?.phone}</td>
-                            <td
-                              style={{ width: "80px" }}
-                              className="text-center"
-                            >
-                              <div className="d-flex justify-content-around">
-                                <span>
-                                  <IDelete remover={remover} id={index} />
-                                </span>
-                              </div>
-                            </td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
+                      </tbody>
+                    </table>
+                  </div>
                 )}
               </CardBody>
             </Card>

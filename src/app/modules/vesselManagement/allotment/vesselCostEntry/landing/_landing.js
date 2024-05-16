@@ -171,146 +171,148 @@ const VesselCostEntry = () => {
                   />
                 </div>
                 {gridData?.length > 0 && (
-                  <table
-                    id="table-to-xlsx"
-                    className={
-                      "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
-                    }
-                  >
-                    <thead>
-                      <tr className="cursor-pointer">
-                        {getHeaders(values)?.map((th, index) => {
-                          return <th key={index}> {th} </th>;
-                        })}
-                      </tr>
-                    </thead>
-                    {values?.type?.value === 1 ? (
-                      <tbody>
-                        {gridData?.map((item, index) => {
-                          totalSurveyQty += item?.numSurveyQnt;
-                          totalChallanQty += item?.NumChallanQntTon;
-                          totalChallanBagQty += item?.NumChallanQntBag;
-                          return (
-                            <tr key={index}>
-                              <td> {index + 1}</td>
-                              <td>{item?.strMotherVesselName}</td>
-                              <td className="text-right">
-                                {_fixedPoint(item?.numSurveyQnt, true)}
-                              </td>
-                              <td className="text-right">
-                                {_fixedPoint(item?.NumChallanQntTon, true)}
-                              </td>
-                              <td className="text-right">
-                                {_fixedPoint(item?.NumChallanQntBag, true)}
-                              </td>
-                              <td>
-                                <div className="d-flex justify-content-around">
-                                  <span className="text-center">
-                                    <IView
-                                      clickHandler={() =>
+                  <div className="table-responsive">
+                    <table
+                      id="table-to-xlsx"
+                      className={
+                        "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+                      }
+                    >
+                      <thead>
+                        <tr className="cursor-pointer">
+                          {getHeaders(values)?.map((th, index) => {
+                            return <th key={index}> {th} </th>;
+                          })}
+                        </tr>
+                      </thead>
+                      {values?.type?.value === 1 ? (
+                        <tbody>
+                          {gridData?.map((item, index) => {
+                            totalSurveyQty += item?.numSurveyQnt;
+                            totalChallanQty += item?.NumChallanQntTon;
+                            totalChallanBagQty += item?.NumChallanQntBag;
+                            return (
+                              <tr key={index}>
+                                <td> {index + 1}</td>
+                                <td>{item?.strMotherVesselName}</td>
+                                <td className="text-right">
+                                  {_fixedPoint(item?.numSurveyQnt, true)}
+                                </td>
+                                <td className="text-right">
+                                  {_fixedPoint(item?.NumChallanQntTon, true)}
+                                </td>
+                                <td className="text-right">
+                                  {_fixedPoint(item?.NumChallanQntBag, true)}
+                                </td>
+                                <td>
+                                  <div className="d-flex justify-content-around">
+                                    <span className="text-center">
+                                      <IView
+                                        clickHandler={() =>
+                                          history.push({
+                                            pathname: `/vessel-management/allotment/vesselcostentry/view/${item?.intMotherVesselId}`,
+                                          })
+                                        }
+                                      />
+                                    </span>
+                                    <span
+                                      className="edit"
+                                      onClick={() => {
                                         history.push({
-                                          pathname: `/vessel-management/allotment/vesselcostentry/view/${item?.intMotherVesselId}`,
-                                        })
-                                      }
-                                    />
-                                  </span>
-                                  <span
-                                    className="edit"
-                                    onClick={() => {
-                                      history.push({
-                                        pathname: `/vessel-management/allotment/vesselcostentry/update/${item?.intMotherVesselId}`,
-                                      });
-                                    }}
-                                  >
-                                    <IEdit title={"Rate Entry"} />
-                                  </span>
-                                </div>
+                                          pathname: `/vessel-management/allotment/vesselcostentry/update/${item?.intMotherVesselId}`,
+                                        });
+                                      }}
+                                    >
+                                      <IEdit title={"Rate Entry"} />
+                                    </span>
+                                  </div>
+                                </td>
+                              </tr>
+                            );
+                          })}
+                          {gridData?.length > 0 && (
+                            <tr style={{ fontWeight: "bold" }}>
+                              <td className="text-right" colSpan={2}>
+                                Total
+                              </td>
+                              <td className="text-right">
+                                {_fixedPoint(totalSurveyQty, true)}
+                              </td>
+                              <td className="text-right">
+                                {_fixedPoint(totalChallanQty, true)}
+                              </td>
+                              <td className="text-right">
+                                {_fixedPoint(totalChallanBagQty, true)}
+                              </td>
+                              <td></td>
+                            </tr>
+                          )}
+                        </tbody>
+                      ) : (
+                        <tbody>
+                          {gridData?.map((item, index) => {
+                            totalQtyTon += item?.quantityTon;
+                            totalQtyBag += item?.quantityBag;
+                            totalVATnTax += item?.vatNtax;
+                            totalDemurrage += item?.demurrage;
+                            totalOthers += item?.others;
+                            return (
+                              <tr key={index}>
+                                <td> {index + 1}</td>
+                                <td>{item?.motherVesselName}</td>
+                                <td>{item?.goDownName}</td>
+                                <td className="text-right">
+                                  {_fixedPoint(item?.quantityTon, true)}
+                                </td>
+                                <td className="text-right">
+                                  {_fixedPoint(item?.quantityBag, true)}
+                                </td>
+                                <td className="text-right">
+                                  {_fixedPoint(item?.revenueRate, true)}
+                                </td>
+                                <td className="text-right">
+                                  {_fixedPoint(item?.revenueRateDollar, true)}
+                                </td>
+                                <td className="text-right">
+                                  {_fixedPoint(item?.vatNtax, true)}
+                                </td>
+                                <td className="text-right">
+                                  {_fixedPoint(item?.demurrage, true)}
+                                </td>
+                                <td className="text-right">
+                                  {_fixedPoint(item?.others, true)}
+                                </td>
+                              </tr>
+                            );
+                          })}
+                          {gridData?.length > 0 && (
+                            <tr style={{ fontWeight: "bold" }}>
+                              <td className="text-right" colSpan={3}>
+                                Total
+                              </td>
+                              <td className="text-right">
+                                {_fixedPoint(totalQtyTon, true)}
+                              </td>
+                              <td className="text-right">
+                                {_fixedPoint(totalQtyBag, true)}
+                              </td>
+                              <td></td>
+                              <td></td>
+                              <td className="text-right">
+                                {_fixedPoint(totalVATnTax, true)}
+                              </td>
+                              <td className="text-right">
+                                {_fixedPoint(totalDemurrage, true)}
+                              </td>
+                              <td className="text-right">
+                                {_fixedPoint(totalOthers, true)}
                               </td>
                             </tr>
-                          );
-                        })}
-                        {gridData?.length > 0 && (
-                          <tr style={{ fontWeight: "bold" }}>
-                            <td className="text-right" colSpan={2}>
-                              Total
-                            </td>
-                            <td className="text-right">
-                              {_fixedPoint(totalSurveyQty, true)}
-                            </td>
-                            <td className="text-right">
-                              {_fixedPoint(totalChallanQty, true)}
-                            </td>
-                            <td className="text-right">
-                              {_fixedPoint(totalChallanBagQty, true)}
-                            </td>
-                            <td></td>
-                          </tr>
-                        )}
-                      </tbody>
-                    ) : (
-                      <tbody>
-                        {gridData?.map((item, index) => {
-                          totalQtyTon += item?.quantityTon;
-                          totalQtyBag += item?.quantityBag;
-                          totalVATnTax += item?.vatNtax;
-                          totalDemurrage += item?.demurrage;
-                          totalOthers += item?.others;
-                          return (
-                            <tr key={index}>
-                              <td> {index + 1}</td>
-                              <td>{item?.motherVesselName}</td>
-                              <td>{item?.goDownName}</td>
-                              <td className="text-right">
-                                {_fixedPoint(item?.quantityTon, true)}
-                              </td>
-                              <td className="text-right">
-                                {_fixedPoint(item?.quantityBag, true)}
-                              </td>
-                              <td className="text-right">
-                                {_fixedPoint(item?.revenueRate, true)}
-                              </td>
-                              <td className="text-right">
-                                {_fixedPoint(item?.revenueRateDollar, true)}
-                              </td>
-                              <td className="text-right">
-                                {_fixedPoint(item?.vatNtax, true)}
-                              </td>
-                              <td className="text-right">
-                                {_fixedPoint(item?.demurrage, true)}
-                              </td>
-                              <td className="text-right">
-                                {_fixedPoint(item?.others, true)}
-                              </td>
-                            </tr>
-                          );
-                        })}
-                        {gridData?.length > 0 && (
-                          <tr style={{ fontWeight: "bold" }}>
-                            <td className="text-right" colSpan={3}>
-                              Total
-                            </td>
-                            <td className="text-right">
-                              {_fixedPoint(totalQtyTon, true)}
-                            </td>
-                            <td className="text-right">
-                              {_fixedPoint(totalQtyBag, true)}
-                            </td>
-                            <td></td>
-                            <td></td>
-                            <td className="text-right">
-                              {_fixedPoint(totalVATnTax, true)}
-                            </td>
-                            <td className="text-right">
-                              {_fixedPoint(totalDemurrage, true)}
-                            </td>
-                            <td className="text-right">
-                              {_fixedPoint(totalOthers, true)}
-                            </td>
-                          </tr>
-                        )}
-                      </tbody>
-                    )}
-                  </table>
+                          )}
+                        </tbody>
+                      )}
+                    </table>
+                  </div>
                 )}
               </form>
             </ICustomCard>

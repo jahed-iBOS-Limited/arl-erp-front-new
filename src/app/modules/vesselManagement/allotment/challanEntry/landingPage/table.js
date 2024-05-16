@@ -266,122 +266,124 @@ const ChallanTable = () => {
                     </div>
                   </div>
                   {rowData?.data?.length > 0 && (
-                    <table
-                      id="table-to-xlsx"
-                      className={
-                        "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
-                      }
-                    >
-                      <thead>
-                        <tr className="cursor-pointer">
-                          {headers?.map((th, index) => {
-                            return <th key={index}> {th} </th>;
-                          })}
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {rowData?.data?.map((item, index) => {
-                          return (
-                            <tr
-                              key={index}
-                              style={
-                                item?.isInventoryApprove
-                                  ? { backgroundColor: "#d4edda" }
-                                  : { backgroundColor: "#f8d7da" }
-                              }
-                            >
-                              <td
-                                style={{ width: "40px" }}
-                                className="text-center"
-                              >
-                                {index + 1}
-                              </td>
-                              <td>{item?.program}</td>
-                              <td>{item?.shipPointName}</td>
-                              <td>{item?.vehicleRegNo}</td>
-                              <td>{item?.driverName}</td>
-                              <td>{item?.driverPhone}</td>
-                              <td>{item?.shipToPartnerName}</td>
-                              <td>{item?.address}</td>
-                              <td>{_dateFormatter(item?.deliveryDate)}</td>
-                              <td className="text-right">
-                                {item?.totalLogsticFare}
-                              </td>
-                              <td className="text-right">
-                                {item?.advanceLogisticeFare}
-                              </td>
-                              <td className="text-right">{item?.dueFare}</td>
-                              <td className="text-right">
-                                {item?.totalDeliveryQuantity}
-                              </td>
-
-                              <td
-                                style={{ width: "80px" }}
-                                className="text-center"
-                              >
-                                {
-                                  <div className="d-flex justify-content-around">
-                                    <span>
-                                      <IEdit
-                                        onClick={() => {
-                                          history.push({
-                                            pathname: `/vessel-management/allotment/challanentry/edit/${item?.deliveryId}`,
-                                            state: values,
-                                          });
-                                        }}
-                                      />
-                                    </span>
-
-                                    <span>
-                                      <ICon
-                                        title="View & Print"
-                                        onClick={() => {
-                                          getChallanById(
-                                            item?.deliveryId,
-                                            setChallanInfo,
-                                            setLoading,
-                                            () => setShow(true)
-                                          );
-                                        }}
-                                      >
-                                        <i class="fas fa-print"></i>
-                                      </ICon>
-                                    </span>
-                                  </div>
+                    <div className="table-responsive">
+                      <table
+                        id="table-to-xlsx"
+                        className={
+                          "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+                        }
+                      >
+                        <thead>
+                          <tr className="cursor-pointer">
+                            {headers?.map((th, index) => {
+                              return <th key={index}> {th} </th>;
+                            })}
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {rowData?.data?.map((item, index) => {
+                            return (
+                              <tr
+                                key={index}
+                                style={
+                                  item?.isInventoryApprove
+                                    ? { backgroundColor: "#d4edda" }
+                                    : { backgroundColor: "#f8d7da" }
                                 }
-                              </td>
-                              <td className="text-center">
-                                {!item?.isInventoryApprove ? (
-                                  <span>
-                                    <IApproval
-                                      title="Approve"
-                                      onClick={() =>
-                                        // approveSubmitlHandler(
-                                        //   item?.deliveryId,
-                                        //   accId
-                                        // )
-                                        {
-                                          if (values?.shipPoint) {
-                                            setSingleItem(item);
-                                            setOpen(true);
-                                          } else {
-                                            toast.warn(
-                                              "Please select a shipPoint"
+                              >
+                                <td
+                                  style={{ width: "40px" }}
+                                  className="text-center"
+                                >
+                                  {index + 1}
+                                </td>
+                                <td>{item?.program}</td>
+                                <td>{item?.shipPointName}</td>
+                                <td>{item?.vehicleRegNo}</td>
+                                <td>{item?.driverName}</td>
+                                <td>{item?.driverPhone}</td>
+                                <td>{item?.shipToPartnerName}</td>
+                                <td>{item?.address}</td>
+                                <td>{_dateFormatter(item?.deliveryDate)}</td>
+                                <td className="text-right">
+                                  {item?.totalLogsticFare}
+                                </td>
+                                <td className="text-right">
+                                  {item?.advanceLogisticeFare}
+                                </td>
+                                <td className="text-right">{item?.dueFare}</td>
+                                <td className="text-right">
+                                  {item?.totalDeliveryQuantity}
+                                </td>
+
+                                <td
+                                  style={{ width: "80px" }}
+                                  className="text-center"
+                                >
+                                  {
+                                    <div className="d-flex justify-content-around">
+                                      <span>
+                                        <IEdit
+                                          onClick={() => {
+                                            history.push({
+                                              pathname: `/vessel-management/allotment/challanentry/edit/${item?.deliveryId}`,
+                                              state: values,
+                                            });
+                                          }}
+                                        />
+                                      </span>
+
+                                      <span>
+                                        <ICon
+                                          title="View & Print"
+                                          onClick={() => {
+                                            getChallanById(
+                                              item?.deliveryId,
+                                              setChallanInfo,
+                                              setLoading,
+                                              () => setShow(true)
                                             );
+                                          }}
+                                        >
+                                          <i class="fas fa-print"></i>
+                                        </ICon>
+                                      </span>
+                                    </div>
+                                  }
+                                </td>
+                                <td className="text-center">
+                                  {!item?.isInventoryApprove ? (
+                                    <span>
+                                      <IApproval
+                                        title="Approve"
+                                        onClick={() =>
+                                          // approveSubmitlHandler(
+                                          //   item?.deliveryId,
+                                          //   accId
+                                          // )
+                                          {
+                                            if (values?.shipPoint) {
+                                              setSingleItem(item);
+                                              setOpen(true);
+                                            } else {
+                                              toast.warn(
+                                                "Please select a shipPoint"
+                                              );
+                                            }
                                           }
                                         }
-                                      }
-                                    />
-                                  </span>
-                                ) : (
-                                  <span>Approved</span>
-                                )}
-                              </td>
-                            </tr>
-                          );
-                        })}
-                      </tbody>
-                    </table>
+                                      />
+                                    </span>
+                                  ) : (
+                                    <span>Approved</span>
+                                  )}
+                                </td>
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      </table>
+                    </div>
                   )}
 
                   {rowData?.data?.length > 0 && (
