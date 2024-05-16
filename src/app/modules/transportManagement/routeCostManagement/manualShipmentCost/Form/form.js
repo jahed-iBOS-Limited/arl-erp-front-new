@@ -1,27 +1,27 @@
 /* eslint-disable eqeqeq */
-import React, { useEffect, useState } from "react";
-import { Formik, Form, Field } from "formik";
-import { useHistory } from "react-router-dom";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import NewSelect from "../../../../_helper/_select";
-import InputField from "../../../../_helper/_inputField";
-import { getComponentDDL, GetSupplierFuelStationDDL_api } from "../helper";
-import ICustomCard from "../../../../_helper/_customCard";
-import { toast } from "react-toastify";
-import {
-  GetVehicleFuelTypeDDL_api,
-  GetSupplierListDDL_api,
-  multipleAttachment_action,
-  getBusinessUnitDDL_api,
-} from "./../helper";
+import { Field, Form, Formik } from "formik";
 import { DropzoneDialogBase } from "material-ui-dropzone";
-import * as Yup from "yup";
-import IView from "./../../../../_helper/_helperIcons/_view";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { toast } from "react-toastify";
+import * as Yup from "yup";
+import IConfirmModal from "../../../../_helper/_confirmModal";
+import ICustomCard from "../../../../_helper/_customCard";
+import IDelete from "../../../../_helper/_helperIcons/_delete";
+import InputField from "../../../../_helper/_inputField";
+import NewSelect from "../../../../_helper/_select";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import { GetSupplierFuelStationDDL_api, getComponentDDL } from "../helper";
+import IView from "./../../../../_helper/_helperIcons/_view";
 import { getDownlloadFileView_Action } from "./../../../../_helper/_redux/Actions";
 import { compressfile } from "./../../../../_helper/compressfile";
-import IConfirmModal from "../../../../_helper/_confirmModal";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import {
+  GetSupplierListDDL_api,
+  GetVehicleFuelTypeDDL_api,
+  getBusinessUnitDDL_api,
+  multipleAttachment_action,
+} from "./../helper";
 // Validation schema
 const validationSchema = Yup.object().shape({
   whName: Yup.object().shape({
@@ -123,6 +123,23 @@ export default function _Form({
   ] = useAxiosGet();
   const [costCenterDDL, getCostCenterDDL] = useAxiosGet();
   const [costElementDDL, getCostElementDDL] = useAxiosGet();
+  const [windowSize, setWindowSize] = useState({
+    width: window.innerWidth,
+});
+const handleResize = () => {
+  setWindowSize({
+      width: window.innerWidth,
+  });
+};
+
+useEffect(() => {
+  window.addEventListener('resize', handleResize);
+  return () => {
+      window.removeEventListener('resize', handleResize);
+  };
+}, []);
+
+
 
   useEffect(() => {
     getProfitCenterDDL(
@@ -310,7 +327,7 @@ export default function _Form({
           >
             <>
               <Form className="form form-label-right position-relative">
-                <p style={{ position: "absolute", top: "-46px", left: "45%" }}>
+                <p style={windowSize?.width>1000 ? { position: "absolute", top: "-46px", left: "45%" } : {marginTop:"10px",textAlign:"center"}}>
                   <b>Pay to Driver: </b>
                   {netPayable || 0}
                 </p>

@@ -104,6 +104,21 @@ function DeliveryScheduleplanReport() {
     return state.commonDDL.shippointDDL;
   }, shallowEqual);
   const printRef = useRef();
+  const [windowSize, setWindowSize] = useState({
+    width: window.innerWidth,
+  });
+  const handleResize = () => {
+    setWindowSize({
+      width: window.innerWidth,
+    });
+  };
+
+  useEffect(() => {
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   React.useEffect(() => {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
@@ -432,95 +447,26 @@ function DeliveryScheduleplanReport() {
                               })}
                             </Tabs>
                           </div>
-
-                          <div className="col-lg-2">
-                            <label>From Date</label>
-                            <InputField
-                              value={values?.fromDate}
-                              name="fromDate"
-                              placeholder="From Date"
-                              type="date"
-                              onChange={(e) => {
-                                setGridData([]);
-                                setFieldValue("fromDate", e.target.value);
-                              }}
-                            />
-                          </div>
-
-                          <div className="col-lg-2">
-                            <label>To Date</label>
-                            <InputField
-                              value={values?.toDate}
-                              name="toDate"
-                              placeholder="To Date"
-                              type="date"
-                              onChange={(e) => {
-                                setFieldValue("toDate", e.target.value);
-                                setGridData([]);
-                              }}
-                            />
-                          </div>
-
-                          <div className="col">
-                            <div className="d-flex justify-content-between align-items-center">
-                              <button
-                                type="button"
-                                style={{ marginTop: "17px" }}
-                                disabled={
-                                  !values?.fromDate ||
-                                  !values?.toDate ||
-                                  !values?.shipPoint
-                                }
-                                onClick={() => {
-                                  setGridData([]);
-                                  commonGridApi(values);
-                                  setFieldValue("isMoreFiter", false);
-                                  setFieldValue("channel", "");
-                                  setFieldValue("region", "");
-                                  setFieldValue("area", "");
-                                  setFieldValue("territory", "");
-                                }}
-                                className="btn btn-primary"
-                              >
-                                Show
-                              </button>
-                              <div className="d-flex justify-content-center align-items-center">
-                                <label className="mr-1" for="isMoreFiter">
-                                  More Filter
-                                </label>
-                                <input
-                                  id="isMoreFiter"
-                                  value={values?.isMoreFiter}
-                                  name="isMoreFiter"
-                                  checked={values?.isMoreFiter}
-                                  onChange={(e) => {
-                                    setFieldValue(
-                                      "isMoreFiter",
-                                      e.target.checked
-                                    );
-                                    setFieldValue("channel", "");
-                                    setFieldValue("region", "");
-                                    setFieldValue("area", "");
-                                    setFieldValue("territory", "");
-
-                                    filterGridDataFunc(
-                                      {
-                                        ...values,
-                                        channel: "",
-                                        region: "",
-                                        area: "",
-                                        territory: "",
-                                      },
-                                      gridDataWithOutFilter
-                                    );
-                                  }}
-                                  type="checkbox"
-                                  className="mt-1"
-                                />
-                              </div>
-                            </div>
-                          </div>
+                          {windowSize?.width > 600 && <RestElements 
+                          values={values}
+                          setFieldValue={setFieldValue}
+                          setGridData={setGridData}
+                          commonGridApi={commonGridApi}
+                          filterGridDataFunc={filterGridDataFunc}
+                          gridDataWithOutFilter={gridDataWithOutFilter}
+                          mobileResponsive={false}
+                          />}
                         </Paper>
+                        {/* Duplicate for responsive  */}
+                        {windowSize?.width < 600 && <RestElements 
+                          values={values}
+                          setFieldValue={setFieldValue}
+                          setGridData={setGridData}
+                          commonGridApi={commonGridApi}
+                          filterGridDataFunc={filterGridDataFunc}
+                          gridDataWithOutFilter={gridDataWithOutFilter}
+                          mobileResponsive={true}
+                          />}
                       </div>
                       {values?.isMoreFiter && (
                         <>
@@ -911,3 +857,101 @@ function DeliveryScheduleplanReport() {
 }
 
 export default DeliveryScheduleplanReport;
+
+const RestElements = ({
+  values,
+  setFieldValue,
+  setGridData,
+  commonGridApi,
+  filterGridDataFunc,
+  gridDataWithOutFilter,
+  mobileResponsive
+
+}) => {
+  return (
+    <>
+      <div className={`col-lg-2 ${mobileResponsive && "col-sm-12"}`}>
+        <label>From Date</label>
+        <InputField
+          value={values?.fromDate}
+          name="fromDate"
+          placeholder="From Date"
+          type="date"
+          onChange={(e) => {
+            setGridData([]);
+            setFieldValue("fromDate", e.target.value);
+          }}
+        />
+      </div>
+
+      <div className={`col-lg-2 ${mobileResponsive && "col-sm-12"}`}>
+        <label>To Date</label>
+        <InputField
+          value={values?.toDate}
+          name="toDate"
+          placeholder="To Date"
+          type="date"
+          onChange={(e) => {
+            setFieldValue("toDate", e.target.value);
+            setGridData([]);
+          }}
+        />
+      </div>
+
+      <div className={`col-lg-2 ${mobileResponsive && "col-sm-12"}`}>
+        <div className="d-flex justify-content-between align-items-center">
+          <button
+            type="button"
+            style={{ marginTop: "17px" }}
+            disabled={
+              !values?.fromDate || !values?.toDate || !values?.shipPoint
+            }
+            onClick={() => {
+              setGridData([]);
+              commonGridApi(values);
+              setFieldValue("isMoreFiter", false);
+              setFieldValue("channel", "");
+              setFieldValue("region", "");
+              setFieldValue("area", "");
+              setFieldValue("territory", "");
+            }}
+            className="btn btn-primary"
+          >
+            Show
+          </button>
+          <div className="d-flex justify-content-center align-items-center">
+            <label className="mr-1" htmlFor="isMoreFiter">
+              More Filter
+            </label>
+            <input
+              id="isMoreFiter"
+              value={values?.isMoreFiter}
+              name="isMoreFiter"
+              checked={values?.isMoreFiter}
+              onChange={(e) => {
+                setFieldValue("isMoreFiter", e.target.checked);
+                setFieldValue("channel", "");
+                setFieldValue("region", "");
+                setFieldValue("area", "");
+                setFieldValue("territory", "");
+
+                filterGridDataFunc(
+                  {
+                    ...values,
+                    channel: "",
+                    region: "",
+                    area: "",
+                    territory: "",
+                  },
+                  gridDataWithOutFilter
+                );
+              }}
+              type="checkbox"
+              className="mt-1"
+            />
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
