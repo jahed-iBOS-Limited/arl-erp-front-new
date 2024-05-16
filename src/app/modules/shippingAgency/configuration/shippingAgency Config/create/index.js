@@ -452,40 +452,42 @@ export default function ShippingAgencyCreateEditForm() {
 
               {!id && (
                 <div className="mt-7">
-                  <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm">
-                    <thead>
-                      <tr className="cursor-pointer">
-                        <th>Sl</th>
-                        <th>Business Transaction Name</th>
-                        <th>Vessel Type</th>
-                        <th>Vessel Name</th>
-                        <th>Cost Center</th>
-                        <th>Cost Element</th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {rowData?.map((item, index) => (
-                        <tr key={index}>
-                          <td>{index + 1}</td>
-                          <td>{item?.businessTransactionName}</td>
-                          <td>{item?.vesselTypeName}</td>
-                          <td>{item?.vesselName}</td>
-                          <td>{item?.transferCostCenterName}</td>
-                          <td>{item?.transferCostElementName}</td>
-                          <td className="text-center">
-                            <span
-                              onClick={() => {
-                                handleDelete(index);
-                              }}
-                            >
-                              <IDelete />
-                            </span>
-                          </td>
+                  <div className="table-responsive">
+                    <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm">
+                      <thead>
+                        <tr className="cursor-pointer">
+                          <th>Sl</th>
+                          <th>Business Transaction Name</th>
+                          <th>Vessel Type</th>
+                          <th>Vessel Name</th>
+                          <th>Cost Center</th>
+                          <th>Cost Element</th>
+                          <th>Action</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody>
+                        {rowData?.map((item, index) => (
+                          <tr key={index}>
+                            <td>{index + 1}</td>
+                            <td>{item?.businessTransactionName}</td>
+                            <td>{item?.vesselTypeName}</td>
+                            <td>{item?.vesselName}</td>
+                            <td>{item?.transferCostCenterName}</td>
+                            <td>{item?.transferCostElementName}</td>
+                            <td className="text-center">
+                              <span
+                                onClick={() => {
+                                  handleDelete(index);
+                                }}
+                              >
+                                <IDelete />
+                              </span>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               )}
 

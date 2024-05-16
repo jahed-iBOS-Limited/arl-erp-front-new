@@ -195,88 +195,93 @@ export default function ShippingAgencyLanding() {
               </div>
 
               <div className="mt-7">
-                <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm">
-                  <thead>
-                    <tr className="cursor-pointer">
-                      <th>Sl</th>
-                      <th>Business Transaction</th>
-                      <th>Vessel Type</th>
-                      <th>Vessel Name</th>
-                      <th>Profit Center</th>
-                      <th>Revenue Center</th>
-                      <th>Transfer Business</th>
-                      <th>Transfer ProfitCenter</th>
-                      <th>T.Cost Center</th>
-                      <th>T.Cost Element</th>
-                      <th>Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {rowData?.data?.map((item, index) => (
-                      <tr key={index}>
-                        <td className="text-center">{index + 1}</td>
-                        <td className="text-center">
-                          {item?.businessTransactionName}
-                        </td>
-                        <td className="text-center">{item?.vesselTypeName}</td>
-                        <td className="text-center">{item?.vesselName}</td>
-                        <td className="text-center">
-                          {item?.profitCenterName}
-                        </td>
-                        <td className="text-center">
-                          {item?.revenueCenterName}
-                        </td>
-                        <td className="text-center">
-                          {item?.transferBusinessName}
-                        </td>
-                        <td className="text-center">
-                          {item?.transferProfitCenterName}
-                        </td>
-                        <td className="text-center">
-                          {item?.transferCostCenterName}
-                        </td>
-                        <td className="text-center">
-                          {item?.transferCostElementName}
-                        </td>
-                        <td className="text-center ">
-                          <div
-                            style={{
-                              display: "flex",
-                              gap: "2px",
-                              justifyContent: "center",
-                            }}
-                          >
-                            <span
-                              onClick={() =>
-                                history.push(
-                                  `/ShippingAgency/Configuration/ShippingAgencyConfig/edit/${item?.id}`,
-                                  item
-                                )
-                              }
-                            >
-                              <IEdit />
-                            </span>
-                            <span
-                              style={{ marginLeft: "5px" }}
-                              onClick={() => {
-                                deleteShipAgency(
-                                  item?.id,
-                                  buId,
-                                  setLoading,
-                                  () => {
-                                    commonGridData(pageNo, pageSize, values);
-                                  }
-                                );
+                <div className="table-responsive">
+                  <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm">
+                    <thead>
+                      <tr className="cursor-pointer">
+                        <th>Sl</th>
+                        <th>Business Transaction</th>
+                        <th>Vessel Type</th>
+                        <th>Vessel Name</th>
+                        <th>Profit Center</th>
+                        <th>Revenue Center</th>
+                        <th>Transfer Business</th>
+                        <th>Transfer ProfitCenter</th>
+                        <th>T.Cost Center</th>
+                        <th>T.Cost Element</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {rowData?.data?.map((item, index) => (
+                        <tr key={index}>
+                          <td className="text-center">{index + 1}</td>
+                          <td className="text-center">
+                            {item?.businessTransactionName}
+                          </td>
+                          <td className="text-center">
+                            {item?.vesselTypeName}
+                          </td>
+                          <td className="text-center">{item?.vesselName}</td>
+                          <td className="text-center">
+                            {item?.profitCenterName}
+                          </td>
+                          <td className="text-center">
+                            {item?.revenueCenterName}
+                          </td>
+                          <td className="text-center">
+                            {item?.transferBusinessName}
+                          </td>
+                          <td className="text-center">
+                            {item?.transferProfitCenterName}
+                          </td>
+                          <td className="text-center">
+                            {item?.transferCostCenterName}
+                          </td>
+                          <td className="text-center">
+                            {item?.transferCostElementName}
+                          </td>
+                          <td className="text-center ">
+                            <div
+                              style={{
+                                display: "flex",
+                                gap: "2px",
+                                justifyContent: "center",
                               }}
                             >
-                              <IDelete />
-                            </span>
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+                              <span
+                                onClick={() =>
+                                  history.push(
+                                    `/ShippingAgency/Configuration/ShippingAgencyConfig/edit/${item?.id}`,
+                                    item
+                                  )
+                                }
+                              >
+                                <IEdit />
+                              </span>
+                              <span
+                                style={{ marginLeft: "5px" }}
+                                onClick={() => {
+                                  deleteShipAgency(
+                                    item?.id,
+                                    buId,
+                                    setLoading,
+                                    () => {
+                                      commonGridData(pageNo, pageSize, values);
+                                    }
+                                  );
+                                }}
+                              >
+                                <IDelete />
+                              </span>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+
                 {rowData?.data?.length > 0 && (
                   <PaginationTable
                     count={rowData?.totalCount}

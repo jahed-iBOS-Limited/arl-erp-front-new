@@ -241,29 +241,29 @@ const EstimatePDACreate = () => {
                     }
               }
             >
-              <div className='row global-form my-3'>
-                <div className='col-lg-3'>
+              <div className="row global-form my-3">
+                <div className="col-lg-3">
                   <NewSelect
                     options={vesselTypeDDL || []}
-                    name='vesselType'
+                    name="vesselType"
                     onChange={(valueOption) => {
                       setFieldValue("vesselType", valueOption);
                     }}
-                    placeholder='Vessel Type'
-                    label='Vessel Type'
+                    placeholder="Vessel Type"
+                    label="Vessel Type"
                     value={values?.vesselType}
                     errors={errors}
                     touched={touched}
                     isDisabled={viewId}
                   />
                 </div>
-                <div className='col-lg-3'>
+                <div className="col-lg-3">
                   <NewSelect
                     value={values?.vesselName || ""}
                     options={vesselDDL || []}
-                    name='vesselName'
-                    placeholder='Vessel Name'
-                    label='Vessel Name'
+                    name="vesselName"
+                    placeholder="Vessel Name"
+                    label="Vessel Name"
                     onChange={(valueOption) => {
                       setFieldValue("vesselName", valueOption);
                     }}
@@ -272,59 +272,59 @@ const EstimatePDACreate = () => {
                     isDisabled={viewId}
                   />
                 </div>
-                <div className='col-lg-3'>
+                <div className="col-lg-3">
                   <label>Voyage No</label>
                   <InputField
                     value={values?.voyageNo}
-                    name='voyageNo'
-                    type='number'
+                    name="voyageNo"
+                    type="number"
                     onChange={(e) => {
                       setFieldValue("voyageNo", e.target.value);
                     }}
-                    placeholder='Voyage No'
+                    placeholder="Voyage No"
                     disabled={viewId}
                   />
                 </div>{" "}
-                <div className='col-lg-3'>
+                <div className="col-lg-3">
                   <label>Voyage Owner Name</label>
                   <InputField
                     value={values?.voyageOwnerName}
-                    placeholder='Voyage Owner Name'
-                    name='voyageOwnerName'
-                    type='text'
+                    placeholder="Voyage Owner Name"
+                    name="voyageOwnerName"
+                    type="text"
                     onChange={(e) => {
                       setFieldValue("voyageOwnerName", e.target.value);
                     }}
                     disabled={viewId}
                   />
                 </div>{" "}
-                <div className='col-lg-3'>
+                <div className="col-lg-3">
                   <label>REG No</label>
                   <InputField
                     value={values?.regNo}
-                    placeholder='REG No'
-                    name='regNo'
-                    type='text'
+                    placeholder="REG No"
+                    name="regNo"
+                    type="text"
                     onChange={(e) => {
                       setFieldValue("regNo", e.target.value);
                     }}
                     disabled={viewId}
                   />
                 </div>
-                <div className='col-lg-3'>
+                <div className="col-lg-3">
                   <label>Custom SL</label>
                   <InputField
                     value={values?.customSl}
-                    placeholder='Custom SL'
-                    name='customSl'
-                    type='text'
+                    placeholder="Custom SL"
+                    name="customSl"
+                    type="text"
                     onChange={(e) => {
                       setFieldValue("customSl", e.target.value);
                     }}
                     disabled={viewId}
                   />
                 </div>
-                <div className='col-lg-3'>
+                <div className="col-lg-3">
                   <div>
                     <label>Load Port</label>
                     <SearchAsyncSelect
@@ -332,7 +332,7 @@ const EstimatePDACreate = () => {
                       handleChange={(valueOption) => {
                         setFieldValue("loadPort", valueOption);
                       }}
-                      placeholder='Search minimum 3 characters...'
+                      placeholder="Search minimum 3 characters..."
                       loadOptions={(v) => {
                         if (v?.length < 3) return [];
                         return axios
@@ -345,81 +345,81 @@ const EstimatePDACreate = () => {
                     />
                     <FormikError
                       errors={errors}
-                      name='loadPort'
+                      name="loadPort"
                       touched={touched}
                     />
                   </div>
                 </div>
-                <div className='col-lg-3'>
+                <div className="col-lg-3">
                   <label>Arrived Time</label>
                   <InputField
                     value={values?.arrivedTime}
-                    placeholder='Arrived Time'
-                    name='arrivedTime'
-                    type='datetime-local'
+                    placeholder="Arrived Time"
+                    name="arrivedTime"
+                    type="datetime-local"
                     onChange={(e) => {
                       setFieldValue("arrivedTime", e.target.value);
                     }}
                     disabled={viewId}
                   />
                 </div>
-                <div className='col-lg-3'>
+                <div className="col-lg-3">
                   <label>Sailed Time</label>
                   <InputField
                     value={values?.sailedTime}
-                    placeholder='Sailed Time'
-                    name='sailedTime'
-                    type='datetime-local'
+                    placeholder="Sailed Time"
+                    name="sailedTime"
+                    type="datetime-local"
                     onChange={(e) => {
                       setFieldValue("sailedTime", e.target.value);
                     }}
                     disabled={viewId}
                   />
                 </div>
-                <div className='col-lg-3'>
+                <div className="col-lg-3">
                   <label>Stevedore</label>
                   <InputField
                     value={values?.stevedore}
-                    placeholder='Stevedore'
-                    name='stevedore'
-                    type='text'
+                    placeholder="Stevedore"
+                    name="stevedore"
+                    type="text"
                     onChange={(e) => {
                       setFieldValue("stevedore", e.target.value);
                     }}
                     disabled={viewId}
                   />
                 </div>{" "}
-                <div className='col-lg-3'>
+                <div className="col-lg-3">
                   <label>Remarks</label>
                   <InputField
                     value={values?.remarks}
-                    placeholder='Remarks'
-                    name='remarks'
-                    type='text'
+                    placeholder="Remarks"
+                    name="remarks"
+                    type="text"
                     onChange={(e) => {
                       setFieldValue("remarks", e.target.value);
                     }}
                     disabled={viewId}
                   />
                 </div>
-                <div className='col-lg-12'>
+                <div className="col-lg-12">
                   <hr />
                 </div>
                 {!viewId && (
                   <>
-                    <div className='col-lg-3'>
+                    <div className="col-lg-3">
                       <label>Completion Date</label>
                       <InputField
                         value={values?.completionDate || ""}
-                        placeholder='Completion Date'
-                        name='completionDate'
-                        type='date'
+                        placeholder="Completion Date"
+                        name="completionDate"
+                        type="date"
                         onChange={(e) => {
                           setFieldValue("completionDate", e.target.value);
                         }}
                       />
                     </div>
-                    <div className='col-lg-3'>
+                    <div className="col-lg-3">
                       <div>
                         <label>Discharge Port</label>
                         <SearchAsyncSelect
@@ -427,7 +427,7 @@ const EstimatePDACreate = () => {
                           handleChange={(valueOption) => {
                             setFieldValue("dischargePort", valueOption);
                           }}
-                          placeholder='Search minimum 3 characters...'
+                          placeholder="Search minimum 3 characters..."
                           loadOptions={(v) => {
                             if (v?.length < 3) return [];
                             return axios
@@ -439,18 +439,18 @@ const EstimatePDACreate = () => {
                         />
                         <FormikError
                           errors={errors}
-                          name='dischargePort'
+                          name="dischargePort"
                           touched={touched}
                         />
                       </div>
                     </div>
-                    <div className='col-lg-3'>
+                    <div className="col-lg-3">
                       <NewSelect
                         value={values?.cargoName || ""}
                         options={cargoDDL}
-                        name='cargoName'
-                        placeholder='Cargo Name'
-                        label='Cargo Name'
+                        name="cargoName"
+                        placeholder="Cargo Name"
+                        label="Cargo Name"
                         onChange={(valueOption) => {
                           setFieldValue("cargoName", valueOption);
                         }}
@@ -459,35 +459,35 @@ const EstimatePDACreate = () => {
                         isDisabled={viewId}
                       />
                     </div>
-                    <div className='col-lg-3'>
+                    <div className="col-lg-3">
                       <label>Cargo Owner</label>
                       <InputField
                         value={values?.cargoOwner}
-                        placeholder='Cargo Owner'
-                        name='cargoOwner'
-                        type='text'
+                        placeholder="Cargo Owner"
+                        name="cargoOwner"
+                        type="text"
                         onChange={(e) => {
                           setFieldValue("cargoOwner", e.target.value);
                         }}
                         disabled={viewId}
                       />
                     </div>
-                    <div className='col-lg-3'>
+                    <div className="col-lg-3">
                       <label>Quantity</label>
                       <InputField
                         value={values?.quantity}
-                        placeholder='Quantity'
-                        name='quantity'
-                        type='number'
+                        placeholder="Quantity"
+                        name="quantity"
+                        type="number"
                         onChange={(e) => {
                           setFieldValue("quantity", e.target.value);
                         }}
                         disabled={viewId}
                       />
                     </div>
-                    <div className='col-lg-3 mt-3'>
+                    <div className="col-lg-3 mt-3">
                       <button
-                        className='btn btn-primary mt-3'
+                        className="btn btn-primary mt-3"
                         onClick={() => {
                           const obj = {
                             rowId: 0,
@@ -526,65 +526,67 @@ const EstimatePDACreate = () => {
                   </>
                 )}
               </div>
-              <table className='table table-striped table-bordered global-table'>
-                <thead>
-                  <tr>
-                    <th>SL</th>
-                    <th>Completion Date</th>
-                    <th>Discharge Port</th>
-                    <th>Cargo Name</th>
-                    <th>Cargo Owner</th>
-                    <th>Quantity</th>
-                    {!viewId && <th>Action</th>}
-                  </tr>
-                </thead>
-                <tbody>
-                  {rowDto?.map((item, index) => (
-                    <tr key={index}>
-                      <td className='text-center'> {index + 1}</td>
-                      <td>{_dateFormatter(item?.completionDate)}</td>
-                      <td>{item?.dischargePortName}</td>
-                      <td>{item?.cargoName}</td>
-                      <td>{item?.cargoOwner}</td>
-                      <td>{item?.quantity}</td>
-                      {!viewId && (
-                        <td>
-                          <div
-                            className='d-flex justify-content-around'
-                            style={{
-                              gap: "8px",
-                            }}
-                          >
-                            <span
-                              onClick={() => {
-                                const copyRowDto = [...rowDto];
-                                copyRowDto.splice(index, 1);
-                                setRowDto(copyRowDto);
+              <div className="table-responsive">
+                <table className="table table-striped table-bordered global-table">
+                  <thead>
+                    <tr>
+                      <th>SL</th>
+                      <th>Completion Date</th>
+                      <th>Discharge Port</th>
+                      <th>Cargo Name</th>
+                      <th>Cargo Owner</th>
+                      <th>Quantity</th>
+                      {!viewId && <th>Action</th>}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {rowDto?.map((item, index) => (
+                      <tr key={index}>
+                        <td className="text-center"> {index + 1}</td>
+                        <td>{_dateFormatter(item?.completionDate)}</td>
+                        <td>{item?.dischargePortName}</td>
+                        <td>{item?.cargoName}</td>
+                        <td>{item?.cargoOwner}</td>
+                        <td>{item?.quantity}</td>
+                        {!viewId && (
+                          <td>
+                            <div
+                              className="d-flex justify-content-around"
+                              style={{
+                                gap: "8px",
                               }}
                             >
-                              <IDelete />
-                            </span>
-                          </div>
-                        </td>
-                      )}
-                    </tr>
-                  ))}
-                  <tr>
-                    <td className='text-right' colSpan={5}>
-                      <b>Total</b>
-                    </td>
-                    <td>
-                      <b>
-                        {rowDto?.reduce(
-                          (acc, cur) => acc + (+cur?.quantity || 0),
-                          0
+                              <span
+                                onClick={() => {
+                                  const copyRowDto = [...rowDto];
+                                  copyRowDto.splice(index, 1);
+                                  setRowDto(copyRowDto);
+                                }}
+                              >
+                                <IDelete />
+                              </span>
+                            </div>
+                          </td>
                         )}
-                      </b>
-                    </td>
-                    {!viewId && <td></td>}
-                  </tr>
-                </tbody>
-              </table>
+                      </tr>
+                    ))}
+                    <tr>
+                      <td className="text-right" colSpan={5}>
+                        <b>Total</b>
+                      </td>
+                      <td>
+                        <b>
+                          {rowDto?.reduce(
+                            (acc, cur) => acc + (+cur?.quantity || 0),
+                            0
+                          )}
+                        </b>
+                      </td>
+                      {!viewId && <td></td>}
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </ICustomCard>
           </>
         )}
