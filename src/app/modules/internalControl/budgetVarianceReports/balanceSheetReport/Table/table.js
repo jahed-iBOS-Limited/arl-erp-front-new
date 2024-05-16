@@ -127,6 +127,22 @@ export default function BalancerReportTable() {
     return agingParameters;
   };
 
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768); // You can adjust the breakpoint as needed
+    };
+
+    // Initial check
+    handleResize();
+
+    // Event listener for window resize
+    window.addEventListener("resize", handleResize);
+
+    // Cleanup
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
   return (
     <>
       <>
@@ -273,7 +289,7 @@ export default function BalancerReportTable() {
                       <button
                         type="button"
                         className="btn btn-primary sales_invoice_btn"
-                        style={{ float: "right"}}
+                        style={{ float: "right" }}
                       >
                         Print
                       </button>
@@ -315,7 +331,7 @@ export default function BalancerReportTable() {
                         <></>
                       )}
                     </div>
-                    <div style={{ width: 600, margin: "auto" }}>
+                    <div style={isMobile ? {} : { width: 600, margin: "auto" }}>
                       <div className="my-5">
                         <div className="table-responsive">
                           <table id="table-to-xlsx" className="w-full">

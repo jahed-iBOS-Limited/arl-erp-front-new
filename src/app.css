@@ -327,6 +327,22 @@ body {
 
   .inventory-statement-report thead th:nth-child(2) {
     position: unset;
+  }
+
+  .two-column-sticky thead th:nth-child(2) {
+    position: unset;
+  }
+
+  .two-column-sticky tbody td:nth-child(2) {
+    position: unset;
+  }
+
+  .three-column-sticky thead th:nth-child(2) {
+    position: unset;
+  }
+
+  .three-column-sticky tbody td:nth-child(2) {
+    position: unset;
 
   }
 }

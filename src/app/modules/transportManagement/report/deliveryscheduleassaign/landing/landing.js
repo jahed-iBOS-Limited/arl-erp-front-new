@@ -2,7 +2,7 @@ import { Paper, Tab, Tabs, makeStyles } from "@material-ui/core";
 import Axios from "axios";
 import { Form, Formik } from "formik";
 import moment from "moment";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import ReactToPrint from "react-to-print";
 import { toast } from "react-toastify";
@@ -20,6 +20,7 @@ import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
 import NewSelect from "../../../../_helper/_select";
 import { _todayDate } from "../../../../_helper/_todayDate";
+import IViewModal from "../../../../_helper/_viewModal";
 import printIcon from "../../../../_helper/images/print-icon.png";
 import {
   GetShipmentTypeApi,
@@ -27,10 +28,9 @@ import {
   getAssignedDeliveryVehicleProvider,
   saveAssignDeliveryVehicleSupplier,
 } from "../helper";
+import LogisticByUpdateModal from "./logisticByUpdateModal";
 import RATForm from "./ratForm";
 import "./style.scss";
-import IViewModal from "../../../../_helper/_viewModal";
-import LogisticByUpdateModal from "./logisticByUpdateModal";
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
@@ -82,6 +82,21 @@ function DeliveryScheduleAssignReport() {
     return state.commonDDL.shippointDDL;
   }, shallowEqual);
   const printRef = useRef();
+  const [windowSize, setWindowSize] = useState({
+    width: window.innerWidth,
+  });
+  const handleResize = () => {
+    setWindowSize({
+      width: window.innerWidth,
+    });
+  };
+
+  useEffect(() => {
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   React.useEffect(() => {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
@@ -394,70 +409,27 @@ function DeliveryScheduleAssignReport() {
                             </Tabs>
                           </div>
 
-                          <div className='col-lg-2'>
-                            <label>From Date</label>
-                            <InputField
-                              value={values?.fromDate}
-                              name='fromDate'
-                              placeholder='From Date'
-                              type='date'
-                              onChange={(e) => {
-                                setGridData([]);
-                                setFieldValue("fromDate", e.target.value);
-                              }}
-                            />
-                          </div>
-
-                          <div className='col-lg-2'>
-                            <label>To Date</label>
-                            <InputField
-                              value={values?.toDate}
-                              name='toDate'
-                              placeholder='To Date'
-                              type='date'
-                              onChange={(e) => {
-                                setFieldValue("toDate", e.target.value);
-                                setGridData([]);
-                              }}
-                            />
-                          </div>
-
-                          <div className='col d-flex align-items-center'>
-                            <div className='d-flex justify-content-center align-items-center'>
-                              <label className='mr-1' for='isMoreFiter'>
-                                More Filter
-                              </label>
-                              <input
-                                id='isMoreFiter'
-                                value={values?.isMoreFiter}
-                                name='isMoreFiter'
-                                checked={values?.isMoreFiter}
-                                onChange={(e) => {
-                                  setFieldValue(
-                                    "isMoreFiter",
-                                    e.target.checked
-                                  );
-                                  setFieldValue("channel", "");
-                                  setFieldValue("region", "");
-                                  setFieldValue("area", "");
-                                  setFieldValue("territory", "");
-                                  filterGridDataFunc(
-                                    {
-                                      ...values,
-                                      channel: "",
-                                      region: "",
-                                      area: "",
-                                      territory: "",
-                                    },
-                                    gridDataWithOutFilter
-                                  );
-                                }}
-                                type='checkbox'
-                                className='mt-1'
-                              />
-                            </div>
-                          </div>
+                         {
+                          windowSize?.width > 600 &&<RestElements 
+                          values={values}
+                          setFieldValue={setFieldValue}
+                          setGridData={setGridData}
+                          filterGridDataFunc={filterGridDataFunc}
+                          gridDataWithOutFilter={gridDataWithOutFilter}
+                          isMobileResponsive={false}
+                          />
+                         }
                         </Paper>
+                        {
+                          windowSize?.width < 600 &&<RestElements 
+                          values={values}
+                          setFieldValue={setFieldValue}
+                          setGridData={setGridData}
+                          filterGridDataFunc={filterGridDataFunc}
+                          gridDataWithOutFilter={gridDataWithOutFilter}
+                          isMobileResponsive={false}
+                          />
+                         }
                       </div>
                       {values?.isMoreFiter && (
                         <>
@@ -885,3 +857,78 @@ function Table({
     </>
   );
 }
+
+
+const RestElements = ({
+  values,
+  setFieldValue,
+  setGridData,
+  filterGridDataFunc,
+  gridDataWithOutFilter,
+  isMobileResponsive
+}) => {
+  return (
+    <>
+      <div className={`col-lg-2 ${isMobileResponsive && "col-sm-12"}`}>
+        <label>From Date</label>
+        <InputField
+          value={values?.fromDate}
+          name='fromDate'
+          placeholder='From Date'
+          type='date'
+          onChange={(e) => {
+            setGridData([]);
+            setFieldValue("fromDate", e.target.value);
+          }}
+        />
+      </div>
+
+      <div className={`col-lg-2 ${isMobileResponsive && "col-sm-12"}`}>
+        <label>To Date</label>
+        <InputField
+          value={values?.toDate}
+          name='toDate'
+          placeholder='To Date'
+          type='date'
+          onChange={(e) => {
+            setFieldValue("toDate", e.target.value);
+            setGridData([]);
+          }}
+        />
+      </div>
+
+      <div className={`col ${isMobileResponsive && "col-sm-12"} d-flex align-items-center`}>
+        <div className='d-flex justify-content-center align-items-center'>
+          <label className='mr-1' htmlFor='isMoreFiter'>
+            More Filter
+          </label>
+          <input
+            id='isMoreFiter'
+            value={values?.isMoreFiter}
+            name='isMoreFiter'
+            checked={values?.isMoreFiter}
+            onChange={(e) => {
+              setFieldValue("isMoreFiter", e.target.checked);
+              setFieldValue("channel", "");
+              setFieldValue("region", "");
+              setFieldValue("area", "");
+              setFieldValue("territory", "");
+              filterGridDataFunc(
+                {
+                  ...values,
+                  channel: "",
+                  region: "",
+                  area: "",
+                  territory: "",
+                },
+                gridDataWithOutFilter
+              );
+            }}
+            type='checkbox'
+            className='mt-1'
+          />
+        </div>
+      </div>
+    </>
+  );
+};
