@@ -136,67 +136,93 @@ const BasePage = () => {
     }
   };
   useKeyPress(["Alt", "v"], onKeyPress);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768) {
+      } else {
+        if (process.env.NODE_ENV === "development") {
+          toast.warn(
+            <div>
+              Our values is <b>Mobile First</b>. Please use your <b>mobile</b>.
+            </div>,
+            {
+              position: "bottom-right",
+              autoClose: 3000,
+            }
+          );
+        }
+      }
+    };
+    // Initial check
+    handleResize();
+    // Event listener for window resize
+    window.addEventListener("resize", handleResize);
+    // Cleanup
+    return () => window.removeEventListener("resize", handleResize);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <Suspense fallback={<LayoutSplashScreen />}>
       <AttachmentViewer />
       <MultipleAttachmentViewer />
       {/* <ChatApp /> */}
       <Switch>
-        {<Redirect exact from='/' to='/self-service/self-dashboard' />}
+        {<Redirect exact from="/" to="/self-service/self-dashboard" />}
         {/* <Route path="/dashboard" component={DashboardPage} /> */}
-        <Route path='/chat' component={ChatPages} />
+        <Route path="/chat" component={ChatPages} />
         <Route
-          path='/safety-compliance'
+          path="/safety-compliance"
           component={SafetyComplianceMainPages}
         />
-        <Route path='/mngProcurement' component={procurementPages} />
-        <Route path='/config' component={configPages} />
+        <Route path="/mngProcurement" component={procurementPages} />
+        <Route path="/config" component={configPages} />
         <Route
-          path='/financial-management'
+          path="/financial-management"
           component={financialManagementPages}
         />
-        <Route path='/payment' component={PaymentPages} />
+        <Route path="/payment" component={PaymentPages} />
         <Route
-          path='/inventory-management'
+          path="/inventory-management"
           component={inventoryManagementPages}
         />
         <Route
-          path='/human-capital-management'
+          path="/human-capital-management"
           component={HumanCapitalManagementPages}
         />
         <Route
-          path='/learningDevelopment'
+          path="/learningDevelopment"
           component={LearningAndDevelopmentPages}
         />
-        <Route path='/trustmgmt' component={TrustMgmtPages} />
-        <Route path='/self-service' component={SelfServicePages} />
-        <Route path='/performance-management' component={PerformanceMgtPages} />
-        <Route path='/production-management' component={productionPages} />
-        <Route path='/sales-management' component={SalesManagementPages} />
-        <Route path='/internal-control' component={InternalControlPages} />
-        <Route path='/mngVat/' component={VatManagementPages} />
+        <Route path="/trustmgmt" component={TrustMgmtPages} />
+        <Route path="/self-service" component={SelfServicePages} />
+        <Route path="/performance-management" component={PerformanceMgtPages} />
+        <Route path="/production-management" component={productionPages} />
+        <Route path="/sales-management" component={SalesManagementPages} />
+        <Route path="/internal-control" component={InternalControlPages} />
+        <Route path="/mngVat/" component={VatManagementPages} />
         <Route
-          path='/transport-management'
+          path="/transport-management"
           component={TransPortManagementPages}
         />
-        <Route path='/personal' component={PersonalPages} />
-        <Route path='/mngAsset' component={AssetManagementPages} />
+        <Route path="/personal" component={PersonalPages} />
+        <Route path="/mngAsset" component={AssetManagementPages} />
         <Route
-          path='/transport-management'
+          path="/transport-management"
           component={TransportManagementPages}
         />
-        <Route path='/rtm-management' component={RtmManagementPages} />
+        <Route path="/rtm-management" component={RtmManagementPages} />
         {/* <Route path='/managementImport' component={ImportManagementPagesNew} /> */}
-        <Route path='/managementImport' component={ImportManagementPages} />
-        <Route path='/pos-management' component={PosManagementPages} />
-        <Route path='/call-center-management' component={CallCenterPages} />
-        <Route path='/vessel-management' component={VesselManagementPages} />
-        <Route path='/chartering' component={CharteringPages} />
-        <Route path='/powerbi' component={PowerBIPages} />
-        <Route path='/MgmtOfPerformance' component={HashPerformanceMgtPages} />
-        <Route path='/managementExport' component={ExportManagementPages} />
-        <Route path='/ShippingAgency' component={ShippingAgencyPages} />
-        <Redirect to='/error/error-v1' />
+        <Route path="/managementImport" component={ImportManagementPages} />
+        <Route path="/pos-management" component={PosManagementPages} />
+        <Route path="/call-center-management" component={CallCenterPages} />
+        <Route path="/vessel-management" component={VesselManagementPages} />
+        <Route path="/chartering" component={CharteringPages} />
+        <Route path="/powerbi" component={PowerBIPages} />
+        <Route path="/MgmtOfPerformance" component={HashPerformanceMgtPages} />
+        <Route path="/managementExport" component={ExportManagementPages} />
+        <Route path="/ShippingAgency" component={ShippingAgencyPages} />
+        <Redirect to="/error/error-v1" />
       </Switch>
       {(isExpiredToken || isExpiredPassword) && isAuth && (
         <>
