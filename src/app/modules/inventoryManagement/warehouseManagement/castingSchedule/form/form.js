@@ -170,6 +170,15 @@ export default function _Form({
                     </div>
 
                     <div className="col-lg-3">
+                      <label>Phone</label>
+                      <InputField
+                        value={values?.phone}
+                        name="phone"
+                        type="text"
+                      />
+                    </div>
+
+                    <div className="col-lg-3">
                       <NewSelect
                         name="workType"
                         options={[
@@ -348,8 +357,11 @@ export default function _Form({
                       <NewSelect
                         name="strShift"
                         options={[
-                          { value: 1, label: "Day" },
-                          { value: 2, label: "Night" },
+                          // { value: 1, label: "Day" },
+                          // { value: 2, label: "Night" },
+                          { value: 1, label: "A Shift" },
+                          { value: 2, label: "B Shift" },
+                          { value: 3, label: "C Shift" },
                         ]}
                         value={values?.strShift}
                         label="Shift"
@@ -367,6 +379,17 @@ export default function _Form({
                       <InputField
                         value={values?.intNumberOfPump}
                         name="intNumberOfPump"
+                        type="number"
+                        touched={touched}
+                        errors={errors}
+                      />
+                    </div>
+
+                    <div className="col-lg-3">
+                      <label>Non Pump</label>
+                      <InputField
+                        value={values?.nonPump}
+                        name="nonPump"
                         type="number"
                         touched={touched}
                         errors={errors}

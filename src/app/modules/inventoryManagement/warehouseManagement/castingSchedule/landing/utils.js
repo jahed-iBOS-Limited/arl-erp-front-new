@@ -20,6 +20,7 @@ export const rowDataAddHandler = (rowData, setRowData, values) => {
     intSmallTyre: values?.intSmallTyre,
     intBagCementUse: values?.intBagCementUse,
     isWaterProof: values?.waterproof?.value === 1,
+    intNumberOfNonePump:values?.nonPump || 0,
   };
 
   const copy = [...rowData];

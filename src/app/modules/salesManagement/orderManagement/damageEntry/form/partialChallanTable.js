@@ -13,7 +13,7 @@ export default function PartialChallanTable({ obj }) {
     _data[headerIndex]["rowData"][rowIndex][key] = value;
     setGridData(_data);
   };
-
+  
   let totalDeliveryQty = 0;
   let totalAmount = 0;
   let totalDamage = 0;
@@ -95,12 +95,15 @@ export default function PartialChallanTable({ obj }) {
                           <td className="text-right">
                             {item?.isSelected ? (
                               <InputField
-                                value={item?.returnQty}
+                                value={element?.returnQty || ""}
                                 name="returnQty"
                                 placeholder="Return qty"
                                 type="number"
                                 min={"0.2"}
                                 onChange={(e) => {
+                                  if (+e.target.value < 0){
+                                    return toast.warn("Return qty can not be negative")
+                                  }
                                   dataChangeHandler(
                                     index,
                                     rowIndex,
@@ -108,22 +111,22 @@ export default function PartialChallanTable({ obj }) {
                                     +e?.target?.value
                                   );
                                 }}
-                                onBlur={(e) => {
-                                  if (+e?.target?.value > element?.quantity) {
-                                    toast.warn(
-                                      "Return qty can not be greater than delivery qty"
-                                    );
-                                  }
+                                // onBlur={(e) => {
+                                //   if (+e?.target?.value > element?.quantity) {
+                                //     toast.warn(
+                                //       "Return qty can not be greater than delivery qty"
+                                //     );
+                                //   }
 
-                                  if (+e?.target?.value < 0.2) {
-                                    toast.warn(
-                                      "Return qty can not be less than 0.2"
-                                    );
-                                  }
-                                }}
+                                //   if (+e?.target?.value < 0.2) {
+                                //     toast.warn(
+                                //       "Return qty can not be less than 0.2"
+                                //     );
+                                //   }
+                                // }}
                               />
                             ) : (
-                              item?.returnQty
+                              element?.returnQty
                             )}
                           </td>
                           <td className="text-right">
