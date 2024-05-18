@@ -15,7 +15,7 @@ import { _todayDate } from "../../../../_helper/_todayDate";
 import NewSelect from "./../../../../_helper/_select";
 import printIcon from "./../../../../_helper/images/print-icon.png";
 import {
-  GetDetailTaxPendingDeliveryListAuto,
+  getManualSalesInvoiceIbos,
   getSalesInvoiceIbosPagination_api,
   getShipPointByBranchId_api,
   getTaxBranchDDL_api
@@ -110,7 +110,7 @@ export default function HeaderForm() {
       );
     } else {
       if (values?.shipPoint?.value) {
-        GetDetailTaxPendingDeliveryListAuto(
+        getManualSalesInvoiceIbos(
           profileData.accountId,
           selectedBusinessUnit.value,
           values?.shipPoint?.value,

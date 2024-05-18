@@ -161,7 +161,7 @@ export const createAutoSalesInvoiceiBOSPrint_api = async (
 };
 
 //GetSalesInvoiceIbosPagination
-export const getSalesInvoiceIbosPagination_api = async (
+export const getManualSalesInvoiceIbos = async (
   accId,
   buId,
   taxBranchId,
@@ -178,7 +178,7 @@ export const getSalesInvoiceIbosPagination_api = async (
     const searchPath = search ? `searchTerm=${search}&` : "";
 
     const res = await Axios.get(
-      `/vat/TaxSalesInvoiceIbos/GetSalesInvoiceIbosSearchPagination?${searchPath}accountId=${accId}&businessUnitId=${buId}&taxBranchId=${taxBranchId}&status=true&fromdate=${fromDate}&todate=${toDate}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc`
+      `/vat/TaxSalesInvoiceIbos/GetManualSalesInvoiceIbosSearchPagination?${searchPath}accountId=${accId}&businessUnitId=${buId}&taxBranchId=${taxBranchId}&status=true&fromdate=${fromDate}&todate=${toDate}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc`
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
