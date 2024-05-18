@@ -273,6 +273,12 @@ body {
   border: 1px solid #ecf0f3 !important;
   z-index: 999999;
 }
+.loan-scrollable-table thead tr:nth-child(2) th:first-child {
+  position: -webkit-unset;
+  /* for Safari */
+  position: unset;
+  
+}
 
 .inventory-statement-report thead th:nth-child(2) {
   position: -webkit-sticky;
@@ -290,6 +296,7 @@ body {
   left: 0;
   border: 1px solid #ecf0f3 !important;
   background: #fff !important;
+  z-index: 9;
 }
 
 .common-scrollable-table tbody td:first-child {

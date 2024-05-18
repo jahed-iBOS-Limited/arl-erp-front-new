@@ -35,12 +35,15 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
 }
+
 .timeCharterLogo img {
   height: 60px;
   width: 100%;
   margin: 0 auto;
 }
+
 .statementTitle {
   font-size: 15px;
   font-weight: bold;
@@ -54,19 +57,35 @@
   font-size: 14px;
 }
 
+@media screen and (max-width: 767px) {
+  .transactionInvoice .headerKey,
+  .transactionInvoice .headerValue {
+    font-size: 12px !important;
+  }
+
+}
+
 @media print {
+  .invoiceForChartererWraper {
+    margin: 0 40px !important;
+  }
+
   .transactionInvoice {
     padding: 0px;
   }
+
   .row {
     width: 100%;
   }
+
   .headerWrapper {
     width: 50%;
   }
+
   .bank-details {
     width: 100%;
   }
+
   .statementTitle {
     margin-top: 120px;
   }
