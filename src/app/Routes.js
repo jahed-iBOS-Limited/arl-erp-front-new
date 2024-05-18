@@ -13,6 +13,7 @@ import KPIScoreCardNew from "./modules/performanceManagement/individualKpi/balan
 import SBUBalancedScorecard from "./modules/performanceManagement/sbuKpi/balancedScore/Table/SBUBalancedScorecard";
 import { serviceWorkerPoppup } from "./modules/_helper/serviceWorkerPoppup";
 import {
+  createERPUserInfoAcion,
   getOID_Action,
   getShippointDDLCommon_action,
 } from "./modules/_helper/_redux/Actions";
@@ -207,6 +208,27 @@ export function Routes() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [connection]);
 
+  useEffect(() => {
+    // window view not mobile than api call
+    if (window.innerWidth > 768 && process.env.NODE_ENV !== "development" ) {
+      toast.warn(
+        <div>
+          Our values is <b>Mobile First</b>. Please use your <b>mobile</b>.
+        </div>,
+        {
+          position: "bottom-right",
+          autoClose: 9000,
+        }
+      );
+      const payload = [
+        {
+          userEnroll: profileData?.employeeId,
+          isActive: true,
+        },
+      ];
+      dispatch(createERPUserInfoAcion(payload));
+    }
+  }, []);
   return (
     <Switch>
       {isExpiredPassword && (
@@ -221,30 +243,30 @@ export function Routes() {
           <LoginPage2 />
         </Route>
       ) : (
-        <Redirect from='/auth' to='/' />
+        <Redirect from="/auth" to="/" />
       )}
 
-      <Route path='/error' component={ErrorsPage} />
-      <Route path='/logout' component={Logout} />
+      <Route path="/error" component={ErrorsPage} />
+      <Route path="/logout" component={Logout} />
       {/* to show individual kpi scorecard in blank page without base layout as fer as requirement..we have to set the route outside of the base layout */}
       {isAuthorized && (
-        <Route path='/individual-kpi-scorecard' component={KPIScoreCardNew} />
+        <Route path="/individual-kpi-scorecard" component={KPIScoreCardNew} />
       )}
       {isAuthorized && (
         <Route
-          path='/departmental-balanced-scorecard'
+          path="/departmental-balanced-scorecard"
           component={DepartmentalBalancedScorecard}
         />
       )}
       {isAuthorized && (
         <Route
-          path='/sbu-balanced-scorecard'
+          path="/sbu-balanced-scorecard"
           component={SBUBalancedScorecard}
         />
       )}
 
       {!isAuthorized ? (
-        <Redirect to='/auth/login' />
+        <Redirect to="/auth/login" />
       ) : !authData.haveBusinessUnit ? (
         <div>
           <div
