@@ -208,27 +208,27 @@ export function Routes() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [connection]);
 
-  useEffect(() => {
-    // window view not mobile than api call
-    if (window.innerWidth > 768 && process.env.NODE_ENV !== "development" ) {
-      toast.warn(
-        <div>
-          Our values is <b>Mobile First</b>. Please use your <b>mobile</b>.
-        </div>,
-        {
-          position: "bottom-right",
-          autoClose: 9000,
-        }
-      );
-      const payload = [
-        {
-          userEnroll: profileData?.employeeId,
-          isActive: true,
-        },
-      ];
-      dispatch(createERPUserInfoAcion(payload));
-    }
-  }, []);
+  // useEffect(() => {
+  //   // window view not mobile than api call
+  //   if (window.innerWidth > 768 && process.env.NODE_ENV !== "development" ) {
+  //     toast.warn(
+  //       <div>
+  //         Our values is <b>Mobile First</b>. Please use your <b>mobile</b>.
+  //       </div>,
+  //       {
+  //         position: "bottom-right",
+  //         autoClose: 9000,
+  //       }
+  //     );
+  //     const payload = [
+  //       {
+  //         userEnroll: profileData?.employeeId,
+  //         isActive: true,
+  //       },
+  //     ];
+  //     dispatch(createERPUserInfoAcion(payload));
+  //   }
+  // }, []);
   return (
     <Switch>
       {isExpiredPassword && (
