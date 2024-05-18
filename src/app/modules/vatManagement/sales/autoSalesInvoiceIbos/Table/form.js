@@ -16,7 +16,7 @@ import NewSelect from "./../../../../_helper/_select";
 import printIcon from "./../../../../_helper/images/print-icon.png";
 import {
   GetDetailTaxPendingDeliveryListAuto,
-  getSalesInvoiceIbosPagination_api,
+  getManualSalesInvoiceIbos,
   getShipPointByBranchId_api,
   getTaxBranchDDL_api
 } from "./../helper";
@@ -96,7 +96,7 @@ export default function HeaderForm() {
     setGirdData([]);
 
     if (values?.status === "printed") {
-      getSalesInvoiceIbosPagination_api(
+      getManualSalesInvoiceIbos(
         profileData?.accountId,
         selectedBusinessUnit.value,
         values?.branch?.value,
