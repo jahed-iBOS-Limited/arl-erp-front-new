@@ -78,7 +78,7 @@ export default function InvoiceForChartererView({
         {/* <div className="timeCharterLogo">
           <img src={akijShippingLogo} alt={akijShippingLogo} />
         </div> */}
-        <div style={{ margin: "0 40px" }}>
+        <div className="invoiceForChartererWraper">
           <h5 className="text-center uppercase mb-4 statementTitle">
             {values?.transactionName?.label || invoiceHireData?.transactionName}{" "}
             STATEMENT
