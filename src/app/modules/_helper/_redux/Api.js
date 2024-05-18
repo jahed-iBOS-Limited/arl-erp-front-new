@@ -157,3 +157,8 @@ export function getShippointDDL(userId,clientId, buId ) {
     `/domain/OrganizationalUnitUserPermission/GetOrganizationalUnitUserPermissionByUnitId?UserId=${userId}&ClientId=${clientId}&BusinessUnitId=${buId}`
   );
 }
+export function createERPUserInfo(paylaod) {
+  return axios.post(
+    `/domain/CreateUser/CreateERPUserInfo`, paylaod
+  );
+}
