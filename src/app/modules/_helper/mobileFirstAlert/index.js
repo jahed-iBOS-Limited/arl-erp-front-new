@@ -8,9 +8,10 @@ function MobileFirstAlert() {
   const { profileData } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
+  
   const dispatch = useDispatch();
   useEffect(() => {
-    // window view not mobile than api call
+    //window view not mobile than api call
     if (window.innerWidth > 768 && process.env.NODE_ENV !== "development") {
       setIsShowAlert(true);
       // 5s delay for alert hide
@@ -24,12 +25,14 @@ function MobileFirstAlert() {
         },
       ];
       dispatch(createERPUserInfoAcion(payload));
-    }else {
+    } else {
       setIsShowAlert(false);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
+  const handleClose = () => {
+    setIsShowAlert(false);
+  };
   return (
     <>
       {isShowAlert ? (
@@ -37,6 +40,9 @@ function MobileFirstAlert() {
           <div className="MobileFirstAlert">
             <div>
               Our values is <b>Mobile First</b>. Please use your <b>Mobile</b>.
+            </div>
+            <div className="close-icon" onClick={handleClose}>
+              &times;
             </div>
           </div>
         </div>
