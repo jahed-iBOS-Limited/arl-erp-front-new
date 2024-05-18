@@ -9,6 +9,7 @@ import CreditNoteCreateForm from "./creditNote/Form/addEditForm";
 import SalesInvoiceIbosLanding from "./salesInvoiceIbos/Table";
 import findIndex from "./../../_helper/_findIndex";
 import NotPermittedPage from "./../../_helper/notPermitted/NotPermittedPage";
+import AutoSalesInvoiceIbosLanding from "./autoSalesInvoiceIbos/Table";
 
 export default function SalesPage() {
   const userRole = useSelector(
@@ -59,6 +60,10 @@ export default function SalesPage() {
       <ContentRoute
         path="/mngVat/sales/salesInvoiceiBOS"
         component={SalesInvoiceIbosLanding}
+      />
+      <ContentRoute
+        path="/mngVat/sales/autosalesInvoiceiBOS"
+        component={AutoSalesInvoiceIbosLanding}
       />
     </Switch>
   );
