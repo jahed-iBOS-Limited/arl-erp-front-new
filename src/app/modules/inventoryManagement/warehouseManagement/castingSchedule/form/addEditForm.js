@@ -41,7 +41,9 @@ const initData = {
   intBagCementUse: 0,
   castingProcedure: "", // DDL, search ddl
   buetTestReportDay: "",
-  waterproof: ""
+  waterproof: "",
+  phone:"",
+  nonPump:"",
 };
 
 const validationSchema = Yup.object().shape({
@@ -152,6 +154,7 @@ export default function CastingScheduleForm() {
         strStatus: "pending",
         intTestReportDayId: values?.buetTestReportDay?.value,
         strTestReportDay: values?.buetTestReportDay?.label,
+        strConcernPhone: values?.phone || "",
       },
       row: rowData,
     };
