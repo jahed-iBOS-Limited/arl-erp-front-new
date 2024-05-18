@@ -3,6 +3,8 @@ $background-color: #f8f9fa;
 $border-color: #007bff;
 $text-color: #333;
 $highlight-color: #007bff;
+$close-icon-color: #aaa;
+$close-icon-hover-color: #333;
 
 // Mixin for box-shadow
 @mixin box-shadow($x, $y, $blur, $color) {
@@ -19,36 +21,54 @@ $highlight-color: #007bff;
   justify-content: center;
   align-items: center;
   background: rgb(0 0 0 / 58%);
-}
-.MobileFirstAlert {
-  background-color: $background-color;
-  border: 2px solid $border-color;
-  border-radius: 8px;
-  padding: 16px;
-  max-width: 400px;
-  margin: 20px auto;
-  text-align: center;
-  color: $text-color;
-  font-family: "Arial", sans-serif;
-  @include box-shadow(0px, 4px, 8px, rgba(0, 0, 0, 0.1));
-
-  div {
-    font-size: 16px;
-    line-height: 1.5;
-  }
-
-  b {
-    color: $highlight-color;
-    font-weight: bold;
-  }
-
-  // Responsive design for mobile-first approach
-  @media (max-width: 600px) {
-    padding: 12px;
-    font-size: 14px;
+  .MobileFirstAlert {
+    position: relative;
+    background-color: $background-color;
+    border: 2px solid $border-color;
+    border-radius: 8px;
+    padding: 16px;
+    max-width: 400px;
+    margin: 20px auto;
+    text-align: center;
+    color: $text-color;
+    font-family: "Arial", sans-serif;
+    @include box-shadow(0px, 4px, 8px, rgba(0, 0, 0, 0.1));
 
     div {
+      font-size: 16px;
+      line-height: 1.5;
+    }
+
+    b {
+      color: $highlight-color;
+      font-weight: bold;
+    }
+
+    .close-icon {
+      position: absolute;
+      bottom: 0;
+      right: 10px;
+      font-size: 28px;
+      cursor: pointer;
+      color: #aaa;
+      transition: color 0.3s ease;
+
+      &:hover {
+        color: $close-icon-hover-color;
+      }
+    }
+
+    @media (max-width: 600px) {
+      padding: 12px;
       font-size: 14px;
+
+      div {
+        font-size: 14px;
+      }
+
+      .close-icon {
+        font-size: 18px;
+      }
     }
   }
 }
