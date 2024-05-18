@@ -8,6 +8,7 @@ import { useKeyPress } from "./modules/_helper/useKeyPress";
 import PaymentPages from "./modules/payment/PaymentPages";
 import SelfServicePages from "./modules/selfService/SelfServicePages";
 import TokenExpiredPopUp from "./TokenExpiredPopUp";
+import MobileFirstAlert from "./modules/_helper/mobileFirstAlert";
 
 const procurementPages = lazy(() =>
   import("./modules/procurement/procurementPages")
@@ -140,6 +141,7 @@ const BasePage = () => {
     <Suspense fallback={<LayoutSplashScreen />}>
       <AttachmentViewer />
       <MultipleAttachmentViewer />
+      <MobileFirstAlert/>
       {/* <ChatApp /> */}
       <Switch>
         {<Redirect exact from='/' to='/self-service/self-dashboard' />}
