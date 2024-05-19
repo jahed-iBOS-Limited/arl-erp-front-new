@@ -14,6 +14,7 @@ import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import IForm from "./../../../_helper/_form";
 import Loading from "./../../../_helper/_loading";
 import QualityCheckViewModal from "./modal/viewModal";
+import { InventoryTransactionReportViewTableRow } from "../invTransaction/report/tableRow";
 const initData = {
   plant: "",
   warehouse: "",
@@ -23,7 +24,7 @@ const initData = {
 export default function ItemQualityCheckLanding() {
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
-  const[singleItemForMRR,setSingleItemForMRR]=useState(null)
+  const [singleItemForMRR, setSingleItemForMRR] = useState(null);
   const {
     profileData: { accountId: accId },
     selectedBusinessUnit: { value: buId },
@@ -39,38 +40,39 @@ export default function ItemQualityCheckLanding() {
 
   const [plantDDL, getPlantDDL] = useAxiosGet();
   const [warehouseDDL, getWarehouseDDL] = useAxiosGet();
-  const [isShowModal,setShowModal] = useState(false)
-  const [singleData,setSingleData] =useState({})
+  const [isShowModal, setShowModal] = useState(false);
+  const [singleData, setSingleData] = useState({});
+
+  const [isShowModalTwo, setIsShowModalTwo] = useState(false);
+  const [currentRowData, setCurrentRowData] = useState("");
 
   const handleGetLandingData = (pageNo, pageSize, values) => {
     getLandingData(
       `/mes/QCTest/GetItemQualityCheckLanding?businessUnitId=${buId}&plantId=${values?.plant?.value}&warehouseId=${values?.warehouse?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}&pageNo=${pageNo}&pageSize=${pageSize}`,
       (landingData) => {
-        
         const updatedRow = landingData?.data?.map((item) => ({
           ...item,
           isChecked: false,
         }));
         setLandingData({
-            ...landingData,
-            data: updatedRow
-          });
+          ...landingData,
+          data: updatedRow,
+        });
       }
     );
   };
 
-    const handleRowSelect = (e,index)=>{
-      const updatedLandingData = {...landingData}
-      const singleItem = updatedLandingData?.data[index]
-      singleItem.isChecked = e.target.checked
-      if(e.target.checked){
-        setSingleItemForMRR(singleItem)
-      }else{
-        setSingleItemForMRR(null)
-      }
-      setLandingData(updatedLandingData)
-      
+  const handleRowSelect = (e, index) => {
+    const updatedLandingData = { ...landingData };
+    const singleItem = updatedLandingData?.data[index];
+    singleItem.isChecked = e.target.checked;
+    if (e.target.checked) {
+      setSingleItemForMRR(singleItem);
+    } else {
+      setSingleItemForMRR(null);
     }
+    setLandingData(updatedLandingData);
+  };
 
   useEffect(() => {
     getPlantDDL(
@@ -184,7 +186,7 @@ export default function ItemQualityCheckLanding() {
                     className="btn btn-primary"
                     onClick={() => {
                       handleGetLandingData(pageNo, pageSize, values);
-                      setSingleItemForMRR(false)
+                      setSingleItemForMRR(false);
                     }}
                     disabled={!values?.plant || !values?.warehouse}
                   >
@@ -192,21 +194,33 @@ export default function ItemQualityCheckLanding() {
                   </button>
                 </div>
               </div>
-              <div style={{ marginTop: 25 ,display:"flex",justifyContent:"end"}}>
-                <button type="button" className="btn btn-primary"
-                onClick={()=>{
-
-                  // if(!singleItemForMRR?.isGateOut|| (singleItemForMRR?.isGateOut && singleItemForMRR?.isInventoryPosted)){
-                  //   toast.warn("This item can't ready for MRR")
-                  //   return
-                  // }
-                  history.push({
-                    pathname: `/inventory-management/warehouse-management/itemqualitycheck/create-mrr`,
-                    // search: `?potype=${singleItemForMRR?.transactionGroupId}`,
-                    state: {...singleItemForMRR,pageFrom:"ItemQualityCheck"},
-                  });
+              <div
+                style={{
+                  marginTop: 25,
+                  display: "flex",
+                  justifyContent: "end",
                 }}
-                >Create MRR</button>
+              >
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={() => {
+                    // if(!singleItemForMRR?.isGateOut|| (singleItemForMRR?.isGateOut && singleItemForMRR?.isInventoryPosted)){
+                    //   toast.warn("This item can't ready for MRR")
+                    //   return
+                    // }
+                    history.push({
+                      pathname: `/inventory-management/warehouse-management/itemqualitycheck/create-mrr`,
+                      // search: `?potype=${singleItemForMRR?.transactionGroupId}`,
+                      state: {
+                        ...singleItemForMRR,
+                        pageFrom: "ItemQualityCheck",
+                      },
+                    });
+                  }}
+                >
+                  Create MRR
+                </button>
               </div>
               <div
                 style={{ marginTop: "20px" }}
@@ -215,9 +229,9 @@ export default function ItemQualityCheckLanding() {
                 <table className="table table-striped table-bordered bj-table bj-table-landing">
                   <thead>
                     <tr>
-                      <th>                        
-                      </th>
+                      <th></th>
                       <th>SL</th>
+                      <th>MRR Code</th>
                       <th>Date</th>
                       <th>Supplier Name</th>
                       <th>Address</th>
@@ -233,60 +247,102 @@ export default function ItemQualityCheckLanding() {
                     </tr>
                   </thead>
                   <tbody>
-                    {
-                      landingData?.data?.map((item, index) => (
-                        <tr key={index}>
-                          <td>
-                           {
-                            (item?.isGateOut && !item?.isInventoryPosted) &&  <input
-                            type="checkbox"
-                            name="checkbox"
-                            checked={item?.isChecked}
-                            disabled={(singleItemForMRR && !item?.isChecked)}
-                            onChange={(e) => {handleRowSelect(e,index)}}
-                          />
-                           }
-                          </td>
-                          <td>{index + 1}</td>
-                          <td>{_dateFormatter(item?.createdAt)}</td>
-                          <td>{item?.supplierName}</td>
-                          <td>{item?.supplierAddress}</td>
-                          <td>{item?.itemName}</td>
-                          <td>{item?.netWeight}</td>
-                          <td>{item?.deductionQuantity}</td>
-                          <td>{item?.unloadedDeductionQuantity}</td>
-                          <td>{item?.bagWeightDeductQuantity}</td>
-                          <td className="text-center">{item?.actualQuantity}</td>
-                          <td>{item?.warehouseComment}</td>
-                          <td>{item?.status}</td>
-                       
-                          <td className="text-center">
-                            <span
-                            onClick={()=>{
-                              setShowModal(true)
-                              setSingleData(item)
+                    {landingData?.data?.map((item, index) => (
+                      <tr key={index}>
+                        <td>
+                          {item?.isGateOut && !item?.isInventoryPosted && (
+                            <input
+                              type="checkbox"
+                              name="checkbox"
+                              checked={item?.isChecked}
+                              disabled={singleItemForMRR && !item?.isChecked}
+                              onChange={(e) => {
+                                handleRowSelect(e, index);
+                              }}
+                            />
+                          )}
+                        </td>
+                        <td>{index + 1}</td>
+                        <td>
+                          <span
+                            onClick={() => {
+                              setCurrentRowData(item);
+                              setIsShowModalTwo(true);
                             }}
-                            >
-                              <IView />
-                            </span>
-                          </td>
-                        </tr>
-                      ))}
+                            style={{
+                              color: "blue",
+                              textDecoration: "underline",
+                              cursor: "pointer",
+                            }}
+                          >
+                            {item?.inventoryTransactionCode}
+                          </span>
+                        </td>
+                        <td>{_dateFormatter(item?.createdAt)}</td>
+                        <td>{item?.supplierName}</td>
+                        <td>{item?.supplierAddress}</td>
+                        <td>{item?.itemName}</td>
+                        <td>{item?.netWeight}</td>
+                        <td>{item?.deductionQuantity}</td>
+                        <td>{item?.unloadedDeductionQuantity}</td>
+                        <td>{item?.bagWeightDeductQuantity}</td>
+                        <td className="text-center">{item?.actualQuantity}</td>
+                        <td>{item?.warehouseComment}</td>
+                        <td>{item?.status}</td>
+
+                        <td className="text-center">
+                          <span
+                            onClick={() => {
+                              setShowModal(true);
+                              setSingleData(item);
+                            }}
+                          >
+                            <IView />
+                          </span>
+                        </td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
                 {landingData?.data?.length > 0 && (
                   <PaginationTable
                     count={landingData?.totalCount}
-                    setPositionHandler={handleGetLandingData}
-                    paginationState={{ pageNo, setPageNo, pageSize, setPageSize }}
+                    setPositionHandler={(pageNo, pageSize) => {
+                      handleGetLandingData(pageNo, pageSize, values);
+                    }}
+                    paginationState={{
+                      pageNo,
+                      setPageNo,
+                      pageSize,
+                      setPageSize,
+                    }}
                   />
                 )}
               </div>
-              {
-              isShowModal && <IViewModal title="Qc Item Check" show={isShowModal} onHide={() => setShowModal(false)}>
+              {isShowModal && (
+                <IViewModal
+                  title="Qc Item Check"
+                  show={isShowModal}
+                  onHide={() => setShowModal(false)}
+                >
                   <QualityCheckViewModal singleData={singleData} />
                 </IViewModal>
-              }
+              )}
+              {isShowModalTwo && (
+                <IViewModal
+                  show={isShowModalTwo}
+                  onHide={() => {
+                    setIsShowModalTwo(false)
+                    setCurrentRowData("")
+                  }}
+                >
+                  <InventoryTransactionReportViewTableRow
+                    Invid={currentRowData?.inventoryTransactionId}
+                    grId={1}
+                    currentRowData={currentRowData}
+                  />
+                </IViewModal>
+              )}
             </Form>
           </IForm>
         </>
