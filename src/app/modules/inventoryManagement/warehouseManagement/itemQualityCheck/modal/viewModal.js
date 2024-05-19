@@ -62,13 +62,13 @@ export default function QualityCheckViewModal({ singleData }) {
           </div>
         </div>
       </div>
-      <div>
-        <p><strong>Bag Qty :{modalData?.bagQty}</strong> </p>
-        <p><strong>Net Weight :{modalData?.netWeight}</strong> </p>
-        <p><strong>Per Bag:{modalData?.kgPerBag}</strong> </p>
-        <p><strong>Deduct Qty:{modalData?.deductionQuantity}</strong> </p>
-        <p><strong>Unload Deduct :{modalData?.unloadedDeductionQuantity}</strong> </p>
-        <p><strong>Total Actual Qty:{modalData?.actualQuantity}</strong> </p>
+      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+        <p style={{margin:0}}><strong style={{margin:0}}>Bag Qty :{modalData?.bagQty}</strong> </p>
+        <p style={{margin:0}}><strong style={{margin:0}}>Net Weight :{modalData?.netWeight}</strong> </p>
+        <p style={{margin:0}}><strong style={{margin:0}}>Per Bag:{modalData?.kgPerBag}</strong> </p>
+        <p style={{margin:0}}><strong style={{margin:0}}>Deduct Qty:{modalData?.deductionQuantity}</strong> </p>
+        <p style={{margin:0}}><strong style={{margin:0}}>Unload Deduct :{modalData?.unloadedDeductionQuantity}</strong> </p>
+        <p style={{margin:0}}><strong style={{margin:0}}>Total Actual Qty:{modalData?.actualQuantity}</strong> </p>
       </div>
       {
          modalData?.headerDetailsList?.map((parentItem, parentIndex)=>(
