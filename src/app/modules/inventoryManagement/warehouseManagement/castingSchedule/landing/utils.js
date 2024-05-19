@@ -14,12 +14,14 @@ export const rowDataAddHandler = (rowData, setRowData, values) => {
     strItemName: values?.item?.label,
     numQuantity: values?.numQuantity,
     strShift: values?.strShift?.label,
+    intShiftId: values?.strShift?.value,
     intNumberOfPump: values?.intNumberOfPump,
     intPipeFeet: values?.intPipeFeet,
     intLargeTyre: values?.intLargeTyre,
     intSmallTyre: values?.intSmallTyre,
     intBagCementUse: values?.intBagCementUse,
     isWaterProof: values?.waterproof?.value === 1,
+    intNumberOfNonePump:values?.nonPump || 0,
   };
 
   const copy = [...rowData];
