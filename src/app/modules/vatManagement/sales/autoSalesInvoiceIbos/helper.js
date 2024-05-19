@@ -141,7 +141,7 @@ export const createAutoSalesInvoiceiBOSPrint_api = async (
   setRowDto &&setLoading(true);
   try {
     const res = await Axios.post(
-      `/mngVat/sales/autoSalesInvoiceiBOS`,
+      `/vat/TaxSalesInvoiceIbos/CreateSalesInvoiceIbosManual`,
       data
     );
     setRowDto &&setLoading(false);
