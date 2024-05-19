@@ -14,6 +14,7 @@ export const rowDataAddHandler = (rowData, setRowData, values) => {
     strItemName: values?.item?.label,
     numQuantity: values?.numQuantity,
     strShift: values?.strShift?.label,
+    intShiftId: values?.strShift?.value,
     intNumberOfPump: values?.intNumberOfPump,
     intPipeFeet: values?.intPipeFeet,
     intLargeTyre: values?.intLargeTyre,
