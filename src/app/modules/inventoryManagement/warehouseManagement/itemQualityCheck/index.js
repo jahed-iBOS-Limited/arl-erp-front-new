@@ -218,6 +218,7 @@ export default function ItemQualityCheckLanding() {
                       <th>                        
                       </th>
                       <th>SL</th>
+                      <th>MRR Code</th>
                       <th>Date</th>
                       <th>Supplier Name</th>
                       <th>Address</th>
@@ -248,6 +249,7 @@ export default function ItemQualityCheckLanding() {
                            }
                           </td>
                           <td>{index + 1}</td>
+                          <td>{item?.inventoryTransactionCode}</td>
                           <td>{_dateFormatter(item?.createdAt)}</td>
                           <td>{item?.supplierName}</td>
                           <td>{item?.supplierAddress}</td>
@@ -277,7 +279,9 @@ export default function ItemQualityCheckLanding() {
                 {landingData?.data?.length > 0 && (
                   <PaginationTable
                     count={landingData?.totalCount}
-                    setPositionHandler={handleGetLandingData}
+                    setPositionHandler={(pageNo, pageSize) => {
+                      handleGetLandingData(pageNo, pageSize, values);
+                    }}
                     paginationState={{ pageNo, setPageNo, pageSize, setPageSize }}
                   />
                 )}
