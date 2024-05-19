@@ -2,6 +2,7 @@ import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { _dateFormatter } from "../../../_helper/_dateFormate";
 import IView from "../../../_helper/_helperIcons/_view";
 import InputField from "../../../_helper/_inputField";
 import { _monthFirstDate } from "../../../_helper/_monthFirstDate";
@@ -237,7 +238,7 @@ export default function ItemQualityCheckLanding() {
                         <tr key={index}>
                           <td>
                            {
-                            item?.isReceived &&  <input
+                            (item?.isGateOut && !item?.isInventoryPosted) &&  <input
                             type="checkbox"
                             name="checkbox"
                             checked={item?.isChecked}
@@ -247,7 +248,7 @@ export default function ItemQualityCheckLanding() {
                            }
                           </td>
                           <td>{index + 1}</td>
-                          <td>{item?.date}</td>
+                          <td>{_dateFormatter(item?.createdAt)}</td>
                           <td>{item?.supplierName}</td>
                           <td>{item?.supplierAddress}</td>
                           <td>{item?.itemName}</td>
@@ -255,8 +256,8 @@ export default function ItemQualityCheckLanding() {
                           <td>{item?.deductionQuantity}</td>
                           <td>{item?.unloadedDeductionQuantity}</td>
                           <td>{item?.bagWeightDeductQuantity}</td>
-                          <td>{item?.actualQuantity}</td>
-                          <td></td>
+                          <td className="text-center">{item?.actualQuantity}</td>
+                          <td>{item?.warehouseComment}</td>
                           <td>{item?.status}</td>
                        
                           <td className="text-center">

@@ -73,7 +73,7 @@ export default function HeaderForm() {
     if (
       selectedBusinessUnit?.value &&
       profileData?.accountId &&
-      taxBranchDDL[0]?.value
+      (taxBranchDDL[0]?.value || taxBranchDDL[0]?.value === 0)
     ) {
       getShipPointByBranchId_api(
         profileData.accountId,
@@ -81,6 +81,12 @@ export default function HeaderForm() {
         taxBranchDDL[0]?.value,
         (resData) => {
           setShipPointByBranchDDL(resData || [])
+          const values  = {
+            ...initData,
+            branch: taxBranchDDL[0] || "",
+            shipPoint: resData[0] || "",
+          }
+          commonGridFunc(null, values, pageNo, pageSize);
         }
       );
     }

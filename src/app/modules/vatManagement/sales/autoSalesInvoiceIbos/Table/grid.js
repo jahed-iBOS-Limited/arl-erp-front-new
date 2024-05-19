@@ -8,12 +8,11 @@ import PaginationSearch from "../../../../_helper/_search";
 import { _todayDate } from "../../../../_helper/_todayDate";
 import {
   GetTaxSalesInvoicePrintStatus_api,
-  getSalesInvoiceById,
-} from "../../createSales/helper";
+  GetManualTaxSalesInvoiceById,
+} from "../helper";
 import SalesInvoiceModel from "../../createSales/viewModal";
 import IView from "./../../../../_helper/_helperIcons/_view";
 import {
-  AutoTaxCompleteApi,
   createAutoSalesInvoiceiBOSPrint_api
 } from "./../helper";
 const printBtnClick = debounce(
@@ -178,7 +177,7 @@ const GridData = ({
                                 <IView
                                   clickHandler={() => {
                                     setSalesTableRowDto(tableData);
-                                    getSalesInvoiceById(
+                                    GetManualTaxSalesInvoiceById(
                                       tableData?.salesId,
                                       setTaxSalesInvoiceById,
                                       setLoading
@@ -233,7 +232,7 @@ const GridData = ({
                                 >
                                   Printed
                                 </button>
-                                {[521215, 523988, 3959, 3958].includes(
+                                {/* {[521215, 523988, 3959, 3958].includes(
                                   profileData?.userId
                                 ) && (
                                   <button
@@ -252,7 +251,7 @@ const GridData = ({
                                   >
                                     Clear
                                   </button>
-                                )}
+                                )} */}
                               </>
                             )}
                           </div>

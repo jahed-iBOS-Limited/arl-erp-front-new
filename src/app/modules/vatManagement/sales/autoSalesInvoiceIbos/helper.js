@@ -32,9 +32,7 @@ export const getShipPointByBranchId_api = async (
     const res = await Axios.get(
       `/vat/TaxDDL/getShipPointByBranchId?AccountId=${accId}&BusinessUnitId=${buId}&TaxBranchId=${taxBranchId}`
     );
-    if (res.status === 200 && res?.data) {
-      setter(res?.data);
-    }
+    setter(res?.data);
   } catch (error) {}
 };
 //getTaxPendingDeliveryList_api
@@ -74,11 +72,11 @@ export const getDeliveryInfoByDeliveryNum_api = async (
     }
   } catch (error) {}
 };
-//GetTaxSalesInvoiceById
-export const GetTaxSalesInvoiceById = async (taxSalesId, setter) => {
+//GetManualTaxSalesInvoiceById
+export const GetManualTaxSalesInvoiceById = async (taxSalesId, setter) => {
   try {
     const res = await Axios.get(
-      `/vat/TaxSalesInvoice/GetTaxSalesInvoiceById?TaxSalesId=${taxSalesId}`
+      `/vat/TaxSalesInvoice/GetManualTaxSalesInvoiceById?TaxSalesId=${taxSalesId}`
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
@@ -103,28 +101,28 @@ export const createSalesInvoiceIbos_api = async (
         toastId: shortid(),
       });
       cb();
-      GetTaxSalesInvoiceById(res?.data?.key, setTaxSalesInvoiceById);
+      GetManualTaxSalesInvoiceById(res?.data?.key, setTaxSalesInvoiceById);
       setModelShow(true);
     }
   } catch (error) {
     toast.error(error?.response?.data?.message);
   }
 };
-export const AutoTaxCompleteApi = async (deliveryId, buid,setLoading, cb) => {
+export const AutoTaxCompleteApi = async (deliveryId, buid, setLoading, cb) => {
   try {
-    setLoading(true)
+    setLoading(true);
     const res = await Axios.put(
       `/vat/SalesInformationReport/AutoTaxComplete?deliveryId=${deliveryId}&BusinessUnitId=${buid}`
     );
     if (res.status === 200) {
-      setLoading(false)
+      setLoading(false);
       toast.success("Submitted Successfully", {
         toastId: shortid(),
       });
       cb();
     }
   } catch (error) {
-    setLoading(false)
+    setLoading(false);
     toast.error(error?.response?.data?.message);
   }
 };
@@ -138,24 +136,24 @@ export const createAutoSalesInvoiceiBOSPrint_api = async (
   setRowDto,
   setLoading
 ) => {
-  setRowDto &&setLoading(true);
+  setRowDto && setLoading(true);
   try {
     const res = await Axios.post(
       `/vat/TaxSalesInvoiceIbos/CreateSalesInvoiceIbosManual`,
       data
     );
-    setRowDto &&setLoading(false);
+    setRowDto && setLoading(false);
     if (res.status === 200) {
       toast.success("Submitted Successfully", {
         toastId: shortid(),
       });
-      GetTaxSalesInvoiceById(res?.data?.key, setTaxSalesInvoiceById);
+      GetManualTaxSalesInvoiceById(res?.data?.key, setTaxSalesInvoiceById);
       setModelShow(true);
       setRowDto(updateRowDto);
     }
-    setLoading(true);
+    setRowDto && setLoading(false);
   } catch (error) {
-    setRowDto &&setLoading(false);
+    setRowDto && setLoading(false);
     toast.error(error?.response?.data?.message);
   }
 };
@@ -197,16 +195,15 @@ export const GetTaxSalesInvoiceListApi = async (
   fromDate,
   toDate,
   setter,
-  setLoading,
+  setLoading
 ) => {
   try {
     setLoading(true);
     const res = await Axios.get(
       `/vat/TaxSalesInvoice/GetTaxSalesInvoiceList?AccountId=${accId}&BusinessUnitId=${buId}&FromDate=${fromDate}&ToDate=${toDate}`
     );
-      setter(res?.data);
-      setLoading(false);
-    
+    setter(res?.data);
+    setLoading(false);
   } catch (error) {
     setter([]);
     setLoading(false);
@@ -265,4 +262,14 @@ export const GetDetailTaxPendingDeliveryListAuto = async (
     setter([]);
     setLoading(false);
   }
+};
+export const GetTaxSalesInvoicePrintStatus_api = async (id, setter) => {
+  try {
+    const res = await Axios.get(
+      `/vat/TaxSalesInvoiceIbos/GetTaxSalesInvoicePrintStatus?TaxSalesInvoiceId=${id}`
+    );
+    if (res.status === 200) {
+      setter(res?.data);
+    }
+  } catch (error) {}
 };
