@@ -20,7 +20,6 @@ function MobileFirstAlert() {
     237,
     240,
     271,
-    296,
     300,
     422,
     600,
