@@ -220,8 +220,8 @@ export default function DispatchDeskLanding() {
                           {item?.receiverBusinessUnit}
                         </td>
                         <td className="text-center">{item?.toLocation}</td>
-                        <td className="text-center">{item?.dispatchNote}</td>
                         <td className="text-center">{values?.requisition === "send" ? item?.sendByName : item?.sendToReceiverBy}</td>
+                        <td className="text-center">{item?.dispatchNote}</td>
                         <td className="text-center">
                           <span style={{ color: "green", fontWeight: "bold" }}>
                             {item?.sendReceive}
