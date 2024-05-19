@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import Loading from "../../../../_helper/_loading";
 import CommonTable from "../../../../_helper/commonTable";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
@@ -32,9 +33,6 @@ export default function QualityCheckViewModal({ singleData }) {
             <strong> Item Name:{modalData?.itemName}</strong>
           </div>
           <div>
-            <strong> Deduct :{modalData?.deductionPercentage} %</strong>
-          </div>
-          <div>
             <strong> Net Weight :{modalData?.netWeight} </strong>
           </div>
           <div>
@@ -45,14 +43,12 @@ export default function QualityCheckViewModal({ singleData }) {
           <div>
             <strong> Address :{modalData?.supplierAddress} </strong>
           </div>
-          <div>
-            <strong> Item Type :{modalData?.itemType} </strong>
-          </div>
+          
           <div>
             <strong>Status :{modalData?.status} </strong>
           </div>
           <div>
-            <strong>Date :{modalData?.date} </strong>
+            <strong>Date :{_dateFormatter(modalData?.createdAt)} </strong>
           </div>
           <div>
             <strong>Vehicle No :{modalData?.vehicleNo} </strong>
@@ -65,7 +61,7 @@ export default function QualityCheckViewModal({ singleData }) {
       <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
         <p style={{margin:0}}><strong style={{margin:0}}>Bag Qty :{modalData?.bagQty}</strong> </p>
         <p style={{margin:0}}><strong style={{margin:0}}>Net Weight :{modalData?.netWeight}</strong> </p>
-        <p style={{margin:0}}><strong style={{margin:0}}>Per Bag:{modalData?.kgPerBag}</strong> </p>
+        <p style={{margin:0}}><strong style={{margin:0}}>Per Bag:{parseFloat(modalData?.kgPerBag).toFixed(2)}</strong> </p>
         <p style={{margin:0}}><strong style={{margin:0}}>Deduct Qty:{modalData?.deductionQuantity}</strong> </p>
         <p style={{margin:0}}><strong style={{margin:0}}>Unload Deduct :{modalData?.unloadedDeductionQuantity}</strong> </p>
         <p style={{margin:0}}><strong style={{margin:0}}>Total Actual Qty:{modalData?.actualQuantity}</strong> </p>
