@@ -22,10 +22,8 @@ import {
   getItemforReceiveInvAction,
   getItemforReceiveInvForeignPOAction,
   getStockDDLAction,
-  getTransactionTypeDDLAction,
   getpersonnelDDLAction,
   getreferenceNoReceiveInvDDLAction,
-  getreferenceTypeDDLAction,
   saveInventoryTransactionOrder,
 } from "../invTransaction/_redux/Actions";
 import { invTransactionSlice } from "../invTransaction/_redux/Slice";
@@ -50,21 +48,17 @@ export default function CreateMRR() {
   const { state } = useLocation();
   const [qcInformationForMRR, getQcInformationForMRR] = useAxiosGet();
   const [modifiedIntiData, setModifiedInitData] = useState();
-  const [itemsDDL,setItemsDDL]=useState([])
+  const [itemsDDL, setItemsDDL] = useState([]);
+
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state?.authData;
   }, shallowEqual);
-
+  const [referenceTypeDDL, getReferenceTypeDDL] = useAxiosGet();
+  const [transactionTypeDDL, getTransactionTypeDDL] = useAxiosGet();
   // redux store data
-  const {
-    referenceTypeDDL,
-    referenceNoDDL,
-    transactionTypeDDL,
-    //busiPartnerDDL,
-    //personelDDL,
-    stockDDL,
-    locationTypeDDL,
-  } = useSelector((state) => state?.invTransa);
+  const { stockDDL, locationTypeDDL } = useSelector(
+    (state) => state?.invTransa
+  );
 
   let vatAmount = rowDto?.reduce((sum, data) => sum + data?.vatValue, 0);
   let totalVat = rowDto?.reduce((sum, data) => sum + data?.tatalVat, 0);
@@ -72,11 +66,12 @@ export default function CreateMRR() {
   let netValue = rowDto?.reduce((sum, data) => sum + data?.netValue, 0);
 
   console.log("rowDto", rowDto);
+  
 
   //dispatch action creators
   useEffect(() => {
     dispatch(slice.setItemDDL([]));
-    dispatch(getreferenceTypeDDLAction(state?.transactionGroupId));
+    // dispatch(getreferenceTypeDDLAction(state?.transactionGroupId));
     getSupplierDDL(
       profileData.accountId,
       selectedBusinessUnit.value,
@@ -89,9 +84,9 @@ export default function CreateMRR() {
     dispatch(getStockDDLAction());
     return () => {
       dispatch(slice.setItemDDL([]));
-      dispatch(slice.setreferenceTypeDDL([]));
+      // dispatch(slice.setreferenceTypeDDL([]));
       dispatch(slice.setreferenceNoDDL([]));
-      dispatch(slice.setTransactionTypeDDL([]));
+      // dispatch(slice.setTransactionTypeDDL([]));
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileData.accountId, selectedBusinessUnit.value, state]);
@@ -130,10 +125,56 @@ export default function CreateMRR() {
           othersCharge: data?.poData?.othersCharge,
           productCost: data?.poData?.productCost,
         };
-        const updatedItems = data?.itemData?.map(item=>({...item,value:item?.itemId,label:item?.itemName}))
+        getReferenceTypeDDL(
+          `/wms/InventoryTransaction/GetReferenceTypeDDL?InvTGoupId=${state?.transactionReferenceTypeId}`,
+          (data) => {
+            getTransactionTypeDDL(
+              `/wms/InventoryTransaction/GetTransectionTypeDDL?InvTGoupId=${state?.transactionReferenceTypeId}&RefenceTypeId=${data[0]?.value}`,
+              (data) => {
+                setModifiedInitData((prev) => ({
+                  ...prev,
+                  transType: { ...data[0] },
+                }));
+              }
+            );
+            setModifiedInitData((prev) => ({
+              ...prev,
+              refType: { ...data[0] },
+            }));
+          }
+        );
+
+        const updatedItems = data?.itemData?.map((item) => ({
+          referenceId: item?.referenceId,
+          itemId: item?.itemId,
+          itemName: item?.itemName,
+          itemCode: item?.itemCode,
+          uoMid: item?.uoMId || 0,
+          uoMname: item?.uoMName || "",
+          refQty: item?.refQty || 0, //n/a
+          restQty: item?.restQty || 0,
+          vatValue: item?.vatAmount || 0,
+          returnQuntity: item?.returnQty || 0,
+          issueQuantity: item?.issueQty || 0,
+          baseValue: item.basePrice,
+          location: item?.locationDDL[0],
+          stockType: { value: 1, label: "Open Stock" },
+          quantity: item?.qcActualQuantity,
+          locationddl: item.locationDDL,
+          discount: item?.discount || 0,
+          totalPoValue: item?.totalPOValue,
+          purchaseRate: item?.purchaseRate || 0,
+          salesRate: item?.salesRate || 0,
+          mrpRate: item?.mrpRate || 0,
+          expiredDate: _todayDate(),
+          tatalVat:(item.vatAmount / item?.refQty) * item.qcActualQuantity|0,
+          totalValue: item.basePrice.toFixed(2) * item.qcActualQuantity || 0,
+          netValue: (item.vatAmount / item?.refQty) * item?.qcActualQuantity +
+          item?.basePrice.toFixed(2) *item?.qcActualQuantity || 0
+        }));
+        console.log("updatedItems",updatedItems);
         setModifiedInitData(makeInitData);
-        setItemsDDL(updatedItems)
-        
+        setRowDto(updatedItems);
       }
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -154,13 +195,7 @@ export default function CreateMRR() {
         )
       );
     }
-    dispatch(
-      getTransactionTypeDDLAction(
-        state?.transactionGroupId,
-        refTyp?.value,
-        setFieldValue
-      )
-    );
+
     // if (refTyp.label === 'NA (Without Reference)') {
     //   dispatch(
     //     getItemDDLForWithoutRefAction(
@@ -193,12 +228,12 @@ export default function CreateMRR() {
         setRowDto([
           ...rowDto,
           {
-            referenceId: values?.item?.referenceId, 
+            referenceId: values?.item?.referenceId,
             itemId: values?.item?.value,
             itemName: values?.item?.itemName,
             itemCode: values?.item?.itemCode,
-            uoMid: values?.item?.uoMId ||0,
-            uoMname: values?.item?.uoMName||"",
+            uoMid: values?.item?.uoMId || 0,
+            uoMname: values?.item?.uoMName || "",
             refQty: values?.item?.refQty || 0,
             restQty: values?.item?.restQty || 0,
             vatValue: values?.item?.vatValue || 0,
@@ -268,14 +303,13 @@ export default function CreateMRR() {
   const rowDtoHandler = (name, value, sl) => {
     let data = [...rowDto];
     let _sl = data[sl];
-    console.log("_sl",_sl);
     if (name === "quantity") {
-      _sl[name] = value ? +value : value;
-      _sl["tatalVat"] = (_sl?.vatValue / _sl?.refQty) * +value;
+      _sl[name] = +value;
+      _sl["tatalVat"] = (_sl?.vatValue / _sl?.refQty) * +value || 0;
       _sl["totalValue"] = _sl?.baseValue.toFixed(2) * +value;
       _sl["netValue"] =
         (_sl?.vatValue / _sl?.refQty) * +value +
-        _sl?.baseValue.toFixed(2) * +value;
+          _sl?.baseValue.toFixed(2) * +value || 0;
     } else if (name === "baseValue") {
       _sl[name] = value ? +value : value;
     } else {
@@ -297,7 +331,6 @@ export default function CreateMRR() {
       ],
     });
   };
-  console.log("qcInformationForMRR",qcInformationForMRR);
 
   const saveHandler = async (values, cb) => {
     if (totalVat.toFixed(4) > 0 && values?.vatAmmount < 1)
@@ -499,7 +532,6 @@ export default function CreateMRR() {
       }
     }
   };
-  console.log("modifiedIntiData", modifiedIntiData);
 
   return (
     <>
@@ -538,18 +570,8 @@ export default function CreateMRR() {
                       if (value?.label) {
                         setFieldValue("refType", value);
                       }
-                      onChaneForRefType(value, setFieldValue);
-                      //   setFieldValue("refNo", "");
-                      //   setFieldValue("item", "");
-                      //   // setFieldValue("transType", "");
-                      //   setFieldValue("busiPartner", "");
-                      //   setFieldValue("freight", "");
-                      //   setFieldValue("grossDiscount", "");
-                      //   setFieldValue("commission", "");
-                      //   setFieldValue("productCost", "");
-                      //   setFieldValue("othersCharge", "");
-                      setRowDto([]);
                     }}
+                    isDisabled={true}
                     errors={errors}
                     touched={touched}
                   />
@@ -637,7 +659,7 @@ export default function CreateMRR() {
                       setFieldValue("transType", value);
                     }}
                     //setFieldValue={setFieldValue}
-                    isDisabled={values.refType === ""}
+                    isDisabled={true}
                     errors={errors}
                     touched={touched}
                   />
@@ -659,9 +681,7 @@ export default function CreateMRR() {
                     //setFieldValue={setFieldValue}
                     errors={errors}
                     touched={touched}
-                    isDisabled={
-                      values.refType.label !== "NA (Without Reference)"
-                    }
+                    isDisabled={true}
                   />
                 </div>
                 {/* <div className="col-lg-3">
@@ -711,6 +731,7 @@ export default function CreateMRR() {
                     placeholder="Gate Entry No"
                     name="getEntry"
                     autoComplete="off"
+                    disabled={true}
                   />
                 </div>
                 <div className="col-lg-2">
@@ -830,7 +851,7 @@ export default function CreateMRR() {
                     name="item"
                     setFieldValue={setFieldValue}
                     isDisabled={
-                      values.isAllItem === true || values.refType === ""
+                      true
                     }
                     isOptionSelected={(option, selectValue) =>
                       selectValue.some((i) => i === option)
@@ -849,7 +870,7 @@ export default function CreateMRR() {
                       top: "30px",
                       left: "65px",
                     }}
-                    disabled={values.refType.label === "NA (Without Reference)"}
+                    disabled={true}
                     id="isAllItem"
                     type="checkbox"
                     className="ml-2"
@@ -861,7 +882,7 @@ export default function CreateMRR() {
                       setFieldValue("item", "");
                     }}
                   />
-                  
+
                   <label
                     style={{
                       position: "absolute",
