@@ -43,7 +43,11 @@ $close-icon-hover-color: #333;
       color: $highlight-color;
       font-weight: bold;
     }
-
+    .countdown {
+      margin-top: 8px;
+      font-size: 14px;
+      color: $highlight-color;
+    }
     .close-icon {
       position: absolute;
       bottom: 0;
