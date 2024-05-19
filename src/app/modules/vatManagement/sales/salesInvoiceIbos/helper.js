@@ -153,7 +153,7 @@ export const createSalesInvoiceIbosPrint_api = async (
       setModelShow(true);
       setRowDto(updateRowDto);
     }
-    setLoading(true);
+    setRowDto &&setLoading(false);
   } catch (error) {
     setRowDto &&setLoading(false);
     toast.error(error?.response?.data?.message);
