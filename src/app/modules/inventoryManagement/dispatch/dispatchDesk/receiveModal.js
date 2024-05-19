@@ -479,19 +479,19 @@ export default function ReceiveModal() {
                     touched={touched}
                   />
                 </div>
-
-                <div className="col-lg-3">
+              {values?.receiveType?.value === 1 && ( <div className="col-lg-3">
                   <InputField
                     value={values?.remarks}
                     label="Remarks"
                     name="remarks"
                     placeholder="Remarks"
                     type="text"
+                    disabled
                     onChange={(e) => {
                       setFieldValue("remarks", e.target.value);
                     }}
                   />
-                </div>
+                </div>)}
                 <div className="col-lg-3">
                   <InputField
                     value={values?.receiveDate}
