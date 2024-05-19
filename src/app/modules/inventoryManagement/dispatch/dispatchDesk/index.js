@@ -285,7 +285,7 @@ export default function DispatchDeskLanding() {
                               </span>
                             )}
                           {values?.requisition === "received" &&
-                            item?.isReceive && !item?.isOwnerDeskSend && (
+                            item?.isReceive && !item?.isOwnerDeskSend && !item?.isOwnerReceive && (
                               <span
                                 style={{ cursor: "pointer" }}
                                 onClick={() => console.log("click icon")}
@@ -363,7 +363,7 @@ export default function DispatchDeskLanding() {
                   >
                     <OwnerSendModal
                       handleGetRowData={handleGetRowData}
-                      propsObj={{ status: "received", pageNo, pageSize }}
+                      propsObj={{ status: "received", pageNo, pageSize, singleItem }}
                     />
                   </IViewModal>
                 </>

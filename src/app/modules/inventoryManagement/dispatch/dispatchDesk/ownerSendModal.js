@@ -14,7 +14,7 @@ const initData = {
 
 export default function OwnerSendModal({ handleGetRowData, propsObj }) {
   const [objProps, setObjprops] = useState({});
-  const { status, pageNo, pageSize } = propsObj;
+  const { status, pageNo, pageSize, singleItem } = propsObj;
 
   const {
     profileData: { userId },
@@ -25,7 +25,7 @@ export default function OwnerSendModal({ handleGetRowData, propsObj }) {
   // all handler
   const saveHandler = (values, cb) => {
     sendHandler(
-      `/tms/DocumentDispatch/DocumentOwnerReceived?DispatchId=5&ReceiverName=${values?.receiverName}&Remarks=${values?.remarks}&UserId=${userId}`,
+      `/tms/DocumentDispatch/DocumentOwnerReceived?DispatchId=${singleItem?.dispatchHeaderId}&ReceiverName=${values?.receiverName}&Remarks=${values?.remarks}&UserId=${userId}`,
       null,
       () => {
         handleGetRowData(status, pageNo, pageSize);
