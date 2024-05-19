@@ -77,6 +77,39 @@ export default function DispatchDeskLanding() {
     setPositionHandler(pageNo, pageSize, values, searchValue);
   };
 
+  const sendHeadersData = [
+    "Document No",
+    "Sender Name",
+    "Sender Location",
+    "Dispatch Type",
+    "Document Type",
+    "Requisition Date",
+    "Receiver Name",
+    "Receiver Business Unit",
+    "Receiver Location",
+    "Remarks",
+    "Send By",
+    "Status",
+    "Action",
+  ]
+
+  const receiveHeadersData = [
+    "Document No",
+    "Sender Name",
+    "Sender Location",
+    "Dispatch Type",
+    "Document Type",
+    "Received Date",
+    "Receiver Name",
+    "Receiver Business Unit",
+    "Receiver Location",
+    "Remarks",
+    "Send By",
+    "Send Date",
+    "Status",
+    "Action",
+  ]
+
   return (
     <Formik
       enableReinitialize={true}
@@ -175,26 +208,7 @@ export default function DispatchDeskLanding() {
               </div>
               <div style={{ marginTop: "7px", gap: "5px" }}>
                 <CommonTable
-                  headersData={[
-                    "Document No",
-                    "Sender Name",
-                    "Sender Location",
-                    "Dispatch Type",
-                    "Document Type",
-                    {
-                      title:
-                        values?.requisition === "received"
-                          ? "Received Date"
-                          : "Requisition Date",
-                    },
-                    "Receiver Name",
-                    "Receiver Business Unit",
-                    "Receiver Location",
-                    "Send By",
-                    "Remarks",
-                    "Status",
-                    "Action",
-                  ]}
+                  headersData={values?.requisition === "send" ? sendHeadersData : receiveHeadersData}
                 >
                   <tbody>
                     {gridData?.data?.map((item, index) => (
@@ -220,8 +234,9 @@ export default function DispatchDeskLanding() {
                           {item?.receiverBusinessUnit}
                         </td>
                         <td className="text-center">{item?.toLocation}</td>
-                        <td className="text-center">{values?.requisition === "send" ? item?.sendByName : item?.sendToReceiverBy}</td>
                         <td className="text-center">{item?.dispatchNote}</td>
+                        <td className="text-center">{values?.requisition === "send" ? item?.sendByName : item?.sendToReceiverBy}</td>
+                        {values?.requisition === "received" && <td className="text-center">{_dateFormatter(item?.ownerDeskSendDate)}</td>}
                         <td className="text-center">
                           <span style={{ color: "green", fontWeight: "bold" }}>
                             {item?.sendReceive}

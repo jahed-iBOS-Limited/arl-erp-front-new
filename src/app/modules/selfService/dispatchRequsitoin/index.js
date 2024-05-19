@@ -31,7 +31,7 @@ export default function DispatchRequisitionLanding() {
   const [fromPlantDDL, getFromPlantDDL, , setFromPlant] = useAxiosGet();
   const [, deleteHandler, deleteLoader] = useAxiosPost();
 
-  const headersData = [
+  const sendheadersData = [
     "Document No",
     "Dispatch Type",
     "Document Type",
@@ -42,9 +42,26 @@ export default function DispatchRequisitionLanding() {
     "Receiver Name",
     "Receiver Business Unit",
     "Receiver Location",
+    "Remarks",
     "Status",
     "Action",
   ];
+
+  const receiveheadersData = [
+    "Document No",
+    "Dispatch Type",
+    "Document Type",
+    "Requisition Date",
+    "Send Date",
+    "Received Date",
+    "From Location",
+    "Sender Name",
+    "Sender Business Unit",
+    "Receiver Location",
+    "Status",
+    "Action",
+  ];
+
   const handleGetRowData = (status, pageNo, pageSize, searchValue) => {
     const searchParam = searchValue ? `&search=${searchValue}` : "";
     if (status === "send") {
@@ -180,22 +197,7 @@ export default function DispatchRequisitionLanding() {
               </div>
               <div style={{ marginTop: "7px", gap: "5px" }}>
                 <CommonTable
-                  headersData={headersData.map((header, index) => {
-                    if (
-                      values?.requisition === "received" &&
-                      header === "Receiver Name"
-                    ) {
-                      header = "Sender Name";
-                      return header;
-                    }else if (
-                      values?.requisition === "received" &&
-                      header === "Receiver Business Unit"
-                    ) {
-                      header =  "Sender Business Unit";
-                      return header;
-                    }
-                    return header;
-                  })}
+                  headersData={values?.requisition === "send" ? sendheadersData : receiveheadersData}
                 >
                   <tbody>
                     {gridData?.data?.map((item, index) => (
@@ -229,6 +231,7 @@ export default function DispatchRequisitionLanding() {
                             ? item?.receiverBusinessUnit
                             : item?.businessUnit}</td>
                         <td className="text-center">{item?.toLocation}</td>
+                        {values?.requisition === "send" && <td className="text-center">{item?.remaks}</td>}
                         <td className="text-center">
                         <span
                                 style={{ color: "green", fontWeight: "bold" }}
