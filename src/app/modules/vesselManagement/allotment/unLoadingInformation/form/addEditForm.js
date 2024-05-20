@@ -135,11 +135,11 @@ export default function UnLoadingInformationForm() {
 
   const saveHandler = (values, cb) => {
     if (type === "modify") {
-      if (pendingQty?.pendingQty < values?.unloadedQty) {
-        return toast.warn(
-          "Sorry, you can't unload more than pending quantity!"
-        );
-      }
+      // if (pendingQty?.pendingQty < values?.unloadedQty) {
+      //   return toast.warn(
+      //     "Sorry, you can't unload more than pending quantity!"
+      //   );
+      // }
       // const payload = {
       //   voyageNo: +id,
       //   rowId: singleData?.rowId,
