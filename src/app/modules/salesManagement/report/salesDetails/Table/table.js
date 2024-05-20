@@ -333,6 +333,7 @@ export default function SalesDetailsTable({ saveHandler }) {
       { name: "intChannelId", value: `${values?.channel?.value}` },
       { name: "intRATId", value: `${intRATId || 0}` },
       { name: "intLevelid", value: `${empLevelId || 0}` },
+      { name: "fromdate", value: `${values?.fromDate}` },
       { name: "todate", value: `${values?.toDate}` },
     ];
 
