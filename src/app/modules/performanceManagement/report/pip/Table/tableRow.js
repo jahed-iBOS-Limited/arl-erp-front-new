@@ -308,7 +308,7 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
               <div className="mt-1" ref={printRef}>
                 <div>
                   <h2 style={{ textAlign: "center" }}>
-                    Akij Resources Limited
+                    Akij Resource Limited
                   </h2>
                   <h6 style={{ textAlign: "center" }}>
                     198, Bir Uttam Mir Showkat Sarak, Tejgaon, I/A, Dhaka,

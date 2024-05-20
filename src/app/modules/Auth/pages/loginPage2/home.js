@@ -15,7 +15,7 @@ const HomeComponent = () => {
           <div className="col-xl-6 col-lg-12">
             <div className="welcomeArea">
               <h1 className="text-dark text-uppercase">
-                Welcome To <br /> Akij Resources Limited
+                Welcome To <br /> Akij Resource Limited
               </h1>
               <p className="short_description">
                 Ensure best quality products & services through continuous

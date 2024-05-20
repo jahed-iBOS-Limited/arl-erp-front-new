@@ -82,7 +82,7 @@ const EmpConfirmationReport = () => {
                 </div>
                 <div className="mt-1" ref={printRef}>
                   <div className="text-center" style={{ margin: "10px 0" }}>
-                    <h6 style={{ marginBottom: "0", fontSize: "16px" }}>AKIJ RESOURCES LIMITED</h6>
+                    <h6 style={{ marginBottom: "0", fontSize: "16px" }}>AKIJ RESOURCE LIMITED</h6>
                     <p style={{ fontSize: "14px" }}>198, Bir Uttam Mir Showkat Sarak, Tejgaon I/A, Dhaka, Bangladesh</p>
                   </div>
                   <table className="table table-striped table-bordered global-table">
