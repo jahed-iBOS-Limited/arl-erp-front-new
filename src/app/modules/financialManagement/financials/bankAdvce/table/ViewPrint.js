@@ -15,7 +15,32 @@ import { FormatSeven } from "../pdf/format-07";
 import { generateExcel } from "./excelReportGenarate";
 import { getPdfFormatNumber } from "./pdfFormatNumber";
 import { FormatEight } from "../pdf/format-08";
+import AddIcon from "@material-ui/icons/Add";
+import RemoveIcon from "@material-ui/icons/Remove";
+import { IconButton, makeStyles } from "@material-ui/core";
+const useStyles = makeStyles((theme) => ({
+  button: {
+    margin: theme.spacing(0.1),
+    backgroundColor: 'lightblue',
+    '&:hover': {
+      backgroundColor: 'blue',
+    },
+    padding: '1px',
+  },
+  increaseButton: {
+    backgroundColor: 'lightgreen',
+    '&:hover': {
+      backgroundColor: 'green',
+    },
+    margin: theme.spacing(0.1),
+    padding: '1px'
+  },
+  icon: {
+    fontSize: '10px',
+  },
+}));
 const ViewData = ({ adviceReportData, values }) => {
+  const classes = useStyles();
   const [fontSize, setFontSize] = useState(9);
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state?.authData;
@@ -43,16 +68,53 @@ const ViewData = ({ adviceReportData, values }) => {
     }
   }, [total]);
 
-  const adviceName = values?.advice?.label === "IBBL" ? "IBBL_ONLINE"  : values?.advice?.label === "IBBL-BEFTN" ? "IBBL_BEFTN" : values?.advice?.label
-  const dateFormat = values?.dateTime?.split("/").join("_")
-  const fileName = `${selectedBusinessUnit?.buShortName}_${total ? total : 0}_${adviceName}_${dateFormat}`;
+  const adviceName =
+    values?.advice?.label === "IBBL"
+      ? "IBBL_ONLINE"
+      : values?.advice?.label === "IBBL-BEFTN"
+      ? "IBBL_BEFTN"
+      : values?.advice?.label;
+  const dateFormat = values?.dateTime?.split("/").join("_");
+  const fileName = `${selectedBusinessUnit?.buShortName}_${
+    total ? total : 0
+  }_${adviceName}_${dateFormat}`;
 
   return (
     <>
       <div className="d-flex justify-content-end align-items-end">
         <div className="d-flex flex-column" style={{ width: "60px" }}>
-          <label>Font Size</label>
-          <input
+          <label>Font Size: </label>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            <IconButton
+              onClick={() => {
+                if (fontSize > 8) {
+                  setFontSize(fontSize - 1);
+                }
+              }}
+              aria-label="decrease"
+              className={classes.button}
+            >
+              <RemoveIcon className={classes.icon}/>
+            </IconButton>
+            <span>{fontSize}</span>
+            <IconButton
+              onClick={() => {
+                if (fontSize < 15) {
+                  setFontSize(fontSize + 1);
+                }
+              }}
+              aria-label="increase"
+              className={classes.increaseButton}
+            >
+              <AddIcon className={classes.icon}/>
+            </IconButton>
+          </div>
+          {/* <input
             value={fontSize}
             onChange={(e) => {
               if (+e?.target?.value >= 8 && +e?.target?.value <= 15) {
@@ -60,45 +122,65 @@ const ViewData = ({ adviceReportData, values }) => {
               }
             }}
             type="number"
-          />
+          /> */}
         </div>
         <button
           style={{ height: "30px" }}
           className="btn btn-primary btn-sm m-0 mx-2 py-2 px-2"
           onClick={(e) => {
             if (values?.adviceType?.value === 15) {
-              const adviceName = values?.advice?.label === "IBBL" ? "IBBL_ONLINE"  : values?.advice?.label === "IBBL-BEFTN" ? "IBBL_BEFTN" : values?.advice?.label
-              const dateFormat = values?.dateTime?.split("/").join("_")
-              const fileName = `${selectedBusinessUnit?.buShortName}_${total ? total : 0}_${adviceName}_${dateFormat}`;
+              const adviceName =
+                values?.advice?.label === "IBBL"
+                  ? "IBBL_ONLINE"
+                  : values?.advice?.label === "IBBL-BEFTN"
+                  ? "IBBL_BEFTN"
+                  : values?.advice?.label;
+              const dateFormat = values?.dateTime?.split("/").join("_");
+              const fileName = `${selectedBusinessUnit?.buShortName}_${
+                total ? total : 0
+              }_${adviceName}_${dateFormat}`;
               generateExcel(
                 adviceReportData,
                 values,
                 0,
-                "",              
+                "",
                 selectedBusinessUnit,
-                false,  
+                false,
                 null,
-                fileName           
-             )
-           }else{
-            generateExcel(
-              adviceReportData,
-              values,
-              0,
-              "",              
-              selectedBusinessUnit,
-              false,  
-              null,
-              fileName           
-           );}
+                fileName
+              );
+            } else {
+              generateExcel(
+                adviceReportData,
+                values,
+                0,
+                "",
+                selectedBusinessUnit,
+                false,
+                null,
+                fileName
+              );
+            }
           }}
         >
           Export Excel
         </button>
         <ReactToPrint
-          pageStyle={
-            `@media print{body { -webkit-print-color-adjust: exact;}@page {size: ${(values?.advice?.label === "IBBL" || values?.advice?.label === "JAMUNA-BEFTN" || values?.advice?.label === "RTGS") ? "portrait !important"  : values?.advice?.label === "IBBL-BEFTN" ? "landscape !important" : "landscape !important"};margin:${values?.advice?.label === "RTGS" ? "0 !important" : ["IBBL", "JAMUNA-BEFTN"].includes(values?.advice?.label) ?"144px 0 !important" : 0} }}`
-          }
+          pageStyle={`@media print{body { -webkit-print-color-adjust: exact;}@page {size: ${
+            values?.advice?.label === "IBBL" ||
+            values?.advice?.label === "JAMUNA-BEFTN" ||
+            values?.advice?.label === "RTGS"
+              ? "portrait !important"
+              : values?.advice?.label === "IBBL-BEFTN"
+              ? "landscape !important"
+              : "landscape !important"
+          };margin:${
+            values?.advice?.label === "RTGS"
+              ? "0 !important"
+              : ["IBBL", "JAMUNA-BEFTN"].includes(values?.advice?.label)
+              ? "144px 0 !important"
+              : 0
+          } }}`}
           trigger={() => (
             <button
               className="btn btn-primary btn-sm d-flex align-items-center "
@@ -160,16 +242,16 @@ const ViewData = ({ adviceReportData, values }) => {
                     values?.adviceType?.value,
                     values?.advice?.value
                   ) === 2 && (
-                      <FormatTwo
-                        fontSize={fontSize}
-                        APIUrl={APIUrl}
-                        selectedBusinessUnit={selectedBusinessUnit}
-                        values={values}
-                        adviceReportData={adviceReportData}
-                        total={total}
-                        totalInWords={totalInWords}
-                      />
-                    )}
+                    <FormatTwo
+                      fontSize={fontSize}
+                      APIUrl={APIUrl}
+                      selectedBusinessUnit={selectedBusinessUnit}
+                      values={values}
+                      adviceReportData={adviceReportData}
+                      total={total}
+                      totalInWords={totalInWords}
+                    />
+                  )}
                   {getPdfFormatNumber(
                     values?.adviceType?.value,
                     values?.advice?.value
@@ -251,7 +333,7 @@ const ViewData = ({ adviceReportData, values }) => {
                       totalInWords={totalInWords}
                     />
                   )}
-                  {values?.advice?.label === "JAMUNA-RTGS" &&
+                  {values?.advice?.label === "JAMUNA-RTGS" && (
                     <FormatFour
                       fontSize={fontSize}
                       APIUrl={APIUrl}
@@ -261,8 +343,8 @@ const ViewData = ({ adviceReportData, values }) => {
                       total={total}
                       totalInWords={totalInWords}
                       isJamunaRtgs
-                  />
-                  }
+                    />
+                  )}
                 </div>
               </>
             </div>
@@ -274,4 +356,3 @@ const ViewData = ({ adviceReportData, values }) => {
 };
 
 export default ViewData;
-
