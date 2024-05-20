@@ -103,7 +103,7 @@ const ShowcaseLayout = ({ values }) => {
   }, [reports]);
 
   return (
-    <div>
+    <div style={{overflow: 'hidden'}}>
       <ResponsiveReactGridLayout {..._props} layouts={state.layouts}>
         {generateDOM()}
       </ResponsiveReactGridLayout>
