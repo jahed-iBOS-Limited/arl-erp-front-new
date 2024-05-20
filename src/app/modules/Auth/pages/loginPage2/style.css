@@ -40,6 +40,9 @@
   font-weight: 700;
   color: #160637 !important;
   font-family: "Poppins", sans-serif;
+  @media screen and (max-width: 767px) {
+    font-size: 25px;
+  }
 }
 
 .short_description {

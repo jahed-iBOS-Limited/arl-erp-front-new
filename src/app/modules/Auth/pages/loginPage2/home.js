@@ -27,7 +27,7 @@ const HomeComponent = () => {
             </div>
           </div>
 
-          <div className="col-xl-6 offset-lg-0 col-lg-0">
+          <div className="col-xl-6 offset-lg-0 col-lg-0 mt-3 mt-md-0">
             <div className="mockup text-center">
               <img src={mockup} alt="" />
               <h3 className="mocku_text">
