@@ -320,7 +320,7 @@ export default function BalancerReportTable() {
                       <h3>
                         {values?.business?.value > 0
                           ? values?.business?.label
-                          : "Akij Resources Limited"}
+                          : "Akij Resource Limited"}
                       </h3>
                       <h5>Balance Sheet</h5>
                       {values?.fromDate ? (

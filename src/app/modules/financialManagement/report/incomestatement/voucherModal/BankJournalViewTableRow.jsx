@@ -301,7 +301,7 @@ export function BankJournalViewTableRow({ id, headerData }) {
                         <div className="d-flex flex-column">
                           <span className="reportBorder"></span>
                           <span>
-                            Authorized Signatory Akij Resources Limited
+                            Authorized Signatory Akij Resource Limited
                           </span>
                         </div>
                         {/* <div className=' d-flex flex-column'>
