@@ -45,9 +45,9 @@ export function POConfigurationPages() {
         component={PurchaseOrganization}
       />
 
-      {/* Deletable Route */}
+     
       <ContentRoute
-        from="/mngProcurement/purchase-configuration/rate-agreement/itemRateUpdate"
+        from="/mngProcurement/purchase-configuration/item-rate-update"
         component={ItemRateUpdate}
       />
 
