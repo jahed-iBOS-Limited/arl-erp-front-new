@@ -536,6 +536,22 @@ const ProcureToPayReportTable = () => {
                                 bold: true,
                               },
                               {
+                                text: "Billing Date",
+                                fontSize: 9,
+                                border: "all 000000 thin",
+                                alignment: "center",
+                                textFormat: "text",
+                                bold: true,
+                              },
+                              {
+                                text: "Audit Date",
+                                fontSize: 9,
+                                border: "all 000000 thin",
+                                alignment: "center",
+                                textFormat: "text",
+                                bold: true,
+                              },
+                              {
                                 text: "Total PO Adjustment",
                                 fontSize: 9,
                                 border: "all 000000 thin",
@@ -638,6 +654,8 @@ const ProcureToPayReportTable = () => {
                               <th>Bill Amount</th>
                               <th>Pay Date</th>
                               <th>Pay Amount</th>
+                              <th>Billing Date</th>
+                              <th>Audit Date</th>
                               <th>Total PO Adjustment</th>
                               <th>Total PO Advance</th>
                               {/* <th>PO Close</th> */}
@@ -726,6 +744,8 @@ const ProcureToPayReportTable = () => {
                                 <td>{item?.numBillAmount}</td>
                                 <td>{_dateFormatter(item?.payDate)}</td>
                                 <td>{item?.monReqestAmount}</td>
+                                <td>{_dateFormatter(item?.dteBillRegisterDate)}</td>
+                                <td>{_dateFormatter(item?.dteBillRegisterApprovedDate)}</td>
                                 <td>{item?.monTotalAdjustment}</td>
                                 <td>{item?.monTotalAdvance}</td>
                                 {/* <td></td> */}
