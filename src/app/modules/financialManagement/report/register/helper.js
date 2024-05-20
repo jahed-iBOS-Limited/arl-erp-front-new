@@ -19,7 +19,8 @@ export const getRegisterReportAction = async (
   setter,
   setLoading,
   registerTypeId,
-  partnerTypeId
+  partnerTypeId,
+  CB
 ) => {
   const {
     sbu = null,
@@ -53,6 +54,7 @@ export const getRegisterReportAction = async (
     const res = await axios.get(api);
     setLoading(false);
     setter(res?.data);
+    CB && CB(res?.data);
   } catch (error) {
     setLoading(false);
     setter([]);
