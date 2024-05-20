@@ -24,6 +24,7 @@ function MobileFirstAlert() {
     422,
     600,
     611,
+    269
   ].includes(profileData?.workPlaceId);
 
   useEffect(() => {
