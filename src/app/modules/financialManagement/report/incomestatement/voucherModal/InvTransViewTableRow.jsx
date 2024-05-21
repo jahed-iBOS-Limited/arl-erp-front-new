@@ -197,7 +197,7 @@ export function InvTransViewTableRow({ id, headerData }) {
                         </div>
                         <div className='d-flex flex-column'>
                           <span className="reportBorder"></span>
-                          <span>Authorized Signatory Akij Resources Limited</span>
+                          <span>Authorized Signatory Akij Resource Limited</span>
                         </div>
                         {/* <div className=' d-flex flex-column'>
                           <span className="reportBorder"></span>
