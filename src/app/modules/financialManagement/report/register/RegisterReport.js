@@ -683,7 +683,7 @@ export default function SearchRegisterReport({ rowDtoAll, setRowDto }) {
         <div style={{ position: "relative" }}>
           <TextField
             id="standard-basic"
-            label="Partner & Search"
+            label="Partner & Code Search"
             onChange={(e) => {
               searchHandler(e.target.value, rowDtoAll);
             }}
