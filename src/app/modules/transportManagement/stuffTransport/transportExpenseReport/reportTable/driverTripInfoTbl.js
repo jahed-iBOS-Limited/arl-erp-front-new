@@ -51,6 +51,8 @@ export default function DriverTripInfoTbl({ rowData }) {
             <th>Date</th>
             <th>Trip Type</th>
             <th>Trip No</th>
+            <th>Start Mileage</th>
+            <th>End Milage</th>
             <th>KM</th>
             <th>Vehicle No</th>
             <th>From</th>
@@ -77,6 +79,8 @@ export default function DriverTripInfoTbl({ rowData }) {
                 </td>
                 <td>{item?.strTripType}</td>
                 <td>{item?.strTripCode}</td>
+                <td className="text-center">{item?.startMileage}</td>
+                <td className="text-center">{item?.endMilage}</td>
                 <td className="text-center">{item?.tripKM}</td>
                 <td className="text-center">{item?.strVehicleNo}</td>
                 <td>{item?.strFirstRoundStartAddress}</td>
