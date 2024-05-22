@@ -33,7 +33,7 @@ const initData = {
   shipPoint: "", // DDL
   item: "", // DDL
   numQuantity: 0,
-  strShift: { value: 1, label: "A Shift" }, // DDL
+  strShift: { value: 1, label: "Day" },  // DDL
   intNumberOfPump: 0,
   intPipeFeet: 0,
   intLargeTyre: 0,
