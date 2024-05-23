@@ -57,6 +57,8 @@ import LiftingPlan from "./liftingPlan";
 import MRRCancel from "./mrrCancel";
 import TargetVSProductionRequestForm from "./targetVSProductionRequest/form/addEditForm";
 import TargetVSProductionRequest from "./targetVSProductionRequest/landing";
+import LogisticEquipment from "./logisticEquipment";
+import LogisticEquipmentEntry from "./logisticEquipment/entry";
 
 export function WarehouseManagementPages() {
   const { userRole, selectedBusinessUnit } = useSelector(
@@ -371,6 +373,14 @@ export function WarehouseManagementPages() {
       <ContentRoute
         path="/inventory-management/warehouse-management/liftingplanreport"
         component={LiftingPlan}
+      />
+       <ContentRoute
+        path="/inventory-management/warehouse-management/logisticequipmentavailability/:type"
+        component={LogisticEquipmentEntry}
+      />
+       <ContentRoute
+        path="/inventory-management/warehouse-management/logisticequipmentavailability"
+        component={LogisticEquipment}
       />
       <ContentRoute
         path="/inventory-management/warehouse-management/InventoryAdjustment/create"
