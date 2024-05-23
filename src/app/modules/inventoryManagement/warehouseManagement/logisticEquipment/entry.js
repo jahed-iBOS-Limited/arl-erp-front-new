@@ -1,5 +1,5 @@
 import { Form, Formik } from "formik";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import * as Yup from "yup";
 import IForm from "../../../_helper/_form";
 import InputField from "../../../_helper/_inputField";
@@ -7,22 +7,39 @@ import Loading from "../../../_helper/_loading";
 import NewSelect from "../../../_helper/_select";
 import { shallowEqual, useSelector } from "react-redux";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import IDelete from "../../../_helper/_helperIcons/_delete";
+import { toast } from "react-toastify";
+import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
+import { useLocation } from "react-router";
 
 const initData = {
   businessUnit: "",
   shipPoint: "",
+  shift: { value: 1, label: "Day" },
+  avlTransitMixture: 0,
+  transitMixtureExplain: "",
+  avlConcretePump: 0,
+  concretePumpExplain: "",
+  avlPickUp: 0,
+  pickUpExplain: "",
+  avlPipeLine: 0,
+  pipeLineExplain: "",
 };
 
-export const validationSchema = Yup.object().shape({
-  businessUnit: Yup.object().shape({
-    label: Yup.string().required("Business Unit is required"),
-    value: Yup.string().required("Business Unit is required"),
-  }),
-  shipPoint: Yup.object().shape({
-    label: Yup.string().required("Ship Ponit is required"),
-    value: Yup.string().required("Ship Ponit is required"),
-  }),
-});
+// export const validationSchema = Yup.object().shape({
+//   businessUnit: Yup.object().shape({
+//     label: Yup.string().required("Business Unit is required"),
+//     value: Yup.string().required("Business Unit is required"),
+//   }),
+//   shipPoint: Yup.object().shape({
+//     label: Yup.string().required("Ship Ponit is required"),
+//     value: Yup.string().required("Ship Ponit is required"),
+//   }),
+//   shift: Yup.object().shape({
+//     label: Yup.string().required("Shift is required"),
+//     value: Yup.string().required("Shift is required"),
+//   }),
+// });
 export default function LogisticEquipmentEntry() {
   const [objProps, setObjprops] = useState({});
   const { profileData, businessUnitList } = useSelector((state) => {
@@ -36,10 +53,25 @@ export default function LogisticEquipmentEntry() {
   ] = useAxiosGet();
 
   const [formList, setFormList] = useState([]);
+  const [, onSaveHandler, loading] = useAxiosPost();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location?.state?.item) {
+      setFormList([{ ...location?.state?.item }]);
+    }
+  }, [location]);
 
   const saveHandler = async (values, cb) => {
-    console.log(values);
-    alert("Submitted Successful");
+    if (!formList?.length) {
+      return toast.warn("Add at least One row!");
+    }
+    onSaveHandler(
+      `/oms/CastingSchedule/CreateAndUpdateCastingScheduleToolsInfo`,
+      formList,
+      cb,
+      true
+    );
   };
 
   return (
@@ -48,15 +80,16 @@ export default function LogisticEquipmentEntry() {
       getProps={setObjprops}
       isHiddenReset={true}
     >
-      {shipPointLoader && <Loading />}
+      {(shipPointLoader || loading) && <Loading />}
       <>
         <Formik
           enableReinitialize={true}
           initialValues={initData}
-          validationSchema={validationSchema}
+          // validationSchema={validationSchema}
           onSubmit={(values, { setSubmitting, resetForm }) => {
             saveHandler(values, () => {
               resetForm(initData);
+              setFormList([]);
             });
           }}
         >
@@ -107,18 +140,34 @@ export default function LogisticEquipmentEntry() {
                       touched={touched}
                     />
                   </div>
+                  <div className="col-lg-3">
+                    <NewSelect
+                      name="shift"
+                      options={[
+                        { value: 1, label: "Day" },
+                        { value: 2, label: "Night" },
+                      ]}
+                      value={values?.shift}
+                      label="Select Shift"
+                      onChange={(valueOption) => {
+                        setFieldValue("shift", valueOption);
+                      }}
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
                 </div>
 
                 <div className="form-group  global-form row">
                   <>
                     <div className="col-lg-3">
                       <InputField
-                        value={values?.availableTM}
+                        value={values?.avlTransitMixture}
                         label="Available TM"
-                        name="availableTM"
+                        name="avlTransitMixture"
                         type="number"
                         onChange={(e) => {
-                          setFieldValue("availableTM", e.target.value);
+                          setFieldValue("avlTransitMixture", e.target.value);
                         }}
                         errors={errors}
                         touched={touched}
@@ -126,12 +175,15 @@ export default function LogisticEquipmentEntry() {
                     </div>
                     <div className="col-lg-3">
                       <InputField
-                        value={values?.remarks}
+                        value={values?.transitMixtureExplain}
                         label="Explanations"
-                        name="remarks"
+                        name="transitMixtureExplain"
                         type="text"
                         onChange={(e) => {
-                          setFieldValue("remarks", e.target.value);
+                          setFieldValue(
+                            "transitMixtureExplain",
+                            e.target.value
+                          );
                         }}
                         errors={errors}
                         touched={touched}
@@ -141,12 +193,12 @@ export default function LogisticEquipmentEntry() {
                   <>
                     <div className="col-lg-3">
                       <InputField
-                        value={values?.availableConcrete}
+                        value={values?.avlConcretePump}
                         label="Available Concrete"
-                        name="availableConcrete"
+                        name="avlConcretePump"
                         type="number"
                         onChange={(e) => {
-                          setFieldValue("availableConcrete", e.target.value);
+                          setFieldValue("avlConcretePump", e.target.value);
                         }}
                         errors={errors}
                         touched={touched}
@@ -154,12 +206,12 @@ export default function LogisticEquipmentEntry() {
                     </div>
                     <div className="col-lg-3">
                       <InputField
-                        value={values?.remarks}
+                        value={values?.concretePumpExplain}
                         label="Explanations"
-                        name="remarks"
+                        name="concretePumpExplain"
                         type="text"
                         onChange={(e) => {
-                          setFieldValue("remarks", e.target.value);
+                          setFieldValue("concretePumpExplain", e.target.value);
                         }}
                         errors={errors}
                         touched={touched}
@@ -169,12 +221,12 @@ export default function LogisticEquipmentEntry() {
                   <>
                     <div className="col-lg-3">
                       <InputField
-                        value={values?.availablePickup}
+                        value={values?.avlPickUp}
                         label="Available Pickup(Nos)"
-                        name="availablePickup"
+                        name="avlPickUp"
                         type="number"
                         onChange={(e) => {
-                          setFieldValue("availablePickup", e.target.value);
+                          setFieldValue("avlPickUp", e.target.value);
                         }}
                         errors={errors}
                         touched={touched}
@@ -182,12 +234,12 @@ export default function LogisticEquipmentEntry() {
                     </div>
                     <div className="col-lg-3">
                       <InputField
-                        value={values?.remarks}
+                        value={values?.pickUpExplain}
                         label="Explanations"
-                        name="remarks"
+                        name="pickUpExplain"
                         type="text"
                         onChange={(e) => {
-                          setFieldValue("remarks", e.target.value);
+                          setFieldValue("pickUpExplain", e.target.value);
                         }}
                         errors={errors}
                         touched={touched}
@@ -197,12 +249,12 @@ export default function LogisticEquipmentEntry() {
                   <>
                     <div className="col-lg-3">
                       <InputField
-                        value={values?.availablePipeLine}
+                        value={values?.avlPipeLine}
                         label="Available PipeLine(RFT)"
-                        name="availablePipeLine"
+                        name="avlPipeLine"
                         type="number"
                         onChange={(e) => {
-                          setFieldValue("availablePipeLine", e.target.value);
+                          setFieldValue("avlPipeLine", e.target.value);
                         }}
                         errors={errors}
                         touched={touched}
@@ -210,12 +262,12 @@ export default function LogisticEquipmentEntry() {
                     </div>
                     <div className="col-lg-3">
                       <InputField
-                        value={values?.remarks}
+                        value={values?.pipeLineExplain}
                         label="Explanations"
-                        name="remarks"
+                        name="pipeLineExplain"
                         type="text"
                         onChange={(e) => {
-                          setFieldValue("remarks", e.target.value);
+                          setFieldValue("pipeLineExplain", e.target.value);
                         }}
                         errors={errors}
                         touched={touched}
@@ -223,10 +275,156 @@ export default function LogisticEquipmentEntry() {
                     </div>
                   </>
                   <div className="col-lg-3">
-                    <button type="button" className="btn btn-primary mt-5">
+                    <button
+                      disabled={
+                        !values?.businessUnit ||
+                        !values?.shipPoint ||
+                        !values?.shift
+                      }
+                      type="button"
+                      className="btn btn-primary mt-5"
+                      onClick={() => {
+                        const payload = {
+                          ...values,
+                          autoId: 0,
+                          accountId: profileData?.accountId,
+                          unitId: values?.businessUnit?.value,
+                          shipPointId: values?.shipPoint?.value,
+                          shiftId: values?.shift?.value,
+                        };
+                        setFormList((prev) => [...prev, payload]);
+                      }}
+                    >
                       Add
                     </button>
                   </div>
+                </div>
+
+                <div className="table-responsive">
+                  <table className="table table-striped mt-2 table-bordered bj-table bj-table-landing">
+                    <thead>
+                      <tr>
+                        <th>Available TM</th>
+                        <th>Explanations</th>
+                        <th>Available Concrete</th>
+                        <th>Explanations</th>
+                        <th>Available Pickup(Nos)</th>
+                        <th>Explanations</th>
+                        <th>Available PipeLine(RFT)</th>
+                        <th>Explanations</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {formList.map((item, index) => (
+                        <tr key={index}>
+                          <td>
+                            <InputField
+                              value={item?.avlTransitMixture}
+                              type="number"
+                              onChange={(e) => {
+                                const data = [...formList];
+                                data[index]["avlTransitMixture"] =
+                                  e.target.value;
+                                setFormList(data);
+                              }}
+                            />
+                          </td>
+                          <td>
+                            <InputField
+                              value={item?.transitMixtureExplain}
+                              type="text"
+                              onChange={(e) => {
+                                const data = [...formList];
+                                data[index]["transitMixtureExplain"] =
+                                  e.target.value;
+                                setFormList(data);
+                              }}
+                            />
+                          </td>
+                          <td>
+                            <InputField
+                              value={item?.avlConcretePump}
+                              type="number"
+                              onChange={(e) => {
+                                const data = [...formList];
+                                data[index]["avlConcretePump"] = e.target.value;
+                                setFormList(data);
+                              }}
+                            />
+                          </td>
+                          <td>
+                            <InputField
+                              value={item?.concretePumpExplain}
+                              type="text"
+                              onChange={(e) => {
+                                const data = [...formList];
+                                data[index]["concretePumpExplain"] =
+                                  e.target.value;
+                                setFormList(data);
+                              }}
+                            />
+                          </td>
+                          <td>
+                            <InputField
+                              value={item?.avlPickUp}
+                              type="number"
+                              onChange={(e) => {
+                                const data = [...formList];
+                                data[index]["avlPickUp"] = e.target.value;
+                                setFormList(data);
+                              }}
+                            />
+                          </td>
+                          <td>
+                            <InputField
+                              value={item?.pickUpExplain}
+                              type="text"
+                              onChange={(e) => {
+                                const data = [...formList];
+                                data[index]["pickUpExplain"] = e.target.value;
+                                setFormList(data);
+                              }}
+                            />
+                          </td>
+                          <td>
+                            <InputField
+                              value={item?.avlPipeLine}
+                              type="number"
+                              onChange={(e) => {
+                                const data = [...formList];
+                                data[index]["avlPipeLine"] = e.target.value;
+                                setFormList(data);
+                              }}
+                            />
+                          </td>
+                          <td>
+                            <InputField
+                              value={item?.pipeLineExplain}
+                              type="text"
+                              onChange={(e) => {
+                                const data = [...formList];
+                                data[index]["pipeLineExplain"] = e.target.value;
+                                setFormList(data);
+                              }}
+                            />
+                          </td>
+                          <td className="text-center">
+                            <span
+                              onClick={() => {
+                                const data = formList?.filter(
+                                  (itm, i) => i !== index
+                                );
+                                setFormList(data);
+                              }}
+                            >
+                              <IDelete />
+                            </span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
 
                 <button

@@ -5,16 +5,25 @@ import { shallowEqual, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
 import IEdit from "../../../_helper/_helperIcons/_edit";
-import PaginationSearch from "../../../_helper/_search";
+import NewSelect from "../../../_helper/_select";
 import PaginationTable from "../../../_helper/_tablePagination";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import IForm from "./../../../_helper/_form";
 import Loading from "./../../../_helper/_loading";
-const initData = {};
+const initData = {
+  businessUnit: "",
+  shipPoint: "",
+  shift: { value: 1, label: "Day" },
+};
 export default function LogisticEquipment() {
-  const { profileData, selectedBusinessUnit } = useSelector((state) => {
-    return state.authData;
-  }, shallowEqual);
+  const { profileData, selectedBusinessUnit, businessUnitList } = useSelector(
+    (state) => {
+      return state.authData;
+    },
+    shallowEqual
+  );
+
+  const [shipPointList, getShipPointList, , setShipPointList] = useAxiosGet();
 
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
@@ -24,15 +33,12 @@ export default function LogisticEquipment() {
   const history = useHistory();
 
   const getLandingData = (values, pageNo, pageSize, searchValue = "") => {
-    const searchTearm = searchValue ? `&search=${searchValue}` : "";
+    // const searchTearm = searchValue ? `&search=${searchValue}` : "";
     getGridData(
-      `/procurement/PurchaseOrder/GetAllItemsListForRateConfigure?businessUnitId=${
-        selectedBusinessUnit?.value
-      }&plantId=${values?.plant?.value || 0}&warehouseId=${values?.warehouse
-        ?.value || 0}&itemTypeId=${values?.itemType?.value ||
-        0}&itemCategoryId=${values?.itemCategory?.value ||
-        0}&itemSubCategoryId=${values?.itemSubCategory?.value ||
-        0}&pageNo=${pageNo}&pageSize=${pageSize}${searchTearm}`
+      `/oms/CastingSchedule/GetCastingScheduleToolsInfoPagination?businessUnitId=${
+        values?.businessUnit?.value
+      }&shipPointId=${values?.shipPoint?.value || 0}&shiftId=${values?.shift
+        ?.value || 0}&pageNo=${pageNo}&pageSize=${pageSize}`
     );
   };
 
@@ -40,13 +46,13 @@ export default function LogisticEquipment() {
     getLandingData(values, pageNo, pageSize, searchValue);
   };
 
-  const paginationSearchHandler = (searchValue, values) => {
-    setPositionHandler(pageNo, pageSize, values, searchValue);
-  };
+  // const paginationSearchHandler = (searchValue, values) => {
+  //   setPositionHandler(pageNo, pageSize, values, searchValue);
+  // };
   return (
     <Formik
       enableReinitialize={true}
-      initialValues={{}}
+      initialValues={initData}
       // validationSchema={{}}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
@@ -77,7 +83,9 @@ export default function LogisticEquipment() {
                     type="button"
                     className="btn btn-primary"
                     onClick={() => {
-                      history.push("/inventory-management/warehouse-management/logisticequipmentavailability/entry");
+                      history.push(
+                        "/inventory-management/warehouse-management/logisticequipmentavailability/entry"
+                      );
                     }}
                   >
                     Create
@@ -90,18 +98,69 @@ export default function LogisticEquipment() {
               <>
                 <div className="form-group  global-form row">
                   <div className="col-lg-3">
-                    {/* <button
+                    <NewSelect
+                      name="businessUnit"
+                      options={businessUnitList || []}
+                      value={values?.businessUnit}
+                      label="Select Business Unit"
+                      onChange={(valueOption) => {
+                        setFieldValue("businessUnit", valueOption || "");
+                        setFieldValue("shipPoint", "");
+                        setShipPointList([]);
+
+                        if (valueOption) {
+                          getShipPointList(
+                            `/wms/ShipPoint/GetShipPointDDL?accountId=${profileData?.accountId}&businessUnitId=${valueOption?.value}`
+                          );
+                        }
+                      }}
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
+                  <div className="col-lg-3">
+                    <NewSelect
+                      name="shipPoint"
+                      options={shipPointList || []}
+                      value={values?.shipPoint}
+                      label="Select Ship Point"
+                      onChange={(valueOption) => {
+                        setFieldValue("shipPoint", valueOption);
+                      }}
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
+                  <div className="col-lg-3">
+                    <NewSelect
+                      name="shift"
+                      options={[
+                        { value: 1, label: "Day" },
+                        { value: 2, label: "Night" },
+                      ]}
+                      value={values?.shift}
+                      label="Select Shift"
+                      onChange={(valueOption) => {
+                        setFieldValue("shift", valueOption);
+                      }}
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
+                  <div className="col-lg-3">
+                    <button
+                      disabled={!values?.businessUnit}
+                      type="button"
+                      className="btn btn-primary mt-5"
                       onClick={() => {
                         getLandingData(values, pageNo, pageSize, "");
                       }}
-                      type="button"
-                      className="btn btn-primary mt-5"
                     >
                       View
-                    </button> */}
+                    </button>
                   </div>
                 </div>
-                {gridData?.itemList?.length > 0 && (
+                {/* {gridData?.data?.length > 0 && (
                   <div className="my-3">
                     <PaginationSearch
                       placeholder="Search Enroll & Name"
@@ -109,53 +168,58 @@ export default function LogisticEquipment() {
                       values={values}
                     />
                   </div>
-                )}
-                {gridData?.itemList?.length > 0 && (
+                )} */}
+                {gridData?.data?.length > 0 && (
                   <div className="table-responsive">
                     <table className="table table-striped mt-2 table-bordered bj-table bj-table-landing">
                       <thead>
                         <tr>
                           <th>SL</th>
-                          <th>Item Code</th>
-                          <th>Item Name</th>
-                          <th>Uom</th>
-                          <th>Effective Date</th>
-                          <th>Rate (Dhaka)</th>
-                          <th>Rate (Chittagong)</th>
+                          <th>Ship Point</th>
+                          <th>Shift</th>
+                          <th>Available TM</th>
+                          <th>Explanations</th>
+                          <th>Available Concrete</th>
+                          <th>Explanations</th>
+                          <th>Available Pickup(Nos)</th>
+                          <th>Explanations</th>
+                          <th>Available PipeLine(RFT)</th>
+                          <th>Explanations</th>
                           <th>Action</th>
                         </tr>
                       </thead>
                       <tbody>
-                        {gridData?.itemList?.map((item, index) => (
+                        {gridData?.data?.map((item, index) => (
                           <tr key={index}>
                             <td>{index + 1}</td>
-                            <td className="text-center">{item?.itemCode}</td>
-                            <td>{item?.itemName}</td>
-                            <td className="text-center">{item?.uomName}</td>
+                            <td>{item?.shipPointName}</td>
+                            <td>{item?.shiftName}</td>
                             <td className="text-center">
-                              {_dateFormatter(item?.effectiveDate)}
+                              {item?.avlTransitMixture}
                             </td>
-                            <td className="text-center">{item?.itemRate}</td>
+                            <td>{item?.transitMixtureExplain}</td>
                             <td className="text-center">
-                              {item?.itemOthersRate}
+                              {item?.avlConcretePump}
                             </td>
+                            <td>{item?.concretePumpExplain}</td>
+                            <td className="text-center">{item?.avlPickUp}</td>
+                            <td>{item?.pickUpExplain}</td>
+                            <td className="text-center">{item?.avlPipeLine}</td>
+                            <td>{item?.pipeLineExplain}</td>
                             <td className="text-center">
                               <div className="">
-                                <span className="" onClick={() => {}}>
+                                <span
+                                  className=""
+                                  onClick={() => {
+                                    history.push({
+                                      pathname: `/inventory-management/warehouse-management/logisticequipmentavailability/edit`,
+                                      state: {
+                                        item: item,
+                                      },
+                                    });
+                                  }}
+                                >
                                   <IEdit />
-                                </span>
-                                <span className="px-5" onClick={() => {}}>
-                                  <OverlayTrigger
-                                    overlay={
-                                      <Tooltip id="cs-icon">History</Tooltip>
-                                    }
-                                  >
-                                    <i
-                                      style={{ fontSize: "16px" }}
-                                      class="fa fa-history cursor-pointer"
-                                      aria-hidden="true"
-                                    ></i>
-                                  </OverlayTrigger>
                                 </span>
                               </div>
                             </td>
@@ -166,7 +230,7 @@ export default function LogisticEquipment() {
                   </div>
                 )}
 
-                {gridData?.itemList?.length > 0 && (
+                {gridData?.data?.length > 0 && (
                   <PaginationTable
                     count={gridData?.totalCount}
                     setPositionHandler={setPositionHandler}
