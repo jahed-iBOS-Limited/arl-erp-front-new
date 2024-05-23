@@ -183,7 +183,8 @@ function RowMaterialAutoPR() {
                         Show
                       </button>
                     </div>
-                    <div className="col-lg-2">
+                    {/* create PR comment order by kabir vai */}
+                    {/* <div className="col-lg-2">
                       <button
                         style={{ marginTop: "18px" }}
                         className="btn btn-primary ml-2"
@@ -197,7 +198,7 @@ function RowMaterialAutoPR() {
                       >
                         Create PR
                       </button>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
                 <div className="po_custom_search">
@@ -212,7 +213,8 @@ function RowMaterialAutoPR() {
                       <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                         <thead>
                           <tr>
-                            <th style={{ width: "23px" }}>
+                            {/* tick mark remove order by kabir vai */}
+                            {/* <th style={{ width: "23px" }}>
                               <input
                                 type="checkbox"
                                 id="parent"
@@ -223,7 +225,7 @@ function RowMaterialAutoPR() {
                                   );
                                 }}
                               />
-                            </th>
+                            </th> */}
                             <th style={{ width: "30px" }}>SL</th>
                             <th>তারিখ</th>
                             <th>গাড়ীর নাম্বার</th>
@@ -242,7 +244,7 @@ function RowMaterialAutoPR() {
                           {rowData?.qcList?.length > 0 &&
                             rowData?.qcList?.map((item, index) => (
                               <tr key={index}>
-                                <td>
+                                {/* <td>
                                   <input
                                     id="isPRCompleted"
                                     type="checkbox"
@@ -259,7 +261,7 @@ function RowMaterialAutoPR() {
                                     }}
                                     disabled={item?.intPurchaseRequestId}
                                   />
-                                </td>
+                                </td> */}
                                 <td>{index + 1}</td>
                                 <td className="text-center">
                                   {_dateFormatter(item?.dteDate)}
