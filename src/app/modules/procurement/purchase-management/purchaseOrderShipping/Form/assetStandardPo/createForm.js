@@ -11,11 +11,11 @@ import { IInput } from "../../../../../_helper/_input";
 import { ISelect } from "../../../../../_helper/_inputDropDown";
 import Loading from "../../../../../_helper/_loading";
 import NewSelect from "../../../../../_helper/_select";
+import TotalNetAmount from "../../TotalNetAmount";
+import { getPOItemForStandradItemDDLAction } from "../../_redux/Actions";
 import useAxiosGet from "../../customHooks/useAxiosGet";
 import { getUniQueItems, lastPriceFunc } from "../../helper";
-import TotalNetAmount from "../../TotalNetAmount";
 import { rowDtoDynamicHandler } from "../../utils";
-import { getPOItemForStandradItemDDLAction } from "../../_redux/Actions";
 import SearchAsyncSelect from "./../../../../../_helper/SearchAsyncSelect";
 import FormikError from "./../../../../../_helper/_formikError";
 import { excelFileToArray } from "./excelToArrayConvert";
@@ -314,6 +314,8 @@ export default function AssetStandardPOCreateForm({
     );
   }, [selectedBusinessUnit]);
 
+  const totalValueWithoutDiscountAndVat = rowDto?.reduce((acc,cur)=>acc+cur?.netValue,0)
+  console.log("totalValueWithoutDiscoutnAndVat",totalValueWithoutDiscountAndVat);
   return (
     <>
       <Formik
@@ -516,10 +518,30 @@ export default function AssetStandardPOCreateForm({
                       onChange={(e) => {
                         if (e.target.value > 0) {
                           setFieldValue("discount", e.target.value);
+                          setFieldValue("discountPercent", ((e.target?.value /totalValueWithoutDiscountAndVat) * 100).toFixed(2));
                         } else {
                           setFieldValue("discount", "");
                         }
                       }}
+                      disabled={!totalValueWithoutDiscountAndVat}
+                    />
+                  </div>
+                  <div className="col-lg-2">
+                  <IInput
+                      value={values.discountPercent}
+                      label={"Gross Discount Percent %"}
+                      name={"discountPercent"}
+                      type={"number"}
+                      onChange={(e) => {
+                        if (e.target.value > 0) {
+                          setFieldValue("discountPercent", e.target.value);
+                          setFieldValue("discount", (totalValueWithoutDiscountAndVat *e.target?.value) / 100);
+
+                        } else {
+                          setFieldValue("discountPercent", "");
+                        }
+                      }}
+                      disabled={!totalValueWithoutDiscountAndVat}
                     />
                   </div>
                   {/* <div className="col-lg-2">
@@ -918,7 +940,7 @@ export default function AssetStandardPOCreateForm({
                     style={{ transform: "translateY(23px)" }}
                     className="col-lg"
                   >
-                    <TotalNetAmount rowDto={rowDto} values={values} />
+                    <TotalNetAmount totalValueWithoutDiscountAndVat={totalValueWithoutDiscountAndVat} rowDto={rowDto} values={values} />
                   </div>
                 </div>
               </div>
