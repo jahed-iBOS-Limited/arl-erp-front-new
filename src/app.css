@@ -2350,6 +2350,10 @@ p {
 }
 
 .inventoryStatement_reports_SearchForm .MuiFormControl-root {
+  min-width: 250px !important;
+}
+
+.SearchRegisterReport_SearchForm .MuiFormControl-root {
   min-width: 167px !important;
 }
 

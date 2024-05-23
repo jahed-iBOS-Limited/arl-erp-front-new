@@ -146,10 +146,8 @@ export default function MapView({ singleData }) {
                     <td className="text-center">
                       {_dateFormatter(item?.tripDateTime?.split("T")[0])}
                     </td>
-                    <td className="text-center">
-                      {_timeFormatter(item?.tripDateTime?.split("T")[1])}
-                    </td>
-                    <td className="text-center">{item?.tripLocation}</td>
+                    <td className="text-center">{item?.tripTime}</td>
+                    <td className="">{item?.tripLocation}</td>
                   </tr>
                 ))}
             </tbody>

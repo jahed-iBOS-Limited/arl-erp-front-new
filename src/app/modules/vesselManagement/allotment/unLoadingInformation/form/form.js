@@ -15,6 +15,7 @@ import { _fixedPoint } from "../../../../_helper/_fixedPoint";
 import InputField from "../../../../_helper/_inputField";
 import NewSelect from "../../../../_helper/_select";
 import { validationSchema } from "../helper";
+import IDelete from "../../../../_helper/_helperIcons/_delete";
 
 export default function _Form({
   portDDL,
@@ -74,6 +75,23 @@ export default function _Form({
     preDate.setDate(today.getDate() - 1);
 
     return preDate.toISOString().slice(0, 16);
+  };
+
+  const handleDelete = (index, subIndex) => {
+    const newData = dateWiseQuantity.rowDataList.map((item, i) => {
+      if (i === index) {
+        return {
+          ...item,
+          unLoadDetails: item.unLoadDetails.filter((_, j) => j !== subIndex)
+        };
+      }
+      return item;
+    }).filter(item => item.unLoadDetails.length > 0);
+
+    setDateWiseQuantity((prevState) => ({
+      ...prevState,
+      rowDataList: newData,
+    }));
   };
 
   return (
@@ -492,6 +510,7 @@ export default function _Form({
                                 "Date",
                                 "Unloaded Quantity",
                                 "ShipPoint",
+                                "Action"
                               ]?.map((th, index) => {
                                 return <th key={index}> {th} </th>;
                               })}
@@ -549,6 +568,9 @@ export default function _Form({
                                       <td className="text-center">
                                         {data?.shipPointName}
                                       </td>
+                                      <td className="text-center">{viewType === "modify" ? <span onClick={()=>{
+                                        handleDelete(index, i)
+                                      }}><IDelete/></span> : null}</td>
                                     </tr>
                                   ))
                               )}

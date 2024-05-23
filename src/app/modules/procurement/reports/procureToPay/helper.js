@@ -212,6 +212,8 @@ const getTableData = (row) => {
       new Cell(item?.numBillAmount, "right", "money").getCell(),
       new Cell(item?.payDate, "center", "date").getCell(),
       new Cell(item?.monReqestAmount, "right", "money").getCell(),
+      new Cell(item?.dteBillRegisterDate, "center", "date").getCell(),
+      new Cell(item?.dteBillRegisterApprovedDate, "center", "date").getCell(),
       new Cell(item?.monTotalAdjustment, "right", "money").getCell(),
       new Cell(item?.monTotalAdvance, "right", "money").getCell(),
     ];

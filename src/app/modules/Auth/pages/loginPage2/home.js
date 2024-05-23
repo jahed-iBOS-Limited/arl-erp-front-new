@@ -15,7 +15,7 @@ const HomeComponent = () => {
           <div className="col-xl-6 col-lg-12">
             <div className="welcomeArea">
               <h1 className="text-dark text-uppercase">
-                Welcome To <br /> Akij Resources Limited
+                Welcome To <br /> Akij Resource Limited
               </h1>
               <p className="short_description">
                 Ensure best quality products & services through continuous
@@ -27,7 +27,7 @@ const HomeComponent = () => {
             </div>
           </div>
 
-          <div className="col-xl-6 offset-lg-0 col-lg-0">
+          <div className="col-xl-6 offset-lg-0 col-lg-0 mt-3 mt-md-0">
             <div className="mockup text-center">
               <img src={mockup} alt="" />
               <h3 className="mocku_text">

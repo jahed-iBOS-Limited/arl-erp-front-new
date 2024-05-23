@@ -41,6 +41,7 @@ const header = [
   "Approve by Accounts",
   "Approve by Credit Control",
   "Status",
+  "Over Due Amount",
   "Credit Control",
 ];
 
@@ -466,6 +467,7 @@ const PartnerOverDueRequestTable = () => {
                               ? "Approved"
                               : "Pending"}
                           </td>
+                          <td className="text-right">{item?.overDueAmount}</td>
                           <td>
                             {overDueApprovalUser ? (
                               <button
