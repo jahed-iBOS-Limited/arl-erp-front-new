@@ -63,9 +63,12 @@ export default function GrandParentTableBody({
           {grandParentItem?.vehicleNo ? grandParentItem?.netWeight : ""}
         </td>
         <td className="text-center">
+          {grandParentItem?.bagWeightDeductQuantity ? grandParentItem?.netWeightWithoutBag : ""}
+        </td>
+        <td className="text-center">
           {grandParentItem?.vehicleNo ? (
           <input
-          style={{ maxWidth: "50px" }}
+          style={{ maxWidth: "30px" }}
           value={grandParentItem?.qcQtyBeg || ""}
           min={0}
           name="qcQtyBeg"
@@ -108,6 +111,7 @@ export default function GrandParentTableBody({
           <input
           style={{ maxWidth: "50px" }}
           value={grandParentItem?.bagWeightDeductQuantity || ""}
+          disabled={true}
           min={0}
           name="bagWeightDeductQuantity"
           type="number"
@@ -144,7 +148,7 @@ export default function GrandParentTableBody({
       </tr>
       {grandParentItem?.headersList?.length>0 && (
         <tr>
-          <td colSpan={18}>
+          <td colSpan={19}>
             <HeaderTable
               parentData={grandParentItem?.headersList}
               grandParentIndex={grandParentIndex} 
