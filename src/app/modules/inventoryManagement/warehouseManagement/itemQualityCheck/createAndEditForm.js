@@ -101,6 +101,8 @@ export default function QualityCheckCreateForm() {
     const updatedHeaderData = [...headerData];
     const singleGrandParentItem = updatedHeaderData[grandParentIndex];
     singleGrandParentItem.qcQtyBeg = +e.target.value;
+    singleGrandParentItem.bagWeightDeductQuantity = +e.target.value;
+    singleGrandParentItem.netWeightWithoutBag = singleGrandParentItem.netWeight - +e.target.value;
     setHeaderData(updatedHeaderData);
   };
   const handleQcQty = (e, grandParentIndex) => {
@@ -113,7 +115,7 @@ export default function QualityCheckCreateForm() {
     const updatedHeaderData = [...headerData];
     const singleGrandParentItem = {...updatedHeaderData[grandParentIndex]}; 
     singleGrandParentItem.bagWeightDeductQuantity = +e.target.value;
-    singleGrandParentItem.actualQuantity -= +e.target.value; 
+    // singleGrandParentItem.actualQuantity -= +e.target.value; 
     updatedHeaderData[grandParentIndex] = singleGrandParentItem; 
     setHeaderData(updatedHeaderData);
 
@@ -164,7 +166,7 @@ export default function QualityCheckCreateForm() {
     const updatedHeaderData = [...headerData];
     const grandParentItem = updatedHeaderData[grandParentIndex]  
   
-    const challanQtyDeviedResult = (grandParentItem?.netWeight / grandParentItem?.qcQtyBeg)
+    const challanQtyDeviedResult = (grandParentItem?.netWeightWithoutBag / grandParentItem?.qcQtyBeg)
     const parentSingleData =grandParentItem["headersList"][parentIndex];
     parentSingleData.qcQuantityBag = +e.target.value;
     parentSingleData.qcQuantity =challanQtyDeviedResult* +e.target.value
@@ -384,6 +386,7 @@ export default function QualityCheckCreateForm() {
       vehicleId:item?.vehicleId,
       vehicleNo:item?.vehicleNo,
       netWeight:item?.netWeight,
+      challanQuantity:item?.qcQty,
       deductionQuantity:item?.deductionQuantity,
       unloadedDeductionQuantity:item?.unloadDeduct||0,
       isReceived:item?.isReceived,
@@ -579,6 +582,7 @@ export default function QualityCheckCreateForm() {
                     handleRowItemDelete,
                   }}
                 >
+                
                   <CommonTable headersData={grandParentTableHeaders}>
                     {headerData?.map((grandParentItem, grandParentIndex) => (
                       <GrandParentTableBody
