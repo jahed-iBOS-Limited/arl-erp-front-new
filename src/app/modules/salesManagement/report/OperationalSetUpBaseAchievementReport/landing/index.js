@@ -35,7 +35,8 @@ export default function OperationalSetUpBaseAchievement() {
       values?.toDate,
       values?.certainDate,
       setLoading,
-      setRowDto
+      setRowDto,
+      values,
     );
   };
 

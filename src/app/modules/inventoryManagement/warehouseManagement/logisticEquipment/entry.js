@@ -11,9 +11,10 @@ import IDelete from "../../../_helper/_helperIcons/_delete";
 import { toast } from "react-toastify";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import { useLocation } from "react-router";
+import { _todayDate } from "../../../_helper/_todayDate";
 
 const initData = {
-  businessUnit: "",
+  castingDate: _todayDate(),
   shipPoint: "",
   shift: { value: 1, label: "Day" },
   avlTransitMixture: 0,
@@ -26,41 +27,26 @@ const initData = {
   pipeLineExplain: "",
 };
 
-// export const validationSchema = Yup.object().shape({
-//   businessUnit: Yup.object().shape({
-//     label: Yup.string().required("Business Unit is required"),
-//     value: Yup.string().required("Business Unit is required"),
-//   }),
-//   shipPoint: Yup.object().shape({
-//     label: Yup.string().required("Ship Ponit is required"),
-//     value: Yup.string().required("Ship Ponit is required"),
-//   }),
-//   shift: Yup.object().shape({
-//     label: Yup.string().required("Shift is required"),
-//     value: Yup.string().required("Shift is required"),
-//   }),
-// });
 export default function LogisticEquipmentEntry() {
   const [objProps, setObjprops] = useState({});
-  const { profileData, businessUnitList } = useSelector((state) => {
+  const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
-  const [
-    shipPointList,
-    getShipPointList,
-    shipPointLoader,
-    setShipPointList,
-  ] = useAxiosGet();
+  const [shipPointList, getShipPointList, shipPointLoader] = useAxiosGet();
 
   const [formList, setFormList] = useState([]);
   const [, onSaveHandler, loading] = useAxiosPost();
   const location = useLocation();
 
   useEffect(() => {
+    getShipPointList(
+      `/wms/ShipPoint/GetShipPointDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}`
+    );
     if (location?.state?.item) {
       setFormList([{ ...location?.state?.item }]);
     }
-  }, [location]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location, selectedBusinessUnit]);
 
   const saveHandler = async (values, cb) => {
     if (!formList?.length) {
@@ -107,21 +93,13 @@ export default function LogisticEquipmentEntry() {
                 {false && <Loading />}
                 <div className="form-group  global-form row">
                   <div className="col-lg-3">
-                    <NewSelect
-                      name="businessUnit"
-                      options={businessUnitList || []}
-                      value={values?.businessUnit}
-                      label="Select Business Unit"
-                      onChange={(valueOption) => {
-                        setFieldValue("businessUnit", valueOption || "");
-                        setFieldValue("shipPoint", "");
-                        setShipPointList([]);
-
-                        if (valueOption) {
-                          getShipPointList(
-                            `/wms/ShipPoint/GetShipPointDDL?accountId=${profileData?.accountId}&businessUnitId=${valueOption?.value}`
-                          );
-                        }
+                    <InputField
+                      value={values?.castingDate}
+                      label="Casting Date"
+                      name="castingDate"
+                      type="date"
+                      onChange={(e) => {
+                        setFieldValue("castingDate", e.target.value);
                       }}
                       errors={errors}
                       touched={touched}
@@ -277,7 +255,7 @@ export default function LogisticEquipmentEntry() {
                   <div className="col-lg-3">
                     <button
                       disabled={
-                        !values?.businessUnit ||
+                        !values?.castingDate ||
                         !values?.shipPoint ||
                         !values?.shift
                       }
@@ -287,8 +265,12 @@ export default function LogisticEquipmentEntry() {
                         const payload = {
                           ...values,
                           autoId: 0,
+                          castingDate: values?.castingDate,
+                          dayId: +values?.castingDate?.split("-")[2],
+                          monthId: +values?.castingDate?.split("-")[1],
+                          yearId: +values?.castingDate?.split("-")[0],
                           accountId: profileData?.accountId,
-                          unitId: values?.businessUnit?.value,
+                          unitId: values?.selectedBusinessUnit?.value,
                           shipPointId: values?.shipPoint?.value,
                           shiftId: values?.shift?.value,
                         };

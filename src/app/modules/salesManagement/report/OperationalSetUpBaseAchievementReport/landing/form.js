@@ -2,6 +2,7 @@ import React from "react";
 import InputField from "../../../../_helper/_inputField";
 import NewSelect from "../../../../_helper/_select";
 import IButton from "../../../../_helper/iButton";
+import RATForm from "../../../../_helper/commonInputFieldsGroups/ratForm";
 
 const reportTypes = [
   { value: 1, label: "Customer Base" },
@@ -62,6 +63,12 @@ export default function Form({ obj }) {
               }}
             />
           </div>
+          <RATForm
+              obj={{
+                values,
+                setFieldValue,
+              }}
+            />
           <IButton
             onClick={() => {
               setRowDto([]);
