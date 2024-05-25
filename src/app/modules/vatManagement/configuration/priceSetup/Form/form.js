@@ -244,6 +244,37 @@ export default function _Form({
                           />
                         </div>
                       </div>
+                      <div className="col-lg-2">
+                        <div
+                          style={{ position: "relative", top: "15px" }}
+                          className="mr-2"
+                        >
+                          <label htmlFor="isManualAuto">
+                          Is Manual Auto
+                          </label>
+                          <Field
+                            name="isManualAuto"
+                            component={() => (
+                              <input
+                                id="isManualAuto"
+                                type="checkbox"
+                                style={{ position: "relative", top: "2px" }}
+                                label="Price Including Tax"
+                                className="ml-2"
+                                value={values?.isManualAuto || false}
+                                checked={values?.isManualAuto}
+                                name="isManualAuto"
+                                onChange={(e) => {
+                                  setFieldValue(
+                                    "isManualAuto",
+                                    e.target.checked
+                                  );
+                                }}
+                              />
+                            )}
+                          />
+                        </div>
+                      </div>
                       <div className="col-lg-3">
                         <NewSelect
                           name="taxSupplyType"
