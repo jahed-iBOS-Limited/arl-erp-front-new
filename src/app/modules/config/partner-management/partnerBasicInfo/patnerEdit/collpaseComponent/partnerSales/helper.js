@@ -214,6 +214,7 @@ export const getBusinessPartnerSalesByPartnerId = async (
       exclusivity: objDataGet?.isExclusive
         ? { value: true, label: "Exclusive" }
         : { value: false, label: "Non-Exclusive" },
+      isManualAuto: objDataGet?.isManualAuto || false,
     };
     setSalesData(singleData);
     setRowDto(data?.objListDTO);
