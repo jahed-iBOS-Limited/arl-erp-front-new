@@ -51,6 +51,7 @@ export default function GlobalTableForBillType({
               <th style={{ minWidth: "70px" }}>Payee</th>
               <th style={{ minWidth: "70px" }}>Payee Bank Name</th>
               <th style={{ minWidth: "70px" }}>Amount</th>
+              {[6].includes(values?.billType?.value) && <th style={{ minWidth: "70px" }}>TDS</th>}
               <th style={{ minWidth: "70px" }}>Action</th>
             </tr>
           </thead>
@@ -115,6 +116,9 @@ export default function GlobalTableForBillType({
                   <td className="text-right" style={{ fontSize: 11 }}>
                     {item?.monAmount}
                   </td>
+                  {[6].includes(values?.billType?.value) && <td className="text-right" style={{ fontSize: 11 }}>
+                    {item?.numTds}
+                  </td>}
                   <td className="text-center">
                     {/* <span > */}
                     <div className="d-flex justify-content-around align-items-center">
