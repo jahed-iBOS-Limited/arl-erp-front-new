@@ -528,6 +528,29 @@ export default function _Form({
                         <span>Price Including Tax</span>
                       </label>
                     </div>
+                    <div className="col-lg-3 mb-2 d-flex align-items-center">
+                      <label className="mt-1">
+                        <input
+                          type="checkbox"
+                          onChange={(e) => {
+                            setFieldValue(
+                              "isManualAuto",
+                              e.target.checked
+                            );
+                          }}
+                          name="isManualAuto"
+                          label="Price Including Tax"
+                          style={{
+                            marginRight: "5px",
+                            position: "relative",
+                            top: "3px",
+                          }}
+                          value={values?.isManualAuto}
+                          checked={values?.isManualAuto}
+                        />
+                        <span>Is Manual Auto</span>
+                      </label>
+                    </div>
                   </div>
                 </div>
               </div>
