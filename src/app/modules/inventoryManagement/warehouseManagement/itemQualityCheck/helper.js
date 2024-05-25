@@ -14,6 +14,10 @@ export const grandParentTableHeaders = [
   },
   "Vehicle No",
   "Net Weight",
+  {
+    title: "Net Weight (Without Bag)",
+    style: { maxWidth: "50px" },
+  },
   "Challan Qty Bag",
   "Challan Qty",
   "Total QC Qty",
