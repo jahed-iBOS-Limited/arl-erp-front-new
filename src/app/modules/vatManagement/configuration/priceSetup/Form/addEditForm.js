@@ -34,7 +34,6 @@ const initData = {
   isOnQty: false,
   isPriceIncludingTax: false,
   priceDeclare: false,
-  isManualAuto: false,
   matItemName: "",
   matItemUom: "",
   quantity: "",
@@ -156,7 +155,6 @@ export default function PricesetupForm({
           vatpercentage: getByIdHeader?.vatpercentage,
           surchargePercentage: getByIdHeader?.surchargePercentage,
           isOnQty: getByIdHeader?.isOnQty || getByIdHeader?.isFixedRated || false,
-          isManualAuto: getByIdHeader?.isManualAuto || false,
           priceDeclare:
             getByIdRowMaterial?.length > 0 ||
             getByIdRowValueAddition?.length > 0
