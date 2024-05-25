@@ -1,33 +1,34 @@
 import { Form, Formik } from "formik";
-import React, { useState } from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
 import IEdit from "../../../_helper/_helperIcons/_edit";
 import NewSelect from "../../../_helper/_select";
 import PaginationTable from "../../../_helper/_tablePagination";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import IForm from "./../../../_helper/_form";
 import Loading from "./../../../_helper/_loading";
+import { _dateFormatter } from "../../../_helper/_dateFormate";
 const initData = {
-  businessUnit: "",
-  shipPoint: "",
+  shipPoint: { value: 0, label: "All" },
   shift: { value: 1, label: "Day" },
 };
 export default function LogisticEquipment() {
-  const { profileData, selectedBusinessUnit, businessUnitList } = useSelector(
-    (state) => {
-      return state.authData;
-    },
-    shallowEqual
-  );
+  const { profileData, selectedBusinessUnit } = useSelector((state) => {
+    return state.authData;
+  }, shallowEqual);
 
-  const [shipPointList, getShipPointList, , setShipPointList] = useAxiosGet();
+  const [shipPointList, getShipPointList] = useAxiosGet();
 
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
-  const [gridData, getGridData, loading, setGridData] = useAxiosGet();
+  const [gridData, getGridData, loading] = useAxiosGet();
+
+  useEffect(() => {
+    getShipPointList(
+      `/wms/ShipPoint/GetShipPointDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}`
+    );
+  }, []);
 
   const saveHandler = (values, cb) => {};
   const history = useHistory();
@@ -36,7 +37,7 @@ export default function LogisticEquipment() {
     // const searchTearm = searchValue ? `&search=${searchValue}` : "";
     getGridData(
       `/oms/CastingSchedule/GetCastingScheduleToolsInfoPagination?businessUnitId=${
-        values?.businessUnit?.value
+        selectedBusinessUnit?.value
       }&shipPointId=${values?.shipPoint?.value || 0}&shiftId=${values?.shift
         ?.value || 0}&pageNo=${pageNo}&pageSize=${pageSize}`
     );
@@ -99,29 +100,10 @@ export default function LogisticEquipment() {
                 <div className="form-group  global-form row">
                   <div className="col-lg-3">
                     <NewSelect
-                      name="businessUnit"
-                      options={businessUnitList || []}
-                      value={values?.businessUnit}
-                      label="Select Business Unit"
-                      onChange={(valueOption) => {
-                        setFieldValue("businessUnit", valueOption || "");
-                        setFieldValue("shipPoint", "");
-                        setShipPointList([]);
-
-                        if (valueOption) {
-                          getShipPointList(
-                            `/wms/ShipPoint/GetShipPointDDL?accountId=${profileData?.accountId}&businessUnitId=${valueOption?.value}`
-                          );
-                        }
-                      }}
-                      errors={errors}
-                      touched={touched}
-                    />
-                  </div>
-                  <div className="col-lg-3">
-                    <NewSelect
                       name="shipPoint"
-                      options={shipPointList || []}
+                      options={
+                        [{ value: 0, label: "All" }, ...shipPointList] || []
+                      }
                       value={values?.shipPoint}
                       label="Select Ship Point"
                       onChange={(valueOption) => {
@@ -149,7 +131,6 @@ export default function LogisticEquipment() {
                   </div>
                   <div className="col-lg-3">
                     <button
-                      disabled={!values?.businessUnit}
                       type="button"
                       className="btn btn-primary mt-5"
                       onClick={() => {
@@ -175,6 +156,7 @@ export default function LogisticEquipment() {
                       <thead>
                         <tr>
                           <th>SL</th>
+                          <th>Casting Date</th>
                           <th>Ship Point</th>
                           <th>Shift</th>
                           <th>Available TM</th>
@@ -192,6 +174,9 @@ export default function LogisticEquipment() {
                         {gridData?.data?.map((item, index) => (
                           <tr key={index}>
                             <td>{index + 1}</td>
+                            <td className="text-center">
+                              {_dateFormatter(item?.item?.castingDate)}
+                            </td>
                             <td>{item?.shipPointName}</td>
                             <td>{item?.shiftName}</td>
                             <td className="text-center">
