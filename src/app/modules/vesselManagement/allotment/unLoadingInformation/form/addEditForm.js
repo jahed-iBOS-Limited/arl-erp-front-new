@@ -21,6 +21,7 @@ import {
   getUnloadingInformationById,
 } from "../helper";
 import Form from "./form";
+import { isWaitForSecondsAfterClick } from "../../../../_helper/isWaitForSecondsAfterClick";
 
 const initData = {
   shipPoint: "",
@@ -134,12 +135,16 @@ export default function UnLoadingInformationForm() {
   };
 
   const saveHandler = (values, cb) => {
+    if(isWaitForSecondsAfterClick()){
+      return;
+    }
+
     if (type === "modify") {
-      if (pendingQty?.pendingQty < values?.unloadedQty) {
-        return toast.warn(
-          "Sorry, you can't unload more than pending quantity!"
-        );
-      }
+      // if (pendingQty?.pendingQty < values?.unloadedQty) {
+      //   return toast.warn(
+      //     "Sorry, you can't unload more than pending quantity!"
+      //   );
+      // }
       // const payload = {
       //   voyageNo: +id,
       //   rowId: singleData?.rowId,

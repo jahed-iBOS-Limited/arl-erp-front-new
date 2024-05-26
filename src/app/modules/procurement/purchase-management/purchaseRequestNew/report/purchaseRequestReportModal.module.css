@@ -1,0 +1,48 @@
+body {
+    font-family: Arial, sans-serif;
+}
+.reportHeader {
+    text-align: center;
+    margin-bottom: 20px;
+}
+.reportHeader img {
+   width: 80px;
+}
+.reportBody {
+    margin: 20px;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+table, th, td {
+    border: 1px solid black;
+}
+th, td {
+    padding: 8px;
+    text-align: left;
+}
+.bottomBankTable, .tableWrapper {
+    margin-top: 20px;
+}
+.secondRow {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+.secondRow div {
+    width: 40%;
+}
+.secondRow img {
+    width: 150px;
+    height: 50px;
+    object-fit: fill;
+    margin-left: 30px;
+}
+.secondRow p {
+    width: fit-content;
+    text-align: center;
+    border-top: 1px solid black;
+    margin: 1em 0 3em 0;
+}

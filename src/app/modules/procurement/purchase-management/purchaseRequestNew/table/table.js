@@ -22,6 +22,7 @@ import {
   getWhList,
   postPurchaseReqCancelAction,
 } from "../helper";
+import { PurchaseRequestReportModal } from "../report/purchaseRequestReportModal";
 import { ItemReqViewTableRow } from "../report/tableRow";
 import IConfirmModal from "./../../../../_helper/_confirmModal";
 import { _dateFormatter } from "./../../../../_helper/_dateFormate";
@@ -69,6 +70,7 @@ const PurchaseRequestTable = () => {
 
   // loading
   const [loading, setLoading] = useState(false);
+
 
   // redux data
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
@@ -198,6 +200,7 @@ const PurchaseRequestTable = () => {
   };
 
   const [isShowModal, setIsShowModal] = useState(false);
+  const [isShowPurchaseRequestReportModal,setShowPurchaseRequestReportModal] = useState(false)
   const [currentRowData, setCurrentRowData] = useState("");
   const itemCompleteHandler = (reqId, userId, values) => {
     let confirmObject = {
@@ -436,8 +439,21 @@ const PurchaseRequestTable = () => {
                                   </span>
 
                                   <span>
-                                    {" "}
-                                    <IView
+                                   
+                                    {
+                                      selectedBusinessUnit?.value === 102 && (values?.plant?.value >= 91 && values?.plant?.value <=100) ? 
+                                      <IView
+                                      classes={
+                                        prTableIndex === item?.purchaseRequestId
+                                          ? "text-primary"
+                                          : ""
+                                      }
+                                      clickHandler={() => {
+                                        setCurrentRowData(item);
+                                        setShowPurchaseRequestReportModal(true);
+                                      }}
+                                    />
+                                      : <IView
                                       classes={
                                         prTableIndex === item?.purchaseRequestId
                                           ? "text-primary"
@@ -447,7 +463,9 @@ const PurchaseRequestTable = () => {
                                         setCurrentRowData(item);
                                         setIsShowModal(true);
                                       }}
-                                    />{" "}
+                                    />
+                                    }
+                                    {" "}
                                   </span>
                                   {!item?.isClosed &&
                                     item?.isApproved &&
@@ -489,6 +507,13 @@ const PurchaseRequestTable = () => {
                 onHide={() => setIsShowModal(false)}
               >
                 <ItemReqViewTableRow prId={currentRowData?.purchaseRequestId} />
+              </IViewModal>
+              {/* modal show for PurchaseRequestReport */}
+              <IViewModal
+                show={isShowPurchaseRequestReportModal}
+                onHide={() => setShowPurchaseRequestReportModal(false)}
+              >
+                <PurchaseRequestReportModal currentRowData={currentRowData} />
               </IViewModal>
               {landing?.data?.length > 0 && (
                 <PaginationTable

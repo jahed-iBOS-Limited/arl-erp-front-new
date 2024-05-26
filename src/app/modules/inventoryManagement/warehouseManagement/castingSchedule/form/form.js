@@ -357,11 +357,11 @@ export default function _Form({
                       <NewSelect
                         name="strShift"
                         options={[
-                          // { value: 1, label: "Day" },
-                          // { value: 2, label: "Night" },
-                          { value: 1, label: "A Shift" },
-                          { value: 2, label: "B Shift" },
-                          { value: 3, label: "C Shift" },
+                          { value: 1, label: "Day" },
+                          { value: 2, label: "Night" },
+                          // { value: 1, label: "A Shift" },
+                          // { value: 2, label: "B Shift" },
+                          // { value: 3, label: "C Shift" },
                         ]}
                         value={values?.strShift}
                         label="Shift"
@@ -407,7 +407,7 @@ export default function _Form({
                       />
                     </div>
 
-                    <div className="col-lg-3">
+                    {/* <div className="col-lg-3">
                       <label>Large Tyre</label>
                       <InputField
                         value={values?.intLargeTyre}
@@ -427,7 +427,7 @@ export default function _Form({
                         touched={touched}
                         errors={errors}
                       />
-                    </div>
+                    </div> */}
 
                     <div className="col-lg-3">
                       <label>Bag Cement Use</label>
@@ -489,8 +489,8 @@ export default function _Form({
                         <th>Waterproof</th>
                         <th>No. Of Pump</th>
                         <th>Pipe (Feet)</th>
-                        <th>Large Tyre</th>
-                        <th>Small Tyre</th>
+                        {/* <th>Large Tyre</th>
+                        <th>Small Tyre</th> */}
                         <th>Cement use (Bag)</th>
                         <th>Actions</th>
                       </tr>
@@ -505,8 +505,8 @@ export default function _Form({
                           <td>{td?.isWaterProof ? "Yes" : "No"}</td>
                           <td>{td?.intNumberOfPump}</td>
                           <td>{td?.intPipeFeet}</td>
-                          <td>{td?.intLargeTyre}</td>
-                          <td>{td?.intSmallTyre}</td>
+                          {/* <td>{td?.intLargeTyre}</td>
+                          <td>{td?.intSmallTyre}</td> */}
                           <td>{td?.intBagCementUse}</td>
                           <td className="text-center">
                             {params?.type === "view" ? (
