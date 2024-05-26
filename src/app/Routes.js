@@ -13,7 +13,6 @@ import KPIScoreCardNew from "./modules/performanceManagement/individualKpi/balan
 import SBUBalancedScorecard from "./modules/performanceManagement/sbuKpi/balancedScore/Table/SBUBalancedScorecard";
 import { serviceWorkerPoppup } from "./modules/_helper/serviceWorkerPoppup";
 import {
-  createERPUserInfoAcion,
   getOID_Action,
   getShippointDDLCommon_action,
 } from "./modules/_helper/_redux/Actions";
@@ -30,9 +29,11 @@ import {
   setNotifyCountAction,
   setSignalRConnectionAction,
 } from "./modules/_helper/chattingAppRedux/Action";
+import { detectBrowserConsole } from "./modules/_helper/detectBrowserConsole";
 
 export function Routes() {
   const [isMaintenance, setMaintenance] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const isAuthorized = useSelector((state) => {
     return state.authData.isAuth;
   }, shallowEqual);
@@ -208,27 +209,28 @@ export function Routes() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [connection]);
 
-  // useEffect(() => {
-  //   // window view not mobile than api call
-  //   if (window.innerWidth > 768 && process.env.NODE_ENV !== "development" ) {
-  //     toast.warn(
-  //       <div>
-  //         Our values is <b>Mobile First</b>. Please use your <b>mobile</b>.
-  //       </div>,
-  //       {
-  //         position: "bottom-right",
-  //         autoClose: 9000,
-  //       }
-  //     );
-  //     const payload = [
-  //       {
-  //         userEnroll: profileData?.employeeId,
-  //         isActive: true,
-  //       },
-  //     ];
-  //     dispatch(createERPUserInfoAcion(payload));
-  //   }
-  // }, []);
+  
+  useEffect(() => {
+    let interval = null;
+    if (
+      process.env.NODE_ENV === "production" &&
+      window.location.origin !== "https://deverp.ibos.io"
+    ) {
+      interval = setInterval(() => {
+        if (!isOpen) {
+          detectBrowserConsole(setIsOpen);
+        }
+      }, 500);
+    }
+    return () => {
+      interval && clearInterval(interval);
+    };
+  }, [isOpen]);
+
+  if (isOpen) {
+    return <div></div>;
+  }
+
   return (
     <Switch>
       {isExpiredPassword && (
