@@ -5,7 +5,7 @@ import { createERPUserInfoAcion } from "../_redux/Actions";
 
 function MobileFirstAlert() {
   const [isShowAlert, setIsShowAlert] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(10);
+  const [timeLeft, setTimeLeft] = useState(20 * 60);
   const { profileData } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
