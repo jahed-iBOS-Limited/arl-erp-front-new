@@ -17,6 +17,7 @@ export default function Form({ obj }) {
     shipPointDDL,
     setFieldValue,
     getReportView,
+    setIsShow,
   } = obj;
   return (
     <>
@@ -46,7 +47,7 @@ export default function Form({ obj }) {
               territory: false,
             }}
           />
-          <div className="col-lg-3">
+          {![3].includes(values?.reportType?.value) && <div className="col-lg-3">
             <label>Customer</label>
             <SearchAsyncSelect
               selectedValue={values?.customer}
@@ -66,7 +67,7 @@ export default function Form({ obj }) {
                   .then((res) => res?.data);
               }}
             />
-          </div>
+          </div>}
           <FromDateToDateForm obj={{ values, setFieldValue }} />
           <div className="col-lg-3">
             <NewSelect
@@ -75,20 +76,42 @@ export default function Form({ obj }) {
                 { value: 0, label: "Details" },
                 { value: 1, label: "Top Sheet" },
                 { value: 2, label: "Orders from APP" },
+                { value: 3, label: "Sales Contract Info" },
               ]}
               value={values?.reportType}
               label="View Type"
               onChange={(valueOption) => {
                 setFieldValue("reportType", valueOption);
                 setGridData([]);
+                setIsShow(false)
               }}
               placeholder="View Type"
               errors={errors}
               touched={touched}
             />
           </div>
+          {[3].includes(values?.reportType?.value) &&      <div className="col-lg-3">
+            <NewSelect
+              name="salesContractInfoReportType"
+              options={[
+                { value: 1, label: "Sales Contract vs Sales Order" },
+                { value: 2, label: "Sales Contract Report" },
+              ]}
+              value={values?.salesContractInfoReportType}
+              label="Report Type"
+              onChange={(valueOption) => {
+                setFieldValue("salesContractInfoReportType", valueOption);
+                setIsShow(false)
+              }}
+              errors={errors}
+              touched={touched}
+            />
+          </div>}
           <IButton
             onClick={() => {
+              if(values?.reportType?.value === 3){
+                setIsShow(true)
+              }
               getReportView(values);
             }}
             disabled={
