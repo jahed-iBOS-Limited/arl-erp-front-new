@@ -1,38 +1,38 @@
-import Axios from "axios";
+import { HubConnectionBuilder } from "@microsoft/signalr";
+import { default as Axios, default as axios } from "axios";
 import React, { useEffect, useState } from "react";
 import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { Redirect, Route, Switch } from "react-router-dom";
-import { Layout } from "../_metronic/layout";
+import { toast } from "react-toastify";
 import FormContainer from "../_metronic/_partials/dashboards/formContainer";
+import { Layout } from "../_metronic/layout";
 import BasePage from "./BasePage";
+import TokenExpiredPopUp from "./TokenExpiredPopUp";
 import { Logout } from "./modules/Auth";
+import * as requestFromServer from "./modules/Auth/_redux/Auth_Api";
+import { authSlice } from "./modules/Auth/_redux/Auth_Slice";
 import { LoginPage2 } from "./modules/Auth/pages/loginPage2/AuthPage";
-import DepartmentalBalancedScorecard from "./modules/performanceManagement/departmentalKpi/balancedScore/Table/DepartmentalBalancedScorecard";
-import KPIScoreCardNew from "./modules/performanceManagement/individualKpi/balancedScore/Table/KPIScoreCardNew";
-import SBUBalancedScorecard from "./modules/performanceManagement/sbuKpi/balancedScore/Table/SBUBalancedScorecard";
-import { serviceWorkerPoppup } from "./modules/_helper/serviceWorkerPoppup";
+import { getCookie } from "./modules/_helper/_cookie";
 import {
-  createERPUserInfoAcion,
   getOID_Action,
   getShippointDDLCommon_action,
 } from "./modules/_helper/_redux/Actions";
-import ErrorsPage from "./pages/ErrorsExamples/ErrorsPage";
-import Maintenance from "./pages/Maintenance";
-import TokenExpiredPopUp from "./TokenExpiredPopUp";
-import * as requestFromServer from "./modules/Auth/_redux/Auth_Api";
-import { authSlice } from "./modules/Auth/_redux/Auth_Slice";
-import { getCookie } from "./modules/_helper/_cookie";
-import { toast } from "react-toastify";
-import { HubConnectionBuilder } from "@microsoft/signalr";
-import axios from "axios";
 import {
   setNotifyCountAction,
   setSignalRConnectionAction,
 } from "./modules/_helper/chattingAppRedux/Action";
+import { serviceWorkerPoppup } from "./modules/_helper/serviceWorkerPoppup";
+import DepartmentalBalancedScorecard from "./modules/performanceManagement/departmentalKpi/balancedScore/Table/DepartmentalBalancedScorecard";
+import KPIScoreCardNew from "./modules/performanceManagement/individualKpi/balancedScore/Table/KPIScoreCardNew";
+import SBUBalancedScorecard from "./modules/performanceManagement/sbuKpi/balancedScore/Table/SBUBalancedScorecard";
+import ErrorsPage from "./pages/ErrorsExamples/ErrorsPage";
+import Maintenance from "./pages/Maintenance";
+import { detectBrowserConsole } from "./modules/_helper/detectBrowserConsole";
 
 export function Routes() {
   const [isMaintenance, setMaintenance] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const isAuthorized = useSelector((state) => {
     return state.authData.isAuth;
   }, shallowEqual);
@@ -208,27 +208,44 @@ export function Routes() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [connection]);
 
-  // useEffect(() => {
-  //   // window view not mobile than api call
-  //   if (window.innerWidth > 768 && process.env.NODE_ENV !== "development" ) {
-  //     toast.warn(
-  //       <div>
-  //         Our values is <b>Mobile First</b>. Please use your <b>mobile</b>.
-  //       </div>,
-  //       {
-  //         position: "bottom-right",
-  //         autoClose: 9000,
-  //       }
-  //     );
-  //     const payload = [
-  //       {
-  //         userEnroll: profileData?.employeeId,
-  //         isActive: true,
-  //       },
-  //     ];
-  //     dispatch(createERPUserInfoAcion(payload));
-  //   }
-  // }, []);
+  useEffect(() => {
+    const handleContextmenu = (e) => {
+      e.preventDefault();
+    };
+
+    if (
+      process.env.NODE_ENV === "production" &&
+      window.location.origin !== "https://deverp.ibos.io"
+    ) {
+      document.addEventListener("contextmenu", handleContextmenu);
+    }
+
+    return function cleanup() {
+      document.removeEventListener("contextmenu", handleContextmenu);
+    };
+  }, []);
+
+  useEffect(() => {
+    let interval = null;
+    if (
+      process.env.NODE_ENV === "production" &&
+      window.location.origin !== "https://deverp.ibos.io"
+    ) {
+      interval = setInterval(() => {
+        if (!isOpen) {
+          detectBrowserConsole(setIsOpen);
+        }
+      }, 500);
+    }
+    return () => {
+      interval && clearInterval(interval);
+    };
+  }, [isOpen]);
+
+  if (isOpen) {
+    return <div></div>;
+  }
+
   return (
     <Switch>
       {isExpiredPassword && (
