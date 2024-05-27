@@ -24,7 +24,7 @@ function MobileFirstAlert() {
     422,
     600,
     611,
-    269
+    269,
   ].includes(profileData?.workPlaceId);
 
   useEffect(() => {
@@ -79,6 +79,15 @@ function MobileFirstAlert() {
   };
   const isShowBUIMatch = [184].includes(profileData?.defaultBusinessUnit);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    const isLaptop = window.innerWidth > 768;
+    const leftTime = timeLeft > 0;
+    if (isLaptop && leftTime && !isShowBUIMatch && isMatchWorkPlaceMatch) {
+      setIsShowAlert(true);
+    }
+  });
+
   return (
     <>
       {isShowAlert ? (
@@ -91,7 +100,7 @@ function MobileFirstAlert() {
               <div className="countdown">Time left: {formatTime(timeLeft)}</div>
             )}
 
-            {(!isMatchWorkPlaceMatch || isShowBUIMatch)&& (
+            {(!isMatchWorkPlaceMatch || isShowBUIMatch) && (
               <div className="close-icon" onClick={handleClose}>
                 &times;
               </div>

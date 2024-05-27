@@ -11,10 +11,10 @@ import PaginationTable from "../../../_helper/_tablePagination";
 import { _todayDate } from "../../../_helper/_todayDate";
 import IViewModal from "../../../_helper/_viewModal";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import { InventoryTransactionReportViewTableRow } from "../invTransaction/report/tableRow";
 import IForm from "./../../../_helper/_form";
 import Loading from "./../../../_helper/_loading";
 import QualityCheckViewModal from "./modal/viewModal";
-import { InventoryTransactionReportViewTableRow } from "../invTransaction/report/tableRow";
 const initData = {
   plant: "",
   warehouse: "",
