@@ -30,7 +30,7 @@ function MobileFirstAlert() {
   useEffect(() => {
     //window view not mobile than api call
     //&& process.env.NODE_ENV !== "development"
-    if (window.innerWidth > 768 && process.env.NODE_ENV !== "development") {
+    if (window.innerWidth > 991 && process.env.NODE_ENV !== "development") {
       setIsShowAlert(true);
       if (isMatchWorkPlaceMatch) {
         // 20m delay for alert hide
@@ -81,7 +81,7 @@ function MobileFirstAlert() {
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
-    const isLaptop = window.innerWidth > 768;
+    const isLaptop = window.innerWidth > 991;
     const leftTime = timeLeft > 0;
     if (isLaptop && leftTime && !isShowBUIMatch && isMatchWorkPlaceMatch) {
       setIsShowAlert(true);
