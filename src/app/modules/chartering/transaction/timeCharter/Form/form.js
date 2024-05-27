@@ -45,7 +45,7 @@ export default function _Form({
   const [rowData, setRowData] = useState([]);
   const [salesOrgList, setSalesOrgList] = useState([]);
 
-  const { state: preData } = useLocation();
+  const { state: preData, type } = useLocation();
 
   // get user profile data from store
   const {
@@ -253,7 +253,7 @@ export default function _Form({
                   <button
                     type="button"
                     onClick={() => {
-                      if (preData?.vesselName?.label) {
+                      if (type === "create" ? false : preData?.vesselName?.label) {
                         history.push("/");
                       } else {
                         history.goBack();
@@ -330,7 +330,7 @@ export default function _Form({
                           });
                         }
                       }}
-                      isDisabled={viewType || preData?.vesselName}
+                      isDisabled={type === "create" ? false : viewType || preData?.vesselName}
                       errors={errors}
                       touched={touched}
                     />
@@ -354,7 +354,7 @@ export default function _Form({
                         });
                         setFieldValue("voyageNo", valueOption);
                       }}
-                      isDisabled={
+                      isDisabled={type === "create" ? false :
                         viewType || !values?.vesselName || preData?.voyageNo
                       }
                       errors={errors}
