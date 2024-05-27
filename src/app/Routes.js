@@ -28,11 +28,11 @@ import KPIScoreCardNew from "./modules/performanceManagement/individualKpi/balan
 import SBUBalancedScorecard from "./modules/performanceManagement/sbuKpi/balancedScore/Table/SBUBalancedScorecard";
 import ErrorsPage from "./pages/ErrorsExamples/ErrorsPage";
 import Maintenance from "./pages/Maintenance";
-import { detectBrowserConsole } from "./modules/_helper/detectBrowserConsole";
+// import { detectBrowserConsole } from "./modules/_helper/detectBrowserConsole";
 
 export function Routes() {
   const [isMaintenance, setMaintenance] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
+  // const [isOpen, setIsOpen] = useState(false);
   const isAuthorized = useSelector((state) => {
     return state.authData.isAuth;
   }, shallowEqual);
@@ -225,26 +225,26 @@ export function Routes() {
     };
   }, []);
 
-  useEffect(() => {
-    let interval = null;
-    if (
-      process.env.NODE_ENV === "production" &&
-      window.location.origin !== "https://deverp.ibos.io"
-    ) {
-      interval = setInterval(() => {
-        if (!isOpen) {
-          detectBrowserConsole(setIsOpen);
-        }
-      }, 500);
-    }
-    return () => {
-      interval && clearInterval(interval);
-    };
-  }, [isOpen]);
+  // useEffect(() => {
+  //   let interval = null;
+  //   if (
+  //     process.env.NODE_ENV === "production" &&
+  //     window.location.origin !== "https://deverp.ibos.io"
+  //   ) {
+  //     interval = setInterval(() => {
+  //       if (!isOpen) {
+  //         detectBrowserConsole(setIsOpen);
+  //       }
+  //     }, 500);
+  //   }
+  //   return () => {
+  //     interval && clearInterval(interval);
+  //   };
+  // }, [isOpen]);
 
-  if (isOpen) {
-    return <div></div>;
-  }
+  // if (isOpen) {
+  //   return <div></div>;
+  // }
 
   return (
     <Switch>
