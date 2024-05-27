@@ -11,10 +11,10 @@ import PaginationTable from "../../../_helper/_tablePagination";
 import { _todayDate } from "../../../_helper/_todayDate";
 import IViewModal from "../../../_helper/_viewModal";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import { InventoryTransactionReportViewTableRow } from "../invTransaction/report/tableRow";
 import IForm from "./../../../_helper/_form";
 import Loading from "./../../../_helper/_loading";
 import QualityCheckViewModal from "./modal/viewModal";
-import { InventoryTransactionReportViewTableRow } from "../invTransaction/report/tableRow";
 const initData = {
   plant: "",
   warehouse: "",
@@ -235,11 +235,13 @@ export default function ItemQualityCheckLanding() {
                       <th>Date</th>
                       <th>Supplier Name</th>
                       <th>Address</th>
-                      <th>Item Name</th>
                       <th>Net Weight</th>
+                      <th>Item Name</th>
+                      <th>Net Weight (Scale)</th>
+                      <th>Deduct for Bag</th>
                       <th>Deduct Qty</th>
                       <th>Unload Deduct </th>
-                      <th>Deduct for Bag</th>
+                      <th>Extra Deduction</th>                      
                       <th>Actual Qty</th>
                       <th>Qc Final Com</th>
                       <th>Status</th>
@@ -282,10 +284,12 @@ export default function ItemQualityCheckLanding() {
                         <td>{item?.supplierName}</td>
                         <td>{item?.supplierAddress}</td>
                         <td>{item?.itemName}</td>
+                        <td>{item?.netScaleWeight}</td>
                         <td>{item?.netWeight}</td>
-                        <td>{item?.deductionQuantity}</td>
-                        <td>{item?.unloadedDeductionQuantity}</td>
                         <td>{item?.bagWeightDeductQuantity}</td>
+                        <td>{item?.deductionQuantity}</td>
+                        <td>{item?.unloadedDeductionQuantity}</td>                        
+                        <td>{item?.extraNetQuantity}</td>                        
                         <td className="text-center">{item?.actualQuantity}</td>
                         <td>{item?.warehouseComment}</td>
                         <td>{item?.status}</td>

@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import { _fixedPoint } from "../../../../_helper/_fixedPoint";
 import Loading from "../../../../_helper/_loading";
 import CommonTable from "../../../../_helper/commonTable";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import { _numbering } from "../helper";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
 
 export default function QualityCheckViewModal({ singleData }) {
   const [modalData, getModalData, loadModalData] = useAxiosGet();
@@ -68,11 +68,18 @@ export default function QualityCheckViewModal({ singleData }) {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
+          gap:"5px"
         }}
       >
         <p style={{ margin: 0 }}>
-          <strong style={{ margin: 0 }}>Bag Qty: {modalData?.bagQty}</strong>{" "}
+          <strong style={{ margin: 0 }}>Challan Qty: {modalData?.challanQuantity}</strong>{" "}
         </p>
+        <p style={{ margin: 0 }}>
+            <strong> Net Weight (Scale) :{modalData?.netScaleWeight} </strong>
+          </p>
+          <p style={{ margin: 0 }}>
+            <strong> Extra Deduction :{modalData?.extraNetQuantity} </strong>
+          </p>
         <p style={{ margin: 0 }}>
           <strong style={{ margin: 0 }}>
             Net Weight: {modalData?.netWeight}
