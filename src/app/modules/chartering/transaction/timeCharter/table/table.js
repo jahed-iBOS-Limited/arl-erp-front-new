@@ -113,8 +113,11 @@ export default function TimeCharterTable() {
                     className={"btn btn-primary px-3 py-2"}
                     onClick={() => {
                       updateCharteringState(values);
-                      history.push(
-                        "/chartering/transaction/timecharter/create"
+                      history.push({
+                        pathname:"/chartering/transaction/timecharter/create",
+                        state: values,
+                        type:"create"
+                      }
                       );
                     }}
                     disabled={false}
