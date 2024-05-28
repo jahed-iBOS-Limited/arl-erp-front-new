@@ -25,6 +25,11 @@ const initData = {
   pickUpExplain: "",
   avlPipeLine: 0,
   pipeLineExplain: "",
+
+  totalTransitMixture: 0,
+  totalConcretePump: 0,
+  totalPickUp: 0,
+  totalPipeLine: 0,
 };
 
 export default function LogisticEquipmentEntry() {
@@ -253,6 +258,58 @@ export default function LogisticEquipmentEntry() {
                     </div>
                   </>
                   <div className="col-lg-3">
+                    <InputField
+                      value={values?.totalPipeLine}
+                      label="Total PipeLine"
+                      name="totalPipeLine"
+                      type="number"
+                      onChange={(e) => {
+                        setFieldValue("totalPipeLine", e.target.value);
+                      }}
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
+                  <div className="col-lg-3">
+                    <InputField
+                      value={values?.totalPickUp}
+                      label="Total PickUp"
+                      name="totalPickUp"
+                      type="number"
+                      onChange={(e) => {
+                        setFieldValue("totalPickUp", e.target.value);
+                      }}
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
+                  <div className="col-lg-3">
+                    <InputField
+                      value={values?.totalConcretePump}
+                      label="Total Concrete Pump"
+                      name="totalConcretePump"
+                      type="number"
+                      onChange={(e) => {
+                        setFieldValue("totalConcretePump", e.target.value);
+                      }}
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
+                  <div className="col-lg-3">
+                    <InputField
+                      value={values?.totalTransitMixture}
+                      label="Total Transit Mixture"
+                      name="totalTransitMixture"
+                      type="number"
+                      onChange={(e) => {
+                        setFieldValue("totalTransitMixture", e.target.value);
+                      }}
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
+                  <div className="col-lg-3">
                     <button
                       disabled={
                         !values?.castingDate ||
@@ -294,6 +351,10 @@ export default function LogisticEquipmentEntry() {
                         <th>Explanations</th>
                         <th>Available PipeLine(RFT)</th>
                         <th>Explanations</th>
+                        <th>Total PipeLine</th>
+                        <th>Total PickUp</th>
+                        <th>Total Concrete Pump</th>
+                        <th>Total Transit Mixture</th>
                         <th>Action</th>
                       </tr>
                     </thead>
@@ -387,6 +448,52 @@ export default function LogisticEquipmentEntry() {
                               onChange={(e) => {
                                 const data = [...formList];
                                 data[index]["pipeLineExplain"] = e.target.value;
+                                setFormList(data);
+                              }}
+                            />
+                          </td>
+                          <td>
+                            <InputField
+                              value={item?.totalPipeLine}
+                              type="number"
+                              onChange={(e) => {
+                                const data = [...formList];
+                                data[index]["totalPipeLine"] = e.target.value;
+                                setFormList(data);
+                              }}
+                            />
+                          </td>
+                          <td>
+                            <InputField
+                              value={item?.totalPickUp}
+                              type="number"
+                              onChange={(e) => {
+                                const data = [...formList];
+                                data[index]["totalPickUp"] = e.target.value;
+                                setFormList(data);
+                              }}
+                            />
+                          </td>
+                          <td>
+                            <InputField
+                              value={item?.totalConcretePump}
+                              type="number"
+                              onChange={(e) => {
+                                const data = [...formList];
+                                data[index]["totalConcretePump"] =
+                                  e.target.value;
+                                setFormList(data);
+                              }}
+                            />
+                          </td>
+                          <td>
+                            <InputField
+                              value={item?.totalTransitMixture}
+                              type="number"
+                              onChange={(e) => {
+                                const data = [...formList];
+                                data[index]["totalTransitMixture"] =
+                                  e.target.value;
                                 setFormList(data);
                               }}
                             />
