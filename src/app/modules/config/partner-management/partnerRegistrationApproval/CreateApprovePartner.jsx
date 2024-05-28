@@ -68,10 +68,6 @@ const {state}=location
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
-console.log({state});
-console.log({ownershipData});
-console.log({mainBusinessData});
-console.log({majorCustomerData});
 
 
   return (

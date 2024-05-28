@@ -59,7 +59,6 @@ export default function PartnerRegApproval() {
 
   const handleGetRowData = (values, pageNo, pageSize, searchValue) => {
     const searchParam = searchValue ? `&search=${searchValue}` : "";
-    console.log({values});
     
     if (values?.partner === "customer") {
       getGridData(
@@ -93,7 +92,6 @@ export default function PartnerRegApproval() {
     setPositionHandler(pageNo, pageSize, values, searchValue);
   };
 
-  console.log("gridData", gridData);
   return (
     <Formik
       enableReinitialize={true}
