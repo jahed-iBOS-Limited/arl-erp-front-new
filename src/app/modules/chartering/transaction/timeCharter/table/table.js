@@ -201,6 +201,7 @@ export default function TimeCharterTable() {
                             history.push({
                               pathname: `/chartering/transaction/timecharter/view/${item?.tcTransactionId}`,
                               state: item,
+                              actionType:"view"
                             });
                           }}
                         />
