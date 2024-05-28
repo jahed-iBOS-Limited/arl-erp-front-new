@@ -225,12 +225,14 @@ export const GetTransactionDetails = async (
   setter,
   setLoading,
   setOffHireDuration,
-  cb
+  cb,
+  type
 ) => {
   setLoading(true);
   try {
+    const apiName = type === "create" ? "GetTimeCharterByIdForTimeCharter" : "GetTimeCharterById"; 
     const resInvoiceTransaction = await axios.get(
-      `${imarineBaseUrl}/domain/TimeCharterTransaction/GetTimeCharterById?AccountId=${accId}&BusinessUnitId=${buId}&VesselId=${vesselId}&VoyageId=${voyageId}&HireTrasaction=${transactionId}`
+      `${imarineBaseUrl}/domain/TimeCharterTransaction/${apiName}?AccountId=${accId}&BusinessUnitId=${buId}&VesselId=${vesselId}&VoyageId=${voyageId}&HireTrasaction=${transactionId}`
     );
 
     const res = await axios.get(
