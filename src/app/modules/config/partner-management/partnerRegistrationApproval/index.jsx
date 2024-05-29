@@ -17,6 +17,26 @@ const initData = {
   approveStatus: { value: 1, label: "Approved" },
 };
 export default function PartnerRegApproval() {
+
+  const userRole = useSelector(
+    (state) => state?.authData?.userRole,
+    shallowEqual
+  );
+  let supplierPermission = null;
+  let customerPermissions = null;
+
+  for (let i = 0; i < userRole.length; i++) {
+    if (userRole[i]?.intFeatureId === 1446) {
+      supplierPermission = userRole[i];
+    }
+    if (userRole[i]?.intFeatureId === 1447) {
+      customerPermissions = userRole[i];
+    }
+  }
+
+console.log({supplierPermission,customerPermissions});
+
+
   const saveHandler = (values, cb) => {};
   const history = useHistory();
   const {
@@ -73,7 +93,7 @@ export default function PartnerRegApproval() {
 
   useEffect(() => {
  
-    if(userTypeName == "Supplier"){
+    if(supplierPermission?.isView){
         handleGetRowData({...initData,partner:"supplier"}, pageNo, pageSize);
 
     }else{
@@ -93,7 +113,7 @@ export default function PartnerRegApproval() {
     <Formik
       enableReinitialize={true}
       initialValues={{...initData,
-        partner:userTypeName == "Supplier" ? "supplier":"customer"
+        partner:supplierPermission?.isView  ? "supplier":"customer"
       }}
       // validationSchema={{}}
       onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -154,7 +174,8 @@ export default function PartnerRegApproval() {
                   style={{ alignItems: "center", gap: "15px" }}
                   className="col-lg-4  d-flex mt-md-5"
                 >
-                {userTypeName !== "Supplier" &&  <label
+                {customerPermissions?.isView
+ &&  <label
                     style={{ alignItems: "center", gap: "5px" }}
                     className="d-flex"
                     htmlFor="customer"
@@ -172,7 +193,7 @@ export default function PartnerRegApproval() {
                     />
                     Customer
                   </label>}
-                  {userTypeName !== "Customer" &&<label
+                  {supplierPermission?.isView &&<label
                     style={{ alignItems: "center", gap: "5px" }}
                     className="mr-3 d-flex"
                     htmlFor="supplier"
@@ -241,9 +262,10 @@ export default function PartnerRegApproval() {
                         
                         <td className="text-center">
                          
-                        <span
+                        {(customerPermissions?.isCreate || supplierPermission?.isCreate) && <span
                                 style={{ cursor: "pointer" }}
                                 onClick={() =>
+                                  
                                   history.push({
                                     pathname:
                                     `/config/partner-management/partner-registration-approval/create/${item?.intRegistrationId}`,
@@ -262,7 +284,7 @@ export default function PartnerRegApproval() {
                                 }
                               >
                                 <IEdit />
-                              </span>
+                              </span>}
                           
                         </td>
                       </tr>
