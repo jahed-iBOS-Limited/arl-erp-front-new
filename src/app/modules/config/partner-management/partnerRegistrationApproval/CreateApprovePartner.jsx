@@ -94,7 +94,7 @@ const {state}=location
                   `/partner/BusinessPartnerBasicInfo/CreateBusinessPartner`,
                   {
                     accountId: profileData?.accountId,
-                    businessUnitId: selectedBusinessUnit?.value,
+                    businessUnitId: state?.isCustomer? state?.buIdCustomer: selectedBusinessUnit?.value,
                     businessPartnerCode: "",
                     businessPartnerName: state?.businessPartnerName,
                     businessPartnerAddress: state?.businessPartnerAddress,
