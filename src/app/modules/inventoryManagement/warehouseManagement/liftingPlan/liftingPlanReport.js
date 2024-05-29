@@ -323,38 +323,40 @@ function Table({ printRef, gridData }) {
             style={{ width: "50%" }}
             className="col-lg-6 px-2 table-responsive"
           >
-            <table className="sm-table table table-striped table-bordered global-table">
-              <thead>
-                <th>SL</th>
-                <th>Shipping Point</th>
-                <th>Quantity</th>
-                <th>Approved Quantity</th>
-              </thead>
-              <tbody>
-                {shipPointWise?.map((item, i) => (
-                  <tr key={i}>
-                    <td>{i + 1}</td>
-                    <td>{item?.strShippingPointName}</td>
-                    <td className="text-right">{item?.qty}</td>
-                    <td className="text-right">{item?.numApproveQuantity}</td>
-                  </tr>
-                ))}
+            <div className="table-responsive">
+              <table className="sm-table table table-striped table-bordered global-table">
+                <thead>
+                  <th>SL</th>
+                  <th>Shipping Point</th>
+                  <th>Quantity</th>
+                  <th>Approved Quantity</th>
+                </thead>
+                <tbody>
+                  {shipPointWise?.map((item, i) => (
+                    <tr key={i}>
+                      <td>{i + 1}</td>
+                      <td>{item?.strShippingPointName}</td>
+                      <td className="text-right">{item?.qty}</td>
+                      <td className="text-right">{item?.numApproveQuantity}</td>
+                    </tr>
+                  ))}
 
-                <tr style={{ fontWeight: "bold", textAlign: "right" }}>
-                  <td></td>
-                  <td className="text-right">Total</td>
-                  <td className="text-right">
-                    {shipPointWise?.reduce((acc, obj) => acc + +obj?.qty, 0)}
-                  </td>
-                  <td className="text-right">
-                    {dateWise?.reduce(
-                      (acc, obj) => acc + +obj?.numApproveQuantity,
-                      0
-                    )}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+                  <tr style={{ fontWeight: "bold", textAlign: "right" }}>
+                    <td></td>
+                    <td className="text-right">Total</td>
+                    <td className="text-right">
+                      {shipPointWise?.reduce((acc, obj) => acc + +obj?.qty, 0)}
+                    </td>
+                    <td className="text-right">
+                      {dateWise?.reduce(
+                        (acc, obj) => acc + +obj?.numApproveQuantity,
+                        0
+                      )}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
 

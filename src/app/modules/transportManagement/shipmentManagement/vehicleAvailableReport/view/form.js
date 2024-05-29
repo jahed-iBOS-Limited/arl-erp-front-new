@@ -86,7 +86,7 @@ export default function _Form({
 
               <div className="form-group row mt-2">
                 <div className="col-lg-12">
-                  <div className="row px-5">
+                  <div className="row px-5 table-responsive">
                     {/* Start Table Part */}
                     <table className="table table-striped table-bordered">
                       <thead>

@@ -189,186 +189,191 @@ export default function MeltingREBConsumption() {
                 <div style={{ marginTop: "15px" }}>
                   <div className="reb-consumption-report-table">
                     {landingData.length > 0 && (
-                      <table className="table table-striped table-bordered global-table">
-                        <thead>
-                          <tr>
-                            <th colSpan={8}></th>
-                            <th colSpan={3}>Melting Panel REB</th>
-                            <th colSpan={3}>Sintering Panel REB</th>
-                            <th rowSpan={2}>Grand Total REB Used</th>
-                          </tr>
-                          <tr>
-                            <th style={{ minWidth: "25px" }}>SL</th>
-                            <th>Heat No</th>
-                            <th>M. Panel No</th>
-                            <th>Curcible No</th>
-                            <th>Curcible Lining Heat No</th>
-                            <th>Start Time</th>
-                            <th>Stop Time</th>
-                            <th>Total Time Hour</th>
-                            <th>Start KWH Meter Reading</th>
-                            <th>End KWH Meter Reading</th>
-                            <th>Total REB Used</th>
-                            <th>Start KWH Meter Reading</th>
-                            <th>End KWH Meter Reading</th>
-                            <th>Total REB Used</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {landingData.map((item, index) => (
-                            <tr key={index}>
-                              <td className="text-center">{index + 1}</td>
-                              <td className="text-center">{item?.strHeatNo}</td>
-                              <td className="text-center">
-                                {item?.intMpanelNo}
-                              </td>
-                              <td className="text-center">
-                                {item?.intCrucibleNo}
-                              </td>
-                              <td className="text-center">
-                                {item?.intCrucibleLiningHeatNo}
-                              </td>
-                              <td className="text-center">
-                                {_timeFormatter(item?.tmHeatStartTime)}
-                              </td>
-                              <td className="text-center">
-                                {_timeFormatter(item?.tmHeatEndTime)}
-                              </td>
-                              <td className="text-center">
-                                {item?.tmTotalHeatTime &&
-                                  item?.tmTotalHeatTime?.split(":")?.[0] +
-                                    "H"}{" "}
-                                {item?.tmTotalHeatTime &&
-                                  item?.tmTotalHeatTime?.split(":")?.[1] + "M"}
-                              </td>
-                              <td className="text-center">
-                                <div className="text-center">
-                                  <input
-                                    onChange={(e) => {
-                                      dataHandler(
-                                        "numMeltingPanelStartKwh",
-                                        Math.abs(e.target.value),
-                                        index
-                                      );
-                                    }}
-                                    step={"any"}
-                                    min="0"
-                                    required
-                                    className="form-control"
-                                    type="number"
-                                    name="numMeltingPanelStartKwh"
-                                    defaultValue={
-                                      item?.numMeltingPanelStartKwh >= 0
-                                        ? item?.numMeltingPanelStartKwh
-                                        : ""
-                                    }
-                                  />
-                                </div>
-                              </td>
-                              <td className="text-center">
-                                <div className="text-center">
-                                  <input
-                                    onChange={(e) => {
-                                      dataHandler(
-                                        "numMeltingPanelEndKwh",
-                                        Math.abs(e.target.value),
-                                        index
-                                      );
-                                    }}
-                                    step={"any"}
-                                    min="0"
-                                    className="form-control"
-                                    type="number"
-                                    name="numMeltingPanelEndKwh"
-                                    defaultValue={
-                                      item?.numMeltingPanelEndKwh >= 0
-                                        ? item?.numMeltingPanelEndKwh
-                                        : ""
-                                    }
-                                  />
-                                </div>
-                              </td>
-                              <td className="text-center">
-                                {meltingTotalREBUsed(
-                                  item?.intMpanelNo,
-                                  item?.numMeltingPanelEndKwh,
-                                  item?.numMeltingPanelStartKwh,
-                                  index,
-                                  "numMeltingPanelTotalKwhcal"
-                                )}
-                              </td>
-                              <td>
-                                <div className="text-center">
-                                  <input
-                                    onChange={(e) => {
-                                      dataHandler(
-                                        "numSinteringPanelStartKwh",
-                                        Math.abs(e.target.value),
-                                        index
-                                      );
-                                    }}
-                                    step={"any"}
-                                    min="0"
-                                    required
-                                    className="form-control"
-                                    type="number"
-                                    name="numSinteringPanelStartKwh"
-                                    defaultValue={
-                                      item?.numSinteringPanelStartKwh >= 0
-                                        ? item?.numSinteringPanelStartKwh
-                                        : ""
-                                    }
-                                  />
-                                </div>
-                              </td>
-                              <td>
-                                <div className="text-center">
-                                  <input
-                                    onChange={(e) => {
-                                      dataHandler(
-                                        "numSinteringPanelEndKwh",
-                                        Math.abs(e.target.value),
-                                        index
-                                      );
-                                    }}
-                                    step={"any"}
-                                    min="0"
-                                    required
-                                    className="form-control"
-                                    type="number"
-                                    name="numSinteringPanelEndKwh"
-                                    defaultValue={
-                                      item?.numSinteringPanelEndKwh >= 0
-                                        ? item?.numSinteringPanelEndKwh
-                                        : ""
-                                    }
-                                  />
-                                </div>
-                              </td>
-                              <td className="text-center">
-                                {sinteringTotalREBUsed(
-                                  item?.intMpanelNo,
-                                  item?.numSinteringPanelEndKwh,
-                                  item?.numSinteringPanelStartKwh,
-                                  index,
-                                  "numSinteringPanelTotalKwhcal"
-                                )}
-                              </td>
-                              <td className="text-center">
-                                {grandTotal(
-                                  item?.intMpanelNo,
-                                  item?.numMeltingPanelEndKwh,
-                                  item?.numMeltingPanelStartKwh,
-                                  item?.numSinteringPanelEndKwh,
-                                  item?.numSinteringPanelStartKwh,
-                                  index,
-                                  "numGrandTotalRebUsedKwhcal"
-                                )}
-                              </td>
+                      <div className="table-responsive">
+                        <table className="table table-striped table-bordered global-table">
+                          <thead>
+                            <tr>
+                              <th colSpan={8}></th>
+                              <th colSpan={3}>Melting Panel REB</th>
+                              <th colSpan={3}>Sintering Panel REB</th>
+                              <th rowSpan={2}>Grand Total REB Used</th>
                             </tr>
-                          ))}
-                        </tbody>
-                      </table>
+                            <tr>
+                              <th style={{ minWidth: "25px" }}>SL</th>
+                              <th>Heat No</th>
+                              <th>M. Panel No</th>
+                              <th>Curcible No</th>
+                              <th>Curcible Lining Heat No</th>
+                              <th>Start Time</th>
+                              <th>Stop Time</th>
+                              <th>Total Time Hour</th>
+                              <th>Start KWH Meter Reading</th>
+                              <th>End KWH Meter Reading</th>
+                              <th>Total REB Used</th>
+                              <th>Start KWH Meter Reading</th>
+                              <th>End KWH Meter Reading</th>
+                              <th>Total REB Used</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {landingData.map((item, index) => (
+                              <tr key={index}>
+                                <td className="text-center">{index + 1}</td>
+                                <td className="text-center">
+                                  {item?.strHeatNo}
+                                </td>
+                                <td className="text-center">
+                                  {item?.intMpanelNo}
+                                </td>
+                                <td className="text-center">
+                                  {item?.intCrucibleNo}
+                                </td>
+                                <td className="text-center">
+                                  {item?.intCrucibleLiningHeatNo}
+                                </td>
+                                <td className="text-center">
+                                  {_timeFormatter(item?.tmHeatStartTime)}
+                                </td>
+                                <td className="text-center">
+                                  {_timeFormatter(item?.tmHeatEndTime)}
+                                </td>
+                                <td className="text-center">
+                                  {item?.tmTotalHeatTime &&
+                                    item?.tmTotalHeatTime?.split(":")?.[0] +
+                                      "H"}{" "}
+                                  {item?.tmTotalHeatTime &&
+                                    item?.tmTotalHeatTime?.split(":")?.[1] +
+                                      "M"}
+                                </td>
+                                <td className="text-center">
+                                  <div className="text-center">
+                                    <input
+                                      onChange={(e) => {
+                                        dataHandler(
+                                          "numMeltingPanelStartKwh",
+                                          Math.abs(e.target.value),
+                                          index
+                                        );
+                                      }}
+                                      step={"any"}
+                                      min="0"
+                                      required
+                                      className="form-control"
+                                      type="number"
+                                      name="numMeltingPanelStartKwh"
+                                      defaultValue={
+                                        item?.numMeltingPanelStartKwh >= 0
+                                          ? item?.numMeltingPanelStartKwh
+                                          : ""
+                                      }
+                                    />
+                                  </div>
+                                </td>
+                                <td className="text-center">
+                                  <div className="text-center">
+                                    <input
+                                      onChange={(e) => {
+                                        dataHandler(
+                                          "numMeltingPanelEndKwh",
+                                          Math.abs(e.target.value),
+                                          index
+                                        );
+                                      }}
+                                      step={"any"}
+                                      min="0"
+                                      className="form-control"
+                                      type="number"
+                                      name="numMeltingPanelEndKwh"
+                                      defaultValue={
+                                        item?.numMeltingPanelEndKwh >= 0
+                                          ? item?.numMeltingPanelEndKwh
+                                          : ""
+                                      }
+                                    />
+                                  </div>
+                                </td>
+                                <td className="text-center">
+                                  {meltingTotalREBUsed(
+                                    item?.intMpanelNo,
+                                    item?.numMeltingPanelEndKwh,
+                                    item?.numMeltingPanelStartKwh,
+                                    index,
+                                    "numMeltingPanelTotalKwhcal"
+                                  )}
+                                </td>
+                                <td>
+                                  <div className="text-center">
+                                    <input
+                                      onChange={(e) => {
+                                        dataHandler(
+                                          "numSinteringPanelStartKwh",
+                                          Math.abs(e.target.value),
+                                          index
+                                        );
+                                      }}
+                                      step={"any"}
+                                      min="0"
+                                      required
+                                      className="form-control"
+                                      type="number"
+                                      name="numSinteringPanelStartKwh"
+                                      defaultValue={
+                                        item?.numSinteringPanelStartKwh >= 0
+                                          ? item?.numSinteringPanelStartKwh
+                                          : ""
+                                      }
+                                    />
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="text-center">
+                                    <input
+                                      onChange={(e) => {
+                                        dataHandler(
+                                          "numSinteringPanelEndKwh",
+                                          Math.abs(e.target.value),
+                                          index
+                                        );
+                                      }}
+                                      step={"any"}
+                                      min="0"
+                                      required
+                                      className="form-control"
+                                      type="number"
+                                      name="numSinteringPanelEndKwh"
+                                      defaultValue={
+                                        item?.numSinteringPanelEndKwh >= 0
+                                          ? item?.numSinteringPanelEndKwh
+                                          : ""
+                                      }
+                                    />
+                                  </div>
+                                </td>
+                                <td className="text-center">
+                                  {sinteringTotalREBUsed(
+                                    item?.intMpanelNo,
+                                    item?.numSinteringPanelEndKwh,
+                                    item?.numSinteringPanelStartKwh,
+                                    index,
+                                    "numSinteringPanelTotalKwhcal"
+                                  )}
+                                </td>
+                                <td className="text-center">
+                                  {grandTotal(
+                                    item?.intMpanelNo,
+                                    item?.numMeltingPanelEndKwh,
+                                    item?.numMeltingPanelStartKwh,
+                                    item?.numSinteringPanelEndKwh,
+                                    item?.numSinteringPanelStartKwh,
+                                    index,
+                                    "numGrandTotalRebUsedKwhcal"
+                                  )}
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
                     )}
                   </div>
                 </div>

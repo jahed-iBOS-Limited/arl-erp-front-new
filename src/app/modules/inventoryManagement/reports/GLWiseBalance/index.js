@@ -215,33 +215,35 @@ export default function GLWiseBalance() {
                 ) : null}
               </div>
               <div className="">
-                <table className="table table-striped table-bordered global-table">
-                  <thead>
-                    <tr>
-                      <th>SL</th>
-                      <th>Business Unit</th>
-                      <th>Warehouse</th>
-                      <th>General Ledger</th>
-                      <th>Item</th>
-                      <th>Value</th>
-                      <th>Closing Qty</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {rowDto?.length > 0 &&
-                      rowDto.map((item, index) => (
-                        <tr className="bg-light">
-                          <td>{index + 1}</td>
-                          <td>{item?.strBusinessUnitName}</td>
-                          <td>{item?.strWarehouseName}</td>
-                          <td>{item?.strGeneralLedgerName}</td>
-                          <td>{item?.strItemName}</td>
-                          <td className="text-center">{item?.totalValue}</td>
-                          <td className="text-center">{item?.numCloseQty}</td>
-                        </tr>
-                      ))}
-                  </tbody>
-                </table>
+                <div className="table-responsive">
+                  <table className="table table-striped table-bordered global-table">
+                    <thead>
+                      <tr>
+                        <th>SL</th>
+                        <th>Business Unit</th>
+                        <th>Warehouse</th>
+                        <th>General Ledger</th>
+                        <th>Item</th>
+                        <th>Value</th>
+                        <th>Closing Qty</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {rowDto?.length > 0 &&
+                        rowDto.map((item, index) => (
+                          <tr className="bg-light">
+                            <td>{index + 1}</td>
+                            <td>{item?.strBusinessUnitName}</td>
+                            <td>{item?.strWarehouseName}</td>
+                            <td>{item?.strGeneralLedgerName}</td>
+                            <td>{item?.strItemName}</td>
+                            <td className="text-center">{item?.totalValue}</td>
+                            <td className="text-center">{item?.numCloseQty}</td>
+                          </tr>
+                        ))}
+                    </tbody>
+                  </table>
+                </div>
 
                 {rowDto?.length > 0 && (
                   <PaginationTable

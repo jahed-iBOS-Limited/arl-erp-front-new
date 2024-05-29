@@ -21,10 +21,10 @@ export default function CustomerViewModal({
   landingValues,
   isView = true,
 }) {
-  const [disabled, setDisabled] = useState(false);
+  const [disabled] = useState(false);
   const [singleData, getSingleData, loadingSingleData] = useAxiosGet([]);
   const printRef = useRef();
-  const { profileData, selectedBusinessUnit } = useSelector((state) => {
+  const { selectedBusinessUnit } = useSelector((state) => {
     return {
       profileData: state.authData.profileData,
       selectedBusinessUnit: state.authData.selectedBusinessUnit,
@@ -155,25 +155,25 @@ export default function CustomerViewModal({
                           </div>
                         </div>
                         <div className="row mt-3">
-                          <div className="col-3">
+                          <div className="col-lg-3">
                             <p>
                               <b>SBU: </b> {landingValues?.sbu?.label}
                             </p>
                           </div>
 
-                          <div className="col-3">
+                          <div className="col-lg-3">
                             <p>
                               <b>Bill Code: </b>{" "}
                               {singleData?.header?.strBillRegisterCode}
                             </p>
                           </div>
-                          <div className="col-3">
+                          <div className="col-lg-3">
                             <p>
                               <b>Payment Amount: </b>
                               {singleData?.header?.monTotalAmount}
                             </p>
                           </div>
-                          <div className="col-3">
+                          <div className="col-lg-3">
                             <p>
                               <b>Bill Date: </b>
                               {_dateFormatter(
@@ -181,13 +181,13 @@ export default function CustomerViewModal({
                               )}
                             </p>
                           </div>
-                          <div className="col-3">
+                          <div className="col-lg-3">
                             <p>
                               <b>Narration: </b>{" "}
                               {singleData?.header?.strRemarks}
                             </p>
                           </div>
-                          <div className="col-3 hidden-part">
+                          <div className="col-lg-3 hidden-part">
                             <span
                               onClick={(e) => {
                                 dispatch(
@@ -225,13 +225,27 @@ export default function CustomerViewModal({
                           </thead>
                           <tbody>
                             <tr>
-                              <td className="text-center">{singleData?.row?.strBusinessPartnerCode}</td>
-                              <td className="text-center">{singleData?.row?.strBusinessPartnerName}</td>
-                              <td className="text-center">{singleData?.row?.strBankName}</td>
-                              <td className="text-center">{singleData?.row?.strBankBranchName}</td>
-                              <td className="text-center">{singleData?.row?.strBankAccountNo}</td>
-                              <td className="text-center">{singleData?.row?.strRoutingNo}</td>
-                              <td className="text-right">{singleData?.row?.monTotalAmount}</td>
+                              <td className="text-center">
+                                {singleData?.row?.strBusinessPartnerCode}
+                              </td>
+                              <td className="text-center">
+                                {singleData?.row?.strBusinessPartnerName}
+                              </td>
+                              <td className="text-center">
+                                {singleData?.row?.strBankName}
+                              </td>
+                              <td className="text-center">
+                                {singleData?.row?.strBankBranchName}
+                              </td>
+                              <td className="text-center">
+                                {singleData?.row?.strBankAccountNo}
+                              </td>
+                              <td className="text-center">
+                                {singleData?.row?.strRoutingNo}
+                              </td>
+                              <td className="text-right">
+                                {singleData?.row?.monTotalAmount}
+                              </td>
                             </tr>
                           </tbody>
                         </table>

@@ -40,64 +40,66 @@ const DumpToTruckDeliveryLandingTable = ({ obj }) => {
     <>
       {rowData?.length > 0 && (
         <div>
-          <table
-            id="table-to-xlsx"
-            className={
-              "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
-            }
-          >
-            <thead>
-              <tr className="cursor-pointer">
-                {headers?.map((th, index) => {
-                  return <th key={index}> {th} </th>;
+          <div className="table-responsive">
+            <table
+              id="table-to-xlsx"
+              className={
+                "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+              }
+            >
+              <thead>
+                <tr className="cursor-pointer">
+                  {headers?.map((th, index) => {
+                    return <th key={index}> {th} </th>;
+                  })}
+                </tr>
+              </thead>
+              <tbody>
+                {rowData?.map((item, index) => {
+                  totalDirectQty += item?.directQnt;
+                  totalDamQty += item?.dumpQnt;
+                  totalDamRemainingQty += item?.remainingDumpQnt;
+                  totalOtherLaborQty += item?.dailyLaboureQnt;
+                  totalOtherCost += item?.othersCostRate;
+                  totalBillAmount += item?.billAmount;
+                  return (
+                    <tr key={index}>
+                      <td style={{ width: "40px" }} className="text-center">
+                        {index + 1}
+                      </td>
+                      <td>{item?.shipPointName}</td>
+                      <td>{item?.lighterVesselName}</td>
+                      <td>{item?.supplierName}</td>
+                      <td className="text-right">{item?.directQnt}</td>
+                      <td className="text-right">{item?.dumpQnt}</td>
+                      <td className="text-right">{item?.dumpRate}</td>
+                      <td className="text-right">{item?.remainingDumpQnt}</td>
+                      <td className="text-right">{item?.dailyLaboureQnt}</td>
+                      <td className="text-right">{item?.dailyLaboureRate}</td>
+                      <td className="text-right">{item?.othersCostRate}</td>
+                      <td className="text-right">{item?.billAmount || 0}</td>
+                      {/* <td style={{ width: "80px" }} className="text-center"></td> */}
+                    </tr>
+                  );
                 })}
-              </tr>
-            </thead>
-            <tbody>
-              {rowData?.map((item, index) => {
-                totalDirectQty += item?.directQnt;
-                totalDamQty += item?.dumpQnt;
-                totalDamRemainingQty += item?.remainingDumpQnt;
-                totalOtherLaborQty += item?.dailyLaboureQnt;
-                totalOtherCost += item?.othersCostRate;
-                totalBillAmount += item?.billAmount;
-                return (
-                  <tr key={index}>
-                    <td style={{ width: "40px" }} className="text-center">
-                      {index + 1}
-                    </td>
-                    <td>{item?.shipPointName}</td>
-                    <td>{item?.lighterVesselName}</td>
-                    <td>{item?.supplierName}</td>
-                    <td className="text-right">{item?.directQnt}</td>
-                    <td className="text-right">{item?.dumpQnt}</td>
-                    <td className="text-right">{item?.dumpRate}</td>
-                    <td className="text-right">{item?.remainingDumpQnt}</td>
-                    <td className="text-right">{item?.dailyLaboureQnt}</td>
-                    <td className="text-right">{item?.dailyLaboureRate}</td>
-                    <td className="text-right">{item?.othersCostRate}</td>
-                    <td className="text-right">{item?.billAmount || 0}</td>
-                    {/* <td style={{ width: "80px" }} className="text-center"></td> */}
-                  </tr>
-                );
-              })}
 
-              <tr style={{ fontWeight: "bold", textAlign: "right" }}>
-                <td colSpan={4} className="text-right">
-                  Total
-                </td>
-                <td>{totalDirectQty}</td>
-                <td>{totalDamQty}</td>
-                <td></td>
-                <td>{totalDamRemainingQty}</td>
-                <td>{totalOtherLaborQty}</td>
-                <td></td>
-                <td>{totalOtherCost}</td>
-                <td>{totalBillAmount || 0}</td>
-                {/* <td></td> */}
-              </tr>
-            </tbody>
-          </table>
+                <tr style={{ fontWeight: "bold", textAlign: "right" }}>
+                  <td colSpan={4} className="text-right">
+                    Total
+                  </td>
+                  <td>{totalDirectQty}</td>
+                  <td>{totalDamQty}</td>
+                  <td></td>
+                  <td>{totalDamRemainingQty}</td>
+                  <td>{totalOtherLaborQty}</td>
+                  <td></td>
+                  <td>{totalOtherCost}</td>
+                  <td>{totalBillAmount || 0}</td>
+                  {/* <td></td> */}
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       )}
 

@@ -19,7 +19,8 @@ const VehicleLogTable = ({ obj }) => {
   return (
     <>
       {rowData?.data?.length > 0 && (
-        <table className="table table-striped table-bordered global-table">
+       <div className="table-responsive">
+         <table className="table table-striped table-bordered global-table">
           <thead>
             <tr>
               <th>SL</th>
@@ -77,6 +78,7 @@ const VehicleLogTable = ({ obj }) => {
               ))}
           </tbody>
         </table>
+       </div>
       )}
     </>
   );

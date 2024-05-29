@@ -12,10 +12,11 @@ import { APIUrl } from "../../../../../App";
 import ICustomCard from "../../../../_helper/_customCard";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import IViewModal from "../../../../_helper/_viewModal";
-import { getReportListPurchaseReq } from "../helper";
+import { getReportListPurchaseReq, mergeFields } from "../helper";
 import Loading from "./../../../../_helper/loader/_loader";
 import "./salaryAdvice.css";
 import ViewForm from "./viewForm";
+import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 
 // let imageObj = {
 //   8: iMarineIcon,
@@ -29,13 +30,52 @@ export function ItemReqViewTableRow({ prId }) {
   const [loading, setLoading] = useState(false);
   const [purchaseReport, setPurchaseReport] = useState("");
   const [isShowModal, setIsShowModal] = useState(false);
+  const [, getRuningStockAndQuantityList] = useAxiosPost();
 
   const selectedBusinessUnit = useSelector((state) => {
     return state.authData.selectedBusinessUnit;
   }, shallowEqual);
 
   useEffect(() => {
-    getReportListPurchaseReq(prId, selectedBusinessUnit?.value, setPurchaseReport);
+    getReportListPurchaseReq(
+      prId,
+      selectedBusinessUnit?.value,
+      setPurchaseReport,
+      ({
+        getPurchaseRequestPrintHeader,
+        getPurchaseRequestPrintRow,
+        objEmpListDTO,
+      }) => {
+        if (getPurchaseRequestPrintRow?.length) {
+          const payload = getPurchaseRequestPrintRow.map((item) => ({
+            BusinessUnitId: getPurchaseRequestPrintHeader?.businessUnitId,
+            WareHouseId: getPurchaseRequestPrintHeader?.warehouseId,
+            ItemId: item?.itemId,
+          }));
+
+          // Fetch running stock and quantity list
+          getRuningStockAndQuantityList(
+            `/wms/InventoryTransaction/GetRuningStockAndQuantityList`,
+            payload,
+            (res) => {
+              // Merge fields based on itemId
+              const modifiedPrintRow = mergeFields(
+                getPurchaseRequestPrintRow,
+                res,
+                "itemId"
+              );
+
+              // Update the purchase report
+              setPurchaseReport({
+                getPurchaseRequestPrintHeader,
+                getPurchaseRequestPrintRow: modifiedPrintRow,
+                objEmpListDTO,
+              });
+            }
+          );
+        }
+      }
+    );
   }, [prId, selectedBusinessUnit]);
 
   const printRef = useRef();
@@ -47,31 +87,31 @@ export function ItemReqViewTableRow({ prId }) {
   return (
     <>
       <ICustomCard
-        title=''
+        title=""
         renderProps={() => (
           <>
             <ReactToPrint
-              pageStyle='@page { size: 8in 12in  !important; margin: 0mm; } @media print { body { -webkit-print-color-adjust: exact;} }'
-              trigger={() => <button className='btn btn-primary'>Print</button>}
+              pageStyle="@page { size: 8in 12in  !important; margin: 0mm; } @media print { body { -webkit-print-color-adjust: exact;} }"
+              trigger={() => <button className="btn btn-primary">Print</button>}
               content={() => printRef.current}
             />
             <ReactToPrint
-              pageStyle='@page { size: 8in 12in !important; margin: 0mm; } @media print { body { -webkit-print-color-adjust: exact;} }'
+              pageStyle="@page { size: 8in 12in !important; margin: 0mm; } @media print { body { -webkit-print-color-adjust: exact;} }"
               trigger={() => (
-                <button className='btn btn-primary ml-2'>PDF</button>
+                <button className="btn btn-primary ml-2">PDF</button>
               )}
               content={() => printRef.current}
             />
             <ReactHTMLTableToExcel
-              id='test-table-xls-button'
-              className='download-table-xls-button btn btn-primary ml-2'
-              table='table-to-xlsx'
-              filename='tablexls'
-              sheet='tablexls'
-              buttonText='Excel'
+              id="test-table-xls-button"
+              className="download-table-xls-button btn btn-primary ml-2"
+              table="table-to-xlsx"
+              filename="tablexls"
+              sheet="tablexls"
+              buttonText="Excel"
             />
             <button
-              type='button'
+              type="button"
               onClick={() => {
                 setIsShowModal(true);
                 setSubject(
@@ -81,7 +121,7 @@ export function ItemReqViewTableRow({ prId }) {
                         A Purchase request has been sent from  Purchase Request No: ${purchaseReport?.getPurchaseRequestPrintHeader?.indendedNO}
                         Please take the necessary action`);
               }}
-              className='btn btn-primary back-btn ml-2'
+              className="btn btn-primary back-btn ml-2"
             >
               Mail
             </button>
@@ -97,12 +137,12 @@ export function ItemReqViewTableRow({ prId }) {
             <>
               {loading && <Loading />}
               <FormikForm>
-                <div className=''>
-                  <div ref={printRef} className='print_wrapper'>
-                    <div className='m-3'>
-                      <div className='d-flex justify-content-between align-items-center'>
+                <div className="">
+                  <div ref={printRef} className="print_wrapper">
+                    <div className="m-3">
+                      <div className="d-flex justify-content-between align-items-center">
                         <div>
-                          <div className='d-flex justify-content-center align-items-center'>
+                          <div className="d-flex justify-content-center align-items-center">
                             <div
                               style={{
                                 position: "absolute",
@@ -112,12 +152,12 @@ export function ItemReqViewTableRow({ prId }) {
                               <img
                                 style={{ width: "80px" }}
                                 src={`${APIUrl}/domain/Document/DownlloadFile?id=${selectedBusinessUnit?.imageId}`}
-                                alt=''
+                                alt=""
                               />
                             </div>
                           </div>
                         </div>
-                        <div className='d-flex flex-column justify-content-center align-items-center mt-2'>
+                        <div className="d-flex flex-column justify-content-center align-items-center mt-2">
                           <h3>
                             {
                               purchaseReport?.getPurchaseRequestPrintHeader
@@ -134,10 +174,10 @@ export function ItemReqViewTableRow({ prId }) {
                         </div>
                         <div></div>
                       </div>
-                      <div className='my-3 d-flex justify-content-between'>
+                      <div className="my-3 d-flex justify-content-between">
                         <div>
                           <b>Request Code: </b>
-                          <span className='mr-2'>
+                          <span className="mr-2">
                             {/* {
                               purchaseReport?.getPurchaseRequestPrintHeader
                                 ?.indendedNO
@@ -146,32 +186,38 @@ export function ItemReqViewTableRow({ prId }) {
                               purchaseReport?.getPurchaseRequestPrintHeader
                                 ?.indendedNO
                             }{" "}
-                            ({
-                              purchaseReport?.getPurchaseRequestPrintHeader
-                                ?.purchaseOrganizationName.split(" ")[0]
-                            })
+                            (
+                            {
+                              purchaseReport?.getPurchaseRequestPrintHeader?.purchaseOrganizationName.split(
+                                " "
+                              )[0]
+                            }
+                            )
                           </span>{" "}
                           <b>Purchase Request Type: </b>
-                          <span className='mr-2'>
+                          <span className="mr-2">
                             {
                               purchaseReport?.getPurchaseRequestPrintHeader
                                 ?.indentType
                             }
                           </span>
                           <b>Status: </b>
-                          <span className='mr-2'>
+                          <span className="mr-2">
                             {purchaseReport?.getPurchaseRequestPrintHeader
                               ?.isApproved
                               ? "Approved"
                               : "Pending"}
                           </span>
                           <b>Warehouse: </b>
-                          <span className='mr-2'>
-                            {purchaseReport?.getPurchaseRequestPrintHeader?.warehouseName}
+                          <span className="mr-2">
+                            {
+                              purchaseReport?.getPurchaseRequestPrintHeader
+                                ?.warehouseName
+                            }
                           </span>
                           <div>
                             <b>Purpose: </b>
-                            <span className='mr-2'>
+                            <span className="mr-2">
                               {
                                 purchaseReport?.getPurchaseRequestPrintHeader
                                   ?.purpose
@@ -182,7 +228,7 @@ export function ItemReqViewTableRow({ prId }) {
                         <div>
                           <div>
                             <b>Request Date: </b>
-                            <span className='font-weight-bold mr-2'>
+                            <span className="font-weight-bold mr-2">
                               {_dateFormatter(
                                 purchaseReport?.getPurchaseRequestPrintHeader
                                   ?.indentDate
@@ -191,7 +237,7 @@ export function ItemReqViewTableRow({ prId }) {
                           </div>
                           <div>
                             Required Date:
-                            <sapn className='font-weight-bold mr-2'>
+                            <sapn className="font-weight-bold mr-2">
                               {_dateFormatter(
                                 purchaseReport?.getPurchaseRequestPrintHeader
                                   ?.requiredDate
@@ -200,49 +246,54 @@ export function ItemReqViewTableRow({ prId }) {
                           </div>
                         </div>
                       </div>
-                      <table
-                        className='table table-striped table-bordered global-table'
-                        id='table-to-xlsx'
-                      >
-                        <thead>
-                          <tr>
-                            <th>SL</th>
-                            <th>Item Code</th>
-                            <th>Item Name</th>
-                            <th style={{width: "260px"}}>Purchase Description</th>
-                            <th>Uom</th>
-                            <th>Quantity</th>
-                            {/* <th>Current Stock</th> */}
-                            <th>Last Price</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {purchaseReport?.getPurchaseRequestPrintRow?.map(
-                            (data, i) => (
-                              <tr>
-                                <td className='text-center'>{i + 1}</td>
-                                <td>{data?.itemCode}</td>
-                                <td>{data?.itemName}</td>
-                                <td>{data?.remarks}</td>
-                                <td>{data?.uoMname}</td>
-                                <td className='text-right'>
-                                  {data?.numRequestQuantity}
-                                </td>
-                                {/* <td className='text-right'>
-                                  {data?.currentStock}
-                                </td> */}
-                                <td className='text-right'>
-                                  {data?.lastPrice}
-                                </td>
-                              </tr>
-                            )
-                          )}
-                        </tbody>
-                      </table>
-                      <div className='mt-3'>
-                        <div className='d-flex'>
+                      <div className="table-responsive">
+                        <table
+                          className="table table-striped table-bordered global-table"
+                          id="table-to-xlsx"
+                        >
+                          <thead>
+                            <tr>
+                              <th>SL</th>
+                              <th>Item Code</th>
+                              <th>Item Name</th>
+                              <th style={{ width: "260px" }}>
+                                Purchase Description
+                              </th>
+                              <th>Uom</th>
+                              <th>Requested Quantity</th>
+                              <th>Available Stock</th>
+                              <th>Last Price</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {purchaseReport?.getPurchaseRequestPrintRow?.map(
+                              (data, i) => (
+                                <tr>
+                                  <td className="text-center">{i + 1}</td>
+                                  <td>{data?.itemCode}</td>
+                                  <td>{data?.itemName}</td>
+                                  <td>{data?.remarks}</td>
+                                  <td>{data?.uoMname}</td>
+                                  <td className="text-right">
+                                    {data?.numRequestQuantity}
+                                  </td>
+                                  <td className="text-right">
+                                    {data?.numStockByDate || 0}
+                                  </td>
+                                  <td className="text-right">
+                                    {data?.lastPrice}
+                                  </td>
+                                </tr>
+                              )
+                            )}
+                          </tbody>
+                        </table>
+                      </div>
+
+                      <div className="mt-3">
+                        <div className="d-flex">
                           <p>Request By:</p>
-                          <p className='font-weight-bold ml-2'>
+                          <p className="font-weight-bold ml-2">
                             {
                               purchaseReport?.getPurchaseRequestPrintHeader
                                 ?.indentByName
@@ -270,10 +321,10 @@ export function ItemReqViewTableRow({ prId }) {
                           </p>
                         </div>
                       </div>
-                      <div className='mt-1'>
+                      <div className="mt-1">
                         <p>
                           Approved By:{" "}
-                          <span className='font-weight-bold'>
+                          <span className="font-weight-bold">
                             {" "}
                             Approve By Sequence{" "}
                             {purchaseReport?.getPurchaseRequestPrintHeader
@@ -298,45 +349,48 @@ export function ItemReqViewTableRow({ prId }) {
                             )}
                           </span>{" "}
                         </p>
-
-                        <table
-                          className='table global-table'
-                          id='table-to-xlsx'
-                          style={{ margintop: "-10px !important" }}
-                        >
-                          <thead>
-                            <tr>
-                              <th>SL</th>
-                              <th>User Name</th>
-                              <th>Group Name</th>
-                              <th>Any User</th>
-                              <th>Sequence ID</th>
-                              <th>Status</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {purchaseReport?.objEmpListDTO?.map((data, i) => (
+                        <div className="table-responsive">
+                          <table
+                            className="table global-table"
+                            id="table-to-xlsx"
+                            style={{ margintop: "-10px !important" }}
+                          >
+                            <thead>
                               <tr>
-                                <td className='text-center'>{i + 1}</td>
-                                <td>{data?.userNameDesignationName}</td>
-                                <td>{data?.groupName}</td>
-                                <td className='text-center'>{data?.anyUser}</td>
-                                <td className='text-center'>
-                                  {data?.sequenceId}
-                                </td>
-                                <td>
-                                  {data?.isApprove ? "Approved" : "Pending"}
-                                </td>
+                                <th>SL</th>
+                                <th>User Name</th>
+                                <th>Group Name</th>
+                                <th>Any User</th>
+                                <th>Sequence ID</th>
+                                <th>Status</th>
                               </tr>
-                            ))}
-                          </tbody>
-                        </table>
+                            </thead>
+                            <tbody>
+                              {purchaseReport?.objEmpListDTO?.map((data, i) => (
+                                <tr>
+                                  <td className="text-center">{i + 1}</td>
+                                  <td>{data?.userNameDesignationName}</td>
+                                  <td>{data?.groupName}</td>
+                                  <td className="text-center">
+                                    {data?.anyUser}
+                                  </td>
+                                  <td className="text-center">
+                                    {data?.sequenceId}
+                                  </td>
+                                  <td>
+                                    {data?.isApprove ? "Approved" : "Pending"}
+                                  </td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
                       </div>
                     </div>
                   </div>
                   <div>
                     <IViewModal
-                      title='Send Email'
+                      title="Send Email"
                       show={isShowModal}
                       onHide={() => setIsShowModal(false)}
                     >

@@ -6,7 +6,8 @@ const DetailsView = ({ gridData, tableType }) => {
   return (
     <>
       {tableType === "order" ? (
-        <table className="table table-striped table-bordered global-table sales_order_landing_table">
+        <div className="table-responsive">
+          <table className="table table-striped table-bordered global-table sales_order_landing_table">
           <thead>
             <tr>
               <th>SL</th>
@@ -56,8 +57,10 @@ const DetailsView = ({ gridData, tableType }) => {
             </tr>
           </tbody>
         </table>
+        </div>
       ) : (
-        <table className="table table-striped table-bordered global-table sales_order_landing_table">
+        <div className="table-responsive">
+          <table className="table table-striped table-bordered global-table sales_order_landing_table">
           <thead>
             <tr>
               <th>SL</th>
@@ -91,6 +94,7 @@ const DetailsView = ({ gridData, tableType }) => {
             </tr>
           </tbody>
         </table>
+        </div>
       )}
     </>
   );

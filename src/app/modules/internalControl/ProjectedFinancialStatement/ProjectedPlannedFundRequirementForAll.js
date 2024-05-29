@@ -98,80 +98,82 @@ const ProjectedPlannedFundRequirementForAll = ({ rowData }) => {
                 style={{ maxHeight: "600px" }}
                 className="scroll-table _table"
               >
-                <table className="table table-striped table-bordered mt-3">
-                  <thead>
-                    <tr>
-                      <th>Code</th>
-                      <th>Particulars</th>
-                      {/* Dynamic table col start */}
-                      {tableHeader?.length > 0 &&
-                        tableHeader.map((title) => (
-                          <th style={{ minWidth: "130px" }}>{title}</th>
+                <div className="table-responsive">
+                  <table className="table table-striped table-bordered mt-3">
+                    <thead>
+                      <tr>
+                        <th>Code</th>
+                        <th>Particulars</th>
+                        {/* Dynamic table col start */}
+                        {tableHeader?.length > 0 &&
+                          tableHeader.map((title) => (
+                            <th style={{ minWidth: "130px" }}>{title}</th>
+                          ))}
+                        {/* Dynamic table col end */}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {listData?.typeOne?.length > 0 &&
+                        listData?.typeOne?.map((item, index) => (
+                          <tr key={index}>
+                            <td className="text-center">
+                              {item?.strGeneralLedgerCode}
+                            </td>
+                            <td>{item?.strGeneralLedgerName}</td>
+                            {renderDynamicColum(tableHeader, item)}
+                          </tr>
                         ))}
-                      {/* Dynamic table col end */}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {listData?.typeOne?.length > 0 &&
-                      listData?.typeOne?.map((item, index) => (
-                        <tr key={index}>
-                          <td className="text-center">
-                            {item?.strGeneralLedgerCode}
+                      {listData?.typeOne?.length > 0 && (
+                        <tr>
+                          <td colSpan={2} className="text-center">
+                            <strong> Total Current Assest (a)</strong>
                           </td>
-                          <td>{item?.strGeneralLedgerName}</td>
-                          {renderDynamicColum(tableHeader, item)}
+                          {renderCalculatedColumnSum({
+                            header: tableHeader,
+                            list: listData?.typeOne,
+                          })}
                         </tr>
-                      ))}
-                    {listData?.typeOne?.length > 0 && (
-                      <tr>
-                        <td colSpan={2} className="text-center">
-                          <strong> Total Current Assest (a)</strong>
-                        </td>
-                        {renderCalculatedColumnSum({
-                          header: tableHeader,
-                          list: listData?.typeOne,
-                        })}
-                      </tr>
-                    )}
+                      )}
 
-                    {listData?.typeTwo?.length > 0 &&
-                      listData?.typeTwo?.map((item, index) => (
-                        <tr key={index}>
-                          <td className="text-center">
-                            {item?.strGeneralLedgerCode}
+                      {listData?.typeTwo?.length > 0 &&
+                        listData?.typeTwo?.map((item, index) => (
+                          <tr key={index}>
+                            <td className="text-center">
+                              {item?.strGeneralLedgerCode}
+                            </td>
+                            <td>{item?.strGeneralLedgerName}</td>
+                            {renderDynamicColum(tableHeader, item)}
+                          </tr>
+                        ))}
+                      {listData?.typeTwo?.length > 0 && (
+                        <tr>
+                          <td colSpan={2} className="text-center">
+                            <strong> Total Current Liabibility (b)</strong>
                           </td>
-                          <td>{item?.strGeneralLedgerName}</td>
-                          {renderDynamicColum(tableHeader, item)}
-                        </tr>
-                      ))}
-                    {listData?.typeTwo?.length > 0 && (
-                      <tr>
-                        <td colSpan={2} className="text-center">
-                          <strong> Total Current Liabibility (b)</strong>
-                        </td>
 
-                        {renderCalculatedColumnSum({
-                          header: tableHeader,
-                          list: listData?.typeTwo,
-                        })}
-                      </tr>
-                    )}
-                    {listData?.typeTwo?.length > 0 && (
-                      <tr>
-                        <td colSpan={2} className="text-center">
-                          <strong>
-                            Net Working Capital/STL Requirement (c)
-                          </strong>
-                        </td>
-                        {renderNetWorkingCapitalSum(
-                          listData?.typeOne,
-                          listData?.typeTwo,
-                          tableHeader
-                        )}
-                      </tr>
-                    )}
-                  </tbody>
-                </table>
+                          {renderCalculatedColumnSum({
+                            header: tableHeader,
+                            list: listData?.typeTwo,
+                          })}
+                        </tr>
+                      )}
+                      {listData?.typeTwo?.length > 0 && (
+                        <tr>
+                          <td colSpan={2} className="text-center">
+                            <strong>
+                              Net Working Capital/STL Requirement (c)
+                            </strong>
+                          </td>
+                          {renderNetWorkingCapitalSum(
+                            listData?.typeOne,
+                            listData?.typeTwo,
+                            tableHeader
+                          )}
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
           </div>

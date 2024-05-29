@@ -145,7 +145,8 @@ function AssetRentLanding() {
                   </div>
                 </div>
                 {gridData?.data?.length > 0 && (
-                  <table className="table table-striped table-bordered bj-table bj-table-landing">
+                 <div className="table-responsive">
+                   <table className="table table-striped table-bordered bj-table bj-table-landing">
                     <thead>
                       <tr>
                         <th>SL</th>
@@ -258,6 +259,7 @@ function AssetRentLanding() {
                       ))}
                     </tbody>
                   </table>
+                 </div>
                 )}
 
                 {gridData?.data?.length > 0 && (

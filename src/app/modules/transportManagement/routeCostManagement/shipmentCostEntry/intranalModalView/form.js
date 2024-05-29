@@ -1,9 +1,9 @@
+import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
-import { Formik, Form } from "formik";
-import InputField from "../../../../_helper/_inputField";
-import { getComponentDDL } from "./helper";
 import ICustomCard from "../../../../_helper/_customCard";
+import InputField from "../../../../_helper/_inputField";
 import ChalanInfo from "./ChalanInfo";
+import { getComponentDDL } from "./helper";
 
 export default function _Form({
   initData,
@@ -235,7 +235,7 @@ export default function _Form({
                 </div>
 
                 <div className="row">
-                  <div className="col-lg-8 pr-0">
+                  <div className="col-lg-8 pr-0 table-responsive">
                     <table className={"table mt-1 bj-table"}>
                       <thead>
                         <tr>
@@ -298,7 +298,7 @@ export default function _Form({
                 </div>
                 <h5 className="mt-3">Fule Cost</h5>
                 <div className="row">
-                  <div className="col-lg-12">
+                  <div className="col-lg-12 table-responsive">
                     <table className={"table global-table"}>
                       <thead>
                         <tr>
@@ -338,7 +338,7 @@ export default function _Form({
                     <h5 className="mt-1">Vehicle Rent</h5>
                   </div>
                   {/* distanceKM talbe */}
-                  <div className="col-lg-6">
+                  <div className="col-lg-6 table-responsive">
                     <table className={"table global-table"}>
                       <thead>
                         <tr>
@@ -362,7 +362,7 @@ export default function _Form({
                   </div>
 
                   {/* Vehicle Reant table */}
-                  <div className="col-lg-6">
+                  <div className="col-lg-6 table-responsive">
                     <table className={"table global-table"}>
                       <thead>
                         <tr>

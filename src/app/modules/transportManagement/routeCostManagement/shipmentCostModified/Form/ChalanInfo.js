@@ -15,6 +15,7 @@ const ChalanInfo = ({ shipmentId }) => {
           {" "}
           <h5 className="mt-1">Chalan Info</h5>
         </div>
+        <div className="table-responsive">
         <table className={"table global-table"}>
           <thead>
             <tr>
@@ -39,6 +40,7 @@ const ChalanInfo = ({ shipmentId }) => {
             ))}
           </tbody>
         </table>
+        </div>
       </div>
     </>
   );

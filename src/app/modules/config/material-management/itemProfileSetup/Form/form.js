@@ -86,8 +86,7 @@ export default function _Form({
                 </div>
                 <div className="col-lg-2">
                   <div
-                    style={{ position: "relative", top: "15px" }}
-                    className="mr-5"
+                    className="mr-5 pt-5"
                   >
                     <Field
                       name="isMendatory"
@@ -151,6 +150,7 @@ export default function _Form({
                   </button>
                 </div>
               </div>
+              <div className="table-responsive">
               <table className="table table-striped table-bordered mt-3 global-table">
                 <thead>
                   <tr>
@@ -206,6 +206,7 @@ export default function _Form({
                   ))}
                 </tbody>
               </table>
+              </div>
               <IViewModal
                 modelSize="lg"
                 show={modalShowDDL}

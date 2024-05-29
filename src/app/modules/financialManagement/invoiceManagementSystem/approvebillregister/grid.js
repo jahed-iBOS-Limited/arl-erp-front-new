@@ -27,6 +27,8 @@ import ExpenseView from "./expenseView";
 import RejectModel from "./rejectModel/form";
 import SupplerInvoiceView from "./supplerInvoiceView";
 import SupplierAdvanceView from "./supplierAdvanceView";
+import ViewDamDeliveryBill from "../billregister/damDelivery/view/table";
+import CustomerViewModal from "../billregister/customerRefund/customerViewModal";
 const GridData = ({
   rowDto,
   setRowDto,
@@ -45,6 +47,7 @@ const GridData = ({
     <>
       <div className="row ">
         <div className="col-lg-12">
+        <div className="table-responsive">
           <table className="table table-striped table-bordered global-table table-font-size-sm">
             <thead>
               <tr>
@@ -160,6 +163,7 @@ const GridData = ({
               ))}
             </tbody>
           </table>
+          </div>
         </div>
       </div>
       <IViewModal show={mdalShow} onHide={() => setModalShow(false)}>
@@ -315,6 +319,20 @@ const GridData = ({
         )}
         {gridItem?.billType === 28 && (
           <ViewHatchLaborBill billRegisterId={gridItem?.billRegisterId} />
+        )}
+        {[31, 32].includes(gridItem?.billType) && (
+          /* 31: G2G Dump Unload Bill
+              32: G2G Dump Delivery(Load) Bill
+            */
+          <ViewDamDeliveryBill
+            billRegisterId={gridItem?.billRegisterId}
+            billTypeId={gridItem?.billType}
+            values={values}
+          />
+        )}
+
+        {gridItem?.billType === 33 && (
+          <CustomerViewModal landingValues={values} gridItem={gridItem} />
         )}
       </IViewModal>
       {/* RejectModel */}

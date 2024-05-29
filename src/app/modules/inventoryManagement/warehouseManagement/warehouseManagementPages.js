@@ -40,9 +40,13 @@ import HologramBaseDeliveryLanding from "./hologramBaseDelivery/landing/form";
 import InvTransactionImport from "./invTransactionImport";
 import { ForminvTransImport } from "./invTransactionImport/Form";
 import ViewInvTransactionFormImport from "./invTransactionImport/View/addEditForm";
+import InventoryAdjustApprove from "./inventoryAdjustApprove";
 import InventoryLoanApproveLanding from "./inventoryLoanApprove";
 import InventoryLoanLandingNew from "./inventoryLoanNew";
 import InventoryLoanCreateEditNew from "./inventoryLoanNew/createEdit";
+import ItemQualityCheckLanding from "./itemQualityCheck";
+import QualityCheckCreateForm from "./itemQualityCheck/createAndEditForm";
+import CreateMRR from "./itemQualityCheck/createMRR";
 import ItemWiseSerialUpdate from "./itemWiseSerialUpdate";
 import ItemWiseSerialCreate from "./itemWiseSerialUpdate/create";
 import ItemWiseSerialEdit from "./itemWiseSerialUpdate/editItemWiseSerial";
@@ -53,7 +57,8 @@ import LiftingPlan from "./liftingPlan";
 import MRRCancel from "./mrrCancel";
 import TargetVSProductionRequestForm from "./targetVSProductionRequest/form/addEditForm";
 import TargetVSProductionRequest from "./targetVSProductionRequest/landing";
-import InventoryAdjustApprove from "./inventoryAdjustApprove";
+import LogisticEquipment from "./logisticEquipment";
+import LogisticEquipmentEntry from "./logisticEquipment/entry";
 
 export function WarehouseManagementPages() {
   const { userRole, selectedBusinessUnit } = useSelector(
@@ -369,6 +374,14 @@ export function WarehouseManagementPages() {
         path="/inventory-management/warehouse-management/liftingplanreport"
         component={LiftingPlan}
       />
+       <ContentRoute
+        path="/inventory-management/warehouse-management/logisticequipmentavailability/:type"
+        component={LogisticEquipmentEntry}
+      />
+       <ContentRoute
+        path="/inventory-management/warehouse-management/logisticequipmentavailability"
+        component={LogisticEquipment}
+      />
       <ContentRoute
         path="/inventory-management/warehouse-management/InventoryAdjustment/create"
         component={InventoryAdjustmentCreate}
@@ -434,6 +447,18 @@ export function WarehouseManagementPages() {
       <ContentRoute
         path="/inventory-management/warehouse-management/inventory-Adjust-Approve"
         component={InventoryAdjustApprove}
+      />
+      <ContentRoute
+        path="/inventory-management/warehouse-management/itemqualitycheck/create"
+        component={QualityCheckCreateForm}
+      />
+      <ContentRoute
+        path="/inventory-management/warehouse-management/itemqualitycheck/create-mrr"
+        component={CreateMRR}
+      />
+      <ContentRoute
+        path="/inventory-management/warehouse-management/itemqualitycheck"
+        component={ItemQualityCheckLanding}
       />
     </Switch>
   );

@@ -64,111 +64,115 @@ const ProjectAccountingLanding = () => {
             <div className="row" id="pdf-section">
               <div className="col-lg-12">
                 <div className="print_wrapper">
-                  <table className="table table-striped table-bordered bj-table bj-table-landing">
-                    <thead>
-                      <tr>
-                        <th>SL</th>
-                        <th>
-                          <div className="text-left ml-1">Project Name</div>
-                        </th>
-                        <th>
-                          <div className="text-left ml-1">Owner</div>
-                        </th>
-                        <th>Start Date</th>
-                        <th>End Date</th>
-                        <th>
-                          <div className="text-left ml-1">Location</div>
-                        </th>
-                        <th>Status</th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {projectAccountingLanding?.data?.map((item) => (
-                        <tr key={item?.sl}>
-                          <td className="text-center">{item?.sl}</td>
-                          <td className="text-left">
-                            {item?.strProjectName || "N/A"}
-                          </td>
-                          <td className="text-left">
-                            {item?.strOwner || "N/A"}
-                          </td>
-                          <td className="text-center">
-                            {item?.dteStartDate
-                              ? moment(item?.dteStartDate).format("DD-MM-YYYY")
-                              : "N/A"}
-                          </td>
-                          <td className="text-center">
-                            {item?.dteEndDate
-                              ? moment(item?.dteEndDate).format("DD-MM-YYYY")
-                              : "N/A"}
-                          </td>
-                          <td className="text-left">
-                            {item?.strLocation || "N/A"}
-                          </td>
-                          <td className="text-center">
-                            {item?.intStatusId === 1
-                              ? "in progress"
-                              : item?.intStatusId === 2
-                              ? "complete"
-                              : "N/A"}
-                          </td>
-                          <td className="d-flex align-items-center justify-content-around">
-                            <IView
-                              title="View Project"
-                              clickHandler={() => {
-                                setShowProjectDetails(true);
-                                setSingleProjectId(item?.intProjectId);
-                              }}
-                            />
+                  <div className="table-responsive">
+                    <table className="table table-striped table-bordered bj-table bj-table-landing">
+                      <thead>
+                        <tr>
+                          <th>SL</th>
+                          <th>
+                            <div className="text-left ml-1">Project Name</div>
+                          </th>
+                          <th>
+                            <div className="text-left ml-1">Owner</div>
+                          </th>
+                          <th>Start Date</th>
+                          <th>End Date</th>
+                          <th>
+                            <div className="text-left ml-1">Location</div>
+                          </th>
+                          <th>Status</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {projectAccountingLanding?.data?.map((item) => (
+                          <tr key={item?.sl}>
+                            <td className="text-center">{item?.sl}</td>
+                            <td className="text-left">
+                              {item?.strProjectName || "N/A"}
+                            </td>
+                            <td className="text-left">
+                              {item?.strOwner || "N/A"}
+                            </td>
+                            <td className="text-center">
+                              {item?.dteStartDate
+                                ? moment(item?.dteStartDate).format(
+                                    "DD-MM-YYYY"
+                                  )
+                                : "N/A"}
+                            </td>
+                            <td className="text-center">
+                              {item?.dteEndDate
+                                ? moment(item?.dteEndDate).format("DD-MM-YYYY")
+                                : "N/A"}
+                            </td>
+                            <td className="text-left">
+                              {item?.strLocation || "N/A"}
+                            </td>
+                            <td className="text-center">
+                              {item?.intStatusId === 1
+                                ? "in progress"
+                                : item?.intStatusId === 2
+                                ? "complete"
+                                : "N/A"}
+                            </td>
+                            <td className="d-flex align-items-center justify-content-around">
+                              <IView
+                                title="View Project"
+                                clickHandler={() => {
+                                  setShowProjectDetails(true);
+                                  setSingleProjectId(item?.intProjectId);
+                                }}
+                              />
 
-                            {item?.intStatusId !== 2 && (
-                              <>
-                                <IEdit
-                                  title="Edit"
-                                  onClick={() => {
-                                    history.push({
-                                      pathname:
-                                        "/financial-management/projectAccounting/projectAccounting/edit",
-                                      state: {
-                                        project: item,
-                                      },
-                                    });
-                                  }}
-                                />
-
-                                <OverlayTrigger
-                                  overlay={
-                                    <ReactToolTip id="cs-icon">
-                                      Complete Project
-                                    </ReactToolTip>
-                                  }
-                                >
-                                  <CheckCircleOutline
-                                    className="fas fa-pen-square pointer"
+                              {item?.intStatusId !== 2 && (
+                                <>
+                                  <IEdit
+                                    title="Edit"
                                     onClick={() => {
                                       history.push({
                                         pathname:
-                                          "/financial-management/projectAccounting/projectAccounting/complete",
+                                          "/financial-management/projectAccounting/projectAccounting/edit",
                                         state: {
-                                          projectId: item?.intProjectId,
+                                          project: item,
                                         },
                                       });
                                     }}
-                                    style={{
-                                      color: "#B5B5C3",
-                                      fontSize: "16px",
-                                      fontWeight: 900,
-                                    }}
                                   />
-                                </OverlayTrigger>
-                              </>
-                            )}
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
+
+                                  <OverlayTrigger
+                                    overlay={
+                                      <ReactToolTip id="cs-icon">
+                                        Complete Project
+                                      </ReactToolTip>
+                                    }
+                                  >
+                                    <CheckCircleOutline
+                                      className="fas fa-pen-square pointer"
+                                      onClick={() => {
+                                        history.push({
+                                          pathname:
+                                            "/financial-management/projectAccounting/projectAccounting/complete",
+                                          state: {
+                                            projectId: item?.intProjectId,
+                                          },
+                                        });
+                                      }}
+                                      style={{
+                                        color: "#B5B5C3",
+                                        fontSize: "16px",
+                                        fontWeight: 900,
+                                      }}
+                                    />
+                                  </OverlayTrigger>
+                                </>
+                              )}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
               <div className="col-md-6 mt-2">

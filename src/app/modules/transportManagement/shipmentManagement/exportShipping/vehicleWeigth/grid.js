@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
@@ -32,7 +32,7 @@ const VehicleWeightTable = ({ id, rowDto, setRowDto }) => {
     <div>
       {loading && <Loading />}
 
-      <div className="">
+      <div className="table-responsive">
         <table className="table table-striped global-table ">
           <thead>
             <tr>

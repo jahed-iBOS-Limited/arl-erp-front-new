@@ -26,13 +26,20 @@ export function FinacialStatementViewForm({
 
   useEffect(() => {
     if (selectedBusinessUnit && profileData) {
-      getFinancialStatementById(comId, selectedBusinessUnit.value, setGeneralLedgerRowDto);
+      getFinancialStatementById(
+        comId,
+        selectedBusinessUnit.value,
+        setGeneralLedgerRowDto
+      );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedBusinessUnit, profileData]);
 
   return (
-    <ICustomCard title="Financial Statement"  backHandler={() => history.goBack()} >
+    <ICustomCard
+      title="Financial Statement"
+      backHandler={() => history.goBack()}
+    >
       <div className="row bank-journal bank-journal-custom bj-left">
         <>
           <div className="col-lg-2 mb-2">
@@ -49,24 +56,28 @@ export function FinacialStatementViewForm({
       <div className="row cash_journal">
         <div className="col-lg-12 pr-0 pl-0">
           {generalLedgerRowDto?.length > 0 && (
-            <table className="table table-striped table-bordered mt-3 pl-0">
-              <thead>
-                <tr>
-                  <th>SL</th>
-                  <th>Accounts Category</th>
-                  <th>General Ledger</th>
-                </tr>
-              </thead>
-              <tbody>
-                {generalLedgerRowDto?.map((itm, index) => (
-                  <tr key={index}>
-                    <td className="text-center">{index + 1}</td>
-                    <td className="text-center">{itm?.accountCategoryName}</td>
-                    <td className="text-center">{itm?.generalLedgerName}</td>
+            <div className="table-responsive">
+              <table className="table table-striped table-bordered mt-3 pl-0">
+                <thead>
+                  <tr>
+                    <th>SL</th>
+                    <th>Accounts Category</th>
+                    <th>General Ledger</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {generalLedgerRowDto?.map((itm, index) => (
+                    <tr key={index}>
+                      <td className="text-center">{index + 1}</td>
+                      <td className="text-center">
+                        {itm?.accountCategoryName}
+                      </td>
+                      <td className="text-center">{itm?.generalLedgerName}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           )}
         </div>
       </div>

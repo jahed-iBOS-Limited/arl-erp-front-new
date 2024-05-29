@@ -130,8 +130,9 @@ export default function _Form({ bankDDL, setDisabled, btnRef }) {
       `/costmgmt/BankAccount/GetBankAccountDDL?AccountId=${accId}&BusinssUnitId=${buId}`);
 
     getBillTypeDDL(`/fino/FinanceCommonDDL/GetBillTypeDDL`, (data) => {
-      const firstTwo = data.slice(0, 2); //Show only first two
-      setBillTypeDDL(firstTwo);
+      // const firstTwo = data.slice(0, 2); //Show only first two
+      const filterData = data.filter((item)=> [1,2,6].includes(item?.value))
+      setBillTypeDDL(filterData);
     });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps

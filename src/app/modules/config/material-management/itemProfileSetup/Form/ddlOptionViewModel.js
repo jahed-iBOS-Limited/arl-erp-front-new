@@ -79,7 +79,8 @@ function DdlOptionViewModel({
                 </div>
               </div>
               {/* table */}
-              <table className="table table-striped table-bordered mt-3 global-table">
+             <div className="table-responsive">
+             <table className="table table-striped table-bordered mt-3 global-table">
                 <thead>
                   <tr>
                     <th style={{ width: "20px" }}>SL</th>
@@ -107,6 +108,7 @@ function DdlOptionViewModel({
                   ))}
                 </tbody>
               </table>
+             </div>
             </Form>
           </>
         )}

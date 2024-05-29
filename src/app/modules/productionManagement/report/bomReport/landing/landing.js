@@ -271,83 +271,85 @@ function BomReportLanding() {
               {gridData?.length > 0 &&
               backCalculationId?.backcalculationId !== 2 ? (
                 <div ref={printRef} className="col-lg-12 pr-0 pl-0">
-                  <table
-                    className="table table-striped table-bordered mt-3 bj-table bj-table-landing"
-                    id="table-to-xlsx"
-                  >
-                    <thead>
-                      <tr>
-                        <th>Lv</th>
-                        {/* <th>Item ID</th> */}
-                        <th>Item Code</th>
-                        <th>Item Name</th>
-                        <th>Lot Size</th>
-                        <th>Qty</th>
-                        <th>UoM</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {gridData?.map((item, index) => (
-                        <>
-                          {yellowMaker(
-                            item?.itemLv,
-                            index,
-                            item?.parentItemid,
-                            gridData[index - 1]?.parentItemid
-                          ) && (
-                            <>
-                              <tr>
-                                <td
-                                  colSpan={6}
-                                  align="left"
-                                  style={{ backgroundColor: "#FEF3C7" }}
-                                >
-                                  <div className="text-left pl-2">
-                                    {yellowMaker(
-                                      item?.itemLv,
-                                      index,
-                                      item?.parentItemid,
-                                      gridData[index - 1]?.parentItemid
-                                    )}
-                                  </div>
-                                </td>
-                              </tr>
-                            </>
-                          )}
+                  <div className="table-responsive">
+                    <table
+                      className="table table-striped table-bordered mt-3 bj-table bj-table-landing"
+                      id="table-to-xlsx"
+                    >
+                      <thead>
+                        <tr>
+                          <th>Lv</th>
+                          {/* <th>Item ID</th> */}
+                          <th>Item Code</th>
+                          <th>Item Name</th>
+                          <th>Lot Size</th>
+                          <th>Qty</th>
+                          <th>UoM</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {gridData?.map((item, index) => (
+                          <>
+                            {yellowMaker(
+                              item?.itemLv,
+                              index,
+                              item?.parentItemid,
+                              gridData[index - 1]?.parentItemid
+                            ) && (
+                              <>
+                                <tr>
+                                  <td
+                                    colSpan={6}
+                                    align="left"
+                                    style={{ backgroundColor: "#FEF3C7" }}
+                                  >
+                                    <div className="text-left pl-2">
+                                      {yellowMaker(
+                                        item?.itemLv,
+                                        index,
+                                        item?.parentItemid,
+                                        gridData[index - 1]?.parentItemid
+                                      )}
+                                    </div>
+                                  </td>
+                                </tr>
+                              </>
+                            )}
 
-                          <tr key={index}>
-                            <td className="text-center">
-                              <span className="pl-2">{item?.itemLv}</span>
-                            </td>
-                            {/* <td className="text-left">
+                            <tr key={index}>
+                              <td className="text-center">
+                                <span className="pl-2">{item?.itemLv}</span>
+                              </td>
+                              {/* <td className="text-left">
                               <span className="pl-2">{item?.itemid}</span>
                             </td> */}
-                            <td>
-                              <div className="text-center pr-2">
-                                {item?.itemCode}
-                              </div>
-                            </td>
-                            <td className="text-left">
-                              <span className="pl-2">{item?.itemName}</span>
-                            </td>
-                            <td>
-                              <div className="text-center pr-2">
-                                {item?.lotSize}
-                              </div>
-                            </td>
-                            <td className="text-right">
-                              <span className="pr-2">
-                                {item?.qty?.toFixed(4)}
-                              </span>
-                            </td>
-                            <td>
-                              <div className="pl-2">{item?.uomName}</div>
-                            </td>
-                          </tr>
-                        </>
-                      ))}
-                    </tbody>
-                  </table>
+                              <td>
+                                <div className="text-center pr-2">
+                                  {item?.itemCode}
+                                </div>
+                              </td>
+                              <td className="text-left">
+                                <span className="pl-2">{item?.itemName}</span>
+                              </td>
+                              <td>
+                                <div className="text-center pr-2">
+                                  {item?.lotSize}
+                                </div>
+                              </td>
+                              <td className="text-right">
+                                <span className="pr-2">
+                                  {item?.qty?.toFixed(4)}
+                                </span>
+                              </td>
+                              <td>
+                                <div className="pl-2">{item?.uomName}</div>
+                              </td>
+                            </tr>
+                          </>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               ) : (
                 <></>
@@ -356,104 +358,125 @@ function BomReportLanding() {
               bomReportBasedOnBackCalculationId?.length > 0 ? (
                 <>
                   <div ref={printRef} className="col-lg-12 pr-0 pl-0">
-                    <table
-                      className="table table-striped table-bordered mt-3 bj-table bj-table-landing"
-                      id="table-to-xlsx"
-                    >
-                      <thead>
-                        <tr>
-                          <th>Plant</th>
-                          <th>Shop Floor</th>
-                          <th>Item</th>
-                          <th>BOM Version</th>
-                          <th>UOM</th>
-                          <th>Lot Size</th>
-                          <th>Raw Material</th>
-                          <th>Raw Item Code</th>
-                          <th>Raw Item UOM</th>
-                          <th>Raw Item Qty</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {bomReportBasedOnBackCalculationId?.map(
-                          (item, index) => (
-                            <>
-                              <tr key={index}>
-                                <td
-                                  rowSpan={item?.itemRawMaterials?.length || 1}
-                                >
-                                  {values?.plant?.label}
-                                </td>
-                                <td
-                                  rowSpan={item?.itemRawMaterials?.length || 1}
-                                >
-                                  {values?.shopFloor?.label}
-                                </td>
-                                <td
-                                  rowSpan={item?.itemRawMaterials?.length || 1}
-                                >
-                                  {item?.itemName} {`[${item?.itemCode}]`}
-                                </td>
-                                <td
-                                  rowSpan={item?.itemRawMaterials?.length || 1}
-                                >
-                                  {item?.bomVersion}
-                                </td>
-                                <td
-                                  rowSpan={item?.itemRawMaterials?.length || 1}
-                                >
-                                  {item?.uomName}
-                                </td>
-                                <td
-                                  rowSpan={item?.itemRawMaterials?.length || 1}
-                                >
-                                  {item?.lotSize}
-                                </td>
-                                <td>
-                                  {
-                                    item?.itemRawMaterials?.[0]
-                                      ?.itemRawMaterialName
-                                  }
-                                </td>
-                                <td>
-                                  {
-                                    item?.itemRawMaterials?.[0]
-                                      ?.itemRawMaterialCode
-                                  }
-                                </td>
+                    <div className="table-responsive">
+                      <table
+                        className="table table-striped table-bordered mt-3 bj-table bj-table-landing"
+                        id="table-to-xlsx"
+                      >
+                        <thead>
+                          <tr>
+                            <th>Plant</th>
+                            <th>Shop Floor</th>
+                            <th>Item</th>
+                            <th>BOM Version</th>
+                            <th>UOM</th>
+                            <th>Lot Size</th>
+                            <th>Raw Material</th>
+                            <th>Raw Item Code</th>
+                            <th>Raw Item UOM</th>
+                            <th>Raw Item Qty</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {bomReportBasedOnBackCalculationId?.map(
+                            (item, index) => (
+                              <>
+                                <tr key={index}>
+                                  <td
+                                    rowSpan={
+                                      item?.itemRawMaterials?.length || 1
+                                    }
+                                  >
+                                    {values?.plant?.label}
+                                  </td>
+                                  <td
+                                    rowSpan={
+                                      item?.itemRawMaterials?.length || 1
+                                    }
+                                  >
+                                    {values?.shopFloor?.label}
+                                  </td>
+                                  <td
+                                    rowSpan={
+                                      item?.itemRawMaterials?.length || 1
+                                    }
+                                  >
+                                    {item?.itemName} {`[${item?.itemCode}]`}
+                                  </td>
+                                  <td
+                                    rowSpan={
+                                      item?.itemRawMaterials?.length || 1
+                                    }
+                                  >
+                                    {item?.bomVersion}
+                                  </td>
+                                  <td
+                                    rowSpan={
+                                      item?.itemRawMaterials?.length || 1
+                                    }
+                                  >
+                                    {item?.uomName}
+                                  </td>
+                                  <td
+                                    rowSpan={
+                                      item?.itemRawMaterials?.length || 1
+                                    }
+                                  >
+                                    {item?.lotSize}
+                                  </td>
+                                  <td>
+                                    {
+                                      item?.itemRawMaterials?.[0]
+                                        ?.itemRawMaterialName
+                                    }
+                                  </td>
+                                  <td>
+                                    {
+                                      item?.itemRawMaterials?.[0]
+                                        ?.itemRawMaterialCode
+                                    }
+                                  </td>
 
-                                <td>
-                                  {
-                                    item?.itemRawMaterials?.[0]
-                                      ?.itemRawMaterialUomName
-                                  }
-                                </td>
-                                <td>
-                                  {
-                                    item?.itemRawMaterials?.[0]
-                                      ?.itemRawMaterialQty
-                                  }
-                                </td>
-                              </tr>
-                              {item?.itemRawMaterials?.map((nestedItem, ind) =>
-                                ind === 0 ? (
-                                  <></>
-                                ) : (
-                                  <tr>
-                                    <td>{nestedItem?.itemRawMaterialName}</td>
-                                    <td>{nestedItem?.itemRawMaterialCode}</td>
-                                    <td>
-                                      {nestedItem?.itemRawMaterialUomName}
-                                    </td>
-                                    <td>{nestedItem?.itemRawMaterialQty}</td>
-                                  </tr>
-                                )
-                              )}
-                            </>
-                          )
-                        )}
-                      </tbody>
-                    </table>
+                                  <td>
+                                    {
+                                      item?.itemRawMaterials?.[0]
+                                        ?.itemRawMaterialUomName
+                                    }
+                                  </td>
+                                  <td>
+                                    {
+                                      item?.itemRawMaterials?.[0]
+                                        ?.itemRawMaterialQty
+                                    }
+                                  </td>
+                                </tr>
+                                {item?.itemRawMaterials?.map(
+                                  (nestedItem, ind) =>
+                                    ind === 0 ? (
+                                      <></>
+                                    ) : (
+                                      <tr>
+                                        <td>
+                                          {nestedItem?.itemRawMaterialName}
+                                        </td>
+                                        <td>
+                                          {nestedItem?.itemRawMaterialCode}
+                                        </td>
+                                        <td>
+                                          {nestedItem?.itemRawMaterialUomName}
+                                        </td>
+                                        <td>
+                                          {nestedItem?.itemRawMaterialQty}
+                                        </td>
+                                      </tr>
+                                    )
+                                )}
+                              </>
+                            )
+                          )}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </>
               ) : (

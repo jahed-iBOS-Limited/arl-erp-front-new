@@ -37,6 +37,8 @@ const initData = {
   addressFWR: "",
   quantityFWR: "",
   supplierItemQuantity: "",
+  poNo:"",
+  poValidityDate:"",
 };
 export default function GateEntryCreate() {
   const [objProps, setObjprops] = useState({});
@@ -50,6 +52,7 @@ export default function GateEntryCreate() {
     shiftInchargeDDLloader,
   ] = useAxiosGet();
   const [itemDDL, getItemDDL, itemDDLloader] = useAxiosGet();
+  const [poList, getPoList, poLoader,setPoList] = useAxiosGet();
   const [isScalable, setIsScalable] = useState(true);
   const [supplierDDL, getSupplierDDLDDL, supplierDDLloader] = useAxiosGet();
   const [isShowModel, setIsShowModel] = useState(false);
@@ -200,6 +203,10 @@ export default function GateEntryCreate() {
           location?.state?.intClientTypeId === 1
             ? location?.state?.numQuantity || ""
             : "",
+          poNo: location?.state?.poId && location?.state?.poNo ? {
+              value: location?.state?.poId, label:location?.state?.poNo
+            } : "",
+          poValidityDate:"",
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -226,6 +233,9 @@ export default function GateEntryCreate() {
     }
     if (!values?.shipPoint) {
       return toast.warn("অনুগ্রহ করে শিপ পয়েন্ট নির্বাচন করুন");
+    }
+    if(isPoVisible(values) && values?.poNo?.value){
+      return toast.warn("অনুগ্রহ পিও নির্বাচন করুন");
     }
     saveData(
       `/mes/MSIL/ItemGateEntryCreateAndEdit`,
@@ -287,6 +297,8 @@ export default function GateEntryCreate() {
             : values?.clientType?.value === 1
             ? +values?.supplierItemQuantity || 0
             : 0,
+        poId:values?.poNo?.value || 0,
+        poNo:values?.poNo?.label || "",
       },
       id
         ? ""
@@ -300,6 +312,9 @@ export default function GateEntryCreate() {
     );
   };
 
+  const isPoVisible =(values)=>{
+    return [188,189].includes(values?.businessUnit?.value) && isScalable && values?.clientType?.value === 1 ;
+  }
   return (
     <IForm title="Create Item Gate Entry" getProps={setObjprops}>
       {(loading ||
@@ -307,6 +322,7 @@ export default function GateEntryCreate() {
         supplierDDLloader ||
         shiftInchargeDDLloader ||
         itemDDLloader ||
+        poLoader ||
         shipPointLoader) && <Loading />}
       <>
         <Formik
@@ -584,7 +600,17 @@ export default function GateEntryCreate() {
                           value={values?.supplierName}
                           label="সাপ্লায়ারের নাম"
                           onChange={(valueOption) => {
-                            setFieldValue("supplierName", valueOption);
+                            setFieldValue("supplierName", valueOption || "");
+                            setFieldValue("poNo", "");
+                            setFieldValue("poValidityDate", "");
+                            setPoList([]);
+                            if(isPoVisible(values) && valueOption){
+                              getPoList(`/procurement/PurchaseOrder/PoNoBySupplierId?AccountId=${profileData?.accountId}&BusinessUnitId=${values?.businessUnit?.value}&SupplierId=${valueOption?.value}`,(res)=>{
+                                const result = res.map((item)=>({...item, value: item?.intPurchaseOrderId, label:item?.intPurchaseOrderNumber}))
+                                setPoList(result)
+                              })
+                            }
+
                           }}
                         />
                       </div>
@@ -700,6 +726,52 @@ export default function GateEntryCreate() {
                         />
                       </div>
                     ) : null}
+
+                    {isPoVisible(values)&& <>
+                      <div className="col-lg-3">
+                          <NewSelect
+                            name="poNo"
+                            options={poList || []}
+                            value={values?.poNo}
+                            label="পিও নাম্বার"
+                            onChange={(valueOption) => {
+                              setFieldValue("poNo", valueOption || "");
+                              setFieldValue("poValidityDate", valueOption.validityDate ? _dateFormatter(valueOption.validityDate) : "");
+                            //   if (valueOption) {
+                            //     const currentDate = new Date();
+                            //     const parsedValidityDate = new Date(valueOption.validityDate);
+                            
+                            //     // Check if the parsed date is valid
+                            //     if (isNaN(parsedValidityDate.getTime())) {
+                            //         return toast.warn("Invalid Po Validity Date!");
+                            //     } else if (parsedValidityDate < currentDate) {
+                            //         return toast.warn("Po validity date has ended");
+                            //     } else {
+                            //         setFieldValue("poNo", valueOption.poNo);
+                            //         setFieldValue("poValidityDate", _dateFormatter(valueOption.validityDate));
+                            //     }
+                            // }
+                            
+                            }}
+                          />
+                        </div>
+                        <div className="col-lg-3">
+                          <InputField
+                           disabled
+                            value={values?.poValidityDate}
+                            label="পিও এর মেয়াদ"
+                            name="poValidityDate"
+                            type="date"
+                            onChange={(e) => {
+                              if (+e.target.value < 0) return;
+                              setFieldValue(
+                                "poValidityDate",
+                                e.target.value
+                              );
+                            }}
+                          />
+                        </div>
+                    </>}
 
                     {values?.clientType?.value === 1 ? (
                       <>

@@ -96,65 +96,67 @@ export default function ScheduleListTable({ item, setShowModal }) {
           </button>
         </div>
         <div>
-          <table className="table table-striped table-bordered bj-table bj-table-landing">
-            <thead>
-              <tr>
-                <th>
-                  <input
-                    type="checkbox"
-                    checked={
-                      scheduleList?.length > 0 &&
-                      scheduleList?.every((item) => item?.isChecked)
-                    }
-                    onChange={(e) => {
-                      setScheduleList(
-                        scheduleList?.map((item) => {
-                          return {
-                            ...item,
-                            isChecked: e?.target?.checked,
-                          };
-                        })
-                      );
-                    }}
-                  />
-                </th>
-                <th>Customer</th>
-                <th>Schedule Type</th>
-                <th>Item Name</th>
-                <th>Due Date</th>
-                <th>Payment Percent</th>
-                <th>Schedule Amount</th>
-                <th>Status</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {scheduleList?.map((item, index) => (
-                <tr key={index}>
-                  <td>
+          <div className="table-responsive">
+            <table className="table table-striped table-bordered bj-table bj-table-landing">
+              <thead>
+                <tr>
+                  <th>
                     <input
                       type="checkbox"
-                      value={item?.isChecked}
-                      checked={item?.isChecked}
+                      checked={
+                        scheduleList?.length > 0 &&
+                        scheduleList?.every((item) => item?.isChecked)
+                      }
                       onChange={(e) => {
-                        const data = [...scheduleList];
-                        data[index]["isChecked"] = e.target.checked;
-                        setScheduleList(data);
+                        setScheduleList(
+                          scheduleList?.map((item) => {
+                            return {
+                              ...item,
+                              isChecked: e?.target?.checked,
+                            };
+                          })
+                        );
                       }}
                     />
-                  </td>
-                  <td>{item?.strCustomerName}</td>
-                  <td>{item?.strScheduleTypeName}</td>
-                  <td>{item?.strItemName}</td>
-                  <td>{_dateFormatter(item?.dteDueDateTime)}</td>
-                  <td>{item?.intPaymentByPercent}</td>
-                  <td>{item?.numScheduleAmount}</td>
-                  <td>{item?.isInvoiceComplete}</td>
-                  <td>{item?.isInvoiceComplete}</td>
+                  </th>
+                  <th>Customer</th>
+                  <th>Schedule Type</th>
+                  <th>Item Name</th>
+                  <th>Due Date</th>
+                  <th>Payment Percent</th>
+                  <th>Schedule Amount</th>
+                  <th>Status</th>
+                  <th>Action</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {scheduleList?.map((item, index) => (
+                  <tr key={index}>
+                    <td>
+                      <input
+                        type="checkbox"
+                        value={item?.isChecked}
+                        checked={item?.isChecked}
+                        onChange={(e) => {
+                          const data = [...scheduleList];
+                          data[index]["isChecked"] = e.target.checked;
+                          setScheduleList(data);
+                        }}
+                      />
+                    </td>
+                    <td>{item?.strCustomerName}</td>
+                    <td>{item?.strScheduleTypeName}</td>
+                    <td>{item?.strItemName}</td>
+                    <td>{_dateFormatter(item?.dteDueDateTime)}</td>
+                    <td>{item?.intPaymentByPercent}</td>
+                    <td>{item?.numScheduleAmount}</td>
+                    <td>{item?.isInvoiceComplete}</td>
+                    <td>{item?.isInvoiceComplete}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>

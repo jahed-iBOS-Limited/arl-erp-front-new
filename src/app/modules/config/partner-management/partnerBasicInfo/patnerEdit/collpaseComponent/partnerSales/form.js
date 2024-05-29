@@ -528,6 +528,29 @@ export default function _Form({
                         <span>Price Including Tax</span>
                       </label>
                     </div>
+                    <div className="col-lg-3 mb-2 d-flex align-items-center">
+                      <label className="mt-1">
+                        <input
+                          type="checkbox"
+                          onChange={(e) => {
+                            setFieldValue(
+                              "isManualAuto",
+                              e.target.checked
+                            );
+                          }}
+                          name="isManualAuto"
+                          label="Price Including Tax"
+                          style={{
+                            marginRight: "5px",
+                            position: "relative",
+                            top: "3px",
+                          }}
+                          value={values?.isManualAuto}
+                          checked={values?.isManualAuto}
+                        />
+                        <span>Is Manual Auto</span>
+                      </label>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -718,7 +741,8 @@ export default function _Form({
               <div className="row cash_journal bank-journal bank-journal-custom">
                 <div className="col-lg-3 pr-0 pl-0">
                   {rowDto?.length > 0 ? (
-                    <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
+                   <div className="table-responsive">
+                     <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
                       <thead>
                         <tr>
                           <th>SL</th>
@@ -770,13 +794,15 @@ export default function _Form({
                         })}
                       </tbody>
                     </table>
+                   </div>
                   ) : (
                     ""
                   )}
                 </div>
                 <div className="col-lg-9 pr-0 pl-0">
                   {rowDtoTwo?.length > 0 ? (
-                    <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
+                   <div className="table-responsive">
+                     <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
                       <thead>
                         <tr>
                           <th>SL</th>
@@ -855,6 +881,7 @@ export default function _Form({
                         })}
                       </tbody>
                     </table>
+                   </div>
                   ) : (
                     ""
                   )}
@@ -1004,7 +1031,8 @@ export default function _Form({
                   <div className="row">
                     <div className="col-lg-12">
                       {morgazeRowDto?.length > 0 ? (
-                        <table className="table table-striped table-bordered global-table mt-0">
+                      <div className="table-responsive">
+                          <table className="table table-striped table-bordered global-table mt-0">
                           <thead>
                             <tr>
                               <th>SL</th>
@@ -1043,6 +1071,7 @@ export default function _Form({
                             })}
                           </tbody>
                         </table>
+                      </div>
                       ) : (
                         ""
                       )}
@@ -1328,7 +1357,8 @@ export default function _Form({
                     <div className="row">
                       <div className="col-lg-12">
                         {creditRowDto?.length > 0 ? (
-                          <table className="table table-striped table-bordered global-table mt-0">
+                          <div className="table-responsive">
+                            <table className="table table-striped table-bordered global-table mt-0">
                             <thead>
                               <tr>
                                 <th>SL</th>
@@ -1412,6 +1442,7 @@ export default function _Form({
                               })}
                             </tbody>
                           </table>
+                          </div>
                         ) : (
                           ""
                         )}

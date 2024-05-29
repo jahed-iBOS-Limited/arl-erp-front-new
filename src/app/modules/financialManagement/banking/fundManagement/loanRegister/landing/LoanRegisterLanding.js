@@ -50,10 +50,14 @@ const LoanRegisterLanding = () => {
   const [fdrNo, setFdrNo] = useState("");
   const [attachments, setAttachments] = useState([]);
 
-
   const [, postCloseLoanRegister, closeLoanRegisterLoader] = useAxiosPost();
 
-  const { profileData, selectedBusinessUnit: { value: buId }, } = useSelector((state) => { return state.authData; }, shallowEqual);
+  const {
+    profileData,
+    selectedBusinessUnit: { value: buId },
+  } = useSelector((state) => {
+    return state.authData;
+  }, shallowEqual);
 
   const saveHandler = async (values, cb) => {
     setLoading(true);
@@ -126,7 +130,7 @@ const LoanRegisterLanding = () => {
         enableReinitialize={true}
         initialValues={initData}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          saveHandler(values, (code) => { });
+          saveHandler(values, (code) => {});
         }}
       >
         {({ values, errors, touched, setFieldValue }) => (
@@ -216,25 +220,34 @@ const LoanRegisterLanding = () => {
                   <div className="row">
                     <div className="col-12 common-scrollable-table two-column-sticky">
                       <div className="scroll-table _table overflow-auto">
+                        {/* <div className="table-responsive"> */}
                         <table className="table table-striped table-bordered global-table">
                           <thead className="bg-secondary">
                             <tr>
                               <th>SL</th>
                               <th>Bank</th>
-                              <th style={{minWidth: "70px"}}>Loan Type</th>
-                              <th style={{minWidth: "70px"}}>Loan Class</th>
-                              <th style={{minWidth: "70px"}}>Facility</th>
+                              <th style={{ minWidth: "70px" }}>Loan Type</th>
+                              <th style={{ minWidth: "70px" }}>Loan Class</th>
+                              <th style={{ minWidth: "70px" }}>Facility</th>
                               <th>Loan Acc</th>
-                              <th style={{minWidth: "50px"}}>Tenure</th>
-                              <th style={{minWidth: "90px"}}>OpenDate</th>
-                              <th style={{minWidth: "90px"}}>Mature Date</th>
-                              <th style={{minWidth: "100px"}}>Principle</th>
-                              <th style={{minWidth: "50px"}}>Int.Rate</th>
-                              <th style={{minWidth: "100px"}}>Interst</th>
-                              <th style={{minWidth: "100px"}}>Total Payable</th>
-                              <th style={{minWidth: "100px"}}>Paid Principal</th>
-                              <th style={{minWidth: "100px"}}>Paid Interest</th>
-                              <th style={{minWidth: "100px"}}>Principal Balance</th>
+                              <th style={{ minWidth: "50px" }}>Tenure</th>
+                              <th style={{ minWidth: "90px" }}>OpenDate</th>
+                              <th style={{ minWidth: "90px" }}>Mature Date</th>
+                              <th style={{ minWidth: "100px" }}>Principle</th>
+                              <th style={{ minWidth: "50px" }}>Int.Rate</th>
+                              <th style={{ minWidth: "100px" }}>Interst</th>
+                              <th style={{ minWidth: "100px" }}>
+                                Total Payable
+                              </th>
+                              <th style={{ minWidth: "100px" }}>
+                                Paid Principal
+                              </th>
+                              <th style={{ minWidth: "100px" }}>
+                                Paid Interest
+                              </th>
+                              <th style={{ minWidth: "100px" }}>
+                                Principal Balance
+                              </th>
                               <th>Action</th>
                             </tr>
                           </thead>
@@ -246,7 +259,9 @@ const LoanRegisterLanding = () => {
                                 <td className="text-">{item?.loanTypeName}</td>
                                 <td className="text-">{item?.loanClassName}</td>
                                 <td className="text-">{item?.facilityName}</td>
-                                <td className="text-">{item?.strLoanAccountName}</td>
+                                <td className="text-">
+                                  {item?.strLoanAccountName}
+                                </td>
                                 <td className="text-">{item?.intTenureDays}</td>
                                 <td className="text-">
                                   {_dateFormatter(item?.dteStartDate)}
@@ -339,34 +354,37 @@ const LoanRegisterLanding = () => {
                                       Renew
                                     </span>
                                     {/* for close */}
-                                    {item?.numPaid === 0 ? (<span
-                                      className="text-primary "
-                                      style={{
-                                        marginLeft: "4px",
-                                        cursor: "pointer",
-                                      }}
-                                    >
-                                      <IClose
-                                        closer={() => {
-                                          postCloseLoanRegister(`/fino/FundManagement/CancelLoanRegister?businessUnitId=${buId
-                                            }&loanAccountId=${item?.intLoanAccountId}&actionBy=${profileData?.userId}`, null, () => {
-                                              getLoanRegisterLanding(
-                                                profileData?.accountId,
-                                                buId,
-                                                values?.bank?.value,
-                                                values?.status?.value,
-                                                pageNo,
-                                                pageSize,
-                                                setLoanRegisterData,
-                                                setLoading
-                                              );
-                                            })
+                                    {item?.numPaid === 0 ? (
+                                      <span
+                                        className="text-primary "
+                                        style={{
+                                          marginLeft: "4px",
+                                          cursor: "pointer",
                                         }}
-                                        title="Cancel Loan Register"
-                                      />
-                                    </span>)
-                                      :
-                                      null}
+                                      >
+                                        <IClose
+                                          closer={() => {
+                                            postCloseLoanRegister(
+                                              `/fino/FundManagement/CancelLoanRegister?businessUnitId=${buId}&loanAccountId=${item?.intLoanAccountId}&actionBy=${profileData?.userId}`,
+                                              null,
+                                              () => {
+                                                getLoanRegisterLanding(
+                                                  profileData?.accountId,
+                                                  buId,
+                                                  values?.bank?.value,
+                                                  values?.status?.value,
+                                                  pageNo,
+                                                  pageSize,
+                                                  setLoanRegisterData,
+                                                  setLoading
+                                                );
+                                              }
+                                            );
+                                          }}
+                                          title="Cancel Loan Register"
+                                        />
+                                      </span>
+                                    ) : null}
                                   </div>
                                 </td>
                               </tr>
@@ -399,6 +417,7 @@ const LoanRegisterLanding = () => {
                             </tr>
                           </tbody>
                         </table>
+                        {/* </div> */}
                       </div>
                     </div>
                   </div>

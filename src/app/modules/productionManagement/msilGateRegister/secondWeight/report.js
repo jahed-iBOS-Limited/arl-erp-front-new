@@ -45,7 +45,7 @@ function Report({ weightmentId }) {
         enableReinitialize={true}
         initialValues={{}}
         // validationSchema={{}}
-        onSubmit={() => { }}
+        onSubmit={() => {}}
       >
         {({ values }) => (
           <>
@@ -81,7 +81,9 @@ function Report({ weightmentId }) {
                     <div className="d-flex justify-content-between align-items-center">
                       <div className="d-flex justify-content-center align-items-center">
                         {/* <div className="d-flex justify-content-center align-items-center"> */}
-                        {[171, 224, 4, 144].includes(reportData[0]?.intBusinessUnitId) ? (
+                        {[171, 224, 4, 144].includes(
+                          reportData[0]?.intBusinessUnitId
+                        ) ? (
                           <img
                             style={{
                               width: "100px",
@@ -89,9 +91,13 @@ function Report({ weightmentId }) {
                             }}
                             // src={`${APIUrl}/domain/Document/DownlloadFile?id=${selectedBusinessUnit?.imageId}`}
                             src={
-                              reportData[0]?.intBusinessUnitId === 171 ? magnumLogo
-                                : reportData[0]?.intBusinessUnitId === 224 ? ispatLogo
-                                  : reportData[0]?.intBusinessUnitId === 144 ? essentialLogo : cementLogo
+                              reportData[0]?.intBusinessUnitId === 171
+                                ? magnumLogo
+                                : reportData[0]?.intBusinessUnitId === 224
+                                ? ispatLogo
+                                : reportData[0]?.intBusinessUnitId === 144
+                                ? essentialLogo
+                                : cementLogo
                             }
                             alt="logo"
                           />
@@ -99,7 +105,9 @@ function Report({ weightmentId }) {
                         {/* </div> */}
                       </div>
                       <div className="d-flex flex-column justify-content-center align-items-center">
-                        <h1 className="bold">{reportData[0]?.strBusinessUnitName}</h1>
+                        <h1 className="bold">
+                          {reportData[0]?.strBusinessUnitName}
+                        </h1>
                         <h4>{reportData[0]?.strBusinessUnitAddress}</h4>
                         <h3 className="bold">
                           <span className="border-bottom">Weight Report</span>
@@ -122,149 +130,165 @@ function Report({ weightmentId }) {
                     </h5>
                   </div>
                   <div className="weight-report-details">
-                    <table className="weight-report-details-left-table">
-                      <tr>
-                        <td
-                          style={{
-                            minWidth: "125px",
-                            verticalAlign: "text-top",
-                          }}
-                          class="bold"
-                        >
-                          Date
-                        </td>
-                        <td style={{ verticalAlign: "text-top" }}>: </td>
-                        <td
-                          style={{ width: "300px", verticalAlign: "text-top" }}
-                        >
-                          {_dateFormatter(reportData[0]?.lastWeightDate?.split("T"))}
-                        </td>
-                        <td style={{ verticalAlign: "text-top" }} class="bold">
-                          Challan No
-                        </td>
-                        <td style={{ verticalAlign: "text-top" }}>: </td>
-                        <td>{reportData[0]?.challanNo}</td>
-                      </tr>
-                      {/* <tr>
+                    <div className="table-responsive">
+                      <table className="weight-report-details-left-table">
+                        <tr>
+                          <td
+                            style={{
+                              minWidth: "125px",
+                              verticalAlign: "text-top",
+                            }}
+                            class="bold"
+                          >
+                            Date
+                          </td>
+                          <td style={{ verticalAlign: "text-top" }}>: </td>
+                          <td
+                            style={{
+                              width: "300px",
+                              verticalAlign: "text-top",
+                            }}
+                          >
+                            {_dateFormatter(
+                              reportData[0]?.lastWeightDate?.split("T")
+                            )}
+                          </td>
+                          <td
+                            style={{ verticalAlign: "text-top" }}
+                            class="bold"
+                          >
+                            Challan No
+                          </td>
+                          <td style={{ verticalAlign: "text-top" }}>: </td>
+                          <td>{reportData[0]?.challanNo}</td>
+                        </tr>
+                        {/* <tr>
                         <td class="bold">Weight Type</td>
                         <td>: </td>
                         <td>{reportData[0]?.weightType}</td>
                       </tr> */}
-                      <tr>
-                        <td
-                          style={{
-                            minWidth: "125px",
-                            verticalAlign: "text-top",
-                          }}
-                          class="bold"
-                        >
-                          Client Code
-                        </td>
-                        <td style={{ verticalAlign: "text-top" }}>: </td>
-                        <td style={{ width: "300px" }}>
-                          {reportData[0]?.partnerCode}
-                        </td>
+                        <tr>
+                          <td
+                            style={{
+                              minWidth: "125px",
+                              verticalAlign: "text-top",
+                            }}
+                            class="bold"
+                          >
+                            Client Code
+                          </td>
+                          <td style={{ verticalAlign: "text-top" }}>: </td>
+                          <td style={{ width: "300px" }}>
+                            {reportData[0]?.partnerCode}
+                          </td>
 
-                        <td class="bold">Client Type</td>
-                        <td>: </td>
-                        <td>{reportData[0]?.clientType}</td>
-                      </tr>
+                          <td class="bold">Client Type</td>
+                          <td>: </td>
+                          <td>{reportData[0]?.clientType}</td>
+                        </tr>
 
-                      <tr>
-                        <td
-                          class="bold"
-                          style={{
-                            verticalAlign: "text-top",
-                            minWidth: "125px",
-                          }}
-                        >
-                          {reportData[0]?.intClientTypeId === 1
-                            ? "Supplier"
-                            : "Customer"}
-                        </td>
-                        <td style={{ verticalAlign: "text-top" }}>: </td>
-                        <td colSpan={4}>{reportData[0]?.partnerName}</td>
-                      </tr>
+                        <tr>
+                          <td
+                            class="bold"
+                            style={{
+                              verticalAlign: "text-top",
+                              minWidth: "125px",
+                            }}
+                          >
+                            {reportData[0]?.intClientTypeId === 1
+                              ? "Supplier"
+                              : "Customer"}
+                          </td>
+                          <td style={{ verticalAlign: "text-top" }}>: </td>
+                          <td colSpan={4}>{reportData[0]?.partnerName}</td>
+                        </tr>
 
-                      <tr>
-                        <td
-                          style={{
-                            verticalAlign: "text-top",
-                            minWidth: "125px",
-                          }}
-                          class="bold"
-                        >
-                          Address
-                        </td>
-                        <td style={{ verticalAlign: "text-top" }}>: </td>
-                        <td colSpan={4}>{reportData[0]?.partnerAddress}</td>
-                      </tr>
+                        <tr>
+                          <td
+                            style={{
+                              verticalAlign: "text-top",
+                              minWidth: "125px",
+                            }}
+                            class="bold"
+                          >
+                            Address
+                          </td>
+                          <td style={{ verticalAlign: "text-top" }}>: </td>
+                          <td colSpan={4}>{reportData[0]?.partnerAddress}</td>
+                        </tr>
 
-                      <tr>
-                        <td
-                          style={{
-                            verticalAlign: "text-top",
-                            minWidth: "125px",
-                          }}
-                          class="bold"
-                        >
-                          Material Description
-                        </td>
-                        <td style={{ verticalAlign: "text-top" }}>: </td>
-                        <td colSpan={4} style={{ verticalAlign: "text-top" }}>
-                          {reportData[0]?.materialDescription}
-                        </td>
-                      </tr>
+                        <tr>
+                          <td
+                            style={{
+                              verticalAlign: "text-top",
+                              minWidth: "125px",
+                            }}
+                            class="bold"
+                          >
+                            Material Description
+                          </td>
+                          <td style={{ verticalAlign: "text-top" }}>: </td>
+                          <td colSpan={4} style={{ verticalAlign: "text-top" }}>
+                            {reportData[0]?.materialDescription}
+                          </td>
+                        </tr>
 
-                      <tr>
-                        <td style={{ minWidth: "125px" }} class="bold">
-                          Vehicle No
-                        </td>
-                        <td>: </td>
-                        <td>{reportData[0]?.vehicleNo}</td>
-                      </tr>
+                        <tr>
+                          <td style={{ minWidth: "125px" }} class="bold">
+                            Vehicle No
+                          </td>
+                          <td>: </td>
+                          <td>{reportData[0]?.vehicleNo}</td>
+                        </tr>
 
-                      <tr>
-                        <td style={{ minWidth: "125px" }} class="bold">
-                          Driver Name
-                        </td>
-                        <td>: </td>
-                        <td style={{ width: "300px" }}>
-                          {reportData[0]?.driverName}
-                        </td>
+                        <tr>
+                          <td style={{ minWidth: "125px" }} class="bold">
+                            Driver Name
+                          </td>
+                          <td>: </td>
+                          <td style={{ width: "300px" }}>
+                            {reportData[0]?.driverName}
+                          </td>
 
-                        <td class="bold">Quantity</td>
-                        <td>: </td>
-                        <td>{reportData[0]?.quantity}</td>
-                      </tr>
+                          <td class="bold">Quantity</td>
+                          <td>: </td>
+                          <td>{reportData[0]?.quantity}</td>
+                        </tr>
 
-                      <tr>
-                        <td style={{ minWidth: "125px" }} class="bold">
-                          Driver Phone No
-                        </td>
-                        <td>: </td>
-                        <td style={{ width: "300px" }}>
-                          {reportData[0]?.telFaxEmail}
-                        </td>
+                        <tr>
+                          <td style={{ minWidth: "125px" }} class="bold">
+                            Driver Phone No
+                          </td>
+                          <td>: </td>
+                          <td style={{ width: "300px" }}>
+                            {reportData[0]?.telFaxEmail}
+                          </td>
 
-                        <td style={{ verticalAlign: "text-top" }} class="bold">
-                          Quantity (KG)
-                        </td>
-                        <td style={{ verticalAlign: "text-top" }}>: </td>
-                        <td style={{ verticalAlign: "text-top" }}>
-                          {reportData[0]?.quantitykg}
-                        </td>
-                      </tr>
-                      <tr>
-                      <td style={{ verticalAlign: "text-top" }} class="bold">
-                          Operator Name
-                        </td>
-                        <td style={{ verticalAlign: "text-top" }}>: </td>
-                        <td style={{ verticalAlign: "text-top" }}>
-                          {reportData[0]?.operatorName}
-                        </td>
-                      </tr>
-                    </table>
+                          <td
+                            style={{ verticalAlign: "text-top" }}
+                            class="bold"
+                          >
+                            Quantity (KG)
+                          </td>
+                          <td style={{ verticalAlign: "text-top" }}>: </td>
+                          <td style={{ verticalAlign: "text-top" }}>
+                            {reportData[0]?.quantitykg}
+                          </td>
+                        </tr>
+                        <tr>
+                          <td
+                            style={{ verticalAlign: "text-top" }}
+                            class="bold"
+                          >
+                            Operator Name
+                          </td>
+                          <td style={{ verticalAlign: "text-top" }}>: </td>
+                          <td style={{ verticalAlign: "text-top" }}>
+                            {reportData[0]?.operatorName}
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
                   </div>
 
                   <p className="border-style"></p>

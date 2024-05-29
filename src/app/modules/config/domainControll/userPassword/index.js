@@ -78,7 +78,9 @@ const UserPassword = () => {
                                 {lodar && <Loading />}
                                 <div className="row">
                                     <div className="col-lg-12">
-                                        {rowData?.length > 0 ? (<table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+                                        {rowData?.length > 0 ? (
+                                        <div className="table-responsive">
+                                            <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                                             <thead>
                                                 <tr>
                                                     <th style={{ width: "30px" }}>SL</th>
@@ -107,7 +109,8 @@ const UserPassword = () => {
                                                     ))
                                                 }
                                             </tbody>
-                                        </table>) : null}
+                                        </table>
+                                        </div>) : null}
                                     </div>
                                 </div>
                             </CardBody>

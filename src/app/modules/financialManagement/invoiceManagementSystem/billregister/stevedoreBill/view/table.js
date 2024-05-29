@@ -40,6 +40,7 @@ function ViewStevedoreBill({ billRegisterId }) {
             {(loadingGridData || loading)&& <Loading />}
 
             <form className="form form-label-right ">
+            <div className="table-responsive">
               <table className="table global-table">
                 <thead>
                   <tr>
@@ -107,6 +108,7 @@ function ViewStevedoreBill({ billRegisterId }) {
                   })}
                 </tbody>
               </table>
+              </div>
             </form>
           </ICard>
         )}

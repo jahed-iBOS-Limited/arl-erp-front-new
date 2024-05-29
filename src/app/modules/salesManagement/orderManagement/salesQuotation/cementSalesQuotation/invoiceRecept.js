@@ -4,6 +4,7 @@ import { shallowEqual, useSelector } from "react-redux";
 import { _todayDate } from "../../../../_helper/_todayDate";
 import "./cementStyle.css";
 import logo from "../../../../_helper/images/akij_cement_logo.png";
+import { cementLetterhead } from "../../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/cement";
 
 const SalesQuotationForCement = ({
   printRef,
@@ -11,12 +12,12 @@ const SalesQuotationForCement = ({
   businessPartnerInfo,
 }) => {
   const {
-    profileData: { employeeFullName, designationName },
+    profileData: { employeeFullName, designationName, contact, emailAddress },
   } = useSelector((state) => state?.authData, shallowEqual);
 
   return (
     <div className="cement_quotation_print" ref={printRef}>
-      <div className="header">
+      {/* <div className="header">
         <div className="office_info">
           <p>Corporate Office :Akij House, 198, Bir Uttam Mir Shawkat Sarak</p>
           <p>
@@ -34,7 +35,37 @@ const SalesQuotationForCement = ({
             alt="logo"
           />
         </div>
-      </div>
+      </div> */}
+
+<div
+          className="invoice-header"
+          style={{
+            backgroundImage: `url(${cementLetterhead})`,
+            backgroundRepeat: "no-repeat",
+            height: "150px",
+            backgroundPosition: "left 10px",
+            backgroundSize: "cover",
+            position: "fixed",
+            width: "100%",
+            top: "15px",
+            left: "-10px",
+          }}
+        ></div>
+
+      <div
+          className="invoice-footer"
+          style={{
+            backgroundImage: `url(${cementLetterhead})`,
+            backgroundRepeat: "no-repeat",
+            height: "100px",
+            backgroundPosition: "left bottom",
+            backgroundSize: "cover",
+            bottom: "-0px",
+            left: "20px",
+            position: "fixed",
+            width: "100%",
+          }}
+        ></div>
 
       <div className="main_table">
         <div>
@@ -97,56 +128,59 @@ const SalesQuotationForCement = ({
             </div>
           </div>
         </div>
-
-        <table className="table mb-5">
-          <thead>
-            <tr>
-              <th className="align-middle" rowSpan={2}>
-                SL
-              </th>
-              <th className="align-middle" rowSpan={2}>
-                Destination
-              </th>
-              <th className="align-middle" rowSpan={2}>
-                Product
-              </th>
-              <th className="align-middle" rowSpan={2}>
-                UOM
-              </th>
-              <th className="align-middle" rowSpan={2}>
-                Transport type
-              </th>
-              <th className="align-middle" colSpan={2}>
-                Price in BDT
-              </th>
-              <th className="align-middle" rowSpan={2}>
-                Remark
-              </th>
-            </tr>
-            <tr>
-              <th className="align-middle">Ex-Factory</th>
-              <th className="align-middle">
-                Reach Price (Inclusive Transport)
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {invoiceData?.map((item, index) => {
-              return (
-                <tr key={index}>
-                  <td className="text-center">{index + 1}</td>
-                  <td className="text-center">{item?.address}</td>
-                  <td className="text-center">{item?.itemName}</td>
-                  <td className="text-center">{item?.uomName}</td>
-                  <td className="text-center">{item?.transportType}</td>
-                  <td className="text-center">{item?.numPriceWithTransport}</td>
-                  <td className="text-center">{item?.itemPrice}</td>
-                  <td className="text-center">{item?.remark}</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+        <div className="table-responsive">
+          <table className="table mb-5">
+            <thead>
+              <tr>
+                <th className="align-middle" rowSpan={2}>
+                  SL
+                </th>
+                <th className="align-middle" rowSpan={2}>
+                  Destination
+                </th>
+                <th className="align-middle" rowSpan={2}>
+                  Product
+                </th>
+                <th className="align-middle" rowSpan={2}>
+                  UOM
+                </th>
+                <th className="align-middle" rowSpan={2}>
+                  Transport type
+                </th>
+                <th className="align-middle" colSpan={2}>
+                  Price in BDT
+                </th>
+                <th className="align-middle" rowSpan={2}>
+                  Remark
+                </th>
+              </tr>
+              <tr>
+                <th className="align-middle">Ex-Factory</th>
+                <th className="align-middle">
+                  Reach Price (Inclusive Transport)
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {invoiceData?.map((item, index) => {
+                return (
+                  <tr key={index}>
+                    <td className="text-center">{index + 1}</td>
+                    <td className="text-center">{item?.address}</td>
+                    <td className="text-center">{item?.itemName}</td>
+                    <td className="text-center">{item?.uomName}</td>
+                    <td className="text-center">{item?.transportType}</td>
+                    <td className="text-center">
+                      {item?.numPriceWithTransport}
+                    </td>
+                    <td className="text-center">{item?.itemPrice}</td>
+                    <td className="text-center">{item?.remark}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
 
         <p className="underline">
           <b>Terms and Conditions:</b>
@@ -211,19 +245,36 @@ const SalesQuotationForCement = ({
         <div className="mb-5 mt-1">
           <p>
             If you have any questions or require further clarification regarding
-            the quotation, please do not hesitate to contact our sales team at
-            01711555015 or bashar.accl@akijcement.com. We are always available
-            to assist you and discuss any specific requirements you may need.
+            the quotation, please do not hesitate to contact our sales team at{" "}
+            {contact} or {emailAddress}. We are always available to assist you
+            and discuss any specific requirements you may need.
           </p>
         </div>
         <div className="mb-5">
+          {/* <p className="text-danger py-2">
+            Note: If you have any queries against this bill. Please Inform
+            bellow sign within ten days (10), otherwise any kind of objection
+            will not be granted further.
+          </p> */}
           <p>On behalf of Akij Cement Company Ltd.</p>
         </div>
       </div>
 
       {/* <p className="bold mt-2 mb-2">Thanking you,</p> */}
 
-      <p className="bold mt-7"> {`(${employeeFullName})`} </p>
+      {/* <div
+        style={{ marginTop: "70px" }}
+        className="d-flex justify-content-between"
+      >
+        <p>
+          <b>Prepared By</b>
+        </p>
+        <p>
+          <b>Recieved By</b>
+        </p>
+      </div>
+
+      <p className="bold mt-2"> {`(${employeeFullName})`} </p>
       <p> {designationName} </p>
       <p> Akij Cement Company Limited </p>
       <div className="mt-5 pt-5 text-center">
@@ -231,7 +282,7 @@ const SalesQuotationForCement = ({
           This is an automatically generated price quotation, no signature is
           required.
         </p>
-      </div>
+      </div> */}
     </div>
   );
 };

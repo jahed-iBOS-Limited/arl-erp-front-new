@@ -462,91 +462,98 @@ export default function _Form({
                   "
                   >
                     <div className="scroll-table _table">
-                      <table className="global-table table">
-                        <thead>
-                          <tr>
-                            <th style={{ minWidth: "30px" }}>SL</th>
-                            <th style={{ minWidth: "70px" }}>Item Code</th>
-                            <th>Item Name</th>
-                            <th style={{ minWidth: "30px" }}>UoM</th>
-                            <th style={{ minWidth: "80px" }}>HS Code</th>
-                            <th style={{ minWidth: "70px" }}>PO Qty</th>
-                            <th style={{ minWidth: "70px" }}>Added Qty</th>
-                            {type !== "view" && (
-                              <th style={{ width: "120px" }}>
-                                Shipment Quantity
-                              </th>
-                            )}
-                            {/* <th style={{minWidth: "80px"}}>Total Qty</th> */}
-                            {type !== "view" && type !== "edit" && (
-                              <th style={{ minWidth: "60px" }}>Action</th>
-                            )}
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {rowDto?.length &&
-                            rowDto?.map((item, index) => (
-                              <tr key={index}>
-                                <td style={{ minWidth: "30px" }}>
-                                  {index + 1}
-                                </td>
-                                <td className="text-center">
-                                  {item?.itemCode}
-                                </td>
-                                <td className="text-left">{item?.itemName}</td>
-                                <td className="text-center">{item?.uomName}</td>
-                                <td className="text-center">{item?.hscode}</td>
-                                <td className="text-center">
-                                  {item?.poquantity}
-                                </td>
-                                {/* <td className="text-center">
+                      <div className="react-bootstrap-table table-responsive">
+                        <table className="global-table table">
+                          <thead>
+                            <tr>
+                              <th style={{ minWidth: "30px" }}>SL</th>
+                              <th style={{ minWidth: "70px" }}>Item Code</th>
+                              <th>Item Name</th>
+                              <th style={{ minWidth: "30px" }}>UoM</th>
+                              <th style={{ minWidth: "80px" }}>HS Code</th>
+                              <th style={{ minWidth: "70px" }}>PO Qty</th>
+                              <th style={{ minWidth: "70px" }}>Added Qty</th>
+                              {type !== "view" && (
+                                <th style={{ width: "120px" }}>
+                                  Shipment Quantity
+                                </th>
+                              )}
+                              {/* <th style={{minWidth: "80px"}}>Total Qty</th> */}
+                              {type !== "view" && type !== "edit" && (
+                                <th style={{ minWidth: "60px" }}>Action</th>
+                              )}
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {rowDto?.length &&
+                              rowDto?.map((item, index) => (
+                                <tr key={index}>
+                                  <td style={{ minWidth: "30px" }}>
+                                    {index + 1}
+                                  </td>
+                                  <td className="text-center">
+                                    {item?.itemCode}
+                                  </td>
+                                  <td className="text-left">
+                                    {item?.itemName}
+                                  </td>
+                                  <td className="text-center">
+                                    {item?.uomName}
+                                  </td>
+                                  <td className="text-center">
+                                    {item?.hscode}
+                                  </td>
+                                  <td className="text-center">
+                                    {item?.poquantity}
+                                  </td>
+                                  {/* <td className="text-center">
                               {item?.addedQuantity}
                             </td> */}
-                                {type !== "view" && (
+                                  {type !== "view" && (
+                                    <td className="text-center">
+                                      <InputField
+                                        style={{ height: "20px" }}
+                                        placeholder="Shipped Qty"
+                                        type="number"
+                                        min="0"
+                                        step="1"
+                                        // pattern="[0-9]+"
+                                        required
+                                        name="shippedQuantity"
+                                        // defaultValue={parseInt(item.poquantity) - parseInt(item?.addedQuantity)}
+                                        disabled={
+                                          type === "view" || type === "edit"
+                                        }
+                                        value={item?.shippedQuantity}
+                                        onChange={(e) => {
+                                          addQuantityHandler(
+                                            rowDto,
+                                            e,
+                                            index,
+                                            values,
+                                            setFieldValue
+                                          );
+                                        }}
+                                      />
+                                    </td>
+                                  )}
                                   <td className="text-center">
-                                    <InputField
-                                      style={{ height: "20px" }}
-                                      placeholder="Shipped Qty"
-                                      type="number"
-                                      min="0"
-                                      step="1"
-                                      // pattern="[0-9]+"
-                                      required
-                                      name="shippedQuantity"
-                                      // defaultValue={parseInt(item.poquantity) - parseInt(item?.addedQuantity)}
-                                      disabled={
-                                        type === "view" || type === "edit"
-                                      }
-                                      value={item?.shippedQuantity}
-                                      onChange={(e) => {
-                                        addQuantityHandler(
-                                          rowDto,
-                                          e,
-                                          index,
-                                          values,
-                                          setFieldValue
-                                        );
-                                      }}
-                                    />
+                                    {item?.addedQuantity}
                                   </td>
-                                )}
-                                <td className="text-center">
-                                  {item?.addedQuantity}
-                                </td>
-                                {type !== "view" && type !== "edit" && (
-                                  <td className="text-center align-middle">
-                                    <span
-                                      onClick={() => {
-                                        remover(index, setFieldValue);
-                                      }}
-                                    >
-                                      <IDelete />
-                                    </span>
-                                  </td>
-                                )}
-                              </tr>
-                            ))}
-                          {/* <tr>
+                                  {type !== "view" && type !== "edit" && (
+                                    <td className="text-center align-middle">
+                                      <span
+                                        onClick={() => {
+                                          remover(index, setFieldValue);
+                                        }}
+                                      >
+                                        <IDelete />
+                                      </span>
+                                    </td>
+                                  )}
+                                </tr>
+                              ))}
+                            {/* <tr>
                           <td colSpan="4">Total PO Amount</td>
                           <td colSpan="2" className="text-center">{getTotalAmount(rowDto,"poquantity")}</td>
                           <td colSpan="3"></td>
@@ -566,8 +573,9 @@ export default function _Form({
                           <td colSpan="2" className="text-center">{getTotalAmount(rowDto,"shippedQuantity")}</td>
                           <td colSpan="3"></td>
                         </tr> */}
-                        </tbody>
-                      </table>
+                          </tbody>
+                        </table>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -575,42 +583,42 @@ export default function _Form({
                   <div className="col-auto">
                     <div className="row global-form">
                       <div
-                        className="col-6 text-right p-2"
+                        className="col-lg-6 text-right p-2"
                         style={{ fontWeight: "bold" }}
                       >
                         Total PO Amount :
                       </div>
                       <div
-                        className="col-6 text-left p-2"
+                        className="col-lg-6 text-left p-2"
                         style={{ fontWeight: "bold" }}
                       >
                         {numberWithCommas(getTotalAmount(rowDto, "poquantity"))}
                       </div>
                       <div
-                        className="col-6 text-right p-2"
+                        className="col-lg-6 text-right p-2"
                         style={{ fontWeight: "bold" }}
                       >
                         Tolerance Percentage :
                       </div>
                       <div
-                        className="col-6 text-left p-2"
+                        className="col-lg-6 text-left p-2"
                         style={{ fontWeight: "bold" }}
                       >
                         {Number(tollerence)}%
                       </div>
-                      {/* <div className="col-6 text-right p-2" style={{ fontWeight: "bold" }}>Total PO with tollerence :</div>
-                      <div className="col-6 text-left p-2" style={{ fontWeight: "bold" }}>{getTotalAmount(rowDto, "poquantity") * (Number(tollerence) / 100)}</div> */}
+                      {/* <div className="col-lg-6 text-right p-2" style={{ fontWeight: "bold" }}>Total PO with tollerence :</div>
+                      <div className="col-lg-6 text-left p-2" style={{ fontWeight: "bold" }}>{getTotalAmount(rowDto, "poquantity") * (Number(tollerence) / 100)}</div> */}
                       {type !== "view" && (
                         <>
                           {" "}
                           <div
-                            className="col-6 text-right p-2"
+                            className="col-lg-6 text-right p-2"
                             style={{ fontWeight: "bold" }}
                           >
                             Total Added Amount :
                           </div>
                           <div
-                            className="col-6 text-left p-2"
+                            className="col-lg-6 text-left p-2"
                             style={{ fontWeight: "bold" }}
                           >
                             {numberWithCommas(
@@ -622,13 +630,13 @@ export default function _Form({
                       {type === "view" && (
                         <>
                           <div
-                            className="col-6 text-right p-2"
+                            className="col-lg-6 text-right p-2"
                             style={{ fontWeight: "bold" }}
                           >
                             Total Added Amount :
                           </div>
                           <div
-                            className="col-6 text-left p-2"
+                            className="col-lg-6 text-left p-2"
                             style={{ fontWeight: "bold" }}
                           >
                             {numberWithCommas(
@@ -643,7 +651,7 @@ export default function _Form({
                       )}
                       {type !== "view" && (
                         <div
-                          className="col-6 text-right p-2"
+                          className="col-lg-6 text-right p-2"
                           style={{ fontWeight: "bold" }}
                         >
                           Total Shipped Amount :
@@ -651,7 +659,7 @@ export default function _Form({
                       )}
                       {type !== "view" && (
                         <div
-                          className="col-6 text-left p-2"
+                          className="col-lg-6 text-left p-2"
                           style={{ fontWeight: "bold" }}
                         >
                           {numberWithCommas(

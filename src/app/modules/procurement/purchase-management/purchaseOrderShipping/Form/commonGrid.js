@@ -40,6 +40,7 @@ export default function CommonGrid({ data, rowDtoHandler }) {
     <>
       {data && toArray(data).length ? (
         <>
+          <div className="table-responsive">
           <table className="scroll-table table">
             <thead>
               <tr>
@@ -123,6 +124,7 @@ export default function CommonGrid({ data, rowDtoHandler }) {
               ))}
             </tbody>
           </table>
+          </div>
           <IViewModal
             show={show}
             onHide={() => setShow(false)}

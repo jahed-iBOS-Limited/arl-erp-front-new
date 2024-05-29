@@ -22,10 +22,12 @@ import InvoiceWisePaymentLanding from "./invoiceWisePayment/InvoiceWisePaymentLa
 import PartnerWisePaymentSummaryLanding from "./invoiceWisePayment/PartnerWisePaymentSummaryLanding";
 import MoneyReceiptSubmitForm from "./moneyReceiptSubmit/form/addEditForm";
 import MoneyReceiptSubmitLandingTable from "./moneyReceiptSubmit/landingPage/table";
-import SalesInvoiceLanding from "./salesInvoice";
-import AddEditForm from "./salesInvoice/Form/addEditForm";
+// import SalesInvoiceLanding from "./salesInvoice";
+// import AddEditForm from "./salesInvoice/Form/addEditForm";
 import ShippingBillregisterLanding from "./shippingBillRegister";
 import ShippingSupplerInvoiceForm from "./shippingBillRegister/shippingInvoice/addEditForm";
+import SalesInvoiceForm from "./salesInvoice/formNew/addEditForm";
+import SalesInvoiceLandingNew from "./salesInvoice/landing";
 // import OthersBill from "./othersBill/index"
 // import OthersBillCreateForm from "./othersBill/Form/addEditForm"
 export function InvoiceManagementSystemPages() {
@@ -154,9 +156,11 @@ export function InvoiceManagementSystemPages() {
       />
 
       {/* sales invoice routes*/}
+
       <ContentRoute
         from="/financial-management/invoicemanagement-system/salesInvoice/create"
-        component={AddEditForm}
+        // component={AddEditForm}
+        component={SalesInvoiceForm}
       />
       <ContentRoute
         from="/financial-management/invoicemanagement-system/salesinvoicevspayment/Create"
@@ -168,7 +172,8 @@ export function InvoiceManagementSystemPages() {
       />
       <ContentRoute
         from="/financial-management/invoicemanagement-system/salesInvoice"
-        component={SalesInvoiceLanding}
+        // component={SalesInvoiceLanding}
+        component={SalesInvoiceLandingNew}
       />
       <ContentRoute
         from="/financial-management/invoicemanagement-system/shippingInvoice/create"

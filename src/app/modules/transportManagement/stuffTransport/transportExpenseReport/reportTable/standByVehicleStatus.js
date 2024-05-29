@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
-import IApproval from "../../../../_helper/_helperIcons/_approval";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
+import { _dateFormatterTwo } from "../../../../_helper/_dateFormate";
+import NewIcon from "../../../../_helper/_helperIcons/newIcon";
 import IViewModal from "../../../../_helper/_viewModal";
+import CommonTable from "../../../../_helper/commonTable";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import StandByApprovalModal from "../modalView/standByApprovalModal";
 
@@ -13,30 +14,30 @@ export default function StandByVehicleStatus({ rowData, values, getRowData }) {
   const {
     profileData: { userId },
   } = useSelector((state) => state?.authData, shallowEqual);
+  const headersData = [
+    "SL",
+    "Employee Name",
+    "Enroll",
+    "Designation",
+    "Email Address",
+    "Job Station",
+    "Tour Date",
+    "Start Time",
+    "End Time",
+    "Destination",
+    "Purpose(In Details)",
+    "Total Person",
+    "Driver Name and Mobile",
+    "Status",
+    "Action",
+  ];
+
   return (
     <div>
       <h4 className="text-center mt-5">
         <strong>Stand By Vehicle Status</strong>
       </h4>
-      <table className="table table-striped table-bordered bj-table bj-table-landing">
-        <thead>
-          <tr>
-            <th>SL</th>
-            <th>Employee Name</th>
-            <th>Enroll</th>
-            <th>Designation</th>
-            <th>Email Address</th>
-            <th>Job Station</th>
-            <th>Start Time</th>
-            <th>End Time</th>
-            <th>Destination</th>
-            <th>Purpose(In Details)</th>
-            <th>Total Person</th>
-            <th>Driver Name and Mobile</th>
-            <th>Status</th>
-            <th>Action</th>
-          </tr>
-        </thead>
+      <CommonTable headersData={headersData}>
         <tbody>
           {rowData?.map((item, index) => (
             <tr key={index}>
@@ -47,6 +48,7 @@ export default function StandByVehicleStatus({ rowData, values, getRowData }) {
               <td className="text-center">{item?.officeMail}</td>
 
               <td className="text-center">{item?.workplace}</td>
+              <td className="text-center">{_dateFormatterTwo(item?.tourDate)}</td>
               <td className="text-center">{item?.bookingTime}</td>
               <td className="text-center">{item?.tourTime}</td>
               <td className="text-center">{item?.tripToAddress}</td>
@@ -87,31 +89,38 @@ export default function StandByVehicleStatus({ rowData, values, getRowData }) {
                         }}
                       >
                         {" "}
-                        <IApproval title="Approve" />
+                        <NewIcon
+                          title="Approve"
+                          customStyles={{ color: "green", fontSize: "14px" }}
+                          iconName="fas fa-check-circle"
+                        />
                       </span>{" "}
                       <span
-                        onClick={()=>saveReject(
-                          `/mes/VehicleLog/ApproveBookingStandByVehicle`,
-                          {
-                            isAdminApprove: false,
-                            bookingId: item?.bookingId,
-                            driverId: 0,
-                            driverName: "",
-                            vehicleId:"",
-                            vehicleName:"",
-                            approvedBy: userId,
-                          },
-                          ()=>{
-                            getRowData(
-                              `/mes/VehicleLog/GetBookingStandByVehicleStatus?fromDate=${values?.fromDate}&todate=${values?.toDate}&adminStatus=${values?.status?.value}`
-                            );
-                          },
-                          true
-                        )}
+                        onClick={() =>
+                          saveReject(
+                            `/mes/VehicleLog/ApproveBookingStandByVehicle`,
+                            {
+                              isAdminApprove: false,
+                              bookingId: item?.bookingId,
+                              driverId: 0,
+                              driverName: "",
+                              vehicleId: "",
+                              vehicleName: "",
+                              approvedBy: userId,
+                            },
+                            () => {
+                              getRowData(
+                                `/mes/VehicleLog/GetBookingStandByVehicleStatus?fromDate=${values?.fromDate}&todate=${values?.toDate}&adminStatus=${values?.status?.value}`
+                              );
+                            },
+                            true
+                          )
+                        }
                       >
-                        <IDelete
+                        <NewIcon
                           title="Reject"
-                          iconName="fa fa-window-close-o"
+                          customStyles={{ color: "red", fontSize: "14px" }}
+                          iconName="fa fa-times-circle closeBtn"
                         />
                       </span>
                     </span>
@@ -119,12 +128,11 @@ export default function StandByVehicleStatus({ rowData, values, getRowData }) {
                 ) : (
                   ""
                 )}
-                 
               </td>
             </tr>
           ))}
         </tbody>
-      </table>
+      </CommonTable>
 
       {isShowApproveModal && (
         <IViewModal

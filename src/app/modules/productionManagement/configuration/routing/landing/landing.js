@@ -188,19 +188,22 @@ const RoutingLanding = () => {
         paginationSearchHandler={paginationSearchHandler}
       />
 
-      <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
-        {loader && <Loading />}
-        <thead>
-          <tr>
-            {headers.map((th, index) => {
-              return <th key={index}> {th} </th>;
-            })}
-          </tr>
-        </thead>
-        <tbody>
-          <TBody landingPageData={landingPageData?.data || []} />
-        </tbody>
-      </table>
+      <div className="table-responsive">
+        <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+          {loader && <Loading />}
+          <thead>
+            <tr>
+              {headers.map((th, index) => {
+                return <th key={index}> {th} </th>;
+              })}
+            </tr>
+          </thead>
+          <tbody>
+            <TBody landingPageData={landingPageData?.data || []} />
+          </tbody>
+        </table>
+      </div>
+
       {/* Pagination Code */}
       {landingPageData?.data?.length > 0 && (
         <PaginationTable

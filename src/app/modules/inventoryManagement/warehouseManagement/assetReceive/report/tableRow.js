@@ -17,15 +17,12 @@ import IView from "../../../../_helper/_helperIcons/_view";
 import { useDispatch } from "react-redux";
 import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
 
-
 let imageObj = {
   8: iMarineIcon,
 };
 
 const initData = {};
 const validationSchema = Yup.object().shape({});
-
-
 
 export function TableRow({ Asid }) {
   const [loading, setLoading] = useState(false);
@@ -46,7 +43,6 @@ export function TableRow({ Asid }) {
 
   // console.log(selectedBusinessUnit.value)
 
-
   const { state } = useLocation();
   useEffect(() => {
     getReportAssetReceive(Asid, setAssetReport);
@@ -58,13 +54,13 @@ export function TableRow({ Asid }) {
   return (
     <>
       <ICustomCard
-        title=''
+        title=""
         renderProps={() => (
           <>
             <ReactToPrint
-              pageStyle='@page { size: 8in 12in !important; margin: 0mm; } @media print { body { -webkit-print-color-adjust: exact;} }'
+              pageStyle="@page { size: 8in 12in !important; margin: 0mm; } @media print { body { -webkit-print-color-adjust: exact;} }"
               trigger={() => (
-                <button className='btn btn-primary'>
+                <button className="btn btn-primary">
                   {/* <img
                             style={{ width: "25px", paddingRight: "5px" }}
                             src={printIcon}
@@ -76,26 +72,26 @@ export function TableRow({ Asid }) {
               content={() => printRef?.current}
             />
             <ReactToPrint
-              pageStyle='@page { size: 8in 12in !important; margin: 0mm; } @media print { body { -webkit-print-color-adjust: exact;} }'
+              pageStyle="@page { size: 8in 12in !important; margin: 0mm; } @media print { body { -webkit-print-color-adjust: exact;} }"
               trigger={() => (
-                <button className='btn btn-primary ml-2'>PDF</button>
+                <button className="btn btn-primary ml-2">PDF</button>
               )}
               content={() => printRef?.current}
             />
             <ReactHTMLTableToExcel
-              id='test-table-xls-button'
-              className='download-table-xls-button btn btn-primary ml-2'
-              table='table-to-xlsx'
-              filename='tablexls'
-              sheet='tablexls'
-              buttonText='Excel'
+              id="test-table-xls-button"
+              className="download-table-xls-button btn btn-primary ml-2"
+              table="table-to-xlsx"
+              filename="tablexls"
+              sheet="tablexls"
+              buttonText="Excel"
             />
             <button
-              type='button'
+              type="button"
               onClick={() => history.goBack()}
-              className='btn btn-secondary back-btn ml-2'
+              className="btn btn-secondary back-btn ml-2"
             >
-              <i className='fa fa-arrow-left mr-1'></i>
+              <i className="fa fa-arrow-left mr-1"></i>
               Back
             </button>
           </>
@@ -105,81 +101,64 @@ export function TableRow({ Asid }) {
           enableReinitialize={true}
           initialValues={initData}
           validationSchema={validationSchema}
-          onSubmit={(values, { setSubmitting, resetForm }) => { }}
+          onSubmit={(values, { setSubmitting, resetForm }) => {}}
         >
           {({ handleSubmit, resetForm, values, errors, touched, isValid }) => (
             <>
               {loading && <Loading />}
               <FormikForm>
-                <div className=''>
-                  <div ref={printRef} className='print_wrapper'>
-                    <div className='m-3'>
-                      <div className='d-flex justify-content-between align-items-center'>
+                <div className="">
+                  <div ref={printRef} className="print_wrapper">
+                    <div className="m-3">
+                      <div className="d-flex justify-content-between align-items-center">
                         <div>
-                          <div className='d-flex justify-content-center align-items-center'>
+                          <div className="d-flex justify-content-center align-items-center">
                             {selectedBusinessUnit?.value === 8 && (
                               <img
                                 style={{ width: "150px", height: "100px" }}
-                                class=''
+                                class=""
                                 src={imageObj[selectedBusinessUnit?.value]}
-                                alt='img'
+                                alt="img"
                               />
                             )}
                             {/* imageObj[selectedBusinessUnit?.value] */}
                           </div>
                         </div>
-                        <div className='d-flex flex-column justify-content-center align-items-center mt-2'>
-                          <h3>
-                            {
-                              selectedBusinessUnit?.label
-                            }
-                          </h3>
-                          <h6>
-                            {
-                              assetReport?.objHeader
-                                ?.businessUnitAddress
-                            }
-                          </h6>
+                        <div className="d-flex flex-column justify-content-center align-items-center mt-2">
+                          <h3>{selectedBusinessUnit?.label}</h3>
+                          <h6>{assetReport?.objHeader?.businessUnitAddress}</h6>
                           <h4>Asset Receive</h4>
                         </div>
                         <div></div>
                       </div>
-                      <div className='my-3'>
+                      <div className="my-3">
                         Asset Receive Code:
-                        <span className='font-weight-bold mr-2 ml-1'>
-                          {
-                            assetReport?.objHeader
-                              ?.serviceCode
-                          }
+                        <span className="font-weight-bold mr-2 ml-1">
+                          {assetReport?.objHeader?.serviceCode}
                         </span>{" "}
                         Receive Amount:
-                        <sapn className='font-weight-bold mr-2 ml-1'>
+                        <sapn className="font-weight-bold mr-2 ml-1">
                           {state?.receiveAmount}
                         </sapn>
                         Request Date:
-                        <sapn className='font-weight-bold mr-2 ml-1'>
+                        <sapn className="font-weight-bold mr-2 ml-1">
                           {_dateFormatter(
-                            assetReport?.objHeader
-                              ?.transactionDate
+                            assetReport?.objHeader?.transactionDate
                           )}
                         </sapn>
-
                         PO Refference:
-                        <sapn className='font-weight-bold mr-2 ml-1'>
-                          {assetReport?.objHeader
-                            ?.referenceCode}
+                        <sapn className="font-weight-bold mr-2 ml-1">
+                          {assetReport?.objHeader?.referenceCode}
                         </sapn>
-
                         PO Amount:
-                        <sapn className='font-weight-bold mr-2 ml-1'>
-                          {assetReport?.objHeader
-                            ?.poAmount}
+                        <sapn className="font-weight-bold mr-2 ml-1">
+                          {assetReport?.objHeader?.poAmount}
                         </sapn>
                         Adjustment Journal Code:
-                        <sapn className='font-weight-bold mr-2 ml-1'>
-                          {assetReport?.objHeader
-                            ?.adjustmentJournalCode ? assetReport?.objHeader
-                            ?.adjustmentJournalCode : "NA"}
+                        <sapn className="font-weight-bold mr-2 ml-1">
+                          {assetReport?.objHeader?.adjustmentJournalCode
+                            ? assetReport?.objHeader?.adjustmentJournalCode
+                            : "NA"}
                         </sapn>
                         {/* Adjust Amount:
                         <sapn className='font-weight-bold mr-2 ml-1'>
@@ -188,110 +167,108 @@ export function TableRow({ Asid }) {
                         </sapn> */}
                       </div>
                       <div>
-                      Challan:
-                        <sapn className='font-weight-bold mr-2 ml-1'>
-                          {assetReport?.objHeader
-                            ?.challan ? assetReport?.objHeader
-                            ?.challan : "NA"}
+                        Challan:
+                        <sapn className="font-weight-bold mr-2 ml-1">
+                          {assetReport?.objHeader?.challan
+                            ? assetReport?.objHeader?.challan
+                            : "NA"}
                         </sapn>
                         Challan Date:
-                        <sapn className='font-weight-bold mr-2 ml-1'>
-                          {assetReport?.objHeader
-                            ?.challanDateTime ? _dateFormatter(assetReport?.objHeader
-                            ?.challanDateTime) : "NA"}
+                        <sapn className="font-weight-bold mr-2 ml-1">
+                          {assetReport?.objHeader?.challanDateTime
+                            ? _dateFormatter(
+                                assetReport?.objHeader?.challanDateTime
+                              )
+                            : "NA"}
                         </sapn>
                         Vat Challan:
-                        <sapn className='font-weight-bold mr-2 ml-1'>
-                          {assetReport?.objHeader
-                            ?.vatChallan ? assetReport?.objHeader
-                            ?.vatChallan : "NA"}
+                        <sapn className="font-weight-bold mr-2 ml-1">
+                          {assetReport?.objHeader?.vatChallan
+                            ? assetReport?.objHeader?.vatChallan
+                            : "NA"}
                         </sapn>
                         Vat Amount:
-                        <sapn className='font-weight-bold mr-2 ml-1'>
-                          {assetReport?.objHeader
-                            ?.vatAmount ? assetReport?.objHeader
-                            ?.vatAmount : 0}
+                        <sapn className="font-weight-bold mr-2 ml-1">
+                          {assetReport?.objHeader?.vatAmount
+                            ? assetReport?.objHeader?.vatAmount
+                            : 0}
                         </sapn>
                         Others Charge:
-                        <sapn className='font-weight-bold mr-2 ml-1'>
-                          {assetReport?.objHeader
-                            ?.othersCharge || 0}
+                        <sapn className="font-weight-bold mr-2 ml-1">
+                          {assetReport?.objHeader?.othersCharge || 0}
                         </sapn>
                         Gate Entry NO:
-                        <sapn className='font-weight-bold mr-2 ml-1'>
-                          {assetReport?.objHeader
-                            ?.gateEntryNo ? assetReport?.objHeader
-                            ?.gateEntryNo : "NA"}
+                        <sapn className="font-weight-bold mr-2 ml-1">
+                          {assetReport?.objHeader?.gateEntryNo
+                            ? assetReport?.objHeader?.gateEntryNo
+                            : "NA"}
                         </sapn>
                         Comments:
-                        <sapn className='font-weight-bold mr-2 ml-1'>
-                          {assetReport?.objHeader
-                            ?.comments}
+                        <sapn className="font-weight-bold mr-2 ml-1">
+                          {assetReport?.objHeader?.comments}
                         </sapn>
-                        {assetReport?.objHeader
-                          ?.documentId &&
+                        {assetReport?.objHeader?.documentId && (
                           <>
                             Attachment
-                        <sapn className='font-weight-bold mr-2 ml-1'>
+                            <sapn className="font-weight-bold mr-2 ml-1">
                               <IView
-                              title="Attachment"
+                                title="Attachment"
                                 clickHandler={() => {
                                   dispatch(
-                                    getDownlloadFileView_Action(assetReport?.objHeader
-                                      ?.documentId)
+                                    getDownlloadFileView_Action(
+                                      assetReport?.objHeader?.documentId
+                                    )
                                   );
-                                }
-                                }
+                                }}
                               />
-
                             </sapn>
                           </>
-                        }
+                        )}
                       </div>
-                      <table
-                        className='table table-striped table-bordered global-table'
-                        id='table-to-xlsx'
-                      >
-                        <thead>
-                          <tr>
-                            <th>SL</th>
-                            <th>Item Name</th>
-                            <th>Uom</th>
-                            <th>PO Quantity</th>
-                            {/* <th>Receive Quantity</th> */}
-                            <th>Quantity</th>
-                            {/* <th>Current Stock</th> */}
-                            <th>Amount</th>
-                            {/* <th>Item Description</th> */}
-                          </tr>
-                        </thead>
-                        <tbody>
-
-                          {assetReport?.objRow?.map(
-                            (data, i) => (
+                      <div className="table-responsive">
+                        <table
+                          className="table table-striped table-bordered global-table"
+                          id="table-to-xlsx"
+                        >
+                          <thead>
+                            <tr>
+                              <th>SL</th>
+                              <th>Item Name</th>
+                              <th>Uom</th>
+                              <th>PO Quantity</th>
+                              {/* <th>Receive Quantity</th> */}
+                              <th>Quantity</th>
+                              {/* <th>Current Stock</th> */}
+                              <th>Amount</th>
+                              {/* <th>Item Description</th> */}
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {assetReport?.objRow?.map((data, i) => (
                               <tr>
-                                <td className='text-center'>{i + 1}</td>
+                                <td className="text-center">{i + 1}</td>
                                 <td>{data?.itemName}</td>
                                 <td>{data?.uoMname}</td>
                                 <td>{data?.poQuantity}</td>
                                 {/* <td>{data?.receiveQuantity}</td> */}
-                                <td className='text-right'>
+                                <td className="text-right">
                                   {data?.numTransactionQuantity?.toFixed(4)}
                                 </td>
                                 {/* <td className="text-right">{data?.currentStock}</td> */}
-                                <td className='text-right'>
+                                <td className="text-right">
                                   {data?.monTransactionValue}
                                 </td>
                                 {/* <td>{data?.itemDescription}</td> */}
                               </tr>
-                            )
-                          )}
-                        </tbody>
-                      </table>
-                      <div className='mt-3'>
-                        <div className='d-flex'>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+
+                      <div className="mt-3">
+                        <div className="d-flex">
                           <p>Request By:</p>
-                          <p className='font-weight-bold ml-2'>
+                          <p className="font-weight-bold ml-2">
                             {
                               assetReport?.objHeader
                                 ?.actionByNameDesignationDept

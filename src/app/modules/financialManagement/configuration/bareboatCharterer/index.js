@@ -140,69 +140,71 @@ export default function BareboatInsuranceConfig() {
                   Dry Dock
                 </label>
               </div>
-              <table className="table table-striped table-bordered bj-table bj-table-landing">
-                <thead>
-                  <tr>
-                    <th>SL</th>
-                    <th>Vessel Name</th>
-                    <th>Particulars </th>
-                    {viewType === 2 && <th>Insurance Type</th>}
-                    <th>Fee Per Day/Month </th>
-                    <th>Base Type </th>
-                    {(viewType === 2 || viewType === 3) && <th>Duration </th>}
-                    <th>Action </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {gridData?.data?.map((item, index) => (
-                    <tr key={index}>
-                      <td>
-                        <div className="text-left">{index + 1}</div>
-                      </td>
-                      <td>
-                        <div className="text-left">{item?.vesselName}</div>
-                      </td>
-                      <td>
-                        <div className="text-left">
-                          {viewType === 1 || viewType === 3
-                            ? item?.businessTransactionName
-                            : item?.strSupplierName}
-                        </div>
-                      </td>
-                      {viewType === 2 && <td>{item?.strInsuranceName}</td>}
-                      <td>
-                        <div className="text-right">{item?.rate}</div>
-                      </td>
-                      <td>
-                        <div className="text-center">{item?.baseName}</div>
-                      </td>
-                      {(viewType === 2 || viewType === 3) && (
+              <div className="table-responsive">
+                <table className="table table-striped table-bordered bj-table bj-table-landing">
+                  <thead>
+                    <tr>
+                      <th>SL</th>
+                      <th>Vessel Name</th>
+                      <th>Particulars </th>
+                      {viewType === 2 && <th>Insurance Type</th>}
+                      <th>Fee Per Day/Month </th>
+                      <th>Base Type </th>
+                      {(viewType === 2 || viewType === 3) && <th>Duration </th>}
+                      <th>Action </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {gridData?.data?.map((item, index) => (
+                      <tr key={index}>
                         <td>
-                          <div className="text-center">
-                            {`${_dateFormatter(
-                              item?.dteFromDate
-                            )} - ${_dateFormatter(item?.dteToDate)}`}
-                            {/* {viewType === 2
+                          <div className="text-left">{index + 1}</div>
+                        </td>
+                        <td>
+                          <div className="text-left">{item?.vesselName}</div>
+                        </td>
+                        <td>
+                          <div className="text-left">
+                            {viewType === 1 || viewType === 3
+                              ? item?.businessTransactionName
+                              : item?.strSupplierName}
+                          </div>
+                        </td>
+                        {viewType === 2 && <td>{item?.strInsuranceName}</td>}
+                        <td>
+                          <div className="text-right">{item?.rate}</div>
+                        </td>
+                        <td>
+                          <div className="text-center">{item?.baseName}</div>
+                        </td>
+                        {(viewType === 2 || viewType === 3) && (
+                          <td>
+                            <div className="text-center">
+                              {`${_dateFormatter(
+                                item?.dteFromDate
+                              )} - ${_dateFormatter(item?.dteToDate)}`}
+                              {/* {viewType === 2
                             ? `${_dateFormatter(
                                 item?.dteFromDate
                               )} - ${_dateFormatter(item?.dteToDate)}`
                             : ""} */}
-                          </div>
+                            </div>
+                          </td>
+                        )}
+                        <td className="text-center">
+                          <IEdit
+                            onClick={() => {
+                              history.push({
+                                pathname: `/financial-management/configuration/bareboatCharterConfig/edit/${item?.id}`,
+                              });
+                            }}
+                          ></IEdit>
                         </td>
-                      )}
-                      <td className="text-center">
-                        <IEdit
-                          onClick={() => {
-                            history.push({
-                              pathname: `/financial-management/configuration/bareboatCharterConfig/edit/${item?.id}`,
-                            });
-                          }}
-                        ></IEdit>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
 
               {/* Pagination Code */}
               {gridData?.data?.length > 0 && (

@@ -257,64 +257,66 @@ export function TableRow() {
           </div>
         </div>
 
-        <table class="table table table-head-custom table-vertical-center">
-          <thead>
-            <tr>
-              <th tabindex="0">SL</th>
-              <th tabindex="0">Transaction Code</th>
-              <th tabindex="0">Transaction Group</th>
-              <th tabindex="0">Reference Type</th>
-              <th tabindex="0">Reference No</th>
-              <th tabindex="0">Transaction Type</th>
-              <th tabindex="0" class="text-right pr-3">
-                Actions
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {gridData.map((item, i) => (
+        <div className="table-responsive">
+          <table class="table table table-head-custom table-vertical-center">
+            <thead>
               <tr>
-                <td>{i}</td>
-                <td>{item.inventoryTransactionCode}</td>
-                <td>{item.inventoryTransectionGroupName}</td>
-                <td>{item.referenceTypeName}</td>
-                <td>{item.referenceCode}</td>
-                <td>{item.transactionTypeName}</td>
-                <td>
-                  <div className="tableAction">
-                    <IView
-                      clickHandler={(e) => {
-                        history.push({
-                          pathname: `/inventory-management/warehouse-management/inventorytransaction/view/${item.inventoryTransactionId}`,
-                          state: {
-                            selectedSbu,
-                            SelectedPlant,
-                            SelectedWareHouse,
-                          },
-                        });
-                      }}
-                    />
-
-                    <span
-                      onClick={(e) => {
-                        history.push({
-                          pathname: `/inventory-management/warehouse-management/inventorytransaction/edit/${item.inventoryTransactionId}`,
-                          state: {
-                            selectedSbu,
-                            SelectedPlant,
-                            SelectedWareHouse,
-                          },
-                        });
-                      }}
-                    >
-                      <IEdit />
-                    </span>
-                  </div>
-                </td>
+                <th tabindex="0">SL</th>
+                <th tabindex="0">Transaction Code</th>
+                <th tabindex="0">Transaction Group</th>
+                <th tabindex="0">Reference Type</th>
+                <th tabindex="0">Reference No</th>
+                <th tabindex="0">Transaction Type</th>
+                <th tabindex="0" class="text-right pr-3">
+                  Actions
+                </th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {gridData.map((item, i) => (
+                <tr>
+                  <td>{i}</td>
+                  <td>{item.inventoryTransactionCode}</td>
+                  <td>{item.inventoryTransectionGroupName}</td>
+                  <td>{item.referenceTypeName}</td>
+                  <td>{item.referenceCode}</td>
+                  <td>{item.transactionTypeName}</td>
+                  <td>
+                    <div className="tableAction">
+                      <IView
+                        clickHandler={(e) => {
+                          history.push({
+                            pathname: `/inventory-management/warehouse-management/inventorytransaction/view/${item.inventoryTransactionId}`,
+                            state: {
+                              selectedSbu,
+                              SelectedPlant,
+                              SelectedWareHouse,
+                            },
+                          });
+                        }}
+                      />
+
+                      <span
+                        onClick={(e) => {
+                          history.push({
+                            pathname: `/inventory-management/warehouse-management/inventorytransaction/edit/${item.inventoryTransactionId}`,
+                            state: {
+                              selectedSbu,
+                              SelectedPlant,
+                              SelectedWareHouse,
+                            },
+                          });
+                        }}
+                      >
+                        <IEdit />
+                      </span>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
 
         {/* <BootstrapTable
           wrapperClasses="table-responsive"

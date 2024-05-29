@@ -312,3 +312,16 @@ export const getMultipleFileViewEmpty = (ids) => (dispatch) => {
   };
   dispatch(slice.SetMultipleImageView(obj));
 };
+
+export const createERPUserInfoAcion = (payload) => (dispatch) => {
+  requestFromServer
+    .createERPUserInfo(payload)
+    .then((res) => {
+      // if (res.status === 200) {
+      //   toast.success(res.data?.message || "Submitted successfully");
+      // }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};

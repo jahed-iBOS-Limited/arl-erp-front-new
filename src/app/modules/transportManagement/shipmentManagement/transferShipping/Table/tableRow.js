@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
 import { Field, Form, Formik } from "formik";
+import React, { useEffect, useState } from "react";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import { ISelect } from "../../../../_helper/_inputDropDown";
 import {
   getSalesContactGridData,
@@ -9,28 +10,27 @@ import {
   saveShipmentId_action,
   setGridEmptyAction,
 } from "../_redux/Actions";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
 
 import { toast } from "react-toastify";
-import IView from "../../../../_helper/_helperIcons/_view";
-import Loading from "../../../../_helper/_loading";
-import PaginationTable from "../../../../_helper/_tablePagination";
 import {
-  ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
+  ModalProgressBar,
 } from "../../../../../../_metronic/_partials/controls";
-import InputField from "../../../../_helper/_inputField";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { setShipmentlandingAction } from "../../../../_helper/reduxForLocalStorage/Actions";
 import IConfirmModal from "../../../../_helper/_confirmModal";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import IClose from "../../../../_helper/_helperIcons/_close";
+import IView from "../../../../_helper/_helperIcons/_view";
+import InputField from "../../../../_helper/_inputField";
+import Loading from "../../../../_helper/_loading";
+import PaginationTable from "../../../../_helper/_tablePagination";
+import { _todayDate } from "../../../../_helper/_todayDate";
 import IViewModal from "../../../../_helper/_viewModal";
-import CancelTransferShippingForm from "../vehicleWeigth/cancelForm";
 import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import { setShipmentlandingAction } from "../../../../_helper/reduxForLocalStorage/Actions";
+import CancelTransferShippingForm from "../vehicleWeigth/cancelForm";
 // import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
 export function TableRow({
@@ -406,7 +406,8 @@ export function TableRow({
                   <div className="col-lg-12">
                     {rowDto?.length > 0 && (
                       <>
-                        <table className="table table-striped table-bordered global-table">
+                     <div className="table-responsive">
+                     <table className="table table-striped table-bordered global-table">
                           <thead>
                             <tr>
                               {values?.reportType?.value === 1 && (
@@ -562,12 +563,14 @@ export function TableRow({
                             ))}
                           </tbody>
                         </table>
+                     </div>
                       </>
                     )}
 
                     {incompleteRowDto?.length > 0 && (
                       <>
-                        <table className="table table-striped table-bordered global-table">
+                       <div className="table-responsive">
+                       <table className="table table-striped table-bordered global-table">
                           <thead>
                             <tr>
                               {/* <th>
@@ -698,11 +701,13 @@ export function TableRow({
                             ))}
                           </tbody>
                         </table>
+                       </div>
                       </>
                     )}
                     {canceledRows?.data?.length > 0 && (
                       <>
-                        <table className="table table-striped table-bordered global-table">
+                       <div className="table-responsive">
+                       <table className="table table-striped table-bordered global-table">
                           <thead>
                             <tr>
                               <th>SL</th>
@@ -736,6 +741,7 @@ export function TableRow({
                             ))}
                           </tbody>
                         </table>
+                       </div>
                       </>
                     )}
                   </div>

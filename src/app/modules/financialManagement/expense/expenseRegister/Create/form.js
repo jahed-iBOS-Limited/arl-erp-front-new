@@ -441,7 +441,11 @@ export default function _Form({
                   </div>
                 </div>
                 <div className="col-lg-9">
-                  <div className={"row bank-journal-custom bj-right"}>
+                  <div className={"row bank-journal-custom bj-right"}  style={{
+                      marginLeft: "0px",
+                      marginRight: "0px",
+                      marginTop: "5px",
+                    }}>
                     <div className="col-lg-3">
                       <label>Expense Date</label>
                       <InputField
@@ -675,7 +679,8 @@ export default function _Form({
                   {/* It will be hidden when user select bank tranfer from previous page */}
                   <div className="row">
                     <div className="col-lg-12 pr-0">
-                      <table className={"table mt-1 bj-table"}>
+                    <div className="table-responsive">
+                    <table className={"table mt-1 bj-table"}>
                         <thead className={rowDto.length < 1 && "d-none"}>
                           <tr>
                             <th style={{ width: "20px" }}>SL</th>
@@ -774,6 +779,7 @@ export default function _Form({
                           })}
                         </tbody>
                       </table>
+                    </div>
                     </div>
                   </div>
                 </div>

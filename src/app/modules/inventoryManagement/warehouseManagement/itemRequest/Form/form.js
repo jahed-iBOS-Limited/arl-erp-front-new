@@ -5,9 +5,9 @@ import { ISelect } from "../../../../_helper/_inputDropDown";
 import InputField from "../../../../_helper/_inputField";
 import IDelete from "../../../../_helper/_helperIcons/_delete";
 import { getUOMList } from "../helper";
-import Axios from 'axios'
-import SearchAsyncSelect from './../../../../_helper/SearchAsyncSelect'
-import FormikError from './../../../../_helper/_formikError'
+import Axios from "axios";
+import SearchAsyncSelect from "./../../../../_helper/SearchAsyncSelect";
+import FormikError from "./../../../../_helper/_formikError";
 import NewSelect from "../../../../_helper/_select";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import Loading from "../../../../_helper/_loading";
@@ -37,7 +37,7 @@ export default function _Form({
   selectedBusinessUnit,
   plantId,
   whId,
-  profileData
+  profileData,
 }) {
   const [uomList, setUOMList] = useState([]);
   const [itemType, setItemType] = useState("");
@@ -46,16 +46,30 @@ export default function _Form({
 
   const loadUserList = (v) => {
     return Axios.get(
-      itemType === 1 ?
-        `/wms/ItemRequestDDL/GetItemForAssetTypeDDL?AccountId=${accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&PlantId=${plantId || initData?.intPlantId}&WarehouseId=${whId || initData?.intWarehouseId}&searchTerm=${v}` : itemType === 2 ? `/wms/ItemRequestDDL/GetItemForServiceTypeDDL?AccountId=${accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&PlantId=${plantId || initData?.intPlantId}&WarehouseId=${whId || initData?.intWarehouseId}&searchTerm=${v}` : itemType === 3 ? `/wms/ItemRequestDDL/GetItemForOthersTypeDDL?AccountId=${accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&PlantId=${plantId || initData?.intPlantId}&WarehouseId=${whId || initData?.intWarehouseId}&searchTerm=${v}` : ""
+      itemType === 1
+        ? `/wms/ItemRequestDDL/GetItemForAssetTypeDDL?AccountId=${accountId}&BusinessUnitId=${
+            selectedBusinessUnit?.value
+          }&PlantId=${plantId || initData?.intPlantId}&WarehouseId=${whId ||
+            initData?.intWarehouseId}&searchTerm=${v}`
+        : itemType === 2
+        ? `/wms/ItemRequestDDL/GetItemForServiceTypeDDL?AccountId=${accountId}&BusinessUnitId=${
+            selectedBusinessUnit?.value
+          }&PlantId=${plantId || initData?.intPlantId}&WarehouseId=${whId ||
+            initData?.intWarehouseId}&searchTerm=${v}`
+        : itemType === 3
+        ? `/wms/ItemRequestDDL/GetItemForOthersTypeDDL?AccountId=${accountId}&BusinessUnitId=${
+            selectedBusinessUnit?.value
+          }&PlantId=${plantId || initData?.intPlantId}&WarehouseId=${whId ||
+            initData?.intWarehouseId}&searchTerm=${v}`
+        : ""
     ).then((res) => {
-      const updateList = res?.data.map(item => ({
+      const updateList = res?.data.map((item) => ({
         ...item,
-        label: item?.labelAndCode
-      }))
-      return updateList
-    })
-  }
+        label: item?.labelAndCode,
+      }));
+      return updateList;
+    });
+  };
   return (
     <>
       <Formik
@@ -175,12 +189,16 @@ export default function _Form({
                         selectedValue={values?.item}
                         handleChange={(valueOption) => {
                           setFieldValue("item", valueOption);
-                          getStockQty(`/wms/InventoryTransaction/sprRuningQty?businessUnitId=${selectedBusinessUnit?.value
-                            }&whId=${whId || initData?.intWarehouseId
-                            }&itemId=${valueOption?.value
-                            }`, (res) => {
-                              setFieldValue("availableStockQty", res)
-                            })
+                          getStockQty(
+                            `/wms/InventoryTransaction/sprRuningQty?businessUnitId=${
+                              selectedBusinessUnit?.value
+                            }&whId=${whId || initData?.intWarehouseId}&itemId=${
+                              valueOption?.value
+                            }`,
+                            (res) => {
+                              setFieldValue("availableStockQty", res);
+                            }
+                          );
                           setFieldValue("itemUom", {
                             value: valueOption?.baseUoMId,
                             label: valueOption?.baseUoMName,
@@ -267,45 +285,47 @@ export default function _Form({
                       </button>
                     </div>
                   </div>
-                  <table
-                    // style={{ marginTop: "20px" }}
-                    className="global-table table"
-                  >
-                    <thead>
-                      <tr>
-                        <th>SL</th>
-                        <th>Item Name</th>
-                        <th>Uom</th>
-                        <th>Ref. No.</th>
-                        <th>Request Qty.</th>
-                        <th>Purpose</th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {rowlebelData?.map((item, index) => (
-                        <tr key={index}>
-                          <td className="text-center align-middle">
-                            {index + 1}
-                          </td>
-                          <td className="">{item.itemName}</td>
-                          <td className="">{item.uoMname}</td>
-                          <td className="text-center align-middle table-input">
-                            {item.referenceId ? item.referenceId : ""}
-                          </td>
-                          <td className="text-center align-middle table-input">
-                            {item.requestQuantity}
-                          </td>
-                          <td className="">{item.remarks}</td>
-                          <td className="text-center align-middle table-input">
-                            <span onClick={() => remover(item.itemId)}>
-                              <IDelete />
-                            </span>
-                          </td>
+                  <div className="table-responsive">
+                    <table
+                      // style={{ marginTop: "20px" }}
+                      className="global-table table"
+                    >
+                      <thead>
+                        <tr>
+                          <th>SL</th>
+                          <th>Item Name</th>
+                          <th>Uom</th>
+                          <th>Ref. No.</th>
+                          <th>Request Qty.</th>
+                          <th>Purpose</th>
+                          <th>Action</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody>
+                        {rowlebelData?.map((item, index) => (
+                          <tr key={index}>
+                            <td className="text-center align-middle">
+                              {index + 1}
+                            </td>
+                            <td className="">{item.itemName}</td>
+                            <td className="">{item.uoMname}</td>
+                            <td className="text-center align-middle table-input">
+                              {item.referenceId ? item.referenceId : ""}
+                            </td>
+                            <td className="text-center align-middle table-input">
+                              {item.requestQuantity}
+                            </td>
+                            <td className="">{item.remarks}</td>
+                            <td className="text-center align-middle table-input">
+                              <span onClick={() => remover(item.itemId)}>
+                                <IDelete />
+                              </span>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
 

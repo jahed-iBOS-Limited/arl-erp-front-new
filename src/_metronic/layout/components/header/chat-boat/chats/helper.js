@@ -56,11 +56,13 @@ export const sendMessage = async (payload, chatList, setChatList) => {
 };
 
 export const getChatResponse = async (payload, cb) => {
+  const apiUrl =
+    process.env.NODE_ENV === "development"
+      ? `https://deverpchat.ibos.io/erp/manual_qna`
+      : `https://erpchat.ibos.io/erp/manual_qna`;
+
   try {
-    const res = await Axios.post(
-      `https://deverpchat.ibos.io/erp/manual_qna`,
-      payload
-    );
+    const res = await Axios.post(apiUrl, payload);
     cb({
       isResponse: true,
       resData: res?.data?.response,

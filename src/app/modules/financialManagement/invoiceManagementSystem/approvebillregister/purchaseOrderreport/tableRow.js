@@ -180,7 +180,7 @@ export function TableRow({ poId, orId }) {
                           </div>
                         </div>
                       </div>
-                      
+                      <div className="table-responsive">
                       <table className="global-table table mt-5 mb-5" id="table-to-xlsx">
                         <thead className="tableHead">
                           <tr>
@@ -224,8 +224,10 @@ export function TableRow({ poId, orId }) {
                           </tr>
                         </tbody>
                       </table>
+                      </div>
                       <div className="row otherspoinfo mt-5">
                         <div className="col-lg-8">
+                        <div className="table-responsive">
                           <table className="table custom-table">
                             <tr>
                               <td>
@@ -299,6 +301,7 @@ export function TableRow({ poId, orId }) {
                             <td>{0}</td>
                           </tr> */}
                           </table>
+                          </div>
                         </div>
                       </div>
                       {/* <div className="mt-2">

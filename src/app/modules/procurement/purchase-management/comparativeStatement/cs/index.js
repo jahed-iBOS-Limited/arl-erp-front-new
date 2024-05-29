@@ -137,6 +137,7 @@ function ShippingComparativeStatement() {
                 </div>
                 <div className="row">
                   <div className="col-lg-12">
+                  <div className="table-responsive">
                     <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                       <thead>
                         <tr>
@@ -175,6 +176,7 @@ function ShippingComparativeStatement() {
                           ))}
                       </tbody>
                     </table>
+                    </div>
                     {/* <IViewModal
                       show={isNegotiationDetails}
                       onHide={() => setNegotiationDetails(false)}

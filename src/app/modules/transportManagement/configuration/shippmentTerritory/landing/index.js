@@ -1,17 +1,17 @@
+import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
+import { shallowEqual, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
-import { Formik, Form } from "formik";
-import ICustomCard from "../../../../_helper/_customCard";
 import IConfirmModal from "../../../../_helper/_confirmModal";
+import ICustomCard from "../../../../_helper/_customCard";
+import Loading from "../../../../_helper/_loading";
+import NewSelect from "../../../../_helper/_select";
 import {
   ShippingPointTerritoryLanding,
   getShipPointDDL,
   inActiveShippointTerritory,
 } from "../helper";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
 
 const initData = {
   shipPoint: "",
@@ -154,6 +154,7 @@ export function ShippmentTerritory() {
                   Delete Selected Data
                 </button>
               )}
+              <div className="table-responsive">
               <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                 <thead>
                   <tr>
@@ -199,6 +200,7 @@ export function ShippmentTerritory() {
                     ))}
                 </tbody>
               </table>
+              </div>
             </div>
           </>
         )}

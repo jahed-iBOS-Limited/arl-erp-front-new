@@ -10,7 +10,10 @@ import * as Yup from "yup";
 import { APIUrl } from "../../../../../App";
 import ICustomCard from "../../../../_helper/_customCard";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { getBillRegisterByPo, getInventoryReceiveReportDetails } from "../helper";
+import {
+  getBillRegisterByPo,
+  getInventoryReceiveReportDetails,
+} from "../helper";
 import IViewModal from "../../../../_helper/_viewModal";
 import IView from "../../../../_helper/_helperIcons/_view";
 import { InventoryTransactionReportViewTableRow } from "../../../../inventoryManagement/warehouseManagement/invTransaction/report/tableRow";
@@ -48,7 +51,12 @@ export function ReceivePoReportView({ poId, isHiddenBackBtn, values }) {
 
   useEffect(() => {
     // getInventoryReceiveReportDetails
-    getInventoryReceiveReportDetails(profileData?.accountId, selectedBusinessUnit?.value, poId, setReceivePurchaseOrder);
+    getInventoryReceiveReportDetails(
+      profileData?.accountId,
+      selectedBusinessUnit?.value,
+      poId,
+      setReceivePurchaseOrder
+    );
     getBillRegisterByPo(poId, setBillSummeryList);
   }, [poId]);
   console.log("billSummeryList", billSummeryList);
@@ -71,7 +79,12 @@ export function ReceivePoReportView({ poId, isHiddenBackBtn, values }) {
           </>
         )}
       >
-        <Formik enableReinitialize={true} initialValues={initData} validationSchema={validationSchema} onSubmit={(values, { setSubmitting, resetForm }) => {}}>
+        <Formik
+          enableReinitialize={true}
+          initialValues={initData}
+          validationSchema={validationSchema}
+          onSubmit={(values, { setSubmitting, resetForm }) => {}}
+        >
           {({ handleSubmit, resetForm, values, errors, touched, isValid }) => (
             <>
               <FormikForm>
@@ -90,7 +103,9 @@ export function ReceivePoReportView({ poId, isHiddenBackBtn, values }) {
                           />
                         </div>
                         <div className="d-flex flex-column justify-content-center align-items-center">
-                          <h3 className="my-2">{selectedBusinessUnit?.organizationUnitReffName}</h3>
+                          <h3 className="my-2">
+                            {selectedBusinessUnit?.organizationUnitReffName}
+                          </h3>
                           <h6>{selectedBusinessUnit?.businessUnitAddress}</h6>
                           {/* <h4>Receive Purchase Order</h4> */}
                         </div>
@@ -98,129 +113,184 @@ export function ReceivePoReportView({ poId, isHiddenBackBtn, values }) {
                       </div>
                       <div className="my-2">
                         <h6 style={{ fontSize: "1.1rem" }}>Item Details</h6>
-                        <table className="global-table table" id="table-to-xlsx">
-                          <thead className="tableHead">
-                            <tr>
-                              <th>SL</th>
-                              <th>Challan Date</th>
-                              <th>Transaction Code</th>
-                              <th>Challan No</th>
-                              <th>Gate Entry No</th>
-                              <th>Total Amount</th>
-                              <th>Total Quantity</th>
-                              <th>Transaction Date</th>
-                            </tr>
-                          </thead>
-                          <tbody className="tableHead">
-                            {receivePurchaseOrder?.itemDetails?.map((data, i) => (
-                              <tr key={i}>
-                                <td className="text-center">{i + 1}</td>
-                                <td>{_dateFormatter(data?.challanDate)}</td>
-                                <td>
-                                  {
-                                    <span style={{ textDecoration: "underline" }}>
-                                      <Link
-                                        onClick={() => {
-                                          setIsShowModalTwo(true);
-                                          setCurrentItem(data);
-                                        }}
-                                        to="#"
-                                      >
-                                        {data?.inventoryTransactionCode}
-                                      </Link>
-                                    </span>
-                                  }
-                                </td>
-                                <td>{data?.challanNo}</td>
-                                <td>{data?.gateEntryNo}</td>
-                                <td className="text-right">{data?.totalAmount}</td>
-                                <td>{data?.totalQuantity || 0}</td>
-                                <td>{_dateFormatter(data?.transactionDate)}</td>
+                        <div className="table-responsive">
+                          <table
+                            className="global-table table"
+                            id="table-to-xlsx"
+                          >
+                            <thead className="tableHead">
+                              <tr>
+                                <th>SL</th>
+                                <th>Challan Date</th>
+                                <th>Transaction Code</th>
+                                <th>Challan No</th>
+                                <th>Gate Entry No</th>
+                                <th>Total Amount</th>
+                                <th>Total Quantity</th>
+                                <th>Transaction Date</th>
                               </tr>
-                            ))}
-                          </tbody>
-                        </table>
+                            </thead>
+                            <tbody className="tableHead">
+                              {receivePurchaseOrder?.itemDetails?.map(
+                                (data, i) => (
+                                  <tr key={i}>
+                                    <td className="text-center">{i + 1}</td>
+                                    <td>{_dateFormatter(data?.challanDate)}</td>
+                                    <td>
+                                      {
+                                        <span
+                                          style={{
+                                            textDecoration: "underline",
+                                          }}
+                                        >
+                                          <Link
+                                            onClick={() => {
+                                              setIsShowModalTwo(true);
+                                              setCurrentItem(data);
+                                            }}
+                                            to="#"
+                                          >
+                                            {data?.inventoryTransactionCode}
+                                          </Link>
+                                        </span>
+                                      }
+                                    </td>
+                                    <td>{data?.challanNo}</td>
+                                    <td>{data?.gateEntryNo}</td>
+                                    <td className="text-right">
+                                      {data?.totalAmount}
+                                    </td>
+                                    <td>{data?.totalQuantity || 0}</td>
+                                    <td>
+                                      {_dateFormatter(data?.transactionDate)}
+                                    </td>
+                                  </tr>
+                                )
+                              )}
+                            </tbody>
+                          </table>
+                        </div>
                       </div>
                       <div className="my-3">
                         <h6 style={{ fontSize: "1.1rem" }}>Item Summary</h6>
-                        <table className="global-table table" id="table-to-xlsx">
-                          <thead className="tableHead">
-                            <tr>
-                              <th>SL</th>
-                              <th className="text-left">ITEM</th>
-                              <th>Code</th>
-                              <th>UoM</th>
-                              <th>RCV Qty</th>
-                              <th>Order Qty</th>
-                            </tr>
-                          </thead>
-                          <tbody className="tableHead">
-                            {receivePurchaseOrder?.itemSummary?.map((data, i) => (
+                        <div className="table-responsive">
+                          <table
+                            className="global-table table"
+                            id="table-to-xlsx"
+                          >
+                            <thead className="tableHead">
                               <tr>
-                                <td className="text-center">{i + 1}</td>
-                                <td>{data?.itemName}</td>
-                                <td>{data?.itemCode}</td>
-                                <td>{data?.uomName}</td>
-                                <td>{data?.receiveQuanttity || 0}</td>
-                                <td>{data?.orderQuanttity || 0}</td>
+                                <th>SL</th>
+                                <th className="text-left">ITEM</th>
+                                <th>Code</th>
+                                <th>UoM</th>
+                                <th>RCV Qty</th>
+                                <th>Order Qty</th>
                               </tr>
-                            ))}
-                          </tbody>
-                        </table>
+                            </thead>
+                            <tbody className="tableHead">
+                              {receivePurchaseOrder?.itemSummary?.map(
+                                (data, i) => (
+                                  <tr>
+                                    <td className="text-center">{i + 1}</td>
+                                    <td>{data?.itemName}</td>
+                                    <td>{data?.itemCode}</td>
+                                    <td>{data?.uomName}</td>
+                                    <td>{data?.receiveQuanttity || 0}</td>
+                                    <td>{data?.orderQuanttity || 0}</td>
+                                  </tr>
+                                )
+                              )}
+                            </tbody>
+                          </table>
+                        </div>
                       </div>
                       <div className="my-3">
                         <h6 style={{ fontSize: "1.1rem" }}>Bill Summary</h6>
-                        <table className="global-table table" id="table-to-xlsx">
-                          <thead className="tableHead">
-                            <tr>
-                              <th>SL</th>
-                              <th className="text-left">BIll Code</th>
-                              <th>Bill Date</th>
-                              <th>Type Name</th>
-                              <th>Partner Name</th>
-                              <th>Adj. Amount</th>
-                              <th>Req. Amount</th>
-                              <th>Approval Amount</th>
-                              <th>Approve Date</th>
-                              <th>Is Payment</th>
-                              <th>Status</th>
-                              <th>Remarks</th>
-                              <th>Action</th>
-                            </tr>
-                          </thead>
-                          <tbody className="tableHead">
-                            {billSummeryList?.map((tableData, index) => (
-                              <tr key={index}>
-                                <td> {tableData?.sl} </td>
-                                <td> {tableData?.billRegisterCode} </td>
-                                <td> {_dateFormatter(tableData?.billRegisterDate)} </td>
-                                <td> {tableData?.billTypeName} </td>
-                                {[4]?.includes(values?.billType?.value) && <td>{tableData?.expenseGroup}</td>}
-                                <td> {tableData?.partnerName} </td>
-                                <td className="text-right" style={tableData?.adjustmentAmount > 0 ? { color: "red" } : {}}>
-                                  {_fixedPoint(tableData?.adjustmentAmount || 0)}
-                                </td>
-                                <td className="text-right"> {tableData?.monTotalAmount} </td>
-                                <td className="text-right"> {tableData?.monApproveAmount} </td>
+                        <div className="table-responsive">
+                          <table
+                            className="global-table table"
+                            id="table-to-xlsx"
+                          >
+                            <thead className="tableHead">
+                              <tr>
+                                <th>SL</th>
+                                <th className="text-left">BIll Code</th>
+                                <th>Bill Date</th>
+                                <th>Type Name</th>
+                                <th>Partner Name</th>
+                                <th>Adj. Amount</th>
+                                <th>Req. Amount</th>
+                                <th>Approval Amount</th>
+                                <th>Approve Date</th>
+                                <th>Is Payment</th>
+                                <th>Status</th>
+                                <th>Remarks</th>
+                                <th>Action</th>
+                              </tr>
+                            </thead>
+                            <tbody className="tableHead">
+                              {billSummeryList?.map((tableData, index) => (
+                                <tr key={index}>
+                                  <td> {tableData?.sl} </td>
+                                  <td> {tableData?.billRegisterCode} </td>
+                                  <td>
+                                    {" "}
+                                    {_dateFormatter(
+                                      tableData?.billRegisterDate
+                                    )}{" "}
+                                  </td>
+                                  <td> {tableData?.billTypeName} </td>
+                                  {[4]?.includes(values?.billType?.value) && (
+                                    <td>{tableData?.expenseGroup}</td>
+                                  )}
+                                  <td> {tableData?.partnerName} </td>
+                                  <td
+                                    className="text-right"
+                                    style={
+                                      tableData?.adjustmentAmount > 0
+                                        ? { color: "red" }
+                                        : {}
+                                    }
+                                  >
+                                    {_fixedPoint(
+                                      tableData?.adjustmentAmount || 0
+                                    )}
+                                  </td>
+                                  <td className="text-right">
+                                    {" "}
+                                    {tableData?.monTotalAmount}{" "}
+                                  </td>
+                                  <td className="text-right">
+                                    {" "}
+                                    {tableData?.monApproveAmount}{" "}
+                                  </td>
 
-                                <td>{_dateFormatter(tableData?.approvalDate)}</td>
+                                  <td>
+                                    {_dateFormatter(tableData?.approvalDate)}
+                                  </td>
 
-                                <td className="text-center"> {tableData?.requsetPosted ? "True" : "False"} </td>
-                                <td> {tableData?.billStatus} </td>
-                                <td> {tableData?.remarks} </td>
-                                <td>
-                                  {tableData?.billType !== 5 && (
-                                    <div className="d-flex justify-content-around align-items-center">
-                                      <span className="view">
-                                        <IView
-                                          title={"Edit & View"}
-                                          clickHandler={() => {
-                                            setModalShow(true);
-                                            setCurrentItem(tableData);
-                                          }}
-                                        />
-                                      </span>
-                                      {/* {values?.status?.value === 1 && (
+                                  <td className="text-center">
+                                    {" "}
+                                    {tableData?.requsetPosted
+                                      ? "True"
+                                      : "False"}{" "}
+                                  </td>
+                                  <td> {tableData?.billStatus} </td>
+                                  <td> {tableData?.remarks} </td>
+                                  <td>
+                                    {tableData?.billType !== 5 && (
+                                      <div className="d-flex justify-content-around align-items-center">
+                                        <span className="view">
+                                          <IView
+                                            title={"Edit & View"}
+                                            clickHandler={() => {
+                                              setModalShow(true);
+                                              setCurrentItem(tableData);
+                                            }}
+                                          />
+                                        </span>
+                                        {/* {values?.status?.value === 1 && (
                                       
                                       <span
                                         className="view"
@@ -232,13 +302,14 @@ export function ReceivePoReportView({ poId, isHiddenBackBtn, values }) {
                                         <IDelete title={"Bill Cancel"} />
                                       </span>
                                     )} */}
-                                    </div>
-                                  )}
-                                </td>
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
+                                      </div>
+                                    )}
+                                  </td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -247,8 +318,15 @@ export function ReceivePoReportView({ poId, isHiddenBackBtn, values }) {
             </>
           )}
         </Formik>
-        <IViewModal show={isShowModalTwo} onHide={() => setIsShowModalTwo(false)}>
-          <InventoryTransactionReportViewTableRow Invid={currentItem?.inventoryTransactionId} grId={currentItem?.inventoryTransectionGroupId} currentRowData={currentItem} />
+        <IViewModal
+          show={isShowModalTwo}
+          onHide={() => setIsShowModalTwo(false)}
+        >
+          <InventoryTransactionReportViewTableRow
+            Invid={currentItem?.inventoryTransactionId}
+            grId={currentItem?.inventoryTransectionGroupId}
+            currentRowData={currentItem}
+          />
         </IViewModal>
         <IViewModal show={modalShow} onHide={() => setModalShow(false)}>
           {currentItem?.billType === 1 && (
@@ -308,10 +386,18 @@ export function ReceivePoReportView({ poId, isHiddenBackBtn, values }) {
               setModalShow={setModalShow}
             />
           )}
-          {currentItem?.billType === 7 && <ViewSalesCommission billRegisterId={currentItem?.billRegisterId} />}
-          {currentItem?.billType === 6 && <ViewTransportBill landingValues={values} gridItem={currentItem} />}
-          {currentItem?.billType === 8 && <ViewFuelBill landingValues={values} gridItem={currentItem} />}
-          {(currentItem?.billType === 9 || currentItem?.billType === 10) && <ViewLabourBill landingValues={values} gridItem={currentItem} />}
+          {currentItem?.billType === 7 && (
+            <ViewSalesCommission billRegisterId={currentItem?.billRegisterId} />
+          )}
+          {currentItem?.billType === 6 && (
+            <ViewTransportBill landingValues={values} gridItem={currentItem} />
+          )}
+          {currentItem?.billType === 8 && (
+            <ViewFuelBill landingValues={values} gridItem={currentItem} />
+          )}
+          {(currentItem?.billType === 9 || currentItem?.billType === 10) && (
+            <ViewLabourBill landingValues={values} gridItem={currentItem} />
+          )}
           {currentItem?.billType === 11 && (
             <FairPriceShopInvoiceView
               gridItem={currentItem}
@@ -320,8 +406,15 @@ export function ReceivePoReportView({ poId, isHiddenBackBtn, values }) {
               setModalShow={setModalShow}
             />
           )}
-          {currentItem?.billType === 12 && <OthersBillView landingValues={values} gridItem={currentItem} />}
-          {currentItem?.billType === 13 && <ViewInternalTransportBill landingValues={values} gridItem={currentItem} />}
+          {currentItem?.billType === 12 && (
+            <OthersBillView landingValues={values} gridItem={currentItem} />
+          )}
+          {currentItem?.billType === 13 && (
+            <ViewInternalTransportBill
+              landingValues={values}
+              gridItem={currentItem}
+            />
+          )}
         </IViewModal>
       </ICustomCard>
     </>

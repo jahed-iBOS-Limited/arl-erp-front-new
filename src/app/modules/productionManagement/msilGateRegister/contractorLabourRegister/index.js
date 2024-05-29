@@ -16,15 +16,15 @@ import Loading from "../../../_helper/_loading";
 import PaginationSearch from "../../../_helper/_search";
 import PaginationTable from "../../../_helper/_tablePagination";
 import { _timeFormatter } from "../../../_helper/_timeFormatter";
-import { useSelector } from 'react-redux';
-import { shallowEqual } from 'react-redux';
+import { useSelector } from "react-redux";
+import { shallowEqual } from "react-redux";
 
 function ContractorLabourRegister() {
   const history = useHistory();
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
   const [rowData, getRowData, lodar] = useAxiosGet();
-  
+
   const selectedBusinessUnit = useSelector((state) => {
     return state.authData.selectedBusinessUnit;
   }, shallowEqual);
@@ -38,13 +38,15 @@ function ContractorLabourRegister() {
 
   const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
     getRowData(
-      `/mes/MSIL/GetAllLabourInOutRegisterLanding?intBusinessUnitId=${selectedBusinessUnit?.value}&PageNo=${pageNo}&PageSize=${pageSize}&search=${searchValue}&date=${values?.date || ""}`
+      `/mes/MSIL/GetAllLabourInOutRegisterLanding?intBusinessUnitId=${
+        selectedBusinessUnit?.value
+      }&PageNo=${pageNo}&PageSize=${pageSize}&search=${searchValue}&date=${values?.date ||
+        ""}`
     );
   };
   const paginationSearchHandler = (searchValue, values) => {
     setPositionHandler(pageNo, pageSize, values, searchValue);
   };
-
 
   return (
     <>
@@ -97,7 +99,10 @@ function ContractorLabourRegister() {
                         disabled={false}
                         onClick={() => {
                           getRowData(
-                            `/mes/MSIL/GetAllLabourInOutRegisterLanding?intBusinessUnitId=${selectedBusinessUnit?.value}&PageNo=${pageNo}&PageSize=${pageSize}&search=${""}&date=${values?.date || ""}`
+                            `/mes/MSIL/GetAllLabourInOutRegisterLanding?intBusinessUnitId=${
+                              selectedBusinessUnit?.value
+                            }&PageNo=${pageNo}&PageSize=${pageSize}&search=${""}&date=${values?.date ||
+                              ""}`
                           );
                         }}
                       >
@@ -114,56 +119,70 @@ function ContractorLabourRegister() {
                 </div>
                 <div className="row">
                   <div className="col-lg-12">
-                    <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
-                      <thead>
-                        <tr>
-                          <th style={{ width: "30px" }}>SL</th>
-                          <th>তারিখ</th>
-                          <th>শ্রমিক সরবরাহকারীর নাম</th>
-                          <th>প্রবেশের সময়</th>
-                          <th>বহির্গমনের সময়</th>
-                          <th>মোট শ্রমিক</th>
-                          <th>কাজের বিভাগ</th>
-                          <th>কাজের বর্ণনা</th>
-                          <th>কাজের স্থান</th>
-                          <th>মন্তব্য</th>
-                          <th style={{ width: "50px" }}>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {rowData?.gateRegisterInOutList?.length > 0 &&
-                          rowData?.gateRegisterInOutList?.map((item, index) => (
-                            <tr key={index}>
-                              <td>{index + 1}</td>
-                              <td className="text-center" style={{width:"70px"}}>
-                                {_dateFormatter(item?.dteDate)}
-                              </td>
-                              <td>{item?.strLabourSupplierName}</td>
-                              <td className="text-center" style={{width:"100px"}}>
-                                {_timeFormatter(item?.tmInTime || "")}
-                              </td>
-                              <td className="text-center" style={{width:"100px"}}>
-                                {_timeFormatter(item?.tmOutTime || "")}
-                              </td>
-                              <td>{item?.numTotalLabour}</td>
-                              <td>{item?.strWorkSectionName}</td>                             
-                              <td>{item?.strWorkDescription}</td>
-                              <td>{item?.strWorkPlace}</td>
-                              <td>{item?.strRemarks}</td>
-                              <td className="text-center">
-                                <IEdit
-                                  onClick={() =>
-                                    history.push({
-                                      pathname: `/production-management/msil-gate-register/Contractor-Labour-Register/edit/${item?.intGateLabourInOutRegisterId}`,
-                                      state: { ...item },
-                                    })
-                                  }
-                                />
-                              </td>
-                            </tr>
-                          ))}
-                      </tbody>
-                    </table>
+                    <div className="table-responsive">
+                      <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+                        <thead>
+                          <tr>
+                            <th style={{ width: "30px" }}>SL</th>
+                            <th>তারিখ</th>
+                            <th>শ্রমিক সরবরাহকারীর নাম</th>
+                            <th>প্রবেশের সময়</th>
+                            <th>বহির্গমনের সময়</th>
+                            <th>মোট শ্রমিক</th>
+                            <th>কাজের বিভাগ</th>
+                            <th>কাজের বর্ণনা</th>
+                            <th>কাজের স্থান</th>
+                            <th>মন্তব্য</th>
+                            <th style={{ width: "50px" }}>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {rowData?.gateRegisterInOutList?.length > 0 &&
+                            rowData?.gateRegisterInOutList?.map(
+                              (item, index) => (
+                                <tr key={index}>
+                                  <td>{index + 1}</td>
+                                  <td
+                                    className="text-center"
+                                    style={{ width: "70px" }}
+                                  >
+                                    {_dateFormatter(item?.dteDate)}
+                                  </td>
+                                  <td>{item?.strLabourSupplierName}</td>
+                                  <td
+                                    className="text-center"
+                                    style={{ width: "100px" }}
+                                  >
+                                    {_timeFormatter(item?.tmInTime || "")}
+                                  </td>
+                                  <td
+                                    className="text-center"
+                                    style={{ width: "100px" }}
+                                  >
+                                    {_timeFormatter(item?.tmOutTime || "")}
+                                  </td>
+                                  <td>{item?.numTotalLabour}</td>
+                                  <td>{item?.strWorkSectionName}</td>
+                                  <td>{item?.strWorkDescription}</td>
+                                  <td>{item?.strWorkPlace}</td>
+                                  <td>{item?.strRemarks}</td>
+                                  <td className="text-center">
+                                    <IEdit
+                                      onClick={() =>
+                                        history.push({
+                                          pathname: `/production-management/msil-gate-register/Contractor-Labour-Register/edit/${item?.intGateLabourInOutRegisterId}`,
+                                          state: { ...item },
+                                        })
+                                      }
+                                    />
+                                  </td>
+                                </tr>
+                              )
+                            )}
+                        </tbody>
+                      </table>
+                    </div>
+
                     {rowData?.gateRegisterInOutList?.length > 0 && (
                       <PaginationTable
                         count={rowData?.totalCount}

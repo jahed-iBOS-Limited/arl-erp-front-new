@@ -83,6 +83,14 @@ export default function DeliveryReportTable({ id }) {
     (acc, cur) => (acc += cur?.pieces),
     0
   );
+  let totalRate = deliveryOrderReportData?.rows?.reduce(
+    (acc, cur) => (acc += +cur?.itemPrice || 0),
+    0
+  );
+  let totalAmount = deliveryOrderReportData?.rows?.reduce(
+    (acc, cur) => (acc += (+cur?.itemPrice || 0) * (+cur?.quantity || 0)),
+    0
+  );
 
   if (loading) {
     return loading && <ISpinner isShow={loading} />;
@@ -167,103 +175,105 @@ export default function DeliveryReportTable({ id }) {
                   </b>
                 </div>
               </div> */}
-
-              <table className="table delivery_challan_top_table mt-8">
-                <tbody>
-                  <tr>
-                    <td style={{ width: "107px" }}>
-                      <b>Challan No</b>
-                    </td>
-                    <td>:</td>
-                    <td>
-                      <b>{challanNo}</b>
-                    </td>
-                    <td style={{ width: "120px" }}>Delivery From</td>
-                    <td>:</td>
-                    <td>{warehouseName}</td>
-                  </tr>
-                  <tr>
-                    <td>Sold To Partner</td>
-                    <td>:</td>
-                    <td>{soldToPartner}</td>
-                    <td style={{ width: "120px" }}>ShipPoint</td>
-                    <td>:</td>
-                    <td>{shippointName}</td>
-                  </tr>
-                  <tr>
-                    <td>Ship To Partner</td>
-                    <td>:</td>
-                    <td>{shipToPartner}</td>{" "}
-                    <td style={{ width: "120px" }}>Delivery Order</td>
-                    <td>:</td>
-                    <td>{deliveryOrder}</td>
-                  </tr>
-                  <tr>
-                    <td>Address</td>
-                    <td>:</td>
-                    <td>{address}</td> <td>Delivery At</td>
-                    <td>:</td>
-                    <td>{deliveryAt}</td>
-                  </tr>
-                  <tr>
-                    <td>Contact Person</td>
-                    <td>:</td>
-                    <td>{contactPerson}</td> <td>Vehicle</td>
-                    <td>:</td>
-                    <td>{vehicleNo}</td>
-                  </tr>
-                  <tr>
-                    <td>Contact No</td>
-                    <td>:</td>
-                    <td>{contactNo}</td> <td>Logistic</td>
-                    <td>:</td>
-                    <td>{logistic}</td>
-                  </tr>
-                  <tr>
-                    <td>Charge</td>
-                    <td>:</td>
-                    <td>{charge}</td> <td>Driver</td>
-                    <td>:</td>
-                    <td>{driver}</td>
-                  </tr>
-                  <tr>
-                    <td>Oredr Ref. No</td>
-                    <td>:</td>
-                    <td>{orderReferenceNo}</td>
-                    <td>Driver Contact No</td>
-                    <td>:</td>
-                    <td>{driverContact}</td>
-                  </tr>
-                  {(selectedBusinessUnit?.value === 171 ||
-                    selectedBusinessUnit?.value === 224) && (
-                    <>
-                      {" "}
-                      <tr>
-                        <td>Total Bundle</td>
-                        <td>:</td>
-                        <td>{totalBundel}</td>
-                        <td>Product Type</td>
-                        <td>:</td>
-                        <td>{productType}</td>
-                      </tr>
-                      <tr>
-                        <td>Total Pieces</td>
-                        <td>:</td>
-                        <td>{totalPieces}</td>
-                        <td>Printed At</td>
-                        <td>:</td>
-                        <td>{`${_todayDate()} ${" "} ${_currentTime()}`}</td>
-                      </tr>
-                    </>
-                  )}
-                </tbody>
-              </table>
+              <div className="table-responsive">
+                <table className="table delivery_challan_top_table mt-8">
+                  <tbody>
+                    <tr>
+                      <td style={{ width: "107px" }}>
+                        <b>Challan No</b>
+                      </td>
+                      <td>:</td>
+                      <td>
+                        <b>{challanNo}</b>
+                      </td>
+                      <td style={{ width: "120px" }}>Delivery From</td>
+                      <td>:</td>
+                      <td>{warehouseName}</td>
+                    </tr>
+                    <tr>
+                      <td>Sold To Partner</td>
+                      <td>:</td>
+                      <td>{soldToPartner}</td>
+                      <td style={{ width: "120px" }}>ShipPoint</td>
+                      <td>:</td>
+                      <td>{shippointName}</td>
+                    </tr>
+                    <tr>
+                      <td>Ship To Partner</td>
+                      <td>:</td>
+                      <td>{shipToPartner}</td>{" "}
+                      <td style={{ width: "120px" }}>Delivery Order</td>
+                      <td>:</td>
+                      <td>{deliveryOrder}</td>
+                    </tr>
+                    <tr>
+                      <td>Address</td>
+                      <td>:</td>
+                      <td>{address}</td> <td>Delivery At</td>
+                      <td>:</td>
+                      <td>{deliveryAt}</td>
+                    </tr>
+                    <tr>
+                      <td>Contact Person</td>
+                      <td>:</td>
+                      <td>{contactPerson}</td> <td>Vehicle</td>
+                      <td>:</td>
+                      <td>{vehicleNo}</td>
+                    </tr>
+                    <tr>
+                      <td>Contact No</td>
+                      <td>:</td>
+                      <td>{contactNo}</td> <td>Logistic</td>
+                      <td>:</td>
+                      <td>{logistic}</td>
+                    </tr>
+                    <tr>
+                      <td>Charge</td>
+                      <td>:</td>
+                      <td>{charge}</td> <td>Driver</td>
+                      <td>:</td>
+                      <td>{driver}</td>
+                    </tr>
+                    <tr>
+                      <td>Order Ref. No</td>
+                      <td>:</td>
+                      <td>{orderReferenceNo}</td>
+                      <td>Driver Contact No</td>
+                      <td>:</td>
+                      <td>{driverContact}</td>
+                    </tr>
+                    {(selectedBusinessUnit?.value === 171 ||
+                      selectedBusinessUnit?.value === 224) && (
+                      <>
+                        {" "}
+                        <tr>
+                          <td>Total Bundle</td>
+                          <td>:</td>
+                          <td>{totalBundel}</td>
+                          <td>Product Type</td>
+                          <td>:</td>
+                          <td>{productType}</td>
+                        </tr>
+                        <tr>
+                          <td>Total Pieces</td>
+                          <td>:</td>
+                          <td>{totalPieces}</td>
+                          <td>Printed At</td>
+                          <td>:</td>
+                          <td>{`${_todayDate()} ${" "} ${_currentTime()}`}</td>
+                        </tr>
+                      </>
+                    )}
+                  </tbody>
+                </table>
+              </div>
 
               {/* if Bongo Traders Ltd  check*/}
               {selectedBusinessUnit?.isTredingBusiness ? (
                 <BongTradersTable
                   deliveryOrderReportData={deliveryOrderReportData}
                   totalQuantity={totalQuantity}
+                  totalAmount={totalAmount}
                 />
               ) : (
                 <CommonTable
@@ -272,6 +282,8 @@ export default function DeliveryReportTable({ id }) {
                   selectedBusinessUnit={selectedBusinessUnit}
                   totalPieces={totalPieces}
                   totalBundel={totalBundel}
+                  totalRate={totalRate}
+                  totalAmount={totalAmount}
                 />
               )}
 

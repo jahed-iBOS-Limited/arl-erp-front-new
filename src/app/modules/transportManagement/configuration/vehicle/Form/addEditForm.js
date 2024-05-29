@@ -17,6 +17,7 @@ import {
 import IForm from "../../../../_helper/_form";
 import Loading from "../../../../_helper/_loading";
 import { toast } from "react-toastify";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 
 const initData = {
   id: undefined,
@@ -35,7 +36,9 @@ const initData = {
   vehicleCapacity: "",
   fuelAllowanceLocalKM: "",
   fuelAllowanceOuterKM: "",
-  capacityInBag:"",
+  capacityInBag: "",
+  shipPoint: "",
+  user:"",
 };
 
 export default function VehicleForm({
@@ -45,6 +48,7 @@ export default function VehicleForm({
   },
 }) {
   const [isDisabled, setDisabled] = useState(false);
+  const [shipPointDDL, getShipPointDDL] = useAxiosGet();
 
   // get user profile data from store
   const profileData = useSelector((state) => {
@@ -98,6 +102,9 @@ export default function VehicleForm({
       dispatch(GetVehicleUsePurposeDDLAction());
       dispatch(getVehicleFuelTypeDDLAction());
       dispatch(getVehicleCapacityDDLAction());
+      getShipPointDDL(
+        `/wms/ShipPoint/GetShipPointDDL?accountId=${profileData.accountId}&businessUnitId=${selectedBusinessUnit?.value}`
+      );
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -123,8 +130,8 @@ export default function VehicleForm({
   }, [id]);
 
   const saveHandler = async (values, cb) => {
-    if(selectedBusinessUnit?.value === 4 && !values?.capacityInBag){
-      return toast.warn("Capacity In Bag is required!")
+    if (selectedBusinessUnit?.value === 4 && !values?.capacityInBag) {
+      return toast.warn("Capacity In Bag is required!");
     }
     setDisabled(true);
     if (values && profileData?.accountId && selectedBusinessUnit?.value) {
@@ -146,6 +153,8 @@ export default function VehicleForm({
               ? values?.employeeName.label
               : values.driverName,
           driverContact: values?.contact,
+          vehicleUserEnrollId: values?.user?.value || 0,
+          vehicleUserEnrollName: values?.user?.label || "",
           actionBy: profileData.userId,
           transportMoodId: values?.transportmode.value,
           transportMoodName: values?.transportmode.label,
@@ -153,11 +162,16 @@ export default function VehicleForm({
           fuelTypeId: values?.fuelType?.value,
           costPerKM: +values?.costPerKM,
           vehicleCapacityId: values?.vehicleCapacity?.value,
-          localStationKmpl: values?.ownerType?.value === 1 ? +values?.fuelAllowanceLocalKM : 0,
-          outStationKmpl: values?.ownerType?.value === 1 ? +values?.fuelAllowanceOuterKM : 0,
-          capacityInBag: values?.capacityInBag ? values?.capacityInBag + " Bag" : "",
+          localStationKmpl:
+            values?.ownerType?.value === 1 ? +values?.fuelAllowanceLocalKM : 0,
+          outStationKmpl:
+            values?.ownerType?.value === 1 ? +values?.fuelAllowanceOuterKM : 0,
+          capacityInBag: values?.capacityInBag
+            ? values?.capacityInBag + " Bag"
+            : "",
+          shipPointId: values?.shipPoint?.value,
         };
-        dispatch(saveEditedVehicleUnit(payload,setDisabled));
+        dispatch(saveEditedVehicleUnit(payload, setDisabled));
       } else {
         const payload = {
           vehicleNo: values?.vehicleNo,
@@ -175,6 +189,8 @@ export default function VehicleForm({
               ? values?.employeeName?.label
               : values?.driverName,
           driverContact: values?.contact,
+          vehicleUserEnrollId: values?.user?.value || 0,
+          vehicleUserEnrollName: values?.user?.label || "",
           weight: values?.weight,
           volume: values?.volume,
           actionBy: profileData?.userId,
@@ -184,9 +200,14 @@ export default function VehicleForm({
           fuelTypeId: values?.fuelType?.value,
           costPerKM: +values?.costPerKM,
           vehicleCapacityId: values?.vehicleCapacity?.value,
-          localStationKmpl: values?.ownerType?.value === 1 ? +values?.fuelAllowanceLocalKM : 0,
-          outStationKmpl: values?.ownerType?.value === 1 ? +values?.fuelAllowanceOuterKM : 0,
-          capacityInBag: values?.capacityInBag ? values?.capacityInBag + " Bag" : "",
+          localStationKmpl:
+            values?.ownerType?.value === 1 ? +values?.fuelAllowanceLocalKM : 0,
+          outStationKmpl:
+            values?.ownerType?.value === 1 ? +values?.fuelAllowanceOuterKM : 0,
+          capacityInBag: values?.capacityInBag
+            ? values?.capacityInBag + " Bag"
+            : "",
+          shipPointId: values?.shipPoint?.value,
         };
         window.payload = payload;
         dispatch(saveVehicle(payload, cb, setDisabled));
@@ -225,7 +246,7 @@ export default function VehicleForm({
         vehicleCapacityDDL={vehicleCapacityDDL}
         isEdit={id || false}
         id={id}
-
+        shipPointDDL={shipPointDDL}
       />
     </IForm>
   );

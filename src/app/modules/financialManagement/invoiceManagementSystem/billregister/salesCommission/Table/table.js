@@ -48,6 +48,7 @@ const GridView = ({ gridData, setGridData }) => {
         <>
           <div className="table-responsive">
             {gridData?.length ? (
+                <div className="table-responsive">
               <table className="table table-striped table-bordered bj-table bj-table-landing table-font-size-sm">
                 <thead>
                   <tr>
@@ -125,6 +126,7 @@ const GridView = ({ gridData, setGridData }) => {
                   ))}
                 </tbody>
               </table>
+              </div>
             ) : null}
           </div>
           <IViewModal show={show} onHide={() => setShow(false)}>

@@ -57,7 +57,7 @@ const GridData = ({
   };
   const [isTransferModel, setIsTransferModel] = React.useState(false);
 
-  const isLoading = loading || loader
+  const isLoading = loading || loader;
 
   return (
     <>
@@ -70,191 +70,75 @@ const GridData = ({
             paginationSearchHandler={paginationSearchHandler}
           />
           {gridData?.data?.length > 0 && (
-            <table className="table table-striped table-bordered global-table sales_order_landing_table">
-              <thead>
-                <tr>
-                  <th style={{ width: "35px" }}>SL</th>
-                  <th style={{ width: "50px" }}>Order No</th>
-                  <th style={{ width: "70px" }}>Order Date</th>
-                  <th style={{ width: "95px" }}>Ref. Type</th>
-                  <th style={{ width: "110px" }}>Sold to Party</th>
-                  <th style={{ width: "90px" }}>Shippoint</th>
-                  <th style={{ width: "75px" }}>Payment Terms</th>
-                  <th style={{ width: "70px" }}>Transshipment</th>
-                  <th style={{ width: "70px" }}>Partial Shipment</th>
-                  <th style={{ width: "45px" }}>Order Total</th>
-                  <th style={{ width: "60px" }}>Approval Status</th>
-                  <th style={{ width: "60px" }}>Approval By</th>
-                  <th style={{ width: "60px" }}>SO will Expired in</th>
-                  <th style={{ width: "85px" }}>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {gridData?.data?.map((td, index) => (
-                  <tr key={index}>
-                    <td> {td?.sl} </td>
-                    <td> {td?.salesOrderCode} </td>
-                    <td> {_dateFormatter(td?.salesOrderDate)} </td>
-                    <td> {td?.refferenceTypeName} </td>
-                    <td> {td?.soldToPartnerName} </td>
-                    <td> {td?.shippointName} </td>
-                    <td> {td?.paymentTermsName} </td>
-                    <td className="text-center">
-                      {" "}
-                      {td?.transshipment.toString()}{" "}
-                    </td>
-                    <td className="text-center">
-                      {" "}
-                      {td?.partialShipment.toString()}{" "}
-                    </td>
-                    <td className="text-right">
-                      <div className="pr-2">{td?.totalOrderValue}</div>
-                    </td>
-                    <td className="text-center">
-                      {" "}
-                      {td?.approved ? "Approved" : "UnApprove"}{" "}
-                    </td>
-                    <td>
-                      {td?.approvedByName}
-                    </td>
-                    <td className="text-center">
-                      {td?.salesOrderValidityDays}
-                    </td>
-                    <td>
-                      <div className="d-flex align-items-center">
-                        <span className="pr-2">
-                          <IView
-                            clickHandler={() =>
-                              history.push({
-                                pathname: `/sales-management/ordermanagement/salesorder/view/${td.salesOrderId}`,
-                                state: td,
-                              })
-                            }
-                          />
-                        </span>
-                        {/* Edit Icon*/}
-                        {values?.orderStatus?.value !== 4 && (
-                          <>
-                            {!td.approved && (
-                              <span
-                                className="pr-2"
-                                onClick={() =>{
-                                  const modifyValues  = {
-                                    sbu: {
-                                      value: td?.sbuId,
-                                      label: td?.sbuName,
-                                    },
-                                    shippoint: {
-                                      value: td?.shippointId,
-                                      label: td?.shippointName,
-                                    },
-                                    plant: {
-                                      value: td?.plantId,
-                                      label: td?.plantName,
-                                    },
-                                    salesOrg: {
-                                      value: td?.salesOrganizationId,
-                                      label: td?.salesOrganizationName,
-                                    },
-                                    salesOffice: {
-                                      value: td?.salesOfficeId,
-                                      label: td?.salesOfficeName,
-                                    },
-                                    distributionChannel: {
-                                      value: td?.distributionChannelId,
-                                      label: td?.distributionChannelName,
-                                    },
-                                    orderType: values?.orderType,
-                                    orderStatus: values?.orderStatus,
-                                  }
-                                  history.push({
-                                    pathname: `/sales-management/ordermanagement/salesorder/edit/${td.salesOrderId}`,
-                                    state: { ...td, ...modifyValues },
-                                  })
-                                }
-                                 
-                                }
-                                style={{ border: "none", background: "none" }}
-                              >
-                                <IApproval title="Approve/Reject/Offer" />
-                              </span>
-                            )}
-                            {/* Close Icon*/}
-                            {td?.approved && (
-                              <>
-                                <div>
-                                  <OverlayTrigger
-                                    overlay={
-                                      <Tooltip id="delete-icon">Close</Tooltip>
-                                    }
-                                  >
-                                    <span>
-                                      <i
-                                        onClick={() => {
-                                          getOrderCompleteInfo(
-                                            profileData?.accountId,
-                                            selectedBusinessUnit?.value,
-                                            td?.salesOrderId,
-                                            setCompleteModalInfo
-                                          );
-                                          setSalesOrderId(td?.salesOrderId);
-                                          setIsShowModal(true);
-                                        }}
-                                        className="fa fa-trash deleteBtn text-danger"
-                                        aria-hidden="true"
-                                      ></i>
-                                    </span>
-                                  </OverlayTrigger>
-                                </div>
-                              </>
-                            )}
-                            {/* Cancel Icon*/}
-                            {!td?.approved && (
-                              <div>
-                                <OverlayTrigger
-                                  overlay={
-                                    <Tooltip id="delete-icon">Cancel</Tooltip>
-                                  }
-                                >
-                                  <span>
-                                    <i
-                                      onClick={() => {
-                                        cancelHandler(td?.salesOrderId);
-                                      }}
-                                      className="fa fa-window-close pointer"
-                                      aria-hidden="true"
-                                    ></i>
-                                  </span>
-                                </OverlayTrigger>
-                              </div>
-                            )}
-                            {/* Shippoint Transfer  Icon*/}
-                            {!td?.isDeliver && (
-                              <div>
-                                <OverlayTrigger
-                                  overlay={
-                                    <Tooltip>Shippoint Transfer</Tooltip>
-                                  }
-                                >
-                                  <span className="pl-2">
-                                    <i
-                                      onClick={() => {
-                                        setIsTransferModel(true);
-                                        setClickRowData(td);
-                                      }}
-                                      className="fas fa-exchange-alt pointer"
-                                      aria-hidden="true"
-                                    ></i>
-                                  </span>
-                                </OverlayTrigger>
-                              </div>
-                            )}
-                            {td?.isEditable && permitted && (
-                              <span className="pl-2">
-                                <IEdit
-                                  title="Edit Sales Order"
+            <div className="table-responsive">
+              <table className="table table-striped table-bordered global-table sales_order_landing_table">
+                <thead>
+                  <tr>
+                    <th style={{ width: "35px" }}>SL</th>
+                    <th style={{ width: "50px" }}>Order No</th>
+                    <th style={{ width: "70px" }}>Order Date</th>
+                    <th style={{ width: "95px" }}>Ref. Type</th>
+                    <th style={{ width: "110px" }}>Sold to Party</th>
+                    <th style={{ width: "90px" }}>Shippoint</th>
+                    <th style={{ width: "75px" }}>Payment Terms</th>
+                    <th style={{ width: "70px" }}>Transshipment</th>
+                    <th style={{ width: "70px" }}>Partial Shipment</th>
+                    <th style={{ width: "45px" }}>Order Total</th>
+                    <th style={{ width: "60px" }}>Approval Status</th>
+                    <th style={{ width: "60px" }}>Approval By</th>
+                    <th style={{ width: "60px" }}>SO will Expired in</th>
+                    <th style={{ width: "85px" }}>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {gridData?.data?.map((td, index) => (
+                    <tr key={index}>
+                      <td> {td?.sl} </td>
+                      <td> {td?.salesOrderCode} </td>
+                      <td> {_dateFormatter(td?.salesOrderDate)} </td>
+                      <td> {td?.refferenceTypeName} </td>
+                      <td> {td?.soldToPartnerName} </td>
+                      <td> {td?.shippointName} </td>
+                      <td> {td?.paymentTermsName} </td>
+                      <td className="text-center">
+                        {" "}
+                        {td?.transshipment.toString()}{" "}
+                      </td>
+                      <td className="text-center">
+                        {" "}
+                        {td?.partialShipment.toString()}{" "}
+                      </td>
+                      <td className="text-right">
+                        <div className="pr-2">{td?.totalOrderValue}</div>
+                      </td>
+                      <td className="text-center">
+                        {" "}
+                        {td?.approved ? "Approved" : "UnApprove"}{" "}
+                      </td>
+                      <td>{td?.approvedByName}</td>
+                      <td className="text-center">
+                        {td?.salesOrderValidityDays}
+                      </td>
+                      <td>
+                        <div className="d-flex align-items-center">
+                          <span className="pr-2">
+                            <IView
+                              clickHandler={() =>
+                                history.push({
+                                  pathname: `/sales-management/ordermanagement/salesorder/view/${td.salesOrderId}`,
+                                  state: td,
+                                })
+                              }
+                            />
+                          </span>
+                          {/* Edit Icon*/}
+                          {values?.orderStatus?.value !== 4 && (
+                            <>
+                              {!td.approved && (
+                                <span
+                                  className="pr-2"
                                   onClick={() => {
-                                    const modifyValues  = {
+                                    const modifyValues = {
                                       sbu: {
                                         value: td?.sbuId,
                                         label: td?.sbuName,
@@ -281,33 +165,149 @@ const GridData = ({
                                       },
                                       orderType: values?.orderType,
                                       orderStatus: values?.orderStatus,
-                                    }
-
-                                    getAddressChangingPermission(
-                                      `/wms/FertilizerOperation/GetAllModificationPermission?UserEnroll=${profileData?.userId}&BusinessUnitId=${selectedBusinessUnit?.value}&Type=YsnAddressChange`,
-                                      (addressChangingPermission) => {
-                                        history.push({
-                                          pathname: `/sales-management/ordermanagement/salesorder/update/${td?.salesOrderId}`,
-                                          state: {
-                                            ...td,
-                                            ...modifyValues,
-                                            addressChangingPermission,
-                                          },
-                                        });
-                                      }
-                                    );
+                                    };
+                                    history.push({
+                                      pathname: `/sales-management/ordermanagement/salesorder/edit/${td.salesOrderId}`,
+                                      state: { ...td, ...modifyValues },
+                                    });
                                   }}
-                                />
-                              </span>
-                            )}
-                          </>
-                        )}
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+                                  style={{ border: "none", background: "none" }}
+                                >
+                                  <IApproval title="Approve/Reject/Offer" />
+                                </span>
+                              )}
+                              {/* Close Icon*/}
+                              {td?.approved && (
+                                <>
+                                  <div>
+                                    <OverlayTrigger
+                                      overlay={
+                                        <Tooltip id="delete-icon">
+                                          Close
+                                        </Tooltip>
+                                      }
+                                    >
+                                      <span>
+                                        <i
+                                          onClick={() => {
+                                            getOrderCompleteInfo(
+                                              profileData?.accountId,
+                                              selectedBusinessUnit?.value,
+                                              td?.salesOrderId,
+                                              setCompleteModalInfo
+                                            );
+                                            setSalesOrderId(td?.salesOrderId);
+                                            setIsShowModal(true);
+                                          }}
+                                          className="fa fa-trash deleteBtn text-danger"
+                                          aria-hidden="true"
+                                        ></i>
+                                      </span>
+                                    </OverlayTrigger>
+                                  </div>
+                                </>
+                              )}
+                              {/* Cancel Icon*/}
+                              {!td?.approved && (
+                                <div>
+                                  <OverlayTrigger
+                                    overlay={
+                                      <Tooltip id="delete-icon">Cancel</Tooltip>
+                                    }
+                                  >
+                                    <span>
+                                      <i
+                                        onClick={() => {
+                                          cancelHandler(td?.salesOrderId);
+                                        }}
+                                        className="fa fa-window-close pointer"
+                                        aria-hidden="true"
+                                      ></i>
+                                    </span>
+                                  </OverlayTrigger>
+                                </div>
+                              )}
+                              {/* Shippoint Transfer  Icon*/}
+                              {!td?.isDeliver && (
+                                <div>
+                                  <OverlayTrigger
+                                    overlay={
+                                      <Tooltip>Shippoint Transfer</Tooltip>
+                                    }
+                                  >
+                                    <span className="pl-2">
+                                      <i
+                                        onClick={() => {
+                                          setIsTransferModel(true);
+                                          setClickRowData(td);
+                                        }}
+                                        className="fas fa-exchange-alt pointer"
+                                        aria-hidden="true"
+                                      ></i>
+                                    </span>
+                                  </OverlayTrigger>
+                                </div>
+                              )}
+                              {td?.isEditable && permitted && (
+                                <span className="pl-2">
+                                  <IEdit
+                                    title="Edit Sales Order"
+                                    onClick={() => {
+                                      const modifyValues = {
+                                        sbu: {
+                                          value: td?.sbuId,
+                                          label: td?.sbuName,
+                                        },
+                                        shippoint: {
+                                          value: td?.shippointId,
+                                          label: td?.shippointName,
+                                        },
+                                        plant: {
+                                          value: td?.plantId,
+                                          label: td?.plantName,
+                                        },
+                                        salesOrg: {
+                                          value: td?.salesOrganizationId,
+                                          label: td?.salesOrganizationName,
+                                        },
+                                        salesOffice: {
+                                          value: td?.salesOfficeId,
+                                          label: td?.salesOfficeName,
+                                        },
+                                        distributionChannel: {
+                                          value: td?.distributionChannelId,
+                                          label: td?.distributionChannelName,
+                                        },
+                                        orderType: values?.orderType,
+                                        orderStatus: values?.orderStatus,
+                                      };
+
+                                      getAddressChangingPermission(
+                                        `/wms/FertilizerOperation/GetAllModificationPermission?UserEnroll=${profileData?.userId}&BusinessUnitId=${selectedBusinessUnit?.value}&Type=YsnAddressChange`,
+                                        (addressChangingPermission) => {
+                                          history.push({
+                                            pathname: `/sales-management/ordermanagement/salesorder/update/${td?.salesOrderId}`,
+                                            state: {
+                                              ...td,
+                                              ...modifyValues,
+                                              addressChangingPermission,
+                                            },
+                                          });
+                                        }
+                                      );
+                                    }}
+                                  />
+                                </span>
+                              )}
+                            </>
+                          )}
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           )}
         </div>
       </div>

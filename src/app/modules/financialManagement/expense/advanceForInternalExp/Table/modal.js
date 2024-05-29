@@ -1,9 +1,9 @@
-import { Form, Formik } from 'formik'
-import React, { useRef } from 'react'
+import { Form, Formik } from 'formik';
+import React, { useRef } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
 import ReactToPrint from 'react-to-print';
-import printIcon from "../../../../_helper/images/print-icon.png";
 import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import printIcon from "../../../../_helper/images/print-icon.png";
 const ViewRowItem = ({ children }) => {
     const printRef = useRef();
     console.log("test", children)

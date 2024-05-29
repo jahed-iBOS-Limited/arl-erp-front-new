@@ -135,18 +135,18 @@ const WeightScale = () => {
               let newValue = decoder.decode(value);
               let replacedValue = newValue.replace(/[^ -~]+/g, ""); // remove stx string
 
-              if(selectedBusinessUnit?.value === essentialUnitId || selectedBusinessUnit?.value === kofilRazzakUnitId){
-
-                let newReplacedValue = replacedValue.replace(/[a-zA-Z]/, "8")
-                let replacedValueNumber = Number(newReplacedValue)
-                let actualValue = replacedValueNumber / 1000
+              if (
+                selectedBusinessUnit?.value === essentialUnitId ||
+                selectedBusinessUnit?.value === kofilRazzakUnitId
+              ) {
+                let newReplacedValue = replacedValue.replace(/[a-zA-Z]/, "8");
+                let replacedValueNumber = Number(newReplacedValue);
+                let actualValue = replacedValueNumber / 1000;
                 console.log("new machine running", actualValue);
-                if(actualValue > 0){
-                  setWeight((actualValue).toFixed())
+                if (actualValue > 0) {
+                  setWeight(actualValue.toFixed());
                 }
-                
-
-              }else{
+              } else {
                 let splittedValue = replacedValue.split(" ");
                 console.log("new machine running", splittedValue);
                 splittedValue?.length > 0 &&
@@ -249,7 +249,22 @@ const WeightScale = () => {
       }
     }
   };
+  const [isMobile, setIsMobile] = useState(false);
 
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768); // You can adjust the breakpoint as needed
+    };
+
+    // Initial check
+    handleResize();
+
+    // Event listener for window resize
+    window.addEventListener("resize", handleResize);
+
+    // Cleanup
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
   return (
     <div className="main-weight-scale">
       <IForm
@@ -260,10 +275,10 @@ const WeightScale = () => {
         getProps={setObjprops}
         renderProps={() => {
           return (
-            <div className="d-flex align-items-center">
+            <div className="d-flex align-items-center justify-content-between">
               <h1
                 style={{
-                  marginRight: "320px",
+                  marginRight: isMobile ? 0 : "320px",
                   background: "rgb(27, 197, 189)",
                   padding: "10px 20px",
                   borderRadius: "4px",

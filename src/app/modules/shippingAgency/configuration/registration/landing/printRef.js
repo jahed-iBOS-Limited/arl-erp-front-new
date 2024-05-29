@@ -24,14 +24,14 @@ function PrintRef({ componentRef, registrationId }) {
     <>
       {loading && <Loading />}
       <div ref={componentRef}>
-        <div className='Registration'>
-          <div className='RegistrationTopBar'>
+        <div className="Registration">
+          <div className="RegistrationTopBar">
             <h1>{selectedBusinessUnit?.label}</h1>
             <h6>Registration Invoice </h6>
           </div>
 
-          <div className='RegistrationInfo'>
-            <div className='left'>
+          <div className="RegistrationInfo">
+            <div className="left">
               <p>
                 <b>Vessel Type:</b> {singleData?.vesselType}
               </p>
@@ -46,7 +46,7 @@ function PrintRef({ componentRef, registrationId }) {
                 <b>Remarks:</b> {singleData?.remarks}
               </p>
             </div>
-            <div className='right'>
+            <div className="right">
               <p>
                 <b>Arrived Time:</b>{" "}
                 {singleData?.serverDateTime
@@ -65,47 +65,49 @@ function PrintRef({ componentRef, registrationId }) {
               </p>
             </div>
           </div>
-          <div className='table'>
-            <table className='table table-striped table-bordered global-table'>
-              <thead>
-                <tr>
-                  <th>SL</th>
-                  <th>Completion Date</th>
-                  <th>Discharge Port</th>
-                  <th>Cargo Name</th>
-                  <th>Cargo Owner</th>
-                  <th>Quantity</th>
-                </tr>
-              </thead>
-              <tbody>
-                {singleData?.rowDtos?.map((item, index) => (
-                  <tr key={index}>
-                    <td className='text-center'> {index + 1}</td>
-                    <td>
-                      {item?.completionDate &&
-                        moment(item?.completionDate).format("YYYY-MM-DD")}
-                    </td>
-                    <td>{item?.dischargePortName}</td>
-                    <td>{item?.cargoName}</td>
-                    <td>{item?.cargoOwner}</td>
-                    <td className='text-center'>{item?.quantity}</td>
+          <div className="table">
+            <div className="table-responsive">
+              <table className="table table-striped table-bordered global-table">
+                <thead>
+                  <tr>
+                    <th>SL</th>
+                    <th>Completion Date</th>
+                    <th>Discharge Port</th>
+                    <th>Cargo Name</th>
+                    <th>Cargo Owner</th>
+                    <th>Quantity</th>
                   </tr>
-                ))}
-                <tr>
-                  <td className='text-right' colSpan={5}>
-                    <b>Total</b>
-                  </td>
-                  <td className='text-center'>
-                    <b>
-                      {singleData?.rowDtos?.reduce(
-                        (acc, cur) => acc + (+cur?.quantity || 0),
-                        0
-                      )}
-                    </b>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {singleData?.rowDtos?.map((item, index) => (
+                    <tr key={index}>
+                      <td className="text-center"> {index + 1}</td>
+                      <td>
+                        {item?.completionDate &&
+                          moment(item?.completionDate).format("YYYY-MM-DD")}
+                      </td>
+                      <td>{item?.dischargePortName}</td>
+                      <td>{item?.cargoName}</td>
+                      <td>{item?.cargoOwner}</td>
+                      <td className="text-center">{item?.quantity}</td>
+                    </tr>
+                  ))}
+                  <tr>
+                    <td className="text-right" colSpan={5}>
+                      <b>Total</b>
+                    </td>
+                    <td className="text-center">
+                      <b>
+                        {singleData?.rowDtos?.reduce(
+                          (acc, cur) => acc + (+cur?.quantity || 0),
+                          0
+                        )}
+                      </b>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>

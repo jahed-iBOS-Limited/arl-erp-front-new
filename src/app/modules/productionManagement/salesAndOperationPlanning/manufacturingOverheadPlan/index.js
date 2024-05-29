@@ -40,6 +40,7 @@ export default function ManufacturingOverheadPlanLanding() {
     getFiscalYearDDL(`/vat/TaxDDL/FiscalYearDDL`);
     getPlantDDL(
       profileData?.accountId,
+      profileData?.userId,
       selectedBusinessUnit?.value,
       setPlantDDL
     );
@@ -64,7 +65,12 @@ export default function ManufacturingOverheadPlanLanding() {
   }, []);
 
   const commonGridDataLoad = (values) => {
-    if (values?.plant?.value && values?.fiscalYear?.value && values?.gl?.value && values?.profitCenter) {
+    if (
+      values?.plant?.value &&
+      values?.fiscalYear?.value &&
+      values?.gl?.value &&
+      values?.profitCenter
+    ) {
       setSubGlRow([]);
       getSubGlRow(
         `/mes/SalesPlanning/GetBusinessTransactionsAsync?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&generalLedgerId=${values?.gl?.value}&ProfitCenterId=${values?.profitCenter?.value}&Year=${values?.fiscalYear?.label}&IntPlantId=${values?.plant?.value}`,
@@ -229,95 +235,99 @@ export default function ManufacturingOverheadPlanLanding() {
 
               <div className="row mt-3">
                 <div className="col-lg-12">
-                  <table className="table table-striped table-bordered  global-table">
-                    <thead>
-                      <tr>
-                        <th>SL</th>
-                        <th>Code</th>
-                        <th>Sub GL Name</th>
-                        <th style={{ minWidth: "200px" }}>Overhead Type</th>
-                        <th>Standard Value Per Unit/Montly</th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {subGlRow?.map((item, index) => (
-                        <tr key={index}>
-                          <td>{index + 1}</td>
-                          <td>{item?.businessTransactionCode}</td>
-                          <td>{item?.businessTransactionName}</td>
-                          <td>
-                            <NewSelect
-                              name="overheadType"
-                              options={[
-                                { value: 1, label: "Fixed" },
-                                {
-                                  value: 2,
-                                  label: "Variable/Per unit",
-                                },
-                              ]}
-                              value={item?.overheadType}
-                              onChange={(valueOption) => {
-                                let modiFyRow = [...subGlRow];
-                                modiFyRow[index]["overheadType"] = valueOption;
-                                modiFyRow[index]["overheadTypeId"] =
-                                  valueOption?.value;
-                                modiFyRow[index]["overheadTypeName"] =
-                                  valueOption?.label;
-                                setSubGlRow(modiFyRow);
-                              }}
-                            />
-                          </td>
-                          <td>
-                            <InputField
-                              value={+item?.universalAmount || ""}
-                              type="number"
-                              onChange={(e) => {
-                                if (+e.target.value < 0) return;
-                                let modiFyRow = [...subGlRow];
-                                modiFyRow[index]["universalAmount"] =
-                                  +e.target.value || "";
-
-                                for (let i = 0; i < 12; i++) {
-                                  modiFyRow[index]["monthList"][i][
-                                    "intMonthLyValue"
-                                  ] = +e.target.value || "";
-                                }
-
-                                setSubGlRow(modiFyRow);
-                              }}
-                            />
-                          </td>
-                          <td className="text-center">
-                            <div>
-                              {item?.overheadType &&
-                              item?.universalAmount &&
-                              values?.plant &&
-                              values?.fiscalYear &&
-                              values?.profitCenter &&
-                              values?.gl ? (
-                                <OverlayTrigger
-                                  overlay={
-                                    <Tooltip id="cs-icon">{"Create"}</Tooltip>
-                                  }
-                                >
-                                  <span>
-                                    <i
-                                      className={`fas fa-pen-square pointer`}
-                                      onClick={() => {
-                                        setSingleData({ values, item });
-                                        setisShowModal(true);
-                                      }}
-                                    ></i>
-                                  </span>
-                                </OverlayTrigger>
-                              ) : null}
-                            </div>
-                          </td>
+                  <div className="table-responsive">
+                    <table className="table table-striped table-bordered  global-table">
+                      <thead>
+                        <tr>
+                          <th>SL</th>
+                          <th>Code</th>
+                          <th>Sub GL Name</th>
+                          <th style={{ minWidth: "200px" }}>Overhead Type</th>
+                          <th>Standard Value Per Unit/Montly</th>
+                          <th>Action</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody>
+                        {subGlRow?.map((item, index) => (
+                          <tr key={index}>
+                            <td>{index + 1}</td>
+                            <td>{item?.businessTransactionCode}</td>
+                            <td>{item?.businessTransactionName}</td>
+                            <td>
+                              <NewSelect
+                                name="overheadType"
+                                options={[
+                                  { value: 1, label: "Fixed" },
+                                  {
+                                    value: 2,
+                                    label: "Variable/Per unit",
+                                  },
+                                ]}
+                                value={item?.overheadType}
+                                onChange={(valueOption) => {
+                                  let modiFyRow = [...subGlRow];
+                                  modiFyRow[index][
+                                    "overheadType"
+                                  ] = valueOption;
+                                  modiFyRow[index]["overheadTypeId"] =
+                                    valueOption?.value;
+                                  modiFyRow[index]["overheadTypeName"] =
+                                    valueOption?.label;
+                                  setSubGlRow(modiFyRow);
+                                }}
+                              />
+                            </td>
+                            <td>
+                              <InputField
+                                value={+item?.universalAmount || ""}
+                                type="number"
+                                onChange={(e) => {
+                                  if (+e.target.value < 0) return;
+                                  let modiFyRow = [...subGlRow];
+                                  modiFyRow[index]["universalAmount"] =
+                                    +e.target.value || "";
+
+                                  for (let i = 0; i < 12; i++) {
+                                    modiFyRow[index]["monthList"][i][
+                                      "intMonthLyValue"
+                                    ] = +e.target.value || "";
+                                  }
+
+                                  setSubGlRow(modiFyRow);
+                                }}
+                              />
+                            </td>
+                            <td className="text-center">
+                              <div>
+                                {item?.overheadType &&
+                                item?.universalAmount &&
+                                values?.plant &&
+                                values?.fiscalYear &&
+                                values?.profitCenter &&
+                                values?.gl ? (
+                                  <OverlayTrigger
+                                    overlay={
+                                      <Tooltip id="cs-icon">{"Create"}</Tooltip>
+                                    }
+                                  >
+                                    <span>
+                                      <i
+                                        className={`fas fa-pen-square pointer`}
+                                        onClick={() => {
+                                          setSingleData({ values, item });
+                                          setisShowModal(true);
+                                        }}
+                                      ></i>
+                                    </span>
+                                  </OverlayTrigger>
+                                ) : null}
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
 

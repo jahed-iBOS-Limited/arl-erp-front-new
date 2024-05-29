@@ -22,7 +22,7 @@ import ReactHtmlTableToExcel from "react-html-table-to-excel";
 const initData = {
   plant: "",
   shopFloor: "",
-  bomType:"",
+  bomType: "",
   itemType: {
     value: 3,
     label: "All",
@@ -65,8 +65,8 @@ function ProductionReportLanding() {
       buId: selectedBusinessUnit?.value,
       pId: values?.plant?.value,
       sId: values?.shopFloor?.value,
-      billType:values?.bomType?.value || 0,
-      isMainItem:values?.itemType?.value,
+      billType: values?.bomType?.value || 0,
+      isMainItem: values?.itemType?.value,
       fromDate: values?.fromDate,
       toDate: values?.toDate,
       setter: setGridData,
@@ -112,7 +112,7 @@ function ProductionReportLanding() {
                   <div className="col-lg-3">
                     <NewSelect
                       name="shopFloor"
-                      options={shopFloor}
+                      options={[{ value: 0, label: "All" }, ...shopFloor]}
                       value={values?.shopFloor}
                       label="Select Shop Floor"
                       onChange={(valueOption) => {
@@ -123,33 +123,34 @@ function ProductionReportLanding() {
                       touched={touched}
                     />
                   </div>
-                  {[188].includes(selectedBusinessUnit?.value) ? 
-                  <div className="col-lg-3">
-                    <NewSelect
-                      name="bomType"
-                      options={[
-                        {
-                          value: 1,
-                          label: "Main (Paddy to Rice)",
-                        },
-                        {
-                          value: 2,
-                          label: "Conversion (Rice to Rice)",
-                        },
-                        {
-                          value: 3,
-                          label: "Re-Process (Rice to Rice)",
-                        },
-                      ]}
-                      value={values?.bomType}
-                      label="Bom Type"
-                      onChange={(valueOption) => {
-                        setFieldValue("bomType", valueOption);
-                      }}
-                      errors={errors}
-                      touched={touched}
-                    />
-                  </div> : null}
+                  {[188].includes(selectedBusinessUnit?.value) ? (
+                    <div className="col-lg-3">
+                      <NewSelect
+                        name="bomType"
+                        options={[
+                          {
+                            value: 1,
+                            label: "Main (Paddy to Rice)",
+                          },
+                          {
+                            value: 2,
+                            label: "Conversion (Rice to Rice)",
+                          },
+                          {
+                            value: 3,
+                            label: "Re-Process (Rice to Rice)",
+                          },
+                        ]}
+                        value={values?.bomType}
+                        label="Bom Type"
+                        onChange={(valueOption) => {
+                          setFieldValue("bomType", valueOption);
+                        }}
+                        errors={errors}
+                        touched={touched}
+                      />
+                    </div>
+                  ) : null}
                   <div className="col-lg-3">
                     <NewSelect
                       name="itemType"
@@ -208,7 +209,11 @@ function ProductionReportLanding() {
                         girdDataFunc(values, null);
                       }}
                       disabled={
-                        !values?.plant?.value || !values?.shopFloor?.value || (selectedBusinessUnit?.value === 188 && !values?.bomType?.value) || !values?.itemType?.value 
+                        !values?.plant?.value ||
+                        !values?.shopFloor?.value ||
+                        (selectedBusinessUnit?.value === 188 &&
+                          !values?.bomType?.value) ||
+                        !values?.itemType?.value
                       }
                     >
                       View
@@ -279,116 +284,119 @@ function ProductionReportLanding() {
                       <br />
                     </div>
                   </div>
-                  <table
-                    id="table-to-xlsx"
-                    className="table table-striped table-bordered mt-3 bj-table bj-table-landing"
-                  >
-                    <thead>
-                      <tr>
-                        <th>SL</th>
-                        <th>Date</th>
-                        <th>Shop Floor</th>
-                        <th>Machine</th>
-                        <th>Item Code</th>
-                        <th>Item Name</th>
-                        {(selectedBusinessUnit?.value === 171 ||
-                          selectedBusinessUnit?.value === 224) && (
-                          <th>By Product Name</th>
-                        )}
-                        <th>UoM</th>
-                        <th>Production Qty</th>
-                        <th>Wastage/By Product Qty</th>
-                        <th>Wastage %</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {gridData?.map((item, index) => (
-                        <tr key={index}>
-                          <td className="text-center">{index + 1}</td>
-                          <td className="text-right">
-                            <span className="pr-2">
-                              {_dateFormatter(item?.dteProductionDate)}
-                            </span>
-                          </td>
-                          <td className="text-left">
-                            <span className="pl-2">
-                              {values?.shopFloor?.label}
-                            </span>
-                          </td>
-                          <td className="text-left">
-                            <span className="pl-2">
-                              {item?.strWorkCenterName}
-                            </span>
-                          </td>
-                          <td className="text-center">
-                            <span className="pr-2">{item?.strItemCode}</span>
-                          </td>
-                          {selectedBusinessUnit?.value === 171 ||
-                          selectedBusinessUnit?.value === 224 ? (
-                            <>
-                              <td className="text-left">
-                                <span className="pr-2">
-                                  {item?.isMainItem
-                                    ? item?.strMainItenName
-                                    : ""}
-                                </span>
-                              </td>
-                              <td className="text-left">
-                                <span className="pr-2">
-                                  {item?.isMainItem ? "" : item?.strItemName}
-                                </span>
-                              </td>
-                            </>
-                          ) : (
-                            <>
-                              <td className="text-left">
-                                <span className="pr-2">
-                                  {item?.strItemName}
-                                </span>
-                              </td>
-                            </>
+                  <div className="table-responsive">
+                    <table
+                      id="table-to-xlsx"
+                      className="table table-striped table-bordered mt-3 bj-table bj-table-landing"
+                    >
+                      <thead>
+                        <tr>
+                          <th>SL</th>
+                          <th>Date</th>
+                          <th>Shop Floor</th>
+                          <th>Machine</th>
+                          <th>Item Code</th>
+                          <th>Item Name</th>
+                          {(selectedBusinessUnit?.value === 171 ||
+                            selectedBusinessUnit?.value === 224) && (
+                            <th>By Product Name</th>
                           )}
-
-                          <td className="text-center">
-                            <span className="pr-2">{item?.strUOMName}</span>
-                          </td>
-                          {selectedBusinessUnit?.value === 171 ||
-                          selectedBusinessUnit?.value === 224 ? (
-                            <>
-                              <td className="text-right">
-                                <span className="pr-2">
-                                  {item?.isMainItem ? item?.mainQty : ""}
-                                </span>
-                              </td>
-                              <td className="text-right">
-                                <span className="pr-2">
-                                  {item?.isMainItem ? "" : item?.numQuantity}
-                                </span>
-                              </td>
-                            </>
-                          ) : (
-                            <>
-                              <td className="text-right">
-                                <span className="pr-2">
-                                  {item?.numQuantity}
-                                </span>
-                              </td>
-                              <td className="text-right">
-                                <span className="pr-2">
-                                  {item?.wastageProductQty}
-                                </span>
-                              </td>
-                            </>
-                          )}
-                          <td className="text-right">
-                            <span className="pr-2">
-                              {item?.numQuantity / item?.wastageProductQty || 0}
-                            </span>
-                          </td>
+                          <th>UoM</th>
+                          <th>Production Qty</th>
+                          <th>Wastage/By Product Qty</th>
+                          <th>Wastage %</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody>
+                        {gridData?.map((item, index) => (
+                          <tr key={index}>
+                            <td className="text-center">{index + 1}</td>
+                            <td className="text-right">
+                              <span className="pr-2">
+                                {_dateFormatter(item?.dteProductionDate)}
+                              </span>
+                            </td>
+                            <td className="text-left">
+                              <span className="pl-2">
+                                {values?.shopFloor?.label}
+                              </span>
+                            </td>
+                            <td className="text-left">
+                              <span className="pl-2">
+                                {item?.strWorkCenterName}
+                              </span>
+                            </td>
+                            <td className="text-center">
+                              <span className="pr-2">{item?.strItemCode}</span>
+                            </td>
+                            {selectedBusinessUnit?.value === 171 ||
+                            selectedBusinessUnit?.value === 224 ? (
+                              <>
+                                <td className="text-left">
+                                  <span className="pr-2">
+                                    {item?.isMainItem
+                                      ? item?.strMainItenName
+                                      : ""}
+                                  </span>
+                                </td>
+                                <td className="text-left">
+                                  <span className="pr-2">
+                                    {item?.isMainItem ? "" : item?.strItemName}
+                                  </span>
+                                </td>
+                              </>
+                            ) : (
+                              <>
+                                <td className="text-left">
+                                  <span className="pr-2">
+                                    {item?.strItemName}
+                                  </span>
+                                </td>
+                              </>
+                            )}
+
+                            <td className="text-center">
+                              <span className="pr-2">{item?.strUOMName}</span>
+                            </td>
+                            {selectedBusinessUnit?.value === 171 ||
+                            selectedBusinessUnit?.value === 224 ? (
+                              <>
+                                <td className="text-right">
+                                  <span className="pr-2">
+                                    {item?.isMainItem ? item?.mainQty : ""}
+                                  </span>
+                                </td>
+                                <td className="text-right">
+                                  <span className="pr-2">
+                                    {item?.isMainItem ? "" : item?.numQuantity}
+                                  </span>
+                                </td>
+                              </>
+                            ) : (
+                              <>
+                                <td className="text-right">
+                                  <span className="pr-2">
+                                    {item?.numQuantity}
+                                  </span>
+                                </td>
+                                <td className="text-right">
+                                  <span className="pr-2">
+                                    {item?.wastageProductQty}
+                                  </span>
+                                </td>
+                              </>
+                            )}
+                            <td className="text-right">
+                              <span className="pr-2">
+                                {item?.numQuantity / item?.wastageProductQty ||
+                                  0}
+                              </span>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               )}
             </>

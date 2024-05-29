@@ -43,6 +43,7 @@ function StandardRemuFormTable({
   return (
     <>
       <h4 className="pt-2">Standard Remuneration</h4>
+      <div className="table-responsive">
       <table className="global-table w-100 table-bordered border-secondary">
         <thead>
           <tr>
@@ -138,6 +139,7 @@ function StandardRemuFormTable({
           </tr>
         </tbody>
       </table>
+      </div>
     </>
   );
 }

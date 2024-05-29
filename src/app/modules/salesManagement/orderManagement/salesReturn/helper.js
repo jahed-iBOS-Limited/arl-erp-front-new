@@ -90,7 +90,7 @@ export const salesReturnApprove_api = async (url, payload, cb, setLoading) => {
       // `/oms/SalesReturnAndCancelProcess/SalesReturnApproval`,
       payload
     );
-    toast.success(res?.data?.message);
+    toast.success(res?.data?.Message || res?.data?.message );
     cb();
     setLoading(false);
   } catch (error) {

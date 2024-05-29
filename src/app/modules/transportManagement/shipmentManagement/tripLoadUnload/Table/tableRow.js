@@ -1,12 +1,8 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import customStyles from "../../../../selectCustomStyle";
-import Loading from "../../../../_helper/_loading";
-import PaginationSearch from "../../../../_helper/_search";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import PaginationTable from "../../../../_helper/_tablePagination";
+import { Formik } from "formik";
+import React, { useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
 import {
   Card,
   CardBody,
@@ -15,8 +11,7 @@ import {
   ModalProgressBar,
 } from "../../../../../../_metronic/_partials/controls";
 import { ISelect } from "../../../../_helper/_inputDropDown";
-import InputField from "../../../../_helper/_inputField";
-import { Formik } from "formik";
+import Loading from "../../../../_helper/_loading";
 
 export function TableRow(props) {
   // get user profile data from store
@@ -116,6 +111,7 @@ export function TableRow(props) {
           paginationSearchHandler={paginationSearchHandler}
         /> */}
                   {/* {gridData?.length > 0 && ( */}
+                  <div className="table-responsive">
                   <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
                     <thead>
                       <tr>
@@ -146,6 +142,7 @@ export function TableRow(props) {
               ))} */}
                     </tbody>
                   </table>
+                  </div>
                   {/* )} */}
                   {/* {gridData?.length > 0 && (
           <PaginationTable

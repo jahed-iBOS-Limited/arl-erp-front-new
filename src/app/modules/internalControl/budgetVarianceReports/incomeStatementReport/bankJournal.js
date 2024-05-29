@@ -60,7 +60,7 @@ export function BankJournalViewTableRow({ id, headerData }) {
     setGridItem(bankJournalReport?.objHeader);
   }, [bankJournalReport]);
 
-  const girdDataFunc = () => { };
+  const girdDataFunc = () => {};
 
   const printRef = useRef();
 
@@ -96,7 +96,7 @@ export function BankJournalViewTableRow({ id, headerData }) {
       >
         <Formik
           enableReinitialize={true}
-          onSubmit={(values, { setSubmitting, resetForm }) => { }}
+          onSubmit={(values, { setSubmitting, resetForm }) => {}}
         >
           {({ handleSubmit, resetForm, values, errors, touched, isValid }) => (
             <>
@@ -109,7 +109,8 @@ export function BankJournalViewTableRow({ id, headerData }) {
                         <div style={{ position: "absolute" }}>
                           <img
                             style={{ width: "70px" }}
-                            src={`${APIUrl}/domain/Document/DownlloadFile?id=${theBusinessUnit?.imageId || selectedBusinessUnit?.imageId}`}
+                            src={`${APIUrl}/domain/Document/DownlloadFile?id=${theBusinessUnit?.imageId ||
+                              selectedBusinessUnit?.imageId}`}
                             alt=""
                           />
                         </div>
@@ -166,10 +167,10 @@ export function BankJournalViewTableRow({ id, headerData }) {
                               style={
                                 gridItem?.billRegisterId && gridItem?.billTypeId
                                   ? {
-                                    textDecoration: "underline",
-                                    cursor: "pointer",
-                                    color: "#3699FF",
-                                  }
+                                      textDecoration: "underline",
+                                      cursor: "pointer",
+                                      color: "#3699FF",
+                                    }
                                   : {}
                               }
                               onClick={() => {
@@ -194,71 +195,74 @@ export function BankJournalViewTableRow({ id, headerData }) {
                           </div>
                         </div>
                       </div>
-                      <table className="journalTable" id="table-to-xlsx">
-                        <thead>
-                          <tr>
-                            <th>SL</th>
-                            {/* <th>Account Code No</th> */}
-                            <th>Head Of Accounts</th>
-                            <th>Transaction</th>
-                            <th>Debit</th>
-                            <th>Credit</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {bankJournalReport?.objRow?.map((data, i) => (
+                      <div className="table-responsive">
+                        <table className="journalTable" id="table-to-xlsx">
+                          <thead>
                             <tr>
-                              <td className="text-center">{i + 1}</td>
-                              {/* <td className='text-right'>{data?.itemCode}</td> */}
-                              <td>{data?.generalLedgerName}</td>
-                              <td>{data?.subGLName}</td>
-                              <td>
-                                <div className="text-right pr-2">
-                                  {data.debit
-                                    ? _formatMoney(Math.abs(data?.debit))
-                                    : ""}
-                                </div>
+                              <th>SL</th>
+                              {/* <th>Account Code No</th> */}
+                              <th>Head Of Accounts</th>
+                              <th>Transaction</th>
+                              <th>Debit</th>
+                              <th>Credit</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {bankJournalReport?.objRow?.map((data, i) => (
+                              <tr>
+                                <td className="text-center">{i + 1}</td>
+                                {/* <td className='text-right'>{data?.itemCode}</td> */}
+                                <td>{data?.generalLedgerName}</td>
+                                <td>{data?.subGLName}</td>
+                                <td>
+                                  <div className="text-right pr-2">
+                                    {data.debit
+                                      ? _formatMoney(Math.abs(data?.debit))
+                                      : ""}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="text-right pr-2">
+                                    {data.credit
+                                      ? _formatMoney(Math.abs(data?.credit))
+                                      : ""}
+                                  </div>
+                                </td>
+                              </tr>
+                            ))}
+                            <tr>
+                              <td
+                                colspan="3"
+                                className="text-center ml-1"
+                                style={{ fontWeight: "bold" }}
+                              >
+                                Total
                               </td>
-                              <td>
-                                <div className="text-right pr-2">
-                                  {data.credit
-                                    ? _formatMoney(Math.abs(data?.credit))
-                                    : ""}
-                                </div>
+                              <td
+                                className="text-right pr-2"
+                                style={{ fontWeight: "bold" }}
+                              >
+                                {_formatMoney(
+                                  Math.abs(
+                                    bankJournalReport?.objHeader?.numAmount
+                                  )
+                                )}
+                              </td>
+                              <td
+                                className="text-right pr-2"
+                                style={{ fontWeight: "bold" }}
+                              >
+                                {_formatMoney(
+                                  Math.abs(
+                                    bankJournalReport?.objHeader?.numAmount
+                                  )
+                                )}
                               </td>
                             </tr>
-                          ))}
-                          <tr>
-                            <td
-                              colspan="3"
-                              className="text-center ml-1"
-                              style={{ fontWeight: "bold" }}
-                            >
-                              Total
-                            </td>
-                            <td
-                              className="text-right pr-2"
-                              style={{ fontWeight: "bold" }}
-                            >
-                              {_formatMoney(
-                                Math.abs(
-                                  bankJournalReport?.objHeader?.numAmount
-                                )
-                              )}
-                            </td>
-                            <td
-                              className="text-right pr-2"
-                              style={{ fontWeight: "bold" }}
-                            >
-                              {_formatMoney(
-                                Math.abs(
-                                  bankJournalReport?.objHeader?.numAmount
-                                )
-                              )}
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
+                          </tbody>
+                        </table>
+                      </div>
+
                       <div className="mt-5">
                         <div className="d-flex">
                           <p className="mr-2" style={{ fontWeight: "bold" }}>
@@ -296,7 +300,7 @@ export function BankJournalViewTableRow({ id, headerData }) {
                         <div className="d-flex flex-column">
                           <span className="reportBorder"></span>
                           <span>
-                            Authorized Signatory Akij Resources Limited
+                            Authorized Signatory Akij Resource Limited
                           </span>
                         </div>
                         {/* <div className=' d-flex flex-column'>

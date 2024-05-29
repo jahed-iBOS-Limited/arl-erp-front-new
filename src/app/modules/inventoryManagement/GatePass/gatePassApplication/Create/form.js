@@ -31,7 +31,9 @@ export default function _Form({
 
   useEffect(() => {
     if (pId) {
-      getVehicleDDL(`/mes/MSIL/GetAllMSIL?PartName=GetGatePassVehicleDDL&BusinessUnitId=${selectedBusinessUnit.value}`)
+      getVehicleDDL(
+        `/mes/MSIL/GetAllMSIL?PartName=GetGatePassVehicleDDL&BusinessUnitId=${selectedBusinessUnit.value}`
+      );
     }
   }, []);
   const loadPartsList = (v) => {
@@ -156,10 +158,15 @@ export default function _Form({
                   )}
 
                   <div className="col-lg-2">
-                    <div style={{ marginTop: "19px" }} className="d-flex justify-content-center align-items-center col-lg-2" >
+                    <div
+                      style={{ marginTop: "19px" }}
+                      className="d-flex justify-content-center align-items-center col-lg-2"
+                    >
                       <label className="d-flex justify-content-center align-items-center">
                         <Field
-                          onClick={() => { setFieldValue("toAddress", ""); }}
+                          onClick={() => {
+                            setFieldValue("toAddress", "");
+                          }}
                           style={{ marginRight: "5px" }}
                           type="checkbox"
                           name="others"
@@ -193,7 +200,7 @@ export default function _Form({
                       }
                     />
                   </div>
-                  {(values?.fromGateEntry || values?.intVehicleEntryId > 0) ? (
+                  {values?.fromGateEntry || values?.intVehicleEntryId > 0 ? (
                     <div className="col-lg-4">
                       <NewSelect
                         name="vehicleNo"
@@ -204,7 +211,10 @@ export default function _Form({
                           if (valueOption) {
                             setFieldValue("vehicle", valueOption);
                             setFieldValue("item", valueOption?.strItemName);
-                            setFieldValue("intVehicleEntryId", valueOption?.intVehicleEntryId);
+                            setFieldValue(
+                              "intVehicleEntryId",
+                              valueOption?.intVehicleEntryId
+                            );
                           } else {
                             setFieldValue("vehicle", "");
                             setFieldValue("item", "");
@@ -231,23 +241,38 @@ export default function _Form({
                     </div>
                   )}
                   {/* checkbox for from gate entry */}
-                  <div style={{ marginTop: "19px" }} className="col-lg-4 text-left">
+                  <div
+                    style={{ marginTop: "19px" }}
+                    className="col-lg-4 text-left"
+                  >
                     <label className="d-flex justify-content-left">
                       <Field
                         onClick={(e) => {
                           if (e.target.checked) {
-                            setFieldValue("fromGateEntry", values?.fromGateEntry);
-                            getVehicleDDL(`/mes/MSIL/GetAllMSIL?PartName=GetGatePassVehicleDDL&BusinessUnitId=${selectedBusinessUnit.value}`)
-                          }
-                          else {
+                            setFieldValue(
+                              "fromGateEntry",
+                              values?.fromGateEntry
+                            );
+                            getVehicleDDL(
+                              `/mes/MSIL/GetAllMSIL?PartName=GetGatePassVehicleDDL&BusinessUnitId=${selectedBusinessUnit.value}`
+                            );
+                          } else {
                             setFieldValue("vehicle", "");
-                            setFieldValue("fromGateEntry", values?.fromGateEntry);
+                            setFieldValue(
+                              "fromGateEntry",
+                              values?.fromGateEntry
+                            );
                           }
                         }}
                         style={{ marginRight: "5px" }}
                         type="checkbox"
                         name="fromGateEntry"
-                        checked={(values?.fromGateEntry || +values?.intVehicleEntryId > 0) ? true : false}
+                        checked={
+                          values?.fromGateEntry ||
+                          +values?.intVehicleEntryId > 0
+                            ? true
+                            : false
+                        }
                         disabled={rowDto?.length > 0}
                       />
                       From Gate Entry
@@ -383,7 +408,7 @@ export default function _Form({
                   <div className="d-flex  align-items-center col-lg-2 mt-3">
                     <label className="d-flex justify-content-center align-items-center mr-2">
                       <Field
-                        onClick={() => { }}
+                        onClick={() => {}}
                         style={{ marginRight: "5px" }}
                         type="checkbox"
                         name="returnable"
@@ -414,39 +439,47 @@ export default function _Form({
                   </div>
                 </div>
               </div>
-
-              <table className="table table-striped table-bordered global-table">
-                <thead>
-                  <tr>
-                    <th>SL</th>
-                    <th>Item Name</th>
-                    <th>UoM</th>
-                    <th>Quantity</th>
-                    <th>Remarks</th>
-                    <th>Type</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {rowDto?.map((item, index) => (
-
-                    <tr key={index}>
-                      {console.log("item", item)}
-                      <td>{index + 1}</td>
-                      <td>
-                        {item?.item?.label ? item?.item?.label : item?.item}
-                      </td>
-                      <td>{item?.uom?.label ? item?.uom?.label : item?.uom}</td>
-                      <td className="text-center">{item?.quantity}</td>
-                      <td className="text-center">{item?.strRemarks}</td>
-                      <td className="text-center">{item.returnStatus ? item.returnStatus : item?.returnable ? "Returnable" : "Non-Returnable"}</td>
-                      <td className="text-center">
-                        <IDelete remover={remover} id={index} />
-                      </td>
+              <div className="table-responsive">
+                <table className="table table-striped table-bordered global-table">
+                  <thead>
+                    <tr>
+                      <th>SL</th>
+                      <th>Item Name</th>
+                      <th>UoM</th>
+                      <th>Quantity</th>
+                      <th>Remarks</th>
+                      <th>Type</th>
+                      <th>Action</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {rowDto?.map((item, index) => (
+                      <tr key={index}>
+                        {console.log("item", item)}
+                        <td>{index + 1}</td>
+                        <td>
+                          {item?.item?.label ? item?.item?.label : item?.item}
+                        </td>
+                        <td>
+                          {item?.uom?.label ? item?.uom?.label : item?.uom}
+                        </td>
+                        <td className="text-center">{item?.quantity}</td>
+                        <td className="text-center">{item?.strRemarks}</td>
+                        <td className="text-center">
+                          {item.returnStatus
+                            ? item.returnStatus
+                            : item?.returnable
+                            ? "Returnable"
+                            : "Non-Returnable"}
+                        </td>
+                        <td className="text-center">
+                          <IDelete remover={remover} id={index} />
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
 
               <button
                 type="submit"

@@ -1,25 +1,25 @@
-import React, { useEffect, useState, useRef } from "react";
-import { useSelector, shallowEqual } from "react-redux";
+import { Form, Formik } from "formik";
+import moment from "moment";
+import React, { useEffect, useRef, useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
 import ICard from "../../../../_helper/_card";
-import { Formik, Form } from "formik";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import NewSelect from "../../../../_helper/_select";
-import Loading from "../../../../_helper/_loading";
-import InputField from "../../../../_helper/_inputField";
-import {
-  getDistributionChannelDDL,
-  GetProductWiseShipmentReport,
-  getSalesOrgDDL,
-  getSBUDDL,
-} from "../helper";
 import {
   _todaysEndTime,
   _todaysStartTime,
 } from "../../../../_helper/_currentTime";
-import moment from "moment";
-import "./style.css";
+import InputField from "../../../../_helper/_inputField";
+import Loading from "../../../../_helper/_loading";
+import NewSelect from "../../../../_helper/_select";
+import { _todayDate } from "../../../../_helper/_todayDate";
+import {
+  GetProductWiseShipmentReport,
+  getDistributionChannelDDL,
+  getSBUDDL,
+  getSalesOrgDDL,
+} from "../helper";
 import IView from "./../../../../_helper/_helperIcons/_view";
 import IViewModal from "./../../../../_helper/_viewModal";
+import "./style.css";
 import TransferDetails from "./transferDetails";
 
 const initData = {
@@ -262,7 +262,7 @@ export default function ProductWiseShipmentReport() {
                           <div className="loan-scrollable-table scroll-table-auto">
                             <div
                               style={{ maxHeight: "540px" }}
-                              className="scroll-table _table scroll-table-auto"
+                              className="scroll-table _table scroll-table-auto table-responsive"
                             >
                               <table
                                 ref={printRef}

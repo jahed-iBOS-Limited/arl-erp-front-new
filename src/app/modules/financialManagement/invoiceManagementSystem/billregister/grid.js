@@ -36,6 +36,9 @@ import ViewSalesCommission from "./salesCommission/view/viewSalesCommission";
 import ViewStevedoreBill from "./stevedoreBill/view/table";
 import ViewSurveyorBill from "./surveyorBill/view/table";
 import ViewTransportBill from "./transportBill/view/viewBillRegister";
+import ICon from "../../../chartering/_chartinghelper/icons/_icon";
+import { useDispatch } from "react-redux";
+import { getDownlloadFileView_Action } from "../../../_helper/_redux/Actions";
 const GridData = ({
   rowDto,
   values,
@@ -65,7 +68,7 @@ const GridData = ({
   const [selectedItemForPumpFooding, setSelectedItemForPumpFooding] = useState(
     null
   );
-  const[modal,setModal] = useState()
+  const dispatch = useDispatch();
 
   // attachment save actions
   const saveHandler = async () => {
@@ -101,6 +104,7 @@ const GridData = ({
     <>
       <div className="row ">
         <div className="col-lg-12">
+        <div className="table-responsive">
           <table className="table table-striped table-bordered global-table table-font-size-sm">
             <thead>
               <tr>
@@ -219,6 +223,7 @@ const GridData = ({
               ))}
             </tbody>
           </table>
+          </div>
         </div>
         <>
           <IViewModal show={mdalShow} onHide={() => setModalShow(false)}>
@@ -333,11 +338,19 @@ const GridData = ({
             {gridItem?.billType === 28 && (
               <ViewHatchLaborBill billRegisterId={gridItem?.billRegisterId} />
             )}
-            {gridItem?.billType === 32 && (
-              <ViewDamDeliveryBill billRegisterId={gridItem?.billRegisterId} />
+
+            {[31, 32].includes(gridItem?.billType) && (
+              /* 31: G2G Dump Unload Bill
+              32: G2G Dump Delivery(Load) Bill
+            */
+              <ViewDamDeliveryBill
+                billRegisterId={gridItem?.billRegisterId}
+                billTypeId={gridItem?.billType}
+                values={values}
+              />
             )}
-            {gridItem?.billType === 33   && (
-              <CustomerViewModal landingValues={values} gridItem={gridItem} setModal={setModal} />
+            {gridItem?.billType === 33 && (
+              <CustomerViewModal landingValues={values} gridItem={gridItem} />
             )}
           </IViewModal>
 

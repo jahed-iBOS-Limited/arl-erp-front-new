@@ -70,6 +70,7 @@ export default function ViewG2GTruckBill({
             />
             <div className="common-scrollable-table two-column-sticky">
               <div className="scroll-table _table overflow-auto">
+                {/* <div className="table-responsive"> */}
                 <table className="table table-striped table-bordered global-table">
                   <thead>
                     <tr>
@@ -151,7 +152,8 @@ export default function ViewG2GTruckBill({
                     })}
                   </tbody>
                 </table>
-              </div>
+                </div>
+              {/* </div> */}
             </div>
           </form>
         </IForm>

@@ -7,6 +7,7 @@ export default function FuelStationPurchaseInfoTbl({ rowData }) {
       <h4 className="text-center mt-5">
         <strong>Date Wise Fuel Station Detail Purchase Info</strong>
       </h4>
+      <div className="table-responsive">
       <table className="table table-striped table-bordered bj-table bj-table-landing">
         <thead>
           <tr>
@@ -52,6 +53,7 @@ export default function FuelStationPurchaseInfoTbl({ rowData }) {
           ))}
         </tbody>
       </table>
+      </div>
     </div>
   );
 }

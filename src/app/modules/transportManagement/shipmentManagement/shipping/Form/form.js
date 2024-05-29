@@ -1,32 +1,32 @@
 /* eslint-disable jsx-a11y/no-distracting-elements */
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
 import ICalendar from "../../../../_helper/_inputCalender";
-import Loading from "./../../../../_helper/_loading";
-import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import { ISelect } from "../../../../_helper/_inputDropDown";
+import Loading from "./../../../../_helper/_loading";
 // import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import axios from "axios";
 import { Input } from "../../../../../../_metronic/_partials/controls";
 import InputField from "../../../../_helper/_inputField";
 import IViewModal from "../../../../_helper/_viewModal";
-import { getItemListForChallan, getTransportStatusAndInfo } from "../helper";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import {
-  getDeliveryeDatabyId,
-  getDeliveryItemVolumeInfoAction,
   GetPendingDeliveryDDLAction,
+  getDeliveryItemVolumeInfoAction,
+  getDeliveryeDatabyId,
   getStockStatusOnShipmentAction,
   getVehicleNo_action,
 } from "../_redux/Actions";
+import { getItemListForChallan, getTransportStatusAndInfo } from "../helper";
+import ShipmentDetailsInfo from "../shippingUnitView/shipmentDetails";
 import SearchAsyncSelect from "./../../../../_helper/SearchAsyncSelect";
 import FormikError from "./../../../../_helper/_formikError";
 import NewSelect from "./../../../../_helper/_select";
 import { getLoadingPointDDLAction } from "./../_redux/Actions";
 import ChallanItemsPreview from "./itemsPreview";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import ShipmentDetailsInfo from "../shippingUnitView/shipmentDetails";
 // import InputField from "../../../../_helper/_inputField";
 // Validation schema
 const validationSchema = Yup.object().shape({
@@ -152,6 +152,22 @@ export default function _Form({
   const shippointDDL = useSelector((state) => {
     return state?.commonDDL?.shippointDDL;
   }, shallowEqual);
+
+  const [windowSize, setWindowSize] = useState({
+    width: window.innerWidth,
+});
+const handleResize = () => {
+  setWindowSize({
+      width: window.innerWidth,
+  });
+};
+
+useEffect(() => {
+  window.addEventListener('resize', handleResize);
+  return () => {
+      window.removeEventListener('resize', handleResize);
+  };
+}, []);
 
   useEffect(() => {
     setControls([
@@ -731,13 +747,13 @@ export default function _Form({
                       <div
                         className={
                           values?.Vehicle?.isRental
-                            ? "col-lg-9 d-flex justify-content-between align-items-center"
-                            : "col-lg-11 d-flex justify-content-between align-items-center"
+                            ? `col-lg-9 ${windowSize?.width>1000 ? "d-flex justify-content-between align-items-center":""}`
+                            : `col-lg-11 ${windowSize?.width>1000 ? "d-flex justify-content-between align-items-center":""}`
                         }
                         style={{ marginTop: "10px" }}
                       >
-                        <div>
-                          <b className='mr-2'>
+                        <div className={` ${windowSize?.width<600 && 'col-lg-6 mr-2'}`}>
+                          <b className='mr-2 '>
                             Vehicle Capacity : &nbsp;
                             {rowDto?.length
                               ? values?.unloadVehicleWeight ||
@@ -756,7 +772,7 @@ export default function _Form({
                           </b>
                         </div>
 
-                        <div>
+                        <div className={` ${windowSize?.width<600 && 'col-lg-6 mr-2'}`}>
                           <b className='mr-2'>
                             Product Actual : &nbsp;
                             {rowDto?.length
@@ -781,10 +797,10 @@ export default function _Form({
                           </b>
                         </div>
 
-                        <div>
+                        <div className={` ${windowSize?.width<600 && 'col-lg-6 mr-2'}`}>
                           <b>Total Number Of Challan : {rowDto?.length}</b>{" "}
                         </div>
-                        <div>
+                        <div className={` ${windowSize?.width<600 && 'col-lg-6 mr-2'}`}>
                           <b>
                             Total Quantity :{" "}
                             {rowDto?.reduce((acc, cur) => {
@@ -793,7 +809,7 @@ export default function _Form({
                           </b>{" "}
                         </div>
                         {buId === 4 && (
-                          <div>
+                          <div className={` ${windowSize?.width<600 && 'col-lg-6 mr-2'}`}>
                             <b>Request Vehicle No : {vehicleNo}</b>{" "}
                           </div>
                         )}
@@ -838,7 +854,8 @@ export default function _Form({
               <div className='row cash_journal bank-journal bank-journal-custom'>
                 <div className='col-lg-12 pr-0 pl-0'>
                   {rowDto?.length >= 0 && (
-                    <table className='table table-striped table-bordered mt-1 bj-table bj-table-landing sales_order_landing_table'>
+                    <div className="table-responsive">
+                      <table className='table table-striped table-bordered mt-1 bj-table bj-table-landing sales_order_landing_table'>
                       <thead>
                         <tr>
                           <th style={{ width: "35px" }}>SL</th>
@@ -915,6 +932,7 @@ export default function _Form({
                         ))}
                       </tbody>
                     </table>
+                    </div>
                   )}
                 </div>
               </div>

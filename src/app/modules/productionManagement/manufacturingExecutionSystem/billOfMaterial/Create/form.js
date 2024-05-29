@@ -305,7 +305,7 @@ export default function _Form({
                         isDisabled={isEdit}
                       />
                     </div>
-                    <div style={{ width: 100 }} className="col-lg-12">
+                    <div className="col-lg-12">
                       <label>Bom Name</label>
                       <InputField
                         value={values?.bomName || ""}
@@ -315,7 +315,7 @@ export default function _Form({
                         disabled
                       />
                     </div>
-                    <div style={{ width: 100 }} className="col-lg-12">
+                    <div className="col-lg-12">
                       <label>Bom Version</label>
                       <InputField
                         value={values?.bomVersion}
@@ -325,7 +325,7 @@ export default function _Form({
                       />
                     </div>
                     {[144, 188, 189].includes(selectedBusinessUnit?.value) && (
-                      <div style={{ width: 100 }} className="col-lg-12">
+                      <div className="col-lg-12">
                         <NewSelect
                           name="bomType"
                           options={bomTypeDDL || []}
@@ -501,7 +501,7 @@ export default function _Form({
                               description: values?.UOM?.label,
                             },
                             quantity: values?.quantity,
-                            bommainItem:false,
+                            bommainItem: false,
                           };
                           setter(isUniq, "M", setFieldValue);
                           console.log("isUniq", isUniq);
@@ -515,86 +515,94 @@ export default function _Form({
                   {/* Table Header input end */}
                   <div className="row">
                     <div className="col-lg-12">
-                      <table className={"table mt-1 bj-table"}>
-                        <thead className={rowDto?.length === 0 && "d-none"}>
-                          <tr>
-                            <th style={{ width: "20px" }}>SL</th>
-                            <th style={{ width: "50px" }}>Item Code</th>
-                            <th style={{ width: "160px" }}>
-                              <div className="text-left ml-2">Material</div>
-                            </th>
-                            <th style={{ width: "50px" }}>Qty</th>
-                            <th style={{ width: "50px" }}>UoM</th>
-                            <th style={{ width: "50px" }}>Is Main Item</th>
-                            <th style={{ width: "30px" }}>Actions</th>
-                          </tr>
-                        </thead>
-                        {console.log("rowDto", rowDto)}
-                        <tbody>
-                          {rowDto?.map((item, index) => (
-                            <tr key={index}>
-                              <td>{index + 1}</td>
-                              <td>
-                                <div className="pl-2 text-center">
-                                  {item?.material?.code || item?.rowItemCode}
-                                </div>
-                              </td>
-                              <td>
-                                <div className="pl-2">
-                                  {item?.material?.label}
-                                </div>
-                              </td>
-                              <td>
-                                <div
-                                  className="text-center"
-                                  style={{ margin: "5px" }}
-                                >
-                                  <input
-                                    onChange={(e) => {
-                                      dataHandler(
-                                        "quantity",
-                                        Math.abs(e.target.value),
-                                        index
-                                      );
-                                    }}
-                                    value={rowDto[index]?.quantity}
-                                    step={"any"}
-                                    min="0"
-                                    required
-                                    className="form-control"
-                                    type="number"
-                                    name="quantity"
-                                  />
-                                  {/* {item?.quantity} */}
-                                </div>
-                              </td>
-                              <td>
-                                <div className="text-center">
-                                  {item?.uomName ||
-                                    item?.material?.description ||
-                                    item?.values?.description}
-                                </div>
-                              </td>
-                              <td>
-                                <div className="text-center">
-                                 <input type="checkbox" checked={item?.bommainItem} onChange={(e)=>{
-                                  let data = [...rowDto];
-                                  rowDto[index]["bommainItem"] = !item?.bommainItem;
-                                  setRowDto(data);
-                                 }} />
-                                </div>
-                              </td>
-
-                              <td className="text-center">
-                                <IDelete
-                                  remover={remover}
-                                  id={item?.boMrowId}
-                                />
-                              </td>
+                      <div className="table-responsive">
+                        <table className={"table mt-1 bj-table"}>
+                          <thead className={rowDto?.length === 0 && "d-none"}>
+                            <tr>
+                              <th style={{ width: "20px" }}>SL</th>
+                              <th style={{ width: "50px" }}>Item Code</th>
+                              <th style={{ width: "160px" }}>
+                                <div className="text-left ml-2">Material</div>
+                              </th>
+                              <th style={{ width: "50px" }}>Qty</th>
+                              <th style={{ width: "50px" }}>UoM</th>
+                              <th style={{ width: "50px" }}>Is Main Item</th>
+                              <th style={{ width: "30px" }}>Actions</th>
                             </tr>
-                          ))}
-                        </tbody>
-                      </table>
+                          </thead>
+                          {console.log("rowDto", rowDto)}
+                          <tbody>
+                            {rowDto?.map((item, index) => (
+                              <tr key={index}>
+                                <td>{index + 1}</td>
+                                <td>
+                                  <div className="pl-2 text-center">
+                                    {item?.material?.code || item?.rowItemCode}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="pl-2">
+                                    {item?.material?.label}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div
+                                    className="text-center"
+                                    style={{ margin: "5px" }}
+                                  >
+                                    <input
+                                      onChange={(e) => {
+                                        dataHandler(
+                                          "quantity",
+                                          Math.abs(e.target.value),
+                                          index
+                                        );
+                                      }}
+                                      value={rowDto[index]?.quantity}
+                                      step={"any"}
+                                      min="0"
+                                      required
+                                      className="form-control"
+                                      type="number"
+                                      name="quantity"
+                                    />
+                                    {/* {item?.quantity} */}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="text-center">
+                                    {item?.uomName ||
+                                      item?.material?.description ||
+                                      item?.values?.description}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="text-center">
+                                    <input
+                                      type="checkbox"
+                                      checked={item?.bommainItem}
+                                      onChange={(e) => {
+                                        let data = [...rowDto];
+                                        rowDto[index][
+                                          "bommainItem"
+                                        ] = !item?.bommainItem;
+                                        setRowDto(data);
+                                      }}
+                                    />
+                                  </div>
+                                </td>
+
+                                <td className="text-center">
+                                  <IDelete
+                                    remover={remover}
+                                    id={item?.boMrowId}
+                                  />
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
                     </div>
                   </div>
 
@@ -680,7 +688,7 @@ export default function _Form({
                             costCenterName: values?.costCenter?.label,
                             productionCostType: values?.costType?.label,
                             ProductionCostTypeId: values?.costType?.value,
-                            bommainItem:false,
+                            bommainItem: false,
                           };
                           setter(payload, "C", setFieldValue);
                         }}
@@ -692,62 +700,68 @@ export default function _Form({
 
                   <div className="row">
                     <div className="col-lg-12">
-                      <table className={"table mt-1 bj-table"}>
-                        <thead
-                          className={costElementRowData?.length < 1 && "d-none"}
-                        >
-                          <tr>
-                            <th style={{ width: "20px" }}>SL</th>
-                            <th style={{ width: "80px" }}>
-                              <div className="text-left ml-2">Cost Center</div>
-                            </th>
-                            <th style={{ width: "100px" }}>
-                              <div className="text-left ml-2">
-                                Cost Of Element
-                              </div>
-                            </th>
-                            {/* <th style={{ width: "100px" }}>Cost Type</th> */}
-                            <th style={{ width: "60px" }}>
-                              <div className="text-right">Amount</div>
-                            </th>
-                            <th style={{ width: "30px" }}>Actions</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {costElementRowData?.map((item, index) => (
-                            <tr key={index}>
-                              <td>{index + 1}</td>
-                              <td>
-                                <div className="pl-2">
-                                  {item?.costCenterName}
+                      <div className="table-responsive">
+                        <table className={"table mt-1 bj-table"}>
+                          <thead
+                            className={
+                              costElementRowData?.length < 1 && "d-none"
+                            }
+                          >
+                            <tr>
+                              <th style={{ width: "20px" }}>SL</th>
+                              <th style={{ width: "80px" }}>
+                                <div className="text-left ml-2">
+                                  Cost Center
                                 </div>
-                              </td>
-                              <td>
-                                <div className="pl-2">
-                                  {item?.costElementName}
+                              </th>
+                              <th style={{ width: "100px" }}>
+                                <div className="text-left ml-2">
+                                  Cost Of Element
                                 </div>
-                              </td>
-                              {/* <td>
+                              </th>
+                              {/* <th style={{ width: "100px" }}>Cost Type</th> */}
+                              <th style={{ width: "60px" }}>
+                                <div className="text-right">Amount</div>
+                              </th>
+                              <th style={{ width: "30px" }}>Actions</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {costElementRowData?.map((item, index) => (
+                              <tr key={index}>
+                                <td>{index + 1}</td>
+                                <td>
+                                  <div className="pl-2">
+                                    {item?.costCenterName}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="pl-2">
+                                    {item?.costElementName}
+                                  </div>
+                                </td>
+                                {/* <td>
                                 <div className="pl-2">
                                   {item?.productionCostType}
                                 </div>
                               </td> */}
-                              <td>
-                                <div className="text-right pr-2">
-                                  {item?.amount}
-                                </div>
-                              </td>
+                                <td>
+                                  <div className="text-right pr-2">
+                                    {item?.amount}
+                                  </div>
+                                </td>
 
-                              <td className="text-center">
-                                <IDelete
-                                  remover={removerCostElement}
-                                  id={index}
-                                />
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
+                                <td className="text-center">
+                                  <IDelete
+                                    remover={removerCostElement}
+                                    id={index}
+                                  />
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
                     </div>
                   </div>
                   {/* Bill Of Expense Start End Here */}

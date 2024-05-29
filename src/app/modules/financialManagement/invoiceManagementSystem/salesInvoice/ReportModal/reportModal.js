@@ -283,131 +283,139 @@ export default function CommercialInvoiceReport({ setLoading }) {
                   </div>
                 </div>
                 <div>
-                  <table style={{ width: "100%" }}>
-                    <thead className="text-center">
-                      <tr>
-                        <th>No</th>
-                        <th>Product Description</th>
-                        <th>Quantity (MT)</th>
-                        <th>Unit price(Tk.) </th>
-                        <th>Amount</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {rowDto?.row?.length > 0 &&
-                        rowDto?.row?.map((tableData, index) => (
+                  <div className="table-responsive">
+                    <table style={{ width: "100%" }}>
+                      <thead className="text-center">
+                        <tr>
+                          <th>No</th>
+                          <th>Product Description</th>
+                          <th>Quantity (MT)</th>
+                          <th>Unit price(Tk.) </th>
+                          <th>Amount</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {rowDto?.row?.length > 0 &&
+                          rowDto?.row?.map((tableData, index) => (
+                            <>
+                              <tr key={index}>
+                                <td style={{ width: "50px" }}> {index + 1} </td>
+                                <td
+                                  className="text-left"
+                                  style={{ width: "350px" }}
+                                >
+                                  {"  "}
+                                  {tableData?.productDescription}{" "}
+                                </td>
+                                <td
+                                  style={{ minWidth: "20px" }}
+                                  className="text-right"
+                                >
+                                  {_formatMoney(tableData?.quantity, 2)}
+                                </td>
+                                <td
+                                  style={{ minWidth: "20px" }}
+                                  className="text-right"
+                                >
+                                  {_formatMoney(tableData?.unitPrice, 2)}
+                                </td>
+                                <td
+                                  style={{ minWidth: "30px" }}
+                                  className="text-right"
+                                >
+                                  {" "}
+                                  {_formatMoney(tableData?.amount, 2)}{" "}
+                                </td>
+                              </tr>
+                            </>
+                          ))}
+                        {rowDto?.row?.length > 0 && (
                           <>
-                            <tr key={index}>
-                              <td style={{ width: "50px" }}> {index + 1} </td>
+                            <tr>
                               <td
-                                className="text-left"
-                                style={{ width: "350px" }}
+                                colSpan="2"
+                                className="text-right"
+                                style={{ fontWeight: 600 }}
                               >
-                                {"  "}
-                                {tableData?.productDescription}{" "}
+                                Total Sales
                               </td>
                               <td
-                                style={{ minWidth: "20px" }}
                                 className="text-right"
+                                style={{ fontWeight: 600 }}
                               >
-                                {_formatMoney(tableData?.quantity, 2)}
+                                {_formatMoney(grandTotal?.totalQuantity, 2)}
                               </td>
+                              <td></td>
                               <td
-                                style={{ minWidth: "20px" }}
                                 className="text-right"
+                                style={{ fontWeight: 600 }}
                               >
-                                {_formatMoney(tableData?.unitPrice, 2)}
+                                {_formatMoney(grandTotal?.totalAmount, 2)}
                               </td>
+                            </tr>
+                            <tr>
+                              <td colSpan="2" className="no-data"></td>
                               <td
-                                style={{ minWidth: "30px" }}
-                                className="text-right"
+                                className="text-left no-data"
+                                style={{ fontWeight: 600 }}
                               >
-                                {" "}
-                                {_formatMoney(tableData?.amount, 2)}{" "}
+                                Transportation Cost
+                              </td>
+                              <td className="no-data"></td>
+                              <td className="text-right">
+                                {_formatMoney(rowDto?.header?.transportCost, 2)}
+                              </td>
+                            </tr>
+                            <tr>
+                              <td colSpan="2" className="no-data"></td>
+                              <td
+                                className="text-left no-data"
+                                style={{ fontWeight: 600 }}
+                              >
+                                Discount
+                              </td>
+                              <td className="no-data"></td>
+                              <td className="text-right">
+                                {_formatMoney(rowDto?.header?.discount, 2)}
+                              </td>
+                            </tr>
+                            <tr>
+                              <td colSpan="2" className="no-data"></td>
+                              <td
+                                className="text-left no-data"
+                                style={{ fontWeight: 600 }}
+                              >
+                                Advanced Payment
+                              </td>
+                              <td className="no-data"></td>
+                              <td className="text-right">
+                                {_formatMoney(
+                                  rowDto?.header?.advancePayment,
+                                  2
+                                )}
+                              </td>
+                            </tr>
+                            <tr>
+                              <td colSpan="2" className="no-data"></td>
+                              <td
+                                style={{ fontWeight: 600 }}
+                                className="no-data"
+                              >
+                                Total Amount
+                              </td>
+                              <td className="no-data"></td>
+                              <td
+                                className="text-right"
+                                style={{ fontWeight: 600 }}
+                              >
+                                {_formatMoney(rowDto?.header?.totalAmount, 2)}
                               </td>
                             </tr>
                           </>
-                        ))}
-                      {rowDto?.row?.length > 0 && (
-                        <>
-                          <tr>
-                            <td
-                              colSpan="2"
-                              className="text-right"
-                              style={{ fontWeight: 600 }}
-                            >
-                              Total Sales
-                            </td>
-                            <td
-                              className="text-right"
-                              style={{ fontWeight: 600 }}
-                            >
-                              {_formatMoney(grandTotal?.totalQuantity, 2)}
-                            </td>
-                            <td></td>
-                            <td
-                              className="text-right"
-                              style={{ fontWeight: 600 }}
-                            >
-                              {_formatMoney(grandTotal?.totalAmount, 2)}
-                            </td>
-                          </tr>
-                          <tr>
-                            <td colSpan="2" className="no-data"></td>
-                            <td
-                              className="text-left no-data"
-                              style={{ fontWeight: 600 }}
-                            >
-                              Transportation Cost
-                            </td>
-                            <td className="no-data"></td>
-                            <td className="text-right">
-                              {_formatMoney(rowDto?.header?.transportCost, 2)}
-                            </td>
-                          </tr>
-                          <tr>
-                            <td colSpan="2" className="no-data"></td>
-                            <td
-                              className="text-left no-data"
-                              style={{ fontWeight: 600 }}
-                            >
-                              Discount
-                            </td>
-                            <td className="no-data"></td>
-                            <td className="text-right">
-                              {_formatMoney(rowDto?.header?.discount, 2)}
-                            </td>
-                          </tr>
-                          <tr>
-                            <td colSpan="2" className="no-data"></td>
-                            <td
-                              className="text-left no-data"
-                              style={{ fontWeight: 600 }}
-                            >
-                              Advanced Payment
-                            </td>
-                            <td className="no-data"></td>
-                            <td className="text-right">
-                              {_formatMoney(rowDto?.header?.advancePayment, 2)}
-                            </td>
-                          </tr>
-                          <tr>
-                            <td colSpan="2" className="no-data"></td>
-                            <td style={{ fontWeight: 600 }} className="no-data">
-                              Total Amount
-                            </td>
-                            <td className="no-data"></td>
-                            <td
-                              className="text-right"
-                              style={{ fontWeight: 600 }}
-                            >
-                              {_formatMoney(rowDto?.header?.totalAmount, 2)}
-                            </td>
-                          </tr>
-                        </>
-                      )}
-                    </tbody>
-                  </table>
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
                 <div style={{ marginTop: "10px" }}>
                   <p>

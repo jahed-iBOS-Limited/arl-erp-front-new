@@ -7,7 +7,7 @@ import { IInput } from "../../../../_helper/_input";
 import ICalendar from "../../../../_helper/_inputCalender";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import NewSelect from "../../../../_helper/_select";
-import InputField from './../../../../_helper/_inputField';
+import InputField from "./../../../../_helper/_inputField";
 import { _numberValidation } from "../../../../_helper/_numberValidation";
 
 // Validation schema
@@ -65,8 +65,8 @@ export default function _Form({
           isEdit
             ? initData
             : {
-              ...initData,
-            }
+                ...initData,
+              }
         }
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -142,11 +142,11 @@ export default function _Form({
                           disabled={isEdit}
                         />
                       </div>
-                      <div className='col-lg-3'>
+                      <div className="col-lg-3">
                         <ICalendar
                           value={_dateFormatter(values.quotationEndDate || "")}
-                          label='Quotation End Date'
-                          name='quotationEndDate'
+                          label="Quotation End Date"
+                          name="quotationEndDate"
                           disabled={isEdit}
                         />
                       </div>
@@ -160,112 +160,133 @@ export default function _Form({
                           disabled={isEdit}
                         />
                       </div>
-                      {
-                        (selectedBusinessUnit?.value === 144 && values?.salesOrg?.value === 7 && values?.channel?.value === 96) && (
+                      {selectedBusinessUnit?.value === 144 &&
+                        values?.salesOrg?.value === 7 &&
+                        values?.channel?.value === 96 && (
                           <>
-                            <div className='col-lg-3'>
+                            <div className="col-lg-3">
                               <IInput
                                 value={values?.salesContract || ""}
-                                label='Sales Contract'
-                                name='salesContract'
+                                label="Sales Contract"
+                                name="salesContract"
                                 onChange={(e) => {
-                                  setFieldValue("salesContract", e.target.value);
+                                  setFieldValue(
+                                    "salesContract",
+                                    e.target.value
+                                  );
                                 }}
                                 disabled={isEdit}
                               />
                             </div>
-                            <div className='col-lg-3'>
+                            <div className="col-lg-3">
                               <IInput
                                 value={values?.salesTerm || ""}
-                                label='Sales Term'
-                                name='salesTerm'
+                                label="Sales Term"
+                                name="salesTerm"
                                 onChange={(e) => {
                                   setFieldValue("salesTerm", e.target.value);
                                 }}
                                 disabled={isEdit}
                               />
                             </div>
-                            <div className='col-lg-3'>
+                            <div className="col-lg-3">
                               <IInput
                                 value={values?.modeOfShipment || ""}
-                                label='Mode Of Shipment'
-                                name='modeOfShipment'
+                                label="Mode Of Shipment"
+                                name="modeOfShipment"
                                 onChange={(e) => {
-                                  setFieldValue("modeOfShipment", e.target.value);
+                                  setFieldValue(
+                                    "modeOfShipment",
+                                    e.target.value
+                                  );
                                 }}
                                 disabled={isEdit}
                               />
                             </div>
-                            <div className='col-lg-3'>
+                            <div className="col-lg-3">
                               <IInput
                                 value={values?.portOfShipment || ""}
-                                label='Port Of Shipment'
-                                name='portOfShipment'
+                                label="Port Of Shipment"
+                                name="portOfShipment"
                                 onChange={(e) => {
-                                  setFieldValue("portOfShipment", e.target.value);
+                                  setFieldValue(
+                                    "portOfShipment",
+                                    e.target.value
+                                  );
                                 }}
                                 disabled={isEdit}
                               />
                             </div>
-                            <div className='col-lg-3'>
+                            <div className="col-lg-3">
                               <IInput
                                 value={values?.portOfDischarge || ""}
-                                label='Port Of Discharge'
-                                name='portOfDischarge'
+                                label="Port Of Discharge"
+                                name="portOfDischarge"
                                 onChange={(e) => {
-                                  setFieldValue("portOfDischarge", e.target.value);
+                                  setFieldValue(
+                                    "portOfDischarge",
+                                    e.target.value
+                                  );
                                 }}
                                 disabled={isEdit}
                               />
                             </div>
-                            <div className='col-lg-3'>
+                            <div className="col-lg-3">
                               <IInput
                                 value={values?.finalDestination || ""}
-                                label='Final Destination'
-                                name='finalDestination'
+                                label="Final Destination"
+                                name="finalDestination"
                                 onChange={(e) => {
-                                  setFieldValue("finalDestination", e.target.value);
+                                  setFieldValue(
+                                    "finalDestination",
+                                    e.target.value
+                                  );
                                 }}
                                 disabled={isEdit}
                               />
                             </div>
-                            <div className='col-lg-3'>
+                            <div className="col-lg-3">
                               <IInput
                                 value={values?.countryOfOrigin || ""}
-                                label='Country Of Origin'
-                                name='countryOfOrigin'
+                                label="Country Of Origin"
+                                name="countryOfOrigin"
                                 onChange={(e) => {
-                                  setFieldValue("countryOfOrigin", e.target.value);
+                                  setFieldValue(
+                                    "countryOfOrigin",
+                                    e.target.value
+                                  );
                                 }}
                                 disabled={isEdit}
                               />
                             </div>
-                            <div className='col-lg-3'>
+                            <div className="col-lg-3">
                               <IInput
                                 value={values?.contractFor || ""}
-                                label='Contract For'
-                                name='contractFor'
+                                label="Contract For"
+                                name="contractFor"
                                 onChange={(e) => {
                                   setFieldValue("contractFor", e.target.value);
                                 }}
                                 disabled={isEdit}
                               />
                             </div>
-                            <div className='col-lg-3'>
+                            <div className="col-lg-3">
                               <IInput
                                 value={values?.freightCharge || ""}
-                                label='Freight Charge'
-                                name='freightCharge'
-                                type='number'
+                                label="Freight Charge"
+                                name="freightCharge"
+                                type="number"
                                 onChange={(e) => {
-                                  setFieldValue("freightCharge", _numberValidation(e));
+                                  setFieldValue(
+                                    "freightCharge",
+                                    _numberValidation(e)
+                                  );
                                 }}
                                 disabled={isEdit}
                               />
                             </div>
                           </>
-                        )
-                      }
+                        )}
                     </>
                   </div>
                 </div>
@@ -304,26 +325,30 @@ export default function _Form({
                 <div className="row cash_journal bank-journal bank-journal-custom">
                   <div className="col-lg-6 pr-0 pl-0">
                     {specTableData?.length >= 0 && (
-                      <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
-                        <thead>
-                          <tr>
-                            <th style={{ width: "35px" }}>SL</th>
-                            <th>Specification</th>
-                            <th>Value</th>
-                            <th>Item Id</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {specTableData.map((itm, index) => (
-                            <tr key={itm.specificationId}>
-                              <td className="text-center">{index + 1}</td>
-                              <td className="pl-2">{itm.specification}</td>
-                              <td className="text-right pr-2">{itm.value}</td>
-                              <td className="text-right pr-2">{itm.itemId}</td>
+                      <div className="table-responsive">
+                        <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
+                          <thead>
+                            <tr>
+                              <th style={{ width: "35px" }}>SL</th>
+                              <th>Specification</th>
+                              <th>Value</th>
+                              <th>Item Id</th>
                             </tr>
-                          ))}
-                        </tbody>
-                      </table>
+                          </thead>
+                          <tbody>
+                            {specTableData.map((itm, index) => (
+                              <tr key={itm.specificationId}>
+                                <td className="text-center">{index + 1}</td>
+                                <td className="pl-2">{itm.specification}</td>
+                                <td className="text-right pr-2">{itm.value}</td>
+                                <td className="text-right pr-2">
+                                  {itm.itemId}
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
                     )}
                   </div>
                 </div>
@@ -332,38 +357,42 @@ export default function _Form({
               <div className="row cash_journal bank-journal bank-journal-custom">
                 <div className="col-lg-12 pr-0 pl-0">
                   {rowDto?.length >= 0 && (
-                    <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
-                      <thead>
-                        <tr>
-                          <th style={{ width: "35px" }}>SL</th>
-                          <th>Item Name</th>
-                          <th>Item Code</th>
-                          <th>Quantity</th>
-                          <th>Price</th>
-                          <th>Amount</th>
-                          <th>UoM Name</th>
-                          <th>Specification</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {rowDto.map((itm, index) => (
-                          <tr key={itm.itemId}>
-                            <td className="text-center">{++index}</td>
-                            <td className="pl-2">{itm.itemName}</td>
-                            <td className="pl-2">{itm.itemCode}</td>
-                            <td className="text-right pr-2">
-                              {itm.quotationQuantity}
-                            </td>
-                            <td className="text-right pr-2">{itm.itemPrice}</td>
-                            <td className="text-right pr-2">
-                              {itm.quotationValue}
-                            </td>
-                            <td className="pl-2">{itm.uomName}</td>
-                            <td className="pl-2">{itm.specification}</td>
+                    <div className="table-responsive">
+                      <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
+                        <thead>
+                          <tr>
+                            <th style={{ width: "35px" }}>SL</th>
+                            <th>Item Name</th>
+                            <th>Item Code</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Amount</th>
+                            <th>UoM Name</th>
+                            <th>Specification</th>
                           </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                        </thead>
+                        <tbody>
+                          {rowDto.map((itm, index) => (
+                            <tr key={itm.itemId}>
+                              <td className="text-center">{++index}</td>
+                              <td className="pl-2">{itm.itemName}</td>
+                              <td className="pl-2">{itm.itemCode}</td>
+                              <td className="text-right pr-2">
+                                {itm.quotationQuantity}
+                              </td>
+                              <td className="text-right pr-2">
+                                {itm.itemPrice}
+                              </td>
+                              <td className="text-right pr-2">
+                                {itm.quotationValue}
+                              </td>
+                              <td className="pl-2">{itm.uomName}</td>
+                              <td className="pl-2">{itm.specification}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>{" "}
+                    </div>
                   )}
                 </div>
               </div>

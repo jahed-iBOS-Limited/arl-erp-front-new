@@ -3,37 +3,38 @@ import React, { useEffect, useRef, useState } from "react";
 import ICustomCard from "../../../../_helper/_customCard";
 import InputField from "../../../../_helper/_inputField";
 
-import // setIndentStatementAction,
-  //setIndentTableIndexAction
-  "../../../../_helper/reduxForLocalStorage/Actions";
-import { Formik, Form } from "formik";
+import { Form, Formik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
+import // setIndentStatementAction,
+
+//setIndentTableIndexAction
+"../../../../_helper/reduxForLocalStorage/Actions";
 import {
-  getPurchaseOrgList,
-  getPlantList,
-  getWarehouseList,
-  getProcureToPayReport,
   // getProcureToPayReportXMLDownload,
   generateExcel,
+  getPlantList,
   getProcureToPayExcelReport,
+  getProcureToPayReport,
+  getPurchaseOrgList,
+  getWarehouseList,
 } from "../helper";
 
 import { _dateFormatter } from "./../../../../_helper/_dateFormate";
 // import PaginationTable from "./../../../../_helper/_tablePagination";
-import NewSelect from "../../../../_helper/_select";
 import * as Yup from "yup";
+import NewSelect from "../../../../_helper/_select";
 import { _todayDate } from "../../../../_helper/_todayDate";
 // import IViewModal from "../../../../_helper/_viewModal";
 import { SetReportBillBySupplierAction } from "../../../../_helper/reduxForLocalStorage/Actions";
 // import ReactToPrint from "react-to-print";
-import "../style.css";
 import Loading from "../../../../_helper/_loading";
-import IViewModal from "../../../../_helper/_viewModal";
-import { ItemReqViewTableRow } from "../../../purchase-management/purchaseRequestNew/report/tableRow";
-import { PurchaseOrderViewTableRow } from "../../../purchase-management/purchaseOrder/report/tableRow";
-import { InventoryTransactionReportViewTableRow } from "../../../../inventoryManagement/warehouseManagement/invTransaction/report/tableRow";
 import PaginationTable from "../../../../_helper/_tablePagination";
+import IViewModal from "../../../../_helper/_viewModal";
 import PowerBIReport from "../../../../_helper/commonInputFieldsGroups/PowerBIReport";
+import { InventoryTransactionReportViewTableRow } from "../../../../inventoryManagement/warehouseManagement/invTransaction/report/tableRow";
+import { PurchaseOrderViewTableRow } from "../../../purchase-management/purchaseOrder/report/tableRow";
+import { ItemReqViewTableRow } from "../../../purchase-management/purchaseRequestNew/report/tableRow";
+import "../style.css";
 const validationSchema = Yup.object().shape({
   toDate: Yup.string().when("fromDate", (fromDate, Schema) => {
     if (fromDate) return Schema.required("To date is required");
@@ -41,15 +42,14 @@ const validationSchema = Yup.object().shape({
 });
 
 const parameterValues = (values, unitId) => {
-  
-  console.log("values", values)
+  console.log("values", values);
   return [
     { name: "fDate", value: `${values?.fromDate}` },
     { name: "intUnit", value: `${unitId}` },
     { name: "tDate", value: `${values?.toDate}` },
     { name: "intPurchOrg", value: `${+values?.purchaseOrganization?.value}` },
-    { name: "intPlantId", value: `${values?.plant?.value}`},
-    { name: "intWarehouseId", value: `${values?.wareHouse?.value}`},
+    { name: "intPlantId", value: `${values?.plant?.value}` },
+    { name: "intWarehouseId", value: `${values?.wareHouse?.value}` },
   ];
 };
 
@@ -163,8 +163,8 @@ const ProcureToPayReportTable = () => {
           0,
           data[0]?.totalRows || 0,
           setLoading,
-          setExcelData,
-        )
+          setExcelData
+        );
       }
     );
   };
@@ -177,7 +177,7 @@ const ProcureToPayReportTable = () => {
           validationSchema={validationSchema}
           initialValues={initData}
           //validationSchema={validationSchema}
-          onSubmit={(values, { setSubmitting, resetForm }) => { }}
+          onSubmit={(values, { setSubmitting, resetForm }) => {}}
         >
           {({
             handleSubmit,
@@ -261,12 +261,13 @@ const ProcureToPayReportTable = () => {
                     <label>From Date</label>
                     <div className="d-flex">
                       <InputField
+                        style={{ width: "100%" }}
                         value={values?.fromDate}
                         name="fromDate"
                         placeholder="From date"
                         type="date"
                         onChange={(e) => {
-                          console.log("Values", values)
+                          console.log("Values", values);
                           setLanding([]);
                           setIsReportShow(false);
                           dispatch(
@@ -283,12 +284,13 @@ const ProcureToPayReportTable = () => {
                     <label>To Date</label>
                     <div className="d-flex">
                       <InputField
+                        style={{ width: "100%" }}
                         value={values?.toDate}
                         name="toDate"
                         placeholder="To date"
                         type="date"
                         onChange={(e) => {
-                          console.log("Values", values)
+                          console.log("Values", values);
                           setLanding([]);
                           setIsReportShow(false);
                           dispatch(
@@ -322,7 +324,15 @@ const ProcureToPayReportTable = () => {
                       touched={touched}
                     />
                   </div>
-                  <div className="col-6 text-right mt-5">
+                  <div
+                    className="col-lg-6 text-right mt-5"
+                    style={{
+                      flexWrap: "wrap",
+                      alignItems: "center",
+                      width: " 100%",
+                      gap: "5px",
+                    }}
+                  >
                     <button
                       type="submit"
                       className="btn btn-primary"
@@ -526,6 +536,22 @@ const ProcureToPayReportTable = () => {
                                 bold: true,
                               },
                               {
+                                text: "Billing Date",
+                                fontSize: 9,
+                                border: "all 000000 thin",
+                                alignment: "center",
+                                textFormat: "text",
+                                bold: true,
+                              },
+                              {
+                                text: "Audit Date",
+                                fontSize: 9,
+                                border: "all 000000 thin",
+                                alignment: "center",
+                                textFormat: "text",
+                                bold: true,
+                              },
+                              {
                                 text: "Total PO Adjustment",
                                 fontSize: 9,
                                 border: "all 000000 thin",
@@ -618,6 +644,7 @@ const ProcureToPayReportTable = () => {
                               <th>MRR Date</th>
                               <th>Inv Value</th>
                               <th>Payment Date</th>
+                              <th>Expected Payment Date</th>
                               <th>Supplier</th>
                               <th>PO Prepare By</th>
                               <th>Bill Code</th>
@@ -627,6 +654,8 @@ const ProcureToPayReportTable = () => {
                               <th>Bill Amount</th>
                               <th>Pay Date</th>
                               <th>Pay Amount</th>
+                              <th>Billing Date</th>
+                              <th>Audit Date</th>
                               <th>Total PO Adjustment</th>
                               <th>Total PO Advance</th>
                               {/* <th>PO Close</th> */}
@@ -703,6 +732,9 @@ const ProcureToPayReportTable = () => {
                                 <td>
                                   {_dateFormatter(item?.dtePaymentRequestDate)}
                                 </td>
+                                <td>
+                                  {_dateFormatter(item?.expectedPaymenDate)}
+                                </td>
                                 <td>{item?.strBusinessPartnerName}</td>
                                 <td>{item?.poPreparedBy}</td>
                                 <td>{item?.strBillRegisterCode}</td>
@@ -712,6 +744,8 @@ const ProcureToPayReportTable = () => {
                                 <td>{item?.numBillAmount}</td>
                                 <td>{_dateFormatter(item?.payDate)}</td>
                                 <td>{item?.monReqestAmount}</td>
+                                <td>{_dateFormatter(item?.dteBillRegisterDate)}</td>
+                                <td>{_dateFormatter(item?.dteBillRegisterApprovedDate)}</td>
                                 <td>{item?.monTotalAdjustment}</td>
                                 <td>{item?.monTotalAdvance}</td>
                                 {/* <td></td> */}

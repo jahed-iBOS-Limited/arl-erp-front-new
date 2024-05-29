@@ -19,7 +19,7 @@ export default function _Form({
         {({ handleSubmit }) => (
           <>
             <Form className="form form-label-right">
-              <div className="col-md-12">
+              <div className="col-md-12 table-responsive">
                 <table className="table table-striped table-bordered global-table">
                   <thead>
                     <tr>

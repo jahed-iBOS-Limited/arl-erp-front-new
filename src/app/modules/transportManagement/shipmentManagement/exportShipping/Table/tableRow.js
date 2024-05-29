@@ -1,38 +1,38 @@
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
 import { Field, Form, Formik } from "formik";
+import React, { useEffect, useState } from "react";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import { ISelect } from "../../../../_helper/_inputDropDown";
 import {
+  createShipmentCompleteAction,
   getSalesContactGridData,
   getSalesContactIncompleteGridData,
-  createShipmentCompleteAction,
   setGridEmptyAction,
 } from "../_redux/Actions";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
 
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { toast } from "react-toastify";
+import IEdit from "../../../../_helper/_helperIcons/_edit";
+import InfoCircle from "../../../../_helper/_helperIcons/_infoCircle";
 import IView from "../../../../_helper/_helperIcons/_view";
+import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
+import PaginationSearch from "../../../../_helper/_search";
 import PaginationTable from "../../../../_helper/_tablePagination";
+import { _todayDate } from "../../../../_helper/_todayDate";
+import IViewModal from "../../../../_helper/_viewModal";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import AddManualChallanNo from "../shippingUnitView/addManualChallan";
 import {
-  ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
+  ModalProgressBar,
 } from "./../../../../../../_metronic/_partials/controls";
-import InputField from "../../../../_helper/_inputField";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { setShipmentlandingAction } from "./../../../../_helper/reduxForLocalStorage/Actions";
 import IConfirmModal from "./../../../../_helper/_confirmModal";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import IViewModal from "../../../../_helper/_viewModal";
-import AddManualChallanNo from "../shippingUnitView/addManualChallan";
-import InfoCircle from "../../../../_helper/_helperIcons/_infoCircle";
-import PaginationSearch from "../../../../_helper/_search";
+import { setShipmentlandingAction } from "./../../../../_helper/reduxForLocalStorage/Actions";
 
 export function TableRow({
   profileData,
@@ -415,6 +415,7 @@ export function TableRow({
                   <div className="col-lg-12">
                     {rowDto?.length > 0 && (
                       <>
+                        <div className="table-responsive">
                         <table className="table table-striped table-bordered global-table">
                           <thead>
                             <tr>
@@ -583,12 +584,14 @@ export function TableRow({
                             ))}
                           </tbody>
                         </table>
+                        </div>
                       </>
                     )}
 
                     {incompleteRowDto?.length > 0 && (
                       <>
-                        <table className="table table-striped table-bordered global-table">
+                       <div className="table-responsive">
+                       <table className="table table-striped table-bordered global-table">
                           <thead>
                             <tr>
                               <th style={{ width: "90px" }}>
@@ -712,6 +715,7 @@ export function TableRow({
                             ))}
                           </tbody>
                         </table>
+                       </div>
                       </>
                     )}
                   </div>

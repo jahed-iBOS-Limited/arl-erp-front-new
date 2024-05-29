@@ -262,52 +262,56 @@ const CranStopage = () => {
                 </div>
                 <div className="row">
                   <div className="col-lg-12">
-                    <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
-                      <thead>
-                        <tr>
-                          <th>Date</th>
-                          <th>Shift</th>
-                          <th>Crane Name</th>
-                          <th>Breakdown Type</th>
-                          <th style={{ width: "70px" }}>Duration</th>
-                          <th>Stopage Details</th>
-                          <th style={{ width: "70px" }}>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {rowList?.length > 0 &&
-                          rowList.map((item, index) => (
-                            <tr key={index}>
-                              <td className="text-center">
-                                {item?.date
-                                  ? moment(
-                                      item?.date,
-                                      "YYYY-MM-DDThh:mm:ss"
-                                    ).format("DD-MM-YYYY")
-                                  : "N/A"}
-                              </td>
-                              <td>{item?.shift?.label}</td>
-                              <td>{item?.craneName?.label}</td>
-                              <td>{item?.breakdownType?.label}</td>
-                              <td className="text-center">{item?.duration}</td>
-                              <td className="text-center">
-                                {item?.stopageDetails}
-                              </td>
-                              <td className="text-center">
-                                <IDelete
-                                  remover={(index) => {
-                                    const data = rowList?.filter(
-                                      (item, i) => i !== index
-                                    );
-                                    setRowList(data);
-                                  }}
-                                  id={index}
-                                />
-                              </td>
-                            </tr>
-                          ))}
-                      </tbody>
-                    </table>
+                    <div className="table-responsive">
+                      <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+                        <thead>
+                          <tr>
+                            <th>Date</th>
+                            <th>Shift</th>
+                            <th>Crane Name</th>
+                            <th>Breakdown Type</th>
+                            <th style={{ width: "70px" }}>Duration</th>
+                            <th>Stopage Details</th>
+                            <th style={{ width: "70px" }}>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {rowList?.length > 0 &&
+                            rowList.map((item, index) => (
+                              <tr key={index}>
+                                <td className="text-center">
+                                  {item?.date
+                                    ? moment(
+                                        item?.date,
+                                        "YYYY-MM-DDThh:mm:ss"
+                                      ).format("DD-MM-YYYY")
+                                    : "N/A"}
+                                </td>
+                                <td>{item?.shift?.label}</td>
+                                <td>{item?.craneName?.label}</td>
+                                <td>{item?.breakdownType?.label}</td>
+                                <td className="text-center">
+                                  {item?.duration}
+                                </td>
+                                <td className="text-center">
+                                  {item?.stopageDetails}
+                                </td>
+                                <td className="text-center">
+                                  <IDelete
+                                    remover={(index) => {
+                                      const data = rowList?.filter(
+                                        (item, i) => i !== index
+                                      );
+                                      setRowList(data);
+                                    }}
+                                    id={index}
+                                  />
+                                </td>
+                              </tr>
+                            ))}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
                 <div className="row mt-5">
@@ -384,37 +388,40 @@ const CranStopage = () => {
                           });
                         }}
                       />
-                      <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
-                        <thead>
-                          <tr>
-                            <th>SL</th>
-                            <th>Date</th>
-                            <th>Shift</th>
-                            <th>Crane Name</th>
-                            <th>Breakdown Type</th>
-                            <th style={{ width: "70px" }}>Duration</th>
-                            <th>Stopage Details</th>
-                            {/* <th style={{ width: "70px" }}>Action</th> */}
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {cranStopageDetailsLanding?.data?.map((item) => (
-                            <tr key={item?.sl}>
-                              <td className="text-center">{item?.sl}</td>
-                              <td className="text-center">
-                                {item?.entryDate
-                                  ? moment(
-                                      item?.entryDate,
-                                      "YYYY-MM-DDThh:mm:ss"
-                                    ).format("DD-MM-YYYY")
-                                  : "N/A"}
-                              </td>
-                              <td>{item?.shiftName}</td>
-                              <td>{item?.craneName}</td>
-                              <td>{item?.breakdownTypeName}</td>
-                              <td className="text-center">{item?.duration}</td>
-                              <td>{item?.stopesDetails}</td>
-                              {/* <td className="text-center">
+                      <div className="table-responsive">
+                        <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+                          <thead>
+                            <tr>
+                              <th>SL</th>
+                              <th>Date</th>
+                              <th>Shift</th>
+                              <th>Crane Name</th>
+                              <th>Breakdown Type</th>
+                              <th style={{ width: "70px" }}>Duration</th>
+                              <th>Stopage Details</th>
+                              {/* <th style={{ width: "70px" }}>Action</th> */}
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {cranStopageDetailsLanding?.data?.map((item) => (
+                              <tr key={item?.sl}>
+                                <td className="text-center">{item?.sl}</td>
+                                <td className="text-center">
+                                  {item?.entryDate
+                                    ? moment(
+                                        item?.entryDate,
+                                        "YYYY-MM-DDThh:mm:ss"
+                                      ).format("DD-MM-YYYY")
+                                    : "N/A"}
+                                </td>
+                                <td>{item?.shiftName}</td>
+                                <td>{item?.craneName}</td>
+                                <td>{item?.breakdownTypeName}</td>
+                                <td className="text-center">
+                                  {item?.duration}
+                                </td>
+                                <td>{item?.stopesDetails}</td>
+                                {/* <td className="text-center">
                                 <IEdit
                                   onClick={() => {
                                     console.log("working");
@@ -446,10 +453,11 @@ const CranStopage = () => {
                                   }}
                                 />
                               </td> */}
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
 
                       <PaginationTable
                         count={cranStopageDetailsLanding?.totalCount}

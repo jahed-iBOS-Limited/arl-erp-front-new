@@ -10,13 +10,12 @@ import {
   CardHeaderToolbar,
   ModalProgressBar,
 } from "../../../../../../_metronic/_partials/controls";
-import {
-  _dateFormatter
-} from "../../../../_helper/_dateFormate";
+import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import { _fixedPoint } from "../../../../_helper/_fixedPoint";
 import InputField from "../../../../_helper/_inputField";
 import NewSelect from "../../../../_helper/_select";
 import { validationSchema } from "../helper";
+import IDelete from "../../../../_helper/_helperIcons/_delete";
 
 export default function _Form({
   portDDL,
@@ -76,6 +75,23 @@ export default function _Form({
     preDate.setDate(today.getDate() - 1);
 
     return preDate.toISOString().slice(0, 16);
+  };
+
+  const handleDelete = (index, subIndex) => {
+    const newData = dateWiseQuantity.rowDataList.map((item, i) => {
+      if (i === index) {
+        return {
+          ...item,
+          unLoadDetails: item.unLoadDetails.filter((_, j) => j !== subIndex)
+        };
+      }
+      return item;
+    }).filter(item => item.unLoadDetails.length > 0);
+
+    setDateWiseQuantity((prevState) => ({
+      ...prevState,
+      rowDataList: newData,
+    }));
   };
 
   return (
@@ -414,6 +430,73 @@ export default function _Form({
                   {viewType === "view" ? (
                     <div className="col-md-6">
                       {rowData?.length > 0 && (
+                        <div className="table-responsive">
+                          <table
+                            id="table-to-xlsx"
+                            className={
+                              "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+                            }
+                          >
+                            <thead>
+                              <tr className="cursor-pointer">
+                                {[
+                                  "SL",
+                                  // "Unloading Date",
+                                  "Item Name",
+                                  "Quantity",
+                                ]?.map((th, index) => {
+                                  return <th key={index}> {th} </th>;
+                                })}
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {rowData?.map((item, index) => {
+                                return (
+                                  <tr key={index}>
+                                    <td
+                                      style={{ width: "40px" }}
+                                      className="text-center"
+                                    >
+                                      {index + 1}
+                                    </td>
+                                    {/* <td className="text-center">
+                                  {_dateFormatter(item?.unloadingDate)}
+                                </td> */}
+                                    <td>{item?.itemName}</td>
+                                    <td className="text-right">
+                                      {_fixedPoint(item?.receiveQnt, true, 1)}
+                                    </td>
+                                  </tr>
+                                );
+                              })}
+                              <tr>
+                                <td colSpan={2} className="text-right">
+                                  <b>Total</b>
+                                </td>
+                                <td className="text-right">
+                                  <b>
+                                    {_fixedPoint(
+                                      rowData?.reduce(
+                                        (a, b) => a + b?.receiveQnt,
+                                        0
+                                      ),
+                                      true
+                                    )}
+                                  </b>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      )}
+                    </div>
+                  ) : null}
+                  {viewType === "view" ||
+                  viewType === "modify" ||
+                  viewType === "edit" ? (
+                    <div className="col-md-6">
+                      <h5>Previous Unload Info</h5>
+                      <div className="table-responsive">
                         <table
                           id="table-to-xlsx"
                           className={
@@ -424,135 +507,76 @@ export default function _Form({
                             <tr className="cursor-pointer">
                               {[
                                 "SL",
-                                // "Unloading Date",
-                                "Item Name",
-                                "Quantity",
+                                "Date",
+                                "Unloaded Quantity",
+                                "ShipPoint",
+                                "Action"
                               ]?.map((th, index) => {
                                 return <th key={index}> {th} </th>;
                               })}
                             </tr>
                           </thead>
                           <tbody>
-                            {rowData?.map((item, index) => {
-                              return (
-                                <tr key={index}>
-                                  <td
-                                    style={{ width: "40px" }}
-                                    className="text-center"
-                                  >
-                                    {index + 1}
-                                  </td>
-                                  {/* <td className="text-center">
-                                  {_dateFormatter(item?.unloadingDate)}
-                                </td> */}
-                                  <td>{item?.itemName}</td>
-                                  <td className="text-right">
-                                    {_fixedPoint(item?.receiveQnt, true, 1)}
-                                  </td>
-                                </tr>
-                              );
-                            })}
-                            <tr>
-                              <td colSpan={2} className="text-right">
-                                <b>Total</b>
-                              </td>
-                              <td className="text-right">
-                                <b>
-                                  {_fixedPoint(
-                                    rowData?.reduce(
-                                      (a, b) => a + b?.receiveQnt,
-                                      0
-                                    ),
-                                    true
-                                  )}
-                                </b>
-                              </td>
-                            </tr>
+                            {dateWiseQuantity?.rowDataList?.length > 0 &&
+                              dateWiseQuantity?.rowDataList?.map(
+                                (item, index) =>
+                                  item?.unLoadDetails?.length > 0 &&
+                                  item?.unLoadDetails?.map((data, i) => (
+                                    <tr key={i}>
+                                      <td
+                                        style={{ width: "40px" }}
+                                        className="text-center"
+                                      >
+                                        {i + 1}
+                                      </td>
+                                      <td className="text-center">
+                                        <InputField
+                                          value={_dateFormatter(
+                                            data?.unloadDateDetails
+                                          )}
+                                          name="unloadDateDetails"
+                                          type="date"
+                                          disabled={viewType !== "modify"}
+                                          onChange={(e) => {
+                                            rowDtoHandler(
+                                              "unloadDateDetails",
+                                              e.target.value,
+                                              index,
+                                              i
+                                            );
+                                          }}
+                                        />
+                                        {/* {_dateFormatter(data?.unloadDateDetails)} */}
+                                      </td>
+                                      <td className="text-center">
+                                        <InputField
+                                          value={data?.receiveQuantityDeatails}
+                                          name="receiveQuantityDeatails"
+                                          type="number"
+                                          disabled={viewType !== "modify"}
+                                          onChange={(e) => {
+                                            if (+e.target.value < 0) return;
+                                            rowDtoHandler(
+                                              "receiveQuantityDeatails",
+                                              +e.target.value,
+                                              index,
+                                              i
+                                            );
+                                          }}
+                                        />
+                                      </td>
+                                      <td className="text-center">
+                                        {data?.shipPointName}
+                                      </td>
+                                      <td className="text-center">{viewType === "modify" ? <span onClick={()=>{
+                                        handleDelete(index, i)
+                                      }}><IDelete/></span> : null}</td>
+                                    </tr>
+                                  ))
+                              )}
                           </tbody>
                         </table>
-                      )}
-                    </div>
-                  ) : null}
-                  {viewType === "view" ||
-                  viewType === "modify" ||
-                  viewType === "edit" ? (
-                    <div className="col-md-6">
-                      <h5>Previous Unload Info</h5>
-                      <table
-                        id="table-to-xlsx"
-                        className={
-                          "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
-                        }
-                      >
-                        <thead>
-                          <tr className="cursor-pointer">
-                            {[
-                              "SL",
-                              "Date",
-                              "Unloaded Quantity",
-                              "ShipPoint",
-                            ]?.map((th, index) => {
-                              return <th key={index}> {th} </th>;
-                            })}
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {dateWiseQuantity?.rowDataList?.length > 0 &&
-                            dateWiseQuantity?.rowDataList?.map(
-                              (item, index) =>
-                                item?.unLoadDetails?.length > 0 &&
-                                item?.unLoadDetails?.map((data, i) => (
-                                  <tr key={i}>
-                                    <td
-                                      style={{ width: "40px" }}
-                                      className="text-center"
-                                    >
-                                      {i + 1}
-                                    </td>
-                                    <td className="text-center">
-                                      <InputField
-                                        value={_dateFormatter(
-                                          data?.unloadDateDetails
-                                        )}
-                                        name="unloadDateDetails"
-                                        type="date"
-                                        disabled={viewType !== "modify"}
-                                        onChange={(e) => {
-                                          rowDtoHandler(
-                                            "unloadDateDetails",
-                                            e.target.value,
-                                            index,
-                                            i
-                                          );
-                                        }}
-                                      />
-                                      {/* {_dateFormatter(data?.unloadDateDetails)} */}
-                                    </td>
-                                    <td className="text-center">
-                                      <InputField
-                                        value={data?.receiveQuantityDeatails}
-                                        name="receiveQuantityDeatails"
-                                        type="number"
-                                        disabled={viewType !== "modify"}
-                                        onChange={(e) => {
-                                          if (+e.target.value < 0) return;
-                                          rowDtoHandler(
-                                            "receiveQuantityDeatails",
-                                            +e.target.value,
-                                            index,
-                                            i
-                                          );
-                                        }}
-                                      />
-                                    </td>
-                                    <td className="text-center">
-                                      {data?.shipPointName}
-                                    </td>
-                                  </tr>
-                                ))
-                            )}
-                        </tbody>
-                      </table>
+                      </div>
                     </div>
                   ) : null}
                 </div>

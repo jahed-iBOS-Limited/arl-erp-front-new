@@ -121,41 +121,42 @@ export default function CostVarianceReportLanding() {
                 </div>
               </div>
               <div className="mt-3">
-                <table className="table table-striped table-bordered bj-table bj-table-landing">
-                  <thead>
-                    <tr>
-                      <th>SL</th>
-                      <th>Item Code</th>
-                      <th>Item Name</th>
-                      <th>Uom</th>
-                      <th>Budget Overhead</th>
-                      <th>Act. Overhead</th>
-                      <th>Budget COGS</th>
-                      <th>Act. COGS</th>
-                      <th>Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {tableData?.length > 0 &&
-                      tableData?.map((item, index) => (
-                        <tr key={index}>
-                          <td>{index + 1}</td>
-                          <td className="text-center">{item?.strItemCode}</td>
-                          <td>{item?.strItemName}</td>
-                          <td>{item?.strBaseUomName}</td>
-                          <td className="text-right">
-                            {_formatMoney(item?.numBudOH)}
-                          </td>
-                          <td className="text-right">
-                            {_formatMoney(item?.numActOH)}
-                          </td>
-                          <td className="text-right">
-                            {_formatMoney(item?.numBudCOGS)}
-                          </td>
-                          <td className="text-right">
-                            {_formatMoney(item?.numActCOGS)}
-                          </td>
-                          {/* <td className="text-right">
+                <div className="table-responsive">
+                  <table className="table table-striped table-bordered bj-table bj-table-landing">
+                    <thead>
+                      <tr>
+                        <th>SL</th>
+                        <th>Item Code</th>
+                        <th>Item Name</th>
+                        <th>Uom</th>
+                        <th>Budget Overhead</th>
+                        <th>Act. Overhead</th>
+                        <th>Budget COGS</th>
+                        <th>Act. COGS</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {tableData?.length > 0 &&
+                        tableData?.map((item, index) => (
+                          <tr key={index}>
+                            <td>{index + 1}</td>
+                            <td className="text-center">{item?.strItemCode}</td>
+                            <td>{item?.strItemName}</td>
+                            <td>{item?.strBaseUomName}</td>
+                            <td className="text-right">
+                              {_formatMoney(item?.numBudOH)}
+                            </td>
+                            <td className="text-right">
+                              {_formatMoney(item?.numActOH)}
+                            </td>
+                            <td className="text-right">
+                              {_formatMoney(item?.numBudCOGS)}
+                            </td>
+                            <td className="text-right">
+                              {_formatMoney(item?.numActCOGS)}
+                            </td>
+                            {/* <td className="text-right">
                             {_formatMoney(item?.numActCOGS)}
                           </td>
                           <td className="text-right">
@@ -171,18 +172,19 @@ export default function CostVarianceReportLanding() {
                             {_formatMoney(item?.numBudOH)}
                           </td>
                           <td className="text-center">{item?.numConvRate}</td> */}
-                          <td className="text-center">
-                            <IView
-                              clickHandler={() => {
-                                setClickedRow(item);
-                                setIsShowModal(true);
-                              }}
-                            />
-                          </td>
-                        </tr>
-                      ))}
-                  </tbody>
-                </table>
+                            <td className="text-center">
+                              <IView
+                                clickHandler={() => {
+                                  setClickedRow(item);
+                                  setIsShowModal(true);
+                                }}
+                              />
+                            </td>
+                          </tr>
+                        ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
               <IViewModal
                 title="Cost Variance Details"

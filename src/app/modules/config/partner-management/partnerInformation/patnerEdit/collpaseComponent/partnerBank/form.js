@@ -246,7 +246,7 @@ export default function RoleExForm({
                   <FieldArray
                     name="entitys"
                     render={() => (
-                      <div>
+                      <div className="table-responsive">
                         <table className="table table-striped table-bordered">
                           <thead>
                             <tr>

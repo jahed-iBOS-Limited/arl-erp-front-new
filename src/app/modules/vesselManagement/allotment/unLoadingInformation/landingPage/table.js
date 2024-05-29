@@ -185,182 +185,188 @@ const UnLoadingInformationTable = () => {
                 </div>
                 {rowData?.data?.length > 0 && (
                   <div>
-                    <table
-                      id="table-to-xlsx"
-                      className={
-                        "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
-                      }
-                    >
-                      <thead>
-                        <tr className="cursor-pointer">
-                          {headers?.map((th, index) => {
-                            return <th key={index}> {th} </th>;
-                          })}
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {rowData?.data?.map((item, index) => {
-                          totalQuantity += item?.receiveQnt;
-                          return (
-                            <tr
-                              key={index}
-                              style={
-                                !item?.isInventoryApprove
-                                  ? { backgroundColor: "#FFF8DC" }
-                                  : !item?.isApproveBySupervisor
-                                  ? { backgroundColor: "#F0FFFF" }
-                                  : !item?.isDumpApproveLM
-                                  ? { backgroundColor: "#B0E0E6" }
-                                  : { backgroundColor: "#00FA9A" }
-                              }
-                            >
-                              <td
-                                style={{ width: "40px" }}
-                                className="text-center"
+                    <div className="table-responsive">
+                      <table
+                        id="table-to-xlsx"
+                        className={
+                          "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+                        }
+                      >
+                        <thead>
+                          <tr className="cursor-pointer">
+                            {headers?.map((th, index) => {
+                              return <th key={index}> {th} </th>;
+                            })}
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {rowData?.data?.map((item, index) => {
+                            totalQuantity += item?.receiveQnt;
+                            return (
+                              <tr
+                                key={index}
+                                style={
+                                  !item?.isInventoryApprove
+                                    ? { backgroundColor: "#FFF8DC" }
+                                    : !item?.isApproveBySupervisor
+                                    ? { backgroundColor: "#F0FFFF" }
+                                    : !item?.isDumpApproveLM
+                                    ? { backgroundColor: "#B0E0E6" }
+                                    : { backgroundColor: "#00FA9A" }
+                                }
                               >
-                                {index + 1}
-                              </td>
-                              <td>{item?.program}</td>
-                              <td>{item?.shipPointName}</td>
-                              <td>{item?.lighterVesselName}</td>
-                              <td>{item?.motherVesselName}</td>
-                              <td>
-                                {item?.receivedDate
-                                  ? moment(item?.receivedDate).format("lll")
-                                  : ""}
-                              </td>
-                              <td>
-                                {item?.unLoadingStartDate
-                                  ? moment(item?.unLoadingStartDate).format(
-                                      "lll"
-                                    )
-                                  : ""}
-                              </td>
+                                <td
+                                  style={{ width: "40px" }}
+                                  className="text-center"
+                                >
+                                  {index + 1}
+                                </td>
+                                <td>{item?.program}</td>
+                                <td>{item?.shipPointName}</td>
+                                <td>{item?.lighterVesselName}</td>
+                                <td>{item?.motherVesselName}</td>
+                                <td>
+                                  {item?.receivedDate
+                                    ? moment(item?.receivedDate).format("lll")
+                                    : ""}
+                                </td>
+                                <td>
+                                  {item?.unLoadingStartDate
+                                    ? moment(item?.unLoadingStartDate).format(
+                                        "lll"
+                                      )
+                                    : ""}
+                                </td>
 
-                              <td className="text-right">
-                                {_fixedPoint(item?.receiveQnt, true, 0)}
-                              </td>
-                              <td>
-                                {item?.unLoadingCompleteDate
-                                  ? moment(item?.unLoadingCompleteDate).format(
-                                      "lll"
-                                    )
-                                  : ""}
-                              </td>
+                                <td className="text-right">
+                                  {_fixedPoint(item?.receiveQnt, true, 0)}
+                                </td>
+                                <td>
+                                  {item?.unLoadingCompleteDate
+                                    ? moment(
+                                        item?.unLoadingCompleteDate
+                                      ).format("lll")
+                                    : ""}
+                                </td>
 
-                              <td
-                                style={{ width: "80px" }}
-                                className="text-center"
-                              >
-                                <div className="d-flex justify-content-around align-items-center">
-                                  <span>
-                                    <IView
-                                      clickHandler={() => {
-                                        history.push({
-                                          pathname: `/vessel-management/allotment/unloadinginformation/view/${item?.voyageNo}`,
-                                          state: item,
-                                        });
-                                      }}
-                                    />
-                                  </span>
-                                  {!item?.isInventoryApprove && (
-                                    <span
-                                      className="edit"
-                                      onClick={() => {
-                                        history.push({
-                                          pathname: `/vessel-management/allotment/unloadinginformation/modify/${item?.voyageNo}`,
-                                          state: item,
-                                        });
-                                      }}
-                                    >
-                                      <IEdit />
+                                <td
+                                  style={{ width: "80px" }}
+                                  className="text-center"
+                                >
+                                  <div className="d-flex justify-content-around align-items-center">
+                                    <span>
+                                      <IView
+                                        clickHandler={() => {
+                                          history.push({
+                                            pathname: `/vessel-management/allotment/unloadinginformation/view/${item?.voyageNo}`,
+                                            state: item,
+                                          });
+                                        }}
+                                      />
                                     </span>
-                                  )}
-                                  {!item?.unLoadingCompleteDate &&
-                                    !item?.isInventoryApprove && (
-                                      <span>
-                                        <ICon
-                                          title="Add"
-                                          onClick={() => {
-                                            history.push({
-                                              pathname: `/vessel-management/allotment/unloadinginformation/edit/${item?.voyageNo}`,
-                                              state: item,
-                                            });
-                                          }}
-                                        >
-                                          <i class="fas fa-plus-circle"></i>
-                                        </ICon>
+                                    {!item?.isInventoryApprove && (
+                                      <span
+                                        className="edit"
+                                        onClick={() => {
+                                          history.push({
+                                            pathname: `/vessel-management/allotment/unloadinginformation/modify/${item?.voyageNo}`,
+                                            state: item,
+                                          });
+                                        }}
+                                      >
+                                        <IEdit />
                                       </span>
                                     )}
-                                </div>
-                              </td>
-                              <td className="text-center">
-                                <span>
-                                  <IApproval
-                                    title="Truck to Damp Delivery"
-                                    onClick={() => {
-                                      setSingleData(item);
-                                      setShow(true);
-                                      setLevelOfApprove("fourth");
-                                    }}
-                                  />
-                                </span>
-                              </td>
-                              <td className="text-center">
-                                {!item?.isInventoryApprove ? (
-                                  // {!item?.isBillSubmitted ? (
+                                    {!item?.unLoadingCompleteDate &&
+                                      !item?.isInventoryApprove && (
+                                        <span>
+                                          <ICon
+                                            title="Add"
+                                            onClick={() => {
+                                              history.push({
+                                                pathname: `/vessel-management/allotment/unloadinginformation/edit/${item?.voyageNo}`,
+                                                state: item,
+                                              });
+                                            }}
+                                          >
+                                            <i class="fas fa-plus-circle"></i>
+                                          </ICon>
+                                        </span>
+                                      )}
+                                  </div>
+                                </td>
+                                <td className="text-center">
+                                  {/* {item?.isTruckToDampDayByDay ? ( */}
                                   <span>
                                     <IApproval
-                                      title="Warehouse Approve"
+                                      title="Truck to Damp Delivery"
                                       onClick={() => {
                                         setSingleData(item);
                                         setShow(true);
-                                        setLevelOfApprove("first");
+                                        setLevelOfApprove("fourth");
                                       }}
                                     />
                                   </span>
-                                ) : !item?.isApproveBySupervisor ? (
-                                  <span>
-                                    <IApproval
-                                      title="Supervisor Approve"
-                                      onClick={() => {
-                                        setSingleData(item);
-                                        setShow(true);
-                                        setLevelOfApprove("second");
-                                      }}
-                                    />
-                                  </span>
-                                ) : !item?.isDumpApproveLM ? (
-                                  <span>
-                                    <IApproval
-                                      title="Dump Approve (LM)"
-                                      onClick={() => {
-                                        setSingleData(item);
-                                        setShow(true);
-                                        setLevelOfApprove("third");
-                                      }}
-                                    />
-                                  </span>
-                                ) : (
-                                  "Approved"
-                                )}
+                                  {/* ) : (
+                                  ""
+                                )} */}
+                                </td>
+                                <td className="text-center">
+                                  {!item?.isInventoryApprove ? (
+                                    // {!item?.isBillSubmitted ? (
+                                    <span>
+                                      <IApproval
+                                        title="Warehouse Approve"
+                                        onClick={() => {
+                                          setSingleData(item);
+                                          setShow(true);
+                                          setLevelOfApprove("first");
+                                        }}
+                                      />
+                                    </span>
+                                  ) : !item?.isApproveBySupervisor ? (
+                                    <span>
+                                      <IApproval
+                                        title="Supervisor Approve"
+                                        onClick={() => {
+                                          setSingleData(item);
+                                          setShow(true);
+                                          setLevelOfApprove("second");
+                                        }}
+                                      />
+                                    </span>
+                                  ) : !item?.isDumpApproveLM ? (
+                                    <span>
+                                      <IApproval
+                                        title="Dump Approve (LM)"
+                                        onClick={() => {
+                                          setSingleData(item);
+                                          setShow(true);
+                                          setLevelOfApprove("third");
+                                        }}
+                                      />
+                                    </span>
+                                  ) : (
+                                    "Approved"
+                                  )}
+                                </td>
+                              </tr>
+                            );
+                          })}
+                          {rowData?.data?.length > 0 && (
+                            <tr>
+                              <td colSpan={7} className="text-right">
+                                <b>Total</b>
                               </td>
+                              <td className="text-right">
+                                <b>{_fixedPoint(totalQuantity, true, 0)}</b>
+                              </td>
+                              <td colSpan={4}></td>
                             </tr>
-                          );
-                        })}
-                        {rowData?.data?.length > 0 && (
-                          <tr>
-                            <td colSpan={7} className="text-right">
-                              <b>Total</b>
-                            </td>
-                            <td className="text-right">
-                              <b>{_fixedPoint(totalQuantity, true, 0)}</b>
-                            </td>
-                            <td colSpan={4}></td>
-                          </tr>
-                        )}
-                      </tbody>
-                    </table>
+                          )}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 )}
 

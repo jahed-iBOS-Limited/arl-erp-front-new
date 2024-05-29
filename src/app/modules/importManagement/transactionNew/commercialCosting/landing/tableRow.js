@@ -226,130 +226,133 @@ export default function TableRow() {
                   {(loading || loadingOnGetBankDDL) && <Loading />}
                   {rowDto?.data?.length > 0 ? (
                     <div>
-                      <table
-                        className="table table-striped global-table"
-                        id="table-to-xlsx"
-                      >
-                        <thead>
-                          <tr>
-                            <th style={{ minWidth: "30px" }}>SL</th>
-                            <th style={{ minWidth: "30px" }}>Unit Code</th>
-                            <th style={{ minWidth: "70px" }}>PO No</th>
-                            <th style={{ minWidth: "100px" }}>LC No</th>
-                            <th style={{ minWidth: "50px" }}>LC Type</th>
-                            <th style={{ minWidth: "100px" }}>Bank</th>
-                            <th style={{ minWidth: "50px" }}>Currency</th>
-                            {/* <th style={{ minWidth: "100px" }}>Amount(FC)</th> */}
-                            <th style={{ minWidth: "100px" }}>
-                              Invoice Amount (BDT)
-                            </th>
-                            <th style={{ minWidth: "70px" }}>
-                              Invoice Amount (FC)
-                            </th>
-                            <th style={{ minWidth: "70px" }}>Shipment NO</th>
-                            <th style={{ minWidth: "70px" }}>
-                              {values?.status?.label === "Complete"
-                                ? "Complete Date"
-                                : "Due Date"}
-                            </th>
-                            <th style={{ minWidth: "70px" }}>
-                              Transaction Date
-                            </th>
-                          </tr>
-                        </thead>
-
-                        <tbody>
-                          {rowDto?.data?.map((item, index) => (
-                            <tr key={index}>
-                              <td>{index + 1}</td>
-                              <td>{item?.businessUnitCode}</td>
-                              <td style={{ width: "150px" }}>
-                                <div className="row">
-                                  <div
-                                    className="col-lg-12"
-                                    style={{
-                                      color: "blue",
-                                      textDecoration: "underline",
-                                    }}
-                                  >
-                                    <span
-                                      className="colorOnHoverForLcAndPo"
-                                      onClick={() => {
-                                        handlePoShow(item?.poId);
-                                      }}
-                                    >
-                                      {item?.poNumber}
-                                    </span>
-                                  </div>
-                                </div>
-                              </td>
-                              <td>
-                                <div className="row">
-                                  <div
-                                    className="col-lg-12 text-center"
-                                    style={{
-                                      color: "blue",
-                                      textDecoration: "underline",
-                                    }}
-                                  >
-                                    <span
-                                      className="colorOnHoverForLcAndPo"
-                                      onClick={() => {
-                                        handleLcShow(item?.lcId);
-                                      }}
-                                    >
-                                      {item?.lcNumber}
-                                    </span>
-                                  </div>
-                                </div>
-                              </td>
-                              <td>{item?.lcType}</td>
-                              <td>{item?.bank}</td>
-                              <td>{item?.currency}</td>
-                              {/* <td>{item?.lcAmount}</td> */}
-                              <td>{item?.bdtAmount}</td>
-                              <td>{item?.shipmentAmount}</td>
-                              <td className="text-center">
-                                {item?.shipmentNo}
-                              </td>
-                              <td>
-                                {_dateFormatter(
-                                  item?.dueDate ? item?.dueDate : ""
-                                )}
-                              </td>
-                              <td>
-                                {item?.dteTransactionDate
-                                  ? _dateFormatter(item?.dteTransactionDate)
-                                  : "N/A"}
-                              </td>
+                      <div className="react-bootstrap-table table-responsive">
+                        <table
+                          className="table table-striped global-table"
+                          id="table-to-xlsx"
+                        >
+                          <thead>
+                            <tr>
+                              <th style={{ minWidth: "30px" }}>SL</th>
+                              <th style={{ minWidth: "30px" }}>Unit Code</th>
+                              <th style={{ minWidth: "70px" }}>PO No</th>
+                              <th style={{ minWidth: "100px" }}>LC No</th>
+                              <th style={{ minWidth: "50px" }}>LC Type</th>
+                              <th style={{ minWidth: "100px" }}>Bank</th>
+                              <th style={{ minWidth: "50px" }}>Currency</th>
+                              {/* <th style={{ minWidth: "100px" }}>Amount(FC)</th> */}
+                              <th style={{ minWidth: "100px" }}>
+                                Invoice Amount (BDT)
+                              </th>
+                              <th style={{ minWidth: "70px" }}>
+                                Invoice Amount (FC)
+                              </th>
+                              <th style={{ minWidth: "70px" }}>Shipment NO</th>
+                              <th style={{ minWidth: "70px" }}>
+                                {values?.status?.label === "Complete"
+                                  ? "Complete Date"
+                                  : "Due Date"}
+                              </th>
+                              <th style={{ minWidth: "70px" }}>
+                                Transaction Date
+                              </th>
                             </tr>
-                          ))}
-                          <tr>
-                            <td colSpan="7" className="text-right">
-                              <strong>Total</strong>
-                            </td>
-                            <td>
-                              <strong>
-                                {rowDto?.data?.reduce(
-                                  (acc, curr) => acc + curr?.bdtAmount,
-                                  0
-                                )}
-                              </strong>
-                            </td>
-                            <td>
-                              <strong>
-                                {rowDto?.data?.reduce(
-                                  (acc, curr) => acc + curr?.shipmentAmount,
-                                  0
-                                )}
-                              </strong>
-                            </td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                          </tr>
-                        </tbody>
-                      </table>
+                          </thead>
+
+                          <tbody>
+                            {rowDto?.data?.map((item, index) => (
+                              <tr key={index}>
+                                <td>{index + 1}</td>
+                                <td>{item?.businessUnitCode}</td>
+                                <td style={{ width: "150px" }}>
+                                  <div className="row">
+                                    <div
+                                      className="col-lg-12"
+                                      style={{
+                                        color: "blue",
+                                        textDecoration: "underline",
+                                      }}
+                                    >
+                                      <span
+                                        className="colorOnHoverForLcAndPo"
+                                        onClick={() => {
+                                          handlePoShow(item?.poId);
+                                        }}
+                                      >
+                                        {item?.poNumber}
+                                      </span>
+                                    </div>
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="row">
+                                    <div
+                                      className="col-lg-12 text-center"
+                                      style={{
+                                        color: "blue",
+                                        textDecoration: "underline",
+                                      }}
+                                    >
+                                      <span
+                                        className="colorOnHoverForLcAndPo"
+                                        onClick={() => {
+                                          handleLcShow(item?.lcId);
+                                        }}
+                                      >
+                                        {item?.lcNumber}
+                                      </span>
+                                    </div>
+                                  </div>
+                                </td>
+                                <td>{item?.lcType}</td>
+                                <td>{item?.bank}</td>
+                                <td>{item?.currency}</td>
+                                {/* <td>{item?.lcAmount}</td> */}
+                                <td>{item?.bdtAmount}</td>
+                                <td>{item?.shipmentAmount}</td>
+                                <td className="text-center">
+                                  {item?.shipmentNo}
+                                </td>
+                                <td>
+                                  {_dateFormatter(
+                                    item?.dueDate ? item?.dueDate : ""
+                                  )}
+                                </td>
+                                <td>
+                                  {item?.dteTransactionDate
+                                    ? _dateFormatter(item?.dteTransactionDate)
+                                    : "N/A"}
+                                </td>
+                              </tr>
+                            ))}
+                            <tr>
+                              <td colSpan="7" className="text-right">
+                                <strong>Total</strong>
+                              </td>
+                              <td>
+                                <strong>
+                                  {rowDto?.data?.reduce(
+                                    (acc, curr) => acc + curr?.bdtAmount,
+                                    0
+                                  )}
+                                </strong>
+                              </td>
+                              <td>
+                                <strong>
+                                  {rowDto?.data?.reduce(
+                                    (acc, curr) => acc + curr?.shipmentAmount,
+                                    0
+                                  )}
+                                </strong>
+                              </td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+
                       {rowDto?.data?.length > 0 && (
                         <PaginationTable
                           count={rowDto?.totalCount}

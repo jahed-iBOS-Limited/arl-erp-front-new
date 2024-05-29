@@ -22,6 +22,9 @@ import PurchaseOrder from "../../purchase-order/form/addEditForm";
 import { getLandingData } from "../helper";
 // import IWarningModal from "../../../../_helper/_warningModal";
 import { getSingleDataForPoView } from "../../purchase-order/helper";
+import LCApplicationFormDownload from "./lcApplicationForm";
+import ICon from "../../../../chartering/_chartinghelper/icons/_icon";
+import LCApplicationExport from "./lcApplication";
 
 const header = [
   "SL",
@@ -39,6 +42,8 @@ const TableRow = () => {
   const [gridData, setGridData] = useState();
   const [isloading, setIsLoading] = useState(false);
   const [isShowModal, setIsShowModal] = useState(false);
+  const [show, setShow] = useState(false);
+  const [open, setOpen] = useState(false);
   //paginationState
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(75);
@@ -49,6 +54,7 @@ const TableRow = () => {
 
   const [rowDto, setRowDto] = useState([]);
   const [singleDataForPoView, setSingleDataForPoView] = useState({});
+  const [singleItem, setSingleItem] = useState({});
 
   // get user profile data from store
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
@@ -109,9 +115,9 @@ const TableRow = () => {
       <Formik
         enableReinitialize={true}
         initialValues={{ PiNo: "" }}
-        onSubmit={(values, { setSubmitting, resetForm }) => {}}
+        onSubmit={() => {}}
       >
-        {({ errors, touched, setFieldValue, isValid, values }) => (
+        {({ setFieldValue, values }) => (
           <>
             <Card>
               <CardHeader title="Proforma Invoice">
@@ -229,7 +235,28 @@ const TableRow = () => {
                                   <IEdit />
                                 </span>
                               )}
-
+                              <span className="ml-3">
+                                <ICon
+                                  title={"Download LC Application Form"}
+                                  onClick={() => {
+                                    setShow(true);
+                                    setSingleItem(item);
+                                  }}
+                                >
+                                  <i class="fas fa-download"></i>
+                                </ICon>
+                              </span>
+                              <span className="ml-3">
+                                <ICon
+                                  title={"LC Application"}
+                                  onClick={() => {
+                                    setOpen(true);
+                                    setSingleItem(item);
+                                  }}
+                                >
+                                  <i class="fas fa-file-download"></i>
+                                </ICon>
+                              </span>
                               <span className="ml-3">
                                 <button
                                   className="btn btn-outline-dark mr-1 pointer"
@@ -286,6 +313,30 @@ const TableRow = () => {
                     setIsShowModal={setIsShowModal}
                   />
                 </IViewModal>
+
+                {/* LC Application Form */}
+                <IViewModal
+                  modelSize={"md"}
+                  show={show}
+                  onHide={() => {
+                    setSingleItem({});
+                    setShow(false);
+                  }}
+                >
+                  <LCApplicationFormDownload obj={{ setShow, singleItem }} />
+                </IViewModal>
+
+                {/* LC Application */}
+                <IViewModal
+                  show={open}
+                  onHide={() => {
+                    setSingleItem({});
+                    setOpen(false);
+                  }}
+                >
+                  <LCApplicationExport obj={{ setOpen, singleItem }} />
+                </IViewModal>
+
                 {/* Pagination Code */}
                 {gridData?.data?.length > 0 && (
                   <PaginationTable

@@ -84,32 +84,34 @@ export default function WeightbridgeEdit() {
 
                 <div className="row">
                   <div className="col-lg-12">
-                    <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
-                      <thead>
-                        <tr>
-                          <th>তারিখ</th>
-                          <th>পণ্যের নাম</th>
-                          <th>সাপ্লায়ারের নাম</th>
-                          <th>ড্রাইভারের নাম</th>
-                          <th>মোবাইল নাম্বার</th>
-                          <th>গাড়ীর নাম্বার</th>
-                          <th>চালান নাম্বার</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td className="text-center">
-                            {_dateFormatter(location?.state?.dteDate)}
-                          </td>
-                          <td>{location?.state?.strItemName}</td>
-                          <td>{location?.state?.strSupplierName}</td>
-                          <td>{location?.state?.strDriverName}</td>
-                          <td>{location?.state?.strDriverMobileNo}</td>
-                          <td>{location?.state?.strTruckNumber}</td>
-                          <td>{location?.state?.strInvoiceNumber}</td>
-                        </tr>
-                      </tbody>
-                    </table>
+                    <div className="table-responsive">
+                      <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+                        <thead>
+                          <tr>
+                            <th>তারিখ</th>
+                            <th>পণ্যের নাম</th>
+                            <th>সাপ্লায়ারের নাম</th>
+                            <th>ড্রাইভারের নাম</th>
+                            <th>মোবাইল নাম্বার</th>
+                            <th>গাড়ীর নাম্বার</th>
+                            <th>চালান নাম্বার</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td className="text-center">
+                              {_dateFormatter(location?.state?.dteDate)}
+                            </td>
+                            <td>{location?.state?.strItemName}</td>
+                            <td>{location?.state?.strSupplierName}</td>
+                            <td>{location?.state?.strDriverName}</td>
+                            <td>{location?.state?.strDriverMobileNo}</td>
+                            <td>{location?.state?.strTruckNumber}</td>
+                            <td>{location?.state?.strInvoiceNumber}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
 

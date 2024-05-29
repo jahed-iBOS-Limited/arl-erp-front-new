@@ -1,7 +1,7 @@
-import React, { useEffect, useRef, useState } from "react";
 import { Formik } from "formik";
+import React, { useEffect, useRef, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import { useReactToPrint } from "react-to-print";
 import * as Yup from "yup";
 import { _todayDate } from "../../../../_helper/_todayDate";
@@ -17,24 +17,26 @@ import {
   ModalProgressBar,
 } from "../../../../../../_metronic/_partials/controls";
 
-import { getDistributionChannelDDL_api } from "../../../../transportManagement/report/challanInformationUpdate/helper";
 import Loading from "../../../../_helper/_loading";
+import { getDistributionChannelDDL_api } from "../../../../transportManagement/report/challanInformationUpdate/helper";
 import {
   createCommercialInvoice,
   createSalesInvoice,
   getCustomerDDL,
   getEmployeeList,
+  getInvoiceDataByDate,
 } from "../helper";
 import InvoiceReceptBluePill from "../invoiceBluePill/invoiceRecept";
 
+import InvoiceReceptForCement from "../invoiceCement/invoiceRecept";
+import InvoiceReceptForPolyFibre from "../invoicePolyFibre/invoiceRecept";
 import {
   useBluePillInvoiceHandler,
   useCementInvoicePrintHandler,
   usePolyFibreInvoicePrintHandler,
 } from "./formHandlerBluePill";
 import FormTwo from "./formTwo";
-import InvoiceReceptForCement from "../invoiceCement/invoiceRecept";
-import InvoiceReceptForPolyFibre from "../invoicePolyFibre/invoiceRecept";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 
 const initData = {
   customer: "",
@@ -52,6 +54,7 @@ const initData = {
   advancedPayment: 0,
   companyName: "",
   companyAddress: "",
+  invoiceType: { value: 1, label: "Date Range Base" },
 };
 
 const invoiceInitData = {
@@ -69,6 +72,7 @@ const invoiceInitData = {
   remarks: "",
   particulars: "",
   customerType: "",
+  invoiceType: { value: 1, label: "Date Range Base" },
 };
 
 const validationSchema = Yup.object().shape({});
@@ -76,6 +80,7 @@ const validationSchema = Yup.object().shape({});
 const AddEditForm = () => {
   const printRef = useRef();
   const history = useHistory();
+  const { state } = useLocation();
   // eslint-disable-next-line no-unused-vars
   const [orderSingleValue, setSingleValue] = useState({});
   const [grandTotal, setGrandTotal] = useState({
@@ -94,6 +99,15 @@ const AddEditForm = () => {
   const [invoiceData, setInvoiceData] = useState([]);
   const [employeeList, setEmployeeList] = useState([]);
   const [channelId, setChannelId] = useState(0);
+  const [
+    customerList,
+    getCustomerList,
+    customerLoading,
+    setCustomerList,
+  ] = useAxiosGet();
+  const [SOList, getSOList, soLoading, setSOList] = useAxiosGet();
+  const [, getRowsBySO, loading] = useAxiosGet();
+  const [, getSOInfo] = useAxiosGet();
   // const [customerType, setCustomerType] = useState(0);
 
   // get user profile data from store
@@ -195,8 +209,22 @@ const AddEditForm = () => {
   }, [rowDto]);
 
   useEffect(() => {
+    if (state?.intChannelId) {
+      getInvoiceDataByDate(
+        accId,
+        buId,
+        state?.fromDate,
+        state?.toDate,
+        state?.intPartnerId,
+        "",
+        "",
+        setDisabled,
+        setRowDto
+      );
+    }
+
     getCustomerDDL(accId, buId, setCustomerDDL);
-  }, [accId, buId]);
+  }, [accId, buId, state]);
 
   const allSelect = (value) => {
     let _data = [...rowDto];
@@ -246,11 +274,12 @@ const AddEditForm = () => {
             projLocation: values?.projectLocation,
             strInvoiceNo: values?.invoiceNo,
             isAitinclude: values?.ait?.value,
+            isVatinclude: values?.vat?.value,
             intSoldBy: values?.soldBy?.value,
             strSoldByName: values?.soldBy?.label,
             intSalesOrderCreatedBy: values?.salesOrderCreatedBy?.value,
             strSalesOrderCreatedBy: values?.salesOrderCreatedBy?.label,
-            strPaymentTerms: values?.paymentTerms,
+            strPaymentTerms: values?.paymentTerms?.label,
             remarks: values?.remarks || "",
           });
         } else if ([8].includes(buId)) {
@@ -262,11 +291,12 @@ const AddEditForm = () => {
             projLocation: values?.projectLocation,
             strInvoiceNo: values?.invoiceNo,
             isAitinclude: values?.ait?.value,
+            isVatinclude: values?.vat?.value,
             intSoldBy: values?.soldBy?.value,
             strSoldByName: values?.soldBy?.label,
             intSalesOrderCreatedBy: values?.salesOrderCreatedBy?.value,
             strSalesOrderCreatedBy: values?.salesOrderCreatedBy?.label,
-            strPaymentTerms: values?.paymentTerms,
+            strPaymentTerms: values?.paymentTerms?.label,
             remarks: values?.remarks || "",
             strGoodsDescription: values?.particulars || "",
           });
@@ -285,11 +315,12 @@ const AddEditForm = () => {
             projLocation: values?.projectLocation,
             strInvoiceNo: values?.invoiceNo,
             isAitinclude: values?.ait?.value,
+            isVatinclude: values?.vat?.value,
             intSoldBy: values?.soldBy?.value,
             strSoldByName: values?.soldBy?.label,
             intSalesOrderCreatedBy: values?.salesOrderCreatedBy?.value,
             strSalesOrderCreatedBy: values?.salesOrderCreatedBy?.label,
-            strPaymentTerms: values?.paymentTerms,
+            strPaymentTerms: values?.paymentTerms?.label,
             remarks: values?.remarks || "",
           });
         }
@@ -301,7 +332,6 @@ const AddEditForm = () => {
     createSalesInvoice(buId, payload, setDisabled, setInvoiceData, () => {
       cb();
       if ([186, 138].includes(buId)) {
-        // if ( buId === 186) {
         handleInvoicePrintBluePill();
       }
       if (buId === 4) {
@@ -311,9 +341,6 @@ const AddEditForm = () => {
         handleInvoicePrint();
       }
       if ([8].includes(buId)) {
-        // if (customerType === 1) {
-        //   handleInvoicePrintPolyFibre();
-        // }
         handleInvoicePrintPolyFibre();
       }
     });
@@ -332,7 +359,7 @@ const AddEditForm = () => {
           ([4, 186, 138]?.includes(buId) &&
             (!values?.soldBy ||
               !values?.salesOrderCreatedBy ||
-              !values?.paymentTerms))
+              !values?.paymentTerms?.label))
       : !values?.delivery?.label;
   };
 
@@ -349,12 +376,32 @@ const AddEditForm = () => {
     }
   };
 
+  const isLoading = customerLoading || soLoading || disabled || loading;
+
   return (
     <>
       <Formik
         enableReinitialize={true}
         initialValues={
-          [175, 186, 4, 94, 8, 138]?.includes(buId) ? invoiceInitData : initData
+          [175, 186, 4, 94, 8, 138]?.includes(buId)
+            ? {
+                ...invoiceInitData,
+                distributionChannel: state?.intChannelId
+                  ? {
+                      value: state?.intChannelId,
+                      label: state?.strChannelName,
+                    }
+                  : "",
+                customer: state?.intPartnerId
+                  ? {
+                      value: state?.intPartnerId,
+                      label: state?.strPartnerName,
+                    }
+                  : "",
+                fromDate: state?.fromDate,
+                toDate: state?.toDate,
+              }
+            : initData
         }
         validationSchema={validationSchema}
         onSubmit={() => {}}
@@ -386,7 +433,7 @@ const AddEditForm = () => {
                   </CardHeaderToolbar>
                 </CardHeader>
                 <CardBody>
-                  {disabled && <Loading />}
+                  {isLoading && <Loading />}
                   {// Akij Ready Mix Concrete Ltd & Blue Pill Limited & Akij Cement Company Ltd
                   [175, 186, 4, 94, 8, 138]?.includes(buId) ? (
                     <FormOne
@@ -406,6 +453,14 @@ const AddEditForm = () => {
                         setChannelId,
                         selectedAll,
                         allSelect,
+                        customerList,
+                        getCustomerList,
+                        SOList,
+                        getSOList,
+                        getRowsBySO,
+                        getSOInfo,
+                        setCustomerList,
+                        setSOList,
                         // setCustomerType,
                       }}
                     />
@@ -451,6 +506,7 @@ const AddEditForm = () => {
 
       {/* Sales invoice print for akij cement company ltd */}
       <InvoiceReceptForCement
+        // printRef={printRefTest}
         printRef={printRefCement}
         invoiceData={invoiceData}
         channelId={channelId}

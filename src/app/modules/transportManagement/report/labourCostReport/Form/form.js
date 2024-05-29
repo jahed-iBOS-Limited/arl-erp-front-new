@@ -2,12 +2,12 @@ import axios from "axios";
 import { Form, Formik } from "formik";
 import React from "react";
 import * as Yup from "yup";
-import { GetPendingUnloadLabourBillAmount } from "../../../../financialManagement/invoiceManagementSystem/billregister/helper";
 import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
 import ICustomCard from "../../../../_helper/_customCard";
 import FormikError from "../../../../_helper/_formikError";
 import InputField from "../../../../_helper/_inputField";
 import NewSelect from "../../../../_helper/_select";
+import { GetPendingUnloadLabourBillAmount } from "../../../../financialManagement/invoiceManagementSystem/billregister/helper";
 
 const validationSchema = Yup.object().shape({});
 
@@ -152,7 +152,7 @@ export default function _Form({
                     </div>
                   </div>
                   {/* <div className="row">
-                    <div className="col-3">
+                    <div className="col-lg-3">
                       <InputField
                         value={values?.billNo}
                         label="Bill No"
@@ -160,7 +160,7 @@ export default function _Form({
                         placeholder="Bill No"
                       />
                     </div>
-                    <div className="col-3">
+                    <div className="col-lg-3">
                       <InputField
                         value={_dateFormatter(values?.billDate)}
                         label="Bill Date"
@@ -169,7 +169,7 @@ export default function _Form({
                         placeholder="Bill Date"
                       />
                     </div>
-                    <div className="col-3">
+                    <div className="col-lg-3">
                       <InputField
                         value={_dateFormatter(values?.paymentDueDate)}
                         label="Payment Due Date"
@@ -188,7 +188,7 @@ export default function _Form({
                         placeholder="Narration"
                       />
                     </div>
-                    <div className="col-3">
+                    <div className="col-lg-3">
                       <div className="row align-items-end">
                         <div className="col-5">
                           <button
@@ -239,7 +239,8 @@ export default function _Form({
                     </span>
                   </div> */}
 
-                  <table className="table table-striped table-bordered global-table mt-0 table-font-size-sm">
+                <div className="table-responsive">
+                <table className="table table-striped table-bordered global-table mt-0 table-font-size-sm">
                     <thead className="bg-secondary">
                       <tr>
                         {/* <th style={{ width: "30px" }}>
@@ -315,6 +316,7 @@ export default function _Form({
                       ))}
                     </tbody>
                   </table>
+                </div>
                 </div>
               </div>
             </Form>

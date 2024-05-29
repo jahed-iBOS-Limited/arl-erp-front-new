@@ -979,7 +979,7 @@ export default function _Form({
                   </div>
 
                   {/* Vehicle Reant table */}
-                  <div className="col-lg-6">
+                  <div className="col-lg-6 table-responsive">
                     <table className={"table global-table"}>
                       <thead>
                         <tr>

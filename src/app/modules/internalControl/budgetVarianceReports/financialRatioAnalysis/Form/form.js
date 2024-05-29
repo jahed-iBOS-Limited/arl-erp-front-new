@@ -24,7 +24,7 @@ export default function _Form({ initData }) {
   const [rowDtoLeft, setLeftRowDto] = useState([]);
   const [rowDtoRight, setRightRowDto] = useState([]);
 
-  const {businessUnitList } = useSelector(
+  const { businessUnitList } = useSelector(
     (state) => state?.authData,
     shallowEqual
   );
@@ -37,18 +37,18 @@ export default function _Form({ initData }) {
           <>
             <Form className="form form-label-right">
               <div className="form-group row global-form">
-              <div className="col-lg-3">
-                      <NewSelect
-                        name="currentBusinessUnit"
-                        options={businessUnitList}
-                        value={values?.currentBusinessUnit}
-                        label="Business Unit"
-                        onChange={(valueOption) => {
-                          setFieldValue("currentBusinessUnit", valueOption || "");
-                        }}
-                        placeholder="Business Unit"
-                      />
-                    </div>
+                <div className="col-lg-3">
+                  <NewSelect
+                    name="currentBusinessUnit"
+                    options={businessUnitList}
+                    value={values?.currentBusinessUnit}
+                    label="Business Unit"
+                    onChange={(valueOption) => {
+                      setFieldValue("currentBusinessUnit", valueOption || "");
+                    }}
+                    placeholder="Business Unit"
+                  />
+                </div>
                 <div className="col-lg-3">
                   <label>From Date</label>
                   <InputField
@@ -80,10 +80,21 @@ export default function _Form({ initData }) {
                     }}
                   />
                 </div>
-                <div style={{ marginTop: "18px" }}>
+                <div
+                  style={{
+                    marginTop: "18px",
+                    display: "flex",
+                    gap: "5px",
+                    alignItems: "center",
+                  }}
+                >
                   <button
                     type="button"
-                    disabled={!values?.fromDate || !values?.toDate || !values?.currentBusinessUnit}
+                    disabled={
+                      !values?.fromDate ||
+                      !values?.toDate ||
+                      !values?.currentBusinessUnit
+                    }
                     onClick={() => {
                       setShowRDLC(false);
                       setRightRowDto([]);
@@ -110,8 +121,6 @@ export default function _Form({ initData }) {
                   >
                     View
                   </button>
-                </div>
-                <div className="col-md-1">
                   <ButtonStyleOne
                     label="Details"
                     disabled={!values?.fromDate || !values?.toDate}
@@ -120,7 +129,6 @@ export default function _Form({ initData }) {
                       setLeftRowDto([]);
                       setShowRDLC(true);
                     }}
-                    style={{ marginTop: "19px" }}
                   />
                 </div>
               </div>

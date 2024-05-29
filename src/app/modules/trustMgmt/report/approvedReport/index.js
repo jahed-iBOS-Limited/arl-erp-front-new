@@ -198,7 +198,7 @@ const ApprovedReport = () => {
                             <button
                               type="button"
                               className="btn btn-primary"
-                              style={{fontSize: "12px" }}
+                              style={{ fontSize: "12px" }}
                               onClick={() => {
                                 setRowDto(
                                   landingAPI(
@@ -221,78 +221,85 @@ const ApprovedReport = () => {
                     </div>
                     <div className="row cash_journal">
                       <div className="col-lg-12">
-                        <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
-                          <thead>
-                            <tr>
-                              <th style={{ width: "20px" }}>SL</th>
-                              <th>Application Id</th>
-                              <th>Application Date</th>
-                              <th>Approved Date</th>
-                              <th>Applicant Name</th>
-                              <th>Account Holder's Name</th>
-                              <th>Hospital/Institutes</th>
-                              <th>Cause Of Donation</th>
-                              <th>Effective Date</th>
-                              <th>Expiry Date</th>
-                              <th>Amount</th>
-                              <th>Attachment</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {rowDto?.map((data, index) => (
-                              <tr key={index}>
-                                <td> {index + 1} </td>
-                                <td>
-                                  <div className="text-center">
-                                    {data?.intApplicationID}
-                                  </div>
-                                </td>
-                                <td>
-                                  <div className="text-center">
-                                    {_dateFormatter(data?.dteApplicationDate)}
-                                  </div>
-                                </td>
-                                <td>
-                                  <div className="text-center">
-                                    {_dateFormatter(data?.dteApprovedDateTime)}
-                                  </div>
-                                </td>
-                                <td> {data?.strApplicantName} </td>
-                                <td> {data?.strAccountHolderName} </td>
-                                <td> {data?.strOrganizationName}</td>
-                                <td> {data?.strDonationType} </td>
-                                <td>
-                                  <div className="text-center">
-                                    {_dateFormatter(data?.dteEffectiveDate)}
-                                  </div>
-                                </td>
-                                <td>
-                                  <div className="text-center">
-                                    {_dateFormatter(data?.dteEndDate)}
-                                  </div>
-                                </td>
-                                <td>
-                                  <div className="text-right">
-                                    {_formatMoney(data?.monAmount, 2)}
-                                  </div>
-                                </td>
-                                <td
-                                  style={{
-                                    verticalAlign: "middle",
-                                    textAlign: "center",
-                                  }}
-                                >
-                                  <div className="">
-                                    {data?.strAttachmentUrl && (
-                                      <IView
-                                        clickHandler={() => {
-                                          dispatch(getDownlloadFileView_Action(data?.strAttachmentUrl));
-                                        }}
-                                      />
-                                    )}
-                                  </div>
-                                </td>
-                                {/* <td style={{ verticalAlign: "middle" }}>
+                        <div className="table-responsive">
+                          <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
+                            <thead>
+                              <tr>
+                                <th style={{ width: "20px" }}>SL</th>
+                                <th>Application Id</th>
+                                <th>Application Date</th>
+                                <th>Approved Date</th>
+                                <th>Applicant Name</th>
+                                <th>Account Holder's Name</th>
+                                <th>Hospital/Institutes</th>
+                                <th>Cause Of Donation</th>
+                                <th>Effective Date</th>
+                                <th>Expiry Date</th>
+                                <th>Amount</th>
+                                <th>Attachment</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {rowDto?.map((data, index) => (
+                                <tr key={index}>
+                                  <td> {index + 1} </td>
+                                  <td>
+                                    <div className="text-center">
+                                      {data?.intApplicationID}
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <div className="text-center">
+                                      {_dateFormatter(data?.dteApplicationDate)}
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <div className="text-center">
+                                      {_dateFormatter(
+                                        data?.dteApprovedDateTime
+                                      )}
+                                    </div>
+                                  </td>
+                                  <td> {data?.strApplicantName} </td>
+                                  <td> {data?.strAccountHolderName} </td>
+                                  <td> {data?.strOrganizationName}</td>
+                                  <td> {data?.strDonationType} </td>
+                                  <td>
+                                    <div className="text-center">
+                                      {_dateFormatter(data?.dteEffectiveDate)}
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <div className="text-center">
+                                      {_dateFormatter(data?.dteEndDate)}
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <div className="text-right">
+                                      {_formatMoney(data?.monAmount, 2)}
+                                    </div>
+                                  </td>
+                                  <td
+                                    style={{
+                                      verticalAlign: "middle",
+                                      textAlign: "center",
+                                    }}
+                                  >
+                                    <div className="">
+                                      {data?.strAttachmentUrl && (
+                                        <IView
+                                          clickHandler={() => {
+                                            dispatch(
+                                              getDownlloadFileView_Action(
+                                                data?.strAttachmentUrl
+                                              )
+                                            );
+                                          }}
+                                        />
+                                      )}
+                                    </div>
+                                  </td>
+                                  {/* <td style={{ verticalAlign: "middle" }}>
                                   <div className="d-flex justify-content-center align-items-center baiscInfo_table">
                                     <button
                                       className="btn btn-outline-dark mr-1 pointer"
@@ -310,10 +317,11 @@ const ApprovedReport = () => {
                                     </button>
                                   </div>
                                 </td> */}
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
                       </div>
                     </div>
                   </div>

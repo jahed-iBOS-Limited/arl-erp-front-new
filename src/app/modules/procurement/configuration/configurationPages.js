@@ -8,6 +8,7 @@ import PurchaseOrgAddForm from './purchase-organization/Form/addEditForm'
 import { PurchaseOrganization } from './purchase-organization/index'
 import RateAgreement from './rateAgreement'
 import RateAgreementCreate from './rateAgreement/rateAgrementCreate'
+import ItemRateUpdate from './itemRateUpdate'
 
 export function POConfigurationPages() {
   const userRole = useSelector(
@@ -42,6 +43,12 @@ export function POConfigurationPages() {
       <ContentRoute
         from="/mngProcurement/purchase-configuration/purchase-organization"
         component={PurchaseOrganization}
+      />
+
+     
+      <ContentRoute
+        from="/mngProcurement/purchase-configuration/item-rate-update"
+        component={ItemRateUpdate}
       />
 
       {/* Rate Agreement */}

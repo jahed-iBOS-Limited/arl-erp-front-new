@@ -2,10 +2,7 @@
 import { Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import {
-  Card,
-  CardBody
-} from "../../../../../../_metronic/_partials/controls";
+import { Card, CardBody } from "../../../../../../_metronic/_partials/controls";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
@@ -16,7 +13,7 @@ import {
   getBankReconsileManualData,
   getBankStatementDataMatch,
   header,
-  postForceReconsile
+  postForceReconsile,
 } from "../helpers";
 import { Modal } from "react-bootstrap";
 import numberWithCommas from "../../../../_helper/_numberWithCommas";
@@ -175,6 +172,23 @@ const TableRow = () => {
     );
   };
 
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768); // You can adjust the breakpoint as needed
+    };
+
+    // Initial check
+    handleResize();
+
+    // Event listener for window resize
+    window.addEventListener("resize", handleResize);
+
+    // Cleanup
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
     <>
       <Formik
@@ -187,10 +201,13 @@ const TableRow = () => {
             <Card>
               <div
                 className="global-form"
-                style={header}
+                style={{
+                  ...header,
+                  ...(isMobile ? { flexDirection: "column" } : {}),
+                }}
               >
                 <h4>Reconcile</h4>
-                <div style={{width: "80%"}} className="row">
+                <div style={{ width: "80%" }} className="row">
                   <div className="col-md-4">
                     <NewSelect
                       name="acDDL"
@@ -220,7 +237,7 @@ const TableRow = () => {
                       placeholder="From Date"
                       type="date"
                       onChange={(e) => {
-                        console.log("e", e.target.value)
+                        console.log("e", e.target.value);
                         setBankReconsileManualData([]);
                         setBankStatementDataMatch([]);
                         dispatch(
@@ -406,8 +423,10 @@ const TableRow = () => {
                       </div> */}
 
                       {values.isManualReconsile && (
-                        <div style={{display : "flex"}} className="col-lg-3">
-                          <label style={{width: "100px"}} className="mr-1">Reconcile Type</label>
+                        <div style={{ display: "flex" }} className="col-lg-3">
+                          <label style={{ width: "100px" }} className="mr-1">
+                            Reconcile Type
+                          </label>
                           <NewSelect
                             name="reconcileType"
                             placeholder="Select Reconcile Type"
@@ -457,7 +476,7 @@ const TableRow = () => {
                   </div>
                 </div>
                 <div className="row flex-fill">
-                  <div className="col-6">
+                  <div className="col-lg-6">
                     <div className="d-flex justify-content-center">
                       <p
                         className="text-center text-danger mb-0"
@@ -520,134 +539,143 @@ const TableRow = () => {
                         </span>{" "}
                       </p>
                     </div>
-                    <table className="table table-striped table-bordered global-table mt-0 forceReconcileTable">
-                      <thead>
-                        <tr>
-                          <th style={{ minWidth: "30px" }}>Sl </th>
-                          <th style={{ minWidth: "70px" }}>Voucher</th>
-                          <th style={{ minWidth: "50px" }}>Issue Date</th>
-                          <th style={{ minWidth: "50px" }}>Cheque</th>
-                          <th style={{ minWidth: "70px" }}>Party</th>
-                          <th style={{ minWidth: "70px" }}>Amount</th>
-                          <th style={{ minWidth: "30px", maxWidth: "30px" }}>
-                            <input
-                              type="checkbox"
-                              checked={
-                                bankReconsileManualData?.length > 0
-                                  ? bankReconsileManualData?.every(
-                                      (item) => item?.checked
-                                    )
-                                  : false
-                              }
-                              onChange={(e) => {
-                                setBankReconsileManualData(
-                                  bankReconsileManualData?.map((item) => {
-                                    return {
-                                      ...item,
-                                      checked: e?.target?.checked,
-                                    };
-                                  })
-                                );
-                              }}
-                            />
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {bankReconsileManualData?.length > 0 &&
-                          bankReconsileManualData?.map((item, index) => {
-                            return (
-                              <tr
-                                key={index}
-                                style={
-                                  item?.checked
-                                    ? { background: "#ccccff" }
-                                    : null
+                    <div className="table-responsive">
+                      <table className="table table-striped table-bordered global-table mt-0 forceReconcileTable">
+                        <thead>
+                          <tr>
+                            <th style={{ minWidth: "30px" }}>Sl </th>
+                            <th style={{ minWidth: "70px" }}>Voucher</th>
+                            <th style={{ minWidth: "50px" }}>Issue Date</th>
+                            <th style={{ minWidth: "50px" }}>Cheque</th>
+                            <th style={{ minWidth: "70px" }}>Party</th>
+                            <th style={{ minWidth: "70px" }}>Amount</th>
+                            <th style={{ minWidth: "30px", maxWidth: "30px" }}>
+                              <input
+                                type="checkbox"
+                                checked={
+                                  bankReconsileManualData?.length > 0
+                                    ? bankReconsileManualData?.every(
+                                        (item) => item?.checked
+                                      )
+                                    : false
                                 }
-                                onClick={(e) => {
-                                  item["checked"] = !item["checked"];
-                                  setBankReconsileManualData([
-                                    ...bankReconsileManualData,
-                                  ]);
+                                onChange={(e) => {
+                                  setBankReconsileManualData(
+                                    bankReconsileManualData?.map((item) => {
+                                      return {
+                                        ...item,
+                                        checked: e?.target?.checked,
+                                      };
+                                    })
+                                  );
                                 }}
-                              >
-                                <td>{index + 1}</td>
-                                <td> {item?.strBankJournalCode}</td>
-                                <td>
-                                  {" "}
-                                  {_dateFormatter(item?.dteInstrumentDate)}{" "}
-                                </td>
-                                <td>{item?.strInstrumentNo}</td>
-                                <td>{item?.strNarration}</td>
-                                <td className="text-right">
-                                  {item?.numAmount}
-                                </td>
-                                <td className="text-center">
-                                  <button
-                                    className="btn p-0"
-                                    onClick={(e) => {
-                                      if (values.isManualReconsile === false) {
-                                        forceReconcileManualData(item, values);
-                                        return;
-                                      }
-                                      setReconcileModal({
-                                        isOpen: true,
-                                        type: 1,
-                                        item,
-                                        index,
-                                        values,
-                                      });
-                                    }}
-                                  >
-                                    {item?.isReconcile ? (
-                                      <i className="fa fa-check-circle text-danger"></i>
-                                    ) : (
-                                      <i className="fa fa-check-circle text-success"></i>
-                                    )}
-                                  </button>
-                                </td>
-                              </tr>
-                            );
-                          })}
-                        <tr>
-                          <th
-                            style={{
-                              height: "25px",
-                              position: "sticky",
-                              bottom: "0",
-                              padding: "2px",
-                            }}
-                            colSpan="5"
-                          >
-                            Total{" "}
-                          </th>
-                          <th
-                            style={{
-                              height: "25px",
-                              position: "sticky",
-                              bottom: "0",
-                              padding: "2px",
-                            }}
-                          >
-                            {numberWithCommas(
-                              bankReconsileManualData
-                                ?.reduce((a, b) => a + Number(b.numAmount), 0)
-                                .toFixed(2)
-                            )}
-                          </th>
-                          <th
-                            style={{
-                              height: "25px",
-                              position: "sticky",
-                              bottom: "0",
-                              padding: "2px",
-                            }}
-                          ></th>
-                        </tr>
-                      </tbody>
-                    </table>
+                              />
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {bankReconsileManualData?.length > 0 &&
+                            bankReconsileManualData?.map((item, index) => {
+                              return (
+                                <tr
+                                  key={index}
+                                  style={
+                                    item?.checked
+                                      ? { background: "#ccccff" }
+                                      : null
+                                  }
+                                  onClick={(e) => {
+                                    item["checked"] = !item["checked"];
+                                    setBankReconsileManualData([
+                                      ...bankReconsileManualData,
+                                    ]);
+                                  }}
+                                >
+                                  <td>{index + 1}</td>
+                                  <td> {item?.strBankJournalCode}</td>
+                                  <td>
+                                    {" "}
+                                    {_dateFormatter(
+                                      item?.dteInstrumentDate
+                                    )}{" "}
+                                  </td>
+                                  <td>{item?.strInstrumentNo}</td>
+                                  <td>{item?.strNarration}</td>
+                                  <td className="text-right">
+                                    {item?.numAmount}
+                                  </td>
+                                  <td className="text-center">
+                                    <button
+                                      className="btn p-0"
+                                      onClick={(e) => {
+                                        if (
+                                          values.isManualReconsile === false
+                                        ) {
+                                          forceReconcileManualData(
+                                            item,
+                                            values
+                                          );
+                                          return;
+                                        }
+                                        setReconcileModal({
+                                          isOpen: true,
+                                          type: 1,
+                                          item,
+                                          index,
+                                          values,
+                                        });
+                                      }}
+                                    >
+                                      {item?.isReconcile ? (
+                                        <i className="fa fa-check-circle text-danger"></i>
+                                      ) : (
+                                        <i className="fa fa-check-circle text-success"></i>
+                                      )}
+                                    </button>
+                                  </td>
+                                </tr>
+                              );
+                            })}
+                          <tr>
+                            <th
+                              style={{
+                                height: "25px",
+                                position: "sticky",
+                                bottom: "0",
+                                padding: "2px",
+                              }}
+                              colSpan="5"
+                            >
+                              Total{" "}
+                            </th>
+                            <th
+                              style={{
+                                height: "25px",
+                                position: "sticky",
+                                bottom: "0",
+                                padding: "2px",
+                              }}
+                            >
+                              {numberWithCommas(
+                                bankReconsileManualData
+                                  ?.reduce((a, b) => a + Number(b.numAmount), 0)
+                                  .toFixed(2)
+                              )}
+                            </th>
+                            <th
+                              style={{
+                                height: "25px",
+                                position: "sticky",
+                                bottom: "0",
+                                padding: "2px",
+                              }}
+                            ></th>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
-                  <div className="col-6">
+                  <div className="col-lg-6">
                     <div className="d-flex justify-content-between">
                       <p
                         className="mb-0"
@@ -663,26 +691,20 @@ const TableRow = () => {
                           // values?.isManualReconsile,
                           // values?.transactionDate,
                           {
-
-                          
-                          let api = `/fino/BankBranch/GetBankStatementDataDownload?intUnitId=${
-                            selectedBusinessUnit?.value
-                          }&intBankAccId=${values?.acDDL?.value}&intType=${
-                            values?.typeDDL?.value
-                          }&isManualReconsile=${
-                            values?.isManualReconsile
-                          }&dteDate=${_dateFormatter(
-                            values?.transactionDate
-                          )}`
-                          if (values?.fromDate) {
-                            api += `&dteFromDate=${values?.fromDate}`
+                            let api = `/fino/BankBranch/GetBankStatementDataDownload?intUnitId=${
+                              selectedBusinessUnit?.value
+                            }&intBankAccId=${values?.acDDL?.value}&intType=${
+                              values?.typeDDL?.value
+                            }&isManualReconsile=${
+                              values?.isManualReconsile
+                            }&dteDate=${_dateFormatter(
+                              values?.transactionDate
+                            )}`;
+                            if (values?.fromDate) {
+                              api += `&dteFromDate=${values?.fromDate}`;
+                            }
+                            downloadFile(api, "Force Reconcile", "xlsx");
                           }
-                          downloadFile(
-                            api,
-                            "Force Reconcile",
-                            "xlsx"
-                          )
-                        }
                         }
                       >
                         Download
@@ -743,133 +765,139 @@ const TableRow = () => {
                         </span>{" "}
                       </p>
                     </div>
-                    <table className="table table-striped table-bordered global-table mt-0 forceReconcileTable">
-                      <thead>
-                        <tr>
-                          <th style={{ minWidth: "30px" }}>Sl </th>
-                          <th style={{ minWidth: "50px" }}>Issue Date</th>
-                          <th style={{ minWidth: "50px" }}>Cheque</th>
-                          <th style={{ minWidth: "70px" }}>Party</th>
-                          <th style={{ minWidth: "70px" }}>Amount</th>
-                          <th style={{ minWidth: "30px", maxWidth: "30px" }}>
-                            <input
-                              type="checkbox"
-                              checked={
-                                bankStatementDataMatch?.length > 0
-                                  ? bankStatementDataMatch?.every(
-                                      (item) => item?.checked
-                                    )
-                                  : false
-                              }
-                              onChange={(e) => {
-                                setBankStatementDataMatch(
-                                  bankStatementDataMatch?.map((item) => {
-                                    return {
-                                      ...item,
-                                      checked: e?.target?.checked,
-                                    };
-                                  })
-                                );
-                              }}
-                            />
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {bankStatementDataMatch?.length > 0 &&
-                          bankStatementDataMatch?.map((item, index) => {
-                            return (
-                              <tr
-                                key={index}
-                                style={
-                                  item?.checked
-                                    ? { background: "#ccccff" }
-                                    : null
+                    <div className="table-responsive">
+                      <table className="table table-striped table-bordered global-table mt-0 forceReconcileTable">
+                        <thead>
+                          <tr>
+                            <th style={{ minWidth: "30px" }}>Sl </th>
+                            <th style={{ minWidth: "50px" }}>Issue Date</th>
+                            <th style={{ minWidth: "50px" }}>Cheque</th>
+                            <th style={{ minWidth: "70px" }}>Party</th>
+                            <th style={{ minWidth: "70px" }}>Amount</th>
+                            <th style={{ minWidth: "30px", maxWidth: "30px" }}>
+                              <input
+                                type="checkbox"
+                                checked={
+                                  bankStatementDataMatch?.length > 0
+                                    ? bankStatementDataMatch?.every(
+                                        (item) => item?.checked
+                                      )
+                                    : false
                                 }
-                                onClick={(e) => {
-                                  item["checked"] = !item["checked"];
-                                  setBankStatementDataMatch([
-                                    ...bankStatementDataMatch,
-                                  ]);
+                                onChange={(e) => {
+                                  setBankStatementDataMatch(
+                                    bankStatementDataMatch?.map((item) => {
+                                      return {
+                                        ...item,
+                                        checked: e?.target?.checked,
+                                      };
+                                    })
+                                  );
                                 }}
-                              >
-                                <td>{index + 1}</td>
-                                <td>
-                                  {" "}
-                                  {_dateFormatter(item?.dteBankTransectionDate)}
-                                </td>
-                                <td> {item?.strChequeNo} </td>
-                                <td>{item?.strParticulars}</td>
-                                <td className="text-right">
-                                  {item?.monAmount}
-                                </td>
-                                <td className="text-center">
-                                  <button
-                                    className="btn p-0"
-                                    onClick={(e) => {
-                                      if (values.isManualReconsile === false) {
-                                        forceReconcileBankStatement(
-                                          item,
-                                          values
-                                        );
-                                        return;
-                                      }
-                                      setReconcileModal({
-                                        isOpen: true,
-                                        type: 2,
-                                        item,
-                                        index,
-                                        values,
-                                      });
-                                    }}
-                                  >
-                                    {item?.isReconcile ? (
-                                      <i className="fa fa-check-circle text-danger"></i>
-                                    ) : (
-                                      <i className="fa fa-check-circle text-success"></i>
+                              />
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {bankStatementDataMatch?.length > 0 &&
+                            bankStatementDataMatch?.map((item, index) => {
+                              return (
+                                <tr
+                                  key={index}
+                                  style={
+                                    item?.checked
+                                      ? { background: "#ccccff" }
+                                      : null
+                                  }
+                                  onClick={(e) => {
+                                    item["checked"] = !item["checked"];
+                                    setBankStatementDataMatch([
+                                      ...bankStatementDataMatch,
+                                    ]);
+                                  }}
+                                >
+                                  <td>{index + 1}</td>
+                                  <td>
+                                    {" "}
+                                    {_dateFormatter(
+                                      item?.dteBankTransectionDate
                                     )}
-                                  </button>
-                                </td>
-                              </tr>
-                            );
-                          })}
-                        <tr>
-                          <th
-                            style={{
-                              height: "25px",
-                              position: "sticky",
-                              bottom: "0",
-                              padding: "2px",
-                            }}
-                            colSpan="4"
-                          >
-                            Total{" "}
-                          </th>
-                          <th
-                            style={{
-                              height: "25px",
-                              position: "sticky",
-                              bottom: "0",
-                              padding: "2px",
-                            }}
-                          >
-                            {numberWithCommas(
-                              bankStatementDataMatch
-                                ?.reduce((a, b) => a + Number(b.monAmount), 0)
-                                .toFixed(2)
-                            )}
-                          </th>
-                          <th
-                            style={{
-                              height: "25px",
-                              position: "sticky",
-                              bottom: "0",
-                              padding: "2px",
-                            }}
-                          ></th>
-                        </tr>
-                      </tbody>
-                    </table>
+                                  </td>
+                                  <td> {item?.strChequeNo} </td>
+                                  <td>{item?.strParticulars}</td>
+                                  <td className="text-right">
+                                    {item?.monAmount}
+                                  </td>
+                                  <td className="text-center">
+                                    <button
+                                      className="btn p-0"
+                                      onClick={(e) => {
+                                        if (
+                                          values.isManualReconsile === false
+                                        ) {
+                                          forceReconcileBankStatement(
+                                            item,
+                                            values
+                                          );
+                                          return;
+                                        }
+                                        setReconcileModal({
+                                          isOpen: true,
+                                          type: 2,
+                                          item,
+                                          index,
+                                          values,
+                                        });
+                                      }}
+                                    >
+                                      {item?.isReconcile ? (
+                                        <i className="fa fa-check-circle text-danger"></i>
+                                      ) : (
+                                        <i className="fa fa-check-circle text-success"></i>
+                                      )}
+                                    </button>
+                                  </td>
+                                </tr>
+                              );
+                            })}
+                          <tr>
+                            <th
+                              style={{
+                                height: "25px",
+                                position: "sticky",
+                                bottom: "0",
+                                padding: "2px",
+                              }}
+                              colSpan="4"
+                            >
+                              Total{" "}
+                            </th>
+                            <th
+                              style={{
+                                height: "25px",
+                                position: "sticky",
+                                bottom: "0",
+                                padding: "2px",
+                              }}
+                            >
+                              {numberWithCommas(
+                                bankStatementDataMatch
+                                  ?.reduce((a, b) => a + Number(b.monAmount), 0)
+                                  .toFixed(2)
+                              )}
+                            </th>
+                            <th
+                              style={{
+                                height: "25px",
+                                position: "sticky",
+                                bottom: "0",
+                                padding: "2px",
+                              }}
+                            ></th>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
 

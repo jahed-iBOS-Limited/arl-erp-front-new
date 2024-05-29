@@ -252,7 +252,8 @@ export function TableRow({ rowDto, setRowDto, saveHandler }) {
             <div className="row cash_journal">
               <div className="col-lg-12 pr-0 pl-0 table-responsive">
                 {rowDto?.data?.length > 0 && (
-                  <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
+             <div className="table-responsive">
+                   <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
                     <thead>
                       <tr>
                         <th style={{ width: "30px" }}>SL</th>
@@ -345,6 +346,7 @@ export function TableRow({ rowDto, setRowDto, saveHandler }) {
                       ))}
                     </tbody>
                   </table>
+             </div>
                 )}
                 {rowDto?.data?.length > 0 && (
                   <PaginationTable

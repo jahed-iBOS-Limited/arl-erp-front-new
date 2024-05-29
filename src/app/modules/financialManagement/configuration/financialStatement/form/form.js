@@ -44,8 +44,6 @@ export default function _Form({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedBusinessUnit, profileData]);
 
-  
-
   return (
     <>
       <Formik
@@ -195,36 +193,38 @@ export default function _Form({
                 </div>
               </div>
               {generalLedgerRowDto?.length > 0 && (
-                <table className="table table-striped table-bordered mt-3">
-                  <thead>
-                    <tr>
-                      <th>SL</th>
-                      <th>Accounts Category</th>
-                      <th>General Ledger</th>
-                      <th>Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {generalLedgerRowDto?.map((itm, index) => (
-                      <tr key={index}>
-                        <td className="text-center">{index + 1}</td>
-                        <td className="text-center">
-                          {itm?.accountCategoryName}
-                        </td>
-                        <td className="text-center">
-                          {itm?.generalLedgerName}
-                        </td>
-
-                        <td
-                          className="text-center"
-                          onClick={() => remover(itm?.generalLedgerId)}
-                        >
-                          <IDelete id={itm?.generalLedgerId} />
-                        </td>
+                <div className="table-responsive">
+                  <table className="table table-striped table-bordered mt-3">
+                    <thead>
+                      <tr>
+                        <th>SL</th>
+                        <th>Accounts Category</th>
+                        <th>General Ledger</th>
+                        <th>Action</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody>
+                      {generalLedgerRowDto?.map((itm, index) => (
+                        <tr key={index}>
+                          <td className="text-center">{index + 1}</td>
+                          <td className="text-center">
+                            {itm?.accountCategoryName}
+                          </td>
+                          <td className="text-center">
+                            {itm?.generalLedgerName}
+                          </td>
+
+                          <td
+                            className="text-center"
+                            onClick={() => remover(itm?.generalLedgerId)}
+                          >
+                            <IDelete id={itm?.generalLedgerId} />
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               )}
                                               
               <button

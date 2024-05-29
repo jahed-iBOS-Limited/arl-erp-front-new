@@ -148,53 +148,55 @@ export default function _Form({
                   </div>
                 </div>
               </div>
-
-              <table className="global-table table">
-                <thead>
-                  <tr>
-                    <th>SL</th>
-                    <th>Item Name</th>
-                    <th>Plan Quantity</th>
-                    <th>Start Date</th>
-                    <th>End Date</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {rowDto?.map((item, index) => (
-                    <tr key={index}>
-                      <td className="text-center">{index + 1}</td>
-                      <td className="pl-2">{item?.itemName}</td>
-                      <td className="text-center">
-                        <InputField
-                          value={item?.itemPlanQty}
-                          name="itemPlanQty"
-                          type="number"
-                          onChange={(e) => {
-                            inputHandler(
-                              item,
-                              e?.target?.value,
-                              "itemPlanQty",
-                              rowDto,
-                              setRowDto
-                            );
-                          }}
-                          min='0'
-                        />
-                      </td>
-                      <td className="pl-2 text-center">
-                        {_dateFormatter(item?.startdateTime)}
-                      </td>
-                      <td className="pl-2 text-center">
-                        {_dateFormatter(item?.enddateTime)}
-                      </td>
-                      <td className="text-center">
-                        <IDelete id={index} remover={remover} />
-                      </td>
+              <div className="table-responsive">
+                <table className="global-table table">
+                  <thead>
+                    <tr>
+                      <th>SL</th>
+                      <th>Item Name</th>
+                      <th>Plan Quantity</th>
+                      <th>Start Date</th>
+                      <th>End Date</th>
+                      <th>Action</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {rowDto?.map((item, index) => (
+                      <tr key={index}>
+                        <td className="text-center">{index + 1}</td>
+                        <td className="pl-2">{item?.itemName}</td>
+                        <td className="text-center">
+                          <InputField
+                            value={item?.itemPlanQty}
+                            name="itemPlanQty"
+                            type="number"
+                            onChange={(e) => {
+                              inputHandler(
+                                item,
+                                e?.target?.value,
+                                "itemPlanQty",
+                                rowDto,
+                                setRowDto
+                              );
+                            }}
+                            min="0"
+                          />
+                        </td>
+                        <td className="pl-2 text-center">
+                          {_dateFormatter(item?.startdateTime)}
+                        </td>
+                        <td className="pl-2 text-center">
+                          {_dateFormatter(item?.enddateTime)}
+                        </td>
+                        <td className="text-center">
+                          <IDelete id={index} remover={remover} />
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
               <button
                 type="submit"
                 style={{ display: "none" }}

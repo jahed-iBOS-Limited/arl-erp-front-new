@@ -321,100 +321,108 @@ export default function _Form({
               />
               <div className="loan-scrollable-table">
                 <div>
-                  <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing global-form">
-                    <thead>
-                      <tr>
-                        <th style={{ display: "none" }}></th>
-                        <th style={{ minWidth: "25px" }}>SL</th>
-                        <th style={{ minWidth: "120px" }}>Item Name</th>
-                        <th style={{ minWidth: "80px" }}>PO Order Quantity</th>
-                        <th style={{ minWidth: "80px" }}>Shipped Quantity</th>
-                        {viewType !== "view" && (
-                          <th style={{ minWidth: "120px" }}>Order Quantity</th>
-                        )}
-                        <th style={{ minWidth: "120px" }}>Price</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {itemList?.length > 0 &&
-                        itemList?.map((item, index) => {
-                          console.log("item: ", item);
-                          return (
-                            <tr key={index}>
-                              <td style={{ display: "none" }}></td>
-                              <td
-                                style={{ width: "25px" }}
-                                className="text-center"
-                              >
-                                {index + 1}
-                              </td>
-                              <td className="text-center">{item?.itemName}</td>
-                              <td className="text-right">
-                                {item?.poOrderQuantity}
-                              </td>
-                              <td className="text-right">{item?.shippedQty}</td>
-                              {viewType !== "view" && (
+                  <div className="react-bootstrap-table table-responsive">
+                    <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing global-form">
+                      <thead>
+                        <tr>
+                          <th style={{ display: "none" }}></th>
+                          <th style={{ minWidth: "25px" }}>SL</th>
+                          <th style={{ minWidth: "120px" }}>Item Name</th>
+                          <th style={{ minWidth: "80px" }}>
+                            PO Order Quantity
+                          </th>
+                          <th style={{ minWidth: "80px" }}>Shipped Quantity</th>
+                          {viewType !== "view" && (
+                            <th style={{ minWidth: "120px" }}>
+                              Order Quantity
+                            </th>
+                          )}
+                          <th style={{ minWidth: "120px" }}>Price</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {itemList?.length > 0 &&
+                          itemList?.map((item, index) => {
+                            console.log("item: ", item);
+                            return (
+                              <tr key={index}>
+                                <td style={{ display: "none" }}></td>
+                                <td
+                                  style={{ width: "25px" }}
+                                  className="text-center"
+                                >
+                                  {index + 1}
+                                </td>
+                                <td className="text-center">
+                                  {item?.itemName}
+                                </td>
+                                <td className="text-right">
+                                  {item?.poOrderQuantity}
+                                </td>
+                                <td className="text-right">
+                                  {item?.shippedQty}
+                                </td>
+                                {viewType !== "view" && (
+                                  <td className="text-right">
+                                    <InputField
+                                      value={item?.orderQty}
+                                      // className="text-right"
+                                      name="orderQty"
+                                      placeholder="Quantity"
+                                      type="number"
+                                      disabled={viewType === "view"}
+                                      // min={0}
+                                      onChange={(e) => {
+                                        rowDtoHandler(
+                                          "orderQty",
+                                          e.target.value,
+                                          index,
+                                          setFieldValue,
+                                          values
+                                        );
+                                      }}
+                                      onBlur={(e) => {
+                                        if (
+                                          e?.target?.value < item?.shippedQty
+                                        ) {
+                                          toast.warning(
+                                            "Order quantity can't be less than shipped quantity",
+                                            { toastId: "orderQuantityCheck" }
+                                          );
+                                        }
+                                      }}
+                                    />
+                                  </td>
+                                )}
                                 <td className="text-right">
                                   <InputField
-                                    value={item?.orderQty}
-                                    // className="text-right"
-                                    name="orderQty"
-                                    placeholder="Quantity"
-                                    type="number"
-                                    disabled={viewType === "view"}
-                                    // min={0}
-                                    onChange={(e) => {
-                                      rowDtoHandler(
-                                        "orderQty",
-                                        e.target.value,
-                                        index,
-                                        setFieldValue,
-                                        values
-                                      );
-                                    }}
-                                    onBlur={(e) => {
-                                      if (e?.target?.value < item?.shippedQty) {
-                                        toast.warning(
-                                          "Order quantity can't be less than shipped quantity",
-                                          { toastId: "orderQuantityCheck" }
-                                        );
-                                      }
-                                    }}
+                                    className="text-right"
+                                    name="price"
+                                    value={numberWithCommas(
+                                      (item?.price).toFixed(2)
+                                    )}
+                                    disabled={true}
                                   />
                                 </td>
-                              )}
-                              <td className="text-right">
-                                <InputField
-                                  className="text-right"
-                                  name="price"
-                                  value={numberWithCommas(
-                                    (item?.price).toFixed(2)
-                                  )}
-                                  disabled={true}
-                                />
-                              </td>
-                            </tr>
-                          );
-                        })}
-                      <tr>
-                        {/* <td ></td> */}
-                        <td style={{ display: "none" }}></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        {viewType !== "view" && <td></td>}
-                        <td className="d-flex justify-content-between align-items-center">
-                          <span className="font-weight-bold">
-                            Sub Total
-                          </span>
-                          <span>
-                            {numberWithCommas(PIAmount.toFixed(2))}
-                          </span>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
+                              </tr>
+                            );
+                          })}
+                        <tr>
+                          {/* <td ></td> */}
+                          <td style={{ display: "none" }}></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          {viewType !== "view" && <td></td>}
+                          <td className="d-flex justify-content-between align-items-center">
+                            <span className="font-weight-bold">Sub Total</span>
+                            <span>{numberWithCommas(PIAmount.toFixed(2))}</span>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
             </Form>

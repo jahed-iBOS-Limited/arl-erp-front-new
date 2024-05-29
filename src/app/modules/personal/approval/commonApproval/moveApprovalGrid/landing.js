@@ -270,7 +270,8 @@ const MovementApprovalGrid = () => {
             </Form>
             {/* Table Start */}
             {newApplicationData?.data?.length > 0 && (
-              <table className="table table-striped table-bordered bj-table bj-table-landing">
+             <div className="table-responsive">
+               <table className="table table-striped table-bordered bj-table bj-table-landing">
                 <thead>
                   <tr>
                     {values?.applicationType?.value === 1 && (
@@ -380,6 +381,7 @@ const MovementApprovalGrid = () => {
                     ))}
                 </tbody>
               </table>
+             </div>
             )}
             {newApplicationData?.data?.length > 0 && (
               <PaginationTable

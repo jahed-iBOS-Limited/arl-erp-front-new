@@ -102,8 +102,9 @@ export default function ViewJournal({ transportItem, sbuId }) {
           >
             <Form>
               <div className="row">
-                <div className="col-lg-12 table-responsive">
-                  <table className="table table-striped table-bordered global-table sales_order_landing_table">
+                <div className="col-lg-12">
+                <div className="table-responsive">
+                <table className="table table-striped table-bordered global-table sales_order_landing_table">
                     <thead>
                       <tr>
                         <th>Journal Code</th>
@@ -147,6 +148,7 @@ export default function ViewJournal({ transportItem, sbuId }) {
                       </tr>
                     </tbody>
                   </table>
+                </div>
                 </div>
               </div>
             </Form>

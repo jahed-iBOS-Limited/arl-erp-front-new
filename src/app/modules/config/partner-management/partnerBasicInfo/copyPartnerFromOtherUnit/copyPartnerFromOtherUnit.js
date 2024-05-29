@@ -130,20 +130,22 @@ export default function CopyPartnerFromOtherUnit({ show, onHide, landingValues }
                 </div>
               </div>
               <div className="row">
-                <div className="col-lg-12 table-responsive">
+                <div className="col-lg-12">
                   {gridData?.length ? (
-                    <table className="table table-striped table-bordered global-table sales_order_landing_table">
+                    <div className="table-responsive">
+                      <table className="table table-striped table-bordered global-table sales_order_landing_table">
                       <thead>
                       <tr>
                           <th>SL</th>
                           <th>Business Unit</th>
                           <th>Code</th>
                           <th>Name</th>
+                          <th>Address</th>
                           <th>Bank Account Name</th>
                           <th>Bank Account Number</th>
                           <th>Bank Name</th>
                           <th>Branch Name</th>
-                          <th>Address</th>
+                         
                           <th style={{ width: "60px" }}>Actions</th>
                         </tr>
                       </thead>
@@ -152,14 +154,15 @@ export default function CopyPartnerFromOtherUnit({ show, onHide, landingValues }
                           <tr key={index}>
                           <td className="text-center"> {index+1} </td>
                           <td>
-                            <div className="pl-2">{td?.businessPartnerName} </div>
+                            <div className="pl-2">{td?.businessUnitName} </div>
                           </td>
                           <td>
                             <div className="pl-2">{td?.businessPartnerCode} </div>
                           </td>                            
                           <td>
                             <div className="pl-2">{td?.businessPartnerName} </div>
-                          </td>                            
+                          </td>    
+                          <td> {td?.adress} </td>                        
                           <td>
                             <div className="pl-2">{td?.bankAccountName} </div>
                           </td>                            
@@ -172,7 +175,7 @@ export default function CopyPartnerFromOtherUnit({ show, onHide, landingValues }
                           <td>
                             <div className="pl-2">{td?.branchName} </div>
                           </td>                            
-                          <td> {td?.adress} </td>
+                          
                           <td>
                             <div className="d-flex justify-content-around">
                               <span
@@ -190,6 +193,7 @@ export default function CopyPartnerFromOtherUnit({ show, onHide, landingValues }
                         ))}
                       </tbody>
                     </table>
+                    </div>
                   ) : null}
                 </div>
                 {gridData?.data?.length > 0 && (

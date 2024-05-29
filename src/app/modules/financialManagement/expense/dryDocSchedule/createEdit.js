@@ -1,24 +1,23 @@
 import { Form, Formik } from "formik";
+import { DropzoneDialogBase } from "material-ui-dropzone";
 import React, { useEffect, useState } from "react";
-import Loading from "../../../_helper/_loading";
-import IForm from "../../../_helper/_form";
-import NewSelect from "../../../_helper/_select";
-import InputField from "../../../_helper/_inputField";
-import { useParams } from "react-router-dom";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { _todayDate } from "../../../_helper/_todayDate";
+import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import * as Yup from "yup";
+import { _dateFormatter } from "../../../_helper/_dateFormate";
+import IForm from "../../../_helper/_form";
 import IDelete from "../../../_helper/_helperIcons/_delete";
 import IView from "../../../_helper/_helperIcons/_view";
-import { toast } from "react-toastify";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import { imarineBaseUrl } from "../../../../App";
-import * as Yup from "yup";
-import { DropzoneDialogBase } from "material-ui-dropzone";
-import { attachmentUploadAction } from "./helper";
-import { getDownlloadFileView_Action } from "../../../_helper/_redux/Actions";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
+import InputField from "../../../_helper/_inputField";
+import Loading from "../../../_helper/_loading";
 import numberWithCommas from "../../../_helper/_numberWithCommas";
+import { getDownlloadFileView_Action } from "../../../_helper/_redux/Actions";
+import NewSelect from "../../../_helper/_select";
+import { _todayDate } from "../../../_helper/_todayDate";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
+import { attachmentUploadAction } from "./helper";
 
 const initData = {
   vessel: "",
@@ -88,6 +87,7 @@ export default function DryDocCreateEdit() {
     if (id) {
       modifyDataFromApi();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   const saveHandler = (values, cb) => {
@@ -383,7 +383,7 @@ export default function DryDocCreateEdit() {
                 </div>
               </div>
 
-              <div className="mt-2">
+              <div className="table-responsive mt-2">
                 <table className="table table-striped table-bordered bj-table bj-table-landing">
                   <thead>
                     <tr>

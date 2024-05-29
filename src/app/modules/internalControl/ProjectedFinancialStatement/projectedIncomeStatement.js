@@ -108,107 +108,109 @@ export default function ProjectedIncomeStatement({ incomeStatement, values }) {
                 </strong>
               </p>
             </div>
+
             <div className="print_wrapper">
-              <table
-                id="table-to-xlsx"
-                className="table table-striped table-bordered mt-3 global-table table-font-size-sm"
-              >
-                <thead>
-                  <tr>
-                    <th style={{ width: "500px" }}>Particulars</th>
-                    <th style={{ width: "200px" }}>Note SL</th>
+              <div className="table-responsive">
+                <table
+                  id="table-to-xlsx"
+                  className="table table-striped table-bordered mt-3 global-table table-font-size-sm"
+                >
+                  <thead>
+                    <tr>
+                      <th style={{ width: "500px" }}>Particulars</th>
+                      <th style={{ width: "200px" }}>Note SL</th>
 
-                    <th
-                      style={{ width: "250px" }}
-                      className="incTableThPadding"
-                    >
-                      <span>
-                        Last Period
-                        <br />
-                        {/* {`${values?.fromDate} to ${values?.todate}`} */}
-                      </span>
-                    </th>
-                    <th
-                      style={{ width: "250px" }}
-                      className="incTableThPadding"
-                    >
-                      <span>
-                        Current Period <br />
-                        {/* {`${values?.lastPeriodFrom} to ${values?.lastPeriodTo}`} */}
-                      </span>
-                    </th>
-                    <th style={{ width: "250px" }}>Variance</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {incomeStatement?.map((data, index) => (
-                    <>
-                      <tr
-                        className={
-                          data?.intFSId === 0 || data?.intFSId === 20
-                            ? "font-weight-bold"
-                            : ""
-                        }
+                      <th
+                        style={{ width: "250px" }}
+                        className="incTableThPadding"
                       >
-                        <td className="text-left">
-                          {data?.strFSComponentName}
-                        </td>
-                        <td></td>
-
-                        <td
-                          className="text-right"
-                          // onClick={() => {
-                          //   if (!(data?.intFSId === 0 || data?.intFSId === 20)) {
-                          //     setShowGeneralLedgerModal(true);
-                          //     setIncomeStatementRow(data);
-                          //   }
-                          // }}
-                          // style={{
-                          //   cursor: "pointer",
-                          //   textDecoration:
-                          //     data?.intFSId === 0 || data?.intFSId === 20
-                          //       ? ""
-                          //       : "underline",
-                          //   color:
-                          //     data?.intFSId === 0 || data?.intFSId === 20
-                          //       ? ""
-                          //       : "blue",
-                          // }}
+                        <span>
+                          Last Period
+                          <br />
+                          {/* {`${values?.fromDate} to ${values?.todate}`} */}
+                        </span>
+                      </th>
+                      <th
+                        style={{ width: "250px" }}
+                        className="incTableThPadding"
+                      >
+                        <span>
+                          Current Period <br />
+                          {/* {`${values?.lastPeriodFrom} to ${values?.lastPeriodTo}`} */}
+                        </span>
+                      </th>
+                      <th style={{ width: "250px" }}>Variance</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {incomeStatement?.map((data, index) => (
+                      <>
+                        <tr
+                          className={
+                            data?.intFSId === 0 || data?.intFSId === 20
+                              ? "font-weight-bold"
+                              : ""
+                          }
                         >
-                          {/* {_formatMoney(data?.monLastPeriodAmount)} */}
-                          {numberWithCommas(
-                            Math.round(data?.monLastPeriodAmount) || 0
-                          )}
-                        </td>
-                        <td className="text-right pointer">
-                          <span>
-                            {" "}
-                            {/* {_formatMoney(data?.monCurrentPeriodAmount)} */}
+                          <td className="text-left">
+                            {data?.strFSComponentName}
+                          </td>
+                          <td></td>
+
+                          <td
+                            className="text-right"
+                            // onClick={() => {
+                            //   if (!(data?.intFSId === 0 || data?.intFSId === 20)) {
+                            //     setShowGeneralLedgerModal(true);
+                            //     setIncomeStatementRow(data);
+                            //   }
+                            // }}
+                            // style={{
+                            //   cursor: "pointer",
+                            //   textDecoration:
+                            //     data?.intFSId === 0 || data?.intFSId === 20
+                            //       ? ""
+                            //       : "underline",
+                            //   color:
+                            //     data?.intFSId === 0 || data?.intFSId === 20
+                            //       ? ""
+                            //       : "blue",
+                            // }}
+                          >
+                            {/* {_formatMoney(data?.monLastPeriodAmount)} */}
                             {numberWithCommas(
-                              Math.round(data?.monCurrentPeriodAmount) || 0
+                              Math.round(data?.monLastPeriodAmount) || 0
                             )}
-                          </span>
-                        </td>
-                        <td className="text-right">
-                          {numberWithCommas(
-                            Math.round(data?.monLastPeriodAmount) -
-                              Math.round(data?.monCurrentPeriodAmount)
-                          )}
-                        </td>
-                      </tr>
-                    </>
-                  ))}
-                  <tr>
-                    <td
-                      className="text-center d-none"
-                      colSpan={4}
-                    >{`System Generated Report - ${moment().format(
-                      "LLLL"
-                    )}`}</td>
-                  </tr>
-                </tbody>
-              </table>
-              <div></div>
+                          </td>
+                          <td className="text-right pointer">
+                            <span>
+                              {" "}
+                              {/* {_formatMoney(data?.monCurrentPeriodAmount)} */}
+                              {numberWithCommas(
+                                Math.round(data?.monCurrentPeriodAmount) || 0
+                              )}
+                            </span>
+                          </td>
+                          <td className="text-right">
+                            {numberWithCommas(
+                              Math.round(data?.monLastPeriodAmount) -
+                                Math.round(data?.monCurrentPeriodAmount)
+                            )}
+                          </td>
+                        </tr>
+                      </>
+                    ))}
+                    <tr>
+                      <td
+                        className="text-center d-none"
+                        colSpan={4}
+                      >{`System Generated Report - ${moment().format(
+                        "LLLL"
+                      )}`}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         )}

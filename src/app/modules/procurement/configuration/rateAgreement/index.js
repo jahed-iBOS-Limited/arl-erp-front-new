@@ -232,6 +232,7 @@ export default function RateAgreement() {
               </div>
               <div className="row">
                 <div className="col-lg-12">
+                <div className="table-responsive">
                   <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
                     <thead>
                       <tr>
@@ -300,6 +301,7 @@ export default function RateAgreement() {
                         ))}
                     </tbody>
                   </table>
+                  </div>
                   {rowDto?.data?.length > 0 && (
                     <PaginationTable
                       count={rowDto?.totalCount}

@@ -8,6 +8,9 @@ import IView from "../../../../_helper/_helperIcons/_view";
 import Loading from "../../../../_helper/_loading";
 import PaginationTable from "../../../../_helper/_tablePagination";
 import PaginationSearch from "../../../../_helper/_search";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import IViewModal from "../../../../_helper/_viewModal";
+import SalesContractView from "./salesContractViewModal";
 
 export function TableRow() {
   const dispatch = useDispatch();
@@ -30,6 +33,11 @@ export function TableRow() {
   const gridData = useSelector((state) => {
     return state.salesContact?.gridData;
   }, shallowEqual);
+
+  const [quotationViewModal, setQuotationViewModal] = useState(false);
+  const [contactId, setContactId] = useState(null);
+
+
 
   useEffect(() => {
     if (selectedBusinessUnit && profileData) {
@@ -72,64 +80,80 @@ export function TableRow() {
             paginationSearchHandler={paginationSearchHandler}
           />
           {gridData?.data?.length >= 0 && (
-            <table className="table table-striped table-bordered mt-3 global-table sales_order_landing_table">
-              <thead>
-                <tr>
-                  <th style={{ width: "35px" }}>SL</th>
-                  <th style={{ width: "90px" }}>Contract Code</th>
-                  <th style={{ width: "90px" }}>Contract Date</th>
-                  <th>Plant</th>
-                  <th>Sales Office</th>
-                  <th>Party Name</th>
-                  <th style={{ width: "75px" }}>Total Qty</th>
-                  <th style={{ width: "75px" }}>Amount</th>
-                  <th style={{ width: "60px" }}>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {gridData?.data?.map((td, index) => (
-                  <tr key={index}>
-                    <td> {td.sl} </td>
-                    <td>
-                      {" "}
-                      <div className="pl-2">{td.salesContactCode} </div>
-                    </td>
-                    <td className="text-center">
-                      {" "}
-                      {_dateFormatter(td.salesContactDate)}{" "}
-                    </td>
-                    <td> {td.plantName} </td>
-                    <td> {td.salesOfficeName} </td>
-                    <td> {td.soldToPartnerName} </td>
-                    <td className="text-right"> {td.contactQuantity} </td>
-                    <td className="text-right"> {td.totalAmount} </td>
-                    <td>
-                      <div className="d-flex justify-content-around">
-                        <span className="view">
-                          <IView
-                            clickHandler={() => {
+            <div className="table-responsive">
+              <table className="table table-striped table-bordered mt-3 global-table sales_order_landing_table">
+                <thead>
+                  <tr>
+                    <th style={{ width: "35px" }}>SL</th>
+                    <th style={{ width: "90px" }}>Contract Code</th>
+                    <th style={{ width: "90px" }}>Contract Date</th>
+                    <th>Plant</th>
+                    <th>Sales Office</th>
+                    <th>Party Name</th>
+                    <th style={{ width: "75px" }}>Total Qty</th>
+                    <th style={{ width: "75px" }}>Amount</th>
+                    <th style={{ width: "60px" }}>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {gridData?.data?.map((td, index) => (
+                    <tr key={index}>
+                      <td> {td.sl} </td>
+                      <td>
+                        {" "}
+                        <div className="pl-2">{td.salesContactCode} </div>
+                      </td>
+                      <td className="text-center">
+                        {" "}
+                        {_dateFormatter(td.salesContactDate)}{" "}
+                      </td>
+                      <td> {td.plantName} </td>
+                      <td> {td.salesOfficeName} </td>
+                      <td> {td.soldToPartnerName} </td>
+                      <td className="text-right"> {td.contactQuantity} </td>
+                      <td className="text-right"> {td.totalAmount} </td>
+                      <td>
+                        <div className="d-flex justify-content-around">
+                          <span className="view">
+                            <IView
+                              clickHandler={() => {
+                                history.push(
+                                  `/sales-management/ordermanagement/salescontract/view/${td.salesContactId}`
+                                );
+                              }}
+                            />
+                          </span>
+                          <span
+                            className="edit"
+                            onClick={() => {
                               history.push(
-                                `/sales-management/ordermanagement/salescontract/view/${td.salesContactId}`
+                                `/sales-management/ordermanagement/salescontract/edit/${td.salesContactId}`
                               );
                             }}
-                          />
-                        </span>
-                        <span
-                          className="edit"
-                          onClick={() => {
-                            history.push(
-                              `/sales-management/ordermanagement/salescontract/edit/${td.salesContactId}`
-                            );
-                          }}
-                        >
-                          <IEdit />
-                        </span>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+                          >
+                            <IEdit />
+                          </span>
+                          <span onClick={()=>{
+                             setContactId(td.salesContactId);
+                             setQuotationViewModal(true);
+                          }}>
+                          <OverlayTrigger
+                              overlay={
+                                <Tooltip id="cs-icon">
+                                  Print
+                                </Tooltip>
+                              }
+                            >
+                              <i class="fa fa-print cursor-pointer" aria-hidden="true"></i>
+                            </OverlayTrigger>
+                          </span>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>{" "}
+            </div>
           )}
         </div>
         {gridData?.data?.length > 0 && (
@@ -139,6 +163,18 @@ export function TableRow() {
             paginationState={{ pageNo, setPageNo, pageSize, setPageSize }}
           />
         )}
+      </div>
+      <div>
+      <IViewModal
+                    title=""
+                    show={quotationViewModal}
+                    onHide={() => {
+                      setQuotationViewModal(false);
+                      setContactId(null);
+                    }}
+                  >
+                    <SalesContractView contactId={contactId} />
+                  </IViewModal>
       </div>
     </>
   );

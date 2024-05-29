@@ -61,45 +61,47 @@ export default function InventoryAdjustApprove() {
             <Form>
               <div className="mt-5">
                 {rowData?.length > 0 && (
-                  <table className="table table-striped table-bordered bj-table bj-table-landing">
-                    <thead>
-                      <tr>
-                        <th>Sl</th>
-                        <th>Trans Code</th>
-                        <th>Trans Type</th>
-                        <th>Profit Center</th>
-                        <th>Plant</th>
-                        <th>Warehouse</th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {rowData?.map((item, index) => (
-                        <tr key={index}>
-                          <td>{index + 1}</td>
-                          <td className="text-center">
-                            {item?.strInventoryTransactionCode}
-                          </td>
-                          <td>{item?.strTransactionTypeName}</td>
-                          <td>{item?.strProfitCenterName}</td>
-                          <td>{item?.strPlantName}</td>
-                          <td>{item?.strWarehouseName}</td>
-                          <td className="text-center">
-                            <div className="d-flex justify-content-center">
-                              <span
-                                onClick={() => {
-                                  setSingleData(item);
-                                  setIsShowModal(true);
-                                }}
-                              >
-                                <IView />
-                              </span>
-                            </div>
-                          </td>
+                  <div className="table-responsive">
+                    <table className="table table-striped table-bordered bj-table bj-table-landing">
+                      <thead>
+                        <tr>
+                          <th>Sl</th>
+                          <th>Trans Code</th>
+                          <th>Trans Type</th>
+                          <th>Profit Center</th>
+                          <th>Plant</th>
+                          <th>Warehouse</th>
+                          <th>Action</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody>
+                        {rowData?.map((item, index) => (
+                          <tr key={index}>
+                            <td>{index + 1}</td>
+                            <td className="text-center">
+                              {item?.strInventoryTransactionCode}
+                            </td>
+                            <td>{item?.strTransactionTypeName}</td>
+                            <td>{item?.strProfitCenterName}</td>
+                            <td>{item?.strPlantName}</td>
+                            <td>{item?.strWarehouseName}</td>
+                            <td className="text-center">
+                              <div className="d-flex justify-content-center">
+                                <span
+                                  onClick={() => {
+                                    setSingleData(item);
+                                    setIsShowModal(true);
+                                  }}
+                                >
+                                  <IView />
+                                </span>
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 )}
               </div>
             </Form>

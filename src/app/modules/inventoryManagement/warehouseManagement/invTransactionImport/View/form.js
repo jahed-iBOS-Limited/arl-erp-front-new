@@ -85,16 +85,18 @@ export default function _Form({
                     />
                   </div>
                 )}
-              { values?.transactionGroupId !== 1 && <div className="col-lg-3">
-                  <div className="my-1">
-                    <span>Personnel</span>
+                {values?.transactionGroupId !== 1 && (
+                  <div className="col-lg-3">
+                    <div className="my-1">
+                      <span>Personnel</span>
+                    </div>
+                    <InputField
+                      value={values?.personnelName || ""}
+                      disabled={true}
+                      name="personnelName"
+                    />
                   </div>
-                  <InputField
-                    value={values?.personnelName || ""}
-                    disabled={true}
-                    name="personnelName"
-                  />
-                </div> }
+                )}
                 <div className="col-lg-3">
                   <div className="my-1">
                     <span>Comments</span>
@@ -171,51 +173,54 @@ export default function _Form({
                 <div className="col-lg-12">
                   <div className="row px-5">
                     {/* Start Table Part */}
-                    <table className="table table-striped table-bordered">
-                      <thead>
-                        <tr>
-                          <th>SL</th>
-                          <th>Item Code</th>
-                          <th>Item Name</th>
-                          <th>Quantity</th>
-                          <th>Value</th>
-                          <th>Location</th>
-                          <th>Bin Number</th>
-                          <th>Stock Type</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {singleData[0]?.objRow?.map((item, index) => (
-                          <tr key={index}>
-                            <td className="text-center align-middle">
-                              {index + 1}
-                            </td>
-                            <td className="text-center align-middle">
-                              {item?.itemCode}
-                            </td>
-
-                            <td className="text-center align-middle table-input">
-                              {item?.itemName}
-                            </td>
-                            <td className="text-center align-middle table-input">
-                              {item?.numTransactionQuantity}
-                            </td>
-                            <td className="text-center align-middle table-input">
-                              {item?.monTransactionValue}
-                            </td>
-                            <td className="text-center align-middle table-input">
-                              {item?.inventoryLocationName}
-                            </td>
-                            <td className="text-center align-middle table-input">
-                              {item?.binNumber}
-                            </td>
-                            <td className="text-center align-middle table-input">
-                              {item?.inventoryStockTypeName}
-                            </td>
+                    <div className="table-responsive">
+                      <table className="table table-striped table-bordered">
+                        <thead>
+                          <tr>
+                            <th>SL</th>
+                            <th>Item Code</th>
+                            <th>Item Name</th>
+                            <th>Quantity</th>
+                            <th>Value</th>
+                            <th>Location</th>
+                            <th>Bin Number</th>
+                            <th>Stock Type</th>
                           </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                        </thead>
+                        <tbody>
+                          {singleData[0]?.objRow?.map((item, index) => (
+                            <tr key={index}>
+                              <td className="text-center align-middle">
+                                {index + 1}
+                              </td>
+                              <td className="text-center align-middle">
+                                {item?.itemCode}
+                              </td>
+
+                              <td className="text-center align-middle table-input">
+                                {item?.itemName}
+                              </td>
+                              <td className="text-center align-middle table-input">
+                                {item?.numTransactionQuantity}
+                              </td>
+                              <td className="text-center align-middle table-input">
+                                {item?.monTransactionValue}
+                              </td>
+                              <td className="text-center align-middle table-input">
+                                {item?.inventoryLocationName}
+                              </td>
+                              <td className="text-center align-middle table-input">
+                                {item?.binNumber}
+                              </td>
+                              <td className="text-center align-middle table-input">
+                                {item?.inventoryStockTypeName}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+
                     {/* End Table Part */}
                   </div>
                 </div>

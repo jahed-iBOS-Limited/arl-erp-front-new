@@ -225,7 +225,6 @@ function BillregisterLanding() {
                         value={values?.billType}
                         label="Bill Type"
                         onChange={(valueOption) => {
-                          console.log(valueOption);
                           setFieldValue("billType", valueOption);
                           setRowDto([]);
                         }}

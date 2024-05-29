@@ -19,7 +19,12 @@ function GateOutDelivary({ item, date }) {
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
   const [rowData, getRowData, lodar, setRowData] = useAxiosGet();
-  const [shipPoint, getShipPoint, shipPointLoader, setShipPoint] = useAxiosGet();
+  const [
+    shipPoint,
+    getShipPoint,
+    shipPointLoader,
+    setShipPoint,
+  ] = useAxiosGet();
   const [loading, setLoading] = useState(false);
 
   const businessUnitDDL = useSelector((state) => {
@@ -38,13 +43,13 @@ function GateOutDelivary({ item, date }) {
     if (selectedBusinessUnit) {
       setLoading(true);
       initData.businessUnit = selectedBusinessUnit;
-      getShipPoint(`/mes/MSIL/GetAllMSIL?PartName=GetShipPointForVehicleEntry&BusinessUnitId=${initData?.businessUnit?.value}&AutoId=${profileData?.userId
-        }`,
+      getShipPoint(
+        `/mes/MSIL/GetAllMSIL?PartName=GetShipPointForVehicleEntry&BusinessUnitId=${initData?.businessUnit?.value}&AutoId=${profileData?.userId}`,
         (data) => {
           initData.shipPoint = data[0];
           setLoading(false);
         }
-      )
+      );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -64,7 +69,7 @@ function GateOutDelivary({ item, date }) {
         enableReinitialize={true}
         initialValues={initData}
         // validationSchema={{}}
-        onSubmit={() => { }}
+        onSubmit={() => {}}
       >
         {({ values, errors, touched, setFieldValue }) => (
           <>
@@ -82,11 +87,14 @@ function GateOutDelivary({ item, date }) {
                         setFieldValue("shipPoint", "");
                         setRowData([]);
                         setFieldValue("businessUnit", valueOption);
-                        getShipPoint(`/mes/MSIL/GetAllMSIL?PartName=GetShipPointForVehicleEntry&BusinessUnitId=${valueOption?.value}&AutoId=${profileData?.userId}`,
+                        getShipPoint(
+                          `/mes/MSIL/GetAllMSIL?PartName=GetShipPointForVehicleEntry&BusinessUnitId=${valueOption?.value}&AutoId=${profileData?.userId}`,
                           (data) => {
-                            if (data === []) return toast.warn("No Ship Point Found")
+                            if (data === [])
+                              return toast.warn("No Ship Point Found");
                             setFieldValue("shipPoint", data[0]);
-                          })
+                          }
+                        );
                       } else {
                         setFieldValue("businessUnit", "");
                         setFieldValue("shipPoint", "");
@@ -138,52 +146,59 @@ function GateOutDelivary({ item, date }) {
                 />
               </div>
               <div className="col-lg-12">
-                <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
-                  <thead>
-                    <tr>
-                      <th style={{ width: "30px" }}>SL</th>
-                      <th>Reg. No</th>
-                      <th>Net Weight</th>
-                      <th>Vehicle No</th>
-                      <th>Driver Name</th>
-                      <th>Driver Mobile Number</th>
-                      <th>Date</th>
-                      <th>Entry Time</th>
-                      <th>Server Time</th>
-                      <th>Status</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {rowData?.gateOut?.length > 0 &&
-                      rowData?.gateOut?.map((item, index) => (
-                        <tr key={index}>
-                          <td>{index + 1}</td>
-                          <td className="text-center">{item?.strEntryCode}</td>
-                          <td className="text-center">{item?.numNetWeight}</td>
-                          <td>{item?.strVehicleNo}</td>
-                          <td>{item?.strDriverName}</td>
-                          <td className="text-center">
-                            {item?.strDriverMobileNo}
-                          </td>
-                          <td className="text-center">
-                            {_dateFormatter(item?.dteGateOutDate)}
-                          </td>
-                          <td className="text-center">
-                            {_timeFormatter(item?.tmOutTime || "")}
-                          </td>
-                          <td className="text-center">
-                            {_timeFormatter(item?.tmServerTime || "")}
-                          </td>
-                          <td
-                            style={{ color: "green", fontWeight: "bold" }}
-                            className="text-center"
-                          >
-                            {item?.strStatus}
-                          </td>
-                        </tr>
-                      ))}
-                  </tbody>
-                </table>
+                <div className="table-responsive">
+                  <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+                    <thead>
+                      <tr>
+                        <th style={{ width: "30px" }}>SL</th>
+                        <th>Reg. No</th>
+                        <th>Net Weight</th>
+                        <th>Vehicle No</th>
+                        <th>Driver Name</th>
+                        <th>Driver Mobile Number</th>
+                        <th>Date</th>
+                        <th>Entry Time</th>
+                        <th>Server Time</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {rowData?.gateOut?.length > 0 &&
+                        rowData?.gateOut?.map((item, index) => (
+                          <tr key={index}>
+                            <td>{index + 1}</td>
+                            <td className="text-center">
+                              {item?.strEntryCode}
+                            </td>
+                            <td className="text-center">
+                              {item?.numNetWeight}
+                            </td>
+                            <td>{item?.strVehicleNo}</td>
+                            <td>{item?.strDriverName}</td>
+                            <td className="text-center">
+                              {item?.strDriverMobileNo}
+                            </td>
+                            <td className="text-center">
+                              {_dateFormatter(item?.dteGateOutDate)}
+                            </td>
+                            <td className="text-center">
+                              {_timeFormatter(item?.tmOutTime || "")}
+                            </td>
+                            <td className="text-center">
+                              {_timeFormatter(item?.tmServerTime || "")}
+                            </td>
+                            <td
+                              style={{ color: "green", fontWeight: "bold" }}
+                              className="text-center"
+                            >
+                              {item?.strStatus}
+                            </td>
+                          </tr>
+                        ))}
+                    </tbody>
+                  </table>
+                </div>
+
                 {rowData?.gateOut?.length > 0 && (
                   <PaginationTable
                     count={rowData?.totalCount}

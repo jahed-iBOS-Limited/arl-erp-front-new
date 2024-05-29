@@ -170,6 +170,15 @@ export default function _Form({
                     </div>
 
                     <div className="col-lg-3">
+                      <label>Phone</label>
+                      <InputField
+                        value={values?.phone}
+                        name="phone"
+                        type="text"
+                      />
+                    </div>
+
+                    <div className="col-lg-3">
                       <NewSelect
                         name="workType"
                         options={[
@@ -350,6 +359,9 @@ export default function _Form({
                         options={[
                           { value: 1, label: "Day" },
                           { value: 2, label: "Night" },
+                          // { value: 1, label: "A Shift" },
+                          // { value: 2, label: "B Shift" },
+                          // { value: 3, label: "C Shift" },
                         ]}
                         value={values?.strShift}
                         label="Shift"
@@ -374,6 +386,17 @@ export default function _Form({
                     </div>
 
                     <div className="col-lg-3">
+                      <label>Non Pump</label>
+                      <InputField
+                        value={values?.nonPump}
+                        name="nonPump"
+                        type="number"
+                        touched={touched}
+                        errors={errors}
+                      />
+                    </div>
+
+                    <div className="col-lg-3">
                       <label>Pipe (Feet)</label>
                       <InputField
                         value={values?.intPipeFeet}
@@ -384,7 +407,7 @@ export default function _Form({
                       />
                     </div>
 
-                    <div className="col-lg-3">
+                    {/* <div className="col-lg-3">
                       <label>Large Tyre</label>
                       <InputField
                         value={values?.intLargeTyre}
@@ -404,7 +427,7 @@ export default function _Form({
                         touched={touched}
                         errors={errors}
                       />
-                    </div>
+                    </div> */}
 
                     <div className="col-lg-3">
                       <label>Bag Cement Use</label>
@@ -455,59 +478,61 @@ export default function _Form({
 
               {/* Table Start */}
               {rowData?.length > 0 && (
-                <table className="table table-striped table-bordered global-table">
-                  <thead>
-                    <tr>
-                      <th style={{ width: "30px" }}>SL</th>
-                      <th>PSI Item</th>
-                      <th>PSI Qty</th>
-                      <th>Shift</th>
-                      <th>Waterproof</th>
-                      <th>No. Of Pump</th>
-                      <th>Pipe (Feet)</th>
-                      <th>Large Tyre</th>
-                      <th>Small Tyre</th>
-                      <th>Cement use (Bag)</th>
-                      <th>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {rowData?.map((td, index) => (
-                      <tr key={index}>
-                        <td className="text-center">{index + 1}</td>
-                        <td>{td?.strItemName}</td>
-                        <td>{td?.numQuantity}</td>
-                        <td>{td?.strShift}</td>
-                        <td>{td?.isWaterProof ? "Yes" : "No"}</td>
-                        <td>{td?.intNumberOfPump}</td>
-                        <td>{td?.intPipeFeet}</td>
-                        <td>{td?.intLargeTyre}</td>
-                        <td>{td?.intSmallTyre}</td>
-                        <td>{td?.intBagCementUse}</td>
-                        <td className="text-center">
-                          {params?.type === "view" ? (
-                            "-"
-                          ) : (
-                            <span
-                              onClick={() => {
-                                removeRowData(index, rowData, setRowData);
-                              }}
-                            >
-                              <IDelete />
-                            </span>
-                          )}
-                        </td>
+                <div className="table-responsive">
+                  <table className="table table-striped table-bordered global-table">
+                    <thead>
+                      <tr>
+                        <th style={{ width: "30px" }}>SL</th>
+                        <th>PSI Item</th>
+                        <th>PSI Qty</th>
+                        <th>Shift</th>
+                        <th>Waterproof</th>
+                        <th>No. Of Pump</th>
+                        <th>Pipe (Feet)</th>
+                        {/* <th>Large Tyre</th>
+                        <th>Small Tyre</th> */}
+                        <th>Cement use (Bag)</th>
+                        <th>Actions</th>
                       </tr>
-                    ))}
-                    <tr>
-                      <td colSpan="2"></td>
-                      <td colSpan="1" className="text-right">
-                        {totalMaker || 0}
-                      </td>
-                      <td colSpan="10"></td>
-                    </tr>
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody>
+                      {rowData?.map((td, index) => (
+                        <tr key={index}>
+                          <td className="text-center">{index + 1}</td>
+                          <td>{td?.strItemName}</td>
+                          <td>{td?.numQuantity}</td>
+                          <td>{td?.strShift}</td>
+                          <td>{td?.isWaterProof ? "Yes" : "No"}</td>
+                          <td>{td?.intNumberOfPump}</td>
+                          <td>{td?.intPipeFeet}</td>
+                          {/* <td>{td?.intLargeTyre}</td>
+                          <td>{td?.intSmallTyre}</td> */}
+                          <td>{td?.intBagCementUse}</td>
+                          <td className="text-center">
+                            {params?.type === "view" ? (
+                              "-"
+                            ) : (
+                              <span
+                                onClick={() => {
+                                  removeRowData(index, rowData, setRowData);
+                                }}
+                              >
+                                <IDelete />
+                              </span>
+                            )}
+                          </td>
+                        </tr>
+                      ))}
+                      <tr>
+                        <td colSpan="2"></td>
+                        <td colSpan="1" className="text-right">
+                          {totalMaker || 0}
+                        </td>
+                        <td colSpan="10"></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
               )}
 
               <button

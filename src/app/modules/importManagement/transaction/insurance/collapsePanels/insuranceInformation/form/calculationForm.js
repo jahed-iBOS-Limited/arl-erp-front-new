@@ -1,11 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
 import { Formik } from "formik";
-import { Card,CardHeader,CardBody } from "../../../../../../../../_metronic/_partials/controls";
+import {
+  Card,
+  CardHeader,
+  CardBody,
+} from "../../../../../../../../_metronic/_partials/controls";
 // import InputField from "../../../../../../_helper/_inputField";
 import numberWithCommas from "../../../../../../_helper/_numberWithCommas";
 
-const CalculationForm = ({initData}) => {
+const CalculationForm = ({ initData }) => {
   return (
     <>
       <Formik
@@ -19,65 +23,114 @@ const CalculationForm = ({initData}) => {
             <Card>
               <CardHeader title="Insurance Service Break Down"></CardHeader>
               <CardBody style={{ background: "#dde3e8", paddingTop: "20px" }}>
-
-              <table className="table table-striped table-bordered mt-3 global-table insurance-table">
-                  <tbody>
-                    <tr>
-                      {/* <td style={{
+                <div className="react-bootstrap-table table-responsive">
+                  <table className="table table-striped table-bordered mt-3 global-table insurance-table">
+                    <tbody>
+                      <tr>
+                        {/* <td style={{
                             width: "50%",
                             textAlign:"right !important"
                       }} className="text-right">{"Insured Amount (+" +values?.InsuredAddRate +"%)"}</td>
                       <td>{numberWithCommas(values?.insuredAmount)}</td> */}
-                    </tr>
-                    <tr>
-                      {/* <td></td> */}
-                      <td style={{
+                      </tr>
+                      <tr>
+                        {/* <td></td> */}
+                        <td
+                          style={{
                             width: "50%",
-                            textAlign:"right !important"
-                      }} >{"Insured Amount (+" +values?.insuredAddRate *100 +"%)"}</td>
-                      <td className="text-center" >{numberWithCommas(values?.insuredAmount)}</td>
-                    </tr>
-                    <tr>
-                      <td style={{
+                            textAlign: "right !important",
+                          }}
+                        >
+                          {"Insured Amount (+" +
+                            values?.insuredAddRate * 100 +
+                            "%)"}
+                        </td>
+                        <td className="text-center">
+                          {numberWithCommas(values?.insuredAmount)}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td
+                          style={{
                             width: "50%",
-                      }}>Premium</td>
-                      <td className="text-center">{numberWithCommas(values?.premium)}</td>
-                    </tr>
-                    <tr>
-                      <td style={{
+                          }}
+                        >
+                          Premium
+                        </td>
+                        <td className="text-center">
+                          {numberWithCommas(values?.premium)}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td
+                          style={{
                             width: "50%",
-                      }} >Stamp</td>
-                      <td className="text-center">{numberWithCommas(values?.stamp)}</td>
-                    </tr>
-                    <tr>
-                      <td style={{
+                          }}
+                        >
+                          Stamp
+                        </td>
+                        <td className="text-center">
+                          {numberWithCommas(values?.stamp)}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td
+                          style={{
                             width: "50%",
-                      }} >VAT</td>
-                      <td className="text-center">{numberWithCommas(values?.vat)}</td>
-                    </tr>
-                    <tr>
-                      <td style={{
+                          }}
+                        >
+                          VAT
+                        </td>
+                        <td className="text-center">
+                          {numberWithCommas(values?.vat)}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td
+                          style={{
                             width: "50%",
-                            fontWeight: "bold"
-                      }} >Total</td>
-                      <td className="text-center">{numberWithCommas(Number(values?.premium) +Number(values?.stamp)+Number(values?.vat))}</td>
-                    </tr>
-                    <tr>
-                      <td style={{
+                            fontWeight: "bold",
+                          }}
+                        >
+                          Total
+                        </td>
+                        <td className="text-center">
+                          {numberWithCommas(
+                            Number(values?.premium) +
+                              Number(values?.stamp) +
+                              Number(values?.vat)
+                          )}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td
+                          style={{
                             width: "50%",
-                      }} >Discount On Commision</td>
-                      <td className="text-center">{numberWithCommas(values?.discountOnCommision)}</td>
-                    </tr>
-                    <tr>
-                      <td style={{
+                          }}
+                        >
+                          Discount On Commision
+                        </td>
+                        <td className="text-center">
+                          {numberWithCommas(values?.discountOnCommision)}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td
+                          style={{
                             width: "50%",
-                            fontWeight: "bold"
-                      }} >Net Paid</td>
-                      <td className="text-center">{numberWithCommas(values?.netPaid)}</td>
-                    </tr>
-                  </tbody>
-                </table>
-                
+                            fontWeight: "bold",
+                          }}
+                        >
+                          Net Paid
+                        </td>
+                        <td className="text-center">
+                          {numberWithCommas(values?.netPaid)}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
                 {/* <div className="d-flex">
                   <span style={{ width: "11rem" }}>{"Insured Amount (+" +values?.InsuredAddRate +"%)"}</span>
                   <InputField

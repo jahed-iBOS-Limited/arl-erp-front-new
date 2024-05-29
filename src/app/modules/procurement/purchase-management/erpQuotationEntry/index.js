@@ -256,6 +256,7 @@ export default function ErpQuotationEntryLanding() {
                   />
                 </div>
                 <div>
+                <div className="table-responsive">
                   <table className="table table-striped table-bordered bj-table bj-table-landing">
                     <thead>
                       <tr>
@@ -280,6 +281,7 @@ export default function ErpQuotationEntryLanding() {
                       ))}
                     </tbody>
                   </table>
+                  </div>
                   {landingData?.data?.length > 0 ? (
                     <PaginationTable
                       count={landingData?.totalCount}

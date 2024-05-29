@@ -130,7 +130,7 @@ export default function MapView({ singleData }) {
             </p>
           </div>
         </div>
-        <div>
+        <div className="table-responsive">
           <table className="table table-striped table-bordered bj-table bj-table-landing">
             <thead>
               <tr>
@@ -146,10 +146,8 @@ export default function MapView({ singleData }) {
                     <td className="text-center">
                       {_dateFormatter(item?.tripDateTime?.split("T")[0])}
                     </td>
-                    <td className="text-center">
-                      {_timeFormatter(item?.tripDateTime?.split("T")[1])}
-                    </td>
-                    <td className="text-center">{item?.tripLocation}</td>
+                    <td className="text-center">{item?.tripTime}</td>
+                    <td className="">{item?.tripLocation}</td>
                   </tr>
                 ))}
             </tbody>

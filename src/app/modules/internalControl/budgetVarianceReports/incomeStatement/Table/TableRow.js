@@ -1,39 +1,39 @@
-import { Form, Formik } from 'formik';
-import React, { useEffect, useRef, useState } from 'react';
-import ReactHTMLTableToExcel from 'react-html-table-to-excel';
-import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import ReactToPrint from 'react-to-print';
-import Loading from '../../../../_helper/_loading';
-import { _todayDate } from '../../../../_helper/_todayDate';
-import printIcon from '../../../../_helper/images/print-icon.png';
+import { Form, Formik } from "formik";
+import React, { useEffect, useRef, useState } from "react";
+import ReactHTMLTableToExcel from "react-html-table-to-excel";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import ReactToPrint from "react-to-print";
+import Loading from "../../../../_helper/_loading";
+import { _todayDate } from "../../../../_helper/_todayDate";
+import printIcon from "../../../../_helper/images/print-icon.png";
 import {
   getBusinessDDLByED,
   getEnterpriseDivisionDDL,
   getIncomeStatement_api,
   getProfitCenterDDL,
-} from '../helper';
+} from "../helper";
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from './../../../../../../_metronic/_partials/controls';
-import InputField from './../../../../_helper/_inputField';
-import NewSelect from './../../../../_helper/_select';
-import { SetReportIncomestatementAction } from './../../../../_helper/reduxForLocalStorage/Actions';
+} from "./../../../../../../_metronic/_partials/controls";
+import InputField from "./../../../../_helper/_inputField";
+import NewSelect from "./../../../../_helper/_select";
+import { SetReportIncomestatementAction } from "./../../../../_helper/reduxForLocalStorage/Actions";
 // import { getBusinessUnitDDL } from "../../cashRegisterReport/Form/helper";
-import moment from 'moment';
-import { _dateFormatter } from '../../../../_helper/_dateFormate';
-import { fromDateFromApiNew } from '../../../../_helper/_formDateFromApi';
-import numberWithCommas from '../../../../_helper/_numberWithCommas';
-import IViewModal from '../../../../_helper/_viewModal';
-import PowerBIReport from '../../../../_helper/commonInputFieldsGroups/PowerBIReport';
-import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
-import GeneralLedgerModalForIncomeStatement from '../generalLedgerModal';
-import StatisticalDetails from '../statisticalDetails/statisticalDetailsModal';
+import moment from "moment";
+import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import { fromDateFromApiNew } from "../../../../_helper/_formDateFromApi";
+import numberWithCommas from "../../../../_helper/_numberWithCommas";
+import IViewModal from "../../../../_helper/_viewModal";
+import PowerBIReport from "../../../../_helper/commonInputFieldsGroups/PowerBIReport";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import GeneralLedgerModalForIncomeStatement from "../generalLedgerModal";
+import StatisticalDetails from "../statisticalDetails/statisticalDetailsModal";
 
-const html2pdf = require('html2pdf.js');
+const html2pdf = require("html2pdf.js");
 
 const initDataFuction = (reportIncomestatement) => {
   const initData = {
@@ -42,15 +42,15 @@ const initDataFuction = (reportIncomestatement) => {
     todate: reportIncomestatement?.todate || _todayDate(),
     lastPeriodFrom: _todayDate(),
     lastPeriodTo: _todayDate(),
-    enterpriseDivision: reportIncomestatement?.enterpriseDivision || '',
-    subDivision: reportIncomestatement?.subDivision || '',
-    SBU: reportIncomestatement?.SBU || '',
-    profitCenter: reportIncomestatement?.profitCenter || '',
-    businessUnit: reportIncomestatement?.businessUnit || '',
+    enterpriseDivision: reportIncomestatement?.enterpriseDivision || "",
+    subDivision: reportIncomestatement?.subDivision || "",
+    SBU: reportIncomestatement?.SBU || "",
+    profitCenter: reportIncomestatement?.profitCenter || "",
+    businessUnit: reportIncomestatement?.businessUnit || "",
     conversionRate: reportIncomestatement?.conversionRate || 1,
     reportType: reportIncomestatement?.reportType || {
       value: 1,
-      label: 'Statistical',
+      label: "Statistical",
     },
   };
 
@@ -86,7 +86,7 @@ export function TableRow() {
     getEnterpriseDivisionDDL(accountId, setEnterpriseDivisionDDL);
     fromDateFromApiNew(selectedBusinessUnit?.value, (date) => {
       if (formikRef.current) {
-        const apiFormDate = date ? _dateFormatter(date) : '';
+        const apiFormDate = date ? _dateFormatter(date) : "";
         const modifyInitData = initDataFuction(reportIncomestatement);
         formikRef.current.setValues({
           ...modifyInitData,
@@ -99,22 +99,22 @@ export function TableRow() {
   }, []);
 
   const pdfExport = (fileName) => {
-    var element = document.getElementById('pdf-section');
+    var element = document.getElementById("pdf-section");
     var opt = {
       margin: 20,
       filename: `${fileName}.pdf`,
-      image: { type: 'jpeg', quality: 0.98 },
+      image: { type: "jpeg", quality: 0.98 },
       html2canvas: {
         scale: 5,
         dpi: 300,
         letterRendering: true,
-        padding: '50px',
+        padding: "50px",
         scrollX: -window.scrollX,
         scrollY: -window.scrollY,
         windowWidth: document.documentElement.offsetWidth,
         windowHeight: document.documentElement.offsetHeight,
       },
-      jsPDF: { unit: 'px', hotfixes: ['px_scaling'], orientation: 'landscape' },
+      jsPDF: { unit: "px", hotfixes: ["px_scaling"], orientation: "landscape" },
     };
     html2pdf()
       .set(opt)
@@ -132,14 +132,14 @@ export function TableRow() {
   } = useSelector((state) => state.authData, shallowEqual);
 
   const [showRDLC, setShowRDLC] = useState(false);
-  const groupId = '218e3d7e-f3ea-4f66-8150-bb16eb6fc606';
-  const reportId = 'bbd2a18f-8600-4ed8-bb55-1948a80e1605';
+  const groupId = "218e3d7e-f3ea-4f66-8150-bb16eb6fc606";
+  const reportId = "bbd2a18f-8600-4ed8-bb55-1948a80e1605";
   const parameterValues = (values) => {
     const agingParameters = [
-      { name: 'ConvertionRate', value: `${values?.conversionRate}` },
-      { name: 'fdate', value: `${values?.fromDate}` },
-      { name: 'tdate', value: `${values?.todate}` },
-      { name: 'intType', value: `${values?.reportType?.value || 0}` },
+      { name: "ConvertionRate", value: `${values?.conversionRate}` },
+      { name: "fdate", value: `${values?.fromDate}` },
+      { name: "tdate", value: `${values?.todate}` },
+      { name: "intType", value: `${values?.reportType?.value || 0}` },
     ];
     return agingParameters;
   };
@@ -154,7 +154,7 @@ export function TableRow() {
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={'Income Statement Report'}>
+              <CardHeader title={"Income Statement Report"}>
                 <CardHeaderToolbar>
                   <ReactHTMLTableToExcel
                     id="test-table-xls-button-att-reports"
@@ -167,13 +167,13 @@ export function TableRow() {
                   <button
                     className="btn btn-primary ml-2"
                     type="button"
-                    onClick={(e) => pdfExport('Income Statement Report')}
+                    onClick={(e) => pdfExport("Income Statement Report")}
                   >
                     Export PDF
                   </button>
                   <ReactToPrint
                     pageStyle={
-                      '@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}'
+                      "@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}"
                     }
                     trigger={() => (
                       <button
@@ -181,7 +181,7 @@ export function TableRow() {
                         className="btn btn-sm btn-primary sales_invoice_btn ml-3"
                       >
                         <img
-                          style={{ width: '20px', paddingRight: '5px' }}
+                          style={{ width: "20px", paddingRight: "5px" }}
                           src={printIcon}
                           alt="print-icon"
                         />
@@ -203,15 +203,15 @@ export function TableRow() {
                         value={values?.enterpriseDivision}
                         label="Enterprise Division"
                         onChange={(valueOption) => {
-                          setFieldValue('enterpriseDivision', valueOption);
-                          setFieldValue('subDivision', '');
-                          setFieldValue('businessUnit', '');
-                          setFieldValue('profitCenter', '');
+                          setFieldValue("enterpriseDivision", valueOption);
+                          setFieldValue("subDivision", "");
+                          setFieldValue("businessUnit", "");
+                          setFieldValue("profitCenter", "");
                           setShowRDLC(false);
                           setIncomeStatement([]);
                           if (valueOption?.value) {
                             getSubDivisionDDL(
-                              `/hcm/HCMDDL/GetBusinessUnitSubGroup?AccountId=${accountId}&BusinessUnitGroup=${valueOption?.label}`,
+                              `/hcm/HCMDDL/GetBusinessUnitSubGroup?AccountId=${accountId}&BusinessUnitGroup=${valueOption?.label}`
                             );
                           }
                         }}
@@ -225,9 +225,9 @@ export function TableRow() {
                         value={values?.subDivision}
                         label="Sub Division"
                         onChange={(valueOption) => {
-                          setFieldValue('subDivision', valueOption);
-                          setFieldValue('businessUnit', '');
-                          setFieldValue('profitCenter', '');
+                          setFieldValue("subDivision", valueOption);
+                          setFieldValue("businessUnit", "");
+                          setFieldValue("profitCenter", "");
                           setShowRDLC(false);
                           setIncomeStatement([]);
                           if (valueOption) {
@@ -235,7 +235,7 @@ export function TableRow() {
                               accountId,
                               values?.enterpriseDivision?.value,
                               setBusinessUnitDDL,
-                              valueOption,
+                              valueOption
                             );
                           }
                         }}
@@ -250,8 +250,8 @@ export function TableRow() {
                         value={values?.businessUnit}
                         label="Business Unit"
                         onChange={(valueOption) => {
-                          setFieldValue('businessUnit', valueOption);
-                          setFieldValue('profitCenter', '');
+                          setFieldValue("businessUnit", valueOption);
+                          setFieldValue("profitCenter", "");
                           setShowRDLC(false);
                           setIncomeStatement([]);
                           if (valueOption?.value >= 0) {
@@ -259,12 +259,12 @@ export function TableRow() {
                               valueOption?.value,
                               (profitCenterDDLData) => {
                                 setProfitCenterDDL(profitCenterDDLData);
-                                setFieldValue('businessUnit', valueOption);
+                                setFieldValue("businessUnit", valueOption);
                                 setFieldValue(
-                                  'profitCenter',
-                                  profitCenterDDLData?.[0] || '',
+                                  "profitCenter",
+                                  profitCenterDDLData?.[0] || ""
                                 );
-                              },
+                              }
                             );
                           }
                         }}
@@ -285,7 +285,7 @@ export function TableRow() {
                         value={values?.profitCenter}
                         label="Profit Center"
                         onChange={(valueOption) => {
-                          setFieldValue('profitCenter', valueOption);
+                          setFieldValue("profitCenter", valueOption);
                           setShowRDLC(false);
                           setIncomeStatement([]);
                         }}
@@ -300,7 +300,7 @@ export function TableRow() {
                         placeholder="From Date"
                         type="date"
                         onChange={(e) => {
-                          setFieldValue('fromDate', e.target.value);
+                          setFieldValue("fromDate", e.target.value);
                           setShowRDLC(false);
                         }}
                       />
@@ -313,7 +313,7 @@ export function TableRow() {
                         placeholder="To date"
                         type="date"
                         onChange={(e) => {
-                          setFieldValue('todate', e.target.value);
+                          setFieldValue("todate", e.target.value);
                           setShowRDLC(false);
                         }}
                       />
@@ -326,7 +326,7 @@ export function TableRow() {
                         placeholder="Conversion Rate"
                         type="text"
                         onChange={(e) => {
-                          setFieldValue('conversionRate', e.target.value);
+                          setFieldValue("conversionRate", e.target.value);
                           setShowRDLC(false);
                         }}
                         min={0}
@@ -336,24 +336,27 @@ export function TableRow() {
                       <NewSelect
                         name="reportType"
                         options={[
-                          { value: 1, label: 'Statistical' },
-                          { value: 2, label: 'GL Based' },
+                          { value: 1, label: "Statistical" },
+                          { value: 2, label: "GL Based" },
                         ]}
                         value={values?.reportType}
                         label="Report Type"
                         onChange={(valueOption) => {
                           if (valueOption) {
-                            setFieldValue('reportType', valueOption);
+                            setFieldValue("reportType", valueOption);
                             setShowRDLC(false);
                             setIncomeStatement([]);
                           } else {
-                            setFieldValue('reportType', '');
+                            setFieldValue("reportType", "");
                           }
                         }}
                         placeholder="Report Type"
                       />
                     </div>
-                    <div className="col-md-4 mt-5 pt-1 d-flex">
+                    <div className="col-md-4 mt-5 pt-1 d-flex" style={{
+                        flexWrap: "wrap",
+                        gap: "5px",
+                      }}>
                       <button
                         className="btn btn-primary"
                         type="button"
@@ -362,7 +365,7 @@ export function TableRow() {
                           dispatch(
                             SetReportIncomestatementAction({
                               ...values,
-                            }),
+                            })
                           );
                           getIncomeStatement_api(
                             values?.fromDate,
@@ -374,11 +377,11 @@ export function TableRow() {
                             setIncomeStatement,
                             values?.profitCenter,
                             setLoading,
-                            'IncomeStatement',
+                            "IncomeStatement",
                             values?.enterpriseDivision?.value,
                             values?.conversionRate,
                             values?.subDivision,
-                            values?.reportType?.value,
+                            values?.reportType?.value
                           );
                         }}
                         disabled={
@@ -418,7 +421,7 @@ export function TableRow() {
                         }}
                         disabled={
                           !values?.businessUnit ||
-                          values?.businessUnit?.label?.trim() === 'All' ||
+                          values?.businessUnit?.label?.trim() === "All" ||
                           !values?.fromDate ||
                           !values?.todate
                         }
@@ -455,122 +458,131 @@ export function TableRow() {
                             </p>
                           </div>
                           <div className="print_wrapper">
-                            <table
-                              id="table-to-xlsx"
-                              className="table table-striped table-bordered mt-3 global-table table-font-size-sm"
-                            >
-                              <thead>
-                                <tr>
-                                  <th style={{ width: '500px' }}>
-                                    Particulars
-                                  </th>
-                                  <th style={{ width: '200px' }}>Note SL</th>
-                                  <th
-                                    style={{ width: '250px' }}
-                                    className="incTableThPadding"
-                                  >
-                                    <span>
-                                      Actual <br />
-                                      {/* {`${values?.lastPeriodFrom} to ${values?.lastPeriodTo}`} */}
-                                    </span>
-                                  </th>
-                                  <th
-                                    style={{ width: '250px' }}
-                                    className="incTableThPadding"
-                                  >
-                                    <span>
-                                      Budget
-                                      <br />
-                                      {/* {`${values?.fromDate} to ${values?.todate}`} */}
-                                    </span>
-                                  </th>
-
-                                  <th style={{ width: '250px' }}>Variance</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                {incomeStatement?.map((data, index) => (
-                                  <>
-                                    <tr
-                                      className={
-                                        data?.intFSId === 0 ||
-                                        data?.intFSId === 20
-                                          ? 'font-weight-bold'
-                                          : ''
-                                      }
+                            <div className="table-responsive">
+                              <table
+                                id="table-to-xlsx"
+                                className="table table-striped table-bordered mt-3 global-table table-font-size-sm"
+                              >
+                                <thead>
+                                  <tr>
+                                    <th style={{ width: "500px" }}>
+                                      Particulars
+                                    </th>
+                                    <th style={{ width: "200px" }}>Note SL</th>
+                                    <th
+                                      style={{ width: "250px" }}
+                                      className="incTableThPadding"
                                     >
-                                      <td className="text-left">
-                                        {data?.strFSComponentName}
-                                      </td>
-                                      <td></td>
-                                      <td
-                                        className="text-right pointer"
-                                        style={{
-                                          textDecoration:
-                                            [1]?.includes(values?.reportType?.value) ||
-                                            data?.intFSId === 0 ||
-                                            data?.intFSId === 20
-                                              ? ''
-                                              : 'underline',
-                                          color:
-                                          [1]?.includes(values?.reportType?.value) ||
-                                            data?.intFSId === 0 ||
-                                            data?.intFSId === 20
-                                              ? ''
-                                              : 'blue',
-                                        }}
+                                      <span>
+                                        Actual <br />
+                                        {/* {`${values?.lastPeriodFrom} to ${values?.lastPeriodTo}`} */}
+                                      </span>
+                                    </th>
+                                    <th
+                                      style={{ width: "250px" }}
+                                      className="incTableThPadding"
+                                    >
+                                      <span>
+                                        Budget
+                                        <br />
+                                        {/* {`${values?.fromDate} to ${values?.todate}`} */}
+                                      </span>
+                                    </th>
+
+                                    <th style={{ width: "250px" }}>Variance</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {incomeStatement?.map((data, index) => (
+                                    <>
+                                      <tr
+                                        className={
+                                          data?.intFSId === 0 ||
+                                          data?.intFSId === 20
+                                            ? "font-weight-bold"
+                                            : ""
+                                        }
                                       >
-                                        <span
-                                          onClick={() => {
-                                            if (
-                                              !(
-                                                [1]?.includes(values?.reportType?.value) ||
-                                                data?.intFSId === 0 ||
-                                                data?.intFSId === 20
-                                              )
-                                            ) {
-                                              setShowGeneralLedgerModal(true);
-                                              setIncomeStatementRow(data);
-                                            }
+                                        <td className="text-left">
+                                          {data?.strFSComponentName}
+                                        </td>
+                                        <td></td>
+                                        <td
+                                          className="text-right pointer"
+                                          style={{
+                                            textDecoration:
+                                              [1]?.includes(
+                                                values?.reportType?.value
+                                              ) ||
+                                              data?.intFSId === 0 ||
+                                              data?.intFSId === 20
+                                                ? ""
+                                                : "underline",
+                                            color:
+                                              [1]?.includes(
+                                                values?.reportType?.value
+                                              ) ||
+                                              data?.intFSId === 0 ||
+                                              data?.intFSId === 20
+                                                ? ""
+                                                : "blue",
                                           }}
                                         >
-                                          {' '}
-                                          {data?.monCurrentPeriodAmount
+                                          <span
+                                            onClick={() => {
+                                              if (
+                                                !(
+                                                  [1]?.includes(
+                                                    values?.reportType?.value
+                                                  ) ||
+                                                  data?.intFSId === 0 ||
+                                                  data?.intFSId === 20
+                                                )
+                                              ) {
+                                                setShowGeneralLedgerModal(true);
+                                                setIncomeStatementRow(data);
+                                              }
+                                            }}
+                                          >
+                                            {" "}
+                                            {data?.monCurrentPeriodAmount
+                                              ? numberWithCommas(
+                                                  data?.monCurrentPeriodAmount.toFixed()
+                                                )
+                                              : 0}
+                                          </span>
+                                        </td>
+                                        <td className="text-right">
+                                          {data?.monLastPeriodAmount
                                             ? numberWithCommas(
-                                                data?.monCurrentPeriodAmount.toFixed(),
+                                                data?.monLastPeriodAmount.toFixed()
                                               )
                                             : 0}
-                                        </span>
-                                      </td>
-                                      <td className="text-right">
-                                        {data?.monLastPeriodAmount
-                                          ? numberWithCommas(
-                                              data?.monLastPeriodAmount.toFixed(),
-                                            )
-                                          : 0}
-                                      </td>
+                                        </td>
 
-                                      <td className="text-right">
-                                        {numberWithCommas(
-                                          (
-                                            data?.monCurrentPeriodAmount -
-                                            data?.monLastPeriodAmount
-                                          ).toFixed(),
-                                        )}
-                                      </td>
-                                    </tr>
-                                  </>
-                                ))}
-                                <tr>
-                                  <td
-                                    className="text-center d-none"
-                                    colSpan={4}
-                                  >{`System Generated Report - ${moment().format(
-                                    'LLLL',
-                                  )}`}</td>
-                                </tr>
-                              </tbody>
-                            </table>
+                                        <td className="text-right">
+                                          {numberWithCommas(
+                                            (
+                                              data?.monCurrentPeriodAmount -
+                                              data?.monLastPeriodAmount
+                                            ).toFixed()
+                                          )}
+                                        </td>
+                                      </tr>
+                                    </>
+                                  ))}
+                                  <tr>
+                                    <td
+                                      className="text-center d-none"
+                                      colSpan={4}
+                                    >{`System Generated Report - ${moment().format(
+                                      "LLLL"
+                                    )}`}</td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+
                             <div></div>
                           </div>
                         </div>

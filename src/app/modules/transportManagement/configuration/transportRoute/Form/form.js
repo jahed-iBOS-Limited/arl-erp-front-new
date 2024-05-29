@@ -1,10 +1,10 @@
+import { Field, Form, Formik } from "formik";
 import React from "react";
-import { Formik, Form, Field } from "formik";
+import Select from "react-select";
 import * as Yup from "yup";
 import { Input } from "../../../../../../_metronic/_partials/controls";
-import Select from "react-select";
-import customStyles from "../../../../selectCustomStyle";
 import IDelete from "../../../../_helper/_helperIcons/_delete";
+import customStyles from "../../../../selectCustomStyle";
 
 // Validation schema
 const validationSchema = Yup.object().shape({
@@ -163,7 +163,7 @@ export default function _Form({
 
             {id && (
               <div
-                className="form-group row px-4"
+                className="form-group row px-4 table-responsive"
                 style={{ marginTop: "25px" }}
               >
                 <table className="table table-striped table-bordered global-table">

@@ -68,7 +68,7 @@ const DocumentReleaseLanding = () => {
       setIsLoading,
       pageNo,
       pageSize,
-      poNo || '',
+      poNo || "",
       fromDate,
       toDate
     );
@@ -83,8 +83,8 @@ const DocumentReleaseLanding = () => {
       pageNo,
       pageSize,
       0,
-      '',
-      ''
+      "",
+      ""
     );
   }, [profileData, selectedBusinessUnit]);
 
@@ -105,7 +105,7 @@ const DocumentReleaseLanding = () => {
           fromDate: _firstDateofMonth(),
           toDate: _todayDate(),
         }}
-        onSubmit={(values, { setSubmitting, resetForm }) => { }}
+        onSubmit={(values, { setSubmitting, resetForm }) => {}}
       >
         {({ errors, touched, setFieldValue, isValid, values }) => (
           <>
@@ -122,11 +122,7 @@ const DocumentReleaseLanding = () => {
                       paddingRight={10}
                       handleChange={(valueOption) => {
                         setFieldValue("poNo", valueOption);
-                        getGrid(
-                          valueOption?.label,
-                          '',
-                          ''
-                        );
+                        getGrid(valueOption?.label, "", "");
                       }}
                       loadOptions={loadPartsList}
                     />
@@ -191,171 +187,175 @@ const DocumentReleaseLanding = () => {
                     </button>
                   </div>
                 </div>
-                <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
-                  <thead>
-                    <tr>
-                      <th style={{ width: "20px" }}>SL</th>
-                      <th>PO No</th>
-                      <th>LC No</th>
-                      <th>Shipment No</th>
-                      <th>LC Type</th>
-                      <th>Shipment Policy Status</th>
-                      <th>DOC Release Status</th>
-                      <th>Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {gridData?.data?.length > 0 &&
-                      gridData?.data?.map((item, index) => {
-                        return (
-                          <tr key={index}>
-                            <td
-                              style={{ width: "20px" }}
-                              className="text-center"
-                            >
-                              {index + 1}
-                            </td>
-                            <td className="text-center">{item?.poNumber}</td>
-                            <td className="text-center">{item?.lcNumber}</td>
-                            <td className="text-center">
-                              {item?.shipmentCode}
-                            </td>
-                            <td className="text-center">{item?.lcTypeName}</td>
-                            <td className="text-center">
-                              {item?.policyStatus}
-                            </td>
-                            <td className="text-center">
-                              {item?.docReleaseStatus}
-                            </td>
-                            <td
-                              className="text-center"
-                              style={{ width: "15rem" }}
-                            >
-                              <div className="d-flex justify-content-center align-items-center">
-                                <span className="ml-3">
-                                  {item?.docReleaseStatus !== "Pending" ? (
-                                    <IView
-                                      clickHandler={() => {
-                                        history.push({
-                                          pathname: `/managementImport/transaction/document-release/view`,
-                                          state: item,
-                                          routeState: "view",
-                                        });
-                                      }}
-                                      classes="h5"
-                                    />
-                                  ) : (
-                                    <OverlayTrigger
-                                      overlay={
-                                        <Tooltip id="cs-icon">
-                                          View Disable
-                                        </Tooltip>
-                                      }
-                                    >
-                                      <span>
-                                        <i
-                                          style={{ cursor: "no-drop" }}
-                                          className={`fa fa-eye h5`}
-                                          aria-hidden="true"
-                                        ></i>
-                                      </span>
-                                    </OverlayTrigger>
-                                  )}
-                                </span>
-
-                                <span className="pl-3">
-                                  {item?.docReleaseStatus !== "Done" ? (
-                                    <OverlayTrigger
-                                      overlay={
-                                        <Tooltip id="cs-icon">
-                                          Doc Release
-                                        </Tooltip>
-                                      }
-                                    >
-                                      <i
-                                        class="fas pointer far fa-file"
-                                        aria-hidden="true"
-                                        style={{ width: "15px" }}
-                                        onClick={() => {
+                <div className="react-bootstrap-table table-responsive">
+                  <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+                    <thead>
+                      <tr>
+                        <th style={{ width: "20px" }}>SL</th>
+                        <th>PO No</th>
+                        <th>LC No</th>
+                        <th>Shipment No</th>
+                        <th>LC Type</th>
+                        <th>Shipment Policy Status</th>
+                        <th>DOC Release Status</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {gridData?.data?.length > 0 &&
+                        gridData?.data?.map((item, index) => {
+                          return (
+                            <tr key={index}>
+                              <td
+                                style={{ width: "20px" }}
+                                className="text-center"
+                              >
+                                {index + 1}
+                              </td>
+                              <td className="text-center">{item?.poNumber}</td>
+                              <td className="text-center">{item?.lcNumber}</td>
+                              <td className="text-center">
+                                {item?.shipmentCode}
+                              </td>
+                              <td className="text-center">
+                                {item?.lcTypeName}
+                              </td>
+                              <td className="text-center">
+                                {item?.policyStatus}
+                              </td>
+                              <td className="text-center">
+                                {item?.docReleaseStatus}
+                              </td>
+                              <td
+                                className="text-center"
+                                style={{ width: "15rem" }}
+                              >
+                                <div className="d-flex justify-content-center align-items-center">
+                                  <span className="ml-3">
+                                    {item?.docReleaseStatus !== "Pending" ? (
+                                      <IView
+                                        clickHandler={() => {
                                           history.push({
-                                            pathname: `/managementImport/transaction/document-release/create`,
+                                            pathname: `/managementImport/transaction/document-release/view`,
                                             state: item,
-                                            poId: values?.poNo?.poId,
-                                            lcId: values?.poNo?.lcId,
-                                            routeState: "create",
+                                            routeState: "view",
                                           });
                                         }}
-                                      ></i>
-                                    </OverlayTrigger>
-                                  ) : (
-                                    <i
-                                      style={{ cursor: "no-drop" }}
-                                      class="fas far fa-file"
-                                      aria-hidden="true"
-                                    ></i>
-                                  )}
-                                </span>
-                                <span className="pl-3">
-                                  {item?.payDate === null ? (
-                                    <OverlayTrigger
-                                      overlay={
-                                        <Tooltip id="cs-icon">M-Pay</Tooltip>
-                                      }
-                                    >
-                                      <i
-                                        class="fas pointer far fa-money-bill-alt"
-                                        aria-hidden="true"
-                                        disabled={
-                                          item?.docReleaseStatus === "Pending"
+                                        classes="h5"
+                                      />
+                                    ) : (
+                                      <OverlayTrigger
+                                        overlay={
+                                          <Tooltip id="cs-icon">
+                                            View Disable
+                                          </Tooltip>
                                         }
-                                        onClick={() => {
-                                          setIsShowModal(true);
-                                          setSingleItem(item);
-                                        }}
+                                      >
+                                        <span>
+                                          <i
+                                            style={{ cursor: "no-drop" }}
+                                            className={`fa fa-eye h5`}
+                                            aria-hidden="true"
+                                          ></i>
+                                        </span>
+                                      </OverlayTrigger>
+                                    )}
+                                  </span>
+
+                                  <span className="pl-3">
+                                    {item?.docReleaseStatus !== "Done" ? (
+                                      <OverlayTrigger
+                                        overlay={
+                                          <Tooltip id="cs-icon">
+                                            Doc Release
+                                          </Tooltip>
+                                        }
+                                      >
+                                        <i
+                                          class="fas pointer far fa-file"
+                                          aria-hidden="true"
+                                          style={{ width: "15px" }}
+                                          onClick={() => {
+                                            history.push({
+                                              pathname: `/managementImport/transaction/document-release/create`,
+                                              state: item,
+                                              poId: values?.poNo?.poId,
+                                              lcId: values?.poNo?.lcId,
+                                              routeState: "create",
+                                            });
+                                          }}
+                                        ></i>
+                                      </OverlayTrigger>
+                                    ) : (
+                                      <i
+                                        style={{ cursor: "no-drop" }}
+                                        class="fas far fa-file"
+                                        aria-hidden="true"
                                       ></i>
-                                    </OverlayTrigger>
-                                  ) : null}
-                                </span>
-                                <span className="pl-3">
-                                  {item?.pgStatus &&
+                                    )}
+                                  </span>
+                                  <span className="pl-3">
+                                    {item?.payDate === null ? (
+                                      <OverlayTrigger
+                                        overlay={
+                                          <Tooltip id="cs-icon">M-Pay</Tooltip>
+                                        }
+                                      >
+                                        <i
+                                          class="fas pointer far fa-money-bill-alt"
+                                          aria-hidden="true"
+                                          disabled={
+                                            item?.docReleaseStatus === "Pending"
+                                          }
+                                          onClick={() => {
+                                            setIsShowModal(true);
+                                            setSingleItem(item);
+                                          }}
+                                        ></i>
+                                      </OverlayTrigger>
+                                    ) : null}
+                                  </span>
+                                  <span className="pl-3">
+                                    {item?.pgStatus &&
                                     item?.docReleaseStatus !== "Pending" ? (
-                                    <OverlayTrigger
-                                      overlay={
-                                        <Tooltip id="cs-icon">PG-Pay</Tooltip>
-                                      }
-                                    >
+                                      <OverlayTrigger
+                                        overlay={
+                                          <Tooltip id="cs-icon">PG-Pay</Tooltip>
+                                        }
+                                      >
+                                        <i
+                                          class="fas pointer fas fa-share-square"
+                                          aria-hidden="true"
+                                          disabled={
+                                            item?.docReleaseStatus === "Pending"
+                                          }
+                                          onClick={() => {
+                                            setPerformanceGiuaranteeIsShowModal(
+                                              true
+                                            );
+                                            setSingleItem(item);
+                                          }}
+                                        ></i>
+                                      </OverlayTrigger>
+                                    ) : (
                                       <i
-                                        class="fas pointer fas fa-share-square"
+                                        style={{ cursor: "no-drop" }}
+                                        class="fas fas fa-share-square"
                                         aria-hidden="true"
                                         disabled={
                                           item?.docReleaseStatus === "Pending"
                                         }
-                                        onClick={() => {
-                                          setPerformanceGiuaranteeIsShowModal(
-                                            true
-                                          );
-                                          setSingleItem(item);
-                                        }}
                                       ></i>
-                                    </OverlayTrigger>
-                                  ) : (
-                                    <i
-                                      style={{ cursor: "no-drop" }}
-                                      class="fas fas fa-share-square"
-                                      aria-hidden="true"
-                                      disabled={
-                                        item?.docReleaseStatus === "Pending"
-                                      }
-                                    ></i>
-                                  )}
-                                </span>
-                              </div>
-                            </td>
-                          </tr>
-                        );
-                      })}
-                  </tbody>
-                </table>
+                                    )}
+                                  </span>
+                                </div>
+                              </td>
+                            </tr>
+                          );
+                        })}
+                    </tbody>
+                  </table>
+                </div>
 
                 {/* modal  */}
                 <IViewModal

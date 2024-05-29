@@ -16,7 +16,7 @@ import {
   inventoryStatement_api,
   ItemSubCategory_api,
   getItemTypeListDDL_api,
-  getItemCategoryDDLByTypeId_api
+  getItemCategoryDDLByTypeId_api,
 } from "../helper";
 import CustomPaginationActionsTable from "./pagination";
 import { _timeFormatter } from "./../../../../_helper/_timeFormatter";
@@ -32,7 +32,7 @@ const initData = {
   fromTime: _currentTime(),
   toDate: _todayDate(),
   toTime: _currentTime(),
-  itemType: ""
+  itemType: "",
 };
 
 const InventoryStatementTableNotUse = () => {
@@ -69,7 +69,7 @@ const InventoryStatementTableNotUse = () => {
         7,
         setPlantDDL
       );
-      getItemTypeListDDL_api(setItemTypeOption)
+      getItemTypeListDDL_api(setItemTypeOption);
       // ItemCategory_api(profileData?.accountId,
       //   selectedBusinessUnit?.value,setItemCategoryDDL)
     }
@@ -97,7 +97,7 @@ const InventoryStatementTableNotUse = () => {
       <Formik
         enableReinitialize={true}
         initialValues={initData}
-        onSubmit={(values, { setSubmitting, resetForm }) => { }}
+        onSubmit={(values, { setSubmitting, resetForm }) => {}}
       >
         {({
           handleSubmit,
@@ -181,8 +181,12 @@ const InventoryStatementTableNotUse = () => {
                     onChange={(valueOption) => {
                       setFieldValue("itemCategory", valueOption);
                       setFieldValue("itemSubCategory", "");
-                      ItemSubCategory_api(profileData?.accountId,
-                        selectedBusinessUnit?.value, valueOption?.value, setItemSubCategoryDDL)
+                      ItemSubCategory_api(
+                        profileData?.accountId,
+                        selectedBusinessUnit?.value,
+                        valueOption?.value,
+                        setItemSubCategoryDDL
+                      );
                     }}
                     placeholder="Item Category"
                     errors={errors}
@@ -301,67 +305,69 @@ const InventoryStatementTableNotUse = () => {
                       {_timeFormatter(values?.toTime)}
                     </h6>
                   </div>
-                  <table className="table table-striped table-bordered bj-table bj-table-landing">
-                    <thead>
-                      <tr>
-                        <th>SL</th>
-                        <th>Item Code</th>
-                        <th>Item Name</th>
-                        <th>UoM</th>
-                        <th>Opening Qty.</th>
-                        <th>Value</th>
-                        <th>Receive Qty.</th>
-                        <th>Value</th>
-                        <th>Issue Qty.</th>
-                        <th>Value</th>
-                        <th>Return Qty.</th>
-                        <th>Value</th>
-                        <th>Transfer Qty.</th>
-                        <th>Value</th>
-                        <th>Remove Qty.</th>
-                        <th>Value</th>
-                        <th>Adjust Qty.</th>
-                        <th>Value</th>
-                        <th>Closing Qty.</th>
-                        <th>Value</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {inventoryStatement?.map((row, index) => (
+                  <div className="table-responsive">
+                    <table className="table table-striped table-bordered bj-table bj-table-landing">
+                      <thead>
                         <tr>
-                          <td>{index + 1}</td>
-                          <td>{row?.itemCode}</td>
-                          <td>{row?.itemName}</td>
-                          <td>{row?.baseUom}</td>
-                          <td>{row?.openingQty}</td>
-                          <td>{row?.openingValue}</td>
-                          <td>{row?.recieveQty}</td>
-                          <td>{row?.recieveValue}</td>
-                          <td>{row?.issueQty}.</td>
-                          <td>{row?.issueValue}</td>
-                          <td>{row?.returnQty}</td>
-                          <td>{row?.returnValue}</td>
-                          <td>{row?.transferQty}</td>
-                          <td>{row?.transferValue}</td>
-                          <td>{row?.removeQty}</td>
-                          <td>{row?.removeValue}</td>
-                          <td>{row?.adjustQty}</td>
-                          <td>{row?.adjustValue}</td>
-                          <td>{row?.closingQty}.</td>
-                          <td>{row?.closingValue}</td>                       
+                          <th>SL</th>
+                          <th>Item Code</th>
+                          <th>Item Name</th>
+                          <th>UoM</th>
+                          <th>Opening Qty.</th>
+                          <th>Value</th>
+                          <th>Receive Qty.</th>
+                          <th>Value</th>
+                          <th>Issue Qty.</th>
+                          <th>Value</th>
+                          <th>Return Qty.</th>
+                          <th>Value</th>
+                          <th>Transfer Qty.</th>
+                          <th>Value</th>
+                          <th>Remove Qty.</th>
+                          <th>Value</th>
+                          <th>Adjust Qty.</th>
+                          <th>Value</th>
+                          <th>Closing Qty.</th>
+                          <th>Value</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody>
+                        {inventoryStatement?.map((row, index) => (
+                          <tr>
+                            <td>{index + 1}</td>
+                            <td>{row?.itemCode}</td>
+                            <td>{row?.itemName}</td>
+                            <td>{row?.baseUom}</td>
+                            <td>{row?.openingQty}</td>
+                            <td>{row?.openingValue}</td>
+                            <td>{row?.recieveQty}</td>
+                            <td>{row?.recieveValue}</td>
+                            <td>{row?.issueQty}.</td>
+                            <td>{row?.issueValue}</td>
+                            <td>{row?.returnQty}</td>
+                            <td>{row?.returnValue}</td>
+                            <td>{row?.transferQty}</td>
+                            <td>{row?.transferValue}</td>
+                            <td>{row?.removeQty}</td>
+                            <td>{row?.removeValue}</td>
+                            <td>{row?.adjustQty}</td>
+                            <td>{row?.adjustValue}</td>
+                            <td>{row?.closingQty}.</td>
+                            <td>{row?.closingValue}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
-                </div>
-                <CustomPaginationActionsTable
-                  inventoryStatement={inventoryStatement}
-                  setIsShowModal={setIsShowModal}
-                  setInventoryStatement={setInventoryStatement}
-                  inventoryStatementAllData={inventoryStatementAllData}
-                  setTableItem={setTableItem}
-                />
+              </div>
+              <CustomPaginationActionsTable
+                inventoryStatement={inventoryStatement}
+                setIsShowModal={setIsShowModal}
+                setInventoryStatement={setInventoryStatement}
+                inventoryStatementAllData={inventoryStatementAllData}
+                setTableItem={setTableItem}
+              />
 
               {/* Modal */}
               <IViewModal

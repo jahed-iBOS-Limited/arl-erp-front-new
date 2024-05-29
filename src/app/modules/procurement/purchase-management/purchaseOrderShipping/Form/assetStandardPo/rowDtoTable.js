@@ -1,18 +1,18 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import Select from "react-select";
-import LastPriceDetails from "../../../../../financialManagement/invoiceManagementSystem/approvebillregister/supplerInvoiceView/LastPriceDetails";
-import customStyles from "../../../../../selectCustomStyle";
-import { validateDigit } from "../../../../../_helper/validateDigit";
 import IDelete from "../../../../../_helper/_helperIcons/_delete";
 import IView from "../../../../../_helper/_helperIcons/_view";
 import { IInput } from "../../../../../_helper/_input";
 import Loading from "../../../../../_helper/_loading";
 import { getDownlloadFileView_Action } from "../../../../../_helper/_redux/Actions";
 import IViewModal from "../../../../../_helper/_viewModal";
+import { validateDigit } from "../../../../../_helper/validateDigit";
+import LastPriceDetails from "../../../../../financialManagement/invoiceManagementSystem/approvebillregister/supplerInvoiceView/LastPriceDetails";
+import customStyles from "../../../../../selectCustomStyle";
 import { getAttachmentId } from "../../../comparativeStatement/requestForQuotation/helper";
-import { rowDtoDynamicHandler } from "../../utils";
 import ViewForm from "../../View/viewForm";
+import { rowDtoDynamicHandler } from "../../utils";
 
 const RowDtoTable = ({
   isWithoutRef,
@@ -77,6 +77,7 @@ const RowDtoTable = ({
       {loading && <Loading />}
       {rowDto?.length > 0 && (
         <>
+          <div className="table-responsive">
           <table className="table table-striped table-bordered mt-3 global-table po-table">
             <thead>
               <tr>
@@ -253,6 +254,7 @@ const RowDtoTable = ({
                             setRowDto
                           );
                           setFieldValue("discount", getRunTimeGrossDiscount(rowDto))
+                          setFieldValue("discountPercent", getRunTimeGrossDiscount(rowDto))
                         }}
                       />
                     </td>
@@ -276,6 +278,7 @@ const RowDtoTable = ({
                             setRowDto
                           );
                           setFieldValue("discount", getRunTimeGrossDiscount(rowDto))
+                          setFieldValue("discountPercent", getRunTimeGrossDiscount(rowDto))
                         }}
                         disabled={porefType === 1}
                       />
@@ -373,6 +376,7 @@ const RowDtoTable = ({
               })}
             </tbody>
           </table>
+          </div>
           <LastPriceDetails
             anchorEl={anchorEl}
             setAnchorEl={setAnchorEl}

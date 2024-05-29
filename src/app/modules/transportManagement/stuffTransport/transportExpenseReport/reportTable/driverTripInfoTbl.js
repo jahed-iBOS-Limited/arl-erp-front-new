@@ -43,12 +43,16 @@ export default function DriverTripInfoTbl({ rowData }) {
       <h4 className="text-center mt-5">
         <strong>Driver Trip Details</strong>
       </h4>
+      <div className="table-responsive">
       <table className="table table-striped table-bordered bj-table bj-table-landing">
         <thead>
           <tr>
             <th>SL</th>
             <th>Date</th>
+            <th>Trip Type</th>
             <th>Trip No</th>
+            <th>Start Mileage</th>
+            <th>End Milage</th>
             <th>KM</th>
             <th>Vehicle No</th>
             <th>From</th>
@@ -73,7 +77,10 @@ export default function DriverTripInfoTbl({ rowData }) {
                 <td className="text-center">
                   {_dateFormatter(item?.dteTripDate)}
                 </td>
+                <td>{item?.strTripType}</td>
                 <td>{item?.strTripCode}</td>
+                <td className="text-center">{item?.startMileage}</td>
+                <td className="text-center">{item?.endMilage}</td>
                 <td className="text-center">{item?.tripKM}</td>
                 <td className="text-center">{item?.strVehicleNo}</td>
                 <td>{item?.strFirstRoundStartAddress}</td>
@@ -94,17 +101,17 @@ export default function DriverTripInfoTbl({ rowData }) {
                   {item?.lpeg + item?.diesel + item?.octane}
                 </td>
                 <td className="text-center">
-                  <div style={{display:"flex", gap:"4px"}}>
+                  <div style={{display:"flex", gap:"4px",padding:"0px 8px"}}>
                   <span
                     onClick={() => {
                       setSingleData(item);
                       setIsShowModal(true);
                     }}
                   >
-                    <IView />
+                    <IView styles={{fontSize:"15px"}}/>
                   </span>
                   <NewIcon
-                  styles={{cursor:"pointer"}}
+                  customStyles={{cursor:"pointer",fontSize:"15px"}}
                   title = "View All Attachment"
                   clickHandler={()=>{
                     setShowAttachmentModal(true)
@@ -134,6 +141,7 @@ export default function DriverTripInfoTbl({ rowData }) {
           )}
         </tbody>
       </table>
+      </div>
       <div>
         <IViewModal
           show={isShowModal}

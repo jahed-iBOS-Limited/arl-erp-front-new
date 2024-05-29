@@ -86,7 +86,7 @@ const ShowcaseLayout = ({ values }) => {
       return {
         x: (i * 3) % 12,
         y: Math.floor(i / 6) * y,
-        w: 3,
+        w: 2,
         h: 5,
         i: i.toString(),
         item,
@@ -103,7 +103,7 @@ const ShowcaseLayout = ({ values }) => {
   }, [reports]);
 
   return (
-    <div>
+    <div style={{overflow: 'hidden'}}>
       <ResponsiveReactGridLayout {..._props} layouts={state.layouts}>
         {generateDOM()}
       </ResponsiveReactGridLayout>

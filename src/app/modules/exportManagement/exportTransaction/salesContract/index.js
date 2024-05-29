@@ -228,8 +228,9 @@ export default function SalesContractLanding() {
                     />
                   </div>
                 </div>
-                <div className="col-lg-12 table-responsive">
-                  <table className="table table-striped table-bordered global-table sales_order_landing_table">
+                <div className="col-lg-12">
+                 <div className="table-responsive">
+                 <table className="table table-striped table-bordered global-table sales_order_landing_table">
                     <thead>
                       <tr>
                         <th style={{ width: "35px" }}>SL</th>
@@ -382,6 +383,7 @@ export default function SalesContractLanding() {
                         ))}
                     </tbody>
                   </table>
+                 </div>
                   {/* sales contract modal */}
                   <IViewModal
                     title="View Foreign Sales Quotation"

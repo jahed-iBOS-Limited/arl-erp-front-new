@@ -114,38 +114,42 @@ export default function CustomPaginationActionsTable({
         inventoryStatementAllData={inventoryStatementAllData}
       />
       <div className="scroll-table _table">
-        <table className="table table-striped table-bordered bj-table bj-table-landing table-font-size-sm">
-          <thead>
-            <tr>
-              <th>SL</th>
-              <th>Item Code</th>
-              <th>Item Name</th>
-              <th>UoM Name</th>
-              <th>Location Name</th>
-              <th>Open Stock</th>
-              <th>Block Stock</th>
-            </tr>
-          </thead>
-          <tbody>
-            {(rowsPerPage > 0
-              ? inventoryStatement?.slice(
-                  page * rowsPerPage,
-                  page * rowsPerPage + rowsPerPage
-                )
-              : inventoryStatement
-            )?.map((row, index) => (
+        <div className="table-responsive">
+          <table className="table table-striped table-bordered bj-table bj-table-landing table-font-size-sm">
+            <thead>
               <tr>
-                <td>{row?.sl}</td>
-                <td>{row?.itemCode}</td>
-                <td>{row?.itemName}</td>
-                <td>{row?.baseUOMName}</td>
-                <td>{row?.locationName}</td>
-                <td className="text-center align-middle">{row?.openStock}</td>
-                <td className="text-center align-middle">{row?.blockStock}</td>
+                <th>SL</th>
+                <th>Item Code</th>
+                <th>Item Name</th>
+                <th>UoM Name</th>
+                <th>Location Name</th>
+                <th>Open Stock</th>
+                <th>Block Stock</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {(rowsPerPage > 0
+                ? inventoryStatement?.slice(
+                    page * rowsPerPage,
+                    page * rowsPerPage + rowsPerPage
+                  )
+                : inventoryStatement
+              )?.map((row, index) => (
+                <tr>
+                  <td>{row?.sl}</td>
+                  <td>{row?.itemCode}</td>
+                  <td>{row?.itemName}</td>
+                  <td>{row?.baseUOMName}</td>
+                  <td>{row?.locationName}</td>
+                  <td className="text-center align-middle">{row?.openStock}</td>
+                  <td className="text-center align-middle">
+                    {row?.blockStock}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
       {inventoryStatement?.length > 0 && (
         <TablePagination

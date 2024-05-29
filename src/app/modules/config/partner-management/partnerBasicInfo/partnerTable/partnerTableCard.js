@@ -383,6 +383,7 @@ export function PartnerTable({ saveHandler }) {
                 </button>
               )}
             </div>
+            <div className="table-responsive">
             <table
               id="table-to-xlsx"
               className="table table-striped table-bordered global-table"
@@ -633,6 +634,7 @@ export function PartnerTable({ saveHandler }) {
                 ))}
               </tbody>
             </table>
+            </div>
 
             <IViewModal
               show={show}

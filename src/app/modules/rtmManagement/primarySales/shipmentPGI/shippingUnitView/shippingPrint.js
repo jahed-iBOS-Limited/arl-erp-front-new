@@ -77,19 +77,19 @@ export default function ShippingPrint({ id, shipmentCode }) {
               <div>
                 <b>
                   Unload Vehicle Weight:{" "}
-                  {`${shippingPrint.unloadVehicleWeight}`}{" "}
+                  {`${shippingPrint?.unloadVehicleWeight}`}{" "}
                 </b>{" "}
                 <br />
               </div>
               <div>
-                <b>Item Net weight: {`${shippingPrint.totalNetWeight}`} </b>{" "}
+                <b>Item Net weight: {`${shippingPrint?.totalNetWeight}`} </b>{" "}
                 <br />
               </div>
               <div>
-                <b>Item Volume: {`${shippingPrint.totalVolume}`} </b> <br />
+                <b>Item Volume: {`${shippingPrint?.totalVolume}`} </b> <br />
               </div>
               <div>
-                <b>Total Net Weight: {`${shippingPrint.totalNetWeight}`} </b>{" "}
+                <b>Total Net Weight: {`${shippingPrint?.totalNetWeight}`} </b>{" "}
                 <br />
               </div>
             </div>
@@ -98,18 +98,19 @@ export default function ShippingPrint({ id, shipmentCode }) {
                 <tr>
                   <td className="text-center">
                     {" "}
-                    {shippingPrint.customerName}{" "}
+                    {shippingPrint?.customerName}{" "}
                   </td>
                   <td className="text-center">
                     {" "}
-                    {shippingPrint.customerAddress}
+                    {shippingPrint?.customerAddress}
                   </td>
-                  <td className="text-center"> {shippingPrint.deliveryId}</td>
-                  <td className="text-center"> {shippingPrint.itemCode}</td>
-                  <td className="text-center">{shippingPrint.itemName}</td>
-                  <td className="text-center">{shippingPrint.itemPrice}</td>
-                  <td className="text-center">{shippingPrint.quantity}</td>
-                  <td className="text-center">{shippingPrint.deliveryValue}</td>
+                  <td className="text-center"> {shippingPrint?.deliveryId}</td>
+                  <td className="text-center"> {shippingPrint?.itemCode}</td>
+                  <td className="text-center">{shippingPrint?.itemName}</td>
+                  <td className="text-center">{shippingPrint?.itemPrice}</td>
+                  <td className="text-center">{shippingPrint?.quantity}</td>
+                  <td className="text-center">{shippingPrint?.deliveryValue}</td>
+                  
                 </tr>
               </ICustomTable>
             </div>

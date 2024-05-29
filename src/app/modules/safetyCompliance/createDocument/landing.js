@@ -23,7 +23,7 @@ const CreateDocumentLanding = () => {
     getLanding(
       "/hcm/SafetyAndCompliance/LegalDocumentALLGET?strPartType=LegalDocumentNameLanding"
     );
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -55,77 +55,79 @@ const CreateDocumentLanding = () => {
               <div className="row">
                 <div className="col-lg-12">
                   {loading && <Loading />}
-                  <table className="table table-striped table-bordered bj-table bj-table-landing table-font-size-sm">
-                    <thead>
-                      <tr>
-                        <th>SL</th>
-                        <th>Document Name</th>
-                        <th>Unit</th>
-                        <th>Workplace Group</th>
-                        <th>Workplace</th>
-                        <th>Reminder Date</th>
-                        <th>Frequency</th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {gridData?.length > 0 &&
-                        gridData?.map((item, index) => {
-                          return (
-                            <tr key={index}>
-                              <td
-                                style={{ width: "30px" }}
-                                className="text-center"
-                              >
-                                {index + 1}
-                              </td>
-                              <td>
-                                <span className="pl-2">
-                                  {item?.strDocumentName}
-                                </span>
-                              </td>
-                              <td>
-                                <span className="pl-2">
-                                  {item?.strBusinessUnitName || "All"}
-                                </span>
-                              </td>
-                              <td>
-                                <span className="pl-2">
-                                  {item?.strWorkplaceGroupName || "All"}
-                                </span>
-                              </td>
-                              <td>{item?.strWorkplaceName || "All"}</td>
-                              <td className="text-center">
-                                {_dateFormatter(item?.dteNotifyReminderDate)}
-                              </td>
-                              <td>{item?.strFrequency}</td>
-                              <td className="text-center">
-                                <IView
-                                  title="View Details"
-                                  clickHandler={() => {
-                                    setCurrentItem(item);
-                                    setIsModal(true);
-                                  }}
-                                />
-                                <span
-                                  onClick={(e) => {
-                                    history.push({
-                                      pathname: `/safety-compliance/nestedsf/legal-document-name-create/edit/${item?.intDocumentId}`,
-                                      state: {
-                                        id: item?.intDocumentId,
-                                      },
-                                    });
-                                  }}
-                                  className="ml-2"
+                  <div className="table-responsive">
+                    <table className="table table-striped table-bordered bj-table bj-table-landing table-font-size-sm">
+                      <thead>
+                        <tr>
+                          <th>SL</th>
+                          <th>Document Name</th>
+                          <th>Unit</th>
+                          <th>Workplace Group</th>
+                          <th>Workplace</th>
+                          <th>Reminder Date</th>
+                          <th>Frequency</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {gridData?.length > 0 &&
+                          gridData?.map((item, index) => {
+                            return (
+                              <tr key={index}>
+                                <td
+                                  style={{ width: "30px" }}
+                                  className="text-center"
                                 >
-                                  <IEdit title="Edit" />
-                                </span>
-                              </td>
-                            </tr>
-                          );
-                        })}
-                    </tbody>
-                  </table>
+                                  {index + 1}
+                                </td>
+                                <td>
+                                  <span className="pl-2">
+                                    {item?.strDocumentName}
+                                  </span>
+                                </td>
+                                <td>
+                                  <span className="pl-2">
+                                    {item?.strBusinessUnitName || "All"}
+                                  </span>
+                                </td>
+                                <td>
+                                  <span className="pl-2">
+                                    {item?.strWorkplaceGroupName || "All"}
+                                  </span>
+                                </td>
+                                <td>{item?.strWorkplaceName || "All"}</td>
+                                <td className="text-center">
+                                  {_dateFormatter(item?.dteNotifyReminderDate)}
+                                </td>
+                                <td>{item?.strFrequency}</td>
+                                <td className="text-center">
+                                  <IView
+                                    title="View Details"
+                                    clickHandler={() => {
+                                      setCurrentItem(item);
+                                      setIsModal(true);
+                                    }}
+                                  />
+                                  <span
+                                    onClick={(e) => {
+                                      history.push({
+                                        pathname: `/safety-compliance/nestedsf/legal-document-name-create/edit/${item?.intDocumentId}`,
+                                        state: {
+                                          id: item?.intDocumentId,
+                                        },
+                                      });
+                                    }}
+                                    className="ml-2"
+                                  >
+                                    <IEdit title="Edit" />
+                                  </span>
+                                </td>
+                              </tr>
+                            );
+                          })}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
             </>

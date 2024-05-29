@@ -192,7 +192,7 @@ function LoadingStatusReport() {
                         </div>
                       </div> */}
                       <div className="loan-scrollable-tafble">
-                        <div className="scroll-table _tafble">
+                        <div className="scroll-table _tafble table-responsive">
                           <table id="table-to-xlsx" className="table table-striped table-bordered global-table">
                             <thead>
                               <tr>

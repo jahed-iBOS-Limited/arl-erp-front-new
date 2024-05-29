@@ -53,6 +53,9 @@ export default function CNFBill() {
   };
 
   const saveHandler = async (values, cb) => {
+    if (images?.length < 1) {
+      return toast.warn("Please attach a document");
+    }
     const selectedItems = gridData?.filter((item) => item?.isSelected);
     if (selectedItems?.length < 1) {
       return toast.warn("Please select at least one row!");

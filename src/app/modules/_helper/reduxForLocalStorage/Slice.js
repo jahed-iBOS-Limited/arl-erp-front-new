@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { _currentTime, _todaysStartTime } from "../_currentTime";
-import { _todayDate } from "./../_todayDate";
 import { _todaysEndTime } from "./../_currentTime";
+import { _todayDate } from "./../_todayDate";
 
 const initState = {
   leaveMovementApp: {
@@ -648,6 +648,11 @@ const initState = {
     itemSubCategory: { value: 0, label: "All" },
     plant: { value: 0, label: "All" },
     warehouse: { value: 0, label: "All" },
+  },
+  OEECapacityConfigurationInitData:{
+    plant: '',
+    shopFloor: '',
+    machine: '',
   }
 };
 
@@ -1143,6 +1148,10 @@ export const localStorageSlice = createSlice({
     setItemBasicInfoInitData: (state, action) => {
       const { payload } = action;
       state.itemBasicInfoInitData = payload;
+    },
+    setOEECapacityConfigurationData: (state, action) => {
+      const { payload } = action;
+      state.OEECapacityConfigurationInitData = payload;
     },
   },
 });

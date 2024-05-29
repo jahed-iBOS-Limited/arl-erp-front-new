@@ -40,6 +40,8 @@ import ShippingPointnTransportRate from "./shippingPointnTransportrate";
 import BusinessPartnerGroupLanding from "./businessPartnerGroup/landing";
 import BusinessPartnerGroupForm from "./businessPartnerGroup/form/addEditForm";
 import SalesForceBenefitAnalysis from "./salesForceBenefitAlalysis";
+import PartnerRegApproval from "./partnerRegistrationApproval";
+import CreateApprovePartner from "./partnerRegistrationApproval/CreateApprovePartner";
 
 export function PartnerPages() {
   const userRole = useSelector(
@@ -56,7 +58,17 @@ export function PartnerPages() {
       productionAllocation = userRole[i];
     }
   }
+  let supplierPermission = null;
+  let customerPermissions = null;
 
+  for (let i = 0; i < userRole.length; i++) {
+    if (userRole[i]?.intFeatureId === 1446) {
+      supplierPermission = userRole[i];
+    }
+    if (userRole[i]?.intFeatureId === 1447) {
+      customerPermissions = userRole[i];
+    }
+  }
   const {
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
@@ -83,6 +95,20 @@ export function PartnerPages() {
           partnerProfilePermission?.isCreate ? PartnerAddForm : NotPermittedPage
         }
       />
+      <ContentRoute
+        path="/config/partner-management/partner-registration-approval/create/:id"
+        component={CreateApprovePartner}
+      />
+      <ContentRoute
+        path="/config/partner-management/partner-registration-approval"
+        component={
+          (customerPermissions && customerPermissions?.isView) ||
+          (supplierPermission && supplierPermission?.isView)
+            ? PartnerRegApproval
+            : NotPermittedPage
+        }
+      />
+
       <ContentRoute
         path="/config/partner-management/partner-basic-info/edit/:id"
         component={

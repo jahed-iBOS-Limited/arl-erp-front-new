@@ -15,16 +15,20 @@ const initData = {
   monthYear: _getCurrentMonthYearForInput(),
   fromDate: _monthFirstDate(),
   toDate: _monthLastDate(),
-  currentBusinessUnit:""
+  currentBusinessUnit: "",
 };
 export default function ProductionVarianceReport() {
-  const [tableData, getTableData, tableDataLoader,setTableData] = useAxiosGet();
+  const [
+    tableData,
+    getTableData,
+    tableDataLoader,
+    setTableData,
+  ] = useAxiosGet();
   const saveHandler = (values, cb) => {};
 
   const businessUnitList = useSelector((state) => {
     return state.authData.businessUnitList;
   }, shallowEqual);
-  
 
   return (
     <Formik
@@ -120,33 +124,41 @@ export default function ProductionVarianceReport() {
                   </div>
                 </div>
                 <div className="mt-2">
-                  <table className="table table-striped table-bordered global-table mt-0">
-                    <thead>
-                      <tr>
-                        <th>SL</th>
-                        <th>Item Code</th>
-                        <th>Item Name</th>
-                        <th>Uom Name</th>
-                        <th>Budget Qty</th>
-                        <th>Actual Qty</th>
-                        <th>Variance</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {tableData?.length > 0 &&
-                        tableData?.map((item, index) => (
-                          <tr key={index}>
-                            <td>{index + 1}</td>
-                            <td className="text-center">{item?.itemCode}</td>
-                            <td>{item?.itemName}</td>
-                            <td>{item?.uomName}</td>
-                            <td className="text-right">{_formatMoney(item?.budgetQty)}</td>
-                            <td className="text-right">{_formatMoney(item?.actualQty)}</td>
-                            <td className="text-right">{_formatMoney(item?.variance)}</td>
-                          </tr>
-                        ))}
-                    </tbody>
-                  </table>
+                  <div className="table-responsive">
+                    <table className="table table-striped table-bordered global-table mt-0">
+                      <thead>
+                        <tr>
+                          <th>SL</th>
+                          <th>Item Code</th>
+                          <th>Item Name</th>
+                          <th>Uom Name</th>
+                          <th>Budget Qty</th>
+                          <th>Actual Qty</th>
+                          <th>Variance</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {tableData?.length > 0 &&
+                          tableData?.map((item, index) => (
+                            <tr key={index}>
+                              <td>{index + 1}</td>
+                              <td className="text-center">{item?.itemCode}</td>
+                              <td>{item?.itemName}</td>
+                              <td>{item?.uomName}</td>
+                              <td className="text-right">
+                                {_formatMoney(item?.budgetQty)}
+                              </td>
+                              <td className="text-right">
+                                {_formatMoney(item?.actualQty)}
+                              </td>
+                              <td className="text-right">
+                                {_formatMoney(item?.variance)}
+                              </td>
+                            </tr>
+                          ))}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
             </Form>

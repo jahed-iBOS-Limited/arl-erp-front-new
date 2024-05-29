@@ -91,65 +91,67 @@ export default function G2GItemInfo() {
               <div className="row cash_journal">
                 {(loading || isLoading) && <Loading />}
                 <div className="col-lg-12">
-                  <table className="table table-striped table-bordered global-table">
-                    <thead>
-                      <tr>
-                        <th style={{ width: "40px" }}>SL</th>
-                        <th>Item Name</th>
-                        <th>Ship Point Name</th>
-                        <th>Busting Bag Qty</th>
-                        <th>CNF Bag Qty</th>
-                        <th>Others Bag Qty</th>
-                        <th>Total Qty</th>
-                        <th>Date</th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {gridData?.data?.map((item, index) => {
-                        return (
-                          <tr key={index}>
-                            <td> {item?.sl}</td>
-                            <td>{item?.itemName}</td>
-                            <td>{item?.shipPointName}</td>
-                            <td>{item?.bustingBagQnt}</td>
-                            <td>{item?.cnfbagQnt}</td>
-                            <td>{item?.othersBagQnt}</td>
-                            <td>
-                              {item?.bustingBagQnt +
-                                item?.cnfbagQnt +
-                                item?.othersBagQnt}
-                            </td>
-                            <td className="text-right">
-                              {_dateFormatter(item?.dteDate, true)}
-                            </td>
-                            <td className="text-center">
-                              <div className="d-flex justify-content-around">
-                                <span>
-                                  <IEdit
-                                    onClick={() => {
-                                      history.push({
-                                        pathname: `/vessel-management/allotment/g2giteminfo/edit/${item?.intId}`,
-                                        state: item,
-                                      });
-                                    }}
-                                  ></IEdit>
-                                </span>
-                                <span>
-                                  <IDelete
-                                    id={item?.intId}
-                                    remover={(id) => {
-                                      deleteHandler(id, values);
-                                    }}
-                                  />
-                                </span>
-                              </div>
-                            </td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
+                  <div className="table-responsive">
+                    <table className="table table-striped table-bordered global-table">
+                      <thead>
+                        <tr>
+                          <th style={{ width: "40px" }}>SL</th>
+                          <th>Item Name</th>
+                          <th>Ship Point Name</th>
+                          <th>Busting Bag Qty</th>
+                          <th>CNF Bag Qty</th>
+                          <th>Others Bag Qty</th>
+                          <th>Total Qty</th>
+                          <th>Date</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {gridData?.data?.map((item, index) => {
+                          return (
+                            <tr key={index}>
+                              <td> {item?.sl}</td>
+                              <td>{item?.itemName}</td>
+                              <td>{item?.shipPointName}</td>
+                              <td>{item?.bustingBagQnt}</td>
+                              <td>{item?.cnfbagQnt}</td>
+                              <td>{item?.othersBagQnt}</td>
+                              <td>
+                                {item?.bustingBagQnt +
+                                  item?.cnfbagQnt +
+                                  item?.othersBagQnt}
+                              </td>
+                              <td className="text-right">
+                                {_dateFormatter(item?.dteDate, true)}
+                              </td>
+                              <td className="text-center">
+                                <div className="d-flex justify-content-around">
+                                  <span>
+                                    <IEdit
+                                      onClick={() => {
+                                        history.push({
+                                          pathname: `/vessel-management/allotment/g2giteminfo/edit/${item?.intId}`,
+                                          state: item,
+                                        });
+                                      }}
+                                    ></IEdit>
+                                  </span>
+                                  <span>
+                                    <IDelete
+                                      id={item?.intId}
+                                      remover={(id) => {
+                                        deleteHandler(id, values);
+                                      }}
+                                    />
+                                  </span>
+                                </div>
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
                 {gridData?.data?.length > 0 && (
                   <PaginationTable

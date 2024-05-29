@@ -1,35 +1,34 @@
 /* eslint-disable eqeqeq */
-import React, { useState, useEffect } from "react";
-import { Formik, Form } from "formik";
-import { ISelect } from "../../../../../_helper/_inputDropDown";
-import NewSelect from "../../../../../_helper/_select";
-import { validationSchema, initData, getSupplierDDL } from "./helper";
+import axios from "axios";
+import { Form, Formik } from "formik";
+import { DropzoneDialogBase } from "material-ui-dropzone";
+import React, { useEffect, useState } from "react";
+import { confirmAlert } from "react-confirm-alert";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import { getImageuploadStatus } from "../../../../../_helper/_commonApi";
+import { ISelect } from "../../../../../_helper/_inputDropDown";
+import InputField from "../../../../../_helper/_inputField";
+import Loading from "../../../../../_helper/_loading";
+import NewSelect from "../../../../../_helper/_select";
+import { _todayDate } from "../../../../../_helper/_todayDate";
+import { compressfile } from "../../../../../_helper/compressfile";
 import {
-  getreferenceTypeDDLAction,
-  getTransactionTypeDDLAction,
-  getpersonnelDDLAction,
-  saveInventoryTransactionOrder,
-  getStockDDLAction,
-  getreferenceNoReceiveInvDDLAction,
   getItemforReceiveInvAction,
   getItemforReceiveInvForeignPOAction,
+  getStockDDLAction,
+  getTransactionTypeDDLAction,
+  getpersonnelDDLAction,
+  getreferenceNoReceiveInvDDLAction,
+  getreferenceTypeDDLAction,
+  saveInventoryTransactionOrder,
 } from "../../_redux/Actions";
-import RowDtoTable from "./rowDtoTable";
+import { invTransactionSlice } from "../../_redux/Slice";
+import { getForeignPurchaseDDL, uploadAttachment } from "../../helper";
 import SearchAsyncSelect from "./../../../../../_helper/SearchAsyncSelect";
 import FormikError from "./../../../../../_helper/_formikError";
-import { confirmAlert } from "react-confirm-alert";
-import InputField from "../../../../../_helper/_inputField";
-import { toast } from "react-toastify";
-import { uploadAttachment } from "../../helper";
-import { getForeignPurchaseDDL } from "../../helper";
-import { DropzoneDialogBase } from "material-ui-dropzone";
-import { invTransactionSlice } from "../../_redux/Slice";
-import Loading from "../../../../../_helper/_loading";
-import axios from "axios";
-import { compressfile } from "../../../../../_helper/compressfile";
-import { getImageuploadStatus } from "../../../../../_helper/_commonApi";
-import { _todayDate } from "../../../../../_helper/_todayDate";
+import { getSupplierDDL, initData, validationSchema } from "./helper";
+import RowDtoTable from "./rowDtoTable";
 const { actions: slice } = invTransactionSlice;
 
 export default function ReceiveInvCreateForm({
@@ -70,6 +69,7 @@ export default function ReceiveInvCreateForm({
   let netValue = rowDto?.reduce((sum, data) => sum + data?.netValue, 0);
 
   console.log("rowDto", rowDto);
+  console.log("landingData", landingData);
 
   //dispatch action creators
   useEffect(() => {

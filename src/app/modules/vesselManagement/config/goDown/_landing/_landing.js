@@ -75,10 +75,10 @@ const GodownLanding = () => {
     IConfirmModal(objProps);
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     const api = `/tms/LigterLoadUnload/GetG2GBusinessPartnerDDL?BusinessUnitId=${buId}&AccountId=${accId}`;
-    getBusinessPartnerDDL(api, data => console.log({data}));
-  }, [accId, buId])
+    getBusinessPartnerDDL(api, (data) => console.log({ data }));
+  }, [accId, buId]);
 
   return (
     <>
@@ -140,69 +140,75 @@ const GodownLanding = () => {
                     </div>
                   </div>
                   {rowData?.data?.length > 0 && (
-                    <table
-                      id="table-to-xlsx"
-                      className={
-                        "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
-                      }
-                    >
-                      <thead>
-                        <tr className="cursor-pointer">
-                          {headers?.map((th, index) => {
-                            return <th key={index}> {th} </th>;
-                          })}
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {rowData?.data?.map((item, index) => {
-                          return (
-                            <tr key={index}>
-                              <td
-                                style={{ width: "40px" }}
-                                className="text-center"
-                              >
-                                {index + 1}
-                              </td>
-                              <td>{item?.businessPartnerName}</td>
-                              <td>{item?.transportZoneName}</td>
-                              <td>{item?.shipToParterName}</td>
-                              <td>{item?.shipToParterAddress}</td>
-                              <td>{item?.shipToPartnerContact}</td>
-                              <td>{item?.unloadingSupplier}</td>
-                              <td className="text-right">{item?.unloadingRate}</td>
-                              <td className="text-right">{item?.bolgateUnloadRate}</td>
-                              <td>{item?.remarks}</td>
+                    <div className="table-responsive">
+                      <table
+                        id="table-to-xlsx"
+                        className={
+                          "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+                        }
+                      >
+                        <thead>
+                          <tr className="cursor-pointer">
+                            {headers?.map((th, index) => {
+                              return <th key={index}> {th} </th>;
+                            })}
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {rowData?.data?.map((item, index) => {
+                            return (
+                              <tr key={index}>
+                                <td
+                                  style={{ width: "40px" }}
+                                  className="text-center"
+                                >
+                                  {index + 1}
+                                </td>
+                                <td>{item?.businessPartnerName}</td>
+                                <td>{item?.transportZoneName}</td>
+                                <td>{item?.shipToParterName}</td>
+                                <td>{item?.shipToParterAddress}</td>
+                                <td>{item?.shipToPartnerContact}</td>
+                                <td>{item?.unloadingSupplier}</td>
+                                <td className="text-right">
+                                  {item?.unloadingRate}
+                                </td>
+                                <td className="text-right">
+                                  {item?.bolgateUnloadRate}
+                                </td>
+                                <td>{item?.remarks}</td>
 
-                              <td
-                                style={{ width: "80px" }}
-                                className="text-center"
-                              >
-                                <div className="d-flex justify-content-around">
-                                  <span>
-                                    <IDelete
-                                      remover={(id) => {
-                                        deleteHandler(id, values);
-                                      }}
-                                      id={item?.shiptoPartnerId}
-                                    />
-                                  </span>
-                                  <span>
-                                    <IEdit
-                                      onClick={() => {
-                                        setFormType("edit");
-                                        setSingleItem(item);
-                                        setShow(true);
-                                      }}
-                                      id={item?.shiptoPartnerId}
-                                    />
-                                  </span>
-                                </div>
-                              </td>
-                            </tr>
-                          );
-                        })}
-                      </tbody>
-                    </table>
+                                <td
+                                  style={{ width: "80px" }}
+                                  className="text-center"
+                                >
+                                  <div className="d-flex justify-content-around">
+                                    <span>
+                                      <IDelete
+                                        remover={(id) => {
+                                          deleteHandler(id, values);
+                                        }}
+                                        id={item?.shiptoPartnerId}
+                                      />
+                                    </span>
+                                    <span>
+                                      <IEdit
+                                        onClick={() => {
+                                          setFormType("edit");
+                                          setSingleItem(item);
+                                          setShow(true);
+                                        }}
+                                        id={item?.shiptoPartnerId}
+                                      />
+                                    </span>
+                                  </div>
+                                </td>
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      </table>
+                    </div>
                   )}
 
                   {rowData?.data?.length > 0 && (

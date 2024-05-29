@@ -39,7 +39,7 @@ export default function _Form({
 }) {
   const { viewId } = useParams();
 
-  console.log('itemDDL: ', itemDDL);
+  console.log("itemDDL: ", itemDDL);
 
   useEffect(() => {
     if (location?.state?.selectedTransactionType?.value) {
@@ -231,9 +231,9 @@ export default function _Form({
                         placeholder="Reference Code"
                         isDisabled={
                           values?.referenceType?.label ===
-                          "Transfer to Warehouse" ||
+                            "Transfer to Warehouse" ||
                           values?.referenceType?.label ===
-                          "Transfer to Shop Floor" ||
+                            "Transfer to Shop Floor" ||
                           values?.referenceType?.label === "Adjustment" ||
                           viewId
                         }
@@ -363,157 +363,162 @@ export default function _Form({
                   {values?.referenceType?.value !== 4 && (
                     <div className="row">
                       <div className="col-lg-12">
-                        <table className={"table global-table mt-0"}>
-                          <thead className={rowDto?.length < 1 && "d-none"}>
-                            <tr>
-                              <th style={{ width: "20px" }}>SL</th>
-                              <th style={{ width: "100px" }}>Item code</th>
-                              <th style={{ width: "100px" }}>Item Name</th>
+                        <div className="table-responsive">
+                          <table className={"table global-table mt-0"}>
+                            <thead className={rowDto?.length < 1 && "d-none"}>
+                              <tr>
+                                <th style={{ width: "20px" }}>SL</th>
+                                <th style={{ width: "100px" }}>Item code</th>
+                                <th style={{ width: "100px" }}>Item Name</th>
 
-                              <th style={{ width: "100px" }}>UoM</th>
-                              <th style={{ width: "100px" }}>Quantity</th>
-                              {!viewId && (
-                                <th style={{ width: "50px" }}>Actions</th>
-                              )}
-                            </tr>
-                          </thead>
-                          {rowDto?.length > 0 && (
-                            <tbody>
-                              {rowDto?.map((item, index) => (
-                                <tr key={index}>
-                                  <td>{index + 1}</td>
-                                  <td>
-                                    <div className="text-center">
-                                      {item?.item?.code ||
-                                        item?.strInventoryTransactionCode ||
-                                        item?.itemCode}
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <div className="text-left pl-2">
-                                      {item?.item?.label ||
-                                        item?.strItemName ||
-                                        item?.itemName}
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <div className="text-left pl-2">
-                                      {item?.item?.baseUomName ||
-                                        item?.strUoMname ||
-                                        item?.uoMname ||
-                                        item?.description ||
-                                        item?.item?.description}
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <div className="text-center">
-                                      {item?.qty ||
-                                        item?.numTransactionQuantity ||
-                                        item?.transactionQuantity}
-                                    </div>
-                                  </td>
-                                  {!viewId && (
-                                    <td className="text-center">
-                                      <IDelete remover={remover} id={index} />
+                                <th style={{ width: "100px" }}>UoM</th>
+                                <th style={{ width: "100px" }}>Quantity</th>
+                                {!viewId && (
+                                  <th style={{ width: "50px" }}>Actions</th>
+                                )}
+                              </tr>
+                            </thead>
+                            {rowDto?.length > 0 && (
+                              <tbody>
+                                {rowDto?.map((item, index) => (
+                                  <tr key={index}>
+                                    <td>{index + 1}</td>
+                                    <td>
+                                      <div className="text-center">
+                                        {item?.item?.code ||
+                                          item?.strInventoryTransactionCode ||
+                                          item?.itemCode}
+                                      </div>
                                     </td>
-                                  )}
-                                </tr>
-                              ))}
-                            </tbody>
-                          )}
-                        </table>
+                                    <td>
+                                      <div className="text-left pl-2">
+                                        {item?.item?.label ||
+                                          item?.strItemName ||
+                                          item?.itemName}
+                                      </div>
+                                    </td>
+                                    <td>
+                                      <div className="text-left pl-2">
+                                        {item?.item?.baseUomName ||
+                                          item?.strUoMname ||
+                                          item?.uoMname ||
+                                          item?.description ||
+                                          item?.item?.description}
+                                      </div>
+                                    </td>
+                                    <td>
+                                      <div className="text-center">
+                                        {item?.qty ||
+                                          item?.numTransactionQuantity ||
+                                          item?.transactionQuantity}
+                                      </div>
+                                    </td>
+                                    {!viewId && (
+                                      <td className="text-center">
+                                        <IDelete remover={remover} id={index} />
+                                      </td>
+                                    )}
+                                  </tr>
+                                ))}
+                              </tbody>
+                            )}
+                          </table>
+                        </div>
                       </div>
                     </div>
                   )}
                   {values?.referenceType?.value === 4 && (
                     <div className="row">
                       <div className="col-lg-12">
-                        <table className={"table global-table mt-0"}>
-                          <thead className={rowDto?.length < 1 && "d-none"}>
-                            <tr>
-                              <th style={{ width: "20px" }}>SL</th>
-                              <th style={{ width: "100px" }}>Item Name</th>
-                              <th style={{ width: "100px" }}>Item code</th>
-                              <th style={{ width: "100px" }}>UoM</th>
-                              {!viewId && (
-                                <th style={{ width: "100px" }}>
-                                  Current Stock
-                                </th>
-                              )}
-                              <th style={{ width: "100px" }}>Quantity</th>
-                              {!viewId && (
-                                <th style={{ width: "50px" }}>Actions</th>
-                              )}
-                            </tr>
-                          </thead>
-                          {rowDto?.length > 0 && (
-                            <tbody>
-                              {rowDto?.map((item, index) => (
-                                <tr key={index}>
-                                  <td>{index + 1}</td>
-                                  <td>
-                                    <div className="text-left pl-2">
-                                      {item?.item?.label ||
-                                        item?.strItemName ||
-                                        item?.itemName}
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <div className="text-center">
-                                      {item?.item?.code ||
-                                        item?.strInventoryTransactionCode ||
-                                        item?.itemCode}
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <div className="text-left pl-2">
-                                      {item?.item?.baseUomName ||
-                                        item?.strUoMname ||
-                                        item?.uoMname ||
-                                        item?.description ||
-                                        item?.item?.description}
-                                    </div>
-                                  </td>
-                                  {!viewId && (
+                        <div className="table-responsive">
+                          <table className={"table global-table mt-0"}>
+                            <thead className={rowDto?.length < 1 && "d-none"}>
+                              <tr>
+                                <th style={{ width: "20px" }}>SL</th>
+                                <th style={{ width: "100px" }}>Item Name</th>
+                                <th style={{ width: "100px" }}>Item code</th>
+                                <th style={{ width: "100px" }}>UoM</th>
+                                {!viewId && (
+                                  <th style={{ width: "100px" }}>
+                                    Current Stock
+                                  </th>
+                                )}
+                                <th style={{ width: "100px" }}>Quantity</th>
+                                {!viewId && (
+                                  <th style={{ width: "50px" }}>Actions</th>
+                                )}
+                              </tr>
+                            </thead>
+                            {rowDto?.length > 0 && (
+                              <tbody>
+                                {rowDto?.map((item, index) => (
+                                  <tr key={index}>
+                                    <td>{index + 1}</td>
                                     <td>
-                                      <div className="text-right pr-2">
-                                        {item?.item?.currentStock}
+                                      <div className="text-left pl-2">
+                                        {item?.item?.label ||
+                                          item?.strItemName ||
+                                          item?.itemName}
                                       </div>
                                     </td>
-                                  )}
-                                  <td style={{ width: "70px" }}>
-                                    <div className="text-center">
-                                      {viewId ? (
-                                        item.item.transactionQuantity
-                                      ) : (
-                                        <IInput
-                                          value={item?.qty || ""}
-                                          name="qty"
-                                          type="number"
-                                          step="any"
-                                          onChange={(e) => {
-                                            const copy = [...rowDto];
-                                            if (e.target.value >= 0) {
-                                              copy[index].qty = e.target.value;
-                                            } else {
-                                              copy[index].qty = "";
-                                            }
-                                            setRowDto(copy);
-                                          }}
-                                        />
-                                      )}
-                                    </div>
-                                  </td>
-                                  {!viewId && (
-                                    <td className="text-center">
-                                      <IDelete remover={remover} id={index} />
+                                    <td>
+                                      <div className="text-center">
+                                        {item?.item?.code ||
+                                          item?.strInventoryTransactionCode ||
+                                          item?.itemCode}
+                                      </div>
                                     </td>
-                                  )}
-                                </tr>
-                              ))}
-                            </tbody>
-                          )}
-                        </table>
+                                    <td>
+                                      <div className="text-left pl-2">
+                                        {item?.item?.baseUomName ||
+                                          item?.strUoMname ||
+                                          item?.uoMname ||
+                                          item?.description ||
+                                          item?.item?.description}
+                                      </div>
+                                    </td>
+                                    {!viewId && (
+                                      <td>
+                                        <div className="text-right pr-2">
+                                          {item?.item?.currentStock}
+                                        </div>
+                                      </td>
+                                    )}
+                                    <td style={{ width: "70px" }}>
+                                      <div className="text-center">
+                                        {viewId ? (
+                                          item.item.transactionQuantity
+                                        ) : (
+                                          <IInput
+                                            value={item?.qty || ""}
+                                            name="qty"
+                                            type="number"
+                                            step="any"
+                                            onChange={(e) => {
+                                              const copy = [...rowDto];
+                                              if (e.target.value >= 0) {
+                                                copy[index].qty =
+                                                  e.target.value;
+                                              } else {
+                                                copy[index].qty = "";
+                                              }
+                                              setRowDto(copy);
+                                            }}
+                                          />
+                                        )}
+                                      </div>
+                                    </td>
+                                    {!viewId && (
+                                      <td className="text-center">
+                                        <IDelete remover={remover} id={index} />
+                                      </td>
+                                    )}
+                                  </tr>
+                                ))}
+                              </tbody>
+                            )}
+                          </table>
+                        </div>
                       </div>
                     </div>
                   )}

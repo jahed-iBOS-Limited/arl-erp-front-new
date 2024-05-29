@@ -1,12 +1,12 @@
+import { Form, Formik } from "formik";
 import React from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
 import Select from "react-select";
-import customStyles from "../../../../selectCustomStyle";
+import * as Yup from "yup";
 import FormikError from "../../../../_helper/_formikError";
+import IDelete from "../../../../_helper/_helperIcons/_delete";
 import InputField from "../../../../_helper/_inputField";
 import { NegetiveCheck } from "../../../../_helper/_negitiveCheck";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
+import customStyles from "../../../../selectCustomStyle";
 // import customStyles from "../../../../selectCustomStyle";
 // import IDelete from "../../../../_helper/_helperIcons/_delete";
 // import FormikError from "../../../../_helper/_formikError";
@@ -229,7 +229,7 @@ export default function _Form({
                   </div>
                   {/* Table Header input end */}
                   <div className="row">
-                    <div className="col-lg-12 pr-0">
+                    <div className="col-lg-12 pr-0 table-responsive">
                       <table className={"table table-responsive mt-1 bj-table"}>
                         <thead className={gridData.length < 1 && "d-none"}>
                           <tr>

@@ -3,7 +3,7 @@ import React from 'react';
 const LocalAndInternationalRateDetailsTable = ({rowData}) => {
 
   return (
-    <div>
+    <div className="table-responsive">
       <table
         id="table-to-xlsx"
         className={

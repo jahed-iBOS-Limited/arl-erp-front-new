@@ -103,7 +103,8 @@ function MaterialConsumptionVariance() {
                 </div>
                 <div className="row mt-5">
                   <div className="col-lg-12">
-                    <table className="table table-striped table-bordered bj-table bj-table-landing material-consumption-variance">
+                  <div className="table-responsive">
+  <table className="table table-striped table-bordered bj-table bj-table-landing material-consumption-variance">
                       <thead>
                         <tr>
                           <th>FG Item</th>
@@ -171,6 +172,8 @@ function MaterialConsumptionVariance() {
                           ))}
                       </tbody>
                     </table>
+</div>
+                  
                   </div>
                 </div>
               </CardBody>

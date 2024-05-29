@@ -39,99 +39,104 @@ const Table = ({ obj }) => {
             paginationSearchHandler={paginationSearchHandler}
             values={values}
           />
-          <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table table-font-size-sm">
-            <thead>
-              <tr>
-                <th style={{ width: "35px" }}>SL</th>
-                <th>Delivery Order</th>
+          <div className="table-responsive">
+            <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table table-font-size-sm">
+              <thead>
+                <tr>
+                  <th style={{ width: "35px" }}>SL</th>
+                  <th>Delivery Order</th>
 
-                <th style={{ width: "90px" }}>Delivery Date</th>
+                  <th style={{ width: "90px" }}>Delivery Date</th>
 
-                <th>Sales Organization</th>
-                <th>Channel</th>
-                <th>Ship Point</th>
-                <th>Sold To Party</th>
-                <th>Vehicle Mode</th>
-                <th>Supplier Type</th>
-                <th>Delivery Time</th>
+                  <th>Sales Organization</th>
+                  <th>Channel</th>
+                  <th>Ship Point</th>
+                  <th>Sold To Party</th>
+                  <th>Vehicle Mode</th>
+                  <th>Supplier Type</th>
+                  <th>Delivery Time</th>
 
-                <th style={{ width: "90px" }}>Total Quantity</th>
-                <th style={{ width: "75px" }}>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {gridData?.data?.map((td, index) => {
-                grandTotal += td.totalDeliveryQuantity;
-                return (
-                  <tr key={index}>
-                    <td> {td.sl} </td>
-                    <td>
-                      <div className="text-center pr-2">{td.deliveryCode}</div>
-                    </td>
+                  <th style={{ width: "90px" }}>Total Quantity</th>
+                  <th style={{ width: "75px" }}>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {gridData?.data?.map((td, index) => {
+                  grandTotal += td.totalDeliveryQuantity;
+                  return (
+                    <tr key={index}>
+                      <td> {td.sl} </td>
+                      <td>
+                        <div className="text-center pr-2">
+                          {td.deliveryCode}
+                        </div>
+                      </td>
 
-                    <td>
-                      <div className="text-center">
-                        {_dateFormatter(td.deliveryDate)}
-                      </div>
-                    </td>
+                      <td>
+                        <div className="text-center">
+                          {_dateFormatter(td.deliveryDate)}
+                        </div>
+                      </td>
 
-                    <td>
-                      <div className="pl-2">{td.salesOrganizationName}</div>
-                    </td>
-                    <td>
-                      <div className="pl-2">{td.distributionChannelName}</div>
-                    </td>
-                    <td>
-                      <div className="pl-2">{td.shipPointName}</div>
-                    </td>
-                    <td>
-                      <div className="pl-2">{td.soldToPartnerName}</div>
-                    </td>
-                    <td>
-                      <div className="text-center pr-2">{td.vehicleMode}</div>
-                    </td>
-                    <td>
-                      <div className="text-center pr-2">{td.supplierType}</div>
-                    </td>
-                    <td>
-                      <div className="text-center">{td.deliveryTime}</div>
-                    </td>
-                    <td>
-                      <div className="text-right">
-                        {td.totalDeliveryQuantity}
-                      </div>
-                    </td>
-                    <td>
-                      <div className="d-flex justify-content-around">
-                        <span className="view">
-                          <IView
-                            clickHandler={() => {
-                              history.push({
-                                pathname: `/inventory-management/warehouse-management/hallogrambasedelivery/view/${td.deliveryId}`,
-                                state: values,
-                              });
-                            }}
-                          />
-                        </span>
-                        {buId === 180 && (
-                          <span
-                            className="view"
-                            onClick={() => {
-                              // setRow(td);
-                              // history.push({
-                              //   state: values,
-                              // });
-                              // getDeliveryChallanInfoById(
-                              //   td?.deliveryId,
-                              //   setDeliveryChallanInfo,
-                              //   setLoading,
-                              //   () => {
-                              //     setShow(true);
-                              //   }
-                              // );
-                            }}
-                          >
-                            {/* <OverlayTrigger
+                      <td>
+                        <div className="pl-2">{td.salesOrganizationName}</div>
+                      </td>
+                      <td>
+                        <div className="pl-2">{td.distributionChannelName}</div>
+                      </td>
+                      <td>
+                        <div className="pl-2">{td.shipPointName}</div>
+                      </td>
+                      <td>
+                        <div className="pl-2">{td.soldToPartnerName}</div>
+                      </td>
+                      <td>
+                        <div className="text-center pr-2">{td.vehicleMode}</div>
+                      </td>
+                      <td>
+                        <div className="text-center pr-2">
+                          {td.supplierType}
+                        </div>
+                      </td>
+                      <td>
+                        <div className="text-center">{td.deliveryTime}</div>
+                      </td>
+                      <td>
+                        <div className="text-right">
+                          {td.totalDeliveryQuantity}
+                        </div>
+                      </td>
+                      <td>
+                        <div className="d-flex justify-content-around">
+                          <span className="view">
+                            <IView
+                              clickHandler={() => {
+                                history.push({
+                                  pathname: `/inventory-management/warehouse-management/hallogrambasedelivery/view/${td.deliveryId}`,
+                                  state: values,
+                                });
+                              }}
+                            />
+                          </span>
+                          {buId === 180 && (
+                            <span
+                              className="view"
+                              onClick={() => {
+                                // setRow(td);
+                                // history.push({
+                                //   state: values,
+                                // });
+                                // getDeliveryChallanInfoById(
+                                //   td?.deliveryId,
+                                //   setDeliveryChallanInfo,
+                                //   setLoading,
+                                //   () => {
+                                //     setShow(true);
+                                //   }
+                                // );
+                              }}
+                            >
+                              {/* <OverlayTrigger
                               overlay={
                                 <Tooltip id="cs-icon">
                                   Direct Challan Print
@@ -140,9 +145,9 @@ const Table = ({ obj }) => {
                             >
                               <i class="fab pointer fa-weibo"></i>
                             </OverlayTrigger> */}
-                          </span>
-                        )}
-                        {/* {td?.isEditable && (
+                            </span>
+                          )}
+                          {/* {td?.isEditable && (
                           <span
                             className="edit"
                             onClick={() => {
@@ -154,14 +159,14 @@ const Table = ({ obj }) => {
                             <IEdit />
                           </span>
                         )} */}
-                        {td?.isCommissionBase && (
-                          <span
-                            onClick={() => {
-                              // setAllotmentChallanModel(true);
-                              // setClickRowData(td);
-                            }}
-                          >
-                            {/* <OverlayTrigger
+                          {td?.isCommissionBase && (
+                            <span
+                              onClick={() => {
+                                // setAllotmentChallanModel(true);
+                                // setClickRowData(td);
+                              }}
+                            >
+                              {/* <OverlayTrigger
                               overlay={
                                 <Tooltip id="cs-icon">
                                   {"Allotment Challan"}
@@ -172,23 +177,24 @@ const Table = ({ obj }) => {
                                 <i className={`far fa-file-alt pointer`}></i>
                               </span>
                             </OverlayTrigger> */}
-                          </span>
-                        )}
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })}
-              <tr className="text-right font-weight-bold">
-                <td className="text-right" colSpan="10">
-                  {" "}
-                  Grand Total{" "}
-                </td>
-                <td> {_fixedPoint(grandTotal || 0)} </td>
-                <td></td>
-              </tr>
-            </tbody>
-          </table>
+                            </span>
+                          )}
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
+                <tr className="text-right font-weight-bold">
+                  <td className="text-right" colSpan="10">
+                    {" "}
+                    Grand Total{" "}
+                  </td>
+                  <td> {_fixedPoint(grandTotal || 0)} </td>
+                  <td></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
         {/* Pagination Code */}
         {gridData?.data?.length > 0 && (

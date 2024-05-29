@@ -317,7 +317,8 @@ const _Form = ({
                 Submit
               </button>
             </div>
-            <table className="table table-striped table-bordered  global-table">
+         <div className="table-responsive">
+         <table className="table table-striped table-bordered  global-table">
               <thead>
                 <tr>
                   <th>SL</th>
@@ -340,6 +341,7 @@ const _Form = ({
                   ))}
               </tbody>
             </table>
+         </div>
           </ICard>
         )}
       </Formik>

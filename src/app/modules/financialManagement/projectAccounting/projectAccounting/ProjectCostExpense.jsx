@@ -280,84 +280,87 @@ const ProjectExpense = ({
                 <div className="row" id="pdf-section">
                   <div className="col-lg-12">
                     <div className="print_wrapper">
-                      <table className="table table-striped table-bordered mt-3 global-table table-font-size-sm">
-                        {expenseData.length > 0 && (
-                          <thead>
-                            <tr>
-                              <th style={{ width: "50px" }}>SL</th>
-                              <th style={{ width: "100px" }}>
-                                <div className="text-left ml-1">
-                                  Profit Center
-                                </div>
-                              </th>
-                              <th style={{ width: "100px" }}>
-                                <div className="text-left ml-1">
-                                  Cost Center
-                                </div>
-                              </th>
-                              <th style={{ width: "100px" }}>
-                                <div className="text-left ml-1">
-                                  Cost Element
-                                </div>
-                              </th>
-                              <th style={{ width: "100px" }}>
-                                <div className="text-left ml-1">
-                                  Responsible
-                                </div>
-                              </th>
-                              <th style={{ width: "100px" }}>
-                                <div className="text-right mr-1">
-                                  Budget Amount
-                                </div>
-                              </th>
-                              <th style={{ width: "150px" }}>Action</th>
-                            </tr>
-                          </thead>
-                        )}
-                        <tbody>
-                          {expenseData?.map((item, index) => (
-                            <tr key={index}>
-                              <td className="text-center">{index + 1}</td>
-                              <td className="text-left">
-                                {item?.isEdit
-                                  ? item?.strProfitCenter || "N/A"
-                                  : item?.intProfitCenterId?.label}
-                              </td>
-                              <td className="text-left">
-                                {item?.isEdit
-                                  ? item?.strCostCenter || "N/A"
-                                  : item?.intCostCenterId?.label}
-                              </td>
-                              <td className="text-left">
-                                {item?.isEdit
-                                  ? item?.strCostElement
-                                  : item?.intCostElementId?.label}
-                              </td>
-                              <td className="text-left">
-                                {item?.isEdit
-                                  ? item?.strResponsible
-                                  : item?.intResponsibleId?.label}
-                              </td>
-                              <td className="text-right">
-                                {item?.isEdit
-                                  ? item?.numBudgetAmount
-                                  : item?.intBudget}
-                              </td>
-                              <td className="text-right">
-                                {" "}
-                                <div className="text-center">
-                                  {/* {!item?.completeDateTime && ( */}
-                                  <span onClick={() => {}}>
-                                    <DeleteOutlined
-                                      onClick={() => removeExpense(index)}
-                                    />
-                                  </span>
-                                </div>
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
+                      <div className="table-responsive">
+                        <table className="table table-striped table-bordered mt-3 global-table table-font-size-sm">
+                          {expenseData.length > 0 && (
+                            <thead>
+                              <tr>
+                                <th style={{ width: "50px" }}>SL</th>
+                                <th style={{ width: "100px" }}>
+                                  <div className="text-left ml-1">
+                                    Profit Center
+                                  </div>
+                                </th>
+                                <th style={{ width: "100px" }}>
+                                  <div className="text-left ml-1">
+                                    Cost Center
+                                  </div>
+                                </th>
+                                <th style={{ width: "100px" }}>
+                                  <div className="text-left ml-1">
+                                    Cost Element
+                                  </div>
+                                </th>
+                                <th style={{ width: "100px" }}>
+                                  <div className="text-left ml-1">
+                                    Responsible
+                                  </div>
+                                </th>
+                                <th style={{ width: "100px" }}>
+                                  <div className="text-right mr-1">
+                                    Budget Amount
+                                  </div>
+                                </th>
+                                <th style={{ width: "150px" }}>Action</th>
+                              </tr>
+                            </thead>
+                          )}
+                          <tbody>
+                            {expenseData?.map((item, index) => (
+                              <tr key={index}>
+                                <td className="text-center">{index + 1}</td>
+                                <td className="text-left">
+                                  {item?.isEdit
+                                    ? item?.strProfitCenter || "N/A"
+                                    : item?.intProfitCenterId?.label}
+                                </td>
+                                <td className="text-left">
+                                  {item?.isEdit
+                                    ? item?.strCostCenter || "N/A"
+                                    : item?.intCostCenterId?.label}
+                                </td>
+                                <td className="text-left">
+                                  {item?.isEdit
+                                    ? item?.strCostElement
+                                    : item?.intCostElementId?.label}
+                                </td>
+                                <td className="text-left">
+                                  {item?.isEdit
+                                    ? item?.strResponsible
+                                    : item?.intResponsibleId?.label}
+                                </td>
+                                <td className="text-right">
+                                  {item?.isEdit
+                                    ? item?.numBudgetAmount
+                                    : item?.intBudget}
+                                </td>
+                                <td className="text-right">
+                                  {" "}
+                                  <div className="text-center">
+                                    {/* {!item?.completeDateTime && ( */}
+                                    <span onClick={() => {}}>
+                                      <DeleteOutlined
+                                        onClick={() => removeExpense(index)}
+                                      />
+                                    </span>
+                                  </div>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+
                       <div></div>
                     </div>
                   </div>

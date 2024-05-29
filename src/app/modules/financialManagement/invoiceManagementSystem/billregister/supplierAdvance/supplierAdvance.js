@@ -288,6 +288,9 @@ export default function SupplierAdvance({ purchaseInvoiceValues }) {
                             <SearchAsyncSelect
                               selectedValue={values?.purchaseOrder}
                               handleChange={(valueOption) => {
+                                if(+valueOption?.billId > 0){
+                                  return toast.warn("Advance Entry is not Possible After MRR")
+                                }
                                 setFieldValue("purchaseOrder", valueOption);
                                 GetAdvanceForSupplierById(
                                   valueOption?.value,
@@ -507,6 +510,7 @@ export default function SupplierAdvance({ purchaseInvoiceValues }) {
                       </div>
                     </div>
                   </div>
+                  <div className="table-responsive">
                   <table className="table table-striped table-bordered mt-3 global-table">
                     <thead>
                       <tr>
@@ -527,6 +531,7 @@ export default function SupplierAdvance({ purchaseInvoiceValues }) {
                       ))}
                     </tbody>
                   </table>
+                  </div>
                   <DropzoneDialogBase
                     filesLimit={1}
                     acceptedFiles={["image/*","application/pdf"]}

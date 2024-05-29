@@ -11,7 +11,7 @@ import PaginationTable from "../../../_helper/_tablePagination";
 import Loading from "../../../_helper/_loading";
 import { excelDownload, generateSecondLevelList } from "./helper";
 const initData = {
-  itemType: {value: 0, label: "All"},
+  itemType: { value: 0, label: "All" },
   fromDate: _todayDate(),
   toDate: _todayDate(),
 };
@@ -54,10 +54,10 @@ export default function WarehouseWiseStockReport() {
   };
 
   useEffect(() => {
-    if(profileData?.accountId && selectedBusinessUnit?.value) {
+    if (profileData?.accountId && selectedBusinessUnit?.value) {
       getLandingData(initData, pageNo, pageSize);
     }
-  }, [profileData, selectedBusinessUnit])
+  }, [profileData, selectedBusinessUnit]);
 
   return (
     <Formik
@@ -151,132 +151,134 @@ export default function WarehouseWiseStockReport() {
               <div className="row">
                 <div className="col-md-12">
                   {rowData?.length > 0 && (
-                    <table className="table table-striped table-bordered bj-table bj-table-landing">
-                      <thead>
-                        <tr>
-                          <th>Sl</th>
-                          <th>Warehouse</th>
-                          <th>Item Name</th>
-                          <th>Code</th>
-                          <th>Uom</th>
-                          <th>Open Qty</th>
-                          <th>In Qty</th>
-                          <th>Out Qty</th>
-                          <th>Closing Qty</th>
-                          <th>Rate</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {rowData?.map((item, index) => (
-                          <React.Fragment>
-                            <tr key={index}>
-                              <td
-                                rowSpan={
-                                  item?.children?.length > 1
-                                    ? item?.children?.length + 1
-                                    : item?.children?.length
-                                }
-                              >
-                                <div className="text-center">{index + 1}</div>
-                              </td>
-                              <td
-                                rowSpan={
-                                  item?.children?.length > 1
-                                    ? item?.children?.length + 1
-                                    : item?.children?.length
-                                }
-                              >
-                                <div>{item?.strWareHouseName}</div>
-                              </td>
-                              <td>
-                                <div>{item?.strItemName}</div>
-                              </td>
-                              <td>
-                                <div className="text-center">
-                                  {item?.strItemCode}
-                                </div>
-                              </td>
-                              <td>
-                                <div className="text-center">
-                                  {item?.strBaseUOM}
-                                </div>
-                              </td>
-                              <td>
-                                <div className="text-center">
-                                  {item?.numOpenQty}
-                                </div>
-                              </td>
-                              <td>
-                                <div className="text-center">
-                                  {item?.numInQty}
-                                </div>
-                              </td>
-                              <td>
-                                <div className="text-center">
-                                  {item?.numOutQty}
-                                </div>
-                              </td>
-                              <td>
-                                <div className="text-center">
-                                  {item?.numCloseQty}
-                                </div>
-                              </td>
-                              <td>
-                                <div className="text-center">
-                                  {item?.numRate}
-                                </div>
-                              </td>
-                            </tr>
-                            {item?.children?.length > 1
-                              ? item?.children?.map((child) => (
-                                  <tr key={index}>
-                                    <td>
-                                      <div className="text-left">
-                                        {child?.strItemName}
-                                      </div>
-                                    </td>
-                                    <td>
-                                      <div className="text-center">
-                                        {child?.strItemCode}
-                                      </div>
-                                    </td>
-                                    <td>
-                                      <div className="text-center">
-                                        {child?.strBaseUOM}
-                                      </div>
-                                    </td>
-                                    <td>
-                                      <div className="text-center">
-                                        {child?.numOpenQty}
-                                      </div>
-                                    </td>
-                                    <td>
-                                      <div className="text-center">
-                                        {child?.numInQty}
-                                      </div>
-                                    </td>
-                                    <td>
-                                      <div className="text-center">
-                                        {child?.numOutQty}
-                                      </div>
-                                    </td>
-                                    <td>
-                                      <div className="text-center">
-                                        {child?.numCloseQty}
-                                      </div>
-                                    </td>
-                                    <td>
-                                      <div className="text-center">
-                                        {child?.numRate}
-                                      </div>
-                                    </td>
-                                  </tr>
-                                ))
-                              : null}
-                          </React.Fragment>
-                        ))}
-                      </tbody>
-                    </table>
+                    <div className="table-responsive">
+                      <table className="table table-striped table-bordered bj-table bj-table-landing">
+                        <thead>
+                          <tr>
+                            <th>Sl</th>
+                            <th>Warehouse</th>
+                            <th>Item Name</th>
+                            <th>Code</th>
+                            <th>Uom</th>
+                            <th>Open Qty</th>
+                            <th>In Qty</th>
+                            <th>Out Qty</th>
+                            <th>Closing Qty</th>
+                            <th>Rate</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {rowData?.map((item, index) => (
+                            <React.Fragment>
+                              <tr key={index}>
+                                <td
+                                  rowSpan={
+                                    item?.children?.length > 1
+                                      ? item?.children?.length + 1
+                                      : item?.children?.length
+                                  }
+                                >
+                                  <div className="text-center">{index + 1}</div>
+                                </td>
+                                <td
+                                  rowSpan={
+                                    item?.children?.length > 1
+                                      ? item?.children?.length + 1
+                                      : item?.children?.length
+                                  }
+                                >
+                                  <div>{item?.strWareHouseName}</div>
+                                </td>
+                                <td>
+                                  <div>{item?.strItemName}</div>
+                                </td>
+                                <td>
+                                  <div className="text-center">
+                                    {item?.strItemCode}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="text-center">
+                                    {item?.strBaseUOM}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="text-center">
+                                    {item?.numOpenQty}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="text-center">
+                                    {item?.numInQty}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="text-center">
+                                    {item?.numOutQty}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="text-center">
+                                    {item?.numCloseQty}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="text-center">
+                                    {item?.numRate}
+                                  </div>
+                                </td>
+                              </tr>
+                              {item?.children?.length > 1
+                                ? item?.children?.map((child) => (
+                                    <tr key={index}>
+                                      <td>
+                                        <div className="text-left">
+                                          {child?.strItemName}
+                                        </div>
+                                      </td>
+                                      <td>
+                                        <div className="text-center">
+                                          {child?.strItemCode}
+                                        </div>
+                                      </td>
+                                      <td>
+                                        <div className="text-center">
+                                          {child?.strBaseUOM}
+                                        </div>
+                                      </td>
+                                      <td>
+                                        <div className="text-center">
+                                          {child?.numOpenQty}
+                                        </div>
+                                      </td>
+                                      <td>
+                                        <div className="text-center">
+                                          {child?.numInQty}
+                                        </div>
+                                      </td>
+                                      <td>
+                                        <div className="text-center">
+                                          {child?.numOutQty}
+                                        </div>
+                                      </td>
+                                      <td>
+                                        <div className="text-center">
+                                          {child?.numCloseQty}
+                                        </div>
+                                      </td>
+                                      <td>
+                                        <div className="text-center">
+                                          {child?.numRate}
+                                        </div>
+                                      </td>
+                                    </tr>
+                                  ))
+                                : null}
+                            </React.Fragment>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
                   )}
                   {rowData?.length > 0 && (
                     <PaginationTable

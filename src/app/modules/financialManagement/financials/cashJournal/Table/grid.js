@@ -61,9 +61,13 @@ const GridData = ({
   return (
     <>
       {/* Table Start */}
-      <div className="row cash_journal">
+      <div className="row cash_journal" 
+        style={{
+        overflowX: "auto",
+        }}>
         <div className="col-lg-12 pr-0 pl-0">
-          <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm">
+        <div className="table-responsive">
+        <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm">
             <thead>
               <tr>
                 {type === "notComplated" ? (
@@ -231,6 +235,7 @@ const GridData = ({
                   <td></td>
                   <td></td>
                   <td></td>
+                  <td></td>
                   <td>
                     <b className="pl-2">Total</b>
                   </td>
@@ -243,6 +248,7 @@ const GridData = ({
               )}
             </tbody>
           </table>
+      </div>
 
           <IViewModal show={isShowModal} onHide={() => setIsShowModal(false)}>
             <InvTransViewTableRow

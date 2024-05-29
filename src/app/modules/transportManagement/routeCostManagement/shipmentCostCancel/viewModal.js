@@ -105,7 +105,7 @@ export default function SalesInvoiceModel({
                 </div>
               </div>
             </div>
-            <div className="col-lg-12 p-0">
+            <div className="col-lg-12 p-0 table-responsive">
               <table className="table table-striped table-bordered global-table">
                 <thead>
                   <tr className="vendorListHeading">

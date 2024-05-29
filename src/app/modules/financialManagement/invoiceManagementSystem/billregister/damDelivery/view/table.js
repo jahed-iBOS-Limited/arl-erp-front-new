@@ -1,31 +1,30 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect } from "react";
 import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
+import { shallowEqual, useSelector } from "react-redux";
 import ICard from "../../../../../_helper/_card";
 import Loading from "../../../../../_helper/_loading";
-import { getDownlloadFileView_Action } from "../../../../../_helper/_redux/Actions";
 import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet";
 
-function ViewDamDeliveryBill({ billRegisterId }) {
-  const [loading, setLoading] = useState(false);
-  const dispatch = useDispatch();
+function ViewDamDeliveryBill({ billRegisterId, billTypeId, values }) {
   // get profile data from store
   const {
     profileData: { accountId: accId },
     selectedBusinessUnit: { value: buId },
-  } = useSelector((state) => {
-    return state.authData;
-  }, shallowEqual);
+  } = useSelector((state) => state.authData, shallowEqual);
 
   const [gridData, getGridData, loadingGridData] = useAxiosGet();
 
   useEffect(() => {
-    // const url = `/tms/LigterLoadUnload/GetLighterDumpToTruckDeliveryDetaills?lighterVesselId=2012&shipPointId=272&FromDate=2023-12-01&ToDate=2023-12-31&isDumpToTruckApprove=0`;
-    getGridData("");
+    const url = `/tms/LigterLoadUnload/GetLighterDumpToTruckDeliveryDetails?billRegisterId=${billRegisterId}&IntBillTypeId=${billTypeId}`;
+    getGridData(url);
   }, [accId, buId]);
+
+  let totalDampToTruckQty = 0,
+    totalAmount = 0,
+    totalLaborQty = 0,
+    totalLaborAmount = 0,
+    totalOtherCost = 0;
 
   return (
     <>
@@ -35,40 +34,67 @@ function ViewDamDeliveryBill({ billRegisterId }) {
         onSubmit={(values) => {}}
       >
         {() => (
-          <ICard title={`View Dam Delivery Bill`}>
-            {(loadingGridData || loading) && <Loading />}
+          <ICard title={`View ${values?.billType?.label}`}>
+            {loadingGridData && <Loading />}
 
             <form className="form form-label-right ">
-              <table className="table global-table">
-                <thead>
-                  <tr>
-                    <th>SL</th>
-                    <th>Mother Vessel</th>
-                    <th>Lighter Vessel</th>
-                    <th>Hatch Labor Supplier Name</th>
-                    <th>Port Name</th>
-                    <th>Program Qty</th>
-                    <th>Hatch Labor Rate</th>
-                    <th>Attachment</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {gridData?.map((item, index) => {
-                    return (
-                      <>
-                        <tr key={index}>
-                          <td style={{ width: "30px" }} className="text-center">
-                            {index + 1}
-                          </td>
-                          <td>{item?.motherVesselName}</td>
-                          <td>{item?.lighterVesselName}</td>
-                          <td>{item?.hatchLabour}</td>
-                          <td>{item?.portName}</td>
-                          <td className="text-right">{item?.programQnt}</td>
-                          <td className="text-right">
-                            {item?.hatchLabourRate || 0}
-                          </td>
-                          <td className="text-center">
+              <div className="table-responsive">
+                <table className="table global-table">
+                  <thead>
+                    <tr>
+                      <th>SL</th>
+                      <th>Buffer Name</th>
+                      <th>Supplier Name</th>
+                      <th>Lighter Vessel</th>
+                      <th>Damp to Truck Qty</th>
+                      <th>Damp to Truck Rate</th>
+                      <th>Amount</th>
+                      <th>Labor Qty</th>
+                      <th>Labor Rate</th>
+                      <th>Labor Amount</th>
+                      <th>Other Cost</th>
+                      {/* <th>Attachment</th> */}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {gridData?.map((item, index) => {
+                      totalDampToTruckQty += item?.dumpToTruckQnt;
+                      totalAmount += item?.dumpToTruckAmount;
+                      totalLaborQty += item?.dailyLaboureQnt;
+                      totalLaborAmount += item?.labourAmount;
+                      totalOtherCost += item?.dumpOtherCost;
+                      return (
+                        <>
+                          <tr key={index}>
+                            <td
+                              style={{ width: "30px" }}
+                              className="text-center"
+                            >
+                              {index + 1}
+                            </td>
+                            <td>{item?.shipPointName}</td>
+                            <td>{item?.supplierName}</td>
+                            <td>{item?.lighterVesselName}</td>
+                            <td className="text-right">
+                              {item?.dumpToTruckQnt}
+                            </td>
+                            <td className="text-right">
+                              {item?.dumpToTruckRate}
+                            </td>
+                            <td className="text-right">
+                              {item?.dumpToTruckAmount}
+                            </td>
+                            <td className="text-right">
+                              {item?.dailyLaboureQnt}
+                            </td>
+                            <td className="text-right">
+                              {item?.dailyLaboureRate}
+                            </td>
+                            <td className="text-right">{item?.labourAmount}</td>
+                            <td className="text-right">
+                              {item?.dumpOtherCost}
+                            </td>
+                            {/* <td className="text-center">
                             <OverlayTrigger
                               overlay={
                                 <Tooltip id="cs-icon">View Attachment</Tooltip>
@@ -99,13 +125,24 @@ function ViewDamDeliveryBill({ billRegisterId }) {
                                 ></i>
                               </span>
                             </OverlayTrigger>
-                          </td>
-                        </tr>
-                      </>
-                    );
-                  })}
-                </tbody>
-              </table>
+                          </td> */}
+                          </tr>
+                        </>
+                      );
+                    })}
+                    <tr style={{ textAlign: "right", fontWeight: "bold" }}>
+                      <td colSpan={4}>Total</td>
+                      <td>{totalDampToTruckQty}</td>
+                      <td> </td>
+                      <td>{totalAmount}</td>
+                      <td>{totalLaborQty}</td>
+                      <td> </td>
+                      <td>{totalLaborAmount}</td>
+                      <td>{totalOtherCost}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </form>
           </ICard>
         )}

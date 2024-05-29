@@ -96,42 +96,45 @@ export function TableRow() {
           />
         </div>
         <div className="col-lg-12 pr-0 pl-0">
-          <table className="table table-striped table-bordered global-table">
-            <thead>
-              <tr>
-                <th style={{ width: "50px" }}>SL</th>
-                <th style={{ width: "50px" }}>Production Line Name</th>
-                <th style={{ width: "50px" }}>Production Line Code</th>
-                {/* <th style={{ width: "50px" }}>Plant Name</th> */}{" "}
-                {/* Last Change Assign By Miraj Hossain (BA) */}
-                <th style={{ width: "50px" }}>Shop Floor</th>
-                <th style={{ width: "50px" }}>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {landingData?.data?.map((data, index) => (
-                <tr key={index}>
-                  <td>{data.sl}</td>
-                  <td>{data.productionLineName}</td>
-                  <td>{data.productionLineCode}</td>
-                  {/* <td>{data?.plantName}</td> */}{" "}
+          <div className="table-responsive">
+            <table className="table table-striped table-bordered global-table">
+              <thead>
+                <tr>
+                  <th style={{ width: "50px" }}>SL</th>
+                  <th style={{ width: "50px" }}>Production Line Name</th>
+                  <th style={{ width: "50px" }}>Production Line Code</th>
+                  {/* <th style={{ width: "50px" }}>Plant Name</th> */}{" "}
                   {/* Last Change Assign By Miraj Hossain (BA) */}
-                  <td>{data?.shopFloorName}</td>
-                  <td className="text-center">
-                    <span
-                      onClick={() => {
-                        history.push(
-                          `/production-management/configuration/productionline/edit/${data.productionLineId}`
-                        );
-                      }}
-                    >
-                      <IEdit />
-                    </span>
-                  </td>
+                  <th style={{ width: "50px" }}>Shop Floor</th>
+                  <th style={{ width: "50px" }}>Action</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {landingData?.data?.map((data, index) => (
+                  <tr key={index}>
+                    <td>{data.sl}</td>
+                    <td>{data.productionLineName}</td>
+                    <td>{data.productionLineCode}</td>
+                    {/* <td>{data?.plantName}</td> */}{" "}
+                    {/* Last Change Assign By Miraj Hossain (BA) */}
+                    <td>{data?.shopFloorName}</td>
+                    <td className="text-center">
+                      <span
+                        onClick={() => {
+                          history.push(
+                            `/production-management/configuration/productionline/edit/${data.productionLineId}`
+                          );
+                        }}
+                      >
+                        <IEdit />
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
           {/* Pagination Code */}
           {landingData?.data?.length > 0 && (
             <PaginationTable

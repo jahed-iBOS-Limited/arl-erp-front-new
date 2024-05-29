@@ -14,7 +14,7 @@ import Loading from "../../../_helper/_loading";
 import NewSelect from "../../../_helper/_select";
 import { ITable } from "../../../_helper/_table";
 import { _todayDate } from "../../../_helper/_todayDate";
-import "./style.css"
+import "./style.css";
 
 const initData = {
   fromDate: _todayDate(),
@@ -136,113 +136,117 @@ export default function BilletConsumption() {
                   className="loan-scrollable-table"
                 >
                   <div className="scroll-table _table billet-consumption-wrapper">
-                    <table className="table table-striped table-bordered bj-table bj-table-landing">
-                      <thead>
-                        <tr>
-                          <th style={{ minWidth: "50px" }}>SL</th>
-                          <th>Date</th>
-                          <th>Shift</th>
-                          <th>Main Product Name</th>
-                          <th style={{ minWidth: "250px" }}>
-                            Re-Heating Billet Consumed Wt Kgs Per Billet
-                          </th>
-                          <th>Re-Heating Billet Consumed in Pcs</th>
-                          <th>Re-Heating Billet Consumed in Kgs</th>
-                          <th style={{ minWidth: "250px" }}>
-                            Direct Charging Billet Consumed Wt Kgs Per Billet
-                          </th>
-                          <th style={{ minWidth: "250px" }}>
-                            Direct Charging Billet Consumed in Pcs
-                          </th>
-                          <th style={{ minWidth: "250px" }}>
-                            Direct Charging Billet Consumed in Kgs
-                          </th>
-                          <th>Total Billet consumption in pcs</th>
-                          <th>Total Billet Consumed in Kgs</th>
-                          <th style={{ minWidth: "60px" }}>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {landigData?.data?.length > 0 &&
-                          landigData?.data?.map((item, index) => (
-                            <tr key={index}>
-                              <td>{index + 1}</td>
-                              <td className="text-center">
-                                {_dateFormatter(item?.dteDate)}
-                              </td>
-                              <td className="text-center">{item?.strShift}</td>
-                              <td>{item?.strMainItemName}</td>
-                              <td className="text-center">
-                                {item?.numReHeatingBilletConsumedWtKgsPerBillet.toFixed(
-                                  2
-                                )}
-                              </td>
-                              <td className="text-center">
-                                {item?.intReHeatingBilletConsumedInPcs.toFixed(
-                                  2
-                                )}
-                              </td>
-                              <td className="text-center">
-                                {item?.numReHeatingBilletConsumedInKgsCal.toFixed(
-                                  2
-                                )}
-                              </td>
-                              <td className="text-center">
-                                {item?.numDirectChargingBilletConsumedWtKgsPerBillet.toFixed(
-                                  2
-                                )}
-                              </td>
-                              <td className="text-center">
-                                {item?.intDirectChargingBilletConsumedInPcs.toFixed(
-                                  2
-                                )}
-                              </td>
-                              <td className="text-center">
-                                {item?.numDirectChargingBilletConsumedInKgsCal.toFixed(
-                                  2
-                                )}
-                              </td>
-                              <td className="text-center">
-                                {item?.intTotalBilletConsumptionInPcsCal.toFixed(
-                                  2
-                                )}
-                              </td>
-                              <td className="text-center">
-                                {item?.numTotalBilletConsumptionInKgsCal.toFixed(
-                                  2
-                                )}
-                              </td>
-                              <td className="text-center">
-                                <div className="d-flex justify-content-between">
-                                  <div>
-                                    <IEdit
-                                      onClick={() => {
-                                        history.push({
-                                          pathname: `/production-management/msil-Rolling/BilletConsumption/edit/${item?.intBilletConsumptionId}`,
-                                          state: { ...item },
-                                        });
-                                      }}
-                                    />
+                    <div className="table-responsive">
+                      <table className="table table-striped table-bordered bj-table bj-table-landing">
+                        <thead>
+                          <tr>
+                            <th style={{ minWidth: "50px" }}>SL</th>
+                            <th>Date</th>
+                            <th>Shift</th>
+                            <th>Main Product Name</th>
+                            <th style={{ minWidth: "250px" }}>
+                              Re-Heating Billet Consumed Wt Kgs Per Billet
+                            </th>
+                            <th>Re-Heating Billet Consumed in Pcs</th>
+                            <th>Re-Heating Billet Consumed in Kgs</th>
+                            <th style={{ minWidth: "250px" }}>
+                              Direct Charging Billet Consumed Wt Kgs Per Billet
+                            </th>
+                            <th style={{ minWidth: "250px" }}>
+                              Direct Charging Billet Consumed in Pcs
+                            </th>
+                            <th style={{ minWidth: "250px" }}>
+                              Direct Charging Billet Consumed in Kgs
+                            </th>
+                            <th>Total Billet consumption in pcs</th>
+                            <th>Total Billet Consumed in Kgs</th>
+                            <th style={{ minWidth: "60px" }}>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {landigData?.data?.length > 0 &&
+                            landigData?.data?.map((item, index) => (
+                              <tr key={index}>
+                                <td>{index + 1}</td>
+                                <td className="text-center">
+                                  {_dateFormatter(item?.dteDate)}
+                                </td>
+                                <td className="text-center">
+                                  {item?.strShift}
+                                </td>
+                                <td>{item?.strMainItemName}</td>
+                                <td className="text-center">
+                                  {item?.numReHeatingBilletConsumedWtKgsPerBillet.toFixed(
+                                    2
+                                  )}
+                                </td>
+                                <td className="text-center">
+                                  {item?.intReHeatingBilletConsumedInPcs.toFixed(
+                                    2
+                                  )}
+                                </td>
+                                <td className="text-center">
+                                  {item?.numReHeatingBilletConsumedInKgsCal.toFixed(
+                                    2
+                                  )}
+                                </td>
+                                <td className="text-center">
+                                  {item?.numDirectChargingBilletConsumedWtKgsPerBillet.toFixed(
+                                    2
+                                  )}
+                                </td>
+                                <td className="text-center">
+                                  {item?.intDirectChargingBilletConsumedInPcs.toFixed(
+                                    2
+                                  )}
+                                </td>
+                                <td className="text-center">
+                                  {item?.numDirectChargingBilletConsumedInKgsCal.toFixed(
+                                    2
+                                  )}
+                                </td>
+                                <td className="text-center">
+                                  {item?.intTotalBilletConsumptionInPcsCal.toFixed(
+                                    2
+                                  )}
+                                </td>
+                                <td className="text-center">
+                                  {item?.numTotalBilletConsumptionInKgsCal.toFixed(
+                                    2
+                                  )}
+                                </td>
+                                <td className="text-center">
+                                  <div className="d-flex justify-content-between">
+                                    <div>
+                                      <IEdit
+                                        onClick={() => {
+                                          history.push({
+                                            pathname: `/production-management/msil-Rolling/BilletConsumption/edit/${item?.intBilletConsumptionId}`,
+                                            state: { ...item },
+                                          });
+                                        }}
+                                      />
+                                    </div>
+                                    <div>
+                                      <span
+                                        className="delete-btn"
+                                        onClick={() => {
+                                          rowDeleteHandler(
+                                            item?.intBilletConsumptionId,
+                                            values
+                                          );
+                                        }}
+                                      >
+                                        <IDelete />
+                                      </span>
+                                    </div>
                                   </div>
-                                  <div>
-                                    <span
-                                    className="delete-btn"
-                                      onClick={() => {
-                                        rowDeleteHandler(
-                                          item?.intBilletConsumptionId,
-                                          values
-                                        );
-                                      }}
-                                    >
-                                      <IDelete />
-                                    </span>
-                                  </div>
-                                </div>
-                              </td>
-                            </tr>
-                          ))}
-                      </tbody>
-                    </table>
+                                </td>
+                              </tr>
+                            ))}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                   {landigData?.data?.length > 0 && (
                     <PaginationTable

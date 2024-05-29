@@ -1,26 +1,24 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
-import { shallowEqual } from "react-redux";
+import { Form, Formik } from "formik";
+import React, { useEffect, useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
 import {
-  getLandingData,
   GetSupplierFuelStationDDL_api,
-  getSupplierDDL,
   GetVehicleFuelTypeDDL_api,
+  getLandingData,
+  getSupplierDDL,
 } from "../helper";
-import { Formik } from "formik";
-import { Form } from "formik";
 import "../style.css";
 
 // React Pivote Table module Import
 import "react-pivottable/pivottable.css";
-import { _todayDate } from "../../../../_helper/_todayDate";
 import ICustomCard from "../../../../_helper/_customCard";
-import Loading from "../../../../_helper/_loading";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import { _formatMoney } from "../../../../_helper/_formatMoney";
+import InputField from "../../../../_helper/_inputField";
+import Loading from "../../../../_helper/_loading";
+import NewSelect from "../../../../_helper/_select";
+import { _todayDate } from "../../../../_helper/_todayDate";
 
 const initData = {
   fromDate: _todayDate(),
@@ -159,6 +157,7 @@ function VehicleFuelCostReport() {
                         placeholder="From date"
                         type="date"
                         max={_todayDate()}
+                        style={{width: "100%"}}
                       />
                     </div>
                   </div>
@@ -171,6 +170,7 @@ function VehicleFuelCostReport() {
                         placeholder="To date"
                         type="date"
                         max={_todayDate()}
+                        style={{width: "100%"}}
                       />
                     </div>
                   </div>
@@ -196,6 +196,7 @@ function VehicleFuelCostReport() {
                   </div>
                 </div>
 
+                <div className="table-responsive">
                 <table className="table table-striped table-bordered global-table">
                   <thead>
                     <tr>
@@ -269,6 +270,7 @@ function VehicleFuelCostReport() {
                     ) : null}
                   </tbody>
                 </table>
+                </div>
               </Form>
             </>
           )}

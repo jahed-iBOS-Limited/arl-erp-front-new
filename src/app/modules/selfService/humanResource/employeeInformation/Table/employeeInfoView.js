@@ -43,6 +43,7 @@ function EmployeeInfoView({ id }) {
           <div className="col-lg-12 heading">Basic Information</div>
           <div className="row col-lg-12 first-div">
             <div className="col-lg-8 div-one">
+            <div className="table-responsive">
               <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
                 <tr>
                   <td>
@@ -184,6 +185,7 @@ function EmployeeInfoView({ id }) {
                   <td></td>
                 </tr>
               </table>
+              </div>
             </div>
             {/* Please Check The Image First */}
             <div className="col-lg-4 css-div-two div-two">
@@ -203,6 +205,7 @@ function EmployeeInfoView({ id }) {
               Administrative Information
             </div>
             <div className="col-lg-12">
+            <div className="table-responsive">
               <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
                 <tr>
                   <td>
@@ -253,6 +256,7 @@ function EmployeeInfoView({ id }) {
                   </td>
                 </tr>
               </table>
+              </div>
             </div>
           </div>
           {/* Administrative Information End */}
@@ -260,6 +264,7 @@ function EmployeeInfoView({ id }) {
           {/* Bank Information Start */}
           <div className="row col-lg-12 mx-0">
             <div className="col-lg-12 mt-3 px-0 heading">Bank Information</div>
+            <div className="table-responsive">
             <table className="table table-striped table-bordered bj-table bj-table-landing sales_order_landing_table">
               <thead>
                 <tr>
@@ -289,6 +294,7 @@ function EmployeeInfoView({ id }) {
                   ))}
               </tbody>
             </table>
+            </div>
           </div>
           {/* Bank Information End */}
 
@@ -296,6 +302,7 @@ function EmployeeInfoView({ id }) {
           <div className="row col-lg-12 ">
             <div className="col-lg-12 mt-3 heading">Personal Information</div>
             <div className="col-lg-12">
+            <div className="table-responsive">
               <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
                 <tr>
                   <td>
@@ -398,6 +405,7 @@ function EmployeeInfoView({ id }) {
                   <td></td>
                 </tr>
               </table>
+              </div>
             </div>
           </div>
           {/* Personal Information End */}
@@ -407,6 +415,7 @@ function EmployeeInfoView({ id }) {
             <div className="col-lg-12 mt-3 px-0 heading">
               Family Information
             </div>
+            <div className="table-responsive">
             <table className="table table-striped table-bordered bj-table bj-table-landing sales_order_landing_table">
               <thead>
                 <tr>
@@ -436,6 +445,7 @@ function EmployeeInfoView({ id }) {
                   ))}
               </tbody>
             </table>
+            </div>
           </div>
           {/* Family Information End */}
 
@@ -444,6 +454,7 @@ function EmployeeInfoView({ id }) {
             <div className="col-lg-12 mt-3 px-0 heading">
               Others Contact Information
             </div>
+            <div className="table-responsive">
             <table className="table table-striped table-bordered bj-table bj-table-landing sales_order_landing_table">
               <thead>
                 <tr>
@@ -469,6 +480,7 @@ function EmployeeInfoView({ id }) {
                   ))}
               </tbody>
             </table>
+            </div>
           </div>
           {/* Others Contact Information End */}
 
@@ -477,6 +489,7 @@ function EmployeeInfoView({ id }) {
             <div className="col-lg-12 mt-3 px-0 heading">
               Educational Information
             </div>
+            <div className="table-responsive">
             <table className="table table-striped table-bordered bj-table bj-table-landing sales_order_landing_table">
               <thead>
                 <tr>
@@ -506,12 +519,14 @@ function EmployeeInfoView({ id }) {
                   ))}
               </tbody>
             </table>
+            </div>
           </div>
           {/* Educational Information End */}
 
           {/* Work Experience Start */}
           <div className="row col-lg-12 mx-0">
             <div className="col-lg-12 mt-3 px-0 heading">Work Experience</div>
+            <div className="table-responsive">
             <table className="table table-striped table-bordered bj-table bj-table-landing sales_order_landing_table">
               <thead>
                 <tr>
@@ -546,6 +561,7 @@ function EmployeeInfoView({ id }) {
                   ))}
               </tbody>
             </table>
+            </div>
           </div>
           {/* Work Experience End */}
 
@@ -554,6 +570,7 @@ function EmployeeInfoView({ id }) {
             <div className="col-lg-12 mt-3 px-0 heading">
               Training/Certification Information{" "}
             </div>
+            <div className="table-responsive">
             <table className="table table-striped table-bordered bj-table bj-table-landing sales_order_landing_table">
               <thead>
                 <tr>
@@ -586,6 +603,7 @@ function EmployeeInfoView({ id }) {
                   ))}
               </tbody>
             </table>
+            </div>
           </div>
           {/* Training/Certification Information End */}
 
@@ -594,6 +612,7 @@ function EmployeeInfoView({ id }) {
             <div className="col-lg-12 mt-3 px-0 heading">
               Nominee Information
             </div>
+            <div className="table-responsive">
             <table className="table table-striped table-bordered bj-table bj-table-landing sales_order_landing_table">
               <thead>
                 <tr>
@@ -623,6 +642,7 @@ function EmployeeInfoView({ id }) {
                   ))}
               </tbody>
             </table>
+            </div>
           </div>
           {/* Nominee Information End */}
         </div>

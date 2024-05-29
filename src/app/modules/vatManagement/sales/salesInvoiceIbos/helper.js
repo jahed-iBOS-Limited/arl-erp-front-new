@@ -135,13 +135,16 @@ export const createSalesInvoiceIbosPrint_api = async (
   setTaxSalesInvoiceById,
   setModelShow,
   updateRowDto,
-  setRowDto
+  setRowDto,
+  setLoading
 ) => {
+  setRowDto &&setLoading(true);
   try {
     const res = await Axios.post(
       `/vat/TaxSalesInvoiceIbos/CreateSalesInvoiceIbos`,
       data
     );
+    setRowDto &&setLoading(false);
     if (res.status === 200) {
       toast.success("Submitted Successfully", {
         toastId: shortid(),
@@ -150,7 +153,9 @@ export const createSalesInvoiceIbosPrint_api = async (
       setModelShow(true);
       setRowDto(updateRowDto);
     }
+    setRowDto &&setLoading(false);
   } catch (error) {
+    setRowDto &&setLoading(false);
     toast.error(error?.response?.data?.message);
   }
 };

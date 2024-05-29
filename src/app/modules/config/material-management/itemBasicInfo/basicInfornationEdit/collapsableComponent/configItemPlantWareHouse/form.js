@@ -786,7 +786,7 @@ export default function _Form({
                         label="Gross Weight (Kg)"
                         type="number"
                         // disabled={rowDto?.length > 1 || isEdit}
-                        min="0"
+                        // min="0"
                       />
                     </div>
                     <div className="col-lg-3">
@@ -798,7 +798,7 @@ export default function _Form({
                         label="Net Weight (Kg)"
                         type="number"
                         // disabled={rowDto?.length > 1 || isEdit}
-                        min="0"
+                        // min="0"
                       />
                     </div>
                     {/* <div className="col-lg-3" style={{ margin: "20px 0" }}>
@@ -912,6 +912,7 @@ export default function _Form({
                     )}
                   </>
                 )}
+                <div className="table-responsive">
                 <table className="table table-striped table-bordered my-5 global-table">
                   <thead>
                     <tr className="text-center">
@@ -961,6 +962,7 @@ export default function _Form({
                       ))}
                   </tbody>
                 </table>{" "}
+                </div>
               </>
 
               {/* </div> */}

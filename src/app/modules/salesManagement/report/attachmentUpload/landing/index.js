@@ -91,71 +91,76 @@ function AttachmentUpload() {
                   </div>
                 </div>
                 {gridData?.data?.length > 0 && (
-                  <table className="table table-striped table-bordered bj-table bj-table-landing">
-                    <thead>
-                      <tr>
-                        <th style={{ width: "30px" }}>SL</th>
-                        <th>Report Type</th>
-                        {buId === 175 && values?.type?.value === 1 && (
-                          <>
-                            <th>Party Name</th>
-                            <th>Casting Date</th>
-                            <th>Test report Date</th>
-                            <th>PSI</th>
-                            <th>Delivery Qty</th>
-                          </>
-                        )}
-                        <th style={{ width: "90px" }}>Attached File</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {gridData?.data?.map((td, index) => (
-                        <tr key={index}>
-                          <td className="text-center">{index + 1}</td>
-                          <td> {td?.strTypeName} </td>
+                  <div className="table-responsive">
+                    <table className="table table-striped table-bordered bj-table bj-table-landing">
+                      <thead>
+                        <tr>
+                          <th style={{ width: "30px" }}>SL</th>
+                          <th>Report Type</th>
                           {buId === 175 && values?.type?.value === 1 && (
                             <>
-                              <td> {td?.strBusinessPartnerName} </td>
-                              <td> {_dateFormatter(td?.dteCastingDate)} </td>
-                              <td> {_dateFormatter(td?.dteTestReportDate)} </td>
-                              <td> {td?.strItemName} </td>
-                              <td className="text-right">
-                                {td?.numDeliveryQty}{" "}
-                              </td>
+                              <th>Party Name</th>
+                              <th>Casting Date</th>
+                              <th>Test report Date</th>
+                              <th>PSI</th>
+                              <th>Delivery Qty</th>
                             </>
                           )}
-                          <td className="text-center">
-                            <ICon
-                              title={
-                                td?.strAttatchment
-                                  ? "View Attached File"
-                                  : "No File Attached!"
-                              }
-                              onClick={() => {
-                                if (td?.strAttatchment) {
-                                  dispatch(
-                                    getDownlloadFileView_Action(
-                                      td?.strAttatchment
-                                    )
-                                  );
-                                } else {
-                                  toast.warn("No File Attached!");
-                                }
-                              }}
-                            >
-                              {td?.strAttachmentTypeName === "img" ? (
-                                <i class="far fa-file-image"></i>
-                              ) : td?.strAttachmentTypeName === "pdf" ? (
-                                <i class="far fa-file-pdf"></i>
-                              ) : (
-                                <i class="far fa-file-exclamation"></i>
-                              )}
-                            </ICon>
-                          </td>
+                          <th style={{ width: "90px" }}>Attached File</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody>
+                        {gridData?.data?.map((td, index) => (
+                          <tr key={index}>
+                            <td className="text-center">{index + 1}</td>
+                            <td> {td?.strTypeName} </td>
+                            {buId === 175 && values?.type?.value === 1 && (
+                              <>
+                                <td> {td?.strBusinessPartnerName} </td>
+                                <td> {_dateFormatter(td?.dteCastingDate)} </td>
+                                <td>
+                                  {" "}
+                                  {_dateFormatter(td?.dteTestReportDate)}{" "}
+                                </td>
+                                <td> {td?.strItemName} </td>
+                                <td className="text-right">
+                                  {td?.numDeliveryQty}{" "}
+                                </td>
+                              </>
+                            )}
+                            <td className="text-center">
+                              <ICon
+                                title={
+                                  td?.strAttatchment
+                                    ? "View Attached File"
+                                    : "No File Attached!"
+                                }
+                                onClick={() => {
+                                  if (td?.strAttatchment) {
+                                    dispatch(
+                                      getDownlloadFileView_Action(
+                                        td?.strAttatchment
+                                      )
+                                    );
+                                  } else {
+                                    toast.warn("No File Attached!");
+                                  }
+                                }}
+                              >
+                                {td?.strAttachmentTypeName === "img" ? (
+                                  <i class="far fa-file-image"></i>
+                                ) : td?.strAttachmentTypeName === "pdf" ? (
+                                  <i class="far fa-file-pdf"></i>
+                                ) : (
+                                  <i class="far fa-file-exclamation"></i>
+                                )}
+                              </ICon>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 )}
 
                 {gridData?.data?.length > 0 && (

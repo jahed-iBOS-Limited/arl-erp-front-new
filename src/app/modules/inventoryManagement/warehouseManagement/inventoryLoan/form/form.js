@@ -22,6 +22,7 @@ export default function _Form({
   resetBtnRef,
   profileData,
   selectedBusinessUnit,
+  getAvailableStock,
 }) {
   const [shipmentDDL, setShipmentDDL] = useState([]);
   const [partnerDDL, setPartnerDDL] = useState([]);
@@ -307,6 +308,7 @@ export default function _Form({
                             }`,
                             (data) => setFieldValue("itemRate", data)
                           );
+                          getAvailableStock(`/wms/InventoryTransaction/sprRuningQty?businessUnitId=${selectedBusinessUnit?.value}&whId=${values?.warehouse?.value}&itemId=${valueOption?.value}`)
                         } else {
                           setFieldValue("itemRate", "");
                         }

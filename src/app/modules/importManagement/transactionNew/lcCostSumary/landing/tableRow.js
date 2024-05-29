@@ -130,176 +130,192 @@ export default function TableRow() {
                         paginationSearchHandler={paginationSearchHandler}
                         values={values}
                       />
-
-                      <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
-                        <thead>
-                          <tr>
-                            <th style={{ width: "20px" }}>SL</th>
-                            <th>Particles</th>
-                            <th style={{ width: "150px" }}>Amount BDT</th>
-                            <th style={{ width: "150px" }}>Amount (BDT)</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td>1</td>
-                            <td>Invoice Amount BDT</td>
-                            <td className="text-right">12000</td>
-                            <td className="text-right"></td>
-                          </tr>
-                          <tr>
-                            <td>2</td>
-                            <td>Total Customs</td>
-                            <td className="text-right">12000</td>
-                            <td className="text-right"></td>
-                          </tr>
-                          <tr>
-                            <td>3</td>
-                            <td>Port Charges</td>
-                            <td className="text-right">12000</td>
-                            <td className="text-right"></td>
-                          </tr>
-                          <tr>
-                            <td>4</td>
-                            <td>Shipping Charges</td>
-                            <td className="text-right">12000</td>
-                            <td className="text-right"></td>
-                          </tr>
-                          <tr>
-                            <td>5</td>
-                            <td>CNF Payment</td>
-                            <td className="text-right">12000</td>
-                            <td className="text-right"></td>
-                          </tr>
-                          <tr>
-                            <td>6</td>
-                            <td>Transport</td>
-                            <td className="text-right">12000</td>
-                            <td className="text-right"></td>
-                          </tr>
-                          <tr>
-                            <td>7</td>
-                            <td>Inspectin/Survey</td>
-                            <td className="text-right">12000</td>
-                            <td className="text-right"></td>
-                          </tr>
-                          <tr>
-                            <td>8</td>
-                            <td>Cleaning</td>
-                            <td className="text-right">12000</td>
-                            <td className="text-right"></td>
-                          </tr>
-                          <tr>
-                            <td>9</td>
-                            <td>Unloading</td>
-                            <td className="text-right">12000</td>
-                            <td className="text-right"></td>
-                          </tr>
-                          <tr>
-                            <td>10</td>
-                            <td>Insurance</td>
-                            <td className="text-right">12000</td>
-                            <td className="text-right"></td>
-                          </tr>
-                          <tr>
-                            <td>11</td>
-                            <td>Document Acceptnce/Release</td>
-                            <td className="text-right">12000</td>
-                            <td className="text-right"></td>
-                          </tr>
-                          <tr>
-                            <td>12</td>
-                            <td>Bank Charge and Commission</td>
-                            <td className="text-right">12000</td>
-                            <td className="text-right"></td>
-                          </tr>
-                          <tr>
-                            <td>13</td>
-                            <td>Interest Paid</td>
-                            <td className="text-right">12000</td>
-                            <td className="text-right"></td>
-                          </tr>
-                          <tr>
-                            <td></td>
-                            <td
-                              colspan="1"
-                              style={{ fontWeight: "900", textAlign: "right" }}
-                            >
-                              Interest Paid
-                            </td>
-                            <td></td>
-                            <td
-                              style={{ fontWeight: "900", textAlign: "right" }}
-                            >
-                              12000
-                            </td>
-                          </tr>
-                          <tr>
-                            <td></td>
-                            <td
-                              style={{ fontWeight: "900", textAlign: "right" }}
-                              colspan="1"
-                            >
-                              Deductions
-                            </td>
-                            <td></td>
-                            <td></td>
-                          </tr>
-                          <tr>
-                            <td>14</td>
-                            <td>VAT(100%)</td>
-                            <td className="text-right">12000</td>
-                            <td className="text-right"></td>
-                          </tr>
-                          <tr>
-                            <td>15</td>
-                            <td>AT</td>
-                            <td className="text-right">12000</td>
-                            <td className="text-right"></td>
-                          </tr>
-                          <tr>
-                            <td>16</td>
-                            <td>ANT</td>
-                            <td className="text-right">12000</td>
-                            <td className="text-right"></td>
-                          </tr>
-                          <tr>
-                            <td></td>
-                            <td
-                              colspan="1"
-                              style={{ fontWeight: "900", textAlign: "right" }}
-                            >
-                              Total Deduction of VAT and TAX
-                            </td>
-                            <td className="text-right"></td>
-                            <td
-                              className="text-right"
-                              style={{ fontWeight: "900" }}
-                            >
-                              12000
-                            </td>
-                          </tr>
-                          <tr>
-                            <td></td>
-                            <td
-                              colspan="1"
-                              style={{ fontWeight: "900", textAlign: "right" }}
-                            >
-                              Net Landing Cost Excluding VAT and TAX
-                            </td>
-                            <td className="text-right"></td>
-                            <td
-                              className="text-right"
-                              style={{ fontWeight: "900" }}
-                            >
-                              12000
-                            </td>
-                          </tr>
-                          {/* {gridData?.data?.length > 0 &&
+                      <div className="react-bootstrap-table table-responsive">
+                        <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+                          <thead>
+                            <tr>
+                              <th style={{ width: "20px" }}>SL</th>
+                              <th>Particles</th>
+                              <th style={{ width: "150px" }}>Amount BDT</th>
+                              <th style={{ width: "150px" }}>Amount (BDT)</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td>1</td>
+                              <td>Invoice Amount BDT</td>
+                              <td className="text-right">12000</td>
+                              <td className="text-right"></td>
+                            </tr>
+                            <tr>
+                              <td>2</td>
+                              <td>Total Customs</td>
+                              <td className="text-right">12000</td>
+                              <td className="text-right"></td>
+                            </tr>
+                            <tr>
+                              <td>3</td>
+                              <td>Port Charges</td>
+                              <td className="text-right">12000</td>
+                              <td className="text-right"></td>
+                            </tr>
+                            <tr>
+                              <td>4</td>
+                              <td>Shipping Charges</td>
+                              <td className="text-right">12000</td>
+                              <td className="text-right"></td>
+                            </tr>
+                            <tr>
+                              <td>5</td>
+                              <td>CNF Payment</td>
+                              <td className="text-right">12000</td>
+                              <td className="text-right"></td>
+                            </tr>
+                            <tr>
+                              <td>6</td>
+                              <td>Transport</td>
+                              <td className="text-right">12000</td>
+                              <td className="text-right"></td>
+                            </tr>
+                            <tr>
+                              <td>7</td>
+                              <td>Inspectin/Survey</td>
+                              <td className="text-right">12000</td>
+                              <td className="text-right"></td>
+                            </tr>
+                            <tr>
+                              <td>8</td>
+                              <td>Cleaning</td>
+                              <td className="text-right">12000</td>
+                              <td className="text-right"></td>
+                            </tr>
+                            <tr>
+                              <td>9</td>
+                              <td>Unloading</td>
+                              <td className="text-right">12000</td>
+                              <td className="text-right"></td>
+                            </tr>
+                            <tr>
+                              <td>10</td>
+                              <td>Insurance</td>
+                              <td className="text-right">12000</td>
+                              <td className="text-right"></td>
+                            </tr>
+                            <tr>
+                              <td>11</td>
+                              <td>Document Acceptnce/Release</td>
+                              <td className="text-right">12000</td>
+                              <td className="text-right"></td>
+                            </tr>
+                            <tr>
+                              <td>12</td>
+                              <td>Bank Charge and Commission</td>
+                              <td className="text-right">12000</td>
+                              <td className="text-right"></td>
+                            </tr>
+                            <tr>
+                              <td>13</td>
+                              <td>Interest Paid</td>
+                              <td className="text-right">12000</td>
+                              <td className="text-right"></td>
+                            </tr>
+                            <tr>
+                              <td></td>
+                              <td
+                                colspan="1"
+                                style={{
+                                  fontWeight: "900",
+                                  textAlign: "right",
+                                }}
+                              >
+                                Interest Paid
+                              </td>
+                              <td></td>
+                              <td
+                                style={{
+                                  fontWeight: "900",
+                                  textAlign: "right",
+                                }}
+                              >
+                                12000
+                              </td>
+                            </tr>
+                            <tr>
+                              <td></td>
+                              <td
+                                style={{
+                                  fontWeight: "900",
+                                  textAlign: "right",
+                                }}
+                                colspan="1"
+                              >
+                                Deductions
+                              </td>
+                              <td></td>
+                              <td></td>
+                            </tr>
+                            <tr>
+                              <td>14</td>
+                              <td>VAT(100%)</td>
+                              <td className="text-right">12000</td>
+                              <td className="text-right"></td>
+                            </tr>
+                            <tr>
+                              <td>15</td>
+                              <td>AT</td>
+                              <td className="text-right">12000</td>
+                              <td className="text-right"></td>
+                            </tr>
+                            <tr>
+                              <td>16</td>
+                              <td>ANT</td>
+                              <td className="text-right">12000</td>
+                              <td className="text-right"></td>
+                            </tr>
+                            <tr>
+                              <td></td>
+                              <td
+                                colspan="1"
+                                style={{
+                                  fontWeight: "900",
+                                  textAlign: "right",
+                                }}
+                              >
+                                Total Deduction of VAT and TAX
+                              </td>
+                              <td className="text-right"></td>
+                              <td
+                                className="text-right"
+                                style={{ fontWeight: "900" }}
+                              >
+                                12000
+                              </td>
+                            </tr>
+                            <tr>
+                              <td></td>
+                              <td
+                                colspan="1"
+                                style={{
+                                  fontWeight: "900",
+                                  textAlign: "right",
+                                }}
+                              >
+                                Net Landing Cost Excluding VAT and TAX
+                              </td>
+                              <td className="text-right"></td>
+                              <td
+                                className="text-right"
+                                style={{ fontWeight: "900" }}
+                              >
+                                12000
+                              </td>
+                            </tr>
+                            {/* {gridData?.data?.length > 0 &&
                             gridData?.data?.map((item, index) => (
                             ))} */}
-                        </tbody>
-                      </table>
+                          </tbody>
+                        </table>
+                      </div>
                     </div>
                     {gridData?.data?.length > 0 && (
                       <PaginationTable

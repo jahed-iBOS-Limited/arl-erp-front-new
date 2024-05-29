@@ -9,7 +9,12 @@ import FormikError from "../../../../../../_helper/_formikError";
 import SearchAsyncSelect from "../../../../../../_helper/SearchAsyncSelect";
 import { IInput } from "../../../../../../_helper/_input";
 import IDelete from "../../../../../../_helper/_helperIcons/_delete";
-import { getCostCenterDDL, getCostElementDDL, getRevenueCenterListDDL, getRevenueElementListDDL } from "../helper";
+import {
+  getCostCenterDDL,
+  getCostElementDDL,
+  getRevenueCenterListDDL,
+  getRevenueElementListDDL,
+} from "../helper";
 
 export default function _Form({
   initData,
@@ -28,10 +33,10 @@ export default function _Form({
   profileData,
 }) {
   const [partnerType, setPartnerType] = useState("");
-  const [costCenterDDL, setCostCenterDDL] = useState([])
-  const [costElementDDL, setCostElementDDL] = useState([])
-  const [revenueCenterDDL, setRevenueCenterDDL] = useState([])
-  const [revenueElementDDL, setRevenueElementDDL] = useState([])
+  const [costCenterDDL, setCostCenterDDL] = useState([]);
+  const [costElementDDL, setCostElementDDL] = useState([]);
+  const [revenueCenterDDL, setRevenueCenterDDL] = useState([]);
+  const [revenueElementDDL, setRevenueElementDDL] = useState([]);
 
   const loadTransactionList = (v) => {
     if (v?.length < 3) return [];
@@ -71,11 +76,19 @@ export default function _Form({
     return (credit || 0).toFixed(4);
   };
   useEffect(() => {
-    getCostElementDDL( selectedBusinessUnit.value, profileData.accountId, setCostElementDDL);
-    getCostCenterDDL( selectedBusinessUnit.value, profileData.accountId, setCostCenterDDL);
-    getRevenueElementListDDL(selectedBusinessUnit.value,setRevenueElementDDL)
-    getRevenueCenterListDDL(selectedBusinessUnit.value,setRevenueCenterDDL)
-  }, [profileData,selectedBusinessUnit]);
+    getCostElementDDL(
+      selectedBusinessUnit.value,
+      profileData.accountId,
+      setCostElementDDL
+    );
+    getCostCenterDDL(
+      selectedBusinessUnit.value,
+      profileData.accountId,
+      setCostCenterDDL
+    );
+    getRevenueElementListDDL(selectedBusinessUnit.value, setRevenueElementDDL);
+    getRevenueCenterListDDL(selectedBusinessUnit.value, setRevenueCenterDDL);
+  }, [profileData, selectedBusinessUnit]);
 
   return (
     <>
@@ -240,16 +253,19 @@ export default function _Form({
                         touched={touched}
                       />
                     </div>
-                    <div style={{ marginTop: "10px" }}className="col-lg-10 d-flex" >
+                    <div
+                      style={{ marginTop: "10px" }}
+                      className="col-lg-10 d-flex"
+                    >
                       <Field
                         id="cost"
                         type="radio"
                         name="costRevenue"
                         value="cost"
-                        onChange={(e)=>{
-                          setFieldValue("costRevenue", e.target.value)
-                          setFieldValue("revenueCenter", "")
-                          setFieldValue("revenueElement", "")
+                        onChange={(e) => {
+                          setFieldValue("costRevenue", e.target.value);
+                          setFieldValue("revenueCenter", "");
+                          setFieldValue("revenueElement", "");
                         }}
                       />
                       <label
@@ -265,10 +281,10 @@ export default function _Form({
                         type="radio"
                         name="costRevenue"
                         value="revenue"
-                        onChange={(e)=>{
-                          setFieldValue("costRevenue", e.target.value)
-                          setFieldValue("costCenter", "")
-                          setFieldValue("costElement", "")
+                        onChange={(e) => {
+                          setFieldValue("costRevenue", e.target.value);
+                          setFieldValue("costCenter", "");
+                          setFieldValue("costElement", "");
                         }}
                       />
                       <label
@@ -279,87 +295,87 @@ export default function _Form({
                         Revenue
                       </label>
                     </div>
-                     {/* it will be changed if user select bank receipt from previous page */}
-                     {values?.costRevenue === "revenue" ? (
-                      <div className="d-flex"  style={{ marginTop: "10px" }}>
-                         <div className="col-lg-6  mb-2">
-                            <label>Revenue Center</label>
-                            <Select
-                              onChange={(valueOption) => {
-                                setFieldValue("revenueCenter", valueOption);
-                              }}
-                              value={values?.revenueCenter}
-                              options={revenueCenterDDL||[]}
-                              isSearchable={true}
-                              styles={customStyles}
-                              placeholder="Revenue Center"
-                              isDisabled={!values?.costRevenue}
-                            />
-                            <FormikError
-                              errors={errors}
-                              name="revenueCenter"
-                              touched={touched}
-                            />
+                    {/* it will be changed if user select bank receipt from previous page */}
+                    {values?.costRevenue === "revenue" ? (
+                      <div className="d-flex" style={{ marginTop: "10px" }}>
+                        <div className="col-lg-6  mb-2">
+                          <label>Revenue Center</label>
+                          <Select
+                            onChange={(valueOption) => {
+                              setFieldValue("revenueCenter", valueOption);
+                            }}
+                            value={values?.revenueCenter}
+                            options={revenueCenterDDL || []}
+                            isSearchable={true}
+                            styles={customStyles}
+                            placeholder="Revenue Center"
+                            isDisabled={!values?.costRevenue}
+                          />
+                          <FormikError
+                            errors={errors}
+                            name="revenueCenter"
+                            touched={touched}
+                          />
                         </div>
                         <div className="col-lg-6 pr  mb-2">
-                            <label>Revenue Element</label>
-                            <Select
-                              onChange={(valueOption) => {
-                                setFieldValue("revenueElement", valueOption);
-                              }}
-                              value={values?.revenueElement}
-                              options={revenueElementDDL||[]}
-                              isSearchable={true}
-                              styles={customStyles}
-                              placeholder="Revenue Element"
-                              isDisabled={!values?.costRevenue}
-                            />
-                            <FormikError
-                              errors={errors}
-                              name="revenueElement"
-                              touched={touched}
-                            />
+                          <label>Revenue Element</label>
+                          <Select
+                            onChange={(valueOption) => {
+                              setFieldValue("revenueElement", valueOption);
+                            }}
+                            value={values?.revenueElement}
+                            options={revenueElementDDL || []}
+                            isSearchable={true}
+                            styles={customStyles}
+                            placeholder="Revenue Element"
+                            isDisabled={!values?.costRevenue}
+                          />
+                          <FormikError
+                            errors={errors}
+                            name="revenueElement"
+                            touched={touched}
+                          />
                         </div>
                       </div>
-                    ):(
-                      <div className="d-flex"  style={{ marginTop: "10px" }}>
-                         <div className="col-lg-6 mb-2">
-                            <label>Cost Center</label>
-                            <Select
-                              onChange={(valueOption) => {
-                                setFieldValue("costCenter", valueOption);
-                              }}
-                              value={values?.costCenter}
-                              options={costCenterDDL||[]}
-                              isSearchable={true}
-                              styles={customStyles}
-                              placeholder="Cost Center"
-                              isDisabled={!values?.costRevenue}
-                            />
-                            <FormikError
-                              errors={errors}
-                              name="costCenter"
-                              touched={touched}
-                            />
+                    ) : (
+                      <div className="d-flex" style={{ marginTop: "10px" }}>
+                        <div className="col-lg-6 mb-2">
+                          <label>Cost Center</label>
+                          <Select
+                            onChange={(valueOption) => {
+                              setFieldValue("costCenter", valueOption);
+                            }}
+                            value={values?.costCenter}
+                            options={costCenterDDL || []}
+                            isSearchable={true}
+                            styles={customStyles}
+                            placeholder="Cost Center"
+                            isDisabled={!values?.costRevenue}
+                          />
+                          <FormikError
+                            errors={errors}
+                            name="costCenter"
+                            touched={touched}
+                          />
                         </div>
                         <div className="col-lg-6 pr  mb-2">
-                            <label>Cost Element</label>
-                            <Select
-                              onChange={(valueOption) => {
-                                setFieldValue("costElement", valueOption);
-                              }}
-                              value={values?.costElement}
-                              options={costElementDDL||[]}
-                              isSearchable={true}
-                              styles={customStyles}
-                              placeholder="Cost Element"
-                              isDisabled={!values?.costRevenue}
-                            />
-                            <FormikError
-                              errors={errors}
-                              name="costElement"
-                              touched={touched}
-                            />
+                          <label>Cost Element</label>
+                          <Select
+                            onChange={(valueOption) => {
+                              setFieldValue("costElement", valueOption);
+                            }}
+                            value={values?.costElement}
+                            options={costElementDDL || []}
+                            isSearchable={true}
+                            styles={customStyles}
+                            placeholder="Cost Element"
+                            isDisabled={!values?.costRevenue}
+                          />
+                          <FormikError
+                            errors={errors}
+                            name="costElement"
+                            touched={touched}
+                          />
                         </div>
                       </div>
                     )}
@@ -420,97 +436,99 @@ export default function _Form({
                     <div className="col-lg-12 pr-0">
                       <div>
                         {rowDto.length > 0 ? (
-                          <table className="table table-striped table-bordered mt-1 bj-table">
-                            <thead>
-                              <tr>
-                                <th>SL</th>
-                                <th>General Ledger</th>
-                                <th>Transaction</th>
-                                <th>Debit</th>
-                                <th>Credit</th>
-                                <th>Narration</th>
-                                <th>Action</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {rowDto.map((itm, idx) => {
-                                return (
-                                  <tr key={itm?.transactionId}>
-                                    <td>{idx + 1}</td>
-                                    <td>
-                                      <div className="text-left pl-2">
-                                        {itm?.gl?.label}
-                                      </div>
-                                    </td>
-                                    <td>
-                                      <div className="text-left pl-2">
-                                        {itm?.transaction?.label}
-                                      </div>
-                                    </td>
-                                    {itm?.debitCredit === "Debit" ? (
-                                      <td style={{ width: "145px" }}>
-                                        <div className="text-center">
-                                          {/* {Math.abs(itm?.amount)} */}
-                                          <input
-                                            value={Math.abs(itm?.amount)}
-                                            onChange={(e) => {
-                                              // let amount =
-                                              //   itm?.debitCredit === "Credit"
-                                              //     ? -1 * e.target.value
-                                              //     : e.target.value;
-                                              rowDtoHandler(
-                                                idx,
-                                                "amount",
-                                                e.target.value
-                                              );
-                                            }}
-                                          />
+                          <div className="table-responsive">
+                            <table className="table table-striped table-bordered mt-1 bj-table">
+                              <thead>
+                                <tr>
+                                  <th>SL</th>
+                                  <th>General Ledger</th>
+                                  <th>Transaction</th>
+                                  <th>Debit</th>
+                                  <th>Credit</th>
+                                  <th>Narration</th>
+                                  <th>Action</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {rowDto.map((itm, idx) => {
+                                  return (
+                                    <tr key={itm?.transactionId}>
+                                      <td>{idx + 1}</td>
+                                      <td>
+                                        <div className="text-left pl-2">
+                                          {itm?.gl?.label}
                                         </div>
                                       </td>
-                                    ) : (
-                                      <td>{""}</td>
-                                    )}
-                                    {itm?.debitCredit === "Credit" ? (
-                                      <td style={{ width: "145px" }}>
-                                        <div className="text-center">
-                                          {/* {Math.abs(itm?.amount)} */}
-                                          <input
-                                            value={Math.abs(itm?.amount)}
-                                            onChange={(e) => {
-                                              // let amount =
-                                              //   itm?.debitCredit === "Credit"
-                                              //     ? -1 * e.target.value
-                                              //     : e.target.value;
-                                              rowDtoHandler(
-                                                idx,
-                                                "amount",
-                                                e.target.value
-                                              );
-                                            }}
-                                          />
+                                      <td>
+                                        <div className="text-left pl-2">
+                                          {itm?.transaction?.label}
                                         </div>
                                       </td>
-                                    ) : (
-                                      <td>{""}</td>
-                                    )}
-                                    <td
-                                      style={{
-                                        width: "100px",
-                                        fontSize: "9px",
-                                      }}
-                                    >
-                                      <div className="text-left pl-2">
-                                        {itm?.headerNarration}
-                                      </div>
-                                    </td>
-                                    <td className="text-center">
-                                      <IDelete remover={remover} id={idx} />
-                                    </td>
-                                  </tr>
-                                );
-                              })}
-                            </tbody>
-                          </table>
+                                      {itm?.debitCredit === "Debit" ? (
+                                        <td style={{ width: "145px" }}>
+                                          <div className="text-center">
+                                            {/* {Math.abs(itm?.amount)} */}
+                                            <input
+                                              value={Math.abs(itm?.amount)}
+                                              onChange={(e) => {
+                                                // let amount =
+                                                //   itm?.debitCredit === "Credit"
+                                                //     ? -1 * e.target.value
+                                                //     : e.target.value;
+                                                rowDtoHandler(
+                                                  idx,
+                                                  "amount",
+                                                  e.target.value
+                                                );
+                                              }}
+                                            />
+                                          </div>
+                                        </td>
+                                      ) : (
+                                        <td>{""}</td>
+                                      )}
+                                      {itm?.debitCredit === "Credit" ? (
+                                        <td style={{ width: "145px" }}>
+                                          <div className="text-center">
+                                            {/* {Math.abs(itm?.amount)} */}
+                                            <input
+                                              value={Math.abs(itm?.amount)}
+                                              onChange={(e) => {
+                                                // let amount =
+                                                //   itm?.debitCredit === "Credit"
+                                                //     ? -1 * e.target.value
+                                                //     : e.target.value;
+                                                rowDtoHandler(
+                                                  idx,
+                                                  "amount",
+                                                  e.target.value
+                                                );
+                                              }}
+                                            />
+                                          </div>
+                                        </td>
+                                      ) : (
+                                        <td>{""}</td>
+                                      )}
+                                      <td
+                                        style={{
+                                          width: "100px",
+                                          fontSize: "9px",
+                                        }}
+                                      >
+                                        <div className="text-left pl-2">
+                                          {itm?.headerNarration}
+                                        </div>
+                                      </td>
+                                      <td className="text-center">
+                                        <IDelete remover={remover} id={idx} />
+                                      </td>
+                                    </tr>
+                                  );
+                                })}
+                              </tbody>
+                            </table>
+                          </div>
                         ) : (
                           ""
                         )}

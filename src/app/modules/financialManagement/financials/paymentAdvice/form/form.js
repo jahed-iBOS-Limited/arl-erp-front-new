@@ -14,7 +14,7 @@ import ExpenseView from "../../../invoiceManagementSystem/approvebillregister/ex
 import SupplerInvoiceView from "../../../invoiceManagementSystem/approvebillregister/supplerInvoiceView";
 import SupplierAdvanceView from "../../../invoiceManagementSystem/approvebillregister/supplierAdvanceView";
 import BankJournalCreateForm from "../bank/addForm";
-import { billTypeList } from "../helper";
+import { billTypeList, sumSelectedValue } from "../helper";
 import PaginationSearch from "./../../../../_helper/_search";
 // import { _todayDate } from "../../../../_helper/_todayDate";
 import OthersBillView from "../../../invoiceManagementSystem/billregister/othersBillNew/view/othersBillView";
@@ -251,7 +251,7 @@ export default function _Form({
                       touched={touched}
                     />
                   </div>
-                  <div className="col-2">
+                  <div className="col-lg-2">
                     <NewSelect
                       name="type"
                       options={typeDDL}
@@ -503,13 +503,14 @@ export default function _Form({
                   </div>
                 </div>
               </div>
-              <>
+              <div style={{display:"flex",justifyContent:"space-between"}}>
                 <PaginationSearch
                   placeholder="Bill No Search"
                   paginationSearchHandler={paginationSearchHandler}
                   values={values}
                 />
-              </>
+                {values?.billType?.value === 1 && <p style={{fontWeight:"bold"}} className="text-right">Amount: {sumSelectedValue(rowDto)}</p>}
+              </div>
 
               {[1, 2]?.includes(values?.billType?.value) ? (
                 <OtherTableForBillType

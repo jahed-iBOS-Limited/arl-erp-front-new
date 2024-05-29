@@ -99,7 +99,8 @@ export default function VoyageCharterStatement({
           <h6 className="font-weight-bold mb-0">ESTIMATED HIRE STATEMENT</h6>
         </div>
         <div className="text-center"></div>
-        <table className="w-100" id="table-to-xlsx">
+       <div className="table-responsive">
+       <table className="w-100" id="table-to-xlsx">
           <div className="voyageStatement">
             <ICustomTable ths={[]}>
               <tr className="text-center">
@@ -492,6 +493,7 @@ export default function VoyageCharterStatement({
             </tr>
           </ICustomTable>
         </table>
+       </div>
       </div>
     </>
   );

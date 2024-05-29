@@ -57,7 +57,8 @@ function BillOfMaterialTable({ obj }) {
 
   return (
     <>
-      <table className="table table-striped table-bordered global-table">
+     <div className="table-responsive">
+     <table className="table table-striped table-bordered global-table">
         {loading && <Loading />}
         <thead>
           <th style={{ width: "20px" }}>
@@ -125,6 +126,7 @@ function BillOfMaterialTable({ obj }) {
           ))}
         </tbody>
       </table>
+     </div>
       {tableData?.data?.length > 0 && (
         <PaginationTable
           count={tableData?.totalCount}

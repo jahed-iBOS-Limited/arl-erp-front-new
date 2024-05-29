@@ -64,28 +64,28 @@ export default function _Form({
           <>
             {/* {console.log(values)} */}
             {/*  */}
-            <Form className='form form-label-right'>
-              <div className='global-form'>
-                <div className='row'>
-                  <div className='col-lg-4'>
+            <Form className="form form-label-right">
+              <div className="global-form">
+                <div className="row">
+                  <div className="col-lg-4">
                     <label>
-                      <span className='mr-1'>Date:</span>{" "}
-                      <span className='mr-2' style={{ color: "red" }}>
+                      <span className="mr-1">Date:</span>{" "}
+                      <span className="mr-2" style={{ color: "red" }}>
                         *
                       </span>
                     </label>
                     <InputField
                       value={values?.date}
-                      name='date'
-                      placeholder='Date'
-                      type='date'
+                      name="date"
+                      placeholder="Date"
+                      type="date"
                       disabled={
                         location?.state?.isApprove === true ||
                         location?.state?.isActive === false
                       }
                     />
                   </div>
-                  <div className='col-lg-4'>
+                  <div className="col-lg-4">
                     <label>
                       From Address:
                       <span style={{ color: "red" }}>*</span>
@@ -93,9 +93,9 @@ export default function _Form({
                     <InputField
                       value={pId ? initData?.fromAddress : warehouse?.address}
                       // value={values?.formAddress}
-                      name='formAddress'
-                      placeholder='Address'
-                      type='text'
+                      name="formAddress"
+                      placeholder="Address"
+                      type="text"
                       disabled={
                         warehouse?.address ||
                         initData?.fromAddress ||
@@ -105,17 +105,17 @@ export default function _Form({
                     />
                   </div>
                 </div>
-                <div className='row'>
+                <div className="row">
                   {values?.others ? (
-                    <div className='col-lg-6'>
+                    <div className="col-lg-6">
                       <label>
                         To Address: <span style={{ color: "red" }}>*</span>
                       </label>
                       <InputField
                         value={values?.toAddress}
-                        name='toAddress'
-                        placeholder='Address'
-                        type='text'
+                        name="toAddress"
+                        placeholder="Address"
+                        type="text"
                         disabled={
                           rowDto?.length > 0 ||
                           location?.state?.isApprove === true ||
@@ -124,7 +124,7 @@ export default function _Form({
                       />
                     </div>
                   ) : (
-                    <div className='col-lg-6'>
+                    <div className="col-lg-6">
                       <label>To Address</label>
                       <SearchAsyncSelect
                         selectedValue={values?.toAddress}
@@ -141,25 +141,25 @@ export default function _Form({
                       />
                       <FormikError
                         errors={errors}
-                        name='assetNo'
+                        name="assetNo"
                         touched={touched}
                       />
                     </div>
                   )}
 
-                  <div className='col-lg-2'>
+                  <div className="col-lg-2">
                     <div
                       style={{ marginTop: "19px" }}
-                      className='d-flex justify-content-center align-items-center col-lg-2'
+                      className="d-flex justify-content-center align-items-center col-lg-2"
                     >
-                      <label className='d-flex justify-content-center align-items-center'>
+                      <label className="d-flex justify-content-center align-items-center">
                         <Field
                           onClick={() => {
                             setFieldValue("toAddress", "");
                           }}
                           style={{ marginRight: "5px" }}
-                          type='checkbox'
-                          name='others'
+                          type="checkbox"
+                          name="others"
                           checked={values?.others}
                           // onChange={(e) => {
                           //   setFieldValue("toAddress", "");
@@ -175,30 +175,30 @@ export default function _Form({
                     </div>
                   </div>
                 </div>
-                <div className='row'>
-                  <div className='col-lg-4'>
+                <div className="row">
+                  <div className="col-lg-4">
                     <label>
                       Driver/Receiver Name:{" "}
                       <span style={{ color: "red" }}>*</span>
                     </label>
                     <InputField
                       value={values?.receiversName}
-                      name='receiversName'
-                      placeholder='Receivers Name'
-                      type='text'
+                      name="receiversName"
+                      placeholder="Receivers Name"
+                      type="text"
                       disabled={
                         location?.state?.isApprove === true ||
                         location?.state?.isActive === false
                       }
                     />
                   </div>
-                  <div className='col-lg-4'>
+                  <div className="col-lg-4">
                     <label>Vehicle:</label>
                     <InputField
                       value={values?.vehicle}
-                      name='vehicle'
-                      placeholder='Vehicle'
-                      type='text'
+                      name="vehicle"
+                      placeholder="Vehicle"
+                      type="text"
                       disabled={
                         location?.state?.isApprove === true ||
                         location?.state?.isActive === false
@@ -206,32 +206,32 @@ export default function _Form({
                     />
                   </div>
                 </div>
-                <div className='row'>
-                  <div className='col-lg-4'>
+                <div className="row">
+                  <div className="col-lg-4">
                     <label>
                       Contact No: <span style={{ color: "red" }}>*</span>
                     </label>
                     <InputField
                       value={values?.contactNo}
-                      name='contactNo'
-                      placeholder='Contact No'
-                      type='text'
+                      name="contactNo"
+                      placeholder="Contact No"
+                      type="text"
                       disabled={
                         location?.state?.isApprove === true ||
                         location?.state?.isActive === false
                       }
                     />
                   </div>
-                  <div className='col-lg-4'>
+                  <div className="col-lg-4">
                     <NewSelect
-                      name='reason'
+                      name="reason"
                       options={reason}
                       value={values?.reason}
-                      label='Reason'
+                      label="Reason"
                       onChange={(valueOption) => {
                         setFieldValue("reason", valueOption);
                       }}
-                      placeholder='Select Reason'
+                      placeholder="Select Reason"
                       errors={errors}
                       touched={touched}
                       isDisabled={
@@ -241,18 +241,18 @@ export default function _Form({
                     />
                   </div>
                 </div>
-                <div className='row'>
-                  <div className='col-lg-4'>
+                <div className="row">
+                  <div className="col-lg-4">
                     <label>
                       Remarks: <span style={{ color: "red" }}>*</span>
                     </label>
                     <Field
-                      className='form-control'
-                      type='text'
-                      as='textarea'
-                      id='remarks'
-                      name='remarks'
-                      placeholder='Remarks'
+                      className="form-control"
+                      type="text"
+                      as="textarea"
+                      id="remarks"
+                      name="remarks"
+                      placeholder="Remarks"
                       disabled={
                         location?.state?.isApprove === true ||
                         location?.state?.isActive === false
@@ -262,7 +262,7 @@ export default function _Form({
                       <FormikError
                         errors={errors}
                         touched={touched}
-                        name='remarks'
+                        name="remarks"
                       />
                     )}
                   </div>
@@ -274,49 +274,49 @@ export default function _Form({
                     marginTop: "10px",
                   }}
                 />
-                <div className='row'>
-                  <div className='col-lg-3'>
+                <div className="row">
+                  <div className="col-lg-3">
                     <label>
                       Item List
                       <span style={{ color: "red" }}>*</span>
                     </label>
                     <InputField
                       value={values?.item}
-                      name='item'
-                      placeholder='Item List'
-                      type='text'
+                      name="item"
+                      placeholder="Item List"
+                      type="text"
                       disabled={
                         location?.state?.isApprove === true ||
                         location?.state?.isActive === false
                       }
                     />
                   </div>
-                  <div className='col-lg-2'>
+                  <div className="col-lg-2">
                     <label>
                       UoM <span style={{ color: "red" }}>*</span>
                     </label>
                     <InputField
                       value={values?.uom}
-                      name='uom'
-                      placeholder='UoM'
-                      type='text'
+                      name="uom"
+                      placeholder="UoM"
+                      type="text"
                       disabled={
                         location?.state?.isApprove === true ||
                         location?.state?.isActive === false
                       }
                     />
                   </div>
-                  <div className='col-lg-2'>
+                  <div className="col-lg-2">
                     <label>
                       Quantity <span style={{ color: "red" }}>*</span>
                     </label>
                     <InputField
                       value={values?.quantity}
-                      name='quantity'
-                      placeholder='Quantity'
-                      type='number'
-                      min='1'
-                      step='any'
+                      name="quantity"
+                      placeholder="Quantity"
+                      type="number"
+                      min="1"
+                      step="any"
                       // onChange={(e, valueOption) => {
                       //   if (e.target.value > 0) {
                       //     setFieldValue("quantity", valueOption);
@@ -332,14 +332,14 @@ export default function _Form({
                   </div>
                   <div
                     style={{ marginTop: "6px" }}
-                    className='d-flex justify-content-center align-items-center col-lg-2'
+                    className="d-flex justify-content-center align-items-center col-lg-2"
                   >
-                    <label className='d-flex justify-content-center align-items-center'>
+                    <label className="d-flex justify-content-center align-items-center">
                       <Field
                         onClick={() => {}}
                         style={{ marginRight: "5px" }}
-                        type='checkbox'
-                        name='returnable'
+                        type="checkbox"
+                        name="returnable"
                         checked={values?.returnable}
                         disabled={
                           location?.state?.isApprove === true ||
@@ -349,7 +349,7 @@ export default function _Form({
                       <span>Returnable</span>
                     </label>
                   </div>
-                  <div style={{ marginTop: "14px" }} className='col-lg-2'>
+                  <div style={{ marginTop: "14px" }} className="col-lg-2">
                     <button
                       disabled={
                         !values?.quantity ||
@@ -358,55 +358,58 @@ export default function _Form({
                         location?.state?.isApprove === true ||
                         location?.state?.isActive === false
                       }
-                      className='btn btn-primary'
+                      className="btn btn-primary"
                       onClick={() => {
                         setter(values, setFieldValue);
                       }}
-                      type='button'
+                      type="button"
                     >
                       Add
                     </button>
                   </div>
                 </div>
               </div>
-
-              <table className='table table-striped table-bordered global-table'>
-                <thead>
-                  <tr>
-                    <th>SL</th>
-                    <th>Item Name</th>
-                    <th>UoM</th>
-                    <th>Quantity</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {rowDto?.map((item, index) => (
-                    <tr key={index}>
-                      <td>{index + 1}</td>
-                      <td>
-                        {item?.item?.label ? item?.item?.label : item?.item}
-                      </td>
-                      <td>{item?.uom?.label ? item?.uom?.label : item?.uom}</td>
-                      <td className='text-center'>{item?.quantity}</td>
-
-                      <td className='text-center'>
-                        <IDelete remover={remover} id={index} />
-                      </td>
+              <div className="react-bootstrap-table table-responsive">
+                <table className="table table-striped table-bordered global-table">
+                  <thead>
+                    <tr>
+                      <th>SL</th>
+                      <th>Item Name</th>
+                      <th>UoM</th>
+                      <th>Quantity</th>
+                      <th>Action</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {rowDto?.map((item, index) => (
+                      <tr key={index}>
+                        <td>{index + 1}</td>
+                        <td>
+                          {item?.item?.label ? item?.item?.label : item?.item}
+                        </td>
+                        <td>
+                          {item?.uom?.label ? item?.uom?.label : item?.uom}
+                        </td>
+                        <td className="text-center">{item?.quantity}</td>
+
+                        <td className="text-center">
+                          <IDelete remover={remover} id={index} />
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
 
               <button
-                type='submit'
+                type="submit"
                 style={{ display: "none" }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
-                type='reset'
+                type="reset"
                 style={{ display: "none" }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}

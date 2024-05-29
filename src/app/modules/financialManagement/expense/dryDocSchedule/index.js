@@ -1,19 +1,19 @@
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
-import Loading from "../../../_helper/_loading";
-import IForm from "../../../_helper/_form";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import NewSelect from "../../../_helper/_select";
-import { _todayDate } from "../../../_helper/_todayDate";
-import InputField from "../../../_helper/_inputField";
 import { shallowEqual, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { _dateFormatter } from "../../../_helper/_dateFormate";
+import IForm from "../../../_helper/_form";
 import IEdit from "../../../_helper/_helperIcons/_edit";
 import IView from "../../../_helper/_helperIcons/_view";
-import IViewModal from "../../../_helper/_viewModal";
-import ActivityListModal from "./activityListModal";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
+import InputField from "../../../_helper/_inputField";
+import Loading from "../../../_helper/_loading";
 import numberWithCommas from "../../../_helper/_numberWithCommas";
+import NewSelect from "../../../_helper/_select";
+import { _todayDate } from "../../../_helper/_todayDate";
+import IViewModal from "../../../_helper/_viewModal";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import ActivityListModal from "./activityListModal";
 const initData = {
   vessel: "",
   fromDate: _todayDate(),
@@ -158,7 +158,7 @@ export default function DryDocLanding() {
                   </button>
                 </div>
               </div>
-              <div>
+              <div className="table-responsive">
                 <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                   <thead>
                     <tr>

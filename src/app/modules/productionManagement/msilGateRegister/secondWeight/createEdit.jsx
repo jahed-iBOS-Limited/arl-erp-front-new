@@ -582,7 +582,9 @@ export default function SecondWeightCreateEdit({ weight }) {
                       <div>
                         <button
                           type="button"
-                          disabled={!values?.entryCode && !values?.strCardNumber}
+                          disabled={
+                            !values?.entryCode && !values?.strCardNumber
+                          }
                           className="btn btn-primary mt-5 ml-3"
                           onClick={() => {
                             setIsShowShippingNoteView(true);
@@ -600,144 +602,149 @@ export default function SecondWeightCreateEdit({ weight }) {
                       <h5>Shipment Information</h5>
                     </div>
                     <div className="weight-report-details ml-4">
-                      <table className="weight-report-details-left-table">
-                        <tr>
-                          <td
-                            style={{
-                              minWidth: "125px",
-                              verticalAlign: "text-top",
-                            }}
-                            class="bold"
-                          >
-                            Date
-                          </td>
-                          <td style={{ verticalAlign: "text-top" }}>: </td>
-                          <td
-                            style={{
-                              width: "300px",
-                              verticalAlign: "text-top",
-                            }}
-                          >
-                            {_dateFormatter(
-                              reportData[0]?.printDate?.split("T")
-                            )}
-                          </td>
-                          <td
-                            style={{ verticalAlign: "text-top" }}
-                            class="bold"
-                          >
-                            Delivery Challan No
-                          </td>
-                          <td style={{ verticalAlign: "text-top" }}>: </td>
-                          <td>{reportData[0]?.challanNo}</td>
-                        </tr>
-                        <tr>
-                          <td
-                            style={{
-                              minWidth: "125px",
-                              verticalAlign: "text-top",
-                            }}
-                            class="bold"
-                          >
-                            Client Code
-                          </td>
-                          <td style={{ verticalAlign: "text-top" }}>: </td>
-                          <td style={{ width: "300px" }}>
-                            {reportData[0]?.partnerCode}
-                          </td>
+                      <div className="table-responsive">
+                        <table className="weight-report-details-left-table">
+                          <tr>
+                            <td
+                              style={{
+                                minWidth: "125px",
+                                verticalAlign: "text-top",
+                              }}
+                              class="bold"
+                            >
+                              Date
+                            </td>
+                            <td style={{ verticalAlign: "text-top" }}>: </td>
+                            <td
+                              style={{
+                                width: "300px",
+                                verticalAlign: "text-top",
+                              }}
+                            >
+                              {_dateFormatter(
+                                reportData[0]?.printDate?.split("T")
+                              )}
+                            </td>
+                            <td
+                              style={{ verticalAlign: "text-top" }}
+                              class="bold"
+                            >
+                              Delivery Challan No
+                            </td>
+                            <td style={{ verticalAlign: "text-top" }}>: </td>
+                            <td>{reportData[0]?.challanNo}</td>
+                          </tr>
+                          <tr>
+                            <td
+                              style={{
+                                minWidth: "125px",
+                                verticalAlign: "text-top",
+                              }}
+                              class="bold"
+                            >
+                              Client Code
+                            </td>
+                            <td style={{ verticalAlign: "text-top" }}>: </td>
+                            <td style={{ width: "300px" }}>
+                              {reportData[0]?.partnerCode}
+                            </td>
 
-                          <td class="bold">Client Type</td>
-                          <td>: </td>
-                          <td>{reportData[0]?.clientType}</td>
-                        </tr>
+                            <td class="bold">Client Type</td>
+                            <td>: </td>
+                            <td>{reportData[0]?.clientType}</td>
+                          </tr>
 
-                        <tr>
-                          <td
-                            class="bold"
-                            style={{
-                              verticalAlign: "text-top",
-                              minWidth: "125px",
-                            }}
-                          >
-                            {reportData[0]?.intClientTypeId === 1
-                              ? "Supplier"
-                              : "Customer"}
-                          </td>
-                          <td style={{ verticalAlign: "text-top" }}>: </td>
-                          <td colSpan={4}>{reportData[0]?.partnerName}</td>
-                        </tr>
+                          <tr>
+                            <td
+                              class="bold"
+                              style={{
+                                verticalAlign: "text-top",
+                                minWidth: "125px",
+                              }}
+                            >
+                              {reportData[0]?.intClientTypeId === 1
+                                ? "Supplier"
+                                : "Customer"}
+                            </td>
+                            <td style={{ verticalAlign: "text-top" }}>: </td>
+                            <td colSpan={4}>{reportData[0]?.partnerName}</td>
+                          </tr>
 
-                        <tr>
-                          <td
-                            style={{
-                              verticalAlign: "text-top",
-                              minWidth: "125px",
-                            }}
-                            class="bold"
-                          >
-                            Address
-                          </td>
-                          <td style={{ verticalAlign: "text-top" }}>: </td>
-                          <td colSpan={4}>{reportData[0]?.partnerAddress}</td>
-                        </tr>
+                          <tr>
+                            <td
+                              style={{
+                                verticalAlign: "text-top",
+                                minWidth: "125px",
+                              }}
+                              class="bold"
+                            >
+                              Address
+                            </td>
+                            <td style={{ verticalAlign: "text-top" }}>: </td>
+                            <td colSpan={4}>{reportData[0]?.partnerAddress}</td>
+                          </tr>
 
-                        <tr>
-                          <td
-                            style={{
-                              verticalAlign: "text-top",
-                              minWidth: "125px",
-                            }}
-                            class="bold"
-                          >
-                            Material Description
-                          </td>
-                          <td style={{ verticalAlign: "text-top" }}>: </td>
-                          <td colSpan={4} style={{ verticalAlign: "text-top" }}>
-                            {reportData[0]?.materialDescription}
-                          </td>
-                        </tr>
+                          <tr>
+                            <td
+                              style={{
+                                verticalAlign: "text-top",
+                                minWidth: "125px",
+                              }}
+                              class="bold"
+                            >
+                              Material Description
+                            </td>
+                            <td style={{ verticalAlign: "text-top" }}>: </td>
+                            <td
+                              colSpan={4}
+                              style={{ verticalAlign: "text-top" }}
+                            >
+                              {reportData[0]?.materialDescription}
+                            </td>
+                          </tr>
 
-                        <tr>
-                          <td style={{ minWidth: "125px" }} class="bold">
-                            Vehicle No
-                          </td>
-                          <td>: </td>
-                          <td>{reportData[0]?.vehicleNo}</td>
-                        </tr>
+                          <tr>
+                            <td style={{ minWidth: "125px" }} class="bold">
+                              Vehicle No
+                            </td>
+                            <td>: </td>
+                            <td>{reportData[0]?.vehicleNo}</td>
+                          </tr>
 
-                        <tr>
-                          <td style={{ minWidth: "125px" }} class="bold">
-                            Driver Name
-                          </td>
-                          <td>: </td>
-                          <td style={{ width: "300px" }}>
-                            {reportData[0]?.driverName}
-                          </td>
+                          <tr>
+                            <td style={{ minWidth: "125px" }} class="bold">
+                              Driver Name
+                            </td>
+                            <td>: </td>
+                            <td style={{ width: "300px" }}>
+                              {reportData[0]?.driverName}
+                            </td>
 
-                          <td class="bold">Quantity</td>
-                          <td>: </td>
-                          <td>{reportData[0]?.quantity}</td>
-                        </tr>
+                            <td class="bold">Quantity</td>
+                            <td>: </td>
+                            <td>{reportData[0]?.quantity}</td>
+                          </tr>
 
-                        <tr>
-                          <td style={{ minWidth: "125px" }} class="bold">
-                            Driver Phone No
-                          </td>
-                          <td>: </td>
-                          <td style={{ width: "300px" }}>
-                            {reportData[0]?.telFaxEmail}
-                          </td>
+                          <tr>
+                            <td style={{ minWidth: "125px" }} class="bold">
+                              Driver Phone No
+                            </td>
+                            <td>: </td>
+                            <td style={{ width: "300px" }}>
+                              {reportData[0]?.telFaxEmail}
+                            </td>
 
-                          <td class="bold">Quantity (KG)</td>
-                          <td>: </td>
-                          <td>{reportData[0]?.quantitykg}</td>
-                        </tr>
-                        <tr>
-                          <td class="bold">Operator Name</td>
-                          <td>: </td>
-                          <td>{reportData[0]?.operatorName}</td>
-                        </tr>
-                      </table>
+                            <td class="bold">Quantity (KG)</td>
+                            <td>: </td>
+                            <td>{reportData[0]?.quantitykg}</td>
+                          </tr>
+                          <tr>
+                            <td class="bold">Operator Name</td>
+                            <td>: </td>
+                            <td>{reportData[0]?.operatorName}</td>
+                          </tr>
+                        </table>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -763,7 +770,11 @@ export default function SecondWeightCreateEdit({ weight }) {
                   }}
                   backdrop="static"
                 >
-                  <ShippingNoteView id={+values?.entryCode?.value || +values?.strCardNumber || 0} />
+                  <ShippingNoteView
+                    id={
+                      +values?.entryCode?.value || +values?.strCardNumber || 0
+                    }
+                  />
                 </IViewModal>
               </div>
             </>

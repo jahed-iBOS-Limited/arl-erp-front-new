@@ -115,6 +115,7 @@ export default function ViewModalEmpRemuSetup({
               </div>
 
               <h3>Standard Remuneration</h3>
+              <div className="table-responsive">
               <table className="global-table w-100 table-bordered border-secondary">
                 <thead>
                   <th className="text-center">SL</th>
@@ -135,7 +136,9 @@ export default function ViewModalEmpRemuSetup({
                   ))}
                 </tbody>
               </table>
+              </div>
               <h3>Benefits and Allownace</h3>
+              <div className="table-responsive">
               <table className="global-table w-100 table-bordered border-secondary">
                 <thead>
                   <th className="text-center">SL</th>
@@ -158,6 +161,7 @@ export default function ViewModalEmpRemuSetup({
                   )}
                 </tbody>
               </table>
+              </div>
             </>
           )}
         </Formik>

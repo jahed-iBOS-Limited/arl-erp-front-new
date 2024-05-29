@@ -313,6 +313,22 @@ export function PurchaseOrderViewTableRow({
                                 {purchaseOrderReport?.objHeaderDTO?.prNo}
                               </span>
                             </p>
+                            <p
+                              style={{
+                                wordWrap: "break-word",
+                              }}
+                            >
+                              {" "}
+                              Bank Name:{" "}
+                              {purchaseOrderReport?.objHeaderDTO?.bankName ||
+                                ""}
+                            </p>
+                            <p>
+                              {" "}
+                              Account Name:{" "}
+                              {purchaseOrderReport?.objHeaderDTO?.accountName ||
+                                ""}
+                            </p>
                           </div>
                           <div className="reportInfo3">
                             <p>
@@ -320,221 +336,247 @@ export function PurchaseOrderViewTableRow({
                               {purchaseOrderReport?.objHeaderDTO?.billToName}
                             </p>
                             <div>
-                              <p style={{ wordWrap: "break-word" }}>
+                              <p
+                                style={{
+                                  wordWrap: "break-word",
+                                }}
+                              >
                                 {
                                   purchaseOrderReport?.objHeaderDTO
                                     ?.billToAddress
                                 }
                               </p>
                             </div>
-                            {/* <p>{purchaseOrderReport?.objHeaderDTO?.prNo}</p> */}
+                            <p>
+                              {" "}
+                              Account No:{" "}
+                              {purchaseOrderReport?.objHeaderDTO?.accountNo ||
+                                ""}
+                            </p>
+                            <p>
+                              {" "}
+                              Branch Name:{" "}
+                              {purchaseOrderReport?.objHeaderDTO
+                                ?.bankBranchName || ""}
+                            </p>
                           </div>
                         </div>
                       </div>
 
-                      <table
-                        className="global-table table mt-5 mb-5"
-                        id="table-to-xlsx"
-                      >
-                        <thead className="tableHead">
-                          <tr>
-                            <th>SL</th>
-                            <th>ITEM</th>
-                            <th>REFERENCE CODE</th>
-                            <th>DESCRIPTION</th>
-                            <th>UoM</th>
-                            <th>QTY.</th>
-                            <th>RATE</th>
-                            <th>VAT (%)</th>
-                            <th style={{ maxWidth: "40px" }}>VAT AMOUNT</th>
-                            <th>TOTAL</th>
-                          </tr>
-                        </thead>
-                        <tbody className="tableHead">
-                          {purchaseOrderReport?.objRowListDTO?.map(
-                            (data, i) => (
-                              <tr>
-                                <td className="text-center">{i + 1}</td>
-                                <td>{data?.itemName}</td>
-                                <td>{data?.referenceCode}</td>
-                                <td>{data?.purchaseDescription}</td>
-                                <td>{data?.uomName}</td>
-                                <td className="text-right">{data?.orderQty}</td>
-                                <td className="text-right">{data?.itemRate}</td>
-                                <td className="text-right">
-                                  {data?.numVatPercentage || 0}
-                                </td>
-                                <td
-                                  style={{ maxWidth: "40px" }}
-                                  className="text-right"
-                                >
-                                  {data?.numVatAmount || 0}
-                                </td>
-                                <td className="text-right">
-                                  {data?.totalValue}
-                                </td>
-                              </tr>
-                            )
-                          )}
-                          <tr>
-                            {/* <td></td>
+                      <div className="table-responsive">
+                        <table
+                          className="global-table table mt-5 mb-5"
+                          id="table-to-xlsx"
+                        >
+                          <thead className="tableHead">
+                            <tr>
+                              <th>SL</th>
+                              <th>ITEM</th>
+                              <th>REFERENCE CODE</th>
+                              <th>DESCRIPTION</th>
+                              <th>UoM</th>
+                              <th>QTY.</th>
+                              <th>RATE</th>
+                              <th>VAT (%)</th>
+                              <th style={{ maxWidth: "40px" }}>VAT AMOUNT</th>
+                              <th>TOTAL</th>
+                            </tr>
+                          </thead>
+                          <tbody className="tableHead">
+                            {purchaseOrderReport?.objRowListDTO?.map(
+                              (data, i) => (
+                                <tr>
+                                  <td className="text-center">{i + 1}</td>
+                                  <td>{data?.itemName}</td>
+                                  <td>{data?.referenceCode}</td>
+                                  <td>{data?.purchaseDescription}</td>
+                                  <td>{data?.uomName}</td>
+                                  <td className="text-right">
+                                    {data?.orderQty}
+                                  </td>
+                                  <td className="text-right">
+                                    {data?.itemRate}
+                                  </td>
+                                  <td className="text-right">
+                                    {data?.numVatPercentage || 0}
+                                  </td>
+                                  <td
+                                    style={{ maxWidth: "40px" }}
+                                    className="text-right"
+                                  >
+                                    {data?.numVatAmount || 0}
+                                  </td>
+                                  <td className="text-right">
+                                    {data?.totalValue}
+                                  </td>
+                                </tr>
+                              )
+                            )}
+                            <tr>
+                              {/* <td></td>
                             <td></td>
                             <td></td>
                             <td></td>
                             <td></td>
                             <td></td>
                             <td></td> */}
-                            <td
-                              className="font-weight-bold text-right"
-                              colspan="8"
-                            >
-                              Total
-                            </td>
-                            {/* <td className="font-weight-bold text-right">0</td>
+                              <td
+                                className="font-weight-bold text-right"
+                                colspan="9"
+                              >
+                                Total
+                              </td>
+                              {/* <td className="font-weight-bold text-right">0</td>
                           <td className="font-weight-bold text-right">0</td> */}
-                            <td className="font-weight-bold text-right">
-                              {totalSum}
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
+                              <td className="font-weight-bold text-right">
+                                {totalSum}
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
                       <div className="row otherspoinfo mt-5">
                         <div className="col-lg-8">
-                          <table className="table custom-table">
-                            <tr>
-                              <td>
-                                <span className="pl-2">Partial Shipment</span>
-                                {/* <div className="pl-1">Payroll Group</div> */}
-                              </td>
-                              <td>
-                                {purchaseOrderReport?.objHeaderDTO
-                                  ?.partialShipment === "true"
-                                  ? "Yes"
-                                  : "No"}
-                              </td>
-                              <td>
-                                <span className="pl-2">Freight</span>
-                                {/* <div className="pl-1">Calender Type</div> */}
-                              </td>
-                              <td
-                                className="text-right"
-                                style={{ width: "100px" }}
-                              >
-                                {purchaseOrderReport?.objHeaderDTO
-                                  ?.numFreight || 0}
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <span className="pl-2">No of Shipment</span>
-                              </td>
-                              <td>
-                                {
-                                  purchaseOrderReport?.objHeaderDTO
-                                    ?.numberOfShipment
-                                }
-                              </td>
-                              <td>
-                                <span className="pl-2"> Others Charge</span>
-                              </td>
-                              <td className="text-right">
-                                {purchaseOrderReport?.objHeaderDTO
-                                  ?.othersCharge || 0}
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <span className="pl-2">
-                                  {" "}
-                                  Last Shipment Date
-                                </span>
-                              </td>
-                              <td>
-                                {_dateFormatter(
-                                  purchaseOrderReport?.objHeaderDTO
-                                    ?.lastShipmentDate
-                                )}
-                              </td>
-                              <td>
-                                <span className="pl-2"> Gross Discount</span>
-                              </td>
-                              <td className="text-right">
-                                {purchaseOrderReport?.objHeaderDTO
-                                  ?.numGrossDiscount || 0}
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <span className="pl-2"> Payment terms</span>
-                              </td>
-                              <td>
-                                {
-                                  purchaseOrderReport?.objHeaderDTO
-                                    ?.paymentTerms
-                                }
-                              </td>
-                              <td>
-                                <span className="pl-2"> Commission</span>
-                              </td>
-                              <td className="text-right">
-                                {purchaseOrderReport?.objHeaderDTO
-                                  ?.numCommission || 0}
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <span className="pl-2">
-                                  {" "}
-                                  Payment days after MRR
-                                </span>
-                              </td>
-                              <td>
-                                {
-                                  purchaseOrderReport?.objHeaderDTO
-                                    ?.paymentDaysAfterDelivery
-                                }
-                              </td>
-                              <td>
-                                <span className="pl-2">
-                                  <b>Grand Total</b>
-                                </span>
-                              </td>
-                              <td className="text-right">
-                                <b>
-                                  {totalSum +
+                          <div className="table-responsive">
+                            <table className="table custom-table">
+                              <tr>
+                                <td>
+                                  <span className="pl-2">Partial Shipment</span>
+                                  {/* <div className="pl-1">Payroll Group</div> */}
+                                </td>
+                                <td>
+                                  {purchaseOrderReport?.objHeaderDTO
+                                    ?.partialShipment === "true"
+                                    ? "Yes"
+                                    : "No"}
+                                </td>
+                                <td>
+                                  <span className="pl-2">Freight</span>
+                                  {/* <div className="pl-1">Calender Type</div> */}
+                                </td>
+                                <td
+                                  className="text-right"
+                                  style={{ width: "100px" }}
+                                >
+                                  {purchaseOrderReport?.objHeaderDTO
+                                    ?.numFreight || 0}
+                                </td>
+                              </tr>
+                              <tr>
+                                <td>
+                                  <span className="pl-2">No of Shipment</span>
+                                </td>
+                                <td>
+                                  {
                                     purchaseOrderReport?.objHeaderDTO
-                                      ?.numFreight +
+                                      ?.numberOfShipment
+                                  }
+                                </td>
+                                <td>
+                                  <span className="pl-2"> Others Charge</span>
+                                </td>
+                                <td className="text-right">
+                                  {purchaseOrderReport?.objHeaderDTO
+                                    ?.othersCharge || 0}
+                                </td>
+                              </tr>
+                              <tr>
+                                <td>
+                                  <span className="pl-2">
+                                    {" "}
+                                    Last Shipment Date
+                                  </span>
+                                </td>
+                                <td>
+                                  {_dateFormatter(
                                     purchaseOrderReport?.objHeaderDTO
-                                      ?.numCommission +
+                                      ?.lastShipmentDate
+                                  )}
+                                </td>
+                                <td>
+                                  <span className="pl-2"> Gross Discount</span>
+                                </td>
+                                <td className="text-right">
+                                  {purchaseOrderReport?.objHeaderDTO
+                                    ?.numGrossDiscount || 0}
+                                </td>
+                              </tr>
+                              <tr>
+                                <td>
+                                  <span className="pl-2"> Payment terms</span>
+                                </td>
+                                <td>
+                                  {
                                     purchaseOrderReport?.objHeaderDTO
-                                      ?.othersCharge -
+                                      ?.paymentTerms
+                                  }
+                                </td>
+                                <td>
+                                  <span className="pl-2"> Commission</span>
+                                </td>
+                                <td className="text-right">
+                                  {purchaseOrderReport?.objHeaderDTO
+                                    ?.numCommission || 0}
+                                </td>
+                              </tr>
+                              <tr>
+                                <td>
+                                  <span className="pl-2">
+                                    {" "}
+                                    Payment days after MRR
+                                  </span>
+                                </td>
+                                <td>
+                                  {
                                     purchaseOrderReport?.objHeaderDTO
-                                      ?.numGrossDiscount}
-                                </b>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <span className="pl-2"> No of Installment</span>
-                              </td>
-                              <td>{0}</td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <span className="pl-2">
-                                  {" "}
-                                  Installment Interval (Days)
-                                </span>
-                              </td>
-                              <td>{0}</td>
-                            </tr>
-                            {/* <tr>
+                                      ?.paymentDaysAfterDelivery
+                                  }
+                                </td>
+                                <td>
+                                  <span className="pl-2">
+                                    <b>Grand Total</b>
+                                  </span>
+                                </td>
+                                <td className="text-right">
+                                  <b>
+                                    {totalSum +
+                                      purchaseOrderReport?.objHeaderDTO
+                                        ?.numFreight +
+                                      purchaseOrderReport?.objHeaderDTO
+                                        ?.numCommission +
+                                      purchaseOrderReport?.objHeaderDTO
+                                        ?.othersCharge -
+                                      purchaseOrderReport?.objHeaderDTO
+                                        ?.numGrossDiscount}
+                                  </b>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td>
+                                  <span className="pl-2">
+                                    {" "}
+                                    No of Installment
+                                  </span>
+                                </td>
+                                <td>{0}</td>
+                              </tr>
+                              <tr>
+                                <td>
+                                  <span className="pl-2">
+                                    {" "}
+                                    Installment Interval (Days)
+                                  </span>
+                                </td>
+                                <td>{0}</td>
+                              </tr>
+                              {/* <tr>
                             <td>
                               <span className="pl-2"> Warrenty after delivery (months)</span>
                             </td>
                             <td>{0}</td>
                           </tr> */}
-                          </table>
+                            </table>
+                          </div>
                         </div>
                       </div>
                       {/* <div className="mt-2">
@@ -542,11 +584,15 @@ export function PurchaseOrderViewTableRow({
                       </div> */}
                       <div className="mt-3">
                         <p className="text-uppercase font-weight-bold">
-                          Total (In Word): {amountToWords(grandTotal)} {formValues?.purchaseOrg?.value === 12 ? purchaseOrderReport?.objHeaderDTO?.currencyCode : "TK"} only
-                        </p> 
+                          Total (In Word): {amountToWords(grandTotal)}{" "}
+                          {formValues?.purchaseOrg?.value === 12
+                            ? purchaseOrderReport?.objHeaderDTO?.currencyCode
+                            : "TK"}{" "}
+                          only
+                        </p>
                         <p style={{ wordWrap: "break-word" }}>
                           Other terms:{" "}
-                          {purchaseOrderReport?.objHeaderDTO?.otherTerms || 
+                          {purchaseOrderReport?.objHeaderDTO?.otherTerms ||
                             "NA"}
                         </p>
                         <p style={{ wordWrap: "break-word" }}>
@@ -598,30 +644,32 @@ export function PurchaseOrderViewTableRow({
                   </div>
                 </div>
                 {+orId === 8 ? null : +orId === 2 ? null : (
-                  <table className="global-table table mt-5 mb-5 mx-5 printSectionNone">
-                    <thead className="tableHead">
-                      <tr>
-                        <th>SL</th>
-                        <th>User Name</th>
-                        <th>Group Name</th>
-                        <th>Any User</th>
-                        <th>Sequence ID</th>
-                        <th>Status</th>
-                      </tr>
-                    </thead>
-                    <tbody className="tableHead">
-                      {purchaseOrderReport?.objEmpListDTO?.map((data, i) => (
-                        <tr key={`${i}-${data.groupName}`}>
-                          <td className="text-center">{i + 1}</td>
-                          <td>{data?.userNameDesignationName}</td>
-                          <td>{data?.groupName}</td>
-                          <td className="text-center">{data?.anyUser}</td>
-                          <td className="text-center">{data?.sequenceId}</td>
-                          <td>{data?.isApprove ? "Approved" : "Pending"}</td>
+                  <div className="table-responsive">
+                    <table className="global-table table mt-5 mb-5 mx-5 printSectionNone">
+                      <thead className="tableHead">
+                        <tr>
+                          <th>SL</th>
+                          <th>User Name</th>
+                          <th>Group Name</th>
+                          <th>Any User</th>
+                          <th>Sequence ID</th>
+                          <th>Status</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody className="tableHead">
+                        {purchaseOrderReport?.objEmpListDTO?.map((data, i) => (
+                          <tr key={`${i}-${data.groupName}`}>
+                            <td className="text-center">{i + 1}</td>
+                            <td>{data?.userNameDesignationName}</td>
+                            <td>{data?.groupName}</td>
+                            <td className="text-center">{data?.anyUser}</td>
+                            <td className="text-center">{data?.sequenceId}</td>
+                            <td>{data?.isApprove ? "Approved" : "Pending"}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 )}
                 <IViewModal
                   show={isReceivePoModal}

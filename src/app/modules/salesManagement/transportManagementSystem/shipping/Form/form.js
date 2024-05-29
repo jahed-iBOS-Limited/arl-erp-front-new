@@ -429,73 +429,77 @@ export default function _Form({
               <div className="row cash_journal bank-journal bank-journal-custom">
                 <div className="col-lg-12 pr-0 pl-0">
                   {rowDto?.length >= 0 && (
-                    <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
-                      <thead>
-                        <tr>
-                          <th style={{ width: "35px" }}>SL</th>
-                          <th>Delivery Id</th>
-                          <th>Delivery No</th>
-                          <th>Ship To Party Name</th>
-                          <th>Ship To Address</th>
-                          <th>Transport Zone</th>
-                          <th>Loading Point</th>
-                          <th>Net Weight</th>
-                          <th>Volume</th>
-                          <th>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {rowDto.map((itm, index) => (
-                          <tr key={index}>
-                            <td className="text-center">{++index}</td>
-                            <td>
-                              <div className="text-right pr-2">
-                                {itm.deliveryId}
-                              </div>
-                            </td>
-                            <td>
-                              <div className="text-right pr-2">
-                                {itm.deliveryCode}
-                              </div>
-                            </td>
-                            <td>
-                              <div className="pl-2">
-                                {itm.shipToPartnerName}
-                              </div>
-                            </td>
-                            <td>
-                              <div className="pl-2">
-                                {itm.shipToPartnerAddress}
-                              </div>
-                            </td>
-                            <td>
-                              <div className="pl-2">
-                                {itm.transportZoneName}
-                              </div>
-                            </td>
-                            <td>
-                              <div className="pl-2">{itm.loadingPointName}</div>
-                            </td>
-                            <td>
-                              <div className="text-right pr-2">
-                                {deliveryItemVolumeInfo.netWeight}
-                              </div>
-                            </td>
-                            <td>
-                              <div className="text-right pr-2">
-                                {deliveryItemVolumeInfo.volume}
-                              </div>
-                            </td>
-                            <td className="text-center">
-                              <i
-                                className="fa fa-trash"
-                                onClick={() => remover(--index)}
-                              ></i>
-                            </td>
+                    <div className="table-responsive">
+                      <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
+                        <thead>
+                          <tr>
+                            <th style={{ width: "35px" }}>SL</th>
+                            <th>Delivery Id</th>
+                            <th>Delivery No</th>
+                            <th>Ship To Party Name</th>
+                            <th>Ship To Address</th>
+                            <th>Transport Zone</th>
+                            <th>Loading Point</th>
+                            <th>Net Weight</th>
+                            <th>Volume</th>
+                            <th>Action</th>
                           </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                        </thead>
+                        <tbody>
+                          {rowDto.map((itm, index) => (
+                            <tr key={index}>
+                              <td className="text-center">{++index}</td>
+                              <td>
+                                <div className="text-right pr-2">
+                                  {itm.deliveryId}
+                                </div>
+                              </td>
+                              <td>
+                                <div className="text-right pr-2">
+                                  {itm.deliveryCode}
+                                </div>
+                              </td>
+                              <td>
+                                <div className="pl-2">
+                                  {itm.shipToPartnerName}
+                                </div>
+                              </td>
+                              <td>
+                                <div className="pl-2">
+                                  {itm.shipToPartnerAddress}
+                                </div>
+                              </td>
+                              <td>
+                                <div className="pl-2">
+                                  {itm.transportZoneName}
+                                </div>
+                              </td>
+                              <td>
+                                <div className="pl-2">
+                                  {itm.loadingPointName}
+                                </div>
+                              </td>
+                              <td>
+                                <div className="text-right pr-2">
+                                  {deliveryItemVolumeInfo.netWeight}
+                                </div>
+                              </td>
+                              <td>
+                                <div className="text-right pr-2">
+                                  {deliveryItemVolumeInfo.volume}
+                                </div>
+                              </td>
+                              <td className="text-center">
+                                <i
+                                  className="fa fa-trash"
+                                  onClick={() => remover(--index)}
+                                ></i>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
                   )}
                 </div>
               </div>

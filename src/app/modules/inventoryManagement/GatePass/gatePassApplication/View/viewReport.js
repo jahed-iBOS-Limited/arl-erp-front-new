@@ -23,7 +23,7 @@ let imageObj = {
 const initData = {};
 const validationSchema = Yup.object().shape({});
 
-export default function TableRow({gridDataId}) {
+export default function TableRow({ gridDataId }) {
   const [loading, setLoading] = useState(false);
   const [isShowModal, setIsShowModal] = useState(false);
   const [rowDto, setRowDto] = useState([]);
@@ -288,88 +288,91 @@ export default function TableRow({gridDataId}) {
                           ? "Rejected"
                           : "Pending"}
                       </p>
-                      <table
-                        className="table table-striped table-bordered global-table"
-                        id="table-to-xlsx"
-                      >
-                        <thead>
-                          <tr>
-                            <th style={{ fontWeight: "900" }}>SL</th>
-                            <th style={{ fontWeight: "900 !important" }}>
-                              Item Name
-                            </th>
-                            <th
-                              style={{
-                                width: "100px",
-                                fontWeight: "900 !important",
-                              }}
-                            >
-                              UoM
-                            </th>
-                            <th style={{ fontWeight: "900 !important" }}>
-                              Remarks
-                            </th>
-                            <th style={{ fontWeight: "900 !important" }}>
-                              Type
-                            </th>
-                            <th
-                              style={{
-                                width: "100px",
-                                fontWeight: "900 !important",
-                              }}
-                            >
-                              Quantity
-                            </th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {rowDto?.map((item, index) => (
-                            <tr key={index}>
-                              <td>{index + 1}</td>
-                              <td>
-                                {item?.item?.label
-                                  ? item?.item?.label
-                                  : item?.item}
-                              </td>
-                              <td style={{ width: "100px" }}>
-                                {item?.uom?.label
-                                  ? item?.uom?.label
-                                  : item?.uom}
-                              </td>
-                              <td>{item?.strRemarks || ""}</td>
-                              <td>{item?.returnStatus || ""}</td>
-                              <td
-                                style={{ width: "100px", fontWeight: "900" }}
-                                className="text-right"
+                      <div className="table-responsive">
+                        <table
+                          className="table table-striped table-bordered global-table"
+                          id="table-to-xlsx"
+                        >
+                          <thead>
+                            <tr>
+                              <th style={{ fontWeight: "900" }}>SL</th>
+                              <th style={{ fontWeight: "900 !important" }}>
+                                Item Name
+                              </th>
+                              <th
+                                style={{
+                                  width: "100px",
+                                  fontWeight: "900 !important",
+                                }}
                               >
-                                {item?.quantity?.toFixed(2)}
+                                UoM
+                              </th>
+                              <th style={{ fontWeight: "900 !important" }}>
+                                Remarks
+                              </th>
+                              <th style={{ fontWeight: "900 !important" }}>
+                                Type
+                              </th>
+                              <th
+                                style={{
+                                  width: "100px",
+                                  fontWeight: "900 !important",
+                                }}
+                              >
+                                Quantity
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {rowDto?.map((item, index) => (
+                              <tr key={index}>
+                                <td>{index + 1}</td>
+                                <td>
+                                  {item?.item?.label
+                                    ? item?.item?.label
+                                    : item?.item}
+                                </td>
+                                <td style={{ width: "100px" }}>
+                                  {item?.uom?.label
+                                    ? item?.uom?.label
+                                    : item?.uom}
+                                </td>
+                                <td>{item?.strRemarks || ""}</td>
+                                <td>{item?.returnStatus || ""}</td>
+                                <td
+                                  style={{ width: "100px", fontWeight: "900" }}
+                                  className="text-right"
+                                >
+                                  {item?.quantity?.toFixed(2)}
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                          <tFoot style={{ border: "2px solid #85D7F9" }}>
+                            <tr>
+                              <td
+                                style={{
+                                  textAlign: "right",
+                                  fontSize: "13px",
+                                  fontWeight: "900",
+                                }}
+                                colspan="5"
+                              >
+                                Total Quantity
+                              </td>
+                              <td
+                                className="text-right"
+                                style={{ fontWeight: "900" }}
+                              >
+                                {rowDto
+                                  ?.reduce((acc, cur) => acc + cur.quantity, 0)
+                                  ?.toFixed(2)}
                               </td>
                             </tr>
-                          ))}
-                        </tbody>
-                        <tFoot style={{ border: "2px solid #85D7F9" }}>
-                          <tr>
-                            <td
-                              style={{
-                                textAlign: "right",
-                                fontSize: "13px",
-                                fontWeight: "900",
-                              }}
-                              colspan="5"
-                            >
-                              Total Quantity
-                            </td>
-                            <td
-                              className="text-right"
-                              style={{ fontWeight: "900" }}
-                            >
-                              {rowDto
-                                ?.reduce((acc, cur) => acc + cur.quantity, 0)
-                                ?.toFixed(2)}
-                            </td>
-                          </tr>
-                        </tFoot>
-                      </table>
+                          </tFoot>
+                        </table>
+                      </div>
+
                       <div style={{ display: "flex", marginTop: "20px" }}>
                         <div>
                           <div>

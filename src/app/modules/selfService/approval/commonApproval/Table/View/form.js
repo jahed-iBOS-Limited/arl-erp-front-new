@@ -184,7 +184,7 @@ export default function _Form({
                         isDisabled={true}
                       />
                     </div>
-                    <div style={{ width: 100 }} className="col-lg-12">
+                    <div className="col-lg-12">
                       <label>Bom Name</label>
                       <InputField
                         value={values?.bomName || ""}
@@ -194,7 +194,7 @@ export default function _Form({
                         disabled={true}
                       />
                     </div>
-                    <div style={{ width: 100 }} className="col-lg-12">
+                    <div className="col-lg-12">
                       <label>Bom Version</label>
                       <InputField
                         value={values?.bomVersion}
@@ -375,6 +375,7 @@ export default function _Form({
                   {/* Table Header input end */}
                   <div className="row">
                     <div className="col-lg-12">
+                    <div className="table-responsive">
                       <table className={"table mt-1 bj-table"}>
                         <thead className={rowDto?.length === 0 && "d-none"}>
                           <tr>
@@ -414,6 +415,7 @@ export default function _Form({
                           ))}
                         </tbody>
                       </table>
+                      </div>
                     </div>
                   </div>
 
@@ -492,6 +494,7 @@ export default function _Form({
 
                   <div className="row">
                     <div className="col-lg-12">
+                    <div className="table-responsive">
                       <table className={"table mt-1 bj-table"}>
                         <thead
                           className={costElementRowData?.length < 1 && "d-none"}
@@ -532,6 +535,7 @@ export default function _Form({
                           ))}
                         </tbody>
                       </table>
+                      </div>
                     </div>
                   </div>
                   {/* Bill Of Expense Start End Here */}

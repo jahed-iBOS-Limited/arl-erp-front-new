@@ -304,6 +304,7 @@ const MovementApprovalLanding = () => {
               </Form>
               {/* Table Start */}
               {newApplicationData?.length > 0 && (
+                 <div className="table-responsive">
                 <table className="table table-striped table-bordered bj-table bj-table-landing">
                   <thead>
                     <tr>
@@ -439,6 +440,7 @@ const MovementApprovalLanding = () => {
                       ))}
                   </tbody>
                 </table>
+                </div>
               )}
             </>
           )}

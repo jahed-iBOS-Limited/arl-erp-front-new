@@ -225,7 +225,9 @@ const ItemRequestApprovalGrid = ({ onChangeForActivity, activityName, activityCh
                 />
               </div>
             </Form>
-            {rowDto?.data?.length ? <table className="table table-striped table-bordered global-table">
+            {rowDto?.data?.length ? 
+           <div className="table-responsive">
+             <table className="table table-striped table-bordered global-table">
               <thead>
                 <tr>
                   <th style={{ width: "20px" }}>
@@ -311,7 +313,8 @@ const ItemRequestApprovalGrid = ({ onChangeForActivity, activityName, activityCh
                   </tr>
                 ))}
               </tbody>
-            </table> : ""}
+            </table> 
+           </div>: ""}
             {rowDto?.data?.length > 0 && (
               <PaginationTable
                 count={rowDto?.totalCount}

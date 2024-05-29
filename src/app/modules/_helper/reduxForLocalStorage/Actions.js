@@ -434,3 +434,6 @@ export const setBankGuaranteeStoreAction = (data) => (dispatch) => {
 export const setItemBasicInfoInitDataAction = (data) => (dispatch) => {
   dispatch(slice.setItemBasicInfoInitData(data));
 };
+export const setOEECapacityConfigurationAction = (data) => (dispatch) => {
+  dispatch(slice.setOEECapacityConfigurationData(data));
+};

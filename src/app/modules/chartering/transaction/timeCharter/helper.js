@@ -2,7 +2,7 @@ import axios from "axios";
 import moment from "moment";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
-import { _dateFormatter } from "../../_chartinghelper/_dateFormatter";
+// import { _dateFormatter } from "../../_chartinghelper/_dateFormatter";
 import { imarineBaseUrl } from "../../../../App";
 
 const getKey = (description) => {
@@ -225,12 +225,14 @@ export const GetTransactionDetails = async (
   setter,
   setLoading,
   setOffHireDuration,
-  cb
+  cb,
+  type
 ) => {
   setLoading(true);
   try {
+    const apiName = type === "create" ? "GetTimeCharterByIdForTimeCharter" : "GetTimeCharterById"; 
     const resInvoiceTransaction = await axios.get(
-      `${imarineBaseUrl}/domain/TimeCharterTransaction/GetTimeCharterById?AccountId=${accId}&BusinessUnitId=${buId}&VesselId=${vesselId}&VoyageId=${voyageId}&HireTrasaction=${transactionId}`
+      `${imarineBaseUrl}/domain/TimeCharterTransaction/${apiName}?AccountId=${accId}&BusinessUnitId=${buId}&VesselId=${vesselId}&VoyageId=${voyageId}&HireTrasaction=${transactionId}`
     );
 
     const res = await axios.get(
@@ -281,11 +283,12 @@ export const GetTransactionDetails = async (
         offHireArr?.forEach((item, index) => {
           hireIdList.push(item?.hireId);
           finalArr.push({
-            description: `OFFHIRE${
-              offHireArr?.length > 1 ? `-${index + 1}` : ""
-            }   [${_dateFormatter(item?.offHireStart)} - ${_dateFormatter(
-              item?.offHireEnd
-            )}]`,
+            // description: `OFFHIRE${
+            //   offHireArr?.length > 1 ? `-${index + 1}` : ""
+            // }   [${_dateFormatter(item?.offHireStart)} - ${_dateFormatter(
+            //   item?.offHireEnd
+            // )}]`,
+            description: `OFFHIRE`,
             tctransactionId: 0,
             duration: item?.offHireDurOnPercentage,
             // duration: item?.durationPercentage,

@@ -64,7 +64,7 @@ export default function _Form({
                     obj={{
                       values,
                       setFieldValue,
-                      area: [14, 16, 20].includes(
+                      area: [14, 16, 20, 23].includes(
                         values?.commissionType?.value
                       ),
                       territory: false,

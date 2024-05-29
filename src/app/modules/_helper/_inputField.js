@@ -12,9 +12,10 @@ const InputField = (props) => {
     errors,
     touched,
     resetFieldValue,
+    style
   } = props;
   return (
-    <div className="position-relative">
+    <div className="position-relative" style={style}>
       <Field
         step={type === "number" ? "any" : ""}
         {...props}

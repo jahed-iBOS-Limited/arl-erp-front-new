@@ -65,32 +65,34 @@ function DetailsModal({ modalData }) {
       <>
         {gridData?.length > 0 && (
           <div ref={printRef} className="col-lg-12 pr-0 pl-0">
-            <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
-              <thead>
-                <tr>
-                  <th>SL</th>
-                  <th>Transaction Date</th>
-                  <th>Transaction Code</th>
-                  <th>Transfered Stock</th>
-                </tr>
-              </thead>
-              <tbody>
-                {gridData?.map((item, index) => (
-                  <tr key={index}>
-                    <td className="text-center">{index + 1}</td>
-                    <td className="text-center">
-                      <span>{_dateFormatter(item?.transactiondate)}</span>
-                    </td>
-                    <td className="text-left">
-                      <span className="pl-2">{item?.transactionCode}</span>
-                    </td>
-                    <td className="text-right">
-                      <span className="pr-2">{item?.transferedStock}</span>
-                    </td>
+            <div className="table-responsive">
+              <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+                <thead>
+                  <tr>
+                    <th>SL</th>
+                    <th>Transaction Date</th>
+                    <th>Transaction Code</th>
+                    <th>Transfered Stock</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {gridData?.map((item, index) => (
+                    <tr key={index}>
+                      <td className="text-center">{index + 1}</td>
+                      <td className="text-center">
+                        <span>{_dateFormatter(item?.transactiondate)}</span>
+                      </td>
+                      <td className="text-left">
+                        <span className="pl-2">{item?.transactionCode}</span>
+                      </td>
+                      <td className="text-right">
+                        <span className="pr-2">{item?.transferedStock}</span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         )}
       </>

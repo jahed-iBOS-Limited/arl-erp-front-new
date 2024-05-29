@@ -115,7 +115,7 @@ export default function AssessmentSubmissionForm() {
                             className="row"
                           >
                             {questionItem?.options?.map((optionItem, i) => (
-                              <div key={i} className="col-6">
+                              <div key={i} className="col-lg-6">
                                 <label>
                                   <input
                                     type="radio"

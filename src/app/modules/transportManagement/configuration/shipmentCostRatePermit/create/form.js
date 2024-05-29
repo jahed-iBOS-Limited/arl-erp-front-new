@@ -58,7 +58,7 @@ export default function _Form({
           <>
           {console.log(values)}
             <Form className="global-form from-label-right">
-              <div className="form-group row">
+              <div className="form-group row align-items-center">
                 <div className="col-lg-3">
                   <NewSelect
                     name="employeeName"
@@ -84,7 +84,7 @@ export default function _Form({
                   />
                 </div>
 
-                <div className="col-lg-2 d-flex align-items-center mt-3 col">
+                <div className="col-lg-2 ">
                   <label for="ysnGhatInfo">Ghat Permission</label>
                   <Field
                     name="ysnGhatInfo"
@@ -97,7 +97,7 @@ export default function _Form({
                     id="ysnGhatInfo"
                   />
                 </div>
-                <div className="col-lg-2 d-flex align-items-center mt-3 col">
+                <div className="col-lg-2 ">
                   <label for="ysnTransportZoneInfo">
                     TransportZone Permission
                   </label>
@@ -112,7 +112,7 @@ export default function _Form({
                     id="ysnTransportZoneInfo"
                   />
                 </div>
-                <div className="col-lg-2 d-flex align-items-center mt-3 col">
+                <div className="col-lg-2 ">
                   <label for="itemInfo">Item Permission</label>
                   <Field
                     name="ysnItemInfo"

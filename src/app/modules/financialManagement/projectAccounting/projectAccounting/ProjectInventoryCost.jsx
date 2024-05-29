@@ -22,7 +22,7 @@ const initialValues = {
   item: "",
   quantity: "",
   price: "",
-  labor:"",
+  labor: "",
 };
 const ProjectInventoryCost = ({
   project,
@@ -209,101 +209,110 @@ const ProjectInventoryCost = ({
                   <div className="row" id="pdf-section">
                     <div className="col-lg-12">
                       <div className="print_wrapper">
-                        <table className="table table-striped table-bordered mt-3 global-table table-font-size-sm">
-                          <thead>
-                            <tr>
-                              <th style={{ width: "50px" }}>SL</th>
-                              <th
-                                style={{ width: "150px", textAlign: "center" }}
-                              >
-                                Item Code
-                              </th>
-                              <th style={{ width: "200px" }}>
-                                <div className="text-left">Item Name</div>
-                              </th>
-                              <th style={{ width: "100px" }}>UOM</th>
-                              <th
-                                style={{ width: "150px", textAlign: "center" }}
-                              >
-                                Quantity
-                              </th>
-                              <th style={{ width: "100px" }}>
-                                <div>Price</div>
-                              </th>
-                              <th style={{ width: "100px" }}>
-                                <div>Labor</div>
-                              </th>
-                              <th style={{ width: "100px" }}>
-                                <div>Total</div>
-                              </th>
-                              <th style={{ width: "150px" }}>Action</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {itemList?.map((item, index) =>
-                              item?.isActive ? (
-                                <tr key={index + 1}>
-                                  <td className="text-center">{index + 1}</td>
-                                  <td className="text-center">
-                                    {item?.itemCode}
-                                  </td>
-                                  <td>
-                                    <div className="text-left">
-                                      {item?.itemName}
-                                    </div>
-                                  </td>
-                                  <td className="text-center">
-                                    {item?.strUom}
-                                  </td>
-                                  <td className="text-center">
-                                    {item?.numQty}
-                                  </td>
-                                  <td className="text-right">
-                                    {item?.numPrice}
-                                  </td>
-                                  <td className="text-right">
-                                    {item?.numLaborValue || ""}
-                                  </td>
-                                  <td className="text-right">
-                                    {item?.numTotal}
-                                  </td>
-                                  <td className="text-center">
-                                    <div className="text-center">
-                                      <span onClick={() => {}}>
-                                        <DeleteOutlined
-                                          onClick={() => {
-                                            let modifiedItemList = [];
+                        <div className="table-responsive">
+                          <table className="table table-striped table-bordered mt-3 global-table table-font-size-sm">
+                            <thead>
+                              <tr>
+                                <th style={{ width: "50px" }}>SL</th>
+                                <th
+                                  style={{
+                                    width: "150px",
+                                    textAlign: "center",
+                                  }}
+                                >
+                                  Item Code
+                                </th>
+                                <th style={{ width: "200px" }}>
+                                  <div className="text-left">Item Name</div>
+                                </th>
+                                <th style={{ width: "100px" }}>UOM</th>
+                                <th
+                                  style={{
+                                    width: "150px",
+                                    textAlign: "center",
+                                  }}
+                                >
+                                  Quantity
+                                </th>
+                                <th style={{ width: "100px" }}>
+                                  <div>Price</div>
+                                </th>
+                                <th style={{ width: "100px" }}>
+                                  <div>Labor</div>
+                                </th>
+                                <th style={{ width: "100px" }}>
+                                  <div>Total</div>
+                                </th>
+                                <th style={{ width: "150px" }}>Action</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {itemList?.map((item, index) =>
+                                item?.isActive ? (
+                                  <tr key={index + 1}>
+                                    <td className="text-center">{index + 1}</td>
+                                    <td className="text-center">
+                                      {item?.itemCode}
+                                    </td>
+                                    <td>
+                                      <div className="text-left">
+                                        {item?.itemName}
+                                      </div>
+                                    </td>
+                                    <td className="text-center">
+                                      {item?.strUom}
+                                    </td>
+                                    <td className="text-center">
+                                      {item?.numQty}
+                                    </td>
+                                    <td className="text-right">
+                                      {item?.numPrice}
+                                    </td>
+                                    <td className="text-right">
+                                      {item?.numLaborValue || ""}
+                                    </td>
+                                    <td className="text-right">
+                                      {item?.numTotal}
+                                    </td>
+                                    <td className="text-center">
+                                      <div className="text-center">
+                                        <span onClick={() => {}}>
+                                          <DeleteOutlined
+                                            onClick={() => {
+                                              let modifiedItemList = [];
 
-                                            if (item?.intProjectInvId === 0) {
-                                              modifiedItemList = itemList.filter(
-                                                (nestedItem) =>
-                                                  nestedItem?.strItemCode !==
-                                                  item?.strItemCode
-                                              );
-                                              setItemList(modifiedItemList);
-                                            } else {
-                                              modifiedItemList = itemList.map(
-                                                (nestedItem) =>
-                                                  nestedItem?.strItemCode ===
-                                                  item?.strItemCode
-                                                    ? {
-                                                        ...nestedItem,
-                                                        isActive: false,
-                                                      }
-                                                    : nestedItem
-                                              );
-                                              setItemList(modifiedItemList);
-                                            }
-                                          }}
-                                        />
-                                      </span>
-                                    </div>
-                                  </td>
-                                </tr>
-                              ) : null
-                            )}
-                          </tbody>
-                        </table>
+                                              if (item?.intProjectInvId === 0) {
+                                                modifiedItemList = itemList.filter(
+                                                  (nestedItem) =>
+                                                    nestedItem?.strItemCode !==
+                                                    item?.strItemCode
+                                                );
+                                                setItemList(modifiedItemList);
+                                              } else {
+                                                modifiedItemList = itemList.map(
+                                                  (nestedItem) =>
+                                                    nestedItem?.strItemCode ===
+                                                    item?.strItemCode
+                                                      ? {
+                                                          ...nestedItem,
+                                                          isActive: false,
+                                                        }
+                                                      : nestedItem
+                                                );
+                                                setItemList(modifiedItemList);
+                                              }
+                                            }}
+                                          />
+                                        </span>
+                                      </div>
+                                    </td>
+                                  </tr>
+                                ) : null
+                              )}
+                            </tbody>
+                          </table>
+                        </div>
+
                         <div></div>
                       </div>
                     </div>

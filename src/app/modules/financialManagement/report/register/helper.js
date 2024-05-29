@@ -19,7 +19,8 @@ export const getRegisterReportAction = async (
   setter,
   setLoading,
   registerTypeId,
-  partnerTypeId
+  partnerTypeId,
+  CB
 ) => {
   const {
     sbu = null,
@@ -37,7 +38,7 @@ export const getRegisterReportAction = async (
   } else if (registerTypeId === 7) {
     const fromDateQuery = fromDate ? `&fromDate=${fromDate}` : "";
     const toDateQuery = toDate ? `&toDate=${toDate}` : "";
-    api = `fino/BankBranch/GetAccountingRegisterSummaryPartner?AccountId=${accId}&BusinessUnitId=${buId}&SBUId=${sbu?.value}&PartnerType=${partnerTypeId}${fromDateQuery}${toDateQuery}`;
+    api = `fino/BankBranch/GetAccountingRegisterSummaryPartner?AccountId=${accId}&BusinessUnitId=${buId}&SBUId=${sbu?.value}&DistributionChannelId=${values?.distributionChannel?.value || 0}&PartnerType=${partnerTypeId}${fromDateQuery}${toDateQuery}`;
   } else if (registerTypeId !== 6 && registerTypeId) {
     api = `/fino/BankBranch/GetAccountingRegisterSummaryPartner?AccountId=${accId}&BusinessUnitId=${buId}&SBUId=${sbu?.value}&PartnerType=${registerTypeId}`;
   } else if (registerTypeId === 6) {
@@ -53,6 +54,7 @@ export const getRegisterReportAction = async (
     const res = await axios.get(api);
     setLoading(false);
     setter(res?.data);
+    CB && CB(res?.data);
   } catch (error) {
     setLoading(false);
     setter([]);

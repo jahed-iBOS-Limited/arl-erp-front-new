@@ -105,7 +105,7 @@ export default function DirectAndDumpRateEntry({ id, getLandingData }) {
                     isDisabled={id}
                   />
                 </div>
-                <div className="col-3">
+                <div className="col-lg-3">
                   <label>Supplier</label>
                   <SearchAsyncSelect
                     selectedValue={values.supplier}
@@ -305,304 +305,311 @@ export default function DirectAndDumpRateEntry({ id, getLandingData }) {
               <div className="mt-5">
                 {rowDto?.length > 0 && (
                   <>
-                    <table className="table table-striped table-bordered inv-table">
-                      <thead>
-                        <tr>
-                          <th>SL</th>
-                          <th>Supplier</th>
-                          <th>Direct Delivery Rate</th>
-                          <th>Dump Delivery Rate</th>
-                          <th>Dam To Truck Rate</th>
-                          <th>Truck To Dam Rate</th>
-                          <th>Lighter To Bolgate Rate</th>
-                          <th>Bolgate To DamRate</th>
-                          <th>Truck To Dam Outside Rate</th>
-                          <th>BIWTA Rate</th>
-                          <th>Ship Sweeping Rate</th>
-                          <th>Scale Rate</th>
-                          <th>Daily Labor Rate</th>
-                          <th>Others Cost Rate</th>
-                          {id ? null : <th>Action</th>}
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {rowDto?.map((item, index) => (
-                          <tr key={index}>
-                            <td className="text-center">{index + 1}</td>
-                            <td
-                              style={{ minWidth: "140px" }}
-                              className="text-center"
-                            >
-                              {item?.strSupplierName}
-                            </td>
-                            <td className="text-center">
-                              {id ? (
-                                <InputField
-                                  value={item?.decDirectRate}
-                                  name="decDirectRate"
-                                  type="number"
-                                  onChange={(e) => {
-                                    if (+e.target.value < 0) return;
-                                    const updatedData = [...rowDto];
-                                    updatedData[index] = {
-                                      ...updatedData[index],
-                                      decDirectRate: e.target.value || "",
-                                    };
-                                    setRowDto(updatedData);
-                                  }}
-                                  required
-                                />
-                              ) : (
-                                item?.decDirectRate
-                              )}
-                            </td>
-                            <td className="text-center">
-                              {id ? (
-                                <InputField
-                                  value={item?.decDumpDeliveryRate}
-                                  name="decDumpDeliveryRate"
-                                  type="number"
-                                  onChange={(e) => {
-                                    if (+e.target.value < 0) return;
-                                    const updatedData = [...rowDto];
-                                    updatedData[index] = {
-                                      ...updatedData[index],
-                                      decDumpDeliveryRate: e.target.value || "",
-                                    };
-                                    setRowDto(updatedData);
-                                  }}
-                                  required
-                                />
-                              ) : (
-                                item?.decDumpDeliveryRate
-                              )}
-                            </td>
-                            <td className="text-center">
-                              {id ? (
-                                <InputField
-                                  value={item?.decDamToTruckRate}
-                                  name="decDamToTruckRate"
-                                  type="number"
-                                  onChange={(e) => {
-                                    if (+e.target.value < 0) return;
-                                    const updatedData = [...rowDto];
-                                    updatedData[index] = {
-                                      ...updatedData[index],
-                                      decDamToTruckRate: e.target.value || "",
-                                    };
-                                    setRowDto(updatedData);
-                                  }}
-                                  required
-                                />
-                              ) : (
-                                item?.decDamToTruckRate
-                              )}
-                            </td>
-                            <td className="text-center">
-                              {id ? (
-                                <InputField
-                                  value={item?.decTruckToDamRate}
-                                  name="decTruckToDamRate"
-                                  type="number"
-                                  onChange={(e) => {
-                                    if (+e.target.value < 0) return;
-                                    const updatedData = [...rowDto];
-                                    updatedData[index] = {
-                                      ...updatedData[index],
-                                      decTruckToDamRate: e.target.value || "",
-                                    };
-                                    setRowDto(updatedData);
-                                  }}
-                                  required
-                                />
-                              ) : (
-                                item?.decTruckToDamRate
-                              )}
-                            </td>
-                            <td className="text-center">
-                              {id ? (
-                                <InputField
-                                  value={item?.decLighterToBolgateRate}
-                                  name="decLighterToBolgateRate"
-                                  type="number"
-                                  onChange={(e) => {
-                                    if (+e.target.value < 0) return;
-                                    const updatedData = [...rowDto];
-                                    updatedData[index] = {
-                                      ...updatedData[index],
-                                      decLighterToBolgateRate:
-                                        e.target.value || "",
-                                    };
-                                    setRowDto(updatedData);
-                                  }}
-                                  required
-                                />
-                              ) : (
-                                item?.decLighterToBolgateRate
-                              )}
-                            </td>
-                            <td className="text-center">
-                              {id ? (
-                                <InputField
-                                  value={item?.decBolgateToDamRate}
-                                  name="decBolgateToDamRate"
-                                  type="number"
-                                  onChange={(e) => {
-                                    if (+e.target.value < 0) return;
-                                    const updatedData = [...rowDto];
-                                    updatedData[index] = {
-                                      ...updatedData[index],
-                                      decBolgateToDamRate: e.target.value || "",
-                                    };
-                                    setRowDto(updatedData);
-                                  }}
-                                  required
-                                />
-                              ) : (
-                                item?.decBolgateToDamRate
-                              )}
-                            </td>
-                            <td className="text-center">
-                              {id ? (
-                                <InputField
-                                  value={item?.decTruckToDamOutSideRate}
-                                  name="decTruckToDamOutSideRate"
-                                  type="number"
-                                  onChange={(e) => {
-                                    if (+e.target.value < 0) return;
-                                    const updatedData = [...rowDto];
-                                    updatedData[index] = {
-                                      ...updatedData[index],
-                                      decTruckToDamOutSideRate: e.target.value || "",
-                                    };
-                                    setRowDto(updatedData);
-                                  }}
-                                  required
-                                />
-                              ) : (
-                                item?.decTruckToDamOutSideRate
-                              )}
-                            </td>
-                            <td className="text-center">
-                              {id ? (
-                                <InputField
-                                  value={item?.decBiwtarate}
-                                  name="decBiwtarate"
-                                  type="number"
-                                  onChange={(e) => {
-                                    if (+e.target.value < 0) return;
-                                    const updatedData = [...rowDto];
-                                    updatedData[index] = {
-                                      ...updatedData[index],
-                                      decBiwtarate: e.target.value || "",
-                                    };
-                                    setRowDto(updatedData);
-                                  }}
-                                  required
-                                />
-                              ) : (
-                                item?.decBiwtarate
-                              )}
-                            </td>
-                            <td className="text-center">
-                              {id ? (
-                                <InputField
-                                  value={item?.decShipSweepingRate}
-                                  name="decShipSweepingRate"
-                                  type="number"
-                                  onChange={(e) => {
-                                    if (+e.target.value < 0) return;
-                                    const updatedData = [...rowDto];
-                                    updatedData[index] = {
-                                      ...updatedData[index],
-                                      decShipSweepingRate: e.target.value || "",
-                                    };
-                                    setRowDto(updatedData);
-                                  }}
-                                  required
-                                />
-                              ) : (
-                                item?.decShipSweepingRate
-                              )}
-                            </td>
-                            <td className="text-center">
-                              {id ? (
-                                <InputField
-                                  value={item?.decScaleRate}
-                                  name="decScaleRate"
-                                  type="number"
-                                  onChange={(e) => {
-                                    if (+e.target.value < 0) return;
-                                    const updatedData = [...rowDto];
-                                    updatedData[index] = {
-                                      ...updatedData[index],
-                                      decScaleRate: e.target.value || "",
-                                    };
-                                    setRowDto(updatedData);
-                                  }}
-                                  required
-                                />
-                              ) : (
-                                item?.decScaleRate
-                              )}
-                            </td>
-                            <td className="text-center">
-                              {id ? (
-                                <InputField
-                                  value={item?.decDailyLaboureRate}
-                                  name="decDailyLaboureRate"
-                                  type="number"
-                                  onChange={(e) => {
-                                    if (+e.target.value < 0) return;
-                                    const updatedData = [...rowDto];
-                                    updatedData[index] = {
-                                      ...updatedData[index],
-                                      decDailyLaboureRate: e.target.value || "",
-                                    };
-                                    setRowDto(updatedData);
-                                  }}
-                                  required
-                                />
-                              ) : (
-                                item?.decDailyLaboureRate
-                              )}
-                            </td>
-                            <td className="text-center">
-                              {id ? (
-                                <InputField
-                                  value={item?.decOthersCostRate}
-                                  name="decOthersCostRate"
-                                  type="number"
-                                  onChange={(e) => {
-                                    if (+e.target.value < 0) return;
-                                    const updatedData = [...rowDto];
-                                    updatedData[index] = {
-                                      ...updatedData[index],
-                                      decOthersCostRate: e.target.value || "",
-                                    };
-                                    setRowDto(updatedData);
-                                  }}
-                                  required
-                                />
-                              ) : (
-                                item?.decOthersCostRate
-                              )}
-                            </td>
-                            {id ? null : (
-                              <td className="text-center">
-                                <IDelete
-                                  remover={() => {
-                                    setRowDto((prev) =>
-                                      prev.filter((_, i) => i !== index)
-                                    );
-                                  }}
-                                />
-                              </td>
-                            )}
+                    <div className="table-responsive">
+                      <table className="table table-striped table-bordered inv-table">
+                        <thead>
+                          <tr>
+                            <th>SL</th>
+                            <th>Supplier</th>
+                            <th>Direct Delivery Rate</th>
+                            <th>Dump Delivery Rate</th>
+                            <th>Dam To Truck Rate</th>
+                            <th>Truck To Dam Rate</th>
+                            <th>Lighter To Bolgate Rate</th>
+                            <th>Bolgate To DamRate</th>
+                            <th>Truck To Dam Outside Rate</th>
+                            <th>BIWTA Rate</th>
+                            <th>Ship Sweeping Rate</th>
+                            <th>Scale Rate</th>
+                            <th>Daily Labor Rate</th>
+                            <th>Others Cost Rate</th>
+                            {id ? null : <th>Action</th>}
                           </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                        </thead>
+                        <tbody>
+                          {rowDto?.map((item, index) => (
+                            <tr key={index}>
+                              <td className="text-center">{index + 1}</td>
+                              <td
+                                style={{ minWidth: "140px" }}
+                                className="text-center"
+                              >
+                                {item?.strSupplierName}
+                              </td>
+                              <td className="text-center">
+                                {id ? (
+                                  <InputField
+                                    value={item?.decDirectRate}
+                                    name="decDirectRate"
+                                    type="number"
+                                    onChange={(e) => {
+                                      if (+e.target.value < 0) return;
+                                      const updatedData = [...rowDto];
+                                      updatedData[index] = {
+                                        ...updatedData[index],
+                                        decDirectRate: e.target.value || "",
+                                      };
+                                      setRowDto(updatedData);
+                                    }}
+                                    required
+                                  />
+                                ) : (
+                                  item?.decDirectRate
+                                )}
+                              </td>
+                              <td className="text-center">
+                                {id ? (
+                                  <InputField
+                                    value={item?.decDumpDeliveryRate}
+                                    name="decDumpDeliveryRate"
+                                    type="number"
+                                    onChange={(e) => {
+                                      if (+e.target.value < 0) return;
+                                      const updatedData = [...rowDto];
+                                      updatedData[index] = {
+                                        ...updatedData[index],
+                                        decDumpDeliveryRate:
+                                          e.target.value || "",
+                                      };
+                                      setRowDto(updatedData);
+                                    }}
+                                    required
+                                  />
+                                ) : (
+                                  item?.decDumpDeliveryRate
+                                )}
+                              </td>
+                              <td className="text-center">
+                                {id ? (
+                                  <InputField
+                                    value={item?.decDamToTruckRate}
+                                    name="decDamToTruckRate"
+                                    type="number"
+                                    onChange={(e) => {
+                                      if (+e.target.value < 0) return;
+                                      const updatedData = [...rowDto];
+                                      updatedData[index] = {
+                                        ...updatedData[index],
+                                        decDamToTruckRate: e.target.value || "",
+                                      };
+                                      setRowDto(updatedData);
+                                    }}
+                                    required
+                                  />
+                                ) : (
+                                  item?.decDamToTruckRate
+                                )}
+                              </td>
+                              <td className="text-center">
+                                {id ? (
+                                  <InputField
+                                    value={item?.decTruckToDamRate}
+                                    name="decTruckToDamRate"
+                                    type="number"
+                                    onChange={(e) => {
+                                      if (+e.target.value < 0) return;
+                                      const updatedData = [...rowDto];
+                                      updatedData[index] = {
+                                        ...updatedData[index],
+                                        decTruckToDamRate: e.target.value || "",
+                                      };
+                                      setRowDto(updatedData);
+                                    }}
+                                    required
+                                  />
+                                ) : (
+                                  item?.decTruckToDamRate
+                                )}
+                              </td>
+                              <td className="text-center">
+                                {id ? (
+                                  <InputField
+                                    value={item?.decLighterToBolgateRate}
+                                    name="decLighterToBolgateRate"
+                                    type="number"
+                                    onChange={(e) => {
+                                      if (+e.target.value < 0) return;
+                                      const updatedData = [...rowDto];
+                                      updatedData[index] = {
+                                        ...updatedData[index],
+                                        decLighterToBolgateRate:
+                                          e.target.value || "",
+                                      };
+                                      setRowDto(updatedData);
+                                    }}
+                                    required
+                                  />
+                                ) : (
+                                  item?.decLighterToBolgateRate
+                                )}
+                              </td>
+                              <td className="text-center">
+                                {id ? (
+                                  <InputField
+                                    value={item?.decBolgateToDamRate}
+                                    name="decBolgateToDamRate"
+                                    type="number"
+                                    onChange={(e) => {
+                                      if (+e.target.value < 0) return;
+                                      const updatedData = [...rowDto];
+                                      updatedData[index] = {
+                                        ...updatedData[index],
+                                        decBolgateToDamRate:
+                                          e.target.value || "",
+                                      };
+                                      setRowDto(updatedData);
+                                    }}
+                                    required
+                                  />
+                                ) : (
+                                  item?.decBolgateToDamRate
+                                )}
+                              </td>
+                              <td className="text-center">
+                                {id ? (
+                                  <InputField
+                                    value={item?.decTruckToDamOutSideRate}
+                                    name="decTruckToDamOutSideRate"
+                                    type="number"
+                                    onChange={(e) => {
+                                      if (+e.target.value < 0) return;
+                                      const updatedData = [...rowDto];
+                                      updatedData[index] = {
+                                        ...updatedData[index],
+                                        decTruckToDamOutSideRate:
+                                          e.target.value || "",
+                                      };
+                                      setRowDto(updatedData);
+                                    }}
+                                    required
+                                  />
+                                ) : (
+                                  item?.decTruckToDamOutSideRate
+                                )}
+                              </td>
+                              <td className="text-center">
+                                {id ? (
+                                  <InputField
+                                    value={item?.decBiwtarate}
+                                    name="decBiwtarate"
+                                    type="number"
+                                    onChange={(e) => {
+                                      if (+e.target.value < 0) return;
+                                      const updatedData = [...rowDto];
+                                      updatedData[index] = {
+                                        ...updatedData[index],
+                                        decBiwtarate: e.target.value || "",
+                                      };
+                                      setRowDto(updatedData);
+                                    }}
+                                    required
+                                  />
+                                ) : (
+                                  item?.decBiwtarate
+                                )}
+                              </td>
+                              <td className="text-center">
+                                {id ? (
+                                  <InputField
+                                    value={item?.decShipSweepingRate}
+                                    name="decShipSweepingRate"
+                                    type="number"
+                                    onChange={(e) => {
+                                      if (+e.target.value < 0) return;
+                                      const updatedData = [...rowDto];
+                                      updatedData[index] = {
+                                        ...updatedData[index],
+                                        decShipSweepingRate:
+                                          e.target.value || "",
+                                      };
+                                      setRowDto(updatedData);
+                                    }}
+                                    required
+                                  />
+                                ) : (
+                                  item?.decShipSweepingRate
+                                )}
+                              </td>
+                              <td className="text-center">
+                                {id ? (
+                                  <InputField
+                                    value={item?.decScaleRate}
+                                    name="decScaleRate"
+                                    type="number"
+                                    onChange={(e) => {
+                                      if (+e.target.value < 0) return;
+                                      const updatedData = [...rowDto];
+                                      updatedData[index] = {
+                                        ...updatedData[index],
+                                        decScaleRate: e.target.value || "",
+                                      };
+                                      setRowDto(updatedData);
+                                    }}
+                                    required
+                                  />
+                                ) : (
+                                  item?.decScaleRate
+                                )}
+                              </td>
+                              <td className="text-center">
+                                {id ? (
+                                  <InputField
+                                    value={item?.decDailyLaboureRate}
+                                    name="decDailyLaboureRate"
+                                    type="number"
+                                    onChange={(e) => {
+                                      if (+e.target.value < 0) return;
+                                      const updatedData = [...rowDto];
+                                      updatedData[index] = {
+                                        ...updatedData[index],
+                                        decDailyLaboureRate:
+                                          e.target.value || "",
+                                      };
+                                      setRowDto(updatedData);
+                                    }}
+                                    required
+                                  />
+                                ) : (
+                                  item?.decDailyLaboureRate
+                                )}
+                              </td>
+                              <td className="text-center">
+                                {id ? (
+                                  <InputField
+                                    value={item?.decOthersCostRate}
+                                    name="decOthersCostRate"
+                                    type="number"
+                                    onChange={(e) => {
+                                      if (+e.target.value < 0) return;
+                                      const updatedData = [...rowDto];
+                                      updatedData[index] = {
+                                        ...updatedData[index],
+                                        decOthersCostRate: e.target.value || "",
+                                      };
+                                      setRowDto(updatedData);
+                                    }}
+                                    required
+                                  />
+                                ) : (
+                                  item?.decOthersCostRate
+                                )}
+                              </td>
+                              {id ? null : (
+                                <td className="text-center">
+                                  <IDelete
+                                    remover={() => {
+                                      setRowDto((prev) =>
+                                        prev.filter((_, i) => i !== index)
+                                      );
+                                    }}
+                                  />
+                                </td>
+                              )}
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
                   </>
                 )}
               </div>

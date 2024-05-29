@@ -24,9 +24,7 @@ const initData = {
   status: "",
 };
 const InvoiceWisePaymentLanding = () => {
-  const {location} = useHistory();
-
-
+  const { location } = useHistory();
 
   // const profileData = useSelector((state) => {
   //   return state.authData.profileData;
@@ -38,11 +36,7 @@ const InvoiceWisePaymentLanding = () => {
   // );
 
   const saveHandler = (values, cb) => {};
-  const [
-    tableData,
-    getTableData,
-    tableDataLoader,
-  ] = useAxiosGet();
+  const [tableData, getTableData, tableDataLoader] = useAxiosGet();
 
   const [clickedItem, setClickedItem] = useState("");
   const [viewModal, setViewModal] = useState(false);
@@ -60,22 +54,22 @@ const InvoiceWisePaymentLanding = () => {
     );
   };
 
-  useEffect(() =>{
-    const businessUnitId = location?.state?.values?.businessUnit?.value || '';
+  useEffect(() => {
+    const businessUnitId = location?.state?.values?.businessUnit?.value || "";
     const customerId = location?.state?.rowData?.customerId;
-    const fromDate = location?.state?.values?.fromDate || '';
-    const toDate = location?.state?.values?.toDate || '';
-    const status = location?.state?.values?.status?.value || '';
+    const fromDate = location?.state?.values?.fromDate || "";
+    const toDate = location?.state?.values?.toDate || "";
+    const status = location?.state?.values?.status?.value || "";
     const territoryId = location?.state?.values?.teritory?.value || 0;
-  
+
     // Checking if customerId is defined before making the API call
     if (customerId !== undefined) {
       const url = `/fino/PaymentOrReceive/GetInvoiceWisePayment?partName=Report&businessUnitId=${businessUnitId}&customerId=${customerId}&fromDate=${fromDate}&toDate=${toDate}&status=${status}&TerritoryId=${territoryId}`;
 
       getTableData(url);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location?.state?.rowData?.customerId, location])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location?.state?.rowData?.customerId, location]);
 
   return (
     <Formik
@@ -97,9 +91,7 @@ const InvoiceWisePaymentLanding = () => {
         touched,
       }) => (
         <>
-          {tableDataLoader && (
-            <Loading />
-          )}
+          {tableDataLoader && <Loading />}
           <IForm
             title="Invoice Wise Payment"
             isHiddenReset
@@ -113,7 +105,7 @@ const InvoiceWisePaymentLanding = () => {
               <div>
                 <div className="form-group  global-form row">
                   <div className="col-lg-3">
-                  <InputField
+                    <InputField
                       type="text"
                       name="Business Unit"
                       label="Business Unit"
@@ -122,17 +114,16 @@ const InvoiceWisePaymentLanding = () => {
                     />
                   </div>
                   <div className="col-lg-3">
-                  <InputField
+                    <InputField
                       type="text"
                       name="Teritory"
                       label="Teritory"
                       value={location?.state?.values?.teritory?.label}
                       disabled
                     />
-                    
                   </div>
                   <div className="col-lg-3">
-                  <InputField
+                    <InputField
                       type="text"
                       name="Customer"
                       label="Customer"
@@ -159,7 +150,7 @@ const InvoiceWisePaymentLanding = () => {
                     />
                   </div>
                   <div className="col-lg-3">
-                  <InputField
+                    <InputField
                       type="text"
                       name="Status"
                       label="Status"
@@ -202,122 +193,224 @@ const InvoiceWisePaymentLanding = () => {
                   </div>
                 </div>
                 <div className="mt-3">
-                  <table className="table table-striped table-bordered bj-table bj-table-landing">
-                    <thead>
-                      <tr>
-                        <th>
-                          Customer <br /> Code
-                        </th>
-                        <th>Customer Name</th>
-                        <th>
-                          Challan <br /> No
-                        </th>
-                        <th
-                          style={{
-                            minWidth: "70px",
-                          }}
-                        >
-                          Shipment <br /> Date
-                        </th>
-                        <th>
-                          Cr <br /> Days
-                        </th>
-                        <th
-                          style={{
-                            minWidth: "70px",
-                          }}
-                        >
-                          Due <br /> Date
-                        </th>
-                        <th
-                          style={{
-                            minWidth: "70px",
-                          }}
-                        >
-                          Overdue <br /> Days
-                        </th>
-                        {/* delivery part start */}
-                        <th
-                          style={{
-                            background: "#AFEEEE",
-                          }}
-                        >
-                          Delivery <br /> Amount
-                        </th>
-                        <th>
-                          Collected <br /> Amount
-                        </th>
-                        <th>
-                          Pending <br /> Amount
-                        </th>
-                        <th
-                          style={{
-                            background: "#F6F1E8",
-                          }}
-                        >
-                          Vat <br /> Amount
-                        </th>
-                        <th>
-                          Collected <br /> Vat
-                        </th>
-                        <th>
-                          Pending <br /> Vat
-                        </th>
-                        {values?.businessUnit?.value !== 186 ? (
+                  <div className="table-responsive">
+                    <table className="table table-striped table-bordered bj-table bj-table-landing">
+                      <thead>
+                        <tr>
                           <th>
-                            AIT <br /> Amount
+                            Customer <br /> Code
                           </th>
-                        ) : null}
-                        <th>
-                          Collected <br /> AIT
-                        </th>
-                        {values?.businessUnit?.value !== 186 ? (
+                          <th>Customer Name</th>
                           <th>
-                            Pending AIT <br />
-                            Amount
+                            Challan <br /> No
                           </th>
-                        ) : null}
-                        <th
-                          style={{
-                            width: "80px",
-                          }}
-                        >
-                          Action
-                        </th>
-                      </tr>
-                    </thead>
+                          <th
+                            style={{
+                              minWidth: "70px",
+                            }}
+                          >
+                            Shipment <br /> Date
+                          </th>
+                          <th>
+                            Cr <br /> Days
+                          </th>
+                          <th
+                            style={{
+                              minWidth: "70px",
+                            }}
+                          >
+                            Due <br /> Date
+                          </th>
+                          <th
+                            style={{
+                              minWidth: "70px",
+                            }}
+                          >
+                            Overdue <br /> Days
+                          </th>
+                          {/* delivery part start */}
+                          <th
+                            style={{
+                              background: "#AFEEEE",
+                            }}
+                          >
+                            Delivery <br /> Amount
+                          </th>
+                          <th>
+                            Collected <br /> Amount
+                          </th>
+                          <th>
+                            Pending <br /> Amount
+                          </th>
+                          <th
+                            style={{
+                              background: "#F6F1E8",
+                            }}
+                          >
+                            Vat <br /> Amount
+                          </th>
+                          <th>
+                            Collected <br /> Vat
+                          </th>
+                          <th>
+                            Pending <br /> Vat
+                          </th>
+                          {values?.businessUnit?.value !== 186 ? (
+                            <th>
+                              AIT <br /> Amount
+                            </th>
+                          ) : null}
+                          <th>
+                            Collected <br /> AIT
+                          </th>
+                          {values?.businessUnit?.value !== 186 ? (
+                            <th>
+                              Pending AIT <br />
+                              Amount
+                            </th>
+                          ) : null}
+                          <th
+                            style={{
+                              width: "80px",
+                            }}
+                          >
+                            Action
+                          </th>
+                        </tr>
+                      </thead>
 
-                    <tbody>
-                      {tableData?.length > 0 &&
-                        tableData?.map((item, index) => (
-                          <tr key={index}>
-                            <td>{item?.strCutomerCode}</td>
-                            <td>{item?.strCustomerName}</td>
-                            <td>{item?.strChallanNo}</td>
-                            <td className="text-center">
-                              {_dateFormatter(item?.dteShipmentDate)}
-                            </td>
-                            <td>{item?.intCrDays}</td>
-                            <td className="text-center">
-                              {_dateFormatter(item?.dteDueDate)}
-                            </td>
-                            <td className="text-center">
-                              {/* {_dateFormatter(item?.dteDueDate)} */}
-                              {item?.intOverdueDays}
-                            </td>
+                      <tbody>
+                        {tableData?.length > 0 &&
+                          tableData?.map((item, index) => (
+                            <tr key={index}>
+                              <td>{item?.strCutomerCode}</td>
+                              <td>{item?.strCustomerName}</td>
+                              <td>{item?.strChallanNo}</td>
+                              <td className="text-center">
+                                {_dateFormatter(item?.dteShipmentDate)}
+                              </td>
+                              <td>{item?.intCrDays}</td>
+                              <td className="text-center">
+                                {_dateFormatter(item?.dteDueDate)}
+                              </td>
+                              <td className="text-center">
+                                {/* {_dateFormatter(item?.dteDueDate)} */}
+                                {item?.intOverdueDays}
+                              </td>
+                              <td
+                                className="text-right"
+                                style={{
+                                  background: "rgb(233 255 255)",
+                                }}
+                              >
+                                {_formatMoney(item?.numDeliveryAmount)}
+                              </td>
+                              <td className="text-right">
+                                {_formatMoney(item?.numDeliveryAmountCollected)}
+                              </td>
+                              <td className="text-right">
+                                {_formatMoney(item?.numDeliveryAmountPending)}
+                              </td>
+                              <td
+                                className="text-right"
+                                style={{
+                                  background: "rgb(255 220 220)",
+                                }}
+                              >
+                                {_formatMoney(item?.numVatAmount)}
+                              </td>
+                              <td className="text-right">
+                                {_formatMoney(item?.numVatAmountCollected)}
+                              </td>
+                              <td className="text-right">
+                                {_formatMoney(item?.numVatAmountPending)}
+                              </td>
+                              {values?.businessUnit?.value !== 186 ? (
+                                <td
+                                  className="text-right"
+                                  style={{
+                                    background: "rgb(232 224 255)",
+                                  }}
+                                >
+                                  {_formatMoney(item?.numTaxAmount)}
+                                </td>
+                              ) : null}
+                              <td className="text-right">
+                                {_formatMoney(item?.numTaxAmountCollected)}
+                              </td>
+                              {values?.businessUnit?.value !== 186 ? (
+                                <td className="text-right">
+                                  {_formatMoney(item?.numTaxAmountPending)}
+                                </td>
+                              ) : null}
+                              <td className="text-center d-flex justify-content-around align-items-center">
+                                <span
+                                  onClick={() => {
+                                    setClickedItem(item);
+                                    setViewModal(true);
+                                  }}
+                                >
+                                  <IView />
+                                </span>
+                                <span
+                                  style={{
+                                    cursor: "pointer",
+                                  }}
+                                >
+                                  <OverlayTrigger
+                                    overlay={
+                                      <Tooltip id="cs-icon">Receive</Tooltip>
+                                    }
+                                  >
+                                    <span
+                                      onClick={() => {
+                                        setClickedItem(item);
+                                        setReceiveModal(true);
+                                      }}
+                                    >
+                                      <i
+                                        className={`flaticon-download-1`}
+                                        aria-hidden="true"
+                                      ></i>
+                                    </span>
+                                  </OverlayTrigger>
+                                </span>
+                              </td>
+                            </tr>
+                          ))}
+                        {tableData?.length > 0 ? (
+                          <tr>
+                            <td colSpan={7}>Total</td>
                             <td
                               className="text-right"
                               style={{
                                 background: "rgb(233 255 255)",
                               }}
                             >
-                              {_formatMoney(item?.numDeliveryAmount)}
+                              {_formatMoney(
+                                tableData?.reduce(
+                                  (acc, cur) => acc + cur?.numDeliveryAmount,
+                                  0
+                                )
+                              )}
                             </td>
                             <td className="text-right">
-                              {_formatMoney(item?.numDeliveryAmountCollected)}
+                              {_formatMoney(
+                                tableData?.reduce(
+                                  (acc, cur) =>
+                                    acc + cur?.numDeliveryAmountCollected,
+                                  0
+                                )
+                              )}
                             </td>
                             <td className="text-right">
-                              {_formatMoney(item?.numDeliveryAmountPending)}
+                              {_formatMoney(
+                                tableData?.reduce(
+                                  (acc, cur) =>
+                                    acc + cur?.numDeliveryAmountPending,
+                                  0
+                                )
+                              )}
                             </td>
                             <td
                               className="text-right"
@@ -325,13 +418,29 @@ const InvoiceWisePaymentLanding = () => {
                                 background: "rgb(255 220 220)",
                               }}
                             >
-                              {_formatMoney(item?.numVatAmount)}
+                              {_formatMoney(
+                                tableData?.reduce(
+                                  (acc, cur) => acc + cur?.numVatAmount,
+                                  0
+                                )
+                              )}
                             </td>
                             <td className="text-right">
-                              {_formatMoney(item?.numVatAmountCollected)}
+                              {_formatMoney(
+                                tableData?.reduce(
+                                  (acc, cur) =>
+                                    acc + cur?.numVatAmountCollected,
+                                  0
+                                )
+                              )}
                             </td>
                             <td className="text-right">
-                              {_formatMoney(item?.numVatAmountPending)}
+                              {_formatMoney(
+                                tableData?.reduce(
+                                  (acc, cur) => acc + cur?.numVatAmountPending,
+                                  0
+                                )
+                              )}
                             </td>
                             {values?.businessUnit?.value !== 186 ? (
                               <td
@@ -340,153 +449,40 @@ const InvoiceWisePaymentLanding = () => {
                                   background: "rgb(232 224 255)",
                                 }}
                               >
-                                {_formatMoney(item?.numTaxAmount)}
+                                {_formatMoney(
+                                  tableData?.reduce(
+                                    (acc, cur) => acc + cur?.numTaxAmount,
+                                    0
+                                  )
+                                )}
                               </td>
                             ) : null}
                             <td className="text-right">
-                              {_formatMoney(item?.numTaxAmountCollected)}
+                              {_formatMoney(
+                                tableData?.reduce(
+                                  (acc, cur) =>
+                                    acc + cur?.numTaxAmountCollected,
+                                  0
+                                )
+                              )}
                             </td>
                             {values?.businessUnit?.value !== 186 ? (
                               <td className="text-right">
-                                {_formatMoney(item?.numTaxAmountPending)}
+                                {_formatMoney(
+                                  tableData?.reduce(
+                                    (acc, cur) =>
+                                      acc + cur?.numTaxAmountPending,
+                                    0
+                                  )
+                                )}
                               </td>
                             ) : null}
-                            <td className="text-center d-flex justify-content-around align-items-center">
-                              <span
-                                onClick={() => {
-                                  setClickedItem(item);
-                                  setViewModal(true);
-                                }}
-                              >
-                                <IView />
-                              </span>
-                              <span
-                                style={{
-                                  cursor: "pointer",
-                                }}
-                              >
-                                <OverlayTrigger
-                                  overlay={
-                                    <Tooltip id="cs-icon">Receive</Tooltip>
-                                  }
-                                >
-                                  <span
-                                    onClick={() => {
-                                      setClickedItem(item);
-                                      setReceiveModal(true);
-                                    }}
-                                  >
-                                    <i
-                                      className={`flaticon-download-1`}
-                                      aria-hidden="true"
-                                    ></i>
-                                  </span>
-                                </OverlayTrigger>
-                              </span>
-                            </td>
+                            <td></td>
                           </tr>
-                        ))}
-                      {tableData?.length > 0 ? (
-                        <tr>
-                          <td colSpan={7}>Total</td>
-                          <td
-                            className="text-right"
-                            style={{
-                              background: "rgb(233 255 255)",
-                            }}
-                          >
-                            {_formatMoney(
-                              tableData?.reduce(
-                                (acc, cur) => acc + cur?.numDeliveryAmount,
-                                0
-                              )
-                            )}
-                          </td>
-                          <td className="text-right">
-                            {_formatMoney(
-                              tableData?.reduce(
-                                (acc, cur) =>
-                                  acc + cur?.numDeliveryAmountCollected,
-                                0
-                              )
-                            )}
-                          </td>
-                          <td className="text-right">
-                            {_formatMoney(
-                              tableData?.reduce(
-                                (acc, cur) =>
-                                  acc + cur?.numDeliveryAmountPending,
-                                0
-                              )
-                            )}
-                          </td>
-                          <td
-                            className="text-right"
-                            style={{
-                              background: "rgb(255 220 220)",
-                            }}
-                          >
-                            {_formatMoney(
-                              tableData?.reduce(
-                                (acc, cur) => acc + cur?.numVatAmount,
-                                0
-                              )
-                            )}
-                          </td>
-                          <td className="text-right">
-                            {_formatMoney(
-                              tableData?.reduce(
-                                (acc, cur) => acc + cur?.numVatAmountCollected,
-                                0
-                              )
-                            )}
-                          </td>
-                          <td className="text-right">
-                            {_formatMoney(
-                              tableData?.reduce(
-                                (acc, cur) => acc + cur?.numVatAmountPending,
-                                0
-                              )
-                            )}
-                          </td>
-                          {values?.businessUnit?.value !== 186 ? (
-                            <td
-                              className="text-right"
-                              style={{
-                                background: "rgb(232 224 255)",
-                              }}
-                            >
-                              {_formatMoney(
-                                tableData?.reduce(
-                                  (acc, cur) => acc + cur?.numTaxAmount,
-                                  0
-                                )
-                              )}
-                            </td>
-                          ) : null}
-                          <td className="text-right">
-                            {_formatMoney(
-                              tableData?.reduce(
-                                (acc, cur) => acc + cur?.numTaxAmountCollected,
-                                0
-                              )
-                            )}
-                          </td>
-                          {values?.businessUnit?.value !== 186 ? (
-                            <td className="text-right">
-                              {_formatMoney(
-                                tableData?.reduce(
-                                  (acc, cur) => acc + cur?.numTaxAmountPending,
-                                  0
-                                )
-                              )}
-                            </td>
-                          ) : null}
-                          <td></td>
-                        </tr>
-                      ) : null}
-                    </tbody>
-                  </table>
+                        ) : null}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
 

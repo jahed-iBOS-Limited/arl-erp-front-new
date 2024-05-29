@@ -18,14 +18,17 @@ const initData = {
   profitCenter: "",
 };
 export default function OverheadVarianceReport() {
-  const { profileData, selectedBusinessUnit, businessUnitList } = useSelector((state) => {
-    return state.authData;
-  }, shallowEqual);
- 
+  const { profileData, selectedBusinessUnit, businessUnitList } = useSelector(
+    (state) => {
+      return state.authData;
+    },
+    shallowEqual
+  );
+
   const formikRef = useRef(null);
 
   const [glList, getGlList] = useAxiosGet();
-  const [rowData, getRowData, ,setRowData] = useAxiosGet();
+  const [rowData, getRowData, , setRowData] = useAxiosGet();
   const [profitCenterDDL, setProfitCenterDDL] = useState([]);
 
   const [totals, setTotals] = useState({
@@ -116,54 +119,54 @@ export default function OverheadVarianceReport() {
             <Form>
               <div>
                 <div className="form-group  global-form row">
-                <div className="col-lg-3">
-                      <NewSelect
-                        name="currentBusinessUnit"
-                        options={businessUnitList}
-                        value={values?.currentBusinessUnit}
-                        label="Business Unit"
-                        onChange={(valueOption) => {
-                          if (valueOption?.value >= 0) {
-                            getProfitCenterDDL(
-                              valueOption?.value,
-                              (profitCenterDDLData) => {
-                                console.log(profitCenterDDLData);
-                                setProfitCenterDDL(profitCenterDDLData);
-                                setFieldValue(
-                                  "profitCenter",
-                                  profitCenterDDLData?.[1] || ""
-                                );
-                              }
-                            );
-                          }
-                          if (valueOption) {
-                            setFieldValue("currentBusinessUnit", valueOption);
-                            setRowData([]);
-                          } else {
-                            setFieldValue("currentBusinessUnit", "");
-                            setRowData([]);
-                          }
-                        }}
-                        placeholder="Business Unit"
-                        errors={errors}
-                        touched={touched}
-                        required={true}
-                      />
-                    </div>
-                    {console.log(values)}
-                    <div className="col-md-3">
-                      <NewSelect
-                        name="profitCenter"
-                        options={profitCenterDDL || []}
-                        value={values?.profitCenter}
-                        label="Profit Center"
-                        onChange={(valueOption) => {
-                          setFieldValue("profitCenter", valueOption);
+                  <div className="col-lg-3">
+                    <NewSelect
+                      name="currentBusinessUnit"
+                      options={businessUnitList}
+                      value={values?.currentBusinessUnit}
+                      label="Business Unit"
+                      onChange={(valueOption) => {
+                        if (valueOption?.value >= 0) {
+                          getProfitCenterDDL(
+                            valueOption?.value,
+                            (profitCenterDDLData) => {
+                              console.log(profitCenterDDLData);
+                              setProfitCenterDDL(profitCenterDDLData);
+                              setFieldValue(
+                                "profitCenter",
+                                profitCenterDDLData?.[1] || ""
+                              );
+                            }
+                          );
+                        }
+                        if (valueOption) {
+                          setFieldValue("currentBusinessUnit", valueOption);
                           setRowData([]);
-                        }}
-                        placeholder="Profit Center"
-                      />
-                    </div>
+                        } else {
+                          setFieldValue("currentBusinessUnit", "");
+                          setRowData([]);
+                        }
+                      }}
+                      placeholder="Business Unit"
+                      errors={errors}
+                      touched={touched}
+                      required={true}
+                    />
+                  </div>
+                  {console.log(values)}
+                  <div className="col-md-3">
+                    <NewSelect
+                      name="profitCenter"
+                      options={profitCenterDDL || []}
+                      value={values?.profitCenter}
+                      label="Profit Center"
+                      onChange={(valueOption) => {
+                        setFieldValue("profitCenter", valueOption);
+                        setRowData([]);
+                      }}
+                      placeholder="Profit Center"
+                    />
+                  </div>
                   <div className="col-lg-3">
                     <NewSelect
                       name="gl"
@@ -227,69 +230,71 @@ export default function OverheadVarianceReport() {
                   {rowData?.length > 0 && (
                     <div className="mt-5">
                       <div>
-                        <table className="table table-striped table-bordered bj-table bj-table-landing">
-                          <thead>
-                            <tr>
-                              <th>Transaction Code</th>
-                              <th>Transaction Name</th>
-                              <th>Budget Overhead</th>
-                              <th>Actual Overhead</th>
-                              <th>Variance</th>
-                              <th>BOH / Unit</th>
-                              <th>AOH / Unit</th>
-                              <th>Variance / Unit</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {rowData?.map((item, index) => (
-                              <tr key={index}>
-                                <td>{item?.strBusinessTransactionCode}</td>
-                                <td>{item?.strBusinessTransactionName}</td>
-                                <td className="text-right">
-                                  {item?.numBudOH?.toFixed()}
+                        <div className="table-responsive">
+                          <table className="table table-striped table-bordered bj-table bj-table-landing">
+                            <thead>
+                              <tr>
+                                <th>Transaction Code</th>
+                                <th>Transaction Name</th>
+                                <th>Budget Overhead</th>
+                                <th>Actual Overhead</th>
+                                <th>Variance</th>
+                                <th>BOH / Unit</th>
+                                <th>AOH / Unit</th>
+                                <th>Variance / Unit</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {rowData?.map((item, index) => (
+                                <tr key={index}>
+                                  <td>{item?.strBusinessTransactionCode}</td>
+                                  <td>{item?.strBusinessTransactionName}</td>
+                                  <td className="text-right">
+                                    {item?.numBudOH?.toFixed()}
+                                  </td>
+                                  <td className="text-right">
+                                    {item?.numAchOH?.toFixed()}
+                                  </td>
+                                  <td className="text-right">
+                                    {item?.numTotalVariance?.toFixed()}
+                                  </td>
+                                  <td className="text-right">
+                                    {item?.numUnitBudOH?.toFixed(2)}
+                                  </td>
+                                  <td className="text-right">
+                                    {item?.numUnitActOH?.toFixed(2)}
+                                  </td>
+                                  <td className="text-right">
+                                    {item?.numUnitVariance?.toFixed(2)}
+                                  </td>
+                                </tr>
+                              ))}
+                              <tr>
+                                <td colSpan={2}>
+                                  <strong>Total</strong>
                                 </td>
                                 <td className="text-right">
-                                  {item?.numAchOH?.toFixed()}
+                                  {totals?.totalBudOH?.toFixed()}
                                 </td>
                                 <td className="text-right">
-                                  {item?.numTotalVariance?.toFixed()}
+                                  {totals?.totalAchOH?.toFixed()}
                                 </td>
                                 <td className="text-right">
-                                  {item?.numUnitBudOH?.toFixed(2)}
+                                  {totals?.totalTotalVariance?.toFixed()}
                                 </td>
                                 <td className="text-right">
-                                  {item?.numUnitActOH?.toFixed(2)}
+                                  {totals?.totalUnitBudOH?.toFixed(2)}
                                 </td>
                                 <td className="text-right">
-                                  {item?.numUnitVariance?.toFixed(2)}
+                                  {totals?.totalUnitActOH?.toFixed(2)}
+                                </td>
+                                <td className="text-right">
+                                  {totals?.totalUnitVariance?.toFixed(2)}
                                 </td>
                               </tr>
-                            ))}
-                            <tr>
-                              <td colSpan={2}>
-                                <strong>Total</strong>
-                              </td>
-                              <td className="text-right">
-                                {totals?.totalBudOH?.toFixed()}
-                              </td>
-                              <td className="text-right">
-                                {totals?.totalAchOH?.toFixed()}
-                              </td>
-                              <td className="text-right">
-                                {totals?.totalTotalVariance?.toFixed()}
-                              </td>
-                              <td className="text-right">
-                                {totals?.totalUnitBudOH?.toFixed(2)}
-                              </td>
-                              <td className="text-right">
-                                {totals?.totalUnitActOH?.toFixed(2)}
-                              </td>
-                              <td className="text-right">
-                                {totals?.totalUnitVariance?.toFixed(2)}
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
+                            </tbody>
+                          </table>
+                        </div>
                       </div>
                     </div>
                   )}

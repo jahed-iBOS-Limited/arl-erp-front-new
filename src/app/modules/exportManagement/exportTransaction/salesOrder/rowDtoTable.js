@@ -135,7 +135,8 @@ const SalesOrderRowTable = ({
         </div>
       </div>
       <>
-        <table className="table table-striped table-bordered mt-3 global-table po-table">
+      <div className="table-responsive">
+ <table className="table table-striped table-bordered mt-3 global-table po-table">
           <thead>
             <tr>
               {/* <th style={{ fontSize: "10px" }}>SL</th>
@@ -205,7 +206,8 @@ const SalesOrderRowTable = ({
                 <td className="text-right">
                   <input
                     type="number"
-                    value={item?.ciRate ? item?.ciRate?.toFixed(4) : 0 || ""}
+                    value={item?.ciRate}
+                    // value={item?.ciRate ? item?.ciRate?.toFixed(4) : 0 || ""}
                     onChange={(e) => {
                       const updatedData = { ...salesQuotationDetails };
                       updatedData.Data.RowData[index].ciRate =
@@ -382,6 +384,8 @@ const SalesOrderRowTable = ({
               })} */}
           </tbody>
         </table>
+</div>
+       
       </>
       {/* )} */}
     </div>

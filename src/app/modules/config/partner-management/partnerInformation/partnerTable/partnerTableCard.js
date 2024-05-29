@@ -156,7 +156,8 @@ export function PartnerTable({ saveHandler }) {
               paginationSearchHandler={paginationSearchHandler}
               setter={setSearch}
             />
-            <table className="table table-striped table-bordered global-table">
+          <div className="table-responsive">
+          <table className="table table-striped table-bordered global-table">
               <thead>
                 <tr>
                   <th style={{ width: "20px" }}>SL</th>
@@ -201,6 +202,7 @@ export function PartnerTable({ saveHandler }) {
                 ))}
               </tbody>
             </table>
+          </div>
 
             {/* Pagination Code */}
             {products?.data?.length > 0 && (

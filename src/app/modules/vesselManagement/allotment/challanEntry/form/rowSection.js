@@ -160,75 +160,77 @@ export default function RowSection({ obj }) {
       <div className="row">
         <div className="col-md-6">
           {rowData?.length > 0 && (
-            <table
-              id="table-to-xlsx"
-              className={
-                "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
-              }
-            >
-              <thead>
-                <tr className="cursor-pointer">
-                  {headers?.map((th, index) => {
-                    return <th key={index}> {th} </th>;
-                  })}
-                </tr>
-              </thead>
-              <tbody>
-                {rowData?.map((item, index) => {
-                  return (
-                    <tr key={index}>
-                      <td style={{ width: "40px" }} className="text-center">
-                        {index + 1}
-                      </td>
-                      <td>{item?.itemName}</td>
-                      <td className="text-right" width="130px">
-                        {id ? (
-                          <InputField
-                            placeholder="Product QTY (Bag)"
-                            value={item?.quantity}
-                            name="quantity"
-                            onChange={(e) => {
-                              const value = e?.target?.value;
-                              const data = [...rowData];
-                              data[index].quantity = value;
-                              setRowData(data);
-                            }}
-                            type="number"
-                            style={{ textAlign: "right" }}
-                          />
-                        ) : (
-                          item?.quantity
-                        )}
-                      </td>
-                      <td className="text-right">{item?.itemPrice}</td>
-                      {!id && (
-                        <td style={{ width: "80px" }} className="text-center">
-                          {
-                            <div className="d-flex justify-content-around">
-                              <span
-                                onClick={() => {
-                                  deleteRow(index, (rows) => {
-                                    setFieldValue(
-                                      "emptyBag",
-                                      rows?.reduce(
-                                        (a, b) => (a += b?.emptyBag),
-                                        0
-                                      )
-                                    );
-                                  });
-                                }}
-                              >
-                                <IDelete />
-                              </span>
-                            </div>
-                          }
+            <div className="table-responsive">
+              <table
+                id="table-to-xlsx"
+                className={
+                  "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+                }
+              >
+                <thead>
+                  <tr className="cursor-pointer">
+                    {headers?.map((th, index) => {
+                      return <th key={index}> {th} </th>;
+                    })}
+                  </tr>
+                </thead>
+                <tbody>
+                  {rowData?.map((item, index) => {
+                    return (
+                      <tr key={index}>
+                        <td style={{ width: "40px" }} className="text-center">
+                          {index + 1}
                         </td>
-                      )}
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+                        <td>{item?.itemName}</td>
+                        <td className="text-right" width="130px">
+                          {id ? (
+                            <InputField
+                              placeholder="Product QTY (Bag)"
+                              value={item?.quantity}
+                              name="quantity"
+                              onChange={(e) => {
+                                const value = e?.target?.value;
+                                const data = [...rowData];
+                                data[index].quantity = value;
+                                setRowData(data);
+                              }}
+                              type="number"
+                              style={{ textAlign: "right" }}
+                            />
+                          ) : (
+                            item?.quantity
+                          )}
+                        </td>
+                        <td className="text-right">{item?.itemPrice}</td>
+                        {!id && (
+                          <td style={{ width: "80px" }} className="text-center">
+                            {
+                              <div className="d-flex justify-content-around">
+                                <span
+                                  onClick={() => {
+                                    deleteRow(index, (rows) => {
+                                      setFieldValue(
+                                        "emptyBag",
+                                        rows?.reduce(
+                                          (a, b) => (a += b?.emptyBag),
+                                          0
+                                        )
+                                      );
+                                    });
+                                  }}
+                                >
+                                  <IDelete />
+                                </span>
+                              </div>
+                            }
+                          </td>
+                        )}
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
           )}
         </div>
       </div>

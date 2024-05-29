@@ -49,6 +49,7 @@ function ScheduleMeal({ rowData, setRowData, empId }) {
         {true && <ModalProgressBar />}
         <CardHeader title="Schedule Meal"></CardHeader>
         <CardBody>
+        <div className="table-responsive">
           <table className="global-table border">
             <thead className="border">
               <tr>
@@ -87,6 +88,7 @@ function ScheduleMeal({ rowData, setRowData, empId }) {
                 })}
             </tbody>
           </table>
+          </div>
         </CardBody>
       </Card>
     </div>

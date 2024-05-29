@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from "react";
-import { Formik, Form } from "formik";
-import NewSelect from "../../../../_helper/_select";
+import { Form, Formik } from "formik";
+import React, { useEffect, useState } from "react";
 import InputField from "../../../../_helper/_inputField";
-import IDelete from "./../../../../_helper/_helperIcons/_delete";
+import NewSelect from "../../../../_helper/_select";
 import { getDDL } from "../helper";
+import IDelete from "./../../../../_helper/_helperIcons/_delete";
 
 export default function _Form({
   initData,
@@ -145,6 +145,7 @@ export default function _Form({
                   </div>
                 </div>
                 {/* {values?.itemLists?.length >= 0 && ( */}
+                <div className="table-responsive">
                 <table className='table table-striped table-bordered global-table'>
                   <thead>
                     <tr>
@@ -177,6 +178,7 @@ export default function _Form({
                     ))}
                   </tbody>
                 </table>
+                </div>
                 {/* // )} */}
               </div>
 
