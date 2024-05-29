@@ -79,55 +79,59 @@ export default function MonthlyCollectionPlanEntryForm({
       onSave(
         `/oms/CustomerSalesTarget/DailyCollectionPlanEntry?typeId=3&typeName=${`AreaBaseDailyCollectionPlan`}`,
         payload,
-        null,
+        ()=>{
+          setDailyCollectionData([]);
+        },
+        true
+      );
+    }else{
+      const selectedItems = rowData?.filter((item) => item?.isSelected);
+      if (selectedItems?.length < 1) {
+        return toast.warn("Please select at least one row!");
+      }
+      const check = selectedItems.filter(
+        (item) => !(item?.week1 && item?.week2 && item?.week3 && item?.week4)
+      );
+      if (check?.length > 0) {
+        return toast.warn("Please fill up all the fields of selected rows!");
+      }
+      const payload = selectedItems?.map((item) => {
+        return {
+          accountId: accId,
+          businessUnitId: buId,
+          yearId: values?.year?.value,
+          monthId: values?.month?.value,
+          monthName: getMonth(values?.month?.value),
+          salesManId: values?.salesman?.value,
+          salesManeName: values?.salesman?.label,
+          customerId: item?.intBusinessPartnerId,
+          customerName: item?.strBusinessPartnerName,
+          areaId: values?.area?.value,
+          areaName: values?.area?.label,
+          territoryId: values?.territory?.value,
+          territoryName: values?.territory?.label,
+          totalDues: +item?.dueAmount,
+          overDue: +item?.overDue,
+          overDuePercentage: +item?.od || 0,
+          week1: item?.week1,
+          week2: item?.week2,
+          week3: item?.week3,
+          week4: item?.week4,
+          totalAmount: +item?.total,
+          collectionPercentage: +item?.percent || 0,
+          actionBy: userId,
+        };
+      });
+      postData(
+        `/oms/CustomerSalesTarget/CreateMonthlyCollectionPlan`,
+        payload,
+        () => {
+          cb();
+        },
         true
       );
     }
-    const selectedItems = rowData?.filter((item) => item?.isSelected);
-    if (selectedItems?.length < 1) {
-      return toast.warn("Please select at least one row!");
-    }
-    const check = selectedItems.filter(
-      (item) => !(item?.week1 && item?.week2 && item?.week3 && item?.week4)
-    );
-    if (check?.length > 0) {
-      return toast.warn("Please fill up all the fields of selected rows!");
-    }
-    const payload = selectedItems?.map((item) => {
-      return {
-        accountId: accId,
-        businessUnitId: buId,
-        yearId: values?.year?.value,
-        monthId: values?.month?.value,
-        monthName: getMonth(values?.month?.value),
-        salesManId: values?.salesman?.value,
-        salesManeName: values?.salesman?.label,
-        customerId: item?.intBusinessPartnerId,
-        customerName: item?.strBusinessPartnerName,
-        areaId: values?.area?.value,
-        areaName: values?.area?.label,
-        territoryId: values?.territory?.value,
-        territoryName: values?.territory?.label,
-        totalDues: +item?.dueAmount,
-        overDue: +item?.overDue,
-        overDuePercentage: +item?.od || 0,
-        week1: item?.week1,
-        week2: item?.week2,
-        week3: item?.week3,
-        week4: item?.week4,
-        totalAmount: +item?.total,
-        collectionPercentage: +item?.percent || 0,
-        actionBy: userId,
-      };
-    });
-    postData(
-      `/oms/CustomerSalesTarget/CreateMonthlyCollectionPlan`,
-      payload,
-      () => {
-        cb();
-      },
-      true
-    );
+  
   };
 
   const rowDataHandler = (name, i, value) => {
