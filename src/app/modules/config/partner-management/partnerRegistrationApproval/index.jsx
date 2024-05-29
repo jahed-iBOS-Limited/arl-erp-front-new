@@ -274,7 +274,8 @@ export default function PartnerRegApproval() {
                                     licenseNo:item?.strTradeLicenseNumber,
                                     businessPartnerTypeId:item?.intPartnerTypeId,
                                     buIdCustomer:item?.intBusinessUnitId,
-                                    isCustomer:customerPermissions?.isView
+                                    isCustomer:customerPermissions?.isView,
+                                    isSupplier:supplierPermission?.isView
                                   },
                                 }
                                   )
