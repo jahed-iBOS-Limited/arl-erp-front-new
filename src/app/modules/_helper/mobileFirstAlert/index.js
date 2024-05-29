@@ -88,6 +88,8 @@ function MobileFirstAlert() {
     }
   });
 
+  const isMatchEmployeeId =  [1187].includes(profileData?.employeeId);
+
   return (
     <>
       {isShowAlert ? (
@@ -100,7 +102,7 @@ function MobileFirstAlert() {
               <div className="countdown">Time left: {formatTime(timeLeft)}</div>
             )}
 
-            {(!isMatchWorkPlaceMatch || isShowBUIMatch) && (
+            {(!isMatchWorkPlaceMatch || isShowBUIMatch ||isMatchEmployeeId ) && (
               <div className="close-icon" onClick={handleClose}>
                 &times;
               </div>
