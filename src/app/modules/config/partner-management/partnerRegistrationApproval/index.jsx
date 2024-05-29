@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
-import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
 import {Form, Formik } from 'formik';
 import IForm from '../../../_helper/_form';
 import CommonTable from '../../../_helper/commonTable';
@@ -21,15 +20,13 @@ export default function PartnerRegApproval() {
   const saveHandler = (values, cb) => {};
   const history = useHistory();
   const {
-    profileData: { accountId: accId, employeeId, userId ,userTypeName},
+    profileData: { userTypeName},
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
   const [gridData, getGridData, loadGridData] = useAxiosGet();
-  const [, getDocReceivedApproval, loadDocReceivedApproval] = useAxiosPost();
-  const [fromPlantDDL, getFromPlantDDL, , setFromPlant] = useAxiosGet();
-  const [, deleteHandler, deleteLoader] = useAxiosPost();
+
 
   const sendheadersData = [
     "Serial",
@@ -55,10 +52,8 @@ export default function PartnerRegApproval() {
     "Action",
   ];
 
- 
-
   const handleGetRowData = (values, pageNo, pageSize, searchValue) => {
-    const searchParam = searchValue ? `&search=${searchValue}` : "";
+    // const searchParam = searchValue ? `&search=${searchValue}` : "";
     
     if (values?.partner === "customer") {
       getGridData(
@@ -77,25 +72,29 @@ export default function PartnerRegApproval() {
   };
 
   useEffect(() => {
-    // getFromPlantDDL(
-    //   `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&OrgUnitTypeId=7`,
-    //   (data) => {
-    //     const fromPlantPayload = data?.map((item) => item?.value);
-        handleGetRowData(initData, pageNo, pageSize);
-        // setFromPlant(fromPlantPayload);
+ 
+    if(userTypeName == "Supplier"){
+        handleGetRowData({...initData,partner:"supplier"}, pageNo, pageSize);
+
+    }else{
+      handleGetRowData(initData, pageNo, pageSize);
+
+    }
     
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const paginationSearchHandler = (searchValue, values) => {
-    setPositionHandler(pageNo, pageSize, values, searchValue);
-  };
+  // const paginationSearchHandler = (searchValue, values) => {
+  //   setPositionHandler(pageNo, pageSize, values, searchValue);
+  // };
 
   return (
     <Formik
       enableReinitialize={true}
-      initialValues={initData}
+      initialValues={{...initData,
+        partner:userTypeName == "Supplier" ? "supplier":"customer"
+      }}
       // validationSchema={{}}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
@@ -113,7 +112,7 @@ export default function PartnerRegApproval() {
         touched,
       }) => (
         <>
-          {(loadGridData || loadDocReceivedApproval || deleteLoader) && (
+          {(loadGridData ) && (
             <Loading />
           )}
           <IForm
