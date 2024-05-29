@@ -40,6 +40,8 @@ import ShippingPointnTransportRate from "./shippingPointnTransportrate";
 import BusinessPartnerGroupLanding from "./businessPartnerGroup/landing";
 import BusinessPartnerGroupForm from "./businessPartnerGroup/form/addEditForm";
 import SalesForceBenefitAnalysis from "./salesForceBenefitAlalysis";
+import PartnerRegApproval from "./partnerRegistrationApproval";
+import CreateApprovePartner from "./partnerRegistrationApproval/CreateApprovePartner";
 
 export function PartnerPages() {
   const userRole = useSelector(
@@ -60,6 +62,8 @@ export function PartnerPages() {
   const {
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
+console.log({   partnerProfilePermission 
+});
 
   return (
     <Switch>
@@ -84,6 +88,18 @@ export function PartnerPages() {
         }
       />
       <ContentRoute
+        path="/config/partner-management/partner-registration-approval/create/:id"
+        component={CreateApprovePartner}
+      />
+      <ContentRoute
+        path="/config/partner-management/partner-registration-approval"
+        component={
+          partnerProfilePermission?.isCreate ? PartnerRegApproval : NotPermittedPage
+        }
+      />
+
+
+      <ContentRoute
         path="/config/partner-management/partner-basic-info/edit/:id"
         component={
           partnerProfilePermission?.isEdit
@@ -105,6 +121,7 @@ export function PartnerPages() {
         path="/config/partner-management/partner-info-section/add"
         component={InformationSectionCreateForm}
       />
+      
 
       <ContentRoute
         path="/config/partner-management/partner-info-section/edit/:id"
