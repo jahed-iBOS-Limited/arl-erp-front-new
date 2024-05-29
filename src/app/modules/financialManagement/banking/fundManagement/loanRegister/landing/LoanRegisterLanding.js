@@ -230,9 +230,12 @@ const LoanRegisterLanding = () => {
                               <th style={{ minWidth: "70px" }}>Loan Class</th>
                               <th style={{ minWidth: "70px" }}>Facility</th>
                               <th>Loan Acc</th>
+                              <th>BR Number</th>
                               <th style={{ minWidth: "50px" }}>Tenure</th>
+                              <th style={{ minWidth: "" }}>Disbursement Purpose</th>
                               <th style={{ minWidth: "90px" }}>OpenDate</th>
                               <th style={{ minWidth: "90px" }}>Mature Date</th>
+
                               <th style={{ minWidth: "100px" }}>Principle</th>
                               <th style={{ minWidth: "50px" }}>Int.Rate</th>
                               <th style={{ minWidth: "100px" }}>Interst</th>
@@ -262,7 +265,9 @@ const LoanRegisterLanding = () => {
                                 <td className="text-">
                                   {item?.strLoanAccountName}
                                 </td>
+                                <td className="text-">{item?.brCode}</td>
                                 <td className="text-">{item?.intTenureDays}</td>
+                                <td className="text-">{item?.disbursementPurposeName}</td>
                                 <td className="text-">
                                   {_dateFormatter(item?.dteStartDate)}
                                 </td>
