@@ -34,7 +34,6 @@ export default function PartnerRegApproval() {
     }
   }
 
-console.log({supplierPermission,customerPermissions});
 
 
   const saveHandler = (values, cb) => {};
@@ -67,8 +66,6 @@ console.log({supplierPermission,customerPermissions});
     "Mobile",
     "Office Address",
     "Warehouse",
-    "Created At",
-    "Approval At",
     "Action",
   ];
 
@@ -257,9 +254,7 @@ console.log({supplierPermission,customerPermissions});
                         <td className="text-center">{item?.strMobileNumber}</td>
                         <td className="text-center">{item?.strOfficeAddress}</td>
                         <td className="text-center">{item?.strWarehouseAddress}</td>
-                        <td className="text-center">{_dateFormatter(item?.dteCreatedAt)}</td>
-                        <td className="text-center">{_dateFormatter(item?.dteApprovalAt)}</td>
-                        
+                       
                         <td className="text-center">
                          
                         {(customerPermissions?.isCreate || supplierPermission?.isCreate) && <span

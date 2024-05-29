@@ -72,7 +72,7 @@ const {state}=location
 
   return (
     <IForm
-      customTitle="Partner Create & Approve"
+      customTitle="Partner Registration Approval"
       isHiddenReset
       isHiddenBack
       isHiddenSave
@@ -123,7 +123,7 @@ const {state}=location
                 );
               }}
             >
-              Create
+              Approve
             </button>
           </>
         );
@@ -139,7 +139,7 @@ const {state}=location
         {mainBusinessData?.length > 0 ? (
           <div style={{ marginTop: "7px", gap: "5px" }}>
             <>
-              <h4> Main Business Information</h4>
+              <h5> Main Business Area</h5>
               <CommonTable headersData={mainheadersData}>
                 <tbody>
                   {mainBusinessData?.map((item, index) => (
@@ -156,7 +156,7 @@ const {state}=location
         {majorCustomerData?.length > 0 ? (
           <div style={{ marginTop: "7px", gap: "5px" }}>
             <>
-              <h4> Major Customer Information </h4>
+              <h5> Major Customers </h5>
 
               <CommonTable headersData={majorheadersData}>
                 <tbody>
@@ -179,7 +179,7 @@ const {state}=location
         {ownershipData?.length > 0 ? (
           <div style={{ marginTop: "7px", gap: "5px" }}>
             <>
-              <h4> Owner Information </h4>
+              <h5> Ownership Information </h5>
 
               <CommonTable headersData={ownerheadersData}>
                 <tbody>
@@ -199,7 +199,7 @@ const {state}=location
         {annualData?.length > 0 ? (
           <div style={{ marginTop: "7px", gap: "5px" }}>
             <>
-              <h4>Annual Information</h4>
+              <h5>Annual Turn Over</h5>
               <CommonTable headersData={annualheadersData}>
                 <tbody>
                   {annualData?.map((item, index) => (
