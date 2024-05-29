@@ -64,9 +64,10 @@ export function MonthlyCollectionPlanLanding() {
               title={`Monthly Collection Plan`}
               isCreteBtn={true}
               createHandler={() => {
-                history.push(
-                  `/sales-management/ordermanagement/MonthlyCollectionPlan/entry`
-                );
+                history.push({
+                  pathname : `/sales-management/ordermanagement/MonthlyCollectionPlan/entry`,
+                  landingValues: values,
+                });
               }}
             >
               <Form className="form form-label-right">
@@ -80,6 +81,7 @@ export function MonthlyCollectionPlanLanding() {
                       options={[
                         { value: 3, label: "Collection Plan" },
                         { value: 2, label: "Collection Plan vs Collection" },
+                        { value: 1, label: "Area Base Daily Collection Plan" },
                       ]}
                       onChange={(e) => {
                         setFieldValue("type", e);
