@@ -1,5 +1,5 @@
 import { Form, Formik } from "formik";
-import React from "react";
+import React, { useEffect, useState } from "react";
 // import RATForm from "../../../../_helper/commonInputFieldsGroups/ratForm";
 import YearMonthForm from "../../../../_helper/commonInputFieldsGroups/yearMonthForm";
 import IButton from "../../../../_helper/iButton";
@@ -11,6 +11,8 @@ import {
   getMonthlyCollectionPlanData,
   weekList,
 } from "../helper";
+import { generateDataset } from "./helper";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 
 export default function _Form({
   type,
@@ -26,7 +28,51 @@ export default function _Form({
   saveHandler,
   setRowData,
   rowDataHandler,
+  landingValues,
+  dailyCollectionData,
+  setDailyCollectionData,
+  userId,
 }) {
+  const [perDayCollect, setPerDayCollect] = useState(0);
+  const [regionList, getRegionList, , setRegionList] = useAxiosGet();
+  const [areaList, getAreaList, , setAreaList] = useAxiosGet();
+  const [total, setTotal] = useState(0);
+
+  useEffect(() => {
+    const total = dailyCollectionData.reduce(
+      (total, item) => (item.isSelected ? total + item.targetAmount : total),
+      0
+    );
+    setTotal(total || 0);
+  }, [dailyCollectionData]);
+
+  useEffect(() => {
+    getRegionList(
+      `/oms/SalesInformation/GetUserWiseRegionAreaTerritoryDDL?businessUnitId=${buId}&userId=${userId}&typeName=Region`,
+      (res) => {
+        const data = res.map((item) => ({
+          ...item,
+          value: item?.regionId,
+          label: item?.regionName,
+        }));
+
+        setRegionList(data);
+      }
+    );
+  }, []);
+
+  useEffect(() => {
+    if (dailyCollectionData?.length > 0) {
+      console.log("perDayCollect", perDayCollect);
+      const data = [...dailyCollectionData];
+      const modifyData = data.map((item) => ({
+        ...item,
+        targetAmount: item?.isHoliday ? 0 : +perDayCollect || 0,
+      }));
+      setDailyCollectionData(modifyData);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [perDayCollect]);
   return (
     <>
       <Formik
@@ -52,82 +98,294 @@ export default function _Form({
               }}
             >
               <Form className="form form-label-right">
-                <div className="row global-form global-form-custom">
-                  <div className="col-lg-3">
-                    <NewSelect
-                      name="salesman"
-                      options={[]}
-                      value={values?.salesman}
-                      label="Salesman Name"
-                      onChange={(e) => {}}
-                      placeholder="Salesman Name"
-                      errors={errors}
-                      touched={touched}
-                      isDisabled={true}
+                {[1].includes(landingValues?.type?.value) ? (
+                  <>
+                    <div className="global-form global-form-custom">
+                      <div className="row">
+                        <div className="col-lg-3">
+                          <NewSelect
+                            name="region"
+                            options={regionList || []}
+                            value={values?.region}
+                            label="Region"
+                            onChange={(valueOption) => {
+                              setFieldValue("region", valueOption || "");
+                              setFieldValue("area", "");
+                              setAreaList([]);
+                              if (valueOption) {
+                                getAreaList(
+                                  `/oms/SalesInformation/GetUserWiseRegionAreaTerritoryDDL?businessUnitId=${buId}&userId=${userId}&typeName=Area&regionId=${valueOption?.value}`,
+                                  (res) => {
+                                    const data = res.map((item) => ({
+                                      ...item,
+                                      value: item?.areaId,
+                                      label: item?.areaName,
+                                    }));
+
+                                    setAreaList(data);
+                                  }
+                                );
+                              }
+                            }}
+                            errors={errors}
+                            touched={touched}
+                          />
+                        </div>
+                        <div className="col-lg-3">
+                          <NewSelect
+                            name="area"
+                            options={areaList || []}
+                            value={values?.area}
+                            label="Area"
+                            onChange={(valueOption) => {
+                              setFieldValue("area", valueOption || "");
+                            }}
+                            errors={errors}
+                            touched={touched}
+                          />
+                        </div>
+                        <div className="col-lg-3">
+                          <InputField
+                            value={values?.monthYear}
+                            name="monthYear"
+                            label="Month & Year"
+                            type="month"
+                            onChange={(e) => {
+                              setFieldValue("monthYear", e?.target?.value);
+                            }}
+                          />
+                        </div>
+                      </div>
+
+                      <div className="row">
+                        <div className="col-lg-3">
+                          <InputField
+                            disabled={!dailyCollectionData?.length}
+                            value={values?.totalPlanTaka}
+                            name="totalPlanTaka"
+                            label="Total Plan Taka"
+                            type="number"
+                            onChange={(e) => {
+                              if (+e.target.value < 0) return;
+                              setFieldValue("totalPlanTaka", e?.target?.value);
+                            }}
+                          />
+                        </div>
+                        <div className="col-lg-3">
+                          <InputField
+                            disabled={
+                              !dailyCollectionData?.length ||
+                              !values?.totalPlanTaka
+                            }
+                            value={values?.workingDays}
+                            name="workingDays"
+                            label="Working Days"
+                            type="number"
+                            onChange={(e) => {
+                              if (
+                                +e.target.value < 0 ||
+                                values?.totalPlanTaka?.value < +e.target.value
+                              )
+                                return;
+                              setFieldValue("workingDays", e?.target?.value);
+                              setPerDayCollect(
+                                values?.totalPlanTaka > 0 && +e.target.value > 0
+                                  ? +values?.totalPlanTaka / +e.target.value
+                                  : 0
+                              );
+                            }}
+                          />
+                        </div>
+                        <div className="col-lg-3">
+                          <p className="text-bold mt-5 text-primary">
+                            Per Day Collect :{perDayCollect}
+                          </p>
+                        </div>
+                      </div>
+
+                      {console.log("monthYear", values?.monthYear)}
+                      <div className="col-lg-3">
+                        <button
+                          disabled={!values?.monthYear}
+                          type="button"
+                          onClick={() => {
+                            if (!values?.monthYear) return;
+                            const data = generateDataset(
+                              values?.monthYear?.split("-")[1],
+                              values?.monthYear?.split("-")[0],
+                              ["Friday", "Saturday"]
+                            );
+                            setDailyCollectionData(data);
+                          }}
+                          className="btn btn-primary mt-5"
+                        >
+                          View
+                        </button>
+                      </div>
+                    </div>
+                    {console.log("dailyCollectionData", dailyCollectionData)}
+                    {console.log("perDayCollect2", perDayCollect)}
+                    <div>
+                      <h4 className="text-right">Total: {total}</h4>
+                    </div>
+                    {dailyCollectionData.length > 0 && (
+                      <div className="table-responsive">
+                        <table className="table table-striped mt-2 table-bordered bj-table bj-table-landing">
+                          <thead>
+                            <tr>
+                              <th>
+                                <input
+                                  type="checkbox"
+                                  checked={
+                                    dailyCollectionData?.length > 0
+                                      ? dailyCollectionData?.every(
+                                          (item) => item?.isSelected
+                                        )
+                                      : false
+                                  }
+                                  onChange={(e) => {
+                                    setDailyCollectionData(
+                                      dailyCollectionData?.map((item) => {
+                                        return {
+                                          ...item,
+                                          isSelected: e?.target?.checked,
+                                        };
+                                      })
+                                    );
+                                  }}
+                                />
+                              </th>
+                              <th>SL</th>
+                              <th>Date</th>
+                              <th>Day</th>
+                              <th>Target Amount</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {dailyCollectionData?.map((item, index) => (
+                              <tr key={index}>
+                                <td className="text-center align-middle">
+                                  <input
+                                    type="checkbox"
+                                    checked={item?.isSelected}
+                                    onChange={(e) => {
+                                      item["isSelected"] = e.target.checked;
+                                      setDailyCollectionData([
+                                        ...dailyCollectionData,
+                                      ]);
+                                    }}
+                                  />
+                                </td>
+                                <td>{index + 1}</td>
+                                <td className="text-center">{item?.date}</td>
+                                <td
+                                  className={
+                                    item?.isHoliday ? "bg-dark text-danger" : ""
+                                  }
+                                >
+                                  {item?.dayName}
+                                </td>
+                                <td className="text-center">
+                                  <InputField
+                                    disabled={item?.isHoliday}
+                                    value={item?.targetAmount || ""}
+                                    type="number"
+                                    onChange={(e) => {
+                                      if (+e.target.value < 0) return;
+                                      const data = [...dailyCollectionData];
+                                      data[index]["targetAmount"] = +e.target
+                                        .value;
+                                      setDailyCollectionData(data);
+                                    }}
+                                  />
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <div className="row global-form global-form-custom">
+                    <div className="col-lg-3">
+                      <NewSelect
+                        name="salesman"
+                        options={[]}
+                        value={values?.salesman}
+                        label="Salesman Name"
+                        onChange={(e) => {}}
+                        placeholder="Salesman Name"
+                        errors={errors}
+                        touched={touched}
+                        isDisabled={true}
+                      />
+                    </div>
+                    <div className="col-lg-3">
+                      <NewSelect
+                        name="designation"
+                        options={[]}
+                        value={values?.designation}
+                        label="Designation"
+                        onChange={(e) => {}}
+                        placeholder="Designation"
+                        errors={errors}
+                        touched={touched}
+                        isDisabled={true}
+                      />
+                    </div>
+                    <YearMonthForm
+                      obj={{ values, setFieldValue, setRowData }}
+                    />
+                    {/* <RATForm obj={{ values, setFieldValue }} /> */}
+                    <div className="col-lg-3">
+                      <NewSelect
+                        name="area"
+                        value={values?.area}
+                        label="Area"
+                        placeholder="Area"
+                        isDisabled={true}
+                      />
+                    </div>
+                    <div className="col-lg-3">
+                      <NewSelect
+                        name="territory"
+                        value={values?.territory}
+                        label="Territory"
+                        placeholder="Territory"
+                        isDisabled={true}
+                      />
+                    </div>
+                    <IButton
+                      onClick={() => {
+                        getEmployeeRAT(
+                          values?.salesman?.value,
+                          setLoading,
+                          (RAT) => {
+                            getMonthlyCollectionPlanData(
+                              1,
+                              accId,
+                              buId,
+                              values?.salesman?.value,
+                              setRowData,
+                              setLoading,
+                              RAT
+                            );
+                            setFieldValue("area", {
+                              value: RAT?.areaId,
+                              label: RAT?.areaName,
+                            });
+                            setFieldValue("territory", {
+                              value: RAT?.territoryId,
+                              label: RAT?.territoryName,
+                            });
+                          }
+                        );
+                      }}
+                      disabled={!values?.month}
                     />
                   </div>
-                  <div className="col-lg-3">
-                    <NewSelect
-                      name="designation"
-                      options={[]}
-                      value={values?.designation}
-                      label="Designation"
-                      onChange={(e) => {}}
-                      placeholder="Designation"
-                      errors={errors}
-                      touched={touched}
-                      isDisabled={true}
-                    />
-                  </div>
-                  <YearMonthForm obj={{ values, setFieldValue, setRowData }} />
-                  {/* <RATForm obj={{ values, setFieldValue }} /> */}
-                  <div className="col-lg-3">
-                    <NewSelect
-                      name="area"
-                      value={values?.area}
-                      label="Area"
-                      placeholder="Area"
-                      isDisabled={true}
-                    />
-                  </div>
-                  <div className="col-lg-3">
-                    <NewSelect
-                      name="territory"
-                      value={values?.territory}
-                      label="Territory"
-                      placeholder="Territory"
-                      isDisabled={true}
-                    />
-                  </div>
-                  <IButton
-                    onClick={() => {
-                      getEmployeeRAT(
-                        values?.salesman?.value,
-                        setLoading,
-                        (RAT) => {
-                          getMonthlyCollectionPlanData(
-                            1,
-                            accId,
-                            buId,
-                            values?.salesman?.value,
-                            setRowData,
-                            setLoading,
-                            RAT
-                          );
-                          setFieldValue("area", {
-                            value: RAT?.areaId,
-                            label: RAT?.areaName,
-                          });
-                          setFieldValue("territory", {
-                            value: RAT?.territoryId,
-                            label: RAT?.territoryName,
-                          });
-                        }
-                      );
-                    }}
-                    disabled={!values?.month}
-                  />
-                </div>
+                )}
               </Form>
 
               {rowData?.length > 0 && (

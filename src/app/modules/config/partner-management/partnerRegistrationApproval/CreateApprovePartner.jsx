@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { useHistory, useParams,useLocation } from "react-router-dom";
 import CommonTable from "../../../_helper/commonTable";
@@ -6,11 +6,17 @@ import IForm from "../../../_helper/_form";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import Loading from "../../../_helper/_loading";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
+import {Field, Form, Formik } from "formik";
+import Select from "react-select";
+import customStyles from "../../../selectCustomStyle";
+import { toast } from "react-toastify";
+import axios from "axios";
+
 export default function CreateApprovePartner() {
   // const [partnerInfo,setPartnerInfo] = useState()
 
   const [annualData, getAnnualTurn, loadAnnualData] = useAxiosGet();
-  const [, createPartner, loadCreatePartner] = useAxiosPost();
+  const [, createPartner  , loadCreatePartner] = useAxiosPost();
   const [, createApproval, loadCreateApproval] = useAxiosGet();
   const [
     mainBusinessData,
@@ -41,14 +47,17 @@ const {state}=location
     history.push(`/config/partner-management/partner-registration-approval`);
   };
   const { id } = useParams();
+const [loading, setLoading] = useState(false);
 
   const storeData = useSelector((state) => {
     return {
       profileData: state?.authData?.profileData,
       selectedBusinessUnit: state?.authData?.selectedBusinessUnit,
+      buDDL: state?.authData?.businessUnitList,
+
     };
   }, shallowEqual);
-  const { profileData, selectedBusinessUnit } = storeData;
+  const { profileData, selectedBusinessUnit,buDDL } = storeData;
 
   useEffect(() => {
     if (+id) {
@@ -70,7 +79,68 @@ const {state}=location
   }, [id]);
 
 
+
+  const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+  const createPartnerWithApproval = async (item ) => {
+    
+    try {
+      const response = await axios.post(
+        `/partner/BusinessPartnerBasicInfo/CreateBusinessPartner`,
+        {
+          accountId: profileData?.accountId,
+          businessUnitId:item?.value,
+          businessPartnerCode: "",
+          businessPartnerName: state?.businessPartnerName,
+          businessPartnerAddress: state?.businessPartnerAddress,
+          contactNumber: state?.contactNumber,
+          bin: state?.bin,
+          licenseNo: state?.licenseNo,
+          email: state?.email,
+          businessPartnerTypeId: state?.businessPartnerTypeId,
+          partnerSalesType: state?.partnerSalesType,
+          actionBy: profileData?.userId,
+          attachmentLink: "",
+          propitor: profileData?.employeeFullName,
+          contactPerson: "",
+          contactNumber2: "",
+          contactNumber3: "",
+        }
+      );
+  
+      if (response?.statuscode === 200 || response?.data?.statuscode === 200 ) {
+        await createApproval(
+          `/partner/BusinessPartnerBasicInfo/PartnerRegistration?partName=ApproveRegistration&autoId=${+id}&actionByEmployeeId=${profileData?.employeeId}&actionByErpUserId=${profileData?.userId}`,
+          (data)=>{
+            toast.success(data[0]?.returnMessage || "Success")
+          }
+        );
+      }
+    } catch (error) {
+      
+      toast.error(error?.response?.data?.message || error?.message);
+    }
+  };
+
   return (
+    <Formik
+    enableReinitialize={true}
+    initialValues={{     sbu: "" }}
+    // validationSchema={{}}
+    onSubmit={(values, { setSubmitting, resetForm }) => {
+    
+    }}
+  >
+    {({
+      handleSubmit,
+      resetForm,
+      values,
+      setFieldValue,
+      isValid,
+      errors,
+      touched,
+    }) => (
+      <>
+       
     <IForm
       customTitle="Partner Registration Approval"
       isHiddenReset
@@ -90,37 +160,60 @@ const {state}=location
               type="button"
               className="btn btn-primary"
               onClick={() => {
-                createPartner(
-                  `/partner/BusinessPartnerBasicInfo/CreateBusinessPartner`,
-                  {
-                    accountId: profileData?.accountId,
-                    businessUnitId: selectedBusinessUnit?.value,
-                    businessPartnerCode: "",
-                    businessPartnerName: state?.businessPartnerName,
-                    businessPartnerAddress: state?.businessPartnerAddress,
-                    contactNumber: state?.contactNumber,
-                    bin:state?.bin,
-                    licenseNo:state?.licenseNo,
-                    email:  state?.email,
-                    businessPartnerTypeId:  state?.businessPartnerTypeId,
-                    partnerSalesType: state?.partnerSalesType,
-                    actionBy: profileData?.userId,
-                    attachmentLink: "",
-                    // isCreateUser: false,
-                    propitor: profileData?.employeeFullName,
-                    contactPerson: "",
-                    contactNumber2: "",
-                    contactNumber3: "",
-                  },
-                  (res)=>{
-                   
-                    
-                    if(res?.statuscode === 200){
-                        createApproval(`/partner/BusinessPartnerBasicInfo/PartnerRegistration?partName=ApproveRegistration&autoId=${+id}&actionByEmployeeId=${profileData?.employeeId}&actionByErpUserId=${profileData?.userId}`,{},()=>{},true)
+                if( values?.sbu?.length <1){
+                  createPartner(
+                    `/partner/BusinessPartnerBasicInfo/CreateBusinessPartner`,
+                    {
+                      accountId: profileData?.accountId,
+                      businessUnitId: state?.isCustomer? state?.buIdCustomer: selectedBusinessUnit?.value,
+                      businessPartnerCode: "",
+                      businessPartnerName: state?.businessPartnerName,
+                      businessPartnerAddress: state?.businessPartnerAddress,
+                      contactNumber: state?.contactNumber,
+                      bin:state?.bin,
+                      licenseNo:state?.licenseNo,
+                      email:  state?.email,
+                      businessPartnerTypeId:  state?.businessPartnerTypeId,
+                      partnerSalesType: state?.partnerSalesType,
+                      actionBy: profileData?.userId,
+                      attachmentLink: "",
+                      // isCreateUser: false,
+                      propitor: profileData?.employeeFullName,
+                      contactPerson: "",
+                      contactNumber2: "",
+                      contactNumber3: "",
+                    },
+                    (res)=>{
+                     
+                      
+                      if(res?.statuscode === 200){
+                          createApproval(`/partner/BusinessPartnerBasicInfo/PartnerRegistration?partName=ApproveRegistration&autoId=${+id}&actionByEmployeeId=${profileData?.employeeId}&actionByErpUserId=${profileData?.userId}`,(data)=>{
+                            toast.success(data[0]?.returnMessage || "Success")
+                          })
+                      }
+                    },
+                    true
+                  );
+                }else{
+                  const handlePartnersCreation = async ()=>{
+                    const promises = values.sbu.map(async (item) => {
+                      await delay(2000)
+                      return createPartnerWithApproval(item);
+                    });
+                    try {
+                      setLoading(true)
+                      await Promise.allSettled(promises);
+                      setLoading(false)
+setFieldValue("sbu","")
+                    } catch (error) {
+                      setLoading(false)
+
+                      toast.error(error?.message);
                     }
-                  },
-                  true
-                );
+                  }
+                  handlePartnersCreation()
+                }
+              
               }}
             >
               Approve
@@ -129,13 +222,64 @@ const {state}=location
         );
       }}
     >
+      <Form>
       {(loadOwnershipData ||
         loadMajorCustomerData ||
         loadMainBusinessData ||
         loadAnnualData ||
         loadCreatePartner ||
+        loading||
         loadCreateApproval) && <Loading />}
       <>
+    {state?.isSupplier && <div className="col-lg-3">
+                  <label>Select Business Units</label>
+                  <Field
+                    name="Select Business Unit"
+                    placeholder="Select Business Unit"
+                    component={() => (
+                      <Select
+                        options={buDDL}
+                        placeholder="Select Business Unit"
+                        value={values?.sbu}
+                        onChange={(valueOption) => {
+                          setFieldValue("sbu", valueOption);
+                        }}
+                        // isSearchable={true}
+                        styles={{
+                          ...customStyles,
+                          control: (provided, state) => ({
+                            ...provided,
+                            minHeight: "30px",
+                            height: "auto",
+                          }),
+                          valueContainer: (provided, state) => ({
+                            ...provided,
+                            height: "auto",
+                            padding: "0 6px",
+                          }),
+                        }}
+                        isMulti
+                      />
+                    )}
+                  />
+                   <p
+                    // style={{
+                    //   fontSize: "0.9rem",
+                    //   fontWeight: 400,
+                    //   width: "100%",
+                    //   marginTop: "0.25rem",
+                    // }}
+                    className="text-danger"
+                  >
+                    {errors &&
+                    errors.businessTransaction &&
+                    touched &&
+                    touched.businessTransaction
+                      ? errors.businessTransaction.value
+                      : ""}
+                  </p>
+                </div>}
+      
         {mainBusinessData?.length > 0 ? (
           <div style={{ marginTop: "7px", gap: "5px" }}>
             <>
@@ -215,6 +359,10 @@ const {state}=location
           </div>
         ) : null}
       </>
+      </Form>
     </IForm>
+    </>
+  )}
+    </Formik>
   );
 }
