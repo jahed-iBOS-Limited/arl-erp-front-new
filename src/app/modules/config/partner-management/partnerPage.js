@@ -58,12 +58,20 @@ export function PartnerPages() {
       productionAllocation = userRole[i];
     }
   }
+  let supplierPermission = null;
+  let customerPermissions = null;
 
+  for (let i = 0; i < userRole.length; i++) {
+    if (userRole[i]?.intFeatureId === 1446) {
+      supplierPermission = userRole[i];
+    }
+    if (userRole[i]?.intFeatureId === 1447) {
+      customerPermissions = userRole[i];
+    }
+  }
   const {
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
-console.log({   partnerProfilePermission 
-});
 
   return (
     <Switch>
@@ -94,10 +102,12 @@ console.log({   partnerProfilePermission
       <ContentRoute
         path="/config/partner-management/partner-registration-approval"
         component={
-          partnerProfilePermission?.isCreate ? PartnerRegApproval : NotPermittedPage
+          (customerPermissions && customerPermissions?.isView) ||
+          (supplierPermission && supplierPermission?.isView)
+            ? PartnerRegApproval
+            : NotPermittedPage
         }
       />
-
 
       <ContentRoute
         path="/config/partner-management/partner-basic-info/edit/:id"
@@ -121,7 +131,6 @@ console.log({   partnerProfilePermission
         path="/config/partner-management/partner-info-section/add"
         component={InformationSectionCreateForm}
       />
-      
 
       <ContentRoute
         path="/config/partner-management/partner-info-section/edit/:id"
