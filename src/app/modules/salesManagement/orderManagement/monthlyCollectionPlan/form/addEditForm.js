@@ -6,6 +6,7 @@ import { _fixedPoint } from "../../../../_helper/_fixedPoint";
 import Loading from "../../../../_helper/_loading";
 import { getMonth } from "../../../report/salesanalytics/utils";
 import Form from "./form";
+import { useLocation } from "react-router";
 
 const initData = {
   year: "",
@@ -16,6 +17,7 @@ const initData = {
   region: "",
   area: "",
   territory: "",
+  monthYear: "",
 };
 
 export default function MonthlyCollectionPlanEntryForm({
@@ -29,6 +31,10 @@ export default function MonthlyCollectionPlanEntryForm({
   const [singleData] = useState({});
   const [rowData, setRowData] = useState([]);
   const [, postData, isLoading] = useAxiosPost();
+  const location = useLocation();
+  const { landingValues } = location || {};
+  const [dailyCollectionData, setDailyCollectionData] = useState([]);
+  const [, onSave, loadar] = useAxiosPost();
 
   // get user data from store
   const {
@@ -49,6 +55,34 @@ export default function MonthlyCollectionPlanEntryForm({
   }, [accId, buId, type]);
 
   const saveHandler = async (values, cb) => {
+    if ([1].includes(landingValues?.type?.value)) {
+      const selectedRow = dailyCollectionData?.filter(
+        (item) => item?.isSelected
+      );
+      if (!selectedRow.length) {
+        return toast.warn("Select at least one row");
+      }
+
+      const payload = selectedRow?.map((item) => ({
+        collectionPlanId: 0,
+        accountId: accId,
+        businessUnitId: buId,
+        salesManId: empId,
+        targetDate: item?.date,
+        salesManeName: fullName,
+        areaId: values?.area?.value,
+        areaName: values?.area?.label,
+        totalAmount: item?.targetAmount,
+        actionBy: userId,
+      }));
+
+      onSave(
+        `/oms/CustomerSalesTarget/DailyCollectionPlanEntry?typeId=3&typeName=${`AreaBaseDailyCollectionPlan`}`,
+        payload,
+        null,
+        true
+      );
+    }
     const selectedItems = rowData?.filter((item) => item?.isSelected);
     if (selectedItems?.length < 1) {
       return toast.warn("Please select at least one row!");
@@ -138,13 +172,15 @@ export default function MonthlyCollectionPlanEntryForm({
       : false;
   };
 
-  const title = `${
-    type === "view" ? "View" : type === "edit" ? "Edit" : "Enter"
-  } Monthly Collection Plan`;
+  const title = [1].includes(landingValues?.type?.value)
+    ? `Daily Collection Plan`
+    : `${
+        type === "view" ? "View" : type === "edit" ? "Edit" : "Enter"
+      } Monthly Collection Plan`;
 
   return (
     <>
-      {(loading || isLoading) && <Loading />}
+      {(loading || isLoading || loadar) && <Loading />}
       <Form
         {...objProps}
         type={type}
@@ -174,6 +210,10 @@ export default function MonthlyCollectionPlanEntryForm({
                 },
               }
         }
+        landingValues={landingValues}
+        dailyCollectionData={dailyCollectionData}
+        setDailyCollectionData={setDailyCollectionData}
+        userId={userId}
       />
     </>
   );
