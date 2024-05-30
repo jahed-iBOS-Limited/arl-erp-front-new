@@ -8,6 +8,7 @@ import IForm from "../../../_helper/_form";
 import { IInput } from "../../../_helper/_input";
 import Loading from "../../../_helper/_loading";
 import { _todayDate } from "../../../_helper/_todayDate";
+import { toast } from "react-toastify";
 
 const initData = {};
 export default function GradingCreateTwo() {
@@ -76,12 +77,20 @@ export default function GradingCreateTwo() {
           : +data?.quantity || 0,
       };
     });
-    saveData(
-      `/mes/WeightBridge/WeightBridgeQCCreateAndEdit`,
-      rowList,
-      cb,
-      true
-    );
+
+   const isQtyExits = rowList?.find((item) => item?.numQuantity > 0); 
+    if (isQtyExits) {
+      saveData(
+        `/mes/WeightBridge/WeightBridgeQCCreateAndEdit`,
+        rowList,
+        cb,
+        true
+      );  
+    }else{
+      return toast("Please provide row quantity");
+    }
+
+    
   };
 
   const rowDataHandler = (name, index, value) => {
@@ -146,6 +155,12 @@ export default function GradingCreateTwo() {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lessQuantity]);
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+    }
+  };
 
   return (
     <IForm customTitle="Grading Entry" getProps={setObjprops} isHiddenReset>
@@ -244,6 +259,7 @@ export default function GradingCreateTwo() {
                                           e.target.value
                                         );
                                       }}
+                                      onKeyDown={handleKeyDown}
                                       disabled={
                                         item?.isRestQuantity ||
                                         item?.isQuantityDisabled
@@ -265,6 +281,7 @@ export default function GradingCreateTwo() {
                                           e.target.checked
                                         );
                                       }}
+                                      onKeyDown={handleKeyDown}
                                       disabled={item?.isCheckDisabled}
                                     />
                                   </td>
@@ -287,6 +304,7 @@ export default function GradingCreateTwo() {
                                 onChange={(e) => {
                                   setLessQuantity(e.target.value);
                                 }}
+                                onKeyDown={handleKeyDown}
                                 disabled={false}
                                 step="any"
                                 min={0}
@@ -310,6 +328,7 @@ export default function GradingCreateTwo() {
                                 onChange={(e) => {
                                   setoverSize(e.target.value);
                                 }}
+                                onKeyDown={handleKeyDown}
                                 disabled={false}
                                 step="any"
                                 min={0}
