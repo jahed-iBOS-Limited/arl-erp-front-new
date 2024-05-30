@@ -4,6 +4,24 @@ import { formatDate } from "./utils";
 import { _formatMoney } from "../../../../../_helper/_formatMoney";
 const fontSize = "13px";
 const marginBottom = "9px";
+
+const disbursementPurposeRender =(disbursementPurposeName) => {
+ 
+if(disbursementPurposeName === "Duty") {
+
+  return "execute RTGS against the duty(s) enclosed";
+
+}
+if(disbursementPurposeName === "Bill Payment") {
+  return "execute BEFTN/ FT /RTGS against the local supplier(s) payment enclosed";
+}
+if(disbursementPurposeName === "Utility Payment") {
+  return "issue pay order(s) against the utility bill(s) enclosed";
+
+}
+return disbursementPurposeName;
+}
+
 const OthersPdf = ({ singleItem, selectedBusinessUnit }) => {
   const {
     bankShortName,
@@ -48,7 +66,7 @@ const OthersPdf = ({ singleItem, selectedBusinessUnit }) => {
       
 
 
-        With reference to your sanction letter no. {sanctionReference}, we would request you to please disburse BDT {_formatMoney(numPrinciple)} in our A/C {label} against {facilityName} of BDT {_formatMoney(fundLimitAmount)} & {disbursementPurposeName}.
+        With reference to your sanction letter no. {sanctionReference}, we would request you to please disburse BDT {_formatMoney(numPrinciple)} in our A/C {label} against {facilityName} of BDT {_formatMoney(fundLimitAmount)} & {disbursementPurposeRender(disbursementPurposeName)}.
 
       </p>
       

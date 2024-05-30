@@ -194,7 +194,7 @@ export const getLoanRegisterLanding = async (
   setLoading,
   applicationType=0
 ) => {
-  const IsApproved = applicationType===1?`&isApproved=${false}`:applicationType===2?`&isApproved=${true}`:""
+  const IsApproved = applicationType===1?`&isLoanApproved=${false}`:applicationType===2?`&isLoanApproved=${true}`:""
   try {
     setLoading(true);
     const res = await Axios.get(
@@ -224,12 +224,14 @@ export const createLoanRegister = async (
   disbursementPurposeName,
   actionId,
   setDisabled,
-  cb
+  cb,
+  isConfirm = false,
+  loanAccountId = 0
 ) => {
   setDisabled(true);
   try {
     const res = await Axios.post(
-      `/fino/FundManagement/FundLoanAccountCreate?accountId=${accId}&businessUnitId=${buId}&loanAcc=${loanAcc}&bankId=${bankId}&bankAccId=${bankAccId}&facilityId=${facilityId}&startDate=${startDate}&tenureDays=${tenureDays}&numPrinciple=${principle}&numIntRate=${interest}&actionById=${actionId}&disbursementPurposeId=${disbursementPurposeId}&disbursementPurposeName=${disbursementPurposeName ||""}&isConfirm=false&loanAccountId=0`
+      `/fino/FundManagement/FundLoanAccountCreate?accountId=${accId}&businessUnitId=${buId}&loanAcc=${loanAcc}&bankId=${bankId}&bankAccId=${bankAccId}&facilityId=${facilityId}&startDate=${startDate}&tenureDays=${tenureDays}&numPrinciple=${principle}&numIntRate=${interest}&actionById=${actionId}&disbursementPurposeId=${disbursementPurposeId}&disbursementPurposeName=${disbursementPurposeName ||""}&isConfirm=${isConfirm}&loanAccountId=${loanAccountId}`
     );
     setDisabled(false);
     if (res.status === 200) {

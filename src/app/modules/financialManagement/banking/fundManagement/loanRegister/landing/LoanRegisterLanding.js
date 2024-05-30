@@ -20,6 +20,7 @@ import PaginationTable from "../../../../../_helper/_tablePagination";
 import IViewModal from "../../../../../_helper/_viewModal";
 import AttachmentUploadForm from "../../attachmentAdd";
 import {
+  createLoanRegister,
   getAttachments,
   getBankDDLAll,
   getLoanRegisterLanding,
@@ -29,6 +30,7 @@ import useAxiosPost from "../../../../../_helper/customHooks/useAxiosPost";
 import PdfRender from "../components/PdfRender";
 import { useReactToPrint } from "react-to-print";
 import IEdit from "../../../../../_helper/_helperIcons/_edit";
+import IConfirmModal from "../../../../../_helper/_confirmModal";
 const LoanRegisterLanding = () => {
   const history = useHistory();
   const initData = {
@@ -148,6 +150,51 @@ const LoanRegisterLanding = () => {
     setLoading(true); 
     setSingleItem(item);
     setIsPrinting(true);
+  };
+
+  const confirm = (item,values) => {
+    let confirmObject = {
+      title: "Are you sure?",
+      message: "You want to confirm this loan?",
+      yesAlertFunc: async () => {
+        const cb = () => {
+          getLoanRegisterLanding(
+            profileData?.accountId,
+            buId,
+            values?.bank?.value,
+            values?.status?.value,
+            pageNo,
+            pageSize,
+            setLoanRegisterData,
+            setLoading,
+            values?.applicationType?.value||0
+          );
+        };
+        createLoanRegister(
+          profileData?.accountId,
+          buId,
+          item?.strLoanAccountName,
+         item?.intBankId,
+          item?.intBankAccountId,
+          item?.intLoanFacilityId,
+          item?.dteStartDate||0,
+          item?.intTenureDays||0,
+          item?.numPrinciple||0,
+          item?.numInterestRate||0,
+          item?.disbursementPurposeId || 0,
+          item?.disbursementPurposeId || "",
+          profileData?.userId,
+          setLoading,
+          cb,
+          true,
+          item?.intLoanAccountId
+        );
+      },
+      noAlertFunc: () => {
+        "";
+      },
+    };
+    IConfirmModal(confirmObject);
   };
   return (
     <>
@@ -284,10 +331,10 @@ const LoanRegisterLanding = () => {
                               <th style={{ minWidth: "" }}>Disbursement Purpose</th>
                               <th style={{ minWidth: "90px" }}>OpenDate</th>
                               <th style={{ minWidth: "90px" }}>Mature Date</th>
-
+                              <th style={{ minWidth: "90px" }}>Application Status</th>
                               <th style={{ minWidth: "100px" }}>Principle</th>
                               <th style={{ minWidth: "50px" }}>Int.Rate</th>
-                              <th style={{ minWidth: "100px" }}>Interst</th>
+                              <th style={{ minWidth: "100px" }}>Interest</th>
                               <th style={{ minWidth: "100px" }}>
                                 Total Payable
                               </th>
@@ -300,7 +347,7 @@ const LoanRegisterLanding = () => {
                               <th style={{ minWidth: "100px" }}>
                                 Principal Balance
                               </th>
-                              <th>Action</th>
+                              <th style={{ minWidth: "200px" }}>Action</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -323,6 +370,7 @@ const LoanRegisterLanding = () => {
                                 <td className="text-">
                                   {_dateFormatter(item?.dteMaturityDate)}
                                 </td>
+                                <td>{item?.isLoanApproved?"Approved":"Pending"}</td>
                                 <td className="text-right">
                                   {_formatMoney(item?.numPrinciple<0?0:item?.numPrinciple)}
                                 </td>
@@ -407,9 +455,21 @@ const LoanRegisterLanding = () => {
                                     >
                                       Renew
                                     </span>
-
+                                  {!item?.isLoanApproved?  <span
+                                      className="text-primary "
+                                      style={{
+                                        marginLeft: "4px",
+                                        marginRight : "4px",
+                                        cursor: "pointer",
+                                      }}
+                                      onClick={() =>
+                                        confirm(item,values)
+                                      }
+                                    >
+                                      Confirm
+                                    </span>:null}
                                     
-                                    <span>
+                                    <span style={{marginRight:"4px"}}>
                                     <ICon
                                       title={"Print"}
                                       onClick={() => {
