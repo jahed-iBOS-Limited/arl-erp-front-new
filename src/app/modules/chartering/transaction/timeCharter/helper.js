@@ -250,6 +250,7 @@ export const GetTransactionDetails = async (
       setLoading(false);
       return;
     } else {
+
       const prevHireList = res?.data?.previousTransaciton?.map((item) => {
         return {
           description: `${item?.transactionName} ${
@@ -306,7 +307,7 @@ export const GetTransactionDetails = async (
               offHireArr?.length > 1 ? `-${index + 1}` : ""
             } ADD COM`,
             tctransactionId: 0,
-            duration: 0,
+            duration: item?.offHireDurOnPercentage,
             quantity: 0,
             debit: item?.addressCommision || 0,
             credit: 0,
@@ -319,7 +320,7 @@ export const GetTransactionDetails = async (
               offHireArr?.length > 1 ? `-${index + 1}` : ""
             } BROK COM`,
             tctransactionId: 0,
-            duration: 0,
+            duration: item?.offHireDurOnPercentage,
             quantity: 0,
             debit: item?.brokarageCommision || 0,
             credit: 0,
@@ -339,6 +340,7 @@ export const GetTransactionDetails = async (
             active: true,
             notes: "",
             isChecked: true,
+            isQty: { name: "quantity" },
           });
           finalArr.push({
             description: `OFFHIRE${
@@ -352,13 +354,14 @@ export const GetTransactionDetails = async (
             active: true,
             notes: "",
             isChecked: true,
+            isQty: { name: "quantity" },
           });
           finalArr.push({
             description: `OFFHIRE${
               offHireArr?.length > 1 ? `-${index + 1}` : ""
             } C/V/E`,
             tctransactionId: 0,
-            duration: 0,
+            duration: item?.offHireDurOnPercentage,
             quantity: 0,
             debit: item?.offHireCve || 0,
             credit: 0,
