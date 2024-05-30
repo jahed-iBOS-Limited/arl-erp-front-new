@@ -18,6 +18,8 @@ const initData = {
   area: "",
   territory: "",
   monthYear: "",
+  totalPlanTaka:"",
+  workingDays:"",
 };
 
 export default function MonthlyCollectionPlanEntryForm({
