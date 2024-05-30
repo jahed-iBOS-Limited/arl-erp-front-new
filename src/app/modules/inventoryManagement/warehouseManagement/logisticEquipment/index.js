@@ -185,12 +185,16 @@ export default function LogisticEquipment() {
                           <th>Casting Date</th>
                           <th>Ship Point</th>
                           <th>Shift</th>
+                          <th>Total TM</th>
                           <th>Available TM</th>
                           <th>Explanations</th>
+                          <th>Total Concrete</th>
                           <th>Available Concrete</th>
                           <th>Explanations</th>
+                          <th>Total Pickup(Nos)</th>
                           <th>Available Pickup(Nos)</th>
                           <th>Explanations</th>
+                          <th>Total PipeLine(RFT)</th>
                           <th>Available PipeLine(RFT)</th>
                           <th>Explanations</th>
                           <th>Action</th>
@@ -206,15 +210,23 @@ export default function LogisticEquipment() {
                             <td>{item?.shipPointName}</td>
                             <td>{item?.shiftName}</td>
                             <td className="text-center">
+                              {item?.totalTransitMixture}
+                            </td>
+                            <td className="text-center">
                               {item?.avlTransitMixture}
                             </td>
                             <td>{item?.transitMixtureExplain}</td>
                             <td className="text-center">
+                              {item?.totalConcretePump}
+                            </td>
+                            <td className="text-center">
                               {item?.avlConcretePump}
                             </td>
                             <td>{item?.concretePumpExplain}</td>
+                            <td className="text-center">{item?.totalPickUp}</td>
                             <td className="text-center">{item?.avlPickUp}</td>
                             <td>{item?.pickUpExplain}</td>
+                            <td className="text-center">{item?.totalPipeLine}</td>
                             <td className="text-center">{item?.avlPipeLine}</td>
                             <td>{item?.pipeLineExplain}</td>
                             <td className="text-center">

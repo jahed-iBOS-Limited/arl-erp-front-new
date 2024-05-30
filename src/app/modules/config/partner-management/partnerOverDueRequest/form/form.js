@@ -24,6 +24,7 @@ import {
 import { useState } from "react";
 import IViewModal from "../../../../_helper/_viewModal";
 import DetailsView from "./DetailsView";
+import TextArea from "../../../../_helper/TextArea";
 
 export default function _Form({
   buId,
@@ -265,6 +266,16 @@ export default function _Form({
                           name="lastDeliveryDate"
                           placeholder="Last Delivery Date"
                           type="date"
+                        />
+                      </div>
+                      <div className="col-lg-4">
+                        <label>Commitment</label>
+                        <TextArea
+                          value={values?.commitment || ""}
+                          name="commitment"
+                          placeholder="Commitment"
+                          type="text"
+                          rows="3"
                         />
                       </div>
                       <div className="col-lg-12">
