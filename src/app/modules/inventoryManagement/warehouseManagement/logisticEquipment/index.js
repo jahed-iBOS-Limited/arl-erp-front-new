@@ -9,9 +9,12 @@ import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import IForm from "./../../../_helper/_form";
 import Loading from "./../../../_helper/_loading";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
+import InputField from "../../../_helper/_inputField";
 const initData = {
   shipPoint: { value: 0, label: "All" },
   shift: { value: 1, label: "Day" },
+  fromDate:"",
+  toDate:"",
 };
 export default function LogisticEquipment() {
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
@@ -39,7 +42,7 @@ export default function LogisticEquipment() {
       `/oms/CastingSchedule/GetCastingScheduleToolsInfoPagination?businessUnitId=${
         selectedBusinessUnit?.value
       }&shipPointId=${values?.shipPoint?.value || 0}&shiftId=${values?.shift
-        ?.value || 0}&pageNo=${pageNo}&pageSize=${pageSize}`
+        ?.value || 0}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}&pageNo=${pageNo}&pageSize=${pageSize}`
     );
   };
 
@@ -130,6 +133,29 @@ export default function LogisticEquipment() {
                     />
                   </div>
                   <div className="col-lg-3">
+                    <label>From Date</label>
+                    <InputField
+                      value={values?.fromDate}
+                      name="fromDate"
+                      type="date"
+                      onChange={(e) => {
+                        setFieldValue("fromDate", e.target.value);
+                        setFieldValue("toDate", "");
+                      }}
+                    />
+                  </div>
+                  <div className="col-lg-3">
+                    <label>To Date</label>
+                    <InputField
+                      value={values?.toDate}
+                      name="toDate"
+                      type="date"
+                      onChange={(e) => {
+                        setFieldValue("toDate", e.target.value);
+                      }}
+                    />
+                  </div>
+                  <div className="col-lg-3">
                     <button
                       type="button"
                       className="btn btn-primary mt-5"
@@ -159,12 +185,16 @@ export default function LogisticEquipment() {
                           <th>Casting Date</th>
                           <th>Ship Point</th>
                           <th>Shift</th>
+                          <th>Total TM</th>
                           <th>Available TM</th>
                           <th>Explanations</th>
+                          <th>Total Concrete</th>
                           <th>Available Concrete</th>
                           <th>Explanations</th>
+                          <th>Total Pickup(Nos)</th>
                           <th>Available Pickup(Nos)</th>
                           <th>Explanations</th>
+                          <th>Total PipeLine(RFT)</th>
                           <th>Available PipeLine(RFT)</th>
                           <th>Explanations</th>
                           <th>Action</th>
@@ -180,15 +210,23 @@ export default function LogisticEquipment() {
                             <td>{item?.shipPointName}</td>
                             <td>{item?.shiftName}</td>
                             <td className="text-center">
+                              {item?.totalTransitMixture}
+                            </td>
+                            <td className="text-center">
                               {item?.avlTransitMixture}
                             </td>
                             <td>{item?.transitMixtureExplain}</td>
                             <td className="text-center">
+                              {item?.totalConcretePump}
+                            </td>
+                            <td className="text-center">
                               {item?.avlConcretePump}
                             </td>
                             <td>{item?.concretePumpExplain}</td>
+                            <td className="text-center">{item?.totalPickUp}</td>
                             <td className="text-center">{item?.avlPickUp}</td>
                             <td>{item?.pickUpExplain}</td>
+                            <td className="text-center">{item?.totalPipeLine}</td>
                             <td className="text-center">{item?.avlPipeLine}</td>
                             <td>{item?.pipeLineExplain}</td>
                             <td className="text-center">

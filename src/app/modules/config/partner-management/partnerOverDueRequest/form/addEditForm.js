@@ -35,6 +35,7 @@ export default function PartnerOverDueRequestForm() {
     reqAmount: "",
     presentDebitAmount: "",
     lastDeliveryDate: "",
+    commitment: "",
   };
 
   const headers = [
@@ -78,6 +79,7 @@ export default function PartnerOverDueRequestForm() {
       requsetAmount: values?.reqAmount || "",
       presentDebitAmount: values?.presentDebitAmount || 0,
       lastDeliveyDate: values?.lastDeliveryDate || "",
+      commitment: values?.commitment || "",
     };
 
     postData(

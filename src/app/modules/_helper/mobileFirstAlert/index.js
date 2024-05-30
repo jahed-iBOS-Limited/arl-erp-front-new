@@ -30,7 +30,7 @@ function MobileFirstAlert() {
   useEffect(() => {
     //window view not mobile than api call
     //&& process.env.NODE_ENV !== "development"
-    if (window.innerWidth > 768 && process.env.NODE_ENV !== "development") {
+    if (window.innerWidth > 991 && process.env.NODE_ENV !== "development") {
       setIsShowAlert(true);
       if (isMatchWorkPlaceMatch) {
         // 20m delay for alert hide
@@ -79,11 +79,18 @@ function MobileFirstAlert() {
   };
   const isShowBUIMatch = [184].includes(profileData?.defaultBusinessUnit);
 
+  const isMatchEmployeeId = [1187].includes(profileData?.employeeId);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
-    const isLaptop = window.innerWidth > 768;
+    const isLaptop = window.innerWidth > 991;
     const leftTime = timeLeft > 0;
-    if (isLaptop && leftTime && !isShowBUIMatch && isMatchWorkPlaceMatch) {
+    if (
+      isLaptop &&
+      leftTime &&
+      !isShowBUIMatch &&
+      isMatchWorkPlaceMatch &&
+      !isMatchEmployeeId
+    ) {
       setIsShowAlert(true);
     }
   });
@@ -100,7 +107,9 @@ function MobileFirstAlert() {
               <div className="countdown">Time left: {formatTime(timeLeft)}</div>
             )}
 
-            {(!isMatchWorkPlaceMatch || isShowBUIMatch) && (
+            {(!isMatchWorkPlaceMatch ||
+              isShowBUIMatch ||
+              isMatchEmployeeId) && (
               <div className="close-icon" onClick={handleClose}>
                 &times;
               </div>

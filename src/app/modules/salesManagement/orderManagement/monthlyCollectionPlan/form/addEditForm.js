@@ -6,6 +6,7 @@ import { _fixedPoint } from "../../../../_helper/_fixedPoint";
 import Loading from "../../../../_helper/_loading";
 import { getMonth } from "../../../report/salesanalytics/utils";
 import Form from "./form";
+import { useLocation } from "react-router";
 
 const initData = {
   year: "",
@@ -16,6 +17,9 @@ const initData = {
   region: "",
   area: "",
   territory: "",
+  monthYear: "",
+  totalPlanTaka:"",
+  workingDays:"",
 };
 
 export default function MonthlyCollectionPlanEntryForm({
@@ -29,6 +33,10 @@ export default function MonthlyCollectionPlanEntryForm({
   const [singleData] = useState({});
   const [rowData, setRowData] = useState([]);
   const [, postData, isLoading] = useAxiosPost();
+  const location = useLocation();
+  const { landingValues } = location || {};
+  const [dailyCollectionData, setDailyCollectionData] = useState([]);
+  const [, onSave, loadar] = useAxiosPost();
 
   // get user data from store
   const {
@@ -49,51 +57,83 @@ export default function MonthlyCollectionPlanEntryForm({
   }, [accId, buId, type]);
 
   const saveHandler = async (values, cb) => {
-    const selectedItems = rowData?.filter((item) => item?.isSelected);
-    if (selectedItems?.length < 1) {
-      return toast.warn("Please select at least one row!");
-    }
-    const check = selectedItems.filter(
-      (item) => !(item?.week1 && item?.week2 && item?.week3 && item?.week4)
-    );
-    if (check?.length > 0) {
-      return toast.warn("Please fill up all the fields of selected rows!");
-    }
-    const payload = selectedItems?.map((item) => {
-      return {
+    if ([1].includes(landingValues?.type?.value)) {
+      const selectedRow = dailyCollectionData?.filter(
+        (item) => item?.isSelected
+      );
+      if (!selectedRow.length) {
+        return toast.warn("Select at least one row");
+      }
+
+      const payload = selectedRow?.map((item) => ({
+        collectionPlanId: 0,
         accountId: accId,
         businessUnitId: buId,
-        yearId: values?.year?.value,
-        monthId: values?.month?.value,
-        monthName: getMonth(values?.month?.value),
-        salesManId: values?.salesman?.value,
-        salesManeName: values?.salesman?.label,
-        customerId: item?.intBusinessPartnerId,
-        customerName: item?.strBusinessPartnerName,
+        salesManId: empId,
+        targetDate: item?.date,
+        salesManeName: fullName,
         areaId: values?.area?.value,
         areaName: values?.area?.label,
-        territoryId: values?.territory?.value,
-        territoryName: values?.territory?.label,
-        totalDues: +item?.dueAmount,
-        overDue: +item?.overDue,
-        overDuePercentage: +item?.od || 0,
-        week1: item?.week1,
-        week2: item?.week2,
-        week3: item?.week3,
-        week4: item?.week4,
-        totalAmount: +item?.total,
-        collectionPercentage: +item?.percent || 0,
+        totalAmount: item?.targetAmount,
         actionBy: userId,
-      };
-    });
-    postData(
-      `/oms/CustomerSalesTarget/CreateMonthlyCollectionPlan`,
-      payload,
-      () => {
-        cb();
-      },
-      true
-    );
+      }));
+
+      onSave(
+        `/oms/CustomerSalesTarget/DailyCollectionPlanEntry?typeId=3&typeName=${`AreaBaseDailyCollectionPlan`}`,
+        payload,
+        ()=>{
+          setDailyCollectionData([]);
+        },
+        true
+      );
+    }else{
+      const selectedItems = rowData?.filter((item) => item?.isSelected);
+      if (selectedItems?.length < 1) {
+        return toast.warn("Please select at least one row!");
+      }
+      const check = selectedItems.filter(
+        (item) => !(item?.week1 && item?.week2 && item?.week3 && item?.week4)
+      );
+      if (check?.length > 0) {
+        return toast.warn("Please fill up all the fields of selected rows!");
+      }
+      const payload = selectedItems?.map((item) => {
+        return {
+          accountId: accId,
+          businessUnitId: buId,
+          yearId: values?.year?.value,
+          monthId: values?.month?.value,
+          monthName: getMonth(values?.month?.value),
+          salesManId: values?.salesman?.value,
+          salesManeName: values?.salesman?.label,
+          customerId: item?.intBusinessPartnerId,
+          customerName: item?.strBusinessPartnerName,
+          areaId: values?.area?.value,
+          areaName: values?.area?.label,
+          territoryId: values?.territory?.value,
+          territoryName: values?.territory?.label,
+          totalDues: +item?.dueAmount,
+          overDue: +item?.overDue,
+          overDuePercentage: +item?.od || 0,
+          week1: item?.week1,
+          week2: item?.week2,
+          week3: item?.week3,
+          week4: item?.week4,
+          totalAmount: +item?.total,
+          collectionPercentage: +item?.percent || 0,
+          actionBy: userId,
+        };
+      });
+      postData(
+        `/oms/CustomerSalesTarget/CreateMonthlyCollectionPlan`,
+        payload,
+        () => {
+          cb();
+        },
+        true
+      );
+    }
+  
   };
 
   const rowDataHandler = (name, i, value) => {
@@ -138,13 +178,15 @@ export default function MonthlyCollectionPlanEntryForm({
       : false;
   };
 
-  const title = `${
-    type === "view" ? "View" : type === "edit" ? "Edit" : "Enter"
-  } Monthly Collection Plan`;
+  const title = [1].includes(landingValues?.type?.value)
+    ? `Daily Collection Plan`
+    : `${
+        type === "view" ? "View" : type === "edit" ? "Edit" : "Enter"
+      } Monthly Collection Plan`;
 
   return (
     <>
-      {(loading || isLoading) && <Loading />}
+      {(loading || isLoading || loadar) && <Loading />}
       <Form
         {...objProps}
         type={type}
@@ -174,6 +216,10 @@ export default function MonthlyCollectionPlanEntryForm({
                 },
               }
         }
+        landingValues={landingValues}
+        dailyCollectionData={dailyCollectionData}
+        setDailyCollectionData={setDailyCollectionData}
+        userId={userId}
       />
     </>
   );

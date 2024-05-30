@@ -25,6 +25,11 @@ const initData = {
   pickUpExplain: "",
   avlPipeLine: 0,
   pipeLineExplain: "",
+
+  totalTransitMixture: 0,
+  totalConcretePump: 0,
+  totalPickUp: 0,
+  totalPipeLine: 0,
 };
 
 export default function LogisticEquipmentEntry() {
@@ -140,6 +145,19 @@ export default function LogisticEquipmentEntry() {
                   <>
                     <div className="col-lg-3">
                       <InputField
+                        value={values?.totalTransitMixture}
+                        label="Total TM"
+                        name="totalTransitMixture"
+                        type="number"
+                        onChange={(e) => {
+                          setFieldValue("totalTransitMixture", e.target.value);
+                        }}
+                        errors={errors}
+                        touched={touched}
+                      />
+                    </div>
+                    <div className="col-lg-3">
+                      <InputField
                         value={values?.avlTransitMixture}
                         label="Available TM"
                         name="avlTransitMixture"
@@ -171,6 +189,19 @@ export default function LogisticEquipmentEntry() {
                   <>
                     <div className="col-lg-3">
                       <InputField
+                        value={values?.totalConcretePump}
+                        label="Total Concrete Pump"
+                        name="totalConcretePump"
+                        type="number"
+                        onChange={(e) => {
+                          setFieldValue("totalConcretePump", e.target.value);
+                        }}
+                        errors={errors}
+                        touched={touched}
+                      />
+                    </div>
+                    <div className="col-lg-3">
+                      <InputField
                         value={values?.avlConcretePump}
                         label="Available Concrete"
                         name="avlConcretePump"
@@ -197,6 +228,19 @@ export default function LogisticEquipmentEntry() {
                     </div>
                   </>
                   <>
+                    <div className="col-lg-3">
+                      <InputField
+                        value={values?.totalPickUp}
+                        label="Total PickUp"
+                        name="totalPickUp"
+                        type="number"
+                        onChange={(e) => {
+                          setFieldValue("totalPickUp", e.target.value);
+                        }}
+                        errors={errors}
+                        touched={touched}
+                      />
+                    </div>
                     <div className="col-lg-3">
                       <InputField
                         value={values?.avlPickUp}
@@ -227,6 +271,19 @@ export default function LogisticEquipmentEntry() {
                   <>
                     <div className="col-lg-3">
                       <InputField
+                        value={values?.totalPipeLine}
+                        label="Total PipeLine"
+                        name="totalPipeLine"
+                        type="number"
+                        onChange={(e) => {
+                          setFieldValue("totalPipeLine", e.target.value);
+                        }}
+                        errors={errors}
+                        touched={touched}
+                      />
+                    </div>
+                    <div className="col-lg-3">
+                      <InputField
                         value={values?.avlPipeLine}
                         label="Available PipeLine(RFT)"
                         name="avlPipeLine"
@@ -252,6 +309,7 @@ export default function LogisticEquipmentEntry() {
                       />
                     </div>
                   </>
+
                   <div className="col-lg-3">
                     <button
                       disabled={
@@ -286,12 +344,16 @@ export default function LogisticEquipmentEntry() {
                   <table className="table table-striped mt-2 table-bordered bj-table bj-table-landing">
                     <thead>
                       <tr>
+                      <th>Total Transit Mixture</th>
                         <th>Available TM</th>
                         <th>Explanations</th>
+                        <th>Total Concrete Pump</th>
                         <th>Available Concrete</th>
                         <th>Explanations</th>
+                        <th>Total PickUp</th>
                         <th>Available Pickup(Nos)</th>
                         <th>Explanations</th>
+                        <th>Total PipeLine</th>
                         <th>Available PipeLine(RFT)</th>
                         <th>Explanations</th>
                         <th>Action</th>
@@ -300,6 +362,18 @@ export default function LogisticEquipmentEntry() {
                     <tbody>
                       {formList.map((item, index) => (
                         <tr key={index}>
+                           <td>
+                            <InputField
+                              value={item?.totalTransitMixture}
+                              type="number"
+                              onChange={(e) => {
+                                const data = [...formList];
+                                data[index]["totalTransitMixture"] =
+                                  e.target.value;
+                                setFormList(data);
+                              }}
+                            />
+                          </td>
                           <td>
                             <InputField
                               value={item?.avlTransitMixture}
@@ -319,6 +393,18 @@ export default function LogisticEquipmentEntry() {
                               onChange={(e) => {
                                 const data = [...formList];
                                 data[index]["transitMixtureExplain"] =
+                                  e.target.value;
+                                setFormList(data);
+                              }}
+                            />
+                          </td>
+                          <td>
+                            <InputField
+                              value={item?.totalConcretePump}
+                              type="number"
+                              onChange={(e) => {
+                                const data = [...formList];
+                                data[index]["totalConcretePump"] =
                                   e.target.value;
                                 setFormList(data);
                               }}
@@ -349,6 +435,17 @@ export default function LogisticEquipmentEntry() {
                           </td>
                           <td>
                             <InputField
+                              value={item?.totalPickUp}
+                              type="number"
+                              onChange={(e) => {
+                                const data = [...formList];
+                                data[index]["totalPickUp"] = e.target.value;
+                                setFormList(data);
+                              }}
+                            />
+                          </td>
+                          <td>
+                            <InputField
                               value={item?.avlPickUp}
                               type="number"
                               onChange={(e) => {
@@ -365,6 +462,17 @@ export default function LogisticEquipmentEntry() {
                               onChange={(e) => {
                                 const data = [...formList];
                                 data[index]["pickUpExplain"] = e.target.value;
+                                setFormList(data);
+                              }}
+                            />
+                          </td>
+                          <td>
+                            <InputField
+                              value={item?.totalPipeLine}
+                              type="number"
+                              onChange={(e) => {
+                                const data = [...formList];
+                                data[index]["totalPipeLine"] = e.target.value;
                                 setFormList(data);
                               }}
                             />
@@ -391,6 +499,7 @@ export default function LogisticEquipmentEntry() {
                               }}
                             />
                           </td>
+                         
                           <td className="text-center">
                             <span
                               onClick={() => {

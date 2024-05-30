@@ -235,13 +235,12 @@ export default function ItemQualityCheckLanding() {
                       <th>Date</th>
                       <th>Supplier Name</th>
                       <th>Address</th>
-                      <th>Net Weight</th>
                       <th>Item Name</th>
                       <th>Net Weight (Scale)</th>
                       <th>Deduct for Bag</th>
-                      <th>Deduct Qty</th>
+                      <th>QC Deduct Qty</th>
                       <th>Unload Deduct </th>
-                      <th>Extra Deduction</th>                      
+                      <th>Extra Deduction</th>
                       <th>Actual Qty</th>
                       <th>Qc Final Com</th>
                       <th>Status</th>
@@ -285,11 +284,10 @@ export default function ItemQualityCheckLanding() {
                         <td>{item?.supplierAddress}</td>
                         <td>{item?.itemName}</td>
                         <td>{item?.netScaleWeight}</td>
-                        <td>{item?.netWeight}</td>
                         <td>{item?.bagWeightDeductQuantity}</td>
                         <td>{item?.deductionQuantity}</td>
-                        <td>{item?.unloadedDeductionQuantity}</td>                        
-                        <td>{item?.extraNetQuantity}</td>                        
+                        <td>{item?.unloadedDeductionQuantity}</td>
+                        <td>{item?.extraNetQuantity}</td>
                         <td className="text-center">{item?.actualQuantity}</td>
                         <td>{item?.warehouseComment}</td>
                         <td>{item?.status}</td>

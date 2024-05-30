@@ -79,13 +79,38 @@ function SalesOrderReportLanding() {
   };
 
   const parameterValues = (values) => {
-    return [
-      { name: "unit", value: selectedBusinessUnit?.value?.toString() },
-      { name: "FromDate", value: values?.fromDate },
-      { name: "ToDate", value: values?.toDate },
-      { name: "ChannelID", value: values?.channel?.value?.toString() || "0" },
-      { name: "ViewType", value: values?.salesContractInfoReportType?.value?.toString()},
-    ];
+    return values?.reportType?.value === 3
+      ? [
+          { name: "unit", value: selectedBusinessUnit?.value?.toString() },
+          { name: "FromDate", value: values?.fromDate },
+          { name: "ToDate", value: values?.toDate },
+          {
+            name: "ChannelID",
+            value: values?.channel?.value?.toString() || "0",
+          },
+          {
+            name: "ViewType",
+            value: values?.salesContractInfoReportType?.value?.toString(),
+          },
+        ]
+      : values?.reportType?.value === 4
+      ? [
+          { name: "unitid", value: selectedBusinessUnit?.value?.toString() },
+          { name: "FromDate", value: values?.fromDate },
+          { name: "ToDate", value: values?.toDate },
+        ]
+      : [];
+  };
+
+  const setReportId = (reportTypeId) => {
+    let reportId = "";
+    if (reportTypeId === 3) {
+      reportId = "1da48866-a10e-4646-a15c-84607b344c20";
+    } else if (reportTypeId === 4) {
+      reportId = "765ae8bb-92dc-471e-986d-0fd7805470da";
+    }
+
+    return reportId;
   };
 
   return (
@@ -127,10 +152,10 @@ function SalesOrderReportLanding() {
               {[2].includes(values?.reportType?.value) && (
                 <TableTwo obj={{ rowData }} />
               )}
-              {([3].includes(values?.reportType?.value) && isShow) && (
+              {([3,4].includes(values?.reportType?.value) && isShow) && (
                  <PowerBIReport
-                 reportId={`1da48866-a10e-4646-a15c-84607b344c20`}
-                 groupId={`e3ce45bb-e65e-43d7-9ad1-4aa4b958b29a`}
+                 reportId={setReportId(values?.reportType?.value)}
+                 groupId={"e3ce45bb-e65e-43d7-9ad1-4aa4b958b29a"}
                  parameterValues={parameterValues(values)}
                  parameterPanel={false}
                />

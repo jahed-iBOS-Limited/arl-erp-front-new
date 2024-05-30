@@ -24,26 +24,55 @@ import {
   getPartnerOverDueRequestList
 } from "../helper";
 
-const header = [
-  "SL",
-  "Customer Name",
-  "Existing Credit Limit (Tk)",
-  "Requested Credit Limit (Tk)",
-  "Existing Credit Limit Days",
-  "Requested Credit Limit Days",
-  "From Date",
-  "To Date",
-  "Requested Qty",
-  "Requested Amount",
-  "Present Debit Amount",
-  "Last Delivery Date",
-  "Approve by Sales",
-  "Approve by Accounts",
-  "Approve by Credit Control",
-  "Status",
-  "Over Due Amount",
-  "Credit Control",
-];
+
+const getHearderList=(buId)=>{
+  const header = [
+    "SL",
+    "Customer Name",
+    "Existing Credit Limit (Tk)",
+    "Requested Credit Limit (Tk)",
+    "Existing Credit Limit Days",
+    "Requested Credit Limit Days",
+    "From Date",
+    "To Date",
+    "Requested Qty",
+    "Requested Amount",
+    "Present Debit Amount",
+    "Last Delivery Date",
+    "Approve by Sales",
+    "Approve by Accounts",
+    "Approve by Credit Control",
+    "Status",
+    "Over Due Amount",
+    "Credit Control",
+    "Commitment"
+  ];
+  
+  const readyMixHeader = [
+    "SL",
+    "Customer Name",
+    // "Existing Credit Limit (Tk)",
+    // "Requested Credit Limit (Tk)",
+    "Existing Credit Limit Days",
+    // "Requested Credit Limit Days",
+    // "From Date",
+    // "To Date",
+    "Requested Qty",
+    "Requested Amount",
+    "Present Debit Amount",
+    "Last Delivery Date",
+    "Approve by Sales",
+    "Approve by Accounts",
+    "Approve by Credit Control",
+    "Status",
+    "Over Due Amount",
+    "Credit Control",
+  ];
+  
+  const mainHeader = [175].includes(buId) ? readyMixHeader : header;
+
+  return mainHeader;
+}
 
 const initData = {
   reason: "",
@@ -333,7 +362,7 @@ const PartnerOverDueRequestTable = () => {
                             onChange={() => {}}
                           />
                         </th>
-                        {header.map((th, index) => {
+                        {getHearderList(buId).map((th, index) => {
                           return <th key={index}>{th}</th>;
                         })}
                       </tr>
@@ -380,36 +409,36 @@ const PartnerOverDueRequestTable = () => {
                             {index + 1}
                           </td>
                           <td>{item?.partnerName}</td>
-                          <td className='text-right' style={{ width: "60px" }}>
+                         {![175].includes(buId) &&  <td className='text-right' style={{ width: "60px" }}>
                             {!item?.isDayLimit
                               ? item?.creditLimitAmountExisting
                               : ""}
-                          </td>
-                          <td className='text-right' style={{ width: "60px" }}>
+                          </td>}
+                          {![175].includes(buId) && <td className='text-right' style={{ width: "60px" }}>
                             {!item?.isDayLimit
                               ? item?.creditLimitAmountRequesting
                               : ""}
-                          </td>
+                          </td>}
                           <td className='text-right' style={{ width: "60px" }}>
                             {item?.isDayLimit
                               ? item?.creditLimitDaysExisting
                               : ""}
                           </td>
-                          <td className='text-right' style={{ width: "60px" }}>
+                          {![175].includes(buId) && <td className='text-right' style={{ width: "60px" }}>
                             {item?.isDayLimit
                               ? item?.creditLimitDaysRequesting
                               : ""}
-                          </td>
-                          <td style={{ width: "60px" }}>
+                          </td>}
+                          {![175].includes(buId) && <td style={{ width: "60px" }}>
                             {item?.isDayLimit
                               ? _dateFormatter(item?.fromDate)
                               : ""}
-                          </td>
-                          <td style={{ width: "60px" }}>
+                          </td>}
+                         {![175].includes(buId) &&  <td style={{ width: "60px" }}>
                             {item?.isDayLimit
                               ? _dateFormatter(item?.toDate)
                               : ""}
-                          </td>
+                          </td>}
                           <td style={{ width: "60px" }} className='text-right'>
                             {item?.requsetQnt}
                           </td>
@@ -468,6 +497,7 @@ const PartnerOverDueRequestTable = () => {
                               : "Pending"}
                           </td>
                           <td className="text-right">{item?.overDueAmount}</td>
+                          <td className="text-right">{item?.commitment}</td>
                           <td>
                             {overDueApprovalUser ? (
                               <button

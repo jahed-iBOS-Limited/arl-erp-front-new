@@ -47,7 +47,7 @@ export default function Form({ obj }) {
               territory: false,
             }}
           />
-          {![3].includes(values?.reportType?.value) && <div className="col-lg-3">
+          {![3,4].includes(values?.reportType?.value) && <div className="col-lg-3">
             <label>Customer</label>
             <SearchAsyncSelect
               selectedValue={values?.customer}
@@ -77,6 +77,7 @@ export default function Form({ obj }) {
                 { value: 1, label: "Top Sheet" },
                 { value: 2, label: "Orders from APP" },
                 { value: 3, label: "Sales Contract Info" },
+                { value: 4, label: "Sales Order Base Campaign" },
               ]}
               value={values?.reportType}
               label="View Type"
@@ -109,7 +110,7 @@ export default function Form({ obj }) {
           </div>}
           <IButton
             onClick={() => {
-              if(values?.reportType?.value === 3){
+              if([3,4].includes(values?.reportType?.value)){
                 setIsShow(true)
               }
               getReportView(values);

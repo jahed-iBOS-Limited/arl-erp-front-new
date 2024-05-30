@@ -58,10 +58,10 @@ export function Banking() {
       />
 
       {/* loan register */}
-      {/* <ContentRoute
-        path="/financial-management/banking/loan-register/edit/:id"
+      <ContentRoute
+        path="/financial-management/banking/loan-register/edit/:editId"
         component={LoanRegisterCreate}
-      /> */}
+      />
       <ContentRoute
         path="/financial-management/banking/loan-register/repay/:id"
         component={RepayCreate}

@@ -329,7 +329,17 @@ export default function SalesIncentiveForm() {
                                 {item?.numAchievement}
                               </td>
                               <td className="text-center">
-                                {item?.numIncentiveAmount}
+                                <InputField
+                                  value={item?.numIncentiveAmount || ""}
+                                  type="number"
+                                  onChange={(e) => {
+                                    if(+e.target.value < 0) return;
+                                    const data = [...incentiveData]
+                                    data[index]["numIncentiveAmount"] = +e.target.value;
+                                    setIncentiveData(data);
+                                  }}
+                              />
+                                {/* {item?.numIncentiveAmount} */}
                               </td>
                               <td className="text-center">
                                 {" "}

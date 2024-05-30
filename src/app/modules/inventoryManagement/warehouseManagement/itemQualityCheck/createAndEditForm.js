@@ -19,6 +19,7 @@ import {
   grandParentTotalSum,
 } from "./helper";
 import { QcManagementContext } from "./qcManagementContext";
+import { toast } from "react-toastify";
 const initData = {
   po: "",
   poType: "",
@@ -368,8 +369,14 @@ export default function QualityCheckCreateForm() {
 
   // save handler
   const saveHandler = (values, cb) => {
+
+    const isqcQtyNullable = headerData?.some((item)=> !item?.qcQty)
+    if(isqcQtyNullable){
+      return toast.warn("Challan Qty must be input first");
+    }
     const payload = headerData?.map(item=>({
       headerObject:{
+      purchaseOrderRowId : item?.purchaseOrderRowId,
       actualQuantity:item?.actualQuantity,
       businessUnitId:buId,
       purchaseOrderId:values?.poNo?.value,

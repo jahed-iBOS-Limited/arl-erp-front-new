@@ -18,6 +18,8 @@ import letterhead from "../../assets/images/shipping_line_pte_letterhead.jpeg";
 import { getOwnerBankInfoDetailsById } from "../helper";
 import { BankInfoComponent } from "./bankInfoComponent";
 import "./style.css";
+import { useLocation } from "react-router-dom";
+
 
 const toWords = new ToWords({
   localeCode: "en-US",
@@ -37,12 +39,18 @@ export default function InvoiceForOwnerView({
   const [bankInfoData, setBankInfoData] = useState();
   const [loading, setLoading] = useState(false);
   const { values } = formikprops;
+  const location = useLocation()
 
   /* Bank Info & Prev Hire API */
   useEffect(() => {
     if (invoiceHireData?.beneficiaryId) {
       getOwnerBankInfoDetailsById(
         invoiceHireData?.beneficiaryId,
+        setBankInfoData
+      );
+    }else if(location?.actionType === "view"){
+      getOwnerBankInfoDetailsById(
+        location?.state?.beneficiaryId,
         setBankInfoData
       );
     }

@@ -7,7 +7,7 @@ import { _dateFormatter } from "../../../../../_helper/_dateFormate";
 import IForm from "../../../../../_helper/_form";
 import Loading from "../../../../../_helper/_loading";
 import { _todayDate } from "../../../../../_helper/_todayDate";
-import { createLoanRegister } from "../../helper";
+import { createLoanRegister, loadRegisterEdit } from "../../helper";
 import LoanRegisterViewForm from "../view/loanRegisterViewForm";
 
 const initData = {
@@ -19,12 +19,13 @@ const initData = {
   termDays: "",
   principle: "",
   interestRate: "",
+  disbursementPurpose: "",
 };
 
 export default function LoanRegisterCreate({
   history,
   match: {
-    params: { id, renewId },
+    params: { id,editId, renewId },
   },
 }) {
   const [objProps, setObjprops] = useState({});
@@ -38,7 +39,7 @@ export default function LoanRegisterCreate({
   }, shallowEqual);
 
   useEffect(() => {
-    if (renewId) {
+    if (renewId || editId) {
       setModifyData({
         bank: {
           value: location?.state?.intBankId,
@@ -57,10 +58,16 @@ export default function LoanRegisterCreate({
         termDays: location?.state?.intTenureDays || 0,
         principle: location?.state?.numPrinciple || 0,
         interestRate: location?.state?.numInterestRate || 0,
+        disbursementPurpose: location?.state?.disbursementPurposeId
+          ? {
+              value: location?.state?.disbursementPurposeId,
+              label: location?.state?.disbursementPurposeName,
+            }
+          : "",
       });
     }
-  }, [renewId, location]);
-
+  }, [renewId, location,editId]);
+console.log({modifyData})
   const singleData = useSelector((state) => {
     return state.costControllingUnit?.singleData;
   }, shallowEqual);
@@ -91,12 +98,33 @@ export default function LoanRegisterCreate({
           values?.openingDate
         }&tenureDays=${+values?.termDays}&numPrinciple=${+values?.principle}&numIntRate=${+values?.interestRate}&actionById=${
           profileData?.userId
-        }`,
+        }&disbursementPurposeId=${values?.disbursementPurpose?.value ||
+          0}&disbursementPurposeName=${values?.disbursementPurpose?.label ||
+          ""}`,
         null,
         null,
         true
       );
 
+      return;
+    }
+
+    if (editId) {
+      const editPayload = {
+        loanAccountId:+editId,
+        accountId: profileData?.accountId,
+        branchId: selectedBusinessUnit?.value,
+        loanAcc: values?.loanAccNo||"",
+        facilityId:values?.facility?.value|| 0,
+        startDate: values?.openingDate||"",
+        tenureDays: +values?.termDays|| 0,
+        numPrinciple:+values?.principle|| 0,
+        numIntRate:+values?.interestRate|| 0,
+        actionById:profileData?.userId|| 0,
+        disbursementPurposeId: values?.disbursementPurpose?.value || 0,
+        disbursementPurposeName: values?.disbursementPurpose?.label || "",
+      };
+      loadRegisterEdit({ editPayload, setDisabled, cb });
       return;
     }
 
@@ -111,6 +139,8 @@ export default function LoanRegisterCreate({
       +values?.termDays,
       +values?.principle,
       +values?.interestRate,
+      values?.disbursementPurpose?.value || 0,
+      values?.disbursementPurpose?.label || "",
       profileData?.userId,
       setDisabled,
       cb
@@ -119,7 +149,7 @@ export default function LoanRegisterCreate({
 
   return (
     <IForm
-      title={renewId ? `Renew Loan Register` : `Create Loan Register`}
+      title={renewId ? `Renew Loan Register` : editId? `Edit Loan Register`:`Create Loan Register`}
       getProps={setObjprops}
       isDisabled={isDisabled}
     >
@@ -130,7 +160,7 @@ export default function LoanRegisterCreate({
         saveHandler={saveHandler}
         accountId={profileData?.accountId}
         selectedBusinessUnit={selectedBusinessUnit}
-        isEdit={id || false}
+        isEdit={editId || false}
         renewId={renewId}
       />
     </IForm>
