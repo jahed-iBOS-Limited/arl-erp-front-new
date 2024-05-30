@@ -67,7 +67,6 @@ export default function LoanRegisterCreate({
       });
     }
   }, [renewId, location,editId]);
-console.log({modifyData})
   const singleData = useSelector((state) => {
     return state.costControllingUnit?.singleData;
   }, shallowEqual);

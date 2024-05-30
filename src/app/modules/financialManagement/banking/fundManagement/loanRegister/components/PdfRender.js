@@ -15,7 +15,11 @@ const PdfRender = ({ singleItem, printRef }) => {
   return (
     <div className="loan_register_pdf" ref={printRef}>
       <PdfHeader selectedBusinessUnit={selectedBusinessUnit} />
-
+      <div
+                  style={{
+                    height: "110px",
+                  }}
+                ></div>
       <ConditionallyRenderPdf
         singleItem={singleItem}
         selectedBusinessUnit={selectedBusinessUnit}

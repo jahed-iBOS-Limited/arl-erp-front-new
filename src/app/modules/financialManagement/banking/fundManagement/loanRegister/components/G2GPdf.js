@@ -2,7 +2,6 @@ import React from "react";
 import { _dateFormatter } from "../../../../../_helper/_dateFormate";
 import { formatDate } from "./utils";
 import { _formatMoney } from "../../../../../_helper/_formatMoney";
-const fontSize = "13px";
 const marginBottom = "9px";
 const G2GPdf = ({ singleItem, selectedBusinessUnit }) => {
   const {
@@ -19,7 +18,7 @@ const G2GPdf = ({ singleItem, selectedBusinessUnit }) => {
   const { buShortName, label } = selectedBusinessUnit;
 
   return (
-    <div style={{ fontSize: fontSize, margin: "50px 50px 0px" }} sty>
+    <div style={{margin: "40px 71px 0px" }}>
       <p style={{ marginBottom }} className="font-weight-bolder">
         Ref :{buShortName}/{strBankShortName}/STL/G2G/
         {_dateFormatter(dteStartDate)}
