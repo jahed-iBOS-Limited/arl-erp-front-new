@@ -63,7 +63,6 @@ export default function _Form({
 
   useEffect(() => {
     if (dailyCollectionData?.length > 0) {
-      console.log("perDayCollect", perDayCollect);
       const data = [...dailyCollectionData];
       const modifyData = data.map((item) => ({
         ...item,
@@ -203,7 +202,6 @@ export default function _Form({
                         </div>
                       </div>
 
-                      {console.log("monthYear", values?.monthYear)}
                       <div className="col-lg-3">
                         <button
                           disabled={!values?.monthYear}
@@ -223,8 +221,7 @@ export default function _Form({
                         </button>
                       </div>
                     </div>
-                    {console.log("dailyCollectionData", dailyCollectionData)}
-                    {console.log("perDayCollect2", perDayCollect)}
+                    
                     <div>
                       <h4 className="text-right">Total: {total}</h4>
                     </div>
