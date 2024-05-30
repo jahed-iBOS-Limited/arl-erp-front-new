@@ -1,13 +1,14 @@
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
+import IView from "../../../_helper/_helperIcons/_view";
 import InputField from "../../../_helper/_inputField";
 import NewSelect from "../../../_helper/_select";
-import IViewModal from "../../../_helper/_viewModal";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import IForm from "./../../../_helper/_form";
 import Loading from "./../../../_helper/_loading";
-import { DamageViewModal } from "./viewModal";
+import IViewModal from "../../../_helper/_viewModal";
+import HealthSummaryModal from "./healthSummaryModal";
 const initData = {
   businessUnit: "",
   plant: "",
@@ -29,9 +30,11 @@ export default function HealthSummary() {
     shopfloorDDLLoader,
     setShopfloorDDL,
   ] = useAxiosGet();
-  const [singleData, setSingleData] = useState({});
+  // const [singleData, setSingleData] = useState({});
   const [rowData, getRowData, loading] = useAxiosGet();
-  const [isShowModal, setIsShowModal] = useState(false);
+  const [healthSummaryModal, setHealthSummaryModal] = useState(false);
+  const [clickRowData, setClickRowData] = useState({});
+  // const [isShowModal, setIsShowModal] = useState(false);
 
   useEffect(() => {
     getPlantDDL(
@@ -194,7 +197,7 @@ export default function HealthSummary() {
                       <th colSpan={2}>No of Health Check Fill Up</th>
                       <th colSpan={2}>No of Health Check Pending</th>
                       <th colSpan={2}>Health Check %</th>
-                      <th colSpan={3}>Machine Health Scenario</th>
+                      <th colSpan={4}>Machine Health Scenario</th>
                     </tr>
                     <tr>
                       <th>Production </th>
@@ -208,6 +211,7 @@ export default function HealthSummary() {
                         Number of Unfit Machine ( Below 80% Health Condition )
                       </th>
                       <th>Unfit Machine %</th>
+                      <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -253,6 +257,21 @@ export default function HealthSummary() {
                               </td>
                               <td>{}</td>
                               <td>{}</td>
+                              <td>
+                                <div>
+                                  <span
+                                    onClick={() => {
+                                      setHealthSummaryModal(true);
+                                      setClickRowData({
+                                        ...values,
+                                        ...item,
+                                      });
+                                    }}
+                                  >
+                                    <IView />
+                                  </span>
+                                </div>
+                              </td>
                               {/* <td className="text-center">
                                 <span
                                   onClick={() => {
@@ -291,7 +310,21 @@ export default function HealthSummary() {
               </div>
             </Form>
           </IForm>
-          <div>
+          {healthSummaryModal && (
+            <>
+              <IViewModal
+                show={healthSummaryModal}
+                onHide={() => {
+                  setClickRowData({});
+                  setHealthSummaryModal(false);
+                }}
+                title={"Health details"}
+              >
+                <HealthSummaryModal clickRowData={clickRowData} />
+              </IViewModal>
+            </>
+          )}
+          {/* <div>
             <IViewModal
               title="Damage"
               show={isShowModal}
@@ -302,7 +335,7 @@ export default function HealthSummary() {
             >
               <DamageViewModal values={values} singleData={singleData} />
             </IViewModal>
-          </div>
+          </div> */}
         </>
       )}
     </Formik>
