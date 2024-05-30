@@ -6,7 +6,7 @@ import { _todayDate } from "../../../../_helper/_todayDate";
 import { excelGenerator } from "./excelGenerator";
 import axios from "axios";
 
-const createExcelFile = (
+const createExcelFile = async (
   isHeaderNeeded,
   comapanyNameHeader,
   dataHeader,
@@ -127,34 +127,32 @@ const createExcelFile = (
 
   // worksheet.mergeCells(`D${bottom3.number}:F${bottom3.number}`);
   if (isOldExcelDownload) {
-    workbook.xlsx.writeBuffer().then((data) => {
-      let blob = new Blob([data], {
-        type: "application/ms-excel",
-      });
-
-      let formData = new FormData();
-      formData.append("file", blob);
-      // api call
-      const url = `/fino/BankBranch/ConvertToXls`;
-      const config = {
+    const buffer = await workbook.xlsx.writeBuffer();
+    const blob = new Blob([buffer], {
+      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    });
+    const formData = new FormData();
+    formData.append("file", blob, `${fileName}.xlsx`);
+    axios
+      .post("/fino/BankBranch/ConvertToXls", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
-      };
-      axios
-        .post(url, workbook, config)
-        .then((response) => {
-          const url = window.URL.createObjectURL(new Blob([response.data]));
-          const link = document.createElement("a");
-          link.href = url;
-          link.setAttribute("download", `${fileName}.xlsx`);
-          document.body.appendChild(link);
-          link.click();
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    });
+      })
+      .then((res) => {
+        // downlaod the file
+        const url = window.URL.createObjectURL(
+          new Blob([res.data],)
+        );
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", `${fileName}`);
+        document.body.appendChild(link);
+        link.click();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   } else {
     workbook.xlsx.writeBuffer().then((data) => {
       let blob = new Blob([data], {
