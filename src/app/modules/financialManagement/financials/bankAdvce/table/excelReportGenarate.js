@@ -4,6 +4,7 @@ import * as fs from "file-saver";
 import { dateFormatWithMonthName } from "../../../../_helper/_dateFormate";
 import { _todayDate } from "../../../../_helper/_todayDate";
 import { excelGenerator } from "./excelGenerator";
+import axios from "axios";
 
 const createExcelFile = (
   isHeaderNeeded,
@@ -16,9 +17,9 @@ const createExcelFile = (
   bottom2,
   bottom3,
   getBlobData,
-  fileName
+  fileName,
+  isOldExcelDownload
 ) => {
-  console.log("tableData", tableData);
   let workbook = new Workbook();
   let worksheet = workbook.addWorksheet("Bank Advice");
 
@@ -125,16 +126,47 @@ const createExcelFile = (
   }
 
   // worksheet.mergeCells(`D${bottom3.number}:F${bottom3.number}`);
-  workbook.xlsx.writeBuffer().then((data) => {
-    let blob = new Blob([data], {
-      type: "application/ms-excel",
+  if (isOldExcelDownload) {
+    workbook.xlsx.writeBuffer().then((data) => {
+      let blob = new Blob([data], {
+        type: "application/ms-excel",
+      });
+
+      let formData = new FormData();
+      formData.append("file", blob);
+      // api call
+      const url = `/fino/BankBranch/ConvertToXls`;
+      const config = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      };
+      axios
+        .post(url, workbook, config)
+        .then((response) => {
+          const url = window.URL.createObjectURL(new Blob([response.data]));
+          const link = document.createElement("a");
+          link.href = url;
+          link.setAttribute("download", `${fileName}.xlsx`);
+          document.body.appendChild(link);
+          link.click();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     });
-    if (getBlobData) {
-      getBlobData(blob);
-    } else {
-      fs.saveAs(blob, `${fileName}.xlsx`);
-    }
-  });
+  } else {
+    workbook.xlsx.writeBuffer().then((data) => {
+      let blob = new Blob([data], {
+        type: "application/ms-excel",
+      });
+      if (getBlobData) {
+        getBlobData(blob);
+      } else {
+        fs.saveAs(blob, `${fileName}.xlsx`);
+      }
+    });
+  }
 };
 
 const getTableData = (row, keys, totalKey) => {
@@ -153,7 +185,8 @@ export const generateExcel = (
   selectedBusinessUnit,
   isHeaderNeeded,
   getBlobData,
-  fileName
+  fileName,
+  isOldExcelDownload
 ) => {
   console.log("row", row);
   row.forEach((item) => {
@@ -317,7 +350,8 @@ export const generateExcel = (
       bottom2,
       bottom3,
       getBlobData,
-      fileName
+      fileName,
+      isOldExcelDownload
     );
   } else {
     excelGenerator(
