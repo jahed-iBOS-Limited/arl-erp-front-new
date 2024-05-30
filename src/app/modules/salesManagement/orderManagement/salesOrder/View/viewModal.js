@@ -613,9 +613,7 @@ export default function ViewForm({ id, show, onHide, isLoading }) {
         </Formik>
         {/* Modal Grid */}
 
-        <div
-        // className="react-bootstrap-table table-responsive"
-        >
+        <div className="react-bootstrap-table table-responsive">
           <table
             // className={"table table-striped table-bordered global-table "}
             className={
