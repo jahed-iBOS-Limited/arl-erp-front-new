@@ -215,11 +215,11 @@ export function Routes() {
 
     if (
       process.env.NODE_ENV === "production" &&
-      window.location.origin !== "https://deverp.ibos.io"
+      window.location.origin !== "https://deverp.ibos.io" &&
+      window.innerWidth > 768
     ) {
       document.addEventListener("contextmenu", handleContextmenu);
     }
-
     return function cleanup() {
       document.removeEventListener("contextmenu", handleContextmenu);
     };
