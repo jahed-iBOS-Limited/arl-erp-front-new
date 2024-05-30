@@ -19,6 +19,8 @@ const initData = {
   termDays: "",
   principle: "",
   interestRate: "",
+  disbursementPurpose:""
+
 };
 
 export default function LoanRegisterCreate({
@@ -91,7 +93,7 @@ export default function LoanRegisterCreate({
           values?.openingDate
         }&tenureDays=${+values?.termDays}&numPrinciple=${+values?.principle}&numIntRate=${+values?.interestRate}&actionById=${
           profileData?.userId
-        }`,
+        }&disbursementPurposeId=${values?.disbursementPurpose?.value||0}&disbursementPurposeName=${values?.disbursementPurpose?.label||""}`,
         null,
         null,
         true
@@ -111,6 +113,8 @@ export default function LoanRegisterCreate({
       +values?.termDays,
       +values?.principle,
       +values?.interestRate,
+      values?.disbursementPurpose?.value||0,
+      values?.disbursementPurpose?.label||"",
       profileData?.userId,
       setDisabled,
       cb

@@ -1,0 +1,10 @@
+.loan_register_pdf{
+    display: none;
+}
+
+@media print {
+    .loan_register_pdf {
+      display: block !important;
+    }
+  }
+  

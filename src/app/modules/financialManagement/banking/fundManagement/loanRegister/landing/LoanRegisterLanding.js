@@ -26,7 +26,8 @@ import {
 } from "../../helper";
 import IClose from "../../../../../_helper/_helperIcons/_close";
 import useAxiosPost from "../../../../../_helper/customHooks/useAxiosPost";
-
+import PdfRender from "../components/PdfRender";
+import { useReactToPrint } from "react-to-print";
 const LoanRegisterLanding = () => {
   const history = useHistory();
   const initData = {
@@ -49,9 +50,10 @@ const LoanRegisterLanding = () => {
   const [open, setOpen] = useState(false);
   const [fdrNo, setFdrNo] = useState("");
   const [attachments, setAttachments] = useState([]);
-
+  const [modalShow, setModalShow] = useState(false);
   const [, postCloseLoanRegister, closeLoanRegisterLoader] = useAxiosPost();
-
+  const [singleItem,setSingleItem] = useState(null)
+  const [isPrinting, setIsPrinting] = useState(false); 
   const {
     profileData,
     selectedBusinessUnit: { value: buId },
@@ -122,7 +124,27 @@ const LoanRegisterLanding = () => {
       ),
     [loanRegisterData?.data]
   );
+  const handleInvoicePrint = useReactToPrint({
+    content: () => printRef.current,
+    pageStyle:
+      "@media print{body { -webkit-print-color-adjust: exact; margin: 0mm;}@page {size: portrait ! important}}",
+      onAfterPrint: () => {
+        setIsPrinting(false);
+        setLoading(false);
+      },
+  });
+  useEffect(() => {
+    if (isPrinting) {
+      handleInvoicePrint();
+    }
+  }, [isPrinting]);
 
+
+  const handlePrintClick = ({item}) => {
+    setLoading(true); 
+    setSingleItem(item);
+    setIsPrinting(true);
+  };
   return (
     <>
       {(loading || closeLoanRegisterLoader) && <Loading />}
@@ -230,9 +252,12 @@ const LoanRegisterLanding = () => {
                               <th style={{ minWidth: "70px" }}>Loan Class</th>
                               <th style={{ minWidth: "70px" }}>Facility</th>
                               <th>Loan Acc</th>
+                              <th>BR Number</th>
                               <th style={{ minWidth: "50px" }}>Tenure</th>
+                              <th style={{ minWidth: "" }}>Disbursement Purpose</th>
                               <th style={{ minWidth: "90px" }}>OpenDate</th>
                               <th style={{ minWidth: "90px" }}>Mature Date</th>
+
                               <th style={{ minWidth: "100px" }}>Principle</th>
                               <th style={{ minWidth: "50px" }}>Int.Rate</th>
                               <th style={{ minWidth: "100px" }}>Interst</th>
@@ -262,7 +287,9 @@ const LoanRegisterLanding = () => {
                                 <td className="text-">
                                   {item?.strLoanAccountName}
                                 </td>
+                                <td className="text-">{item?.brCode}</td>
                                 <td className="text-">{item?.intTenureDays}</td>
+                                <td className="text-">{item?.disbursementPurposeName}</td>
                                 <td className="text-">
                                   {_dateFormatter(item?.dteStartDate)}
                                 </td>
@@ -346,13 +373,39 @@ const LoanRegisterLanding = () => {
                                       }}
                                       onClick={() =>
                                         history.push({
-                                          pathname: `/financial-management/banking/loan-register/re-new/${item?.intLoanAccountId}`,
-                                          state: item,
+                                          pathname: `/financial-management/banking/loan-register/repay/${item?.intLoanAccountId}`,
+                                          state: { bankId: item?.intBankId },
                                         })
                                       }
                                     >
-                                      Renew
+                                      Repay
                                     </span>
+
+                                    {/* <span
+                                      className="text-primary "
+                                      style={{
+                                        marginLeft: "4px",
+                                        cursor: "pointer",
+                                      }}
+                                      onClick={() =>{
+                                        setSingleItem(item)
+                                        setModalShow(true)
+
+                                      }
+                                      }
+                                    >
+                                      View Print
+                                    </span> */}
+                                    <span>
+                                    <ICon
+                                      title={"Print"}
+                                      onClick={() => {
+                                        handlePrintClick({item})
+                                      }}
+                                    >
+                                      <i class="fas fa-print"></i>
+                                    </ICon>
+                                  </span>
                                     {/* for close */}
                                     {item?.numPaid === 0 ? (
                                       <span
@@ -446,6 +499,12 @@ const LoanRegisterLanding = () => {
                 attachments={attachments}
               />
             </IViewModal>
+           {
+            singleItem &&  <PdfRender printRef={printRef} singleItem={singleItem}/>
+           }
+
+            {/* <IViewModal show={modalShow} onHide={() => setModalShow(false)}>
+         </IViewModal> */}
           </div>
         )}
       </Formik>

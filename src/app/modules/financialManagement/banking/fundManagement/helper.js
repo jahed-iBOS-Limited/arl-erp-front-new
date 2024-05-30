@@ -218,6 +218,8 @@ export const createLoanRegister = async (
   tenureDays,
   priciple,
   interest,
+  disbursementPurposeId,
+  disbursementPurposeName,
   actionId,
   setDisabled,
   cb
@@ -225,7 +227,7 @@ export const createLoanRegister = async (
   setDisabled(true);
   try {
     const res = await Axios.post(
-      `/fino/FundManagement/FundLoanAccountCreate?accountId=${accId}&businessUnitId=${buId}&loanAcc=${loanAcc}&bankId=${bankId}&bankAccId=${bankAccId}&facilityId=${facilityId}&startDate=${startDate}&tenureDays=${tenureDays}&numPrinciple=${priciple}&numIntRate=${interest}&actionById=${actionId}`
+      `/fino/FundManagement/FundLoanAccountCreate?accountId=${accId}&businessUnitId=${buId}&loanAcc=${loanAcc}&bankId=${bankId}&bankAccId=${bankAccId}&facilityId=${facilityId}&startDate=${startDate}&tenureDays=${tenureDays}&numPrinciple=${priciple}&numIntRate=${interest}&actionById=${actionId}&disbursementPurposeId=${disbursementPurposeId}&disbursementPurposeName=${disbursementPurposeName||""}`
     );
     setDisabled(false);
     if (res.status === 200) {
