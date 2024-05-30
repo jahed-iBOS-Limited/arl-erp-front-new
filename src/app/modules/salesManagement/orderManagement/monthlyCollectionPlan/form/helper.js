@@ -41,3 +41,92 @@ function getDayName(dateStr) {
   // Return the day name using the mapped index
   return dayNames[dayOfWeek];
 }
+
+export const getMonthList = () => {
+  return [
+    {
+      collectionPlanId: 0,
+      monthId: 1,
+      monthName: "January",
+      budgetedSalesQnt: 0,
+      budgetedSalesAmount: 0,
+    },
+    {
+      collectionPlanId: 0,
+      monthId: 2,
+      monthName: "February",
+      budgetedSalesQnt: 0,
+      budgetedSalesAmount: 0,
+    },
+    {
+      collectionPlanId: 0,
+      monthId: 3,
+      monthName: "March",
+      budgetedSalesQnt: 0,
+      budgetedSalesAmount: 0,
+    },
+    {
+      collectionPlanId: 0,
+      monthId: 4,
+      monthName: "April",
+      budgetedSalesQnt: 0,
+      budgetedSalesAmount: 0,
+    },
+    {
+      collectionPlanId: 0,
+      monthId: 5,
+      monthName: "May",
+      budgetedSalesQnt: 0,
+      budgetedSalesAmount: 0,
+    },
+    {
+      collectionPlanId: 0,
+      monthId: 6,
+      monthName: "June",
+      budgetedSalesQnt: 0,
+      budgetedSalesAmount: 0,
+    },
+    {
+      collectionPlanId: 0,
+      monthId: 7,
+      monthName: "July",
+      budgetedSalesQnt: 0,
+      budgetedSalesAmount: 0,
+    },
+    {
+      collectionPlanId: 0,
+      monthId: 8,
+      monthName: "August",
+      budgetedSalesQnt: 0,
+      budgetedSalesAmount: 0,
+    },
+    {
+      collectionPlanId: 0,
+      monthId: 9,
+      monthName: "September",
+      budgetedSalesQnt: 0,
+      budgetedSalesAmount: 0,
+    },
+    {
+      collectionPlanId: 0,
+      monthId: 10,
+      monthName: "October",
+      budgetedSalesQnt: 0,
+      budgetedSalesAmount: 0,
+    },
+    {
+      collectionPlanId: 0,
+      monthId: 11,
+      monthName: "November",
+      budgetedSalesQnt: 0,
+      budgetedSalesAmount: 0,
+    },
+    {
+      collectionPlanId: 0,
+      monthId: 12,
+      monthName: "December",
+      budgetedSalesQnt: 0,
+      budgetedSalesAmount: 0,
+    },
+  ];
+};

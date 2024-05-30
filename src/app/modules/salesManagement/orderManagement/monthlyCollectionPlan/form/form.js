@@ -11,8 +11,9 @@ import {
   getMonthlyCollectionPlanData,
   weekList,
 } from "../helper";
-import { generateDataset } from "./helper";
+import { generateDataset, getMonthList } from "./helper";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import { YearDDL } from "../../../../_helper/_yearDDL";
 
 export default function _Form({
   type,
@@ -32,6 +33,8 @@ export default function _Form({
   dailyCollectionData,
   setDailyCollectionData,
   userId,
+  monthlyCollectionData,
+  setMonthlyCollectionData,
 }) {
   const [perDayCollect, setPerDayCollect] = useState(0);
   const [regionList, getRegionList, , setRegionList] = useAxiosGet();
@@ -221,7 +224,7 @@ export default function _Form({
                         </button>
                       </div>
                     </div>
-                    
+
                     <div>
                       <h4 className="text-right">Total: {total}</h4>
                     </div>
@@ -292,6 +295,123 @@ export default function _Form({
                                       const data = [...dailyCollectionData];
                                       data[index]["targetAmount"] = +e.target
                                         .value;
+                                      setDailyCollectionData(data);
+                                    }}
+                                  />
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    )}
+                  </>
+                ) : [4].includes(landingValues?.type?.value) ? (
+                  <>
+                    <div className="global-form global-form-custom">
+                      <div className="row">
+                        <div className="col-lg-3">
+                          <NewSelect
+                            name="year"
+                            options={YearDDL()}
+                            value={values?.year}
+                            label="Year"
+                            onChange={(valueOption) => {
+                              setFieldValue("year", valueOption || "");
+                            }}
+                            errors={errors}
+                            touched={touched}
+                          />
+                        </div>
+                        <div className="col-lg-3">
+                          <button
+                            disabled={!values?.year}
+                            type="button"
+                            onClick={() => {
+                              const data = getMonthList();
+                              setMonthlyCollectionData(data);
+                            }}
+                            className="btn btn-primary mt-5"
+                          >
+                            View
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    {monthlyCollectionData.length > 0 && (
+                      <div className="table-responsive">
+                        <table className="table table-striped mt-2 table-bordered bj-table bj-table-landing">
+                          <thead>
+                            <tr>
+                              <th>
+                                <input
+                                  type="checkbox"
+                                  checked={
+                                    monthlyCollectionData?.length > 0
+                                      ? monthlyCollectionData?.every(
+                                          (item) => item?.isSelected
+                                        )
+                                      : false
+                                  }
+                                  onChange={(e) => {
+                                    setMonthlyCollectionData(
+                                      monthlyCollectionData?.map((item) => {
+                                        return {
+                                          ...item,
+                                          isSelected: e?.target?.checked,
+                                        };
+                                      })
+                                    );
+                                  }}
+                                />
+                              </th>
+                              <th>SL</th>
+                              <th>Month</th>
+                              <th>Budgeted Sales Qnt</th>
+                              <th>Budgeted Sales Amount</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {monthlyCollectionData?.map((item, index) => (
+                              <tr key={index}>
+                                <td className="text-center align-middle">
+                                  <input
+                                    type="checkbox"
+                                    checked={item?.isSelected}
+                                    onChange={(e) => {
+                                      item["isSelected"] = e.target.checked;
+                                      setDailyCollectionData([
+                                        ...monthlyCollectionData,
+                                      ]);
+                                    }}
+                                  />
+                                </td>
+                                <td className="text-center">{index + 1}</td>
+                                <td className="text-center">
+                                  {item?.monthName}
+                                </td>
+                                <td className="text-center">
+                                  <InputField
+                                    value={item?.budgetedSalesQnt || ""}
+                                    type="number"
+                                    onChange={(e) => {
+                                      if (+e.target.value < 0) return;
+                                      const data = [...monthlyCollectionData];
+                                      data[index]["budgetedSalesQnt"] = +e
+                                        .target.value;
+                                      setDailyCollectionData(data);
+                                    }}
+                                  />
+                                </td>
+                                <td className="text-center">
+                                  <InputField
+                                    value={item?.budgetedSalesAmount || ""}
+                                    type="number"
+                                    onChange={(e) => {
+                                      if (+e.target.value < 0) return;
+                                      const data = [...monthlyCollectionData];
+                                      data[index]["budgetedSalesAmount"] = +e
+                                        .target.value;
                                       setDailyCollectionData(data);
                                     }}
                                   />
