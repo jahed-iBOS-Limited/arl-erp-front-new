@@ -65,7 +65,7 @@ const getHearderList=(buId)=>{
     "Approve by Accounts",
     "Approve by Credit Control",
     "Status",
-    "Over Due Amount",
+    // "Over Due Amount",
     "Credit Control",
   ];
   
