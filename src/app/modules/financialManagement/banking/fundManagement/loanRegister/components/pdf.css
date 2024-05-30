@@ -1,10 +1,15 @@
-.loan_register_pdf{
-    display: none;
+
+
+.loan_register_pdf {
+  padding: 0;
+  box-sizing: border-box;
+  font-size: 14px !important;
+  display: none;
+  margin-top: 10px;
 }
 
 @media print {
-    .loan_register_pdf {
-      display: block !important;
-    }
+  .loan_register_pdf {
+    display: block !important;
   }
-  
+}
