@@ -77,21 +77,25 @@ export function MonthlyCollectionPlanLanding() {
     searchValue = ""
   ) => {
     const searchTearm = searchValue ? `&search=${searchValue}` : "";
-    getLandingData(
-      `/oms/CustomerSalesTarget/GetAreaWiseDailyCollectionPlanPagination?salesManId=${empId}&businessUnitId=${buId}&yearId=${
-        values?.monthYear?.split("-")[0]
-      }&monthId=${
-        values?.monthYear?.split("-")[1]
-      }&pageNo=${pageNo}&pageSize=${pageSize}`
-    );
+    const apiUrl =
+      values?.type?.value === 1
+        ? `/oms/CustomerSalesTarget/GetAreaWiseDailyCollectionPlanPagination?salesManId=${empId}&businessUnitId=${buId}&yearId=${
+            values?.monthYear?.split("-")[0]
+          }&monthId=${
+            values?.monthYear?.split("-")[1]
+          }&pageNo=${pageNo}&pageSize=${pageSize}`
+        : values?.type?.value === 4
+        ? `/oms/CustomerSalesTarget/GetMonthlyBudgetedSalesPagination?businessUnitId=${buId}&monthId=${
+            values?.monthYear?.split("-")[1]
+          }&yearId=${
+            values?.monthYear?.split("-")[0]
+          }&pageNo=${pageNo}&pageSize=${pageSize}`
+        : "";
+    getLandingData(apiUrl);
   };
 
   const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
     getLandingData(values, pageNo, pageSize, searchValue);
-  };
-
-  const paginationSearchHandler = (searchValue, values) => {
-    setPositionHandler(pageNo, pageSize, values, searchValue);
   };
 
   return (
@@ -128,10 +132,11 @@ export function MonthlyCollectionPlanLanding() {
                       onChange={(e) => {
                         setFieldValue("type", e);
                         setRowData([]);
+                        setLandingData([]);
                       }}
                     />
                   </div>
-                  {[1].includes(values?.type?.value) && (
+                  {[1, 4].includes(values?.type?.value) && (
                     <div className="col-lg-3">
                       <InputField
                         value={values?.monthYear}
@@ -146,7 +151,7 @@ export function MonthlyCollectionPlanLanding() {
                   )}
                   <IButton
                     onClick={() => {
-                      if ([1].includes(values?.type?.value)) {
+                      if ([1, 4].includes(values?.type?.value)) {
                         getLandingDataHandler(values, pageNo, pageSize, "");
                       } else {
                         getData(values?.type?.value);
@@ -270,6 +275,167 @@ export function MonthlyCollectionPlanLanding() {
                                       if (value < 0) return;
                                       const updatedData = [...landingData.data];
                                       updatedData[index].totalAmount = value;
+                                      setLandingData({
+                                        ...landingData,
+                                        data: updatedData,
+                                      });
+                                    }}
+                                  />
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    )}
+
+                    {landingData?.data?.length > 0 && (
+                      <PaginationTable
+                        count={landingData?.totalCount}
+                        setPositionHandler={setPositionHandler}
+                        paginationState={{
+                          pageNo,
+                          setPageNo,
+                          pageSize,
+                          setPageSize,
+                        }}
+                        values={values}
+                      />
+                    )}
+                  </>
+                ) : [4].includes(values?.type?.value) ? (
+                  <>
+                    <div className="text-right">
+                      <button
+                        disabled={
+                          !landingData?.data?.some((item) => item?.isSelected)
+                        }
+                        type="button"
+                        className="btn btn-primary"
+                        onClick={() => {
+                          const selectedRow = landingData?.data?.filter(
+                            (item) => item?.isSelected
+                          );
+                          if (!selectedRow.length) {
+                            return toast.warn("Select at least one row");
+                          }
+
+                          const payload = selectedRow?.map((item) => ({
+                            collectionPlanId: item?.collectionPlanId,
+                            accountId: accId,
+                            businessUnitId: buId,
+                            monthId: item?.monthId,
+                            monthName: item?.monthName,
+                            yearId: item?.yearId,
+                            actionBy: userId,
+                            budgetedSalesQnt: item?.budgetedSalesQnt || 0,
+                            budgetedSalesAmount: item?.budgetedSalesAmount || 0,
+                          }));
+
+                          onSave(
+                            `/oms/CustomerSalesTarget/CreateMonthlySalesCollectionNBudgetPlan?typeId=2&typeName=MonthlyBudgetedSales`,
+                            payload,
+                            () => {
+                              getLandingDataHandler(
+                                values,
+                                pageNo,
+                                pageSize,
+                                ""
+                              );
+                            },
+                            true
+                          );
+                        }}
+                      >
+                        Update
+                      </button>
+                    </div>
+                    {landingData?.data?.length > 0 && (
+                      <div className="table-responsive">
+                        <table className="table table-striped mt-2 table-bordered bj-table bj-table-landing">
+                          <thead>
+                            <tr>
+                              <th>
+                                <input
+                                  type="checkbox"
+                                  checked={
+                                    landingData?.data?.length > 0 &&
+                                    landingData.data.every(
+                                      (item) => item.isSelected
+                                    )
+                                  }
+                                  onChange={(e) => {
+                                    const isChecked = e.target.checked;
+                                    const updatedData = landingData.data.map(
+                                      (item) => ({
+                                        ...item,
+                                        isSelected: isChecked,
+                                      })
+                                    );
+                                    setLandingData({
+                                      ...landingData,
+                                      data: updatedData,
+                                    });
+                                  }}
+                                />
+                              </th>
+                              <th>SL</th>
+                              <th>Month</th>
+                              <th>Year</th>
+                              <th>Budgeted Sales Qnt</th>
+                              <th>Budgeted Sales Amount</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {landingData?.data?.map((item, index) => (
+                              <tr key={index}>
+                                <td className="text-center align-middle">
+                                  <input
+                                    type="checkbox"
+                                    checked={item.isSelected}
+                                    onChange={(e) => {
+                                      const updatedData = [...landingData.data];
+                                      updatedData[index].isSelected =
+                                        e.target.checked;
+                                      setLandingData({
+                                        ...landingData,
+                                        data: updatedData,
+                                      });
+                                    }}
+                                  />
+                                </td>
+                                <td className="text-center">{index + 1}</td>
+                                <td>{item.monthName}</td>
+                                <td>{item.monthName}</td>
+                                <td className="text-center">
+                                  <InputField
+                                    value={item.budgetedSalesQnt || ""}
+                                    type="number"
+                                    onChange={(e) => {
+                                      const value = +e.target.value;
+                                      if (value < 0) return;
+                                      const updatedData = [...landingData.data];
+                                      updatedData[
+                                        index
+                                      ].budgetedSalesQnt = value;
+                                      setLandingData({
+                                        ...landingData,
+                                        data: updatedData,
+                                      });
+                                    }}
+                                  />
+                                </td>
+                                <td className="text-center">
+                                  <InputField
+                                    value={item.budgetedSalesAmount || ""}
+                                    type="number"
+                                    onChange={(e) => {
+                                      const value = +e.target.value;
+                                      if (value < 0) return;
+                                      const updatedData = [...landingData.data];
+                                      updatedData[
+                                        index
+                                      ].budgetedSalesAmount = value;
                                       setLandingData({
                                         ...landingData,
                                         data: updatedData,
