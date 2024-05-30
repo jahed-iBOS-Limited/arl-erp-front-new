@@ -10,7 +10,12 @@ import {
   getBankDDL,
   getFacilityDLL,
 } from "../../helper";
-
+const disbursementPurposeDDL =[
+  {value:1,label:"Duty"},
+  {value:2,label:"Bill Payment"},
+  {value:3,label:"Utility Payment"},
+  {value:4,label:"Working Capital"},
+]
 const loanRegister = Yup.object().shape({
   bank: Yup.object()
     .shape({
@@ -209,6 +214,20 @@ export default function LoanRegisterViewForm({
                     min="0"
                     step="any"
                     disabled={isEdit}
+                  />
+                </div>
+                <div className="col-lg-2">
+                  <NewSelect
+                    name="disbursementPurpose"
+                    options={disbursementPurposeDDL}
+                    value={values?.disbursementPurpose}
+                    onChange={(valueOption) => {
+                      setFieldValue("disbursementPurpose", valueOption);
+                    }}
+                    errors={errors}
+                    touched={touched}
+                    label="Disbursement Purpose"
+                    placeholder="Disbursement Purpose"
                   />
                 </div>
               </div>
