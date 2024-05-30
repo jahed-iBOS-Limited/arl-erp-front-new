@@ -6,7 +6,7 @@ const fontSize = "13px";
 const marginBottom = "9px";
 const EBLPdf = ({ singleItem, selectedBusinessUnit }) => {
   const {
-    strBankShortName,
+    bankShortName,
     numPrinciple,
     dteStartDate,
     strBankName,
@@ -15,7 +15,6 @@ const EBLPdf = ({ singleItem, selectedBusinessUnit }) => {
     strBankAccountNumber,
     loanTypeName,
     intTenureDays,
-    strLoanAccountName,
   } = singleItem || {};
   const { buShortName, label } = selectedBusinessUnit;
 
@@ -23,7 +22,7 @@ const EBLPdf = ({ singleItem, selectedBusinessUnit }) => {
   return (
     <div style={{fontSize:fontSize,margin:"50px 50px 0px"}} sty>
       <p style={{marginBottom}} className="font-weight-bolder">
-        Ref   :{buShortName}/{strBankShortName}/STL/{lacks}/
+        Ref   :{buShortName}/{bankShortName}/STL/{lacks}/
         {_dateFormatter(dteStartDate)}
       </p>
       <p style={{marginBottom}} className="font-weight-bolder">
@@ -51,8 +50,8 @@ const EBLPdf = ({ singleItem, selectedBusinessUnit }) => {
         to make payment to our local supplier today.
       </p>
       <p style={{marginBottom}}>
-        Considering the issue, we would request to disburse BDT {_formatMoney(numPrinciple)}{" "}
-        to our A/C {strLoanAccountName}, A/C No. <span className="font-weight-bolder">{strBankAccountNumber}</span>{" "}
+        Considering the issue, we would request to disburse BDT {_formatMoney(numPrinciple)}
+        to our A/C No. <span className="font-weight-bolder">{strBankAccountNumber}</span>
         maintained with your bank.
       </p>
       <p style={{marginBottom}}>

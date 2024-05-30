@@ -13,9 +13,7 @@ const G2GPdf = ({ singleItem, selectedBusinessUnit }) => {
     bankBranchAddress,
     facilityName,
     strBankAccountNumber,
-    loanTypeName,
     intTenureDays,
-    strLoanAccountName,
     bankBranchName,
   } = singleItem || {};
   const { buShortName, label } = selectedBusinessUnit;

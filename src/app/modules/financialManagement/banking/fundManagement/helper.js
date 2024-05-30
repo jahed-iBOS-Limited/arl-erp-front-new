@@ -191,12 +191,14 @@ export const getLoanRegisterLanding = async (
   pageNo,
   pageSize,
   setter,
-  setLoading
+  setLoading,
+  applicationType=0
 ) => {
+  const IsApproved = applicationType===1?`&isLoanApproved=${false}`:applicationType===2?`&isLoanApproved=${true}`:""
   try {
     setLoading(true);
     const res = await Axios.get(
-      `/fino/FundManagement/GetLoanRegisterLanding?accountId=${accId}&businessUnitId=${buId}&bankId=${bankId}&statusTypeId=${statusTypeId}&viewOrder=desc&pageNo=${pageNo}&pageSize=${pageSize}`
+      `/fino/FundManagement/GetLoanRegisterLanding?accountId=${accId}&businessUnitId=${buId}&bankId=${bankId}&statusTypeId=${statusTypeId}&viewOrder=desc&pageNo=${pageNo}&pageSize=${pageSize}${IsApproved}`
     );
     setter(res?.data);
     setLoading(false);
@@ -216,18 +218,20 @@ export const createLoanRegister = async (
   facilityId,
   startDate,
   tenureDays,
-  priciple,
+  principle,
   interest,
   disbursementPurposeId,
   disbursementPurposeName,
   actionId,
   setDisabled,
-  cb
+  cb,
+  isConfirm = false,
+  loanAccountId = 0
 ) => {
   setDisabled(true);
   try {
     const res = await Axios.post(
-      `/fino/FundManagement/FundLoanAccountCreate?accountId=${accId}&businessUnitId=${buId}&loanAcc=${loanAcc}&bankId=${bankId}&bankAccId=${bankAccId}&facilityId=${facilityId}&startDate=${startDate}&tenureDays=${tenureDays}&numPrinciple=${priciple}&numIntRate=${interest}&actionById=${actionId}&disbursementPurposeId=${disbursementPurposeId}&disbursementPurposeName=${disbursementPurposeName||""}`
+      `/fino/FundManagement/FundLoanAccountCreate?accountId=${accId}&businessUnitId=${buId}&loanAcc=${loanAcc}&bankId=${bankId}&bankAccId=${bankAccId}&facilityId=${facilityId}&startDate=${startDate}&tenureDays=${tenureDays}&numPrinciple=${principle}&numIntRate=${interest}&actionById=${actionId}&disbursementPurposeId=${disbursementPurposeId}&disbursementPurposeName=${disbursementPurposeName ||""}&isConfirm=${isConfirm}&loanAccountId=${loanAccountId}`
     );
     setDisabled(false);
     if (res.status === 200) {
@@ -257,13 +261,30 @@ export const createRepay = async (
 ) => {
   try {
     const res = await Axios.post(
-      `/fino/FundManagement/FundLoanRepay?accountId=${accId}&businessUnitId=${buId}&loanAccId=${loanAcc}&bankAccId=${bankAccId}&instrumentId=${instrumentId}&instrumentNo=${instrumentNo}&instrumentDate=${instrumentDate}&numAmount=${principalAmount}&numInterestAmount=${interestAmount || 0}&transDate=${transDate}&actionById=${actionId}`
+      `/fino/FundManagement/FundLoanRepay?accountId=${accId}&businessUnitId=${buId}&loanAccId=${loanAcc}&bankAccId=${bankAccId}&instrumentId=${instrumentId}&instrumentNo=${instrumentNo}&instrumentDate=${instrumentDate}&numAmount=${principalAmount}&numInterestAmount=${interestAmount ||
+        0}&transDate=${transDate}&actionById=${actionId}`
     );
     if (res.status === 200) {
       toast.success(res?.message || "Submitted successfully");
       cb();
     }
   } catch (error) {
+    toast.error(error?.response?.data?.message);
+  }
+};
+
+export const loadRegisterEdit = async ({ editPayload, setDisabled, cb }) => {
+  setDisabled(true);
+  try {
+    const res = await Axios.put(
+      `/fino/FundManagement/EditLoanRegister`,
+      editPayload
+    );
+    toast.success(res?.message || "Submitted successfully");
+    cb();
+    setDisabled(false);
+  } catch (error) {
+    setDisabled(false);
     toast.error(error?.response?.data?.message);
   }
 };
@@ -323,10 +344,12 @@ export const getFdrById = async (id, setter, setLoading, setOldPrincipal) => {
         res?.data?.intTenureDays
       ),
       interestRate: "",
-      bankBranch: res?.data?.strBankBranchName ? {
-        label: res?.data?.strBankBranchName,
-        value: res?.data?.intBankBranchId,
-      } : "",
+      bankBranch: res?.data?.strBankBranchName
+        ? {
+            label: res?.data?.strBankBranchName,
+            value: res?.data?.intBankBranchId,
+          }
+        : "",
       bankAccount: "",
     };
     setter(newData);
