@@ -6,6 +6,7 @@ import InputField from "../../../../../_helper/_inputField";
 import Loading from "../../../../../_helper/_loading";
 import NewSelect from "../../../../../_helper/_select";
 import { getBankDDL, getFacilityDLL, getFundLimitById } from "../../helper";
+import { _dateFormatter } from "../../../../../_helper/_dateFormate";
 
 const fundLimit = Yup.object().shape({
   limit: Yup.string().required("Limit is required"),
@@ -29,6 +30,7 @@ export default function LimitForm({
   saveHandler,
   resetBtnRef,
   isEdit,
+  landingRowData,
 }) {
   const history = useHistory();
   const [loading, setLoading] = useState(false);
@@ -49,7 +51,9 @@ export default function LimitForm({
     <>
       <Formik
         enableReinitialize={true}
-        initialValues={isEdit ? singleData : initData}
+        initialValues={isEdit ? {...singleData, tenorDays:landingRowData?.tenureDays|| "",
+        sanctionReference: landingRowData?.sanctionReference ||"",
+        limitExpiryDate: _dateFormatter(landingRowData?.limitExpiryDate)||""} : initData}
         validationSchema={fundLimit}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           saveHandler(values, () => {
@@ -134,6 +138,50 @@ export default function LimitForm({
                     name="updatedDate"
                     placeholder="Date"
                     type="date"
+                  />
+                </div>
+                <div className="col-lg-2 pl pr-1 mb-1">
+                  <label>Tenor Days</label>
+                  <InputField
+                    value={values?.tenorDays}
+                    name="tenorDays"
+                    placeholder="Tenor Days"
+                    onChange={(e) => {
+                      if (e.target.value > 0) {
+                        setFieldValue("tenorDays", e.target.value);
+                      } else {
+                        setFieldValue("tenorDays", "");
+                      }
+                    }}
+                    type="number"
+                    min="0"
+                    step="any"
+                    disabled={isEdit}
+                    
+                  />
+                </div>
+                <div className="col-lg-2 pl pr-1 mb-1">
+                  <label>Sanction Reference</label>
+                  <InputField
+                    value={values?.sanctionReference}
+                    name="sanctionReference"
+                    placeholder="Sanction Reference"
+                    onChange={(e) => {
+                    setFieldValue("sanctionReference", e.target.value);
+                    }}
+                    type="string"
+                    step="any"
+                    disabled={isEdit}
+                  />
+                </div>
+                <div className="col-lg-2">
+                  <label>Limit Expiry Date</label>
+                  <InputField
+                    value={values?.limitExpiryDate}
+                    name="limitExpiryDate"
+                    placeholder="Limit Expiry Date"
+                    type="date"
+                    disabled={isEdit}
                   />
                 </div>
               </div>
