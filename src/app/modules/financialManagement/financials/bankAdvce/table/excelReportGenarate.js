@@ -132,7 +132,7 @@ const createExcelFile = (
     if (getBlobData) {
       getBlobData(blob);
     } else {
-      fs.saveAs(blob, `${fileName}.xlsx`);
+      fs.saveAs(blob, `${fileName}.xls`);
     }
   });
 };
