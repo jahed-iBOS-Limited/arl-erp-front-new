@@ -2,7 +2,6 @@ import React from "react";
 import { _dateFormatter } from "../../../../../_helper/_dateFormate";
 import { formatDate } from "./utils";
 import { _formatMoney } from "../../../../../_helper/_formatMoney";
-const fontSize = "13px";
 const marginBottom = "9px";
 const WorkingCapitalPdf = ({ singleItem, selectedBusinessUnit }) => {
   const {
@@ -14,18 +13,13 @@ const WorkingCapitalPdf = ({ singleItem, selectedBusinessUnit }) => {
     facilityName,
     strBankAccountNumber,
     loanTypeName,
-    intTenureDays,
-    strLoanAccountName,
-    strSanctionReference,
     bankBranchName,
-    disbursementPurposeName,
-    limitAmount
   } = singleItem || {};
   const { buShortName, label } = selectedBusinessUnit;
   const lacks = numPrinciple > 0 ? `${numPrinciple / 100000}L` : "0L";
 
   return (
-    <div style={{ fontSize: fontSize, margin: "50px 50px 0px" }} sty>
+    <div style={{margin: "40px 71px 0px" }}>
       <p style={{ marginBottom }} className="font-weight-bolder">
         Ref :{buShortName}/{strBankShortName}/STL/{lacks}/
         {_dateFormatter(dteStartDate)}
@@ -41,7 +35,7 @@ const WorkingCapitalPdf = ({ singleItem, selectedBusinessUnit }) => {
 
       <p style={{ marginBottom }} className="font-weight-bolder">
         Subject : Request for disbursement of {loanTypeName} - BDT
-        {_formatMoney(numPrinciple)} for {strLoanAccountName} A/C No: {strBankAccountNumber}.
+        {_formatMoney(numPrinciple)} for {label} A/C No: {strBankAccountNumber}.
       </p>
 
       <p style={{ marginBottom }}>Dear Sir,</p>
