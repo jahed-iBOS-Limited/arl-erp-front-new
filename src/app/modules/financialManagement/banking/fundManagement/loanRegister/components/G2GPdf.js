@@ -18,7 +18,7 @@ const G2GPdf = ({ singleItem, selectedBusinessUnit }) => {
   const { buShortName, label } = selectedBusinessUnit;
 
   return (
-    <div style={{margin: "40px 65px 0px" }}>
+    <div style={{margin: "40px 71px 0px" }}>
       <p style={{ marginBottom }} className="font-weight-bolder">
         Ref :{buShortName}/{strBankShortName}/STL/G2G/
         {_dateFormatter(dteStartDate)}

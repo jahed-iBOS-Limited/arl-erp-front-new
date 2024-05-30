@@ -40,7 +40,7 @@ const OthersPdf = ({ singleItem, selectedBusinessUnit }) => {
   const lacks = numPrinciple > 0 ? `${numPrinciple / 100000}L` : "0L";
 
   return (
-    <div style={{margin: "40px 65px 0px" }}>
+    <div style={{margin: "40px 71px 0px" }}>
       <p style={{ marginBottom }} className="font-weight-bolder">
         Ref :{buShortName}/{bankShortName}/STL/{lacks}/
         {_dateFormatter(dteStartDate)}
