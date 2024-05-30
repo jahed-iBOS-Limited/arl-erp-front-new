@@ -30,7 +30,7 @@ function MobileFirstAlert() {
   useEffect(() => {
     //window view not mobile than api call
     //&& process.env.NODE_ENV !== "development"
-    if (window.innerWidth > 768 && process.env.NODE_ENV !== "development") {
+    if (window.innerWidth > 991 && process.env.NODE_ENV !== "development") {
       setIsShowAlert(true);
       if (isMatchWorkPlaceMatch) {
         // 20m delay for alert hide
