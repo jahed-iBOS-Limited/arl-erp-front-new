@@ -20,6 +20,7 @@ import PaginationTable from "../../../../../_helper/_tablePagination";
 import IViewModal from "../../../../../_helper/_viewModal";
 import AttachmentUploadForm from "../../attachmentAdd";
 import {
+  createLoanRegister,
   getAttachments,
   getBankDDLAll,
   getLoanRegisterLanding,
@@ -28,6 +29,8 @@ import IClose from "../../../../../_helper/_helperIcons/_close";
 import useAxiosPost from "../../../../../_helper/customHooks/useAxiosPost";
 import PdfRender from "../components/PdfRender";
 import { useReactToPrint } from "react-to-print";
+import IEdit from "../../../../../_helper/_helperIcons/_edit";
+import IConfirmModal from "../../../../../_helper/_confirmModal";
 const LoanRegisterLanding = () => {
   const history = useHistory();
   const initData = {
@@ -35,6 +38,7 @@ const LoanRegisterLanding = () => {
     status: { label: "ALL", value: 0 },
     loanType: "",
     loanClass: "",
+    applicationType: { label: "ALL", value: 0 },
   };
 
   // ref
@@ -78,7 +82,8 @@ const LoanRegisterLanding = () => {
       pageNo,
       pageSize,
       setLoanRegisterData,
-      setLoading
+      setLoading,
+      0
     );
   }, []);
 
@@ -92,7 +97,8 @@ const LoanRegisterLanding = () => {
       pageNo,
       pageSize,
       setLoanRegisterData,
-      setLoading
+      setLoading,
+      values?.applicationType?.value||0
     );
   };
 
@@ -144,6 +150,51 @@ const LoanRegisterLanding = () => {
     setLoading(true); 
     setSingleItem(item);
     setIsPrinting(true);
+  };
+
+  const confirm = (item,values) => {
+    let confirmObject = {
+      title: "Are you sure?",
+      message: "You want to confirm this loan?",
+      yesAlertFunc: async () => {
+        const cb = () => {
+          getLoanRegisterLanding(
+            profileData?.accountId,
+            buId,
+            values?.bank?.value,
+            values?.status?.value,
+            pageNo,
+            pageSize,
+            setLoanRegisterData,
+            setLoading,
+            values?.applicationType?.value||0
+          );
+        };
+        createLoanRegister(
+          profileData?.accountId,
+          buId,
+          item?.strLoanAccountName,
+         item?.intBankId,
+          item?.intBankAccountId,
+          item?.intLoanFacilityId,
+          item?.dteStartDate||0,
+          item?.intTenureDays||0,
+          item?.numPrinciple||0,
+          item?.numInterestRate||0,
+          item?.disbursementPurposeId || 0,
+          item?.disbursementPurposeId || "",
+          profileData?.userId,
+          setLoading,
+          cb,
+          true,
+          item?.intLoanAccountId
+        );
+      },
+      noAlertFunc: () => {
+        "";
+      },
+    };
+    IConfirmModal(confirmObject);
   };
   return (
     <>
@@ -217,6 +268,28 @@ const LoanRegisterLanding = () => {
                         placeholder="Status"
                       />
                     </div>
+                    <div className="col-lg-3">
+                      <NewSelect
+                        name="applicationType"
+                        options={[
+                          { value: 0, label: "ALL" },
+                          { value: 1, label: "Pending" },
+                          { value: 2, label: "Approved" },
+                        ]}
+                        value={values?.applicationType}
+                        onChange={(valueOption) => {
+                          if (valueOption) {
+                            setFieldValue("applicationType", valueOption);
+                          } else {
+                            setFieldValue("applicationType", "");
+                          }
+                        }}
+                        errors={errors}
+                        touched={touched}
+                        label="Application Type"
+                        placeholder="Application Type"
+                      />
+                    </div>
                     <div className="col-lg-2">
                       <button
                         className="btn btn-primary mr-2"
@@ -230,7 +303,8 @@ const LoanRegisterLanding = () => {
                             pageNo,
                             pageSize,
                             setLoanRegisterData,
-                            setLoading
+                            setLoading,
+                            values?.applicationType?.value||0
                           );
                         }}
                       >
@@ -257,10 +331,10 @@ const LoanRegisterLanding = () => {
                               <th style={{ minWidth: "" }}>Disbursement Purpose</th>
                               <th style={{ minWidth: "90px" }}>OpenDate</th>
                               <th style={{ minWidth: "90px" }}>Mature Date</th>
-
+                              <th style={{ minWidth: "90px" }}>Application Status</th>
                               <th style={{ minWidth: "100px" }}>Principle</th>
                               <th style={{ minWidth: "50px" }}>Int.Rate</th>
-                              <th style={{ minWidth: "100px" }}>Interst</th>
+                              <th style={{ minWidth: "100px" }}>Interest</th>
                               <th style={{ minWidth: "100px" }}>
                                 Total Payable
                               </th>
@@ -273,7 +347,7 @@ const LoanRegisterLanding = () => {
                               <th style={{ minWidth: "100px" }}>
                                 Principal Balance
                               </th>
-                              <th>Action</th>
+                              <th style={{ minWidth: "200px" }}>Action</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -296,8 +370,9 @@ const LoanRegisterLanding = () => {
                                 <td className="text-">
                                   {_dateFormatter(item?.dteMaturityDate)}
                                 </td>
+                                <td>{item?.isLoanApproved?"Approved":"Pending"}</td>
                                 <td className="text-right">
-                                  {_formatMoney(item?.numPrinciple)}
+                                  {_formatMoney(item?.numPrinciple<0?0:item?.numPrinciple)}
                                 </td>
                                 <td className="text-right">
                                   {_formatMoney(item?.numInterestRate)}
@@ -373,30 +448,28 @@ const LoanRegisterLanding = () => {
                                       }}
                                       onClick={() =>
                                         history.push({
-                                          pathname: `/financial-management/banking/loan-register/repay/${item?.intLoanAccountId}`,
-                                          state: { bankId: item?.intBankId },
+                                          pathname: `/financial-management/banking/loan-register/re-new/${item?.intLoanAccountId}`,
+                                          state: item,
                                         })
                                       }
                                     >
-                                      Repay
+                                      Renew
                                     </span>
-
-                                    {/* <span
+                                  {!item?.isLoanApproved?  <span
                                       className="text-primary "
                                       style={{
                                         marginLeft: "4px",
+                                        marginRight : "4px",
                                         cursor: "pointer",
                                       }}
-                                      onClick={() =>{
-                                        setSingleItem(item)
-                                        setModalShow(true)
-
-                                      }
+                                      onClick={() =>
+                                        confirm(item,values)
                                       }
                                     >
-                                      View Print
-                                    </span> */}
-                                    <span>
+                                      Confirm
+                                    </span>:null}
+                                    
+                                    <span style={{marginRight:"4px"}}>
                                     <ICon
                                       title={"Print"}
                                       onClick={() => {
@@ -406,6 +479,16 @@ const LoanRegisterLanding = () => {
                                       <i class="fas fa-print"></i>
                                     </ICon>
                                   </span>
+                                    {item?.isEditable ?  <span
+                                    onClick={() =>
+                                      history.push({
+                                        pathname: `/financial-management/banking/loan-register/edit/${item?.intLoanAccountId}`,
+                                        state:item,
+                                      })
+                                    }
+                                  >
+                                    <IEdit />
+                                  </span>:null}
                                     {/* for close */}
                                     {item?.numPaid === 0 ? (
                                       <span
@@ -429,7 +512,9 @@ const LoanRegisterLanding = () => {
                                                   pageNo,
                                                   pageSize,
                                                   setLoanRegisterData,
-                                                  setLoading
+                                                  setLoading,
+                                                  values?.applicationType?.value||0
+
                                                 );
                                               }
                                             );
