@@ -6,7 +6,7 @@ const fontSize = "13px";
 const marginBottom = "9px";
 const OthersPdf = ({ singleItem, selectedBusinessUnit }) => {
   const {
-    strBankShortName,
+    bankShortName,
     numPrinciple,
     dteStartDate,
     strBankName,
@@ -14,12 +14,10 @@ const OthersPdf = ({ singleItem, selectedBusinessUnit }) => {
     facilityName,
     strBankAccountNumber,
     loanTypeName,
-    intTenureDays,
-    strLoanAccountName,
-    strSanctionReference,
+    sanctionReference,
     bankBranchName,
     disbursementPurposeName,
-    limitAmount
+    fundLimitAmount
   } = singleItem || {};
   const { buShortName, label } = selectedBusinessUnit;
   const lacks = numPrinciple > 0 ? `${numPrinciple / 100000}L` : "0L";
@@ -27,7 +25,7 @@ const OthersPdf = ({ singleItem, selectedBusinessUnit }) => {
   return (
     <div style={{ fontSize: fontSize, margin: "50px 50px 0px" }} sty>
       <p style={{ marginBottom }} className="font-weight-bolder">
-        Ref :{buShortName}/{strBankShortName}/STL/{lacks}/
+        Ref :{buShortName}/{bankShortName}/STL/{lacks}/
         {_dateFormatter(dteStartDate)}
       </p>
       <p style={{ marginBottom }} className="font-weight-bolder">
@@ -41,7 +39,7 @@ const OthersPdf = ({ singleItem, selectedBusinessUnit }) => {
 
       <p style={{ marginBottom }} className="font-weight-bolder">
         Subject : Request for disbursement of {loanTypeName} - BDT
-        {_formatMoney(numPrinciple)} for {strLoanAccountName} A/C No: {strBankAccountNumber}.
+        {_formatMoney(numPrinciple)} for {label} A/C No: {strBankAccountNumber}.
       </p>
 
       <p style={{ marginBottom }}>Dear Sir,</p>
@@ -50,7 +48,7 @@ const OthersPdf = ({ singleItem, selectedBusinessUnit }) => {
       
 
 
-        With reference to your sanction letter no. {strSanctionReference}, we would request you to please disburse BDT {_formatMoney(numPrinciple)} in our A/C {strLoanAccountName} against {facilityName} of BDT {_formatMoney(limitAmount)} & {disbursementPurposeName}.
+        With reference to your sanction letter no. {sanctionReference}, we would request you to please disburse BDT {_formatMoney(numPrinciple)} in our A/C {label} against {facilityName} of BDT {_formatMoney(fundLimitAmount)} & {disbursementPurposeName}.
 
       </p>
       

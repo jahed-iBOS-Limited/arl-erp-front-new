@@ -22,19 +22,19 @@ const loanRegister = Yup.object().shape({
       label: Yup.string().required("Bank is required"),
       value: Yup.string().required("Bank is required"),
     })
-    .nullable(),
+    .nullable().required("Bank is required"),
   facility: Yup.object()
     .shape({
       label: Yup.string().required("Facility is required"),
       value: Yup.string().required("Facility is required"),
     })
-    .nullable(),
+    .nullable().required("Facility is required"),
   account: Yup.object()
     .shape({
       label: Yup.string().required("Account is required"),
       value: Yup.string().required("Account is required"),
     })
-    .nullable(),
+    .nullable().required("Account is required"),
 });
 
 export default function LoanRegisterViewForm({
@@ -131,7 +131,7 @@ export default function LoanRegisterViewForm({
                     }}
                     errors={errors}
                     touched={touched}
-                    isDisabled={isEdit || renewId}
+                    isDisabled={renewId}
                     label="Facility"
                     placeholder="Facility"
                   />
@@ -146,7 +146,7 @@ export default function LoanRegisterViewForm({
                       setFieldValue("loanAccNo", e.target.value);
                     }}
                     type="string"
-                    disabled={isEdit || renewId}
+                    disabled={renewId}
                   />
                 </div>
                 <div className="col-lg-2">
@@ -156,7 +156,7 @@ export default function LoanRegisterViewForm({
                     name="openingDate"
                     placeholder="Date"
                     type="date"
-                    disabled={isEdit}
+                    // disabled={isEdit}
                   />
                 </div>
                 <div className="col-lg-2 pl pr-1 mb-1">
@@ -175,7 +175,7 @@ export default function LoanRegisterViewForm({
                     type="number"
                     min="0"
                     step="any"
-                    disabled={isEdit}
+                    // disabled={isEdit}
                   />
                 </div>
                 <div className="col-lg-2 pl pr-1 mb-1">
@@ -194,7 +194,7 @@ export default function LoanRegisterViewForm({
                     type="number"
                     min="0"
                     step="any"
-                    disabled={isEdit}
+                    // disabled={isEdit}
                   />
                 </div>
                 <div className="col-lg-2 pl pr-1 mb-1">
@@ -213,7 +213,7 @@ export default function LoanRegisterViewForm({
                     type="number"
                     min="0"
                     step="any"
-                    disabled={isEdit}
+                    // disabled={isEdit}
                   />
                 </div>
                 <div className="col-lg-2">

@@ -28,6 +28,7 @@ import IClose from "../../../../../_helper/_helperIcons/_close";
 import useAxiosPost from "../../../../../_helper/customHooks/useAxiosPost";
 import PdfRender from "../components/PdfRender";
 import { useReactToPrint } from "react-to-print";
+import IEdit from "../../../../../_helper/_helperIcons/_edit";
 const LoanRegisterLanding = () => {
   const history = useHistory();
   const initData = {
@@ -35,6 +36,7 @@ const LoanRegisterLanding = () => {
     status: { label: "ALL", value: 0 },
     loanType: "",
     loanClass: "",
+    applicationType: { label: "ALL", value: 0 },
   };
 
   // ref
@@ -78,7 +80,8 @@ const LoanRegisterLanding = () => {
       pageNo,
       pageSize,
       setLoanRegisterData,
-      setLoading
+      setLoading,
+      0
     );
   }, []);
 
@@ -92,7 +95,8 @@ const LoanRegisterLanding = () => {
       pageNo,
       pageSize,
       setLoanRegisterData,
-      setLoading
+      setLoading,
+      values?.applicationType?.value||0
     );
   };
 
@@ -217,6 +221,28 @@ const LoanRegisterLanding = () => {
                         placeholder="Status"
                       />
                     </div>
+                    <div className="col-lg-3">
+                      <NewSelect
+                        name="applicationType"
+                        options={[
+                          { value: 0, label: "ALL" },
+                          { value: 1, label: "Pending" },
+                          { value: 2, label: "Approved" },
+                        ]}
+                        value={values?.applicationType}
+                        onChange={(valueOption) => {
+                          if (valueOption) {
+                            setFieldValue("applicationType", valueOption);
+                          } else {
+                            setFieldValue("applicationType", "");
+                          }
+                        }}
+                        errors={errors}
+                        touched={touched}
+                        label="Application Type"
+                        placeholder="Application Type"
+                      />
+                    </div>
                     <div className="col-lg-2">
                       <button
                         className="btn btn-primary mr-2"
@@ -230,7 +256,8 @@ const LoanRegisterLanding = () => {
                             pageNo,
                             pageSize,
                             setLoanRegisterData,
-                            setLoading
+                            setLoading,
+                            values?.applicationType?.value||0
                           );
                         }}
                       >
@@ -297,7 +324,7 @@ const LoanRegisterLanding = () => {
                                   {_dateFormatter(item?.dteMaturityDate)}
                                 </td>
                                 <td className="text-right">
-                                  {_formatMoney(item?.numPrinciple)}
+                                  {_formatMoney(item?.numPrinciple<0?0:item?.numPrinciple)}
                                 </td>
                                 <td className="text-right">
                                   {_formatMoney(item?.numInterestRate)}
@@ -373,29 +400,15 @@ const LoanRegisterLanding = () => {
                                       }}
                                       onClick={() =>
                                         history.push({
-                                          pathname: `/financial-management/banking/loan-register/repay/${item?.intLoanAccountId}`,
-                                          state: { bankId: item?.intBankId },
+                                          pathname: `/financial-management/banking/loan-register/renew/${item?.intLoanAccountId}`,
+                                          state: item,
                                         })
                                       }
                                     >
-                                      Repay
+                                      Renew
                                     </span>
 
-                                    {/* <span
-                                      className="text-primary "
-                                      style={{
-                                        marginLeft: "4px",
-                                        cursor: "pointer",
-                                      }}
-                                      onClick={() =>{
-                                        setSingleItem(item)
-                                        setModalShow(true)
-
-                                      }
-                                      }
-                                    >
-                                      View Print
-                                    </span> */}
+                                    
                                     <span>
                                     <ICon
                                       title={"Print"}
@@ -406,6 +419,16 @@ const LoanRegisterLanding = () => {
                                       <i class="fas fa-print"></i>
                                     </ICon>
                                   </span>
+                                    {item?.isEditable ?  <span
+                                    onClick={() =>
+                                      history.push({
+                                        pathname: `/financial-management/banking/loan-register/edit/${item?.intLoanAccountId}`,
+                                        state:item,
+                                      })
+                                    }
+                                  >
+                                    <IEdit />
+                                  </span>:null}
                                     {/* for close */}
                                     {item?.numPaid === 0 ? (
                                       <span
@@ -429,7 +452,9 @@ const LoanRegisterLanding = () => {
                                                   pageNo,
                                                   pageSize,
                                                   setLoanRegisterData,
-                                                  setLoading
+                                                  setLoading,
+                                                  values?.applicationType?.value||0
+
                                                 );
                                               }
                                             );

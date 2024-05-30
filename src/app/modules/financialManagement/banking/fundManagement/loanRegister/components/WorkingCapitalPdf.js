@@ -14,12 +14,7 @@ const WorkingCapitalPdf = ({ singleItem, selectedBusinessUnit }) => {
     facilityName,
     strBankAccountNumber,
     loanTypeName,
-    intTenureDays,
-    strLoanAccountName,
-    strSanctionReference,
     bankBranchName,
-    disbursementPurposeName,
-    limitAmount
   } = singleItem || {};
   const { buShortName, label } = selectedBusinessUnit;
   const lacks = numPrinciple > 0 ? `${numPrinciple / 100000}L` : "0L";
@@ -41,7 +36,7 @@ const WorkingCapitalPdf = ({ singleItem, selectedBusinessUnit }) => {
 
       <p style={{ marginBottom }} className="font-weight-bolder">
         Subject : Request for disbursement of {loanTypeName} - BDT
-        {_formatMoney(numPrinciple)} for {strLoanAccountName} A/C No: {strBankAccountNumber}.
+        {_formatMoney(numPrinciple)} for {label} A/C No: {strBankAccountNumber}.
       </p>
 
       <p style={{ marginBottom }}>Dear Sir,</p>
