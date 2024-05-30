@@ -4,11 +4,13 @@ import { Redirect, Switch } from 'react-router-dom'
 import findIndex from '../../_helper/_findIndex'
 import NotPermittedPage from '../../_helper/notPermitted/NotPermittedPage'
 import { ContentRoute } from './../../../../_metronic/layout/components/content/ContentRoute'
+import GodownRateConfigLanding from './godown-rate'
+import GodownRateCreateEditForm from './godown-rate/godownRateCreateEditForm'
+import ItemRateUpdate from './itemRateUpdate'
 import PurchaseOrgAddForm from './purchase-organization/Form/addEditForm'
 import { PurchaseOrganization } from './purchase-organization/index'
 import RateAgreement from './rateAgreement'
 import RateAgreementCreate from './rateAgreement/rateAgrementCreate'
-import ItemRateUpdate from './itemRateUpdate'
 
 export function POConfigurationPages() {
   const userRole = useSelector(
@@ -49,6 +51,18 @@ export function POConfigurationPages() {
       <ContentRoute
         from="/mngProcurement/purchase-configuration/item-rate-update"
         component={ItemRateUpdate}
+      />
+      <ContentRoute
+        from="/mngProcurement/purchase-configuration/godown-rate-configuration/edit/:id"
+        component={GodownRateCreateEditForm}
+      />
+      <ContentRoute
+        from="/mngProcurement/purchase-configuration/godown-rate-configuration/create"
+        component={GodownRateCreateEditForm}
+      />
+      <ContentRoute
+        from="/mngProcurement/purchase-configuration/godown-rate-configuration"
+        component={GodownRateConfigLanding}
       />
 
       {/* Rate Agreement */}
