@@ -208,6 +208,8 @@ export default function MonthlyCollectionPlanEntryForm({
 
   const title = [1].includes(landingValues?.type?.value)
     ? `Daily Collection Plan`
+    : [4].includes(landingValues?.type?.value)
+    ? `Monthly Budgeted Sales Plan`
     : `${
         type === "view" ? "View" : type === "edit" ? "Edit" : "Enter"
       } Monthly Collection Plan`;
