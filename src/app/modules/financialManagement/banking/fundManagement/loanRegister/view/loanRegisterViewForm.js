@@ -216,7 +216,7 @@ export default function LoanRegisterViewForm({
                     // disabled={isEdit}
                   />
                 </div>
-                <div className="col-lg-2">
+                {!renewId && <div className="col-lg-2">
                   <NewSelect
                     name="disbursementPurpose"
                     options={disbursementPurposeDDL}
@@ -229,7 +229,7 @@ export default function LoanRegisterViewForm({
                     label="Disbursement Purpose"
                     placeholder="Disbursement Purpose"
                   />
-                </div>
+                </div>}
               </div>
 
               <button

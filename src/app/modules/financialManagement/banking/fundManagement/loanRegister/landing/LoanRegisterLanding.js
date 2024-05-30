@@ -448,7 +448,7 @@ const LoanRegisterLanding = () => {
                                       }}
                                       onClick={() =>
                                         history.push({
-                                          pathname: `/financial-management/banking/loan-register/renew/${item?.intLoanAccountId}`,
+                                          pathname: `/financial-management/banking/loan-register/re-new/${item?.intLoanAccountId}`,
                                           state: item,
                                         })
                                       }
