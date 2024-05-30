@@ -45,6 +45,7 @@ const getHearderList=(buId)=>{
     "Status",
     "Over Due Amount",
     "Credit Control",
+    "Commitment"
   ];
   
   const readyMixHeader = [
@@ -64,7 +65,7 @@ const getHearderList=(buId)=>{
     "Approve by Accounts",
     "Approve by Credit Control",
     "Status",
-    "Over Due Amount",
+    // "Over Due Amount",
     "Credit Control",
   ];
   
@@ -496,6 +497,7 @@ const PartnerOverDueRequestTable = () => {
                               : "Pending"}
                           </td>
                           <td className="text-right">{item?.overDueAmount}</td>
+                          <td className="text-right">{item?.commitment}</td>
                           <td>
                             {overDueApprovalUser ? (
                               <button

@@ -15,7 +15,7 @@ const origin = window.location.origin;
 export const imarineBaseUrl =
   process.env.NODE_ENV === "development" ||
   window.location?.hostname === "deverp.ibos.io"
-    ? "https://devimarine.ibos.io"
+    ? "https://imarine.ibos.io"
     : "https://imarine.ibos.io";
 
 // live-url: https://erp.peopledesk.io

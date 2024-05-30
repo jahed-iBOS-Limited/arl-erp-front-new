@@ -284,8 +284,11 @@ const FundLimitLanding = () => {
                             <th>Limit Amount</th>
                             <th>Utilized Amount</th>
                             <th>Balance</th>
+                            <th>Tenor Days</th>
+                            <th>Sanction Reference</th>
+                            <th>Limit Expiry Date</th>
                             <th>Last Updated Date</th>
-                            <th>Action</th>
+                            <th style={{width:"70px"}}>Action</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -307,9 +310,14 @@ const FundLimitLanding = () => {
                                   item?.numLimit - item?.utilizedAmount
                                 )}
                               </td>
+                              <td className="">{item?.tenureDays}</td>
+                              <td className="">{item?.sanctionReference}</td>
+                              <td className="">{_dateFormatter(item?.limitExpiryDate)}</td>
+
                               <td className="text-center">
                                 {_dateFormatter(item?.loanUpdateDate)}
                               </td>
+
                               <td className="text-center">
                                 <span
                                   style={{ marginRight: "4px" }}
@@ -353,7 +361,11 @@ const FundLimitLanding = () => {
                             </td>
                             <td></td>
                             <td></td>
-                            {/* <td></td> */}
+                            <td></td>
+                            <td></td>
+                            <td></td>
+
+
                           </tr>
                         </tbody>
                       </table>

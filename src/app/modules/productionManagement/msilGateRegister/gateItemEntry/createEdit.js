@@ -735,22 +735,22 @@ export default function GateEntryCreate() {
                             value={values?.poNo}
                             label="পিও নাম্বার"
                             onChange={(valueOption) => {
-                              setFieldValue("poNo", valueOption || "");
-                              setFieldValue("poValidityDate", valueOption.validityDate ? _dateFormatter(valueOption.validityDate) : "");
-                            //   if (valueOption) {
-                            //     const currentDate = new Date();
-                            //     const parsedValidityDate = new Date(valueOption.validityDate);
+                              setFieldValue("poNo", "");
+                              setFieldValue("poValidityDate", "");
+                              if (valueOption) {
+                                const currentDate = new Date();
+                                const parsedValidityDate = new Date(valueOption.validityDate);
                             
-                            //     // Check if the parsed date is valid
-                            //     if (isNaN(parsedValidityDate.getTime())) {
-                            //         return toast.warn("Invalid Po Validity Date!");
-                            //     } else if (parsedValidityDate < currentDate) {
-                            //         return toast.warn("Po validity date has ended");
-                            //     } else {
-                            //         setFieldValue("poNo", valueOption.poNo);
-                            //         setFieldValue("poValidityDate", _dateFormatter(valueOption.validityDate));
-                            //     }
-                            // }
+                                // Check if the parsed date is valid
+                                if (isNaN(parsedValidityDate.getTime())) {
+                                    return toast.warn("Invalid Po Validity Date!");
+                                } else if (parsedValidityDate < currentDate) {
+                                    return toast.warn("Po validity date has ended");
+                                } else {
+                                    setFieldValue("poNo", valueOption.poNo);
+                                    setFieldValue("poValidityDate", _dateFormatter(valueOption.validityDate));
+                                }
+                            }
                             
                             }}
                           />
