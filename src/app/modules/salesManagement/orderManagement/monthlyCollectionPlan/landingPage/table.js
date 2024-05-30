@@ -123,6 +123,7 @@ export function MonthlyCollectionPlanLanding() {
                         { value: 3, label: "Collection Plan" },
                         { value: 2, label: "Collection Plan vs Collection" },
                         { value: 1, label: "Area Base Daily Collection Plan" },
+                        { value: 4, label: "Monthly Budgeted Sales Plan" },
                       ]}
                       onChange={(e) => {
                         setFieldValue("type", e);

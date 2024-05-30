@@ -18,8 +18,8 @@ const initData = {
   area: "",
   territory: "",
   monthYear: "",
-  totalPlanTaka:"",
-  workingDays:"",
+  totalPlanTaka: "",
+  workingDays: "",
 };
 
 export default function MonthlyCollectionPlanEntryForm({
@@ -37,6 +37,7 @@ export default function MonthlyCollectionPlanEntryForm({
   const { landingValues } = location || {};
   const [dailyCollectionData, setDailyCollectionData] = useState([]);
   const [, onSave, loadar] = useAxiosPost();
+  const [monthlyCollectionData, setMonthlyCollectionData] = useState([]);
 
   // get user data from store
   const {
@@ -81,12 +82,40 @@ export default function MonthlyCollectionPlanEntryForm({
       onSave(
         `/oms/CustomerSalesTarget/DailyCollectionPlanEntry?typeId=3&typeName=${`AreaBaseDailyCollectionPlan`}`,
         payload,
-        ()=>{
+        () => {
           setDailyCollectionData([]);
         },
         true
       );
-    }else{
+    } else if ([4].includes(landingValues?.type?.value)) {
+      const selectedRow = monthlyCollectionData?.filter(
+        (item) => item?.isSelected
+      );
+      if (!selectedRow.length) {
+        return toast.warn("Select at least one row");
+      }
+
+      const payload = selectedRow?.map((item) => ({
+        collectionPlanId: 0,
+        accountId: accId,
+        businessUnitId: buId,
+        monthId: item?.monthId,
+        monthName: item?.monthName,
+        yearId: values?.year?.value,
+        actionBy: userId,
+        budgetedSalesQnt: item?.budgetedSalesQnt || 0,
+        budgetedSalesAmount: item?.budgetedSalesAmount,
+      }));
+
+      onSave(
+        `/oms/CustomerSalesTarget/CreateMonthlySalesCollectionNBudgetPlan?typeId=2&typeName=MonthlyBudgetedSales`,
+        payload,
+        () => {
+          setMonthlyCollectionData([]);
+        },
+        true
+      );
+    } else {
       const selectedItems = rowData?.filter((item) => item?.isSelected);
       if (selectedItems?.length < 1) {
         return toast.warn("Please select at least one row!");
@@ -125,7 +154,7 @@ export default function MonthlyCollectionPlanEntryForm({
         };
       });
       postData(
-        `/oms/CustomerSalesTarget/CreateMonthlyCollectionPlan`,
+        `/oms/CustomerSalesTarget/CreateMonthlySalesCollectionNBudgetPlan?typeId=1&typeName=MonthlyCollectionPlan`,
         payload,
         () => {
           cb();
@@ -133,7 +162,6 @@ export default function MonthlyCollectionPlanEntryForm({
         true
       );
     }
-  
   };
 
   const rowDataHandler = (name, i, value) => {
@@ -220,6 +248,8 @@ export default function MonthlyCollectionPlanEntryForm({
         dailyCollectionData={dailyCollectionData}
         setDailyCollectionData={setDailyCollectionData}
         userId={userId}
+        monthlyCollectionData={monthlyCollectionData}
+        setMonthlyCollectionData={setMonthlyCollectionData}
       />
     </>
   );
