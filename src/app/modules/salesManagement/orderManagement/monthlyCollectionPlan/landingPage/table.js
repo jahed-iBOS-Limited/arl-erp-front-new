@@ -19,15 +19,18 @@ import InputField from "../../../../_helper/_inputField";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import PaginationTable from "../../../../_helper/_tablePagination";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import { toast } from "react-toastify";
 
 export function MonthlyCollectionPlanLanding() {
   const history = useHistory();
   const [rowData, setRowData] = useState({});
   const [loading, setLoading] = useState(false);
   const [show, setShow] = useState(false);
-  const [landingData, getLandingData] = useAxiosGet();
+  const [landingData, getLandingData, loader, setLandingData] = useAxiosGet();
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
+  const [, onSave, UpdateLoader] = useAxiosPost();
   // const [singleRow, setSingleRow] = useState({});
 
   // get user data from store
@@ -36,6 +39,7 @@ export function MonthlyCollectionPlanLanding() {
       accountId: accId,
       employeeId: empId,
       employeeFullName: fullName,
+      userId,
     },
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
@@ -92,6 +96,8 @@ export function MonthlyCollectionPlanLanding() {
 
   return (
     <>
+      {(loading || loader || UpdateLoader) && <Loading />}
+
       <Formik initialValues={{ type: "", monthYear: "" }} onSubmit={() => {}}>
         {({ values, setFieldValue }) => (
           <>
@@ -148,44 +154,127 @@ export function MonthlyCollectionPlanLanding() {
                     disabled={!values?.type}
                   />
                 </div>
-                {loading && <Loading />}
                 {[1].includes(values?.type?.value) ? (
                   <>
+                    <div className="text-right">
+                      <button
+                        disabled={
+                          !landingData?.data?.some((item) => item?.isSelected)
+                        }
+                        type="button"
+                        className="btn btn-primary"
+                        onClick={() => {
+                          const selectedRow = landingData?.data?.filter(
+                            (item) => item?.isSelected
+                          );
+                          if (!selectedRow.length) {
+                            return toast.warn("Select at least one row");
+                          }
+
+                          const payload = selectedRow?.map((item) => ({
+                            collectionPlanId: item?.collectionPlanId,
+                            accountId: accId,
+                            businessUnitId: buId,
+                            salesManId: item?.salesManId,
+                            targetDate: item?.targetDate,
+                            salesManeName: item?.salesManeName,
+                            areaId: item?.areaId,
+                            areaName: item?.areaName,
+                            totalAmount: item?.totalAmount,
+                            actionBy: userId,
+                          }));
+
+                          onSave(
+                            `/oms/CustomerSalesTarget/DailyCollectionPlanEntry?typeId=3&typeName=${`AreaBaseDailyCollectionPlan`}`,
+                            payload,
+                            () => {
+                              getLandingDataHandler(
+                                values,
+                                pageNo,
+                                pageSize,
+                                ""
+                              );
+                            },
+                            true
+                          );
+                        }}
+                      >
+                        Update
+                      </button>
+                    </div>
                     {landingData?.data?.length > 0 && (
                       <div className="table-responsive">
                         <table className="table table-striped mt-2 table-bordered bj-table bj-table-landing">
                           <thead>
                             <tr>
+                              <th>
+                                <input
+                                  type="checkbox"
+                                  checked={
+                                    landingData?.data?.length > 0 &&
+                                    landingData.data.every(
+                                      (item) => item.isSelected
+                                    )
+                                  }
+                                  onChange={(e) => {
+                                    const isChecked = e.target.checked;
+                                    const updatedData = landingData.data.map(
+                                      (item) => ({
+                                        ...item,
+                                        isSelected: isChecked,
+                                      })
+                                    );
+                                    setLandingData({
+                                      ...landingData,
+                                      data: updatedData,
+                                    });
+                                  }}
+                                />
+                              </th>
                               <th>SL</th>
-                              <th>Item Code</th>
-                              <th>Item Name</th>
-                              <th>Uom</th>
-                              <th>Effective Date</th>
-                              <th>Rate (Dhaka)</th>
-                              <th>Rate (Chittagong)</th>
-                              <th>Action</th>
+                              <th>Area Name</th>
+                              <th>Region Name</th>
+                              <th>Date</th>
+                              <th>Total Amount</th>
                             </tr>
                           </thead>
                           <tbody>
                             {landingData?.data?.map((item, index) => (
                               <tr key={index}>
-                                <td>{index + 1}</td>
-                                <td className="text-center">
-                                  {item?.itemCode}
+                                <td className="text-center align-middle">
+                                  <input
+                                    type="checkbox"
+                                    checked={item.isSelected}
+                                    onChange={(e) => {
+                                      const updatedData = [...landingData.data];
+                                      updatedData[index].isSelected =
+                                        e.target.checked;
+                                      setLandingData({
+                                        ...landingData,
+                                        data: updatedData,
+                                      });
+                                    }}
+                                  />
                                 </td>
+                                <td className="text-center">{index + 1}</td>
+                                <td>{item.areaName}</td>
+                                <td>{item.regionName}</td>
+                                <td className="text-center">{`${item?.dayId} ${item?.monthName} ${item?.yearId}`}</td>
                                 <td className="text-center">
-                                  {item?.itemCode}
-                                </td>
-                                <td className="text-center">
-                                  {item?.itemCode}
-                                </td>
-                                <td className="text-center">
-                                  {item?.itemCode}
-                                </td><td className="text-center">
-                                  {item?.itemCode}
-                                </td>
-                                <td className="text-center">
-                                  {item?.itemCode}
+                                  <InputField
+                                    value={item.totalAmount || ""}
+                                    type="number"
+                                    onChange={(e) => {
+                                      const value = +e.target.value;
+                                      if (value < 0) return;
+                                      const updatedData = [...landingData.data];
+                                      updatedData[index].totalAmount = value;
+                                      setLandingData({
+                                        ...landingData,
+                                        data: updatedData,
+                                      });
+                                    }}
+                                  />
                                 </td>
                               </tr>
                             ))}
