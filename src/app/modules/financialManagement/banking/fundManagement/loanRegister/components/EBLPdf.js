@@ -44,17 +44,17 @@ const EBLPdf = ({ singleItem, selectedBusinessUnit }) => {
         exchange rate volatility we are procuring raw materials needed from the
         local market. As a result, we require a {loanTypeName} of{" "}
         <span className="font-weight-bolder">
-          BDT {_formatMoney(numPrinciple)} for {intTenureDays} days{" "}
+          BDT{" "} {_formatMoney(numPrinciple)}{" "} for{" "} {intTenureDays} days{" "}
         </span>
         to make payment to our local supplier today.
       </p>
       <p style={{marginBottom}}>
-        Considering the issue, we would request to disburse BDT {_formatMoney(numPrinciple)}
-        to our A/C No. <span className="font-weight-bolder">{strBankAccountNumber}</span>
+        Considering the issue, we would request to disburse BDT {_formatMoney(numPrinciple)}{" "}
+        to our A/C No. <span className="font-weight-bolder">{strBankAccountNumber} {" "}</span>
         maintained with your bank.
       </p>
       <p style={{marginBottom}}>
-        Please process this request and <span className="font-weight-bolder">send the disbursed loan statement</span>
+        Please process this request and <span className="font-weight-bolder">send the disbursed loan statement {" "}</span>
         Voucher to us at your earliest convenience.
       </p>
       <p style={{marginBottom}}>Thank you for your continuous cooperation and assistance.</p>

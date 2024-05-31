@@ -183,7 +183,7 @@ export default function LoanRegisterViewForm({
                   <InputField
                     value={values?.principle}
                     name="principle"
-                    placeholder="Priciple"
+                    placeholder="Principle"
                     onChange={(e) => {
                       if (e.target.value > 0) {
                         setFieldValue("principle", e.target.value);

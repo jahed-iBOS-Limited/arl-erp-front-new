@@ -42,7 +42,7 @@ const WorkingCapitalPdf = ({ singleItem, selectedBusinessUnit }) => {
       <p style={{ marginBottom }}>As-salamu alaykum,</p>
       <p style={{ marginBottom }}>
       
-      With reference to the subject, we would request you to please disburse a {facilityName} of BDT <span className="font-weight-bolder">{_formatMoney(numPrinciple)}</span> in our A/C <span className="font-weight-bolder">{strBankAccountNumber}</span> to facilitate our working capital needs.
+      With reference to the subject, we would request you to please disburse a {facilityName} of BDT <span className="font-weight-bolder">{_formatMoney(numPrinciple)}{" "}</span> in our A/C <span className="font-weight-bolder">{strBankAccountNumber}</span> to facilitate our working capital needs.
 
       </p>
       

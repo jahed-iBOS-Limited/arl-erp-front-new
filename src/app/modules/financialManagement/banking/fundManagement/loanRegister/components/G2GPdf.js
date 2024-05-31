@@ -49,7 +49,7 @@ const G2GPdf = ({ singleItem, selectedBusinessUnit }) => {
         on a revolving basis to meet up working capital requirement (local
         payment) of {label}. It is mentioned that the said loan amount to be
         transferred to our A/C No.
-        <span className="font-weight-bolder">{strBankAccountNumber}</span> to
+        <span className="font-weight-bolder">{strBankAccountNumber}{" "}</span> to
         execute the enclosed party payments through BEFTN/ RTGS & fund transfer.
       </p>
       <p style={{ marginBottom }}>
