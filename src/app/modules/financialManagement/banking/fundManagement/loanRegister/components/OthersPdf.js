@@ -42,11 +42,11 @@ const OthersPdf = ({ singleItem, selectedBusinessUnit }) => {
   return (
     <div style={{margin: "40px 71px 0px" }}>
       <p style={{ marginBottom }} className="font-weight-bolder">
-        Ref :{buShortName}/{bankShortName}/STL/{lacks}/
+        Ref{" "} :{" "}{buShortName}/{bankShortName}/STL/{lacks}/
         {_dateFormatter(dteStartDate)}
       </p>
       <p style={{ marginBottom }} className="font-weight-bolder">
-        Date :{formatDate(dteStartDate)}
+        Date{" "} :{" "}{formatDate(dteStartDate)}
       </p>
       <p style={{ marginBottom }}>The Head of Branch</p>
       <p style={{ marginBottom }}>{bankBranchName}</p>

@@ -21,11 +21,11 @@ const EBLPdf = ({ singleItem, selectedBusinessUnit }) => {
   return (
     <div style={{margin: "40px 71px 0px" }}>
       <p style={{marginBottom}} className="font-weight-bolder">
-        Ref   :{buShortName}/{bankShortName}/STL/{lacks}/
+        Ref{" "}:{" "}{buShortName}/{bankShortName}/STL/{lacks}/
         {_dateFormatter(dteStartDate)}
       </p>
       <p style={{marginBottom}} className="font-weight-bolder">
-        Date :{formatDate(dteStartDate)}
+        Date{" "} :{" "}{formatDate(dteStartDate)}
       </p>
       <p style={{marginBottom}}>Ahmed Shaheen</p>
       <p style={{marginBottom}}>AMD & Head of Corporate Banking</p>
