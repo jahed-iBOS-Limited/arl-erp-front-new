@@ -49,8 +49,8 @@ const WorkingCapitalPdf = ({ singleItem, selectedBusinessUnit }) => {
       <p style={{ marginBottom }}>
         Please process this request and
         <span className="font-weight-bolder">
-          send the disbursed loan statement
-        </span>
+         {" "} send the disbursed loan statement
+        </span>{" "}
         Voucher to us at your earliest convenience.
       </p>
       <p style={{ marginBottom }}>

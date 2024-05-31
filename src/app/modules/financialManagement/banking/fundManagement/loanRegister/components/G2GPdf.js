@@ -53,9 +53,9 @@ const G2GPdf = ({ singleItem, selectedBusinessUnit }) => {
         execute the enclosed party payments through BEFTN/ RTGS & fund transfer.
       </p>
       <p style={{ marginBottom }}>
-        Please process this request and
+        Please process this request and{" "}
         <span className="font-weight-bolder">
-          send the disbursed loan statement
+          send the disbursed loan statement {" "}
         </span>
         Voucher to us at your earliest convenience.
       </p>
