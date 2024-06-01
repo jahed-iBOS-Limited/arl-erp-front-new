@@ -1,16 +1,15 @@
 import React from "react";
 import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { _dateFormatter } from "./../../../../_helper/_dateFormate";
+import IEdit from "../../../../_helper/_helperIcons/_edit";
 import InputField from "../../../../_helper/_inputField";
+import IViewModal from "../../../../_helper/_viewModal";
+import EditModal from "./editmodal";
 const LandingTable = ({ obj }) => {
   const {
     profileData: { employeeId },
     tokenData: { token },
   } = useSelector((state) => state?.authData, shallowEqual);
-
-  const { gridData, setLoading, setGridData } = obj;
-  const history = useHistory();
+  const { gridData, setLoading, setGridData, landingCB } = obj;
   const [isShowModal, setIsShowModal] = React.useState(false);
   const [clickedRow, setClickedRow] = React.useState({});
   const {
@@ -192,7 +191,7 @@ const LandingTable = ({ obj }) => {
                   <td>{item?.contactNumber}</td>
                   <td>{item?.activeInactive}</td>
                   <td>{item?.accountManager}</td>
-                  <td>{item?.jobTittle}</td>
+                  <td>{item?.jobTitle}</td>
                   <td>{item?.ageRange}</td>
                   <td>{item?.gender}</td>
                   <td>{item?.industry}</td>
@@ -208,16 +207,15 @@ const LandingTable = ({ obj }) => {
                   <td>
                     {
                       <InputField
-                        value={item?.enroll || ''}
+                        value={item?.enroll || ""}
                         name="enroll"
                         placeholder="Enroll"
                         type="number"
-                        onChange={(e) => {  
+                        onChange={(e) => {
                           const copyData = [...gridData];
                           copyData[index].enroll = e.target.value;
                           setGridData(copyData);
                         }}
-
                       />
                     }
                   </td>
@@ -227,7 +225,17 @@ const LandingTable = ({ obj }) => {
                       style={{
                         gap: "8px",
                       }}
-                    ></div>
+                    >
+                      <span
+                        onClick={() => {
+                          setIsShowModal(true);
+                          setClickedRow(item);
+                        }}
+                      >
+                        {" "}
+                        <IEdit />
+                      </span>
+                    </div>
                   </td>
                 </tr>
               );
@@ -235,6 +243,26 @@ const LandingTable = ({ obj }) => {
           </tbody>
         </table>
       </div>
+      {isShowModal && (
+        <>
+          <IViewModal
+            show={isShowModal}
+            onHide={() => {
+              setIsShowModal(false);
+              setClickedRow({});
+            }}
+          >
+            <EditModal
+              clickedRow={clickedRow}
+              landingCB={() => {
+                landingCB();
+                setIsShowModal(false);
+                setClickedRow({});
+              }}
+            />
+          </IViewModal>
+        </>
+      )}
     </>
   );
 };
