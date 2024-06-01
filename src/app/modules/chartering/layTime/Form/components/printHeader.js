@@ -28,10 +28,10 @@ const PrintHeader = ({ singleData }) => {
     <div>
       {id ? (
         <h5 className="text-center">
-          {portAt?.label
-            ? `LAYTIME STATEMENT AT ${portAt?.label}${
+          { portAt || portAt?.label
+            ? `LAYTIME STATEMENT AT ${portAt || portAt?.label}${
                 portAt?.berthedPortCountry
-                  ? `, ${portAt?.berthedPortCountry}`
+                  ? `, ${portAt?.berthedPortCountry || ''}`
                   : ""
               }`
             : ""}
@@ -74,10 +74,10 @@ const PrintHeader = ({ singleData }) => {
             {moment(vesselArrived).format("DD-MMM-yyyy, HH:mm") || "-"} HRS LT
           </h6>
           <h6>
-            {portAt?.label
-              ? `${portAt?.label}${
+            {portAt || portAt?.label
+              ? `${portAt || portAt?.label}${
                   portAt?.berthedPortCountry
-                    ? `, ${portAt?.berthedPortCountry}`
+                    ? `, ${portAt?.berthedPortCountry || ''}`
                     : ""
                 }`
               : ""}
