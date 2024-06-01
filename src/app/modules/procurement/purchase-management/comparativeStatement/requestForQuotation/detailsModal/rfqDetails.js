@@ -53,7 +53,7 @@ export function RFQViewDetails({ currentItem, isHiddenBackBtn }) {
     toBCC: rfqDetailsData[0]?.objSuplier?.map((itm) => (itm?.strEmail)),
     subject: `Request for Quotation No: ${rfqDetailsData[0]?.objHeader?.strRequestForQuotationCode}`,
     message: `Dear Sir, Please find the request for quotation: ${rfqDetailsData[0]?.objHeader?.strRequestForQuotationCode}
-    To enter the quotation, please go to the link,  ${window?.location?.origin}/mngProcurement/comparative-statement/shipping-quotation-entry`,
+    To enter the quotation, please go to the link,  https://erp.ibos.io/mngProcurement/comparative-statement/shipping-quotation-entry`, // changes dynamic to static for wahed vai instruction
     attachment: "",
   };
 
@@ -189,7 +189,7 @@ export function RFQViewDetails({ currentItem, isHiddenBackBtn }) {
 
                       <table
                         className="global-table table mt-5 mb-5"
-                        id="table-to-xlsx"
+                        // id="table-to-xlsx"
                       >
                         <thead className="tableHead"></thead>
                         <tbody className="tableHead">
@@ -268,6 +268,17 @@ export function RFQViewDetails({ currentItem, isHiddenBackBtn }) {
                           {rfqDetailsData[0]?.objRow?.map(
                             (data, i) => (
                               <>
+                              <>
+                              {(i === 0 || data.strShippingItemSubHead !== rfqDetailsData[0]?.objRow[i - 1].strShippingItemSubHead) && data?.strShippingItemSubHead ? (
+                                 <tr style={{background:'#ADD8E6', paddingTop: '5px', paddingBottom: '5px' }}>
+                                     <td colSpan={rfqDetailsData[0]?.objRow[0]?.intItemCategoryId[0]?.intItemCategoryId === 624 ? '8' : '6'}>
+                                         <div style={{fontSize: '20'}} className="text-bold text-center">
+                                             {data.strShippingItemSubHead}
+                                         </div>
+                                     </td>
+                                 </tr>
+                              ) : null}
+                              </>
                                 <tr key={i}>
                                   <td className="text-center">{i + 1}</td>
                                   <td>{data?.strItemCode}</td>
