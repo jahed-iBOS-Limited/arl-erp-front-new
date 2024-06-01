@@ -99,7 +99,7 @@ export const CreateCustomeRTGS = async (paylaod, setDisabled, cb) => {
     setDisabled(true);
     const res = await axios.post(`/imp/CustomDuty/CreateCustomeRTGS`, paylaod);
     setDisabled(false);
-    toast.success(res?.message || "Create successfully");
+    toast.success(res?.data?.message || "Create successfully");
     cb();
   } catch (error) {
     setDisabled(false);
@@ -118,6 +118,19 @@ export const getCustomRTGSById = async (id, setDisabled, setter) => {
       setter(res?.data);
       setDisabled(false);
     }
+  } catch (error) {
+    setDisabled(false);
+    toast.error(error?.response?.data?.message);
+  }
+};
+
+export const EditCustomerRTGSApi = async (paylaod, setDisabled, cb) => {
+  try {
+    setDisabled(true);
+    const res = await axios.post(`/imp/CustomDuty/EditCustomerRTGS`, paylaod);
+    setDisabled(false);
+    toast.success(res?.data?.message || "Update successfully");
+    cb();
   } catch (error) {
     setDisabled(false);
     toast.error(error?.response?.data?.message);

@@ -16,6 +16,7 @@ import Loading from "../../../../_helper/_loading";
 import NewSelect from "../../../../_helper/_select";
 import PaginationTable from "../../../../_helper/_tablePagination";
 import { getLandingData, getShipmentDDL } from "../helper";
+import IView from "../../../../_helper/_helperIcons/_view";
 // import IWarningModal from "../../../../_helper/_warningModal";
 // import numberWithCommas from "../../../../_helper/_numberWithCommas";
 
@@ -40,7 +41,7 @@ const CustomDutyLanding = () => {
   const history = useHistory();
 
   const [gridData, setGridData] = useState([]);
-  const [shipmentDDL, setShipmentDDL] = useState(false);
+  const [shipmentDDL, setShipmentDDL] = useState([]);
   const [loading, setLoading] = useState(false);
 
   //paginationState
@@ -65,9 +66,6 @@ const CustomDutyLanding = () => {
       setLoading
     );
   };
-  useEffect(() => {
-    getGrid();
-  }, [profileData, selectedBusinessUnit]);
 
   const getGrid = (poNo, shipment) => {
     getLandingData(
@@ -81,36 +79,37 @@ const CustomDutyLanding = () => {
     );
   };
 
+  useEffect(() => {
+    getGrid(0, 0);
+  }, []);
   // Get PO List DDL
-  const polcList = (v) => {
-    if (v?.length < 3) return [];
+  const polcList = async (v) => {
+    if (v?.length < 3)
+      return [
+        {
+          value: 0,
+          label: "All",
+        },
+      ];
     return Axios.get(
       `/imp/ImportCommonDDL/GetPoNoForAllCharge?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&search=${v}`
     ).then((res) => res?.data);
   };
 
-  // "senderName": "string",
-  //     "senderBankId": 1,
-  //     "senderBankName": "string",
-  //     "senderBranchId": 1,
-  //     "senderBranchName": "string",
-  //     "senderRoutingNo": "string",
-  //     "senderAccountNo": "string",
-  //     "senderAddress": "string",
-  //     "beneficiaryName": "string",
-  //     "beneficiaryBankId": 0,
-  //     "beneficiaryBankName": "string",
-  //     "beneficiaryBranchId": 0,
-  //     "beneficiaryBranchName": "string",
-  //     "beneficiaryRoutingNo": "string",
-  //     "beneficiaryAccountNo": "string",
-  //     "beneficiaryBankEmail": "string",
-
   return (
     <>
       <Formik
         enableReinitialize={true}
-        initialValues={{ poLc: "", shipment: "" }}
+        initialValues={{
+          poLc: {
+            value: 0,
+            label: "All",
+          },
+          shipment: {
+            value: 0,
+            label: "All",
+          },
+        }}
         // validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {}}
       >
@@ -151,10 +150,6 @@ const CustomDutyLanding = () => {
                             setShipmentDDL
                           );
                           setFieldValue("shipment", "");
-                          getGrid(
-                            valueOption?.label,
-                            valueOption ? values?.shipment?.value : ""
-                          );
                         }}
                         loadOptions={polcList || []}
                         placeholder="Search by PO/LC Id"
@@ -163,17 +158,36 @@ const CustomDutyLanding = () => {
                     <div className="col-lg-3">
                       <NewSelect
                         name="shipment"
-                        options={shipmentDDL || []}
+                        options={
+                          [
+                            {
+                              value: 0,
+                              label: "All",
+                            },
+                            ...shipmentDDL,
+                          ] || []
+                        }
                         label="Shipment No"
                         value={values?.shipment}
                         onChange={(valueOption) => {
                           setFieldValue("shipment", valueOption);
-                          getGrid(values?.poLc?.label, valueOption?.value);
                         }}
                         placeholder="Shipment"
                         errors={errors}
                         touched={touched}
                       />
+                    </div>
+                    <div className="col-lg-3">
+                      <button
+                        onClick={() => {
+                          getGrid(values?.poLc?.value, values?.shipment?.value);
+                        }}
+                        style={{ marginTop: "15px" }}
+                        className="btn btn-primary"
+                        type="button"
+                      >
+                        View
+                      </button>
                     </div>
                   </div>
 
@@ -246,7 +260,7 @@ const CustomDutyLanding = () => {
                             <td>
                               <div className="d-flex justify-content-around">
                                 <span
-                                  className="edit"
+                                  className="edit pointer"
                                   onClick={() => {
                                     history.push(
                                       `/managementImport/transaction/customs-rtgs/edit/${item?.customRtgsId}`
@@ -254,6 +268,9 @@ const CustomDutyLanding = () => {
                                   }}
                                 >
                                   <i className="fa fa-edit"></i>
+                                </span>
+                                <span>
+                                  <IView />
                                 </span>
                               </div>
                             </td>

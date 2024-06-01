@@ -21,6 +21,7 @@ import {
   getCustomDutyInfo,
   getShipmentDDL,
   getCustomRTGSById,
+  EditCustomerRTGSApi,
 } from "../helper";
 
 const validationSchema = Yup.object().shape({
@@ -111,38 +112,44 @@ const CustomsRTGSCreate = () => {
       };
     });
     const payload = {
-      customRtgsId: id || 0,
-      businessUnitId: selectedBusinessUnit.value || 0,
-      businessUnitName: selectedBusinessUnit.label || "",
-      businessUnitAddress: "",
-      senderName: values?.senderName || "",
-      senderBankId: 0,
-      senderBankName: values?.senderBankName || "",
-      senderBranchId: 0,
-      senderBranchName: values?.senderBranchName || "",
-      senderRoutingNo: values?.senderRoutingNo || "",
-      senderAccountNo: values?.senderAccountNo || "",
-      senderAddress: values?.senderAddress || "",
-      beneficiaryId: 0,
-      beneficiaryName: values?.beneficiaryName || "",
-      beneficiaryBankId: 0,
-      beneficiaryBankName: values?.beneficiaryBankName || "",
-      beneficiaryBranchId: 0,
-      beneficiaryBranchName: values?.beneficiaryBranchName || "",
-      beneficiaryRoutingNo: values?.beneficiaryRoutingNo || "",
-      beneficiaryAccountNo: values?.beneficiaryAccountNo || "",
-      beneficiaryBankEmail: values?.beneficiaryBankEmail || "",
-      purchaseOrderId: values?.poLc?.value || 0,
-      purchaseOrderNo: values?.poLc?.label || "",
-      shipmentId: values?.shipment?.value || 0,
-      shipmentNo: values?.shipment?.label || "",
-      rtgsdate: new Date(),
-      rowDto: modifyRowDto,
+      objHeader: {
+        customRtgsId: id || 0,
+        businessUnitId: selectedBusinessUnit.value || 0,
+        businessUnitName: selectedBusinessUnit.label || "",
+        businessUnitAddress: "",
+        senderName: values?.senderName || "",
+        senderBankId: 0,
+        senderBankName: values?.senderBankName || "",
+        senderBranchId: 0,
+        senderBranchName: values?.senderBranchName || "",
+        senderRoutingNo: values?.senderRoutingNo || "",
+        senderAccountNo: values?.senderAccountNo || "",
+        senderAddress: values?.senderAddress || "",
+        beneficiaryId: 0,
+        beneficiaryName: values?.beneficiaryName || "",
+        beneficiaryBankId: 0,
+        beneficiaryBankName: values?.beneficiaryBankName || "",
+        beneficiaryBranchId: 0,
+        beneficiaryBranchName: values?.beneficiaryBranchName || "",
+        beneficiaryRoutingNo: values?.beneficiaryRoutingNo || "",
+        beneficiaryAccountNo: values?.beneficiaryAccountNo || "",
+        beneficiaryBankEmail: values?.beneficiaryBankEmail || "",
+        purchaseOrderId: values?.poLc?.value || 0,
+        purchaseOrderNo: values?.poLc?.label || "",
+        shipmentId: values?.shipment?.value || 0,
+        shipmentNo: values?.shipment?.label || "",
+        rtgsdate: new Date(),
+      },
+      objRow: modifyRowDto,
     };
-    CreateCustomeRTGS(payload, setLoading, () => {
-      cb();
-      setRowDto([]);
-    });
+    if (id) {
+      EditCustomerRTGSApi(payload, setLoading, () => {});
+    } else {
+      CreateCustomeRTGS(payload, setLoading, () => {
+        cb();
+        setRowDto([]);
+      });
+    }
   };
 
   useEffect(() => {
@@ -287,7 +294,7 @@ const CustomsRTGSCreate = () => {
                   </button>
                   <button
                     type="submit"
-                    className="btn btn-primary"
+                    className="btn btn-primary ml-2"
                     onClick={handleSubmit}
                   >
                     Save
@@ -356,58 +363,72 @@ const CustomsRTGSCreate = () => {
                         isDisabled={id}
                       />
                     </div>
-                    {/* RTGS Amount */}
-                    <div className="col-lg-3">
-                      <label>RTGS Amount</label>
-                      <InputField
-                        value={values?.rtgsAmount}
-                        placeholder="RTGS Amount"
-                        name="rtgsAmount"
-                        type="number"
-                        onChange={(valueOption) => {}}
-                        disabled
-                      />
-                    </div>
+                    {!id && (
+                      <>
+                        {" "}
+                        {/* RTGS Amount */}
+                        <div className="col-lg-3">
+                          <label>RTGS Amount</label>
+                          <InputField
+                            value={values?.rtgsAmount}
+                            placeholder="RTGS Amount"
+                            name="rtgsAmount"
+                            type="number"
+                            onChange={(valueOption) => {}}
+                            disabled
+                          />
+                        </div>
+                      </>
+                    )}
                   </div>
-                  <div className="row">
-                    <div className="col-lg-3">
-                      <NewSelect
-                        name="senderBankAccountNumber"
-                        options={bankAccountNumberDDL || []}
-                        value={values?.senderBankAccountNumber}
-                        onChange={(valueOption) => {
-                          setFieldValue(
-                            "senderName",
-                            valueOption?.bankAccountName || ""
-                          );
-                          setFieldValue("senderBankAccountNumber", valueOption);
-                          setFieldValue(
-                            "senderBankName",
-                            valueOption?.bankName || ""
-                          );
-                          setFieldValue(
-                            "senderBranchName",
-                            valueOption?.bankBranchName || ""
-                          );
-                          setFieldValue(
-                            "senderRoutingNo",
-                            valueOption?.routingNo || ""
-                          );
-                          setFieldValue(
-                            "senderAccountNo",
-                            valueOption?.bankAccountNo || ""
-                          );
-                          setFieldValue(
-                            "senderAddress",
-                            valueOption?.bankBranchAddress || ""
-                          );
-                        }}
-                        placeholder="Sender Bank Account Number"
-                        errors={errors}
-                        touched={touched}
-                      />
-                    </div>
-                  </div>
+                  {!id && (
+                    <>
+                      {" "}
+                      <div className="row">
+                        <div className="col-lg-3">
+                          <NewSelect
+                            name="senderBankAccountNumber"
+                            options={bankAccountNumberDDL || []}
+                            value={values?.senderBankAccountNumber}
+                            onChange={(valueOption) => {
+                              setFieldValue(
+                                "senderName",
+                                valueOption?.bankAccountName || ""
+                              );
+                              setFieldValue(
+                                "senderBankAccountNumber",
+                                valueOption
+                              );
+                              setFieldValue(
+                                "senderBankName",
+                                valueOption?.bankName || ""
+                              );
+                              setFieldValue(
+                                "senderBranchName",
+                                valueOption?.bankBranchName || ""
+                              );
+                              setFieldValue(
+                                "senderRoutingNo",
+                                valueOption?.routingNo || ""
+                              );
+                              setFieldValue(
+                                "senderAccountNo",
+                                valueOption?.bankAccountNo || ""
+                              );
+                              setFieldValue(
+                                "senderAddress",
+                                valueOption?.bankBranchAddress || ""
+                              );
+                            }}
+                            placeholder="Sender Bank Account Number"
+                            errors={errors}
+                            touched={touched}
+                          />
+                        </div>
+                      </div>
+                    </>
+                  )}
+
                   <div className="row">
                     <div className="col-lg-12">
                       <div className="react-bootstrap-table table-responsive">
