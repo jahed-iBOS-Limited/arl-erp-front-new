@@ -21,11 +21,11 @@ const WorkingCapitalPdf = ({ singleItem, selectedBusinessUnit }) => {
   return (
     <div style={{margin: "40px 71px 0px" }}>
       <p style={{ marginBottom }} className="font-weight-bolder">
-        Ref :{buShortName}/{strBankShortName}/STL/{lacks}/
+        Ref {" "}:{" "}{buShortName}/{strBankShortName}/STL/{lacks}/
         {_dateFormatter(dteStartDate)}
       </p>
       <p style={{ marginBottom }} className="font-weight-bolder">
-        Date :{formatDate(dteStartDate)}
+        Date{" "} :{" "}{formatDate(dteStartDate)}
       </p>
       <p style={{ marginBottom }}>The Head of Branch</p>
       <p style={{ marginBottom }}>{bankBranchName}</p>
@@ -42,15 +42,15 @@ const WorkingCapitalPdf = ({ singleItem, selectedBusinessUnit }) => {
       <p style={{ marginBottom }}>As-salamu alaykum,</p>
       <p style={{ marginBottom }}>
       
-      With reference to the subject, we would request you to please disburse a {facilityName} of BDT <span className="font-weight-bolder">{_formatMoney(numPrinciple)}</span> in our A/C <span className="font-weight-bolder">{strBankAccountNumber}</span> to facilitate our working capital needs.
+      With reference to the subject, we would request you to please disburse a {facilityName} of BDT <span className="font-weight-bolder">{_formatMoney(numPrinciple)}{" "}</span> in our A/C <span className="font-weight-bolder">{strBankAccountNumber}</span> to facilitate our working capital needs.
 
       </p>
       
       <p style={{ marginBottom }}>
         Please process this request and
         <span className="font-weight-bolder">
-          send the disbursed loan statement
-        </span>
+         {" "} send the disbursed loan statement
+        </span>{" "}
         Voucher to us at your earliest convenience.
       </p>
       <p style={{ marginBottom }}>
