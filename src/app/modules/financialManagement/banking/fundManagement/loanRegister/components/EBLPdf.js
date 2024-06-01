@@ -42,7 +42,7 @@ const EBLPdf = ({ singleItem, selectedBusinessUnit }) => {
       <p style={{marginBottom}}>
         In reference to the mentioned subject, Please kindly note that, due to
         exchange rate volatility we are procuring raw materials needed from the
-        local market. As a result, we require a {loanTypeName} of{" "}
+        local market. As a result, we require a {facilityName} of{" "}
         <span className="font-weight-bolder">
           BDT{" "} {_formatMoney(numPrinciple)}{" "} for{" "} {intTenureDays} days{" "}
         </span>
