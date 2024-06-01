@@ -450,6 +450,7 @@ function EditModal({ clickedRow, landingCB }) {
                     placeholder="Select Channel"
                     errors={errors}
                     touched={touched}
+                    isDisabled={true}
                   />
                 </div>
               </div>
