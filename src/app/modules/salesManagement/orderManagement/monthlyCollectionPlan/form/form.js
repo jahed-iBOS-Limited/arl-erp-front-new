@@ -506,158 +506,173 @@ export default function _Form({
               </Form>
 
               {rowData?.length > 0 && (
-                <table
-                  id="table-to-xlsx"
-                  className={
-                    "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
-                  }
-                >
-                  <thead>
-                    <tr className="cursor-pointer">
-                      <th
-                        onClick={() => allSelect(!selectedAll())}
-                        style={{ width: "30px" }}
-                        rowSpan={2}
-                      >
-                        <input
-                          type="checkbox"
-                          value={selectedAll()}
-                          checked={selectedAll()}
-                          onChange={() => {}}
-                        />
-                      </th>
-                      <th rowSpan={2}>SL</th>
-                      <th rowSpan={2}>Client ID</th>
-                      <th rowSpan={2}>Client Name</th>
-                      <th rowSpan={2}>Area</th>
-                      <th rowSpan={2}>Territory</th>
-                      <th rowSpan={2}>Total Dues</th>
-                      <th rowSpan={2}>Overdue</th>
-                      <th rowSpan={2}>OD %</th>
-                      <th colSpan={6}>Collection Plan</th>
-                    </tr>
-                    <tr>
-                      {values?.month &&
-                        weekList(values?.month?.value)?.map((item, i) => {
-                          return (
-                            <th style={{ width: "120px" }} key={i}>
-                              {item}
-                            </th>
-                          );
-                        })}
-                      <th>Total</th>
-                      <th>%</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {rowData?.map((item, index) => {
-                      return (
-                        <tr key={index}>
-                          <td
-                            onClick={() => {
-                              rowDataHandler(
-                                "isSelected",
-                                index,
-                                !item.isSelected
-                              );
-                            }}
-                            className="text-center"
-                            style={
-                              item?.isSelected
-                                ? {
-                                    backgroundColor: "#aacae3",
-                                    width: "30px",
-                                  }
-                                : { width: "30px" }
-                            }
-                          >
-                            <input
-                              type="checkbox"
-                              value={item?.isSelected}
-                              checked={item?.isSelected}
-                              onChange={() => {}}
-                            />
-                          </td>
+                <div className="table-responsive">
+                  {" "}
+                  <table
+                    id="table-to-xlsx"
+                    className={
+                      "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+                    }
+                  >
+                    <thead>
+                      <tr className="cursor-pointer">
+                        <th
+                          onClick={() => allSelect(!selectedAll())}
+                          style={{ width: "30px" }}
+                          rowSpan={2}
+                        >
+                          <input
+                            type="checkbox"
+                            value={selectedAll()}
+                            checked={selectedAll()}
+                            onChange={() => {}}
+                          />
+                        </th>
+                        <th rowSpan={2}>SL</th>
+                        <th rowSpan={2}>Client ID</th>
+                        <th rowSpan={2}>Client Name</th>
+                        <th rowSpan={2}>Area</th>
+                        <th rowSpan={2}>Territory</th>
+                        <th rowSpan={2}>Total Dues</th>
+                        <th rowSpan={2}>Overdue</th>
+                        <th rowSpan={2}>OD %</th>
+                        <th colSpan={6}>Collection Plan</th>
+                      </tr>
+                      <tr>
+                        {values?.month &&
+                          weekList(values?.month?.value)?.map((item, i) => {
+                            return (
+                              <th style={{ width: "120px" }} key={i}>
+                                {item}
+                              </th>
+                            );
+                          })}
+                        <th>Total</th>
+                        <th>%</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {rowData?.map((item, index) => {
+                        return (
+                          <tr key={index}>
+                            <td
+                              onClick={() => {
+                                rowDataHandler(
+                                  "isSelected",
+                                  index,
+                                  !item.isSelected
+                                );
+                              }}
+                              className="text-center"
+                              style={
+                                item?.isSelected
+                                  ? {
+                                      backgroundColor: "#aacae3",
+                                      width: "30px",
+                                    }
+                                  : { width: "30px" }
+                              }
+                            >
+                              <input
+                                type="checkbox"
+                                value={item?.isSelected}
+                                checked={item?.isSelected}
+                                onChange={() => {}}
+                              />
+                            </td>
 
-                          <td style={{ width: "30px" }} className="text-center">
-                            {index + 1}
-                          </td>
-                          <td>{item?.intBusinessPartnerId}</td>
-                          <td>{item?.strBusinessPartnerName}</td>
-                          <td>{item?.area}</td>
-                          <td>{item?.territory}</td>
-                          <td className="text-right">{item?.dueAmount}</td>
-                          <td className="text-right">{item?.overDue}</td>
-                          <td className="text-right" style={{ width: "60px" }}>
-                            {item?.od || 0}
-                          </td>
-                          <td>
-                            <InputField
-                              value={item?.week1}
-                              name="week1"
-                              type="number"
-                              onChange={(e) => {
-                                rowDataHandler(
-                                  "week1",
-                                  index,
-                                  e?.target?.value
-                                );
-                              }}
-                            />
-                          </td>
-                          <td>
-                            <InputField
-                              value={item?.week2}
-                              name="week2"
-                              type="number"
-                              onChange={(e) => {
-                                rowDataHandler(
-                                  "week2",
-                                  index,
-                                  e?.target?.value
-                                );
-                              }}
-                            />
-                          </td>
-                          <td>
-                            <InputField
-                              value={item?.week3}
-                              name="week3"
-                              type="number"
-                              onChange={(e) => {
-                                rowDataHandler(
-                                  "week3",
-                                  index,
-                                  e?.target?.value
-                                );
-                              }}
-                            />
-                          </td>
-                          <td>
-                            <InputField
-                              value={item?.week4}
-                              name="week4"
-                              type="number"
-                              onChange={(e) => {
-                                rowDataHandler(
-                                  "week4",
-                                  index,
-                                  e?.target?.value
-                                );
-                              }}
-                            />
-                          </td>
-                          <td className="text-right" style={{ width: "90px" }}>
-                            {item?.total}
-                          </td>
-                          <td className="text-right" style={{ width: "60px" }}>
-                            {item?.percent}
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
+                            <td
+                              style={{ width: "30px" }}
+                              className="text-center"
+                            >
+                              {index + 1}
+                            </td>
+                            <td>{item?.intBusinessPartnerId}</td>
+                            <td>{item?.strBusinessPartnerName}</td>
+                            <td>{item?.area}</td>
+                            <td>{item?.territory}</td>
+                            <td className="text-right">{item?.dueAmount}</td>
+                            <td className="text-right">{item?.overDue}</td>
+                            <td
+                              className="text-right"
+                              style={{ width: "60px" }}
+                            >
+                              {item?.od || 0}
+                            </td>
+                            <td>
+                              <InputField
+                                value={item?.week1}
+                                name="week1"
+                                type="number"
+                                onChange={(e) => {
+                                  rowDataHandler(
+                                    "week1",
+                                    index,
+                                    e?.target?.value
+                                  );
+                                }}
+                              />
+                            </td>
+                            <td>
+                              <InputField
+                                value={item?.week2}
+                                name="week2"
+                                type="number"
+                                onChange={(e) => {
+                                  rowDataHandler(
+                                    "week2",
+                                    index,
+                                    e?.target?.value
+                                  );
+                                }}
+                              />
+                            </td>
+                            <td>
+                              <InputField
+                                value={item?.week3}
+                                name="week3"
+                                type="number"
+                                onChange={(e) => {
+                                  rowDataHandler(
+                                    "week3",
+                                    index,
+                                    e?.target?.value
+                                  );
+                                }}
+                              />
+                            </td>
+                            <td>
+                              <InputField
+                                value={item?.week4}
+                                name="week4"
+                                type="number"
+                                onChange={(e) => {
+                                  rowDataHandler(
+                                    "week4",
+                                    index,
+                                    e?.target?.value
+                                  );
+                                }}
+                              />
+                            </td>
+                            <td
+                              className="text-right"
+                              style={{ width: "90px" }}
+                            >
+                              {item?.total}
+                            </td>
+                            <td
+                              className="text-right"
+                              style={{ width: "60px" }}
+                            >
+                              {item?.percent}
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
               )}
             </ICustomCard>
           </>
