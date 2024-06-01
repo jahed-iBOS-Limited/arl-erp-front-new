@@ -118,7 +118,7 @@ const LCApplicationExport = ({ obj }) => {
                       getLCInfo(
                         `https://devautomation.ibos.io/lc_issuance`,
                         {
-                          text: singleItem?.pdfTextdata,
+                          text: singleItem?.pdfTextdata || '',
                         },
                         () => {
                           setShow(true);
