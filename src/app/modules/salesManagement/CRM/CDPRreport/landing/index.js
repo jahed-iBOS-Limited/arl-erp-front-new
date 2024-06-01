@@ -107,6 +107,7 @@ const CDPRreportLanding = () => {
       return {
         intId: item?.intId,
         enroll: item?.enroll || "",
+        customerId: item?.customerId || '',
       };
     });
     EditCDPMasterData(
