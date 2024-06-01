@@ -4,8 +4,10 @@ import * as fs from "file-saver";
 import { dateFormatWithMonthName } from "../../../../_helper/_dateFormate";
 import { _todayDate } from "../../../../_helper/_todayDate";
 import { excelGenerator } from "./excelGenerator";
+import axios from "axios";
+import { toast } from "react-toastify";
 
-const createExcelFile = (
+const createExcelFile = async (
   isHeaderNeeded,
   comapanyNameHeader,
   dataHeader,
@@ -16,9 +18,9 @@ const createExcelFile = (
   bottom2,
   bottom3,
   getBlobData,
-  fileName
+  fileName,
+  isOldExcelDownload
 ) => {
-  console.log("tableData", tableData);
   let workbook = new Workbook();
   let worksheet = workbook.addWorksheet("Bank Advice");
 
@@ -125,16 +127,67 @@ const createExcelFile = (
   }
 
   // worksheet.mergeCells(`D${bottom3.number}:F${bottom3.number}`);
-  workbook.xlsx.writeBuffer().then((data) => {
-    let blob = new Blob([data], {
-      type: "application/ms-excel",
+  if (isOldExcelDownload) {
+    excelDownlaod({ workbook, fileName });
+  } else {
+    workbook.xlsx.writeBuffer().then((data) => {
+      let blob = new Blob([data], {
+        type: "application/ms-excel",
+      });
+      if (getBlobData) {
+        getBlobData(blob);
+      } else {
+        fs.saveAs(blob, `${fileName}.xlsx`);
+      }
     });
-    if (getBlobData) {
-      getBlobData(blob);
-    } else {
-      fs.saveAs(blob, `${fileName}.xlsx`);
-    }
+  }
+};
+
+const excelDownlaod = async ({ workbook, fileName }) => {
+  const buffer = await workbook.xlsx.writeBuffer();
+  const blob = new Blob([buffer], {
+    type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
   });
+  const formData = new FormData();
+  formData.append("file", blob, `${fileName}.xlsx`);
+  const url = `https://automation.ibos.io/convert_xlsx_to_xls/`;
+  fetch(url, {
+    method: "POST",
+    body: formData,
+  })
+    .then((response) => {
+      if (response.ok) {
+        // If the response contains a PDF file
+        if (
+          response.headers.get("content-type") === "application/vnd.ms-excel"
+        ) {
+          // Extract the filename from the response headers
+          const filename = fileName;
+          // Return a promise with the response blob
+          return response.blob().then((blob) => {
+            // Create a temporary URL for the blob
+            const url = window.URL.createObjectURL(blob);
+            // Create a link element to trigger the download
+            const link = document.createElement("a");
+            link.href = url;
+            link.setAttribute("download", filename);
+            // Append the link to the body and trigger the download
+            document.body.appendChild(link);
+            link.click();
+            // Clean up by revoking the object URL
+            window.URL.revokeObjectURL(url);
+            toast.success("File downloaded successfully as:", filename);
+          });
+        } else {
+          toast.warn("Request Failed");
+        }
+      } else {
+        toast.error("Request failed");
+      }
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
 };
 
 const getTableData = (row, keys, totalKey) => {
@@ -153,7 +206,8 @@ export const generateExcel = (
   selectedBusinessUnit,
   isHeaderNeeded,
   getBlobData,
-  fileName
+  fileName,
+  isOldExcelDownload
 ) => {
   console.log("row", row);
   row.forEach((item) => {
@@ -317,7 +371,8 @@ export const generateExcel = (
       bottom2,
       bottom3,
       getBlobData,
-      fileName
+      fileName,
+      isOldExcelDownload
     );
   } else {
     excelGenerator(
