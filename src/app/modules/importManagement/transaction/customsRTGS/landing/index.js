@@ -17,6 +17,8 @@ import NewSelect from "../../../../_helper/_select";
 import PaginationTable from "../../../../_helper/_tablePagination";
 import { getLandingData, getShipmentDDL } from "../helper";
 import IView from "../../../../_helper/_helperIcons/_view";
+import IViewModal from "../../../../_helper/_viewModal";
+import ViewModal from "./viewModal";
 // import IWarningModal from "../../../../_helper/_warningModal";
 // import numberWithCommas from "../../../../_helper/_numberWithCommas";
 
@@ -43,6 +45,8 @@ const CustomDutyLanding = () => {
   const [gridData, setGridData] = useState([]);
   const [shipmentDDL, setShipmentDDL] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [viewModal, setViewModal] = useState(false);
+  const [clickViewData, setClickViewData] = useState({});
 
   //paginationState
   const [pageNo, setPageNo] = React.useState(0);
@@ -269,7 +273,12 @@ const CustomDutyLanding = () => {
                                 >
                                   <i className="fa fa-edit"></i>
                                 </span>
-                                <span>
+                                <span
+                                  onClick={() => {
+                                    setViewModal(true);
+                                    setClickViewData(item);
+                                  }}
+                                >
                                   <IView />
                                 </span>
                               </div>
@@ -298,6 +307,18 @@ const CustomDutyLanding = () => {
           </>
         )}
       </Formik>
+      {viewModal && (
+        <>
+          <IViewModal
+            show={viewModal}
+            onHide={() => {
+              setViewModal(false);
+            }}
+          >
+            <ViewModal clickViewData={clickViewData} />
+          </IViewModal>
+        </>
+      )}
     </>
   );
 };
