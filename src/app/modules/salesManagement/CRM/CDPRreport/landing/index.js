@@ -6,6 +6,7 @@ import Loading from "../../../../_helper/_loading";
 import NewSelect from "../../../../_helper/_select";
 import useAxiosGet from "./../../../../_helper/customHooks/useAxiosGet";
 import LandingTable from "./table";
+import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 
 const initData = {
   productName: "",
@@ -23,6 +24,7 @@ const CDPRreportLanding = () => {
   const [pageNo] = useState(0);
   const [pageSize] = useState(15);
   const [, setCompetitorPriceLandingPag, landingLoading] = useAxiosGet();
+  const [, EditCDPMasterData, postLoading] = useAxiosPost();
   const formikRef = React.useRef(null);
 
   // get user data from store
@@ -106,9 +108,23 @@ const CDPRreportLanding = () => {
     setGridData(filterData);
   };
 
+  const saveHandler = () => {
+    const payload = gridData.map((item) => {
+      return {
+        intId: item?.intId,
+        enroll: item?.enroll || "",
+      };
+    });
+    EditCDPMasterData(
+      `/partner/PManagementCommonDDL/EditCDPMasterDataByEnrollId`,
+      payload,
+      () => {},
+      true
+    );
+  };
   return (
     <>
-      {landingLoading && <Loading />}
+      {(landingLoading || postLoading) && <Loading />}
       <Formik
         enableReinitialize={true}
         initialValues={initData}
@@ -116,7 +132,12 @@ const CDPRreportLanding = () => {
       >
         {({ values, setFieldValue, touched, errors }) => (
           <>
-            <ICustomCard title="CDP Rreport">
+            <ICustomCard
+              title="CDP Rreport"
+              saveHandler={() => {
+                saveHandler();
+              }}
+            >
               <div className="row global-form my-3">
                 <div className="col-lg-3">
                   <NewSelect
