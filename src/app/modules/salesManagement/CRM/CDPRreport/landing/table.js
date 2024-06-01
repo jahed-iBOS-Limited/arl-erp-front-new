@@ -229,21 +229,6 @@ const LandingTable = ({ obj }) => {
                   <td>
                     {
                       <InputField
-                        value={item?.enroll || ""}
-                        name="enroll"
-                        placeholder="Enroll"
-                        type="number"
-                        onChange={(e) => {
-                          const copyData = [...gridData];
-                          copyData[index].enroll = e.target.value;
-                          setGridData(copyData);
-                        }}
-                      />
-                    }
-                  </td>
-                  <td>
-                    {
-                      <InputField
                         value={item?.customerId || ""}
                         name="customerId"
                         placeholder="customerId"

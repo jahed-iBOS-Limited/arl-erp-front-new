@@ -136,6 +136,7 @@ function EditModal({ clickedRow, landingCB }) {
         defaultValues?.competitorsBrandUsages || ""
       );
       formikRef.current.setFieldValue("enroll", defaultValues?.enroll || "");
+      formikRef.current.setFieldValue("customerId", defaultValues?.customerId || "");
       formikRef.current.setFieldValue(
         "channel",
         defaultValues?.channel
