@@ -16,10 +16,10 @@ const TotalNetAmount = ({ totalValueWithoutDiscountAndVat,rowDto, values }) => {
   return (
     <div style={{gap:"10px"}} className="d-flex justify-content-end">
       <span>
-        &nbsp; Sub Total Amount: {(totalValueWithoutDiscountAndVat).toFixed(2) || 0}
+        &nbsp; Sub Total Amount: {(totalValueWithoutDiscountAndVat)?.toFixed(2) || 0}
       </span>
       <span>
-        &nbsp; Net Amount: {total > 0 ? (total || 0).toFixed(2) : 0}
+        &nbsp; Net Amount: {total > 0 ? (total || 0)?.toFixed(2) : 0}
       </span>
     </div>
   );
