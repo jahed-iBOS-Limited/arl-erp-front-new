@@ -4,6 +4,7 @@ import { Redirect, Switch } from "react-router-dom";
 import { ContentRoute } from "../../../../_metronic/layout";
 import MarketCompetitorPrice from "./marketCompetitorPrice/create";
 import MarketCompetitorPriceLanding from "./marketCompetitorPrice/landing";
+import CDPRreportLanding from "./CDPRreport/landing";
 
 export function CRMPages() {
   const { userRole } = useSelector((state) => state?.authData, shallowEqual);
@@ -26,6 +27,10 @@ export function CRMPages() {
       <ContentRoute
         from='/sales-management/CRM/MarketCompetitorPrice'
         component={MarketCompetitorPriceLanding}
+      />
+       <ContentRoute
+        from='/sales-management/CRM/CDPRreport'
+        component={CDPRreportLanding}
       />
     </Switch>
   );
