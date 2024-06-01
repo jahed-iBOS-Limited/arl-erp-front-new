@@ -413,7 +413,8 @@ export default function _Form({
                               narration: `Amount debited to ${resData?.chtrName} & credited to Freight Income as provision of freight income of ${resData?.vesselName}, V${resData?.voyageNo}`,
                             });
                           },
-                          type
+                          type,
+                          values?.hireTypeName?.value
                         );
                       }}
                       isDisabled={viewType}
