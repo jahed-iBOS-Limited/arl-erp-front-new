@@ -20,21 +20,22 @@ const G2GPdf = ({ singleItem, selectedBusinessUnit }) => {
   return (
     <div style={{margin: "40px 71px 0px" }}>
       <p style={{ marginBottom }} className="font-weight-bolder">
-        Ref :{buShortName}/{strBankShortName}/STL/G2G/
+        Ref {" "}:{" "}{buShortName}/{strBankShortName}/STL/G2G/
         {_dateFormatter(dteStartDate)}
       </p>
       <p style={{ marginBottom }} className="font-weight-bolder">
-        Date :{formatDate(dteStartDate)}
+        Date {" "}: {" "}{formatDate(dteStartDate)}
       </p>
       <p style={{ marginBottom }}>The Head of Branch</p>
-      <p style={{ marginBottom }}>{bankBranchName}</p>
       <p style={{ marginBottom }}>{strBankName}</p>
+      <p style={{ marginBottom }}>{bankBranchName} Branch</p>
+
 
       <p style={{ marginBottom }}>{bankBranchAddress}</p>
 
       <p style={{ marginBottom }} className="font-weight-bolder">
-        Subject : Request for disbursement of {facilityName} - BDT
-        {_formatMoney(numPrinciple)} for {label} A/C No: {strBankAccountNumber}.
+        Subject : Request for disbursement of {" "} {facilityName} - BDT {" "}
+        {_formatMoney(numPrinciple)}{" "}for{" "}{label}{" "}A/C No: {}{strBankAccountNumber}.
       </p>
 
       <p style={{ marginBottom }}>Dear Sir,</p>
@@ -49,13 +50,13 @@ const G2GPdf = ({ singleItem, selectedBusinessUnit }) => {
         on a revolving basis to meet up working capital requirement (local
         payment) of {label}. It is mentioned that the said loan amount to be
         transferred to our A/C No.
-        <span className="font-weight-bolder">{strBankAccountNumber}</span> to
+        <span className="font-weight-bolder">{strBankAccountNumber}{" "}</span> to
         execute the enclosed party payments through BEFTN/ RTGS & fund transfer.
       </p>
       <p style={{ marginBottom }}>
-        Please process this request and
+        Please process this request and{" "}
         <span className="font-weight-bolder">
-          send the disbursed loan statement
+          send the disbursed loan statement {" "}
         </span>
         Voucher to us at your earliest convenience.
       </p>

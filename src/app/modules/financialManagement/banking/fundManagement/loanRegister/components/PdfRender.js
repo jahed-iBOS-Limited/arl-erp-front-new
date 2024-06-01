@@ -5,6 +5,7 @@ import EBLPdf from "./EBLPdf";
 import WorkingCapitalPdf from "./WorkingCapitalPdf";
 import OthersPdf from "./OthersPdf";
 import './pdf.css'
+import G2GPdf from "./G2GPdf";
 const EBLBankId = 17;
 const NRBCBankId = 61;
 const PdfRender = ({ singleItem, printRef }) => {
@@ -51,7 +52,7 @@ const ConditionallyRenderPdf = ({ singleItem, selectedBusinessUnit }) => {
       singleItem?.intBusinessUnitId === 178)
   ) {
     return (
-      <EBLPdf
+      <G2GPdf
         singleItem={singleItem}
         selectedBusinessUnit={selectedBusinessUnit}
       />
