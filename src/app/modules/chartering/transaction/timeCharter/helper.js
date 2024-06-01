@@ -226,7 +226,8 @@ export const GetTransactionDetails = async (
   setLoading,
   setOffHireDuration,
   cb,
-  type
+  type,
+  hireTypeName
 ) => {
   setLoading(true);
   try {
@@ -309,25 +310,25 @@ export const GetTransactionDetails = async (
             tctransactionId: 0,
             duration: item?.offHireDurOnPercentage,
             quantity: 0,
-            debit: item?.addressCommision || 0,
-            credit: 0,
+            debit: hireTypeName === 1 ? 0 : ( +item?.addressCommision || 0),
+            credit: hireTypeName === 1 ? (+item?.addressCommision) :  0,
             active: true,
             notes: "",
             isChecked: true,
           });
-          finalArr.push({
-            description: `OFFHIRE${
-              offHireArr?.length > 1 ? `-${index + 1}` : ""
-            } BROK COM`,
-            tctransactionId: 0,
-            duration: item?.offHireDurOnPercentage,
-            quantity: 0,
-            debit: item?.brokarageCommision || 0,
-            credit: 0,
-            active: true,
-            notes: "",
-            isChecked: true,
-          });
+          // finalArr.push({
+          //   description: `OFFHIRE${
+          //     offHireArr?.length > 1 ? `-${index + 1}` : ""
+          //   } BROK COM`,
+          //   tctransactionId: 0,
+          //   duration: item?.offHireDurOnPercentage,
+          //   quantity: 0,
+          //   debit: item?.brokarageCommision || 0,
+          //   credit: 0,
+          //   active: true,
+          //   notes: "",
+          //   isChecked: true,
+          // });
           finalArr.push({
             description: `OFFHIRE${
               offHireArr?.length > 1 ? `-${index + 1}` : ""
