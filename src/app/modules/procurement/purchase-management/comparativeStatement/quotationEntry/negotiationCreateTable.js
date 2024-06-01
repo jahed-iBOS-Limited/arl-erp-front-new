@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { Fragment, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { validateDigit } from "../../../../_helper/validateDigit";
 import IView from "../../../../_helper/_helperIcons/_view";
@@ -99,6 +99,17 @@ const NegotiationCreateRowDtoTable = ({
                   //getUomDDL(item?.item?.value);
 
                   return (
+                    <>
+                      {(index === 0 || item.strShippingItemSubHead !== negotiationItemList?.objSupplierRow[index - 1].strShippingItemSubHead) && item?.strShippingItemSubHead ? (
+                        <tr style={{background:'#ADD8E6', paddingTop: '5px', paddingBottom: '5px' }}>
+                            <td colSpan={negotiationItemList?.objSupplierRow[0]?.intItemCategoryId[0]?.intItemCategoryId === 624 ? '14' : '12'}>
+                                <div style={{fontSize: '20'}} className="text-bold text-center">
+                                    {item.strShippingItemSubHead}
+                                </div>
+                            </td>
+                        </tr>
+                      ) : null}
+
                     <tr key={index}>
                       <td className="text-center align-middle">
                         {" "}
@@ -222,6 +233,8 @@ const NegotiationCreateRowDtoTable = ({
                         </div>
                       </td>
                     </tr>
+                    </>
+                    
                   );
                 })}
                 <tr>
