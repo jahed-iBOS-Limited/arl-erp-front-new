@@ -1,7 +1,6 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 
-
 // Get landing data for customs duty
 export const getLandingData = async (
   accId,
@@ -80,5 +79,41 @@ export const getShipmentDDL = async (
     }
   } catch (err) {
     toast.warning(err?.response?.data?.message);
+  }
+};
+
+// Get BankAccountNumberDDL DDL
+export const getBankAccountNumberDDL = async (
+  accountId,
+  businessUnitId,
+  setter
+) => {
+  try {
+    let res = await axios.get(
+      `/fino/FinanceCommonDDL/BankAccountNumberDDL?AccountId=${accountId}&BusinessUnitId=${businessUnitId}`
+    );
+    if (res?.status === 200) {
+      setter(res?.data);
+    }
+  } catch (err) {
+    toast.warning(err?.response?.data?.message);
+  }
+};
+
+//create data;
+export const CreateCustomeRTGS = async (
+  paylaod,
+  setDisabled,
+  cb
+) => {
+  try {
+    setDisabled(true);
+    const res = await axios.post(`/imp/CustomDuty/CreateCustomeRTGS`, paylaod);
+    setDisabled(false);
+    toast.success(res?.message || "Create successfully");
+    cb();
+  } catch (error) {
+    setDisabled(false);
+    toast.error(error?.response?.data?.message);
   }
 };

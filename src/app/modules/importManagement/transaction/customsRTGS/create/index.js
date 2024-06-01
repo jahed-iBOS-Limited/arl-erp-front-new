@@ -1,7 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import Axios from "axios";
 import { Form, Formik } from "formik";
-import React, { useState } from "react";
+import * as Yup from "yup";
+import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import {
   Card,
@@ -13,7 +14,13 @@ import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
 import Loading from "../../../../_helper/_loading";
 import NewSelect from "../../../../_helper/_select";
 import InputField from "../../../../_helper/_inputField";
-import { getCustomDutyInfo, getShipmentDDL } from "../helper";
+import {
+  CreateCustomeRTGS,
+  getBankAccountNumberDDL,
+  getCustomDutyInfo,
+  getShipmentDDL,
+} from "../helper";
+import { set } from "lodash";
 // {
 //   "objHeader": {
 //     "customRtgsId":1,
@@ -55,6 +62,45 @@ import { getCustomDutyInfo, getShipmentDDL } from "../helper";
 //     }
 //   ]
 // }
+
+const validationSchema = Yup.object().shape({
+  poLc: Yup.object().shape({
+    value: Yup.string().required("PO/LC is required"),
+    label: Yup.string().required("PO/LC is required"),
+  }),
+  shipment: Yup.object().shape({
+    value: Yup.string().required("Shipment is required"),
+    label: Yup.string().required("Shipment is required"),
+  }),
+  senderName: Yup.string().required("Sender Name is required"),
+  beneficiaryName: Yup.string().required("Beneficiary Name is required"),
+  senderBankName: Yup.string().required("Sender Bank Name is required"),
+  beneficiaryBankName: Yup.string().required(
+    "Beneficiary Bank Name is required"
+  ),
+  senderBranchName: Yup.string().required("Sender Branch Name is required"),
+  beneficiaryBranchName: Yup.string().required(
+    "Beneficiary Branch Name is required"
+  ),
+  senderRoutingNo: Yup.string().required("Sender Routing No is required"),
+  beneficiaryRoutingNo: Yup.string().required(
+    "Beneficiary Routing No is required"
+  ),
+  senderAccountNo: Yup.string().required("Sender Account No is required"),
+  beneficiaryAccountNo: Yup.string().required(
+    "Beneficiary Account No is required"
+  ),
+  senderAddress: Yup.string().required("Sender Address is required"),
+  beneficiaryBankEmail: Yup.string().required(
+    "Beneficiary Bank Email is required"
+  ),
+  customOfficeCode: Yup.string().required("Custom Office code is required"),
+  registrationYear: Yup.number().required("Registration Year is required"),
+  registrationNo: Yup.string().required("Registration(BE) No is required"),
+  declarantCode: Yup.string().required("Declarant Code is required"),
+  mobileNo: Yup.string().required("Mobile No is required"),
+  rtgsamount: Yup.number().required("RTGS Amount is required"),
+});
 const CustomsRTGSCreate = () => {
   const formikRef = React.useRef(null);
   // if (formikRef.current) {
@@ -63,6 +109,7 @@ const CustomsRTGSCreate = () => {
   // }
   const [shipmentDDL, setShipmentDDL] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [bankAccountNumberDDL, setBankAccountNumberDDL] = useState([]);
   const [rowDto, setRowDto] = useState([
     {
       customOfficeCode: "",
@@ -87,20 +134,110 @@ const CustomsRTGSCreate = () => {
     ).then((res) => res?.data);
   };
 
+  useEffect(() => {
+    getBankAccountNumberDDL(
+      profileData?.accountId,
+      selectedBusinessUnit?.value,
+      (resData) => {
+        setBankAccountNumberDDL(resData);
+      }
+    );
+  }, []);
+  const sumbitHandler = (values, cb) => {
+    const modifyRowDto = rowDto.map((item) => {
+      return {
+        customOfficeCode: item?.customOfficeCode || "",
+        registrationYear: item?.registrationYear || 0,
+        registrationNo: item?.registrationNo || "",
+        declarantCode: item?.declarantCode || "",
+        mobileNo: item?.mobileNo || "",
+        rtgsamount: item?.rtgsamount || 0,
+      };
+    });
+    const payload = {
+      customRtgsId: 0,
+      businessUnitId: selectedBusinessUnit.value || 0,
+      businessUnitName: selectedBusinessUnit.label || "",
+      businessUnitAddress: "",
+      senderName: values?.senderName || "",
+      senderBankId: 0,
+      senderBankName: values?.senderBankName || "",
+      senderBranchId: 0,
+      senderBranchName: values?.senderBranchName || "",
+      senderRoutingNo: values?.senderRoutingNo || "",
+      senderAccountNo: values?.senderAccountNo || "",
+      senderAddress: values?.senderAddress || "",
+      beneficiaryId: 0,
+      beneficiaryName: values?.beneficiaryName || "",
+      beneficiaryBankId: 0,
+      beneficiaryBankName: values?.beneficiaryBankName || "",
+      beneficiaryBranchId: 0,
+      beneficiaryBranchName: values?.beneficiaryBranchName || "",
+      beneficiaryRoutingNo: values?.beneficiaryRoutingNo || "",
+      beneficiaryAccountNo: values?.beneficiaryAccountNo || "",
+      beneficiaryBankEmail: values?.beneficiaryBankEmail || "",
+      purchaseOrderId: values?.poLc?.value || 0,
+      purchaseOrderNo: values?.poLc?.label || "",
+      shipmentId: values?.shipment?.value || 0,
+      shipmentNo: values?.shipment?.label || "",
+      rtgsdate: new Date(),
+      rowDto: modifyRowDto,
+    };
+    CreateCustomeRTGS(payload, setLoading, () => {
+      cb();
+      setRowDto([]);
+    });
+  };
   return (
     <>
       <Formik
         enableReinitialize={true}
-        initialValues={{ poLc: "", shipment: "" }}
-        // validationSchema={validationSchema}
-        onSubmit={(values, { setSubmitting, resetForm }) => {}}
+        initialValues={{
+          senderBankAccountNumber: "",
+          poLc: "",
+          shipment: "",
+          rtgsAmount: "",
+          senderName: "",
+          beneficiaryName: "",
+          senderBankName: "",
+          beneficiaryBankName: "",
+          senderBranchName: "",
+          beneficiaryBranchName: "",
+          senderRoutingNo: "",
+          beneficiaryRoutingNo: "",
+          senderAccountNo: "",
+          beneficiaryAccountNo: "",
+          senderAddress: "",
+          beneficiaryBankEmail: "",
+        }}
+        validationSchema={validationSchema}
+        onSubmit={(values, { setSubmitting, resetForm }) => {
+          sumbitHandler(values, () => {
+            resetForm();
+          });
+        }}
         innerRef={formikRef}
       >
-        {({ errors, touched, setFieldValue, isValid, values }) => (
+        {({
+          errors,
+          touched,
+          setFieldValue,
+          isValid,
+          values,
+          handleSubmit,
+        }) => (
           <>
             <Card>
               <CardHeader title="Customs RTGS">
-                <CardHeaderToolbar></CardHeaderToolbar>
+                <CardHeaderToolbar>
+                  <button
+                    type="submit"
+                    className="btn btn-primary"
+                    onClick={handleSubmit}
+                  >
+                    Save
+                  </button>
+                </CardHeaderToolbar>
               </CardHeader>
               <CardBody>
                 <Form className="form form-label-right global-form">
@@ -149,6 +286,10 @@ const CustomsRTGSCreate = () => {
                                 "rtgsAmount",
                                 resData?.data[0]?.grandTotal
                               );
+                              const copyRowDto = [...rowDto];
+                              copyRowDto[0].rtgsamount =
+                                resData?.data[0]?.grandTotal;
+                              setRowDto(copyRowDto);
                             },
                             setLoading
                           );
@@ -168,6 +309,29 @@ const CustomsRTGSCreate = () => {
                         type="number"
                         onChange={(valueOption) => {}}
                         disabled
+                      />
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="col-lg-3">
+                      <NewSelect
+                        name="senderBankAccountNumber"
+                        options={bankAccountNumberDDL || []}
+                        value={values?.senderBankAccountNumber}
+                        onChange={(valueOption) => {
+                          setFieldValue("senderBankAccountNumber", valueOption);
+                          const bankAccountNo = valueOption?.label?.split(
+                            "["
+                          )[0];
+                          const bankName = valueOption?.label?.split("[")[1];
+                          const senderName = valueOption?.code;
+                          setFieldValue("senderBankName", bankName);
+                          setFieldValue("senderAccountNo", bankAccountNo);
+                          setFieldValue("senderName", senderName);
+                        }}
+                        placeholder="Sender Bank Account Number"
+                        errors={errors}
+                        touched={touched}
                       />
                     </div>
                   </div>
