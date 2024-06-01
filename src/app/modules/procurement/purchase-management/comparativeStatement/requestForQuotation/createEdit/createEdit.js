@@ -279,10 +279,19 @@ export default function ShippingRFQCreate() {
           intItemCategoryId: item?.intItemCategoryId,
           strPartNo: item?.strPartNo,
           strDrawingNo: item?.strDrawingNo,
+          strShippingItemSubHead: item?.strShippingItemSubHead,
         };
         return obj;
       });
-      setRowDto([...newData, ...rowDto]);
+      // setRowDto([...newData, ...rowDto]); // previous set data
+
+      const modData = [...newData, ...rowDto];
+        const sortedItems = modData?.sort((a, b) => {
+          const subHeadA = a?.strShippingItemSubHead || ''; 
+          const subHeadB = b?.strShippingItemSubHead || ''; 
+          return subHeadA.localeCompare(subHeadB);
+      }); 
+      setRowDto(sortedItems);  
     } else {
       // if reference, can't add same reference and same item multiple
       // if not reference, can't add multiple item
@@ -313,8 +322,16 @@ export default function ShippingRFQCreate() {
           intItemCategoryId: values?.itemName?.intItemCategoryId,
           strPartNo: values?.itemName?.strPartNo,
           strDrawingNo: values?.itemName?.strDrawingNo,
+          strShippingItemSubHead: values?.itemName?.strShippingItemSubHead,
         };
-        setRowDto([...rowDto, newData]);
+
+        const modData = [...rowDto, newData];
+        const sortedItems = modData?.sort((a, b) => {
+          const subHeadA = a?.strShippingItemSubHead || ''; 
+          const subHeadB = b?.strShippingItemSubHead || ''; 
+          return subHeadA.localeCompare(subHeadB);
+      });      
+        setRowDto(sortedItems);
       }
     }
   };
