@@ -1,9 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import Axios from "axios";
 import { Form, Formik } from "formik";
-import * as Yup from "yup";
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
+import { useHistory, useParams } from "react-router-dom";
+import * as Yup from "yup";
 import {
   Card,
   CardBody,
@@ -11,57 +12,16 @@ import {
   CardHeaderToolbar,
 } from "../../../../../../_metronic/_partials/controls";
 import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
+import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
 import NewSelect from "../../../../_helper/_select";
-import InputField from "../../../../_helper/_inputField";
 import {
   CreateCustomeRTGS,
   getBankAccountNumberDDL,
   getCustomDutyInfo,
   getShipmentDDL,
+  getCustomRTGSById,
 } from "../helper";
-import { set } from "lodash";
-// {
-//   "objHeader": {
-//     "customRtgsId":1,
-//     "businessUnitId":4,
-//     "businessUnitName": "ACCL",
-//     "businessUnitAddress": "test",
-//     "senderName": "string",
-//     "senderBankId": 1,
-//     "senderBankName": "string",
-//     "senderBranchId": 1,
-//     "senderBranchName": "string",
-//     "senderRoutingNo": "string",
-//     "senderAccountNo": "string",
-//     "senderAddress": "string",
-//     "beneficiaryId": 0,
-//     "beneficiaryName": "string",
-//     "beneficiaryBankId": 0,
-//     "beneficiaryBankName": "string",
-//     "beneficiaryBranchId": 0,
-//     "beneficiaryBranchName": "string",
-//     "beneficiaryRoutingNo": "string",
-//     "beneficiaryAccountNo": "string",
-//     "beneficiaryBankEmail": "string",
-//     "purchaseOrderId": 0,
-//     "purchaseOrderNo": "string",
-//     "shipmentId": 0,
-//     "shipmentNo": "string",
-//     "rtgsdate": "2024-06-01T13:14:24.560Z"
-//   },
-//   "objRow": [
-//     {
-//       "rowId": 0,
-//       "customOfficeCode": "string",
-//       "registrationYear": 0,
-//       "registrationNo": "string",
-//       "declarantCode": "string",
-//       "mobileNo": "string",
-//       "rtgsamount": 0
-//     }
-//   ]
-// }
 
 const validationSchema = Yup.object().shape({
   poLc: Yup.object().shape({
@@ -94,14 +54,9 @@ const validationSchema = Yup.object().shape({
   beneficiaryBankEmail: Yup.string().required(
     "Beneficiary Bank Email is required"
   ),
-  customOfficeCode: Yup.string().required("Custom Office code is required"),
-  registrationYear: Yup.number().required("Registration Year is required"),
-  registrationNo: Yup.string().required("Registration(BE) No is required"),
-  declarantCode: Yup.string().required("Declarant Code is required"),
-  mobileNo: Yup.string().required("Mobile No is required"),
-  rtgsamount: Yup.number().required("RTGS Amount is required"),
 });
 const CustomsRTGSCreate = () => {
+  const { id } = useParams();
   const formikRef = React.useRef(null);
   // if (formikRef.current) {
   //   formikRef.current.setFieldValue("basePrice", grandTotal || "");
@@ -117,7 +72,7 @@ const CustomsRTGSCreate = () => {
       registrationNo: "",
       declarantCode: "",
       mobileNo: "",
-      rtgsamount: "",
+      rtgsAmount: "",
     },
   ]);
 
@@ -133,7 +88,7 @@ const CustomsRTGSCreate = () => {
       `/imp/ImportCommonDDL/GetPoNoForAllCharge?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&search=${v}`
     ).then((res) => res?.data);
   };
-
+  const history = useHistory();
   useEffect(() => {
     getBankAccountNumberDDL(
       profileData?.accountId,
@@ -146,16 +101,17 @@ const CustomsRTGSCreate = () => {
   const sumbitHandler = (values, cb) => {
     const modifyRowDto = rowDto.map((item) => {
       return {
+        rowId: item?.rowId || 0,
         customOfficeCode: item?.customOfficeCode || "",
         registrationYear: item?.registrationYear || 0,
         registrationNo: item?.registrationNo || "",
         declarantCode: item?.declarantCode || "",
         mobileNo: item?.mobileNo || "",
-        rtgsamount: item?.rtgsamount || 0,
+        rtgsAmount: item?.rtgsAmount || 0,
       };
     });
     const payload = {
-      customRtgsId: 0,
+      customRtgsId: id || 0,
       businessUnitId: selectedBusinessUnit.value || 0,
       businessUnitName: selectedBusinessUnit.label || "",
       businessUnitAddress: "",
@@ -188,6 +144,94 @@ const CustomsRTGSCreate = () => {
       setRowDto([]);
     });
   };
+
+  useEffect(() => {
+    if (id) {
+      getCustomRTGSById(id, setLoading, (resData) => {
+        const modifyResData = resData || {};
+        if (formikRef.current) {
+          formikRef.current.setFieldValue(
+            "poLc",
+            modifyResData?.purchaseOrderId
+              ? {
+                  value: modifyResData?.purchaseOrderId,
+                  label: modifyResData?.purchaseOrderNo,
+                }
+              : ""
+          );
+          formikRef.current.setFieldValue(
+            "shipment",
+            modifyResData?.shipmentId
+              ? {
+                  value: modifyResData?.shipmentId,
+                  label: modifyResData?.shipmentNo,
+                }
+              : ""
+          );
+          formikRef.current.setFieldValue(
+            "senderName",
+            modifyResData?.senderName || ""
+          );
+          formikRef.current.setFieldValue(
+            "beneficiaryName",
+            modifyResData?.beneficiaryName || ""
+          );
+          formikRef.current.setFieldValue(
+            "senderBankName",
+            modifyResData?.senderBankName || ""
+          );
+          formikRef.current.setFieldValue(
+            "beneficiaryBankName",
+            modifyResData?.beneficiaryBankName || ""
+          );
+          formikRef.current.setFieldValue(
+            "senderBranchName",
+            modifyResData?.senderBranchName || ""
+          );
+          formikRef.current.setFieldValue(
+            "beneficiaryBranchName",
+            modifyResData?.beneficiaryBranchName || ""
+          );
+          formikRef.current.setFieldValue(
+            "senderRoutingNo",
+            modifyResData?.senderRoutingNo || ""
+          );
+          formikRef.current.setFieldValue(
+            "beneficiaryRoutingNo",
+            modifyResData?.beneficiaryRoutingNo || ""
+          );
+          formikRef.current.setFieldValue(
+            "senderAccountNo",
+            modifyResData?.senderAccountNo || ""
+          );
+          formikRef.current.setFieldValue(
+            "beneficiaryAccountNo",
+            modifyResData?.beneficiaryAccountNo || ""
+          );
+          formikRef.current.setFieldValue(
+            "senderAddress",
+            modifyResData?.senderAddress || ""
+          );
+          formikRef.current.setFieldValue(
+            "beneficiaryBankEmail",
+            modifyResData?.beneficiaryBankEmail || ""
+          );
+          const modifyRowDto = modifyResData?.objRow?.map((item) => {
+            return {
+              ...item,
+              customOfficeCode: item?.customOfficeCode || "",
+              registrationYear: item?.registrationYear || 0,
+              registrationNo: item?.registrationNo || "",
+              declarantCode: item?.declarantCode || "",
+              mobileNo: item?.mobileNo || "",
+              rtgsAmount: item?.rtgsAmount || 0,
+            };
+          });
+          setRowDto(modifyRowDto || []);
+        }
+      });
+    }
+  }, [id]);
   return (
     <>
       <Formik
@@ -231,6 +275,17 @@ const CustomsRTGSCreate = () => {
               <CardHeader title="Customs RTGS">
                 <CardHeaderToolbar>
                   <button
+                    type="button"
+                    onClick={() => {
+                      history.goBack();
+                    }}
+                    className="btn btn-light"
+                    disabled={loading}
+                  >
+                    <i className="fa fa-arrow-left"></i>
+                    Back
+                  </button>
+                  <button
                     type="submit"
                     className="btn btn-primary"
                     onClick={handleSubmit}
@@ -262,6 +317,7 @@ const CustomsRTGSCreate = () => {
                         }}
                         loadOptions={polcList || []}
                         placeholder="Search by PO/LC Id"
+                        isDisabled={id}
                       />
                     </div>
                     <div className="col-lg-3">
@@ -287,7 +343,7 @@ const CustomsRTGSCreate = () => {
                                 resData?.data[0]?.grandTotal
                               );
                               const copyRowDto = [...rowDto];
-                              copyRowDto[0].rtgsamount =
+                              copyRowDto[0].rtgsAmount =
                                 resData?.data[0]?.grandTotal;
                               setRowDto(copyRowDto);
                             },
@@ -297,6 +353,7 @@ const CustomsRTGSCreate = () => {
                         placeholder="Shipment"
                         errors={errors}
                         touched={touched}
+                        isDisabled={id}
                       />
                     </div>
                     {/* RTGS Amount */}
@@ -319,15 +376,31 @@ const CustomsRTGSCreate = () => {
                         options={bankAccountNumberDDL || []}
                         value={values?.senderBankAccountNumber}
                         onChange={(valueOption) => {
+                          setFieldValue(
+                            "senderName",
+                            valueOption?.bankAccountName || ""
+                          );
                           setFieldValue("senderBankAccountNumber", valueOption);
-                          const bankAccountNo = valueOption?.label?.split(
-                            "["
-                          )[0];
-                          const bankName = valueOption?.label?.split("[")[1];
-                          const senderName = valueOption?.code;
-                          setFieldValue("senderBankName", bankName);
-                          setFieldValue("senderAccountNo", bankAccountNo);
-                          setFieldValue("senderName", senderName);
+                          setFieldValue(
+                            "senderBankName",
+                            valueOption?.bankName || ""
+                          );
+                          setFieldValue(
+                            "senderBranchName",
+                            valueOption?.bankBranchName || ""
+                          );
+                          setFieldValue(
+                            "senderRoutingNo",
+                            valueOption?.routingNo || ""
+                          );
+                          setFieldValue(
+                            "senderAccountNo",
+                            valueOption?.bankAccountNo || ""
+                          );
+                          setFieldValue(
+                            "senderAddress",
+                            valueOption?.bankBranchAddress || ""
+                          );
                         }}
                         placeholder="Sender Bank Account Number"
                         errors={errors}
@@ -561,13 +634,13 @@ const CustomsRTGSCreate = () => {
                                     </td>
                                     <td>
                                       <InputField
-                                        value={item?.rtgsamount || ""}
+                                        value={item?.rtgsAmount || ""}
                                         placeholder="RTGS Amount"
-                                        name="rtgsamount"
+                                        name="rtgsAmount"
                                         type="number"
                                         onChange={(e) => {
                                           const copyRowDto = [...rowDto];
-                                          copyRowDto[index].rtgsamount =
+                                          copyRowDto[index].rtgsAmount =
                                             e.target.value;
                                           setRowDto(copyRowDto);
                                         }}

@@ -380,6 +380,10 @@ export function importManagementPages() {
           component={CustomDutyAdvancePayment}
         />
         <ContentRoute
+          path="/managementImport/transaction/customs-rtgs/edit/:id"
+          component={CustomsRTGSCreate}
+        />
+        <ContentRoute
           path="/managementImport/transaction/customs-rtgs/create"
           component={CustomsRTGSCreate}
         />

@@ -3,7 +3,6 @@ import { toast } from "react-toastify";
 
 // Get landing data for customs duty
 export const getLandingData = async (
-  accId,
   buId,
   shipmentId,
   PoNo,
@@ -14,14 +13,7 @@ export const getLandingData = async (
 ) => {
   setLoading(true);
   try {
-    let query = `imp/CustomDuty/GetCustomDutyLandingPasignation?accountId=${accId}&businessUnitId=${buId}`;
-    if (PoNo) {
-      query += `&search=${PoNo}`;
-    }
-    if (shipmentId) {
-      query += `&shipmentId=${shipmentId}`;
-    }
-    query += `&PageSize=${pageSize}&PageNo=${pageNo}&viewOrder=desc`;
+    let query = `/imp/CustomDuty/GetCustomRTGSPagination?businessUnitId=${buId}&PurchaseOrderId=${PoNo}&shipmentId=${shipmentId}&pageNo=${pageNo}&pageSize=${pageSize}`;
     let res = await axios.get(query);
     // console.log("res custom duty", res?.data);
     setLoading(false);
@@ -90,7 +82,8 @@ export const getBankAccountNumberDDL = async (
 ) => {
   try {
     let res = await axios.get(
-      `/fino/FinanceCommonDDL/BankAccountNumberDDL?AccountId=${accountId}&BusinessUnitId=${businessUnitId}`
+      `/fino/FinanceCommonDDL/GetBankAccountInfoDDL?accountId=${accountId}&businessUnitId=${businessUnitId}
+      `
     );
     if (res?.status === 200) {
       setter(res?.data);
@@ -101,17 +94,30 @@ export const getBankAccountNumberDDL = async (
 };
 
 //create data;
-export const CreateCustomeRTGS = async (
-  paylaod,
-  setDisabled,
-  cb
-) => {
+export const CreateCustomeRTGS = async (paylaod, setDisabled, cb) => {
   try {
     setDisabled(true);
     const res = await axios.post(`/imp/CustomDuty/CreateCustomeRTGS`, paylaod);
     setDisabled(false);
     toast.success(res?.message || "Create successfully");
     cb();
+  } catch (error) {
+    setDisabled(false);
+    toast.error(error?.response?.data?.message);
+  }
+};
+
+//get single data;
+export const getCustomRTGSById = async (id, setDisabled, setter) => {
+  setDisabled(true);
+  try {
+    const res = await axios.get(
+      `/imp/CustomDuty/GetCustomRTGSById?customRtgsId=${id}`
+    );
+    if (res.status === 200) {
+      setter(res?.data);
+      setDisabled(false);
+    }
   } catch (error) {
     setDisabled(false);
     toast.error(error?.response?.data?.message);

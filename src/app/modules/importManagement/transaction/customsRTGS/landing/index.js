@@ -19,7 +19,22 @@ import { getLandingData, getShipmentDDL } from "../helper";
 // import IWarningModal from "../../../../_helper/_warningModal";
 // import numberWithCommas from "../../../../_helper/_numberWithCommas";
 
-const header = ["SL", "Action"];
+const header = [
+  "SL",
+  "Sender Name",
+  "Sender Bank",
+  "Sender Branch",
+  "Sender Routing No",
+  "Sender Account No",
+  "Sender Address",
+  "Beneficiary Name",
+  "Beneficiary Bank",
+  "Beneficiary Branch",
+  "Beneficiary Routing No",
+  "Beneficiary Account No",
+  "Beneficiary Bank Email",
+  "Action",
+];
 
 const CustomDutyLanding = () => {
   const history = useHistory();
@@ -56,7 +71,6 @@ const CustomDutyLanding = () => {
 
   const getGrid = (poNo, shipment) => {
     getLandingData(
-      profileData?.accountId,
       selectedBusinessUnit?.value,
       shipment,
       poNo,
@@ -74,6 +88,23 @@ const CustomDutyLanding = () => {
       `/imp/ImportCommonDDL/GetPoNoForAllCharge?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&search=${v}`
     ).then((res) => res?.data);
   };
+
+  // "senderName": "string",
+  //     "senderBankId": 1,
+  //     "senderBankName": "string",
+  //     "senderBranchId": 1,
+  //     "senderBranchName": "string",
+  //     "senderRoutingNo": "string",
+  //     "senderAccountNo": "string",
+  //     "senderAddress": "string",
+  //     "beneficiaryName": "string",
+  //     "beneficiaryBankId": 0,
+  //     "beneficiaryBankName": "string",
+  //     "beneficiaryBranchId": 0,
+  //     "beneficiaryBranchName": "string",
+  //     "beneficiaryRoutingNo": "string",
+  //     "beneficiaryAccountNo": "string",
+  //     "beneficiaryBankEmail": "string",
 
   return (
     <>
@@ -157,7 +188,75 @@ const CustomDutyLanding = () => {
                             >
                               {index + 1}
                             </td>
-                            <td></td>
+                            <td>
+                              <div className="pl-2">{item?.senderName}</div>
+                            </td>
+                            <td>
+                              <div className="pl-2">{item?.senderBankName}</div>
+                            </td>
+                            <td>
+                              <div className="pl-2">
+                                {item?.senderBranchName}
+                              </div>
+                            </td>
+                            <td>
+                              <div className="pl-2">
+                                {item?.senderRoutingNo}
+                              </div>
+                            </td>
+                            <td>
+                              <div className="pl-2">
+                                {item?.senderAccountNo}
+                              </div>
+                            </td>
+                            <td>
+                              <div className="pl-2">{item?.senderAddress}</div>
+                            </td>
+                            <td>
+                              <div className="pl-2">
+                                {item?.beneficiaryName}
+                              </div>
+                            </td>
+                            <td>
+                              <div className="pl-2">
+                                {item?.beneficiaryBankName}
+                              </div>
+                            </td>
+                            <td>
+                              <div className="pl-2">
+                                {item?.beneficiaryBranchName}
+                              </div>
+                            </td>
+                            <td>
+                              <div className="pl-2">
+                                {item?.beneficiaryRoutingNo}
+                              </div>
+                            </td>
+
+                            <td>
+                              <div className="pl-2">
+                                {item?.beneficiaryAccountNo}
+                              </div>
+                            </td>
+                            <td>
+                              <div className="pl-2">
+                                {item?.beneficiaryBankEmail}
+                              </div>
+                            </td>
+                            <td>
+                              <div className="d-flex justify-content-around">
+                                <span
+                                  className="edit"
+                                  onClick={() => {
+                                    history.push(
+                                      `/managementImport/transaction/customs-rtgs/edit/${item?.customRtgsId}`
+                                    );
+                                  }}
+                                >
+                                  <i className="fa fa-edit"></i>
+                                </span>
+                              </div>
+                            </td>
                           </tr>
                         );
                       })}
