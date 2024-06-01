@@ -83,6 +83,17 @@ const RowDtoTable = ({ rowDto, removeHandler, setRowDto }) => {
                         //getUomDDL(item?.item?.value);
 
                         return (
+                           <>
+                              {(index === 0 || item.strShippingItemSubHead !== rowDto[index - 1].strShippingItemSubHead) && item?.strShippingItemSubHead ? (
+                                 <tr style={{background:'#ADD8E6', paddingTop: '5px', paddingBottom: '5px' }}>
+                                     <td colSpan={rowDto[0]?.intItemCategoryId === 624 ? '13' : '11'}>
+                                         <div style={{fontSize: '20'}} className="text-bold text-center">
+                                             {item.strShippingItemSubHead}
+                                         </div>
+                                     </td>
+                                 </tr>
+                              ) : null}
+
                            <tr key={index}>
                               <td className="text-center align-middle">
                                  {' '}
@@ -195,6 +206,8 @@ const RowDtoTable = ({ rowDto, removeHandler, setRowDto }) => {
                                  />
                               </td>
                            </tr>
+                           </>
+                           
                         );
                      })}
                   </tbody>
