@@ -30,7 +30,6 @@ const OthersPdf = ({ singleItem, selectedBusinessUnit }) => {
     bankBranchAddress,
     facilityName,
     strBankAccountNumber,
-    loanTypeName,
     sanctionReference,
     bankBranchName,
     disbursementPurposeName,
@@ -49,13 +48,13 @@ const OthersPdf = ({ singleItem, selectedBusinessUnit }) => {
         Date{" "} :{" "}{formatDate(dteStartDate)}
       </p>
       <p style={{ marginBottom }}>The Head of Branch</p>
-      <p style={{ marginBottom }}>{bankBranchName}</p>
       <p style={{ marginBottom }}>{strBankName}</p>
+      <p style={{ marginBottom }}>{bankBranchName} Branch</p>
 
       <p style={{ marginBottom }}>{bankBranchAddress}</p>
 
       <p style={{ marginBottom }} className="font-weight-bolder">
-        Subject : Request for disbursement of {loanTypeName} - BDT
+        Subject : Request for disbursement of {facilityName} - BDT
         {_formatMoney(numPrinciple)} for {label} A/C No: {strBankAccountNumber}.
       </p>
 

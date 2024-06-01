@@ -163,6 +163,13 @@ const LandingTable = ({ obj }) => {
               >
                 Enroll
               </th>
+              <th
+                style={{
+                  minWidth: "100px",
+                }}
+              >
+                Customer Id
+              </th>
               {/* <th
                 style={{
                   minWidth: "100px",
@@ -214,6 +221,21 @@ const LandingTable = ({ obj }) => {
                         onChange={(e) => {
                           const copyData = [...gridData];
                           copyData[index].enroll = e.target.value;
+                          setGridData(copyData);
+                        }}
+                      />
+                    }
+                  </td>
+                  <td>
+                    {
+                      <InputField
+                        value={item?.customerId || ""}
+                        name="customerId"
+                        placeholder="customerId"
+                        type="number"
+                        onChange={(e) => {
+                          const copyData = [...gridData];
+                          copyData[index].customerId = e.target.value;
                           setGridData(copyData);
                         }}
                       />

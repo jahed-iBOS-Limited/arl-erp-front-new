@@ -35,7 +35,8 @@ function EditModal({ clickedRow, landingCB }) {
       preferredCommunicationChannels:
         values?.preferredCommunicationChannels || "",
       competitorsBrandUsages: values?.competitorsBrandUsages || "",
-      enroll: values?.enroll || 0,
+      enroll: values?.enroll || '',
+      customerId: values?.customerId || '',
       channel: values?.channel?.label || "",
     };
     EditCDPMasterDataById(
@@ -135,6 +136,7 @@ function EditModal({ clickedRow, landingCB }) {
         defaultValues?.competitorsBrandUsages || ""
       );
       formikRef.current.setFieldValue("enroll", defaultValues?.enroll || "");
+      formikRef.current.setFieldValue("customerId", defaultValues?.customerId || "");
       formikRef.current.setFieldValue(
         "channel",
         defaultValues?.channel
@@ -422,6 +424,18 @@ function EditModal({ clickedRow, landingCB }) {
                     name="enroll"
                     placeholder="Enroll"
                     type="number"
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
+                {/* customerId */}
+                <div className="col-lg-3">
+                  <InputField
+                    value={values?.customerId || ""}
+                    label="Customer Id"
+                    name="customerId"
+                    placeholder="Customer Id"
+                    type="text"
                     errors={errors}
                     touched={touched}
                   />
