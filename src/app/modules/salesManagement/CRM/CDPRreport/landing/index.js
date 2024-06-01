@@ -21,8 +21,7 @@ const CDPRreportLanding = () => {
   const [withoutModfifyData, setWithoutModfifyData] = useState([]);
   const [channelList, setChannelList] = useState([]);
   const [productList, setProductList] = useState([]);
-  const [pageNo] = useState(0);
-  const [pageSize] = useState(15);
+
   const [, setCompetitorPriceLandingPag, landingLoading] = useAxiosGet();
   const [, EditCDPMasterData, postLoading] = useAxiosPost();
   const formikRef = React.useRef(null);
@@ -33,12 +32,7 @@ const CDPRreportLanding = () => {
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
 
-  const commonGridData = (
-    _pageNo = pageNo,
-    _pageSize = pageSize,
-    values,
-    searhValue
-  ) => {
+  const commonGridData = () => {
     setCompetitorPriceLandingPag(
       `/partner/PManagementCommonDDL/CDPMasterData_Rev1`,
       (resData) => {
@@ -94,7 +88,7 @@ const CDPRreportLanding = () => {
   };
 
   useEffect(() => {
-    commonGridData(initData);
+    commonGridData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -120,6 +114,20 @@ const CDPRreportLanding = () => {
       payload,
       () => {},
       true
+    );
+  };
+
+  const landingCB = (values) => {
+    setCompetitorPriceLandingPag(
+      `/partner/PManagementCommonDDL/CDPMasterData_Rev1`,
+      (resData) => {
+        // setGridData(resData);
+        setWithoutModfifyData(resData);
+        filterGridDataHandler({
+          values: { ...values },
+          withoutModfifyData: resData,
+        });
+      }
     );
   };
   return (
@@ -199,6 +207,9 @@ const CDPRreportLanding = () => {
                 obj={{
                   setGridData,
                   gridData,
+                  landingCB: () => {
+                    landingCB(values);
+                  },
                 }}
               />
             </ICustomCard>
