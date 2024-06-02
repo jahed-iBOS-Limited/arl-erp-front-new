@@ -1,0 +1,26 @@
+.bank-letter-print-wrapper {
+  box-sizing: border-box;
+  font-family: "Times New Roman", Times, serif;
+  font-size: 11px;
+  text-align: justify;
+  display: none;
+}
+
+
+.bank-letter-print-wrapper .no-border > table,
+.bank-letter-print-wrapper .no-border td,
+.bank-letter-print-wrapper .no-border th {
+  border: none;
+  text-align: center;
+}
+/* 
+.bank-letter-print-wrapper .no-border > table {
+  width: 100%;
+  border-collapse: collapse;
+} */
+
+@media print {
+  .bank-letter-print-wrapper {
+    display: block !important;
+  }
+}
