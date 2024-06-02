@@ -25,4 +25,7 @@
   .global-table tbody tr td.borderBottomNone {
     border-bottom: none !important;
   }
+  .table th, .table td{
+    border-color: black !important;
+  }
 }
