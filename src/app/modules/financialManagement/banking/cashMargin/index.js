@@ -126,7 +126,7 @@ export default function CashMarginLanding() {
                         <th>Ref Type</th>
                         <th>Ref No</th>
                         <th>Bank Name</th>
-                        <th>Principle Amount</th>
+                        <th>Principal Amount</th>
                         <th>Margin Percent</th>
                         <th>Margin Amount</th>
                         <th>Balance</th>

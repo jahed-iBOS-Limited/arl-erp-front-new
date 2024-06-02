@@ -172,11 +172,11 @@ export default function LoanRegisterForm({
                   />
                 </div>
                 <div className="col-lg-2 pl pr-1 mb-1">
-                  <label>Principle</label>
+                  <label>Principal</label>
                   <InputField
                     value={values?.principle}
                     name="principle"
-                    placeholder="Principle"
+                    placeholder="Principal"
                     onChange={(e) => {
                       if (e.target.value > 0) {
                         setFieldValue("principle", e.target.value);

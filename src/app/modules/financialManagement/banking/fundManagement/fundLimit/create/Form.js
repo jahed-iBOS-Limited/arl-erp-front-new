@@ -100,7 +100,7 @@ export default function LimitForm({
                     }}
                     errors={errors}
                     touched={touched}
-                    isDisabled={isEdit}
+                    // isDisabled={isEdit}
                     label="Facility"
                     placeholder="Facility"
                   />
@@ -156,7 +156,7 @@ export default function LimitForm({
                     type="number"
                     min="0"
                     step="any"
-                    disabled={isEdit}
+                    // disabled={isEdit}
                     
                   />
                 </div>
@@ -171,7 +171,7 @@ export default function LimitForm({
                     }}
                     type="string"
                     step="any"
-                    disabled={isEdit}
+                    // disabled={isEdit}
                   />
                 </div>
                 <div className="col-lg-2">
@@ -181,7 +181,7 @@ export default function LimitForm({
                     name="limitExpiryDate"
                     placeholder="Limit Expiry Date"
                     type="date"
-                    disabled={isEdit}
+                    // disabled={isEdit}
                   />
                 </div>
               </div>
