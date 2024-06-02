@@ -1,5 +1,5 @@
 import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import ReactHtmlTableToExcel from "react-html-table-to-excel";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
@@ -236,11 +236,11 @@ export default function ShippingCsDetails() {
                               <th style={{ width: "70px" }}>Quantity</th>
                               {csDetailsList?.objPartnerHead?.map(
                                 (itm, index) => (
-                                  <>
+                                  <Fragment key={index}>
                                     <th colSpan={4}>
                                       <div>{itm?.strBusinessPartnerName}</div>
                                     </th>
-                                  </>
+                                  </Fragment>
                                 )
                               )}
                             </tr>
@@ -259,7 +259,7 @@ export default function ShippingCsDetails() {
                               ) : null}
                               {csDetailsList?.objPartnerHead?.map(
                                 (itm, index) => (
-                                  <>
+                                  <Fragment key={index}>
                                     <th>
                                       <div>{"Rate"}</div>
                                     </th>
@@ -272,7 +272,7 @@ export default function ShippingCsDetails() {
                                     <th>
                                       <div>{"Attachment"}</div>
                                     </th>
-                                  </>
+                                  </Fragment>
                                 )
                               )}
                             </tr>
@@ -280,11 +280,22 @@ export default function ShippingCsDetails() {
                           <tbody>
                             {csDetailsList?.objRow?.length > 0 &&
                               csDetailsList?.objRow?.map((item, index) => (
+                                <Fragment key={index}>
+                                  {(index === 0 || item.strShippingItemSubHead !== csDetailsList?.objRow[index - 1].strShippingItemSubHead) && item?.strShippingItemSubHead ? (
+                                 <tr >
+                                     <td colSpan={csDetailsList[0]?.objRow[0]?.intItemCategoryId === 624 ? `${(item?.objPartnerHeader?.length * 4) + 7}`  : `${(item?.objPartnerHeader?.length * 4) + 5}`}>
+                                         <div style={{fontSize: '24', fontWeight:"bold"}} className="text-center">
+                                             {item.strShippingItemSubHead}
+                                         </div>
+                                     </td>
+                                 </tr>
+                              ) : null}
+
+                                
                                 <tr
                                   style={{
                                     background: item?.color,
                                   }}
-                                  key={index}
                                 >
                                   <td>{index + 1}</td>
                                   <td>{item?.strItemCode || ""}</td>
@@ -298,8 +309,8 @@ export default function ShippingCsDetails() {
                                   <td>{item?.strUoMname}</td>
                                   <td>{item?.numRfqquantity}</td>
                                   {item?.objPartnerHeader?.map(
-                                    (partnerData) => (
-                                      <>
+                                    (partnerData, ind) => (
+                                      <Fragment key={ind}>
                                         <td className="text-right">
                                           {partnerData?.objPartnerRow
                                             ?.numNegotiationRate
@@ -343,10 +354,11 @@ export default function ShippingCsDetails() {
                                             ""
                                           )}
                                         </td>
-                                      </>
+                                      </Fragment>
                                     )
                                   )}
                                 </tr>
+                                </Fragment>
                               ))}
                             <tr>
                               <td
@@ -363,7 +375,7 @@ export default function ShippingCsDetails() {
                               </td>
                               {csDetailsList?.objPartnerHead?.map(
                                 (itm, index) => (
-                                  <>
+                                  <Fragment key={index}>
                                     <td>{""}</td>
                                     <td
                                       className="text-right font-weight-bold "
@@ -375,7 +387,7 @@ export default function ShippingCsDetails() {
                                     </td>
                                     <td>{""}</td>
                                     <td>{""}</td>
-                                  </>
+                                  </Fragment>
                                 )
                               )}
                             </tr>
@@ -394,7 +406,7 @@ export default function ShippingCsDetails() {
                               </td>
                               {csDetailsList?.objPartnerHead?.map(
                                 (itm, index) => (
-                                  <>
+                                  <Fragment key={index}>
                                     <td>{""}</td>
                                     <td
                                       className="text-right font-weight-bold "
@@ -409,7 +421,7 @@ export default function ShippingCsDetails() {
                                     </td>
                                     <td>{""}</td>
                                     <td>{""}</td>
-                                  </>
+                                  </Fragment>
                                 )
                               )}
                             </tr>
@@ -428,7 +440,7 @@ export default function ShippingCsDetails() {
                               </td>
                               {csDetailsList?.objPartnerHead?.map(
                                 (itm, index) => (
-                                  <>
+                                  <Fragment key={index}>
                                     <td>{""}</td>
                                     <td
                                       className="text-right font-weight-bold "
@@ -443,7 +455,7 @@ export default function ShippingCsDetails() {
                                     </td>
                                     <td>{""}</td>
                                     <td>{""}</td>
-                                  </>
+                                  </Fragment>
                                 )
                               )}
                             </tr>
@@ -462,7 +474,7 @@ export default function ShippingCsDetails() {
                               </td>
                               {csDetailsList?.objPartnerHead?.map(
                                 (itm, index) => (
-                                  <>
+                                  <Fragment key={index}>
                                     <td>{""}</td>
                                     <td
                                       className="text-right font-weight-bold "
@@ -474,7 +486,7 @@ export default function ShippingCsDetails() {
                                     </td>
                                     <td>{""}</td>
                                     <td>{""}</td>
-                                  </>
+                                  </Fragment>
                                 )
                               )}
                             </tr>
@@ -493,7 +505,7 @@ export default function ShippingCsDetails() {
                               </td>
                               {csDetailsList?.objPartnerHead?.map(
                                 (itm, index) => (
-                                  <>
+                                  <Fragment key={index}>
                                     <td>{""}</td>
                                     <td
                                       className="text-right font-weight-bold "
@@ -505,7 +517,7 @@ export default function ShippingCsDetails() {
                                     </td>
                                     <td>{""}</td>
                                     <td>{""}</td>
-                                  </>
+                                  </Fragment>
                                 )
                               )}
                             </tr>
@@ -524,7 +536,7 @@ export default function ShippingCsDetails() {
                               </td>
                               {csDetailsList?.objPartnerHead?.map(
                                 (itm, index) => (
-                                  <>
+                                  <Fragment key={index}>
                                     <td>{""}</td>
                                     <td
                                       className="text-right font-weight-bold "
@@ -541,7 +553,7 @@ export default function ShippingCsDetails() {
                                     </td>
                                     <td>{""}</td>
                                     <td>{""}</td>
-                                  </>
+                                  </Fragment>
                                 )
                               )}
                             </tr>
@@ -560,7 +572,7 @@ export default function ShippingCsDetails() {
                               </td>
                               {csDetailsList?.objPartnerHead?.map(
                                 (itm, index) => (
-                                  <>
+                                  <Fragment key={index}>
                                     <td
                                       colSpan={4}
                                       className=" "
@@ -570,7 +582,7 @@ export default function ShippingCsDetails() {
                                     >
                                       {itm?.strRemarks}
                                     </td>
-                                  </>
+                                  </Fragment>
                                 )
                               )}
                             </tr>

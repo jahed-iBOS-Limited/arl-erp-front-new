@@ -113,7 +113,7 @@ export function QuotationEntryDetails({ currentItem, isHiddenBackBtn }) {
                                           <>
                                              {(i === 0 || data.strShippingItemSubHead !== rowDto?.objRow[i - 1].strShippingItemSubHead) && data?.strShippingItemSubHead ? (
                                                 <tr style={{background:'#ADD8E6', paddingTop: '5px', paddingBottom: '5px' }}>
-                                                    <td colSpan={rowDto?.objRow[0]?.intItemCategoryId[0]?.intItemCategoryId === 624 ? '11' : '9'}>
+                                                    <td colSpan={rowDto?.objRow[0]?.intItemCategoryId === 624 ? '11' : '9'}>
                                                         <div style={{fontSize: '20'}} className="text-bold text-center">
                                                             {data.strShippingItemSubHead}
                                                         </div>
