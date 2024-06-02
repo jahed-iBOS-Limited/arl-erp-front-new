@@ -2,6 +2,7 @@ import React from "react";
 import { _dateFormatter } from "../../../../../_helper/_dateFormate";
 import { formatDate } from "./utils";
 import { _formatMoney } from "../../../../../_helper/_formatMoney";
+import moment from "moment";
 const marginBottom = "9px";
 
 const disbursementPurposeRender =(disbursementPurposeName) => {
@@ -43,7 +44,7 @@ const OthersPdf = ({ singleItem, selectedBusinessUnit }) => {
     <div style={{margin: "40px 71px 0px" }}>
       <p style={{ marginBottom }} className="font-weight-bolder">
         Ref{" "} :{" "}{buShortName}/{bankShortName}/STL/{lacks}/
-        {_dateFormatter(dteStartDate)}
+        {moment(dteStartDate).format("YYYY.MM.DD")}
       </p>
       <p style={{ marginBottom }} className="font-weight-bolder">
         Date{" "} :{" "}{formatDate(dteStartDate)}
