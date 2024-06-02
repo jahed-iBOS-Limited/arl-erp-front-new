@@ -30,7 +30,7 @@ const fdrRegister = Yup.object().shape({
   //     value: Yup.string().required("Bank Account is required"),
   //   })
   //   .nullable(),
-  principle: Yup.string().required("Priciple is required"),
+  principle: Yup.string().required("Principal is required"),
   interestRate: Yup.number().required("Interest Rate is required"),
   fdrNo: Yup.string().required("FDR No is required"),
   openingDate: Yup.date().required("Opening Date is required"),
@@ -265,7 +265,7 @@ export default function FdrForm({
                     value={values?.principle}
                     name="principle"
                     disabled={isEdit}
-                    placeholder="Priciple"
+                    placeholder="Principal"
                     onChange={(e) => {
                       if (e.target.value > 0) {
                         setFieldValue("principle", e.target.value);

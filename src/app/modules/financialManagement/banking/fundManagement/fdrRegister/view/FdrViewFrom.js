@@ -135,7 +135,7 @@ export default function FdrViewForm({
                   <IInput
                     value={values?.principle}
                     name="principle"
-                    placeholder="Priciple"
+                    placeholder="Principal"
                     onChange={(e) => {
                       if (e.target.value > 0) {
                         setFieldValue("principle", e.target.value);
