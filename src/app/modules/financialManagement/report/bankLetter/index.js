@@ -12,6 +12,9 @@ import { cementLetterhead } from "../../invoiceManagementSystem/salesInvoice/bas
 import { useReactToPrint } from "react-to-print";
 import AccountOpenOne from "./printDocuments/templates/AccountsOpen/one";
 import AccountOpenTwo from "./printDocuments/templates/AccountsOpen/two";
+import FdrONE from "./printDocuments/templates/Fdr/fdrOne";
+import FdrThree from "./printDocuments/templates/Fdr/FdrThree";
+import FdrTwo from "./printDocuments/templates/Fdr/fdrTwo";
 const initData = {};
 export default function BankLetter() {
   const { businessUnitList } = useSelector((state) => {
@@ -216,12 +219,23 @@ export default function BankLetter() {
                       </thead>
                       {/* CONTENT GOES HERE */}
                       <tbody>
-                        {[1].includes(values?.templateName?.value) && (
-                          <AccountOpenOne />
-                        )}
-                        {[2].includes(values?.templateName?.value) && (
-                          <AccountOpenTwo />
-                        )}
+                        <div style={{ marginTop: "40px" }}>
+                          {[1].includes(values?.templateName?.value) && (
+                            <AccountOpenOne values={values} />
+                          )}
+                          {[2].includes(values?.templateName?.value) && (
+                            <AccountOpenTwo values={values} />
+                          )}
+                          {[7].includes(values?.templateName?.value) && (
+                            <FdrONE values={values} />
+                          )}
+                          {[8].includes(values?.templateName?.value) && (
+                            <FdrTwo values={values} />
+                          )}
+                          {[9].includes(values?.templateName?.value) && (
+                            <FdrThree values={values} />
+                          )}
+                        </div>
                       </tbody>
                       <tfoot>
                         <tr>

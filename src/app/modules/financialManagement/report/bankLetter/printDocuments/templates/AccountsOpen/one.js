@@ -1,18 +1,15 @@
 import React from "react";
 
-const AccountOpenOne = () => {
+const AccountOpenOne = ({ values }) => {
   return (
     <>
       <div>
         <div>
           <p>
             <strong>
-              Ref :{"{"}SBU{"}"}
-              {"}"}/{"{"}
-              {"{"}Bank{"}"}
-              {"}"}/AO/{"{"}
-              {"{"}date Ref 2024.05.14{"}"}
-              {"}"}
+              Ref : {values?.businessUnit?.buShortName}{" "}
+              {values?.bank?.label}{" "}
+              /AO/ date Ref {values?.date}
             </strong>
           </p>
           <p>
