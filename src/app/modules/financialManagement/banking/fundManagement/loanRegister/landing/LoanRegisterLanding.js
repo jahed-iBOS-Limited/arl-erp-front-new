@@ -480,7 +480,7 @@ const LoanRegisterLanding = () => {
                                     </ICon>
                                     
                                   </span>
-                                    {item?.isEditable ?  <span
+                                    {!item?.isLoanApproved ?  <span
                                     onClick={() =>
                                       history.push({
                                         pathname: `/financial-management/banking/loan-register/edit/${item?.intLoanAccountId}`,
