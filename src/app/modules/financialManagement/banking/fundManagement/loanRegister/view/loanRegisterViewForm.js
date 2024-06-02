@@ -128,6 +128,7 @@ export default function LoanRegisterViewForm({
                     value={values?.facility}
                     onChange={(valueOption) => {
                       setFieldValue("facility", valueOption);
+                      setFieldValue("termDays", valueOption?.tenorDays || 0);
                     }}
                     errors={errors}
                     touched={touched}
@@ -175,15 +176,15 @@ export default function LoanRegisterViewForm({
                     type="number"
                     min="0"
                     step="any"
-                    // disabled={isEdit}
+                    disabled
                   />
                 </div>
                 <div className="col-lg-2 pl pr-1 mb-1">
-                  <label>Principle</label>
+                  <label>Principal</label>
                   <InputField
                     value={values?.principle}
                     name="principle"
-                    placeholder="Principle"
+                    placeholder="Principal"
                     onChange={(e) => {
                       if (e.target.value > 0) {
                         setFieldValue("principle", e.target.value);

@@ -260,7 +260,7 @@ export default function FdrForm({
                 </div>
 
                 <div className="col-lg-2 pl pr-1 mb-1">
-                  <label>Principle</label>
+                  <label>Principal</label>
                   <IInput
                     value={values?.principle}
                     name="principle"
