@@ -263,8 +263,8 @@ export const saveLayTimePayloadMaker = ({
       voyageId: values?.voyageNo?.value,
       voyageNo: values?.voyageNo?.label,
       vesselArrive: values?.vesselArrived,
-      berthedPortId: values?.portAt?.value,
-      berthedPortName: values?.portAt?.label,
+      berthedPortId: values?.portAt?.value || 0,
+      berthedPortName: values?.portAt || values?.portAt?.label || '',
       cargoId: values?.cargo?.value,
       cargoName: values?.cargo?.label,
       cargoQty: values?.cargoQty,
@@ -487,24 +487,24 @@ export const addHandlerLayTimeRow = (
       });
 
       /* Calculate By date */
-      const totalVal = sortedArray[dateIndex].rowlist.reduce(
-        (acc, obj) => acc + +totalSecondCalculate(obj?.usedTime),
-        0
-      );
+      // const totalVal = sortedArray[dateIndex].rowlist.reduce(
+      //   (acc, obj) => acc + +totalSecondCalculate(obj?.usedTime),
+      //   0
+      // );
 
-      if (totalVal / 3600 > 24) {
-        toast.warn(
-          `Date: ${sortedArray[dateIndex].layTimeDate}, Total Used Time can't be greater than 24 hours`,
-          {
-            toastId: 345678,
-          }
-        );
-        return false;
-      } else {
+      // if (totalVal / 3600 > 24) {
+      //   toast.warn(
+      //     `Date: ${sortedArray[dateIndex].layTimeDate}, Total Used Time can't be greater than 24 hours`,
+      //     {
+      //       toastId: 345678,
+      //     }
+      //   );
+      //   return false;
+      // } else {
         setRowData(sortedArray);
         reset();
         return true;
-      }
+      // }
     } else {
       toast.warn("Please adjust the remaining time first", { toastId: 345678 });
       return false;

@@ -359,7 +359,7 @@ export function CreateHeaderForm({
           </div>
           <div className="row my-2">
             <>
-              <HeaderLabelComponent name="BERTHED/Port at" />
+              {/* <HeaderLabelComponent name="BERTHED/Port at" />
               <div className="col-lg-3">
                 <FormikSelect
                   value={values?.portAt || ""}
@@ -374,7 +374,19 @@ export function CreateHeaderForm({
                   errors={errors}
                   touched={touched}
                 />
+              </div> */}
+              <HeaderLabelComponent name="BERTHED/Port at" />
+              <div className="col-lg-3">
+                <FormikInput
+                  value={values?.portAt}
+                  placeholder="BERTHED/Port at"
+                  name="portAt"
+                  type="text"
+                  errors={errors}
+                  touched={touched}
+                />
               </div>
+              
             </>
             <>
               <HeaderLabelComponent
