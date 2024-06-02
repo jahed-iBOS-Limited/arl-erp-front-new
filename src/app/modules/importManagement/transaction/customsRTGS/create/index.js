@@ -259,7 +259,7 @@ const CustomsRTGSCreate = () => {
           senderAccountNo: "",
           beneficiaryAccountNo: "1619602000696",
           senderAddress: "",
-          beneficiaryBankEmail: "brcustomhousectg@sonalibanl.com.bd",
+          beneficiaryBankEmail: "brcustomhousectg@sonalibank.com.bd",
         }}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -569,7 +569,7 @@ const CustomsRTGSCreate = () => {
                               <th> SL No </th>
                               <th>Custom Office code</th>
                               <th>Registration Year</th>
-                              <th>Registration(BE) No</th>
+                              <th>Registration (BE) No</th>
                               <th>Declarant Code</th>
                               <th>Mobile No</th>
                               <th>RTGS Amount</th>

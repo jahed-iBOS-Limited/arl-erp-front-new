@@ -82,7 +82,9 @@ function ViewModal({ clickViewData }) {
           }}
         >
           <h2>{selectedBusinessUnit?.label}</h2>
-          <p>{selectedBusinessUnit?.address}</p>
+          <p>
+          Akij House, 198 Bir Uttam Mir Shawkat Sarak,Tejgaon, Dhaka-1208.
+          </p>
         </div>
 
         <div
@@ -117,11 +119,10 @@ function ViewModal({ clickViewData }) {
         </div>
 
         <div className="applicaitonTopInfo">
-          <p>Mutharam</p>
+          <p>Muhtaram</p>
           <p>Assalamu Alaikum</p>
           <p>
-            Please remit the amount as per following particulars by dediting our
-            account mentioned below
+          Please remit the amount as per following particulars by debiting our account mentioned below
           </p>
         </div>
 
@@ -190,7 +191,7 @@ function ViewModal({ clickViewData }) {
                   <th> SL No </th>
                   <th>Custom Office code</th>
                   <th>Registration Year</th>
-                  <th>Registration(BE) No</th>
+                  <th>Registration (BE) No</th>
                   <th>Declarant Code</th>
                   <th>Mobile No</th>
                   <th>RTGS Amount</th>
