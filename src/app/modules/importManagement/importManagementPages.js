@@ -56,6 +56,8 @@ import TransportChargesLanding from "./transaction/transportCharges/landing/tabl
 import UnloadingChargesForm from "./transaction/unloading-charges/form/addEditForm";
 import UnloadingCharges from "./transaction/unloading-charges/landing/tableHeader";
 import PurchasePlanningAndScheduling from "./reports/purchasePlanning";
+import CustomsRTGSLanding from "./transaction/customsRTGS/landing";
+import CustomsRTGSCreate from "./transaction/customsRTGS/create";
 
 export function importManagementPages() {
   return (
@@ -376,6 +378,18 @@ export function importManagementPages() {
         <ContentRoute
           path="/managementImport/transaction/advance-payment-customs-duty"
           component={CustomDutyAdvancePayment}
+        />
+        <ContentRoute
+          path="/managementImport/transaction/customs-rtgs/edit/:id"
+          component={CustomsRTGSCreate}
+        />
+        <ContentRoute
+          path="/managementImport/transaction/customs-rtgs/create"
+          component={CustomsRTGSCreate}
+        />
+        <ContentRoute
+          path="/managementImport/transaction/customs-rtgs"
+          component={CustomsRTGSLanding}
         />
       </Switch>
     </Suspense>
