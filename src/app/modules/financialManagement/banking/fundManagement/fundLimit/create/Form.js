@@ -100,7 +100,7 @@ export default function LimitForm({
                     }}
                     errors={errors}
                     touched={touched}
-                    isDisabled={isEdit}
+                    // isDisabled={isEdit}
                     label="Facility"
                     placeholder="Facility"
                   />
