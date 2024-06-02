@@ -28,6 +28,7 @@ import BankAdvice from "./bankAdvce/table/BankAdvice";
 import NonBankingFund from "./nonBankingFund";
 import NonBankingFundCreateEdit from "./nonBankingFund/createEdit";
 import Repay from "./nonBankingFund/repay";
+import BankLetter from "../report/bankLetter";
 
 export function Banking() {
   return (
@@ -127,6 +128,12 @@ export function Banking() {
         path="/financial-management/banking/BankGuarantee"
         component={BankGuaranteeLanding}
       />
+
+      <ContentRoute
+        path="/financial-management/banking/BankLetter"
+        component={BankLetter}
+      />
+
 
       <ContentRoute
         path={`/financial-management/banking/CashMargin/:actionType/:id`}

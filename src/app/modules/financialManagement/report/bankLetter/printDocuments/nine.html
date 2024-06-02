@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Times New Roman", Times, serif;
+        font-size: 11px;
+        text-align: justify;
+        line-height: 1.7;
+      }
+      .container {
+        padding: 10px 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <p>Ref : {{SBU}}/FDR/{{Date Ref}}</p>
+      <p>Date : {{Date}}</p>
+      <br />
+      <br />
+      <p>The Manager</p>
+      <p><strong>{{Bank Name}}</strong></p>
+      <p><strong>{{Branch Name}} </strong></p>
+      <p>{{Branch Address}}</p>
+      <br />
+      <br />
+      <p>
+        <strong
+          >Subject: Issuance of FDR of BDT: {{Amount}} as {{Margin Type}}
+          Margin.
+        </strong>
+      </p>
+      <br />
+      <p><strong>Dear Sir,</strong></p>
+      <p></p>
+    </div>
+  </body>
+</html>

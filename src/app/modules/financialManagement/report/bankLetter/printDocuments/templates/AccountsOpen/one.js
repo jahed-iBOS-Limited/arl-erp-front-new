@@ -1,0 +1,597 @@
+import React from "react";
+
+const AccountOpenOne = () => {
+  return (
+    <>
+      <div>
+        <div>
+          <p>
+            <strong>
+              Ref :{"{"}SBU{"}"}
+              {"}"}/{"{"}
+              {"{"}Bank{"}"}
+              {"}"}/AO/{"{"}
+              {"{"}date Ref 2024.05.14{"}"}
+              {"}"}
+            </strong>
+          </p>
+          <p>
+            <strong>
+              Date : {"{"}
+              {"{"}Date May 14, 2024{"}"}
+              {"}"}
+            </strong>
+          </p>
+        </div>
+        <br />
+        <div>
+          <p>
+            <strong>The Manager</strong>
+          </p>
+          <p>
+            {"{"}
+            {"{"}Bank name{"}"}
+            {"}"}
+          </p>
+          <p>
+            {"{"}
+            {"{"}Branch Name{"}"}
+            {"}"}
+          </p>
+          <p>
+            {"{"}
+            {"{"}Branch Address{"}"}
+            {"}"}
+          </p>
+        </div>
+        <br />
+        <div>
+          <p>
+            <strong>
+              Subject: {"{"}
+              {"{"}Account Type{"}"}
+              {"}"} Account Open in the Name of {"{"}
+              {"{"}SBU Name{"}"}
+              {"}"}
+              and the person authorized to deal with {"{"}
+              {"{"}Bank Name{"}"}
+              {"}"}, {"{"}
+              {"{"}Branch Name{"}"}
+              {"}"}.
+            </strong>
+          </p>
+        </div>
+        <br />
+        <div>
+          <p>
+            <strong>Dear Sir,</strong>
+          </p>
+          <br />
+          <p>
+            We have the pleasure to inform you that the Board of Directors of
+            the Company has decided to open{" "}
+            <strong>
+              {"{"}
+              {"{"}account type{"}"}
+              {"}"}
+            </strong>{" "}
+            in the name of{" "}
+            <strong>
+              {"{"}
+              {"{"}SBU Name{"}"}
+              {"}"}
+            </strong>{" "}
+            with your branch as per the Board resolution of the Company which
+            was held on the
+            <strong>
+              {"{"}
+              {"{"}BR Date{"}"}
+              {"}"}
+            </strong>{" "}
+            in the Registered Office of The Company at Akij House, 198, Bir
+            Uttam Mir Shawkat Sarak, Gulshan Link Road, Tejgaon, Dhaka 1208.
+          </p>
+          <br />
+          <p>
+            As per Board Resolution
+            <strong>
+              Resolved that Mr. Sheikh Jasim Uddin, Managing Director
+            </strong>
+            of the Company be and is hereby authorized to
+            <strong>sign and endorse singly</strong> all cheques in regard to
+            <strong>
+              {"{"}
+              {"{"}account type{"}"}
+              {"}"} Account
+            </strong>{" "}
+            for any amount and also sanction advice, security documents, trade
+            (import/export) related documents, other necessary documents and
+            papers for enjoying loan. Besides this, for the smooth running of
+            the business of the Company
+            <strong>authorized Six (06) Officials</strong> namely:
+            <strong>
+              1. Md. Sheikh Sadi- Chief Treasury Officer; 2. Md. Masud Rana-
+              Chief Supply Chain Officer; 3. Iftekhar Uddin Chowdhury- Senior
+              Manager (Treasury); 4. Raihan Kabir- Deputy CFO; 5. Rakibul Alam
+              Khan- Manager (Finance) and 6. Md. Anamul Haque- Deputy Manager
+              (Finance)
+            </strong>
+            from now onward
+            <strong>any two of the six can jointly sign and endorse:</strong>
+          </p>
+          <br />
+          <div style={{ marginLeft: 80 }}>
+            <div style={{ display: "flex" }}>
+              <p style={{ marginRight: 30 }}>
+                <strong>-</strong>
+              </p>
+              <p>
+                <strong>
+                  All Cheques, fund transfers, fixed deposit opening, and
+                  settlement, and all other cash-related transactions and
+                  instructions.
+                </strong>
+              </p>
+            </div>
+            <div style={{ display: "flex" }}>
+              <p style={{ marginRight: 30 }}>
+                <strong>-</strong>
+              </p>
+              <p>
+                <strong>
+                  All trade documents not only import/export, guarantee, invoice
+                  financing but also all other forms of loan disbursements,
+                  amendments, and settlements
+                </strong>
+              </p>
+            </div>
+            <div style={{ display: "flex" }}>
+              <p style={{ marginRight: 30 }}>
+                <strong>-</strong>
+              </p>
+              <p>
+                <strong>
+                  Facility letter, hypothecation, lien, and all other credit and
+                  security documents for and on behalf of the Company.
+                </strong>
+              </p>
+            </div>
+          </div>
+          <br />
+          <p>
+            This authority shall continue in force until and unless the same is
+            revoked by the Board of Directors of the Company by a notice in
+            writing to be delivered to the Bank. The specimen signature of the
+            authorized persons is attested in <strong>Annexure-1.</strong>
+          </p>
+          <br />
+          <p>
+            We enclose herewith the necessary documents for your necessary
+            action.
+          </p>
+          <br />
+          <p>Yours faithfully,</p>
+          <p>
+            <strong>
+              FOR, {"{"}
+              {"{"}SBU Name{"}"}
+              {"}"}{" "}
+            </strong>
+          </p>
+          <p>
+            <strong>(SHEIKH JASIM UDDIN)</strong>
+          </p>
+          <p>
+            <strong>Managing Director</strong>
+          </p>
+        </div>
+        <div
+          style={{
+            pageBreakAfter: "always",
+          }}
+        ></div>
+        <div className="second-part">
+          <p>
+            EXTRACT OF THE MINUTE OF THE MEETING OF THE BOARD OF DIRECTORS OF
+            <strong>
+              {"{"}
+              {"{"}SBU Name{"}"}
+              {"}"}
+            </strong>{" "}
+            ON THE{" "}
+            <strong>
+              {"{"}
+              {"{"}BR Date{"}"}
+              {"}"}
+            </strong>{" "}
+            AT 11.30 A.M. IN THE REGISTERED OFFICE OF THE COMPANY AT AKIJ HOUSE,
+            198, BIR UTTAM MIR SHAWKAT SARAK, GULSHAN LINK ROAD, TEJGAON, DHAKA
+            1208.
+          </p>
+          <br />
+          <p>
+            The meeting was presided over by Ms. Faria Hossain, Chairman of the
+            Company. The Managing Director and Mr. Ruhul Islam, Company
+            Secretary were present.
+          </p>
+          <br />
+          <br />
+          <pre style={{ fontSize: 16 }}>
+            {" "}
+            <strong>Mr. Sheikh Jasim Uddin</strong>
+            {"              "}Managing Director
+            {"              "}Sd/
+          </pre>
+          <pre style={{ fontSize: 16 }}>
+            {" "}
+            <strong>Ms. Faria Hossain</strong>
+            {"                   "}Chairman{"\t"}
+            {"                      "}Sd/
+          </pre>
+          <br />
+          <p>
+            The Following resolutions were passed unanimously for the interest
+            of the business of the company.
+          </p>
+          <br />
+          <p>
+            a)
+            <strong>
+              Resolved that Mr. Sheikh Jasim Uddin, Managing Director
+            </strong>
+            of the Company be and is hereby authorized to open {"{"}
+            {"{"}Account Type{"}"}
+            {"}"} in the name of{" "}
+            <strong>
+              {"{"}
+              {"{"}Account Name{"}"}
+              {"}"}
+            </strong>{" "}
+            with
+            <strong>
+              {"{"}
+              {"{"}Bank Name{"}"}
+              {"}"},
+            </strong>{" "}
+            <strong>
+              {"{"}
+              {"{"}Branch name{"}"}
+              {"}"}
+            </strong>{" "}
+            and to operate the account <strong>sign and endorse singly</strong>{" "}
+            all cheques in regard to{" "}
+            <strong>
+              {"{"}
+              {"{"}Account Type{"}"}
+              {"}"}
+            </strong>{" "}
+            for any amount and also sanction advice, security documents, trade
+            (import/export) related documents, other necessary documents and
+            papers for enjoying a loan.
+          </p>
+          <br />
+          <p>
+            <strong>Besides this,</strong> resolved that the Company
+            <strong>authorized Six (06) Officials</strong> to operate the bank
+            account for the smooth running of the business. Authorized
+            signatories for Bank Accounts are as follows: Six (06) authorized
+            officials namely:
+            <strong>
+              1. Md. Sheikh Sadi- Chief Treasury Officer; 2. Md. Masud Rana-
+              Chief Supply Chain Officer; 3. Iftekhar Uddin Chowdhury- Senior
+              Manager (Treasury); 4. Raihan Kabir- Deputy CFO; 5. Rakibul Alam
+              Khan- Manager (Finance) and 6. Md. Anamul Haque- Deputy Manager
+              (Finance) from now onward any two of the six can jointly sign and
+              endorse:
+            </strong>
+          </p>
+          <br />
+          <div style={{ marginLeft: 80 }}>
+            <div style={{ display: "flex" }}>
+              <p style={{ marginRight: 30 }}>
+                <strong>-</strong>
+              </p>
+              <p>
+                <strong>
+                  All Cheques, fund transfers, fixed deposit opening, and
+                  settlement, and all other cash-related transactions and
+                  instructions.
+                </strong>
+              </p>
+            </div>
+            <div style={{ display: "flex" }}>
+              <p style={{ marginRight: 30 }}>
+                <strong>-</strong>
+              </p>
+              <p>
+                <strong>
+                  All trade documents not only import/export, guarantee, invoice
+                  financing but also all other forms of loan disbursements,
+                  amendments, and settlements
+                </strong>
+              </p>
+            </div>
+            <div style={{ display: "flex" }}>
+              <p style={{ marginRight: 30 }}>
+                <strong>-</strong>
+              </p>
+              <p>
+                <strong>
+                  Facility letter, hypothecation, lien, and all other credit and
+                  security documents for and on behalf of the Company.
+                </strong>
+              </p>
+            </div>
+          </div>
+          <br />
+          <p>
+            This authority shall continue in force until and unless the same is
+            revoked by the Board of Directors of the Company by a notice in
+            writing to be delivered to the Bank.
+          </p>
+          <br />
+          <p>
+            b) Resolved that the company will open FDR/ FDRs from time to time
+            with{" "}
+            <strong>
+              {"{"}
+              {"{"}Bank Name{"}"}
+              {"}"}
+            </strong>
+            ,
+            <strong>
+              {"{"}
+              {"{"}Branch Name{"}"}
+              {"}"}
+            </strong>{" "}
+            for the business interest of the company and this resolution will be
+            applicable for that.
+          </p>
+          <br />
+          <p>
+            c) Resolved that the company will provide FDR or Guarantee against
+            any credit facilities of the company itself or any other sister
+            concerns as security on a requirement basis.
+          </p>
+          <br />
+          <p>
+            d) Resolved that the company will avail of ONLINE Banking Corporate
+            Facility or any other service agreement that will be required in the
+            future.
+          </p>
+          <br />
+          <p>
+            e) Resolved that any Director of the Company and/ or the Chairman of
+            the meeting and/ or the Company Secretary be and are authorized to
+            issue any extract of the minutes as and when necessary.
+          </p>
+          <br />
+          {/* <br /> */}
+          <p>The meeting ended with a vote of thanks to the chair.</p>
+          <br />
+          {/* <br />
+      <br /> */}
+          <p>Sd/-</p>
+          <p>
+            <strong>(Sheikh Jasim Uddin) </strong>
+          </p>
+          <p>Managing Director</p>
+        </div>
+        <div
+          style={{
+            pageBreakAfter: "always",
+          }}
+        ></div>
+        <div>
+          <div style={{ textAlign: "center" }}>
+            <p>
+              <strong>
+                <u>ANNEXURE -1</u>
+              </strong>
+            </p>
+            <p>
+              <u>LIST OF AUTHORIZED OFFICERS </u>
+            </p>
+          </div>
+          <div>
+            <div className="no-border">
+              <table>
+                <tbody>
+                  <tr>
+                    <td>Title of Account</td>
+                    <td>
+                      <strong>
+                        : {"{"}
+                        {"{"}SBU Name{"}"}
+                        {"}"}{" "}
+                      </strong>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Specimen Signature Card of A/C No</td>
+                    <td>
+                      <strong>:</strong>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      {"{"}
+                      {"{"}Bank Name{"}"}
+                      {"}"}, {"{"}
+                      {"{"}Branch Name{"}"}
+                      {"}"}
+                    </td>
+                    <td />
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div>
+            <p style={{ textAlign: "center" }}>
+              <strong>Group – A</strong>
+            </p>
+            <div className="border">
+              <table>
+                <tbody>
+                  <tr>
+                    <th>Full Name of the Signatory</th>
+                    <th>Specimen Signature</th>
+                    <th>Photograph</th>
+                  </tr>
+                  <tr>
+                    <td rowSpan={3}>Sheikh Jasim Uddin</td>
+                    <td>
+                      {"{"}
+                      {"{"}SBU Name{"}"}
+                      {"}"}
+                    </td>
+                    <td rowSpan={4} />
+                  </tr>
+                  <tr>
+                    <td>.</td>
+                  </tr>
+                  <tr>
+                    <td>Authorized Signature</td>
+                  </tr>
+                  <tr>
+                    <td colSpan={2}>
+                      Special Instruction: Mr. Sk. Jasim Uddin sign and endorse
+                      singly all cheques and all other documents.
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div>
+            <br />
+            <br />
+            <p style={{ textAlign: "center" }}>
+              <strong>OR</strong>
+            </p>
+            <p style={{ textAlign: "center" }}>
+              <strong>Group - B</strong>
+            </p>
+            <br />
+            <div className="border">
+              <table>
+                <tbody>
+                  <tr>
+                    <th>Full Name of the Signatory</th>
+                    <th>Specimen Signature</th>
+                    <th>Photograph</th>
+                  </tr>
+                  <tr>
+                    <td rowSpan={3}>Md. Sheikh Sadi</td>
+                    <td>
+                      {"{"}
+                      {"{"}SBU Name{"}"}
+                      {"}"}
+                    </td>
+                    <td rowSpan={19} />
+                  </tr>
+                  <tr>
+                    <td>.</td>
+                  </tr>
+                  <tr>
+                    <td>Authorized Signature</td>
+                  </tr>
+                  <tr>
+                    <td rowSpan={3}>Md. Masud Rana</td>
+                    <td>
+                      {"{"}
+                      {"{"}SBU Name{"}"}
+                      {"}"}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>.</td>
+                  </tr>
+                  <tr>
+                    <td>Authorized Signature</td>
+                  </tr>
+                  <tr>
+                    <td rowSpan={3}>Iftekhar Uddin Chowdhury</td>
+                    <td>
+                      {"{"}
+                      {"{"}SBU Name{"}"}
+                      {"}"}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>.</td>
+                  </tr>
+                  <tr>
+                    <td>Authorized Signature</td>
+                  </tr>
+                  <tr>
+                    <td rowSpan={3}>Raihan Kabir</td>
+                    <td>
+                      {"{"}
+                      {"{"}SBU Name{"}"}
+                      {"}"}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>.</td>
+                  </tr>
+                  <tr>
+                    <td>Authorized Signature</td>
+                  </tr>
+                  <tr>
+                    <td rowSpan={3}>Rakibul Alam Khan</td>
+                    <td>
+                      {"{"}
+                      {"{"}SBU Name{"}"}
+                      {"}"}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>.</td>
+                  </tr>
+                  <tr>
+                    <td>Authorized Signature</td>
+                  </tr>
+                  <tr>
+                    <td rowSpan={3}>Md. Anamul Haque</td>
+                    <td>
+                      {"{"}
+                      {"{"}SBU Name{"}"}
+                      {"}"}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>.</td>
+                  </tr>
+                  <tr>
+                    <td>Authorized Signature</td>
+                  </tr>
+                  <tr>
+                    <td colSpan={2}>
+                      Special Instruction: 1. Md. Sheikh Sadi, 2. Md. Masud
+                      Rana, 3. Iftekhar Uddin Chowdhury, 4. Raihan Kabir, 5.
+                      Rakibul Alam Khan, 6. Md. Anamul Haque - any two
+                      signatories out of 'Group B' can sign and endorse jointly
+                      all cheques and all other documents.
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div style={{ textAlign: "center" }}>
+            <strong>Attested by</strong>
+            <br />
+            <br />
+            <br />
+            <strong>(Sheikh Jasim Uddin)</strong>
+            Managing Director
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default AccountOpenOne;
