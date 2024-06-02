@@ -1,0 +1,28 @@
+.customsRTGSprintView {
+  padding: 1px !important;
+  p {
+    margin: 0 !important;
+    font-size: 16px !important;
+  }
+  .bankInfo {
+    .global-table thead tr th:first-child {
+      text-align: left !important;
+    }
+    .table tbody:first-of-type > tr > td:first-child {
+      text-align: left !important;
+    }
+  }
+  .global-table thead tr th,
+  .global-table tbody tr td {
+    font-size: 15px !important;
+  }
+  .applicaitonTopInfo p {
+    font-weight: 300 !important;
+  }
+  .global-table tbody tr td.borderTopNone {
+    border-top: none !important;
+  }
+  .global-table tbody tr td.borderBottomNone {
+    border-bottom: none !important;
+  }
+}

@@ -249,17 +249,17 @@ const CustomsRTGSCreate = () => {
           shipment: "",
           rtgsAmount: "",
           senderName: "",
-          beneficiaryName: "",
+          beneficiaryName: "Customs Duty (ASYCUDA) Collection A/C",
           senderBankName: "",
-          beneficiaryBankName: "",
+          beneficiaryBankName: "Sonali Bank Ltd.",
           senderBranchName: "",
-          beneficiaryBranchName: "",
+          beneficiaryBranchName: "B. Wapda Corp Branch",
           senderRoutingNo: "",
-          beneficiaryRoutingNo: "",
+          beneficiaryRoutingNo: "200276971",
           senderAccountNo: "",
-          beneficiaryAccountNo: "",
+          beneficiaryAccountNo: "1619602000696",
           senderAddress: "",
-          beneficiaryBankEmail: "",
+          beneficiaryBankEmail: "brcustomhousectg@sonalibanl.com.bd",
         }}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
