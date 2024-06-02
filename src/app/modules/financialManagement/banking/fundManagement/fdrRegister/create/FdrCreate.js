@@ -53,7 +53,7 @@ export default function FdrCreate({
     //   return toast.warn("Please Select Bank Account");
     // }
     if(values?.termDays <= 0) return toast.warn("Term (Days) must be greater than zero");
-    if(values?.principle <= 0) return toast.warn("Principle must be greater than zero");
+    if(values?.principle <= 0) return toast.warn("Principal must be greater than zero");
     if(values?.interestRate <= 0) return toast.warn("Interest Rate must be greater than zero");
 
     const payload = {
