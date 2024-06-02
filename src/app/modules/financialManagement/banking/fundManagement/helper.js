@@ -431,6 +431,20 @@ export const attachFilesForBanking = async (payload, setLoading, cb) => {
   }
 };
 
+export const DeleteFundManagementApi = async (limitId, setLoading, cb) => {
+  setLoading && setLoading(true);
+  try {
+    const res = await Axios.post(
+      `/fino/FundManagement/DeleteFundManagement?BankLoanLimitId=${limitId}`,
+    );
+    toast.success(res?.data?.message);
+    cb();
+    setLoading && setLoading(false);
+  } catch (error) {
+    toast.error(error?.response?.data?.message);
+    setLoading && setLoading(false);
+  }
+};
 export const getAttachments = async (
   buId,
   typeId,
