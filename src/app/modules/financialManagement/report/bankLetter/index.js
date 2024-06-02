@@ -151,7 +151,7 @@ export default function BankLetter() {
                     name="templateName"
                     options={templateList || []}
                     value={values?.templateName}
-                    label="Bank"
+                    label="Template Name"
                     onChange={(valueOption) => {
                       setFieldValue("templateName", valueOption || "");
                     }}

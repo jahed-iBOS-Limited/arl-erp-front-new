@@ -7,9 +7,9 @@ const AccountOpenOne = ({ values }) => {
         <div>
           <p>
             <strong>
-              Ref : {values?.businessUnit?.buShortName}{" "}
-              {values?.bank?.label}{" "}
-              /AO/ date Ref {values?.date}
+              Ref : {values?.businessUnit?.buShortName}/
+              {values?.bank?.label}
+              /AO/{values?.date}
             </strong>
           </p>
           <p>
