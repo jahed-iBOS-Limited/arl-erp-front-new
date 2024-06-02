@@ -331,6 +331,63 @@ const InputFields = ({ obj }) => {
                   type="button"
                   className="btn btn-primary mr-2"
                   onClick={() => {
+                     let data = getData();
+                     if (!data?.length) return null;
+                     advicePrintCount(
+                        data?.map(item => {
+                           return {
+                              journalId: item?.intJournalId,
+                              actionBy: profileData?.userId,
+                           };
+                        })
+                     );
+                     // if (values?.adviceType?.value === 15) {
+                     //    const adviceName = values?.advice?.label === "IBBL" ? "IBBL_ONLINE"  : values?.advice?.label === "IBBL-BEFTN" ? "IBBL_BEFTN" : values?.advice?.label
+                     //    const dateFormat = values?.dateTime?.split("/").join("_")
+                     //    const fileName = `${selectedBusinessUnit?.buShortName}_${total ? total : 0}_${adviceName}_${dateFormat}`;
+                     //    generateExcel(
+                     //       data,
+                     //       values,
+                     //       0,
+                     //       "",
+                     //       selectedBusinessUnit,
+                     //       false,
+                     //       null,
+                     //       fileName
+                     //    );
+                     // } else {
+
+                        const adviceName = values?.advice?.label === "IBBL" ? "IBBL_ONLINE"  : values?.advice?.label === "IBBL-BEFTN" ? "IBBL_BEFTN" : values?.advice?.label
+                        const dateFormat = values?.dateTime?.split("/").join("_")
+                        const fileName = `${selectedBusinessUnit?.buShortName}_${total ? total : 0}_${adviceName}_${dateFormat}`;
+                        console.log("fileName", fileName)
+                        generateExcel(
+                           data,
+                           values,
+                           0,
+                           "",
+                           selectedBusinessUnit,
+                           false,
+                           null,
+                           fileName,
+                           'isOldExcelDownload'
+                        );
+                     // }
+                  }}
+                  disabled={
+                     !values?.dateTime ||
+                     !values?.bankAccountNo ||
+                     !values?.adviceType ||
+                     !values?.advice ||
+                     !adviceReportData.some(item => item?.checked)
+                  }
+               >
+                  Export Excel Old
+               </button>
+               <button
+                  type="button"
+                  className="btn btn-primary mr-2"
+                  onClick={() => {
                      if (
                         ['above36Character', 'below36Character'].includes(
                            values?.advice?.info
