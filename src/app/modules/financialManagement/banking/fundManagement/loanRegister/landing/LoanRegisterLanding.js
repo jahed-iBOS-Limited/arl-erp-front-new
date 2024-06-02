@@ -332,7 +332,7 @@ const LoanRegisterLanding = () => {
                               <th style={{ minWidth: "90px" }}>OpenDate</th>
                               <th style={{ minWidth: "90px" }}>Mature Date</th>
                               <th style={{ minWidth: "90px" }}>Application Status</th>
-                              <th style={{ minWidth: "100px" }}>Principle</th>
+                              <th style={{ minWidth: "100px" }}>Principal</th>
                               <th style={{ minWidth: "50px" }}>Int.Rate</th>
                               <th style={{ minWidth: "100px" }}>Interest</th>
                               <th style={{ minWidth: "100px" }}>
@@ -347,7 +347,7 @@ const LoanRegisterLanding = () => {
                               <th style={{ minWidth: "100px" }}>
                                 Principal Balance
                               </th>
-                              <th style={{ minWidth: "200px" }}>Action</th>
+                              <th style={{ minWidth: "200px" }}>Actionm</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -478,8 +478,9 @@ const LoanRegisterLanding = () => {
                                     >
                                       <i class="fas fa-print"></i>
                                     </ICon>
+                                    
                                   </span>
-                                    {item?.isEditable ?  <span
+                                    {!item?.isLoanApproved ?  <span
                                     onClick={() =>
                                       history.push({
                                         pathname: `/financial-management/banking/loan-register/edit/${item?.intLoanAccountId}`,

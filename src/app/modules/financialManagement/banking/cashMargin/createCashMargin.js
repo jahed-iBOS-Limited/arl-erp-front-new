@@ -42,7 +42,7 @@ const validationSchema = Yup.object().shape({
       })
       .typeError('Bank Name is required'),
 
-   principleAmount: Yup.number().required('Principle Amount is required'),
+   principleAmount: Yup.number().required('Principal Amount is required'),
    marginPercent: Yup.number().required('Margin Percent is required'),
    marginAmount: Yup.number().required('Margin Amount is required'),
    narration: Yup.string().required('Narration is required'),
@@ -178,7 +178,7 @@ export default function CreateCashMargin() {
                         <div className="col-lg-3">
                            <InputField
                               value={values?.principleAmount}
-                              label="Principle Amount"
+                              label="Principal Amount"
                               name="principleAmount"
                               type="number"
                               onChange={e => {

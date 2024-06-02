@@ -202,7 +202,7 @@ const FdrRegisterLanding = () => {
                             <th>Tenure</th>
                             <th>OpenDate</th>
                             <th>Mature Date</th>
-                            <th>Principle</th>
+                            <th>Principal</th>
                             <th>Interest Rate</th>
                             <th>Exp. Interest Amount</th>
                             <th>Lien To</th>

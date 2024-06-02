@@ -35,6 +35,12 @@ const loanRegister = Yup.object().shape({
       value: Yup.string().required("Account is required"),
     })
     .nullable().required("Account is required"),
+    openingDate: Yup.string().required("Opening Date is required"),
+    principle: Yup.number().min(1, "Principle is required").required("Principle is required"),
+    disbursementPurpose: Yup.object().shape({
+      label: Yup.string().required("Disbursement Purpose is required"),
+      value: Yup.string().required("Disbursement Purpose is required"),
+    }).nullable().required("Disbursement Purpose is required"),
 });
 
 export default function LoanRegisterViewForm({
@@ -128,6 +134,7 @@ export default function LoanRegisterViewForm({
                     value={values?.facility}
                     onChange={(valueOption) => {
                       setFieldValue("facility", valueOption);
+                      setFieldValue("termDays", valueOption?.tenorDays || 0);
                     }}
                     errors={errors}
                     touched={touched}
@@ -175,15 +182,15 @@ export default function LoanRegisterViewForm({
                     type="number"
                     min="0"
                     step="any"
-                    // disabled={isEdit}
+                    disabled
                   />
                 </div>
                 <div className="col-lg-2 pl pr-1 mb-1">
-                  <label>Principle</label>
+                  <label>Principal</label>
                   <InputField
                     value={values?.principle}
                     name="principle"
-                    placeholder="Principle"
+                    placeholder="Principal"
                     onChange={(e) => {
                       if (e.target.value > 0) {
                         setFieldValue("principle", e.target.value);
