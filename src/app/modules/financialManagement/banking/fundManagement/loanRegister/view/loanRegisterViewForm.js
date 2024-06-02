@@ -35,6 +35,12 @@ const loanRegister = Yup.object().shape({
       value: Yup.string().required("Account is required"),
     })
     .nullable().required("Account is required"),
+    openingDate: Yup.string().required("Opening Date is required"),
+    principle: Yup.number().min(1, "Principle is required").required("Principle is required"),
+    disbursementPurpose: Yup.object().shape({
+      label: Yup.string().required("Disbursement Purpose is required"),
+      value: Yup.string().required("Disbursement Purpose is required"),
+    }).nullable().required("Disbursement Purpose is required"),
 });
 
 export default function LoanRegisterViewForm({
