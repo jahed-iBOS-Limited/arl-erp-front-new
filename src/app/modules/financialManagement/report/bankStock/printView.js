@@ -73,7 +73,7 @@ const PrintView = ({ reportData, values }) => {
             Accounts Receivable Balance Date{" "}
             {getLastDateOfMonth(values?.monthYear?.split("-")[1])}
           </h5>
-          <h6>Amount of tk. 2,591,305,421.00 ("Need to konw")</h6>
+          <h6>Amount of tk. 2,591,305,421.00</h6>
           <p>We hereby confirm that:</p>
           <ul style={{ listStyle: "none" }}>
             <li>
