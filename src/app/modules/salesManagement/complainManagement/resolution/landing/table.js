@@ -10,6 +10,8 @@ import DelegateForm from "./delegate";
 import FeedbackModal from "./feedbackModal";
 import InvestigateForm from "./investigate";
 import { saveColseComplainApi } from "../helper";
+import InvoiceView from "../../complain/landing/invoiceView";
+import IView from "../../../../_helper/_helperIcons/_view";
 
 const LandingTable = ({ obj }) => {
   const {
@@ -17,7 +19,7 @@ const LandingTable = ({ obj }) => {
     selectedBusinessUnit: { value: buId },
     tokenData: { token },
   } = useSelector((state) => state?.authData, shallowEqual);
-
+  const [isShowModal, setIsShowModal] = React.useState(false);
   const { gridData, commonGridDataCB, setLoading, title } = obj;
   const history = useHistory();
   const [delegatModalShow, setDelegatModalShow] = React.useState(false);
@@ -58,6 +60,11 @@ const LandingTable = ({ obj }) => {
                 (itm) => itm?.investigatorId === employeeId
               );
 
+              const investigateItem = matchEmployeeId
+                ? matchEmployeeId
+                : isDelegatePage
+                ? item?.investigatorAssignByName?.[0]
+                : null;
               return (
                 <tr key={index}>
                   <td className="text-center"> {index + 1}</td>
@@ -114,9 +121,15 @@ const LandingTable = ({ obj }) => {
                         </Tooltip>
                       }
                     >
-                      <div>
-                        {matchEmployeeId?.investigatorName &&
-                          matchEmployeeId?.investigatorName}
+                      <div
+                        style={{
+                          cursor: "pointer",
+                          color: "blue",
+                          textDecoration: "underline",
+                        }}
+                      >
+                        {investigateItem?.investigatorName &&
+                          investigateItem?.investigatorName}
                       </div>
                     </OverlayTrigger>
                   </td>
@@ -158,9 +171,15 @@ const LandingTable = ({ obj }) => {
                         </Tooltip>
                       }
                     >
-                      <div>
-                        {matchEmployeeId?.investigationDateTime &&
-                          moment(matchEmployeeId?.investigationDateTime).format(
+                      <div
+                        style={{
+                          cursor: "pointer",
+                          color: "blue",
+                          textDecoration: "underline",
+                        }}
+                      >
+                        {investigateItem?.investigationDateTime &&
+                          moment(investigateItem?.investigationDateTime).format(
                             "YYYY-MM-DD, HH:mm A"
                           )}
                       </div>
@@ -224,8 +243,7 @@ const LandingTable = ({ obj }) => {
                         </>
                       )}
 
-                      {((item?.status === "Investigate" && matchEmployeeId) ||
-                        isDelegatePage) && (
+                      {item?.status === "Investigate" && matchEmployeeId && (
                         <>
                           <span>
                             <OverlayTrigger
@@ -275,8 +293,7 @@ const LandingTable = ({ obj }) => {
                           </span> */}
                         </>
                       )}
-                      {((item?.status === "Investigate" && matchEmployeeId) ||
-                        isDelegatePage) && (
+                      {item?.status === "Investigate" && matchEmployeeId && (
                         <span>
                           <OverlayTrigger
                             overlay={
@@ -301,6 +318,15 @@ const LandingTable = ({ obj }) => {
                           </OverlayTrigger>
                         </span>
                       )}
+
+                      <span
+                        onClick={() => {
+                          setClickRowData(item);
+                          setIsShowModal(true);
+                        }}
+                      >
+                        <IView />
+                      </span>
                     </div>
                   </td>
                 </tr>
@@ -381,6 +407,19 @@ const LandingTable = ({ obj }) => {
                 }
               }}
             />
+          </IViewModal>
+        </>
+      )}
+      {isShowModal && (
+        <>
+          <IViewModal
+            show={isShowModal}
+            onHide={() => {
+              setIsShowModal(false);
+              setClickRowData({});
+            }}
+          >
+            <InvoiceView clickRowData={clickRowData} />
           </IViewModal>
         </>
       )}
