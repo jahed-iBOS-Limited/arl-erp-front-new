@@ -58,6 +58,7 @@ import UnloadingCharges from "./transaction/unloading-charges/landing/tableHeade
 import PurchasePlanningAndScheduling from "./reports/purchasePlanning";
 import CustomsRTGSLanding from "./transaction/customsRTGS/landing";
 import CustomsRTGSCreate from "./transaction/customsRTGS/create";
+import ShipmentTracking from "./reports/shipmentTracking";
 
 export function importManagementPages() {
   return (
@@ -333,6 +334,10 @@ export function importManagementPages() {
         <ContentRoute
           path="/managementImport/reports/PurchasePlanningScheduling"
           component={PurchasePlanningAndScheduling}
+        />
+        <ContentRoute
+          path="/managementImport/reports/ShipmentTracking"
+          component={ShipmentTracking}
         />
         d{/* Outstanding LC */}
         <ContentRoute
