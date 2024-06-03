@@ -19,7 +19,7 @@ export const initData = {
   paymentTerms: { value: 2, label: "Credit" },
   cash: "",
   payDays: "",
-  incoterms: { value: 1, label: "CFR (Cost And Freight)" },
+  // incoterms: { value: 1, label: "CFR (Cost And Freight)" },
   supplierReference: "",
   referenceDate: _todayDate(),
   validity: _todayDate(),
@@ -57,10 +57,10 @@ export const validationSchema = Yup.object().shape({
   payDays: Yup.number()
     .required("Pay days is required")
     .min(1, "Minimum 1 Days"),
-  incoterms: Yup.object().shape({
-    label: Yup.string().required("Incoterm is required"),
-    value: Yup.string().required("Incoterm is required"),
-  }),
+  // incoterms: Yup.object().shape({
+  //   label: Yup.string().required("Incoterm is required"),
+  //   value: Yup.string().required("Incoterm is required"),
+  // }),
   cash: Yup.number()
     .min(1, "Minimum 1")
     .max(100, "Maximum 100"),
