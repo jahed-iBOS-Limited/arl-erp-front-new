@@ -44,7 +44,6 @@ export default function AssetPOCreateForm({
   const [profitCenterList, setProfitCenterList] = useState([]);
   const [attachmentList, setAttachmentList] = useState([]);
 
-
   // redux store data
   const storeData = useSelector((state) => {
     return {
@@ -265,11 +264,15 @@ export default function AssetPOCreateForm({
         initialValues={{
           ...initData,
           deliveryAddress: location?.state?.warehouse?.address,
-          currency: currencyDDL[0], 
+          currency: currencyDDL[0],
+          incoterms:
+            location?.state?.purchaseOrg?.label === "Foreign Procurement"
+              ? { value: 1, label: "CFR (Cost And Freight)" }
+              : "",
         }}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          saveHandler({...values, attachmentList}, rowDto, () => {
+          saveHandler({ ...values, attachmentList }, rowDto, () => {
             resetForm(initData);
             setRowDto([]);
           });
@@ -444,11 +447,13 @@ export default function AssetPOCreateForm({
                     />
                   </div>
                   <div className="col-lg-2 mt-5">
-                    <AttachmentUploaderNew CBAttachmentRes={(attachmentData)=>{
-                      if(Array.isArray(attachmentData)){
-                        setAttachmentList(attachmentData);
-                      }
-                    }}/>
+                    <AttachmentUploaderNew
+                      CBAttachmentRes={(attachmentData) => {
+                        if (Array.isArray(attachmentData)) {
+                          setAttachmentList(attachmentData);
+                        }
+                      }}
+                    />
                   </div>
                   <div className="col-lg-2">
                     <div
