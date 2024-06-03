@@ -1,22 +1,28 @@
-import moment from "moment";
 import React from "react";
 
-const AccountOpenOne = ({ values }) => {
+const AccountOpenOne = ({ singleRowItem }) => {
+  const {
+    strBusinessUnitName,
+    strRefDate,
+    strDate,
+    strBankName,
+    strBankShortName,
+    strBranchName,
+    strBranchAddress,
+    strAccountType,
+  } = singleRowItem;
   return (
     <>
       <div>
         <div>
           <p>
             <strong>
-              Ref : {values?.businessUnit?.buShortName}/
-              {values?.bank?.bankShortName}
-              /AO/{values?.date}
+              Ref : {strBusinessUnitName}/{strBankShortName}
+              /AO/{strDate}
             </strong>
           </p>
           <p>
-            <strong>
-              Date : {moment(values?.date)?.format("MMMM D, YYYY")}
-            </strong>
+            <strong>Date : {strRefDate}</strong>
           </p>
         </div>
         <br />
@@ -24,21 +30,17 @@ const AccountOpenOne = ({ values }) => {
           <p>
             <strong>The Manager</strong>
           </p>
-          <p>{values?.bank?.label}</p>
-          <p>{values?.bankBranch?.label}</p>
-          <p>{values?.bankBranch?.address || ""}</p>
+          <p>{strBankName}</p>
+          <p>{strBranchName}</p>
+          <p>{strBranchAddress || ""}</p>
         </div>
         <br />
         <div>
           <p>
             <strong>
-              Subject: {"{"}
-              {"{"}Account Type{"}"}
-              {"}"} Account Open in the Name of {"{"}
-              {values?.businessUnit?.label}
-              {"}"}
-              and the person authorized to deal with {values?.bank?.label}{" "}
-              {values?.bankBranch?.label}.
+              Subject: {strAccountType} Account Open in the Name of{" "}
+              {strBusinessUnitName} and the person authorized to deal with{" "}
+              {strBankName} {strBranchName}.
             </strong>
           </p>
         </div>
@@ -50,22 +52,12 @@ const AccountOpenOne = ({ values }) => {
           <br />
           <p>
             We have the pleasure to inform you that the Board of Directors of
-            the Company has decided to open{" "}
-            <strong>
-              {"{"}
-              {"{"}account type{"}"}
-              {"}"}
-            </strong>{" "}
-            in the name of <strong>{values?.businessUnit?.label}</strong> with
-            your branch as per the Board resolution of the Company which was
-            held on the
-            <strong>
-              {"{"}
-              {"{"}BR Date{"}"}
-              {"}"}
-            </strong>{" "}
-            in the Registered Office of The Company at Akij House, 198, Bir
-            Uttam Mir Shawkat Sarak, Gulshan Link Road, Tejgaon, Dhaka 1208.
+            the Company has decided to open <strong> account type </strong> in
+            the name of <strong>{strBusinessUnitName}</strong> with your branch
+            as per the Board resolution of the Company which was held on the
+            <strong> BR Date </strong> in the Registered Office of The Company
+            at Akij House, 198, Bir Uttam Mir Shawkat Sarak, Gulshan Link Road,
+            Tejgaon, Dhaka 1208.
           </p>
           <br />
           <p>
@@ -75,15 +67,10 @@ const AccountOpenOne = ({ values }) => {
             </strong>
             of the Company be and is hereby authorized to
             <strong>sign and endorse singly</strong> all cheques in regard to
-            <strong>
-              {"{"}
-              {"{"}account type{"}"}
-              {"}"} Account
-            </strong>{" "}
-            for any amount and also sanction advice, security documents, trade
-            (import/export) related documents, other necessary documents and
-            papers for enjoying loan. Besides this, for the smooth running of
-            the business of the Company
+            <strong> account type Account</strong> for any amount and also
+            sanction advice, security documents, trade (import/export) related
+            documents, other necessary documents and papers for enjoying loan.
+            Besides this, for the smooth running of the business of the Company
             <strong>authorized Six (06) Officials</strong> namely:
             <strong>
               1. Md. Sheikh Sadi- Chief Treasury Officer; 2. Md. Masud Rana-
@@ -148,7 +135,7 @@ const AccountOpenOne = ({ values }) => {
           <br />
           <p>Yours faithfully,</p>
           <p>
-            <strong>FOR, {values?.businessUnit?.label}</strong>
+            <strong>FOR, {strBusinessUnitName}</strong>
           </p>
           <p>
             <strong>(SHEIKH JASIM UDDIN)</strong>
@@ -165,15 +152,10 @@ const AccountOpenOne = ({ values }) => {
         <div className="second-part">
           <p>
             EXTRACT OF THE MINUTE OF THE MEETING OF THE BOARD OF DIRECTORS OF
-            <strong>{values?.businessUnit?.label}</strong> ON THE{" "}
-            <strong>
-              {"{"}
-              {"{"}BR Date{"}"}
-              {"}"}
-            </strong>{" "}
-            AT 11.30 A.M. IN THE REGISTERED OFFICE OF THE COMPANY AT AKIJ HOUSE,
-            198, BIR UTTAM MIR SHAWKAT SARAK, GULSHAN LINK ROAD, TEJGAON, DHAKA
-            1208.
+            <strong>{strBusinessUnitName}</strong> ON THE{" "}
+            <strong> BR Date </strong> AT 11.30 A.M. IN THE REGISTERED OFFICE OF
+            THE COMPANY AT AKIJ HOUSE, 198, BIR UTTAM MIR SHAWKAT SARAK, GULSHAN
+            LINK ROAD, TEJGAON, DHAKA 1208.
           </p>
           <br />
           <p>
@@ -206,27 +188,14 @@ const AccountOpenOne = ({ values }) => {
             <strong>
               Resolved that Mr. Sheikh Jasim Uddin, Managing Director
             </strong>
-            of the Company be and is hereby authorized to open {"{"}
-            {"{"}Account Type{"}"}
-            {"}"} in the name of{" "}
-            <strong>
-              {"{"}
-              {"{"}Account Name{"}"}
-              {"}"}
-            </strong>{" "}
-            with
-            <strong>{values?.bank?.label},</strong>{" "}
-            <strong>{values?.bankBranch?.label}</strong> and to operate the
-            account <strong>sign and endorse singly</strong> all cheques in
-            regard to{" "}
-            <strong>
-              {"{"}
-              {"{"}Account Type{"}"}
-              {"}"}
-            </strong>{" "}
-            for any amount and also sanction advice, security documents, trade
-            (import/export) related documents, other necessary documents and
-            papers for enjoying a loan.
+            of the Company be and is hereby authorized to open Account Type in
+            the name of <strong> Account Name </strong> with
+            <strong>{strBankName},</strong> <strong>{strBranchName}</strong> and
+            to operate the account <strong>sign and endorse singly</strong> all
+            cheques in regard to <strong> Account Type </strong> for any amount
+            and also sanction advice, security documents, trade (import/export)
+            related documents, other necessary documents and papers for enjoying
+            a loan.
           </p>
           <br />
           <p>
@@ -291,10 +260,9 @@ const AccountOpenOne = ({ values }) => {
           <br />
           <p>
             b) Resolved that the company will open FDR/ FDRs from time to time
-            with <strong>{values?.bank?.label}</strong>,
-            <strong>{values?.bankBranch?.label}</strong> for the business
-            interest of the company and this resolution will be applicable for
-            that.
+            with <strong>{strBankName}</strong>,<strong>{strBranchName}</strong>{" "}
+            for the business interest of the company and this resolution will be
+            applicable for that.
           </p>
           <br />
           <p>
@@ -349,7 +317,7 @@ const AccountOpenOne = ({ values }) => {
                   <tr>
                     <td>Title of Account</td>
                     <td>
-                      <strong>: {values?.businessUnit?.label}</strong>
+                      <strong>: {strBusinessUnitName}</strong>
                     </td>
                   </tr>
                   <tr>
@@ -360,7 +328,7 @@ const AccountOpenOne = ({ values }) => {
                   </tr>
                   <tr>
                     <td>
-                      {values?.bank?.label} {values?.bankBranch?.label}
+                      {strBankName} {strBranchName}
                     </td>
                     <td />
                   </tr>
@@ -382,7 +350,7 @@ const AccountOpenOne = ({ values }) => {
                   </tr>
                   <tr>
                     <td rowSpan={3}>Sheikh Jasim Uddin</td>
-                    <td>{values?.businessUnit?.label}</td>
+                    <td>{strBusinessUnitName}</td>
                     <td rowSpan={4} />
                   </tr>
                   <tr>
@@ -421,7 +389,7 @@ const AccountOpenOne = ({ values }) => {
                   </tr>
                   <tr>
                     <td rowSpan={3}>Md. Sheikh Sadi</td>
-                    <td>{values?.businessUnit?.label}</td>
+                    <td>{strBusinessUnitName}</td>
                     <td rowSpan={19} />
                   </tr>
                   <tr>
@@ -432,7 +400,7 @@ const AccountOpenOne = ({ values }) => {
                   </tr>
                   <tr>
                     <td rowSpan={3}>Md. Masud Rana</td>
-                    <td>{values?.businessUnit?.label}</td>
+                    <td>{strBusinessUnitName}</td>
                   </tr>
                   <tr>
                     <td>.</td>
@@ -442,7 +410,7 @@ const AccountOpenOne = ({ values }) => {
                   </tr>
                   <tr>
                     <td rowSpan={3}>Iftekhar Uddin Chowdhury</td>
-                    <td>{values?.businessUnit?.label}</td>
+                    <td>{strBusinessUnitName}</td>
                   </tr>
                   <tr>
                     <td>.</td>
@@ -452,7 +420,7 @@ const AccountOpenOne = ({ values }) => {
                   </tr>
                   <tr>
                     <td rowSpan={3}>Raihan Kabir</td>
-                    <td>{values?.businessUnit?.label}</td>
+                    <td>{strBusinessUnitName}</td>
                   </tr>
                   <tr>
                     <td>.</td>
@@ -462,7 +430,7 @@ const AccountOpenOne = ({ values }) => {
                   </tr>
                   <tr>
                     <td rowSpan={3}>Rakibul Alam Khan</td>
-                    <td>{values?.businessUnit?.label}</td>
+                    <td>{strBusinessUnitName}</td>
                   </tr>
                   <tr>
                     <td>.</td>
@@ -472,7 +440,7 @@ const AccountOpenOne = ({ values }) => {
                   </tr>
                   <tr>
                     <td rowSpan={3}>Md. Anamul Haque</td>
-                    <td>{values?.businessUnit?.label}</td>
+                    <td>{strBusinessUnitName}</td>
                   </tr>
                   <tr>
                     <td>.</td>
