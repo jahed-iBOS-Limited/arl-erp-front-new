@@ -117,7 +117,13 @@ const LandingTable = ({ obj }) => {
                         </Tooltip>
                       }
                     >
-                      <div>
+                      <div
+                        style={{
+                          cursor: "pointer",
+                          color: "blue",
+                          textDecoration: "underline",
+                        }}
+                      >
                         {(matchEmployeeId?.investigatorName || defaultEnvEmp) &&
                           (matchEmployeeId?.investigatorName ||
                             defaultEnvEmp?.investigatorName)}
@@ -162,7 +168,13 @@ const LandingTable = ({ obj }) => {
                         </Tooltip>
                       }
                     >
-                      <div>
+                      <div
+                        style={{
+                          cursor: "pointer",
+                          color: "blue",
+                          textDecoration: "underline",
+                        }}
+                      >
                         {(matchEmployeeId?.investigationDateTime ||
                           defaultEnvEmp?.investigationDateTime) &&
                           (moment(
@@ -264,7 +276,10 @@ const LandingTable = ({ obj }) => {
                                   </Tooltip>
                                 }
                               >
-                                <i class="fa fa-info-circle" aria-hidden="true"></i>
+                                <i
+                                  class="fa fa-info-circle"
+                                  aria-hidden="true"
+                                ></i>
                               </OverlayTrigger>
                             </span>
                           ) : (

@@ -10,6 +10,8 @@ import DelegateForm from "./delegate";
 import FeedbackModal from "./feedbackModal";
 import InvestigateForm from "./investigate";
 import { saveColseComplainApi } from "../helper";
+import InvoiceView from "../../complain/landing/invoiceView";
+import IView from "../../../../_helper/_helperIcons/_view";
 
 const LandingTable = ({ obj }) => {
   const {
@@ -17,8 +19,8 @@ const LandingTable = ({ obj }) => {
     selectedBusinessUnit: { value: buId },
     tokenData: { token },
   } = useSelector((state) => state?.authData, shallowEqual);
-
-  const { gridData, commonGridDataCB, setLoading } = obj;
+  const [isShowModal, setIsShowModal] = React.useState(false);
+  const { gridData, commonGridDataCB, setLoading, title } = obj;
   const history = useHistory();
   const [delegatModalShow, setDelegatModalShow] = React.useState(false);
   const [investigateModalShow, setInvestigateModalShow] = React.useState(false);
@@ -27,10 +29,12 @@ const LandingTable = ({ obj }) => {
 
   // const isMyComplaint =
   //   window.location.pathname === "/self-service/my-complaint";
+
+  const isDelegatePage = title === "Delegate";
   return (
     <>
-      <div className='table-responsive'>
-        <table className='table table-striped table-bordered global-table'>
+      <div className="table-responsive">
+        <table className="table table-striped table-bordered global-table">
           <thead>
             <tr>
               <th>SL</th>
@@ -56,9 +60,14 @@ const LandingTable = ({ obj }) => {
                 (itm) => itm?.investigatorId === employeeId
               );
 
+              const investigateItem = matchEmployeeId
+                ? matchEmployeeId
+                : isDelegatePage
+                ? item?.investigatorAssignByName?.[0]
+                : null;
               return (
                 <tr key={index}>
-                  <td className='text-center'> {index + 1}</td>
+                  <td className="text-center"> {index + 1}</td>
                   <td>{item?.complainNo}</td>
                   <td>{item?.complainCategoryName}</td>
                   <td>{_dateFormatter(item?.requestDateTime)}</td>
@@ -77,7 +86,7 @@ const LandingTable = ({ obj }) => {
                   <td>
                     <OverlayTrigger
                       overlay={
-                        <Tooltip className='mytooltip' id='info-tooltip'>
+                        <Tooltip className="mytooltip" id="info-tooltip">
                           <>
                             {item?.investigatorAssignByName?.map((itm, idx) => (
                               <div
@@ -112,16 +121,22 @@ const LandingTable = ({ obj }) => {
                         </Tooltip>
                       }
                     >
-                      <div>
-                        {matchEmployeeId?.investigatorName &&
-                          matchEmployeeId?.investigatorName}
+                      <div
+                        style={{
+                          cursor: "pointer",
+                          color: "blue",
+                          textDecoration: "underline",
+                        }}
+                      >
+                        {investigateItem?.investigatorName &&
+                          investigateItem?.investigatorName}
                       </div>
                     </OverlayTrigger>
                   </td>
                   <td>
                     <OverlayTrigger
                       overlay={
-                        <Tooltip className='mytooltip' id='info-tooltip'>
+                        <Tooltip className="mytooltip" id="info-tooltip">
                           <>
                             {item?.investigatorAssignByName?.map((itm, idx) => (
                               <div
@@ -156,9 +171,15 @@ const LandingTable = ({ obj }) => {
                         </Tooltip>
                       }
                     >
-                      <div>
-                        {matchEmployeeId?.investigationDateTime &&
-                          moment(matchEmployeeId?.investigationDateTime).format(
+                      <div
+                        style={{
+                          cursor: "pointer",
+                          color: "blue",
+                          textDecoration: "underline",
+                        }}
+                      >
+                        {investigateItem?.investigationDateTime &&
+                          moment(investigateItem?.investigationDateTime).format(
                             "YYYY-MM-DD, HH:mm A"
                           )}
                       </div>
@@ -182,7 +203,7 @@ const LandingTable = ({ obj }) => {
                   </td>
                   <td>
                     <div
-                      className='d-flex justify-content-around'
+                      className="d-flex justify-content-around"
                       style={{
                         gap: "8px",
                       }}
@@ -204,7 +225,7 @@ const LandingTable = ({ obj }) => {
                         <>
                           <span>
                             <OverlayTrigger
-                              overlay={<Tooltip id='cs-icon'>Delegate</Tooltip>}
+                              overlay={<Tooltip id="cs-icon">Delegate</Tooltip>}
                             >
                               <span
                                 onClick={() => {
@@ -213,8 +234,8 @@ const LandingTable = ({ obj }) => {
                                 }}
                               >
                                 <i
-                                  class='fa fa-user-plus pointer'
-                                  aria-hidden='true'
+                                  class="fa fa-user-plus pointer"
+                                  aria-hidden="true"
                                 ></i>
                               </span>
                             </OverlayTrigger>
@@ -227,7 +248,7 @@ const LandingTable = ({ obj }) => {
                           <span>
                             <OverlayTrigger
                               overlay={
-                                <Tooltip id='cs-icon'>
+                                <Tooltip id="cs-icon">
                                   {item?.status === "Investigate"
                                     ? "Update Investigate"
                                     : "Investigate"}
@@ -242,13 +263,13 @@ const LandingTable = ({ obj }) => {
                               >
                                 {item?.status === "Investigate" ? (
                                   <i
-                                    class='fa fa-users pointer'
-                                    aria-hidden='true'
+                                    class="fa fa-users pointer"
+                                    aria-hidden="true"
                                   ></i>
                                 ) : (
                                   <i
-                                    class='fa fa-low-vision pointer'
-                                    aria-hidden='true'
+                                    class="fa fa-low-vision pointer"
+                                    aria-hidden="true"
                                   ></i>
                                 )}
                               </span>
@@ -276,7 +297,7 @@ const LandingTable = ({ obj }) => {
                         <span>
                           <OverlayTrigger
                             overlay={
-                              <Tooltip id='cs-icon'>Issue Close </Tooltip>
+                              <Tooltip id="cs-icon">Issue Close </Tooltip>
                             }
                           >
                             <span
@@ -290,13 +311,22 @@ const LandingTable = ({ obj }) => {
                               }}
                             >
                               <i
-                                class='fa fa-times-circle text-danger'
-                                aria-hidden='true'
+                                class="fa fa-times-circle text-danger"
+                                aria-hidden="true"
                               ></i>
                             </span>
                           </OverlayTrigger>
                         </span>
                       )}
+
+                      <span
+                        onClick={() => {
+                          setClickRowData(item);
+                          setIsShowModal(true);
+                        }}
+                      >
+                        <IView />
+                      </span>
                     </div>
                   </td>
                 </tr>
@@ -377,6 +407,19 @@ const LandingTable = ({ obj }) => {
                 }
               }}
             />
+          </IViewModal>
+        </>
+      )}
+      {isShowModal && (
+        <>
+          <IViewModal
+            show={isShowModal}
+            onHide={() => {
+              setIsShowModal(false);
+              setClickRowData({});
+            }}
+          >
+            <InvoiceView clickRowData={clickRowData} />
           </IViewModal>
         </>
       )}
