@@ -1,25 +1,21 @@
+import moment from "moment";
 import React from "react";
 
-const AccountOpenTwo = () => {
+const AccountOpenTwo = ({ values }) => {
   return (
     <>
       <div>
         <div>
           <p>
             <strong>
-              Ref :{"{"}SBU{"}"}
-              {"}"}/{"{"}
-              {"{"}Bank{"}"}
-              {"}"}/AO/{"{"}
-              {"{"}date Ref 2024.05.14{"}"}
-              {"}"}
+              Ref : {values?.businessUnit?.buShortName}/
+              {values?.bank?.bankShortName}
+              /AO/{values?.date}
             </strong>
           </p>
           <p>
             <strong>
-              Date : {"{"}
-              {"{"}Date May 14, 2024{"}"}
-              {"}"}
+              Date : {moment(values?.date)?.format("MMMM D, YYYY")}
             </strong>
           </p>
         </div>
@@ -28,21 +24,9 @@ const AccountOpenTwo = () => {
           <p>
             <strong>The Manager</strong>
           </p>
-          <p>
-            {"{"}
-            {"{"}Bank name{"}"}
-            {"}"}
-          </p>
-          <p>
-            {"{"}
-            {"{"}Branch Name{"}"}
-            {"}"}
-          </p>
-          <p>
-            {"{"}
-            {"{"}Branch Address{"}"}
-            {"}"}
-          </p>
+          <p>{values?.bank?.label}</p>
+          <p>{values?.bankBranch?.label}</p>
+          <p>{values?.bankBranch?.address || ""}</p>
         </div>
         <br />
         <div>
@@ -51,13 +35,10 @@ const AccountOpenTwo = () => {
               Subject: {"{"}
               {"{"}Account Type{"}"}
               {"}"} Account Open in the Name of {"{"}
-              {"{"}SBU Name{"}"}
+              {values?.businessUnit?.label}
               {"}"}
-              and the person authorized to deal with {"{"}
-              {"{"}Bank Name{"}"}
-              {"}"}, {"{"}
-              {"{"}Branch Name{"}"}
-              {"}"}.
+              and the person authorized to deal with {values?.bank?.label}{" "}
+              {values?.bankBranch?.label}.
             </strong>
           </p>
         </div>
@@ -75,14 +56,9 @@ const AccountOpenTwo = () => {
               {"{"}account type{"}"}
               {"}"}
             </strong>{" "}
-            in the name of{" "}
-            <strong>
-              {"{"}
-              {"{"}SBU Name{"}"}
-              {"}"}
-            </strong>{" "}
-            with your branch as per the Board resolution of the Company which
-            was held on the
+            in the name of <strong>{values?.businessUnit?.label}</strong> with
+            your branch as per the Board resolution of the Company which was
+            held on the
             <strong>
               {"{"}
               {"{"}BR Date{"}"}
@@ -172,11 +148,7 @@ const AccountOpenTwo = () => {
           <br />
           <p>Yours faithfully,</p>
           <p>
-            <strong>
-              FOR, {"{"}
-              {"{"}SBU Name{"}"}
-              {"}"}{" "}
-            </strong>
+            <strong>FOR, {values?.businessUnit?.label}</strong>
           </p>
           <p>
             <strong>(SHEIKH JASIM UDDIN)</strong>
@@ -193,12 +165,7 @@ const AccountOpenTwo = () => {
         <div className="second-part">
           <p>
             EXTRACT OF THE MINUTE OF THE MEETING OF THE BOARD OF DIRECTORS OF
-            <strong>
-              {"{"}
-              {"{"}SBU Name{"}"}
-              {"}"}
-            </strong>{" "}
-            ON THE{" "}
+            <strong>{values?.businessUnit?.label}</strong> ON THE{" "}
             <strong>
               {"{"}
               {"{"}BR Date{"}"}
@@ -215,19 +182,19 @@ const AccountOpenTwo = () => {
             Secretary were present.
           </p>
           <br />
-          <pre style={{ fontSize: 16 }}>
+          <pre style={{ fontSize: 16, border: "none" }}>
             {" "}
             <strong>Mr. Sheikh Nasir Uddin</strong>
             {"              "}Managing Director
             {"              "}Sd/
           </pre>
-          <pre style={{ fontSize: 16 }}>
+          <pre style={{ fontSize: 16, border: "none" }}>
             {" "}
             <strong>Mr. Sheikh Jasim Uddin</strong>
             {"              "}Managing Director
             {"              "}Sd/
           </pre>
-          <pre style={{ fontSize: 16 }}>
+          <pre style={{ fontSize: 16, border: "none" }}>
             {" "}
             <strong>Ms. Faria Hossain</strong>
             {"                   "}Chairman{"\t"}
@@ -254,14 +221,10 @@ const AccountOpenTwo = () => {
             </strong>{" "}
             with
             <strong>
-              {"{"}
-              {"{"}Bank Name{"}"}
-              {"}"},
+              <p>{values?.bank?.label}</p>,
             </strong>{" "}
             <strong>
-              {"{"}
-              {"{"}Branch name{"}"}
-              {"}"}
+              <p>{values?.bankBranch?.label}</p>
             </strong>{" "}
             and to operate the account <strong>sign and endorse singly</strong>{" "}
             all cheques in regard to{" "}
@@ -339,15 +302,11 @@ const AccountOpenTwo = () => {
             b) Resolved that the company will open FDR/ FDRs from time to time
             with{" "}
             <strong>
-              {"{"}
-              {"{"}Bank Name{"}"}
-              {"}"}
+              <p>{values?.bank?.label}</p>
             </strong>
             ,
             <strong>
-              {"{"}
-              {"{"}Branch Name{"}"}
-              {"}"}
+              <p>{values?.bankBranch?.label}</p>
             </strong>{" "}
             for the business interest of the company and this resolution will be
             applicable for that.
@@ -405,11 +364,7 @@ const AccountOpenTwo = () => {
                   <tr>
                     <td>Title of Account</td>
                     <td>
-                      <strong>
-                        : {"{"}
-                        {"{"}SBU Name{"}"}
-                        {"}"}{" "}
-                      </strong>
+                      <strong>: {values?.businessUnit?.label}</strong>
                     </td>
                   </tr>
                   <tr>
@@ -420,11 +375,8 @@ const AccountOpenTwo = () => {
                   </tr>
                   <tr>
                     <td>
-                      {"{"}
-                      {"{"}Bank Name{"}"}
-                      {"}"}, {"{"}
-                      {"{"}Branch Name{"}"}
-                      {"}"}
+                      <p>{values?.bank?.label}</p>{" "}
+                      <p>{values?.bankBranch?.label}</p>
                     </td>
                     <td />
                   </tr>
@@ -446,11 +398,7 @@ const AccountOpenTwo = () => {
                   </tr>
                   <tr>
                     <td rowSpan={3}>Sheikh Jasim Uddin</td>
-                    <td>
-                      {"{"}
-                      {"{"}SBU Name{"}"}
-                      {"}"}
-                    </td>
+                    <td>{values?.businessUnit?.label}</td>
                     <td rowSpan={4} />
                   </tr>
                   <tr>
@@ -489,11 +437,7 @@ const AccountOpenTwo = () => {
                   </tr>
                   <tr>
                     <td rowSpan={3}>Md. Sheikh Sadi</td>
-                    <td>
-                      {"{"}
-                      {"{"}SBU Name{"}"}
-                      {"}"}
-                    </td>
+                    <td>{values?.businessUnit?.label}</td>
                     <td rowSpan={19} />
                   </tr>
                   <tr>
@@ -504,11 +448,7 @@ const AccountOpenTwo = () => {
                   </tr>
                   <tr>
                     <td rowSpan={3}>Md. Masud Rana</td>
-                    <td>
-                      {"{"}
-                      {"{"}SBU Name{"}"}
-                      {"}"}
-                    </td>
+                    <td>{values?.businessUnit?.label}</td>
                   </tr>
                   <tr>
                     <td>.</td>
@@ -518,11 +458,7 @@ const AccountOpenTwo = () => {
                   </tr>
                   <tr>
                     <td rowSpan={3}>Iftekhar Uddin Chowdhury</td>
-                    <td>
-                      {"{"}
-                      {"{"}SBU Name{"}"}
-                      {"}"}
-                    </td>
+                    <td>{values?.businessUnit?.label}</td>
                   </tr>
                   <tr>
                     <td>.</td>
@@ -532,11 +468,7 @@ const AccountOpenTwo = () => {
                   </tr>
                   <tr>
                     <td rowSpan={3}>Raihan Kabir</td>
-                    <td>
-                      {"{"}
-                      {"{"}SBU Name{"}"}
-                      {"}"}
-                    </td>
+                    <td>{values?.businessUnit?.label}</td>
                   </tr>
                   <tr>
                     <td>.</td>
@@ -546,11 +478,7 @@ const AccountOpenTwo = () => {
                   </tr>
                   <tr>
                     <td rowSpan={3}>Rakibul Alam Khan</td>
-                    <td>
-                      {"{"}
-                      {"{"}SBU Name{"}"}
-                      {"}"}
-                    </td>
+                    <td>{values?.businessUnit?.label}</td>
                   </tr>
                   <tr>
                     <td>.</td>
@@ -560,11 +488,7 @@ const AccountOpenTwo = () => {
                   </tr>
                   <tr>
                     <td rowSpan={3}>Md. Anamul Haque</td>
-                    <td>
-                      {"{"}
-                      {"{"}SBU Name{"}"}
-                      {"}"}
-                    </td>
+                    <td>{values?.businessUnit?.label}</td>
                   </tr>
                   <tr>
                     <td>.</td>

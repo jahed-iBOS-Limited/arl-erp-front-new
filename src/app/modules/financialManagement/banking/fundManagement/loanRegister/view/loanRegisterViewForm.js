@@ -10,37 +10,45 @@ import {
   getBankDDL,
   getFacilityDLL,
 } from "../../helper";
-const disbursementPurposeDDL =[
-  {value:1,label:"Duty"},
-  {value:2,label:"Bill Payment"},
-  {value:3,label:"Utility Payment"},
-  {value:4,label:"Working Capital"},
-]
+const disbursementPurposeDDL = [
+  { value: 1, label: "Duty" },
+  { value: 2, label: "Bill Payment" },
+  { value: 3, label: "Utility Payment" },
+  { value: 4, label: "Working Capital" },
+];
 const loanRegister = Yup.object().shape({
   bank: Yup.object()
     .shape({
       label: Yup.string().required("Bank is required"),
       value: Yup.string().required("Bank is required"),
     })
-    .nullable().required("Bank is required"),
+    .nullable()
+    .required("Bank is required"),
   facility: Yup.object()
     .shape({
       label: Yup.string().required("Facility is required"),
       value: Yup.string().required("Facility is required"),
     })
-    .nullable().required("Facility is required"),
+    .nullable()
+    .required("Facility is required"),
   account: Yup.object()
     .shape({
       label: Yup.string().required("Account is required"),
       value: Yup.string().required("Account is required"),
     })
-    .nullable().required("Account is required"),
-    openingDate: Yup.string().required("Opening Date is required"),
-    principle: Yup.number().min(1, "Principle is required").required("Principle is required"),
-    disbursementPurpose: Yup.object().shape({
+    .nullable()
+    .required("Account is required"),
+  openingDate: Yup.string().required("Opening Date is required"),
+  principle: Yup.number()
+    .min(1, "Principle is required")
+    .required("Principle is required"),
+  disbursementPurpose: Yup.object()
+    .shape({
       label: Yup.string().required("Disbursement Purpose is required"),
       value: Yup.string().required("Disbursement Purpose is required"),
-    }).nullable().required("Disbursement Purpose is required"),
+    })
+    .nullable()
+    .required("Disbursement Purpose is required"),
 });
 
 export default function LoanRegisterViewForm({
@@ -50,6 +58,7 @@ export default function LoanRegisterViewForm({
   resetBtnRef,
   isEdit,
   renewId,
+  location,
 }) {
   const history = useHistory();
   const [bankDDL, setBankDDL] = useState([]);
@@ -193,6 +202,14 @@ export default function LoanRegisterViewForm({
                     placeholder="Principal"
                     onChange={(e) => {
                       if (e.target.value > 0) {
+                        if (renewId) {
+                          const maxPrinciple =
+                            (+location?.state?.numPrinciple || 0) -
+                            (+location?.state?.numPaid || 0);
+                          if (e.target.value > maxPrinciple) {
+                            return;
+                          }
+                        }
                         setFieldValue("principle", e.target.value);
                       } else {
                         setFieldValue("principle", "");
@@ -223,20 +240,22 @@ export default function LoanRegisterViewForm({
                     // disabled={isEdit}
                   />
                 </div>
-                {!renewId && <div className="col-lg-2">
-                  <NewSelect
-                    name="disbursementPurpose"
-                    options={disbursementPurposeDDL}
-                    value={values?.disbursementPurpose}
-                    onChange={(valueOption) => {
-                      setFieldValue("disbursementPurpose", valueOption);
-                    }}
-                    errors={errors}
-                    touched={touched}
-                    label="Disbursement Purpose"
-                    placeholder="Disbursement Purpose"
-                  />
-                </div>}
+                {!renewId && (
+                  <div className="col-lg-2">
+                    <NewSelect
+                      name="disbursementPurpose"
+                      options={disbursementPurposeDDL}
+                      value={values?.disbursementPurpose}
+                      onChange={(valueOption) => {
+                        setFieldValue("disbursementPurpose", valueOption);
+                      }}
+                      errors={errors}
+                      touched={touched}
+                      label="Disbursement Purpose"
+                      placeholder="Disbursement Purpose"
+                    />
+                  </div>
+                )}
               </div>
 
               <button
