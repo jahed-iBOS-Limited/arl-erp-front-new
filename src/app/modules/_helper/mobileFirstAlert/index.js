@@ -81,8 +81,6 @@ function MobileFirstAlert() {
   const isMatchEmployeeId = [1187].includes(profileData?.employeeId);
   const isEmpSuplier =
     [2].includes(profileData?.userTypeId) && profileData?.workPlaceId === 269;
-
-  console.log(profileData, "profileData");
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     const isLaptop = window.innerWidth > 991;
