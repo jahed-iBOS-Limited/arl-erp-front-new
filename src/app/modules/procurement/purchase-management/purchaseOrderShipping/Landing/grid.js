@@ -395,7 +395,7 @@ const GridData = ({
       <IViewModal
         show={isShippingReportModal_1}
         onHide={() => setIsShippingReportModal_1(false)}
-        title="View Purchase Order"
+        title="View Purchase Order-1"
       >
         <ShippingViewReport1
           poId={currentItem?.purchaseOrderId}
@@ -408,7 +408,7 @@ const GridData = ({
       <IViewModal
         show={isShippingReportModal_2}
         onHide={() => setIsShippingReportModal_2(false)}
-        title="View Purchase Order"
+        title="View Purchase Order-2"
       >
         <ShippingViewReport2
           poId={currentItem?.purchaseOrderId}
@@ -421,7 +421,7 @@ const GridData = ({
       <IViewModal
         show={isShippingReportModal_3}
         onHide={() => setIsShippingReportModal_3(false)}
-        title="View Purchase Order"
+        title="View Purchase Order-3"
       >
         <ShippingViewReport3
           poId={currentItem?.purchaseOrderId}

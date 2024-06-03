@@ -129,10 +129,17 @@ export default function AssetStandardPOCreateForm({
           itemCategoryId: item?.itemCategoryId,
           partNo: item?.partNo,
           drawingNo: item?.drawingNo,
+          shippingItemSubHead: item?.shippingItemSubHead,
         };
         return obj;
       });
-      setRowDto([...newData, ...rowDto]);
+      const modData = [...newData, ...rowDto]
+        const sortedItems = modData?.sort((a, b) => {
+          const subHeadA = a?.shippingItemSubHead || ''; 
+          const subHeadB = b?.shippingItemSubHead || ''; 
+          return subHeadA.localeCompare(subHeadB);
+      });
+      setRowDto(sortedItems);
     } else {
       // if reference, can't add same reference and same item multiple
       // if not reference, can't add multiple item
@@ -183,8 +190,15 @@ export default function AssetStandardPOCreateForm({
           itemCategoryId: values?.item?.itemCategoryId,
           partNo: values?.item?.partNo,
           drawingNo: values?.item?.drawingNo,
+          shippingItemSubHead: values?.item?.shippingItemSubHead,
         };
-        setRowDto([...rowDto, newData]);
+        const modData = [...rowDto, newData]
+        const sortedItems = modData?.sort((a, b) => {
+          const subHeadA = a?.shippingItemSubHead || ''; 
+          const subHeadB = b?.shippingItemSubHead || ''; 
+          return subHeadA.localeCompare(subHeadB);
+      });
+        setRowDto(sortedItems);
       }
     }
   };
@@ -208,7 +222,13 @@ export default function AssetStandardPOCreateForm({
         return false;
       }
     });
-    setRowDto([...filterArr]);
+    const modData = [...filterArr]
+    const sortedItems = modData?.sort((a, b) => {
+      const subHeadA = a?.shippingItemSubHead || ''; 
+      const subHeadB = b?.shippingItemSubHead || ''; 
+      return subHeadA.localeCompare(subHeadB);
+  });
+    setRowDto(sortedItems);
   };
 
   const getItemDDL = (supplierId, refType, referenceNo) => {

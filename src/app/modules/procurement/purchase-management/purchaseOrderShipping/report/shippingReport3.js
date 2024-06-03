@@ -340,6 +340,15 @@ export function ShippingViewReport3({
                             {purchaseOrderReport?.objRowListDTO?.map(
                               (data, i) => (
                                 <>
+                                  {(i === 0 || data.shippingItemSubHead !== purchaseOrderReport?.objRowListDTO[i - 1].shippingItemSubHead) && data?.shippingItemSubHead ? (
+                                    <tr style={{background:'#ADD8E6', paddingTop: '5px', paddingBottom: '5px' }}>
+                                        <td colSpan={'7'}>
+                                            <div style={{fontSize: '20'}} className="text-bold text-center">
+                                                {data.shippingItemSubHead}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                  ) : null}
                                   <tr key={i}>
                                     <td className="text-center">{i + 1}</td>
                                     <td>{data?.itemName}</td>
