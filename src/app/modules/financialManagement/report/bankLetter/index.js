@@ -445,40 +445,54 @@ export default function BankLetter() {
                         <div style={{ marginTop: "40px" }}>
                           {[1].includes(
                             singleRowItem?.intBankLetterTemplateId
-                          ) && <AccountOpenOne values={values} />}
+                          ) && <AccountOpenOne singleRowItem={singleRowItem} />}
                           {[2].includes(
                             singleRowItem?.intBankLetterTemplateId
-                          ) && <AccountOpenTwo values={values} />}
+                          ) && <AccountOpenTwo singleRowItem={singleRowItem} />}
                           {[3].includes(
                             singleRowItem?.intBankLetterTemplateId
-                          ) && <AccountCloseOne singleRowItem={singleRowItem} />}
+                          ) && (
+                            <AccountCloseOne singleRowItem={singleRowItem} />
+                          )}
                           {[4].includes(
                             singleRowItem?.intBankLetterTemplateId
-                          ) && <AccountCloseTwo singleRowItem={singleRowItem} />}
+                          ) && (
+                            <AccountCloseTwo singleRowItem={singleRowItem} />
+                          )}
                           {[5].includes(
                             singleRowItem?.intBankLetterTemplateId
-                          ) && <AccountCloseThree singleRowItem={singleRowItem} />}
+                          ) && (
+                            <AccountCloseThree singleRowItem={singleRowItem} />
+                          )}
                           {[6].includes(
                             singleRowItem?.intBankLetterTemplateId
-                          ) && <AccountCloseFour singleRowItem={singleRowItem} />}
+                          ) && (
+                            <AccountCloseFour singleRowItem={singleRowItem} />
+                          )}
                           {[7].includes(
                             singleRowItem?.intBankLetterTemplateId
-                          ) && <FdrONE values={values} />}
+                          ) && <FdrONE singleRowItem={singleRowItem} />}
                           {[8].includes(
                             singleRowItem?.intBankLetterTemplateId
-                          ) && <FdrTwo values={values} />}
+                          ) && <FdrTwo singleRowItem={singleRowItem} />}
                           {[9].includes(
                             singleRowItem?.intBankLetterTemplateId
-                          ) && <FdrThree values={values} />}
+                          ) && <FdrThree singleRowItem={singleRowItem} />}
                           {[10].includes(
                             singleRowItem?.intBankLetterTemplateId
-                          ) && <AuthorizationOne values={values} />}
+                          ) && (
+                            <AuthorizationOne singleRowItem={singleRowItem} />
+                          )}
                           {[11].includes(
                             singleRowItem?.intBankLetterTemplateId
-                          ) && <SignatoryChangeOne values={values} />}
+                          ) && (
+                            <SignatoryChangeOne singleRowItem={singleRowItem} />
+                          )}
                           {[12].includes(
                             singleRowItem?.intBankLetterTemplateId
-                          ) && <SignatoryChangeTwo values={values} />}
+                          ) && (
+                            <SignatoryChangeTwo singleRowItem={singleRowItem} />
+                          )}
                         </div>
                       </tbody>
                       <tfoot>
