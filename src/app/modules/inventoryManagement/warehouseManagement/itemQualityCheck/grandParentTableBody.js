@@ -111,11 +111,12 @@ export default function GrandParentTableBody({
           <input
           style={{ maxWidth: "50px" }}
           value={grandParentItem?.bagWeightDeductQuantity || ""}
-          disabled={true}
+          // disabled={true}
           min={0}
           name="bagWeightDeductQuantity"
           type="number"
             onChange={(e) => {
+              if(+e.target.value < 0) return toast.warn("Bag	Weight Cann't be Negative");
               handleBagWeightDeductionQty(e,grandParentIndex);
             }}
         />

@@ -20,13 +20,13 @@ const FdrONE = () => {
         <br />
         <br />
         <div>
-          <pre style={{ fontSize: "16px" }}>
+          <pre style={{ fontSize: "16px", border:"none" }}>
             1. <strong>Mr. Sheikh Nasir Uddin</strong> Sd/
           </pre>
-          <pre style={{ fontSize: "16px" }}>
+          <pre style={{ fontSize: "16px", border:"none" }}>
             2. <strong>Mr. Sheikh Jasim Uddin</strong> Sd/
           </pre>
-          <pre style={{ fontSize: "16px" }}>
+          <pre style={{ fontSize: "16px", border:"none" }}>
             3. <strong>Ms. Faria Hossain</strong> Sd/
           </pre>
         </div>

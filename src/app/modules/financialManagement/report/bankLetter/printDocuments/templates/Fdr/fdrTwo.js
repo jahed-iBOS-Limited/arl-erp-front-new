@@ -20,11 +20,11 @@ const FdrTwo = () => {
         <br />
         <br />
         <div>
-          <pre style={{ fontSize: "16px" }}>
+          <pre style={{ fontSize: "16px", border: "none" }}>
             {" "}
             <strong>Mr. Sheikh Jasim Uddin</strong> Managing Director Sd/
           </pre>
-          <pre style={{ fontSize: "16px" }}>
+          <pre style={{ fontSize: "16px", border: "none" }}>
             {" "}
             <strong>Ms. Faria Hossain</strong> Chairman Sd/
           </pre>
