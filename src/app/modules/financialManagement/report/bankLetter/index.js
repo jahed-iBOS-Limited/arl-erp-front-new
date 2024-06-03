@@ -15,6 +15,7 @@ import AccountOpenTwo from "./printDocuments/templates/AccountsOpen/two";
 import FdrONE from "./printDocuments/templates/Fdr/fdrOne";
 import FdrThree from "./printDocuments/templates/Fdr/FdrThree";
 import FdrTwo from "./printDocuments/templates/Fdr/fdrTwo";
+import { getLetterHead } from "./helper";
 const initData = {};
 export default function BankLetter() {
   const { businessUnitList } = useSelector((state) => {
@@ -23,6 +24,7 @@ export default function BankLetter() {
 
   const [bankList, getBankList] = useAxiosGet();
   const [templateList, getTemplateList, , setTemplateList] = useAxiosGet();
+  const [bankBranchList, getBankBranchList] = useAxiosGet();
   const printRef = useRef();
 
   useEffect(() => {
@@ -37,6 +39,7 @@ export default function BankLetter() {
       "@media print{body { -webkit-print-color-adjust: exact; margin: 0mm;}@page {size: portrait ! important}}",
   });
   const history = useHistory();
+
   return (
     <Formik
       enableReinitialize={true}
@@ -83,6 +86,24 @@ export default function BankLetter() {
                     label="Bank"
                     onChange={(valueOption) => {
                       setFieldValue("bank", valueOption || "");
+                      if (valueOption) {
+                        getBankBranchList(
+                          `/hcm/HCMDDL/GetBankBranchDDL?BankId=${valueOption?.value}`
+                        );
+                      }
+                    }}
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <NewSelect
+                    name="bankBranch"
+                    options={bankBranchList || []}
+                    value={values?.bankBranch}
+                    label="Bank Branch"
+                    onChange={(valueOption) => {
+                      setFieldValue("bankBranch", valueOption || "");
                     }}
                     errors={errors}
                     touched={touched}
@@ -177,7 +198,9 @@ export default function BankLetter() {
                     <div
                       className="invoice-header"
                       style={{
-                        backgroundImage: `url(${cementLetterhead})`,
+                        backgroundImage: `url(${getLetterHead({
+                          buId: values?.businessUnit?.value,
+                        })})`,
                         backgroundRepeat: "no-repeat",
                         height: "150px",
                         backgroundPosition: "left 10px",
@@ -190,7 +213,9 @@ export default function BankLetter() {
                     <div
                       className="invoice-footer"
                       style={{
-                        backgroundImage: `url(${cementLetterhead})`,
+                        backgroundImage: `url(${getLetterHead({
+                          buId: values?.businessUnit?.value,
+                        })})`,
                         backgroundRepeat: "no-repeat",
                         height: "100px",
                         backgroundPosition: "left bottom",
