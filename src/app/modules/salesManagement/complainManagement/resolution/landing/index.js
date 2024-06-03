@@ -239,6 +239,7 @@ const ResolutionLanding = () => {
                     commonGridData(pageNo, pageSize, values);
                   },
                   setLoading,
+                  title
                 }}
               />
 
