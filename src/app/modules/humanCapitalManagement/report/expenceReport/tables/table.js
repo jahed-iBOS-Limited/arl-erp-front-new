@@ -1,10 +1,12 @@
 import React from "react";
 import { _fixedPoint } from "../../../../_helper/_fixedPoint";
+import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import moment from "moment";
 
 function Table({ gridData }) {
   const bgStyleFunc = (item) => {
-    if(item?.strBillRegisterCode) {
-      return {backgroundColor: "#42d342bd"}
+    if (item?.strBillRegisterCode) {
+      return { backgroundColor: "#42d342bd" };
     }
     if (item?.numApprvBySuppervisor === 0 || item?.numApprvByHR === 0) {
       return { backgroundColor: "#fbfb0054" };
@@ -53,6 +55,8 @@ function Table({ gridData }) {
                 <th style={{ minWidth: "100px" }}>Applicant Amount</th>
                 <th style={{ minWidth: "100px" }}>Approve By HR</th>
                 <th style={{ minWidth: "100px" }}>Approve By Supervisor</th>
+                <th style={{ minWidth: "80px" }}>Supervisor Approve Date</th>
+                <th style={{ minWidth: "80px" }}>Line Manager Approve Date</th>
                 <th style={{ minWidth: "100px" }}>Net Payable</th>
                 <th style={{ minWidth: "100px" }}>Bill Register Code</th>
               </tr>
@@ -90,6 +94,18 @@ function Table({ gridData }) {
                     <td className="text-right">
                       {_fixedPoint(item?.numApprvBySuppervisor)}
                     </td>
+                    <td>
+                      {item?.dteSupervisorAprvdate &&
+                        moment(item?.dteSupervisorAprvdate).format(
+                          "YYYY-MM-DD, LT"
+                        )}
+                    </td>
+                    <td>
+                      {item?.dteLineManagerAprvdate &&
+                        moment(item?.dteLineManagerAprvdate).format(
+                          "YYYY-MM-DD, LT"
+                        )}
+                    </td>
                     <td className="text-right">
                       {_fixedPoint(item?.numNetPayable)}
                     </td>
@@ -115,6 +131,8 @@ function Table({ gridData }) {
                 <td className="text-right">
                   <b>{_fixedPoint(totalNumApprvBySuppervisor)}</b>
                 </td>
+                <td></td>
+                <td></td>
                 <td className="text-right">
                   <b>{_fixedPoint(totalNumNetPayable)}</b>
                 </td>
