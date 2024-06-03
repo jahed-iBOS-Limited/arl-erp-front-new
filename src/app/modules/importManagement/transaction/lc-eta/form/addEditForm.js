@@ -8,6 +8,7 @@ import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import Form from "./form";
 import { date } from "yup";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import { toast } from "react-toastify";
 
 const initData = {
   poNo: "",
@@ -41,11 +42,11 @@ export default function LcEatAddEditForm() {
               blno,
               vesselName,
               numberOfContainer,
-              poNo,
-              poId,
-            } = data[0] || {};
+              ponumber,
+              poid,
+            } = data || {};
             setSingleData({
-              poNo: poNo ? { value: poId, label: poNo } : "",
+              poNo: poid ? { value: poid, label: ponumber } : "",
               lcid: lcid || 0,
               etaDate: etaDate ? _dateFormatter(etaDate) : "",
               invoiceNo: nvoiceNo || "",
@@ -61,10 +62,11 @@ export default function LcEatAddEditForm() {
   }, []);
 
   const saveHandler = async (values, cb) => {
+    if (!values?.lcid) return toast.warning("LC Not Found");
     const paylaod = {
       lcidetanfoId: params?.id || 0,
       lcid: +values?.lcid || 0,
-      poId: values?.poNo?.value || 0,
+      poId: values?.poNo?.poId || 0,
       etaDate: values?.etaDate || "",
       nvoiceNo: values?.invoiceNo || "",
       blno: values?.blNo || "",
@@ -83,7 +85,7 @@ export default function LcEatAddEditForm() {
       true
     );
   };
-
+  console.log(singleData, "singleData");
   return (
     <IForm
       title={params?.id ? "Edit LC ETA" : "LC ETA"}

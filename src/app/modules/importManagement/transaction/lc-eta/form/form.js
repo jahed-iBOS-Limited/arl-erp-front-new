@@ -7,7 +7,9 @@ import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
 import FormikError from "../../../../_helper/_formikError";
 import InputField from "../../../../_helper/_inputField";
 import { validationSchema } from "../helper";
-
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import Loading from "../../../../_helper/_loading";
+import { toast } from "react-toastify";
 export default function _Form({
   initData,
   btnRef,
@@ -15,6 +17,7 @@ export default function _Form({
   resetBtnRef,
   isEdit,
 }) {
+  const [, gettLetterOfCreaditByPo, lcLoading] = useAxiosGet("");
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
@@ -50,30 +53,41 @@ export default function _Form({
           setFieldValue,
         }) => (
           <>
+            {lcLoading && <Loading />}
             <Form className="form form-label-right">
               <div className="global-form">
                 <div className="row">
-                  {!isEdit && (
-                    <>
-                      <div className="col-lg-3 col-md-3">
-                        <label>PO No/ LC No</label>
-                        <SearchAsyncSelect
-                          selectedValue={values?.poNo || ""}
-                          isSearchIcon={true}
-                          paddingRight={10}
-                          handleChange={(valueOption) => {
-                            setFieldValue("poNo", valueOption);
-                          }}
-                          loadOptions={loadPartsList}
-                        />
-                        <FormikError
-                          errors={errors}
-                          name="assignTo"
-                          touched={touched}
-                        />
-                      </div>
-                    </>
-                  )}
+                  <>
+                    <div className="col-lg-3 col-md-3">
+                      <label>PO No/ LC No</label>
+                      <SearchAsyncSelect
+                        selectedValue={values?.poNo || ""}
+                        isSearchIcon={true}
+                        paddingRight={10}
+                        handleChange={(valueOption) => {
+                          setFieldValue("poNo", valueOption);
+                          setFieldValue("lcid", "");
+                          gettLetterOfCreaditByPo(
+                            `/imp/Shipment/GettLetterOfCreaditByPo?PoId=${valueOption?.value}`,
+                            (resData) => {
+                              setFieldValue("lcid", resData?.lcid || "");
+                            },
+                            (errors) => {
+                              toast.warning("LC Not Found");
+                            }
+                          );
+                        }}
+                        loadOptions={loadPartsList}
+                        isDisabled={isEdit}
+                      />
+                      <FormikError
+                        errors={errors}
+                        name="poNo"
+                        touched={touched}
+                      />
+                    </div>
+                  </>
+
                   <div className="col-lg-3">
                     <label>ETA Date</label>
                     <InputField

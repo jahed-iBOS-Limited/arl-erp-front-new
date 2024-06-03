@@ -16,6 +16,7 @@ import { _firstDateofMonth } from "../../../../_helper/_firstDateOfCurrentMonth"
 import IEdit from "../../../../_helper/_helperIcons/_edit";
 import Loading from "../../../../_helper/_loading";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import { toast } from "react-toastify";
 
 const header = [
   "SL No.",
@@ -28,6 +29,7 @@ const header = [
 ];
 
 const TableRow = () => {
+  const [, gettLetterOfCreaditByPo, lcLoading,settLetterOfCreaditByPo ] = useAxiosGet("");
   const history = useHistory();
   const [
     letterOfCreaditETALanding,
@@ -55,7 +57,7 @@ const TableRow = () => {
 
   const girdDataFunc = async (values) => {
     gettLetterOfCreaditETALanding(
-      `/imp/Shipment/GettLetterOfCreaditETALandingPasignation?Lcid=${values?.poNo?.value}`
+      `/imp/Shipment/GettLetterOfCreaditETALandingPasignation?Lcid=${values?.lcid}`
     );
   };
 
@@ -82,6 +84,9 @@ const TableRow = () => {
       >
         {({ errors, touched, setFieldValue, isValid, values }) => (
           <>
+          {
+            lcLoading && <Loading />
+          }
             <Card>
               <CardHeader title="LC ETA">
                 <CardHeaderToolbar>
@@ -108,12 +113,22 @@ const TableRow = () => {
                       isSearchIcon={true}
                       paddingRight={10}
                       handleChange={(valueOption) => {
+                        settLetterOfCreaditByPo([])
                         setFieldValue("poNo", valueOption);
-                        const modifyvalues = {
-                          ...values,
-                          poNo: valueOption,
-                        };
-                        girdDataFunc(modifyvalues);
+                        gettLetterOfCreaditByPo(
+                          `/imp/Shipment/GettLetterOfCreaditByPo?PoId=${valueOption?.value}`,
+                          (resData) => {
+                            const modifyvalues = {
+                              ...values,
+                              poNo: valueOption,
+                              lcid: resData?.lcid || 0,
+                            };
+                            girdDataFunc(modifyvalues);
+                          },
+                          (errors) => {
+                            toast.warning("LC Not Found");
+                          }
+                        );
                       }}
                       loadOptions={loadPartsList}
                     />
@@ -146,7 +161,7 @@ const TableRow = () => {
                               className="ml-5 edit"
                               onClick={() => {
                                 history.push({
-                                  pathname: `/managementImport/transaction/lc-eta/edit/${item?.lcid}`,
+                                  pathname: `/managementImport/transaction/lc-eta/edit/${item?.lcidetanfoId}`,
                                 });
                               }}
                             >
