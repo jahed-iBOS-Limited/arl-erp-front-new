@@ -161,6 +161,7 @@ export default function LoanRegisterCreate({
         selectedBusinessUnit={selectedBusinessUnit}
         isEdit={editId || false}
         renewId={renewId}
+        location={location}
       />
     </IForm>
   );
