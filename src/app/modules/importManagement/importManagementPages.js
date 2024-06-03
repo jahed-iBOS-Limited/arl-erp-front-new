@@ -59,6 +59,8 @@ import PurchasePlanningAndScheduling from "./reports/purchasePlanning";
 import CustomsRTGSLanding from "./transaction/customsRTGS/landing";
 import CustomsRTGSCreate from "./transaction/customsRTGS/create";
 import ShipmentTracking from "./reports/shipmentTracking";
+import LcEatLanding from "./transaction/lc-eta/landing/tableHeader";
+import LcEatAddEditForm from "./transaction/lc-eta/form/addEditForm";
 
 export function importManagementPages() {
   return (
@@ -127,6 +129,21 @@ export function importManagementPages() {
           path="/managementImport/transaction/lc-open"
           component={LcOpenLanding}
         />
+
+        {/* lc-eta */}
+        <ContentRoute
+          path="/managementImport/transaction/lc-eta/edit/:id"
+          component={LcEatAddEditForm}
+        />
+        <ContentRoute
+          path="/managementImport/transaction/lc-eta/create"
+          component={LcEatAddEditForm}
+        />
+        <ContentRoute
+          path="/managementImport/transaction/lc-eta"
+          component={LcEatLanding}
+        />
+
         {/* LC open finished */}
         <ContentRoute
           path="/managementImport/transaction/document-release/create"
