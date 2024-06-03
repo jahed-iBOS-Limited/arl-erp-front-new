@@ -18,7 +18,7 @@ const LandingTable = ({ obj }) => {
     tokenData: { token },
   } = useSelector((state) => state?.authData, shallowEqual);
 
-  const { gridData, commonGridDataCB, setLoading } = obj;
+  const { gridData, commonGridDataCB, setLoading, title } = obj;
   const history = useHistory();
   const [delegatModalShow, setDelegatModalShow] = React.useState(false);
   const [investigateModalShow, setInvestigateModalShow] = React.useState(false);
@@ -27,10 +27,12 @@ const LandingTable = ({ obj }) => {
 
   // const isMyComplaint =
   //   window.location.pathname === "/self-service/my-complaint";
+
+  const isDelegatePage = title === "Delegate";
   return (
     <>
-      <div className='table-responsive'>
-        <table className='table table-striped table-bordered global-table'>
+      <div className="table-responsive">
+        <table className="table table-striped table-bordered global-table">
           <thead>
             <tr>
               <th>SL</th>
@@ -58,7 +60,7 @@ const LandingTable = ({ obj }) => {
 
               return (
                 <tr key={index}>
-                  <td className='text-center'> {index + 1}</td>
+                  <td className="text-center"> {index + 1}</td>
                   <td>{item?.complainNo}</td>
                   <td>{item?.complainCategoryName}</td>
                   <td>{_dateFormatter(item?.requestDateTime)}</td>
@@ -77,7 +79,7 @@ const LandingTable = ({ obj }) => {
                   <td>
                     <OverlayTrigger
                       overlay={
-                        <Tooltip className='mytooltip' id='info-tooltip'>
+                        <Tooltip className="mytooltip" id="info-tooltip">
                           <>
                             {item?.investigatorAssignByName?.map((itm, idx) => (
                               <div
@@ -121,7 +123,7 @@ const LandingTable = ({ obj }) => {
                   <td>
                     <OverlayTrigger
                       overlay={
-                        <Tooltip className='mytooltip' id='info-tooltip'>
+                        <Tooltip className="mytooltip" id="info-tooltip">
                           <>
                             {item?.investigatorAssignByName?.map((itm, idx) => (
                               <div
@@ -182,7 +184,7 @@ const LandingTable = ({ obj }) => {
                   </td>
                   <td>
                     <div
-                      className='d-flex justify-content-around'
+                      className="d-flex justify-content-around"
                       style={{
                         gap: "8px",
                       }}
@@ -204,7 +206,7 @@ const LandingTable = ({ obj }) => {
                         <>
                           <span>
                             <OverlayTrigger
-                              overlay={<Tooltip id='cs-icon'>Delegate</Tooltip>}
+                              overlay={<Tooltip id="cs-icon">Delegate</Tooltip>}
                             >
                               <span
                                 onClick={() => {
@@ -213,8 +215,8 @@ const LandingTable = ({ obj }) => {
                                 }}
                               >
                                 <i
-                                  class='fa fa-user-plus pointer'
-                                  aria-hidden='true'
+                                  class="fa fa-user-plus pointer"
+                                  aria-hidden="true"
                                 ></i>
                               </span>
                             </OverlayTrigger>
@@ -222,12 +224,13 @@ const LandingTable = ({ obj }) => {
                         </>
                       )}
 
-                      {item?.status === "Investigate" && matchEmployeeId && (
+                      {((item?.status === "Investigate" && matchEmployeeId) ||
+                        isDelegatePage) && (
                         <>
                           <span>
                             <OverlayTrigger
                               overlay={
-                                <Tooltip id='cs-icon'>
+                                <Tooltip id="cs-icon">
                                   {item?.status === "Investigate"
                                     ? "Update Investigate"
                                     : "Investigate"}
@@ -242,13 +245,13 @@ const LandingTable = ({ obj }) => {
                               >
                                 {item?.status === "Investigate" ? (
                                   <i
-                                    class='fa fa-users pointer'
-                                    aria-hidden='true'
+                                    class="fa fa-users pointer"
+                                    aria-hidden="true"
                                   ></i>
                                 ) : (
                                   <i
-                                    class='fa fa-low-vision pointer'
-                                    aria-hidden='true'
+                                    class="fa fa-low-vision pointer"
+                                    aria-hidden="true"
                                   ></i>
                                 )}
                               </span>
@@ -272,11 +275,12 @@ const LandingTable = ({ obj }) => {
                           </span> */}
                         </>
                       )}
-                      {item?.status === "Investigate" && matchEmployeeId && (
+                      {((item?.status === "Investigate" && matchEmployeeId) ||
+                        isDelegatePage) && (
                         <span>
                           <OverlayTrigger
                             overlay={
-                              <Tooltip id='cs-icon'>Issue Close </Tooltip>
+                              <Tooltip id="cs-icon">Issue Close </Tooltip>
                             }
                           >
                             <span
@@ -290,8 +294,8 @@ const LandingTable = ({ obj }) => {
                               }}
                             >
                               <i
-                                class='fa fa-times-circle text-danger'
-                                aria-hidden='true'
+                                class="fa fa-times-circle text-danger"
+                                aria-hidden="true"
                               ></i>
                             </span>
                           </OverlayTrigger>
