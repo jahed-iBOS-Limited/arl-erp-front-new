@@ -6,7 +6,7 @@ import Loading from "./../../../_helper/_loading";
 import NewSelect from "../../../_helper/_select";
 import { getLastDateOfMonth, monthDDL } from "./helper";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import "./style.css";
+import "./style.scss";
 import { useReactToPrint } from "react-to-print";
 import { getLetterHead } from "../bankLetter/helper";
 import PrintView from "./printView";
