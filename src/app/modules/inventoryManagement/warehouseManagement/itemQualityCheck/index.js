@@ -232,6 +232,7 @@ export default function ItemQualityCheckLanding() {
                       <th></th>
                       <th>SL</th>
                       <th>MRR Code</th>
+                      <th>Purchase Order Code</th>
                       <th>Date</th>
                       <th>Supplier Name</th>
                       <th>Address</th>
@@ -279,6 +280,7 @@ export default function ItemQualityCheckLanding() {
                             {item?.inventoryTransactionCode}
                           </span>
                         </td>
+                        <td className="text-center">{item?.totalRecords}</td>
                         <td>{_dateFormatter(item?.createdAt)}</td>
                         <td>{item?.supplierName}</td>
                         <td>{item?.supplierAddress}</td>
