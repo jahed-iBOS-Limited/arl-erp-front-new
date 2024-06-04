@@ -19,6 +19,7 @@ import { getSalesOrgList } from "../../../transaction/timeCharter/helper";
 import { getMonthlyVoyageStatement, months } from "../helper";
 import { _firstDateofMonth } from "../../../../_helper/_firstDateOfCurrentMonth";
 import { imarineBaseUrl } from "../../../../../App";
+import moment from "moment";
 
 const headers = [
   { name: "SL" },
@@ -299,31 +300,53 @@ export default function MonthlyVoyageStatement() {
                           {index + 1}
                         </td>
                         <td>{item?.lighterVesselName}</td>
-                        <td>{item?.tripNo}</td>
-                        <td>{item?.srNo}</td>
-                        <td>{item?.receiveDate}</td>
-                        <td>{item?.dischargeStartDate}</td>
-                        <td>{item?.dischargeComplDate}</td>
-                        <td className="text-right">
-                          {item?.numTotalTripDuration} DAYS
+                        <td>{item?.tripNumber}</td>
+                        <td>{item?.srnumber}</td>
+                        <td>
+                          {item?.receiveDate
+                            ? moment(item?.receiveDate).format(
+                                "YYYY-MM-DD HH:mm:ss"
+                              )
+                            : ""}
                         </td>
+                        <td>
+                          {item?.dischargeStartDate
+                            ? moment(item?.dischargeStartDate).format(
+                                "YYYY-MM-DD HH:mm:ss"
+                              )
+                            : ""}
+                        </td>
+                        <td>
+                          {item?.dischargeCompleteDate
+                            ? moment(item?.dischargeCompleteDate).format(
+                                "YYYY-MM-DD HH:mm:ss"
+                              )
+                            : ""}
+                        </td>
+                        <td className="text-right">{item?.duration} DAYS</td>
                         <td>{item?.motherVesselName}</td>
                         <td>{item?.voyageNo}</td>
                         <td>{item?.cargoName}</td>
                         <td className="text-right">
-                          {_fixedPoint(item?.estimatedCargoQty, true, 0)}
+                          {_fixedPoint(item?.cargoQtyEst, true, 0)}
                         </td>
                         <td className="text-right">
-                          {_fixedPoint(item?.numActualCargoQnty, true, 0)}
+                          {_fixedPoint(item?.cargoQtyAct, true, 0)}
                         </td>
                         <td className="text-right">
-                          {_fixedPoint(item?.numFreight, true, 0)}
+                          {_fixedPoint(item?.cargoFreightRate, true, 0)}
                         </td>
                         <td className="text-right">
-                          {_fixedPoint(item?.estFreightAmount, true, 0)}
+                          {_fixedPoint(
+                            (+item?.cargoQtyEst || 0) *
+                              (+item?.cargoFreightRate || 0),
+                            true,
+                            0
+                          )}
                         </td>
                         <td className="text-right">
-                          {_fixedPoint(item?.numTotalFreight, true, 0)}
+                          {_fixedPoint((+item?.cargoQtyAct || 0) *
+                              (+item?.cargoFreightRate || 0), true, 0)}
                         </td>
                         <td>{item?.dischargePortName}</td>
                         <td>
