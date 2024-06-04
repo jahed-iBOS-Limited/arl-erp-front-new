@@ -277,7 +277,7 @@ const TableRow = () => {
                                   </span>
                                   <span className="ml-3">
                                     <ICon
-                                      title={"Prayer for issuance"}
+                                      title={"Prayer for issuance of LC"}
                                       onClick={() => {
                                         setPrayerForIssuanceOpen(true);
                                         setSingleItem(item);
