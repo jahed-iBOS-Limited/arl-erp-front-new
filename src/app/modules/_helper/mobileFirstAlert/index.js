@@ -78,8 +78,9 @@ function MobileFirstAlert() {
     return `${minutes}:${secs < 10 ? "0" : ""}${secs}`;
   };
   const isShowBUIMatch = [184].includes(profileData?.defaultBusinessUnit);
-
   const isMatchEmployeeId = [1187].includes(profileData?.employeeId);
+  const isEmpSuplier =
+    [2].includes(profileData?.userTypeId) && profileData?.workPlaceId === 269;
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     const isLaptop = window.innerWidth > 991;
@@ -89,7 +90,8 @@ function MobileFirstAlert() {
       leftTime &&
       !isShowBUIMatch &&
       isMatchWorkPlaceMatch &&
-      !isMatchEmployeeId
+      !isMatchEmployeeId &&
+      !isEmpSuplier
     ) {
       setIsShowAlert(true);
     }
@@ -109,6 +111,7 @@ function MobileFirstAlert() {
 
             {(!isMatchWorkPlaceMatch ||
               isShowBUIMatch ||
+              isEmpSuplier ||
               isMatchEmployeeId) && (
               <div className="close-icon" onClick={handleClose}>
                 &times;
