@@ -1,9 +1,10 @@
 import React from "react";
+import "../../templates/style.scss";
 
 const SignatoryChangeTwo = () => {
   return (
     <>
-      <div>
+      <div className="bank-letter-template-common-wrapper">
         <p style={{ fontSize: 16 }}>
           <b>
             Date: {"{"}

@@ -21,6 +21,7 @@ export default function BankStock() {
   }, shallowEqual);
 
   const [reportData, getReportData, loader] = useAxiosGet();
+  const [totalAmount, getTotalAmount] = useAxiosGet();
   const saveHandler = (values, cb) => {};
 
   const printRef = useRef();
@@ -92,6 +93,13 @@ export default function BankStock() {
                             values?.monthYear?.split("-")[1]
                           )}`
                         );
+                        getTotalAmount(
+                          `/fino/BankLetter/GetReceableAmount?businessUnitId=${
+                            values?.businessUnit?.value
+                          }&dteDate=${getLastDateOfMonth(
+                            values?.monthYear?.split("-")[1]
+                          )}`
+                        );
                       }}
                       type="button"
                       className="btn  btn-primary mt-5"
@@ -113,7 +121,7 @@ export default function BankStock() {
                   </div>
                 )}
                 {reportData?.length > 0 && (
-                  <PrintView reportData={reportData} values={values} />
+                  <PrintView reportData={reportData} values={values} totalAmount={totalAmount} />
                 )}
                 <div ref={printRef} className="bank-stock-print-wrapper">
                   <div style={{ margin: "-13px 50px 51px 50px" }}>
@@ -168,7 +176,7 @@ export default function BankStock() {
                       <tbody>
                         <div style={{ marginTop: "40px" }}>
                           {/* // Content here  */}
-                          <PrintView reportData={reportData} values={values} />
+                          <PrintView reportData={reportData} values={values} totalAmount={totalAmount}/>
                         </div>
                       </tbody>
                       <tfoot>

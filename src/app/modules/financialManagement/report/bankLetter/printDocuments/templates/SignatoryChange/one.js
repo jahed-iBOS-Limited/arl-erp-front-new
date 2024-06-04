@@ -1,4 +1,5 @@
 import React from "react";
+import "../../templates/style.scss";
 
 const SignatoryChangeOne = ({ singleRowItem }) => {
   const {
@@ -13,7 +14,7 @@ const SignatoryChangeOne = ({ singleRowItem }) => {
   } = singleRowItem;
   return (
     <>
-      <div>
+      <div className="bank-letter-template-common-wrapper">
         <p style={{ fontSize: 16 }}>
           <b>Date: {strDate} </b>
         </p>
