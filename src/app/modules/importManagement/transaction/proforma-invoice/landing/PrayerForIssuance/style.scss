@@ -4,7 +4,7 @@
   /* width: 50%;
   margin-left: 25%; */
 }
-#prayerForIssuance   {
+#prayerForIssuance {
   margin: 0 40px;
 }
 #prayerForIssuance p {
@@ -32,4 +32,22 @@
 }
 #prayerForIssuance #signatures {
   text-align: center;
+}
+#prayerForIssuance {
+  .invoice-header,
+  .invoice-footer {
+    display: none;
+  }
+  @media print {
+    margin-top: 100px !important;
+    .invoice-header,
+    .invoice-footer {
+      display: block !important;
+    }
+  }
+  p {
+    @media print {
+      font-size: 18px !important;
+    }
+  }
 }
