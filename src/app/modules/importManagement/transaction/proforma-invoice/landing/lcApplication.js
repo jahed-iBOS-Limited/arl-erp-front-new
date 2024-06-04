@@ -116,7 +116,7 @@ const LCApplicationExport = ({ obj }) => {
                     className="btn-success btn-sm"
                     onClick={() => {
                       getLCInfo(
-                        `https://devautomation.ibos.io/lc_issuance`,
+                        `https://automation.ibos.io/lc_issuance`,
                         {
                           text: singleItem?.pdfTextdata || '',
                         },
