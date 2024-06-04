@@ -118,8 +118,16 @@ export default function CreateForm({
       userGivenVatAmount: "",
       vatAmount: 0,
       priceStructure: [], //priceStructure,
+      shippingItemSubHead: values?.item?.shippingItemSubHead || '',
     };
-    setRowDto([...rowDto, newData]);
+    // setRowDto([...rowDto, newData]);
+    const modData = [...rowDto, newData]
+        const sortedItems = modData?.sort((a, b) => {
+          const subHeadA = a?.shippingItemSubHead || ''; 
+          const subHeadB = b?.shippingItemSubHead || ''; 
+          return subHeadA.localeCompare(subHeadB);
+      });
+      setRowDto(sortedItems);
      }
   };
 
@@ -142,8 +150,14 @@ export default function CreateForm({
         return false;
       }
     });
-
-    setRowDto([...filterArr]);
+    // setRowDto([...filterArr]);
+    const modData = [...filterArr]
+        const sortedItems = modData?.sort((a, b) => {
+          const subHeadA = a?.shippingItemSubHead || ''; 
+          const subHeadB = b?.shippingItemSubHead || ''; 
+          return subHeadA.localeCompare(subHeadB);
+      });
+      setRowDto(sortedItems);
   };
 
   useEffect(() => {
