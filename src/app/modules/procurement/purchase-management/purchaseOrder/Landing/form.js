@@ -312,9 +312,10 @@ export default function HeaderForm({selectedBusinessUnit, estimatePDAPOPage}) {
                   !values?.sbu ||
                   !values?.refType ||
                   !values?.orderType ||
+                  (process.env.NODE_ENV !== "development" && 
                   (selectedBusinessUnit?.value !== 184 &&
                     values?.orderType?.label === "Standard PO" &&
-                    values?.purchaseOrg?.label === "Local Procurement")
+                    values?.purchaseOrg?.label === "Local Procurement"))
                 }
                 type="button"
                 className="btn btn-primary ml-3"
