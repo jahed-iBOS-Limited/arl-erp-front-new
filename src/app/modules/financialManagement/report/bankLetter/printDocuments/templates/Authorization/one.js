@@ -1,9 +1,10 @@
 import React from "react";
+import "../../templates/style.scss";
 
 const AuthorizationOne = () => {
   return (
     <>
-      <div>
+      <div className="bank-letter-template-common-wrapper">
         <p style={{}}>
           <b>
             {" "}
