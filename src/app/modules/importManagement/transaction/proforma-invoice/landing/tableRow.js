@@ -24,15 +24,14 @@ import ICon from "../../../../chartering/_chartinghelper/icons/_icon";
 import { getSingleDataForPoView } from "../../purchase-order/helper";
 import LCApplicationExport from "./lcApplication";
 import LCApplicationFormDownload from "./lcApplicationForm";
-import PrayerForIssuanceModal from "./prayerForIssuanceModal";
-
+import ApplyForModal from "./applyForModal";
 
 const TableRow = () => {
   const history = useHistory();
   const [gridData, setGridData] = useState();
   const [isloading, setIsLoading] = useState(false);
   const [isShowModal, setIsShowModal] = useState(false);
-  const [prayerForIssuanceOpen, setPrayerForIssuanceOpen] = useState(false);
+  const [applyForOpen, setApplyForLCOpen] = useState(false);
   const [show, setShow] = useState(false);
   const [open, setOpen] = useState(false);
   //paginationState
@@ -153,7 +152,7 @@ const TableRow = () => {
                 <div className="react-bootstrap-table table-responsive">
                   <table
                     className={
-                      "table table-striped table-bordered global-table " 
+                      "table table-striped table-bordered global-table "
                     }
                   >
                     <thead>
@@ -165,10 +164,13 @@ const TableRow = () => {
                         <th>Beneficiary Name</th>
                         <th>Total PI Amount</th>
                         <th>Currrency</th>
-                        <th style={{
-                          width: "240px",
-                        }}>Action</th>
-
+                        <th
+                          style={{
+                            width: "240px",
+                          }}
+                        >
+                          Action
+                        </th>
                       </tr>
                     </thead>
                     <tbody>
@@ -277,9 +279,9 @@ const TableRow = () => {
                                   </span>
                                   <span className="ml-3">
                                     <ICon
-                                      title={"Prayer for issuance of LC"}
+                                      title={"Apply for LC"}
                                       onClick={() => {
-                                        setPrayerForIssuanceOpen(true);
+                                        setApplyForLCOpen(true);
                                         setSingleItem(item);
                                       }}
                                     >
@@ -376,16 +378,16 @@ const TableRow = () => {
                 </IViewModal>
 
                 {/*  Prayer for issuanc */}
-                {prayerForIssuanceOpen && (
+                {applyForOpen && (
                   <>
                     <IViewModal
-                      show={prayerForIssuanceOpen}
+                      show={applyForOpen}
                       onHide={() => {
                         setSingleItem({});
-                        setPrayerForIssuanceOpen(false);
+                        setApplyForLCOpen(false);
                       }}
                     >
-                      <PrayerForIssuanceModal obj={{ setOpen, singleItem }} />
+                      <ApplyForModal obj={{ setOpen, singleItem }} />
                     </IViewModal>
                   </>
                 )}

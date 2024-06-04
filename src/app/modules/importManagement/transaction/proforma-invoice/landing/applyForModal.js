@@ -12,15 +12,16 @@ import NewSelect from "../../../../_helper/_select";
 import IViewModal from "../../../../_helper/_viewModal";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import IButton from "../../../../_helper/iButton";
-import PrayerForIssuance from "./PrayerForIssuance";
+import ApplyForLC from "./applyForLC";
 import { GetProformaInvoiceById } from "../helper";
 
 const initData = {
   bank: "",
   branch: "",
+  applyType: "",
 };
 
-const PrayerForIssuanceModal = ({ obj }) => {
+const ApplyForModal = ({ obj }) => {
   const { singleItem } = obj;
   const [bankDDL, getBankDDL] = useAxiosGet();
   const [branchDDL, getBranchDDL, loader, setBranchDDL] = useAxiosGet();
@@ -60,7 +61,7 @@ const PrayerForIssuanceModal = ({ obj }) => {
         {({ errors, touched, setFieldValue, values }) => (
           <>
             <Card>
-              <CardHeader title="Prayer for issuance of LC"></CardHeader>
+              <CardHeader title="Apply for LC"></CardHeader>
               <CardBody>
                 <div className="row global-form">
                   <div className="col-lg-3 pt-2">
@@ -104,18 +105,48 @@ const PrayerForIssuanceModal = ({ obj }) => {
                       touched={touched}
                     />
                   </div>
+                  {/* Apply Type DDL  */}
+                  <div className="col-lg-3 pt-2">
+                    <NewSelect
+                      options={[
+                        {
+                          value: 1,
+                          label: "Prayer for issuance of LC",
+                        },
+                        {
+                          value: 2,
+                          label: "Request for original documents",
+                        },
+                        {
+                          value: 3,
+                          label: "Request for Issuance",
+                        },
+                      ]}
+                      value={values?.applyType}
+                      label="Apply Type"
+                      placeholder="Apply Type"
+                      name="applyType"
+                      onChange={(valueOption) => {
+                        setFieldValue("applyType", valueOption);
+                      }}
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
 
                   <IButton
                     className="btn-success btn-sm"
                     onClick={() => {
                       setShow(true);
                     }}
-                    disabled={!values?.bank || !values?.branch}
+                    disabled={
+                      !values?.bank || !values?.branch || !values?.applyType
+                    }
                   >
                     Preview
                   </IButton>
                   <IViewModal show={show} onHide={() => setShow(false)}>
-                    <PrayerForIssuance
+                    <ApplyForLC
                       obj={{
                         values,
                         buName,
@@ -136,4 +167,4 @@ const PrayerForIssuanceModal = ({ obj }) => {
   );
 };
 
-export default PrayerForIssuanceModal;
+export default ApplyForModal;
