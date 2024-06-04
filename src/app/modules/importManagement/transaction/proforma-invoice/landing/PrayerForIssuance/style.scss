@@ -1,0 +1,53 @@
+#prayerForIssuance body {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  /* width: 50%;
+  margin-left: 25%; */
+}
+#prayerForIssuance {
+  margin: 0 40px;
+}
+#prayerForIssuance p {
+  margin: 0px;
+}
+#prayerForIssuance #ref {
+  float: left;
+  width: 50%;
+}
+#prayerForIssuance #date {
+  text-align: end;
+}
+#prayerForIssuance #message {
+  font-size: 15px;
+}
+#prayerForIssuance #signature_1 {
+  float: left;
+  width: 20%;
+  margin-right: 50px;
+}
+#prayerForIssuance #signature_2 {
+  float: left;
+  width: 20%;
+  padding-top: 6px;
+}
+#prayerForIssuance #signatures {
+  text-align: center;
+}
+#prayerForIssuance {
+  .invoice-header,
+  .invoice-footer {
+    display: none;
+  }
+  @media print {
+    margin-top: 100px !important;
+    .invoice-header,
+    .invoice-footer {
+      display: block !important;
+    }
+  }
+  p {
+    @media print {
+      font-size: 18px !important;
+    }
+  }
+}

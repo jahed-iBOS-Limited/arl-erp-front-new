@@ -122,14 +122,18 @@ export const getSingleData = async (id, setter, setDisabled) => {
         label: res?.data?.bankName,
         value: res?.data?.bankId,
       },
-      bankAccount: res?.data?.bankAccountNo ? {
-        value: res?.data?.bankAccountId,
-        label: res?.data?.bankAccountNo,
-      } : "",
+      bankAccount: res?.data?.bankAccountNo
+        ? {
+            value: res?.data?.bankAccountId,
+            label: res?.data?.bankAccountNo,
+          }
+        : "",
       description: res?.data?.description,
       // lcMarginPercent: res?.data?.lcMarginPercentage || "",
       lcMarginValue: res?.data?.lcMarginValue || "",
-      lcMarginDueDate: res?.data?.lcMarginDueDate ? _dateFormatter(res?.data?.lcMarginDueDate) : "",
+      lcMarginDueDate: res?.data?.lcMarginDueDate
+        ? _dateFormatter(res?.data?.lcMarginDueDate)
+        : "",
     };
 
     setter(payload);
@@ -307,7 +311,7 @@ const updatePayloadChange = (
     bondLicense: false,
     // duration: values?.duration,
     duration: null,
-    openingLcdocumentId: uploadImage[0]?.id || "",
+    openingLcdocumentId: uploadImage[0]?.id || values?.attachment || "",
     finalDestinationId: values?.finalDestination?.value,
     dueDate: values?.dueDate,
     bankAccountId: values?.bankAccount?.value || 0,
@@ -448,10 +452,14 @@ export const getCalculationFormLandingForm = async (
     // console.log(values, "calculation form landing");
     setLoading(true);
     const res = await Axios.get(
-      `/imp/FormulaForCalculation/GetFormulaForLcBankCharge?businessUnitId=${businessUnitId}&poId=${values?.poId
-      }&tenorDays=${values?.lcTenor
-      }&poTotalFc=${+values?.PIAmountFC}&toleranceRate=${values?.tolarance
-      }&excRate=${values?.exchangeRate}&bankId=${values?.bankName?.value
+      `/imp/FormulaForCalculation/GetFormulaForLcBankCharge?businessUnitId=${businessUnitId}&poId=${
+        values?.poId
+      }&tenorDays=${
+        values?.lcTenor
+      }&poTotalFc=${+values?.PIAmountFC}&toleranceRate=${
+        values?.tolarance
+      }&excRate=${values?.exchangeRate}&bankId=${
+        values?.bankName?.value
       }&type=${values?.lcType?.value}`
     );
     setLoading(false);
@@ -568,7 +576,6 @@ export const validationSchema = Yup.object().shape({
   // duration: Yup.date().required("Duration Date is required"),
   // lcMarginPercent: Yup.number()
   //   .required("LC Margin is required"),
-  lcMarginValue: Yup.number()
-    .required("LC Margin Value is required"),
+  lcMarginValue: Yup.number().required("LC Margin Value is required"),
   lcMarginDueDate: Yup.date().required("LC Margin Due Date is required"),
 });

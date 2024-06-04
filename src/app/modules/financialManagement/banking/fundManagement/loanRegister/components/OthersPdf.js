@@ -55,14 +55,14 @@ const OthersPdf = ({ singleItem, selectedBusinessUnit }) => {
       <p style={{ marginBottom }}>{bankBranchAddress}</p>
 
       <p style={{ marginBottom }} className="font-weight-bolder">
-        Subject : Request for disbursement of {facilityName} - BDT
+        Subject : Request for disbursement of {facilityName} - BDT {' '}
         {_formatMoney(numPrinciple)} for {label} A/C No: {strBankAccountNumber}.
       </p>
 
       <p style={{ marginBottom }}>Dear Sir,</p>
       <p style={{ marginBottom }}>As-salamu alaykum,</p>
       <p style={{ marginBottom }}>
-        With reference to your sanction letter no. {sanctionReference}, we would request you to please disburse BDT {_formatMoney(numPrinciple)} in our A/C {label} against {facilityName} of BDT {_formatMoney(fundLimitAmount)} & {disbursementPurposeRender(disbursementPurposeName)}.
+        With reference to your sanction letter no. {sanctionReference}, we would request you to please disburse BDT {_formatMoney(numPrinciple)} in our A/C {label} against {facilityName} limit of BDT {_formatMoney(fundLimitAmount)} & {disbursementPurposeRender(disbursementPurposeName)}.
 
       </p>
       
