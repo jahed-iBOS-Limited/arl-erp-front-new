@@ -54,6 +54,17 @@ const RowDtoTable = ({
               </thead>
               <tbody>
                 {rowDto?.map((item, index) => (
+                  <>
+                    {(index === 0 || item.shippingItemSubHead !== rowDto[index - 1].shippingItemSubHead) && item?.shippingItemSubHead ? (
+                        <tr style={{background:'#ADD8E6', paddingTop: '5px', paddingBottom: '5px' }}>
+                            <td colSpan={isWithoutRef && !viewPage ? '14' : '10'}>
+                                <div style={{fontSize: '20'}} className="text-bold text-center">
+                                    {item.shippingItemSubHead}
+                                </div>
+                            </td>
+                        </tr>
+                    ) : null}
+
                   <tr key={index}>
                     <td className="text-center align-middle"> {index + 1} </td>
                     {isWithoutRef && (
@@ -260,6 +271,8 @@ const RowDtoTable = ({
                       </td>
                     )}
                   </tr>
+                  </>
+                  
                 ))}
               </tbody>
             </table>
