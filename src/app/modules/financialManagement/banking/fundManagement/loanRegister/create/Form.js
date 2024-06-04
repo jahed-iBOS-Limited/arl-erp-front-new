@@ -1,18 +1,15 @@
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import * as Yup from "yup";
-import Select from "react-select";
-import customStyles from "../../../../../selectCustomStyle";
-import FormikError from "../../../../../_helper/_formikError";
-import NewSelect from "../../../../../_helper/_select";
 import InputField from "../../../../../_helper/_inputField";
+import NewSelect from "../../../../../_helper/_select";
 import {
   getBankAccountDDLByBankId,
   getBankDDL,
   getFacilityDLL,
 } from "../../helper";
-import { useHistory } from "react-router-dom";
 
 const loanRegister = Yup.object().shape({
   bank: Yup.object()
@@ -53,7 +50,7 @@ export default function LoanRegisterForm({
 
   useEffect(() => {
     getBankDDL(setBankDDL, setLoading);
-    getFacilityDLL(setFacilityDDL, setLoading);
+  
   }, []);
   return (
     <>
@@ -92,6 +89,13 @@ export default function LoanRegisterForm({
                         selectedBusinessUnit?.value,
                         valueOption?.value,
                         setAccountDDL,
+                        setLoading
+                      );
+                      setFieldValue("facility", "");
+                      getFacilityDLL(
+                        selectedBusinessUnit?.value,
+                        valueOption?.value,
+                        setFacilityDDL,
                         setLoading
                       );
                     }}

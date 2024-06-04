@@ -7,6 +7,7 @@ import Loading from "../../../../../_helper/_loading";
 import NewSelect from "../../../../../_helper/_select";
 import { getBankDDL, getFacilityDLL, getFundLimitById } from "../../helper";
 import { _dateFormatter } from "../../../../../_helper/_dateFormate";
+import { shallowEqual, useSelector } from "react-redux";
 
 const fundLimit = Yup.object().shape({
   limit: Yup.string().required("Limit is required"),
@@ -37,10 +38,11 @@ export default function LimitForm({
   const [bankDDL, setBankDDL] = useState([]);
   const [facilityDDL, setFacilityDDL] = useState([]);
   const [singleData, setSingleData] = useState({});
-
+  const { selectedBusinessUnit } = useSelector((state) => {
+    return state?.authData;
+  }, shallowEqual);
   useEffect(() => {
     getBankDDL(setBankDDL, setLoading);
-    getFacilityDLL(setFacilityDDL, setLoading);
   }, []);
   useEffect(() => {
     if (isEdit) {
@@ -51,9 +53,17 @@ export default function LimitForm({
     <>
       <Formik
         enableReinitialize={true}
-        initialValues={isEdit ? {...singleData, tenorDays:landingRowData?.tenureDays|| "",
-        sanctionReference: landingRowData?.sanctionReference ||"",
-        limitExpiryDate: _dateFormatter(landingRowData?.limitExpiryDate)||""} : initData}
+        initialValues={
+          isEdit
+            ? {
+                ...singleData,
+                tenorDays: landingRowData?.tenureDays || "",
+                sanctionReference: landingRowData?.sanctionReference || "",
+                limitExpiryDate:
+                  _dateFormatter(landingRowData?.limitExpiryDate) || "",
+              }
+            : initData
+        }
         validationSchema={fundLimit}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           saveHandler(values, () => {
@@ -82,6 +92,13 @@ export default function LimitForm({
                     value={values?.bank}
                     onChange={(valueOption) => {
                       setFieldValue("bank", valueOption);
+                      setFieldValue("facility", "");
+                      getFacilityDLL(
+                        selectedBusinessUnit?.value,
+                        valueOption?.value,
+                        setFacilityDDL,
+                        setLoading
+                      );
                     }}
                     errors={errors}
                     touched={touched}
@@ -157,7 +174,6 @@ export default function LimitForm({
                     min="0"
                     step="any"
                     // disabled={isEdit}
-                    
                   />
                 </div>
                 <div className="col-lg-2 pl pr-1 mb-1">
@@ -167,7 +183,7 @@ export default function LimitForm({
                     name="sanctionReference"
                     placeholder="Sanction Reference"
                     onChange={(e) => {
-                    setFieldValue("sanctionReference", e.target.value);
+                      setFieldValue("sanctionReference", e.target.value);
                     }}
                     type="string"
                     step="any"

@@ -5,7 +5,7 @@ import { useHistory, useLocation } from "react-router-dom";
 import * as Yup from "yup";
 import InputField from "../../../../../_helper/_inputField";
 import NewSelect from "../../../../../_helper/_select";
-import { getBankAccountDDLByBankId, getFacilityDLL } from "../../helper";
+import { getBankAccountDDLByBankId } from "../../helper";
 
 const loanRegister = Yup.object().shape({
   account: Yup.object().shape({
@@ -26,7 +26,6 @@ export default function RepayForm({
   const history = useHistory();
   const location = useLocation();
   const [accountDDL, setAccountDDL] = useState([]);
-  const [, setFacilityDDL] = useState([]);
   const [, setLoading] = useState(false);
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state?.authData;
@@ -40,7 +39,6 @@ export default function RepayForm({
       setAccountDDL,
       setLoading
     );
-    getFacilityDLL(setFacilityDDL, setLoading);
   }, [profileData, selectedBusinessUnit, location]);
   return (
     <>
