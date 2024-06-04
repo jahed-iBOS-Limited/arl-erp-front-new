@@ -60,7 +60,7 @@ const PrayerForIssuanceModal = ({ obj }) => {
         {({ errors, touched, setFieldValue, values }) => (
           <>
             <Card>
-              <CardHeader title="Download LC Application"></CardHeader>
+              <CardHeader title="Prayer for issuance of LC"></CardHeader>
               <CardBody>
                 <div className="row global-form">
                   <div className="col-lg-3 pt-2">
