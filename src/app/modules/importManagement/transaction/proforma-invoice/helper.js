@@ -669,3 +669,18 @@ export const downloadDocumentaryCredit = async (
       setLoading(false);
     });
 };
+
+export const GetProformaInvoiceById = async (id, setter, setDisabled) => {
+  setDisabled(true);
+  try {
+    const res = await Axios.get(
+      `/imp/ProformaInvoice/GetProformaInvoiceById?proformaInvoiceId=${id}`
+    );
+    setDisabled(false);
+    setter(res?.data);
+    // setRowDto()
+  } catch (error) {
+    setDisabled(false);
+    toast.error(error?.response?.data?.message);
+  }
+};
