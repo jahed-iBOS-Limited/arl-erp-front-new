@@ -5,7 +5,14 @@ import { getMonth } from "../../../salesManagement/report/customerSalesTarget/ut
 const PrintView = ({ reportData, values, totalAmount }) => {
   return (
     <>
-      <div>
+      <div className="content-wrapper">
+        <div>
+          <h1 className="text-center">
+            <span style={{ borderBottom: "1px solid" }}>
+              To Whome It May Concern
+            </span>
+          </h1>
+        </div>
         <div className="table-responsive">
           <table className="table table-striped mt-2 table-bordered bj-table bj-table-landing">
             <thead>
@@ -24,15 +31,11 @@ const PrintView = ({ reportData, values, totalAmount }) => {
                 </th>
               </tr>
               <tr>
-                <th rowspan="2">Where held: Location & Owner of shop/godown</th>
-                <th rowspan="2">Description of Goods</th>
-                <th colspan="3">Quantity</th>
-                <th rowspan="2">Remarks</th>
-              </tr>
-              <tr>
-                <th>(Ton)</th>
-                <th>Rate per Ton</th>
-                <th>Value (Tk.)</th>
+                <th>Where held: Location & Owner of shop/godown</th>
+                <th>Description of Goods</th>
+                <th colSpan={2}>SKU</th>
+                <th>Rate</th>
+                <th>Value (TK.)</th>
               </tr>
             </thead>
             <tbody>
@@ -40,30 +43,41 @@ const PrintView = ({ reportData, values, totalAmount }) => {
                 reportData.map((item, i) => (
                   <tr>
                     {i === 0 && (
-                      <td rowspan={reportData?.length}>ACCL Factory Yard</td>
+                      <td rowspan={reportData?.length}>
+                        {values?.businessUnit?.buShortName} Factory Yard
+                      </td>
                     )}
                     <td className="text-center">{item?.strItemName}</td>
-                    <td className="text-right pr-2">{item?.numCloseQty}</td>
-                    <td className="text-right pr-2">
-                      {(item?.numClosingValue || 0) / (item?.numCloseQty || 0)}
+                    <td className="text-right pr-2 min_width">
+                      {item?.numCloseQty}
                     </td>
-                    <td className="text-right pr-2">{item?.numClosingValue}</td>
-                    <td></td>
+                    <td className="text-center" min_width>
+                      {item?.strBaseUOM}
+                    </td>
+                    <td className="text-right pr-2 min_width">
+                      {(
+                        (item?.numClosingValue || 0) / (item?.numCloseQty || 0)
+                      )?.toFixed(2)}
+                    </td>
+                    <td className="text-right pr-2 min_width">
+                      {item?.numClosingValue}
+                    </td>
                   </tr>
                 ))}
               <tr>
-                <td colspan="4">
+                <td colspan="5">
                   <strong>TOTAL</strong>
                 </td>
-                <td className="text-right pr-2">
+                <td className="text-right pr-2 min_width">
                   <strong>
-                    {reportData.reduce(
-                      (total, item) => total + (item.numClosingValue || 0),
-                      0
-                    )}
+                    {reportData
+                      .reduce(
+                        (total, item) => total + (item.numClosingValue || 0),
+                        0
+                      )
+                      ?.toFixed(2)}
                   </strong>
                 </td>
-                <td></td>
               </tr>
             </tbody>
           </table>
@@ -73,7 +87,7 @@ const PrintView = ({ reportData, values, totalAmount }) => {
             Accounts Receivable Balance Date{" "}
             {getLastDateOfMonth(values?.monthYear?.split("-")[1])}
           </h5>
-          <h6>Amount of tk. {totalAmount[0]?.ReceableAmount}</h6>
+          <h6>Amount of tk. {totalAmount[0]?.ReceableAmount?.toFixed(2)}</h6>
           <p>We hereby confirm that:</p>
           <ul style={{ listStyle: "none" }}>
             <li>
@@ -116,6 +130,13 @@ const PrintView = ({ reportData, values, totalAmount }) => {
               i) You may rely on this statement as genuine, authentic and true.
             </li>
           </ul>
+        </div>
+        <div>
+          <h3>For, {values?.businessUnit?.label}</h3>
+          <div style={{ marginTop: "50px", display: "flex", gap: "70px" }}>
+            <p>Authorized Signature</p>
+            <p>Authorized Signature</p>
+          </div>
         </div>
       </div>
     </>
