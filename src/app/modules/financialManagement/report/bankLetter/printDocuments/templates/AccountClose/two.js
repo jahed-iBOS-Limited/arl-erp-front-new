@@ -1,4 +1,5 @@
 import React from "react";
+import "../../templates/style.scss";
 
 const AccountCloseTwo = ({singleRowItem}) => {
     const {
@@ -28,7 +29,7 @@ const AccountCloseTwo = ({singleRowItem}) => {
       } = singleRowItem;
   return (
     <>
-     <div>
+     <div className="bank-letter-template-common-wrapper">
         <div>
           <div>
             <p>
