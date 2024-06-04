@@ -176,7 +176,10 @@ export default function AddEditForm() {
   }, [location?.state?.routeState]);
 
   const saveHandler = async (values, cb) => {
-    if(values?.lcMarginValue > 0 && !values?.lcMarginDueDate){
+    if (!uploadImage[0]?.id && !values?.attachment) {
+      return toast.error("Please upload a document");
+    } 
+    if (values?.lcMarginValue > 0 && !values?.lcMarginDueDate) {
       return toast.warn("LC Margine Due Date is required");
     }
     if (params?.pid) {
@@ -203,7 +206,7 @@ export default function AddEditForm() {
   };
 
   // console.log(location?.state?.poNo, "poNo");
-console.log(currencyByPOId)
+  console.log(currencyByPOId);
   return (
     <IForm
       title={
