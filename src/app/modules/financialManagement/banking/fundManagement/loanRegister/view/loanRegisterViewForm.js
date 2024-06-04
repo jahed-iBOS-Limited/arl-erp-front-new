@@ -60,6 +60,8 @@ export default function LoanRegisterViewForm({
   renewId,
   location,
 }) {
+  const formikRef = React.useRef(null);
+
   const history = useHistory();
   const [bankDDL, setBankDDL] = useState([]);
   const [accountDDL, setAccountDDL] = useState([]);
@@ -71,11 +73,22 @@ export default function LoanRegisterViewForm({
 
   useEffect(() => {
     getBankDDL(setBankDDL, setLoading);
-    getFacilityDLL(setFacilityDDL, setLoading);
+    getFacilityDLL((resData) => {
+      setFacilityDDL(resData);
+      if (!renewId && !isEdit) {
+        if (formikRef.current) {
+          const facilityFind = resData?.find((item) => item?.value === 2);
+          formikRef.current.setFieldValue("facility", facilityFind || "");
+        }
+      }
+    }, setLoading);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   return (
     <>
       <Formik
+        innerRef={formikRef}
         enableReinitialize={true}
         initialValues={initData}
         validationSchema={loanRegister}
