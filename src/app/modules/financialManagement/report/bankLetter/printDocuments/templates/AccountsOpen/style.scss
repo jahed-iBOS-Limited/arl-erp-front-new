@@ -1,0 +1,63 @@
+.account-open-one-wrapper {
+  * {
+    margin: 0;
+    padding: 0;
+    line-height: 1.2;
+    box-sizing: border-box;
+    font-family: "Times New Roman", Times, serif; /* Classic serif font */
+    font-size: 16px; /* Good default size for print */
+  }
+  p {
+    margin: 2px 0px;
+  }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  table.border_table td,
+  th {
+    border: 1px solid #ddd;
+    text-align: center;
+    padding: 4px;
+  }
+
+  table.no_border_table th,
+  td {
+    border: none;
+    padding: 3px;
+  }
+}
+
+.account-open-two-wrapper {
+  * {
+    margin: 0;
+    padding: 0;
+    line-height: 1.2;
+    box-sizing: border-box;
+    font-family: "Times New Roman", Times, serif; /* Classic serif font */
+    font-size: 16px; /* Good default size for print */
+  }
+  p {
+    margin: 2px 0px;
+  }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  table.border_table td,
+  th {
+    border: 1px solid #ddd;
+    text-align: center;
+    padding: 4px;
+  }
+
+  table.no_border_table th,
+  td {
+    border: none;
+    padding: 3px;
+  }
+}
