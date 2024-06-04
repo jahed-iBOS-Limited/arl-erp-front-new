@@ -115,7 +115,14 @@ export default function AssetStandardPOCreateForm({
          };
          return obj;
       });
-      setRowDto([...newData]);
+      const modData = [...newData]
+      const sortedItems = modData?.sort((a, b) => {
+         const subHeadA = a?.shippingItemSubHead || ''; 
+         const subHeadB = b?.shippingItemSubHead || ''; 
+         return subHeadA.localeCompare(subHeadB);
+     });
+       setRowDto(sortedItems);
+      // setRowDto([...newData]);
 
       // get item initially
       getItemDDL(
@@ -163,7 +170,14 @@ export default function AssetStandardPOCreateForm({
             };
             return obj;
          });
-         setRowDto([...newData, ...rowDto]);
+         // setRowDto([...newData, ...rowDto]);
+         const modData = [...newData, ...rowDto]
+         const sortedItems = modData?.sort((a, b) => {
+            const subHeadA = a?.shippingItemSubHead || ''; 
+            const subHeadB = b?.shippingItemSubHead || ''; 
+            return subHeadA.localeCompare(subHeadB);
+        });
+          setRowDto(sortedItems);
       } else {
          // if reference, can't add same reference and same item multiple
          // if not reference, can't add multiple item
@@ -208,7 +222,14 @@ export default function AssetStandardPOCreateForm({
                userGivenVatAmount: '',
                vatAmount: 0,
             };
-            setRowDto([...rowDto, newData]);
+            // setRowDto([...rowDto, newData]);
+            const modData = [...rowDto, newData]
+            const sortedItems = modData?.sort((a, b) => {
+               const subHeadA = a?.shippingItemSubHead || ''; 
+               const subHeadB = b?.shippingItemSubHead || ''; 
+               return subHeadA.localeCompare(subHeadB);
+           });
+            setRowDto(sortedItems);
          }
       }
    };
@@ -232,20 +253,26 @@ export default function AssetStandardPOCreateForm({
             return false;
          }
       });
-
-      setRowDto([...filterArr]);
+      // setRowDto([...filterArr]);
+      const modData = [...filterArr]
+      const sortedItems = modData?.sort((a, b) => {
+         const subHeadA = a?.shippingItemSubHead || ''; 
+         const subHeadB = b?.shippingItemSubHead || ''; 
+         return subHeadA.localeCompare(subHeadB);
+     });
+       setRowDto(sortedItems);
    };
 
    const getItemDDL = (supplierId, refType, referenceNo) => {
       dispatch(
          getPOItemForStandradItemDDLAction(
-            singleData?.objHeaderDTO?.purchaseOrderTypeId,
+            // singleData?.objHeaderDTO?.purchaseOrderTypeId,
             profileData?.accountId,
             selectedBusinessUnit?.value,
             singleData?.objHeaderDTO?.sbuId,
-            singleData?.objHeaderDTO?.purchaseOrganizationId,
-            singleData?.objHeaderDTO?.plantId,
-            singleData?.objHeaderDTO?.warehouseId,
+            // singleData?.objHeaderDTO?.purchaseOrganizationId,
+            // singleData?.objHeaderDTO?.plantId,
+            // singleData?.objHeaderDTO?.warehouseId,
             supplierId,
             refType,
             referenceNo
