@@ -45,7 +45,8 @@ const getHearderList=(buId)=>{
     "Status",
     "Over Due Amount",
     "Credit Control",
-    "Commitment"
+    "Commitment",
+    "Action",
   ];
   
   const readyMixHeader = [
@@ -67,6 +68,8 @@ const getHearderList=(buId)=>{
     "Status",
     // "Over Due Amount",
     "Credit Control",
+    "Commitment",
+    "Action",
   ];
   
   const mainHeader = [175].includes(buId) ? readyMixHeader : header;

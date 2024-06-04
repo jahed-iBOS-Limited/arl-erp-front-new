@@ -141,7 +141,7 @@ const BasePage = () => {
     <Suspense fallback={<LayoutSplashScreen />}>
       <AttachmentViewer />
       <MultipleAttachmentViewer />
-      {/* <MobileFirstAlert/> */}
+      <MobileFirstAlert/>
       {/* <ChatApp /> */}
       <Switch>
         {<Redirect exact from='/' to='/self-service/self-dashboard' />}

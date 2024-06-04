@@ -11,7 +11,6 @@ import {
   CardHeaderToolbar,
 } from "../../../../../../_metronic/_partials/controls";
 import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import ICustomTable from "../../../../_helper/_customTable";
 import { _formatMoney } from "../../../../_helper/_formatMoney";
 import IEdit from "../../../../_helper/_helperIcons/_edit";
 import IView from "../../../../_helper/_helperIcons/_view";
@@ -21,27 +20,18 @@ import IViewModal from "../../../../_helper/_viewModal";
 import PurchaseOrder from "../../purchase-order/form/addEditForm";
 import { getLandingData } from "../helper";
 // import IWarningModal from "../../../../_helper/_warningModal";
-import { getSingleDataForPoView } from "../../purchase-order/helper";
-import LCApplicationFormDownload from "./lcApplicationForm";
 import ICon from "../../../../chartering/_chartinghelper/icons/_icon";
+import { getSingleDataForPoView } from "../../purchase-order/helper";
 import LCApplicationExport from "./lcApplication";
-
-const header = [
-  "SL",
-  "PR No",
-  "PI No",
-  "PO No",
-  "Beneficiary Name",
-  "Total PI Amount",
-  "Currrency",
-  "Action",
-];
+import LCApplicationFormDownload from "./lcApplicationForm";
+import ApplyForModal from "./applyForModal";
 
 const TableRow = () => {
   const history = useHistory();
   const [gridData, setGridData] = useState();
   const [isloading, setIsLoading] = useState(false);
   const [isShowModal, setIsShowModal] = useState(false);
+  const [applyForOpen, setApplyForLCOpen] = useState(false);
   const [show, setShow] = useState(false);
   const [open, setOpen] = useState(false);
   //paginationState
@@ -159,144 +149,194 @@ const TableRow = () => {
                     />
                   </div>
                 </div>
-                <ICustomTable ths={header}>
-                  {gridData?.data?.length > 0 &&
-                    gridData?.data?.map((item, index) => {
-                      return (
-                        <tr key={index}>
-                          <td style={{ width: "30px" }} className="text-center">
-                            {index + 1}
-                          </td>
-                          <td
-                            style={{ width: "110px" }}
-                            className="text-center"
-                          >
-                            {item?.purchaseRequestrNo
-                              ? item?.purchaseRequestrNo
-                              : item?.purchaseContractNo}
-                          </td>
-                          <td
-                            style={{ width: "110px" }}
-                            className="text-center"
-                          >
-                            {item?.pinumber}
-                          </td>
-                          <td
-                            style={{ width: "150px" }}
-                            className="text-center"
-                          >
-                            {item?.purchaseOrderNo}
-                          </td>
-                          <td>{item?.supplierName}</td>
-                          <td className="text-right" style={{ width: "140px" }}>
-                            {_formatMoney(item?.pivalue)}
-                          </td>
-                          <td
-                            className="text-center"
-                            style={{ width: "100px" }}
-                          >
-                            {item?.currencyName}
-                          </td>
+                <div className="react-bootstrap-table table-responsive">
+                  <table
+                    className={
+                      "table table-striped table-bordered global-table "
+                    }
+                  >
+                    <thead>
+                      <tr>
+                        <th>SL</th>
+                        <th>PR No</th>
+                        <th>PI No</th>
+                        <th>PO No</th>
+                        <th>Beneficiary Name</th>
+                        <th>Total PI Amount</th>
+                        <th>Currrency</th>
+                        <th
+                          style={{
+                            width: "240px",
+                          }}
+                        >
+                          Action
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {gridData?.data?.length > 0 &&
+                        gridData?.data?.map((item, index) => {
+                          return (
+                            <tr key={index}>
+                              <td
+                                style={{ width: "30px" }}
+                                className="text-center"
+                              >
+                                {index + 1}
+                              </td>
+                              <td
+                                style={{ width: "110px" }}
+                                className="text-center"
+                              >
+                                {item?.purchaseRequestrNo
+                                  ? item?.purchaseRequestrNo
+                                  : item?.purchaseContractNo}
+                              </td>
+                              <td
+                                style={{ width: "110px" }}
+                                className="text-center"
+                              >
+                                {item?.pinumber}
+                              </td>
+                              <td
+                                style={{ width: "150px" }}
+                                className="text-center"
+                              >
+                                {item?.purchaseOrderNo}
+                              </td>
+                              <td>{item?.supplierName}</td>
+                              <td
+                                className="text-right"
+                                style={{ width: "140px" }}
+                              >
+                                {_formatMoney(item?.pivalue)}
+                              </td>
+                              <td
+                                className="text-center"
+                                style={{ width: "100px" }}
+                              >
+                                {item?.currencyName}
+                              </td>
 
-                          <td
-                            style={{ width: "150px" }}
-                            className="text-center"
-                          >
-                            <div className="d-flex justify-content-center">
-                              <span className="view ml-3">
-                                <IView
-                                  clickHandler={() => {
-                                    history.push({
-                                      pathname: `/managementImport/transaction/proforma-invoice/view/${item?.proformaInvoiceId}`,
-                                      state: item,
-                                    });
-                                  }}
-                                />
-                              </span>
-                              {item.poStatus ? (
-                                <span
-                                  className="ml-3 edit"
-                                  // onClick={() => Warning()}
-                                  disabled
-                                  style={{ opacity: 0.5 }}
-                                >
-                                  <IEdit title={"Can't edit"} />
-                                </span>
-                              ) : (
-                                <span
-                                  className="ml-3 edit"
-                                  onClick={() => {
-                                    history.push({
-                                      pathname: `/managementImport/transaction/proforma-invoice/edit/${item?.proformaInvoiceId}`,
-                                      state: item,
-                                    });
-                                  }}
-                                >
-                                  <IEdit />
-                                </span>
-                              )}
-                              <span className="ml-3">
-                                <ICon
-                                  title={"Download LC Application Form"}
-                                  onClick={() => {
-                                    setShow(true);
-                                    setSingleItem(item);
-                                  }}
-                                >
-                                  <i class="fas fa-download"></i>
-                                </ICon>
-                              </span>
-                              <span className="ml-3">
-                                <ICon
-                                  title={"LC Application"}
-                                  onClick={() => {
-                                    setOpen(true);
-                                    setSingleItem(item);
-                                  }}
-                                >
-                                  <i class="fas fa-file-download"></i>
-                                </ICon>
-                              </span>
-                              <span className="ml-3">
-                                <button
-                                  className="btn btn-outline-dark mr-1 pointer"
-                                  type="button"
-                                  style={{
-                                    padding: "1px 5px",
-                                    fontSize: "11px",
-                                    width: "100px",
-                                  }}
-                                  onClick={() => {
-                                    setIsShowModal(true);
+                              <td
+                                style={{ width: "150px" }}
+                                className="text-center"
+                              >
+                                <div className="d-flex justify-content-center">
+                                  <span className="view ml-3">
+                                    <IView
+                                      clickHandler={() => {
+                                        history.push({
+                                          pathname: `/managementImport/transaction/proforma-invoice/view/${item?.proformaInvoiceId}`,
+                                          state: item,
+                                        });
+                                      }}
+                                    />
+                                  </span>
+                                  {item.poStatus ? (
+                                    <span
+                                      className="ml-3 edit"
+                                      // onClick={() => Warning()}
+                                      disabled
+                                      style={{ opacity: 0.5 }}
+                                    >
+                                      <IEdit title={"Can't edit"} />
+                                    </span>
+                                  ) : (
+                                    <span
+                                      className="ml-3 edit"
+                                      onClick={() => {
+                                        history.push({
+                                          pathname: `/managementImport/transaction/proforma-invoice/edit/${item?.proformaInvoiceId}`,
+                                          state: item,
+                                        });
+                                      }}
+                                    >
+                                      <IEdit />
+                                    </span>
+                                  )}
+                                  <span className="ml-3">
+                                    <ICon
+                                      title={"Download LC Application Form"}
+                                      onClick={() => {
+                                        setShow(true);
+                                        setSingleItem(item);
+                                      }}
+                                    >
+                                      <i class="fas fa-download"></i>
+                                    </ICon>
+                                  </span>
+                                  <span className="ml-3">
+                                    <ICon
+                                      title={"LC Application"}
+                                      onClick={() => {
+                                        setOpen(true);
+                                        setSingleItem(item);
+                                      }}
+                                    >
+                                      <i class="fas fa-file-download"></i>
+                                    </ICon>
+                                  </span>
+                                  <span className="ml-3">
+                                    <ICon
+                                      title={"Apply for LC"}
+                                      onClick={() => {
+                                        setApplyForLCOpen(true);
+                                        setSingleItem(item);
+                                      }}
+                                    >
+                                      <i
+                                        class="fa fa-university"
+                                        aria-hidden="true"
+                                      ></i>
+                                    </ICon>
+                                  </span>
+                                  <span className="ml-3">
+                                    <button
+                                      className="btn btn-outline-dark mr-1 pointer"
+                                      type="button"
+                                      style={{
+                                        padding: "1px 5px",
+                                        fontSize: "11px",
+                                        width: "100px",
+                                      }}
+                                      onClick={() => {
+                                        setIsShowModal(true);
 
-                                    if (item?.poStatus) {
-                                      getSingleDataForPoView(
-                                        profileData?.accountId,
-                                        selectedBusinessUnit?.value,
-                                        item?.purchaseOrderId,
-                                        setSingleDataForPoView,
-                                        setRowDto
-                                      );
-                                      setViewStateOfModal({
-                                        view: "view",
-                                        purchaseOrderId: item?.purchaseOrderId,
-                                      });
-                                    } else {
-                                      setViewStateOfModal("create");
-                                      setRowDto([]);
-                                    }
-                                    setProformaInvoice({ ...values, ...item });
-                                  }}
-                                >
-                                  {item.poStatus ? "View PO" : "Create PO"}
-                                </button>
-                              </span>
-                            </div>
-                          </td>
-                        </tr>
-                      );
-                    })}
-                </ICustomTable>
+                                        if (item?.poStatus) {
+                                          getSingleDataForPoView(
+                                            profileData?.accountId,
+                                            selectedBusinessUnit?.value,
+                                            item?.purchaseOrderId,
+                                            setSingleDataForPoView,
+                                            setRowDto
+                                          );
+                                          setViewStateOfModal({
+                                            view: "view",
+                                            purchaseOrderId:
+                                              item?.purchaseOrderId,
+                                          });
+                                        } else {
+                                          setViewStateOfModal("create");
+                                          setRowDto([]);
+                                        }
+                                        setProformaInvoice({
+                                          ...values,
+                                          ...item,
+                                        });
+                                      }}
+                                    >
+                                      {item.poStatus ? "View PO" : "Create PO"}
+                                    </button>
+                                  </span>
+                                </div>
+                              </td>
+                            </tr>
+                          );
+                        })}
+                    </tbody>
+                  </table>
+                </div>
 
                 {/* modal  */}
                 <IViewModal
@@ -336,6 +376,21 @@ const TableRow = () => {
                 >
                   <LCApplicationExport obj={{ setOpen, singleItem }} />
                 </IViewModal>
+
+                {/*  Prayer for issuanc */}
+                {applyForOpen && (
+                  <>
+                    <IViewModal
+                      show={applyForOpen}
+                      onHide={() => {
+                        setSingleItem({});
+                        setApplyForLCOpen(false);
+                      }}
+                    >
+                      <ApplyForModal obj={{ setOpen, singleItem }} />
+                    </IViewModal>
+                  </>
+                )}
 
                 {/* Pagination Code */}
                 {gridData?.data?.length > 0 && (

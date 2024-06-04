@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Formik } from "formik";
 import React, { useEffect, useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
 import {
   Card,
   CardBody,
@@ -8,26 +9,26 @@ import {
 } from "../../../../../../_metronic/_partials/controls";
 import Loading from "../../../../_helper/_loading";
 import NewSelect from "../../../../_helper/_select";
+import IViewModal from "../../../../_helper/_viewModal";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import IButton from "../../../../_helper/iButton";
-import IViewModal from "../../../../_helper/_viewModal";
-import LCApplication from "./LCApplication/index";
-import { shallowEqual, useSelector } from "react-redux";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import ApplyForLC from "./applyForLC";
+import { GetProformaInvoiceById } from "../helper";
 
 const initData = {
   bank: "",
   branch: "",
-  type: "",
+  applyType: "",
 };
 
-const LCApplicationExport = ({ obj }) => {
+const ApplyForModal = ({ obj }) => {
   const { singleItem } = obj;
   const [bankDDL, getBankDDL] = useAxiosGet();
   const [branchDDL, getBranchDDL, loader, setBranchDDL] = useAxiosGet();
+  const [singleData, setSingleData] = useState("");
+  const [piLoader, setPILoader] = useState(false);
 
   const [show, setShow] = useState(false);
-  const [lcInfo, getLCInfo, loading] = useAxiosPost();
 
   const {
     selectedBusinessUnit: { label: buName },
@@ -39,9 +40,19 @@ const LCApplicationExport = ({ obj }) => {
     getBankDDL(`/imp/ImportCommonDDL/GetBankListForLCBusinessPartnerDDL`);
   }, []);
 
+  useEffect(() => {
+    if (singleItem?.proformaInvoiceId) {
+      GetProformaInvoiceById(
+        singleItem?.proformaInvoiceId,
+        setSingleData,
+        setPILoader
+      );
+    }
+  }, [singleItem]);
+
   return (
     <>
-      {(loader || loading) && <Loading />}
+      {(loader || piLoader) && <Loading />}
       <Formik
         enableReinitialize={true}
         initialValues={initData}
@@ -50,7 +61,7 @@ const LCApplicationExport = ({ obj }) => {
         {({ errors, touched, setFieldValue, values }) => (
           <>
             <Card>
-              <CardHeader title="Download LC Application"></CardHeader>
+              <CardHeader title="Apply for LC"></CardHeader>
               <CardBody>
                 <div className="row global-form">
                   <div className="col-lg-3 pt-2">
@@ -94,18 +105,29 @@ const LCApplicationExport = ({ obj }) => {
                       touched={touched}
                     />
                   </div>
+                  {/* Apply Type DDL  */}
                   <div className="col-lg-3 pt-2">
                     <NewSelect
                       options={[
-                        { value: 1, label: "With Dollar Arrange" },
-                        { value: 2, label: "Without Dollar Arrange" },
+                        {
+                          value: 1,
+                          label: "Prayer for issuance of LC",
+                        },
+                        {
+                          value: 2,
+                          label: "Request for original documents",
+                        },
+                        {
+                          value: 3,
+                          label: "Request for Issuance",
+                        },
                       ]}
-                      value={values?.type}
-                      label="Type"
-                      placeholder="Type"
-                      name="type"
+                      value={values?.applyType}
+                      label="Apply Type"
+                      placeholder="Apply Type"
+                      name="applyType"
                       onChange={(valueOption) => {
-                        setFieldValue("type", valueOption);
+                        setFieldValue("applyType", valueOption);
                       }}
                       errors={errors}
                       touched={touched}
@@ -115,23 +137,25 @@ const LCApplicationExport = ({ obj }) => {
                   <IButton
                     className="btn-success btn-sm"
                     onClick={() => {
-                      getLCInfo(
-                        `https://automation.ibos.io/lc_issuance`,
-                        {
-                          text: singleItem?.pdfTextdata || '',
-                        },
-                        () => {
-                          setShow(true);
-                        },
-                        true
-                      );
+                      setShow(true);
                     }}
-                    disabled={!values?.bank || !values?.branch}
+                    disabled={
+                      !values?.bank || !values?.branch || !values?.applyType
+                    }
                   >
                     Preview
                   </IButton>
                   <IViewModal show={show} onHide={() => setShow(false)}>
-                    <LCApplication obj={{ values, lcInfo, buName }} />
+                    <ApplyForLC
+                      obj={{
+                        values,
+                        buName,
+                        singleData: {
+                          ...singleItem,
+                          ...singleData,
+                        },
+                      }}
+                    />
                   </IViewModal>
                 </div>
               </CardBody>
@@ -143,4 +167,4 @@ const LCApplicationExport = ({ obj }) => {
   );
 };
 
-export default LCApplicationExport;
+export default ApplyForModal;

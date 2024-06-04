@@ -616,7 +616,7 @@ export const downloadDocumentaryCredit = async (
   pdfText,
   setLoading
 ) => {
-  const url = `https://devautomation.ibos.io/bank_lc/create`;
+  const url = `https://automation.ibos.io/bank_lc/create`;
 
   const payload = {
     bank: bankId.toString(),
@@ -668,4 +668,19 @@ export const downloadDocumentaryCredit = async (
       toast.error("Something went wrong");
       setLoading(false);
     });
+};
+
+export const GetProformaInvoiceById = async (id, setter, setDisabled) => {
+  setDisabled(true);
+  try {
+    const res = await Axios.get(
+      `/imp/ProformaInvoice/GetProformaInvoiceById?proformaInvoiceId=${id}`
+    );
+    setDisabled(false);
+    setter(res?.data);
+    // setRowDto()
+  } catch (error) {
+    setDisabled(false);
+    toast.error(error?.response?.data?.message);
+  }
 };

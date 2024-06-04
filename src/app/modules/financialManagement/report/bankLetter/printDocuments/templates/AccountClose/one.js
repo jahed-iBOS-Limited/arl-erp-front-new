@@ -1,4 +1,5 @@
 import React from "react";
+import "../../templates/style.scss";
 
 const AccountCloseOne = ({ singleRowItem }) => {
   const {
@@ -28,7 +29,7 @@ const AccountCloseOne = ({ singleRowItem }) => {
   } = singleRowItem;
   return (
     <>
-      <div>
+      <div className="bank-letter-template-common-wrapper">
         <div>
           <div>
             <p>
@@ -67,7 +68,6 @@ const AccountCloseOne = ({ singleRowItem }) => {
               <strong>Dear Sir,</strong>
             </p>
             <br />
-            <br />
             <p>
               We have the honor to inform you that, we have a
               <strong>
@@ -82,7 +82,6 @@ const AccountCloseOne = ({ singleRowItem }) => {
               Uttam Mir Shawkat Sarak, Gulshan Link Road, Tejgaon, Dhaka 1208.
             </p>
             <br />
-            <br />
             <p>
               In view of above we are requesting you to close the above Bank
               Account and if any existing balance please give us a
@@ -92,12 +91,10 @@ const AccountCloseOne = ({ singleRowItem }) => {
               closing the account.
             </p>
             <br />
-            <br />
             <p>
               We are enclosing herewith the necessary documents for your early
               action.
             </p>
-            <br />
             <br />
             <p>Yours faithfully,</p>
             <p>

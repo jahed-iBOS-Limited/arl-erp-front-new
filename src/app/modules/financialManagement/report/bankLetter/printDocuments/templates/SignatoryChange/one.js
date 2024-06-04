@@ -1,79 +1,50 @@
 import React from "react";
+import "../../templates/style.scss";
 
-const SignatoryChangeOne = () => {
+const SignatoryChangeOne = ({ singleRowItem }) => {
+  const {
+    strBusinessUnitName,
+    strRefDate,
+    strDate,
+    strBankName,
+    strBankShortName,
+    strBranchName,
+    strBranchAddress,
+    strAccountType,
+  } = singleRowItem;
   return (
     <>
-      <div>
+      <div className="bank-letter-template-common-wrapper">
         <p style={{ fontSize: 16 }}>
-          <b>
-            Date: {"{"}
-            {"{"}Date{"}"}
-            {"}"}{" "}
-          </b>
+          <b>Date: {strDate} </b>
         </p>
         {/* <p style="margin-top: -15px; font-size: 16px"><b>Date : {{Date}}</b></p> */}
         <p style={{ marginTop: 35 }}>The Manager</p>
         {/* <p style="margin-top: -15px; ">The Head of the Branch</p> */}
         <p style={{ marginTop: "-15px" }}>
-          <b>
-            {"{"}
-            {"{"}Bank Name{"}"}
-            {"}"}
-          </b>
+          <b> {strBankName} </b>
         </p>
         <p style={{ marginTop: "-15px" }}>
-          <b>
-            {"{"}
-            {"{"}Branch Name{"}"}
-            {"}"}{" "}
-          </b>
+          <b> {strBranchName} </b>
         </p>
-        <p style={{ marginTop: "-15px" }}>
-          {"{"}
-          {"{"}Bank Address{"}"}
-          {"}"}
-        </p>
+        <p style={{ marginTop: "-15px" }}> Bank Address </p>
         <p style={{ margin: "35px 0" }}>
           Subject:
           <b>
             Regarding the inclusion of two new signatories in replacement of one
-            existing Signatories, A/C: {"{"}
-            {"{"}Account Number{"}"}
-            {"}"}, {"{"}
-            {"{"}Account Name{"}"}
-            {"}"} with
-            {"{"}
-            {"{"}Bank Name{"}"}
-            {"}"}, {"{"}
-            {"{"}Branch Name{"}"}
-            {"}"}
+            existing Signatories, A/C: Account Number , Account Name with Bank
+            Name , Branch Name{" "}
           </b>
         </p>
         <p style={{ marginTop: 35 }}>Dear Sir,</p>
         {/* <p>As-salamu alaykum</p> */}
         <p style={{ marginTop: "-10px", textAlign: "left" }}>
-          We acknowledge your support in the business of{" "}
-          <b>
-            {"{"}
-            {"{"}Account Name{"}"}
-            {"}"}.
-          </b>{" "}
-          We have been maintaining an{" "}
-          <b>
-            {"{"}
-            {"{"}Account Type{"}"}
-            {"}"}
-          </b>{" "}
-          account in your branch bearing account no-{" "}
-          <b>
-            {"{"}
-            {"{"}Account Number{"}"}
-            {"}"}.
-          </b>{" "}
-          Currently, we have 05 signatories but our management wants to replace
-          one existing signatories with two new signatories for the smooth
-          operation of the company. Details of the signatory changes are given
-          below:
+          We acknowledge your support in the business of <b> Account Name .</b>{" "}
+          We have been maintaining an <b> {strAccountType} </b> account in your
+          branch bearing account no- <b> Account Number .</b> Currently, we have
+          05 signatories but our management wants to replace one existing
+          signatories with two new signatories for the smooth operation of the
+          company. Details of the signatory changes are given below:
         </p>
         <table style={{ border: "1px solid black" }}>
           <thead>
@@ -123,11 +94,7 @@ const SignatoryChangeOne = () => {
           <b>Thanking you </b>
         </p>
         <p style={{ marginTop: 5 }}>
-          <b>
-            For, {"{"}
-            {"{"}Account Name{"}"}
-            {"}"}{" "}
-          </b>
+          <b>For, Account Name </b>
         </p>
         <p style={{ marginTop: 55 }}>
           <b>(SHEIKH JASIM UDDIN)</b>
@@ -138,20 +105,10 @@ const SignatoryChangeOne = () => {
         <div className="myPageBreak" />
         <p style={{}}>
           EXTRACT OF THE MINUTES OF THE MEETING OF THE BOARD OF DIRECTORS OF
-          <b>
-            {" "}
-            {"{"}
-            {"{"}Account Name{"}"}
-            {"}"}{" "}
-          </b>
-          ON THE{" "}
-          <b>
-            {"{"}
-            {"{"}BR Date{"}"}
-            {"}"}
-          </b>{" "}
-          AT 11.00 AM IN THE REGISTERED OFFICE OF THE COMPANY AT AKIJ HOUSE, 198
-          BIR UTTAM MIR SHAWKAT SARAK, GULSHAN LINK ROAD, TEJGAON, DHAKA 1208.
+          <b> Account Name </b>
+          ON THE <b> BR Date </b> AT 11.00 AM IN THE REGISTERED OFFICE OF THE
+          COMPANY AT AKIJ HOUSE, 198 BIR UTTAM MIR SHAWKAT SARAK, GULSHAN LINK
+          ROAD, TEJGAON, DHAKA 1208.
         </p>
         <p style={{}}>
           The meeting was presided over by Ms. Faria Hossain, Chairman of the
@@ -186,14 +143,7 @@ const SignatoryChangeOne = () => {
         <p style={{}}>
           Besides this,the Board of Directors, for better interest and smooth
           running of the business of the company new authorization for the
-          <b>
-            {" "}
-            {"{"}
-            {"{"}Bank Name{"}"}
-            {"}"}, {"{"}
-            {"{"}Account No.{"}"}
-            {"}"}{" "}
-          </b>
+          <b> Bank Name , Account No. </b>
           has been provided to
           <b>
             1. Md. Sheikh Sadi- Chief Treasury Officer &amp; 2. Md. Anamul
@@ -236,14 +186,7 @@ const SignatoryChangeOne = () => {
         </p>
         <p>
           for all Banking transactions of the
-          <b>
-            {" "}
-            {"{"}
-            {"{"}Bank Name{"}"}
-            {"}"}, {"{"}
-            {"{"}Account No.{"}"}
-            {"}"}{" "}
-          </b>
+          <b> Bank Name , Account No. </b>
           on behalf of the Company.
         </p>
         <p>
