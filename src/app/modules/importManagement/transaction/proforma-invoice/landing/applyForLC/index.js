@@ -6,9 +6,12 @@ import PrayerForIssuanceOfLC from "./prayerForIssuanceOfLC";
 import "./style.scss";
 import RequestForOriginalDocuments from "./requestForOriginalDocuments";
 import RequestForIssuance from "./requestForIssuance";
+import { UpdateLcApi } from "../../helper";
+import Loading from "../../../../../_helper/_loading";
 
 const PrayerForIssuance = ({ obj }) => {
-  const { selectedBusinessUnit } = useSelector((state) => {
+  const [disabled, setDisabled] = React.useState(false);
+  const { selectedBusinessUnit, profileData } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
 
@@ -30,8 +33,10 @@ const PrayerForIssuance = ({ obj }) => {
     }`,
   });
 
+  console.log(singleData, "singleData")
   return (
     <>
+      {disabled && <Loading />}
       <div className="text-right">
         <button
           className="btn btn-primary px-3 py-2 mr-2"
@@ -39,7 +44,16 @@ const PrayerForIssuance = ({ obj }) => {
           // onClick={() => {
           //   ExportPDF(`LC Application`, setLoading);
           // }}
-          onClick={handleInvoicePrint}
+          onClick={() => {
+            handleInvoicePrint();
+            const payload = {
+              intLoCId: singleData?.lcId ||0,
+              isBankInfoComplete: true,
+              dteUpdateDate: new Date(),
+              intUpdateDateBy: profileData?.userId,
+            };
+            UpdateLcApi(setDisabled,payload);
+          }}
         >
           Export
         </button>

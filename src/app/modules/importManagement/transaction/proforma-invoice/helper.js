@@ -684,3 +684,13 @@ export const GetProformaInvoiceById = async (id, setter, setDisabled) => {
     toast.error(error?.response?.data?.message);
   }
 };
+
+export const UpdateLcApi = async (setDisabled, payload) => {
+  try {
+    setDisabled(true);
+    const res = await Axios.post(`/imp/LetterOfCredit/UpdateLc`, payload);
+    setDisabled(false);
+  } catch (error) {
+    setDisabled(false);
+  }
+};
