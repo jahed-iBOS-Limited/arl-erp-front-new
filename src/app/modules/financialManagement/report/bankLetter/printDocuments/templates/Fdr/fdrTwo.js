@@ -1,9 +1,10 @@
 import React from "react";
+import "../../templates/style.scss";
 
 const FdrTwo = () => {
   return (
     <>
-      <div class="">
+      <div class="bank-letter-template-common-wrapper">
         <p>
           EXTRACT OF THE MINUTES OF THE MEETING OF THE BOARD OF DIRECTORS OF
           <strong>{"Account Name"}</strong> HELD ON THE
@@ -18,19 +19,23 @@ const FdrTwo = () => {
           were present.
         </p>
         <br />
-        <br />
         <div>
-          <pre style={{ fontSize: "16px" }}>
-            {" "}
-            <strong>Mr. Sheikh Jasim Uddin</strong> Managing Director Sd/
-          </pre>
-          <pre style={{ fontSize: "16px" }}>
-            {" "}
-            <strong>Ms. Faria Hossain</strong> Chairman Sd/
-          </pre>
+        <p>
+            <span>
+              <strong>Mr. Sheikh Jasim Uddin</strong>
+            </span>{" "}
+            <span style={{ marginLeft: "100px" }}>Managing Director</span>{" "}
+            <span style={{ marginLeft: "90px" }}>Sd/</span>
+          </p>
+          <p>
+            <span>
+              <strong>Ms. Faria Hossain</strong>
+            </span>
+            {}
+            <span style={{ marginLeft: "145px" }}>Chairman</span>{" "}
+            <span style={{ marginLeft: "150px" }}>Sd/</span>
+          </p>
         </div>
-        <br />
-        <br />
         <br />
         <p>
           The Following resolutions were passed unanimously for the interest of
@@ -56,6 +61,7 @@ const FdrTwo = () => {
           </strong>
           from now onward <strong>will sign and endorse:</strong>
         </p>
+        <br/>
         <div style={{ marginLeft: "80px" }}>
           <div style={{ display: "flex" }}>
             <p style={{ marginRight: "30px" }}>
@@ -92,11 +98,11 @@ const FdrTwo = () => {
             </p>
           </div>
         </div>
+        <b/>
         <p>
           As there being no other agenda to be discussed, the meeting ended with
           a vote of thanks to chair.
         </p>
-        <br />
         <br />
         <br />
         <p>Sd/-</p>

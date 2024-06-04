@@ -1,9 +1,10 @@
 import React from "react";
+import "../../templates/style.scss";
 
 const FdrONE = () => {
   return (
     <>
-      <div class="">
+      <div class="bank-letter-template-common-wrapper">
         <p>
           EXTRACT OF THE MINUTES OF THE MEETING OF THE BOARD OF DIRECTORS OF
           <strong>{"Account Name"}</strong> HELD ON THE
@@ -18,20 +19,29 @@ const FdrONE = () => {
           were present.
         </p>
         <br />
-        <br />
-        <div>
-          <pre style={{ fontSize: "16px" }}>
-            1. <strong>Mr. Sheikh Nasir Uddin</strong> Sd/
-          </pre>
-          <pre style={{ fontSize: "16px" }}>
-            2. <strong>Mr. Sheikh Jasim Uddin</strong> Sd/
-          </pre>
-          <pre style={{ fontSize: "16px" }}>
-            3. <strong>Ms. Faria Hossain</strong> Sd/
-          </pre>
+        <div style={{ display: "flex" }}>
+          <div>
+            <p>1.</p>
+            <p>2.</p>
+            <p>3.</p>
+          </div>
+          <div style={{ marginLeft: "10px" }}>
+            <p>
+              <strong>Mr. Sheikh Nasir Uddin</strong>
+            </p>
+            <p>
+              <strong>Mr. Sheikh Jasim Uddin</strong>
+            </p>
+            <p>
+              <strong>Ms. Faria Hossain</strong>
+            </p>
+          </div>
+          <div style={{ marginLeft: "20px" }}>
+            <p>Sd/</p>
+            <p>Sd/</p>
+            <p>Sd/</p>
+          </div>
         </div>
-        <br />
-        <br />
         <br />
         <p>
           The Following resolutions were passed unanimously for the interest of
@@ -97,7 +107,6 @@ const FdrONE = () => {
           As there being no other agenda to be discussed, the meeting ended with
           a vote of thanks to chair.
         </p>
-        <br />
         <br />
         <br />
         <p>Sd/-</p>

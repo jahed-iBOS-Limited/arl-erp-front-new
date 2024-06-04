@@ -29,6 +29,7 @@ import NonBankingFund from "./nonBankingFund";
 import NonBankingFundCreateEdit from "./nonBankingFund/createEdit";
 import Repay from "./nonBankingFund/repay";
 import BankLetter from "../report/bankLetter";
+import BankStock from "../report/bankStock";
 
 export function Banking() {
   return (
@@ -132,6 +133,10 @@ export function Banking() {
       <ContentRoute
         path="/financial-management/banking/BankLetter"
         component={BankLetter}
+      />
+      <ContentRoute
+        path="/financial-management/banking/BankStock"
+        component={BankStock}
       />
 
 

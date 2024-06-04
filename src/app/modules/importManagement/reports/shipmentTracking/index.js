@@ -1,84 +1,199 @@
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router";
-import { Form, Formik } from "formik";
-// import { getVesselDDL } from "../../../chartering/helper";
 import axios from "axios";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import Loading from "../../../_helper/_loading";
-import IForm from "../../../_helper/_form";
-import SearchAsyncSelect from "../../../_helper/SearchAsyncSelect";
-import CommonTable from "../../../_helper/commonTable";
-import IEdit from "../../../_helper/_helperIcons/_edit";
-import PaginationTable from "../../../_helper/_tablePagination";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import ICustomCard from "../../../_helper/_customCard";
+import { Formik } from "formik";
+import React, { useRef, useState } from "react";
+import { Form } from "react-bootstrap";
+import { shallowEqual, useSelector } from "react-redux";
 
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import ICustomCard from "../../../_helper/_customCard";
+import { _formatMoney } from "../../../_helper/_formatMoney";
+import { _dateFormatter } from "../../../_helper/_dateFormate";
+import SearchAsyncSelect from "../../../_helper/SearchAsyncSelect";
+import Loading from "../../../_helper/_loading";
 const initData = {
   lcnumber: "",
   po: "",
 };
 export default function ShipmentTracking() {
-  const saveHandler = (values, cb) => {};
-  const history = useHistory();
   const {
     profileData: { userTypeName, accountId },
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
-  //   const [vesselDDL, setVesselDDL] = useState([]);
-  //   useEffect(() => {
-  //     getVesselDDL(accountId, buId, setVesselDDL, "");
-  //   }, [accountId, buId]);
-  const [pageNo, setPageNo] = useState(0);
-  const [pageSize, setPageSize] = useState(15);
+
   const [gridData, getGridData, loadGridData] = useAxiosGet();
-  const [poData, getPoData] = useAxiosGet();
 
   const header = [
-    "Merchandise Description",
-    "Origin",
-    "Supplier Details",
-    "PI No",
-    "PI Date",
-    "PO NO",
-    "LC Quantity",
-    "LC to be open M.T",
-    "LC NUMBER",
-    "LC ISSUE DATE ",
-    "ISSUE BANK",
-    "LATEST DATE",
-    "Unit Price/M.T",
-    "Total Price ",
-    "SHIPMENT NUMBER",
-    "B/L",
-    "invoice",
-    "Shipped Qty (M.T)",
-    "Rest Qty",
-    "ETA (Aprx)",
-    "INV VALUE ",
-    "Copy Documents Rcv Date ",
-    "Original Documents Rcv Date ",
-    "CNF ",
-    "Container ",
-    "Status ",
-    "REMARKS  ",
+    {
+      name: "Merchandise Description",
+      style: {
+        minWidth: "30px",
+      },
+    },
+    {
+      name: "Origin",
+      style: {
+        minWidth: "113px",
+      },
+    },
+
+    {
+      name: "Supplier Details",
+      style: {
+        minWidth: "82px",
+      },
+    },
+    {
+      name: "PI No",
+      style: {
+        minWidth: "100px",
+      },
+    },
+    {
+      name: "PI Date",
+      style: {
+        minWidth: "65px",
+      },
+    },
+    {
+      name: "PO NO",
+      style: {
+        minWidth: "120px",
+      },
+    },
+    {
+      name: "LC Quantity",
+      style: {
+        minWidth: "70px",
+      },
+    },
+    {
+      name: "LC to be open M.T",
+      style: {
+        minWidth: "240px",
+      },
+    },
+    {
+      name: "LC NUMBER",
+      style: {
+        minWidth: "140px",
+      },
+    },
+    {
+      name: "LC ISSUE DATE",
+      style: {
+        minWidth: "140px",
+      },
+    },
+    {
+      name: "ISSUE BANK",
+      style: {
+        minWidth: "100px",
+      },
+    },
+
+    {
+      name: "LATEST DATE",
+      style: {
+        minWidth: "100px",
+      },
+    },
+    {
+      name: "Unit Price/M.T",
+      style: {
+        minWidth: "100px",
+      },
+    },
+    {
+      name: "Total Price",
+      style: {
+        minWidth: "100px",
+      },
+    },
+    {
+      name: "SHIPMENT NUMBER",
+      style: {
+        minWidth: "105px",
+      },
+    },
+    {
+      name: "B/L",
+      style: {
+        minWidth: "100px",
+      },
+    },
+
+    //
+    {
+      name: "invoice",
+      style: {
+        minWidth: "100px",
+      },
+    },
+    {
+      name: "Shipped Qty (M.T)",
+      style: {
+        minWidth: "100px",
+      },
+    },
+    {
+      name: "Rest Qty",
+      style: {
+        minWidth: "100px",
+      },
+    },
+    {
+      name: "ETA (Aprx)",
+      style: {
+        minWidth: "70px",
+      },
+    },
+    {
+      name: "INV VALUE",
+      style: {
+        minWidth: "100px",
+      },
+    },
+
+    {
+      name: "Copy Documents Rcv Date ",
+      style: {
+        minWidth: "100px",
+      },
+    },
+    {
+      name: "Original Documents Rcv Date ",
+      style: {
+        minWidth: "100px",
+      },
+    },
+    {
+      name: "CNF",
+      style: {
+        minWidth: "100px",
+      },
+    },
+    {
+      name: "Container",
+      style: {
+        minWidth: "100px",
+      },
+    },
+    {
+      name: "Status",
+      style: {
+        minWidth: "100px",
+      },
+    },
+    {
+      name: "REMARKS",
+      style: {
+        minWidth: "100px",
+      },
+    },
   ];
 
-  const handleGetRowData = (values, pageNo, pageSize, searchValue) => {
-    // const searchParam = searchValue ? `&search=${searchValue}` : "";
+  const printRef = useRef();
 
-    getGridData(
-      `/imp/Shipment/GettLetterOfCreaditETALandingPasignation?Lcid=1`
-    );
-  };
-
-  const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
-    handleGetRowData(values?.requisition, pageNo, pageSize, searchValue);
-  };
-
-  // const paginationSearchHandler = (searchValue, values) => {
-  //   setPositionHandler(pageNo, pageSize, values, searchValue);
-  // };
   const loadLCList = (v) => {
     if (v?.length < 3) return [];
     return axios
@@ -95,196 +210,196 @@ export default function ShipmentTracking() {
       )
       .then((res) => res?.data);
   };
+  const style = {
+    minWidth: "50px",
+  };
+
   return (
-    <Formik
-      enableReinitialize={true}
-      initialValues={{
-        ...initData,
-      }}
-      // validationSchema={{}}
-      onSubmit={(values, { setSubmitting, resetForm }) => {
-        saveHandler(values, () => {
-          resetForm(initData);
-        });
-      }}
-    >
-      {({
-        handleSubmit,
-        resetForm,
-        values,
-        setFieldValue,
-        isValid,
-        errors,
-        touched,
-      }) => (
-        <>
-          {loadGridData && <Loading />}
-          <ICustomCard title="Shipment Tracking">
-            <Form>
-              <div className="row global-form">
-                <div className="col-lg-3">
-                  <label>LC No</label>
-                  <SearchAsyncSelect
-                    selectedValue={values?.lcnumber}
-                    isSearchIcon={true}
-                    paddingRight={10}
-                    name="lcnumber"
-                    loadOptions={loadLCList}
-                    // isDisabled={true}
-                    handleChange={(valueOption) => {
-                      setFieldValue("lcnumber", valueOption);
-                      //   setFieldValue("shipment", "");
-                      console.log({ valueOption });
-                      //   getShipmentDDL(
-                      //     `/imp/ImportCommonDDL/GetInfoFromPoLcDDL?accId=${
-                      //       accountId
-                      //     }&buId=${0}&searchTerm=${valueOption?.label}`
-                      //   );
-                    }}
+    <>
+      {loadGridData && <Loading />}
+      <ICustomCard
+        title="Shipment Tracking"
+        renderProps={() => (
+          <div
+          // onClick={() => {
+          //   setIsPrintable(true);
+          // }}
+          >
+            {/* ( */}
+            {/* <ReactToPrint
+              trigger={() => (
+                <button className="btn btn-primary">
+                  <img
+                    style={{ width: "25px", paddingRight: "5px" }}
+                    src={printIcon}
+                    alt="print-icon"
                   />
-                </div>
-                <div className="col-lg-3">
-                  <label>Po No</label>
-                  <SearchAsyncSelect
-                    selectedValue={values?.po}
-                    isSearchIcon={true}
-                    paddingRight={10}
-                    name="po"
-                    loadOptions={loadPOList}
-                    // isDisabled={true}
-                    handleChange={(valueOption) => {
-                      setFieldValue("po", valueOption);
-                      //   setFieldValue("shipment", "");
-                      console.log({ valueOption });
-                      //   getShipmentDDL(
-                      //     `/imp/ImportCommonDDL/GetInfoFromPoLcDDL?accId=${
-                      //       accountId
-                      //     }&buId=${0}&searchTerm=${valueOption?.label}`
-                      //   );
-                    }}
-                  />
-                </div>
-                {/*              
-                <div className="col-lg-2">
-                  <label>Date</label>
-                  <InputField
-                    value={values?.dateTime || ""}
-                    name="dateTime"
-                    placeholder="Date"
-                    type="date"
-                    onChange={(e) => {}}
-                  />
-                </div> */}
-                <div className="col-lg-2 pt-5 mt-1">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      getGridData(
-                        `/imp/Shipment/GetImportShipmentTracking?businessUnitId=${buId}&lcId=${values?.lcnumber?.value}&purchaseOrderId=${values?.po?.poId}`
-                      );
-                    }}
-                    className="btn btn-primary"
-                    // disabled={!values?.customs || !values?.provider}
-                  >
-                    Show
-                  </button>
-                </div>
-              </div>
-              <div>
-                {/* <PaginationSearch
-              placeholder="Search..."
-              paginationSearchHandler={paginationSearchHandler}
-              values={values}
-              /> */}
-              </div>
-            </Form>
-            <div
-              className="react-bootstrap-table table-responsive"
-              styles={{
-                // width: "100%",
-                //   maxHeight: "80vh",
-                overflow: "auto",
+                  Print
+                </button>
+              )}
+              content={() => printRef.current}
+              onAfterPrint={() => {
+                setIsPrintable(false);
               }}
-            >
-              <table className="table table-striped table-bordered bj-table bj-table-landing">
-                <thead styles={{ minWidth: "50px" }}>
-                  <tr>
-                    {header?.length > 0 &&
-                      header?.map((item, index) => (
-                        <th
-                          style={{
-                            ...item?.style,
-                            position: "sticky",
-                            top: 0,
-                          }}
-                          key={index}
-                        >
-                          {item}
-                        </th>
-                      ))}
-                  </tr>
-                </thead>
+            /> */}
+            {/* ) */}
+          </div>
+        )}
+      >
+        <Formik
+          enableReinitialize={true}
+          initialValues={{
+            ...initData,
+          }}
+          onSubmit={(values, { setSubmitting, resetForm }) => {
+            resetForm(initData);
+          }}
+        >
+          {({ values, errors, touched, setFieldValue, dirty, isValid }) => (
+            <>
+              <Form className="form form-label-right">
+                <div className="row global-form">
+                  <div className="col-lg-3">
+                    <label>LC No</label>
+                    <SearchAsyncSelect
+                      selectedValue={values?.lcnumber}
+                      isSearchIcon={true}
+                      paddingRight={10}
+                      name="lcnumber"
+                      loadOptions={loadLCList}
+                      handleChange={(valueOption) => {
+                        setFieldValue("lcnumber", valueOption);
+                        console.log({ valueOption });
+                      }}
+                    />
+                  </div>
+                  <div className="col-lg-3">
+                    <label>Po No</label>
+                    <SearchAsyncSelect
+                      selectedValue={values?.po}
+                      isSearchIcon={true}
+                      paddingRight={10}
+                      name="po"
+                      loadOptions={loadPOList}
+                      handleChange={(valueOption) => {
+                        setFieldValue("po", valueOption);
+                        console.log({ valueOption });
+                      }}
+                    />
+                  </div>
 
-                <tbody>
-                  {gridData.length >= 0 &&
-                    gridData.map((data, index) => (
-                      <tr key={index}>
-                        <td>{""}</td>
-                        <td>{data?.strCountryOriginName}</td>
-                        <td>{data?.strBusinessPartnerName}</td>
-                        <td className="text-center">{data?.strPINumber}</td>
-                        <td>{_dateFormatter(data?.dtePIDate)}</td>
-                        <td className="text-center">{""}</td>
-                        <td>{data?.lCqty}</td>
-                        <td>{""}</td>
-                        <td></td>
-                        <td className="text-right">
-                          {_dateFormatter(data?.dteLCDate)}
-                        </td>
-                        <td className="text-right"></td>
-                        <td className="text-right">
-                          {_dateFormatter(data?.dteetadate)}
-                        </td>
-                        <td className="text-right"></td>
-                        <td className="text-right">
-                          {data?.numTotalPIAmountBDT}
-                        </td>
-                        <td className="text-right"></td>
-                        <td className="text-right">{data?.strblno}</td>
-                        <td className="text-right"></td>
-                        <td className="text-right">
-                          {data?.numShipmentQuantity}
-                        </td>
-                        <td className="text-right">
-                          {/* {_formatMoney(data?.numOther, 4)} */}
-                        </td>
+                  <div className="col-lg-2 pt-5 mt-1">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        getGridData(
+                          `/imp/Shipment/GetImportShipmentTracking?businessUnitId=${buId}&lcId=${values?.lcnumber?.value}&purchaseOrderId=${values?.po?.poId}`
+                        );
+                      }}
+                      className="btn btn-primary"
+                    >
+                      Show
+                    </button>
+                  </div>
+                </div>
+                <div
+                  ref={printRef}
+                  style={{
+                    width: "100%",
+                    maxHeight: "80vh",
+                    overflow: "auto",
+                  }}
+                >
+                  <div className="react-bootstrap-table table-responsive">
+                    <table className="table table-striped table-bordered bj-table bj-table-landing">
+                      <thead style={style}>
+                        <tr>
+                          {header?.length > 0 &&
+                            header?.map((item, index) => (
+                              <th
+                                style={{
+                                  ...item?.style,
+                                  position: "sticky",
+                                  top: 0,
+                                }}
+                                key={index}
+                              >
+                                {item?.name}
+                              </th>
+                            ))}
+                        </tr>
+                      </thead>
 
-                        <td className="text-right">
-                          {/* {_formatMoney(data?.numPG, 4)} */}
-                        </td>
-                        <td className="text-right">
-                          {/* {_formatMoney(data?.numPort, 4)} */}
-                        </td>
-                        <td className="text-right">
-                          {/* {_formatMoney(data?.numScavatory, 4)} */}
-                        </td>
-                        <td className="text-right">
-                          {/* {_formatMoney(data?.numShipping, 4)} */}
-                        </td>
-                        <td className="text-right"></td>
-                        <td className="text-right">
-                          {data?.numNumberOfContainer}
-                        </td>
-                        <td className="text-right">{data?.deliverystatus}</td>
-                        <td>{""}</td>
-                      </tr>
-                    ))}
-                </tbody>
-              </table>
-            </div>
-          </ICustomCard>
-        </>
-      )}
-    </Formik>
+                      <tbody>
+                        {gridData.length >= 0 &&
+                          gridData.map((data, index) => (
+                            <tr key={index}>
+                              <td className="text-center">{""}</td>
+                              <td className="text-center">
+                                {data?.strCountryOriginName}
+                              </td>
+                              <td className="text-center">
+                                {data?.strBusinessPartnerName}
+                              </td>{" "}
+                              <td className="text-center">
+                                {data?.strPINumber}
+                              </td>
+                              <td>{_dateFormatter(data?.dtePIDate)}</td>
+                              <td className="text-center">{""}</td>
+                              <td>{data?.lCqty}</td>
+                              <td>{""}</td>
+                              <td></td>{" "}
+                              <td className="text-center">
+                                {_dateFormatter(data?.dteLCDate)}{" "}
+                              </td>
+                              <td className="text-right"></td>{" "}
+                              <td className="text-center">
+                                {_dateFormatter(data?.dteetadate)}{" "}
+                              </td>
+                              <td className="text-right"></td>{" "}
+                              <td className="text-right">
+                                {_formatMoney(data?.numTotalPIAmountBDT)}{" "}
+                              </td>
+                              <td className="text-right"></td>
+                              <td className="text-center">{data?.strblno}</td>
+                              <td className="text-right"></td>{" "}
+                              <td className="text-right">
+                                {data?.numShipmentQuantity}{" "}
+                              </td>{" "}
+                              <td className="text-right">
+                                {/* {_formatMoney(data?.numOther, 4)} */}{" "}
+                              </td>{" "}
+                              <td className="text-right">
+                                {/* {_formatMoney(data?.numPG, 4)} */}{" "}
+                              </td>{" "}
+                              <td className="text-right">
+                                {/* {_formatMoney(data?.numPort, 4)} */}{" "}
+                              </td>{" "}
+                              <td className="text-right">
+                                {/* {_formatMoney(data?.numScavatory, 4)} */}{" "}
+                              </td>{" "}
+                              <td className="text-right">
+                                {/* {_formatMoney(data?.numShipping, 4)} */}{" "}
+                              </td>
+                              <td className="text-right"></td>{" "}
+                              <td className="text-right">
+                                {data?.numNumberOfContainer}{" "}
+                              </td>{" "}
+                              <td className="text-right">
+                                {data?.deliverystatus}
+                              </td>
+                              <td>{""}</td>{" "}
+                            </tr>
+                          ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </Form>
+            </>
+          )}
+        </Formik>
+      </ICustomCard>
+    </>
   );
 }

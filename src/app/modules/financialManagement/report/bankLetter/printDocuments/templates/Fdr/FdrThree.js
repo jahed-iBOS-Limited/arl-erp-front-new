@@ -1,14 +1,14 @@
 import React from "react";
+import "../../templates/style.scss";
 
 const FdrThree = () => {
   return (
     <>
-      <div class="">
+      <div class="bank-letter-template-common-wrapper">
         <p>
           Ref : {"SBU"}/FDR/{"Date Ref"}
         </p>
         <p>Date : {"Date"}</p>
-        <br />
         <br />
         <p>The Manager</p>
         <p>
@@ -18,7 +18,6 @@ const FdrThree = () => {
           <strong>{"Branch Name"} </strong>
         </p>
         <p>{"Branch Address"}</p>
-        <br />
         <br />
         <p>
           <strong>
@@ -51,15 +50,13 @@ const FdrThree = () => {
         <br />
         <p>Thanking you,</p>
         <br />
-        <br />
         <p>
           <strong>FOR {"Account Name"} </strong>
         </p>
         <br />
         <br />
         <br />
-        <br />
-        <p>Authorized Signature Authorized Signature</p>
+        <p>Authorized Signature</p>
       </div>
     </>
   );
