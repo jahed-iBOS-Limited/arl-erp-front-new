@@ -73,16 +73,8 @@ export default function LoanRegisterViewForm({
 
   useEffect(() => {
     getBankDDL(setBankDDL, setLoading);
-    getFacilityDLL((resData) => {
-      setFacilityDDL(resData);
-      if (!renewId && !isEdit) {
-        if (formikRef.current) {
-          const facilityFind = resData?.find((item) => item?.value === 2);
-          formikRef.current.setFieldValue("facility", facilityFind || "");
-        }
-      }
-    }, setLoading);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -119,11 +111,33 @@ export default function LoanRegisterViewForm({
                     onChange={(valueOption) => {
                       setFieldValue("bank", valueOption);
                       setFieldValue("account", "");
+                      setFieldValue("facility", "");
+                      setFieldValue("termDays", "");
                       getBankAccountDDLByBankId(
                         profileData?.accountId,
                         selectedBusinessUnit?.value,
                         valueOption?.value,
                         setAccountDDL,
+                        setLoading
+                      );
+                      getFacilityDLL(
+                        selectedBusinessUnit?.value,
+                        valueOption?.value,
+                        (resData) => {
+                          setFacilityDDL(resData);
+                          if (!renewId && !isEdit) {
+                            if (formikRef.current) {
+                              const facilityFind = resData?.find(
+                                (item) => item?.value === 2
+                              );
+                              setFieldValue("facility", facilityFind || "");
+                              setFieldValue(
+                                "termDays",
+                                facilityFind?.tenorDays || 0
+                              );
+                            }
+                          }
+                        },
                         setLoading
                       );
                     }}

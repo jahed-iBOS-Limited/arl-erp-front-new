@@ -43,10 +43,11 @@ export const getBankDDLAll = async (setter, setLoading) => {
 };
 
 //facility ddl
-export const getFacilityDLL = async (setter, setLoading) => {
+export const getFacilityDLL = async (buiId, bankId,setter, setLoading) => {
   try {
     setLoading(true);
-    const res = await Axios.get(`/fino/FundManagement/GetFacilityDDL`);
+    const res = await Axios.get(`/fino/FundManagement/GetFacilityDDL?BusinessUnitId=${buiId}&BankId=${bankId || 0}
+    `);
     setter(res?.data);
     setLoading(false);
   } catch (error) {

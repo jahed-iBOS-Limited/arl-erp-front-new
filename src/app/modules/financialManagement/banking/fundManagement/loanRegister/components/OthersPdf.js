@@ -55,7 +55,7 @@ const OthersPdf = ({ singleItem, selectedBusinessUnit }) => {
       <p style={{ marginBottom }}>{bankBranchAddress}</p>
 
       <p style={{ marginBottom }} className="font-weight-bolder">
-        Subject : Request for disbursement of {facilityName} - BDT
+        Subject : Request for disbursement of {facilityName} - BDT {' '}
         {_formatMoney(numPrinciple)} for {label} A/C No: {strBankAccountNumber}.
       </p>
 
