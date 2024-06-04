@@ -185,6 +185,66 @@ export default function BankLetter() {
                 </div>
                 <div className="col-lg-3">
                   <NewSelect
+                    name="templateType"
+                    options={[
+                      {
+                        value: 1,
+                        label: "Account Opening",
+                      },
+                      {
+                        value: 2,
+                        label: "Account Close",
+                      },
+                      {
+                        value: 3,
+                        label: "FDR",
+                      },
+                      {
+                        value: 4,
+                        label: "Authorization Letter",
+                      },
+                      {
+                        value: 5,
+                        label: "Signatory change",
+                      },
+                    ]}
+                    value={values?.templateType}
+                    label="Template Type"
+                    onChange={(valueOption) => {
+                      setFieldValue("templateType", valueOption || "");
+                      if (valueOption) {
+                        getTemplateList(
+                          `/fino/BankLetter/GetBankLetterTempaleteListById?TemplateTypeId=${valueOption?.value}`,
+                          (res) => {
+                            const data = res.map((item) => ({
+                              ...item,
+                              value: item?.intBankLetterTemplateId,
+                              label: item?.strBankLetterTemplateName,
+                            }));
+                            setTemplateList(data);
+                          }
+                        );
+                      }
+                    }}
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <NewSelect
+                    name="templateName"
+                    options={templateList || []}
+                    value={values?.templateName}
+                    label="Template Name"
+                    onChange={(valueOption) => {
+                      setFieldValue("templateName", valueOption || "");
+                    }}
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <NewSelect
                     name="bank"
                     options={bankList || []}
                     value={values?.bank}
@@ -245,66 +305,6 @@ export default function BankLetter() {
                     onChange={(e) => {
                       setFieldValue("brDate", e.target.value);
                     }}
-                  />
-                </div>
-                <div className="col-lg-3">
-                  <NewSelect
-                    name="templateType"
-                    options={[
-                      {
-                        value: 1,
-                        label: "Account Opening",
-                      },
-                      {
-                        value: 2,
-                        label: "Account Close",
-                      },
-                      {
-                        value: 3,
-                        label: "FDR",
-                      },
-                      {
-                        value: 4,
-                        label: "Authorization Letter",
-                      },
-                      {
-                        value: 5,
-                        label: "Signatory change",
-                      },
-                    ]}
-                    value={values?.templateType}
-                    label="Template Type"
-                    onChange={(valueOption) => {
-                      setFieldValue("templateType", valueOption || "");
-                      if (valueOption) {
-                        getTemplateList(
-                          `/fino/BankLetter/GetBankLetterTempaleteListById?TemplateTypeId=${valueOption?.value}`,
-                          (res) => {
-                            const data = res.map((item) => ({
-                              ...item,
-                              value: item?.intBankLetterTemplateId,
-                              label: item?.strBankLetterTemplateName,
-                            }));
-                            setTemplateList(data);
-                          }
-                        );
-                      }
-                    }}
-                    errors={errors}
-                    touched={touched}
-                  />
-                </div>
-                <div className="col-lg-3">
-                  <NewSelect
-                    name="templateName"
-                    options={templateList || []}
-                    value={values?.templateName}
-                    label="Template Name"
-                    onChange={(valueOption) => {
-                      setFieldValue("templateName", valueOption || "");
-                    }}
-                    errors={errors}
-                    touched={touched}
                   />
                 </div>
                 <div className="col-lg-3">
