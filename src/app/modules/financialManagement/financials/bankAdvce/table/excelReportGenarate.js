@@ -162,7 +162,7 @@ const excelDownlaod = async ({ workbook, fileName }) => {
           response.headers.get("content-type") === "application/vnd.ms-excel"
         ) {
           // Extract the filename from the response headers
-          const filename = fileName;
+          const filename = `${fileName}-new`;
           // Return a promise with the response blob
           return response.blob().then((blob) => {
             // Create a temporary URL for the blob
@@ -209,7 +209,6 @@ export const generateExcel = (
   fileName,
   isOldExcelDownload
 ) => {
-  console.log("row", row);
   row.forEach((item) => {
     item["debitAccount"] = values?.bankAccountNo?.bankAccNo;
   });
@@ -345,7 +344,6 @@ export const generateExcel = (
       break;
   }
 
-  console.log("tableDataInfo", tableDataInfo);
 
   const bottom1 = [`In Word : ${totalInWords} Taka Only`];
   const bottom2 = [`For ${selectedBusinessUnit?.label}`];
