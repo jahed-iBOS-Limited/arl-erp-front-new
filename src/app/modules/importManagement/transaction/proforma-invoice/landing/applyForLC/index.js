@@ -55,7 +55,7 @@ const PrayerForIssuance = ({ obj }) => {
             UpdateLcApi(setDisabled,payload);
           }}
         >
-          Export
+          Print
         </button>
       </div>
       <div id="applyForLC" ref={printRef} contenteditable="true">
