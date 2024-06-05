@@ -3,14 +3,32 @@ import "../../templates/style.scss";
 
 const SignatoryChangeTwo = ({ singleRowItem }) => {
   const {
+    intBankLetterTemplatePrintId,
+    intBusinessUnitId,
     strBusinessUnitName,
+    strBusinessUnitShortName,
     strRefDate,
     strDate,
+    strBrdate,
+    intBankId,
     strBankName,
     strBankShortName,
+    strBranchId,
     strBranchName,
     strBranchAddress,
     strAccountType,
+    intBankLetterTemplateId,
+    strBankLetterTemplateName,
+    intTemplateTypeId,
+    strTemplateTypeName,
+    isActivce,
+    dteCreateDate,
+    intCreateBy,
+    dteUpdateDate,
+    dteUpdateBy,
+    strAccountName,
+    strAccountNo,
+    numAmount,
   } = singleRowItem;
   return (
     <>
@@ -37,8 +55,8 @@ const SignatoryChangeTwo = ({ singleRowItem }) => {
             <div>
               <strong>
                 Regarding the inclusion of two new signatories in replacement of
-                one existing Signatories, A/C: Account Number , Account Name
-                with Bank Name , Branch Name{" "}
+                one existing Signatories, A/C: {strAccountNo} , {strAccountName}
+                with {strBankName} , {strBranchName}{" "}
               </strong>
             </div>
           </p>
@@ -51,9 +69,9 @@ const SignatoryChangeTwo = ({ singleRowItem }) => {
           {/* <br /> */}
           <p>
             We acknowledge your support in the business of{" "}
-            <b> Account Name .</b> We have been maintaining an{" "}
+            <b> {strAccountName} .</b> We have been maintaining an{" "}
             <b> {strAccountType} </b> account in your branch bearing account no-{" "}
-            <b> Account Number .</b> Currently, we have 05 signatories but our
+            <b> {strAccountNo} .</b> Currently, we have 05 signatories but our
             management wants to replace one existing signatories with two new
             signatories for the smooth operation of the company. Details of the
             signatory changes are given below:
@@ -133,10 +151,10 @@ const SignatoryChangeTwo = ({ singleRowItem }) => {
         ></div>
         <p style={{}}>
           EXTRACT OF THE MINUTES OF THE MEETING OF THE BOARD OF DIRECTORS OF
-          <b> Account Name </b>
-          ON THE <b> BR Date </b> AT 11.00 AM IN THE REGISTERED OFFICE OF THE
-          COMPANY AT AKIJ HOUSE, 198 BIR UTTAM MIR SHAWKAT SARAK, GULSHAN LINK
-          ROAD, TEJGAON, DHAKA 1208.
+          <b> {strAccountName} </b>
+          ON THE <b> {strBrdate} </b> AT 11.00 AM IN THE REGISTERED OFFICE OF
+          THE COMPANY AT AKIJ HOUSE, 198 BIR UTTAM MIR SHAWKAT SARAK, GULSHAN
+          LINK ROAD, TEJGAON, DHAKA 1208.
         </p>
         <p style={{}}>
           The meeting was presided over by Ms. Faria Hossain, Chairman of the
@@ -161,9 +179,9 @@ const SignatoryChangeTwo = ({ singleRowItem }) => {
         </p>
         <p style={{ marginTop: 30 }}>
           c) After threadbare discussion
-          <b> Mr. Sheikh Jasim Uddin, Managing Director</b>
+          <b> Mr. Sheikh Jasim Uddin, Managing Director </b>
           of the Company be and is hereby authorized to operate the account
-          <b>sign and endorse singly</b> all cheques in regard to
+          <b> sign and endorse singly</b> all cheques in regard to
           <b> this Account </b>for any amount and also sanction advice, security
           documents, trade (import/export) related documents, other necessary
           documents and papers for enjoying a loan.
@@ -171,8 +189,11 @@ const SignatoryChangeTwo = ({ singleRowItem }) => {
         <p style={{}}>
           Besides this,the Board of Directors, for better interest and smooth
           running of the business of the company new authorization for the
-          <b> Bank Name , Account No. </b>
-          has been provided to
+          <b>
+            {" "}
+            {strBankName} , {strAccountNo}{" "}
+          </b>
+          has been provided to{" "}
           <b>
             1. Md. Sheikh Sadi- Chief Treasury Officer &amp; 2. Md. Anamul
             Haque- Deputy Manager (Finance){" "}
@@ -214,7 +235,10 @@ const SignatoryChangeTwo = ({ singleRowItem }) => {
         </p>
         <p>
           for all Banking transactions of the
-          <b> Bank Name , Account No. </b>
+          <b>
+            {" "}
+            {strBankName} , {strAccountNo}.{" "}
+          </b>
           on behalf of the Company.
         </p>
         <p>

@@ -1,7 +1,38 @@
 import React from "react";
 import "../../templates/style.scss";
 
-const AuthorizationOne = () => {
+const AuthorizationOne = ({ singleRowItem }) => {
+  const {
+    intBankLetterTemplatePrintId,
+    intBusinessUnitId,
+    strBusinessUnitName,
+    strBusinessUnitShortName,
+    strRefDate,
+    strDate,
+    strBrdate,
+    intBankId,
+    strBankName,
+    strBankShortName,
+    strBranchId,
+    strBranchName,
+    strBranchAddress,
+    strAccountType,
+    intBankLetterTemplateId,
+    strBankLetterTemplateName,
+    intTemplateTypeId,
+    strTemplateTypeName,
+    isActivce,
+    dteCreateDate,
+    intCreateBy,
+    dteUpdateDate,
+    dteUpdateBy,
+    strAccountName,
+    strAccountNo,
+    numAmount,
+    strMassengerName,
+    strMessengerDesignation,
+    strDocumentName,
+  } = singleRowItem;
   return (
     <>
       <div className="bank-letter-template-common-wrapper">
@@ -9,18 +40,26 @@ const AuthorizationOne = () => {
           <b>
             {" "}
             REF : {"{"}
-            {"{"}Unit Short Name{"}"}
+            {"{"}
+            {strBusinessUnitShortName}
+            {"}"}
             {"}"}/{"{"}
-            {"{"}Bank Name{"}"}
+            {"{"}
+            {strBankName}
+            {"}"}
             {"}"}/Doc/{"{"}
-            {"{"}Date Ref{"}"}
+            {"{"}
+            {strRefDate}
+            {"}"}
             {"}"}
           </b>
         </p>
         <p style={{ marginTop: "-15px" }}>
           <b>
             Date : {"{"}
-            {"{"}Date{"}"}
+            {"{"}
+            {strDate}
+            {"}"}
             {"}"}
           </b>
         </p>
@@ -28,29 +67,42 @@ const AuthorizationOne = () => {
         <p style={{ marginTop: "-15px" }}>The Head of the Branch</p>
         <p style={{ marginTop: "-15px" }}>
           {"{"}
-          {"{"}Bank Name{"}"}
+          {"{"}
+          {strBankName}
+          {"}"}
           {"}"}
         </p>
         <p style={{ marginTop: "-15px" }}>
           {"{"}
-          {"{"}Branch Name{"}"}
+          {"{"}
+          {strBranchName}
+          {"}"}
           {"}"} Branch
         </p>
         <p style={{ marginTop: "-15px" }}>
           {"{"}
-          {"{"}Bank Address{"}"}
+          {"{"}
+          {strBranchAddress}
+          {"}"}
           {"}"}
         </p>
         <p style={{ margin: "35px 0" }}>
           <b>
             Subject: Authorization to receive {"{"}
-            {"{"}Document Name{"}"}
-            {"}"} of {"{"}
-            {"{"}SBU Full Name{"}"}
+            {"{"}
+            {strDocumentName}
             {"}"}
-            Account Type{"}"}
+            {"}"} of {"{"}
+            {"{"}
+            {strBusinessUnitName}
+            {"}"}
+            {"}"}
+            {strAccountType}
+            {"}"}
             {"}"} A/c No- {"{"}
-            {"{"}Account Number{"}"}
+            {"{"}
+            {strAccountNo}
+            {"}"}
             {"}"}.
           </b>
         </p>
@@ -58,16 +110,26 @@ const AuthorizationOne = () => {
         <p>As-salamu alaykum</p>
         <p style={{ marginTop: "-10px" }}>
           We do hereby authorize {"{"}
-          {"{"}Messenger Name{"}"}
+          {"{"}
+          {strMassengerName}
+          {"}"}
           {"}"}, {"{"}
-          {"{"}Messenger Designation{"}"}
+          {"{"}
+          {strMessengerDesignation}
+          {"}"}
           {"}"}of our company to receive {"{"}
-          {"{"}Document Name{"}"}
+          {"{"}
+          {strDocumentName}
+          {"}"}
           {"}"} of {"{"}
-          {"{"}SBU Full Name{"}"}
+          {"{"}
+          {strBusinessUnitName}
+          {"}"}
           {"}"}, A/C No-
           {"{"}
-          {"{"}Account Number{"}"}
+          {"{"}
+          {strAccountNo}
+          {"}"}
           {"}"}. His specimen signature is attested below.
         </p>
         <p style={{ marginTop: 35 }}>
@@ -76,12 +138,16 @@ const AuthorizationOne = () => {
         <p style={{ marginTop: 35 }}>.....................................</p>
         <p style={{ marginTop: "-15px" }}>
           {"{"}
-          {"{"}Messenger Name{"}"}
+          {"{"}
+          {strMassengerName}
+          {"}"}
           {"}"}
         </p>
         <p style={{ marginTop: "-15px" }}>
           {"{"}
-          {"{"}Messenger Designation{"}"}
+          {"{"}
+          {strMessengerDesignation}
+          {"}"}
           {"}"}
         </p>
         <br />
@@ -90,7 +156,9 @@ const AuthorizationOne = () => {
           For,{" "}
           <b>
             {"{"}
-            {"{"}SBU Full Name{"}"}
+            {"{"}
+            {strBusinessUnitName}
+            {"}"}
             {"}"}
           </b>
         </p>
