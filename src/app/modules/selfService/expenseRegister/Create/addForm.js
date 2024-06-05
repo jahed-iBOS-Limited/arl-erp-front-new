@@ -163,8 +163,10 @@ export default function ExpenseRegisterCreateForm() {
           dteExpenseDate: item.expenseDate,
           businessTransactionId: item.transaction.value || 0,
           businessTransactionName: item.transaction.label || "",
-          numQuantity: +item.quantity,
-          numRate: +item.expenseAmount / +item.quantity,
+          // numQuantity: +item.quantity,
+          numQuantity: 1, // Expense quanity always hard coded 1 (Business Requirment)
+          // numRate: +item.expenseAmount / +item.quantity,
+          numRate: +item.expenseAmount, 
           numAmount: +item.expenseAmount,
           expenseLocation: item.location,
           comments: item.comments2,
