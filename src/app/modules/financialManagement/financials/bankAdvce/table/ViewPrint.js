@@ -147,7 +147,8 @@ const ViewData = ({ adviceReportData, values }) => {
                 selectedBusinessUnit,
                 false,
                 null,
-                fileName
+                fileName,
+                'isOldExcelDownload'
               );
             } else {
               generateExcel(
@@ -158,12 +159,13 @@ const ViewData = ({ adviceReportData, values }) => {
                 selectedBusinessUnit,
                 false,
                 null,
-                fileName
+                fileName,
+                'isOldExcelDownload'
               );
             }
           }}
         >
-          Export Excel
+          Export Excel 2003
         </button>
         <ReactToPrint
           pageStyle={`@media print{body { -webkit-print-color-adjust: exact;}@page {size: ${

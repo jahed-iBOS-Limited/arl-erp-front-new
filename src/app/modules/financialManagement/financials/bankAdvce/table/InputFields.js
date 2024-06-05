@@ -272,7 +272,7 @@ const InputFields = ({ obj }) => {
           >
             Send Mail
           </button>
-          <button
+          {/* <button
             type="button"
             className="btn btn-primary mr-2"
             onClick={() => {
@@ -286,22 +286,6 @@ const InputFields = ({ obj }) => {
                   };
                 })
               );
-              // if (values?.adviceType?.value === 15) {
-              //    const adviceName = values?.advice?.label === "IBBL" ? "IBBL_ONLINE"  : values?.advice?.label === "IBBL-BEFTN" ? "IBBL_BEFTN" : values?.advice?.label
-              //    const dateFormat = values?.dateTime?.split("/").join("_")
-              //    const fileName = `${selectedBusinessUnit?.buShortName}_${total ? total : 0}_${adviceName}_${dateFormat}`;
-              //    generateExcel(
-              //       data,
-              //       values,
-              //       0,
-              //       "",
-              //       selectedBusinessUnit,
-              //       false,
-              //       null,
-              //       fileName
-              //    );
-              // } else {
-
               const adviceName =
                 values?.advice?.label === "IBBL"
                   ? "IBBL_ONLINE"
@@ -334,7 +318,7 @@ const InputFields = ({ obj }) => {
             }
           >
             Export Excel
-          </button>
+          </button> */}
           <button
             type="button"
             className="btn btn-primary mr-2"
@@ -381,7 +365,7 @@ const InputFields = ({ obj }) => {
               !adviceReportData.some((item) => item?.checked)
             }
           >
-            Export Excel Old
+            Export Excel 2003
           </button>
           <button
             type="button"
