@@ -53,6 +53,22 @@ export default function _Form({
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
 
+  useEffect(()=>{
+    if(type === "create" && preData?.vesselName?.value){
+      getVoyageDDLNew({
+        accId,
+        buId,
+        id: preData?.vesselName?.value,
+        setter: setVoyageNoDDL,
+        setLoading: setLoading,
+        hireType: 0,
+        isComplete: 2,
+        voyageTypeId: 1,
+      });
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[preData])
+
   useEffect(() => {
     if (singleData?.objRows?.length > 0 && viewType !== "edit") {
       setRowData([...singleData?.objRows]);

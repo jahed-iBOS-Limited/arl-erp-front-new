@@ -9,7 +9,7 @@ const PrintView = ({ reportData, values, totalAmount }) => {
         <div>
           <h1 className="text-center">
             <span style={{ borderBottom: "1px solid" }}>
-              To Whome It May Concern
+              To Whom It May Concern
             </span>
           </h1>
         </div>
