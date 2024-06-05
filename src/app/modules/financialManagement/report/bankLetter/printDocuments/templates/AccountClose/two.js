@@ -26,6 +26,8 @@ const AccountCloseTwo = ({ singleRowItem }) => {
     intCreateBy,
     dteUpdateDate,
     dteUpdateBy,
+    strAccountNo,
+    strAccountName,
   } = singleRowItem;
   return (
     <>
@@ -61,9 +63,8 @@ const AccountCloseTwo = ({ singleRowItem }) => {
           <div>
             <p>
               <strong>
-                Subject: Closing of {strAccountType} Account No.{" "}
-                {"Account Number"} of {"Account Name"} with {"Bank Name"},{" "}
-                {"Branch Name"}.
+                Subject: Closing of {strAccountType} Account No. {strAccountNo}{" "}
+                of {strAccountName} with {strBankName}, {strBranchName}.
               </strong>
             </p>
           </div>
@@ -78,7 +79,7 @@ const AccountCloseTwo = ({ singleRowItem }) => {
               We have the honor to inform you that, we have a
               <strong>
                 {" "}
-                {strAccountType} Account No- {"Account Number"}{" "}
+                {strAccountType} Account No- {strAccountNo}{" "}
               </strong>
               with your branch which will no longer be required to maintain by
               us and we need to close it henceforth. In this regard a resolution
@@ -92,7 +93,7 @@ const AccountCloseTwo = ({ singleRowItem }) => {
               In view of above we are requesting you to close the above Bank
               Account and if any existing balance please give us a
               <strong> pay order</strong> in favor of
-              <strong> {"Account Name"}</strong> after deducting necessary
+              <strong> {strAccountName}</strong> after deducting necessary
               charges and hand over the same with a statement & certificate of
               closing the account.
             </p>
@@ -106,7 +107,7 @@ const AccountCloseTwo = ({ singleRowItem }) => {
             <br />
             <p>Yours faithfully,</p>
             <p>
-              <strong>For, {"Account Name"} </strong>
+              <strong>For, {strAccountName} </strong>
             </p>
           </div>
           <br />
@@ -130,7 +131,7 @@ const AccountCloseTwo = ({ singleRowItem }) => {
         <div className="second-part">
           <p>
             EXTRACT OF THE MINUTES OF THE MEETING OF THE BOARD OF DIRECTORS OF
-            <strong> {"Account Name"}</strong> HELD ON THE
+            <strong> {strAccountName}</strong> HELD ON THE
             <strong> {strBrdate}</strong> AT 11:30AM IN THE CORPORATE OFFICE OF
             THE COMPANY AT AKIJ HOUSE, 198, BIR UTTAM MIR SHAWKAT SARAK, GULSHAN
             LINK ROAD, TEJGAON, DHAKA 1208.
@@ -171,7 +172,7 @@ const AccountCloseTwo = ({ singleRowItem }) => {
             decided to close the
             <strong>
               {" "}
-              {strAccountType} Account No- {"Account No."}
+              {strAccountType} Account No- {strAccountNo}
             </strong>{" "}
             with
             <strong> {strBankName},</strong> <strong>{strBranchName}</strong>{" "}

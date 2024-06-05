@@ -28,4 +28,16 @@
       border: none;
       padding: 3px;
     }
+    table.signatory
+    thead,
+    td {
+      border: 1px solid black;
+      padding: 6px;
+      border-collapse: collapse;
+      text-align: center;
+    }
+    table.signatory
+    thead{
+        font-weight: 600;
+    }
   }
