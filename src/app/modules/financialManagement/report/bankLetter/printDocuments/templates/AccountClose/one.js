@@ -29,7 +29,7 @@ const AccountCloseOne = ({ singleRowItem }) => {
   } = singleRowItem;
   return (
     <>
-      <div className="bank-letter-template-common-wrapper">
+      <div className="bank-letter-template-common-wrapper ">
         <div>
           <div>
             <p>
@@ -42,6 +42,7 @@ const AccountCloseOne = ({ singleRowItem }) => {
               <strong>Date : {strDate}</strong>
             </p>
           </div>
+          <br />
           <div>
             <p>The Manager</p>
             <p>
@@ -54,6 +55,7 @@ const AccountCloseOne = ({ singleRowItem }) => {
               <strong>{strBranchAddress}</strong>
             </p>
           </div>
+          <br />
           <div>
             <p>
               <strong>
@@ -63,17 +65,19 @@ const AccountCloseOne = ({ singleRowItem }) => {
               </strong>
             </p>
           </div>
+          <br />
+          <br />
           <div>
             <p>
               <strong>Dear Sir,</strong>
             </p>
-            <br />
+
             <p>
               We have the honor to inform you that, we have a
               <strong>
                 {" "}
                 {strAccountType} Account No- {"Account Number"}
-              </strong>
+              </strong>{" "}
               with your branch which will no longer be required to maintain by
               us and we need to close it henceforth. In this regard a resolution
               has been passed to that effect in the meeting of The Board of
@@ -81,12 +85,11 @@ const AccountCloseOne = ({ singleRowItem }) => {
               in the Corporate office of the company at Akij House, 198, Bir
               Uttam Mir Shawkat Sarak, Gulshan Link Road, Tejgaon, Dhaka 1208.
             </p>
-            <br />
             <p>
               In view of above we are requesting you to close the above Bank
               Account and if any existing balance please give us a
-              <strong>pay order</strong> in favor of
-              <strong>{"Account Name"}</strong> after deducting necessary
+              <strong> pay order</strong> in favor of
+              <strong>{" Account Name"}</strong> after deducting necessary
               charges and hand over the same with a statement & certificate of
               closing the account.
             </p>
@@ -119,11 +122,11 @@ const AccountCloseOne = ({ singleRowItem }) => {
             pageBreakAfter: "always",
           }}
         ></div>
-        <div>
+        <div className="second-part">
           <p>
             EXTRACT OF THE MINUTES OF THE MEETING OF THE BOARD OF DIRECTORS OF
-            <strong>{"Account Name"}</strong> HELD ON THE
-            <strong>{strBrdate}</strong> AT 11:30AM IN THE CORPORATE OFFICE OF
+            <strong>{" Account Name"}</strong> HELD ON THE
+            <strong> {strBrdate}</strong> AT 11:30AM IN THE CORPORATE OFFICE OF
             THE COMPANY AT AKIJ HOUSE, 198, BIR UTTAM MIR SHAWKAT SARAK, GULSHAN
             LINK ROAD, TEJGAON, DHAKA 1208.
           </p>
@@ -132,14 +135,22 @@ const AccountCloseOne = ({ singleRowItem }) => {
             Company. The Managing Director of the Company and Mr. Ruhul Islam,
             Company Secretary were present.
           </p>
-          <div>
-            <pre style={{ fontSize: "16px", border: "none" }}>
-              <strong>Mr. Sheikh Jasim Uddin</strong> Managing Director Sd/
-            </pre>
-            <pre style={{ fontSize: "16px", border: "none" }}>
-              <strong>Ms. Faria Hossain</strong> Chairman Sd/
-            </pre>
-          </div>
+          <p style={{ marginTop: "20px" }}>
+            <span>
+              <strong>Mr. Sheikh Jasim Uddin</strong>
+            </span>{" "}
+            <span style={{ marginLeft: "100px" }}>Managing Director</span>{" "}
+            <span style={{ marginLeft: "90px" }}>Sd/</span>
+          </p>
+          <p>
+            <span>
+              <strong>Ms. Faria Hossain</strong>
+            </span>
+            {}
+            <span style={{ marginLeft: "145px" }}>Chairman</span>{" "}
+            <span style={{ marginLeft: "150px" }}>Sd/</span>
+          </p>
+          <br />
           <p>
             The Following resolutions were passed unanimously for the interest
             of the business of the company.
@@ -151,12 +162,12 @@ const AccountCloseOne = ({ singleRowItem }) => {
           </p>
           <p>
             c) After threadbare discussions the Directors present agreed and
-            decided to close the
+            decided to close the{" "}
             <strong>
               {strAccountType} Account No- {"Account No."}
             </strong>{" "}
             with
-            <strong>{strBankName},</strong> <strong>{strBranchName}</strong>{" "}
+            <strong> {strBankName},</strong> <strong>{strBranchName}</strong>{" "}
             which will be no longer required to maintain by the company. In view
             of above the board of the Company be and is hereby approved to take
             necessary steps in regard to close the above Bank Account
@@ -167,7 +178,13 @@ const AccountCloseOne = ({ singleRowItem }) => {
             the Chairman of the meeting be and are authorized to issue any
             extract of the minutes as and when necessary.
           </p>
+          <br />
+
           <p>The meeting ended with vote of thanks to the chair.</p>
+          <br />
+          <br />
+          <br />
+          <br />
           <div>
             <p>
               <strong>(Sheikh Jasim Uddin)</strong>

@@ -7,8 +7,8 @@ const FdrONE = () => {
       <div class="bank-letter-template-common-wrapper">
         <p>
           EXTRACT OF THE MINUTES OF THE MEETING OF THE BOARD OF DIRECTORS OF
-          <strong>{"Account Name"}</strong> HELD ON THE
-          <strong>{"Date"}</strong> AT 11:30AM IN THE CORPORATE OFFICE OF THE
+          <strong> {"Account Name"}</strong> HELD ON THE
+          <strong> {"Date"}</strong> AT 11:30AM IN THE CORPORATE OFFICE OF THE
           COMPANY AT AKIJ HOUSE, 198, BIR UTTAM MIR SHAWKAT SARAK, GULSHAN LINK
           ROAD, TEJGAON, DHAKA 1208.
         </p>
@@ -50,9 +50,9 @@ const FdrONE = () => {
         <br />
         <p>
           Resolve that the company will open an FDR for
-          <strong>{"BDT Amount"}</strong>
-          <strong>{"Amount in words"}</strong> with{" "}
-          <strong>{"Bank Name"}</strong>
+          <strong> {"BDT Amount"}</strong>
+          <strong> {"Amount in words"}</strong> with{" "}
+          <strong> {"Bank Name"}</strong>
         </p>
         <br />
         <p>

@@ -32,19 +32,20 @@ const FdrThree = () => {
         <p>
           We have the pleasure to inform you that the Management of the Company
           has decided to purchase {"No. of Months"} Months FDR @ {"Profit Rate"}
-          % profit p.a. for
+          % profit p.a. for{" "}
           <strong>
             BDT. {"Amount"} {"Amount in words"} in the Name of {"Account Name"}
-          </strong>
+          </strong>{" "}
           with auto renewal facility.
         </p>
         <p>
           By debiting our
           <strong>
+            {" "}
             {"Account Type"} A/C No. {"Account Name"}
           </strong>{" "}
-          with your branch in the name of <strong>{"Account Name"}</strong> for
-          the FDR and the same may kindly be arrange
+          with your branch in the name of <strong> {"Account Name"}</strong> for
+          the FDR and the same may kindly be arrange{" "}
           <strong>Lien with {"Margin Type"}</strong> of {"Account Name"}.
         </p>
         <br />
