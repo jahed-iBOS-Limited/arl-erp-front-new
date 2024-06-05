@@ -73,6 +73,9 @@ const initProduct = {
   operationalZone: "",
   issueDate: "",
   agConcern: "",
+  toName: "",
+  location: "",
+  district: ""
 };
 
 export default function PartnerSales() {

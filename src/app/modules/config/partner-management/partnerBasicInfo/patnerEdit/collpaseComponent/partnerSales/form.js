@@ -994,6 +994,33 @@ export default function _Form({
                         type="date"
                       />
                     </div>
+                    <div className="col-lg-4">
+                      <InputField
+                        label="To Name"
+                        value={values?.toName}
+                        name="toName"
+                        placeholder="To Name"
+                        type="text"
+                      />
+                    </div>
+                    <div className="col-lg-4">
+                      <InputField
+                        label="Location"
+                        value={values?.location}
+                        name="location"
+                        placeholder="Location"
+                        type="text"
+                      />
+                    </div>
+                    <div className="col-lg-4">
+                      <InputField
+                        label="District"
+                        value={values?.district}
+                        name="district"
+                        placeholder="District"
+                        type="text"
+                      />
+                    </div>
                     <div className="col d-flex justify-content-end align-items-center mt-2">
                       <button
                         style={{ padding: "5px" }}
@@ -1011,6 +1038,9 @@ export default function _Form({
                             refNo: values?.refNo || "",
                             expireDate: values?.expireDate || "",
                             issueDate: values?.issueDate || "",
+                            toName: values?.toName,
+                            location: values?.location,
+                            district: values?.district
                           };
                           morgazeSetter(obj);
                         }}
@@ -1044,6 +1074,9 @@ export default function _Form({
                               <th>Ref No.</th>
                               <th>Expire Date</th>
                               <th>Issue Date</th>
+                              <th>To Name</th>
+                              <th>Location</th>
+                              <th>District</th>
                               <th>Action</th>
                             </tr>
                           </thead>
@@ -1060,6 +1093,9 @@ export default function _Form({
                                   <td>{itm?.refNo}</td>
                                   <td>{_dateFormatter(itm?.expireDate)}</td>
                                   <td>{_dateFormatter(itm?.issueDate)}</td>
+                                  <td>{itm?.toName}</td>
+                                  <td>{itm?.location}</td>
+                                  <td>{itm?.district}</td>
                                   <td className="text-center">
                                     <IDelete
                                       remover={morgazeRemover}
