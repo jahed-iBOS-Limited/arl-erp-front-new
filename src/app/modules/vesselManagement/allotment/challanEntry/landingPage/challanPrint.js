@@ -3,9 +3,16 @@ import "./challanStyle.css";
 // import logo from "../../../../_helper/images/MTS.png";
 import { useReactToPrint } from "react-to-print";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import { shallowEqual, useSelector } from "react-redux";
 // import { ToWords } from "to-words";
 
 const ChallanPrint = ({ challanInfo }) => {
+
+  const { selectedBusinessUnit } = useSelector(
+    (state) => state?.authData,
+    shallowEqual
+  );
+
   const printRef = useRef();
 
   // const toWords = new ToWords({
@@ -60,7 +67,7 @@ const ChallanPrint = ({ challanInfo }) => {
               fontSize: "60px",
             }}
           >
-            M/S THE SUCCESSORS
+            {selectedBusinessUnit?.label}
           </h1>
           <h2><b>A sister concern of Akij Resources</b></h2>
           {/* <img
