@@ -1,10 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Formik } from "formik";
-import { shallowEqual, useSelector } from "react-redux";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import ICard from "../../../../../_helper/_card";
 import Loading from "../../../../../_helper/_loading";
 import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet";
+import { getDownlloadFileView_Action } from "../../../../../_helper/_redux/Actions";
+import { toast } from "react-toastify";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
 function ViewDamDeliveryBill({ billRegisterId, billTypeId, values }) {
   // get profile data from store
@@ -12,6 +15,9 @@ function ViewDamDeliveryBill({ billRegisterId, billTypeId, values }) {
     profileData: { accountId: accId },
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state.authData, shallowEqual);
+
+  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false)
 
   const [gridData, getGridData, loadingGridData] = useAxiosGet();
 
@@ -35,7 +41,7 @@ function ViewDamDeliveryBill({ billRegisterId, billTypeId, values }) {
       >
         {() => (
           <ICard title={`View ${values?.billType?.label}`}>
-            {loadingGridData && <Loading />}
+            {(loadingGridData || loading) && <Loading />}
 
             <form className="form form-label-right ">
               <div className="table-responsive">
@@ -53,6 +59,7 @@ function ViewDamDeliveryBill({ billRegisterId, billTypeId, values }) {
                       <th>Labor Rate</th>
                       <th>Labor Amount</th>
                       <th>Other Cost</th>
+                      <th>Action</th>
                       {/* <th>Attachment</th> */}
                     </tr>
                   </thead>
@@ -94,7 +101,7 @@ function ViewDamDeliveryBill({ billRegisterId, billTypeId, values }) {
                             <td className="text-right">
                               {item?.dumpOtherCost}
                             </td>
-                            {/* <td className="text-center">
+                           {index === 0 && ( <td rowSpan={gridData?.length + 1} className="text-center">
                             <OverlayTrigger
                               overlay={
                                 <Tooltip id="cs-icon">View Attachment</Tooltip>
@@ -125,7 +132,7 @@ function ViewDamDeliveryBill({ billRegisterId, billTypeId, values }) {
                                 ></i>
                               </span>
                             </OverlayTrigger>
-                          </td> */}
+                          </td>)}
                           </tr>
                         </>
                       );
