@@ -1,14 +1,43 @@
 import React from "react";
 import "../../templates/style.scss";
+import { amountToWords } from "../../../../../../_helper/_ConvertnumberToWord";
 
-const FdrTwo = () => {
+const FdrTwo = ({ singleRowItem }) => {
+  const {
+    intBankLetterTemplatePrintId,
+    intBusinessUnitId,
+    strBusinessUnitName,
+    strBusinessUnitShortName,
+    strRefDate,
+    strDate,
+    strBrdate,
+    intBankId,
+    strBankName,
+    strBankShortName,
+    strBranchId,
+    strBranchName,
+    strBranchAddress,
+    strAccountType,
+    intBankLetterTemplateId,
+    strBankLetterTemplateName,
+    intTemplateTypeId,
+    strTemplateTypeName,
+    isActivce,
+    dteCreateDate,
+    intCreateBy,
+    dteUpdateDate,
+    dteUpdateBy,
+    strAccountName,
+    strAccountNo,
+    numAmount,
+  } = singleRowItem;
   return (
     <>
       <div class="bank-letter-template-common-wrapper">
         <p>
           EXTRACT OF THE MINUTES OF THE MEETING OF THE BOARD OF DIRECTORS OF
-          <strong> {"Account Name"}</strong> HELD ON THE
-          <strong> {"Date"}</strong> AT 11:30AM IN THE CORPORATE OFFICE OF THE
+          <strong> {strAccountName}</strong> HELD ON THE
+          <strong> {strDate}</strong> AT 11:30AM IN THE CORPORATE OFFICE OF THE
           COMPANY AT AKIJ HOUSE, 198, BIR UTTAM MIR SHAWKAT SARAK, GULSHAN LINK
           ROAD, TEJGAON, DHAKA 1208.
         </p>
@@ -44,9 +73,9 @@ const FdrTwo = () => {
         <br />
         <p>
           Resolve that the company will open an FDR for
-          <strong> {"BDT Amount"}</strong>
-          <strong> {"Amount in words"}</strong> with{" "}
-          <strong> {"Bank Name"}</strong>
+          <strong>BDT {numAmount} </strong>
+          <strong> {amountToWords(numAmount)}</strong> with{" "}
+          <strong> {strBankName}</strong>
         </p>
         <br />
         <p>
