@@ -89,6 +89,7 @@ export default function BankLetter() {
   }, [singleRowItem]);
 
   const saveHandler = (values, cb) => {
+    console.log({ values });
     const payload = {
       intBankLetterTemplatePrintId: 0,
       intBusinessUnitId: values?.businessUnit?.value,
@@ -113,19 +114,9 @@ export default function BankLetter() {
       dteUpdateBy: userId,
       strBrdate: values?.brDate,
       strAccountType: values?.accountType,
-      // ===
-      accountName: "",
-      accountNo: "",
-      amount: "",
-      marginType: "",
-      numOfMonth: "",
-      profitRate: "",
-      documentName: "",
-      massengerName: "",
-      messengerDesignation: "",
 
-      strAccountName: values?.accountName,
-      strAccountNo: values?.accountNo,
+      strAccountName: values?.bankAccount?.label,
+      strAccountNo: values?.bankAccount?.strBankAccountNo,
       numAmount: values?.amount,
       strMarginType: values?.marginType,
       intNumOfMonth: values?.numOfMonth,
@@ -303,7 +294,15 @@ export default function BankLetter() {
                           `/hcm/HCMDDL/GetBankBranchDDL?BankId=${valueOption?.value}`
                         );
                         getBankAccountInfo(
-                          `/fino/BankLetter/GetBankAccountList?intBusinessUnitId=${values?.businessUnit?.value}&intBankId=${valueOption?.value}`
+                          `/fino/BankLetter/GetBankAccountList?intBusinessUnitId=${values?.businessUnit?.value}&intBankId=${valueOption?.value}`,
+                          (res) => {
+                            const modifyData = res.map((item) => ({
+                              ...item,
+                              value: item?.intBankAccountId,
+                              label: item?.strBankAccountName,
+                            }));
+                            setBankAccountInfo(modifyData);
+                          }
                         );
                       }
                     }}
@@ -324,30 +323,34 @@ export default function BankLetter() {
                     touched={touched}
                   />
                 </div>
-                <div className="col-lg-3">
-                  <NewSelect
-                    name="bankAccount"
-                    options={bankAccountInfo || []}
-                    value={values?.bankAccount}
-                    label="Bank Account"
-                    onChange={(valueOption) => {
-                      setFieldValue("bankAccount", valueOption || "");
-                    }}
-                    errors={errors}
-                    touched={touched}
-                  />
-                </div>
-                <div className="col-lg-3">
-                  <InputField
-                    value={values?.accountType}
-                    label="Account Type"
-                    name="accountType"
-                    type="text"
-                    onChange={(e) => {
-                      setFieldValue("accountType", e.target.value);
-                    }}
-                  />
-                </div>
+                {values?.templateType?.value !== 1 ? (
+                  <div className="col-lg-3">
+                    <NewSelect
+                      name="bankAccount"
+                      options={bankAccountInfo || []}
+                      value={values?.bankAccount}
+                      label="Bank Account"
+                      onChange={(valueOption) => {
+                        setFieldValue("bankAccount", valueOption || "");
+                      }}
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
+                ) : null}
+                {values?.templateType?.value !== 1 ? (
+                  <div className="col-lg-3">
+                    <InputField
+                      value={values?.accountType}
+                      label="Account Type"
+                      name="accountType"
+                      type="text"
+                      onChange={(e) => {
+                        setFieldValue("accountType", e.target.value);
+                      }}
+                    />
+                  </div>
+                ) : null}
                 <div className="col-lg-3">
                   <InputField
                     value={values.amount}

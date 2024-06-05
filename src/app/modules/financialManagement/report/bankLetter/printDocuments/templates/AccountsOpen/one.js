@@ -11,6 +11,8 @@ const AccountOpenOne = ({ singleRowItem }) => {
     strBranchName,
     strBranchAddress,
     strAccountType,
+    strBrdate,
+    strAccountName,
   } = singleRowItem;
   return (
     <>
@@ -59,13 +61,13 @@ const AccountOpenOne = ({ singleRowItem }) => {
             {/* <br /> */}
             <p>
               We have the pleasure to inform you that the Board of Directors of
-              the Company has decided to open <strong> account type </strong> in
-              the name of <strong>{strBusinessUnitName}</strong> with your
-              branch as per the Board resolution of the Company which was held
-              on the
-              <strong> BR Date </strong> in the Registered Office of The Company
-              at Akij House, 198, Bir Uttam Mir Shawkat Sarak, Gulshan Link
-              Road, Tejgaon, Dhaka 1208.
+              the Company has decided to open{" "}
+              <strong> {strAccountType} </strong> in the name of{" "}
+              <strong>{strBusinessUnitName}</strong> with your branch as per the
+              Board resolution of the Company which was held on the
+              <strong> {strBrdate} </strong> in the Registered Office of The
+              Company at Akij House, 198, Bir Uttam Mir Shawkat Sarak, Gulshan
+              Link Road, Tejgaon, Dhaka 1208.
             </p>
             {/* <br /> */}
             <p>
@@ -75,7 +77,7 @@ const AccountOpenOne = ({ singleRowItem }) => {
               </strong>
               of the Company be and is hereby authorized to
               <strong> sign and endorse singly</strong> all cheques in regard to
-              <strong> account type Account</strong> for any amount and also
+              <strong> {strAccountType} Account</strong> for any amount and also
               sanction advice, security documents, trade (import/export) related
               documents, other necessary documents and papers for enjoying loan.
               Besides this, for the smooth running of the business of the
@@ -166,9 +168,9 @@ const AccountOpenOne = ({ singleRowItem }) => {
           <p>
             EXTRACT OF THE MINUTE OF THE MEETING OF THE BOARD OF DIRECTORS OF
             <strong>{strBusinessUnitName}</strong> ON THE{" "}
-            <strong> BR Date </strong> AT 11.30 A.M. IN THE REGISTERED OFFICE OF
-            THE COMPANY AT AKIJ HOUSE, 198, BIR UTTAM MIR SHAWKAT SARAK, GULSHAN
-            LINK ROAD, TEJGAON, DHAKA 1208.
+            <strong> {strBrdate} </strong> AT 11.30 A.M. IN THE REGISTERED
+            OFFICE OF THE COMPANY AT AKIJ HOUSE, 198, BIR UTTAM MIR SHAWKAT
+            SARAK, GULSHAN LINK ROAD, TEJGAON, DHAKA 1208.
           </p>
           {/* <br /> */}
           <p>
@@ -205,10 +207,10 @@ const AccountOpenOne = ({ singleRowItem }) => {
               Resolved that Mr. Sheikh Jasim Uddin, Managing Director{" "}
             </strong>
             of the Company be and is hereby authorized to open Account Type in
-            the name of <strong> Account Name </strong> with
+            the name of <strong> {strAccountName} </strong> with
             <strong> {strBankName},</strong> <strong> {strBranchName}</strong>{" "}
             and to operate the account <strong>sign and endorse singly</strong>{" "}
-            all cheques in regard to <strong> Account Type </strong> for any
+            all cheques in regard to <strong> {strAccountType} </strong> for any
             amount and also sanction advice, security documents, trade
             (import/export) related documents, other necessary documents and
             papers for enjoying a loan.
