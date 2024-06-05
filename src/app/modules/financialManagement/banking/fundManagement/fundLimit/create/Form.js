@@ -43,6 +43,7 @@ export default function LimitForm({
   }, shallowEqual);
   useEffect(() => {
     getBankDDL(setBankDDL, setLoading);
+    getFacilityDLL(selectedBusinessUnit?.value, 0, setFacilityDDL, setLoading);
   }, []);
   useEffect(() => {
     if (isEdit) {
@@ -92,13 +93,6 @@ export default function LimitForm({
                     value={values?.bank}
                     onChange={(valueOption) => {
                       setFieldValue("bank", valueOption);
-                      setFieldValue("facility", "");
-                      getFacilityDLL(
-                        selectedBusinessUnit?.value,
-                        valueOption?.value,
-                        setFacilityDDL,
-                        setLoading
-                      );
                     }}
                     errors={errors}
                     touched={touched}

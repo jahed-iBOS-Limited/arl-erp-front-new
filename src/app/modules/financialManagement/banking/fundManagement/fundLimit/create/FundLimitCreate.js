@@ -39,9 +39,6 @@ export default function FundLimitCreate({
 
   const { state, landingRowData } = useLocation();
 
-  console.log("state", state);
-  console.log("landingRowData", landingRowData);
-
   const saveHandler = async (values, cb) => {
     if (!values?.bank) {
       setDisabled(false);
