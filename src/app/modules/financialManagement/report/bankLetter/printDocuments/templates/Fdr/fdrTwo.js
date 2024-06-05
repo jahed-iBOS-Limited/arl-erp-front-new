@@ -7,8 +7,8 @@ const FdrTwo = () => {
       <div class="bank-letter-template-common-wrapper">
         <p>
           EXTRACT OF THE MINUTES OF THE MEETING OF THE BOARD OF DIRECTORS OF
-          <strong>{"Account Name"}</strong> HELD ON THE
-          <strong>{"Date"}</strong> AT 11:30AM IN THE CORPORATE OFFICE OF THE
+          <strong> {"Account Name"}</strong> HELD ON THE
+          <strong> {"Date"}</strong> AT 11:30AM IN THE CORPORATE OFFICE OF THE
           COMPANY AT AKIJ HOUSE, 198, BIR UTTAM MIR SHAWKAT SARAK, GULSHAN LINK
           ROAD, TEJGAON, DHAKA 1208.
         </p>
@@ -20,7 +20,7 @@ const FdrTwo = () => {
         </p>
         <br />
         <div>
-        <p>
+          <p>
             <span>
               <strong>Mr. Sheikh Jasim Uddin</strong>
             </span>{" "}
@@ -44,9 +44,9 @@ const FdrTwo = () => {
         <br />
         <p>
           Resolve that the company will open an FDR for
-          <strong>{"BDT Amount"}</strong>
-          <strong>{"Amount in words"}</strong> with{" "}
-          <strong>{"Bank Name"}</strong>
+          <strong> {"BDT Amount"}</strong>
+          <strong> {"Amount in words"}</strong> with{" "}
+          <strong> {"Bank Name"}</strong>
         </p>
         <br />
         <p>
@@ -54,6 +54,7 @@ const FdrTwo = () => {
           company singly or jointly by any two authorized Six (06) officials
           namely:
           <strong>
+            {" "}
             1. Md. Sheikh Sadi- Chief Treasury Officer; 2. Md. Masud Rana- Chief
             Supply Chain Officer; 3. Iftekhar Uddin Chowdhury- Senior Manager
             (Treasury); 4. Raihan Kabir- Deputy CFO; 5. Rakibul Alam Khan-
@@ -61,7 +62,7 @@ const FdrTwo = () => {
           </strong>
           from now onward <strong>will sign and endorse:</strong>
         </p>
-        <br/>
+        <br />
         <div style={{ marginLeft: "80px" }}>
           <div style={{ display: "flex" }}>
             <p style={{ marginRight: "30px" }}>
@@ -98,7 +99,7 @@ const FdrTwo = () => {
             </p>
           </div>
         </div>
-        <b/>
+        <b />
         <p>
           As there being no other agenda to be discussed, the meeting ended with
           a vote of thanks to chair.

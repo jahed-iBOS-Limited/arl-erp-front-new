@@ -56,7 +56,7 @@ const AccountOpenOne = ({ singleRowItem }) => {
             <p>
               <strong>Dear Sir,</strong>
             </p>
-            <br />
+            {/* <br /> */}
             <p>
               We have the pleasure to inform you that the Board of Directors of
               the Company has decided to open <strong> account type </strong> in
@@ -67,29 +67,28 @@ const AccountOpenOne = ({ singleRowItem }) => {
               at Akij House, 198, Bir Uttam Mir Shawkat Sarak, Gulshan Link
               Road, Tejgaon, Dhaka 1208.
             </p>
-            <br />
+            {/* <br /> */}
             <p>
-              As per Board Resolution
+              As per Board Resolution{" "}
               <strong>
-                Resolved that Mr. Sheikh Jasim Uddin, Managing Director
+                Resolved that Mr. Sheikh Jasim Uddin, Managing Director{" "}
               </strong>
               of the Company be and is hereby authorized to
-              <strong>sign and endorse singly</strong> all cheques in regard to
+              <strong> sign and endorse singly</strong> all cheques in regard to
               <strong> account type Account</strong> for any amount and also
               sanction advice, security documents, trade (import/export) related
               documents, other necessary documents and papers for enjoying loan.
               Besides this, for the smooth running of the business of the
-              Company
-              <strong>authorized Six (06) Officials</strong> namely:
+              Company <strong> authorized Six (06) Officials</strong> namely:
               <strong>
                 1. Md. Sheikh Sadi- Chief Treasury Officer; 2. Md. Masud Rana-
                 Chief Supply Chain Officer; 3. Iftekhar Uddin Chowdhury- Senior
                 Manager (Treasury); 4. Raihan Kabir- Deputy CFO; 5. Rakibul Alam
                 Khan- Manager (Finance) and 6. Md. Anamul Haque- Deputy Manager
                 (Finance)
-              </strong>
+              </strong>{" "}
               from now onward
-              <strong>any two of the six can jointly sign and endorse:</strong>
+              <strong> any two of the six can jointly sign and endorse:</strong>
             </p>
             <br />
             <div style={{ marginLeft: 80 }}>
@@ -136,7 +135,7 @@ const AccountOpenOne = ({ singleRowItem }) => {
               writing to be delivered to the Bank. The specimen signature of the
               authorized persons is attested in <strong>Annexure-1.</strong>
             </p>
-            <br />
+            {/* <br /> */}
             <p>
               We enclose herewith the necessary documents for your necessary
               action.
@@ -147,7 +146,9 @@ const AccountOpenOne = ({ singleRowItem }) => {
               <p>
                 <strong>FOR, {strBusinessUnitName}</strong>
               </p>
-              <p>
+              <br />
+
+              <p style={{ marginTop: "10px" }}>
                 <strong>(SHEIKH JASIM UDDIN)</strong>
               </p>
               <p>
@@ -156,11 +157,11 @@ const AccountOpenOne = ({ singleRowItem }) => {
             </div>
           </div>
         </div>
-        <div
+        {/* <div
           style={{
             pageBreakAfter: "always",
           }}
-        ></div>
+        ></div> */}
         <div style={{ marginTop: "10px" }} className="second-part">
           <p>
             EXTRACT OF THE MINUTE OF THE MEETING OF THE BOARD OF DIRECTORS OF
@@ -169,14 +170,14 @@ const AccountOpenOne = ({ singleRowItem }) => {
             THE COMPANY AT AKIJ HOUSE, 198, BIR UTTAM MIR SHAWKAT SARAK, GULSHAN
             LINK ROAD, TEJGAON, DHAKA 1208.
           </p>
-          <br />
+          {/* <br /> */}
           <p>
             The meeting was presided over by Ms. Faria Hossain, Chairman of the
             Company. The Managing Director and Mr. Ruhul Islam, Company
             Secretary were present.
           </p>
-          <br />
-          <p>
+          {/* <br /> */}
+          <p style={{ marginTop: "20px" }}>
             <span>
               <strong>Mr. Sheikh Jasim Uddin</strong>
             </span>{" "}
@@ -196,24 +197,25 @@ const AccountOpenOne = ({ singleRowItem }) => {
             The Following resolutions were passed unanimously for the interest
             of the business of the company.
           </p>
-          <br />
+
           <p>
             a)
             <strong>
-              Resolved that Mr. Sheikh Jasim Uddin, Managing Director
+              {" "}
+              Resolved that Mr. Sheikh Jasim Uddin, Managing Director{" "}
             </strong>
             of the Company be and is hereby authorized to open Account Type in
             the name of <strong> Account Name </strong> with
-            <strong>{strBankName},</strong> <strong>{strBranchName}</strong> and
-            to operate the account <strong>sign and endorse singly</strong> all
-            cheques in regard to <strong> Account Type </strong> for any amount
-            and also sanction advice, security documents, trade (import/export)
-            related documents, other necessary documents and papers for enjoying
-            a loan.
+            <strong> {strBankName},</strong> <strong> {strBranchName}</strong>{" "}
+            and to operate the account <strong>sign and endorse singly</strong>{" "}
+            all cheques in regard to <strong> Account Type </strong> for any
+            amount and also sanction advice, security documents, trade
+            (import/export) related documents, other necessary documents and
+            papers for enjoying a loan.
           </p>
           <p>
             <strong>Besides this,</strong> resolved that the Company
-            <strong>authorized Six (06) Officials</strong> to operate the bank
+            <strong> authorized Six (06) Officials</strong> to operate the bank
             account for the smooth running of the business. Authorized
             signatories for Bank Accounts are as follows: Six (06) authorized
             officials namely:
@@ -270,9 +272,9 @@ const AccountOpenOne = ({ singleRowItem }) => {
           </p>
           <p>
             b) Resolved that the company will open FDR/ FDRs from time to time
-            with <strong>{strBankName}</strong>,<strong>{strBranchName}</strong>{" "}
-            for the business interest of the company and this resolution will be
-            applicable for that.
+            with <strong> {strBankName}</strong>,
+            <strong>{strBranchName}</strong> for the business interest of the
+            company and this resolution will be applicable for that.
           </p>
           <p>
             c) Resolved that the company will provide FDR or Guarantee against
@@ -289,7 +291,7 @@ const AccountOpenOne = ({ singleRowItem }) => {
             the meeting and/ or the Company Secretary be and are authorized to
             issue any extract of the minutes as and when necessary.
           </p>
-          <br />
+          {/* <br /> */}
           <p>The meeting ended with a vote of thanks to the chair.</p>
           <br />
           <div>
@@ -300,12 +302,12 @@ const AccountOpenOne = ({ singleRowItem }) => {
             <p>Managing Director</p>
           </div>
         </div>
-        <div
+        {/* <div
           style={{
             pageBreakAfter: "always",
           }}
-        ></div>
-        <div style={{ marginTop: "10px" }}>
+        ></div> */}
+        <div style={{ marginTop: "-19px" }}>
           <div style={{ textAlign: "center" }}>
             <p>
               <strong>
@@ -357,30 +359,31 @@ const AccountOpenOne = ({ singleRowItem }) => {
                   <td rowSpan={4} />
                 </tr>
                 <tr>
-                  <td>.</td>
+                  <td style={{ padding: "5px" }}>.</td>
                 </tr>
                 <tr>
-                  <td>Authorized Signature</td>
+                  <td style={{ padding: "0px", fontSize: "13px" }}>
+                    Authorized Signature
+                  </td>
                 </tr>
                 <tr>
                   <td colSpan={2}>
-                    Special Instruction: Mr. Sk. Jasim Uddin sign and endorse
-                    singly all cheques and all other documents.
+                    <strong> Special Instruction: </strong>Mr. Sk. Jasim Uddin{" "}
+                    <strong> sign and endorse singly</strong> all cheques and
+                    all other documents.
                   </td>
                 </tr>
               </tbody>
             </table>
           </div>
           <div>
-            <br />
-            <br />
             <p style={{ textAlign: "center" }}>
               <strong>OR</strong>
             </p>
             <p style={{ textAlign: "center" }}>
               <strong>Group - B</strong>
             </p>
-            <br />
+            {/* <br /> */}
 
             <table className="border_table">
               <tbody>
@@ -395,80 +398,103 @@ const AccountOpenOne = ({ singleRowItem }) => {
                   <td rowSpan={19} />
                 </tr>
                 <tr>
-                  <td>.</td>
+                  <td style={{ padding: "5px" }}>.</td>
                 </tr>
                 <tr>
-                  <td>Authorized Signature</td>
+                  <td style={{ padding: "0px", fontSize: "13px" }}>
+                    Authorized Signature
+                  </td>
                 </tr>
                 <tr>
                   <td rowSpan={3}>Md. Masud Rana</td>
                   <td>{strBusinessUnitName}</td>
                 </tr>
                 <tr>
-                  <td>.</td>
+                  <td style={{ padding: "5px" }}>.</td>
                 </tr>
                 <tr>
-                  <td>Authorized Signature</td>
+                  <td style={{ padding: "0px", fontSize: "13px" }}>
+                    Authorized Signature
+                  </td>
                 </tr>
                 <tr>
                   <td rowSpan={3}>Iftekhar Uddin Chowdhury</td>
                   <td>{strBusinessUnitName}</td>
                 </tr>
                 <tr>
-                  <td>.</td>
+                  <td style={{ padding: "5px" }}>.</td>
                 </tr>
                 <tr>
-                  <td>Authorized Signature</td>
+                  <td style={{ padding: "0px", fontSize: "13px" }}>
+                    Authorized Signature
+                  </td>
                 </tr>
                 <tr>
                   <td rowSpan={3}>Raihan Kabir</td>
                   <td>{strBusinessUnitName}</td>
                 </tr>
                 <tr>
-                  <td>.</td>
+                  <td style={{ padding: "5px" }}>.</td>
                 </tr>
                 <tr>
-                  <td>Authorized Signature</td>
+                  <td style={{ padding: "0px", fontSize: "13px" }}>
+                    Authorized Signature
+                  </td>
                 </tr>
                 <tr>
                   <td rowSpan={3}>Rakibul Alam Khan</td>
                   <td>{strBusinessUnitName}</td>
                 </tr>
                 <tr>
-                  <td>.</td>
+                  <td style={{ padding: "5px" }}>.</td>
                 </tr>
                 <tr>
-                  <td>Authorized Signature</td>
+                  <td style={{ padding: "0px", fontSize: "13px" }}>
+                    Authorized Signature
+                  </td>
                 </tr>
                 <tr>
                   <td rowSpan={3}>Md. Anamul Haque</td>
                   <td>{strBusinessUnitName}</td>
                 </tr>
                 <tr>
-                  <td>.</td>
+                  <td style={{ padding: "5px" }}>.</td>
                 </tr>
                 <tr>
-                  <td>Authorized Signature</td>
+                  <td style={{ padding: "0px", fontSize: "13px" }}>
+                    Authorized Signature
+                  </td>
                 </tr>
                 <tr>
-                  <td colSpan={2}>
-                    Special Instruction: 1. Md. Sheikh Sadi, 2. Md. Masud Rana,
-                    3. Iftekhar Uddin Chowdhury, 4. Raihan Kabir, 5. Rakibul
-                    Alam Khan, 6. Md. Anamul Haque - any two signatories out of
-                    'Group B' can sign and endorse jointly all cheques and all
-                    other documents.
+                  <td colSpan={2} style={{ fontSize: "12px" }}>
+                    <b> Special Instruction:</b> 1. Md. Sheikh Sadi, 2. Md.
+                    Masud Rana, 3. Iftekhar Uddin Chowdhury, 4. Raihan Kabir, 5.
+                    Rakibul Alam Khan, 6. Md. Anamul Haque -
+                    <b> any two signatories </b>
+                    out of <b> 'Group B' </b>can <b>sign and endorse</b> jointly
+                    all cheques and all other documents.
                   </td>
                 </tr>
               </tbody>
             </table>
           </div>
-          <div style={{ textAlign: "center" }}>
+          <div
+            style={{
+              textAlign: "center",
+            }}
+          >
             <strong>Attested by</strong>
-            <br />
-            <br />
-            <br />
-            <strong>(Sheikh Jasim Uddin)</strong>
-            Managing Director
+            <p style={{ marginTop: "7px", paddingTop: "30px" }}>
+              <strong style={{ fontSize: "15px" }}>(Sheikh Jasim Uddin)</strong>
+            </p>
+            <p
+              style={{
+                marginTop: "-7px",
+                fontSize: "16px",
+              }}
+            >
+              Managing Director
+            </p>
           </div>
         </div>
       </div>
