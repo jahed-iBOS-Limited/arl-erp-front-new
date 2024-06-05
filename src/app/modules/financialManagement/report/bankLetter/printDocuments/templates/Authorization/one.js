@@ -84,6 +84,7 @@ const AuthorizationOne = () => {
           {"{"}Messenger Designation{"}"}
           {"}"}
         </p>
+        <br />
         <p style={{ marginTop: 5 }}>Yours faithfully,</p>
         <p style={{ marginTop: 5 }}>
           For,{" "}
