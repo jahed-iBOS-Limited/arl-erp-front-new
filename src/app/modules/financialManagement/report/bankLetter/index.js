@@ -38,6 +38,14 @@ const initData = {
   templateType: "",
   templateName: "",
   accountType: "",
+  bankAccount: "",
+  amount: "",
+  marginType: "",
+  numOfMonth: "",
+  profitRate: "",
+  documentName: "",
+  massengerName: "",
+  messengerDesignation: "",
 };
 export default function BankLetter() {
   const {
@@ -49,13 +57,24 @@ export default function BankLetter() {
 
   const [bankList, getBankList] = useAxiosGet();
   const [templateList, getTemplateList, , setTemplateList] = useAxiosGet();
-  const [bankBranchList, getBankBranchList] = useAxiosGet();
+  const [
+    bankBranchList,
+    getBankBranchList,
+    ,
+    setBankBranchList,
+  ] = useAxiosGet();
   const printRef = useRef();
   const [, onSave, loader] = useAxiosPost();
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
   const [gridData, getGridData, loading, setGridData] = useAxiosGet();
   const [singleRowItem, setSingleRowItem] = useState(null);
+  const [
+    bankAccountInfo,
+    getBankAccountInfo,
+    ,
+    setBankAccountInfo,
+  ] = useAxiosGet();
 
   useEffect(() => {
     getBankList(`/hcm/HCMDDL/GetBankDDL`);
@@ -94,6 +113,26 @@ export default function BankLetter() {
       dteUpdateBy: userId,
       strBrdate: values?.brDate,
       strAccountType: values?.accountType,
+      // ===
+      accountName: "",
+      accountNo: "",
+      amount: "",
+      marginType: "",
+      numOfMonth: "",
+      profitRate: "",
+      documentName: "",
+      massengerName: "",
+      messengerDesignation: "",
+
+      strAccountName: values?.accountName,
+      strAccountNo: values?.accountNo,
+      numAmount: values?.amount,
+      strMarginType: values?.marginType,
+      intNumOfMonth: values?.numOfMonth,
+      numProfitRate: values?.profitRate,
+      strDocumentName: values?.documentName,
+      strMassengerName: values?.massengerName,
+      strMessengerDesignation: values?.messengerDesignation,
     };
     onSave(`/fino/BankLetter/SaveBankLetterTemplatePrint`, payload, null, true);
   };
@@ -178,6 +217,10 @@ export default function BankLetter() {
                     label="Business Unit"
                     onChange={(valueOption) => {
                       setFieldValue("businessUnit", valueOption || "");
+                      setFieldValue("bankBranch", "");
+                      setFieldValue("bankAccount", "");
+                      setBankBranchList([]);
+                      setBankAccountInfo([]);
                     }}
                     errors={errors}
                     touched={touched}
@@ -251,9 +294,16 @@ export default function BankLetter() {
                     label="Bank"
                     onChange={(valueOption) => {
                       setFieldValue("bank", valueOption || "");
+                      setFieldValue("bankBranch", "");
+                      setFieldValue("bankAccount", "");
+                      setBankBranchList([]);
+                      setBankAccountInfo([]);
                       if (valueOption) {
                         getBankBranchList(
                           `/hcm/HCMDDL/GetBankBranchDDL?BankId=${valueOption?.value}`
+                        );
+                        getBankAccountInfo(
+                          `/fino/BankLetter/GetBankAccountList?intBusinessUnitId=${values?.businessUnit?.value}&intBankId=${valueOption?.value}`
                         );
                       }
                     }}
@@ -275,6 +325,19 @@ export default function BankLetter() {
                   />
                 </div>
                 <div className="col-lg-3">
+                  <NewSelect
+                    name="bankAccount"
+                    options={bankAccountInfo || []}
+                    value={values?.bankAccount}
+                    label="Bank Account"
+                    onChange={(valueOption) => {
+                      setFieldValue("bankAccount", valueOption || "");
+                    }}
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
+                <div className="col-lg-3">
                   <InputField
                     value={values?.accountType}
                     label="Account Type"
@@ -283,6 +346,81 @@ export default function BankLetter() {
                     onChange={(e) => {
                       setFieldValue("accountType", e.target.value);
                     }}
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <InputField
+                    value={values.amount}
+                    label="Amount"
+                    name="amount"
+                    type="number"
+                    onChange={(e) => setFieldValue("amount", e.target.value)}
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <InputField
+                    value={values.marginType}
+                    label="Margin Type"
+                    name="marginType"
+                    type="text"
+                    onChange={(e) =>
+                      setFieldValue("marginType", e.target.value)
+                    }
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <InputField
+                    value={values.numOfMonth}
+                    label="Number of Months"
+                    name="numOfMonth"
+                    type="text"
+                    onChange={(e) =>
+                      setFieldValue("numOfMonth", e.target.value)
+                    }
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <InputField
+                    value={values.profitRate}
+                    label="Profit Rate"
+                    name="profitRate"
+                    type="text"
+                    onChange={(e) =>
+                      setFieldValue("profitRate", e.target.value)
+                    }
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <InputField
+                    value={values.documentName}
+                    label="Document Name"
+                    name="documentName"
+                    type="text"
+                    onChange={(e) =>
+                      setFieldValue("documentName", e.target.value)
+                    }
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <InputField
+                    value={values.massengerName}
+                    label="Messenger Name"
+                    name="massengerName"
+                    type="text"
+                    onChange={(e) =>
+                      setFieldValue("massengerName", e.target.value)
+                    }
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <InputField
+                    value={values.messengerDesignation}
+                    label="Messenger Designation"
+                    name="messengerDesignation"
+                    type="text"
+                    onChange={(e) =>
+                      setFieldValue("messengerDesignation", e.target.value)
+                    }
                   />
                 </div>
                 <div className="col-lg-3">
