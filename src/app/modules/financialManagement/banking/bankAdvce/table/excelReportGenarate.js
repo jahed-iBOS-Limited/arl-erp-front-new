@@ -162,7 +162,7 @@ const excelDownlaod = async ({ workbook, fileName }) => {
           response.headers.get("content-type") === "application/vnd.ms-excel"
         ) {
           // Extract the filename from the response headers
-          const filename = fileName;
+          const filename = `${fileName}-new`;
           // Return a promise with the response blob
           return response.blob().then((blob) => {
             // Create a temporary URL for the blob
