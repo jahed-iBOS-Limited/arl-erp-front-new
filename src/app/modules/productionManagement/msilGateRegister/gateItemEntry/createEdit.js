@@ -737,20 +737,38 @@ export default function GateEntryCreate() {
                             onChange={(valueOption) => {
                               setFieldValue("poNo", "");
                               setFieldValue("poValidityDate", "");
-                              if (valueOption) {
-                                const currentDate = new Date();
-                                const parsedValidityDate = new Date(valueOption.validityDate);
+                            //   if (valueOption) {
+                            //     const currentDate = new Date();
+                            //     const parsedValidityDate = new Date(valueOption.validityDate);
                             
-                                // Check if the parsed date is valid
-                                if (isNaN(parsedValidityDate.getTime())) {
-                                    return toast.warn("Invalid Po Validity Date!");
-                                } else if (parsedValidityDate < currentDate) {
-                                    return toast.warn("Po validity date has ended");
-                                } else {
-                                    setFieldValue("poNo", valueOption.poNo);
-                                    setFieldValue("poValidityDate", _dateFormatter(valueOption.validityDate));
-                                }
-                            }
+                            //     // Check if the parsed date is valid
+                            //     if (isNaN(parsedValidityDate.getTime())) {
+                            //         return toast.warn("Invalid Po Validity Date!");
+                            //     } else if (parsedValidityDate < currentDate) {
+                            //         return toast.warn("Po validity date has ended");
+                            //     } else {
+                            //         setFieldValue("poNo", valueOption.poNo);
+                            //         setFieldValue("poValidityDate", _dateFormatter(valueOption.validityDate));
+                            //     }
+                            // }
+                            if (valueOption) {
+                              const currentDate = new Date();
+                              const parsedValidityDate = new Date(valueOption.validityDate);
+                          
+                              // Zero out the time components
+                              const currentDateOnly = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
+                              const parsedValidityDateOnly = new Date(parsedValidityDate.getFullYear(), parsedValidityDate.getMonth(), parsedValidityDate.getDate());
+                          
+                              // Check if the parsed date is valid
+                              if (isNaN(parsedValidityDateOnly.getTime())) {
+                                  return toast.warn("Invalid Po Validity Date!");
+                              } else if (parsedValidityDateOnly < currentDateOnly) {
+                                  return toast.warn("Po validity date has ended");
+                              } else {
+                                  setFieldValue("poNo", valueOption.poNo);
+                                  setFieldValue("poValidityDate", _dateFormatter(valueOption.validityDate));
+                              }
+                          }
                             
                             }}
                           />
