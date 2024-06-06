@@ -1,6 +1,12 @@
 import React, { useEffect } from "react";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
+import {
+  _dateFormatter,
+  _dateTimeFormatter,
+} from "../../../_helper/_dateFormate";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import { useDispatch } from "react-redux";
+import { getDownlloadFileView_Action } from "../../../_helper/_redux/Actions";
 export default function ItemRateHistoryModal({ propsObj }) {
   const { singleData } = propsObj;
   const [historyData, getHistoryData] = useAxiosGet();
@@ -11,6 +17,7 @@ export default function ItemRateHistoryModal({ propsObj }) {
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [singleData]);
+  const dispatch = useDispatch();
   return (
     <>
       <div className="form-group  global-form row">
@@ -34,6 +41,7 @@ export default function ItemRateHistoryModal({ propsObj }) {
               <th>Update By</th>
               <th>Rate (Dhaka)</th>
               <th>Rate (Chittagong)</th>
+              <th>View</th>
             </tr>
           </thead>
           <tbody>
@@ -42,14 +50,41 @@ export default function ItemRateHistoryModal({ propsObj }) {
                 <tr key={i}>
                   <td>{i + 1}</td>
                   <td className="text-center">
-                    {_dateFormatter(item?.effectiveDate)}
+                    {_dateTimeFormatter(item?.effectiveDate)}
                   </td>
                   <td className="text-center">
-                    {_dateFormatter(item?.updatedAt)}
+                    {_dateTimeFormatter(item?.updatedAt)}
                   </td>
                   <td>{item?.updatedByName}</td>
                   <td className="text-center">{item?.itemRate}</td>
                   <td className="text-center">{item?.itemRateOthers}</td>
+                  <td className="text-center">
+                    {singleData?.attachment ? (
+                      <OverlayTrigger
+                        overlay={
+                          <Tooltip id="cs-icon">View Attachment</Tooltip>
+                        }
+                      >
+                        <span
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            dispatch(
+                              getDownlloadFileView_Action(
+                                singleData?.attachment
+                              )
+                            );
+                          }}
+                          className="ml-2"
+                        >
+                          <i
+                            style={{ fontSize: "16px" }}
+                            className={`fa pointer fa-eye`}
+                            aria-hidden="true"
+                          ></i>
+                        </span>
+                      </OverlayTrigger>
+                    ) : null}
+                  </td>
                 </tr>
               ))}
           </tbody>
