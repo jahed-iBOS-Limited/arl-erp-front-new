@@ -48,6 +48,7 @@ import Salesanalytics from "./salesanalytics";
 import ShipToPartyDelivery from "./shipToPartyDelivery/Table/table";
 import VehicleArrangeInfo from "./vehicleArrangeInfo/landing/table";
 import CustomerYearlyAchievement from "./customerYearlyAchievement";
+import AllEssentialReport from "./AllEssentialReport";
 
 export function ReportManagementPages() {
   const userRole = useSelector(
@@ -309,6 +310,10 @@ export function ReportManagementPages() {
       <ContentRoute
         path="/sales-management/report/customeryearlyachievement"
         component={CustomerYearlyAchievement}
+      />
+      <ContentRoute
+        path="/sales-management/report/AllEssentialReport"
+        component={AllEssentialReport}
       />
     </Switch>
   );
