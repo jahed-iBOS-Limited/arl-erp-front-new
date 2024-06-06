@@ -96,7 +96,7 @@ export function MsilGateRegisterPages() {
         path="/production-management/msil-gate-register/Gate-Out-By-Delivery-Challan"
         component={GateOutByDeliveryChallanLanding}
       />
-      
+
       <ContentRoute
         path="/production-management/msil-gate-register/Gate-Out-By-Gate-Pass"
         component={GateOutByGatePassLanding}
@@ -113,7 +113,7 @@ export function MsilGateRegisterPages() {
         path="/production-management/msil-gate-register/Gate-Item-Entry/physicalTest/edit/:id"
         component={PhysicalTestForm}
       />
-       <ContentRoute
+      <ContentRoute
         path="/production-management/msil-gate-register/Gate-Item-Entry/physicalTest/create"
         component={PhysicalTestForm}
       />
@@ -184,14 +184,13 @@ export function MsilGateRegisterPages() {
         component={WeightScale}
       />
       <ContentRoute
-        path="/production-management/msil-gate-register/RMAutoPR/create"
+        path="/production-management/msil-gate-register/RMAutoPO/create"
         component={RMPRItemList}
       />
       <ContentRoute
-        path="/production-management/msil-gate-register/RMAutoPR"
+        path="/production-management/msil-gate-register/RMAutoPO"
         component={RowMaterialAutoPR}
       />
-
     </Switch>
   );
 }

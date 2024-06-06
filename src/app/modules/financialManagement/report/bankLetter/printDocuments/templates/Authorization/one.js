@@ -37,8 +37,8 @@ const AuthorizationOne = ({ singleRowItem }) => {
         <p style={{ marginTop: "15px" }}>The Head of the Branch</p>
         <p style={{ marginTop: "15px" }}>{strBankName}</p>
         <p style={{ marginTop: "15px" }}>
-          {strBranchName}
-          Branch
+          {`${strBranchName} `}
+          {strBranchName?.toLowerCase().includes("branch") ? "" : "Branch"}
         </p>
         <p style={{ marginTop: "15px" }}>{strBranchAddress}</p>
         <p style={{ margin: "35px 0" }}>
