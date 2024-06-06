@@ -325,9 +325,7 @@ function RowMaterialAutoPR() {
                                       )
                                     : ""}
                                 </td>
-                                <td className="text-center">
-                                  {item?.strPurchaseOrderNo}
-                                </td>
+
                                 <td>{item?.numFirstWeight}</td>
                                 <td>{item?.numLastWeight}</td>
                                 <td>{item?.numNetWeight}</td>
