@@ -9,6 +9,8 @@ import { _todayDate } from '../../../_helper/_todayDate';
 import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
 import TdsVdsJvDataTable from './components/dataTable';
+import IViewModal from '../../../_helper/_viewModal';
+import PrintView from './print';
 
 const initData = {
   accountNo: '',
@@ -54,6 +56,7 @@ export default function _Form({ bankDDL, setDisabled, btnRef }) {
   const [, getSbuId, , setSbuId] = useAxiosGet();
 
   const [, saveData, isSavignData] = useAxiosPost();
+  const [isShowPrintModal, setIsShowPrintModal] = useState(false);
 
   // get user profile data from store
   const {
@@ -166,9 +169,18 @@ export default function _Form({ bankDDL, setDisabled, btnRef }) {
 
   //handle save data
   const saveHandler = (values, cb) => {
+
     setDisabled(true);
     const saveReqApi = `/fino/PaymentRequest/CreateTdsVdsJournalVoucher`;
     const savePayload = prepareSavePayload(editableData, values);
+    const isNotPemittedForSave = savePayload?.some(
+      (item) => item.taxVatJournalId > 0 || item.taxVatJournalId == null
+    );
+
+    if(isNotPemittedForSave){
+      return toast.warn(`Not Permitted`)
+    }
+
     saveData(
       saveReqApi,
       savePayload,
@@ -338,9 +350,9 @@ export default function _Form({ bankDDL, setDisabled, btnRef }) {
                     />
                   </div>
 
-                  <div style={{ marginTop: '22px' }} className="col-lg-1">
+                  <div className="col-lg-1">
                     <button
-                      className="btn btn-primary"
+                      className="btn btn-primary mt-5"
                       disabled={
                         !(values?.billType?.value && values?.status?.value)
                       }
@@ -358,12 +370,12 @@ export default function _Form({ bankDDL, setDisabled, btnRef }) {
                       Show
                     </button>
                   </div>
-                  <div
+                  {/* <div
                     style={{ marginTop: '22px', marginLeft: '6px' }}
                     className="col-lg-2"
                   >
                     <button
-                      style={{ display: 'none' }}
+                      // style={{ display: 'none' }}
                       className="btn btn-primary"
                       disabled={
                         !values?.sbuUnit
@@ -380,7 +392,12 @@ export default function _Form({ bankDDL, setDisabled, btnRef }) {
                     >
                       Prepare Voucher
                     </button>
-                  </div>
+                  </div> */}
+                  {values?.status?.label === 'Complete' && (<div className='col-lg-1'>
+                      <button onClick={()=>{
+                        setIsShowPrintModal(true)
+                      }} type='button' className="btn btn-primary mt-5">Print</button>
+                  </div>)}
                 </div>
               </div>
 
@@ -415,6 +432,17 @@ export default function _Form({ bankDDL, setDisabled, btnRef }) {
                 // onClick={() => setRowDto([])}
               ></button>
             </Form>
+            {isShowPrintModal && (
+                  <IViewModal
+                    show={isShowPrintModal}
+                    onHide={() => {
+                      setIsShowPrintModal(false);
+                    }}
+                    title=""
+                  >
+                   <PrintView/>
+                  </IViewModal>
+                )}
           </>
         )}
       </Formik>

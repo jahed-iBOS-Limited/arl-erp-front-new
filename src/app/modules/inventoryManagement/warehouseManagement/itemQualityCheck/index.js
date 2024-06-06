@@ -15,6 +15,7 @@ import { InventoryTransactionReportViewTableRow } from "../invTransaction/report
 import IForm from "./../../../_helper/_form";
 import Loading from "./../../../_helper/_loading";
 import QualityCheckViewModal from "./modal/viewModal";
+import PaginationSearch from "../../../_helper/_search";
 const initData = {
   plant: "",
   warehouse: "",
@@ -46,9 +47,10 @@ export default function ItemQualityCheckLanding() {
   const [isShowModalTwo, setIsShowModalTwo] = useState(false);
   const [currentRowData, setCurrentRowData] = useState("");
 
-  const handleGetLandingData = (pageNo, pageSize, values) => {
+  const handleGetLandingData = (pageNo, pageSize, values, searchValue="") => {
+    const searchTerm = searchValue ? `&search=${searchValue}` : ""
     getLandingData(
-      `/mes/QCTest/GetItemQualityCheckLanding?businessUnitId=${buId}&plantId=${values?.plant?.value}&warehouseId=${values?.warehouse?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}&pageNo=${pageNo}&pageSize=${pageSize}`,
+      `/mes/QCTest/GetItemQualityCheckLanding?businessUnitId=${buId}&plantId=${values?.plant?.value}&warehouseId=${values?.warehouse?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}&pageNo=${pageNo}&pageSize=${pageSize}${searchTerm}`,
       (landingData) => {
         const updatedRow = landingData?.data?.map((item) => ({
           ...item,
@@ -60,6 +62,14 @@ export default function ItemQualityCheckLanding() {
         });
       }
     );
+  };
+
+  const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
+    handleGetLandingData(values, pageNo, pageSize, searchValue);
+  };
+
+  const paginationSearchHandler = (searchValue, values) => {
+    setPositionHandler(pageNo, pageSize, values, searchValue);
   };
 
   const handleRowSelect = (e, index) => {
@@ -222,6 +232,15 @@ export default function ItemQualityCheckLanding() {
                   Create MRR
                 </button>
               </div>
+              {landingData?.data?.length > 0 && (
+                  <div className="my-3">
+                    <PaginationSearch
+                      placeholder="PO code & MRR code"
+                      paginationSearchHandler={paginationSearchHandler}
+                      values={values}
+                    />
+                  </div>
+                )}
               <div
                 style={{ marginTop: "20px" }}
                 className="scroll-table _table table-responsive"
@@ -280,7 +299,7 @@ export default function ItemQualityCheckLanding() {
                             {item?.inventoryTransactionCode}
                           </span>
                         </td>
-                        <td className="text-center">{item?.totalRecords}</td>
+                        <td className="text-center">{item?.purchaseOrderCode}</td>
                         <td>{_dateFormatter(item?.createdAt)}</td>
                         <td>{item?.supplierName}</td>
                         <td>{item?.supplierAddress}</td>
