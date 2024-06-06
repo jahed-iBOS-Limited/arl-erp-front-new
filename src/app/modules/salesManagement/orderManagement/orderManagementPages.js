@@ -103,7 +103,7 @@ export function OrderManagementPages() {
       <ContentRoute
         from='/sales-management/ordermanagement/salesquotation'
         component={
-          selectedBusinessUnit?.value === 175
+          [175, 4].includes(selectedBusinessUnit?.value)
             ? SalesQuotationReadyMix
             : SalesQuotation
         }

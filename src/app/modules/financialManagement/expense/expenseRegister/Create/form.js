@@ -800,7 +800,7 @@ export default function _Form({
 
               <DropzoneDialogBase
                 filesLimit={1}
-                acceptedFiles={["image/*", "application/pdf"]}
+                acceptedFiles={["image/*", "application/pdf", "video/*"]}
                 fileObjects={fileObjects}
                 cancelButtonText={"cancel"}
                 submitButtonText={"submit"}
