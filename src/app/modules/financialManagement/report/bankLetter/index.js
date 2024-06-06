@@ -345,19 +345,19 @@ export default function BankLetter() {
                     />
                   </div>
                 )}
-                {[1, 2, 3, 4, 5].includes(values?.templateType?.value) && (
-                  <div className="col-lg-3">
-                    <InputField
-                      value={values?.accountType}
-                      label="Account Type"
-                      name="accountType"
-                      type="text"
-                      onChange={(e) => {
-                        setFieldValue("accountType", e.target.value);
-                      }}
-                    />
-                  </div>
-                )}
+                {/* {[1, 2, 3, 4, 5].includes(values?.templateType?.value) && ( */}
+                <div className="col-lg-3">
+                  <InputField
+                    value={values?.accountType}
+                    label="Account Type"
+                    name="accountType"
+                    type="text"
+                    onChange={(e) => {
+                      setFieldValue("accountType", e.target.value);
+                    }}
+                  />
+                </div>
+                {/* )} */}
                 {[2, 3].includes(values?.templateType?.value) && (
                   <div className="col-lg-3">
                     <InputField
@@ -369,7 +369,7 @@ export default function BankLetter() {
                     />
                   </div>
                 )}
-                {[2, 3].includes(values?.templateType?.value) && (
+                {[3].includes(values?.templateType?.value) && (
                   <div className="col-lg-3">
                     <InputField
                       value={values.marginType}
@@ -382,7 +382,7 @@ export default function BankLetter() {
                     />
                   </div>
                 )}
-                {[2, 3].includes(values?.templateType?.value) && (
+                {[3].includes(values?.templateType?.value) && (
                   <div className="col-lg-3">
                     <InputField
                       value={values.numOfMonth}
@@ -395,7 +395,7 @@ export default function BankLetter() {
                     />
                   </div>
                 )}
-                {[2, 3].includes(values?.templateType?.value) && (
+                {[3].includes(values?.templateType?.value) && (
                   <div className="col-lg-3">
                     <InputField
                       value={values.profitRate}
@@ -408,7 +408,7 @@ export default function BankLetter() {
                     />
                   </div>
                 )}
-                {[2, 4].includes(values?.templateType?.value) && (
+                {[4].includes(values?.templateType?.value) && (
                   <div className="col-lg-3">
                     <InputField
                       value={values.documentName}
