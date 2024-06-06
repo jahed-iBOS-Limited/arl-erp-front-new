@@ -17,6 +17,7 @@ const AuthorizationOne = ({ singleRowItem }) => {
     strMassengerName,
     strMessengerDesignation,
     strDocumentName,
+    strBankShortName,
   } = singleRowItem;
   return (
     <>
@@ -24,13 +25,13 @@ const AuthorizationOne = ({ singleRowItem }) => {
         <p style={{}}>
           <b>
             {" "}
-            REF :{strBusinessUnitShortName}/{strBankName}
+            REF :{strBusinessUnitShortName}/{strBankShortName}
             /Doc/
-            {strRefDate}
+            {strDate}
           </b>
         </p>
         <p style={{ marginTop: "15px" }}>
-          <b>Date :{strDate}</b>
+          <b>Date :{strRefDate}</b>
         </p>
         <p style={{ marginTop: 35 }}>To</p>
         <p style={{ marginTop: "15px" }}>The Head of the Branch</p>
@@ -52,8 +53,8 @@ const AuthorizationOne = ({ singleRowItem }) => {
         <p style={{ marginTop: "10px" }}>
           We do hereby authorize {strMassengerName}, {strMessengerDesignation}
           of our company to receive {strDocumentName}
-          of
-          {strBusinessUnitName}, A/C No-
+          of <span> </span>
+          {` ${strBusinessUnitName} `}, A/C No-
           {strAccountNo}. His specimen signature is attested below.
         </p>
         <p style={{ marginTop: 35 }}>

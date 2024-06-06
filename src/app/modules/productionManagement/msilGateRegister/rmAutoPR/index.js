@@ -31,6 +31,7 @@ function RowMaterialAutoPR() {
   const [singleData, setSingleData] = useState(null);
   const [showAttachmentModal, setShowAttachmentModal] = useState(false);
   const [POorderType, setPOorderType] = useState(false);
+  const [GRN, setGRN] = useState(false);
 
   const [itemRequest, setItemRequest] = useState(true);
   const history = useHistory();
@@ -94,12 +95,12 @@ function RowMaterialAutoPR() {
     setPositionHandler(pageNo, pageSize, values, searchValue);
   };
   const handleItemClick = (item) => {
-    console.log(item); // Replace this with your desired onClick functionality
+    setGRN(item); // Replace this with your desired onClick functionality
   };
   const renderCommaSeparatedItems = (items) => {
     console.log({ items });
     return items.map((item, index) => (
-      <span key={index} onClick={() => handleItemClick(item.trim())}>
+      <span key={index} onClick={() => handleItemClick()}>
         {item} {index < items?.length - 1 ? "," : ""}
       </span>
     ));
