@@ -4,6 +4,7 @@ import InputField from "../../../_helper/_inputField";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import IConfirmModal from "../../../_helper/_confirmModal";
 import { shallowEqual, useSelector } from "react-redux";
+import AttachmentUploaderNew from "../../../_helper/attachmentUploaderNew";
 export default function UpdateItemRateModal({ propsObj }) {
   const {
     getLandingData,
@@ -12,11 +13,13 @@ export default function UpdateItemRateModal({ propsObj }) {
     pageSize,
     singleData,
     setIsShowHistoryModal,
+    setFieldValue,
   } = propsObj;
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
   const [modifyData, setModifyData] = useState({});
+  const [attachment, setAttachment] = useState("");
   const [, updateHandler] = useAxiosPost();
 
   useEffect(() => {
@@ -79,7 +82,21 @@ export default function UpdateItemRateModal({ propsObj }) {
               </td>
               <td className="text-center">
                 <div className="">
-                  <span className="mr-3">
+                  <AttachmentUploaderNew
+                    style={{
+                      backgroundColor: "transparent",
+                      color: "black",
+                    }}
+                    CBAttachmentRes={(attachmentData) => {
+                      if (Array.isArray(attachmentData)) {
+                        console.log(attachmentData);
+                        console.log({ attachment: attachmentData });
+                        setAttachment(attachmentData?.[0]?.id);
+                        setFieldValue("attachment", attachmentData?.[0]?.id);
+                      }
+                    }}
+                  />
+                  <span className="mx-3">
                     <button
                       disabled={
                         !modifyData?.effectiveDate ||
@@ -105,6 +122,9 @@ export default function UpdateItemRateModal({ propsObj }) {
                                 effectiveDate: modifyData?.effectiveDate,
                                 isActive: true,
                                 updatedBy: profileData?.userId,
+                                attachment: attachment
+                                  ? attachment
+                                  : singleData?.attachment,
                               },
                               () => {
                                 getLandingData(values, pageNo, pageSize, "");

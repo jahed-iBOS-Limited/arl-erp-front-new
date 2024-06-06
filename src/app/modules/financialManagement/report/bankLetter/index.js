@@ -116,7 +116,7 @@ export default function BankLetter() {
       dteUpdateBy: userId,
       strBrdate: values?.brDate || "",
       strAccountType: values?.accountType || "",
-      strAccountName: values?.bankAccount?.label || "",
+      strAccountName: values?.bankAccount?.strBankAccountName || "",
       strAccountNo: values?.bankAccount?.strBankAccountNo || "",
       numAmount: values?.amount || 0,
       strMarginType: values?.marginType || "",
@@ -305,7 +305,7 @@ export default function BankLetter() {
                               const modifyData = res.map((item) => ({
                                 ...item,
                                 value: item?.intBankAccountId,
-                                label: item?.strBankAccountName,
+                                label: item?.strBankAccountNo,
                               }));
                               setBankAccountInfo(modifyData);
                             }

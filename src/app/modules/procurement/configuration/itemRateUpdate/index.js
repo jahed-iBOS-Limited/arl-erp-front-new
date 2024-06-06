@@ -1,6 +1,6 @@
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import PaginationSearch from "../../../_helper/_search";
 import NewSelect from "../../../_helper/_select";
@@ -14,12 +14,14 @@ import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import IViewModal from "../../../_helper/_viewModal";
 import UpdateItemRateModal from "./updateModal";
 import ItemRateHistoryModal from "./historyModal";
+import { getDownlloadFileView_Action } from "../../../_helper/_redux/Actions";
 const initData = {
   itemType: { value: 0, label: "All" },
   itemCategory: { value: 0, label: "All" },
   itemSubCategory: { value: 0, label: "All" },
   plant: { value: 0, label: "All" },
   warehouse: { value: 0, label: "All" },
+  attachment: "",
 };
 export default function ItemRateUpdate() {
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
@@ -64,6 +66,7 @@ export default function ItemRateUpdate() {
   }, []);
   const saveHandler = (values, cb) => {};
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const getLandingData = (values, pageNo, pageSize, searchValue = "") => {
     const searchTearm = searchValue ? `&search=${searchValue}` : "";
@@ -279,8 +282,36 @@ export default function ItemRateUpdate() {
                             </td>
                             <td className="text-center">
                               <div className="">
+                                {item?.attachment ? (
+                                  <OverlayTrigger
+                                    overlay={
+                                      <Tooltip id="cs-icon">
+                                        View Attachment
+                                      </Tooltip>
+                                    }
+                                  >
+                                    <span
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        dispatch(
+                                          getDownlloadFileView_Action(
+                                            item?.attachment
+                                          )
+                                        );
+                                      }}
+                                      className="ml-2"
+                                    >
+                                      <i
+                                        style={{ fontSize: "16px" }}
+                                        className={`fa pointer fa-eye`}
+                                        aria-hidden="true"
+                                      ></i>
+                                    </span>
+                                  </OverlayTrigger>
+                                ) : null}
+
                                 <span
-                                  className=""
+                                  className="ml-3"
                                   onClick={() => {
                                     setIsShowUpdateModal(true);
                                     setSingleData(item);
@@ -346,6 +377,7 @@ export default function ItemRateUpdate() {
                         pageSize,
                         singleData,
                         setIsShowHistoryModal,
+                        setFieldValue,
                       }}
                     />
                   </IViewModal>
