@@ -20,6 +20,7 @@ import PaginationTable from "../../../_helper/_tablePagination";
 import IViewModal from "../../../_helper/_viewModal";
 import QcViewModal from "../firstWeight/qcViewModal";
 import { PurchaseOrderViewTableRow } from "../../../procurement/purchase-management/purchaseOrder/report/tableRow";
+import { InventoryTransactionReportViewTableRow } from "../../../inventoryManagement/warehouseManagement/invTransaction/report/tableRow";
 // import AttachmentView from "./POview";
 
 function RowMaterialAutoPR() {
@@ -30,7 +31,9 @@ function RowMaterialAutoPR() {
   const [weightmentId, setWeightmentId] = useState(null);
   const [singleData, setSingleData] = useState(null);
   const [showAttachmentModal, setShowAttachmentModal] = useState(false);
+  const [isShowModalTwo, setIsShowModalTwo] = useState(false);
   const [POorderType, setPOorderType] = useState(false);
+  const [GRN, setGRN] = useState({});
 
   const [itemRequest, setItemRequest] = useState(true);
   const history = useHistory();
@@ -93,18 +96,25 @@ function RowMaterialAutoPR() {
   const paginationSearchHandler = (searchValue, values) => {
     setPositionHandler(pageNo, pageSize, values, searchValue);
   };
-  const handleItemClick = (item) => {
-    console.log(item); // Replace this with your desired onClick functionality
+  const handleItemClick = (items, i, item, index) => {
+    setGRN({
+      intInventoryTransactionId: items?.intInventoryTransactionId?.[index],
+      grnCode: items.strInventoryTransactionCode?.[index],
+    });
+    setIsShowModalTwo(!isShowModalTwo);
   };
-  const renderCommaSeparatedItems = (items) => {
-    console.log({ items });
+  const renderCommaSeparatedItems = (items, i, product) => {
     return items.map((item, index) => (
-      <span key={index} onClick={() => handleItemClick(item.trim())}>
+      <span
+        className="text-center text-primary text-decoration-underline"
+        style={{ cursor: "pointer" }}
+        key={index}
+        onClick={() => handleItemClick(product, i, item, index)}
+      >
         {item} {index < items?.length - 1 ? "," : ""}
       </span>
     ));
   };
-
   return (
     <>
       <Formik
@@ -309,7 +319,9 @@ function RowMaterialAutoPR() {
                                 <td className="text-center">
                                   {item?.strInventoryTransactionCode?.length > 0
                                     ? renderCommaSeparatedItems(
-                                        item?.strInventoryTransactionCode
+                                        item?.strInventoryTransactionCode,
+                                        index,
+                                        item
                                       )
                                     : ""}
                                 </td>
@@ -371,6 +383,16 @@ function RowMaterialAutoPR() {
         </IViewModal>
         <IViewModal show={isShowModal} onHide={() => setIsShowModal(false)}>
           <QcViewModal weightmentId={weightmentId} />
+        </IViewModal>
+        <IViewModal
+          show={isShowModalTwo}
+          onHide={() => setIsShowModalTwo(false)}
+        >
+          <InventoryTransactionReportViewTableRow
+            Invid={GRN?.intInventoryTransactionId}
+            grId={{}}
+            currentRowData={{}}
+          />
         </IViewModal>
       </div>
     </>
