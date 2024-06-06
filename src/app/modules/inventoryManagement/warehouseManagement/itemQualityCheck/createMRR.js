@@ -452,7 +452,15 @@ export default function CreateMRR() {
                 fileObjects?.map((f) => f?.file)
               );
             }
-            const r = await getImageuploadStatus(profileData?.accountId);
+
+            let r;
+            try {
+              r = await getImageuploadStatus(profileData?.accountId);
+            } catch (error) {
+              setDisabled(false);
+              return toast.error("Failed to check attachment upload status");
+            }
+
             if (r?.data) {
               if (compressedFile.length < 1) {
                 setDisabled(false);
