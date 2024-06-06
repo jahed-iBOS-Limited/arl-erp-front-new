@@ -1,6 +1,25 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { shallowEqual, useSelector } from "react-redux";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import { amountToWords } from "../../../../_helper/_ConvertnumberToWord";
 
-export default function Print() {
+export default function Print({ selectedRow }) {
+  const {
+    profileData: { accountId: accId },
+    selectedBusinessUnit: { value: buId, label: buName, businessUnitAddress },
+  } = useSelector((state) => state.authData, shallowEqual);
+
+  const [businessUnitTaxInfo, getBusinessUnitTaxInfo] = useAxiosGet();
+
+  useEffect(() => {
+    const apiURL = `/fino/PaymentRequest/GetBusinessUnitTaxInfo?BusinessUnitId=${buId}`;
+    getBusinessUnitTaxInfo(apiURL);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [buId]);
+
+  const total = selectedRow.reduce((sum, item) => sum + item.tdsamount, 0);
+
   return (
     <div
       style={{
@@ -8,10 +27,9 @@ export default function Print() {
         margin: 0,
         padding: 20,
       }}
+      contenteditable="true"
     >
-      <div style={{marginBottom: 20 }}>
-        Date: Wednesday, June 05, 2024
-      </div>
+      <div style={{ marginBottom: 20 }}>Date: Wednesday, June 05, 2024</div>
       <div style={{ marginBottom: 20 }}>
         <p>To,</p>
         <p>
@@ -67,44 +85,45 @@ export default function Print() {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td style={{ border: "1px solid black", padding: 8 }}>1</td>
-            <td style={{ border: "1px solid black", padding: 8 }}>LTU-Dhaka</td>
-            <td style={{ border: "1px solid black", padding: 8 }}>
-              AKIJ CEMENT COMPANY LTD. Address: 198 Bir Uttam Mir Sawkat Sarak,
-              Tejgaon Dhaka 1208
-              <br />
-              Tin: 451199230926
-            </td>
-            <td style={{ border: "1px solid black", padding: 8 }}>
-              MEGHNA PETROLEUM LIMITED
-              <br />
-              369107259995
-              <br />
-              Address:58/59, Agrabad C/A, Chattogram
-            </td>
-            <td style={{ border: "1px solid black", padding: 8 }}>
-              (As per your serial)
-            </td>
-            <td style={{ border: "1px solid black", padding: 8 }}>
-              TDS of Suppliers' bill payment
-            </td>
-            <td style={{ border: "1px solid black", padding: 8 }}>5,674</td>
-          </tr>
-          <tr>
-            <td style={{ border: "1px solid black", padding: 8 }}>2</td>
-            <td style={{ border: "1px solid black", padding: 8 }}>" " " " "</td>
-            <td style={{ border: "1px solid black", padding: 8 }}>" " " " "</td>
-            <td style={{ border: "1px solid black", padding: 8 }}>" " " " "</td>
-            <td style={{ border: "1px solid black", padding: 8 }}>" " " " "</td>
-            <td style={{ border: "1px solid black", padding: 8 }}>" " " " "</td>
-            <td style={{ border: "1px solid black", padding: 8 }}>5,674</td>
-          </tr>
+          {selectedRow?.map((item, index) => (
+            <tr key={index}>
+              <td style={{ border: "1px solid black", padding: 8 }}>
+                {index + 1}
+              </td>
+              <td style={{ border: "1px solid black", padding: 8 }}>
+                {[4].includes(buId)
+                  ? "LTU-Dhaka"
+                  : businessUnitTaxInfo?.strTaxCircle}
+              </td>
+              <td style={{ border: "1px solid black", padding: 8 }}>
+                {buName}. {businessUnitAddress}
+                1208
+                <br />
+                Tin: {businessUnitTaxInfo?.strTinNo}
+              </td>
+              <td style={{ border: "1px solid black", padding: 8 }}>
+                {item?.partnerName}
+                <br />
+                369107259995
+                <br />
+                Address: 58/59, Agrabad C/A, Chattogram
+              </td>
+              <td style={{ border: "1px solid black", padding: 8 }}>
+                (As per your serial)
+              </td>
+              <td style={{ border: "1px solid black", padding: 8 }}>
+                TDS of Suppliers' bill payment
+              </td>
+              <td style={{ border: "1px solid black", padding: 8 }}>
+                {item?.tdsamount}
+              </td>
+            </tr>
+          ))}
           <tr>
             <td style={{ border: "1px solid black", padding: 8 }} colSpan={6}>
-              Total (No. of Set:24)
+              Total (No. of Set:{selectedRow?.length})
             </td>
-            <td style={{ border: "1px solid black", padding: 8 }}>136,176</td>
+            <td style={{ border: "1px solid black", padding: 8 }}>{total}</td>
           </tr>
         </tbody>
       </table>
@@ -127,9 +146,7 @@ export default function Print() {
         </p>
       </div>
       <div style={{ marginBottom: 20 }}>
-        <p>
-          In Word: One lac Thirty Six Thousand One Hundred Seventy Six Only.
-        </p>
+        <p>In Word: {amountToWords(total)}</p>
       </div>
       <div>
         <p>Yours faithfully,</p>

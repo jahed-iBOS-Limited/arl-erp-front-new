@@ -5,7 +5,7 @@ import { useReactToPrint } from "react-to-print";
 import Print from "./print";
 import "./style.scss";
 
-export default function PrintView() {
+export default function PrintView({selectedRow}) {
   const { selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
@@ -30,8 +30,7 @@ export default function PrintView() {
           Print
         </button>
       </div>
-      <Print />
-      <div ref={printRef} className="tds-vds-print-wrapper">
+      <div ref={printRef} id="tds-vds-print-wrapper">
         <div style={{ margin: "-13px 50px 51px 50px" }}>
           <div
             className="invoice-header"
@@ -82,7 +81,7 @@ export default function PrintView() {
             </thead>
             {/* CONTENT GOES HERE */}
             <tbody>
-              <Print />
+              <Print selectedRow={selectedRow} />
             </tbody>
             <tfoot>
               <tr>

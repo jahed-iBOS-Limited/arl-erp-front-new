@@ -53,18 +53,21 @@ export default function TdsVdsJvDataTable({
   };
 
   const handleSelectTableRow = (tableData, index) => {
+    // const modifiedData = [...tableData];
+    // if (
+    //   modifiedData[index].taxVatJournalId <= 0 ||
+    //   modifiedData[index].taxVatJournalId == null
+    // ) {
+    //   if (modifiedData[index]?.isSelect) {
+    //     modifiedData[index].isSelect = ![...modifiedData][index]?.isSelect;
+    //   } else {
+    //     modifiedData[index].isSelect = true;
+    //   }
+    // }
+    // setEditableData(modifiedData);
     const modifiedData = [...tableData];
-    if (
-      modifiedData[index].taxVatJournalId <= 0 ||
-      modifiedData[index].taxVatJournalId == null
-    ) {
-      if (modifiedData[index]?.isSelect) {
-        modifiedData[index].isSelect = ![...modifiedData][index]?.isSelect;
-      } else {
-        modifiedData[index].isSelect = true;
-      }
-    }
-    setEditableData(modifiedData);
+    modifiedData[index]["isSelect"] = !modifiedData[index].isSelect;
+    setEditableData(modifiedData)
   };
 
   return (
@@ -84,26 +87,27 @@ export default function TdsVdsJvDataTable({
                       checked={selectAll}
                       className="form-control ml-2"
                       type="checkbox"
-                      disabled={values?.status?.label === 'Complete'}
+                      // disabled={values?.status?.label === 'Complete'}
                       onChange={(e) => {
                         setSelectAll(e.target.checked);
                         setEditableData(
                           editableData?.length > 0 &&
-                            editableData?.map((item) => {
-                              if (
-                                item.taxVatJournalId <= 0 ||
-                                item.taxVatJournalId == null
-                              ) {
-                                return {
-                                  ...item,
-                                  isSelect: e.target.checked,
-                                };
-                              } else {
-                                return {
-                                  ...item,
-                                };
-                              }
-                            })
+                            // editableData?.map((item) => {
+                            //   if (
+                            //     item.taxVatJournalId <= 0 ||
+                            //     item.taxVatJournalId == null
+                            //   ) {
+                            //     return {
+                            //       ...item,
+                            //       isSelect: e.target.checked,
+                            //     };
+                            //   } else {
+                            //     return {
+                            //       ...item,
+                            //     };
+                            //   }
+                            // })
+                            editableData?.map((item) => ({...item, isSelect: e.target.checked}))
                         );
                       }}
                     />
@@ -137,10 +141,12 @@ export default function TdsVdsJvDataTable({
                           <input
                             style={{ width: "15px", height: "15px" }}
                             name="isSelect"
-                            checked={(item.isSelect || item.taxVatJournalId > 0) ?? false}
-                            disabled={(() =>
-                              item.taxVatJournalId > 0 ||
-                              item.taxVatJournalId == null)()}
+                            // checked={(item.isSelect || item.taxVatJournalId > 0) ?? false}
+                            checked={item.isSelect}
+                            // disabled={(() =>
+                            //   item.taxVatJournalId > 0 ||
+                            //   item.taxVatJournalId == null)()}
+                            // this validation add in savehandler based on business requirment
                             className="form-control ml-2"
                             type="checkbox"
                             // disabled={true}
@@ -150,6 +156,7 @@ export default function TdsVdsJvDataTable({
                           />
                         </span>
                       </td>
+                      {console.log(editableData, "editableData")}
                       <td className="text-center" style={{ fontSize: 11 }}>
                         {_dateFormatter(item?.paymentRequestDate)}
                       </td>

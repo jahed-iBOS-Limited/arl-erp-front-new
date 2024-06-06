@@ -1,7 +1,13 @@
-.tds-vds-print-wrapper {
-  display: none;
-
+#tds-vds-print-wrapper {
+  .invoice-header,
+  .invoice-footer {
+    display: none;
+  }
   @media print {
-    display: block !important;
+    .invoice-header,
+    .invoice-footer {
+      display: block !important;
+    }
+    font-size: 18px !important;
   }
 }
