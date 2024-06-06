@@ -90,31 +90,80 @@ export default function Print({ selectedRow }) {
               <td style={{ border: "1px solid black", padding: 8 }}>
                 {index + 1}
               </td>
-              <td style={{ border: "1px solid black", padding: 8 }}>
-                {[4].includes(buId)
-                  ? "LTU-Dhaka"
-                  : businessUnitTaxInfo?.strTaxCircle}
+              <td
+                style={{
+                  border: "1px solid black",
+                  padding: 8,
+                  textAlign: index > 0 ? "center" : "left",
+                }}
+              >
+                {index === 0
+                  ? [4].includes(buId)
+                    ? "LTU-Dhaka"
+                    : businessUnitTaxInfo?.strTaxCircle
+                  : `" "`}
               </td>
-              <td style={{ border: "1px solid black", padding: 8 }}>
-                {buName}. {businessUnitAddress}
-                1208
-                <br />
-                Tin: {businessUnitTaxInfo?.strTinNo}
+              <td
+                style={{
+                  border: "1px solid black",
+                  padding: 8,
+                  textAlign: index > 0 ? "center" : "left",
+                }}
+              >
+                {index === 0 ? (
+                  <>
+                    {buName}. {businessUnitAddress}
+                    <br />
+                    Tin: {businessUnitTaxInfo?.strTinNo}
+                  </>
+                ) : (
+                  `" "`
+                )}
               </td>
-              <td style={{ border: "1px solid black", padding: 8 }}>
-                {item?.partnerName}
-                <br />
-                369107259995
-                <br />
-                Address: 58/59, Agrabad C/A, Chattogram
+              <td
+                style={{
+                  border: "1px solid black",
+                  padding: 8,
+                  textAlign: index > 0 ? "center" : "left",
+                }}
+              >
+                {index === 0 ? (
+                  <>
+                    {item?.partnerName}
+                    <br />
+                    {item?.strTin}
+                    <br />
+                    {item?.strBusinessPartnerAddress}
+                  </>
+                ) : (
+                  `" "`
+                )}
               </td>
-              <td style={{ border: "1px solid black", padding: 8 }}>
-                (As per your serial)
+              <td
+                style={{
+                  border: "1px solid black",
+                  padding: 8,
+                  textAlign: index > 0 ? "center" : "left",
+                }}
+              >
+                {index === 0 ? "(As per your serial)" : `" "`}
               </td>
-              <td style={{ border: "1px solid black", padding: 8 }}>
-                TDS of Suppliers' bill payment
+              <td
+                style={{
+                  border: "1px solid black",
+                  padding: 8,
+                  textAlign: index > 0 ? "center" : "left",
+                }}
+              >
+                {index === 0 ? "TDS of Suppliers' bill payment" : `" "`}
               </td>
-              <td style={{ border: "1px solid black", padding: 8 }}>
+
+              <td
+                style={{
+                  border: "1px solid black",
+                  padding: 8,
+                }}
+              >
                 {item?.tdsamount}
               </td>
             </tr>
@@ -151,7 +200,7 @@ export default function Print({ selectedRow }) {
       <div>
         <p>Yours faithfully,</p>
         <p>FOR AKIJ CEMENT COMPANY LIMITED</p>
-        <p>Authorized Signature</p>
+        <p style={{ marginTop: "60px" }}>Authorized Signature</p>
       </div>
     </div>
   );
