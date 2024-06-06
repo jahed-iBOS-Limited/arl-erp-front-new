@@ -11,6 +11,8 @@ const AccountOpenTwo = ({ singleRowItem }) => {
     strBranchName,
     strBranchAddress,
     strAccountType,
+    strBrdate,
+    strAccountName,
   } = singleRowItem;
   return (
     <>
@@ -59,37 +61,38 @@ const AccountOpenTwo = ({ singleRowItem }) => {
             <br />
             <p>
               We have the pleasure to inform you that the Board of Directors of
-              the Company has decided to open <strong> account type </strong> in
-              the name of <strong>{strBusinessUnitName}</strong> with your
+              the Company has decided to open <strong> {strAccountType}</strong>{" "}
+              in the name of <strong>{strBusinessUnitName}</strong> with your
               branch as per the Board resolution of the Company which was held
               on the
-              <strong> BR Date </strong> in the Registered Office of The Company
-              at Akij House, 198, Bir Uttam Mir Shawkat Sarak, Gulshan Link
-              Road, Tejgaon, Dhaka 1208.
+              <strong> {strBrdate} </strong> in the Registered Office of The
+              Company at Akij House, 198, Bir Uttam Mir Shawkat Sarak, Gulshan
+              Link Road, Tejgaon, Dhaka 1208.
             </p>
             <br />
             <p>
               As per Board Resolution
               <strong>
-                Resolved that Mr. Sheikh Jasim Uddin, Managing Director
+                {" "}
+                Resolved that Mr. Sheikh Jasim Uddin, Managing Director{" "}
               </strong>
               of the Company be and is hereby authorized to
-              <strong>sign and endorse singly</strong> all cheques in regard to
-              <strong> account type Account</strong> for any amount and also
+              <strong> sign and endorse singly</strong> all cheques in regard to
+              <strong> {strAccountType} Account</strong> for any amount and also
               sanction advice, security documents, trade (import/export) related
               documents, other necessary documents and papers for enjoying loan.
               Besides this, for the smooth running of the business of the
               Company
-              <strong>authorized Six (06) Officials</strong> namely:
+              <strong> authorized Six (06) Officials</strong> namely:
               <strong>
                 1. Md. Sheikh Sadi- Chief Treasury Officer; 2. Md. Masud Rana-
                 Chief Supply Chain Officer; 3. Iftekhar Uddin Chowdhury- Senior
                 Manager (Treasury); 4. Raihan Kabir- Deputy CFO; 5. Rakibul Alam
                 Khan- Manager (Finance) and 6. Md. Anamul Haque- Deputy Manager
                 (Finance)
-              </strong>
+              </strong>{" "}
               from now onward
-              <strong>any two of the six can jointly sign and endorse:</strong>
+              <strong> any two of the six can jointly sign and endorse:</strong>
             </p>
             <br />
             <div style={{ marginLeft: 80 }}>
@@ -147,6 +150,8 @@ const AccountOpenTwo = ({ singleRowItem }) => {
               <p>
                 <strong>FOR, {strBusinessUnitName}</strong>
               </p>
+              <br />
+              <br />
               <p>
                 <strong>(SHEIKH JASIM UDDIN)</strong>
               </p>
@@ -165,9 +170,9 @@ const AccountOpenTwo = ({ singleRowItem }) => {
           <p>
             EXTRACT OF THE MINUTE OF THE MEETING OF THE BOARD OF DIRECTORS OF
             <strong>{strBusinessUnitName}</strong> ON THE{" "}
-            <strong> BR Date </strong> AT 11.30 A.M. IN THE REGISTERED OFFICE OF
-            THE COMPANY AT AKIJ HOUSE, 198, BIR UTTAM MIR SHAWKAT SARAK, GULSHAN
-            LINK ROAD, TEJGAON, DHAKA 1208.
+            <strong> {strBrdate}</strong> AT 11.30 A.M. IN THE REGISTERED OFFICE
+            OF THE COMPANY AT AKIJ HOUSE, 198, BIR UTTAM MIR SHAWKAT SARAK,
+            GULSHAN LINK ROAD, TEJGAON, DHAKA 1208.
           </p>
           <br />
           <p>
@@ -207,20 +212,21 @@ const AccountOpenTwo = ({ singleRowItem }) => {
           <p>
             a)
             <strong>
+              {" "}
               Resolved that Mr. Sheikh Jasim Uddin, Managing Director
             </strong>
             of the Company be and is hereby authorized to open Account Type in
-            the name of <strong> Account Name </strong> with
+            the name of <strong> {strAccountName}</strong> with{" "}
             <strong>{strBankName},</strong> <strong>{strBranchName}</strong> and
             to operate the account <strong>sign and endorse singly</strong> all
-            cheques in regard to <strong> Account Type </strong> for any amount
-            and also sanction advice, security documents, trade (import/export)
-            related documents, other necessary documents and papers for enjoying
-            a loan.
+            cheques in regard to <strong> {strAccountType} </strong> for any
+            amount and also sanction advice, security documents, trade
+            (import/export) related documents, other necessary documents and
+            papers for enjoying a loan.
           </p>
-          <p>
+          <p style={{ marginTop: "10px" }}>
             <strong>Besides this,</strong> resolved that the Company
-            <strong>authorized Six (06) Officials</strong> to operate the bank
+            <strong> authorized Six (06) Officials</strong> to operate the bank
             account for the smooth running of the business. Authorized
             signatories for Bank Accounts are as follows: Six (06) authorized
             officials namely:
@@ -270,27 +276,36 @@ const AccountOpenTwo = ({ singleRowItem }) => {
               </p>
             </div>
           </div>
-          <p>
-            This authority shall continue in force until and unless the same is
-            revoked by the Board of Directors of the Company by a notice in
-            writing to be delivered to the Bank.
+          <p style={{ marginTop: "10px" }}>
+            The specimen signature of all the authorized persons will be
+            attested in <strong> Annexure-1 </strong>. This authority shall
+            continue in force until and unless the same is revoked by the Board
+            of Directors of the Company by a notice in writing to be delivered
+            to the Bank.
           </p>
+          <br />
           <p>
             b) Resolved that the company will open FDR/ FDRs from time to time
-            with <strong>{strBankName}</strong>,<strong>{strBranchName}</strong>{" "}
-            for the business interest of the company and this resolution will be
-            applicable for that.
+            with <strong> {strBankName}</strong>,
+            <strong>{strBranchName}</strong> for the business interest of the
+            company and this resolution will be applicable for that.
           </p>
+          <br />
+
           <p>
             c) Resolved that the company will provide FDR or Guarantee against
             any credit facilities of the company itself or any other sister
             concerns as security on a requirement basis.
           </p>
+          <br />
+
           <p>
             d) Resolved that the company will avail of ONLINE Banking Corporate
             Facility or any other service agreement that will be required in the
             future.
           </p>
+          <br />
+
           <p>
             e) Resolved that any Director of the Company and/ or the Chairman of
             the meeting and/ or the Company Secretary be and are authorized to
@@ -312,7 +327,7 @@ const AccountOpenTwo = ({ singleRowItem }) => {
             pageBreakAfter: "always",
           }}
         ></div>
-        <div style={{ marginTop: "10px" }}>
+        <div>
           <div style={{ textAlign: "center" }}>
             <p>
               <strong>
@@ -364,22 +379,22 @@ const AccountOpenTwo = ({ singleRowItem }) => {
                   <td rowSpan={4} />
                 </tr>
                 <tr>
-                  <td>.</td>
+                  <td style={{ padding: "5px" }}>.</td>
                 </tr>
                 <tr>
                   <td>Authorized Signature</td>
                 </tr>
                 <tr>
                   <td colSpan={2}>
-                    Special Instruction: Mr. Sk. Jasim Uddin sign and endorse
-                    singly all cheques and all other documents.
+                    <strong> Special Instruction: </strong>Mr. Sk. Jasim Uddin{" "}
+                    <strong> sign and endorse singly</strong> all cheques and
+                    all other documents.
                   </td>
                 </tr>
               </tbody>
             </table>
           </div>
           <div>
-            <br />
             <br />
             <p style={{ textAlign: "center" }}>
               <strong>OR</strong>
@@ -402,80 +417,103 @@ const AccountOpenTwo = ({ singleRowItem }) => {
                   <td rowSpan={19} />
                 </tr>
                 <tr>
-                  <td>.</td>
+                  <td style={{ padding: "5px" }}>.</td>
                 </tr>
                 <tr>
-                  <td>Authorized Signature</td>
+                  <td style={{ padding: "0px", fontSize: "13px" }}>
+                    Authorized Signature
+                  </td>
                 </tr>
                 <tr>
                   <td rowSpan={3}>Md. Masud Rana</td>
                   <td>{strBusinessUnitName}</td>
                 </tr>
                 <tr>
-                  <td>.</td>
+                  <td style={{ padding: "5px" }}>.</td>
                 </tr>
                 <tr>
-                  <td>Authorized Signature</td>
+                  <td style={{ padding: "0px", fontSize: "13px" }}>
+                    Authorized Signature
+                  </td>
                 </tr>
                 <tr>
                   <td rowSpan={3}>Iftekhar Uddin Chowdhury</td>
                   <td>{strBusinessUnitName}</td>
                 </tr>
                 <tr>
-                  <td>.</td>
+                  <td style={{ padding: "5px" }}>.</td>
                 </tr>
                 <tr>
-                  <td>Authorized Signature</td>
+                  <td style={{ padding: "0px", fontSize: "13px" }}>
+                    Authorized Signature
+                  </td>
                 </tr>
                 <tr>
                   <td rowSpan={3}>Raihan Kabir</td>
                   <td>{strBusinessUnitName}</td>
                 </tr>
                 <tr>
-                  <td>.</td>
+                  <td style={{ padding: "5px" }}>.</td>
                 </tr>
                 <tr>
-                  <td>Authorized Signature</td>
+                  <td style={{ padding: "0px", fontSize: "13px" }}>
+                    Authorized Signature
+                  </td>
                 </tr>
                 <tr>
                   <td rowSpan={3}>Rakibul Alam Khan</td>
                   <td>{strBusinessUnitName}</td>
                 </tr>
                 <tr>
-                  <td>.</td>
+                  <td style={{ padding: "5px" }}>.</td>
                 </tr>
                 <tr>
-                  <td>Authorized Signature</td>
+                  <td style={{ padding: "0px", fontSize: "13px" }}>
+                    Authorized Signature
+                  </td>
                 </tr>
                 <tr>
                   <td rowSpan={3}>Md. Anamul Haque</td>
                   <td>{strBusinessUnitName}</td>
                 </tr>
                 <tr>
-                  <td>.</td>
+                  <td style={{ padding: "5px" }}>.</td>
                 </tr>
                 <tr>
-                  <td>Authorized Signature</td>
+                  <td style={{ padding: "0px", fontSize: "13px" }}>
+                    Authorized Signature
+                  </td>
                 </tr>
                 <tr>
                   <td colSpan={2}>
-                    Special Instruction: 1. Md. Sheikh Sadi, 2. Md. Masud Rana,
-                    3. Iftekhar Uddin Chowdhury, 4. Raihan Kabir, 5. Rakibul
-                    Alam Khan, 6. Md. Anamul Haque - any two signatories out of
-                    'Group B' can sign and endorse jointly all cheques and all
-                    other documents.
+                    <b> Special Instruction:</b> 1. Md. Sheikh Sadi, 2. Md.
+                    Masud Rana, 3. Iftekhar Uddin Chowdhury, 4. Raihan Kabir, 5.
+                    Rakibul Alam Khan, 6. Md. Anamul Haque -
+                    <b> any two signatories </b>
+                    out of <b> 'Group B' </b>can <b>sign and endorse</b> jointly
+                    all cheques and all other documents.
                   </td>
                 </tr>
               </tbody>
             </table>
           </div>
-          <div style={{ textAlign: "center" }}>
+          <div
+            style={{
+              textAlign: "center",
+            }}
+          >
             <strong>Attested by</strong>
-            <br />
-            <br />
-            <br />
-            <strong>(Sheikh Jasim Uddin)</strong>
-            Managing Director
+            <p style={{ marginTop: "7px", paddingTop: "25px" }}>
+              <strong style={{ fontSize: "15px" }}>(Sheikh Jasim Uddin)</strong>
+            </p>
+            <p
+              style={{
+                marginTop: "3px",
+                fontSize: "16px",
+              }}
+            >
+              Managing Director
+            </p>
           </div>
         </div>
       </div>

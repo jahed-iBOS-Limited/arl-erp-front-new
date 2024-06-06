@@ -3,14 +3,32 @@ import "../../templates/style.scss";
 
 const SignatoryChangeOne = ({ singleRowItem }) => {
   const {
+    intBankLetterTemplatePrintId,
+    intBusinessUnitId,
     strBusinessUnitName,
+    strBusinessUnitShortName,
     strRefDate,
     strDate,
+    strBrdate,
+    intBankId,
     strBankName,
     strBankShortName,
+    strBranchId,
     strBranchName,
     strBranchAddress,
     strAccountType,
+    intBankLetterTemplateId,
+    strBankLetterTemplateName,
+    intTemplateTypeId,
+    strTemplateTypeName,
+    isActivce,
+    dteCreateDate,
+    intCreateBy,
+    dteUpdateDate,
+    dteUpdateBy,
+    strAccountName,
+    strAccountNo,
+    numAmount,
   } = singleRowItem;
   return (
     <>
@@ -18,97 +36,125 @@ const SignatoryChangeOne = ({ singleRowItem }) => {
         <p style={{ fontSize: 16 }}>
           <b>Date: {strDate} </b>
         </p>
-        {/* <p style="margin-top: -15px; font-size: 16px"><b>Date : {{Date}}</b></p> */}
-        <p style={{ marginTop: 35 }}>The Manager</p>
-        {/* <p style="margin-top: -15px; ">The Head of the Branch</p> */}
-        <p style={{ marginTop: "-15px" }}>
-          <b> {strBankName} </b>
-        </p>
-        <p style={{ marginTop: "-15px" }}>
-          <b> {strBranchName} </b>
-        </p>
-        <p style={{ marginTop: "-15px" }}> Bank Address </p>
-        <p style={{ margin: "35px 0" }}>
-          Subject:
-          <b>
-            Regarding the inclusion of two new signatories in replacement of one
-            existing Signatories, A/C: Account Number , Account Name with Bank
-            Name , Branch Name{" "}
-          </b>
-        </p>
-        <p style={{ marginTop: 35 }}>Dear Sir,</p>
-        {/* <p>As-salamu alaykum</p> */}
-        <p style={{ marginTop: "-10px", textAlign: "left" }}>
-          We acknowledge your support in the business of <b> Account Name .</b>{" "}
-          We have been maintaining an <b> {strAccountType} </b> account in your
-          branch bearing account no- <b> Account Number .</b> Currently, we have
-          05 signatories but our management wants to replace one existing
-          signatories with two new signatories for the smooth operation of the
-          company. Details of the signatory changes are given below:
-        </p>
-        <table style={{ border: "1px solid black" }}>
-          <thead>
-            <tr>
-              <td style={{ width: 100, textAlign: "center" }}>S.L.</td>
-              <td style={{}}>Name</td>
-              <td style={{}}>Designation</td>
-              <td style={{}}>Remarks</td>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>1.</td>
-              <td style={{ fontWeight: 700 }}>B.M. Shahinur Islam</td>
-              <td>Chief Financial Officer</td>
-              <td style={{ fontWeight: 700 }}>To be Excluded</td>
-            </tr>
-            <tr>
-              <td>2.</td>
-              <td style={{ fontWeight: 700 }}>Md. Sheikh Sadi</td>
-              <td>Chief Treasury Officer</td>
-              <td rowSpan={2} style={{ fontWeight: 700 }}>
-                To be Excluded
-              </td>
-            </tr>
-            <tr>
-              <td>3.</td>
-              <td style={{ fontWeight: 700 }}>Md. Anamul Haque</td>
-              <td>Deputy Manager (Finance)</td>
-              {/* <td colspan="2">To be Excluded</td> */}
-            </tr>
-          </tbody>
-        </table>
-        <p style={{ marginTop: 10 }}>
-          For your kind cooperation, we enclosed a copy of the board resolution
-          along with the updated list of authorized officers
-          <b>(ANNEXURE -1)</b> and the specimen signature cards of two new
-          authorized signatories.
-        </p>
-        <p style={{ marginTop: 10 }}>
-          Therefore, we are requesting you to take the necessary step to make
-          the above-mentioned change to the signatory for our account maintained
-          with your bank. Your kind cooperation in this regard will be highly
-          appreciated.
-        </p>
-        <p style={{ marginTop: 35 }}>
-          <b>Thanking you </b>
-        </p>
-        <p style={{ marginTop: 5 }}>
-          <b>For, Account Name </b>
-        </p>
-        <p style={{ marginTop: 55 }}>
-          <b>(SHEIKH JASIM UDDIN)</b>
-        </p>
-        <p style={{ marginTop: "-15px" }}>
-          <b>Managing Director</b>
-        </p>
-        <div className="myPageBreak" />
+        <br />
+
+        <div>
+          <p>
+            <strong>The Manager</strong>
+          </p>
+          <p>{strBankName}</p>
+          <p>{strBranchName}</p>
+          <p>{strBranchAddress || ""}</p>
+        </div>
+        <br />
+        <div>
+          <p style={{ gap: "10px" }} className="d-flex">
+            <div>
+              <strong>Subject: </strong>{" "}
+            </div>
+            <div>
+              <strong>
+                Regarding the inclusion of two new signatories in replacement of
+                one existing Signatories, A/C: {strAccountNo} , {strAccountName}
+                with {strBankName} , {strBranchName}{" "}
+              </strong>
+            </div>
+          </p>
+        </div>
+        <br />
+        <div>
+          <p>
+            <strong>Dear Sir,</strong>
+          </p>
+          {/* <br /> */}
+          <p>
+            We acknowledge your support in the business of{" "}
+            <b> {strAccountName} .</b> We have been maintaining an{" "}
+            <b> {strAccountType} </b> account in your branch bearing account no-{" "}
+            <b> {strAccountNo} .</b> Currently, we have 05 signatories but our
+            management wants to replace one existing signatories with two new
+            signatories for the smooth operation of the company. Details of the
+            signatory changes are given below:
+          </p>
+          <br />
+          <table className="signatory" style={{ border: "1px solid black" }}>
+            <thead>
+              <tr>
+                <td style={{ width: 100, textAlign: "center" }}>S.L.</td>
+                <td style={{}}>Name</td>
+                <td style={{}}>Designation</td>
+                <td style={{}}>Remarks</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1.</td>
+                <td style={{ fontWeight: 700 }}>B.M. Shahinur Islam</td>
+                <td>Chief Financial Officer</td>
+                <td style={{ fontWeight: 700 }}>To be Excluded</td>
+              </tr>
+              <tr>
+                <td>2.</td>
+                <td style={{ fontWeight: 700 }}>Md. Sheikh Sadi</td>
+                <td>Chief Treasury Officer</td>
+                <td rowSpan={2} style={{ fontWeight: 700 }}>
+                  To be Excluded
+                </td>
+              </tr>
+              <tr>
+                <td>3.</td>
+                <td style={{ fontWeight: 700 }}>Md. Anamul Haque</td>
+                <td>Deputy Manager (Finance)</td>
+                {/* <td colspan="2">To be Excluded</td> */}
+              </tr>
+            </tbody>
+          </table>
+          <br />
+          <p>
+            For your kind cooperation, we enclosed a copy of the board
+            resolution along with the updated list of authorized officers
+            <b> (ANNEXURE -1)</b> and the specimen signature cards of two new
+            authorized signatories.
+          </p>
+
+          <br />
+          <p>
+            Therefore, we are requesting you to take the necessary step to make
+            the above-mentioned change to the signatory for our account
+            maintained with your bank. Your kind cooperation in this regard will
+            be highly appreciated.
+          </p>
+          <br />
+
+          <br />
+          <div>
+            <p>Thanking you</p>
+            <p>
+              <strong>FOR, {strBusinessUnitName}</strong>
+            </p>
+            <br />
+            <br />
+
+            <p style={{ marginTop: "10px" }}>
+              <strong>(SHEIKH JASIM UDDIN)</strong>
+            </p>
+            <p>
+              <strong>Managing Director</strong>
+            </p>
+          </div>
+        </div>
+
+        <div
+          style={{
+            pageBreakAfter: "always",
+          }}
+        ></div>
         <p style={{}}>
           EXTRACT OF THE MINUTES OF THE MEETING OF THE BOARD OF DIRECTORS OF
-          <b> Account Name </b>
-          ON THE <b> BR Date </b> AT 11.00 AM IN THE REGISTERED OFFICE OF THE
-          COMPANY AT AKIJ HOUSE, 198 BIR UTTAM MIR SHAWKAT SARAK, GULSHAN LINK
-          ROAD, TEJGAON, DHAKA 1208.
+          <b> {strAccountName} </b>
+          ON THE <b> {strBrdate} </b> AT 11.00 AM IN THE REGISTERED OFFICE OF
+          THE COMPANY AT AKIJ HOUSE, 198 BIR UTTAM MIR SHAWKAT SARAK, GULSHAN
+          LINK ROAD, TEJGAON, DHAKA 1208.
         </p>
         <p style={{}}>
           The meeting was presided over by Ms. Faria Hossain, Chairman of the
@@ -133,9 +179,9 @@ const SignatoryChangeOne = ({ singleRowItem }) => {
         </p>
         <p style={{ marginTop: 30 }}>
           c) After threadbare discussion
-          <b> Mr. Sheikh Jasim Uddin, Managing Director</b>
+          <b> Mr. Sheikh Jasim Uddin, Managing Director </b>
           of the Company be and is hereby authorized to operate the account
-          <b>sign and endorse singly</b> all cheques in regard to
+          <b> sign and endorse singly</b> all cheques in regard to
           <b> this Account </b>for any amount and also sanction advice, security
           documents, trade (import/export) related documents, other necessary
           documents and papers for enjoying a loan.
@@ -143,8 +189,11 @@ const SignatoryChangeOne = ({ singleRowItem }) => {
         <p style={{}}>
           Besides this,the Board of Directors, for better interest and smooth
           running of the business of the company new authorization for the
-          <b> Bank Name , Account No. </b>
-          has been provided to
+          <b>
+            {" "}
+            {strBankName} , {strAccountNo}{" "}
+          </b>
+          has been provided to{" "}
           <b>
             1. Md. Sheikh Sadi- Chief Treasury Officer &amp; 2. Md. Anamul
             Haque- Deputy Manager (Finance){" "}
@@ -186,7 +235,10 @@ const SignatoryChangeOne = ({ singleRowItem }) => {
         </p>
         <p>
           for all Banking transactions of the
-          <b> Bank Name , Account No. </b>
+          <b>
+            {" "}
+            {strBankName} , {strAccountNo}.{" "}
+          </b>
           on behalf of the Company.
         </p>
         <p>
@@ -209,12 +261,17 @@ const SignatoryChangeOne = ({ singleRowItem }) => {
         <p style={{ marginTop: "-15px" }}>
           <b>Managing Director</b>
         </p>
-        <div className="myPageBreak" />
+        <div
+          style={{
+            pageBreakAfter: "always",
+          }}
+        ></div>
         <p style={{ textAlign: "center" }}>
           <b>
             <u> ANNEXURE -1</u>
           </b>
         </p>
+        <br />
         <p style={{ textAlign: "center", marginTop: "-15px" }}>
           <b>
             <u> LIST OF AUTHORIZED OFFICERS</u>

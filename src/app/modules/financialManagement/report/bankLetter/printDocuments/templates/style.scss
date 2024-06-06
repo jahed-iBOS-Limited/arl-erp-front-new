@@ -8,7 +8,7 @@
       font-size: 16px; /* Good default size for print */
     }
     p {
-      margin: 2px 0px;
+      margin: 5px 0px 10px 0px;
     }
   
     table {
@@ -27,5 +27,17 @@
     td {
       border: none;
       padding: 3px;
+    }
+    table.signatory
+    thead,
+    td {
+      border: 1px solid black;
+      padding: 6px;
+      border-collapse: collapse;
+      text-align: center;
+    }
+    table.signatory
+    thead{
+        font-weight: 600;
     }
   }
