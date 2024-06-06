@@ -264,6 +264,8 @@ export default function BankLetter() {
                     touched={touched}
                   />
                 </div>
+                {/* --- */}
+                {/* {[1].includes(values?.templateType?.value) && ( */}
                 <div className="col-lg-3">
                   <NewSelect
                     name="templateName"
@@ -277,53 +279,58 @@ export default function BankLetter() {
                     touched={touched}
                   />
                 </div>
-                <div className="col-lg-3">
-                  <NewSelect
-                    name="bank"
-                    options={bankList || []}
-                    value={values?.bank}
-                    label="Bank"
-                    onChange={(valueOption) => {
-                      setFieldValue("bank", valueOption || "");
-                      setFieldValue("bankBranch", "");
-                      setFieldValue("bankAccount", "");
-                      setBankBranchList([]);
-                      setBankAccountInfo([]);
-                      if (valueOption) {
-                        getBankBranchList(
-                          `/hcm/HCMDDL/GetBankBranchDDL?BankId=${valueOption?.value}`
-                        );
-                        getBankAccountInfo(
-                          `/fino/BankLetter/GetBankAccountList?intBusinessUnitId=${values?.businessUnit?.value}&intBankId=${valueOption?.value}`,
-                          (res) => {
-                            const modifyData = res.map((item) => ({
-                              ...item,
-                              value: item?.intBankAccountId,
-                              label: item?.strBankAccountName,
-                            }));
-                            setBankAccountInfo(modifyData);
-                          }
-                        );
-                      }
-                    }}
-                    errors={errors}
-                    touched={touched}
-                  />
-                </div>
-                <div className="col-lg-3">
-                  <NewSelect
-                    name="bankBranch"
-                    options={bankBranchList || []}
-                    value={values?.bankBranch}
-                    label="Bank Branch"
-                    onChange={(valueOption) => {
-                      setFieldValue("bankBranch", valueOption || "");
-                    }}
-                    errors={errors}
-                    touched={touched}
-                  />
-                </div>
-                {values?.templateType?.value !== 1 ? (
+                {/* )} */}
+                {[1, 2, 3, 4, 5].includes(values?.templateType?.value) && (
+                  <div className="col-lg-3">
+                    <NewSelect
+                      name="bank"
+                      options={bankList || []}
+                      value={values?.bank}
+                      label="Bank"
+                      onChange={(valueOption) => {
+                        setFieldValue("bank", valueOption || "");
+                        setFieldValue("bankBranch", "");
+                        setFieldValue("bankAccount", "");
+                        setBankBranchList([]);
+                        setBankAccountInfo([]);
+                        if (valueOption) {
+                          getBankBranchList(
+                            `/hcm/HCMDDL/GetBankBranchDDL?BankId=${valueOption?.value}`
+                          );
+                          getBankAccountInfo(
+                            `/fino/BankLetter/GetBankAccountList?intBusinessUnitId=${values?.businessUnit?.value}&intBankId=${valueOption?.value}`,
+                            (res) => {
+                              const modifyData = res.map((item) => ({
+                                ...item,
+                                value: item?.intBankAccountId,
+                                label: item?.strBankAccountName,
+                              }));
+                              setBankAccountInfo(modifyData);
+                            }
+                          );
+                        }
+                      }}
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
+                )}
+                {[1, 2, 3, 4].includes(values?.templateType?.value) && (
+                  <div className="col-lg-3">
+                    <NewSelect
+                      name="bankBranch"
+                      options={bankBranchList || []}
+                      value={values?.bankBranch}
+                      label="Bank Branch"
+                      onChange={(valueOption) => {
+                        setFieldValue("bankBranch", valueOption || "");
+                      }}
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
+                )}
+                {[2, 3, 4, 5].includes(values?.templateType?.value) && (
                   <div className="col-lg-3">
                     <NewSelect
                       name="bankAccount"
@@ -337,8 +344,8 @@ export default function BankLetter() {
                       touched={touched}
                     />
                   </div>
-                ) : null}
-                {values?.templateType?.value !== 1 ? (
+                )}
+                {[1, 2, 3, 4, 5].includes(values?.templateType?.value) && (
                   <div className="col-lg-3">
                     <InputField
                       value={values?.accountType}
@@ -350,82 +357,97 @@ export default function BankLetter() {
                       }}
                     />
                   </div>
-                ) : null}
-                <div className="col-lg-3">
-                  <InputField
-                    value={values.amount}
-                    label="Amount"
-                    name="amount"
-                    type="number"
-                    onChange={(e) => setFieldValue("amount", e.target.value)}
-                  />
-                </div>
-                <div className="col-lg-3">
-                  <InputField
-                    value={values.marginType}
-                    label="Margin Type"
-                    name="marginType"
-                    type="text"
-                    onChange={(e) =>
-                      setFieldValue("marginType", e.target.value)
-                    }
-                  />
-                </div>
-                <div className="col-lg-3">
-                  <InputField
-                    value={values.numOfMonth}
-                    label="Number of Months"
-                    name="numOfMonth"
-                    type="text"
-                    onChange={(e) =>
-                      setFieldValue("numOfMonth", e.target.value)
-                    }
-                  />
-                </div>
-                <div className="col-lg-3">
-                  <InputField
-                    value={values.profitRate}
-                    label="Profit Rate"
-                    name="profitRate"
-                    type="text"
-                    onChange={(e) =>
-                      setFieldValue("profitRate", e.target.value)
-                    }
-                  />
-                </div>
-                <div className="col-lg-3">
-                  <InputField
-                    value={values.documentName}
-                    label="Document Name"
-                    name="documentName"
-                    type="text"
-                    onChange={(e) =>
-                      setFieldValue("documentName", e.target.value)
-                    }
-                  />
-                </div>
-                <div className="col-lg-3">
-                  <InputField
-                    value={values.massengerName}
-                    label="Messenger Name"
-                    name="massengerName"
-                    type="text"
-                    onChange={(e) =>
-                      setFieldValue("massengerName", e.target.value)
-                    }
-                  />
-                </div>
-                <div className="col-lg-3">
-                  <InputField
-                    value={values.messengerDesignation}
-                    label="Messenger Designation"
-                    name="messengerDesignation"
-                    type="text"
-                    onChange={(e) =>
-                      setFieldValue("messengerDesignation", e.target.value)
-                    }
-                  />
-                </div>
+                )}
+                {[2, 3].includes(values?.templateType?.value) && (
+                  <div className="col-lg-3">
+                    <InputField
+                      value={values.amount}
+                      label="Amount"
+                      name="amount"
+                      type="number"
+                      onChange={(e) => setFieldValue("amount", e.target.value)}
+                    />
+                  </div>
+                )}
+                {[2, 3].includes(values?.templateType?.value) && (
+                  <div className="col-lg-3">
+                    <InputField
+                      value={values.marginType}
+                      label="Margin Type"
+                      name="marginType"
+                      type="text"
+                      onChange={(e) =>
+                        setFieldValue("marginType", e.target.value)
+                      }
+                    />
+                  </div>
+                )}
+                {[2, 3].includes(values?.templateType?.value) && (
+                  <div className="col-lg-3">
+                    <InputField
+                      value={values.numOfMonth}
+                      label="Number of Months"
+                      name="numOfMonth"
+                      type="text"
+                      onChange={(e) =>
+                        setFieldValue("numOfMonth", e.target.value)
+                      }
+                    />
+                  </div>
+                )}
+                {[2, 3].includes(values?.templateType?.value) && (
+                  <div className="col-lg-3">
+                    <InputField
+                      value={values.profitRate}
+                      label="Profit Rate"
+                      name="profitRate"
+                      type="text"
+                      onChange={(e) =>
+                        setFieldValue("profitRate", e.target.value)
+                      }
+                    />
+                  </div>
+                )}
+                {[2, 4].includes(values?.templateType?.value) && (
+                  <div className="col-lg-3">
+                    <InputField
+                      value={values.documentName}
+                      label="Document Name"
+                      name="documentName"
+                      type="text"
+                      onChange={(e) =>
+                        setFieldValue("documentName", e.target.value)
+                      }
+                    />
+                  </div>
+                )}
+                {[4].includes(values?.templateType?.value) && (
+                  <div className="col-lg-3">
+                    <InputField
+                      value={values.massengerName}
+                      label="Messenger Name"
+                      name="massengerName"
+                      type="text"
+                      onChange={(e) =>
+                        setFieldValue("massengerName", e.target.value)
+                      }
+                    />
+                  </div>
+                )}
+                {[4].includes(values?.templateType?.value) && (
+                  <div className="col-lg-3">
+                    <InputField
+                      value={values.messengerDesignation}
+                      label="Messenger Designation"
+                      name="messengerDesignation"
+                      type="text"
+                      onChange={(e) =>
+                        setFieldValue("messengerDesignation", e.target.value)
+                      }
+                    />
+                  </div>
+                )}
+                {/* {[1, 2, 3, 4, 5].includes(values?.templateType?.value) && ( */}
                 <div className="col-lg-3">
                   <InputField
                     value={values?.date}
@@ -437,17 +459,20 @@ export default function BankLetter() {
                     }}
                   />
                 </div>
-                <div className="col-lg-3">
-                  <InputField
-                    value={values?.brDate}
-                    label="BR Date"
-                    name="brDate"
-                    type="date"
-                    onChange={(e) => {
-                      setFieldValue("brDate", e.target.value);
-                    }}
-                  />
-                </div>
+                {/* )} */}
+                {[1, 2, 5].includes(values?.templateType?.value) && (
+                  <div className="col-lg-3">
+                    <InputField
+                      value={values?.brDate}
+                      label="BR Date"
+                      name="brDate"
+                      type="date"
+                      onChange={(e) => {
+                        setFieldValue("brDate", e.target.value);
+                      }}
+                    />
+                  </div>
+                )}
                 <div className="col-lg-3">
                   <button
                     onClick={() => {
@@ -471,6 +496,7 @@ export default function BankLetter() {
                         <th>Branch Name</th>
                         <th>Template Type Name</th>
                         <th>Bank Letter Template Name</th>
+                        <th>Created Date</th>
                         <th>Action</th>
                       </tr>
                     </thead>
@@ -488,6 +514,9 @@ export default function BankLetter() {
                           </td>
                           <td className="text-center">
                             {item?.strBankLetterTemplateName}
+                          </td>
+                          <td className="text-center">
+                            {_dateFormatter(item?.dteUpdateDate)}
                           </td>
                           <td className="text-center">
                             <div className="">
@@ -520,7 +549,7 @@ export default function BankLetter() {
 
               {gridData?.data?.length > 0 && (
                 <PaginationTable
-                  count={gridData?.totalCount}
+                  count={gridData?.totalRecords}
                   setPositionHandler={setPositionHandler}
                   paginationState={{
                     pageNo,
