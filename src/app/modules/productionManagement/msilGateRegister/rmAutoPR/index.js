@@ -19,6 +19,8 @@ import NewSelect from "../../../_helper/_select";
 import PaginationTable from "../../../_helper/_tablePagination";
 import IViewModal from "../../../_helper/_viewModal";
 import QcViewModal from "../firstWeight/qcViewModal";
+import { PurchaseOrderViewTableRow } from "../../../procurement/purchase-management/purchaseOrder/report/tableRow";
+// import AttachmentView from "./POview";
 
 function RowMaterialAutoPR() {
   const [pageNo, setPageNo] = useState(0);
@@ -26,6 +28,10 @@ function RowMaterialAutoPR() {
   const [rowData, getRowData, lodar, setRowData] = useAxiosGet();
   const [isShowModal, setIsShowModal] = useState(false);
   const [weightmentId, setWeightmentId] = useState(null);
+  const [singleData, setSingleData] = useState(null);
+  const [showAttachmentModal, setShowAttachmentModal] = useState(false);
+  const [POorderType, setPOorderType] = useState(false);
+
   const [itemRequest, setItemRequest] = useState(true);
   const history = useHistory();
 
@@ -87,6 +93,17 @@ function RowMaterialAutoPR() {
   const paginationSearchHandler = (searchValue, values) => {
     setPositionHandler(pageNo, pageSize, values, searchValue);
   };
+  const handleItemClick = (item) => {
+    console.log(item); // Replace this with your desired onClick functionality
+  };
+  const renderCommaSeparatedItems = (items) => {
+    console.log({ items });
+    return items.map((item, index) => (
+      <span key={index} onClick={() => handleItemClick(item.trim())}>
+        {item} {index < items?.length - 1 ? "," : ""}
+      </span>
+    ));
+  };
 
   return (
     <>
@@ -128,7 +145,7 @@ function RowMaterialAutoPR() {
                         name="status"
                         options={[
                           { value: 0, label: "All" },
-                          { value: 1, label: "PR Completed" },
+                          { value: 1, label: "PO Completed" },
                           { value: 2, label: "Pending" },
                         ]}
                         value={values?.status}
@@ -233,7 +250,8 @@ function RowMaterialAutoPR() {
                             <th>চালান নাম্বার</th>
                             <th>পণ্যের নাম</th>
                             <th>সাপ্লায়ার নাম</th>
-                            <th>PR Code</th>
+                            <th>PO Code</th>
+                            <th>GRN Code</th>
                             <th>1st Weight</th>
                             <th>2nd Weight</th>
                             <th>Net Weight</th>
@@ -275,8 +293,28 @@ function RowMaterialAutoPR() {
                                 <td className="text-left">
                                   {item?.strSupplierName}
                                 </td>
+                                <td
+                                  className="text-center text-primary text-decoration-underline"
+                                  style={{ cursor: "pointer" }}
+                                  onClick={() => {
+                                    setShowAttachmentModal(
+                                      !showAttachmentModal
+                                    );
+                                    setPOorderType(item?.strPurchaseOrderNo);
+                                    setSingleData(item);
+                                  }}
+                                >
+                                  {item?.strPurchaseOrderNo}
+                                </td>
                                 <td className="text-center">
-                                  {item?.strPurchaseRequestCode}
+                                  {item?.strInventoryTransactionCode?.length > 0
+                                    ? renderCommaSeparatedItems(
+                                        item?.strInventoryTransactionCode
+                                      )
+                                    : ""}
+                                </td>
+                                <td className="text-center">
+                                  {item?.strPurchaseOrderNo}
                                 </td>
                                 <td>{item?.numFirstWeight}</td>
                                 <td>{item?.numLastWeight}</td>
@@ -318,6 +356,19 @@ function RowMaterialAutoPR() {
         )}
       </Formik>
       <div>
+        <IViewModal
+          title="View Purchase Order"
+          show={showAttachmentModal}
+          onHide={() => setShowAttachmentModal(false)}
+        >
+          <PurchaseOrderViewTableRow
+            poId={singleData?.intPurchaseOrderId}
+            purchaseOrderTypeId={1}
+            orId={1}
+            isHiddenBackBtn={true}
+            formValues={{}}
+          />
+        </IViewModal>
         <IViewModal show={isShowModal} onHide={() => setIsShowModal(false)}>
           <QcViewModal weightmentId={weightmentId} />
         </IViewModal>
