@@ -130,7 +130,7 @@ function RowMaterialAutoPR() {
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Raw Materials Auto PR"}>
+              <CardHeader title={"Raw Materials Auto PO"}>
                 <CardHeaderToolbar>
                   {/* <button
                     onClick={() => {
@@ -325,9 +325,7 @@ function RowMaterialAutoPR() {
                                       )
                                     : ""}
                                 </td>
-                                <td className="text-center">
-                                  {item?.strPurchaseOrderNo}
-                                </td>
+
                                 <td>{item?.numFirstWeight}</td>
                                 <td>{item?.numLastWeight}</td>
                                 <td>{item?.numNetWeight}</td>
