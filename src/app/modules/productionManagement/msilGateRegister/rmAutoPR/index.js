@@ -130,7 +130,7 @@ function RowMaterialAutoPR() {
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Raw Materials Auto PR"}>
+              <CardHeader title={"Raw Materials Auto PO"}>
                 <CardHeaderToolbar>
                   {/* <button
                     onClick={() => {
