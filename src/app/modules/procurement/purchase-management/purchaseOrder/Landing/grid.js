@@ -59,7 +59,7 @@ const GridData = ({
   const [currentItem, setCurrentItem] = useState("");
   const [isShowModal, setIsShowModal] = useState(false);
   const [showAttachmentModal, setShowAttachmentModal] = useState(false);
-  const [singleData, setSingleData] = useState({})
+  const [singleData, setSingleData] = useState({});
   const [reverseModalShowState, setReverseModalShowState] = useState({
     isShow: false,
     data: null,
@@ -271,11 +271,7 @@ const GridData = ({
                       }}
                     >
                       <OverlayTrigger
-                        overlay={
-                          <Tooltip id="cs-icon">
-                            {"Attachment"}
-                          </Tooltip>
-                        }
+                        overlay={<Tooltip id="cs-icon">{"Attachment"}</Tooltip>}
                       >
                         <i class="far fa-file-image"></i>
                       </OverlayTrigger>
@@ -399,7 +395,7 @@ const GridData = ({
       >
         <PurchaseOrderViewTableRow
           poId={currentItem?.purchaseOrderId}
-          purchaseOrderTypeId = {currentItem?.purchaseOrderTypeId}
+          purchaseOrderTypeId={currentItem?.purchaseOrderTypeId}
           orId={POorderType}
           isHiddenBackBtn={true}
           formValues={values}
