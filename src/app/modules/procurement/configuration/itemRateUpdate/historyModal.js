@@ -1,6 +1,9 @@
 import React, { useEffect } from "react";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
+import {
+  _dateFormatter,
+  _dateTimeFormatter,
+} from "../../../_helper/_dateFormate";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { getDownlloadFileView_Action } from "../../../_helper/_redux/Actions";
@@ -47,10 +50,10 @@ export default function ItemRateHistoryModal({ propsObj }) {
                 <tr key={i}>
                   <td>{i + 1}</td>
                   <td className="text-center">
-                    {_dateFormatter(item?.effectiveDate)}
+                    {_dateTimeFormatter(item?.effectiveDate)}
                   </td>
                   <td className="text-center">
-                    {_dateFormatter(item?.updatedAt)}
+                    {_dateTimeFormatter(item?.updatedAt)}
                   </td>
                   <td>{item?.updatedByName}</td>
                   <td className="text-center">{item?.itemRate}</td>
