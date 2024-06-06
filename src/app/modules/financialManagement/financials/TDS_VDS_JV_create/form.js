@@ -166,6 +166,9 @@ export default function _Form({ bankDDL, setDisabled, btnRef }) {
 
   //handle save data
   const saveHandler = (values, cb) => {
+    if(values?.status?.label === 'Complete'){
+      return toast.warn("You cann't save data when status is Complete")
+    }
     setDisabled(true);
     const saveReqApi = `/fino/PaymentRequest/CreateTdsVdsJournalVoucher`;
     const savePayload = prepareSavePayload(editableData, values);
