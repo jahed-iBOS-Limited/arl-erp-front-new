@@ -38,7 +38,7 @@ const PaymentTable = ({ rowDto }) => {
               <td>{item?.strAccountHolderName}</td>
               <td>{item?.strAddress}</td>
               <td>{item?.strOrganizationName}</td>
-              <td>{item?.strDonationType}</td>
+              <td>{item?.strDonationPurpose}</td>
               <td>{_dateFormatter(item?.dteEffectiveDate)}</td>
               <td>{_dateFormatter(item?.dteEndDate)}</td>
               <td>{_formatMoney(item?.monAmount)}</td>

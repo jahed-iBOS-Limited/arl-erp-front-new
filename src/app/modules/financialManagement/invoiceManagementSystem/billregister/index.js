@@ -192,7 +192,7 @@ function BillregisterLanding() {
                           getCostCenterDDL(
                             profileData.accountId,
                             selectedBusinessUnit.value,
-                            billregisterLanding?.sbu?.value,
+                            valueOption?.value,
                             setCostCenterDDL
                           );
                         }}

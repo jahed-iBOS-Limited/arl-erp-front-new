@@ -1,0 +1,7 @@
+.tds-vds-print-wrapper {
+  display: none;
+
+  @media print {
+    display: block !important;
+  }
+}
