@@ -92,39 +92,41 @@ export default function BankLetter() {
     console.log({ values });
     const payload = {
       intBankLetterTemplatePrintId: 0,
-      intBusinessUnitId: values?.businessUnit?.value,
-      strBusinessUnitName: values?.businessUnit?.label,
-      strBusinessUnitShortName: values?.businessUnit?.buShortName,
-      strRefDate: moment(values?.date)?.format("MMMM D, YYYY"),
-      strDate: values?.date,
-      intBankId: values?.bank?.value,
-      strBankName: values?.bank?.label,
-      strBankShortName: values?.bank?.bankShortName,
-      strBranchId: values?.bankBranch?.value,
-      strBranchName: values?.bankBranch?.label,
+      intBusinessUnitId: values?.businessUnit?.value || 0,
+      strBusinessUnitName: values?.businessUnit?.label || "",
+      strBusinessUnitShortName: values?.businessUnit?.buShortName || "",
+      strRefDate: values?.date
+        ? moment(values?.date).format("MMMM D, YYYY")
+        : "",
+      strDate: values?.date || "",
+      intBankId: values?.bank?.value || 0,
+      strBankName: values?.bank?.label || "",
+      strBankShortName: values?.bank?.bankShortName || "",
+      strBranchId: values?.bankBranch?.value || "",
+      strBranchName: values?.bankBranch?.label || "",
       strBranchAddress: values?.bankBranch?.address || "",
-      intBankLetterTemplateId: values?.templateName?.value,
-      strBankLetterTemplateName: values?.templateName?.label,
-      intTemplateTypeId: values?.templateType?.value,
-      strTemplateTypeName: values?.templateType?.label,
+      intBankLetterTemplateId: values?.templateName?.value || 0,
+      strBankLetterTemplateName: values?.templateName?.label || "",
+      intTemplateTypeId: values?.templateType?.value || 0,
+      strTemplateTypeName: values?.templateType?.label || "",
       isActivce: true,
       dteCreateDate: _todayDate(),
       intCreateBy: userId,
       dteUpdateDate: _todayDate(),
       dteUpdateBy: userId,
-      strBrdate: values?.brDate,
-      strAccountType: values?.accountType,
-
-      strAccountName: values?.bankAccount?.label,
-      strAccountNo: values?.bankAccount?.strBankAccountNo,
-      numAmount: values?.amount,
-      strMarginType: values?.marginType,
-      intNumOfMonth: values?.numOfMonth,
-      numProfitRate: values?.profitRate,
-      strDocumentName: values?.documentName,
-      strMassengerName: values?.massengerName,
-      strMessengerDesignation: values?.messengerDesignation,
+      strBrdate: values?.brDate || "",
+      strAccountType: values?.accountType || "",
+      strAccountName: values?.bankAccount?.label || "",
+      strAccountNo: values?.bankAccount?.strBankAccountNo || "",
+      numAmount: values?.amount || 0,
+      strMarginType: values?.marginType || "",
+      intNumOfMonth: values?.numOfMonth || 0,
+      numProfitRate: values?.profitRate || 0,
+      strDocumentName: values?.documentName || "",
+      strMassengerName: values?.massengerName || "",
+      strMessengerDesignation: values?.messengerDesignation || "",
     };
+
     onSave(`/fino/BankLetter/SaveBankLetterTemplatePrint`, payload, null, true);
   };
 
@@ -159,7 +161,7 @@ export default function BankLetter() {
     <Formik
       enableReinitialize={true}
       initialValues={initData}
-      validationSchema={validationSchema}
+      // validationSchema={validationSchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
           resetForm(initData);
