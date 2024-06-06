@@ -395,6 +395,10 @@ export default function _Form({ bankDDL, setDisabled, btnRef }) {
                   </div> */}
                   {values?.status?.label === 'Complete' && (<div className='col-lg-1'>
                       <button onClick={()=>{
+                    const  isExisSelectedRow = editableData?.some((item)=>item?.isSelect)
+                        if(!isExisSelectedRow){
+                          return toast.warn("Please Select At least one Row")
+                        }
                         setIsShowPrintModal(true)
                       }} type='button' className="btn btn-primary mt-5">Print</button>
                   </div>)}
@@ -440,7 +444,7 @@ export default function _Form({ bankDDL, setDisabled, btnRef }) {
                     }}
                     title=""
                   >
-                   <PrintView/>
+                   <PrintView selectedRow={editableData.filter(item => item?.isSelect)}/>
                   </IViewModal>
                 )}
           </>
