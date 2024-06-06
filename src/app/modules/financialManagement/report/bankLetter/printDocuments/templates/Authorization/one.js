@@ -27,7 +27,7 @@ const AuthorizationOne = ({ singleRowItem }) => {
             {" "}
             REF :{strBusinessUnitShortName}/{strBankShortName}
             /Doc/
-            {strDate}
+            {strDate?.replaceAll("-", ".")}
           </b>
         </p>
         <p style={{ marginTop: "15px" }}>
@@ -52,7 +52,7 @@ const AuthorizationOne = ({ singleRowItem }) => {
         <p>As-salamu alaykum</p>
         <p style={{ marginTop: "10px" }}>
           We do hereby authorize {strMassengerName}, {strMessengerDesignation}
-          of our company to receive {strDocumentName}
+          of our company to receive {` ${strDocumentName} `}
           of <span> </span>
           {` ${strBusinessUnitName} `}, A/C No-
           {strAccountNo}. His specimen signature is attested below.

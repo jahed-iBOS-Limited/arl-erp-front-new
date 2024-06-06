@@ -106,6 +106,8 @@ function RowMaterialAutoPR() {
   const renderCommaSeparatedItems = (items, i, product) => {
     return items.map((item, index) => (
       <span
+        className="text-center text-primary text-decoration-underline"
+        style={{ cursor: "pointer" }}
         key={index}
         onClick={() => handleItemClick(product, i, item, index)}
       >
@@ -113,7 +115,6 @@ function RowMaterialAutoPR() {
       </span>
     ));
   };
-  console.log({ GRN });
   return (
     <>
       <Formik
