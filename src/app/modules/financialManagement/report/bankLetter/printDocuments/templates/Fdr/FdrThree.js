@@ -4,31 +4,18 @@ import { amountToWords } from "../../../../../../_helper/_ConvertnumberToWord";
 
 const FdrThree = ({ singleRowItem }) => {
   const {
-    intBankLetterTemplatePrintId,
-    intBusinessUnitId,
     strBusinessUnitName,
-    strBusinessUnitShortName,
+
     strRefDate,
     strDate,
-    strBrdate,
-    intBankId,
+
     strBankName,
-    strBankShortName,
-    strBranchId,
+
     strBranchName,
     strBranchAddress,
     strAccountType,
-    intBankLetterTemplateId,
-    strBankLetterTemplateName,
-    intTemplateTypeId,
-    strTemplateTypeName,
-    isActivce,
-    dteCreateDate,
-    intCreateBy,
-    dteUpdateDate,
-    dteUpdateBy,
+
     strAccountName,
-    strAccountNo,
     numAmount,
     strMarginType,
     numProfitRate,
