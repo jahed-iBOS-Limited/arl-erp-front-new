@@ -8,7 +8,10 @@ import PaginationTable from "../../../_helper/_tablePagination";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import IForm from "./../../../_helper/_form";
 import Loading from "./../../../_helper/_loading";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
+import {
+  _dateFormatter,
+  _dateTimeFormatter,
+} from "../../../_helper/_dateFormate";
 import IEdit from "../../../_helper/_helperIcons/_edit";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import IViewModal from "../../../_helper/_viewModal";
@@ -274,7 +277,7 @@ export default function ItemRateUpdate() {
                             <td>{item?.itemName}</td>
                             <td className="text-center">{item?.uomName}</td>
                             <td className="text-center">
-                              {_dateFormatter(item?.effectiveDate)}
+                              {_dateTimeFormatter(item?.effectiveDate)}
                             </td>
                             <td className="text-center">{item?.itemRate}</td>
                             <td className="text-center">

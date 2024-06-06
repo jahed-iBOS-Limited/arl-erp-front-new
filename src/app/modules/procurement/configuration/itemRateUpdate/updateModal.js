@@ -47,9 +47,11 @@ export default function UpdateItemRateModal({ propsObj }) {
               <td className="text-center">{modifyData?.uomName}</td>
               <td className="text-center">
                 <InputField
-                  type="date"
-                  value={_dateFormatter(modifyData?.effectiveDate)}
+                  type="datetime-local"
+                  // value={_dateFormatter(modifyData?.effectiveDate)}
+                  value={modifyData?.effectiveDate}
                   onChange={(e) => {
+                    console.log({ e });
                     const data = { ...modifyData };
                     data["effectiveDate"] = e.target.value;
                     setModifyData(data);
