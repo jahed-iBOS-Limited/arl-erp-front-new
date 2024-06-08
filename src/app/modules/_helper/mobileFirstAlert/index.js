@@ -105,7 +105,6 @@ function MobileFirstAlert() {
         <div className="MobileFirstAlertWrapper">
           <div className="MobileFirstAlert">
             <div>
-              {userAgent}
               Our values is <b>Mobile First</b>. Please use your <b>Mobile</b>.
             </div>
             {isMatchWorkPlaceMatch && (
