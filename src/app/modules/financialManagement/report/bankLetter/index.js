@@ -104,7 +104,7 @@ export default function BankLetter() {
       strBankShortName: values?.bank?.bankShortName || "",
       strBranchId: values?.bankBranch?.value || 0,
       strBranchName: values?.bankBranch?.label || "",
-      strBranchAddress: values?.bankBranch?.address || "",
+      strBranchAddress: values?.bankAccount?.strBankBranchAddress || "",
       intBankLetterTemplateId: values?.templateName?.value || 0,
       strBankLetterTemplateName: values?.templateName?.label || "",
       intTemplateTypeId: values?.templateType?.value || 0,
@@ -305,7 +305,7 @@ export default function BankLetter() {
                               const modifyData = res.map((item) => ({
                                 ...item,
                                 value: item?.intBankAccountId,
-                                label: item?.strBankAccountNo,
+                                label: `${item?.strBankAccountNo}-${item?.strBankBranchName}`,
                               }));
                               setBankAccountInfo(modifyData);
                             }
