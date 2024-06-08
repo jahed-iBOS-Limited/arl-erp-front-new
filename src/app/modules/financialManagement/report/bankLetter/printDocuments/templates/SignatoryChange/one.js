@@ -17,7 +17,7 @@ const SignatoryChangeOne = ({ singleRowItem }) => {
   } = singleRowItem;
   return (
     <>
-      <div className="bank-letter-template-common-wrapper">
+      <div className="bank-letter-template-common-wrapper signatory-wrapper">
         <p style={{ fontSize: 16 }}>
           <b>Date: {strDate} </b>
         </p>
@@ -240,7 +240,7 @@ const SignatoryChangeOne = ({ singleRowItem }) => {
           authorized to issue any extract of the minutes as and when necessary.
         </p>
         <p>The meeting ended with a vote of thanks to the chair.</p>
-        <p style={{ marginTop: 20, marginLeft: 65 }}>
+        <p style={{ marginTop: 40, marginLeft: 65 }}>
           <b>Sd/-</b>
         </p>
         <p style={{ marginTop: "-15px" }}>
@@ -249,11 +249,11 @@ const SignatoryChangeOne = ({ singleRowItem }) => {
         <p style={{ marginTop: "-15px" }}>
           <b>Managing Director</b>
         </p>
-        {/* <div
+        <div
           style={{
             pageBreakAfter: "always",
           }}
-        ></div> */}
+        ></div>
         <p style={{ textAlign: "center" }}>
           <b>
             <u> ANNEXURE -1</u>
