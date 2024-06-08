@@ -111,7 +111,7 @@ function RowMaterialAutoPR() {
         key={index}
         onClick={() => handleItemClick(product, i, item, index)}
       >
-        {item} {index < items?.length - 1 ? "," : ""}
+        {item} {index < items?.length - 1 ? ", " : ""}
       </span>
     ));
   };
