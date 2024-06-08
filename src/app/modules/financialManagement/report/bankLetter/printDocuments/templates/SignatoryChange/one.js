@@ -141,16 +141,20 @@ const SignatoryChangeOne = ({ singleRowItem }) => {
           LINK ROAD, TEJGAON, DHAKA 1208.
         </p>
         <p style={{}}>
-          The meeting was presided over by Ms. Faria Hossain, Chairman of the
-          Company. The Managing Director and Mr. Ruhul Islam, Company Secretary
-          were present.
+          The meeting was presided over by Mr. Sheikh Nasir Uddin, Chairman of
+          the Company. The following Directors and Company Secretary were
+          present.
         </p>
         <p>
-          1. Mr. Sheikh Jasim Uddin{" "}
+          1. Mr. Sheikh Nasir Uddin{" "}
           <span style={{ marginLeft: 50 }}> Sd/- </span>
         </p>
         <p>
-          2. Ms. Faria Hossain <span style={{ marginLeft: 90 }}> Sd/- </span>
+          2. Mr. Sheikh Jasim Uddin{" "}
+          <span style={{ marginLeft: 50 }}> Sd/- </span>
+        </p>
+        <p>
+          3. Ms. Faria Hossain <span style={{ marginLeft: 90 }}> Sd/- </span>
         </p>
         <p>
           The Following resolutions were passed unanimously for the interest of
