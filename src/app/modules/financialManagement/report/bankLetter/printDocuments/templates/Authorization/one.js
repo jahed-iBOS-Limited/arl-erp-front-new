@@ -25,13 +25,13 @@ const AuthorizationOne = ({ singleRowItem }) => {
         <p style={{}}>
           <b>
             {" "}
-            REF :{strBusinessUnitShortName}/{strBankShortName}
+            REF : {strBusinessUnitShortName}/{strBankShortName}
             /Doc/
             {strDate?.replaceAll("-", ".")}
           </b>
         </p>
         <p style={{ marginTop: "15px" }}>
-          <b>Date :{strRefDate}</b>
+          <b>Date : {strRefDate}</b>
         </p>
         <p style={{ marginTop: 35 }}>To</p>
         <p style={{ marginTop: "15px" }}>The Head of the Branch</p>
@@ -51,7 +51,8 @@ const AuthorizationOne = ({ singleRowItem }) => {
         <p style={{ marginTop: 35 }}>Dear Sir/ Madam,</p>
         <p>As-salamu alaykum</p>
         <p style={{ marginTop: "10px" }}>
-          We do hereby authorize {strMassengerName}, {strMessengerDesignation}
+          We do hereby authorize <strong> {strMassengerName} </strong>,{" "}
+          {strMessengerDesignation}
           of our company to receive {` ${strDocumentName} `}
           of <span> </span>
           {` ${strBusinessUnitName} `}, A/C No-
