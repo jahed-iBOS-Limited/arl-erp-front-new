@@ -41,7 +41,7 @@ const FdrThree = ({ singleRowItem }) => {
         <br />
         <p>
           <strong>
-            Subject: Issuance of FDR of BDT: {numAmount} as {strMarginType}
+            Subject: Issuance of FDR of BDT: {numAmount} as {strMarginType}{" "}
             Margin.
           </strong>
         </p>
