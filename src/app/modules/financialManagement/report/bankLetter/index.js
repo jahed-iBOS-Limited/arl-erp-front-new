@@ -260,7 +260,12 @@ export default function BankLetter() {
                               value: item?.intBankLetterTemplateId,
                               label: item?.strBankLetterTemplateName,
                             }));
+                            setFieldValue("templateName", "");
+
                             setTemplateList(data);
+                            if (data?.length === 1) {
+                              setFieldValue("templateName", data[0]);
+                            }
                           }
                         );
                       }
