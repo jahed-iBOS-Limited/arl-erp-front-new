@@ -120,10 +120,7 @@ export default function BankStock() {
                     </button>
                   </div>
                 )}
-                {reportData?.length > 0 && (
-                  <PrintView reportData={reportData} values={values} totalAmount={totalAmount} />
-                )}
-                <div ref={printRef} className="bank-stock-print-wrapper">
+                <div ref={printRef} id="bank-stock-print-wrapper">
                   <div style={{ margin: "-13px 50px 51px 50px" }}>
                     <div
                       className="invoice-header"
@@ -165,9 +162,10 @@ export default function BankStock() {
                           >
                             {/* place holder for the fixed-position header */}
                             <div
-                              style={{
-                                height: "110px",
-                              }}
+                              id="theadHeight"
+                              // style={{
+                              //   height: "110px",
+                              // }}
                             ></div>
                           </td>
                         </tr>
@@ -175,8 +173,13 @@ export default function BankStock() {
                       {/* CONTENT GOES HERE */}
                       <tbody>
                         <div style={{ marginTop: "40px" }}>
-                          {/* // Content here  */}
-                          <PrintView reportData={reportData} values={values} totalAmount={totalAmount}/>
+                          {reportData?.length > 0 && (
+                            <PrintView
+                              reportData={reportData}
+                              values={values}
+                              totalAmount={totalAmount}
+                            />
+                          )}
                         </div>
                       </tbody>
                       <tfoot>
@@ -188,9 +191,10 @@ export default function BankStock() {
                           >
                             {/* place holder for the fixed-position footer */}
                             <div
-                              style={{
-                                height: "150px",
-                              }}
+                              id="tfootHeight"
+                              // style={{
+                              //   height: "150px",
+                              // }}
                             ></div>
                           </td>
                         </tr>
