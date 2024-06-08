@@ -28,9 +28,12 @@ function MobileFirstAlert() {
   ].includes(profileData?.workPlaceId);
 
   useEffect(() => {
-    //window view not mobile than api call
-    //&& process.env.NODE_ENV !== "development"
-    if (window.innerWidth > 991 && process.env.NODE_ENV !== "development") {
+    var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+    const isMobileUser = /android|iPad|iPhone|iPod|Opera Mini|IEMobile|WPDesktop|Windows Phone/i.test(
+      userAgent
+    );
+
+    if (!isMobileUser ) {
       setIsShowAlert(true);
       if (isMatchWorkPlaceMatch) {
         // 20m delay for alert hide
@@ -83,10 +86,13 @@ function MobileFirstAlert() {
     [2].includes(profileData?.userTypeId) && profileData?.workPlaceId === 269;
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
-    const isLaptop = window.innerWidth > 991;
+    var userAgent = undefined;
+    const isMobileUser = /android|iPad|iPhone|iPod|Opera Mini|IEMobile|WPDesktop|Windows Phone/i.test(
+      userAgent
+    );
     const leftTime = timeLeft > 0;
     if (
-      isLaptop &&
+      !isMobileUser &&
       leftTime &&
       !isShowBUIMatch &&
       isMatchWorkPlaceMatch &&
