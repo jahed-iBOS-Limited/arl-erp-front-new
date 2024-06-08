@@ -11,6 +11,7 @@ const initData = {
   toDate: "",
   unitName: "",
   paymentStatus: "",
+  paymentType:"",
 };
 
 export default function PaymentStatus() {
