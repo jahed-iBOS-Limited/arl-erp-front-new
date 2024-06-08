@@ -4,9 +4,11 @@ import "../../templates/style.scss";
 const SignatoryChangeTwo = ({ singleRowItem }) => {
   const {
     strBusinessUnitName,
+
     strDate,
     strBrdate,
     strBankName,
+
     strBranchName,
     strBranchAddress,
     strAccountType,
@@ -38,7 +40,7 @@ const SignatoryChangeTwo = ({ singleRowItem }) => {
             <div>
               <strong>
                 Regarding the inclusion of two new signatories in replacement of
-                one existing Signatories, A/C: {strAccountNo} , {strAccountName}
+                one existing Signatories, A/C: {strAccountNo} , {strAccountName}{" "}
                 with {strBankName} , {strBranchName}{" "}
               </strong>
             </div>
@@ -118,20 +120,19 @@ const SignatoryChangeTwo = ({ singleRowItem }) => {
             <br />
             <br />
 
-            <p style={{ marginTop: "10px" }}>
+            <p style={{ marginTop: "0px" }}>
               <strong>(SHEIKH JASIM UDDIN)</strong>
             </p>
-            <p>
-              <strong>Managing Director</strong>
-            </p>
+
+            <strong>Managing Director</strong>
           </div>
         </div>
 
-        <div
+        {/* <div
           style={{
             pageBreakAfter: "always",
           }}
-        ></div>
+        ></div> */}
         <p style={{}}>
           EXTRACT OF THE MINUTES OF THE MEETING OF THE BOARD OF DIRECTORS OF
           <b> {strAccountName} </b>
@@ -156,11 +157,11 @@ const SignatoryChangeTwo = ({ singleRowItem }) => {
           the business of the company.
         </p>
         <p>a) The notice convening the meeting duly read and confirmed.</p>
-        <p style={{ marginTop: 30 }}>
+        <p style={{ marginTop: 5 }}>
           b) The minutes of the last meeting were read, discussed, and
           confirmed.
         </p>
-        <p style={{ marginTop: 30 }}>
+        <p style={{ marginTop: 5 }}>
           c) After threadbare discussion
           <b> Mr. Sheikh Jasim Uddin, Managing Director </b>
           of the Company be and is hereby authorized to operate the account
@@ -235,7 +236,7 @@ const SignatoryChangeTwo = ({ singleRowItem }) => {
           authorized to issue any extract of the minutes as and when necessary.
         </p>
         <p>The meeting ended with a vote of thanks to the chair.</p>
-        <p style={{ marginTop: 55, marginLeft: 65 }}>
+        <p style={{ marginTop: 20, marginLeft: 65 }}>
           <b>Sd/-</b>
         </p>
         <p style={{ marginTop: "-15px" }}>
@@ -244,11 +245,11 @@ const SignatoryChangeTwo = ({ singleRowItem }) => {
         <p style={{ marginTop: "-15px" }}>
           <b>Managing Director</b>
         </p>
-        <div
+        {/* <div
           style={{
             pageBreakAfter: "always",
           }}
-        ></div>
+        ></div> */}
         <p style={{ textAlign: "center" }}>
           <b>
             <u> ANNEXURE -1</u>
