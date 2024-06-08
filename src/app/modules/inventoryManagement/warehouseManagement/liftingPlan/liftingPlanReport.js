@@ -278,25 +278,56 @@ function Table({ printRef, gridData }) {
   const { dateWise, shipPointWise } = dateWiseTotal(gridData?.data);
 
   return (
-    <table id="table-to-xlsx">
-      <div className="mt-4" ref={printRef}>
-        <div style={{ padding: "0px 20px" }} className="row">
-          <div
-            style={{ width: "50%" }}
-            className="col-lg-6 px-2 table-responsive"
-          >
+    <div className="mt-4" ref={printRef}>
+      <div className="row">
+        <div style={{ width: "50%" }} className="col-lg-6  table-responsive">
+          <table className="sm-table table table-striped table-bordered global-table">
+            <thead>
+              <th>SL</th>
+              <th>Casting Demand Date</th>
+              <th>Quantity</th>
+              <th>Approved Quantity</th>
+            </thead>
+            <tbody>
+              {dateWise?.map((item, i) => (
+                <tr key={i}>
+                  <td>{i + 1}</td>
+                  <td className="text-center">{item?.date}</td>
+                  <td className="text-right">{item?.qty}</td>
+                  <td className="text-right">{item?.numApproveQuantity}</td>
+                </tr>
+              ))}
+
+              <tr style={{ fontWeight: "bold", textAlign: "right" }}>
+                <td></td>
+                <td className="text-right">Total</td>
+                <td className="text-right">
+                  {dateWise?.reduce((acc, obj) => acc + +obj?.qty, 0)}
+                </td>
+                <td className="text-right">
+                  {dateWise?.reduce(
+                    (acc, obj) => acc + +obj?.numApproveQuantity,
+                    0
+                  )}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div style={{ width: "50%" }} className="col-lg-6 table-responsive">
+          <div className="table-responsive">
             <table className="sm-table table table-striped table-bordered global-table">
               <thead>
                 <th>SL</th>
-                <th>Casting Demand Date</th>
+                <th>Shipping Point</th>
                 <th>Quantity</th>
                 <th>Approved Quantity</th>
               </thead>
               <tbody>
-                {dateWise?.map((item, i) => (
+                {shipPointWise?.map((item, i) => (
                   <tr key={i}>
                     <td>{i + 1}</td>
-                    <td className="text-center">{item?.date}</td>
+                    <td>{item?.strShippingPointName}</td>
                     <td className="text-right">{item?.qty}</td>
                     <td className="text-right">{item?.numApproveQuantity}</td>
                   </tr>
@@ -306,7 +337,7 @@ function Table({ printRef, gridData }) {
                   <td></td>
                   <td className="text-right">Total</td>
                   <td className="text-right">
-                    {dateWise?.reduce((acc, obj) => acc + +obj?.qty, 0)}
+                    {shipPointWise?.reduce((acc, obj) => acc + +obj?.qty, 0)}
                   </td>
                   <td className="text-right">
                     {dateWise?.reduce(
@@ -318,148 +349,111 @@ function Table({ printRef, gridData }) {
               </tbody>
             </table>
           </div>
-
-          <div
-            style={{ width: "50%" }}
-            className="col-lg-6 px-2 table-responsive"
-          >
-            <div className="table-responsive">
-              <table className="sm-table table table-striped table-bordered global-table">
-                <thead>
-                  <th>SL</th>
-                  <th>Shipping Point</th>
-                  <th>Quantity</th>
-                  <th>Approved Quantity</th>
-                </thead>
-                <tbody>
-                  {shipPointWise?.map((item, i) => (
-                    <tr key={i}>
-                      <td>{i + 1}</td>
-                      <td>{item?.strShippingPointName}</td>
-                      <td className="text-right">{item?.qty}</td>
-                      <td className="text-right">{item?.numApproveQuantity}</td>
-                    </tr>
-                  ))}
-
-                  <tr style={{ fontWeight: "bold", textAlign: "right" }}>
-                    <td></td>
-                    <td className="text-right">Total</td>
-                    <td className="text-right">
-                      {shipPointWise?.reduce((acc, obj) => acc + +obj?.qty, 0)}
-                    </td>
-                    <td className="text-right">
-                      {dateWise?.reduce(
-                        (acc, obj) => acc + +obj?.numApproveQuantity,
-                        0
-                      )}
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
         </div>
+      </div>
 
-        <div className="react-bootstrap-table table-responsive pendingDeliveryReport">
-          <div className="sta-scrollable-table scroll-table-auto">
-            <div
-              style={{ maxHeight: "500px" }}
-              className="scroll-table _table scroll-table-auto"
-            >
-              <table className="table table-striped table-bordered global-table table-font-size-sm">
-                <thead>
-                  <th>SL</th>
-                  <th style={{ minWidth: "60px" }}>Casting Date</th>
-                  <th style={{ minWidth: "55px" }}>Casting Time</th>
-                  <th style={{ minWidth: "65px" }}>Client Name</th>
-                  <th style={{ minWidth: "50px" }}>Project Address</th>
-                  <th style={{ minWidth: "50px" }}>
-                    Contact Person of Project
-                  </th>
-                  <th style={{ minWidth: "40px" }}>Type of Work</th>
-                  <th style={{ minWidth: "50px" }}>Shipping Point Name</th>
-                  <th style={{ minWidth: "75px" }}>PSI</th>
-                  {/* <th style={{ minWidth: "35px" }}>Water proof</th>
+      <div className="row">
+        <div className="col-lg-12">
+          <div className="react-bootstrap-table table-responsive pendingDeliveryReport">
+            <div className="sta-scrollable-table scroll-table-auto">
+              <div
+                style={{ maxHeight: "500px" }}
+                className="scroll-table _table scroll-table-auto"
+              >
+                <table className="table table-striped table-bordered global-table table-font-size-sm">
+                  <thead>
+                    <th>SL</th>
+                    <th style={{ minWidth: "60px" }}>Casting Date</th>
+                    <th style={{ minWidth: "55px" }}>Casting Time</th>
+                    <th style={{ minWidth: "65px" }}>Client Name</th>
+                    <th style={{ minWidth: "50px" }}>Project Address</th>
+                    <th style={{ minWidth: "50px" }}>
+                      Contact Person of Project
+                    </th>
+                    <th style={{ minWidth: "40px" }}>Type of Work</th>
+                    <th style={{ minWidth: "50px" }}>Shipping Point Name</th>
+                    <th style={{ minWidth: "75px" }}>PSI</th>
+                    {/* <th style={{ minWidth: "35px" }}>Water proof</th>
                   <th style={{ minWidth: "55px" }}>BUET Test(Day)</th> */}
-                  <th style={{ minWidth: "30px" }}>Qty</th>
-                  <th style={{ minWidth: "30px" }}>App. Qty</th>
-                  <th style={{ minWidth: "40px" }}>Shift</th>
-                  <th style={{ minWidth: "40px" }}>No of Pump</th>
-                  <th style={{ minWidth: "40px" }}>Pipe (RFT)</th>
-                  <th style={{ minWidth: "40px" }}>Small Tyre</th>
-                  <th style={{ minWidth: "40px" }}>Large Tyre</th>
-                  <th style={{ minWidth: "40px" }}>Water Proof</th>
-                  <th style={{ minWidth: "40px" }}>Buet Test Report</th>
-                  <th style={{ minWidth: "60px" }}>Information Date</th>
-                  <th style={{ minWidth: "40px" }}>Bag Cement</th>
-                  <th style={{ minWidth: "50px" }}>Marketing concern</th>
-                  <th style={{ minWidth: "50px" }}>Remarks</th>
-                  <th style={{ minWidth: "50px" }}>Status</th>
-                </thead>
-                <tbody>
-                  {gridData?.data?.map((item, i) => {
-                    return item?.list?.map((element, index) => {
-                      numQuantity += element.numQuantity || 0;
-                      numApproveQuantity += element?.numApproveQuantity || 0;
-                      return (
-                        <tr key={index}>
-                          {index < 1 && (
-                            <td
-                              rowSpan={item?.list?.length}
-                              className="text-center sl"
-                            >
-                              {i + 1}
-                            </td>
-                          )}
-                          {index < 1 && (
-                            <td
-                              rowSpan={item?.list?.length}
-                              className="text-center"
-                            >
-                              {_dateFormatter(item?.dteCastingDate)}{" "}
-                            </td>
-                          )}
-                          {index < 1 && (
-                            <td
-                              rowSpan={item?.list?.length}
-                              className="text-center"
-                            >
-                              {index < 1 &&
-                                ConvertTime24to12(
-                                  item?.dteCastingDate.split("T")[1]
-                                )}
-                            </td>
-                          )}
-                          {index < 1 && (
-                            <td
-                              rowSpan={item?.list?.length}
-                              style={{ wordBreak: "break-all" }}
-                            >
-                              {item?.strCustomerName}
-                            </td>
-                          )}
-                          {index < 1 && (
-                            <td rowSpan={item?.list?.length}>
-                              {item?.strAddress}
-                            </td>
-                          )}
-                          {index < 1 && (
-                            <td rowSpan={item?.list?.length}>
-                              {item?.strContactPerson}
-                            </td>
-                          )}
-                          {index < 1 && (
-                            <td rowSpan={item?.list?.length}>
-                              {item?.strWorkTypeName}
-                            </td>
-                          )}
-                          {index < 1 && (
-                            <td rowSpan={item?.list?.length}>
-                              {item?.strShippingPointName}
-                            </td>
-                          )}
-                          <td className="text-left">{element?.strItem}</td>
-                          {/* <td className="text-left">
+                    <th style={{ minWidth: "30px" }}>Qty</th>
+                    <th style={{ minWidth: "30px" }}>App. Qty</th>
+                    <th style={{ minWidth: "40px" }}>Shift</th>
+                    <th style={{ minWidth: "40px" }}>No of Pump</th>
+                    <th style={{ minWidth: "40px" }}>Pipe (RFT)</th>
+                    <th style={{ minWidth: "40px" }}>Small Tyre</th>
+                    <th style={{ minWidth: "40px" }}>Large Tyre</th>
+                    <th style={{ minWidth: "40px" }}>Water Proof</th>
+                    <th style={{ minWidth: "40px" }}>Buet Test Report</th>
+                    <th style={{ minWidth: "60px" }}>Information Date</th>
+                    <th style={{ minWidth: "40px" }}>Bag Cement</th>
+                    <th style={{ minWidth: "50px" }}>Marketing concern</th>
+                    <th style={{ minWidth: "50px" }}>Remarks</th>
+                    <th style={{ minWidth: "50px" }}>Status</th>
+                  </thead>
+                  <tbody>
+                    {gridData?.data?.map((item, i) => {
+                      return item?.list?.map((element, index) => {
+                        numQuantity += element.numQuantity || 0;
+                        numApproveQuantity += element?.numApproveQuantity || 0;
+                        return (
+                          <tr key={index}>
+                            {index < 1 && (
+                              <td
+                                rowSpan={item?.list?.length}
+                                className="text-center sl"
+                              >
+                                {i + 1}
+                              </td>
+                            )}
+                            {index < 1 && (
+                              <td
+                                rowSpan={item?.list?.length}
+                                className="text-center"
+                              >
+                                {_dateFormatter(item?.dteCastingDate)}{" "}
+                              </td>
+                            )}
+                            {index < 1 && (
+                              <td
+                                rowSpan={item?.list?.length}
+                                className="text-center"
+                              >
+                                {index < 1 &&
+                                  ConvertTime24to12(
+                                    item?.dteCastingDate.split("T")[1]
+                                  )}
+                              </td>
+                            )}
+                            {index < 1 && (
+                              <td
+                                rowSpan={item?.list?.length}
+                                style={{ wordBreak: "break-all" }}
+                              >
+                                {item?.strCustomerName}
+                              </td>
+                            )}
+                            {index < 1 && (
+                              <td rowSpan={item?.list?.length}>
+                                {item?.strAddress}
+                              </td>
+                            )}
+                            {index < 1 && (
+                              <td rowSpan={item?.list?.length}>
+                                {item?.strContactPerson}
+                              </td>
+                            )}
+                            {index < 1 && (
+                              <td rowSpan={item?.list?.length}>
+                                {item?.strWorkTypeName}
+                              </td>
+                            )}
+                            {index < 1 && (
+                              <td rowSpan={item?.list?.length}>
+                                {item?.strShippingPointName}
+                              </td>
+                            )}
+                            <td className="text-left">{element?.strItem}</td>
+                            {/* <td className="text-left">
                             {element?.isWaterProof === true
                               ? "Yes"
                               : element?.isWaterProof === false
@@ -471,75 +465,76 @@ function Table({ printRef, gridData }) {
                               {item?.strTestReportDay}
                             </td>
                           )} */}
-                          <td className="text-right">
-                            {_fixedPoint(element?.numQuantity || 0)}
-                          </td>
-                          <td className="text-right">
-                            {_fixedPoint(element?.numApproveQuantity || 0)}
-                          </td>
-                          <td>{element?.strShift}</td>
-                          <td>{element?.intNumberOfPump}</td>
-                          <td>{element?.intPipeFeet}</td>
-                          <td>{element?.intSmallTyre}</td>
-                          <td>{element?.intLargeTyre}</td>
-                          <td>
-                            {element?.isWaterProof
-                              ? "Yes"
-                              : element?.isWaterProof === false
-                              ? "No"
-                              : ""}
-                          </td>
-                          {index < 1 && (
-                            <td rowSpan={item?.list?.length}>
-                              {item?.strTestReportDay}
+                            <td className="text-right">
+                              {_fixedPoint(element?.numQuantity || 0)}
                             </td>
-                          )}
-                          {index < 1 && (
-                            <td
-                              rowSpan={item?.list?.length}
-                              className="text-center"
-                            >
-                              {`${_dateFormatter(
-                                item?.dteInformationDate
-                              )}, ${ConvertTime24to12(
-                                item?.dteInformationDate.split("T")[1]
-                              )}`}
+                            <td className="text-right">
+                              {_fixedPoint(element?.numApproveQuantity || 0)}
                             </td>
-                          )}
-                          <td>{element?.intBagCementUse}</td>
-                          {index < 1 && (
-                            <td rowSpan={item?.list?.length}>
-                              {item?.strCastingProcedureBy}
+                            <td>{element?.strShift}</td>
+                            <td>{element?.intNumberOfPump}</td>
+                            <td>{element?.intPipeFeet}</td>
+                            <td>{element?.intSmallTyre}</td>
+                            <td>{element?.intLargeTyre}</td>
+                            <td>
+                              {element?.isWaterProof
+                                ? "Yes"
+                                : element?.isWaterProof === false
+                                ? "No"
+                                : ""}
                             </td>
-                          )}
-                          {index < 1 && (
-                            <td rowSpan={item?.list?.length}>
-                              {item?.strRemarks}
-                            </td>
-                          )}
-                          {index < 1 && (
-                            <td rowSpan={item?.list?.length}>
-                              {item?.strStatus}
-                            </td>
-                          )}
-                        </tr>
-                      );
-                    });
-                  })}
-                  <tr style={{ fontWeight: "bold", textAlign: "right" }}>
-                    <td colSpan="9" className="text-right">
-                      <b>Total: </b>
-                    </td>
-                    <td>{numQuantity}</td>
-                    <td>{numApproveQuantity}</td>
-                    <td colSpan="13"></td>
-                  </tr>
-                </tbody>
-              </table>
+                            {index < 1 && (
+                              <td rowSpan={item?.list?.length}>
+                                {item?.strTestReportDay}
+                              </td>
+                            )}
+                            {index < 1 && (
+                              <td
+                                rowSpan={item?.list?.length}
+                                className="text-center"
+                              >
+                                {`${_dateFormatter(
+                                  item?.dteInformationDate
+                                )}, ${ConvertTime24to12(
+                                  item?.dteInformationDate.split("T")[1]
+                                )}`}
+                              </td>
+                            )}
+                            <td>{element?.intBagCementUse}</td>
+                            {index < 1 && (
+                              <td rowSpan={item?.list?.length}>
+                                {item?.strCastingProcedureBy}
+                              </td>
+                            )}
+                            {index < 1 && (
+                              <td rowSpan={item?.list?.length}>
+                                {item?.strRemarks}
+                              </td>
+                            )}
+                            {index < 1 && (
+                              <td rowSpan={item?.list?.length}>
+                                {item?.strStatus}
+                              </td>
+                            )}
+                          </tr>
+                        );
+                      });
+                    })}
+                    <tr style={{ fontWeight: "bold", textAlign: "right" }}>
+                      <td colSpan="9" className="text-right">
+                        <b>Total: </b>
+                      </td>
+                      <td>{numQuantity}</td>
+                      <td>{numApproveQuantity}</td>
+                      <td colSpan="13"></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </table>
+    </div>
   );
 }
