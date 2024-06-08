@@ -33,7 +33,7 @@ const initData = {
   businessUnit: "",
   bank: "",
   bankBranch: "",
-  date: "",
+  date: _todayDate(),
   brDate: "",
   templateType: "",
   templateName: "",
@@ -103,7 +103,10 @@ export default function BankLetter() {
       strBankName: values?.bank?.label || "",
       strBankShortName: values?.bank?.bankShortName || "",
       strBranchId: values?.bankBranch?.value || 0,
-      strBranchName: values?.bankBranch?.label || "",
+      strBranchName:
+        values.templateType?.value === 1
+          ? values?.bankBranch?.label
+          : values?.bankAccount?.strBankBranchName,
       strBranchAddress: values?.bankAccount?.strBankBranchAddress || "",
       intBankLetterTemplateId: values?.templateName?.value || 0,
       strBankLetterTemplateName: values?.templateName?.label || "",
@@ -317,7 +320,7 @@ export default function BankLetter() {
                     />
                   </div>
                 )}
-                {[1, 2, 3, 4, 5].includes(values?.templateType?.value) && (
+                {[1].includes(values?.templateType?.value) && (
                   <div className="col-lg-3">
                     <NewSelect
                       name="bankBranch"
