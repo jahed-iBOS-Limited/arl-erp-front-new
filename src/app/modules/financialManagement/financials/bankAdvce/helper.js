@@ -27,7 +27,8 @@ export const getInstrumentDDL = async (setter) => {
       { label: "Bonus Advice", value: 13 },
       { label: "Manning Advice", value: 14 },
       { label: "Zakat Advice", value: 15 },
-      { label: "Sales Incentive", value: 20 }
+      { label: "Sales Incentive", value: 20 },
+      { label: "TDS/VDS", value: 21 }
     );
     setter(res?.data);
   } catch (err) {
