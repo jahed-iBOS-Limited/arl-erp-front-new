@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Formik, Form } from "formik";
-import { validationSchema, empAttachment_action } from "../helper";
+import { validationSchema, empAttachment_action, getLatestChangesOfDoc } from "../helper";
 import InputField from "../../../../_helper/_inputField";
 import { useDispatch } from "react-redux";
 import ButtonStyleOne from "../../../../_helper/button/ButtonStyleOne";
@@ -9,6 +9,7 @@ import { DropzoneDialogBase } from "material-ui-dropzone";
 import NewSelect from "../../../../_helper/_select";
 import numberWithCommas from "../../../../_helper/_numberWithCommas";
 import { toast } from "react-toastify";
+import TextArea from "../../../../_helper/TextArea";
 
 export default function _Form({
   initData,
@@ -26,6 +27,7 @@ export default function _Form({
   rowDtoHandler,
   PIAmount,
   setDisabled,
+  saveLcDocAmendmentRowHandler
 }) {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
@@ -278,47 +280,6 @@ export default function _Form({
                   </div>
                 </div>
               </div>
-
-              <button
-                type="submit"
-                style={{ display: "none" }}
-                ref={btnRef}
-                onSubmit={() => handleSubmit()}
-              ></button>
-              <button
-                type="reset"
-                style={{ display: "none" }}
-                ref={resetBtnRef}
-                // onSubmit={() => resetForm(initData)}
-              ></button>
-
-              <DropzoneDialogBase
-                filesLimit={1}
-                acceptedFiles={["image/*", "application/pdf"]}
-                fileObjects={fileObjects}
-                cancelButtonText={"cancel"}
-                submitButtonText={"submit"}
-                maxFileSize={1000000}
-                open={open}
-                onAdd={(newFileObjs) => {
-                  setFileObjects([].concat(newFileObjs));
-                }}
-                onDelete={(deleteFileObj) => {
-                  const newData = fileObjects.filter(
-                    (item) => item.file.name !== deleteFileObj.file.name
-                  );
-                  setFileObjects(newData);
-                }}
-                onClose={() => setOpen(false)}
-                onSave={() => {
-                  setOpen(false);
-                  empAttachment_action(fileObjects).then((data) => {
-                    setUploadImage(data);
-                  });
-                }}
-                showPreviews={true}
-                showFileNamesInPreview={true}
-              />
               <div className="loan-scrollable-table">
                 <div>
                   <div className="react-bootstrap-table table-responsive">
@@ -425,6 +386,123 @@ export default function _Form({
                   </div>
                 </div>
               </div>
+
+              <div className="global-form">
+                <div className="row">
+                  <div className="col-lg-6">
+                    <label>Doc Link</label>
+                    <InputField
+                      value={values?.docLink}
+                      placeholder="Doc Link"
+                      name="docLink"
+                      type="text"
+                    />
+                  </div>
+                  {/* <div className="col-lg-3 mb-2 d-flex align-items-center">
+                    <label className="mt-1">
+                      <input
+                        type="checkbox"
+                        onChange={(e) => {
+                          setFieldValue("isDocLink", e.target.checked);
+                        }}
+                        name="isDocLink"
+                        label="Is Auto"
+                        style={{
+                          marginRight: "5px",
+                          position: "relative",
+                          top: "3px",
+                        }}
+                        value={values?.isDocLink}
+                        checked={values?.isDocLink}
+                      />
+                      <span>Is Auto</span>
+                    </label>
+                  </div> */}
+
+                  {/* check button */}
+                  <div className="col d-flex align-items-center">
+                    <button
+                      className="btn btn-primary d-flex mt-4"
+                      type="button"
+                      onClick={() => {
+                        const docUrl  =  values?.docLink;
+                        const docId = docUrl.split("/")[5];
+                        getLatestChangesOfDoc(docId, setDisabled, (resData) => {
+
+                        } )
+                      }}
+                    >
+                      Check
+                    </button>
+                  </div>
+                  <div className="col-lg-12">
+                    <hr />
+                  </div>
+
+                  <div className="col-lg-4">
+                    <label>Update Info</label>
+                    <TextArea
+                      name="info"
+                      value={values?.info}
+                      label="Update Info"
+                      placeholder="Update Info"
+                      touched={touched}
+                      rows="3"
+                    />
+                  </div>
+                  <div className="col d-flex align-items-center">
+                    <button
+                      className="btn btn-primary d-flex mt-4"
+                      type="button"
+                      onClick={() => {
+                        saveLcDocAmendmentRowHandler(values);
+                      }}
+                    >
+                      Save
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <button
+                type="submit"
+                style={{ display: "none" }}
+                ref={btnRef}
+                onSubmit={() => handleSubmit()}
+              ></button>
+              <button
+                type="reset"
+                style={{ display: "none" }}
+                ref={resetBtnRef}
+                // onSubmit={() => resetForm(initData)}
+              ></button>
+
+              <DropzoneDialogBase
+                filesLimit={1}
+                acceptedFiles={["image/*", "application/pdf"]}
+                fileObjects={fileObjects}
+                cancelButtonText={"cancel"}
+                submitButtonText={"submit"}
+                maxFileSize={1000000}
+                open={open}
+                onAdd={(newFileObjs) => {
+                  setFileObjects([].concat(newFileObjs));
+                }}
+                onDelete={(deleteFileObj) => {
+                  const newData = fileObjects.filter(
+                    (item) => item.file.name !== deleteFileObj.file.name
+                  );
+                  setFileObjects(newData);
+                }}
+                onClose={() => setOpen(false)}
+                onSave={() => {
+                  setOpen(false);
+                  empAttachment_action(fileObjects).then((data) => {
+                    setUploadImage(data);
+                  });
+                }}
+                showPreviews={true}
+                showFileNamesInPreview={true}
+              />
             </Form>
           </>
         )}
