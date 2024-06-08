@@ -49,15 +49,28 @@ const PrintView = ({ reportData, values, totalAmount }) => {
                     )}
                     <td className="text-center">{item?.strItemName}</td>
                     <td className="text-right pr-2 min_width">
-                      {item?.numCloseQty}
+                      {["Chemical Store and Spare Parts"].includes(
+                        item?.strItemName
+                      )
+                        ? ""
+                        : item?.numCloseQty}
                     </td>
                     <td className="text-center" min_width>
-                      {item?.strBaseUOM}
+                      {["Chemical Store and Spare Parts"].includes(
+                        item?.strItemName
+                      )
+                        ? ""
+                        : item?.strBaseUOM}
                     </td>
                     <td className="text-right pr-2 min_width">
-                      {(
-                        (item?.numClosingValue || 0) / (item?.numCloseQty || 0)
-                      )?.toFixed(2)}
+                      {["Chemical Store and Spare Parts"].includes(
+                        item?.strItemName
+                      )
+                        ? ""
+                        : (
+                            (item?.numClosingValue || 0) /
+                            (item?.numCloseQty || 0)
+                          )?.toFixed(2)}
                     </td>
                     <td className="text-right pr-2 min_width">
                       {item?.numClosingValue}
@@ -85,9 +98,9 @@ const PrintView = ({ reportData, values, totalAmount }) => {
         <div style={{ margin: "10px 40px" }}>
           <h5>
             Accounts Receivable Balance Date{" "}
-            {getLastDateOfMonth(values?.monthYear?.split("-")[1])}
+            {getLastDateOfMonth(values?.monthYear?.split("-")[1])}, Amount of
+            tk. {totalAmount[0]?.ReceableAmount?.toFixed(2)}
           </h5>
-          <h6>Amount of tk. {totalAmount[0]?.ReceableAmount?.toFixed(2)}</h6>
           <p>We hereby confirm that:</p>
           <ul style={{ listStyle: "none" }}>
             <li>
