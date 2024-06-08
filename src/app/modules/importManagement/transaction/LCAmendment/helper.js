@@ -115,6 +115,21 @@ export const createLCAmendment = async (
   }
 };
 
+export const saveLcDocAmendmentRowApi = async (payload, setDisabled, cb) => {
+  setDisabled(true);
+  try {
+    await Axios.post(`/imp/LetterOfCredit/SaveLcDocAmendmentRow`, payload);
+    setDisabled(false);
+    toast.success(
+      "Create Successfully And Please Create Insurance Amendment now"
+    );
+    cb();
+  } catch (error) {
+    setDisabled(false);
+    toast.error(error?.response?.data?.message);
+  }
+};
+
 const createPayloadChange = (
   values,
   profileData,
@@ -320,8 +335,8 @@ export const getLCAmendmentLandingPasignation = async (
     const res = await Axios.get(
       `/imp/LCAmendment/LCAmendmentLandingPasignation?search=${searchTerm}&accountId=${accountId}&businessUnitId=${businessUnitId}&PageSize=${pageSize}&PageNo=${pageNo}&viewOrder=desc`
     );
-      setter(res?.data);
-      setLoading(false);
+    setter(res?.data);
+    setLoading(false);
   } catch (error) {
     setLoading(false);
     toast.error(error?.response?.data?.message);
@@ -340,3 +355,24 @@ export const validationSchema = Yup.object().shape({
     .required("VAT On Amendment Charge is required")
     .positive("VAT On Amendment Charge Must be a positive number"),
 });
+
+//landing api;
+export const getLatestChangesOfDoc = async (
+  document_id,
+  setLoading,
+  setter
+) => {
+  try {
+    setLoading(true);
+    const res = await Axios.get(
+      `https://devscheduler.ibos.io/google_doc/get_latest_changes_of_doc?document_id=${document_id}`
+    );
+    if (res.status === 200 && res?.data) {
+      setter(res?.data);
+      setLoading(false);
+    }
+  } catch (error) {
+    setLoading(false);
+    // toast.error(error?.response?.data?.message);
+  }
+};
