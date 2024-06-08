@@ -1,11 +1,12 @@
 import React from "react";
 import { getLastDateOfMonth } from "./helper";
 import { getMonth } from "../../../salesManagement/report/customerSalesTarget/utils";
+import { _formatMoney } from "../../../_helper/_formatMoney";
 
 const PrintView = ({ reportData, values, totalAmount }) => {
   return (
     <>
-      <div className="content-wrapper">
+      <div contentEditable={true} className="content-wrapper">
         <div>
           <h1 className="text-center">
             <span style={{ borderBottom: "1px solid" }}>
@@ -83,12 +84,14 @@ const PrintView = ({ reportData, values, totalAmount }) => {
                 </td>
                 <td className="text-right pr-2 min_width">
                   <strong>
-                    {reportData
-                      .reduce(
-                        (total, item) => total + (item.numClosingValue || 0),
-                        0
-                      )
-                      ?.toFixed(2)}
+                    {_formatMoney(
+                      reportData
+                        .reduce(
+                          (total, item) => total + (item.numClosingValue || 0),
+                          0
+                        )
+                        ?.toFixed(2)
+                    )}
                   </strong>
                 </td>
               </tr>
@@ -99,7 +102,7 @@ const PrintView = ({ reportData, values, totalAmount }) => {
           <h5>
             Accounts Receivable Balance Date{" "}
             {getLastDateOfMonth(values?.monthYear?.split("-")[1])}, Amount of
-            tk. {totalAmount[0]?.ReceableAmount?.toFixed(2)}
+            tk. {_formatMoney(totalAmount[0]?.ReceableAmount?.toFixed(2))}
           </h5>
           <p>We hereby confirm that:</p>
           <ul style={{ listStyle: "none" }}>
@@ -146,7 +149,7 @@ const PrintView = ({ reportData, values, totalAmount }) => {
         </div>
         <div>
           <h3>For, {values?.businessUnit?.label}</h3>
-          <div style={{ marginTop: "50px", display: "flex", gap: "70px" }}>
+          <div style={{ marginTop: "80px", display: "flex", gap: "70px" }}>
             <p>Authorized Signature</p>
             <p>Authorized Signature</p>
           </div>

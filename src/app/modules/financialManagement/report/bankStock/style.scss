@@ -1,6 +1,8 @@
-.bank-stock-print-wrapper {
-  // font-family: "Times New Roman", Times, serif;
-  display: none;
+#bank-stock-print-wrapper {
+  .invoice-header,
+  .invoice-footer {
+    display: none;
+  }
   .min_width {
     min-width: 140px !important;
   }
@@ -17,6 +19,18 @@
     h3 {
       font-size: 21px !important;
     }
-    display: block;
+    .invoice-header,
+    .invoice-footer {
+      display: block !important;
+    }
+    .content-wrapper {
+      margin-top: 30px;
+    }
+    #theadHeight {
+      height: 110px;
+    }
+    #tfootHeight {
+      height: 150px;
+    }
   }
 }
