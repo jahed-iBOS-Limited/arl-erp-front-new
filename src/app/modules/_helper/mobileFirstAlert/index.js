@@ -78,7 +78,7 @@ function MobileFirstAlert() {
     return `${minutes}:${secs < 10 ? "0" : ""}${secs}`;
   };
   const isShowBUIMatch = [184].includes(profileData?.defaultBusinessUnit);
-  const isMatchEmployeeId = [1187].includes(profileData?.employeeId);
+  const isMatchEmployeeId = [1187, 1039].includes(profileData?.employeeId);
   const isEmpSuplier =
     [2].includes(profileData?.userTypeId) && profileData?.workPlaceId === 269;
   // eslint-disable-next-line react-hooks/exhaustive-deps
