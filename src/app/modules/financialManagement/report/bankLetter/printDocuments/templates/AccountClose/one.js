@@ -119,8 +119,7 @@ const AccountCloseOne = ({ singleRowItem }) => {
           </p>
           <p>
             The meeting was presided over by Ms. Faria Hossain, Chairman of the
-            Company. The Managing Director of the Company and Mr. Ruhul Islam,
-            Company Secretary were present.
+            Company. The following Directors and Company Secretary were present.
           </p>
           <p style={{ marginTop: "20px" }}>
             <span>

@@ -26,12 +26,11 @@ function MobileFirstAlert() {
     611,
     269,
   ].includes(profileData?.workPlaceId);
-
+  var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+  const isMobileUser = /android|iPad|iPhone|iPod|Opera Mini|IEMobile|WPDesktop|Windows Phone/i.test(
+    userAgent
+  );
   useEffect(() => {
-    var userAgent = navigator.userAgent || navigator.vendor || window.opera;
-    const isMobileUser = /android|iPad|iPhone|iPod|Opera Mini|IEMobile|WPDesktop|Windows Phone/i.test(
-      userAgent
-    );
 
     if (!isMobileUser && process.env.NODE_ENV !== "development") {
       setIsShowAlert(true);
@@ -86,10 +85,7 @@ function MobileFirstAlert() {
     [2].includes(profileData?.userTypeId) && profileData?.workPlaceId === 269;
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
-    var userAgent = undefined;
-    const isMobileUser = /android|iPad|iPhone|iPod|Opera Mini|IEMobile|WPDesktop|Windows Phone/i.test(
-      userAgent
-    );
+ 
     const leftTime = timeLeft > 0;
     if (
       !isMobileUser &&
