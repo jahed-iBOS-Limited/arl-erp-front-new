@@ -142,8 +142,7 @@ const SignatoryChangeTwo = ({ singleRowItem }) => {
         </p>
         <p style={{}}>
           The meeting was presided over by Ms. Faria Hossain, Chairman of the
-          Company. The Managing Director and Mr. Ruhul Islam, Company Secretary
-          were present.
+          Company. The following Directors and Company Secretary were present
         </p>
         <p>
           1. Mr. Sheikh Jasim Uddin{" "}

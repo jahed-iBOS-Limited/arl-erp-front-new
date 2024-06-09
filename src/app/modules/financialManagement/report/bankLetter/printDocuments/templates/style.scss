@@ -40,4 +40,10 @@
     thead{
         font-weight: 600;
     }
+    &.signatory-wrapper {
+      * {
+        font-size: 17.7px !important; /* Specific font size for this file */
+      }
   }
+
+}

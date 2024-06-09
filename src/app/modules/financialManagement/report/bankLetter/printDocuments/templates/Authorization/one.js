@@ -69,7 +69,7 @@ const AuthorizationOne = ({ singleRowItem }) => {
         <p style={{ marginTop: 5 }}>
           For, <b>{strBusinessUnitName}</b>
         </p>
-        <div style={{ marginTop: 65, display: "flex" }}>
+        <div style={{ marginTop: 85, display: "flex" }}>
           <div>Authorized Signature</div>
           <div style={{ marginLeft: 20 }}>Authorized Signature</div>
         </div>
