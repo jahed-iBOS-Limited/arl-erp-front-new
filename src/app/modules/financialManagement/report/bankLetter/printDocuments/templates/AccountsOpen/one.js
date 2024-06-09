@@ -175,8 +175,7 @@ const AccountOpenOne = ({ singleRowItem }) => {
           {/* <br /> */}
           <p>
             The meeting was presided over by Ms. Faria Hossain, Chairman of the
-            Company. The Managing Director and Mr. Ruhul Islam, Company
-            Secretary were present.
+            Company. The following Directors and Company Secretary were present.
           </p>
           {/* <br /> */}
           <p style={{ marginTop: "20px" }}>

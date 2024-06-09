@@ -176,9 +176,9 @@ const AccountOpenTwo = ({ singleRowItem }) => {
           </p>
           <br />
           <p>
-            The meeting was presided over by Ms. Faria Hossain, Chairman of the
-            Company. The Managing Director and Mr. Ruhul Islam, Company
-            Secretary were present.
+            The meeting was presided over by Mr. Sheikh Nasir Uddin, Chairman of
+            the Company. The following Directors and Company Secretary were
+            present.
           </p>
           <br />
           <p>

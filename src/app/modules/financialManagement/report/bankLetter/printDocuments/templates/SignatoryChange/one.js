@@ -17,7 +17,7 @@ const SignatoryChangeOne = ({ singleRowItem }) => {
   } = singleRowItem;
   return (
     <>
-      <div className="bank-letter-template-common-wrapper">
+      <div className="bank-letter-template-common-wrapper signatory-wrapper">
         <p style={{ fontSize: 16 }}>
           <b>Date: {strDate} </b>
         </p>
@@ -141,16 +141,20 @@ const SignatoryChangeOne = ({ singleRowItem }) => {
           LINK ROAD, TEJGAON, DHAKA 1208.
         </p>
         <p style={{}}>
-          The meeting was presided over by Ms. Faria Hossain, Chairman of the
-          Company. The Managing Director and Mr. Ruhul Islam, Company Secretary
-          were present.
+          The meeting was presided over by Mr. Sheikh Nasir Uddin, Chairman of
+          the Company. The following Directors and Company Secretary were
+          present.
         </p>
         <p>
-          1. Mr. Sheikh Jasim Uddin{" "}
+          1. Mr. Sheikh Nasir Uddin{" "}
           <span style={{ marginLeft: 50 }}> Sd/- </span>
         </p>
         <p>
-          2. Ms. Faria Hossain <span style={{ marginLeft: 90 }}> Sd/- </span>
+          2. Mr. Sheikh Jasim Uddin{" "}
+          <span style={{ marginLeft: 50 }}> Sd/- </span>
+        </p>
+        <p>
+          3. Ms. Faria Hossain <span style={{ marginLeft: 90 }}> Sd/- </span>
         </p>
         <p>
           The Following resolutions were passed unanimously for the interest of
@@ -236,7 +240,7 @@ const SignatoryChangeOne = ({ singleRowItem }) => {
           authorized to issue any extract of the minutes as and when necessary.
         </p>
         <p>The meeting ended with a vote of thanks to the chair.</p>
-        <p style={{ marginTop: 20, marginLeft: 65 }}>
+        <p style={{ marginTop: 40, marginLeft: 65 }}>
           <b>Sd/-</b>
         </p>
         <p style={{ marginTop: "-15px" }}>
@@ -245,11 +249,11 @@ const SignatoryChangeOne = ({ singleRowItem }) => {
         <p style={{ marginTop: "-15px" }}>
           <b>Managing Director</b>
         </p>
-        {/* <div
+        <div
           style={{
             pageBreakAfter: "always",
           }}
-        ></div> */}
+        ></div>
         <p style={{ textAlign: "center" }}>
           <b>
             <u> ANNEXURE -1</u>
