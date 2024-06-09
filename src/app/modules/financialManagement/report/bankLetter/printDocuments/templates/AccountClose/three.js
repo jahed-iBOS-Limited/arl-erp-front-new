@@ -108,7 +108,7 @@ const AccountCloseThree = ({ singleRowItem }) => {
             <br />
             <p>Yours faithfully,</p>
             <p>
-              <strong>For, {strAccountName} </strong>
+              <strong>for, {strAccountName.toUpperCase()} </strong>
             </p>
           </div>
           <br />
@@ -117,7 +117,7 @@ const AccountCloseThree = ({ singleRowItem }) => {
           <br />
           <div>
             <p>
-              <strong>(SHEIKH JASIM UDDIN)</strong>
+              <strong>(Sheikh Jasim Uddin)</strong>
             </p>
             <p>
               <strong>Managing Director</strong>
@@ -132,7 +132,7 @@ const AccountCloseThree = ({ singleRowItem }) => {
         <div className="second-part">
           <p>
             EXTRACT OF THE MINUTES OF THE MEETING OF THE BOARD OF DIRECTORS OF
-            <strong> {strAccountName}</strong> HELD ON THE
+            <strong> {strAccountName?.toUpperCase()}</strong> HELD ON THE
             <strong> {strBrdate}</strong> AT 11:30AM IN THE CORPORATE OFFICE OF
             THE COMPANY AT AKIJ HOUSE, 198, BIR UTTAM MIR SHAWKAT SARAK, GULSHAN
             LINK ROAD, TEJGAON, DHAKA 1208.

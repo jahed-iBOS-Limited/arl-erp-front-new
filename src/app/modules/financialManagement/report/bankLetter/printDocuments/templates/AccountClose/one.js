@@ -88,7 +88,7 @@ const AccountCloseOne = ({ singleRowItem }) => {
             <br />
             <p>Yours faithfully,</p>
             <p>
-              <strong>For, {strAccountName} </strong>
+              <strong>for, {strAccountName?.toUpperCase()} </strong>
             </p>
           </div>
           <br />
@@ -97,7 +97,7 @@ const AccountCloseOne = ({ singleRowItem }) => {
           <br />
           <div>
             <p>
-              <strong>(SHEIKH JASIM UDDIN)</strong>
+              <strong>(Sheikh Jasim Uddin)</strong>
             </p>
             <p>
               <strong>Managing Director</strong>
