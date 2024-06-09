@@ -50,23 +50,17 @@ const PrintView = ({ reportData, values, totalAmount }) => {
                     )}
                     <td className="text-center">{item?.strItemName}</td>
                     <td className="text-right pr-2 min_width">
-                      {["Chemical Store and Spare Parts"].includes(
-                        item?.strItemName
-                      )
+                      {/spare parts/i.test(item?.strItemName)
                         ? ""
                         : item?.numCloseQty}
                     </td>
                     <td className="text-center" min_width>
-                      {["Chemical Store and Spare Parts"].includes(
-                        item?.strItemName
-                      )
+                      {/spare parts/i.test(item?.strItemName)
                         ? ""
                         : item?.strBaseUOM}
                     </td>
                     <td className="text-right pr-2 min_width">
-                      {["Chemical Store and Spare Parts"].includes(
-                        item?.strItemName
-                      )
+                      {/spare parts/i.test(item?.strItemName)
                         ? ""
                         : (
                             (item?.numClosingValue || 0) /

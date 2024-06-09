@@ -15,6 +15,7 @@ import {
   getSingleData,
   GetDataForForm,
   GetItemListDetailsByPOId,
+  saveLcDocAmendmentRowApi,
 } from "./../helper";
 import { encoItemDDLAction, LCTypeDDLAction } from "../../lc-open/helper";
 import IWarningModal from "../../../../_helper/_warningModal";
@@ -35,6 +36,7 @@ const initData = {
   currency: "",
   PIAmountBDT: "",
   exchangeRate: 1,
+  docLink: "",
 };
 
 export default function LCAmendmentForm() {
@@ -126,7 +128,28 @@ export default function LCAmendmentForm() {
     let PINewAmount = data?.reduce((total, value) => total + value?.price, 0);
     setFieldValue("PIAmountBDT", +values?.exchangeRate * PINewAmount);
   };
+  const saveLcDocAmendmentRowHandler = (values) => {
+    const payload = {
+      intLcDocAmendmentRowId: 0,
+      strEditLcFieldNameJson: "",
+      intLcDocAmendmentConfigId: 0,
+      strLcDocAmendmentConfigName: "",
+      intAccountId: profileData?.accountId,
+      intBusinessUnitId: selectedBusinessUnit?.value,
+      intLcId: 0,
+      strLcDocId: "",
+      intAmendmentNum: 0,
+      isActive: true,
+      dteLastActionDateTime: new Date(),
+      intLastActionBy: 0,
+      dteServerDateTime: new Date(),
+      intUpdateBy: 0,
+    };
 
+    saveLcDocAmendmentRowApi(payload, setDisabled, () => {
+      
+    });
+  };
   return (
     <IForm
       title="LC Amendment"
@@ -156,6 +179,7 @@ export default function LCAmendmentForm() {
         rowDtoHandler={rowDtoHandler}
         PIAmount={PIAmount}
         setDisabled={setDisabled}
+        saveLcDocAmendmentRowHandler={saveLcDocAmendmentRowHandler}
       />
     </IForm>
   );

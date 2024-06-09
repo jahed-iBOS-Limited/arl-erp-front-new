@@ -1,16 +1,16 @@
 import { Form, Formik } from "formik";
 import React, { useRef } from "react";
 import { shallowEqual, useSelector } from "react-redux";
+import { useReactToPrint } from "react-to-print";
+import InputField from "../../../_helper/_inputField";
+import NewSelect from "../../../_helper/_select";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import { getLetterHead } from "../bankLetter/helper";
 import IForm from "./../../../_helper/_form";
 import Loading from "./../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import { getLastDateOfMonth, monthDDL } from "./helper";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import "./style.scss";
-import { useReactToPrint } from "react-to-print";
-import { getLetterHead } from "../bankLetter/helper";
+import { getLastDateOfMonth } from "./helper";
 import PrintView from "./printView";
-import InputField from "../../../_helper/_inputField";
+import "./style.scss";
 const initData = {};
 export default function BankStock() {
   const {
@@ -20,7 +20,7 @@ export default function BankStock() {
     return state.authData;
   }, shallowEqual);
 
-  const [reportData, getReportData, loader] = useAxiosGet();
+  const [reportData, getReportData, loader, setReportData] = useAxiosGet();
   const [totalAmount, getTotalAmount] = useAxiosGet();
   const saveHandler = (values, cb) => {};
 
@@ -66,6 +66,7 @@ export default function BankStock() {
                       label="Business Unit"
                       onChange={(valueOption) => {
                         setFieldValue("businessUnit", valueOption || "");
+                        setReportData([]);
                       }}
                       errors={errors}
                       touched={touched}
@@ -80,6 +81,7 @@ export default function BankStock() {
                       type="month"
                       onChange={(e) => {
                         setFieldValue("monthYear", e?.target?.value);
+                        setReportData([]);
                       }}
                     />
                   </div>
