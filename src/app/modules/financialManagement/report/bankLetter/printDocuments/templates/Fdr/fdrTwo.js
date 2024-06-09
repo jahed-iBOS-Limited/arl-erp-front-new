@@ -23,7 +23,7 @@ const FdrTwo = ({ singleRowItem }) => {
       <div class="bank-letter-template-common-wrapper">
         <p>
           EXTRACT OF THE MINUTES OF THE MEETING OF THE BOARD OF DIRECTORS OF
-          <strong> {strAccountName}</strong> HELD ON THE
+          <strong> {strAccountName?.toUpperCase()}</strong> HELD ON THE
           <strong> {strDate}</strong> AT 11:30AM IN THE CORPORATE OFFICE OF THE
           COMPANY AT AKIJ HOUSE, 198, BIR UTTAM MIR SHAWKAT SARAK, GULSHAN LINK
           ROAD, TEJGAON, DHAKA 1208.
