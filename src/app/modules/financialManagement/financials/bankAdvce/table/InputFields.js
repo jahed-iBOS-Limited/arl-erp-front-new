@@ -51,10 +51,21 @@ const InputFields = ({ obj }) => {
         (item) => item.checked && item.strPayee?.length < 36
       );
     } else if (values?.advice?.info === "above36Character") {
-      console.log("2");
       data = adviceReportData?.filter(
         (item) => item.checked && item.strPayee?.length >= 36
       );
+    } else if (values?.adviceType?.value === 21) {
+      // adviceType 21 (TDS/VDS) 
+      const data1 = adviceReportData?.filter((item) => item.checked);
+      const firstItem = data1?.[0] || {};
+      data = [
+        {
+          ...firstItem,
+          numAmount: data1?.reduce((acc, cur) => {
+            return acc + (+cur?.numAmount || 0);
+          }, 0),
+        },
+      ];
     } else {
       data = adviceReportData?.filter((item) => item.checked);
     }
@@ -296,7 +307,6 @@ const InputFields = ({ obj }) => {
               const fileName = `${selectedBusinessUnit?.buShortName}_${
                 total ? total : 0
               }_${adviceName}_${dateFormat}`;
-              console.log("fileName", fileName);
               generateExcel(
                 data,
                 values,
@@ -343,7 +353,6 @@ const InputFields = ({ obj }) => {
               const fileName = `${selectedBusinessUnit?.buShortName}_${
                 total ? total : 0
               }_${adviceName}_${dateFormat}`;
-              console.log("fileName", fileName);
               generateExcel(
                 data,
                 values,
@@ -353,7 +362,7 @@ const InputFields = ({ obj }) => {
                 false,
                 null,
                 fileName,
-                'isOldExcelDownload'
+                "isOldExcelDownload"
               );
               // }
             }}
