@@ -289,9 +289,12 @@ export default function VoyageCharterer({
                 <td>
                   <p className="ml-3">
                     {cargoList?.reduce(
-                      (acc, cur) => acc + Number(cur?.freightRate),
+                      (acc, cur) => acc + cur?.totalFreight,
                       0
-                    )}
+                    ) /
+                      cargoList
+                        ?.reduce((acc, cur) => acc + Number(cur?.cargoQty), 0)
+                        .toFixed(2)}
                   </p>
                 </td>
                 <td className="text-right">
