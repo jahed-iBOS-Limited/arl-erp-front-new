@@ -16,7 +16,7 @@ const AccountOpenOne = ({ singleRowItem }) => {
   } = singleRowItem;
   return (
     <>
-      <div className="account-open-one-wrapper">
+      <div className="account-open-one-wrapper" contentEditable={true}>
         <div>
           <div>
             <p>
@@ -146,12 +146,12 @@ const AccountOpenOne = ({ singleRowItem }) => {
             <div>
               <p>Yours faithfully,</p>
               <p>
-                <strong>FOR, {strBusinessUnitName}</strong>
+                <strong>for, {strBusinessUnitName?.toUpperCase()}</strong>
               </p>
               <br />
 
               <p style={{ marginTop: "10px" }}>
-                <strong>(SHEIKH JASIM UDDIN)</strong>
+                <strong>(Sheikh Jasim Uddin)</strong>
               </p>
               <p>
                 <strong>Managing Director</strong>
@@ -167,7 +167,7 @@ const AccountOpenOne = ({ singleRowItem }) => {
         <div style={{ marginTop: "10px" }} className="second-part">
           <p>
             EXTRACT OF THE MINUTE OF THE MEETING OF THE BOARD OF DIRECTORS OF
-            <strong>{strBusinessUnitName}</strong> ON THE{" "}
+            <strong>{strBusinessUnitName?.toUpperCase()}</strong> ON THE{" "}
             <strong> {strBrdate} </strong> AT 11.30 A.M. IN THE REGISTERED
             OFFICE OF THE COMPANY AT AKIJ HOUSE, 198, BIR UTTAM MIR SHAWKAT
             SARAK, GULSHAN LINK ROAD, TEJGAON, DHAKA 1208.
