@@ -42,6 +42,7 @@ import DistributionQtyVariance from "./distributionQtyVariance";
 import DistributionRateVariance from "./distributionRateVariance";
 import UnallocatedProfitCenter from "./unloadProfitCenter";
 import TdsVdsStatement from "./TdsVdsStatement";
+import TdsVdsChallan from "./TdsVdsChallan";
 
 export function ReportManagmentSystem() {
   const { userRole } = useSelector((state) => state?.authData, shallowEqual);
@@ -269,9 +270,13 @@ export function ReportManagmentSystem() {
         path="/financial-management/report/unallocatedprofitcenter"
         component={UnallocatedProfitCenter}
       />
-        <ContentRoute
+      <ContentRoute
         path="/financial-management/report/tds-vds-statement"
         component={TdsVdsStatement}
+      />
+      <ContentRoute
+        path="/financial-management/report/tds-vds-challan"
+        component={TdsVdsChallan}
       />
     </Switch>
   );
