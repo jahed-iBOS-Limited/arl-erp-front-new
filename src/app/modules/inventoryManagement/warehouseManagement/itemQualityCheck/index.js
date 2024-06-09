@@ -65,7 +65,7 @@ export default function ItemQualityCheckLanding() {
   };
 
   const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
-    handleGetLandingData(values, pageNo, pageSize, searchValue);
+    handleGetLandingData(pageNo, pageSize, values, searchValue);
   };
 
   const paginationSearchHandler = (searchValue, values) => {
