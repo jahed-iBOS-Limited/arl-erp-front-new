@@ -73,7 +73,7 @@ const FdrThree = ({ singleRowItem }) => {
         <p>Thanking you,</p>
         <br />
         <p>
-          <strong>FOR {strAccountName} </strong>
+          <strong>for {strAccountName?.toUpperCase()} </strong>
         </p>
         <br />
         <br />

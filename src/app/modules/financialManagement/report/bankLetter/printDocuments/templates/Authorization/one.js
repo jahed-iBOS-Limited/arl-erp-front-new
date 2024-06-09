@@ -51,8 +51,8 @@ const AuthorizationOne = ({ singleRowItem }) => {
         <p style={{ marginTop: 35 }}>Dear Sir/ Madam,</p>
         <p>As-salamu alaykum</p>
         <p style={{ marginTop: "10px" }}>
-          We do hereby authorize <strong> {strMassengerName} </strong>,{" "}
-          {strMessengerDesignation}
+          We do hereby authorize <strong> {strMassengerName} </strong>,
+          {` ${strMessengerDesignation} `}
           of our company to receive {` ${strDocumentName} `}
           of <span> </span>
           {` ${strBusinessUnitName} `}, A/C No-
@@ -67,7 +67,7 @@ const AuthorizationOne = ({ singleRowItem }) => {
         <br />
         <p style={{ marginTop: 5 }}>Yours faithfully,</p>
         <p style={{ marginTop: 5 }}>
-          For, <b>{strBusinessUnitName}</b>
+          for, <b>{strBusinessUnitName.toUpperCase()}</b>
         </p>
         <div style={{ marginTop: 85, display: "flex" }}>
           <div>Authorized Signature</div>

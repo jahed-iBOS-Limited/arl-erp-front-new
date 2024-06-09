@@ -16,7 +16,7 @@ const AccountOpenTwo = ({ singleRowItem }) => {
   } = singleRowItem;
   return (
     <>
-      <div className="account-open-two-wrapper">
+      <div className="account-open-two-wrapper" contentEditable={true}>
         <div>
           <div>
             <p>
@@ -62,7 +62,8 @@ const AccountOpenTwo = ({ singleRowItem }) => {
             <p>
               We have the pleasure to inform you that the Board of Directors of
               the Company has decided to open <strong> {strAccountType}</strong>{" "}
-              in the name of <strong>{strBusinessUnitName}</strong> with your
+              in the name of{" "}
+              <strong>{strBusinessUnitName.toUpperCase()}</strong> with your
               branch as per the Board resolution of the Company which was held
               on the
               <strong> {strBrdate} </strong> in the Registered Office of The
@@ -148,12 +149,12 @@ const AccountOpenTwo = ({ singleRowItem }) => {
             <div>
               <p>Yours faithfully,</p>
               <p>
-                <strong>FOR, {strBusinessUnitName}</strong>
+                <strong>for, {strBusinessUnitName.toUpperCase()}</strong>
               </p>
               <br />
               <br />
               <p>
-                <strong>(SHEIKH JASIM UDDIN)</strong>
+                <strong>(Sheikh Jasim Uddin)</strong>
               </p>
               <p>
                 <strong>Managing Director</strong>
@@ -169,7 +170,7 @@ const AccountOpenTwo = ({ singleRowItem }) => {
         <div style={{ marginTop: "10px" }} className="second-part">
           <p>
             EXTRACT OF THE MINUTE OF THE MEETING OF THE BOARD OF DIRECTORS OF
-            <strong>{strBusinessUnitName}</strong> ON THE{" "}
+            <strong>{strBusinessUnitName?.toUpperCase()}</strong> ON THE{" "}
             <strong> {strBrdate}</strong> AT 11.30 A.M. IN THE REGISTERED OFFICE
             OF THE COMPANY AT AKIJ HOUSE, 198, BIR UTTAM MIR SHAWKAT SARAK,
             GULSHAN LINK ROAD, TEJGAON, DHAKA 1208.
