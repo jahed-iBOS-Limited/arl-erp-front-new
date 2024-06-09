@@ -153,13 +153,7 @@ export default function TdsVdsChallan() {
                           <th>Is Send</th>
                           <th>Challan No</th>
                           <th>Challan Attached</th>
-                          <th
-                            style={{
-                              width: "150px",
-                            }}
-                          >
-                            Action
-                          </th>
+                          <th>Action</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -184,22 +178,35 @@ export default function TdsVdsChallan() {
 
                               <td>
                                 {/* strChallanNo input */}
-                                <InputField
-                                  value={item?.strChallanNo}
-                                  name="strChallanNo"
-                                  placeholder="Challan No"
-                                  type="text"
-                                  onChange={(e) => {
-                                    const copyData = [...tableData];
-                                    copyData[index].strChallanNo =
-                                      e.target.value;
-                                    setTableData(copyData);
-                                  }}
-                                />
+                                {item?.isSend ? (
+                                  <>{item?.strChallanNo}</>
+                                ) : (
+                                  <>
+                                    {" "}
+                                    <InputField
+                                      value={item?.strChallanNo}
+                                      name="strChallanNo"
+                                      placeholder="Challan No"
+                                      type="text"
+                                      onChange={(e) => {
+                                        const copyData = [...tableData];
+                                        copyData[index].strChallanNo =
+                                          e.target.value;
+                                        setTableData(copyData);
+                                      }}
+                                    />
+                                  </>
+                                )}
                               </td>
                               <td>
+                                <div style={{
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  alignItems: "center",
+                                }}>
                                 {item?.strChallanAttached ? (
                                   <span
+                                    className="cursor-pointer"
                                     onClick={() => {
                                       dispatch(
                                         getDownlloadFileView_Action(
@@ -213,9 +220,10 @@ export default function TdsVdsChallan() {
                                 ) : (
                                   "N/A"
                                 )}
+                                </div>
                               </td>
 
-                              <th>
+                              <td>
                                 <div
                                   style={{
                                     display: "flex",
@@ -233,36 +241,41 @@ export default function TdsVdsChallan() {
                                   >
                                     <IView />
                                   </sapn>
-                                  <sapn>
-                                    {/* attachment icon */}
-                                    <button
-                                      className="btn btn-primary cursor-pointer"
-                                      onClick={() => {
-                                        setOpen(true);
-                                        setClickRowData(item);
-                                      }}
-                                    >
-                                      <i className="fa fa-paperclip"></i>
-                                    </button>
-                                  </sapn>
-                                  <sapn>
-                                    {/* save button */}
-                                    <button
-                                      className="btn btn-primary"
-                                      disabled={
-                                        !item?.strChallanNo ||
-                                        !item?.strChallanAttached
-                                      }
-                                      onClick={() => {
-                                        treasuryChallanAttHandelar(item);
-                                      }}
-                                      type="button"
-                                    >
-                                      <i className="fa fa-save"></i>
-                                    </button>
-                                  </sapn>
+                                  {!item?.isSend && (
+                                    <>
+                                      {" "}
+                                      <sapn>
+                                        {/* attachment icon */}
+                                        <button
+                                          className="btn btn-primary cursor-pointer"
+                                          onClick={() => {
+                                            setOpen(true);
+                                            setClickRowData(item);
+                                          }}
+                                        >
+                                          <i className="fa fa-paperclip"></i>
+                                        </button>
+                                      </sapn>
+                                      <sapn>
+                                        {/* save button */}
+                                        <button
+                                          className="btn btn-primary"
+                                          disabled={
+                                            !item?.strChallanNo ||
+                                            !item?.strChallanAttached
+                                          }
+                                          onClick={() => {
+                                            treasuryChallanAttHandelar(item);
+                                          }}
+                                          type="button"
+                                        >
+                                          <i className="fa fa-save"></i>
+                                        </button>
+                                      </sapn>
+                                    </>
+                                  )}
                                 </div>
-                              </th>
+                              </td>
                             </tr>
                           ))}
                       </tbody>
