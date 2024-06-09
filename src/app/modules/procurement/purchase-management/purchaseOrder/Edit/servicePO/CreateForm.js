@@ -46,7 +46,7 @@ export default function CreateForm({
   const [refNoDDL, setRefNoDDL] = useState([]);
   const [profitCenterList, setProfitCenterList] = useState([]);
   const [profitCenterListTwo, setProfitCenterListTwo] = useState([]);
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   // redux store data
   const storeData = useSelector((state) => {
@@ -76,7 +76,7 @@ export default function CreateForm({
   const addRowDtoData = (values) => {
     // if reference, can't add same reference and same item multiple
     // if not reference, can't add multiple item
-     let arr;
+    let arr;
 
     if (values?.referenceNo) {
       arr = rowDto?.filter(
@@ -87,10 +87,12 @@ export default function CreateForm({
     } else {
       arr = rowDto?.filter((item) => item?.item?.value === values?.item?.value);
     }
-    
 
-    if (arr?.length > 0 && ![12,17,102,117,208].includes(selectedBusinessUnit?.value)) {
-     return toast.warn("Not allowed to duplicate items");
+    if (
+      arr?.length > 0 &&
+      ![12, 17, 102, 117, 208].includes(selectedBusinessUnit?.value)
+    ) {
+      return toast.warn("Not allowed to duplicate items");
     } else {
       // const priceStructure = values?.item?.priceStructure?.map((item) => ({
       //   ...item,
@@ -197,14 +199,29 @@ export default function CreateForm({
       //   amount: item?.amount || 0,
       // }));
       const transferObj = {
-        costElement: { value: item?.costElementId, label: item?.costElementName },
+        costElement: {
+          value: item?.costElementId,
+          label: item?.costElementName,
+        },
         costCenter: { value: item?.costCenterId, label: item?.costCenterName },
-        profitCenter: { value: item?.profitCenterId, label: item?.profitCenterName },
+        profitCenter: {
+          value: item?.profitCenterId,
+          label: item?.profitCenterName,
+        },
       };
       const withoutTransferObj = {
-        costElementTwo: { value: item?.costElementId, label: item?.costElementName },
-        costCenterTwo: { value: item?.costCenterId, label: item?.costCenterName },
-        profitCenterTwo: { value: item?.profitCenterId, label: item?.profitCenterName },
+        costElementTwo: {
+          value: item?.costElementId,
+          label: item?.costElementName,
+        },
+        costCenterTwo: {
+          value: item?.costCenterId,
+          label: item?.costCenterName,
+        },
+        profitCenterTwo: {
+          value: item?.profitCenterId,
+          label: item?.profitCenterName,
+        },
       };
 
       const isTransfer = transferBusinessUnitId && transferBusinessUnitName;
@@ -232,7 +249,9 @@ export default function CreateForm({
         userGivenVatAmount: item?.baseVatAmount || 0,
         vatAmount: item?.vatAmount,
       };
-      const newObj = isTransfer ? { ...obj, ...transferObj } : { ...obj, ...withoutTransferObj };
+      const newObj = isTransfer
+        ? { ...obj, ...transferObj }
+        : { ...obj, ...withoutTransferObj };
       return newObj;
     });
     setRowDto([...newData]);
@@ -279,7 +298,7 @@ export default function CreateForm({
     transferCostElementId,
     transferCostElementName,
     profitCenterId,
-    profitCenterName
+    profitCenterName,
   } = singleData?.objHeaderDTO;
 
   // getRefNoDdlBySupplier
@@ -351,18 +370,30 @@ export default function CreateForm({
       `/fino/BusinessTransaction/BusinessTransactionList?GroupId=1&BusinessUnitId=${selectedBusinessUnit?.value}`
     );
   }, [selectedBusinessUnit]);
- 
+
   const getIsDisabledAddBtn = (values) => {
     if (values.isTransfer) {
-      if (!values?.controllingUnit || !values?.item || !values?.costElement|| !values?.costCenter || !values?.profitCenter) {
+      if (
+        !values?.controllingUnit ||
+        !values?.item ||
+        !values?.costElement ||
+        !values?.costCenter ||
+        !values?.profitCenter
+      ) {
         return true;
       }
     } else {
-      if (!values?.controllingUnit || !values?.costElementTwo || !values?.costCenterTwo || !values?.profitCenterTwo || !values?.item) {
+      if (
+        !values?.controllingUnit ||
+        !values?.costElementTwo ||
+        !values?.costCenterTwo ||
+        !values?.profitCenterTwo ||
+        !values?.item
+      ) {
         return true;
       }
     }
-  }
+  };
   return (
     <>
       <Formik
@@ -393,10 +424,10 @@ export default function CreateForm({
           orderDate: _dateFormatter(purchaseOrderDate),
           lastShipmentDate: _dateFormatter(lastShipmentDate),
           currency: { value: currencyId, label: currencyCode },
-          paymentTerms: { value: paymentTerms, label: paymentTermsName },
+          paymentTerms: paymentTerms? { value: paymentTerms, label: paymentTermsName }: '',
           cash: cashOrAdvancePercent,
           payDays: paymentDaysAfterDelivery,
-          incoterms: { value: incotermsId, label: incotermsName },
+          incoterms: incotermsId? { value: incotermsId, label: incotermsName }: '',
           supplierReference,
           referenceDate: _dateFormatter(referenceDate),
           validity: _dateFormatter(validityDate),
@@ -405,12 +436,12 @@ export default function CreateForm({
           item: "",
           controllingUnit: "",
           profitCenter:
-          profitCenterId && profitCenterName
-            ? {
-                value: profitCenterId,
-                label: profitCenterName,
-              }
-            : "",
+            profitCenterId && profitCenterName
+              ? {
+                  value: profitCenterId,
+                  label: profitCenterName,
+                }
+              : "",
           costCenter: {
             value: transferCostCenterId,
             label: transferCostCenterName,
@@ -441,7 +472,9 @@ export default function CreateForm({
           isValid,
         }) => (
           <>
-          {loading && <Loading />}
+            {loading && <Loading />}
+            {console.log(values)}
+            {console.log(errors)}
             <Form className="form form-label-right po-label">
               <div className="global-form">
                 {values?.supplierName?.label && (
@@ -701,7 +734,7 @@ export default function CreateForm({
                       </div>
                     )}
                   </div> */}
-                 <div className={values.isTransfer ? "col-lg-4" : "col-lg-6"}>
+                  <div className={values.isTransfer ? "col-lg-4" : "col-lg-6"}>
                     {/* <IInput
                       value={values?.otherTerms}
                       label="Other Terms"
@@ -731,7 +764,7 @@ export default function CreateForm({
                         checked={values.isTransfer}
                         onChange={(e) => {
                           setFieldValue("isTransfer", e.target.checked);
-                          setRowDto([])
+                          setRowDto([]);
                           setFieldValue("transferBusinessUnit", "");
                           setFieldValue("costCenter", "");
                           setFieldValue("costElement", "");
@@ -742,8 +775,8 @@ export default function CreateForm({
                       />
                     </div>
                   </div>
-                  {
-                    values.isTransfer && <>
+                  {values.isTransfer && (
+                    <>
                       <div className="col-lg-2">
                         <NewSelect
                           label="Transfer Business unit"
@@ -775,54 +808,54 @@ export default function CreateForm({
                           errors={errors}
                           touched={touched}
                         />
-                    </div>
-                    <div className="col-lg-2">
-                      <NewSelect
-                        name="profitCenter"
-                        options={profitCenterList || []}
-                        value={values?.profitCenter}
-                        onChange={(valueOption) => {
-                          setFieldValue("profitCenter", valueOption);
-                        }}
-                        label="Profit Center"
-                        placeholder="Profit Center"
-                        errors={errors}
-                        touched={touched}
-                        isDisabled={!values?.isTransfer}
-                      />
-                    </div>
-                    <div className="col-lg-2">
-                      <NewSelect
-                        name="costCenter"
-                        options={costCenterList}
-                        value={values?.costCenter}
-                        onChange={(valueOption) => {
-                          setFieldValue("costCenter", valueOption);
-                        }}
-                        label="Cost Center"
-                        placeholder="Cost Center"
-                        errors={errors}
-                        touched={touched}
-                        isDisabled={!values?.isTransfer}
-                      />
-                    </div>
-                    <div className="col-lg-2">
-                      <NewSelect
-                        name="costElement"
-                        options={costElementList}
-                        value={values?.costElement}
-                        onChange={(valueOption) => {
-                          setFieldValue("costElement", valueOption);
-                        }}
-                        label="Cost Element"
-                        placeholder="Cost Element"
-                        errors={errors}
-                        touched={touched}
-                        isDisabled={!values?.isTransfer}
-                      />
-                    </div>
+                      </div>
+                      <div className="col-lg-2">
+                        <NewSelect
+                          name="profitCenter"
+                          options={profitCenterList || []}
+                          value={values?.profitCenter}
+                          onChange={(valueOption) => {
+                            setFieldValue("profitCenter", valueOption);
+                          }}
+                          label="Profit Center"
+                          placeholder="Profit Center"
+                          errors={errors}
+                          touched={touched}
+                          isDisabled={!values?.isTransfer}
+                        />
+                      </div>
+                      <div className="col-lg-2">
+                        <NewSelect
+                          name="costCenter"
+                          options={costCenterList}
+                          value={values?.costCenter}
+                          onChange={(valueOption) => {
+                            setFieldValue("costCenter", valueOption);
+                          }}
+                          label="Cost Center"
+                          placeholder="Cost Center"
+                          errors={errors}
+                          touched={touched}
+                          isDisabled={!values?.isTransfer}
+                        />
+                      </div>
+                      <div className="col-lg-2">
+                        <NewSelect
+                          name="costElement"
+                          options={costElementList}
+                          value={values?.costElement}
+                          onChange={(valueOption) => {
+                            setFieldValue("costElement", valueOption);
+                          }}
+                          label="Cost Element"
+                          placeholder="Cost Element"
+                          errors={errors}
+                          touched={touched}
+                          isDisabled={!values?.isTransfer}
+                        />
+                      </div>
                     </>
-                  }
+                  )}
                   {/* <div className="col-lg-2">
                     <ISelect
                       label="Business Transaction"
@@ -863,10 +896,11 @@ export default function CreateForm({
                         touched={touched}
                       />
                     </div>
-                   {
-                     values?.isTransfer ? "":(
-                       <>
-                         <div className="col-lg-2">
+                    {values?.isTransfer ? (
+                      ""
+                    ) : (
+                      <>
+                        <div className="col-lg-2">
                           <NewSelect
                             name="profitCenterTwo"
                             options={profitCenterListTwo || []}
@@ -878,9 +912,8 @@ export default function CreateForm({
                             placeholder="Profit Center"
                             errors={errors}
                             touched={touched}
-                          
                           />
-                         </div>
+                        </div>
                         <div className="col-lg-2">
                           <NewSelect
                             name="costElementTwo"
@@ -910,9 +943,8 @@ export default function CreateForm({
                             touched={touched}
                           />
                         </div>
-                       </>
-                     )
-                   }
+                      </>
+                    )}
                     <div className="col-lg-2">
                       <NewSelect
                         name="referenceNo"
@@ -1016,7 +1048,7 @@ export default function CreateForm({
                           onClick={() => {
                             addRowDtoData(values);
                           }}
-                          disabled={ getIsDisabledAddBtn(values)}
+                          disabled={getIsDisabledAddBtn(values)}
                           className="btn btn-primary"
                           type="button"
                         >

@@ -21,22 +21,22 @@ import { IconButton, makeStyles } from "@material-ui/core";
 const useStyles = makeStyles((theme) => ({
   button: {
     margin: theme.spacing(0.1),
-    backgroundColor: 'lightblue',
-    '&:hover': {
-      backgroundColor: 'blue',
+    backgroundColor: "lightblue",
+    "&:hover": {
+      backgroundColor: "blue",
     },
-    padding: '1px',
+    padding: "1px",
   },
   increaseButton: {
-    backgroundColor: 'lightgreen',
-    '&:hover': {
-      backgroundColor: 'green',
+    backgroundColor: "lightgreen",
+    "&:hover": {
+      backgroundColor: "green",
     },
     margin: theme.spacing(0.1),
-    padding: '1px'
+    padding: "1px",
   },
   icon: {
-    fontSize: '10px',
+    fontSize: "10px",
   },
 }));
 const ViewData = ({ adviceReportData, values }) => {
@@ -79,6 +79,8 @@ const ViewData = ({ adviceReportData, values }) => {
     total ? total : 0
   }_${adviceName}_${dateFormat}`;
 
+  console.log(values?.adviceType?.value, values?.advice?.value);
+  console.log(values)
   return (
     <>
       <div className="d-flex justify-content-end align-items-end">
@@ -99,7 +101,7 @@ const ViewData = ({ adviceReportData, values }) => {
               aria-label="decrease"
               className={classes.button}
             >
-              <RemoveIcon className={classes.icon}/>
+              <RemoveIcon className={classes.icon} />
             </IconButton>
             <span>{fontSize}</span>
             <IconButton
@@ -111,7 +113,7 @@ const ViewData = ({ adviceReportData, values }) => {
               aria-label="increase"
               className={classes.increaseButton}
             >
-              <AddIcon className={classes.icon}/>
+              <AddIcon className={classes.icon} />
             </IconButton>
           </div>
           {/* <input
@@ -148,7 +150,7 @@ const ViewData = ({ adviceReportData, values }) => {
                 false,
                 null,
                 fileName,
-                'isOldExcelDownload'
+                "isOldExcelDownload"
               );
             } else {
               generateExcel(
@@ -160,7 +162,7 @@ const ViewData = ({ adviceReportData, values }) => {
                 false,
                 null,
                 fileName,
-                'isOldExcelDownload'
+                "isOldExcelDownload"
               );
             }
           }}
