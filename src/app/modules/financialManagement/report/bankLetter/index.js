@@ -28,6 +28,7 @@ import AccountCloseFour from "./printDocuments/templates/AccountClose/four";
 import AuthorizationOne from "./printDocuments/templates/Authorization/one";
 import SignatoryChangeOne from "./printDocuments/templates/SignatoryChange/one";
 import SignatoryChangeTwo from "./printDocuments/templates/SignatoryChange/two";
+import BankCertificateOne from "./printDocuments/templates/BankCertificate/one";
 
 const initData = {
   businessUnit: "",
@@ -245,6 +246,10 @@ export default function BankLetter() {
                       {
                         value: 5,
                         label: "Signatory change",
+                      },
+                      {
+                        value: 6,
+                        label: "Bank Certificate",
                       },
                     ]}
                     value={values?.templateType}
@@ -672,6 +677,11 @@ export default function BankLetter() {
                             singleRowItem?.intBankLetterTemplateId
                           ) && (
                             <SignatoryChangeTwo singleRowItem={singleRowItem} />
+                          )}
+                          {[13].includes(
+                            singleRowItem?.intBankLetterTemplateId
+                          ) && (
+                            <BankCertificateOne singleRowItem={singleRowItem} />
                           )}
                         </div>
                       </tbody>

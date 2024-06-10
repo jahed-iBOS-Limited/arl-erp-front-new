@@ -48,7 +48,7 @@ const AccountCloseFour = ({ singleRowItem }) => {
           <br />
 
           <div>
-            <p>The Manager</p>
+            <p>The Head of the Branch</p>
             <p>
               <strong>{strBankName}</strong>
             </p>
@@ -108,7 +108,7 @@ const AccountCloseFour = ({ singleRowItem }) => {
             <br />
             <p>Yours faithfully,</p>
             <p>
-              <strong>for, {strAccountName} </strong>
+              <strong>For, {strAccountName?.toUpperCase()} </strong>
             </p>
           </div>
           <br />
@@ -132,7 +132,7 @@ const AccountCloseFour = ({ singleRowItem }) => {
         <div className="second-part">
           <p>
             EXTRACT OF THE MINUTES OF THE MEETING OF THE BOARD OF DIRECTORS OF
-            <strong> {strAccountName}</strong> HELD ON THE
+            <strong> {strAccountName?.toUpperCase()}</strong> HELD ON THE
             <strong> {strBrdate}</strong> AT 11:30AM IN THE CORPORATE OFFICE OF
             THE COMPANY AT AKIJ HOUSE, 198, BIR UTTAM MIR SHAWKAT SARAK, GULSHAN
             LINK ROAD, TEJGAON, DHAKA 1208.
