@@ -32,7 +32,7 @@ const AccountCloseOne = ({ singleRowItem }) => {
           </div>
           <br />
           <div>
-            <p>The Manager</p>
+            <p>The Head of the Branch</p>
             <p>
               <strong>{strBankName}</strong>
             </p>
@@ -88,7 +88,7 @@ const AccountCloseOne = ({ singleRowItem }) => {
             <br />
             <p>Yours faithfully,</p>
             <p>
-              <strong>for, {strAccountName?.toUpperCase()} </strong>
+              <strong>For, {strAccountName?.toUpperCase()} </strong>
             </p>
           </div>
           <br />

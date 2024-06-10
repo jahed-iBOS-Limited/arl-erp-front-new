@@ -30,7 +30,7 @@ const FdrThree = ({ singleRowItem }) => {
         </p>
         <p>Date : {strDate}</p>
         <br />
-        <p>The Manager</p>
+        <p>The Head of the Branch</p>
         <p>
           <strong>{strBankName}</strong>
         </p>
@@ -73,7 +73,7 @@ const FdrThree = ({ singleRowItem }) => {
         <p>Thanking you,</p>
         <br />
         <p>
-          <strong>for {strAccountName?.toUpperCase()} </strong>
+          <strong>For {strAccountName?.toUpperCase()} </strong>
         </p>
         <br />
         <br />
