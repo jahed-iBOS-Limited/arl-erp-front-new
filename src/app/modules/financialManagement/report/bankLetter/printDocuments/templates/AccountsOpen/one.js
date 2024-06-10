@@ -32,7 +32,7 @@ const AccountOpenOne = ({ singleRowItem }) => {
           <br />
           <div>
             <p>
-              <strong>The Manager</strong>
+              <strong>The Head of the Branch</strong>
             </p>
             <p>{strBankName}</p>
             <p>{strBranchName}</p>
@@ -146,7 +146,7 @@ const AccountOpenOne = ({ singleRowItem }) => {
             <div>
               <p>Yours faithfully,</p>
               <p>
-                <strong>for, {strBusinessUnitName?.toUpperCase()}</strong>
+                <strong>For, {strBusinessUnitName?.toUpperCase()}</strong>
               </p>
               <br />
 
@@ -310,14 +310,14 @@ const AccountOpenOne = ({ singleRowItem }) => {
         ></div> */}
         <div style={{ marginTop: "-19px" }}>
           <div style={{ textAlign: "center" }}>
-            <p>
+            <div>
               <strong>
                 <u>ANNEXURE -1</u>
               </strong>
-            </p>
-            <p>
+            </div>
+            <div>
               <u>LIST OF AUTHORIZED OFFICERS </u>
-            </p>
+            </div>
           </div>
           <div>
             <table className="no_border_table">
@@ -344,9 +344,9 @@ const AccountOpenOne = ({ singleRowItem }) => {
             </table>
           </div>
           <div>
-            <p style={{ textAlign: "center" }}>
+            <div style={{ textAlign: "center" }}>
               <strong>Group – A</strong>
-            </p>
+            </div>
             <table className="border_table">
               <tbody>
                 <tr>
@@ -378,12 +378,12 @@ const AccountOpenOne = ({ singleRowItem }) => {
             </table>
           </div>
           <div>
-            <p style={{ textAlign: "center" }}>
+            <div style={{ textAlign: "center" }}>
               <strong>OR</strong>
-            </p>
-            <p style={{ textAlign: "center" }}>
+            </div>
+            <div style={{ textAlign: "center" }}>
               <strong>Group - B</strong>
-            </p>
+            </div>
             {/* <br /> */}
 
             <table className="border_table">
@@ -485,17 +485,17 @@ const AccountOpenOne = ({ singleRowItem }) => {
             }}
           >
             <strong>Attested by</strong>
-            <p style={{ marginTop: "7px", paddingTop: "30px" }}>
+            <div style={{ marginTop: "7px", paddingTop: "30px" }}>
               <strong style={{ fontSize: "15px" }}>(Sheikh Jasim Uddin)</strong>
-            </p>
-            <p
+            </div>
+            <div
               style={{
                 marginTop: "-7px",
                 fontSize: "16px",
               }}
             >
               Managing Director
-            </p>
+            </div>
           </div>
         </div>
       </div>

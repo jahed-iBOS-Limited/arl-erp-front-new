@@ -67,7 +67,7 @@ const AuthorizationOne = ({ singleRowItem }) => {
         <br />
         <p style={{ marginTop: 5 }}>Yours faithfully,</p>
         <p style={{ marginTop: 5 }}>
-          for, <b>{strBusinessUnitName.toUpperCase()}</b>
+          For, <b>{strBusinessUnitName.toUpperCase()}</b>
         </p>
         <div style={{ marginTop: 85, display: "flex" }}>
           <div>Authorized Signature</div>

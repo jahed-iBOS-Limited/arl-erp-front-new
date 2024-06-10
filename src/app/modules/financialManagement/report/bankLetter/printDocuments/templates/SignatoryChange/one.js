@@ -18,7 +18,10 @@ const SignatoryChangeOne = ({ singleRowItem }) => {
   } = singleRowItem;
   return (
     <>
-      <div className="bank-letter-template-common-wrapper signatory-wrapper">
+      <div
+        className="bank-letter-template-common-wrapper signatory-wrapper"
+        style={{ textAlign: "Justify" }}
+      >
         <p style={{ fontSize: 16 }}>
           <b>Date: {moment(strDate).format("LL")} </b>
         </p>
@@ -119,7 +122,7 @@ const SignatoryChangeOne = ({ singleRowItem }) => {
           <div>
             <p>Thanking you</p>
             <p>
-              <strong>for, {strBusinessUnitName?.toUpperCase()}</strong>
+              <strong>For, {strBusinessUnitName?.toUpperCase()}</strong>
             </p>
             <br />
             <br />
@@ -258,17 +261,17 @@ const SignatoryChangeOne = ({ singleRowItem }) => {
             pageBreakAfter: "always",
           }}
         ></div>
-        <p style={{ textAlign: "center" }}>
+        <div style={{ textAlign: "center" }}>
           <b>
             <u> ANNEXURE -1</u>
           </b>
-        </p>
+        </div>
         <br />
-        <p style={{ textAlign: "center", marginTop: "-15px" }}>
+        <div style={{ textAlign: "center", marginTop: "-15px" }}>
           <b>
             <u> LIST OF AUTHORIZED OFFICERS</u>
           </b>
-        </p>
+        </div>
         <div style={{ margin: "20px 100px" }}>
           <table style={{ border: "1px solid black" }}>
             <thead>
