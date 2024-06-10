@@ -12,7 +12,7 @@ import PaginationTable from "../../../_helper/_tablePagination";
 import { _todayDate } from "../../../_helper/_todayDate";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-// import "./style.css";
+import "./styles.css";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import IEdit from "../../../_helper/_helperIcons/_edit";
 import IViewModal from "../../../_helper/_viewModal";
@@ -209,47 +209,20 @@ export default function LandRegister() {
                           <td className="text-center">{item?.strHoldingNo}</td>
 
                           <td className="text-center">
-                            <div className="">
-                              {/* {item?.attachment ? (
-                                  <OverlayTrigger
-                                    overlay={
-                                      <Tooltip id="cs-icon">
-                                        View Attachment
-                                      </Tooltip>
-                                    }
-                                  >
-                                    <span
-                                      onClick={(e) => {
-                                        e.stopPropagation();
-                                        dispatch(
-                                          getDownlloadFileView_Action(
-                                            item?.attachment
-                                          )
-                                        );
-                                      }}
-                                      className="ml-2"
-                                    >
-                                      <i
-                                        style={{ fontSize: "16px" }}
-                                        className={`fa pointer fa-eye`}
-                                        aria-hidden="true"
-                                      ></i>
-                                    </span>
-                                  </OverlayTrigger>
-                                ) : null} */}
-                              <span
+                            <div className="btn-container">
+                              <button
                                 type="button"
-                                className="btn btn-primary "
+                                className="btn btn-primary mr-2"
                                 onClick={() => {
                                   setIsShowUpdateModal(true);
                                   setSingleData(item);
                                 }}
                               >
                                 Mutation
-                              </span>
+                              </button>
                               <span
+                                className="mt-2"
                                 onClick={() => {
-                                  //   setIsShowUpdateModal(true);
                                   history.push({
                                     pathname: `/mngAsset/registration/LandRegister/edit/${item?.intLandGeneralPk}`,
                                     state: item,
@@ -258,25 +231,6 @@ export default function LandRegister() {
                               >
                                 <IEdit />
                               </span>
-                              {/* <span
-                                className="px-5"
-                                onClick={() => {
-                                  setIsShowHistoryModal(true);
-                                  setSingleData(item);
-                                }}
-                              >
-                                <OverlayTrigger
-                                  overlay={
-                                    <Tooltip id="cs-icon">History</Tooltip>
-                                  }
-                                >
-                                  <i
-                                    style={{ fontSize: "16px" }}
-                                    class="fa fa-history cursor-pointer"
-                                    aria-hidden="true"
-                                  ></i>
-                                </OverlayTrigger>
-                              </span> */}
                             </div>
                           </td>
                           {/* <td className="text-center">

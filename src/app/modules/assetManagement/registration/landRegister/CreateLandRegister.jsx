@@ -77,7 +77,6 @@ export default function CreateLandRegister() {
   }, []);
 
   const saveHandler = (values, cb) => {
-    console.log({ values });
     const payload = {
       intLandGeneralPk: state?.intLandGeneralPk ? state?.intLandGeneralPk : 0,
       strTerritoryName: values?.territory,
@@ -120,7 +119,7 @@ export default function CreateLandRegister() {
       strRemark: "", // assuming this value is not present in the form
     };
 
-    onSave(`/asset/AGLandMange/SaveAGLandTrxGeneral`, payload, null, true);
+    onSave(`/asset/AGLandMange/SaveAGLandTrxGeneral`, payload, cb, true);
   };
 
   const mapStateToInitialValues = (state) => ({
@@ -179,6 +178,7 @@ export default function CreateLandRegister() {
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
           resetForm(initData);
+          history.push(`/mngAsset/registration/LandRegister`);
         });
       }}
     >
