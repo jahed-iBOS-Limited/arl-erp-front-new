@@ -81,7 +81,8 @@ export default function TdsVdsChallan() {
           tdsvdschallanDetailsList,
           () => {
             commonGetGridData(initData);
-          }
+          },
+          true
         );
       },
       true
