@@ -67,7 +67,7 @@ const ChallanPrint = ({ challanInfo }) => {
               fontSize: "60px",
             }}
           >
-            {selectedBusinessUnit?.label}
+            {challanInfo?.businessUnitName}
           </h1>
           <h2><b>A sister concern of Akij Resources</b></h2>
           {/* <img
@@ -81,9 +81,9 @@ const ChallanPrint = ({ challanInfo }) => {
             <div>
               <p>
                 {challanInfo?.businessUnitAddress} <br />
-                phone: 08000555777
+                phone: {challanInfo?.phoneNumber}
                 <br />
-                E-mail: info@thesuccessors.com
+                E-mail: {challanInfo?.businessUnitEmail}
                 <br />
                 DO: {challanInfo?.deliveryCode}
               </p>
@@ -92,7 +92,7 @@ const ChallanPrint = ({ challanInfo }) => {
               <p>জরুরী প্রয়োজনে</p>
               <div className="flex">
                 <p>মোবাইল : </p>
-                <p> 01707-851505</p>
+                <p>{challanInfo?.emergencyContact} </p>
               </div>
             </div>
           </div>
@@ -119,7 +119,7 @@ const ChallanPrint = ({ challanInfo }) => {
           <div style={{ borderBottom: "1.5px solid black" }}>
             <div className="flex mb-5">
               <div className="width_50 pr-5">
-                <p>প্রেরকঃ M/S The Successors</p>
+                <p>প্রেরকঃ {challanInfo?.businessUnitName}</p>
                 <p>লোডিং পয়েন্ট : {challanInfo?.shipPointName}</p>
                 <p>ট্রাক/বাস মালিকের নাম : {challanInfo?.supplierName}</p>
                 <p>ঠিকানা : </p>

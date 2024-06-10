@@ -1,28 +1,26 @@
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
 import IView from "../../../_helper/_helperIcons/_view";
 import InputField from "../../../_helper/_inputField";
-import { _monthFirstDate } from "../../../_helper/_monthFirstDate";
+import PaginationSearch from "../../../_helper/_search";
 import NewSelect from "../../../_helper/_select";
 import PaginationTable from "../../../_helper/_tablePagination";
-import { _todayDate } from "../../../_helper/_todayDate";
 import IViewModal from "../../../_helper/_viewModal";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import { setItemQualityCheckLandingInitDataAction } from "../../../_helper/reduxForLocalStorage/Actions";
 import { InventoryTransactionReportViewTableRow } from "../invTransaction/report/tableRow";
 import IForm from "./../../../_helper/_form";
 import Loading from "./../../../_helper/_loading";
 import QualityCheckViewModal from "./modal/viewModal";
-import PaginationSearch from "../../../_helper/_search";
-const initData = {
-  plant: "",
-  warehouse: "",
-  fromDate: _monthFirstDate(),
-  toDate: _todayDate(),
-};
+
+
 export default function ItemQualityCheckLanding() {
+  const initData = useSelector((state) => {
+    return state.localStorage.ItemQualityCheckLandingInitData || {};
+  }, shallowEqual);
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
   const [singleItemForMRR, setSingleItemForMRR] = useState(null);
@@ -38,7 +36,7 @@ export default function ItemQualityCheckLanding() {
     loadingLandingData,
     setLandingData,
   ] = useAxiosGet();
-
+  const dispatch = useDispatch();
   const [plantDDL, getPlantDDL] = useAxiosGet();
   const [warehouseDDL, getWarehouseDDL] = useAxiosGet();
   const [isShowModal, setShowModal] = useState(false);
@@ -46,6 +44,12 @@ export default function ItemQualityCheckLanding() {
 
   const [isShowModalTwo, setIsShowModalTwo] = useState(false);
   const [currentRowData, setCurrentRowData] = useState("");
+
+  useEffect(()=>{
+    handleGetLandingData(pageNo, pageSize, initData);
+    
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[initData])
 
   const handleGetLandingData = (pageNo, pageSize, values, searchValue="") => {
     const searchTerm = searchValue ? `&search=${searchValue}` : ""
@@ -195,7 +199,7 @@ export default function ItemQualityCheckLanding() {
                     type="button"
                     className="btn btn-primary"
                     onClick={() => {
-                      handleGetLandingData(pageNo, pageSize, values);
+                      dispatch(setItemQualityCheckLandingInitDataAction(values));
                       setSingleItemForMRR(false);
                     }}
                     disabled={!values?.plant || !values?.warehouse}

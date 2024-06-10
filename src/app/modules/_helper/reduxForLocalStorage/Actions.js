@@ -437,3 +437,6 @@ export const setItemBasicInfoInitDataAction = (data) => (dispatch) => {
 export const setOEECapacityConfigurationAction = (data) => (dispatch) => {
   dispatch(slice.setOEECapacityConfigurationData(data));
 };
+export const setItemQualityCheckLandingInitDataAction = (data) => (dispatch) => {
+  dispatch(slice.setItemQualityCheckLandingInitData(data));
+};
