@@ -25,6 +25,9 @@ const initData = {
   beneficiary: "",
   journalDate: _todayDate(),
   cargo: "",
+  receivedDate: '',
+  bankAccNo: '',
+  receiveAmount: '',
 };
 
 export default function VoyageCharterForm() {
