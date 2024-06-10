@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { _currentTime, _todaysStartTime } from "../_currentTime";
 import { _todaysEndTime } from "./../_currentTime";
 import { _todayDate } from "./../_todayDate";
+import { _monthFirstDate } from "../_monthFirstDate";
 
 const initState = {
   leaveMovementApp: {
@@ -653,6 +654,12 @@ const initState = {
     plant: '',
     shopFloor: '',
     machine: '',
+  },
+  ItemQualityCheckLandingInitData : {
+    plant: "",
+    warehouse: "",
+    fromDate: _monthFirstDate(),
+    toDate: _todayDate(),
   }
 };
 
@@ -1152,6 +1159,10 @@ export const localStorageSlice = createSlice({
     setOEECapacityConfigurationData: (state, action) => {
       const { payload } = action;
       state.OEECapacityConfigurationInitData = payload;
+    },
+    setItemQualityCheckLandingInitData: (state, action) => {
+      const { payload } = action;
+      state.ItemQualityCheckLandingInitData = payload;
     },
   },
 });
