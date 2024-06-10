@@ -578,3 +578,39 @@ const getPayload = (
     narration: values?.narration,
   };
 };
+export const getAccDDL = async (accId, buId, setter) => {
+  try {
+    const res = await axios.get(
+      `/costmgmt/BankAccount/GetBankAccountDDL?AccountId=${accId}&BusinssUnitId=${buId}`
+    );
+    if (res.status === 200 && res?.data) {
+      setter(res?.data);
+    }
+  } catch (error) {}
+};
+
+// {
+//   transactionId: 1,
+//   unitId: 1,
+//   accountId: 1,
+//   charterId: 1,
+//   receiveAmount: 1,
+//   bankAccountId: 1,
+// }
+
+export const voyageCharterBRApi = async (payload, setLoading, cb) => {
+  setLoading(true);
+  try {
+    const res = await axios.post(
+      `${imarineBaseUrl}/domain/VoyageCharter/VoyageCharterBR?VoyageCharterTransactionId=${payload?.transactionId}&businessUnitId=${payload?.unitId}&accountId=${payload?.accountId}&charterId=${payload?.charterId}&receiveAmount=${payload?.receiveAmount}&bankAccountId=${payload?.bankAccountId}&receiveDate=${payload?.receiveDate}`
+    );
+    toast.success(res?.data?.message, { toastId: 234 });
+    cb();
+    setLoading(false);
+  } catch (error) {
+    toast.warning(error?.response?.data?.message, {
+      toastId: 232,
+    });
+    setLoading(false);
+  }
+};
