@@ -66,15 +66,13 @@ export default function TdsVdsChallan() {
         const tdsvdschallanDetailsList = item?.tdsvdschallanDetails?.map(
           (row) => {
             return {
-              intRowId: row?.intRowId || 0,
-              intTdsVdsHeaderId: 1,
-              intSupplierId: row?.intSupplierId || 0,
-              strSupplierName: row?.strSupplierName || "",
-              strSupplierCode: row?.strSupplierCode || "",
-              strTinBinNo: row?.strTinBinNo || "",
-              numAmount: row?.numAmount || 0,
-              email: row?.strSupplierEmail || "",
+              intTdsVdsHeaderId: row?.intTdsVdsHeaderId || 0,
+              numAmount: +row?.numAmount || 0,
               strChallanAttached: `${APIUrl}/domain/Document/DownlloadFile?id=${item?.strChallanAttached}`,
+              strEmail: row?.strSupplierEmail || "",
+              strSubject: "Treasury Challan",
+              strSupplierName: row?.strSupplierName || "",
+              strTinBinNo: row?.strTinBinNo || "",
             };
           }
         );
@@ -83,7 +81,7 @@ export default function TdsVdsChallan() {
           tdsvdschallanDetailsList,
           () => {
             commonGetGridData(initData);
-          },
+          }
         );
       },
       true
@@ -178,9 +176,13 @@ export default function TdsVdsChallan() {
                           <th>Is Send</th>
                           <th>Challan No</th>
                           <th>Challan Attached</th>
-                          <th style={{
-                            width: "150px"
-                          }}>Action</th>
+                          <th
+                            style={{
+                              width: "150px",
+                            }}
+                          >
+                            Action
+                          </th>
                         </tr>
                       </thead>
                       <tbody>
@@ -270,39 +272,39 @@ export default function TdsVdsChallan() {
                                   >
                                     <IView />
                                   </sapn>
-                                  {/* {!item?.isSend && ( */}
-                                  <>
-                                    {" "}
-                                    <sapn>
-                                      {/* attachment icon */}
-                                      <button
-                                        className="btn btn-primary cursor-pointer"
-                                        onClick={() => {
-                                          setOpen(true);
-                                          setClickRowData(item);
-                                        }}
-                                      >
-                                        <i className="fa fa-paperclip"></i>
-                                      </button>
-                                    </sapn>
-                                    <sapn>
-                                      {/* save button */}
-                                      <button
-                                        className="btn btn-primary"
-                                        disabled={
-                                          !item?.strChallanNo ||
-                                          !item?.strChallanAttached
-                                        }
-                                        onClick={() => {
-                                          treasuryChallanAttHandelar(item);
-                                        }}
-                                        type="button"
-                                      >
-                                        <i className="fa fa-save"></i>
-                                      </button>
-                                    </sapn>
-                                  </>
-                                  {/* )} */}
+                                  {!item?.isSend && (
+                                    <>
+                                      {" "}
+                                      <sapn>
+                                        {/* attachment icon */}
+                                        <button
+                                          className="btn btn-primary cursor-pointer"
+                                          onClick={() => {
+                                            setOpen(true);
+                                            setClickRowData(item);
+                                          }}
+                                        >
+                                          <i className="fa fa-paperclip"></i>
+                                        </button>
+                                      </sapn>
+                                      <sapn>
+                                        {/* save button */}
+                                        <button
+                                          className="btn btn-primary"
+                                          disabled={
+                                            !item?.strChallanNo ||
+                                            !item?.strChallanAttached
+                                          }
+                                          onClick={() => {
+                                            treasuryChallanAttHandelar(item);
+                                          }}
+                                          type="button"
+                                        >
+                                          <i className="fa fa-save"></i>
+                                        </button>
+                                      </sapn>
+                                    </>
+                                  )}
                                 </div>
                               </td>
                             </tr>
@@ -329,7 +331,9 @@ export default function TdsVdsChallan() {
                     <thead>
                       <tr>
                         <th>SL</th>
+                        <th>Code</th>
                         <th>Supplier Name</th>
+                        <th>Supplier Email</th>
                         <th>Tin Bin No</th>
                         <th>Amount</th>
                       </tr>
@@ -340,14 +344,16 @@ export default function TdsVdsChallan() {
                           (item, index) => (
                             <tr key={index}>
                               <td>{index + 1}</td>
+                              <td>{item?.strSupplierCode}</td>
                               <td>{item?.strSupplierName}</td>
+                              <td>{item?.strSupplierEmail}</td>
                               <td>{item?.strTinBinNo}</td>
                               <td>{_formatMoney(item?.numAmount)}</td>
                             </tr>
                           )
                         )}
                       <tr>
-                        <td colSpan="3" className="text-right">
+                        <td colSpan="5" className="text-right">
                           <strong>Total</strong>
                         </td>
                         <td>
