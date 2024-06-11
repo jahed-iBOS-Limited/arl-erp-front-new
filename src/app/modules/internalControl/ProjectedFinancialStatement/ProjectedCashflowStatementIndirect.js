@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-// import numberWithCommas from "../../_helper/_numberWithCommas";
+import numberWithCommas from "../../_helper/_numberWithCommas";
 // import moment from "moment";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import ReactToPrint from "react-to-print";
@@ -14,7 +14,7 @@ export default function ProjectedCashflowStatementIndirect({
 
   return (
     <>
-      <div>
+      <div className="projectedCashflowStatementIndirect">
         {rowData.length > 0 && (
           <>
             <div>
@@ -59,6 +59,30 @@ export default function ProjectedCashflowStatementIndirect({
                     </strong>
                   </p>
                 </div>
+                <div>
+                  <div className="col-12">
+                    <div
+                      style={{
+                        display: "flex",
+                        gap: "10px",
+                      }}
+                    >
+                      <p className="m-0">
+                        <b>Opening: </b>
+
+                        {numberWithCommas(
+                          Math.round(rowData?.[0]?.numOpen || 0)
+                        )}
+                      </p>
+                      <p className="m-0">
+                        <b>Closing: </b>
+                        {numberWithCommas(
+                          Math.round(rowData?.[0]?.numClose || 0)
+                        )}
+                      </p>
+                    </div>
+                  </div>
+                </div>
               </div>
               <div className="table-responsive">
                 <table
@@ -68,40 +92,32 @@ export default function ProjectedCashflowStatementIndirect({
                 >
                   <thead>
                     <tr>
+                      {/* <th>SL</th> */}
                       <th>Particulars</th>
                       <th>Amount</th>
                     </tr>
                   </thead>
                   <tbody>
                     {rowData?.map((data, index) => (
-                      <tr key={index}>
+                      <tr
+                        key={index}
+                        className={data?.isSum ? "group-total" : ""}
+                      >
+                        {/* <td>
+                          <div className="text-center pr-2">{index + 1}</div>
+                        </td> */}
                         <td>
-                          <div className="text-right pr-2">
-                            {data?.particulars}
+                          <div className="text-left pr-2">
+                            {data?.strFSComName}
                           </div>
                         </td>
-                        <td>
-                          <div className="pl-2">{data?.amount}</div>
+                        <td className="text-right">
+                          <div className="pl-2">
+                            {numberWithCommas(Math.round(data?.numAmount || 0))}
+                          </div>
                         </td>
                       </tr>
                     ))}
-                    <tr>
-                      <td>
-                        <div className="text-right pr-2">
-                          <strong>Total</strong>
-                        </div>
-                      </td>
-                      <td>
-                        <div className="pl-2">
-                          <strong>
-                            {rowData?.reduce(
-                              (a, b) => a + (+b?.amount || 0),
-                              0
-                            )}
-                          </strong>
-                        </div>
-                      </td>
-                    </tr>
                   </tbody>
                 </table>
               </div>
