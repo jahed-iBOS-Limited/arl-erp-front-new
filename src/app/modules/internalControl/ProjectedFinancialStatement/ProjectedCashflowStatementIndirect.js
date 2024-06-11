@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-// import numberWithCommas from "../../_helper/_numberWithCommas";
+import numberWithCommas from "../../_helper/_numberWithCommas";
 // import moment from "moment";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import ReactToPrint from "react-to-print";
@@ -69,11 +69,16 @@ export default function ProjectedCashflowStatementIndirect({
                     >
                       <p className="m-0">
                         <b>Opening: </b>
-                        {rowData?.[0]?.numOpen}
+
+                        {numberWithCommas(
+                          Math.round(rowData?.[0]?.numOpen || 0)
+                        )}
                       </p>
                       <p className="m-0">
                         <b>Closing: </b>
-                        {rowData?.[0]?.numClose}
+                        {numberWithCommas(
+                          Math.round(rowData?.[0]?.numClose || 0)
+                        )}
                       </p>
                     </div>
                   </div>
@@ -107,27 +112,12 @@ export default function ProjectedCashflowStatementIndirect({
                           </div>
                         </td>
                         <td className="text-right">
-                          <div className="pl-2">{data?.numAmount}</div>
+                          <div className="pl-2">
+                            {numberWithCommas(Math.round(data?.numAmount || 0))}
+                          </div>
                         </td>
                       </tr>
                     ))}
-                    <tr>
-                      <td>
-                        <div className="text-right pr-2">
-                          <strong>Total</strong>
-                        </div>
-                      </td>
-                      <td>
-                        <div className="pl-2 text-right">
-                          <strong>
-                            {rowData?.reduce(
-                              (a, b) => a + (+b?.numAmount || 0),
-                              0
-                            )}
-                          </strong>
-                        </div>
-                      </td>
-                    </tr>
                   </tbody>
                 </table>
               </div>
