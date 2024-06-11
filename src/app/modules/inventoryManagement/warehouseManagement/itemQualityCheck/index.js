@@ -49,7 +49,7 @@ export default function ItemQualityCheckLanding() {
     handleGetLandingData(pageNo, pageSize, initData);
     
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[initData])
+  },[])
 
   const handleGetLandingData = (pageNo, pageSize, values, searchValue="") => {
     const searchTerm = searchValue ? `&search=${searchValue}` : ""
@@ -200,6 +200,7 @@ export default function ItemQualityCheckLanding() {
                     className="btn btn-primary"
                     onClick={() => {
                       dispatch(setItemQualityCheckLandingInitDataAction(values));
+                      handleGetLandingData(pageNo, pageSize, values);
                       setSingleItemForMRR(false);
                     }}
                     disabled={!values?.plant || !values?.warehouse}
