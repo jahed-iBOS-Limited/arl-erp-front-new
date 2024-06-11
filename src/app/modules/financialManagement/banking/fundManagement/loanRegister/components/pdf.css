@@ -11,5 +11,6 @@
 @media print {
   .loan_register_pdf {
     display: block !important;
+    font-size: 18px !important;
   }
 }
