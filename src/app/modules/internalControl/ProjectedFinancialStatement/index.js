@@ -21,6 +21,7 @@ import {
 } from "./helper";
 import ProjectedIncomeStatement from "./projectedIncomeStatement";
 import TrailBalanceProjected from "./trailBalanceProjected";
+import ProjectedCashflowStatementIndirect from "./ProjectedCashflowStatementIndirect";
 
 const initData = {
   reportType: "",
@@ -754,6 +755,36 @@ export default function ProjectedFinancialStatement() {
                   </>
                 ) : null}
 
+                {[9]?.includes(values?.reportType?.value) ? (
+                  <>
+                    <div className="col-lg-3">
+                      <InputField
+                        value={values?.fromDate}
+                        label="From Date"
+                        name="fromDate"
+                        type="date"
+                        onChange={(e) => {
+                          setFieldValue("fromDate", e.target.value);
+                          setRowData([]);
+                        }}
+                      />
+                    </div>
+                    <div className="col-lg-3">
+                      <InputField
+                        value={values?.toDate}
+                        label="To Date"
+                        min={values?.fromDate}
+                        name="toDate"
+                        type="date"
+                        onChange={(e) => {
+                          setFieldValue("toDate", e.target.value);
+                          setRowData([]);
+                        }}
+                      />
+                    </div>
+                  </>
+                ) : null}
+
                 <div style={{ marginTop: "17px" }}>
                   <button
                     type="button"
@@ -956,6 +987,13 @@ export default function ProjectedFinancialStatement() {
                 ) : null}
                 {[8]?.includes(values?.reportType?.value) ? (
                   <ProjectedPlannedFundRequirement
+                    rowData={rowData}
+                    values={values}
+                  />
+                ) : null}
+
+                {[9]?.includes(values?.reportType?.value) ? (
+                  <ProjectedCashflowStatementIndirect
                     rowData={rowData}
                     values={values}
                   />
