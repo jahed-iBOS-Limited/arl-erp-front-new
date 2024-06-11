@@ -1,3 +1,4 @@
+import { akijResourcehead } from "../../invoiceManagementSystem/salesInvoice/base64Images/akijResource";
 import { batayonTradersLetterhead } from "../../invoiceManagementSystem/salesInvoice/base64Images/batayounTraders";
 import { bluePillLetterhead } from "../../invoiceManagementSystem/salesInvoice/base64Images/bluePill";
 import { bongoTradersLetterhead } from "../../invoiceManagementSystem/salesInvoice/base64Images/bongoTraders";
@@ -70,6 +71,8 @@ export const getLetterHead = ({ buId }) => {
       ? optimaTradersLetterhead
       : buId === 210
       ? resourceTradersLetterhead
+      : buId === 136
+      ? akijResourcehead
       : "";
 
   return letterhead;

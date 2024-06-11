@@ -12,10 +12,12 @@ import customStyles from "../../../_chartinghelper/common/selectCustomStyle";
 import { getSalesOrgList } from "../../timeCharter/helper";
 import {
   createJournalForVoyageCharter,
+  getAccDDL,
   getIntermidiateInvoiceData,
   getInvoiceData,
   getVoyageChartererTransactionById,
   validationSchema,
+  voyageCharterBRApi,
 } from "../helper";
 import FinalInvoice from "../invoice/finalInvoice/finalInvoice";
 import FinalInvoiceCharterer from "../invoice/finalInvoice/finalInvoiceCharterer";
@@ -38,7 +40,7 @@ export default function _Form({
   const [chartererDDL, setChartererDDL] = useState([]);
   const [cargoDDL, setCargoDDL] = useState([]);
   const [salesOrgList, setSalesOrgList] = useState([]);
-
+  const [accNoDDL, setAccNoDDL] = useState([]);
   // get user profile data from store
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state?.authData;
@@ -66,6 +68,11 @@ export default function _Form({
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
+
+  useEffect(() => {
+    getAccDDL(profileData?.accountId, selectedBusinessUnit?.value, setAccNoDDL);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [profileData]);
 
   return (
     <>
@@ -375,132 +382,211 @@ export default function _Form({
               // invoiceHireData?.objHeaderDTO?.freightInvoiceId
               invoiceHireData?.freightInvoiceId &&
               !viewType ? (
-                <div className="marine-form-card-content">
-                  <h5>Journal</h5>
-                  <div className="row">
-                    <div className="col-lg-3">
-                      <FormikSelect
-                        value={values?.sbu || ""}
-                        isSearchable={true}
-                        options={sbuList || []}
-                        styles={customStyles}
-                        name="sbu"
-                        placeholder="SBU"
-                        label="SBU"
-                        onChange={(valueOption) => {
-                          setFieldValue("sbu", valueOption);
-                          setFieldValue("salesOrg", "");
-                          if (valueOption) {
-                            getSalesOrgList(
-                              profileData?.accountId,
-                              selectedBusinessUnit?.value,
-                              valueOption?.value,
-                              setSalesOrgList,
-                              setLoading
-                            );
+                <>
+                  <div className="marine-form-card-content">
+                    <h5>Journal</h5>
+                    <div className="row">
+                      <div className="col-lg-3">
+                        <FormikSelect
+                          value={values?.sbu || ""}
+                          isSearchable={true}
+                          options={sbuList || []}
+                          styles={customStyles}
+                          name="sbu"
+                          placeholder="SBU"
+                          label="SBU"
+                          onChange={(valueOption) => {
+                            setFieldValue("sbu", valueOption);
+                            setFieldValue("salesOrg", "");
+                            if (valueOption) {
+                              getSalesOrgList(
+                                profileData?.accountId,
+                                selectedBusinessUnit?.value,
+                                valueOption?.value,
+                                setSalesOrgList,
+                                setLoading
+                              );
+                            }
+                          }}
+                          // isDisabled={viewType || preData?.vesselName}
+                          errors={errors}
+                          touched={touched}
+                        />
+                      </div>
+                      <div className="col-lg-3">
+                        <FormikSelect
+                          value={values?.salesOrg || ""}
+                          isSearchable={true}
+                          options={salesOrgList || []}
+                          styles={customStyles}
+                          name="salesOrg"
+                          placeholder="Sales Organization"
+                          label="Sales Organization"
+                          onChange={(valueOption) => {
+                            setFieldValue("salesOrg", valueOption);
+                          }}
+                          isDisabled={!values?.sbu}
+                          errors={errors}
+                          touched={touched}
+                        />
+                      </div>
+                      <div className="col-lg-3">
+                        <label>Journal Date</label>
+                        <FormikInput
+                          value={values?.journalDate}
+                          name="journalDate"
+                          placeholder="Journal Date"
+                          type="date"
+                          errors={errors}
+                          touched={touched}
+                          disabled={viewType === "view"}
+                        />
+                      </div>
+                      <div className="col-lg-6">
+                        <label>Narration</label>
+                        <TextArea
+                          value={values?.narration}
+                          name="narration"
+                          placeholder="Narration"
+                          rows="3"
+                          onChange={(e) =>
+                            setFieldValue("narration", e.target.value)
                           }
-                        }}
-                        // isDisabled={viewType || preData?.vesselName}
-                        errors={errors}
-                        touched={touched}
-                      />
-                    </div>
-                    <div className="col-lg-3">
-                      <FormikSelect
-                        value={values?.salesOrg || ""}
-                        isSearchable={true}
-                        options={salesOrgList || []}
-                        styles={customStyles}
-                        name="salesOrg"
-                        placeholder="Sales Organization"
-                        label="Sales Organization"
-                        onChange={(valueOption) => {
-                          setFieldValue("salesOrg", valueOption);
-                        }}
-                        isDisabled={!values?.sbu}
-                        errors={errors}
-                        touched={touched}
-                      />
-                    </div>
-                    <div className="col-lg-3">
-                      <label>Journal Date</label>
-                      <FormikInput
-                        value={values?.journalDate}
-                        name="journalDate"
-                        placeholder="Journal Date"
-                        type="date"
-                        errors={errors}
-                        touched={touched}
-                        disabled={viewType === "view"}
-                      />
-                    </div>
-                    <div className="col-lg-6">
-                      <label>Narration</label>
-                      <TextArea
-                        value={values?.narration}
-                        name="narration"
-                        placeholder="Narration"
-                        rows="3"
-                        onChange={(e) =>
-                          setFieldValue("narration", e.target.value)
-                        }
-                        max={1000}
-                        errors={errors}
-                        touched={touched}
-                      />
-                    </div>
-                    <div className="col text-right">
-                      <button
-                        type="button"
-                        className="btn btn-primary px-3 py-2 mt-5"
-                        onClick={() => {
-                          if (
-                            !values?.sbu ||
-                            !values?.salesOrg ||
-                            !values?.narration ||
-                            !values?.journalDate
-                          ) {
-                            setTouched({
-                              sbu: true,
-                              salesOrg: true,
-                              narration: true,
-                              journalDate: true,
-                            });
-                            window.setTimeout(() => {
-                              setErrors({
-                                sbu: !values?.sbu && "SBU is required",
-                                salesOrg:
-                                  !values?.salesOrg &&
-                                  "Sales Organization is required",
-                                narration:
-                                  !values?.narration && "Narration is required",
-                                journalDate:
-                                  !values?.journalDate &&
-                                  "Journal Date is required",
+                          max={1000}
+                          errors={errors}
+                          touched={touched}
+                        />
+                      </div>
+                      <div className="col text-right">
+                        <button
+                          type="button"
+                          className="btn btn-primary px-3 py-2 mt-5"
+                          onClick={() => {
+                            if (
+                              !values?.sbu ||
+                              !values?.salesOrg ||
+                              !values?.narration ||
+                              !values?.journalDate
+                            ) {
+                              setTouched({
+                                sbu: true,
+                                salesOrg: true,
+                                narration: true,
+                                journalDate: true,
                               });
-                            }, 50);
-                          } else {
-                            createJournalForVoyageCharter(
-                              profileData,
-                              selectedBusinessUnit,
-                              values,
-                              invoiceHireData?.freightInvoiceId,
-                              invoiceHireData?.totalNetPayble,
-                              setLoading,
-                              () => {
-                                setFieldValue("sbu", "");
-                                setFieldValue("salesOrg", "");
-                                setFieldValue("narration", "");
-                              }
-                            );
-                          }
-                        }}
-                      >
-                        Create Journal
-                      </button>
+                              window.setTimeout(() => {
+                                setErrors({
+                                  sbu: !values?.sbu && "SBU is required",
+                                  salesOrg:
+                                    !values?.salesOrg &&
+                                    "Sales Organization is required",
+                                  narration:
+                                    !values?.narration &&
+                                    "Narration is required",
+                                  journalDate:
+                                    !values?.journalDate &&
+                                    "Journal Date is required",
+                                });
+                              }, 50);
+                            } else {
+                              createJournalForVoyageCharter(
+                                profileData,
+                                selectedBusinessUnit,
+                                values,
+                                invoiceHireData?.freightInvoiceId,
+                                invoiceHireData?.totalNetPayble,
+                                setLoading,
+                                () => {
+                                  setFieldValue("sbu", "");
+                                  setFieldValue("salesOrg", "");
+                                  setFieldValue("narration", "");
+                                }
+                              );
+                            }
+                          }}
+                        >
+                          Create Journal
+                        </button>
+                      </div>
                     </div>
                   </div>
-                </div>
+                  <div className="marine-form-card-content">
+                    <h5>Receive</h5>
+                    <div className="row">
+                      <>
+                        <div className="col-lg-3">
+                          <label>Receive Amount</label>
+                          <FormikInput
+                            value={values?.receiveAmount || ""}
+                            name="receiveAmount"
+                            placeholder="Receive Amount"
+                            type="number"
+                            errors={errors}
+                            touched={touched}
+                          />
+                        </div>
+                        <div className="col-lg-3">
+                          <FormikSelect
+                            value={values?.bankAccNo || ""}
+                            isSearchable={true}
+                            options={accNoDDL || []}
+                            styles={customStyles}
+                            name="bankAccNo"
+                            placeholder="Bank Account No"
+                            label="Bank Account No"
+                            onChange={(valueOption) => {
+                              setFieldValue("bankAccNo", valueOption);
+                            }}
+                            errors={errors}
+                            touched={touched}
+                            isDisabled={viewType}
+                          />
+                        </div>
+                        <div className="col-lg-3">
+                          <label>Receive Date</label>
+                          <FormikInput
+                            value={values?.receivedDate || ""}
+                            name="receivedDate"
+                            placeholder="Receive Date"
+                            type="date"
+                            errors={errors}
+                            touched={touched}
+                            disabled={viewType === "view"}
+                          />
+                        </div>
+                        <div className="col-lg-3 mt-5">
+                          <button
+                            onClick={() => {
+                              const payload = {
+                                transactionId: +invoiceHireData?.freightInvoiceId || 0,
+                                unitId: selectedBusinessUnit?.value,
+                                accountId: profileData?.accountId,
+                                charterId: values?.charterer?.value,
+                                receiveAmount: +values?.receiveAmount || 0,
+                                bankAccountId: +values?.bankAccNo?.value || 0,
+                                receiveDate: values?.receivedDate || new Date(),
+                              };
+                              voyageCharterBRApi(payload, setLoading, () => {
+                                setFieldValue("receiveAmount", "");
+                                setFieldValue("bankAccNo", "");
+                                setFieldValue("receivedDate", '');
+                              });
+                            }}
+                            type={"button"}
+                            className="btn btn-primary px-3 py-2"
+                            disabled={
+                              !values?.receiveAmount ||
+                              !values?.receivedDate ||
+                              !values?.bankAccNo
+                            }
+                          >
+                            Receive
+                          </button>
+                        </div>
+                      </>
+                    </div>
+                  </div>
+                </>
               ) : null}
               {/* Hire Type 1 For Onwner */}
               {values?.hireTypeName?.value === 1 ? (

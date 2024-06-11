@@ -295,7 +295,7 @@ export default function BankLetter() {
                   />
                 </div>
                 {/* )} */}
-                {[1, 2, 3, 4, 5].includes(values?.templateType?.value) && (
+                {[1, 2, 3, 4, 5, 6].includes(values?.templateType?.value) && (
                   <div className="col-lg-3">
                     <NewSelect
                       name="bank"
@@ -345,7 +345,7 @@ export default function BankLetter() {
                     />
                   </div>
                 )}
-                {[2, 3, 4, 5].includes(values?.templateType?.value) && (
+                {[2, 3, 4, 5, 6].includes(values?.templateType?.value) && (
                   <div className="col-lg-3">
                     <NewSelect
                       name="bankAccount"
