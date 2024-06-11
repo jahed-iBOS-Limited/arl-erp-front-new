@@ -157,6 +157,7 @@ export default function _Form({ bankDDL, setDisabled, btnRef }) {
     };
     const payload = selectedList?.map((item) => {
       return {
+        ...item,
         paymentRequestId: item?.paymentRequestId,
         partnerId: item?.partnerId,
         tdsAmount: item?.tdsamount,
