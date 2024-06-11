@@ -18,9 +18,14 @@ export function RegistrationPages() {
         component={AssetParkingPage}
       />
       <ContentRoute
+        from="/mngAsset/registration/LandRegister/edit/:id"
+        component={CreateLandRegister}
+      />
+      <ContentRoute
         from="/mngAsset/registration/LandRegister/create"
         component={CreateLandRegister}
       />
+
       <ContentRoute
         from="/mngAsset/registration/LandRegister"
         component={LandRegister}

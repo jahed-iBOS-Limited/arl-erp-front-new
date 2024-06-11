@@ -1,0 +1,8 @@
+.btn-container {
+    display: flex;
+    gap: 10px; /* Adjust the gap as needed */
+  }
+  
+  .btn-container .btn {
+    flex: none;
+  }

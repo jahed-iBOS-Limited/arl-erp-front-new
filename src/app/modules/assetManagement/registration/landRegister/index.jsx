@@ -12,8 +12,11 @@ import PaginationTable from "../../../_helper/_tablePagination";
 import { _todayDate } from "../../../_helper/_todayDate";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-// import "./style.css";
+import "./styles.css";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import IEdit from "../../../_helper/_helperIcons/_edit";
+import IViewModal from "../../../_helper/_viewModal";
+import UpdateMutation from "./UpdateMutation";
 
 const initData = {
   businessUnit: "",
@@ -42,26 +45,32 @@ const initData = {
 };
 export default function LandRegister() {
   const {
-    businessUnitList,
     profileData: { userId },
+    selectedBusinessUnit: { value: buId, label },
   } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
   const history = useHistory();
-
+  const [isShowUpdateModal, setIsShowUpdateModal] = useState(false);
   const [, onSave, loader] = useAxiosPost();
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
   const [gridData, getGridData, loading, setGridData] = useAxiosGet();
-  const [singleRowItem, setSingleRowItem] = useState(null);
+  const [singleData, setSingleData] = useState(null);
 
   const getLandingData = (values, pageNo, pageSize, searchValue = "") => {
-    getGridData();
+    getGridData(
+      `/asset/AGLandMange/GetTrxGeneralLandingPagination?BusinessUnit=${buId}&PageNo=${pageNo ||
+        1}&PageSize=${pageSize || 20}&viewOrder=desc`
+    );
   };
 
   const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
     getLandingData(values, pageNo, pageSize, searchValue);
   };
+  useEffect(() => {
+    getLandingData();
+  }, [buId]);
 
   return (
     <Formik
@@ -111,11 +120,10 @@ export default function LandRegister() {
                     <thead>
                       <tr>
                         <th>SL</th>
-                        <th>SBU Code</th>
-                        <th>SBU</th>
                         <th>Territory</th>
+                        <th>Thana</th>
                         <th>DeedNo</th>
-                        <th>Registration Date</th>
+                        <th>Deed Date</th>
                         <th>Mouza Name</th>
                         <th>Land </th>
                         <th>Deed Value</th>
@@ -127,58 +135,117 @@ export default function LandRegister() {
                         <th>RS Khatian</th>
                         <th>RS Plot</th>
                         <th>RS Plot Based Land </th>
-                        <th>Bia Mutation Khatian</th>
                         <th>City Jarip Khatian</th>
                         <th>City Jarip Plot</th>
                         <th>City Jarip Plot Based Land</th>
-                        <th>Actual Value</th>
-                        <th>Mortgage Registered Deed</th>
-                        <th>Mortgage Land </th>
-                        <th>Mortgagor's Deed</th>
-                        <th>Mortgagee Bank</th>
-                        <th>Case_PartiesName</th>
+                        <th>Registration Cost</th>
+                        <th>Other Cost</th>
+                        <th>Broker Cost</th>
+                        <th>Vat</th>
+                        <th>Mutation Fees</th>
+                        <th>Dcr</th>
+                        <th>Mutitaion Khotian</th>
+                        <th>Holding No</th>
+                        <th>Action</th>
                       </tr>
                     </thead>
                     <tbody>
                       {gridData?.data?.map((item, index) => (
                         <tr key={index}>
-                          <td>{index + 1}</td>
+                          <td className="text-center">{index + 1}</td>
                           <td className="text-center">
-                            {item?.strBusinessUnitName}
+                            {item?.strTerritoryName}
                           </td>
-                          <td className="text-center">{item?.strBankName}</td>
-                          <td className="text-center">{item?.strBranchName}</td>
+                          <td className="text-center">{item?.strThanakName}</td>
+                          <td className="text-center">{item?.strDeedNo}</td>
+                          {/* <td className="text-center">
+                            {_dateFormatter(item?.dteDeedDate)}
+                          </td> */}
                           <td className="text-center">
-                            {item?.strTemplateTypeName}
+                            {_dateFormatter(item?.dteDeedDate)}
+                          </td>
+                          <td className="text-center">{item?.strMouzaName}</td>
+                          <td className="text-center">
+                            {item?.numTotalLandPurchaseQty}
+                          </td>
+                          <td className="text-center">{item?.monDeedValue}</td>
+                          <td className="text-center">{item?.strSellerName}</td>
+                          <td className="text-center">{item?.strCskhatian}</td>
+                          <td className="text-center">{item?.strCsplotNo}</td>
+                          <td className="text-center">
+                            {item?.strSakhatianNo}
+                          </td>
+                          <td className="text-center">{item?.strSaplotNo}</td>
+                          <td className="text-center">
+                            {item?.strRskhatianNo}
+                          </td>
+                          <td className="text-center">{item?.strRsplotNo}</td>
+                          <td className="text-center">
+                            {item?.numRsplotLandBaseQty}
+                          </td>
+
+                          <td className="text-center">
+                            {item?.strCityJoripKhatianNo}
                           </td>
                           <td className="text-center">
-                            {item?.strBankLetterTemplateName}
+                            {item?.strCityJoripPlot}
                           </td>
                           <td className="text-center">
-                            {_dateFormatter(item?.dteUpdateDate)}
+                            {item?.numCityJoripLandQty}
                           </td>
                           <td className="text-center">
-                            <div className="">
-                              <span
-                                className="px-5"
+                            {item?.monRegistrationCost}
+                          </td>
+                          <td className="text-center">{item?.monOtherCost}</td>
+                          <td className="text-center">{item?.monBroker}</td>
+                          <td className="text-center">{item?.monVat}</td>
+                          <td className="text-center">
+                            {item?.monMutationFees}
+                          </td>
+                          <td className="text-center">{item?.strDcrno}</td>
+                          <td className="text-center">
+                            {item?.strMutitaionKhotianNo}
+                          </td>
+                          <td className="text-center">{item?.strHoldingNo}</td>
+
+                          <td className="text-center">
+                            <div className="btn-container">
+                              <button
+                                type="button"
+                                className="btn btn-primary mr-2"
                                 onClick={() => {
-                                  setSingleRowItem(item);
+                                  setIsShowUpdateModal(true);
+                                  setSingleData(item);
                                 }}
                               >
-                                <OverlayTrigger
-                                  overlay={
-                                    <Tooltip id="cs-icon">Print</Tooltip>
-                                  }
-                                >
-                                  <i
-                                    style={{ fontSize: "16px" }}
-                                    class="fa fa-print cursor-pointer"
-                                    aria-hidden="true"
-                                  ></i>
-                                </OverlayTrigger>
+                                Mutation
+                              </button>
+                              <span
+                                className="mt-2"
+                                onClick={() => {
+                                  history.push({
+                                    pathname: `/mngAsset/registration/LandRegister/edit/${item?.intLandGeneralPk}`,
+                                    state: item,
+                                  });
+                                }}
+                              >
+                                <IEdit />
                               </span>
                             </div>
                           </td>
+                          {/* <td className="text-center">
+                            {item?.strMutitaionKhotianNo || ""}
+                          </td>
+                          <td className="text-center">{item?.monBroker}</td>
+                          <td className="text-center">
+                            {item?.monRegistrationCost}
+                          </td>
+                          <td className="text-center">
+                            {item?.monMutationFees || ""}
+                          </td>
+                          <td className="text-center">
+                            {item?.strRemark || ""}
+                          </td> */}
                         </tr>
                       ))}
                     </tbody>
@@ -188,7 +255,7 @@ export default function LandRegister() {
 
               {gridData?.data?.length > 0 && (
                 <PaginationTable
-                  count={gridData?.totalRecords}
+                  count={gridData?.totalCount}
                   setPositionHandler={setPositionHandler}
                   paginationState={{
                     pageNo,
@@ -241,6 +308,23 @@ export default function LandRegister() {
                   </div>
                 </div>
               </div>
+              {isShowUpdateModal && (
+                <IViewModal
+                  show={isShowUpdateModal}
+                  onHide={() => {
+                    setIsShowUpdateModal(false);
+                    setSingleData(null);
+                  }}
+                  title="Land Mutation"
+                >
+                  <UpdateMutation
+                    singleData={singleData}
+                    getLandingData={getLandingData}
+                    setIsShowUpdateModal={setIsShowUpdateModal}
+                    setSingleData={setSingleData}
+                  />
+                </IViewModal>
+              )}
             </Form>
           </IForm>
         </>
