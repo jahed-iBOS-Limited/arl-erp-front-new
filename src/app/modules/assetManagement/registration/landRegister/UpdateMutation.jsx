@@ -57,12 +57,19 @@ export default function UpdateMutation({
       true
     );
   };
-
+  const validationSchema = Yup.object().shape({
+    strHoldingNo: Yup.string().required("Holding No is required"),
+    strMutitaionKhotianNo: Yup.string().required(
+      "Mutitaion Khotian is required"
+    ),
+    monMutationFees: Yup.number().required("Mutation Fees is required"),
+    monVat: Yup.number().required("Vat is required"),
+  });
   return (
     <Formik
       enableReinitialize={true}
       initialValues={singleData}
-      // validationSchema={validationSchema}
+      validationSchema={validationSchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
           resetForm(initData);

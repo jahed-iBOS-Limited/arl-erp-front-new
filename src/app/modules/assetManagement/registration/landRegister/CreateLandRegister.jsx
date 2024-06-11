@@ -46,6 +46,7 @@ const initData = {
   ploatNo: "",
   dagNo: "",
   otherCost: "",
+  deedYear: "",
 };
 export default function CreateLandRegister() {
   const {
@@ -159,22 +160,23 @@ export default function CreateLandRegister() {
     },
   });
 
-  //   const validationSchema = Yup.object().shape({
-  //     businessUnit: Yup.object().required("Business Unit is required"),
-  //     bank: Yup.object().required("Bank is required"),
-  //     bankBranch: Yup.object().required("Bank Branch is required"),
-  //     date: Yup.date().required("Date is required"),
-  //     brDate: Yup.date().required("BR Date is required"),
-  //     templateType: Yup.object().required("Template Type is required"),
-  //     templateName: Yup.object().required("Template Name is required"),
-  //     accountType: Yup.string().required("Account Type is required"),
-  //   });
+  const validationSchema = Yup.object().shape({
+    businessUnit: Yup.object().required("Business Unit is required"),
+    deedType: Yup.object().required("Deed Type  is required"),
+    deedYear: Yup.object().required("Deed Year  is required"),
+    territory: Yup.string().required("Territory is required"),
+    seller: Yup.string().required("Seller Name is required"),
+    deedNo: Yup.string().required("Deed No is required"),
+    deedAmount: Yup.number().required("Deed Value is required"),
+    landQuantity: Yup.number().required("Land Quantity is required"),
+    registrationDate: Yup.date().required("Registration Date is required"),
+  });
 
   return (
     <Formik
       enableReinitialize={true}
       initialValues={state ? mapStateToInitialValues(state) : initData}
-      // validationSchema={validationSchema}
+      validationSchema={validationSchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
           resetForm(initData);
@@ -321,7 +323,7 @@ export default function CreateLandRegister() {
                 </div>
                 <div className="col-lg-3">
                   <NewSelect
-                    name="deedType"
+                    name="deedYear"
                     options={yearDDL}
                     value={values?.deedYear}
                     label="Deed Year"
