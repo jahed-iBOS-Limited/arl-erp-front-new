@@ -2942,3 +2942,8 @@ body {
   font-size: 12px !important;
   padding: 2px !important;
 }
+.projectedCashflowStatementIndirect .projectedCashflowStatementIndirectTable{
+  width: 650px;
+  margin: auto;
+  overflow: auto;
+}

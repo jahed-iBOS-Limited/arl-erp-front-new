@@ -59,8 +59,8 @@ export default function ProjectedCashflowStatementIndirect({
                     </strong>
                   </p>
                 </div>
-                <div>
-                  <div className="col-12">
+
+                {/* <div className="col-12">
                     <div
                       style={{
                         display: "flex",
@@ -81,14 +81,13 @@ export default function ProjectedCashflowStatementIndirect({
                         )}
                       </p>
                     </div>
-                  </div>
-                </div>
+                  </div> */}
               </div>
               <div className="table-responsive">
                 <table
                   id="table-to-xlsx"
-                  className="table table-striped table-bordered global-table table-font-size-sm"
-                  style={{ width: "100%" }}
+                  className="table table-striped table-bordered global-table table-font-size-sm projectedCashflowStatementIndirectTable"
+               
                 >
                   <thead>
                     <tr>
