@@ -2,7 +2,7 @@ import { Form, Formik } from "formik";
 import moment from "moment";
 import React, { useEffect, useRef, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 
 import { useReactToPrint } from "react-to-print";
 import * as Yup from "yup";
@@ -17,6 +17,7 @@ import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 // import "./style.css";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import { yearDDL } from "../../../humanCapitalManagement/report/employeeExpense/form/addEditForm";
 
 const initData = {
   businessUnit: "",
@@ -42,52 +43,49 @@ const initData = {
   subRegister: "",
   registrationCost: "",
   brokerAmount: "",
+  ploatNo: "",
+  dagNo: "",
+  otherCost: "",
+  deedYear: "",
 };
 export default function CreateLandRegister() {
   const {
     businessUnitList,
     profileData: { userId },
+    selectedBusinessUnit: { value: buId, label },
   } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
   const history = useHistory();
-
+  const location = useLocation();
+  const { state } = location;
+  console.log({ state });
   const [thanaDDL, getThanaDDL] = useAxiosGet();
+  const [subRegisterDDL, getSubRegisterDDL] = useAxiosGet();
+  const [deedTypeDDL, getDeedTypeDDL] = useAxiosGet();
   const [districtDDL, getDistrictDDL, loadDistrictDDL] = useAxiosGet();
 
-  const [templateList, getTemplateList, , setTemplateList] = useAxiosGet();
-  const [
-    bankBranchList,
-    getBankBranchList,
-    ,
-    setBankBranchList,
-  ] = useAxiosGet();
   const printRef = useRef();
   const [, onSave, loader] = useAxiosPost();
-  const [pageNo, setPageNo] = useState(0);
-  const [pageSize, setPageSize] = useState(15);
-  const [gridData, getGridData, loading, setGridData] = useAxiosGet();
-  const [singleRowItem, setSingleRowItem] = useState(null);
-  const [
-    bankAccountInfo,
-    getBankAccountInfo,
-    ,
-    setBankAccountInfo,
-  ] = useAxiosGet();
 
   useEffect(() => {
     getDistrictDDL(
       "/oms/TerritoryInfo/GetDistrictDDL?countryId=18&divisionId=0"
     );
+    getDeedTypeDDL("/asset/AGLandMange/DeedTypeDDL");
+    getSubRegisterDDL("/asset/AGLandMange/GetSubRegisterOfficeDDL");
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [singleRowItem]);
+  }, []);
 
   const saveHandler = (values, cb) => {
-    console.log({ values });
     const payload = {
-      intLandGeneralPk: 0,
+      intLandGeneralPk: state?.intLandGeneralPk ? state?.intLandGeneralPk : 0,
+      strTerritoryName: values?.territory,
+      strDistrictName: values?.district?.label,
+      intDistrictId: values?.district?.value,
       intUnitId: values?.businessUnit?.value || 0,
-      intSubOfficeId: values?.subRegister || 0,
+      intSubOfficeId: values?.subRegister?.value || 0,
+      strSubOfficeName: values?.subRegister?.label || 0,
       intDeedTypeId: values?.deedType?.value || 0,
       strDeedNo: values?.deedNo || "",
       dteDeedDate: values?.registrationDate || "",
@@ -116,50 +114,73 @@ export default function CreateLandRegister() {
       strDagNo: values?.dagNo || "",
       ysnComplete: true, // assuming this value is always true
       ysnActive: true, // assuming this value is always true
-      calcDeadYear: values?.deedYear, // assuming this value is not present in the form
+      calcDeadYear: values?.deedYear?.value, // assuming this value is not present in the form
       dteInsertDate: _todayDate(),
       intInsertBy: userId,
       strRemark: "", // assuming this value is not present in the form
     };
 
-    onSave(`/asset/AGLandMange/SaveAGLandTrxGeneral`, payload, null, true);
+    onSave(`/asset/AGLandMange/SaveAGLandTrxGeneral`, payload, cb, true);
   };
 
-  //   const handleInvoicePrint = useReactToPrint({
-  //     content: () => printRef.current,
-  //     pageStyle:
-  //       "@media print{body { -webkit-print-color-adjust: exact; margin: 0mm;}@page {size: portrait ! important}}",
-  //   });
+  const mapStateToInitialValues = (state) => ({
+    businessUnit: { value: buId, label: label },
+    territory: state?.strTerritoryName || "",
+    district: { value: state?.intDistrictId, label: state?.strDistrictName },
+    thana: { value: state?.intThanaId, label: state?.strThanakName } || "",
+    deedNo: state?.strDeedNo || "",
+    deedAmount: state?.monDeedValue || "",
+    deedType:
+      deedTypeDDL.find((type) => type.value === state?.intDeedTypeId) || "",
+    registrationDate: state?.dteDeedDate
+      ? moment(state?.dteDeedDate).format("YYYY-MM-DD")
+      : "",
+    landQuantity: state?.numTotalLandPurchaseQty || "",
+    seller: state?.strSellerName || "",
+    csKhatian: state?.strCskhatian || "",
+    csPlot: state?.strCsplotNo || "",
+    saKhatian: state?.strSakhatianNo || "",
+    cityJaripKhatian: state?.strCityJoripKhatianNo || "",
+    saPlot: state?.strSaplotNo || "",
+    rsPlot: state?.strRsplotNo || "",
+    rsKhatian: state?.strRskhatianNo || "",
+    rsLandQuantity: state?.numRsplotLandBaseQty || "",
+    mouza: state?.strMouzaName || "",
+    cityJaripPlot: state?.strCityJoripPlot || "",
+    cityJaripPlotLand: +state?.numCityJoripLandQty || "",
+    registrationCost: state?.monRegistrationCost || "",
+    brokerAmount: state?.monBroker || "",
+    deedYear: { value: state?.calcDeadYear, label: state?.calcDeadYear },
+    otherCost: state?.monOtherCost,
+    dagNo: state?.strDagNo,
+    ploatNo: state?.strPloatNo,
+    subRegister: {
+      value: state?.intSubOfficeId,
+      label: state?.strSubOfficeName,
+    },
+  });
 
-  const getLandingData = (values, pageNo, pageSize, searchValue = "") => {
-    getGridData(
-      `/fino/BankLetter/GetFilteredBankLetters?businessUnitId=${values?.businessUnit?.value}&pageNumber=${pageNo}&pageSize=${pageSize}`
-    );
-  };
-
-  const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
-    getLandingData(values, pageNo, pageSize, searchValue);
-  };
-
-  //   const validationSchema = Yup.object().shape({
-  //     businessUnit: Yup.object().required("Business Unit is required"),
-  //     bank: Yup.object().required("Bank is required"),
-  //     bankBranch: Yup.object().required("Bank Branch is required"),
-  //     date: Yup.date().required("Date is required"),
-  //     brDate: Yup.date().required("BR Date is required"),
-  //     templateType: Yup.object().required("Template Type is required"),
-  //     templateName: Yup.object().required("Template Name is required"),
-  //     accountType: Yup.string().required("Account Type is required"),
-  //   });
+  const validationSchema = Yup.object().shape({
+    businessUnit: Yup.object().required("Business Unit is required"),
+    deedType: Yup.object().required("Deed Type  is required"),
+    deedYear: Yup.object().required("Deed Year  is required"),
+    territory: Yup.string().required("Territory is required"),
+    seller: Yup.string().required("Seller Name is required"),
+    deedNo: Yup.string().required("Deed No is required"),
+    deedAmount: Yup.number().required("Deed Value is required"),
+    landQuantity: Yup.number().required("Land Quantity is required"),
+    registrationDate: Yup.date().required("Registration Date is required"),
+  });
 
   return (
     <Formik
       enableReinitialize={true}
-      initialValues={initData}
-      // validationSchema={validationSchema}
+      initialValues={state ? mapStateToInitialValues(state) : initData}
+      validationSchema={validationSchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
           resetForm(initData);
+          history.push(`/mngAsset/registration/LandRegister`);
         });
       }}
     >
@@ -175,7 +196,7 @@ export default function CreateLandRegister() {
         <>
           {loader && <Loading />}
           <IForm
-            title="Land Register Create"
+            title={`Create Land Register  `}
             isHiddenReset
             isHiddenBack
             isHiddenSave
@@ -215,10 +236,6 @@ export default function CreateLandRegister() {
                     label="Business Unit"
                     onChange={(valueOption) => {
                       setFieldValue("businessUnit", valueOption || "");
-                      setFieldValue("bankBranch", "");
-                      setFieldValue("bankAccount", "");
-                      setBankBranchList([]);
-                      setBankAccountInfo([]);
                     }}
                     errors={errors}
                     touched={touched}
@@ -235,7 +252,7 @@ export default function CreateLandRegister() {
                   />
                 </div>
 
-                {/* territory */}
+                {/* district */}
                 <div className="col-lg-3">
                   <NewSelect
                     name="district"
@@ -294,30 +311,7 @@ export default function CreateLandRegister() {
                 <div className="col-lg-3">
                   <NewSelect
                     name="deedType"
-                    options={
-                      [
-                        //   {
-                        //     value: 1,
-                        //     label: "Account Opening",
-                        //   },
-                        //   {
-                        //     value: 2,
-                        //     label: "Account Close",
-                        //   },
-                        //   {
-                        //     value: 3,
-                        //     label: "FDR",
-                        //   },
-                        //   {
-                        //     value: 4,
-                        //     label: "Authorization Letter",
-                        //   },
-                        //   {
-                        //     value: 5,
-                        //     label: "Signatory change",
-                        //   },
-                      ]
-                    }
+                    options={deedTypeDDL?.length > 1 ? deedTypeDDL : []}
                     value={values?.deedType}
                     label="Deed Type"
                     onChange={(valueOption) => {
@@ -328,14 +322,16 @@ export default function CreateLandRegister() {
                   />
                 </div>
                 <div className="col-lg-3">
-                  <InputField
+                  <NewSelect
+                    name="deedYear"
+                    options={yearDDL}
                     value={values?.deedYear}
                     label="Deed Year"
-                    name="deedYear"
-                    type="date"
-                    onChange={(e) => {
-                      setFieldValue("deedYear", e.target.value);
+                    onChange={(valueOption) => {
+                      setFieldValue("deedYear", valueOption || "");
                     }}
+                    errors={errors}
+                    touched={touched}
                   />
                 </div>
                 {/* register date */}
@@ -481,15 +477,26 @@ export default function CreateLandRegister() {
                 </div>
                 {/* Sub Registrar Office */}
                 <div className="col-lg-3">
-                  <InputField
+                  <NewSelect
+                    name="subRegister"
+                    options={subRegisterDDL || []}
+                    value={values?.subRegister}
+                    label="Sub Registrar Office"
+                    onChange={(valueOption) => {
+                      setFieldValue("subRegister", valueOption || "");
+                    }}
+                    errors={errors}
+                    touched={touched}
+                  />
+                  {/* <InputField
                     value={values?.subRegister}
                     label="Sub Registrar Office"
                     name="subRegister"
                     type="text"
                     onChange={(e) =>
-                      setFieldValue("cityJaripPlot", e.target.value)
+                      setFieldValue("subRegister", e.target.value)
                     }
-                  />
+                  /> */}
                 </div>
                 {/* City Jarip Khatian */}
                 <div className="col-lg-3">
@@ -560,7 +567,7 @@ export default function CreateLandRegister() {
                   />
                 </div>
 
-                <div className="col-lg-3">
+                {/* <div className="col-lg-3">
                   <button
                     onClick={() => {
                       getLandingData(values, pageNo, pageSize, "");
@@ -570,9 +577,9 @@ export default function CreateLandRegister() {
                   >
                     View
                   </button>
-                </div>
+                </div> */}
               </div>
-              {gridData?.data?.length > 0 && (
+              {/* {gridData?.data?.length > 0 && (
                 <div className="table-responsive">
                   <table className="table table-striped mt-2 table-bordered bj-table bj-table-landing">
                     <thead>
@@ -646,7 +653,7 @@ export default function CreateLandRegister() {
                   }}
                   values={values}
                 />
-              )}
+              )} */}
               <div>
                 <div ref={printRef} className="bank-letter-print-wrapper">
                   <div style={{ margin: "-13px 50px 51px 50px" }}>
