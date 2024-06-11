@@ -179,6 +179,7 @@ export default function ProjectedFinancialStatement() {
                       { value: 2, label: "Projected Income Statement" },
                       { value: 3, label: "Projected Balance Sheet" },
                       { value: 4, label: "Projected Cash Flow Statement" },
+                      { value: 9, label: "Projected Cash Flow Indirect" },
                       { value: 6, label: "Projected Financial Ratios" },
                       { value: 7, label: "Projected Planned Asset Schedule" },
                       { value: 8, label: "Projected Planned Fund Requirement" },
