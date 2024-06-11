@@ -280,8 +280,8 @@ const SignatoryChangeTwo = ({ singleRowItem }) => {
                 <td>
                   <p>
                     1. <b>Md. Sheikh Sadi,</b>
-                  </p>{" "}
-                  Chief Treasury Officer
+                  </p>
+                  <p className="ml-5"> Chief Treasury Officer</p>
                 </td>
                 <td style={{ padding: "65px 10px" }} />
                 <td rowSpan={6} />
@@ -289,9 +289,9 @@ const SignatoryChangeTwo = ({ singleRowItem }) => {
               <tr>
                 <td>
                   <p>
-                    2. <b> Md. Masud Rana,</b>{" "}
+                    2. <b> Md. Masud Rana,</b>
                   </p>
-                  Chief Supply Chain Officer
+                  <p className="ml-5"> Chief Supply Chain Officer</p>
                 </td>
                 <td style={{ padding: "65px 10px" }} />
               </tr>
@@ -301,7 +301,7 @@ const SignatoryChangeTwo = ({ singleRowItem }) => {
                     {" "}
                     3. <b>Iftekhar Uddin Chowdhury,</b>{" "}
                   </p>
-                  Senior Manager (Treasury)
+                  <p className="ml-5">Senior Manager (Treasury)</p>
                 </td>
                 <td style={{ padding: "65px 10px" }} />
               </tr>
@@ -311,7 +311,7 @@ const SignatoryChangeTwo = ({ singleRowItem }) => {
                     {" "}
                     4. <b>Raihan Kabir,</b>{" "}
                   </p>
-                  Deputy CFO
+                  <p className="ml-5"> Deputy CFO</p>
                 </td>
                 <td style={{ padding: "65px 10px" }} />
               </tr>
@@ -321,7 +321,7 @@ const SignatoryChangeTwo = ({ singleRowItem }) => {
                     {" "}
                     5. <b>Rakibul Alam Khan, </b>
                   </p>{" "}
-                  Manager (Finance)
+                  <p className="ml-5"> Manager (Finance)</p>
                 </td>
                 <td style={{ padding: "65px 10px" }} />
               </tr>
@@ -331,7 +331,7 @@ const SignatoryChangeTwo = ({ singleRowItem }) => {
                     {" "}
                     6. <b> Md. Anamul Haque, </b>{" "}
                   </p>
-                  Deputy Manager (Finance)
+                  <p className="ml-5"> Deputy Manager (Finance)</p>
                 </td>
                 <td style={{ padding: "65px 10px" }} />
               </tr>

@@ -21,7 +21,7 @@ const BankCertificateOne = ({ singleRowItem }) => {
   } = singleRowItem;
   return (
     <>
-      <div className="bank-letter-template-common-wrapper signatory-wrapper">
+      <div className="bank-letter-template-common-wrapper bankCertificate-wrapper">
         <p style={{}}>
           <b>
             {" "}
@@ -102,7 +102,7 @@ const BankCertificateOne = ({ singleRowItem }) => {
         <p style={{ marginTop: 5 }}>
           For, <b>{strBusinessUnitName.toUpperCase()}</b>
         </p>
-        <div style={{ marginTop: 55, display: "flex" }}>
+        <div style={{ marginTop: 45, display: "flex" }}>
           <div>Authorized Signature</div>
           <div style={{ marginLeft: 20 }}>Authorized Signature</div>
         </div>
