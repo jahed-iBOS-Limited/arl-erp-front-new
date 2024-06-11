@@ -464,7 +464,7 @@ export default function ProjectedFinancialStatement() {
                   </>
                 ) : null}
 
-                {[4]?.includes(values?.reportType?.value) ? (
+                {[4, 9]?.includes(values?.reportType?.value) ? (
                   <>
                     <div className="col-md-3">
                       <NewSelect
@@ -755,36 +755,6 @@ export default function ProjectedFinancialStatement() {
                   </>
                 ) : null}
 
-                {[9]?.includes(values?.reportType?.value) ? (
-                  <>
-                    <div className="col-lg-3">
-                      <InputField
-                        value={values?.fromDate}
-                        label="From Date"
-                        name="fromDate"
-                        type="date"
-                        onChange={(e) => {
-                          setFieldValue("fromDate", e.target.value);
-                          setRowData([]);
-                        }}
-                      />
-                    </div>
-                    <div className="col-lg-3">
-                      <InputField
-                        value={values?.toDate}
-                        label="To Date"
-                        min={values?.fromDate}
-                        name="toDate"
-                        type="date"
-                        onChange={(e) => {
-                          setFieldValue("toDate", e.target.value);
-                          setRowData([]);
-                        }}
-                      />
-                    </div>
-                  </>
-                ) : null}
-
                 <div style={{ marginTop: "17px" }}>
                   <button
                     type="button"
@@ -930,6 +900,16 @@ export default function ProjectedFinancialStatement() {
                           `/fino/Report/GetPlannedFundRequirement?businessUnitId=${values?.subDivisionBusinessUnit?.value}&strYear=${values?.year?.label}&businessUnitGroup=${values?.enterpriseDivision?.value}&subGroup=${values?.subDivision?.value}`
                         );
                       }
+                      // if ([9]?.includes(values?.reportType?.value)) {
+                      //   getRowData(
+                      //     `/fino/Report/GetCashFlowStatementProjected?BusinessUnitGroup=${values?.enterpriseDivision?.value}&businessUnitId=${values?.businessUnit?.value}&sbuId=0&fromDate=${values?.fromDate}&toDate=${values?.toDate}&ConvertionRate=${values?.conversionRate}`
+                      //   );
+                      // }
+                      if ([9]?.includes(values?.reportType?.value)) {
+                        getRowData(
+                          `/fino/Report/GetCashFlowStatementProjectedIndirect?BusinessUnitGroup=${values?.enterpriseDivision?.value}&businessUnitId=${values?.businessUnit?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}&ConvertionRate=${values?.conversionRate}`
+                        );
+                      }
                     }}
                     className="btn btn-primary"
                   >
@@ -996,6 +976,7 @@ export default function ProjectedFinancialStatement() {
                   <ProjectedCashflowStatementIndirect
                     rowData={rowData}
                     values={values}
+                    selectedBusinessUnit={values?.businessUnit?.label}
                   />
                 ) : null}
               </div>
