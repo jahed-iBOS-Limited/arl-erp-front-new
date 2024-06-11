@@ -84,9 +84,9 @@ const RowDtoTable = ({
                   </td>
                   <td className="disabled-feedback disable-border">
                     <IInput
-                      value={rowDto[index]?.desc}
+                      value={rowDto[index]?.desc || ''}
                       name="desc"
-                      required
+                      // required
                       style={{ fontSize: "10px" }}
                       placeholder="Description"
                       onChange={(e) => {
