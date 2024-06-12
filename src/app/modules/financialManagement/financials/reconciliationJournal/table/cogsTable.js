@@ -12,7 +12,7 @@ const COGSTable = ({ journalData, landingValues, isDayBased }) => {
          >
             <thead className="bg-secondary">
                <tr>
-                  <th>SL</th>
+                  <th className='positionSticky'>SL</th>
                   {isDayBased === 1 && (
                      <th>Transaction Date</th>
                   )}
@@ -37,7 +37,7 @@ const COGSTable = ({ journalData, landingValues, isDayBased }) => {
                <>
                   {journalData?.map((item, index) => (
                      <tr key={index}>
-                        <td className="text-center">{index + 1}</td>
+                        <td className="text-center positionSticky">{index + 1}</td>
                         {isDayBased === 1 && (
                            <td>{item?.dteTransactionDate ? _dateFormatter(item?.dteTransactionDate) : ""}</td>
                         )}
