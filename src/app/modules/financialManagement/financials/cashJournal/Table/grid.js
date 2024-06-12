@@ -81,7 +81,7 @@ const GridData = ({
                     />
                   </th>
                 ) : null}
-                <th style={{ width: "30px" }}>SL</th>
+                <th style={{ minWidth: "30px" }} className="positionSticky">SL</th>
                 <th style={{ width: "80px", textAlign: "center" }}>
                   Journal Date
                 </th>
@@ -122,7 +122,7 @@ const GridData = ({
                     </td>
                   ) : null}
 
-                  <td className="text-center"> {dynamicSerial(pageNo, pageSize, index)}</td>
+                  <td className="text-center positionSticky"> {dynamicSerial(pageNo, pageSize, index)}</td>
                   <td>
                     <div className="pl-2  text-center">
                       {_dateFormatter(item?.journalDate)}

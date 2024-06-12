@@ -12,7 +12,7 @@ const DepreciationTable = ({ journalData }) => {
          >
             <thead className="bg-secondary">
                <tr>
-                  <th>SL</th>
+                  <th className='positionSticky'>SL</th>
                   <th>Asset Code</th>
                   <th>Asset Description</th>
                   <th>Salvage Value</th>
@@ -28,7 +28,7 @@ const DepreciationTable = ({ journalData }) => {
                <>
                   {journalData?.map((item, index) => (
                      <tr key={index}>
-                        <td className="text-center">{index + 1}</td>
+                        <td className="text-center positionSticky">{index + 1}</td>
                         <td className="text-center">{item?.strAssetCode}</td>
                         <td className="text-center">
                            {item?.strAssetDescription}
