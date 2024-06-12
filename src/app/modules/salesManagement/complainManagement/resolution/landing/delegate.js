@@ -16,11 +16,14 @@ import Loading from "../../../../_helper/_loading";
 import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
 import { _todayDate } from "../../../../_helper/_todayDate";
 import {
+  allowDelegationMenuPermission,
   attachment_action,
   attachment_actionTwo,
+  checkDelegationMenuPermission,
   delegateComplainApi,
   getComplainByIdWidthOutModify,
 } from "../helper";
+import { set } from "lodash";
 export const validationSchema = Yup.object().shape({
   delegateDate: Yup.date().required("Delegate Date is required"),
   delegateTo: Yup.string().required("Delegate To is required"),
@@ -42,6 +45,7 @@ function DelegateForm({ clickRowData, landingCB }) {
   const [fileObjectsRow, setFileObjectsRow] = useState([]);
   const [openRow, setOpenRow] = useState(false);
   const [rowDto, setRowDto] = useState([]);
+  const [isPermitted, setIsPermitted] = useState(true);
   const {
     profileData: { accountId: accId, userId },
     selectedBusinessUnit: { value: buId },
@@ -49,7 +53,7 @@ function DelegateForm({ clickRowData, landingCB }) {
   } = useSelector((state) => state?.authData, shallowEqual);
 
   const dispatch = useDispatch();
-
+  console.log({ isPermitted });
   const loadEmpList = (v) => {
     if (v?.length < 2) return [];
     return axios
@@ -204,11 +208,9 @@ function DelegateForm({ clickRowData, landingCB }) {
                 <p>
                   <b>Customer Name : </b> {singleData?.sourceCustomerType}
                 </p>
-
-                
               </div>
               <div>
-              <p>
+                <p>
                   <b>Create Date: </b>{" "}
                   {singleData?.lastActionDateTime &&
                     moment(singleData?.lastActionDateTime).format(
@@ -242,6 +244,26 @@ function DelegateForm({ clickRowData, landingCB }) {
                 )}
               </div>
             </div>
+            {!isPermitted && (
+              <div className="d-flex justify-content-center">
+                <p className="text-center text-danger mr-2">
+                  Delegated User Permission Restricted! {`  `}
+                </p>
+                <span
+                  className="text-primary"
+                  style={{ textDecoration: "underline", cursor: "pointer" }}
+                  onClick={() => {
+                    allowDelegationMenuPermission(
+                      values,
+                      setLoading,
+                      setIsPermitted
+                    );
+                  }}
+                >
+                  <b> Allow User??</b>
+                </span>
+              </div>
+            )}
             <form>
               <div className="row global-form">
                 <div className="col-lg-3">
@@ -286,7 +308,18 @@ function DelegateForm({ clickRowData, landingCB }) {
                   <SearchAsyncSelect
                     selectedValue={values?.delegateTo}
                     handleChange={(valueOption) => {
-                      setFieldValue("delegateTo", valueOption || "");
+                      if (valueOption?.value) {
+                        setIsPermitted(true);
+
+                        checkDelegationMenuPermission(
+                          valueOption?.value,
+                          setLoading,
+                          setIsPermitted
+                        );
+                        setFieldValue("delegateTo", valueOption || "");
+                      } else {
+                        setIsPermitted(true);
+                      }
                     }}
                     loadOptions={loadEmpList}
                     placeholder="Search by Enroll/ID No/Name (min 3 letter)"
@@ -440,6 +473,8 @@ function DelegateForm({ clickRowData, landingCB }) {
                       setFieldValue("investigationPerson", "");
                       setFieldValue("investigationDueDate", "");
                       setFieldValue("attachmentRow", "");
+                      setFieldValue("delegateTo", "");
+                      setIsPermitted(true);
                     }}
                     disabled={
                       !values?.investigationPerson ||
