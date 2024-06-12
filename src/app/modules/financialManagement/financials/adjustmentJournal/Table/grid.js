@@ -82,7 +82,7 @@ const GridData = ({
                     />
                   </th>
                 ) : null}
-                <th style={{ width: "30px" }}>SL</th>
+                <th style={{ minWidth: "30px" }} className="positionSticky">SL</th>
                 <th style={{ width: "100px" }}>Transaction Date</th>
                 <th style={{ width: "120px" }}>Journal Code</th>
                 <th style={{ width: "100px" }}>Complete Date</th>
@@ -112,7 +112,7 @@ const GridData = ({
                     </td>
                   ) : null}
 
-                  <td className="text-center">
+                  <td className="text-center positionSticky">
                     {" "}
                     {dynamicSerial(pageNo, pageSize, index)}
                   </td>

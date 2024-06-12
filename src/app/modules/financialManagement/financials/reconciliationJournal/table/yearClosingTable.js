@@ -12,7 +12,7 @@ const YearClosingTable = ({ closingData }) => {
             >
                 <thead className="bg-secondary">
                     <tr>
-                        <th>SL</th>
+                        <th className='positionSticky'>SL</th>
                         <th style={{ width: '200px' }}>General Ledger Code</th>
                         <th>General Ledger Name</th>
                         <th style={{ width: '200px' }}>Amount</th>
@@ -22,7 +22,7 @@ const YearClosingTable = ({ closingData }) => {
                     {
                         closingData?.closingJournalPreview?.map((data, index) => (
                             <tr key={index}>
-                                <td>{index + 1}</td>
+                                <td className='positionSticky'>{index + 1}</td>
                                 <td className='text-center'>{data?.strGeneralLedgerCode}</td>
                                 <td>{data?.strGeneralLedgerName}</td>
                                 <td className='text-right'>{_formatMoney(data?.numAmount)}</td>
