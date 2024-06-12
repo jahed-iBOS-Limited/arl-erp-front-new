@@ -76,7 +76,7 @@ const AccountOpenOne = ({ singleRowItem }) => {
               Sarak, Gulshan Link Road, Tejgaon, Dhaka 1208.
             </p>
             {/* <br /> */}
-            <p style={{ marginTop: "-10px" }}>
+            <p style={{ marginTop: "-5px" }}>
               As per Board Resolution{" "}
               <strong>
                 Resolved that Mr. Sheikh Jasim Uddin, Managing Director{" "}
@@ -104,7 +104,7 @@ const AccountOpenOne = ({ singleRowItem }) => {
                 <p style={{ marginRight: 30 }}>
                   <strong>-</strong>
                 </p>
-                <p>
+                <p style={{ marginTop: "-8px" }}>
                   <strong>
                     All Cheques, fund transfers, fixed deposit opening, and
                     settlement, and all other cash-related transactions and
@@ -116,7 +116,7 @@ const AccountOpenOne = ({ singleRowItem }) => {
                 <p style={{ marginRight: 30 }}>
                   <strong>-</strong>
                 </p>
-                <p>
+                <p style={{ marginTop: "-8px" }}>
                   <strong>
                     All trade documents not only import/export, guarantee,
                     invoice financing but also all other forms of loan
@@ -128,7 +128,7 @@ const AccountOpenOne = ({ singleRowItem }) => {
                 <p style={{ marginRight: 30 }}>
                   <strong>-</strong>
                 </p>
-                <p>
+                <p style={{ marginTop: "-8px" }}>
                   <strong>
                     Facility letter, hypothecation, lien, and all other credit
                     and security documents for and on behalf of the Company.
@@ -136,8 +136,7 @@ const AccountOpenOne = ({ singleRowItem }) => {
                 </p>
               </div>
             </div>
-            <br />
-            <p>
+            <p style={{ marginTop: "-8px" }}>
               This authority shall continue in force until and unless the same
               is revoked by the Board of Directors of the Company by a notice in
               writing to be delivered to the Bank. The specimen signature of the
