@@ -193,6 +193,46 @@ export const delegateComplainApi = async (payload, setLoading, cb) => {
     setLoading(false);
   }
 };
+export const checkDelegationMenuPermission = async (
+  userId,
+  setLoading,
+  setIsPermitted
+) => {
+  setLoading(true);
+  try {
+    const res = await axios.get(
+      `/oms/CustomerPoint/IsDelegateMenuAllowThisUsers?UserId=${userId}`
+    );
+    setIsPermitted(res?.data);
+
+    setLoading(false);
+  } catch (err) {
+    toast.error(err?.response?.data?.message);
+    setLoading(false);
+  }
+};
+export const allowDelegationMenuPermission = async (
+  values,
+  setLoading,
+  setIsPermitted
+) => {
+  setLoading(true);
+  try {
+    const res = await axios.post(
+      `/oms/CustomerPoint/DelegateMenuPermissionToUser`,
+      {
+        userReferenceName: values?.delegateTo?.label,
+        userReferenceId: values?.delegateTo?.value,
+      }
+    );
+    console.log(res?.data);
+    setIsPermitted(true);
+    setLoading(false);
+  } catch (err) {
+    toast.error(err?.response?.data?.message);
+    setLoading(false);
+  }
+};
 export const investigateComplainApi = async (payload, setLoading, cb) => {
   setLoading(true);
   try {
@@ -304,7 +344,8 @@ export const complainLandingPasignationByEmployeeId = async (
     const _search = search ? `&search=${search}` : "";
     const _employeeId = employeeId ? `&employeeId=${employeeId}` : "";
     const res = await axios.get(
-      `/oms/CustomerPoint/ComplainLandingPasignationByEmployeeId?accountId=${accId}&businessUnitId=${buId}&respondentTypeId=${respondentTypeId}&statusId=${statusId}&fromDate=${fromDate}&toDate=${toDate}&pageNo=${pageNo}&pageSize=${pageSize}${_search}${_employeeId}&respondentBusinessUnitId=${respondentBusinessUnitId || 0}&issueTypeId=${issueTypeId}`
+      `/oms/CustomerPoint/ComplainLandingPasignationByEmployeeId?accountId=${accId}&businessUnitId=${buId}&respondentTypeId=${respondentTypeId}&statusId=${statusId}&fromDate=${fromDate}&toDate=${toDate}&pageNo=${pageNo}&pageSize=${pageSize}${_search}${_employeeId}&respondentBusinessUnitId=${respondentBusinessUnitId ||
+        0}&issueTypeId=${issueTypeId}`
     );
     setter(res?.data);
     setLoading(false);
@@ -352,7 +393,6 @@ export const getComplainByIdWidthOutModify = async (
     setLoaing(false);
   }
 };
-
 
 export const feedbackReviewApi = async (payload, setLoading, cb) => {
   setLoading(true);
