@@ -46,6 +46,7 @@ export default function AddAdvance({
   state,
   referenceId,
 }) {
+
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [fileObjects, setFileObjects] = useState({});
@@ -129,7 +130,8 @@ export default function AddAdvance({
                             referenceId,
                             data?.supplierId,
                             setAdvanceBill,
-                            setBill
+                            setBill,
+                            setIsLoading
                           );
                         });
                       }}
