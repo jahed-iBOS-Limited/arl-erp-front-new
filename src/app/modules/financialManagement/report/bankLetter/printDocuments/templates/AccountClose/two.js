@@ -1,31 +1,18 @@
 import React from "react";
 import "../../templates/style.scss";
+import { formatDate } from "../../../helper";
 
 const AccountCloseTwo = ({ singleRowItem }) => {
   const {
-    intBankLetterTemplatePrintId,
-    intBusinessUnitId,
     strBusinessUnitName,
-    strBusinessUnitShortName,
     strRefDate,
     strDate,
     strBrdate,
-    intBankId,
     strBankName,
     strBankShortName,
-    strBranchId,
     strBranchName,
     strBranchAddress,
     strAccountType,
-    intBankLetterTemplateId,
-    strBankLetterTemplateName,
-    intTemplateTypeId,
-    strTemplateTypeName,
-    isActivce,
-    dteCreateDate,
-    intCreateBy,
-    dteUpdateDate,
-    dteUpdateBy,
     strAccountNo,
     strAccountName,
   } = singleRowItem;
@@ -36,11 +23,11 @@ const AccountCloseTwo = ({ singleRowItem }) => {
           <div>
             <p>
               <strong>
-                Ref : {strBusinessUnitName}/{strBankShortName}
+                Ref : {strBusinessUnitName?.toUpperCase()}/{strBankShortName}
                 /AC-CLO/{strRefDate}
               </strong>
             </p>
-            <p>
+            <p style={{ marginTop: "-8px" }}>
               <strong>Date : {strDate}</strong>
             </p>
           </div>
@@ -48,13 +35,13 @@ const AccountCloseTwo = ({ singleRowItem }) => {
 
           <div>
             <p>The Head of the Branch</p>
-            <p>
-              <strong>{strBankName}</strong>
+            <p style={{ marginTop: "-7px" }}>
+              <strong>{strBankName?.toUpperCase()}</strong>
             </p>
-            <p>
+            <p style={{ marginTop: "-7px" }}>
               <strong>{strBranchName}</strong>
             </p>
-            <p>
+            <p style={{ marginTop: "-7px" }}>
               <strong>{strBranchAddress}</strong>
             </p>
           </div>
@@ -64,7 +51,8 @@ const AccountCloseTwo = ({ singleRowItem }) => {
             <p>
               <strong>
                 Subject: Closing of {strAccountType} Account No. {strAccountNo}{" "}
-                of {strAccountName} with {strBankName}, {strBranchName}.
+                of {strAccountName?.toUpperCase()} with{" "}
+                {strBankName?.toUpperCase()}, {strBranchName}.
               </strong>
             </p>
           </div>
@@ -74,8 +62,7 @@ const AccountCloseTwo = ({ singleRowItem }) => {
             <p>
               <strong>Dear Sir,</strong>
             </p>
-            <br />
-            <p>
+            <p style={{ marginTop: "-5px" }}>
               We have the honor to inform you that, we have a
               <strong>
                 {" "}
@@ -84,20 +71,19 @@ const AccountCloseTwo = ({ singleRowItem }) => {
               with your branch which will no longer be required to maintain by
               us and we need to close it henceforth. In this regard a resolution
               has been passed to that effect in the meeting of The Board of
-              Directors of the Company held on the <strong> {strBrdate}</strong>{" "}
-              in the Corporate office of the company at Akij House, 198, Bir
-              Uttam Mir Shawkat Sarak, Gulshan Link Road, Tejgaon, Dhaka 1208.
+              Directors of the Company held on the{" "}
+              <strong> {formatDate(strBrdate)}</strong> in the Corporate office
+              of the company at Akij House, 198, Bir Uttam Mir Shawkat Sarak,
+              Gulshan Link Road, Tejgaon, Dhaka 1208.
             </p>
-            <br />
-            <p>
+            <p style={{ marginTop: "-3px" }}>
               In view of above we are requesting you to close the above Bank
               Account and if any existing balance please give us a
               <strong> pay order</strong> in favor of
-              <strong> {strAccountName}</strong> after deducting necessary
-              charges and hand over the same with a statement & certificate of
-              closing the account.
+              <strong> {strAccountName?.toUpperCase()}</strong> after deducting
+              necessary charges and hand over the same with a statement &
+              certificate of closing the account.
             </p>
-            <br />
 
             <p>
               We are enclosing herewith the necessary documents for your early
@@ -118,7 +104,7 @@ const AccountCloseTwo = ({ singleRowItem }) => {
             <p>
               <strong>(Sheikh Jasim Uddin)</strong>
             </p>
-            <p>
+            <p style={{ marginTop: "-7px" }}>
               <strong>Managing Director</strong>
             </p>
           </div>
@@ -132,9 +118,9 @@ const AccountCloseTwo = ({ singleRowItem }) => {
           <p>
             EXTRACT OF THE MINUTES OF THE MEETING OF THE BOARD OF DIRECTORS OF
             <strong> {strAccountName?.toUpperCase()}</strong> HELD ON THE
-            <strong> {strBrdate}</strong> AT 11:30AM IN THE CORPORATE OFFICE OF
-            THE COMPANY AT AKIJ HOUSE, 198, BIR UTTAM MIR SHAWKAT SARAK, GULSHAN
-            LINK ROAD, TEJGAON, DHAKA 1208.
+            <strong> {formatDate(strBrdate)}</strong> AT 11:30AM IN THE
+            CORPORATE OFFICE OF THE COMPANY AT AKIJ HOUSE, 198, BIR UTTAM MIR
+            SHAWKAT SARAK, GULSHAN LINK ROAD, TEJGAON, DHAKA 1208.
           </p>
           <p>
             The meeting was presided over by Ms. Faria Hossain, Chairman of the
@@ -174,11 +160,11 @@ const AccountCloseTwo = ({ singleRowItem }) => {
               {strAccountType} Account No- {strAccountNo}
             </strong>{" "}
             with
-            <strong> {strBankName},</strong> <strong>{strBranchName}</strong>{" "}
-            which will be no longer required to maintain by the company. In view
-            of above the board of the Company be and is hereby approved to take
-            necessary steps in regard to close the above Bank Account
-            immediately.
+            <strong> {strBankName?.toUpperCase()},</strong>{" "}
+            <strong>{strBranchName}</strong> which will be no longer required to
+            maintain by the company. In view of above the board of the Company
+            be and is hereby approved to take necessary steps in regard to close
+            the above Bank Account immediately.
           </p>
           <p>
             d) Further resolved that the Managing Director of the Company and
@@ -196,7 +182,7 @@ const AccountCloseTwo = ({ singleRowItem }) => {
             <p>
               <strong>(Sheikh Jasim Uddin)</strong>
             </p>
-            <p>Managing Director</p>
+            <p style={{ marginTop: "-7px" }}>Managing Director</p>
           </div>
         </div>
       </div>
