@@ -47,6 +47,7 @@ const initData = {
   documentName: "",
   massengerName: "",
   messengerDesignation: "",
+  fiscalYear: "",
 };
 export default function BankLetter() {
   const {
@@ -129,6 +130,7 @@ export default function BankLetter() {
       strDocumentName: values?.documentName || "",
       strMassengerName: values?.massengerName || "",
       strMessengerDesignation: values?.messengerDesignation || "",
+      strFiscalYear: values?.fiscalYear || "",
     };
 
     onSave(`/fino/BankLetter/SaveBankLetterTemplatePrint`, payload, null, true);
@@ -381,6 +383,20 @@ export default function BankLetter() {
                       name="amount"
                       type="number"
                       onChange={(e) => setFieldValue("amount", e.target.value)}
+                    />
+                  </div>
+                )}
+                {[6].includes(values?.templateType?.value) && (
+                  <div className="col-lg-3">
+                    <InputField
+                      value={values.fiscalYear}
+                      label="Fiscal Year"
+                      name="fiscalYear"
+                      placeholder="1999-2000"
+                      type="text"
+                      onChange={(e) =>
+                        setFieldValue("fiscalYear", e.target.value)
+                      }
                     />
                   </div>
                 )}

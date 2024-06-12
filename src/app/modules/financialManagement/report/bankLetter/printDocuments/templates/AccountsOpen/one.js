@@ -1,5 +1,6 @@
 import React from "react";
 import "./style.scss";
+import { formatDate } from "../../../helper";
 
 const AccountOpenOne = ({ singleRowItem }) => {
   const {
@@ -25,7 +26,7 @@ const AccountOpenOne = ({ singleRowItem }) => {
                 /AO/{strDate}
               </strong>
             </p>
-            <p>
+            <p style={{ marginTop: "-7.5px" }}>
               <strong>Date : {strRefDate}</strong>
             </p>
           </div>
@@ -34,9 +35,13 @@ const AccountOpenOne = ({ singleRowItem }) => {
             <p>
               <strong>The Head of the Branch</strong>
             </p>
-            <p>{strBankName}</p>
-            <p>{strBranchName}</p>
-            <p>{strBranchAddress || ""}</p>
+            <p style={{ marginTop: "-7.5px" }}>
+              <strong> {strBankName?.toUpperCase()}</strong>
+            </p>
+            <p style={{ marginTop: "-7.5px" }}>
+              <strong>{strBranchName}</strong>
+            </p>
+            <p style={{ marginTop: "-7.5px" }}>{strBranchAddress || ""}</p>
           </div>
           <br />
           <div>
@@ -47,8 +52,8 @@ const AccountOpenOne = ({ singleRowItem }) => {
               <div>
                 <strong>
                   {strAccountType} Account Open in the Name of{" "}
-                  {strBusinessUnitName} and the person authorized to deal with{" "}
-                  {strBankName} {strBranchName}.
+                  {strBusinessUnitName?.toUpperCase()} and the person authorized
+                  to deal with {strBankName?.toUpperCase()} {strBranchName}.
                 </strong>
               </div>
             </p>
@@ -59,18 +64,19 @@ const AccountOpenOne = ({ singleRowItem }) => {
               <strong>Dear Sir,</strong>
             </p>
             {/* <br /> */}
-            <p>
+            <p style={{ marginTop: "-7.5px" }}>
               We have the pleasure to inform you that the Board of Directors of
               the Company has decided to open{" "}
               <strong> {strAccountType} </strong> in the name of{" "}
-              <strong>{strBusinessUnitName}</strong> with your branch as per the
-              Board resolution of the Company which was held on the
-              <strong> {strBrdate} </strong> in the Registered Office of The
-              Company at Akij House, 198, Bir Uttam Mir Shawkat Sarak, Gulshan
-              Link Road, Tejgaon, Dhaka 1208.
+              <strong>{strBusinessUnitName?.toUpperCase()}</strong> with your
+              branch as per the Board resolution of the Company which was held
+              on the
+              <strong> {formatDate(strBrdate)} </strong> in the Registered
+              Office of The Company at Akij House, 198, Bir Uttam Mir Shawkat
+              Sarak, Gulshan Link Road, Tejgaon, Dhaka 1208.
             </p>
             {/* <br /> */}
-            <p>
+            <p style={{ marginTop: "-10px" }}>
               As per Board Resolution{" "}
               <strong>
                 Resolved that Mr. Sheikh Jasim Uddin, Managing Director{" "}
@@ -153,24 +159,24 @@ const AccountOpenOne = ({ singleRowItem }) => {
               <p style={{ marginTop: "10px" }}>
                 <strong>(Sheikh Jasim Uddin)</strong>
               </p>
-              <p>
+              <p style={{ marginTop: "-7.5px" }}>
                 <strong>Managing Director</strong>
               </p>
             </div>
           </div>
         </div>
-        {/* <div
+        <div
           style={{
             pageBreakAfter: "always",
           }}
-        ></div> */}
+        ></div>
         <div style={{ marginTop: "10px" }} className="second-part">
           <p>
             EXTRACT OF THE MINUTE OF THE MEETING OF THE BOARD OF DIRECTORS OF
             <strong>{strBusinessUnitName?.toUpperCase()}</strong> ON THE{" "}
-            <strong> {strBrdate} </strong> AT 11.30 A.M. IN THE REGISTERED
-            OFFICE OF THE COMPANY AT AKIJ HOUSE, 198, BIR UTTAM MIR SHAWKAT
-            SARAK, GULSHAN LINK ROAD, TEJGAON, DHAKA 1208.
+            <strong> {formatDate(strBrdate)} </strong> AT 11.30 A.M. IN THE
+            REGISTERED OFFICE OF THE COMPANY AT AKIJ HOUSE, 198, BIR UTTAM MIR
+            SHAWKAT SARAK, GULSHAN LINK ROAD, TEJGAON, DHAKA 1208.
           </p>
           {/* <br /> */}
           <p>
@@ -206,13 +212,13 @@ const AccountOpenOne = ({ singleRowItem }) => {
               Resolved that Mr. Sheikh Jasim Uddin, Managing Director{" "}
             </strong>
             of the Company be and is hereby authorized to open Account Type in
-            the name of <strong> {strAccountName} </strong> with
-            <strong> {strBankName},</strong> <strong> {strBranchName}</strong>{" "}
-            and to operate the account <strong>sign and endorse singly</strong>{" "}
-            all cheques in regard to <strong> {strAccountType} </strong> for any
-            amount and also sanction advice, security documents, trade
-            (import/export) related documents, other necessary documents and
-            papers for enjoying a loan.
+            the name of <strong> {strAccountName?.toUpperCase()} </strong> with
+            <strong> {strBankName?.toUpperCase()},</strong>{" "}
+            <strong> {strBranchName}</strong> and to operate the account{" "}
+            <strong>sign and endorse singly</strong> all cheques in regard to{" "}
+            <strong> {strAccountType} </strong> for any amount and also sanction
+            advice, security documents, trade (import/export) related documents,
+            other necessary documents and papers for enjoying a loan.
           </p>
           <p>
             <strong>Besides this,</strong> resolved that the Company
@@ -273,7 +279,7 @@ const AccountOpenOne = ({ singleRowItem }) => {
           </p>
           <p>
             b) Resolved that the company will open FDR/ FDRs from time to time
-            with <strong> {strBankName}</strong>,
+            with <strong> {strBankName?.toUpperCase()}</strong>,
             <strong>{strBranchName}</strong> for the business interest of the
             company and this resolution will be applicable for that.
           </p>
@@ -300,14 +306,14 @@ const AccountOpenOne = ({ singleRowItem }) => {
             <p>
               <strong>(Sheikh Jasim Uddin) </strong>
             </p>
-            <p>Managing Director</p>
+            <p style={{ marginTop: "-7.5px" }}>Managing Director</p>
           </div>
         </div>
-        {/* <div
+        <div
           style={{
             pageBreakAfter: "always",
           }}
-        ></div> */}
+        ></div>
         <div style={{ marginTop: "-19px" }}>
           <div style={{ textAlign: "center" }}>
             <div>
@@ -325,7 +331,7 @@ const AccountOpenOne = ({ singleRowItem }) => {
                 <tr>
                   <td>Title of Account</td>
                   <td>
-                    <strong>: {strBusinessUnitName}</strong>
+                    <strong>: {strBusinessUnitName?.toUpperCase()}</strong>
                   </td>
                 </tr>
                 <tr>
@@ -336,7 +342,7 @@ const AccountOpenOne = ({ singleRowItem }) => {
                 </tr>
                 <tr>
                   <td>
-                    {strBankName} {strBranchName}
+                    {strBankName?.toUpperCase()} {strBranchName}
                   </td>
                   <td />
                 </tr>
@@ -356,7 +362,7 @@ const AccountOpenOne = ({ singleRowItem }) => {
                 </tr>
                 <tr>
                   <td rowSpan={3}>Sheikh Jasim Uddin</td>
-                  <td>{strBusinessUnitName}</td>
+                  <td>{strBusinessUnitName?.toUpperCase()}</td>
                   <td rowSpan={4} />
                 </tr>
                 <tr>
@@ -395,7 +401,7 @@ const AccountOpenOne = ({ singleRowItem }) => {
                 </tr>
                 <tr>
                   <td rowSpan={3}>Md. Sheikh Sadi</td>
-                  <td>{strBusinessUnitName}</td>
+                  <td>{strBusinessUnitName?.toUpperCase()}</td>
                   <td rowSpan={19} />
                 </tr>
                 <tr>
@@ -408,7 +414,7 @@ const AccountOpenOne = ({ singleRowItem }) => {
                 </tr>
                 <tr>
                   <td rowSpan={3}>Md. Masud Rana</td>
-                  <td>{strBusinessUnitName}</td>
+                  <td>{strBusinessUnitName?.toUpperCase()}</td>
                 </tr>
                 <tr>
                   <td style={{ padding: "5px" }}>.</td>
@@ -420,7 +426,7 @@ const AccountOpenOne = ({ singleRowItem }) => {
                 </tr>
                 <tr>
                   <td rowSpan={3}>Iftekhar Uddin Chowdhury</td>
-                  <td>{strBusinessUnitName}</td>
+                  <td>{strBusinessUnitName?.toUpperCase()}</td>
                 </tr>
                 <tr>
                   <td style={{ padding: "5px" }}>.</td>
@@ -432,7 +438,7 @@ const AccountOpenOne = ({ singleRowItem }) => {
                 </tr>
                 <tr>
                   <td rowSpan={3}>Raihan Kabir</td>
-                  <td>{strBusinessUnitName}</td>
+                  <td>{strBusinessUnitName?.toUpperCase()}</td>
                 </tr>
                 <tr>
                   <td style={{ padding: "5px" }}>.</td>
@@ -444,7 +450,7 @@ const AccountOpenOne = ({ singleRowItem }) => {
                 </tr>
                 <tr>
                   <td rowSpan={3}>Rakibul Alam Khan</td>
-                  <td>{strBusinessUnitName}</td>
+                  <td>{strBusinessUnitName?.toUpperCase()}</td>
                 </tr>
                 <tr>
                   <td style={{ padding: "5px" }}>.</td>
@@ -456,7 +462,7 @@ const AccountOpenOne = ({ singleRowItem }) => {
                 </tr>
                 <tr>
                   <td rowSpan={3}>Md. Anamul Haque</td>
-                  <td>{strBusinessUnitName}</td>
+                  <td>{strBusinessUnitName?.toUpperCase()}</td>
                 </tr>
                 <tr>
                   <td style={{ padding: "5px" }}>.</td>
