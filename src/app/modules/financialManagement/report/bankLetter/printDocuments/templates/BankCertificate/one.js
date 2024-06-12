@@ -28,16 +28,20 @@ const BankCertificateOne = ({ singleRowItem }) => {
             </span>
           </b>
         </p>
-        <p style={{ marginTop: "15px" }}>
+        <p style={{ marginTop: "-7.5px" }}>
           <b>Date : {strRefDate}</b>
         </p>
         <p style={{ marginTop: "35px" }}>The Head of the Branch</p>
-        <p style={{ marginTop: "15px" }}>{strBankName}</p>
-        <p style={{ marginTop: "15px" }}>
-          {`${strBranchName} `}
-          {strBranchName?.toLowerCase().includes("branch") ? "" : "Branch"}
+        <p style={{ marginTop: "-7.5px" }}>
+          <strong>{strBankName?.toUpperCase()}</strong>
         </p>
-        <p style={{ marginTop: "15px" }}>{strBranchAddress}</p>
+        <p style={{ marginTop: "-7.5px" }}>
+          <strong>
+            {`${strBranchName} `}
+            {strBranchName?.toLowerCase().includes("branch") ? "" : "Branch"}
+          </strong>{" "}
+        </p>
+        <p style={{ marginTop: "-7.5px" }}>{strBranchAddress}</p>
         <p style={{ margin: "35px 0" }}>
           <b>
             Subject: Request for different Bank Certificates - Balance
@@ -46,7 +50,8 @@ const BankCertificateOne = ({ singleRowItem }) => {
             deduction certificate for the fiscal year{" "}
             <span>{strFiscalYear?.slice(0, 4)}</span>-{" "}
             <span> {strFiscalYear?.slice(5)}</span> against{" "}
-            <span> {` ${strAccountName} `}</span> A/C No: {strAccountNo}
+            <span> {` ${strAccountName?.toUpperCase()} `}</span> A/C No:{" "}
+            {strAccountNo}
           </b>
         </p>
         <p style={{ marginTop: 35 }}>Dear Sir,</p>
@@ -95,9 +100,14 @@ const BankCertificateOne = ({ singleRowItem }) => {
           <span>
             {strFiscalYear?.slice(0, 4)}-{strFiscalYear?.slice(5)}{" "}
           </span>
-          as per the attached format; 5. Export Proceeds Realization Certificate{" "}
-          <strong>(PRC)</strong> for the fiscal year
+          as per the attached format;
+        </p>
+        <p>
+          {" "}
+          5. Export Proceeds Realization Certificate <strong>(PRC)</strong> for
+          the fiscal year
           <span>
+            {" "}
             {strFiscalYear?.slice(0, 4)}-{strFiscalYear?.slice(5)}
           </span>{" "}
           against relevant accounts.
@@ -113,9 +123,9 @@ const BankCertificateOne = ({ singleRowItem }) => {
         <br />
         <p style={{ marginTop: 5 }}>Yours faithfully,</p>
         <p style={{ marginTop: 5 }}>
-          For, <b>{strBusinessUnitName.toUpperCase()}</b>
+          For, <b>{strBusinessUnitName?.toUpperCase()}</b>
         </p>
-        <div style={{ marginTop: 45, display: "flex" }}>
+        <div style={{ marginTop: "100px", display: "flex" }}>
           <div>Authorized Signature</div>
           <div style={{ marginLeft: 20 }}>Authorized Signature</div>
         </div>
