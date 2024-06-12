@@ -144,6 +144,7 @@ export const CommercialCostingForTypeTwo = async (
   getLandingDataForCommercialBill,
   advanceAdjust
 ) => {
+  setDisabled(true);
   try {
       const res = await axios.post(
         `/imp/FormulaForCalculation/CommercialCostingForTypeTwo?accountId=${accId}&businessUnitId=${buId}&plantId=${plantId}&sbuId=${sbuId}&transactionDate=${_dateFormatter(new Date())}&costId=${costId}&businessPartnerId=${supplierId}&totalAmount=${totalAmount < advanceAdjust ? 0 : totalAmount - advanceAdjust || 0}&typeId=${2}&actionById=${actionById}&SupplierBillRef=${supplierBillRef}&numAdvanceAdjust=${totalAmount < advanceAdjust ? totalAmount : advanceAdjust || 0}`,
@@ -214,8 +215,10 @@ export const getCommercialBreakdownForAdvanceAndBill = async(
   referenceId, 
   supplierId,
   setAdvanceBill,
-  setBill
+  setBill,
+  setLoading
 ) => {
+  setLoading && setLoading(true)
   try{
     const res= await axios.get(`/imp/AllCharge/GetCommercialBreakdownForAdvanceAndBill?referenceId=${referenceId}&supplierId=${supplierId}`)
     console.log(res)
@@ -223,7 +226,9 @@ export const getCommercialBreakdownForAdvanceAndBill = async(
       setAdvanceBill(res?.data?.objAdvanceData);
       setBill(res?.data?.objBillData)
     }
+    setLoading && setLoading(false)
   }catch(err){
+    setLoading && setLoading(false)
     toast.error(err?.response?.data?.message)
   }
 }

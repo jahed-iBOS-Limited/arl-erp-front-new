@@ -2947,3 +2947,18 @@ body {
   margin: auto;
   overflow: auto;
 }
+table thead tr th.positionSticky {
+  position: -webkit-sticky;
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  background: #f8f9fa;
+}
+
+table tbody tr td.positionSticky {
+  position: -webkit-sticky;
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  background: #f8f9fa;
+}
