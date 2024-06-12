@@ -19,8 +19,8 @@ export const getMonthlyVoyageStatement = async (
     setter(
       res?.data?.map((item) => ({
         ...item,
-        jvDisable: false,
-        ajDisable: false,
+        jvDisable: item?.jvDisable || false,
+        ajDisable: item?.ajDisable || false,
         estFreightAmount: item?.estimatedCargoQty * item?.numFreight,
       }))
     );
