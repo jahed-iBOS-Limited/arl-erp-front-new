@@ -76,7 +76,7 @@ const AccountOpenOne = ({ singleRowItem }) => {
               Sarak, Gulshan Link Road, Tejgaon, Dhaka 1208.
             </p>
             {/* <br /> */}
-            <p style={{ marginTop: "-8px" }}>
+            <p style={{ marginTop: "-5px" }}>
               As per Board Resolution{" "}
               <strong>
                 Resolved that Mr. Sheikh Jasim Uddin, Managing Director{" "}

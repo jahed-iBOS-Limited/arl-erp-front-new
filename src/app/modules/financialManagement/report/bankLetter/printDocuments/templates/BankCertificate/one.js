@@ -6,7 +6,6 @@ const BankCertificateOne = ({ singleRowItem }) => {
     strBusinessUnitName,
     strBusinessUnitShortName,
     strRefDate,
-    strDate,
     strFiscalYear,
     strBankName,
     strAccountName,
@@ -46,10 +45,10 @@ const BankCertificateOne = ({ singleRowItem }) => {
           <b>
             Subject: Request for different Bank Certificates - Balance
             Confirmation, UPAS Interest Expense & Liability position as of 30
-            June <span>{strFiscalYear?.slice(5)}</span> , and Interest & Tax
+            June <span>{strFiscalYear?.slice(5)}</span>, and Interest & Tax
             deduction certificate for the fiscal year{" "}
-            <span>{strFiscalYear?.slice(0, 4)}</span>-{" "}
-            <span> {strFiscalYear?.slice(5)}</span> against{" "}
+            <span>{strFiscalYear?.slice(0, 4)}</span>-
+            <span>{strFiscalYear?.slice(5)}</span> against{" "}
             <span> {` ${strAccountName?.toUpperCase()} `}</span> A/C No:{" "}
             {strAccountNo}
           </b>

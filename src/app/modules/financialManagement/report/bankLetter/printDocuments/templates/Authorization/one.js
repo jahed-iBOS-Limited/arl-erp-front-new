@@ -21,7 +21,7 @@ const AuthorizationOne = ({ singleRowItem }) => {
   } = singleRowItem;
   return (
     <>
-      <div className="bank-letter-template-common-wrapper">
+      <div className="bank-letter-template-common-wrapper authoFDR-wrapper">
         <p style={{}}>
           <b>
             {" "}
@@ -30,21 +30,25 @@ const AuthorizationOne = ({ singleRowItem }) => {
             {strDate?.replaceAll("-", ".")}
           </b>
         </p>
-        <p style={{ marginTop: "15px" }}>
+        <p style={{ marginTop: "-7px" }}>
           <b>Date : {strRefDate}</b>
         </p>
         <p style={{ marginTop: 35 }}>To</p>
-        <p style={{ marginTop: "15px" }}>The Head of the Branch</p>
-        <p style={{ marginTop: "15px" }}>{strBankName}</p>
-        <p style={{ marginTop: "15px" }}>
-          {`${strBranchName} `}
-          {strBranchName?.toLowerCase().includes("branch") ? "" : "Branch"}
+        <p style={{ marginTop: "-7px" }}>The Head of the Branch</p>
+        <p style={{ marginTop: "-7px" }}>
+          <strong>{strBankName?.toUpperCase()}</strong>
         </p>
-        <p style={{ marginTop: "15px" }}>{strBranchAddress}</p>
+        <p style={{ marginTop: "-7px" }}>
+          <strong>
+            {`${strBranchName} `}
+            {strBranchName?.toLowerCase().includes("branch") ? "" : "Branch"}
+          </strong>{" "}
+        </p>
+        <p style={{ marginTop: "-7px" }}>{strBranchAddress}</p>
         <p style={{ margin: "35px 0" }}>
           <b>
             Subject: Authorization to receive {strDocumentName} of{" "}
-            {strBusinessUnitName} {strAccountType} A/c No-
+            {strBusinessUnitName?.toUpperCase()} {strAccountType} A/c No-
             {strAccountNo}.
           </b>
         </p>
@@ -54,9 +58,12 @@ const AuthorizationOne = ({ singleRowItem }) => {
           We do hereby authorize <strong> {strMassengerName} </strong>,
           {` ${strMessengerDesignation} `}
           of our company to receive {` ${strDocumentName} `}
-          of <span> </span>
-          {` ${strBusinessUnitName} `}, A/C No-
-          {strAccountNo}. His specimen signature is attested below.
+          of{" "}
+          <strong>
+            {` ${strBusinessUnitName?.toUpperCase()} `}, A/C No-
+            {strAccountNo}
+          </strong>
+          . His specimen signature is attested below.
         </p>
         <p style={{ marginTop: 35 }}>
           <b>The Specimen Signature of</b>
@@ -67,7 +74,7 @@ const AuthorizationOne = ({ singleRowItem }) => {
         <br />
         <p style={{ marginTop: 5 }}>Yours faithfully,</p>
         <p style={{ marginTop: 5 }}>
-          For, <b>{strBusinessUnitName.toUpperCase()}</b>
+          For, <b>{strBusinessUnitName?.toUpperCase()}</b>
         </p>
         <div style={{ marginTop: 85, display: "flex" }}>
           <div>Authorized Signature</div>

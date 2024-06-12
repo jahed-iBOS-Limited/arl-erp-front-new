@@ -76,7 +76,7 @@ const AccountOpenTwo = ({ singleRowItem }) => {
               Sarak, Gulshan Link Road, Tejgaon, Dhaka 1208.
             </p>
             <br />
-            <p style={{ marginTop: "-10px" }}>
+            <p style={{ marginTop: "-8px" }}>
               As per Board Resolution
               <strong>
                 {" "}
