@@ -305,6 +305,8 @@ export function TableRow() {
                                       : data?.strFSComponentName ===
                                         "Earning Before Tax"
                                       ? "font-weight-bold"
+                                      : data?.isAggregate
+                                      ? "font-weight-bold"
                                       : ""
                                   }
                                 >
@@ -313,13 +315,13 @@ export function TableRow() {
                                   </td>
                                   {/* <td></td> */}
                                   <td className="text-right">
-                                    {_formatMoney(data?.monLastPeriodAmount)}
+                                    {data?.isLabel ? "" : _formatMoney(data?.monLastPeriodAmount)}
                                   </td>
                                   <td className="text-right">
-                                    {_formatMoney(data?.monCurrentPeriodAmount)}
+                                    {data?.isLabel ? "" : _formatMoney(data?.monCurrentPeriodAmount)}
                                   </td>
                                   <td className="text-right">
-                                    {_formatMoney(
+                                    {data?.isLabel ? "" : _formatMoney(
                                       data?.monLastPeriodAmount -
                                         data?.monCurrentPeriodAmount
                                     )}
