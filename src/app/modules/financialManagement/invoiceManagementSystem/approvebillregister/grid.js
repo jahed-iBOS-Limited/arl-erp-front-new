@@ -29,6 +29,8 @@ import SupplerInvoiceView from "./supplerInvoiceView";
 import SupplierAdvanceView from "./supplierAdvanceView";
 import ViewDamDeliveryBill from "../billregister/damDelivery/view/table";
 import CustomerViewModal from "../billregister/customerRefund/customerViewModal";
+import FairPriceShopInvoiceView from "./fairPriceShopInvoiceView";
+import ViewMotherVesselBill from "../billregister/motherVesselBill/view/viewBillRegister";
 const GridData = ({
   rowDto,
   setRowDto,
@@ -241,6 +243,14 @@ const GridData = ({
             setModalShow={setModalShow}
           />
         )}
+        {gridItem?.billType === 11 && (
+              <FairPriceShopInvoiceView
+                gridItem={gridItem}
+                laingValues={values}
+                // girdDataFunc={girdDataFunc}
+                setModalShow={setModalShow}
+              />
+            )}
         {gridItem?.billType === 12 && (
           <OthersBillView
             landingValues={values}
@@ -290,6 +300,12 @@ const GridData = ({
             billRegisterId={gridItem?.billRegisterId}
           />
         )}
+        {gridItem?.billType === 19 && (
+              <ViewMotherVesselBill
+                landingValues={values}
+                gridItem={gridItem}
+              />
+            )}
         {gridItem?.billType === 21 && (
           <ViewG2GGodownUnloadBill billRegisterId={gridItem?.billRegisterId} />
         )}
