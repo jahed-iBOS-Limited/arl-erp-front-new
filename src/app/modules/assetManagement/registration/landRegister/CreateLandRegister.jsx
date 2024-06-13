@@ -560,7 +560,7 @@ export default function CreateLandRegister() {
                 <div className="col-lg-3">
                   <InputField
                     value={values.ploatNo}
-                    label="Ploat No"
+                    label="Plot No"
                     name="ploatNo"
                     type="text"
                     onChange={(e) => setFieldValue("ploatNo", e.target.value)}
