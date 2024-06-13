@@ -39,7 +39,12 @@ const AccountOpenOne = ({ singleRowItem }) => {
               <strong> {strBankName?.toUpperCase()}</strong>
             </p>
             <p style={{ marginTop: "-7.5px" }}>
-              <strong>{strBranchName}</strong>
+              <strong>
+                {strBranchName}
+                {strBranchName?.toLowerCase().includes("branch")
+                  ? ""
+                  : "BRANCH"}
+              </strong>
             </p>
             <p style={{ marginTop: "-7.5px" }}>{strBranchAddress || ""}</p>
           </div>
@@ -53,7 +58,11 @@ const AccountOpenOne = ({ singleRowItem }) => {
                 <strong>
                   {strAccountType} Account Open in the Name of{" "}
                   {strBusinessUnitName?.toUpperCase()} and the person authorized
-                  to deal with {strBankName?.toUpperCase()} {strBranchName}.
+                  to deal with {strBankName?.toUpperCase()} {strBranchName}{" "}
+                  {strBranchName?.toLowerCase().includes("branch")
+                    ? ""
+                    : "BRANCH"}
+                  .
                 </strong>
               </div>
             </p>
@@ -63,8 +72,7 @@ const AccountOpenOne = ({ singleRowItem }) => {
             <p>
               <strong>Dear Sir,</strong>
             </p>
-            {/* <br /> */}
-            <p style={{ marginTop: "-7.5px" }}>
+            <p style={{ marginTop: "-3px" }}>
               We have the pleasure to inform you that the Board of Directors of
               the Company has decided to open{" "}
               <strong> {strAccountType} </strong> in the name of{" "}
@@ -92,7 +100,7 @@ const AccountOpenOne = ({ singleRowItem }) => {
                 1. Md. Sheikh Sadi- Chief Treasury Officer; 2. Md. Masud Rana-
                 Chief Supply Chain Officer; 3. Iftekhar Uddin Chowdhury- Senior
                 Manager (Treasury); 4. Raihan Kabir- Deputy CFO; 5. Rakibul Alam
-                Khan- Manager (Finance) and 6. Md. Anamul Haque- Deputy Manager
+                Khan- Manager (Finance) and 6. Md. Anamul Haque- Manager
                 (Finance)
               </strong>{" "}
               from now onward
@@ -154,6 +162,9 @@ const AccountOpenOne = ({ singleRowItem }) => {
                 <strong>For, {strBusinessUnitName?.toUpperCase()}</strong>
               </p>
               <br />
+              <br />
+              <br />
+              <br />
 
               <p style={{ marginTop: "10px" }}>
                 <strong>(Sheikh Jasim Uddin)</strong>
@@ -169,7 +180,10 @@ const AccountOpenOne = ({ singleRowItem }) => {
             pageBreakAfter: "always",
           }}
         ></div>
-        <div style={{ marginTop: "10px" }} className="second-part">
+        <div
+          className="second-part"
+          style={{ marginTop: "10px", fontSize: "14px !important" }}
+        >
           <p>
             EXTRACT OF THE MINUTE OF THE MEETING OF THE BOARD OF DIRECTORS OF
             <strong>{strBusinessUnitName?.toUpperCase()}</strong> ON THE{" "}
@@ -188,7 +202,7 @@ const AccountOpenOne = ({ singleRowItem }) => {
               <strong>Mr. Sheikh Jasim Uddin</strong>
             </span>{" "}
             <span style={{ marginLeft: "100px" }}>Managing Director</span>{" "}
-            <span style={{ marginLeft: "90px" }}>Sd/</span>
+            <span style={{ marginLeft: "94px" }}>Sd/</span>
           </p>
           <p>
             <span>
@@ -196,7 +210,7 @@ const AccountOpenOne = ({ singleRowItem }) => {
             </span>
             {}
             <span style={{ marginLeft: "145px" }}>Chairman</span>{" "}
-            <span style={{ marginLeft: "150px" }}>Sd/</span>
+            <span style={{ marginLeft: "152px" }}>Sd/</span>
           </p>
           <br />
           <p>
@@ -213,11 +227,16 @@ const AccountOpenOne = ({ singleRowItem }) => {
             of the Company be and is hereby authorized to open Account Type in
             the name of <strong> {strAccountName?.toUpperCase()} </strong> with
             <strong> {strBankName?.toUpperCase()},</strong>{" "}
-            <strong> {strBranchName}</strong> and to operate the account{" "}
-            <strong>sign and endorse singly</strong> all cheques in regard to{" "}
-            <strong> {strAccountType} </strong> for any amount and also sanction
-            advice, security documents, trade (import/export) related documents,
-            other necessary documents and papers for enjoying a loan.
+            <strong>
+              {" "}
+              {strBranchName}{" "}
+              {strBranchName?.toLowerCase().includes("branch") ? "" : "BRANCH"}
+            </strong>{" "}
+            and to operate the account <strong>sign and endorse singly</strong>{" "}
+            all cheques in regard to <strong> {strAccountType} </strong> for any
+            amount and also sanction advice, security documents, trade
+            (import/export) related documents, other necessary documents and
+            papers for enjoying a loan.
           </p>
           <p>
             <strong>Besides this,</strong> resolved that the Company
@@ -229,9 +248,8 @@ const AccountOpenOne = ({ singleRowItem }) => {
               1. Md. Sheikh Sadi- Chief Treasury Officer; 2. Md. Masud Rana-
               Chief Supply Chain Officer; 3. Iftekhar Uddin Chowdhury- Senior
               Manager (Treasury); 4. Raihan Kabir- Deputy CFO; 5. Rakibul Alam
-              Khan- Manager (Finance) and 6. Md. Anamul Haque- Deputy Manager
-              (Finance) from now onward any two of the six can jointly sign and
-              endorse:
+              Khan- Manager (Finance) and 6. Md. Anamul Haque- Manager (Finance)
+              from now onward any two of the six can jointly sign and endorse:
             </strong>
           </p>
           <div style={{ marginLeft: 80 }}>
@@ -279,8 +297,12 @@ const AccountOpenOne = ({ singleRowItem }) => {
           <p>
             b) Resolved that the company will open FDR/ FDRs from time to time
             with <strong> {strBankName?.toUpperCase()}</strong>,
-            <strong>{strBranchName}</strong> for the business interest of the
-            company and this resolution will be applicable for that.
+            <strong>
+              {strBranchName}{" "}
+              {strBranchName?.toLowerCase().includes("branch") ? "" : "BRANCH"}
+            </strong>{" "}
+            for the business interest of the company and this resolution will be
+            applicable for that.
           </p>
           <p>
             c) Resolved that the company will provide FDR or Guarantee against
@@ -301,7 +323,7 @@ const AccountOpenOne = ({ singleRowItem }) => {
           <p>The meeting ended with a vote of thanks to the chair.</p>
           <br />
           <div>
-            <p>Sd/-</p>
+            <p style={{ marginLeft: "40px" }}>Sd/-</p>
             <p>
               <strong>(Sheikh Jasim Uddin) </strong>
             </p>
@@ -313,7 +335,7 @@ const AccountOpenOne = ({ singleRowItem }) => {
             pageBreakAfter: "always",
           }}
         ></div>
-        <div style={{ marginTop: "-19px" }}>
+        <div style={{ marginTop: "-15px" }}>
           <div style={{ textAlign: "center" }}>
             <div>
               <strong>
@@ -341,7 +363,10 @@ const AccountOpenOne = ({ singleRowItem }) => {
                 </tr>
                 <tr>
                   <td>
-                    {strBankName?.toUpperCase()} {strBranchName}
+                    {strBankName?.toUpperCase()} {strBranchName}{" "}
+                    {strBranchName?.toLowerCase().includes("branch")
+                      ? ""
+                      : "BRANCH"}
                   </td>
                   <td />
                 </tr>
@@ -365,7 +390,7 @@ const AccountOpenOne = ({ singleRowItem }) => {
                   <td rowSpan={4} />
                 </tr>
                 <tr>
-                  <td style={{ padding: "5px" }}>.</td>
+                  <td style={{ padding: "15px 0" }}>.</td>
                 </tr>
                 <tr>
                   <td style={{ padding: "0px", fontSize: "13px" }}>
@@ -404,7 +429,7 @@ const AccountOpenOne = ({ singleRowItem }) => {
                   <td rowSpan={19} />
                 </tr>
                 <tr>
-                  <td style={{ padding: "5px" }}>.</td>
+                  <td style={{ padding: "15px 0" }}>.</td>
                 </tr>
                 <tr>
                   <td style={{ padding: "0px", fontSize: "13px" }}>
@@ -416,7 +441,7 @@ const AccountOpenOne = ({ singleRowItem }) => {
                   <td>{strBusinessUnitName?.toUpperCase()}</td>
                 </tr>
                 <tr>
-                  <td style={{ padding: "5px" }}>.</td>
+                  <td style={{ padding: "15px 0" }}>.</td>
                 </tr>
                 <tr>
                   <td style={{ padding: "0px", fontSize: "13px" }}>
@@ -428,7 +453,7 @@ const AccountOpenOne = ({ singleRowItem }) => {
                   <td>{strBusinessUnitName?.toUpperCase()}</td>
                 </tr>
                 <tr>
-                  <td style={{ padding: "5px" }}>.</td>
+                  <td style={{ padding: "15px 0" }}>.</td>
                 </tr>
                 <tr>
                   <td style={{ padding: "0px", fontSize: "13px" }}>
@@ -440,7 +465,7 @@ const AccountOpenOne = ({ singleRowItem }) => {
                   <td>{strBusinessUnitName?.toUpperCase()}</td>
                 </tr>
                 <tr>
-                  <td style={{ padding: "5px" }}>.</td>
+                  <td style={{ padding: "15px 0" }}>.</td>
                 </tr>
                 <tr>
                   <td style={{ padding: "0px", fontSize: "13px" }}>
@@ -452,7 +477,7 @@ const AccountOpenOne = ({ singleRowItem }) => {
                   <td>{strBusinessUnitName?.toUpperCase()}</td>
                 </tr>
                 <tr>
-                  <td style={{ padding: "5px" }}>.</td>
+                  <td style={{ padding: "15px 0" }}>.</td>
                 </tr>
                 <tr>
                   <td style={{ padding: "0px", fontSize: "13px" }}>
@@ -464,7 +489,7 @@ const AccountOpenOne = ({ singleRowItem }) => {
                   <td>{strBusinessUnitName?.toUpperCase()}</td>
                 </tr>
                 <tr>
-                  <td style={{ padding: "5px" }}>.</td>
+                  <td style={{ padding: "15px 0" }}>.</td>
                 </tr>
                 <tr>
                   <td style={{ padding: "0px", fontSize: "13px" }}>
