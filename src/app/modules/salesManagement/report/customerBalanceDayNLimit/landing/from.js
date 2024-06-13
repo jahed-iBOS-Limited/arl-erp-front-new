@@ -59,7 +59,7 @@ export default function Form({ obj }) {
 
   const disableHandler = (values) => {
     return (
-      ([1, 2, 3].includes(values?.reportType?.value) && !values?.channel) ||
+      ([1, 2].includes(values?.reportType?.value) && !values?.channel) ||
       !values?.reportType ||
       ([4].includes(values?.reportType?.value) && !values?.viewType)
     );
@@ -67,7 +67,7 @@ export default function Form({ obj }) {
 
   const idSetOne = (values) => {
     const typeId = values?.reportType?.value;
-    const result = [1, 2, 3, 2, 5, 7].includes(typeId);
+    const result = [1, 2, 5, 7].includes(typeId);
 
     return result;
   };
@@ -95,7 +95,7 @@ export default function Form({ obj }) {
               }}
             />
           </div>
-          {[4, 6].includes(values?.reportType?.value) && (
+          {[3, 4, 6].includes(values?.reportType?.value) && (
             <>
               <div className="col-lg-3">
                 <NewSelect
@@ -135,7 +135,7 @@ export default function Form({ obj }) {
               <InputField
                 value={values?.date}
                 label={`${
-                  [4, 5].includes(values?.reportType?.value)
+                  [2,4, 5].includes(values?.reportType?.value)
                     ? "Transaction"
                     : ""
                 } Date`}
@@ -149,6 +149,22 @@ export default function Form({ obj }) {
               />
             </div>
           )}
+          {[3].includes(values?.reportType?.value) && ( <div className="col-lg-3">
+                  <NewSelect
+                    name="sisViewType"
+                    options={[
+                      { value: 1, label:  "Top Sheet" },
+                      { value: 2, label: "Details" },
+                    ]}
+                    value={values?.sisViewType}
+                    label="View Type"
+                    onChange={(valueOption) => {
+                      setIsShow(false);
+                      setFieldValue("sisViewType", valueOption);
+                    }}
+                    placeholder="View Type"
+                  />
+                </div>)}
           {[6,7].includes(values?.reportType?.value) && (
             <FromDateToDateForm
               obj={{
@@ -206,12 +222,12 @@ export default function Form({ obj }) {
                       { value: 4, label: "Above 90 Days" },
                     ]}
                     value={values?.partyStatus}
-                    label="View Type"
+                    label="Party Status"
                     onChange={(valueOption) => {
                       setIsShow(false);
                       setFieldValue("partyStatus", valueOption);
                     }}
-                    placeholder="View Type"
+                    placeholder="Party Status"
                   />
                 </div>)}
             </>

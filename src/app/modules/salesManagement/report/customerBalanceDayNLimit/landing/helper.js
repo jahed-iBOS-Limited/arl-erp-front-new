@@ -49,21 +49,15 @@ export const parameterValues = (values, buId, employeeId) => {
     { name: "PartyGroupId", value:  "0" },
   ];
   const sisterConcernOverdue = [
-    { name: "intunit", value: buId?.toString() },
+    { name: "intunit", value: values?.businessUnit?.value?.toString() },
     {
-      name: "TransactionDate",
+      name: "toDate",
       value: values?.date,
     },
     {
-      name: "customerId",
-      value: values?.customer?.value?.toString() || "0",
+      name: "ViewTYPE",
+      value: values?.sisViewType?.value?.toString() || "0",
     },
-    {
-      name: "intchannelid",
-      value: values?.channel?.value?.toString() || "0",
-    },
-    { name: "intLevelId", value: "0" },
-    { name: "RATId", value: "0" },
   ];
   const receivableReport = [
     { name: "intunit", value: values?.businessUnit?.value?.toString() },
