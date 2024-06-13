@@ -10,6 +10,16 @@ import FormikInput from "../_chartinghelper/common/formikInput";
 import { _dateFormatter } from "../../_helper/_dateFormate";
 import { OverlayTrigger } from "react-bootstrap";
 import ICustomTable from "../_chartinghelper/_customTable";
+import { shallowEqual, useSelector } from "react-redux";
+import useAxiosGet from "../../_helper/customHooks/useAxiosGet";
+import PaginationTable from "../../_helper/_tablePagination";
+import * as Yup from "yup";
+import { getVesselDDL } from "./helper";
+import IViewModal from "../../_helper/_viewModal";
+import NCView from "./components/modalView";
+import IView from "../../_helper/_helperIcons/_view";
+import IEdit from "../../_helper/_helperIcons/_edit";
+import InfoCircle from "../../_helper/_helperIcons/_infoCircle";
 
 const initData = {
   vesselType: "",
@@ -19,30 +29,64 @@ const initData = {
 };
 const headers = [
   { name: "SL" },
-  { name: "Vessel Name" },
-  { name: "Certificate Type" },
-  { name: "Certificate Name" },
-  { name: "Issue Date", style: { minWidth: "65px" } },
-  { name: "To Date", style: { minWidth: "65px" } },
-  { name: "Issue Place" },
-  { name: "Issuing Authority" },
-  { name: "Last Survey", style: { minWidth: "65px" } },
-  { name: "Remarks" },
-  { name: "Status" },
+  { name: "Description" },
+  { name: "Date", style: { minWidth: "65px" } },
+  { name: "Type", style: { minWidth: "65px" } },
+  { name: "Category" },
+  { name: "Title" },
+  { name: "No of NC/Non-NC", style: { minWidth: "65px" } },
+
   { name: "Action", style: { minWidth: "40px" } },
 ];
 
 export default function VesselAuditLanding() {
+  const {
+    profileData: { userId },
+    selectedBusinessUnit: { value: buId },
+  } = useSelector((state) => {
+    return state?.authData;
+  }, shallowEqual);
   const [loading, setLoading] = useState(false);
   const history = useHistory();
+  const [pageNo, setPageNo] = useState(0);
+  const [pageSize, setPageSize] = useState(100);
+  const [ViewType, setViewType] = useState(0);
+  const [gridData, getGridData, gridDataLoading, setGridData] = useAxiosGet();
+  const [isShowHistoryModal, setIsShowHistoryModal] = useState(false);
 
+  const [
+    data,
+    getVesselAuditInspectionDetails,
+    dettailLoader,
+    setData,
+  ] = useAxiosGet();
+  const [vesselDDl, setVesselDDl] = useState([]);
+
+  const getLandingData = (values, pageNo, pageSize, searchValue = "") => {
+    getGridData(
+      `/hcm/VesselAuditInspection/GetVesselAuditInspectionLanding?businessUnitId=${buId}&vesselType=${values?.vesselType?.value}&vesselId=${values?.vessel?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}&pageNo=${pageNo}&pageSize=${pageSize}`
+    );
+  };
+  const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
+    getLandingData(values, pageNo, pageSize, searchValue);
+  };
+  const validationSchema = Yup.object().shape({
+    vesselType: Yup.object().required("Vessel Type is required"),
+    vessel: Yup.object()
+      .required("Vessel is required")
+      .typeError("Vessel is required"),
+    fromDate: Yup.date().required("Date is required"),
+    toDate: Yup.date().required("Date is required"),
+  });
   return (
     <>
       <Formik
         enableReinitialize={true}
         initialValues={initData}
-        // validationSchema={{}}
-        onSubmit={(values) => {}}
+        validationSchema={validationSchema}
+        onSubmit={(values) => {
+          getLandingData(values, pageNo, pageSize);
+        }}
       >
         {({
           handleSubmit,
@@ -64,7 +108,7 @@ export default function VesselAuditLanding() {
                     className={"btn btn-primary px-3 py-2"}
                     onClick={() =>
                       history.push(
-                        "/chartering/certificateManagement/abcderf/create"
+                        "/chartering/certificateManagement/vesselAuditInspection/create"
                       )
                     }
                   >
@@ -79,14 +123,22 @@ export default function VesselAuditLanding() {
                     <FormikSelect
                       value={values?.vesselType || ""}
                       isSearchable={true}
-                      options={[]}
+                      options={[
+                        { value: "MotherVessel", label: "Mother Vessel" },
+                        { value: "LighterVessel", label: "Lighter Vessel" },
+                      ]}
                       styles={customStyles}
                       name="vesselType"
                       placeholder="Mother, Lighter"
                       label="Vessel Type"
                       onChange={(valueOption) => {
                         setFieldValue("vesselType", valueOption);
-                        // gridData({ ...values, vesselName: valueOption });
+                        getVesselDDL(
+                          valueOption?.value,
+                          buId,
+                          setVesselDDl,
+                          setLoading
+                        );
                       }}
                       errors={errors}
                       touched={touched}
@@ -96,7 +148,7 @@ export default function VesselAuditLanding() {
                     <FormikSelect
                       value={values?.vessel || ""}
                       isSearchable={true}
-                      options={[]}
+                      options={vesselDDl || []}
                       styles={customStyles}
                       name="vessel"
                       placeholder="Vessel/Ligher"
@@ -141,93 +193,142 @@ export default function VesselAuditLanding() {
                       label="To Date "
                     />
                   </div>
+                  <div className="col-lg-2">
+                    <button
+                      type="submit"
+                      className={"btn btn-primary ml-2 mt-5 px-3 py-2"}
+                      onClick={handleSubmit}
+                      //disabled={!rowData?.length}
+                    >
+                      View
+                    </button>
+                  </div>
                 </div>
               </div>
 
-              {loading && <Loading />}
+              {gridDataLoading && <Loading />}
               <ICustomTable ths={headers}>
-                {[1, 2]?.map((item, index) => (
+                {gridData?.data?.map((item, index) => (
                   <tr key={index}>
                     <td className="text-center">{index + 1}</td>
                     <td>{item?.strVesselName}</td>
-                    <td>{item?.strCertificateTypeName}</td>
-                    <td>{item?.strCertificateName}</td>
-                    <td>{_dateFormatter(item?.dteIssueDate)}</td>
-                    <td>{_dateFormatter(item?.dteToDate)}</td>
-                    <td>{item?.strIssuePlace}</td>
-                    <td>{item?.strIssuingAuthority}</td>
-                    <td>{_dateFormatter(item?.dteLastSurvey)}</td>
-                    <td>{item?.strRemarks}</td>
-                    {/* <td className="text-center">
-                      {item?.status === "Expire Soon" ? (
-                        <Chip
-                          label="Expire Soon"
-                          className="bg-warning text-white"
-                          size="small"
-                        />
-                      ) : item?.status === "Expired" ? (
-                        <Chip
-                          label="Expired"
-                          className="bg-danger text-white"
-                          size="small"
-                        />
-                      ) : (
-                        <Chip
-                          label="Not Expired"
-                          className="bg-success text-white"
-                          size="small"
-                        />
-                      )}
-                    </td>
-                    <td style={{ width: "60px" }} className="text-center">
-                      <div className="d-flex justify-content-around">
-                        {item?.strAttachment !== "" && (
-                          <OverlayTrigger
-                            overlay={
-                              <Tooltip id="cs-icon">Attachment Added</Tooltip>
-                            }
-                          >
-                            <span style={{ cursor: "pointer" }} onClick={{}}>
-                              <i class="fa fa-paperclip" aria-hidden="true"></i>
-                            </span>
-                          </OverlayTrigger>
-                        )}
+                    <td>{_dateFormatter(item?.dteInspectionDate)}</td>
+                    <td>{item?.strTypeName}</td>
+                    <td>{item?.strCategoryName}</td>
+                    <td>{item?.strTitle}</td>
+                    <td>
+                      <span
+                        className="text-primary"
+                        style={{
+                          textDecoration: "underline",
+                          cursor: "pointer",
+                        }}
+                        onClick={() => {
+                          setViewType(1);
+                          setIsShowHistoryModal(true);
+                          getVesselAuditInspectionDetails(
+                            `/hcm/VesselAuditInspection/GetVesselAuditInspectionDetails?auditInspectionId=${item?.intAuditInspectionId}&typeId=1
+`
+                          );
+                        }}
+                      >
+                        {item?.intTotalNc}
+                      </span>
+                      /
+                      <span
+                        className="text-primary"
+                        style={{
+                          textDecoration: "underline",
+                          cursor: "pointer",
+                        }}
+                        onClick={() => {
+                          setViewType(2);
+                          setIsShowHistoryModal(true);
 
-                        {certificateManagementPermission?.isView ? (
-                          <IView
-                            clickHandler={() => {
-                              history.push({
-                                pathname: `/chartering/certificateManagement/certificateManagement/view/${item?.intVesselCertificateId}`,
-                              });
-                            }}
-                          />
-                        ) : (
-                          <button disabled>N/A</button>
-                        )}
-                        {certificateManagementPermission?.isEdit ? (
+                          getVesselAuditInspectionDetails(
+                            `/hcm/VesselAuditInspection/GetVesselAuditInspectionDetails?auditInspectionId=${item?.intAuditInspectionId}&typeId=2
+`
+                          );
+                        }}
+                      >
+                        {item?.intTotalNonNc}
+                      </span>
+                    </td>
+                    <td>
+                      {" "}
+                      <div className="d-flex justify-content-center">
+                        <span
+                          onClick={() => {
+                            setViewType(0);
+                            setIsShowHistoryModal(true);
+                            getVesselAuditInspectionDetails(
+                              `/hcm/VesselAuditInspection/GetVesselAuditInspectionDetails?auditInspectionId=${item?.intAuditInspectionId}&typeId=0
+`
+                            );
+                          }}
+                          className="ml-2 mr-3"
+                        >
+                          <IView />
+                        </span>
+                        <span className="mx-1">
                           <IEdit
-                            clickHandler={() => {
+                            onClick={(e) => {
                               history.push({
-                                pathname: `/chartering/certificateManagement/certificateManagement/edit/${item?.intVesselCertificateId}`,
+                                pathname: `/chartering/certificateManagement/vesselAuditInspection/edit/${item?.intAuditInspectionId}`,
+                                state: item,
                               });
                             }}
                           />
-                        ) : (
-                          <button disabled>N/A</button>
-                        )}
+                        </span>
+                        <span className="mx-1">
+                          <InfoCircle
+                            clickHandler={(e) => {
+                              history.push({
+                                pathname: `/chartering/certificateManagement/vesselAuditInspection/view/${item?.intAuditInspectionId}`,
+                                state: item,
+                              });
+                            }}
+                          />
+                        </span>
                       </div>
-                    </td> */}
+                    </td>
                   </tr>
                 ))}
               </ICustomTable>
-              {/* {gridData?.length > 0 && (
-                    <PaginationTable
-                      count={gridData?.totalCount}
-                      setPositionHandler={setPositionHandler}
-                      paginationState={{ pageNo, setPageNo, pageSize, setPageSize }}
-                      values={values}
-                    />
-                  )} */}
+              {gridData?.data?.length > 0 && (
+                <PaginationTable
+                  count={gridData?.totalCount}
+                  setPositionHandler={setPositionHandler}
+                  paginationState={{ pageNo, setPageNo, pageSize, setPageSize }}
+                  values={values}
+                />
+              )}
+
+              {isShowHistoryModal && (
+                <IViewModal
+                  show={isShowHistoryModal}
+                  onHide={() => {
+                    setIsShowHistoryModal(false);
+                    setData([]);
+                    setViewType(0);
+                    //   setSingleData(null);
+                  }}
+                  title={
+                    ViewType === 1
+                      ? "NC Details"
+                      : ViewType === 2
+                      ? "Non-NC Details"
+                      : "View Details"
+                  }
+                >
+                  <NCView
+                    propsObj={{
+                      data,
+                      ViewType,
+                    }}
+                  />
+                </IViewModal>
+              )}
             </form>
           </>
         )}
