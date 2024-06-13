@@ -15,6 +15,7 @@ const reportTypes = [
   { value: 5, label: "Party Status" },
   { value: 6, label: "Sales & Revenue Collection Report" },
   { value: 7, label: "BP BA CP Analysis Report" },
+  { value: 8, label: "Receivable & OverDue Report" },
 ];
 
 // const partyStatusList = [
@@ -130,7 +131,7 @@ export default function Form({ obj }) {
               )}
             </>
           )}
-          {![6,7].includes(values?.reportType?.value) && (
+          {![6,7,8].includes(values?.reportType?.value) && (
             <div className="col-lg-3">
               <InputField
                 value={values?.date}
@@ -165,7 +166,7 @@ export default function Form({ obj }) {
                     placeholder="View Type"
                   />
                 </div>)}
-          {[6,7].includes(values?.reportType?.value) && (
+          {[6,7,8].includes(values?.reportType?.value) && (
             <FromDateToDateForm
               obj={{
                 values,
@@ -269,7 +270,7 @@ export default function Form({ obj }) {
               if ([1].includes(values?.reportType?.value)) {
                 viewHandler(values);
               } else if (
-                [2, 3, 4, 5, 6, 7].includes(values?.reportType?.value)
+                [2, 3, 4, 5, 6, 7, 8].includes(values?.reportType?.value)
               ) {
                 setIsShow(true);
               }

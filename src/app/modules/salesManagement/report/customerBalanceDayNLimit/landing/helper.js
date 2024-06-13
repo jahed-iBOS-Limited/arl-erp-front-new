@@ -6,6 +6,7 @@ export const getReportId = (values) => {
   const partyStatusReport = `31b073bf-1efb-4fa1-acc2-86ab7a59ef43`;
   const salesAndRevenueCollectionReport = `fb701cc3-194d-461a-920f-30c399229e0c`;
   const BPBACPAnalysisReport = `ad59feaf-a160-4175-bb65-1b37901b1af1`;
+  const ReceivableOverDueReport = `80d11933-02e5-4f89-aeb6-fd0bbc6259db`
   const reportId =
     typeId === 2
       ? regularIrregularParty
@@ -19,6 +20,8 @@ export const getReportId = (values) => {
       ? salesAndRevenueCollectionReport
       : typeId === 7
       ? BPBACPAnalysisReport
+      :  typeId === 8
+      ? ReceivableOverDueReport
       : "";
   return reportId;
 };
@@ -121,6 +124,11 @@ export const parameterValues = (values, buId, employeeId) => {
     { name: "dteToDate", value: values?.toDate },
   ];
 
+  const ReceivableOverDueReport = [
+       { name: "fromDate", value: values?.fromDate },
+    { name: "toDate", value: values?.toDate },
+  ];
+
   const parameters =
     typeId === 2
       ? regularIrregularParty
@@ -134,6 +142,8 @@ export const parameterValues = (values, buId, employeeId) => {
       ? salesAndRevenueCollectionReport
       : typeId === 7
       ? BPBACPAnalysisReport
+      :  typeId === 8
+      ? ReceivableOverDueReport
       : [];
 
   return parameters;
