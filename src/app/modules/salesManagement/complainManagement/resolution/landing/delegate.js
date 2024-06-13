@@ -260,7 +260,7 @@ function DelegateForm({ clickRowData, landingCB }) {
                     );
                   }}
                 >
-                  <b> Allow User??</b>
+                  <b> Allow User?</b>
                 </span>
               </div>
             )}

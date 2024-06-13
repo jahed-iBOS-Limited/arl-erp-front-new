@@ -39,7 +39,12 @@ const AccountCloseTwo = ({ singleRowItem }) => {
               <strong>{strBankName?.toUpperCase()}</strong>
             </p>
             <p style={{ marginTop: "-7px" }}>
-              <strong>{strBranchName}</strong>
+              <strong>
+                {strBranchName}
+                {strBranchName?.toLowerCase().includes("branch")
+                  ? ""
+                  : "BRANCH"}
+              </strong>
             </p>
             <p style={{ marginTop: "-7px" }}>
               <strong>{strBranchAddress}</strong>
@@ -52,7 +57,11 @@ const AccountCloseTwo = ({ singleRowItem }) => {
               <strong>
                 Subject: Closing of {strAccountType} Account No. {strAccountNo}{" "}
                 of {strAccountName?.toUpperCase()} with{" "}
-                {strBankName?.toUpperCase()}, {strBranchName}.
+                {strBankName?.toUpperCase()}, {strBranchName}{" "}
+                {strBranchName?.toLowerCase().includes("branch")
+                  ? ""
+                  : "BRANCH"}
+                .
               </strong>
             </p>
           </div>
@@ -62,7 +71,7 @@ const AccountCloseTwo = ({ singleRowItem }) => {
             <p>
               <strong>Dear Sir,</strong>
             </p>
-            <p style={{ marginTop: "-5px" }}>
+            <p style={{ marginTop: "-2px" }}>
               We have the honor to inform you that, we have a
               <strong>
                 {" "}
@@ -114,7 +123,7 @@ const AccountCloseTwo = ({ singleRowItem }) => {
             pageBreakAfter: "always",
           }}
         ></div>
-        <div className="second-part">
+        <div className="second-part" style={{ fontSize: "15px" }}>
           <p>
             EXTRACT OF THE MINUTES OF THE MEETING OF THE BOARD OF DIRECTORS OF
             <strong> {strAccountName?.toUpperCase()}</strong> HELD ON THE
@@ -161,10 +170,14 @@ const AccountCloseTwo = ({ singleRowItem }) => {
             </strong>{" "}
             with
             <strong> {strBankName?.toUpperCase()},</strong>{" "}
-            <strong>{strBranchName}</strong> which will be no longer required to
-            maintain by the company. In view of above the board of the Company
-            be and is hereby approved to take necessary steps in regard to close
-            the above Bank Account immediately.
+            <strong>
+              {strBranchName}{" "}
+              {strBranchName?.toLowerCase().includes("branch") ? "" : "BRANCH"}
+            </strong>{" "}
+            which will be no longer required to maintain by the company. In view
+            of above the board of the Company be and is hereby approved to take
+            necessary steps in regard to close the above Bank Account
+            immediately.
           </p>
           <p>
             d) Further resolved that the Managing Director of the Company and
