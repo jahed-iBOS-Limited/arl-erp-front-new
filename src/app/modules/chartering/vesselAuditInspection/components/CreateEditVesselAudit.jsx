@@ -6,16 +6,14 @@ import Form from "./form";
 import { _todayDate } from "../../../_helper/_todayDate";
 import { shallowEqual, useSelector } from "react-redux";
 const initData = {
-  vesselName: "",
-  strCertificateTypeName: "",
+  vesselType: "",
+  vessel: "",
   strCertificateName: "",
-  dteIssueDate: _todayDate(),
-  strIssuePlace: "",
-  strIssuingAuthority: "",
-  dteLastSurvey: _todayDate(),
-  dteFromDate: _todayDate(),
-  dteToDate: _todayDate(),
-  strRemarks: "",
+  date: _todayDate(),
+  vesselPosition: "",
+  title: "",
+  category: "",
+  type: "",
 };
 export default function CreateEditVesselAudit() {
   const { profileData, selectedBusinessUnit } = useSelector((state) => {

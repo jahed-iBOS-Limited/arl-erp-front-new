@@ -270,10 +270,7 @@ export function CharteringPages() {
               : NotPermittedPage
           }
         />
-        <Route
-          path="/chartering/certificateManagement/abcderf"
-          component={VesselAuditLanding}
-        />
+
         <Route
           path="/chartering/certificateManagement/abcderf/:type/:id"
           component={CreateEditVesselAudit}
@@ -281,6 +278,10 @@ export function CharteringPages() {
         <Route
           path="/chartering/certificateManagement/abcderf/create"
           component={CreateEditVesselAudit}
+        />
+        <Route
+          path="/chartering/certificateManagement/abcderf"
+          component={VesselAuditLanding}
         />
         {/* ======== Configuration ====== */}
         {/* Stakeholder */}

@@ -103,163 +103,46 @@ export default function _Form({
                 <div className="row">
                   <div className="col-lg-3">
                     <FormikSelect
-                      value={values?.vesselName || ""}
+                      value={values?.vesselType || ""}
                       isSearchable={true}
-                      options={vesselDDL || []}
+                      options={[]}
                       styles={customStyles}
-                      name="vesselName"
-                      placeholder="Vessel Name"
-                      label="Vessel Name"
+                      name="vesselType"
+                      placeholder="Mother, Lighter"
+                      label="Vessel Type"
                       onChange={(valueOption) => {
-                        setFieldValue("vesselName", valueOption);
+                        setFieldValue("vesselType", valueOption);
+                        // gridData({ ...values, vesselName: valueOption });
                       }}
-                      isDisabled={viewType || rowData?.length}
                       errors={errors}
                       touched={touched}
                     />
                   </div>
                   <div className="col-lg-3">
                     <FormikSelect
-                      value={values?.strCertificateTypeName || ""}
+                      value={values?.vessel || ""}
                       isSearchable={true}
-                      options={certificateTypeDDL}
+                      options={[]}
                       styles={customStyles}
-                      name="strCertificateTypeName"
-                      placeholder="Certificate Type"
-                      label="Certificate Type"
+                      name="vessel"
+                      placeholder="Vessel/Ligher"
+                      label="Vessel/Ligher"
                       onChange={(valueOption) => {
-                        setFieldValue("strCertificateTypeName", valueOption);
-                        // getCertificateDDL(
-                        //   setCertificateNameDDL,
-                        //   "CertificateDDL",
-                        //   {
-                        //     intAccountId: profileData?.accountId,
-                        //     intBusinessUnitId: selectedBusinessUnit?.value,
-                        //     intCertificateTypeId: valueOption?.value,
-                        //   }
-                        // );
+                        setFieldValue("vessel", valueOption);
+                        // gridData({ ...values, certificateName: valueOption });
                       }}
-                      isDisabled={viewType}
+                      // isDisabled={!values?.vesselName}
                       errors={errors}
                       touched={touched}
                     />
                   </div>
-                  <div className="col-lg-3 relative">
-                    <FormikSelect
-                      value={values?.strCertificateName || ""}
-                      isSearchable={true}
-                      options={certificateNameDDL}
-                      styles={customStyles}
-                      name="strCertificateName"
-                      placeholder="Name of Certificate "
-                      label="Name of Certificate"
-                      onChange={(valueOption) => {
-                        setFieldValue("strCertificateName", valueOption);
-                      }}
-                      isDisabled={viewType}
-                      errors={errors}
-                      touched={touched}
-                    />
-                    {viewType === "create" ? (
-                      <CreateIcon
-                        onClick={() => {
-                          history.push(
-                            "/chartering/configuration/certificate/create"
-                          );
-                        }}
-                      />
-                    ) : null}
-                  </div>
+
                   <div className="col-lg-3">
-                    <label>Issue Date</label>
+                    <label> Date</label>
                     <FormikInput
-                      value={values?.dteIssueDate}
-                      name="dteIssueDate"
-                      placeholder="Issue Date"
-                      type="date"
-                      errors={errors}
-                      touched={touched}
-                      disabled={viewType === "view"}
-                    />
-                  </div>
-                  {values?.strCertificateName?.dateRangeTypeId === 1 ||
-                  singleData?.intDateRangeTypeId === 1 ? (
-                    <div className="col-lg-3">
-                      <label>To Date</label>
-                      <FormikInput
-                        value={values?.dteToDate}
-                        name="dteToDate"
-                        placeholder="To Date"
-                        type="date"
-                        min={values?.dteFromDate}
-                        errors={errors}
-                        touched={touched}
-                        disabled={viewType === "view"}
-                      />
-                    </div>
-                  ) : values?.strCertificateName?.dateRangeTypeId === 2 ||
-                    singleData?.intDateRangeTypeId === 2 ? (
-                    <>
-                      <div className="col-lg-3">
-                        <label>From Date</label>
-                        <FormikInput
-                          value={values?.dteFromDate}
-                          name="dteFromDate"
-                          placeholder="From Date"
-                          type="date"
-                          //min={values?.dteFromDate}
-                          errors={errors}
-                          touched={touched}
-                          disabled={viewType === "view"}
-                        />
-                      </div>
-                      <div className="col-lg-3">
-                        <label>To Date</label>
-                        <FormikInput
-                          value={values?.dteToDate}
-                          name="dteToDate"
-                          placeholder="To Date"
-                          type="date"
-                          min={values?.dteFromDate}
-                          errors={errors}
-                          touched={touched}
-                          disabled={viewType === "view"}
-                        />
-                      </div>
-                    </>
-                  ) : (
-                    <></>
-                  )}
-                  <div className="col-lg-3">
-                    <label>Issue Place</label>
-                    <FormikInput
-                      value={values?.strIssuePlace}
-                      name="strIssuePlace"
-                      placeholder="Issue Place"
-                      type="text"
-                      errors={errors}
-                      touched={touched}
-                      disabled={viewType === "view"}
-                    />
-                  </div>
-                  <div className="col-lg-3">
-                    <label>Issuing Authority</label>
-                    <FormikInput
-                      value={values?.strIssuingAuthority}
-                      name="strIssuingAuthority"
-                      placeholder="Issuing Authority"
-                      type="text"
-                      errors={errors}
-                      touched={touched}
-                      disabled={viewType === "view"}
-                    />
-                  </div>
-                  <div className="col-lg-3">
-                    <label>Last Survey</label>
-                    <FormikInput
-                      value={values?.dteLastSurvey}
-                      name="dteLastSurvey"
-                      placeholder="Last Survey"
+                      value={values?.date}
+                      name="date"
+                      placeholder="Date"
                       type="date"
                       errors={errors}
                       touched={touched}
@@ -267,17 +150,68 @@ export default function _Form({
                     />
                   </div>
                   <div className="col-lg-3">
-                    <label>Remarks </label>
-                    <TextArea
-                      value={values?.strRemarks}
-                      name="strRemarks"
-                      placeholder="Remarks"
-                      rows="1"
-                      max={1000}
+                    <label> Position Of Vessel</label>
+                    <FormikInput
+                      value={values?.vesselPosition}
+                      name="vesselPosition"
+                      placeholder="Vessel Position"
+                      type="text"
+                      errors={errors}
+                      touched={touched}
                       disabled={viewType === "view"}
+                    />
+                  </div>
+                  <div className="col-lg-3">
+                    <label> Title</label>
+                    <FormikInput
+                      value={values?.title}
+                      name="title"
+                      placeholder="title"
+                      type="text"
+                      errors={errors}
+                      touched={touched}
+                      disabled={viewType === "view"}
+                    />
+                  </div>
+                  {/* ------------hide until clarification */}
+                  {/* <div className="col-lg-3">
+                    <FormikSelect
+                      value={values?.type || ""}
+                      isSearchable={true}
+                      options={[]}
+                      styles={customStyles}
+                      name="type"
+                      placeholder="PSC, Audit, ..."
+                      label="Type"
+                      onChange={(valueOption) => {
+                        setFieldValue("type", valueOption);
+                        // gridData({ ...values, vesselName: valueOption });
+                      }}
                       errors={errors}
                       touched={touched}
                     />
+                  </div>
+                  <div className="col-lg-3">
+                    <FormikSelect
+                      value={values?.category || ""}
+                      isSearchable={true}
+                      options={[]}
+                      styles={customStyles}
+                      name="category"
+                      placeholder="UAE PSC"
+                      label="Category"
+                      onChange={(valueOption) => {
+                        setFieldValue("category", valueOption);
+                        // gridData({ ...values, certificateName: valueOption });
+                      }}
+                      // isDisabled={!values?.vesselName}
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div> */}
+                  <div className="col-lg-12">
+                    <hr />
+                    <h6>Issue</h6>
                   </div>
                 </div>
               </div>
