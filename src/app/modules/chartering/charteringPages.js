@@ -272,15 +272,15 @@ export function CharteringPages() {
         />
 
         <Route
-          path="/chartering/certificateManagement/abcderf/:type/:id"
+          path="/chartering/certificateManagement/vesselAuditInspection/:type/:id"
           component={CreateEditVesselAudit}
         />
         <Route
-          path="/chartering/certificateManagement/abcderf/create"
+          path="/chartering/certificateManagement/vesselAuditInspection/create"
           component={CreateEditVesselAudit}
         />
         <Route
-          path="/chartering/certificateManagement/abcderf"
+          path="/chartering/certificateManagement/vesselAuditInspection"
           component={VesselAuditLanding}
         />
         {/* ======== Configuration ====== */}

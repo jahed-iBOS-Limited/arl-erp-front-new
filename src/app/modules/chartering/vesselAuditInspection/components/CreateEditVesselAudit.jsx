@@ -1,76 +1,80 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Loading from "../../../_helper/_loading";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import { useParams } from "react-router";
 import Form from "./form";
 import { _todayDate } from "../../../_helper/_todayDate";
 import { shallowEqual, useSelector } from "react-redux";
+import { createAndEditVesselAuditInspection } from "../helper";
+import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import { _dateFormatter } from "../../_chartinghelper/_dateFormatter";
 const initData = {
   vesselType: "",
   vessel: "",
-  strCertificateName: "",
   date: _todayDate(),
+  dueDate: "",
   vesselPosition: "",
+  status: "",
   title: "",
-  category: "",
+  category: { value: 1, label: "UAE PSC (Detention)" },
   type: "",
+  description: "",
+  nc: false,
 };
 export default function CreateEditVesselAudit() {
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state?.authData;
   }, shallowEqual);
   const { type, id } = useParams();
+
   // eslint-disable-next-line no-unused-vars
   const history = useHistory();
   const [loading, setLoading] = useState(false);
   const [singleData, setSingleData] = useState({});
+  const location = useLocation();
+  const { state } = location;
+  const [rowDto, setRowDto] = useState([]);
 
-  const getByIdCalled = () => {
+  const [, getVesselAuditInspectionDetails, dettailLoader] = useAxiosGet();
+  const [res, createAndEditVesselAuditInspection, loader] = useAxiosPost();
+  useEffect(() => {
     if (id) {
-      //   getCertificateLanding(
-      //     setSingleData,
-      //     "VesselCertificateLanding",
-      //     {
-      //       intAccountId: profileData?.accountId,
-      //       intBusinessUnitId: selectedBusinessUnit?.value,
-      //       intVesselId: 0,
-      //       intCertificateId: 0,
-      //       intCertificateTypeId: 0,
-      //       intVesselCertificateId: +id,
-      //     },
-      //     setLoading,
-      //     () => {},
-      //     id
-      //   );
+      getVesselAuditInspectionDetails(
+        `/hcm/VesselAuditInspection/GetVesselAuditInspectionDetails?auditInspectionId=${id}&typeId=0`,
+        (data) => {
+          const modifyData = data?.map((item) => {
+            return {
+              ...item,
+              status: {
+                value: item?.strStatus,
+                label:
+                  item?.strStatus === "pending"
+                    ? "Pending"
+                    : item?.strStatus === "open"
+                    ? "Open"
+                    : "Close",
+              },
+              dueDate: item?.dteDueDateTime,
+              description: item?.strDescription,
+              nc: item?.isNcChecked,
+            };
+          });
+          setRowDto(modifyData);
+        }
+      );
     }
-  };
-
+  }, []);
   /* Save Handler */
-  const saveHandler = (values, cb) => {
+  const saveHandler = (payload) => {
     /* Create Part */
-    const payload = {
-      intVesselCertificateId: +id ? +id : 0,
-      intAccountId: profileData?.accountId,
-      intBusinessUnitId: selectedBusinessUnit?.value,
-      intVesselId: values?.vesselName?.value,
-      intCertificateTypeId: values?.strCertificateTypeName?.value,
-      strCertificateTypeName: values?.strCertificateTypeName?.label,
-      intCertificateId: values?.strCertificateName?.value,
-      strCertificateName: values?.strCertificateName?.label,
-      dteIssueDate: values?.dteIssueDate,
-      dteFromDate: values?.dteFromDate || "",
-      dteToDate: values?.dteToDate || "",
-      strIssuePlace: values?.strIssuePlace,
-      strIssuingAuthority: values?.strIssuingAuthority,
-      dteLastSurvey: values?.dteLastSurvey,
-      dteNextSurvey: _todayDate(),
-      strRemarks: values?.strRemarks,
-      //   strAttachment: attachmentFile,
-      intActionBy: profileData.actionBy,
-      intDateRangeTypeId: "",
-      strDateRangeTypeName: "",
-    };
-    // createAndEditCertificate(payload, setLoading, cb);
+
+    createAndEditVesselAuditInspection(
+      `/hcm/VesselAuditInspection/CreateAndEditVesselAuditInspection`,
+      payload,
+      () => {},
+      true
+    );
   };
 
   return (
@@ -79,22 +83,47 @@ export default function CreateEditVesselAudit() {
       <Form
         title={
           type === "view"
-            ? "View Certificate"
+            ? "View Vessel Audit Inspection"
             : type === "edit"
-            ? "Edit Certificate"
-            : "Create Certificate"
+            ? "Edit Vessel Audit Inspection"
+            : "Create Vessel Audit Inspection"
         }
-        initData={id ? singleData : initData}
+        initData={
+          id
+            ? {
+                ...initData,
+                vesselType: {
+                  value: state?.strVesselType,
+                  label:
+                    state?.strVesselType === "LighterVessel"
+                      ? "Lighter Vessel"
+                      : "Mother Vessel",
+                },
+                vessel: {
+                  value: state?.intVesselId,
+                  label: state?.strVesselName,
+                },
+                date: _dateFormatter(state?.dteInspectionDate),
+                vesselPosition: state?.strVesselPosition,
+                title: state?.strTitle,
+                category: {
+                  value: state?.intCategoryId,
+                  label: state?.strCategoryName,
+                },
+                type: { value: state?.intTypeId, label: state?.strTypeName },
+              }
+            : initData
+        }
         saveHandler={saveHandler}
         viewType={type}
-        getByIdCalled={getByIdCalled}
         singleData={singleData}
         id={id}
         /* DDL */
         vesselDDL={[]}
         certificateTypeDDL={[]}
         setLoading={setLoading}
-        /* Row Data */
+        rowDto={rowDto}
+        setRowDto={setRowDto}
       />
     </>
   );
