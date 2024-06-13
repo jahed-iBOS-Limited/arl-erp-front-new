@@ -121,7 +121,7 @@ export default function MonthlyVoyageStatement() {
       date: values?.journalDate,
       // totalAmount: item?.numTotalFreight,
       totalAmount: amount,
-      narration: narration,
+      narration: values?.narration, //new requirement for narration user type text will go by client
       lighterVesselId: item?.lighterVesselId,
       consigneeParty: item?.consigneePartyId,
       tripId: item?.tripId,
