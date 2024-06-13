@@ -6,6 +6,7 @@ export const getReportId = (values) => {
   const partyStatusReport = `31b073bf-1efb-4fa1-acc2-86ab7a59ef43`;
   const salesAndRevenueCollectionReport = `fb701cc3-194d-461a-920f-30c399229e0c`;
   const BPBACPAnalysisReport = `ad59feaf-a160-4175-bb65-1b37901b1af1`;
+  const ReceivableOverDueReport = `80d11933-02e5-4f89-aeb6-fd0bbc6259db`
   const reportId =
     typeId === 2
       ? regularIrregularParty
@@ -19,6 +20,8 @@ export const getReportId = (values) => {
       ? salesAndRevenueCollectionReport
       : typeId === 7
       ? BPBACPAnalysisReport
+      :  typeId === 8
+      ? ReceivableOverDueReport
       : "";
   return reportId;
 };
@@ -42,27 +45,22 @@ export const parameterValues = (values, buId, employeeId) => {
       name: "intchannelid",
       value: values?.channel?.value?.toString() || "0",
     },
-    { name: "intEmployeeid", value: employeeId?.toString() },
-    { name: "region", value: "0" },
-    { name: "area", value: "0" },
-    { name: "territory", value: "0" },
+    { name: "region", value: values?.region?.value?.toString() || "0"},
+    { name: "area", value: values?.area?.value?.toString() || "0" },
+    { name: "territory", value: values?.territory?.value?.toString() || "0" },
+    { name: "PartyStatus", value: values?.partyStatus?.value?.toString() || "0" },
+    { name: "PartyGroupId", value:  "0" },
   ];
   const sisterConcernOverdue = [
-    { name: "intunit", value: buId?.toString() },
+    { name: "intunit", value: values?.businessUnit?.value?.toString() },
     {
-      name: "TransactionDate",
+      name: "toDate",
       value: values?.date,
     },
     {
-      name: "customerId",
-      value: values?.customer?.value?.toString() || "0",
+      name: "ViewTYPE",
+      value: values?.sisViewType?.value?.toString() || "0",
     },
-    {
-      name: "intchannelid",
-      value: values?.channel?.value?.toString() || "0",
-    },
-    { name: "intLevelId", value: "0" },
-    { name: "RATId", value: "0" },
   ];
   const receivableReport = [
     { name: "intunit", value: values?.businessUnit?.value?.toString() },
@@ -126,6 +124,11 @@ export const parameterValues = (values, buId, employeeId) => {
     { name: "dteToDate", value: values?.toDate },
   ];
 
+  const ReceivableOverDueReport = [
+       { name: "fromDate", value: values?.fromDate },
+    { name: "toDate", value: values?.toDate },
+  ];
+
   const parameters =
     typeId === 2
       ? regularIrregularParty
@@ -139,6 +142,8 @@ export const parameterValues = (values, buId, employeeId) => {
       ? salesAndRevenueCollectionReport
       : typeId === 7
       ? BPBACPAnalysisReport
+      :  typeId === 8
+      ? ReceivableOverDueReport
       : [];
 
   return parameters;
