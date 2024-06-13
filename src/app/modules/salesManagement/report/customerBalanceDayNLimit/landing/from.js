@@ -67,14 +67,14 @@ export default function Form({ obj }) {
 
   const idSetOne = (values) => {
     const typeId = values?.reportType?.value;
-    const result = [1, 2, 3, 5, 7].includes(typeId);
+    const result = [1, 2, 3, 2, 5, 7].includes(typeId);
 
     return result;
   };
 
   const idSetTwo = (values) => {
     const typeId = values?.reportType?.value;
-    const result = [5, 7].includes(typeId);
+    const result = [2, 5, 7].includes(typeId);
 
     return result;
   };
@@ -196,6 +196,24 @@ export default function Form({ obj }) {
                   />
                 </div>
               )}
+              {[2].includes(values?.reportType?.value) && ( <div className="col-lg-3">
+                  <NewSelect
+                    name="partyStatus"
+                    options={[
+                      { value: 1, label:  "Regular" },
+                      { value: 2, label: "Irregular" },
+                      { value: 3, label: "Block" },
+                      { value: 4, label: "Above 90 Days" },
+                    ]}
+                    value={values?.partyStatus}
+                    label="View Type"
+                    onChange={(valueOption) => {
+                      setIsShow(false);
+                      setFieldValue("partyStatus", valueOption);
+                    }}
+                    placeholder="View Type"
+                  />
+                </div>)}
             </>
           )}
 

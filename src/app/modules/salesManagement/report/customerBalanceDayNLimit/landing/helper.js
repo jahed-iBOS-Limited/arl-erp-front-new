@@ -42,10 +42,11 @@ export const parameterValues = (values, buId, employeeId) => {
       name: "intchannelid",
       value: values?.channel?.value?.toString() || "0",
     },
-    { name: "intEmployeeid", value: employeeId?.toString() },
-    { name: "region", value: "0" },
-    { name: "area", value: "0" },
-    { name: "territory", value: "0" },
+    { name: "region", value: values?.region?.value?.toString() || "0"},
+    { name: "area", value: values?.area?.value?.toString() || "0" },
+    { name: "territory", value: values?.territory?.value?.toString() || "0" },
+    { name: "PartyStatus", value: values?.partyStatus?.value?.toString() || "0" },
+    { name: "PartyGroupId", value:  "0" },
   ];
   const sisterConcernOverdue = [
     { name: "intunit", value: buId?.toString() },
