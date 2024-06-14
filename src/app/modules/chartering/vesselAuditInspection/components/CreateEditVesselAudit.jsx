@@ -4,8 +4,6 @@ import { useHistory, useLocation } from "react-router-dom";
 import { useParams } from "react-router";
 import Form from "./form";
 import { _todayDate } from "../../../_helper/_todayDate";
-import { shallowEqual, useSelector } from "react-redux";
-import { createAndEditVesselAuditInspection } from "../helper";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import { _dateFormatter } from "../../_chartinghelper/_dateFormatter";
@@ -17,15 +15,12 @@ const initData = {
   vesselPosition: "",
   status: "",
   title: "",
-  category: { value: 1, label: "UAE PSC (Detention)" },
+  category: "",
   type: "",
   description: "",
   nc: false,
 };
 export default function CreateEditVesselAudit() {
-  const { profileData, selectedBusinessUnit } = useSelector((state) => {
-    return state?.authData;
-  }, shallowEqual);
   const { type, id } = useParams();
 
   // eslint-disable-next-line no-unused-vars

@@ -16,10 +16,13 @@ import customStyles from "../../_chartinghelper/common/selectCustomStyle";
 import { CreateIcon } from "../../lighterVessel/trip/Form/components/header";
 import ICustomTable from "../../_chartinghelper/_customTable";
 import { _dateFormatter } from "../../_chartinghelper/_dateFormatter";
-import { getAuditTypeDDL, getVesselDDL } from "../helper";
+import { getAuditTypeDDL, getCategoryDDL, getVesselDDL } from "../helper";
 import Loading from "../../_chartinghelper/loading/_loading";
 import IDelete from "../../../_helper/_helperIcons/_delete";
 import IEdit from "../../../_helper/_helperIcons/_edit";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import IViewModal from "../../../_helper/_viewModal";
+import CategoryCreateModal from "./categoryCreateModal";
 
 export default function _Form({
   title,
@@ -44,7 +47,10 @@ export default function _Form({
   // const [rowDto, setRowDto] = useState([]);
   const [vesselDDl, setVesselDDl] = useState([]);
   const [typeDDl, setTypeDDl] = useState([]);
+  const [categoryDDl, setCategoryDDl] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [editIndex, setEditIndex] = useState(null);
+  const [createModal, setCreateModal] = useState(false);
 
   const validationSchema = Yup.object().shape({
     vesselType: Yup.object().required("Vessel Type is required"),
@@ -81,6 +87,7 @@ export default function _Form({
   ];
   useEffect(() => {
     getAuditTypeDDL(setTypeDDl, setLoading);
+    getCategoryDDL(setCategoryDDl, setLoading);
   }, []);
   const deleteHandler = (index) => {
     const filterArr = rowDto?.filter((itm, idx) => idx !== index);
@@ -121,9 +128,16 @@ export default function _Form({
         initialValues={initData}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm, setFieldValue }) => {
-          setRowDto([...rowDto, values]);
+          if (editIndex !== null) {
+            const updatedRows = [...rowDto];
+            updatedRows[editIndex] = values;
+            setRowDto(updatedRows);
+            setEditIndex(null);
+          } else {
+            setRowDto([...rowDto, values]);
+          }
           setFieldValue("description", "");
-          setFieldValue("nc", "");
+          setFieldValue("nc", false);
           setFieldValue("dueDate", "");
           setFieldValue("status", "");
         }}
@@ -282,14 +296,37 @@ export default function _Form({
                   </div>
 
                   <div className="col-lg-3">
+                    <div className="d-flex justify-content-between align-items-center">
+                      <label>Category</label>
+                      <div
+                        style={{
+                          paddingTop: "2px",
+                          paddingLeft: "3px",
+                        }}
+                      >
+                        <OverlayTrigger
+                          overlay={
+                            <Tooltip id="cs-icon">{"Add Category"}</Tooltip>
+                          }
+                        >
+                          <span>
+                            <i
+                              style={{ color: "#3699ff" }}
+                              className={`fas fa-plus-square`}
+                              onClick={() => setCreateModal(true)}
+                            ></i>
+                          </span>
+                        </OverlayTrigger>
+                      </div>
+                    </div>
                     <FormikSelect
                       value={values?.category || ""}
                       isSearchable={true}
-                      options={[{ value: 1, label: "UAE PSC (Detention)" }]}
+                      options={categoryDDl || []}
                       styles={customStyles}
                       name="category"
                       placeholder="UAE PSC"
-                      label="Category"
+                      // label="Category"
                       onChange={(valueOption) => {
                         setFieldValue("category", valueOption);
                         // gridData({ ...values, certificateName: valueOption });
@@ -366,7 +403,7 @@ export default function _Form({
                       type="button"
                       className={"btn btn-primary ml-2 px-3 py-2"}
                       onClick={handleSubmit}
-                      //disabled={!rowData?.length}
+                      disabled={viewType === "view" && editIndex === null}
                     >
                       Add
                     </button>
@@ -396,18 +433,24 @@ export default function _Form({
                             <IDelete />
                           </div>
                         ) : (
-                          <IEdit
-                            onClick={(e) => {
-                              setFieldValue("description", item?.description);
-                              setFieldValue("nc", item?.nc);
-                              setFieldValue(
-                                "dueDate",
-                                item?.dueDate
-                                  ? _dateFormatter(item?.dueDate)
-                                  : ""
-                              );
-                              setFieldValue("status", item?.status);
-                              deleteHandler(index);
+                          <input
+                            type="checkbox"
+                            checked={editIndex === index}
+                            onChange={() => {
+                              if (editIndex === index) {
+                                setEditIndex(null);
+                              } else {
+                                setEditIndex(index);
+                                setFieldValue("description", item?.description);
+                                setFieldValue("nc", item?.nc);
+                                setFieldValue(
+                                  "dueDate",
+                                  item?.dueDate
+                                    ? _dateFormatter(item?.dueDate)
+                                    : ""
+                                );
+                                setFieldValue("status", item?.status);
+                              }
                             }}
                           />
                         )}
@@ -416,6 +459,20 @@ export default function _Form({
                   ))}
                 </ICustomTable>
               ) : null}
+
+              <IViewModal
+                show={createModal}
+                onHide={() => {
+                  setCreateModal(false);
+                  getCategoryDDL(setCategoryDDl, setLoading);
+                }}
+              >
+                <CategoryCreateModal
+                  title={"Create New Category"}
+                  setter={setCategoryDDl}
+                  onHide={() => setCreateModal(false)}
+                />
+              </IViewModal>
             </form>
           </>
         )}
