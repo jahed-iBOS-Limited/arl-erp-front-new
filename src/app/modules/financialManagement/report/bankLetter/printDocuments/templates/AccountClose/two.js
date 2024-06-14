@@ -43,7 +43,7 @@ const AccountCloseTwo = ({ singleRowItem }) => {
                 {strBranchName}
                 {strBranchName?.toLowerCase().includes("branch")
                   ? ""
-                  : "BRANCH"}
+                  : " BRANCH"}
               </strong>
             </p>
             <p style={{ marginTop: "-7px" }}>

@@ -43,7 +43,7 @@ const AccountOpenTwo = ({ singleRowItem }) => {
                 {strBranchName}
                 {strBranchName?.toLowerCase().includes("branch")
                   ? ""
-                  : "BRANCH"}
+                  : " BRANCH"}
               </strong>
             </p>
             <p style={{ marginTop: "-5px" }}>{strBranchAddress || ""}</p>
