@@ -81,10 +81,11 @@ export default function _Form({
     const filterArr = rowDto?.filter((itm, idx) => idx !== index);
     setRowDto(filterArr);
   };
+  console.log({ rowDto });
   const createPayload = (values, rowDto) => {
     const payload = {
       header: {
-        intAuditInspectionId: 0,
+        intAuditInspectionId: id ? +id : 0,
         strVesselType: values?.vesselType?.value,
         intVesselId: values?.vessel?.value,
         dteInspectionDate: values?.date,
@@ -98,7 +99,7 @@ export default function _Form({
       },
       rowList: rowDto.map((item, index) => ({
         intRowId: id ? item?.intRowId || 0 : 0,
-        intAuditInspectionId: 0,
+        intAuditInspectionId: id ? +id : 0,
         strDescription: item?.description,
         isNcChecked: item?.nc,
         dteDueDateTime: item?.dueDate,
@@ -118,7 +119,7 @@ export default function _Form({
         onSubmit={(values, { setSubmitting, resetForm, setFieldValue }) => {
           if (editIndex !== null) {
             const updatedRows = [...rowDto];
-            updatedRows[editIndex] = values;
+            updatedRows[editIndex] = { ...rowDto?.[editIndex], ...values };
             setRowDto(updatedRows);
             setEditIndex(null);
           } else {
@@ -164,7 +165,7 @@ export default function _Form({
                       Reset
                     </button>
                   )}
-                  {viewType !== "view" && (
+                  {
                     <button
                       type="button"
                       className={"btn btn-primary ml-2 px-3 py-2"}
@@ -174,9 +175,9 @@ export default function _Form({
                       }}
                       //disabled={!rowData?.length}
                     >
-                      Save
+                      {viewType !== "view" ? "Save" : "Edit"}
                     </button>
-                  )}
+                  }
                 </div>
               </div>
               <div className="marine-form-card-content">
