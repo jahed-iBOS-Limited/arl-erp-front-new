@@ -68,7 +68,7 @@ export default function BankLetter() {
   const printRef = useRef();
   const [, onSave, loader] = useAxiosPost();
   const [pageNo, setPageNo] = useState(0);
-  const [pageSize, setPageSize] = useState(15);
+  const [pageSize, setPageSize] = useState(100);
   const [gridData, getGridData, loading, setGridData] = useAxiosGet();
   const [singleRowItem, setSingleRowItem] = useState(null);
   const [

@@ -2,24 +2,16 @@ import React, { useEffect, useRef, useState } from "react";
 import { Formik } from "formik";
 import * as Yup from "yup";
 
-// import {
-//   certificateAttachment_action,
-//   getCertificateDDL,
-//   validationSchema,
-// } from "../helper";
 import { useHistory } from "react-router-dom";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import TextArea from "../../../_helper/TextArea";
+import { shallowEqual, useSelector } from "react-redux";
 import FormikInput from "../../_chartinghelper/common/formikInput";
 import FormikSelect from "../../_chartinghelper/common/formikSelect";
 import customStyles from "../../_chartinghelper/common/selectCustomStyle";
-import { CreateIcon } from "../../lighterVessel/trip/Form/components/header";
 import ICustomTable from "../../_chartinghelper/_customTable";
 import { _dateFormatter } from "../../_chartinghelper/_dateFormatter";
 import { getAuditTypeDDL, getCategoryDDL, getVesselDDL } from "../helper";
 import Loading from "../../_chartinghelper/loading/_loading";
 import IDelete from "../../../_helper/_helperIcons/_delete";
-import IEdit from "../../../_helper/_helperIcons/_edit";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import IViewModal from "../../../_helper/_viewModal";
 import CategoryCreateModal from "./categoryCreateModal";
@@ -34,10 +26,6 @@ export default function _Form({
   id,
 }) {
   const history = useHistory();
-  // eslint-disable-next-line no-unused-vars
-  const dispatch = useDispatch();
-  // attachment file
-  // get user profile data from store
   const {
     profileData: { userId },
     selectedBusinessUnit: { value: buId },

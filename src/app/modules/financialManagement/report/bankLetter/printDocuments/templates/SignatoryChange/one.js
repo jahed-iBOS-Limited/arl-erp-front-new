@@ -50,6 +50,9 @@ const SignatoryChangeOne = ({ singleRowItem }) => {
                 Regarding the inclusion of two new signatories in replacement of
                 one existing Signatories, A/C: {strAccountNo} , {strAccountName}{" "}
                 with {strBankName} , {strBranchName}{" "}
+                {strBranchName?.toLowerCase().includes("branch")
+                  ? ""
+                  : "Branch"}
               </strong>
             </div>
           </p>
@@ -97,7 +100,7 @@ const SignatoryChangeOne = ({ singleRowItem }) => {
               <tr>
                 <td>3.</td>
                 <td style={{ fontWeight: 700 }}>Md. Anamul Haque</td>
-                <td>Deputy Manager (Finance)</td>
+                <td>Manager (Finance)</td>
                 {/* <td colspan="2">To be Excluded</td> */}
               </tr>
             </tbody>
@@ -191,7 +194,7 @@ const SignatoryChangeOne = ({ singleRowItem }) => {
           has been provided to{" "}
           <b>
             1. Md. Sheikh Sadi- Chief Treasury Officer &amp; 2. Md. Anamul
-            Haque- Deputy Manager (Finance){" "}
+            Haque- Manager (Finance){" "}
           </b>
           as a replacement for one existing signatories namely:
           <b>B.M. Shahinur Islam- Chief Financial Officer</b>. From now onward,
@@ -201,7 +204,7 @@ const SignatoryChangeOne = ({ singleRowItem }) => {
             1. Md. Sheikh Sadi- Chief Treasury Officer, 2. Md. Masud Rana- Chief
             Supply Chain Officer, 3. Iftekhar Uddin Chowdhury- Senior Manager
             (Treasury), 4. Raihan Kabir- Deputy CFO, 5. Rakibul Alam Khan-
-            Manager (Finance) and 6. Md. Anamul Haque- Deputy Manager (Finance)
+            Manager (Finance) and 6. Md. Anamul Haque- Manager (Finance)
           </b>
           from now onward can jointly by any <b>two of the six </b>sign and
           endorse:
@@ -341,7 +344,7 @@ const SignatoryChangeOne = ({ singleRowItem }) => {
                     {" "}
                     6. <b> Md. Anamul Haque, </b>{" "}
                   </p>
-                  <p className="ml-5"> Deputy Manager (Finance)</p>
+                  <p className="ml-5"> Manager (Finance)</p>
                 </td>
                 <td style={{ padding: "65px 10px" }} />
               </tr>
