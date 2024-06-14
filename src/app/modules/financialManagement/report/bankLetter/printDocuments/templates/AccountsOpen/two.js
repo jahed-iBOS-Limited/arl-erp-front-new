@@ -404,7 +404,9 @@ const AccountOpenTwo = ({ singleRowItem }) => {
                 </tr>
                 <tr>
                   <td rowSpan={3}>Sheikh Jasim Uddin</td>
-                  <td>{strBusinessUnitName?.toUpperCase()}</td>
+                  <td style={{ fontSize: "13px" }}>
+                    {strBusinessUnitName?.toUpperCase()}
+                  </td>
                   <td rowSpan={4} />
                 </tr>
                 <tr>
@@ -442,7 +444,9 @@ const AccountOpenTwo = ({ singleRowItem }) => {
                 </tr>
                 <tr>
                   <td rowSpan={3}>Md. Sheikh Sadi</td>
-                  <td>{strBusinessUnitName?.toUpperCase()}</td>
+                  <td style={{ fontSize: "13px" }}>
+                    {strBusinessUnitName?.toUpperCase()}
+                  </td>
                   <td rowSpan={19} />
                 </tr>
                 <tr>
@@ -455,7 +459,9 @@ const AccountOpenTwo = ({ singleRowItem }) => {
                 </tr>
                 <tr>
                   <td rowSpan={3}>Md. Masud Rana</td>
-                  <td>{strBusinessUnitName?.toUpperCase()}</td>
+                  <td style={{ fontSize: "13px" }}>
+                    {strBusinessUnitName?.toUpperCase()}
+                  </td>
                 </tr>
                 <tr>
                   <td style={{ padding: "10px 0" }}>.</td>
@@ -467,7 +473,9 @@ const AccountOpenTwo = ({ singleRowItem }) => {
                 </tr>
                 <tr>
                   <td rowSpan={3}>Iftekhar Uddin Chowdhury</td>
-                  <td>{strBusinessUnitName?.toUpperCase()}</td>
+                  <td style={{ fontSize: "13px" }}>
+                    {strBusinessUnitName?.toUpperCase()}
+                  </td>
                 </tr>
                 <tr>
                   <td style={{ padding: "10px 0" }}>.</td>
@@ -479,7 +487,9 @@ const AccountOpenTwo = ({ singleRowItem }) => {
                 </tr>
                 <tr>
                   <td rowSpan={3}>Raihan Kabir</td>
-                  <td>{strBusinessUnitName?.toUpperCase()}</td>
+                  <td style={{ fontSize: "13px" }}>
+                    {strBusinessUnitName?.toUpperCase()}
+                  </td>
                 </tr>
                 <tr>
                   <td style={{ padding: "10px 0" }}>.</td>
@@ -491,7 +501,9 @@ const AccountOpenTwo = ({ singleRowItem }) => {
                 </tr>
                 <tr>
                   <td rowSpan={3}>Rakibul Alam Khan</td>
-                  <td>{strBusinessUnitName?.toUpperCase()}</td>
+                  <td style={{ fontSize: "13px" }}>
+                    {strBusinessUnitName?.toUpperCase()}
+                  </td>
                 </tr>
                 <tr>
                   <td style={{ padding: "10px 0" }}>.</td>
@@ -503,7 +515,9 @@ const AccountOpenTwo = ({ singleRowItem }) => {
                 </tr>
                 <tr>
                   <td rowSpan={3}>Md. Anamul Haque</td>
-                  <td>{strBusinessUnitName?.toUpperCase()}</td>
+                  <td style={{ fontSize: "13px" }}>
+                    {strBusinessUnitName?.toUpperCase()}
+                  </td>
                 </tr>
                 <tr>
                   <td style={{ padding: "10px 0" }}>.</td>

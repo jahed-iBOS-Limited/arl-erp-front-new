@@ -763,97 +763,31 @@ export default function BankLetter() {
                     Print
                   </button>
                 </div>
-                {/* <div ref={accountOpenRef}>
-                  <div
-                    className="invoice-header"
-                    style={{
-                      backgroundImage: `url(${getLetterHead({
-                        buId: singleRowItem?.intBusinessUnitId,
-                      })})`,
-                      backgroundRepeat: "no-repeat",
-                      height: "150px",
-                      backgroundPosition: "left 10px",
-                      backgroundSize: "cover",
-                      // position: "fixed",
-                      width: "100%",
-                      top: "-50px",
-                    }}
-                  ></div>
-                  {[1].includes(singleRowItem?.intBankLetterTemplateId) && (
-                    <AccountOpenOne singleRowItem={singleRowItem} />
-                  )}
-                  {[2].includes(singleRowItem?.intBankLetterTemplateId) && (
-                    <AccountOpenTwo singleRowItem={singleRowItem} />
-                  )}
-                  <div
-                    className="invoice-footer"
-                    style={{
-                      backgroundImage: `url(${getLetterHead({
-                        buId: singleRowItem?.intBusinessUnitId,
-                      })})`,
-                      backgroundRepeat: "no-repeat",
-                      height: "100px",
-                      backgroundPosition: "left bottom",
-                      backgroundSize: "cover",
-                      bottom: "-0px",
-                      // position: "fixed",
-                      width: "100%",
-                    }}
-                  ></div>
-                </div> */}
+
                 <div>
                   <div ref={accountOpenRef}>
-                    <div style={{ margin: "-13px 50px 51px 50px" }}>
-                      <div
-                        className="invoice-header"
-                        style={{
-                          backgroundImage: `url(${getLetterHead({
-                            buId: singleRowItem?.intBusinessUnitId,
-                          })})`,
-                          backgroundRepeat: "no-repeat",
-                          height: "150px",
-                          backgroundPosition: "left 10px",
-                          backgroundSize: "cover",
-                          position: "fixed",
-                          width: "100%",
-                          top: "-50px",
-                        }}
-                      ></div>
-                      <div
-                        className="invoice-footer"
-                        style={{
-                          backgroundImage: `url(${getLetterHead({
-                            buId: singleRowItem?.intBusinessUnitId,
-                          })})`,
-                          backgroundRepeat: "no-repeat",
-                          height: "100px",
-                          backgroundPosition: "left bottom",
-                          backgroundSize: "cover",
-                          bottom: "-0px",
-                          position: "fixed",
-                          width: "100%",
-                        }}
-                      ></div>
+                    <div style={{ margin: "-13px 0 51px 0" }}>
                       <table>
                         <thead>
-                          <tr>
-                            <td
-                              style={{
-                                border: "none",
-                              }}
-                            >
-                              {/* place holder for the fixed-position header */}
-                              <div
-                                style={{
-                                  height: "110px",
-                                }}
-                              ></div>
-                            </td>
-                          </tr>
+                          <div
+                            className="invoice-header"
+                            style={{
+                              backgroundImage: `url(${getLetterHead({
+                                buId: singleRowItem?.intBusinessUnitId,
+                              })})`,
+                              backgroundRepeat: "no-repeat",
+                              height: "150px",
+                              backgroundPosition: "left 10px",
+                              backgroundSize: "cover",
+                              // position: "fixed",
+                              width: "100%",
+                              top: "-50px",
+                            }}
+                          ></div>
                         </thead>
                         {/* CONTENT GOES HERE */}
                         <tbody>
-                          <div style={{ marginTop: "40px" }}>
+                          <div style={{ margin: "40px 50px 0 50px" }}>
                             {[1].includes(
                               singleRowItem?.intBankLetterTemplateId
                             ) && (
@@ -867,20 +801,21 @@ export default function BankLetter() {
                           </div>
                         </tbody>
                         <tfoot>
-                          <tr>
-                            <td
-                              style={{
-                                border: "none",
-                              }}
-                            >
-                              {/* place holder for the fixed-position footer */}
-                              <div
-                                style={{
-                                  height: "150px",
-                                }}
-                              ></div>
-                            </td>
-                          </tr>
+                          <div
+                            className="ifoot"
+                            style={{
+                              backgroundImage: `url(${getLetterHead({
+                                buId: singleRowItem?.intBusinessUnitId,
+                              })})`,
+                              backgroundRepeat: "no-repeat",
+                              height: "100px",
+                              backgroundPosition: "left bottom",
+                              backgroundSize: "cover",
+                              bottom: "-0px",
+                              // position: "fixed",
+                              width: "100%",
+                            }}
+                          ></div>
                         </tfoot>
                       </table>
                     </div>
