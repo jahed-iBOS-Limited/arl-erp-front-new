@@ -1,7 +1,7 @@
 import { Form, Formik } from "formik";
 import moment from "moment";
 import React, { useEffect, useRef, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 
 import * as Yup from "yup";
@@ -11,6 +11,9 @@ import Loading from "../../../_helper/_loading";
 import { _todayDate } from "../../../_helper/_todayDate";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
+import AttachmentUploaderNew from "../../../_helper/attachmentUploaderNew";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import { getDownlloadFileView_Action } from "../../../_helper/_redux/Actions";
 
 const initData = {
   monMutationFees: "",
@@ -18,6 +21,7 @@ const initData = {
   strDcrno: "",
   strHoldingNo: "",
   strMutitaionKhotianNo: "",
+  strMutationAttachment: "",
 };
 export default function UpdateMutation({
   singleData,
@@ -32,6 +36,7 @@ export default function UpdateMutation({
   }, shallowEqual);
   console.log({ singleData });
   const [, onSave, loader] = useAxiosPost();
+  const dispatch = useDispatch();
 
   const saveHandler = (values) => {
     const cb = () => {
@@ -46,6 +51,9 @@ export default function UpdateMutation({
       strDcrno: values?.strDcrno,
       strHoldingNo: values?.strHoldingNo,
       strMutitaionKhotianNo: values?.strMutitaionKhotianNo,
+      strMutationAttachment: values?.strMutationAttachment
+        ? values?.strMutationAttachment
+        : singleData?.strMutationAttachment,
       intInsertBy: userId,
     };
 
@@ -147,7 +155,53 @@ export default function UpdateMutation({
                   }
                 />
               </div>
-
+              <div className="col-lg-3 mt-5">
+                <div className="">
+                  <AttachmentUploaderNew
+                    style={{
+                      backgroundColor: "transparent",
+                      color: "black",
+                    }}
+                    CBAttachmentRes={(attachmentData) => {
+                      if (Array.isArray(attachmentData)) {
+                        console.log(attachmentData);
+                        console.log({ attachment: attachmentData });
+                        setFieldValue(
+                          "strMutationAttachment",
+                          attachmentData?.[0]?.id
+                        );
+                      }
+                    }}
+                  />
+                </div>
+              </div>
+              <div className="col-lg-3 mt-3">
+                <div className="">
+                  {singleData?.strMutationAttachment ? (
+                    <OverlayTrigger
+                      overlay={<Tooltip id="cs-icon">View Attachment</Tooltip>}
+                    >
+                      <span
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          dispatch(
+                            getDownlloadFileView_Action(
+                              singleData?.strMutationAttachment
+                            )
+                          );
+                        }}
+                        className="ml-2"
+                      >
+                        <i
+                          style={{ fontSize: "16px" }}
+                          className={`fa pointer fa-eye`}
+                          aria-hidden="true"
+                        ></i>
+                      </span>
+                    </OverlayTrigger>
+                  ) : null}
+                </div>
+              </div>
               <div className="col-lg-3">
                 <button type="submit" className="btn  btn-primary mt-5">
                   Submit

@@ -18,7 +18,7 @@ const AccountCloseFour = ({ singleRowItem }) => {
   } = singleRowItem;
   return (
     <>
-      <div className="bank-letter-template-common-wrapper">
+      <div className="bank-letter-template-common-wrapper close-wrapper">
         <div>
           <br />
           <div>
@@ -142,8 +142,8 @@ const AccountCloseFour = ({ singleRowItem }) => {
             <span>
               <strong>Mr. Sheikh Nasir Uddin</strong>
             </span>{" "}
-            <span style={{ marginLeft: "100px" }}>Managing Director</span>{" "}
-            <span style={{ marginLeft: "90px" }}>Sd/</span>
+            <span style={{ marginLeft: "102px" }}>Chairman</span>{" "}
+            <span style={{ marginLeft: "164px" }}>Sd/</span>
           </p>
           <p>
             <span>
@@ -157,8 +157,8 @@ const AccountCloseFour = ({ singleRowItem }) => {
               <strong>Ms. Faria Hossain</strong>
             </span>
             {}
-            <span style={{ marginLeft: "150px" }}>Chairman</span>{" "}
-            <span style={{ marginLeft: "155px" }}>Sd/</span>
+            <span style={{ marginLeft: "156px" }}>Director</span>{" "}
+            <span style={{ marginLeft: "175px" }}>Sd/</span>
           </p>
           <br />
           <p>

@@ -1,7 +1,7 @@
 import { Form, Formik } from "formik";
 import moment from "moment";
 import React, { useEffect, useRef, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 
 import { useReactToPrint } from "react-to-print";
@@ -17,6 +17,7 @@ import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import IEdit from "../../../_helper/_helperIcons/_edit";
 import IViewModal from "../../../_helper/_viewModal";
 import UpdateMutation from "./UpdateMutation";
+import { getDownlloadFileView_Action } from "../../../_helper/_redux/Actions";
 
 const initData = {
   businessUnit: "",
@@ -51,6 +52,7 @@ export default function LandRegister() {
     return state.authData;
   }, shallowEqual);
   const history = useHistory();
+  const dispatch = useDispatch();
   const [isShowUpdateModal, setIsShowUpdateModal] = useState(false);
   const [, onSave, loader] = useAxiosPost();
   const [pageNo, setPageNo] = useState(0);
@@ -231,6 +233,33 @@ export default function LandRegister() {
                               >
                                 <IEdit />
                               </span>
+                              {item?.strRegistrationAttachment ? (
+                                <OverlayTrigger
+                                  overlay={
+                                    <Tooltip id="cs-icon">
+                                      View Attachment
+                                    </Tooltip>
+                                  }
+                                >
+                                  <span
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      dispatch(
+                                        getDownlloadFileView_Action(
+                                          item?.strRegistrationAttachment
+                                        )
+                                      );
+                                    }}
+                                    className="mt-2 ml-2"
+                                  >
+                                    <i
+                                      style={{ fontSize: "16px" }}
+                                      className={`fa pointer fa-eye`}
+                                      aria-hidden="true"
+                                    ></i>
+                                  </span>
+                                </OverlayTrigger>
+                              ) : null}
                             </div>
                           </td>
                           {/* <td className="text-center">
