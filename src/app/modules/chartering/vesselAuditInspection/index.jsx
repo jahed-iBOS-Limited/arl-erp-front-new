@@ -211,12 +211,14 @@ export default function VesselAuditLanding() {
                 {gridData?.data?.map((item, index) => (
                   <tr key={index}>
                     <td className="text-center">{index + 1}</td>
-                    <td>{item?.strVesselName}</td>
-                    <td>{_dateFormatter(item?.dteInspectionDate)}</td>
-                    <td>{item?.strTypeName}</td>
-                    <td>{item?.strCategoryName}</td>
-                    <td>{item?.strTitle}</td>
-                    <td>
+                    <td className="text-center">{item?.strVesselName}</td>
+                    <td className="text-center">
+                      {_dateFormatter(item?.dteInspectionDate)}
+                    </td>
+                    <td className="text-center">{item?.strTypeName}</td>
+                    <td className="text-center">{item?.strCategoryName}</td>
+                    <td className="text-center">{item?.strTitle}</td>
+                    <td className="text-center">
                       <span
                         className="text-primary"
                         style={{
