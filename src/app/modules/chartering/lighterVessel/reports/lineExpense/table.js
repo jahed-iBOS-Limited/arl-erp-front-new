@@ -84,7 +84,8 @@ export default function LineExpenseReport() {
             values?.narration,
             profileData?.userId,
             setLoading,
-            () => resetForm(initData)
+            () => resetForm(initData),
+            values
           );
         }}
       >
@@ -123,7 +124,7 @@ export default function LineExpenseReport() {
                       className="btn btn-primary px-3 py-2"
                       type="button"
                       onClick={handleSubmit}
-                      disabled={totalJVAmount < 1}
+                      disabled={totalJVAmount < 1 || !values?.fromDate || !values?.toDate}
                     >
                       JV Create
                     </button>
