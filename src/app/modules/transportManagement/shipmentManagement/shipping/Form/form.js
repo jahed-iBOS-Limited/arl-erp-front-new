@@ -146,6 +146,7 @@ export default function _Form({
   const [previewItems, setPreviewItems] = useState([]);
   const [transportStatus, setTransportStatus] = useState([]);
   const [, getEntryCodeDDL, entryCodeDDLloader] = useAxiosGet();
+  const [pumpDDL, getPumpDDL, , setPumpDDL] = useAxiosGet();
   const [, getVehicleEntryDDL, vehicleEntryDDLloader] = useAxiosGet();
   const [shipmentDetailInfo, getShipmentDetailInfo, loader] = useAxiosGet();
   const dispatch = useDispatch();
@@ -155,19 +156,19 @@ export default function _Form({
 
   const [windowSize, setWindowSize] = useState({
     width: window.innerWidth,
-});
-const handleResize = () => {
-  setWindowSize({
-      width: window.innerWidth,
   });
-};
-
-useEffect(() => {
-  window.addEventListener('resize', handleResize);
-  return () => {
-      window.removeEventListener('resize', handleResize);
+  const handleResize = () => {
+    setWindowSize({
+      width: window.innerWidth,
+    });
   };
-}, []);
+
+  useEffect(() => {
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   useEffect(() => {
     setControls([
@@ -249,6 +250,23 @@ useEffect(() => {
       document.getElementById("cardNoInput").focus();
     }
   }, [vehicleDDL]);
+  useEffect(() => {
+    if (buId === 175 && headerData?.pgiShippoint?.value) {
+      getPumpDDL(
+        `/oms/Shipment/GetPumpModelDDL?businessUnitId=175&shipPointId=${headerData?.pgiShippoint?.value}`,
+        (data) => {
+          const modifiedData = data.map((itm) => ({
+            ...itm,
+            value: itm?.pumpModelId,
+            label: itm?.pumpModelName,
+          }));
+          setPumpDDL(modifiedData);
+        }
+      );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [buId, headerData]);
+
   return (
     <>
       <Formik
@@ -293,7 +311,7 @@ useEffect(() => {
               loader) && <Loading />}
             {isSubsidyRunning && (
               <marquee
-                direction='left'
+                direction="left"
                 style={{
                   fontSize: "15px",
                   fontWeight: "bold",
@@ -303,24 +321,25 @@ useEffect(() => {
                 Transport subsidiary is running....
               </marquee>
             )}
-            <Form className='form form-label-right'>
-              <div className='row mt-1'>
-                <div className='col-lg-9 text-center'>
+            <Form className="form form-label-right">
+              <div className="row mt-1">
+                <div className="col-lg-9 text-center">
                   <h4>Warehouse: {deliveryeDatabydata?.warehouseName}</h4>
                 </div>
                 {values?.Vehicle && (
                   <div
-                    className='col-lg-3'
+                    className="col-lg-3"
                     style={{ backgroundColor: "yellow" }}
                   >
                     <h5>
-                      {values?.Vehicle?.ownerType && `${values?.Vehicle?.ownerType} Vehicle`}
+                      {values?.Vehicle?.ownerType &&
+                        `${values?.Vehicle?.ownerType} Vehicle`}
                     </h5>
                   </div>
                 )}
-                <div className='col-lg-12 p-0 m-0'>
+                <div className="col-lg-12 p-0 m-0">
                   <div
-                    className='row global-form m-0'
+                    className="row global-form m-0"
                     style={{ paddingBottom: "10px" }}
                   >
                     <>
@@ -328,7 +347,7 @@ useEffect(() => {
                         return itm?.type === "asyncSelect" ? (
                           isGateMaintain && (
                             <>
-                              <div className='col-lg-3'>
+                              <div className="col-lg-3">
                                 <label>{itm?.label}</label>
                                 <SearchAsyncSelect
                                   // isDisabled={itm?.isDisabled}
@@ -369,7 +388,7 @@ useEffect(() => {
                                 />
                                 <FormikError
                                   errors={errors}
-                                  name='product'
+                                  name="product"
                                   touched={touched}
                                 />
                               </div>
@@ -377,15 +396,15 @@ useEffect(() => {
                           )
                         ) : itm?.type === "cardInput" ? (
                           isGateMaintain && (
-                            <div className='col-lg-3 d-flex'>
+                            <div className="col-lg-3 d-flex">
                               <div style={{ width: "inherit" }}>
                                 <InputField
                                   disabled={itm?.isDisabled}
-                                  id='cardNoInput'
+                                  id="cardNoInput"
                                   value={values?.strCardNo}
                                   label={itm?.label}
-                                  name='strCardNo'
-                                  type='text'
+                                  name="strCardNo"
+                                  type="text"
                                   onKeyPress={(e) => {
                                     if (e.key === "Enter") {
                                       document.getElementById(
@@ -483,15 +502,15 @@ useEffect(() => {
                                     style={{
                                       color: "blue",
                                     }}
-                                    className='fa fa-refresh'
-                                    aria-hidden='true'
+                                    className="fa fa-refresh"
+                                    aria-hidden="true"
                                   ></i>
                                 </span>
                               )}
                             </div>
                           )
                         ) : (
-                          <div className='col-lg-3'>
+                          <div className="col-lg-3">
                             <ISelect
                               label={itm.label}
                               placeholder={itm.label}
@@ -508,89 +527,106 @@ useEffect(() => {
                           </div>
                         );
                       })}
-                      <div className='col-lg-3'>
+                      <div className="col-lg-3">
                         <InputField
                           value={values.lastDistance}
-                          label='Last Distance (KM)'
-                          name='lastDistance'
-                          type='number'
+                          label="Last Distance (KM)"
+                          name="lastDistance"
+                          type="number"
                           disabled
                         />
                       </div>
-                      <div className='col-lg-3'>
+                      <div className="col-lg-3">
                         <NewSelect
-                          name='isLaborImpart'
+                          name="isLaborImpart"
                           options={[
                             { value: false, label: "No" },
                             { value: true, label: "Yes" },
                           ]}
                           value={values?.isLaborImpart}
-                          label='Labor/Handling Provided'
+                          label="Labor/Handling Provided"
                           onChange={(valueOption) => {
                             setFieldValue("isLaborImpart", valueOption);
                             setFieldValue("supplierName", "");
                             setFieldValue("laborSupplierName", "");
                           }}
-                          placeholder='Labor/Handling Provided'
+                          placeholder="Labor/Handling Provided"
                           errors={errors}
                           touched={touched}
                           isDisabled={true}
                         />
                       </div>
-                      <div className='col-lg-3'>
+                      <div className="col-lg-3">
                         <label>Estimated of Arrival Date </label>
                         <ICalendar
                           value={values.estimatedTimeofArrival || ""}
-                          name='estimatedTimeofArrival'
+                          name="estimatedTimeofArrival"
                           disabled={isEdit}
                         />
                       </div>
-                      <div className='col-lg-3'>
+                      <div className="col-lg-3">
                         <label>Planned Loading Time </label>
                         <ICalendar
                           value={values.planedLoadingTime || ""}
-                          name='planedLoadingTime'
+                          name="planedLoadingTime"
                           disabled={isEdit}
                         />
                       </div>
-                      <div className='col-lg-3'>
+                      <div className="col-lg-3">
                         <InputField
                           value={values.driverName || ""}
-                          placeholder='Driver Name'
-                          name='driverName'
-                          label='Driver Name'
+                          placeholder="Driver Name"
+                          name="driverName"
+                          label="Driver Name"
                           component={Input}
-                          type='text'
+                          type="text"
                           disabled
                         />
                       </div>
-                      <div className='col-lg-3'>
+                      <div className="col-lg-3">
                         <InputField
                           value={values.driverContactNo || ""}
-                          placeholder='Driver Contact No'
-                          name='driverContactNo'
-                          label='Driver Contact No'
+                          placeholder="Driver Contact No"
+                          name="driverContactNo"
+                          label="Driver Contact No"
                           component={Input}
-                          type='text'
+                          type="text"
                           disabled
                         />
                       </div>
-                      <div className='col-lg-3' style={{ display: "none" }}>
+                      <div className="col-lg-3" style={{ display: "none" }}>
                         <InputField
                           value={values.driverId || ""}
-                          placeholder='Driver Id'
-                          name='driverId'
-                          label='Driver Id'
+                          placeholder="Driver Id"
+                          name="driverId"
+                          label="Driver Id"
                           component={Input}
-                          type='text'
+                          type="text"
                         />
                       </div>
-                      {!isEdit && (
-                        <div className='col-lg-3'>
+                      {buId === 175 ? (
+                        <div className="col-lg-3">
                           <NewSelect
-                            name='pendingDelivery'
-                            placeholder='Pending Delivery List'
-                            label='Pending Delivery List'
+                            name="pump"
+                            options={pumpDDL || []}
+                            value={values?.pump}
+                            label="Pump Information"
+                            onChange={(valueOption) => {
+                              setFieldValue("pump", valueOption);
+                            }}
+                            placeholder="Pump Information"
+                            errors={errors}
+                            touched={touched}
+                            isDisabled={isEdit}
+                          />
+                        </div>
+                      ) : null}
+                      {!isEdit && (
+                        <div className="col-lg-3">
+                          <NewSelect
+                            name="pendingDelivery"
+                            placeholder="Pending Delivery List"
+                            label="Pending Delivery List"
                             options={PendingDeliveryDDL || []}
                             value={values?.pendingDelivery}
                             isDisabled={!values?.Vehicle}
@@ -639,10 +675,10 @@ useEffect(() => {
                         </div>
                       )}
 
-                      <div className='col-lg-3 mt-5'>
+                      <div className="col-lg-3 mt-5">
                         <button
-                          className='btn btn-primary btn-sm'
-                          type='button'
+                          className="btn btn-primary btn-sm"
+                          type="button"
                           onClick={() => {
                             getShipmentDetailInfo(
                               `/oms/Shipment/ChallanWiseTransportZoneRate?accountId=${accId}&businessUnitId=${buId}&deliveryId=${values?.pendingDelivery?.value}`,
@@ -661,10 +697,10 @@ useEffect(() => {
                           See Slab Rates
                         </button>
                       </div>
-                      <div className='col-lg-3 mt-5'>
+                      <div className="col-lg-3 mt-5">
                         <button
-                          className='btn btn-primary btn-sm'
-                          type='button'
+                          className="btn btn-primary btn-sm"
+                          type="button"
                           onClick={() => {
                             const payload = rowDto?.map((e) => e?.deliveryId);
                             getItemListForChallan(
@@ -684,7 +720,7 @@ useEffect(() => {
                         </button>
                       </div>
                       {values?.Vehicle?.isRental && (
-                        <div className='col-lg-3'>
+                        <div className="col-lg-3">
                           <label> Vehicle Supplier Name</label>
                           <SearchAsyncSelect
                             selectedValue={values.supplierName}
@@ -707,13 +743,13 @@ useEffect(() => {
                           />
                           <FormikError
                             errors={errors}
-                            name='supplierName'
+                            name="supplierName"
                             touched={touched}
                           />
                         </div>
                       )}
                       {values?.isLaborImpart?.value && (
-                        <div className='col-lg-3'>
+                        <div className="col-lg-3">
                           <label>Labor/Handling Supplier Name</label>
                           <SearchAsyncSelect
                             selectedValue={values.laborSupplierName}
@@ -737,7 +773,7 @@ useEffect(() => {
                           />
                           <FormikError
                             errors={errors}
-                            name='laborSupplierName'
+                            name="laborSupplierName"
                             touched={touched}
                           />
                         </div>
@@ -747,13 +783,24 @@ useEffect(() => {
                       <div
                         className={
                           values?.Vehicle?.isRental
-                            ? `col-lg-9 ${windowSize?.width>1000 ? "d-flex justify-content-between align-items-center":""}`
-                            : `col-lg-11 ${windowSize?.width>1000 ? "d-flex justify-content-between align-items-center":""}`
+                            ? `col-lg-9 ${
+                                windowSize?.width > 1000
+                                  ? "d-flex justify-content-between align-items-center"
+                                  : ""
+                              }`
+                            : `col-lg-11 ${
+                                windowSize?.width > 1000
+                                  ? "d-flex justify-content-between align-items-center"
+                                  : ""
+                              }`
                         }
                         style={{ marginTop: "10px" }}
                       >
-                        <div className={` ${windowSize?.width<600 && 'col-lg-6 mr-2'}`}>
-                          <b className='mr-2 '>
+                        <div
+                          className={` ${windowSize?.width < 600 &&
+                            "col-lg-6 mr-2"}`}
+                        >
+                          <b className="mr-2 ">
                             Vehicle Capacity : &nbsp;
                             {rowDto?.length
                               ? values?.unloadVehicleWeight ||
@@ -772,8 +819,11 @@ useEffect(() => {
                           </b>
                         </div>
 
-                        <div className={` ${windowSize?.width<600 && 'col-lg-6 mr-2'}`}>
-                          <b className='mr-2'>
+                        <div
+                          className={` ${windowSize?.width < 600 &&
+                            "col-lg-6 mr-2"}`}
+                        >
+                          <b className="mr-2">
                             Product Actual : &nbsp;
                             {rowDto?.length
                               ? values?.unloadVehicleVolume ||
@@ -797,10 +847,16 @@ useEffect(() => {
                           </b>
                         </div>
 
-                        <div className={` ${windowSize?.width<600 && 'col-lg-6 mr-2'}`}>
+                        <div
+                          className={` ${windowSize?.width < 600 &&
+                            "col-lg-6 mr-2"}`}
+                        >
                           <b>Total Number Of Challan : {rowDto?.length}</b>{" "}
                         </div>
-                        <div className={` ${windowSize?.width<600 && 'col-lg-6 mr-2'}`}>
+                        <div
+                          className={` ${windowSize?.width < 600 &&
+                            "col-lg-6 mr-2"}`}
+                        >
                           <b>
                             Total Quantity :{" "}
                             {rowDto?.reduce((acc, cur) => {
@@ -809,17 +865,20 @@ useEffect(() => {
                           </b>{" "}
                         </div>
                         {buId === 4 && (
-                          <div className={` ${windowSize?.width<600 && 'col-lg-6 mr-2'}`}>
+                          <div
+                            className={` ${windowSize?.width < 600 &&
+                              "col-lg-6 mr-2"}`}
+                          >
                             <b>Request Vehicle No : {vehicleNo}</b>{" "}
                           </div>
                         )}
                       </div>
 
                       {!isEdit && (
-                        <div className='col d-flex justify-content-end align-items-center'>
+                        <div className="col d-flex justify-content-end align-items-center">
                           <button
-                            type='button'
-                            className='btn btn-primary mt-2'
+                            type="button"
+                            className="btn btn-primary mt-2"
                             onClick={() => addBtnHandler(values, setFieldValue)}
                             disabled={
                               !values.pendingDelivery ||
@@ -831,7 +890,7 @@ useEffect(() => {
                           </button>
                         </div>
                       )}
-                      <div className='col-12 mt-3'>
+                      <div className="col-12 mt-3">
                         <p>
                           <strong>Narration: </strong>{" "}
                           <mark style={{ backgroundColor: "yellow" }}>
@@ -849,103 +908,114 @@ useEffect(() => {
                   </div>
                 </div>
               </div>
-              <hr className='m-1'></hr>
+              <hr className="m-1"></hr>
 
-              <div className='row cash_journal bank-journal bank-journal-custom'>
-                <div className='col-lg-12 pr-0 pl-0'>
+              <div className="row cash_journal bank-journal bank-journal-custom">
+                <div className="col-lg-12 pr-0 pl-0">
                   {rowDto?.length >= 0 && (
                     <div className="table-responsive">
-                      <table className='table table-striped table-bordered mt-1 bj-table bj-table-landing sales_order_landing_table'>
-                      <thead>
-                        <tr>
-                          <th style={{ width: "35px" }}>SL</th>
-                          <th>Delivery Id</th>
-                          <th>Delivery No</th>
-                          <th>Ship To Party Name</th>
-                          <th>Ship To Address</th>
-                          <th>Transport Zone</th>
-                          <th>Loading Point</th>
-                          <th>Quantity</th>
-                          <th>Net (KG)</th>
-                          <th>Vol (CFT)</th>
-                          {!isEdit && <th>Action</th>}
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {rowDto.map((itm, index) => (
-                          <tr key={index}>
-                            <td className='text-center'>{++index}</td>
-                            <td>
-                              <div className='text-right pr-2'>
-                                {itm.deliveryId}
-                              </div>
-                            </td>
-                            <td>
-                              <div className='text-right pr-2'>
-                                {itm.deliveryCode}
-                              </div>
-                            </td>
-                            <td>
-                              <div className='pl-2'>
-                                {itm.shipToPartnerName}
-                              </div>
-                            </td>
-                            <td>
-                              <div className='pl-2'>
-                                {itm.shipToPartnerAddress}
-                              </div>
-                            </td>
-                            <td>
-                              <div className='pl-2'>
-                                {itm.transportZoneName}
-                              </div>
-                            </td>
-                            <td>
-                              <div className='pl-2'>{itm.loadingPointName}</div>
-                            </td>
-                            <td>
-                              <div className='text-right pr-2'>
-                                {itm?.quantity}
-                              </div>
-                            </td>
-                            <td>
-                              <div className='text-right pr-2'>
-                                {itm?.itemTotalNetWeight}
-                              </div>
-                            </td>
-                            <td>
-                              <div className='text-right pr-2'>
-                                {itm?.itemTotalVolume}
-                              </div>
-                            </td>
-                            {!isEdit && (
-                              <td className='text-center'>
-                                <i
-                                  className='fa fa-trash'
-                                  onClick={() =>
-                                    remover(--index, setFieldValue)
-                                  }
-                                ></i>
-                              </td>
-                            )}
+                      <table className="table table-striped table-bordered mt-1 bj-table bj-table-landing sales_order_landing_table">
+                        <thead>
+                          <tr>
+                            <th style={{ width: "35px" }}>SL</th>
+                            <th>Delivery Id</th>
+                            <th>Delivery No</th>
+                            {buId === 175 ? <th>Pump</th> : null}
+                            <th>Ship To Party Name</th>
+                            <th>Ship To Address</th>
+                            <th>Transport Zone</th>
+                            <th>Loading Point</th>
+                            <th>Quantity</th>
+                            <th>Net (KG)</th>
+                            <th>Vol (CFT)</th>
+                            {!isEdit && <th>Action</th>}
                           </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                        </thead>
+                        <tbody>
+                          {rowDto.map((itm, index) => (
+                            <tr key={index}>
+                              <td className="text-center">{++index}</td>
+                              <td>
+                                <div className="text-right pr-2">
+                                  {itm.deliveryId}
+                                </div>
+                              </td>
+                              <td>
+                                <div className="text-right pr-2">
+                                  {itm.deliveryCode}
+                                </div>
+                              </td>
+                              {buId === 175 ? (
+                                <td>
+                                  <div className="text-right pr-2">
+                                    {itm?.pumpName}
+                                  </div>
+                                </td>
+                              ) : null}
+
+                              <td>
+                                <div className="pl-2">
+                                  {itm.shipToPartnerName}
+                                </div>
+                              </td>
+                              <td>
+                                <div className="pl-2">
+                                  {itm.shipToPartnerAddress}
+                                </div>
+                              </td>
+                              <td>
+                                <div className="pl-2">
+                                  {itm.transportZoneName}
+                                </div>
+                              </td>
+                              <td>
+                                <div className="pl-2">
+                                  {itm.loadingPointName}
+                                </div>
+                              </td>
+                              <td>
+                                <div className="text-right pr-2">
+                                  {itm?.quantity}
+                                </div>
+                              </td>
+                              <td>
+                                <div className="text-right pr-2">
+                                  {itm?.itemTotalNetWeight}
+                                </div>
+                              </td>
+                              <td>
+                                <div className="text-right pr-2">
+                                  {itm?.itemTotalVolume}
+                                </div>
+                              </td>
+                              {!isEdit && (
+                                <td className="text-center">
+                                  <i
+                                    className="fa fa-trash"
+                                    onClick={() =>
+                                      remover(--index, setFieldValue)
+                                    }
+                                  ></i>
+                                </td>
+                              )}
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
                     </div>
                   )}
                 </div>
               </div>
               <IViewModal
-                modelSize='md'
-                title='Challan Items Preview'
+                modelSize="md"
+                title="Challan Items Preview"
                 show={open}
                 onHide={() => setOpen(false)}
               >
                 <ChallanItemsPreview rowData={previewItems} />
               </IViewModal>
               <IViewModal
-                title='Zone Cost Rates'
+                title="Zone Cost Rates"
                 show={show}
                 onHide={() => setShow(false)}
               >
@@ -953,14 +1023,14 @@ useEffect(() => {
               </IViewModal>
               <button
                 // type="submit"
-                type='button'
+                type="button"
                 style={{ display: "none" }}
                 ref={btnRef}
                 // onSubmit={() => handleSubmit()}
                 onClick={() => handleSubmit()}
               ></button>
               <button
-                type='reset'
+                type="reset"
                 style={{ display: "none" }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
