@@ -213,7 +213,7 @@ const setPositionHandler = (pageNo, pageSize, values) => {
                             </thead>
                             <tbody>
                               {notesReportData?.map((data, index) => (
-                                <tr >
+                                <tr style={{fontWeight: data?.IsAggregate ? "bold" : "normal"}}>
                                   <td>
                                     {index + 1}
                                   </td>
