@@ -134,9 +134,20 @@ export default function MonthlyVoyageStatement() {
         ? `LighterVesselIncomeSatetementAdjustmentJournal`
         : "";
 
+   const determineTypeId = () => {
+     const estFreightRounded = _fixedPoint(estFreightAmount, true, 0);
+     const netFreightRounded = _fixedPoint(netFreight, true, 0);
+     return estFreightRounded < netFreightRounded ? 1 : estFreightRounded > netFreightRounded ? 2 : 0;
+   };
+
     createJournal(
       `${imarineBaseUrl}/domain/LighterVesselStatement/${apiName}`,
-      payload,
+      journalType === "aj"
+        ? {
+            ...payload,
+            typeId: determineTypeId(),
+          }
+        : payload,
       () => {
         const field =
           journalType === "jv"
