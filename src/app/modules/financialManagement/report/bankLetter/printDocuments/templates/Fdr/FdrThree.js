@@ -35,7 +35,10 @@ const FdrThree = ({ singleRowItem }) => {
           <strong>{strBankName?.toUpperCase()}</strong>
         </p>
         <p>
-          <strong>{strBranchName} </strong>
+          <strong>
+            {strBranchName}{" "}
+            {strBranchName?.toLowerCase().includes("branch") ? "" : "Branch"}
+          </strong>
         </p>
         <p>{strBranchAddress}</p>
         <br />

@@ -29,6 +29,7 @@ import AuthorizationOne from "./printDocuments/templates/Authorization/one";
 import SignatoryChangeOne from "./printDocuments/templates/SignatoryChange/one";
 import SignatoryChangeTwo from "./printDocuments/templates/SignatoryChange/two";
 import BankCertificateOne from "./printDocuments/templates/BankCertificate/one";
+import IViewModal from "../../../_helper/_viewModal";
 
 const initData = {
   businessUnit: "",
@@ -66,11 +67,14 @@ export default function BankLetter() {
     setBankBranchList,
   ] = useAxiosGet();
   const printRef = useRef();
+  const accountOpenRef = useRef();
   const [, onSave, loader] = useAxiosPost();
   const [pageNo, setPageNo] = useState(0);
-  const [pageSize, setPageSize] = useState(15);
+  const [pageSize, setPageSize] = useState(100);
   const [gridData, getGridData, loading, setGridData] = useAxiosGet();
   const [singleRowItem, setSingleRowItem] = useState(null);
+  const [isPrint, setIsPrint] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const [
     bankAccountInfo,
     getBankAccountInfo,
@@ -84,8 +88,14 @@ export default function BankLetter() {
   }, []);
 
   useEffect(() => {
-    if (singleRowItem?.intBankLetterTemplateId) {
+    if (
+      singleRowItem?.intBankLetterTemplateId === 1 ||
+      singleRowItem?.intBankLetterTemplateId === 2
+    ) {
+      setShowModal(true);
+    } else if (singleRowItem?.intBankLetterTemplateId) {
       handleInvoicePrint();
+      setShowModal(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [singleRowItem]);
@@ -141,7 +151,11 @@ export default function BankLetter() {
     pageStyle:
       "@media print{body { -webkit-print-color-adjust: exact; margin: 0mm;}@page {size: portrait ! important}}",
   });
-
+  const handlePrint = useReactToPrint({
+    content: () => accountOpenRef.current,
+    pageStyle:
+      "@media print{body { -webkit-print-color-adjust: exact; margin: 0mm;}@page {size: portrait ! important}}",
+  });
   const getLandingData = (values, pageNo, pageSize, searchValue = "") => {
     getGridData(
       `/fino/BankLetter/GetFilteredBankLetters?businessUnitId=${values?.businessUnit?.value}&pageNumber=${pageNo}&pageSize=${pageSize}`
@@ -644,12 +658,12 @@ export default function BankLetter() {
                       {/* CONTENT GOES HERE */}
                       <tbody>
                         <div style={{ marginTop: "40px" }}>
-                          {[1].includes(
+                          {/* {[1].includes(
                             singleRowItem?.intBankLetterTemplateId
                           ) && <AccountOpenOne singleRowItem={singleRowItem} />}
                           {[2].includes(
                             singleRowItem?.intBankLetterTemplateId
-                          ) && <AccountOpenTwo singleRowItem={singleRowItem} />}
+                          ) && <AccountOpenTwo singleRowItem={singleRowItem} />} */}
                           {[3].includes(
                             singleRowItem?.intBankLetterTemplateId
                           ) && (
@@ -722,6 +736,93 @@ export default function BankLetter() {
                 </div>
               </div>
             </Form>
+            <IViewModal
+              title={"Account Open Template"}
+              show={showModal}
+              onHide={() => {
+                setShowModal(false);
+              }}
+            >
+              <>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "flex-end",
+                    margin: "20px;",
+                  }}
+                >
+                  <button
+                    style={{ cursor: "pointer" }}
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={() => {
+                      handlePrint();
+                      setShowModal(false);
+                    }}
+                  >
+                    Print
+                  </button>
+                </div>
+
+                <div>
+                  <div ref={accountOpenRef}>
+                    <div style={{ margin: "-13px 0 51px 0" }}>
+                      <table>
+                        <thead>
+                          <div
+                            className="invoice-header"
+                            style={{
+                              backgroundImage: `url(${getLetterHead({
+                                buId: singleRowItem?.intBusinessUnitId,
+                              })})`,
+                              backgroundRepeat: "no-repeat",
+                              height: "150px",
+                              backgroundPosition: "left 10px",
+                              backgroundSize: "cover",
+                              // position: "fixed",
+                              width: "100%",
+                              top: "-50px",
+                            }}
+                          ></div>
+                        </thead>
+                        {/* CONTENT GOES HERE */}
+                        <tbody>
+                          <div style={{ margin: "40px 50px 0 50px" }}>
+                            {[1].includes(
+                              singleRowItem?.intBankLetterTemplateId
+                            ) && (
+                              <AccountOpenOne singleRowItem={singleRowItem} />
+                            )}
+                            {[2].includes(
+                              singleRowItem?.intBankLetterTemplateId
+                            ) && (
+                              <AccountOpenTwo singleRowItem={singleRowItem} />
+                            )}
+                          </div>
+                        </tbody>
+                        <tfoot>
+                          <div
+                            className="ifoot"
+                            style={{
+                              backgroundImage: `url(${getLetterHead({
+                                buId: singleRowItem?.intBusinessUnitId,
+                              })})`,
+                              backgroundRepeat: "no-repeat",
+                              height: "100px",
+                              backgroundPosition: "left bottom",
+                              backgroundSize: "cover",
+                              bottom: "-0px",
+                              // position: "fixed",
+                              width: "100%",
+                            }}
+                          ></div>
+                        </tfoot>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </>
+            </IViewModal>
           </IForm>
         </>
       )}
