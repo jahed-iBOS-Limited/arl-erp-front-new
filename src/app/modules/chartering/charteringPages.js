@@ -56,6 +56,7 @@ import { VoyageChecklistDetails } from "./voyageChecklist/components/voyageCheck
 import PortDistanceReport from "./reports/portDistance";
 import VesselAuditLanding from "./vesselAuditInspection";
 import CreateEditVesselAudit from "./vesselAuditInspection/components/CreateEditVesselAudit";
+import ManagementDashboard from "./reports/managementDashboard";
 
 export function CharteringPages() {
   const [state, setState] = useState(CharteringState);
@@ -369,6 +370,10 @@ export function CharteringPages() {
         <Route
           path="/chartering/report/PortDistance"
           component={PortDistanceReport}
+        />
+        <Route
+          path="/chartering/report/managementDashboard"
+          component={ManagementDashboard}
         />
 
         {/* ======== Reports ======== */}
