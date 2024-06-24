@@ -127,27 +127,29 @@ const PrintInvoiceModal = ({ singleItem }) => {
             <div className="address_billing">
               <p className="address_title">BILLING ADDRESS</p>
               <p className="address_buyer">
-                <strong>Buyer Name: </strong>{" "}
+                <strong>Customer Name: </strong>{" "}
                 {printData[0]?.invocieHeader?.strCustomerName}
               </p>
               <p className="address_text">
-                <strong>Buyer Address: </strong>{" "}
+                <strong>Address: </strong>{" "}
                 {printData[0]?.invocieHeader?.strCustomerAddress}
               </p>
+              <p className="address_text">
+                <strong>Contact Person: </strong>{" "}
+                {printData[0]?.customerContactPerson}
+              </p>
+              <p className="address_text">
+                <strong>Contact Number: </strong>{" "}
+                {printData[0]?.customerContactPersonNumber}
+              </p>
             </div>
-            <div className="address_shipping">
+            {/* <div className="address_shipping">
               <p className="address_title"> SHIPPING ADDRESS</p>
-              {/* <p className="address_buyer">
-                <strong>Buyer Name: </strong>{" "}
-                {printData[0]?.invocieHeader?.strCustomerName}
-              </p> */}
               <p className="address_text">
               <strong>Address: </strong>{" "}
                 {printData[0]?.invocieHeader?.strCustomerAddress}
               </p>
-              {/* <p><strong>Contact Person:</strong> </p>
-              <p><strong>Contact Number:</strong> </p> */}
-            </div>
+            </div> */}
           </div>
           <div style={{ marginBottom: "15px" }}>
             <table>
