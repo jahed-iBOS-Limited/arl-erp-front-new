@@ -216,8 +216,16 @@ export default function _Form({
                       styles={customStyles}
                       name="vessel"
                       isDisabled={viewType === "view"}
-                      placeholder="Vessel/Ligher"
-                      label="Vessel/Ligher"
+                      placeholder={
+                        values?.vesselType?.value === "MotherVessel"
+                          ? "Mother Vessel"
+                          : "Vessel/Ligher"
+                      }
+                      label={
+                        values?.vesselType?.value === "MotherVessel"
+                          ? "Mother Vessel"
+                          : "Vessel/Ligher"
+                      }
                       onChange={(valueOption) => {
                         setFieldValue("vessel", valueOption);
                         // gridData({ ...values, certificateName: valueOption });

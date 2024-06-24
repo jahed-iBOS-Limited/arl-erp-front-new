@@ -151,8 +151,16 @@ export default function VesselAuditLanding() {
                       options={vesselDDl || []}
                       styles={customStyles}
                       name="vessel"
-                      placeholder="Vessel/Ligher"
-                      label="Vessel/Ligher"
+                      placeholder={
+                        values?.vesselType?.value === "MotherVessel"
+                          ? "Mother Vessel"
+                          : "Vessel/Ligher"
+                      }
+                      label={
+                        values?.vesselType?.value === "MotherVessel"
+                          ? "Mother Vessel"
+                          : "Vessel/Ligher"
+                      }
                       onChange={(valueOption) => {
                         setFieldValue("vessel", valueOption);
                         // gridData({ ...values, certificateName: valueOption });
