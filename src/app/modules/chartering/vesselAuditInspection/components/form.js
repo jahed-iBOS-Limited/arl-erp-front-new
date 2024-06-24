@@ -140,6 +140,7 @@ export default function _Form({
           touched,
           setFieldValue,
           validateField,
+          setValues,
         }) => (
           <>
             {loading && <Loading />}
@@ -183,7 +184,7 @@ export default function _Form({
                         !values?.category
                       }
                     >
-                      {viewType !== "view" || viewType !== "edit"
+                      {viewType !== "view" && viewType !== "edit"
                         ? "Save"
                         : "Update"}
                     </button>
@@ -456,15 +457,15 @@ export default function _Form({
                                 setFieldValue("description", "");
                               } else {
                                 setEditIndex(index);
-                                setFieldValue("description", item?.description);
-                                setFieldValue("nc", item?.nc);
-                                setFieldValue(
-                                  "dueDate",
-                                  item?.dueDate
+                                setValues({
+                                  ...values,
+                                  description: item?.description || "",
+                                  nc: item?.nc || false,
+                                  dueDate: item?.dueDate
                                     ? _dateFormatter(item?.dueDate)
-                                    : ""
-                                );
-                                setFieldValue("status", item?.status);
+                                    : "",
+                                  status: item?.status || "",
+                                });
                               }
                             }}
                           />
