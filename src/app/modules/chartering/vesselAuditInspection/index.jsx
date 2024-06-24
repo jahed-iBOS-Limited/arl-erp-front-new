@@ -243,7 +243,7 @@ export default function VesselAuditLanding() {
                           );
                         }}
                       >
-                        {item?.intTotalNc}
+                        {item?.intTotalNc}{" "}
                       </span>
                       /
                       <span
@@ -262,6 +262,7 @@ export default function VesselAuditLanding() {
                           );
                         }}
                       >
+                        {" "}
                         {item?.intTotalNonNc}
                       </span>
                     </td>
