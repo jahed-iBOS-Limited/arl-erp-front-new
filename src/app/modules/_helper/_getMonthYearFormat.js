@@ -33,5 +33,5 @@ export function formatMonthYear(dateStr) {
   const year = date.getFullYear();
 
   // Return the formatted date string
-  return `${month} - ${year}`;
+  return `${month}-${year}`;
 }

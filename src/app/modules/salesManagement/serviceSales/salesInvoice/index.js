@@ -332,7 +332,7 @@ export default function SalesInvoiceLanding() {
                             <th>Customer</th>
                             <th>Item Name</th>
                             <th>Address</th>
-                            <th style={{minWidth:"60x"}}>Month-Year</th>
+                            <th style={{minWidth:"70px"}}>Month-Year</th>
                             <th>Schedule Type</th>
                             <th>Sales Type</th>
                             <th>Sales Order Code</th>
@@ -368,7 +368,7 @@ export default function SalesInvoiceLanding() {
                                 })()}
                               </td>
                               <td>{item?.invocieHeader?.strCustomerAddress}</td>
-                              <td>
+                              <td className="text-center">
                                 {formatMonthYear(item?.invocieRow?.[0]?.dteDueDateTime)}
                               </td>
                               <td>
