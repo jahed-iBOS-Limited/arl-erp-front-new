@@ -87,7 +87,8 @@ export default function DieselStatement() {
             values?.narration,
             profileData?.userId,
             setLoading,
-            () => resetForm(initData)
+            () => resetForm(initData),
+            values
           );
         }}
       >
