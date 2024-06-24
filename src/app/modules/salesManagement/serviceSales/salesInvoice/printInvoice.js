@@ -11,6 +11,7 @@ import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import printIcon from "../../../_helper/images/print-icon.png";
 import "./style.css";
 import { convertNumberToWords } from "../../../_helper/_convertMoneyToWord";
+import { formatMonthYear } from "../../../_helper/_getMonthYearFormat";
 
 const PrintInvoiceModal = ({ singleItem }) => {
   console.log("singleItem", singleItem);
@@ -322,9 +323,7 @@ const PrintInvoiceModal = ({ singleItem }) => {
               <ul>
                 <li>
                   - Schedule for -{" "}
-                  {dateFormatWithMonthName(
-                    _dateFormatter(printData[0]?.invocieRow[0]?.dteDueDateTime)
-                  )}
+                  {formatMonthYear(printData[0]?.invocieRow[0]?.dteDueDateTime)}
                 </li>
                 <li>- Tax exempted</li>
                 <li>- {printData[0]?.invocieHeader?.strRemarks}</li>
