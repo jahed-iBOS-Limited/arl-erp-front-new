@@ -41,7 +41,9 @@ export default function _Form({
   const [createModal, setCreateModal] = useState(false);
 
   const validationSchema = Yup.object().shape({
-    vesselType: Yup.object().required("Vessel Type is required"),
+    vesselType: Yup.object()
+      .required("Vessel Type is required")
+      .typeError("Vessel Type is required"),
     type: Yup.object()
       .required("Type is required")
       .typeError("Type is required"),
@@ -81,7 +83,6 @@ export default function _Form({
     const filterArr = rowDto?.filter((itm, idx) => idx !== index);
     setRowDto(filterArr);
   };
-  console.log({ rowDto });
   const createPayload = (values, rowDto) => {
     const payload = {
       header: {
@@ -138,7 +139,7 @@ export default function _Form({
           errors,
           touched,
           setFieldValue,
-          setValues,
+          validateField,
         }) => (
           <>
             {loading && <Loading />}
@@ -173,9 +174,18 @@ export default function _Form({
                         const payload = createPayload(values, rowDto);
                         saveHandler(payload);
                       }}
-                      //disabled={!rowData?.length}
+                      disabled={
+                        !values?.vesselType ||
+                        !values?.vessel ||
+                        !values?.date ||
+                        !values?.title ||
+                        !values?.type ||
+                        !values?.category
+                      }
                     >
-                      {viewType !== "view" ? "Save" : "Edit"}
+                      {viewType !== "view" || viewType !== "edit"
+                        ? "Save"
+                        : "Update"}
                     </button>
                   }
                 </div>
@@ -216,8 +226,16 @@ export default function _Form({
                       styles={customStyles}
                       name="vessel"
                       isDisabled={viewType === "view"}
-                      placeholder="Vessel/Ligher"
-                      label="Vessel/Ligher"
+                      placeholder={
+                        values?.vesselType?.value === "MotherVessel"
+                          ? "Mother Vessel"
+                          : "Vessel/Ligher"
+                      }
+                      label={
+                        values?.vesselType?.value === "MotherVessel"
+                          ? "Mother Vessel"
+                          : "Vessel/Ligher"
+                      }
                       onChange={(valueOption) => {
                         setFieldValue("vessel", valueOption);
                         // gridData({ ...values, certificateName: valueOption });
@@ -287,26 +305,28 @@ export default function _Form({
                   <div className="col-lg-3">
                     <div className="d-flex justify-content-between align-items-center">
                       <label>Category</label>
-                      <div
-                        style={{
-                          paddingTop: "2px",
-                          paddingLeft: "3px",
-                        }}
-                      >
-                        <OverlayTrigger
-                          overlay={
-                            <Tooltip id="cs-icon">{"Add Category"}</Tooltip>
-                          }
+                      {viewType !== "view" && (
+                        <div
+                          style={{
+                            paddingTop: "2px",
+                            paddingLeft: "3px",
+                          }}
                         >
-                          <span>
-                            <i
-                              style={{ color: "#3699ff" }}
-                              className={`fas fa-plus-square`}
-                              onClick={() => setCreateModal(true)}
-                            ></i>
-                          </span>
-                        </OverlayTrigger>
-                      </div>
+                          <OverlayTrigger
+                            overlay={
+                              <Tooltip id="cs-icon">{"Add Category"}</Tooltip>
+                            }
+                          >
+                            <span>
+                              <i
+                                style={{ color: "#3699ff" }}
+                                className={`fas fa-plus-square`}
+                                onClick={() => setCreateModal(true)}
+                              ></i>
+                            </span>
+                          </OverlayTrigger>
+                        </div>
+                      )}
                     </div>
                     <FormikSelect
                       value={values?.category || ""}
@@ -351,6 +371,7 @@ export default function _Form({
                         name="nc"
                         onChange={(e) => {
                           setFieldValue("nc", e.target.checked);
+                          validateField("dueDate");
                         }}
                         className="ml-2"
                       />
@@ -366,6 +387,7 @@ export default function _Form({
                       touched={touched}
                     />
                   </div>
+
                   <div className="col-lg-2">
                     <FormikSelect
                       value={values?.status || ""}
@@ -394,7 +416,7 @@ export default function _Form({
                       onClick={handleSubmit}
                       disabled={viewType === "view" && editIndex === null}
                     >
-                      Add
+                      {viewType === "view" ? "Apply" : "Add"}
                     </button>
                   </div>
                 </div>
@@ -428,6 +450,10 @@ export default function _Form({
                             onChange={() => {
                               if (editIndex === index) {
                                 setEditIndex(null);
+                                setFieldValue("nc", "");
+                                setFieldValue("status", "");
+                                setFieldValue("dueDate", "");
+                                setFieldValue("description", "");
                               } else {
                                 setEditIndex(index);
                                 setFieldValue("description", item?.description);

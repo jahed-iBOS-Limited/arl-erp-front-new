@@ -266,14 +266,21 @@ export default function _Form({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [buId, headerData]);
-
+  console.log({ rowDto });
   return (
     <>
       <Formik
         enableReinitialize={true}
         initialValues={
           isEdit
-            ? initData
+            ? {
+                ...initData,
+                pump: {
+                  value: initData?.pumpModelId,
+                  label: initData?.pumpModelName,
+                  pumpGroupHeadEnroll: initData?.pumpGroupHeadEnroll,
+                },
+              }
             : {
                 ...initData,
                 shipPoint: headerData?.pgiShippoint?.value
@@ -948,7 +955,7 @@ export default function _Form({
                               {buId === 175 ? (
                                 <td>
                                   <div className="text-right pr-2">
-                                    {itm?.pumpName}
+                                    {itm?.pumpName || values?.pump?.label}
                                   </div>
                                 </td>
                               ) : null}
