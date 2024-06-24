@@ -58,6 +58,7 @@ const AllEssentialReport = () => {
                     options={[
                       { value: 1, label: "Daily Sales Order Summary" },
                       { value: 2, label: "Territory Item Sales" },
+                      { value: 3, label: "Delivery Pending Report" },
                     ]}
                     label="Report Type"
                     value={values?.reportType}
@@ -83,7 +84,7 @@ const AllEssentialReport = () => {
                   }}
                 />
 
-                <FromDateToDateForm
+                {![3].includes(values?.reportType?.value) && (<FromDateToDateForm
                   obj={{
                     values,
                     setFieldValue,
@@ -92,7 +93,7 @@ const AllEssentialReport = () => {
                     },
                     colSize: "col-lg-2",
                   }}
-                />
+                />)}
                 <IButton
                   colSize={"col-lg-1"}
                   onClick={() => {
