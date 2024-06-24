@@ -41,7 +41,9 @@ export default function _Form({
   const [createModal, setCreateModal] = useState(false);
 
   const validationSchema = Yup.object().shape({
-    vesselType: Yup.object().required("Vessel Type is required"),
+    vesselType: Yup.object()
+      .required("Vessel Type is required")
+      .typeError("Vessel Type is required"),
     type: Yup.object()
       .required("Type is required")
       .typeError("Type is required"),
@@ -81,7 +83,6 @@ export default function _Form({
     const filterArr = rowDto?.filter((itm, idx) => idx !== index);
     setRowDto(filterArr);
   };
-  console.log({ rowDto });
   const createPayload = (values, rowDto) => {
     const payload = {
       header: {
@@ -138,6 +139,7 @@ export default function _Form({
           errors,
           touched,
           setFieldValue,
+          validateField,
           setValues,
         }) => (
           <>
@@ -173,9 +175,18 @@ export default function _Form({
                         const payload = createPayload(values, rowDto);
                         saveHandler(payload);
                       }}
-                      //disabled={!rowData?.length}
+                      disabled={
+                        !values?.vesselType ||
+                        !values?.vessel ||
+                        !values?.date ||
+                        !values?.title ||
+                        !values?.type ||
+                        !values?.category
+                      }
                     >
-                      {viewType !== "view" ? "Save" : "Update"}
+                      {viewType !== "view" && viewType !== "edit"
+                        ? "Save"
+                        : "Update"}
                     </button>
                   }
                 </div>
@@ -295,26 +306,28 @@ export default function _Form({
                   <div className="col-lg-3">
                     <div className="d-flex justify-content-between align-items-center">
                       <label>Category</label>
-                      <div
-                        style={{
-                          paddingTop: "2px",
-                          paddingLeft: "3px",
-                        }}
-                      >
-                        <OverlayTrigger
-                          overlay={
-                            <Tooltip id="cs-icon">{"Add Category"}</Tooltip>
-                          }
+                      {viewType !== "view" && (
+                        <div
+                          style={{
+                            paddingTop: "2px",
+                            paddingLeft: "3px",
+                          }}
                         >
-                          <span>
-                            <i
-                              style={{ color: "#3699ff" }}
-                              className={`fas fa-plus-square`}
-                              onClick={() => setCreateModal(true)}
-                            ></i>
-                          </span>
-                        </OverlayTrigger>
-                      </div>
+                          <OverlayTrigger
+                            overlay={
+                              <Tooltip id="cs-icon">{"Add Category"}</Tooltip>
+                            }
+                          >
+                            <span>
+                              <i
+                                style={{ color: "#3699ff" }}
+                                className={`fas fa-plus-square`}
+                                onClick={() => setCreateModal(true)}
+                              ></i>
+                            </span>
+                          </OverlayTrigger>
+                        </div>
+                      )}
                     </div>
                     <FormikSelect
                       value={values?.category || ""}
@@ -359,6 +372,7 @@ export default function _Form({
                         name="nc"
                         onChange={(e) => {
                           setFieldValue("nc", e.target.checked);
+                          validateField("dueDate");
                         }}
                         className="ml-2"
                       />
@@ -374,6 +388,7 @@ export default function _Form({
                       touched={touched}
                     />
                   </div>
+
                   <div className="col-lg-2">
                     <FormikSelect
                       value={values?.status || ""}
@@ -442,15 +457,15 @@ export default function _Form({
                                 setFieldValue("description", "");
                               } else {
                                 setEditIndex(index);
-                                setFieldValue("description", item?.description);
-                                setFieldValue("nc", item?.nc);
-                                setFieldValue(
-                                  "dueDate",
-                                  item?.dueDate
+                                setValues({
+                                  ...values,
+                                  description: item?.description || "",
+                                  nc: item?.nc || false,
+                                  dueDate: item?.dueDate
                                     ? _dateFormatter(item?.dueDate)
-                                    : ""
-                                );
-                                setFieldValue("status", item?.status);
+                                    : "",
+                                  status: item?.status || "",
+                                });
                               }
                             }}
                           />
