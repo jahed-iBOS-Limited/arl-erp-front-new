@@ -20,6 +20,7 @@ import NCView from "./components/modalView";
 import IView from "../../_helper/_helperIcons/_view";
 import IEdit from "../../_helper/_helperIcons/_edit";
 import InfoCircle from "../../_helper/_helperIcons/_infoCircle";
+import IHistory from "../../_helper/_helperIcons/_history";
 
 const initData = {
   vesselType: "",
@@ -34,7 +35,7 @@ const headers = [
   { name: "Type", style: { minWidth: "65px" } },
   { name: "Category" },
   { name: "Title" },
-  { name: "No of NC/Non-NC", style: { minWidth: "65px" } },
+  { name: "Total No. of NC/Non-NC", style: { minWidth: "65px" } },
 
   { name: "Action", style: { minWidth: "40px" } },
 ];
@@ -280,21 +281,22 @@ export default function VesselAuditLanding() {
                         >
                           <IView />
                         </span>
+
                         <span className="mx-1">
-                          <IEdit
-                            onClick={(e) => {
+                          <IHistory
+                            clickHandler={(e) => {
                               history.push({
-                                pathname: `/chartering/certificateManagement/vesselAuditInspection/edit/${item?.intAuditInspectionId}`,
+                                pathname: `/chartering/certificateManagement/vesselAuditInspection/view/${item?.intAuditInspectionId}`,
                                 state: item,
                               });
                             }}
                           />
                         </span>
                         <span className="mx-1">
-                          <InfoCircle
-                            clickHandler={(e) => {
+                          <IEdit
+                            onClick={(e) => {
                               history.push({
-                                pathname: `/chartering/certificateManagement/vesselAuditInspection/view/${item?.intAuditInspectionId}`,
+                                pathname: `/chartering/certificateManagement/vesselAuditInspection/edit/${item?.intAuditInspectionId}`,
                                 state: item,
                               });
                             }}

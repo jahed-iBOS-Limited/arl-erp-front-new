@@ -175,7 +175,7 @@ export default function _Form({
                       }}
                       //disabled={!rowData?.length}
                     >
-                      {viewType !== "view" ? "Save" : "Edit"}
+                      {viewType !== "view" ? "Save" : "Update"}
                     </button>
                   }
                 </div>
@@ -402,7 +402,7 @@ export default function _Form({
                       onClick={handleSubmit}
                       disabled={viewType === "view" && editIndex === null}
                     >
-                      Add
+                      {viewType === "view" ? "Apply" : "Add"}
                     </button>
                   </div>
                 </div>
@@ -436,6 +436,10 @@ export default function _Form({
                             onChange={() => {
                               if (editIndex === index) {
                                 setEditIndex(null);
+                                setFieldValue("nc", "");
+                                setFieldValue("status", "");
+                                setFieldValue("dueDate", "");
+                                setFieldValue("description", "");
                               } else {
                                 setEditIndex(index);
                                 setFieldValue("description", item?.description);

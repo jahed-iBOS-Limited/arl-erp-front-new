@@ -74,7 +74,7 @@ export default function CreateEditVesselAudit() {
 
   return (
     <>
-      {loading && <Loading />}
+      {(loading || loader) && <Loading />}
       <Form
         title={
           type === "view"
