@@ -1,6 +1,7 @@
 import React from "react";
 import "../../templates/style.scss";
 import moment from "moment";
+import { formatDate } from "../../../helper";
 
 const SignatoryChangeTwo = ({ singleRowItem }) => {
   const {
@@ -18,7 +19,7 @@ const SignatoryChangeTwo = ({ singleRowItem }) => {
   } = singleRowItem;
   return (
     <>
-      <div className="bank-letter-template-common-wrapper">
+      <div className="bank-letter-template-common-wrapper signatory-wrapper">
         <p style={{ fontSize: 16 }}>
           <b>Date: {moment(strDate).format("LL")} </b>
         </p>
@@ -61,7 +62,7 @@ const SignatoryChangeTwo = ({ singleRowItem }) => {
           {/* <br /> */}
           <p>
             We acknowledge your support in the business of{" "}
-            <b> {strAccountName} .</b> We have been maintaining an{" "}
+            <b> {strAccountName} .</b> We have been maintaining a{" "}
             <b> {strAccountType} </b> account in your branch bearing account no-{" "}
             <b> {strAccountNo} .</b> Currently, we have 05 signatories but our
             management wants to replace one existing signatories with two new
@@ -125,7 +126,7 @@ const SignatoryChangeTwo = ({ singleRowItem }) => {
             <br />
             <br />
 
-            <p style={{ marginTop: "0px" }}>
+            <p style={{ marginTop: "0px", marginBottom: "-5px" }}>
               <strong>(Sheikh Jasim Uddin)</strong>
             </p>
 
@@ -141,9 +142,9 @@ const SignatoryChangeTwo = ({ singleRowItem }) => {
         <p style={{}}>
           EXTRACT OF THE MINUTES OF THE MEETING OF THE BOARD OF DIRECTORS OF
           <b> {strAccountName?.toUpperCase()} </b>
-          ON THE <b> {strBrdate} </b> AT 11.00 AM IN THE REGISTERED OFFICE OF
-          THE COMPANY AT AKIJ HOUSE, 198 BIR UTTAM MIR SHAWKAT SARAK, GULSHAN
-          LINK ROAD, TEJGAON, DHAKA 1208.
+          ON THE <b> {formatDate(strBrdate)} </b> AT 11.00 AM IN THE REGISTERED
+          OFFICE OF THE COMPANY AT AKIJ HOUSE, 198 BIR UTTAM MIR SHAWKAT SARAK,
+          GULSHAN LINK ROAD, TEJGAON, DHAKA 1208.
         </p>
         <p style={{}}>
           The meeting was presided over by Ms. Faria Hossain, Chairman of the
@@ -187,14 +188,15 @@ const SignatoryChangeTwo = ({ singleRowItem }) => {
             Haque- Manager (Finance){" "}
           </b>
           as a replacement for one existing signatories namely:
-          <b>B.M. Shahinur Islam- Chief Financial Officer</b>. From now onward,
+          <b> B.M. Shahinur Islam- Chief Financial Officer</b>. From now onward,
           the new signatories along with the remaining four existing signatories
           namely:
           <b>
+            {" "}
             1. Md. Sheikh Sadi- Chief Treasury Officer, 2. Md. Masud Rana- Chief
             Supply Chain Officer, 3. Iftekhar Uddin Chowdhury- Senior Manager
             (Treasury), 4. Raihan Kabir- Deputy CFO, 5. Rakibul Alam Khan-
-            Manager (Finance) and 6. Md. Anamul Haque- Manager (Finance)
+            Manager (Finance) and 6. Md. Anamul Haque- Manager (Finance){" "}
           </b>
           from now onward can jointly by any <b>two of the six </b>sign and
           endorse:
@@ -299,8 +301,8 @@ const SignatoryChangeTwo = ({ singleRowItem }) => {
                 <td style={{ padding: "65px 10px" }} />
               </tr>
               <tr>
-                <td>
-                  <p>
+                <td className="text-left">
+                  <p className="text-left">
                     {" "}
                     3. <b>Iftekhar Uddin Chowdhury,</b>{" "}
                   </p>
