@@ -90,11 +90,21 @@ const AccountCloseFour = ({ singleRowItem }) => {
             </p>
             <p style={{ marginTop: "-5px" }}>
               In view of above we are requesting you to close the above Bank
-              Account and if any existing balance please give us a
-              <strong> pay order</strong> in favor of
-              <strong> {strAccountName?.toUpperCase()}</strong> after deducting
-              necessary charges and hand over the same with a statement &
-              certificate of closing the account.
+              Account and if any existing balance please transfer to our{" "}
+              <b>
+                {" "}
+                {strAccountName}, {strAccountType}{" "}
+              </b>
+              Account No:{" "}
+              <b>
+                {" "}
+                {strAccountNo}, {strBankName}, {strBranchName}{" "}
+                {strBranchName?.toLowerCase().includes("branch")
+                  ? " "
+                  : "Branch "}
+              </b>
+              after deducting necessary charges and hand over the same with a
+              statement & certificate of closing the account.
             </p>
             <p style={{ marginTop: "-8px" }}>
               We are enclosing herewith the necessary documents for your early

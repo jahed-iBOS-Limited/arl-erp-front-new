@@ -40,10 +40,10 @@ const AccountCloseTwo = ({ singleRowItem }) => {
             </p>
             <p style={{ marginTop: "-7px" }}>
               <strong>
-                {strBranchName}
+                {strBranchName}{" "}
                 {strBranchName?.toLowerCase().includes("branch")
                   ? ""
-                  : " BRANCH"}
+                  : "BRANCH"}
               </strong>
             </p>
             <p style={{ marginTop: "-7px" }}>
@@ -71,6 +71,7 @@ const AccountCloseTwo = ({ singleRowItem }) => {
             <p>
               <strong>Dear Sir,</strong>
             </p>
+
             <p style={{ marginTop: "-2px" }}>
               We have the honor to inform you that, we have a
               <strong>
@@ -85,7 +86,8 @@ const AccountCloseTwo = ({ singleRowItem }) => {
               of the company at Akij House, 198, Bir Uttam Mir Shawkat Sarak,
               Gulshan Link Road, Tejgaon, Dhaka 1208.
             </p>
-            <p style={{ marginTop: "-3px" }}>
+
+            <p style={{ marginTop: "-5px" }}>
               In view of above we are requesting you to close the above Bank
               Account and if any existing balance please give us a
               <strong> pay order</strong> in favor of
@@ -94,7 +96,7 @@ const AccountCloseTwo = ({ singleRowItem }) => {
               certificate of closing the account.
             </p>
 
-            <p>
+            <p style={{ marginTop: "-8px" }}>
               We are enclosing herewith the necessary documents for your early
               action.
             </p>
@@ -131,27 +133,34 @@ const AccountCloseTwo = ({ singleRowItem }) => {
             CORPORATE OFFICE OF THE COMPANY AT AKIJ HOUSE, 198, BIR UTTAM MIR
             SHAWKAT SARAK, GULSHAN LINK ROAD, TEJGAON, DHAKA 1208.
           </p>
-          <p>
-            The meeting was presided over by Ms. Faria Hossain, Chairman of the
-            Company. The following Directors and Company Secretary were present.
+          <p style={{ marginTop: "-8px" }}>
+            The meeting was presided over by Mr. Sheikh Nasir Uddin, Chairman of
+            the Company. The following Directors and Company Secretary were
+            present.
           </p>
           <p style={{ marginTop: "20px" }}>
             <span>
+              <strong>Mr. Sheikh Nasir Uddin</strong>
+            </span>{" "}
+            <span style={{ marginLeft: "102px" }}>Chairman</span>{" "}
+            <span style={{ marginLeft: "164px" }}>Sd/</span>
+          </p>
+          <p>
+            <span>
               <strong>Mr. Sheikh Jasim Uddin</strong>
             </span>{" "}
-            <span style={{ marginLeft: "88px" }}>Managing Director</span>{" "}
-            <span style={{ marginLeft: "78px" }}>Sd/</span>
+            <span style={{ marginLeft: "98px" }}>Managing Director</span>{" "}
+            <span style={{ marginLeft: "90px" }}>Sd/</span>
           </p>
           <p>
             <span>
               <strong>Ms. Faria Hossain</strong>
             </span>
             {}
-            <span style={{ marginLeft: "145px" }}>Chairman</span>{" "}
-            <span style={{ marginLeft: "150px" }}>Sd/</span>
+            <span style={{ marginLeft: "156px" }}>Director</span>{" "}
+            <span style={{ marginLeft: "175px" }}>Sd/</span>
           </p>
           <br />
-
           <p>
             The Following resolutions were passed unanimously for the interest
             of the business of the company.
@@ -185,12 +194,12 @@ const AccountCloseTwo = ({ singleRowItem }) => {
             extract of the minutes as and when necessary.
           </p>
           <br />
+          <br />
           <p>The meeting ended with vote of thanks to the chair.</p>
           <br />
-
           <br />
           <br />
-
+          <br />
           <div>
             <p>
               <strong>(Sheikh Jasim Uddin)</strong>
