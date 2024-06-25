@@ -24,8 +24,8 @@ import MonthlySalesPlanLanding from "../../productionManagement/salesAndOperatio
 import ManufacturingOverheadPlanLanding from "../../productionManagement/salesAndOperationPlanning/manufacturingOverheadPlan";
 import ProjectedFinancialStatement from "../ProjectedFinancialStatement";
 import AssetLiabilityPlanEdit from "./AssetLiabilityPlan/Edit";
-import ProductCostAnalysis from "./productCostAnalysis";
 import CreateEditProductAnalysis from "./productCostAnalysis/CreateEditProductAnalysis";
+import { ProductCostAnalysis } from "./productCostAnalysis";
 
 export function InternalControlBudgetPages() {
   const userRole = useSelector(

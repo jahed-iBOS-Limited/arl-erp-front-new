@@ -1,408 +1,311 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
-import React, { useState, useEffet } from "react";
-import { Formik, Form, Field } from "formik";
-import * as Yup from "yup";
-import { useEffect } from "react";
-import { useLocation, useHistory } from "react-router";
+/* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,jsx-a11y/role-supports-aria-props */
+import React, { useEffect, useState } from "react";
+import { useSelector, shallowEqual } from "react-redux";
+import { useLocation, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import Form from "./components/form";
 
-// import {
-//   getProductDDL,
-//   getMaterialDDL,
-//   getGrossWeight,
-//   getSingleDataById,
-//   getShopFloorDDL,
-// } from "../helper";
-import NewSelect from "../../../_helper/_select";
-import { IInput } from "../../../_helper/_input";
-import InputField from "../../../_helper/_inputField";
+import {
+  getSingleDataById,
+  saveEditedBillofMaterial,
+  getPlantDDL,
+  getPreviousBomName,
+  getShopFloorDDL,
+  getProductDDL,
+  getMaterialDDL,
+  getCostElementDDL,
+  saveBillofMaterial,
+} from "./helper";
+import { useHistory } from "react-router-dom";
 import ICustomCard from "../../../_helper/_customCard";
+import Loading from "../../../_helper/_loading";
 
-const validationSchema = {
-  bomName: Yup.string().required("Bom Name is required"),
-  bomVersion: Yup.string().required("Bom Version is required"),
-  lotSize: Yup.number()
-    .min(1, "Minimum 1 Chracter")
-    .max(10000000, "Maximum 10000000 Chracter")
-    .required("Lot Size is required"),
-  wastage: Yup.number()
-    .min(0, "Minimum 0 Chracter")
-    .max(10000000, "Maximum 10000000 Chracter")
-    .required("Wastage is required"),
+const initData = {
+  copyfrombomname: "",
+  plant: "",
+  shopFloor: "",
+  bomName: "",
+  bomVersion: "",
+  bomType: "",
+  bomCode: "",
+  product: "",
+  lotSize: "",
+  netWeight: "",
+  wastage: "",
+  material: "",
+  quantity: "",
+  uom: "",
+  isStandardBoM: false,
+  itemCode: "",
+  UOM: "",
+  costElement: "",
+  costElementAmount: "",
 };
 
-const createValiadtion = Yup.object().shape({
-  ...validationSchema,
-  plant: Yup.object().shape({
-    label: Yup.string().required("Plant is required"),
-    value: Yup.string().required("Plant is required"),
-  }),
-  shopFloor: Yup.object().shape({
-    label: Yup.string().required("Shop Floor is required"),
-    value: Yup.string().required("Shop Floor is required"),
-  }),
-  // bomCode: Yup.string().required("Bom Code is required"),
-  product: Yup.object().shape({
-    label: Yup.string().required("Item is required"),
-    value: Yup.string().required("Item is required"),
-  }),
-});
-
-const editValidation = Yup.object().shape({
-  ...validationSchema,
-});
-
 export default function CreateEditProductAnalysis() {
-  const [valid, setValid] = useState(true);
-  //to get materialDDL in Edit
-  //   useEffect(() => {
-  //     if (plantId) {
-  //       getMaterialDDL(
-  //         profileData?.accountId,
-  //         selectedBusinessUnit?.value,
-  //         plantId,
-  //         setMaterial
-  //       );
-  //     }
-  //     // eslint-disable-next-line react-hooks/exhaustive-deps
-  //   }, []);
+  const [isDisabled, setDisabled] = useState(false);
+  const [rowDto, setRowDto] = useState([]);
+  const [singleData, setSingleData] = useState("");
+  const [objProps, setObjprops] = useState({});
+  const location = useLocation();
+  const params = useParams();
+  const [plant, setPlant] = useState([]);
+  const [shopFloor, setShopFloor] = useState([]);
+  const [product, setProduct] = useState([]);
+  const [netWeight, setNetWeight] = useState([]);
+  const [material, setMaterial] = useState([]);
+  const [copyfrombomname, setCopyfrombomname] = useState([]);
+  const [UOMDDL, setUOMDDL] = useState([]);
   const history = useHistory();
+  const bomTypeDDL = [
+    {
+      value: 1,
+      label: "Main (Paddy to Rice)",
+    },
+    {
+      value: 2,
+      label: "Conversion (Rice to Rice)",
+    },
+    {
+      value: 3,
+      label: "Re-Process (Rice to Rice)",
+    },
+  ];
+
+  // Cost Element state
+  const [costElementDDL, setCostElementDDL] = useState([]);
+  const [costElementRowData, setCostElementRowData] = useState([]);
+
+  const storeData = useSelector((state) => {
+    return {
+      profileData: state?.authData?.profileData,
+      selectedBusinessUnit: state?.authData?.selectedBusinessUnit,
+    };
+  }, shallowEqual);
+
+  const { profileData, selectedBusinessUnit } = storeData;
+
+  useEffect(() => {
+    if (params?.id) {
+      getSingleDataById(
+        params?.id,
+        setSingleData,
+        setRowDto,
+        setCostElementRowData,
+        setDisabled
+      );
+    }
+  }, [params]);
+
+  console.log(params?.id, "jj");
+
+  useEffect(() => {
+    if (profileData?.accountId && selectedBusinessUnit?.value) {
+      getPlantDDL(
+        profileData?.userId,
+        profileData?.accountId,
+        selectedBusinessUnit?.value,
+        setPlant
+      );
+      getPreviousBomName(
+        profileData?.accountId,
+        selectedBusinessUnit?.value,
+        setCopyfrombomname
+      );
+      getCostElementDDL(
+        profileData?.accountId,
+        selectedBusinessUnit?.value,
+        setCostElementDDL
+      );
+    }
+  }, [profileData, selectedBusinessUnit]);
+
+  //to show first rowData into fields in edit
+  useEffect(() => {
+    if (singleData) {
+      getShopFloorDDL(
+        profileData?.accountId,
+        selectedBusinessUnit?.value,
+        singleData?.plant?.value,
+        setShopFloor
+      );
+      getProductDDL(
+        profileData?.accountId,
+        selectedBusinessUnit?.value,
+        singleData?.plant?.value,
+        setProduct
+      );
+      getMaterialDDL(
+        profileData?.accountId,
+        selectedBusinessUnit?.value,
+        singleData?.plant?.value,
+        setMaterial
+      );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [singleData]);
+
+  const saveHandler = async (values, cb) => {
+    if (values && profileData?.accountId && selectedBusinessUnit?.value) {
+      // if id , then this is for edit , else this is for create
+      if (params?.id) {
+        let objRow = rowDto?.map((item) => ({
+          itemId: +item?.material?.value,
+          itemCode: item?.material?.code || item?.rowItemCode,
+          itemName: item?.material?.label,
+          quantity: item?.quantity,
+          uomid: +item?.material?.baseUomid || +item?.uoMid,
+          isActive: true,
+        }));
+        const payload = {
+          editHeaderBOM: {
+            billOfMaterialId: +params?.id,
+            billOfMaterialCode: values?.bomCode,
+            billOfMaterialName: values?.bomName,
+            lotSize: +values?.lotSize,
+            numWastagePercentage: +values?.wastage,
+            actionBy: +profileData?.userId,
+          },
+
+          editRowBOM: objRow,
+          editRowBOE: costElementRowData,
+        };
+        saveEditedBillofMaterial(payload, setDisabled);
+      } else {
+        let objRow = rowDto?.map((item) => ({
+          itemId: +item?.material?.value,
+          itemCode: item?.material?.code || item?.rowItemCode,
+          itemName: item?.material?.label,
+          quantity: item?.quantity,
+          // uomid: +item?.material?.baseUomid,
+          uomid: +item?.material?.baseUomid || +item?.uoMid,
+          isActive: true,
+        }));
+        const payload = {
+          createHeaderBOM: {
+            billOfMaterialCode: values?.bomCode,
+            billOfMaterialName: values?.bomName,
+            boMItemVersionName: values?.bomVersion,
+            itemId: +values?.product?.value,
+            itemCode: values?.product?.code || singleData?.itemCode,
+            // itemCode: values?.product?.code,
+            itemName: values?.product?.label,
+            lotSize: +values?.lotSize,
+            boMuoMid: +values?.product?.baseUomid || values?.billOfMaterialId,
+            // boMuoMid: +values?.product?.baseUomid,
+            numWastagePercentage: +values?.wastage,
+            accountId: +profileData?.accountId,
+            businessUnitId: +selectedBusinessUnit?.value,
+            plantId: +values?.plant?.value,
+            shopFloorId: +values?.shopFloor?.value,
+            isStandardBoM: values?.isStandardBoM,
+            actionBy: +profileData?.userId,
+          },
+          createRowBOM: objRow,
+          createRowBOE: costElementRowData,
+        };
+        if (objRow.length === 0) {
+          toast.warning("Please add material");
+        } else {
+          saveBillofMaterial(payload, cb, setDisabled);
+          // console.log(" payload", payload);
+        }
+      }
+    } else {
+      setDisabled(false);
+    }
+  };
+
+  // Row Data Setter
+  const setter = (payload, type) => {
+    // Set Material Row Data
+    if (type === "M") {
+      const foundData = rowDto?.some(
+        (item) => item?.material?.value === payload?.material?.value
+      );
+      foundData
+        ? toast.warn("Duplicate Data Not Allowed")
+        : setRowDto([...rowDto, payload]);
+    }
+    // Set Cost Element Row Data
+    else if (type === "C") {
+      const foundData = costElementRowData?.some(
+        (item) => item?.costElementId === payload?.costElementId
+      );
+      foundData
+        ? toast.warn("Duplicate Data Not Allowed")
+        : setCostElementRowData([...costElementRowData, payload]);
+    }
+  };
+
+  // Row Data Remover
+  const remover = (index) => {
+    const filterArr = rowDto?.filter((itm, idx) => idx !== index);
+    setRowDto(filterArr);
+  };
+
+  // Row Data Remover Cost Element
+  const removerCostElement = (index) => {
+    const filterArr = costElementRowData?.filter((itm, idx) => idx !== index);
+    setCostElementRowData(filterArr);
+  };
+
+  const itemSelectHandler = (index, value, name) => {
+    const copyRowDto = [...rowDto];
+    copyRowDto[index][name] = !copyRowDto[index][name];
+    setRowDto(copyRowDto);
+  };
 
   return (
-    <>
-      <Formik
-        enableReinitialize={true}
-        initialValues={
-          {
-            //   ...initData,
-            //   material: {
-            //     value: id ? rowDto[0]?.material?.value : "",
-            //     label: id ? rowDto[0]?.material?.label : "",
-            //     description: id ? rowDto[0]?.material?.description : "",
-            //     code: id ? rowDto[0]?.material?.code : "",
-            //   },
-            //   quantity: id ? rowDto[0]?.quantity : "",
-          }
-        }
-        validationSchema={{}} //isEdit ? editValidation : createValiadtion}
-        onSubmit={(values, { setSubmitting, resetForm }) => {
-          setValid(false);
-          //   saveHandler(values, () => {
-          //     resetForm(initData);
-          //     setRowDto([]);
-          //   });
-          setValid(true);
-        }}
-      >
-        {({
-          handleSubmit,
-          resetForm,
-          values,
-          errors,
-          touched,
-          setFieldValue,
-          setValues,
-          isValid,
-          handleBlur,
-          handleChange,
-        }) => (
-          <>
-            <ICustomCard
-              title="Product Cost Analysis"
-              renderProps={() => (
-                <button
-                  className="btn btn-primary"
-                  onClick={() => {
-                    history.push({
-                      pathname:
-                        "/internal-control/budget/ProductCostAnalysis/create",
-                    });
-                  }}
-                >
-                  Create
-                </button>
-              )}
-            >
-              <Form className="form form-label-right">
-                <div className="row mt-2">
-                  <div className="col-lg-12 p-0 m-0">
-                    {/* Table Header input */}
-                    <div className={"row global-form m-0 px-0 py-2"}>
-                      <div className="col-lg-4">
-                        <NewSelect
-                          name="material"
-                          options={[]}
-                          // value={values?.material}
-                          label="
-                        Material"
-                          onChange={(valueOption) => {
-                            setFieldValue("material", valueOption);
-                            setFieldValue("UOM", {
-                              label: valueOption?.description,
-                              value: valueOption?.baseUomid,
-                            });
-                          }}
-                          placeholder="Select Material"
-                          errors={errors}
-                          touched={touched}
-                          isDisabled={true}
-                        />
-                             
-                      </div>
-                      <div className="col-lg-3">
-                        <NewSelect
-                          name="UOM"
-                          options={[]}
-                          value={values?.UOM}
-                          label="
-                        UOM"
-                          onChange={(valueOption) => {
-                            setFieldValue("UOM", valueOption);
-                            setFieldValue("uom", valueOption);
-                          }}
-                          placeholder="Select UOM"
-                          errors={errors}
-                          touched={touched}
-                          isDisabled={true}
-                        />
-                      </div>
-
-                      <div className="col-lg-3 pl pr-1 mb-0">
-                        <label>Quantity</label>
-                        <IInput
-                          // value={values?.quantity || ""}
-                          name="quantity"
-                          type="number"
-                          placeholder="Quantity"
-                          onChange={(e) => {
-                            if (e.target.value >= 0) {
-                              setFieldValue("quantity", e.target.value);
-                            } else {
-                              setFieldValue("quantity", "");
-                            }
-                          }}
-                          disabled={true}
-                        />
-                           
-                      </div>
-
-                      <div className="col-lg-1 pl-2 bank-journal">
-                        <button
-                          type="button"
-                          disabled={true}
-                          className="btn btn-primary mt-5"
-                          onClick={() => {
-                            const isUniq = {
-                              material: {
-                                ...values?.material,
-                                baseUomid: values?.UOM?.value,
-                                description: values?.UOM?.label,
-                              },
-                              quantity: values?.quantity,
-                            };
-                            //   setter(isUniq, "M");
-                          }}
-                        >
-                          Add
-                        </button>
-                      </div>
-                    </div>
-
-                    {/* Table Header input end */}
-                    <div className="row">
-                      <div className="col-lg-12">
-                        <div className="table-responsive">
-                          <table className={"table mt-1 bj-table"}>
-                            <thead className={[]?.length === 0 && "d-none"}>
-                              <tr>
-                                <th style={{ width: "30px" }}>SL</th>
-                                <th style={{ width: "120px" }}>Material</th>
-                                <th style={{ width: "120px" }}>Item Code</th>
-                                <th style={{ width: "100px" }}>Qty</th>
-                                <th style={{ width: "100px" }}>UoM</th>
-                                {/* <th style={{ width: "50px" }}>Actions</th> */}
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {[]?.map((item, index) => (
-                                <tr key={index}>
-                                  <td>{index + 1}</td>
-                                  <td>
-                                    <div className="pl-2">
-                                      {item?.material?.label}
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <div className="text-center">
-                                      {item?.rowItemCode}
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <div className="text-center">
-                                      {item?.quantity}
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <div className="text-center">
-                                      {item?.uomName ||
-                                        item?.material?.description ||
-                                        item?.values?.description}
-                                    </div>
-                                  </td>
-
-                                  {/* <td className="text-center">
-                                <IDelete remover={remover} id={index} />
-                              </td> */}
-                                </tr>
-                              ))}
-                            </tbody>
-                          </table>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Bill Of Expense Start Here */}
-                    <div className={"row global-form m-0 px-0 py-2 mt-10"}>
-                      <div className="col-lg-4">
-                        <NewSelect
-                          name="costCenter"
-                          options={[]}
-                          value={values?.costCenter}
-                          label="Cost Center"
-                          onChange={(valueOption) => {
-                            setFieldValue("costCenter", valueOption);
-                          }}
-                          placeholder="Select Cost Center"
-                          errors={errors}
-                          touched={touched}
-                          isDisabled={true}
-                        />
-                             
-                      </div>
-                      <div className="col-lg-4">
-                        <NewSelect
-                          name="costElement"
-                          options={[]}
-                          value={values?.costElement}
-                          label="Cost Element"
-                          onChange={(valueOption) => {
-                            setFieldValue("costElement", valueOption);
-                          }}
-                          placeholder="Select Cost Element"
-                          errors={errors}
-                          touched={touched}
-                          isDisabled={true}
-                        />
-                             
-                      </div>
-
-                      <div className="col-lg-2 pl pr-1 mb-0">
-                        <label>Amount</label>
-                        <IInput
-                          value={values?.costElementAmount || ""}
-                          name="costElementAmount"
-                          type="number"
-                          placeholder="Amount"
-                          onChange={(e) => {
-                            if (e.target.value >= 0) {
-                              setFieldValue(
-                                "costElementAmount",
-                                e.target.value
-                              );
-                            } else {
-                              setFieldValue("costElementAmount", "");
-                            }
-                          }}
-                          disabled={true}
-                        />
-                      </div>
-
-                      <div className="col-lg-1 pl-2 bank-journal">
-                        <button
-                          type="button"
-                          disabled={true}
-                          className="btn btn-primary mt-5"
-                          onClick={() => {
-                            const payload = {
-                              billOfExpenseId: 0,
-                              costElementId: values?.costElement?.value,
-                              costElementName: values?.costElement?.label,
-                              amount: values?.costElementAmount,
-                            };
-                            //   setter(payload, "C");
-                          }}
-                        >
-                          Add
-                        </button>
-                      </div>
-                    </div>
-
-                    <div className="row">
-                      <div className="col-lg-12">
-                        <div className="table-responsive">
-                          <table className={"table mt-1 bj-table"}>
-                            <thead className={[]?.length < 1 && "d-none"}>
-                              <tr>
-                                <th style={{ width: "20px" }}>SL</th>
-                                <th style={{ width: "80px" }}>Cost Center</th>
-                                <th style={{ width: "100px" }}>
-                                  Cost Of Element
-                                </th>
-                                <th style={{ width: "100px" }}>Cost Type</th>
-                                <th style={{ width: "60px" }}>Amount</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {[]?.map((item, index) => (
-                                <tr key={index}>
-                                  <td>{index + 1}</td>
-                                  <td>
-                                    <div className="pl-2">
-                                      {item?.costCenterName}
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <div className="pl-2">
-                                      {item?.costElementName}
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <div className="pl-2">
-                                      {item?.productionCostType}
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <div className="text-right pr-2">
-                                      {item?.amount}
-                                    </div>
-                                  </td>
-                                </tr>
-                              ))}
-                            </tbody>
-                          </table>
-                        </div>
-                      </div>
-                    </div>
-                    {/* Bill Of Expense Start End Here */}
-                  </div>
-                </div>
-
-                {/* <button
-                type="submit"
-                style={{ display: "none" }}
-                ref={btnRef}
-                onSubmit={() => handleSubmit()}
-              ></button>
-              <button
-                type="reset"
-                style={{ display: "none" }}
-                ref={resetBtnRef}
-                onSubmit={() => resetForm(initData)}
-              ></button> */}
-              </Form>
-            </ICustomCard>
-          </>
-        )}
-      </Formik>
-    </>
+    <ICustomCard
+      title={"View of Cost of Product"}
+      backHandler={() => {
+        history.goBack();
+      }}
+      renderProps={() => {}}
+      getProps={setObjprops}
+      isDisabled={isDisabled}
+    >
+      {isDisabled && <Loading />}
+      <Form
+        {...objProps}
+        initData={singleData || initData}
+        saveHandler={saveHandler}
+        remover={remover}
+        rowDto={rowDto}
+        setter={setter}
+        profileData={profileData}
+        selectedBusinessUnit={selectedBusinessUnit}
+        plant={plant}
+        bomId={params?.id}
+        shopFloor={shopFloor}
+        setShopFloor={setShopFloor}
+        product={product}
+        material={material}
+        setMaterial={setMaterial}
+        setProduct={setProduct}
+        setNetWeight={setNetWeight}
+        netWeight={netWeight}
+        copyfrombomname={copyfrombomname}
+        plantId={location?.state?.plantId}
+        singleData={singleData}
+        setSingleData={setSingleData}
+        itemSelectHandler={itemSelectHandler}
+        isEdit={params?.id}
+        setRowDto={setRowDto}
+        id={params?.id}
+        UOMDDL={UOMDDL}
+        setUOMDDL={setUOMDDL}
+        setDisabled={setDisabled}
+        // Cost Element Props
+        costElementDDL={costElementDDL}
+        costElementRowData={costElementRowData}
+        setCostElementRowData={setCostElementRowData}
+        removerCostElement={removerCostElement}
+        bomTypeDDL={bomTypeDDL}
+      />
+    </ICustomCard>
   );
 }
