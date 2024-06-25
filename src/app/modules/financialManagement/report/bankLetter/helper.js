@@ -23,6 +23,8 @@ import { readymixLetterhead } from "../../invoiceManagementSystem/salesInvoice/b
 import { resourceTradersLetterhead } from "../../invoiceManagementSystem/salesInvoice/base64Images/resourceTraders";
 import { tradersLetterhead } from "../../invoiceManagementSystem/salesInvoice/base64Images/traders";
 import { tradingLetterhead } from "../../invoiceManagementSystem/salesInvoice/base64Images/trading";
+import { hashemhead } from "../../invoiceManagementSystem/salesInvoice/base64Images/hashem";
+import { akijLogisticshead } from "../../invoiceManagementSystem/salesInvoice/base64Images/akijLogistics";
 
 export const getLetterHead = ({ buId }) => {
   const letterhead =
@@ -74,6 +76,10 @@ export const getLetterHead = ({ buId }) => {
       ? resourceTradersLetterhead
       : buId === 136
       ? akijResourcehead
+      : buId === 188
+      ? hashemhead
+      : buId === 225
+      ? akijLogisticshead
       : "";
 
   return letterhead;
