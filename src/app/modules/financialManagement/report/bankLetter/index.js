@@ -90,7 +90,9 @@ export default function BankLetter() {
   useEffect(() => {
     if (
       singleRowItem?.intBankLetterTemplateId === 1 ||
-      singleRowItem?.intBankLetterTemplateId === 2
+      singleRowItem?.intBankLetterTemplateId === 2 ||
+      singleRowItem?.intBankLetterTemplateId === 7 ||
+      singleRowItem?.intBankLetterTemplateId === 8
     ) {
       setShowModal(true);
     } else if (singleRowItem?.intBankLetterTemplateId) {
@@ -684,7 +686,7 @@ export default function BankLetter() {
                           ) && (
                             <AccountCloseFour singleRowItem={singleRowItem} />
                           )}
-                          {[7].includes(
+                          {/* {[7].includes(
                             singleRowItem?.intBankLetterTemplateId
                           ) && <FdrONE singleRowItem={singleRowItem} />}
                           {[8].includes(
@@ -692,7 +694,7 @@ export default function BankLetter() {
                           ) && <FdrTwo singleRowItem={singleRowItem} />}
                           {[9].includes(
                             singleRowItem?.intBankLetterTemplateId
-                          ) && <FdrThree singleRowItem={singleRowItem} />}
+                          ) && <FdrThree singleRowItem={singleRowItem} />} */}
                           {[10].includes(
                             singleRowItem?.intBankLetterTemplateId
                           ) && (
@@ -737,7 +739,7 @@ export default function BankLetter() {
               </div>
             </Form>
             <IViewModal
-              title={"Account Open Template"}
+              title={"Print Template"}
               show={showModal}
               onHide={() => {
                 setShowModal(false);
@@ -798,6 +800,12 @@ export default function BankLetter() {
                             ) && (
                               <AccountOpenTwo singleRowItem={singleRowItem} />
                             )}
+                            {[7].includes(
+                              singleRowItem?.intBankLetterTemplateId
+                            ) && <FdrONE singleRowItem={singleRowItem} />}
+                            {[8].includes(
+                              singleRowItem?.intBankLetterTemplateId
+                            ) && <FdrTwo singleRowItem={singleRowItem} />}
                           </div>
                         </tbody>
                         <tfoot>
