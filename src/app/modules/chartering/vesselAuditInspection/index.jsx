@@ -19,7 +19,6 @@ import IViewModal from "../../_helper/_viewModal";
 import NCView from "./components/modalView";
 import IView from "../../_helper/_helperIcons/_view";
 import IEdit from "../../_helper/_helperIcons/_edit";
-import InfoCircle from "../../_helper/_helperIcons/_infoCircle";
 import IHistory from "../../_helper/_helperIcons/_history";
 
 const initData = {
@@ -30,7 +29,8 @@ const initData = {
 };
 const headers = [
   { name: "SL" },
-  { name: "Description" },
+  { name: "Vessel Type" },
+  { name: "Vessel/Lighter" },
   { name: "Date", style: { minWidth: "65px" } },
   { name: "Type", style: { minWidth: "65px" } },
   { name: "Category" },
@@ -64,18 +64,24 @@ export default function VesselAuditLanding() {
   const [vesselDDl, setVesselDDl] = useState([]);
 
   const getLandingData = (values, pageNo, pageSize, searchValue = "") => {
+    const vesselType = values?.vesselType?.value
+      ? `&vesselType=${values?.vesselType?.value}`
+      : "";
+    const vesselId = values?.vesselType?.value
+      ? `&vesselId=${values?.vessel?.value}`
+      : "";
     getGridData(
-      `/hcm/VesselAuditInspection/GetVesselAuditInspectionLanding?businessUnitId=${buId}&vesselType=${values?.vesselType?.value}&vesselId=${values?.vessel?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}&pageNo=${pageNo}&pageSize=${pageSize}`
+      `/hcm/VesselAuditInspection/GetVesselAuditInspectionLanding?businessUnitId=${buId}&fromDate=${values?.fromDate}&toDate=${values?.toDate}&pageNo=${pageNo}&pageSize=${pageSize}${vesselType}${vesselId}`
     );
   };
   const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
     getLandingData(values, pageNo, pageSize, searchValue);
   };
   const validationSchema = Yup.object().shape({
-    vesselType: Yup.object().required("Vessel Type is required"),
-    vessel: Yup.object()
-      .required("Vessel is required")
-      .typeError("Vessel is required"),
+    // vesselType: Yup.object().required("Vessel Type is required"),
+    // vessel: Yup.object()
+    //   .required("Vessel is required")
+    //   .typeError("Vessel is required"),
     fromDate: Yup.date().required("Date is required"),
     toDate: Yup.date().required("Date is required"),
   });
@@ -220,6 +226,11 @@ export default function VesselAuditLanding() {
                 {gridData?.data?.map((item, index) => (
                   <tr key={index}>
                     <td className="text-center">{index + 1}</td>
+                    <td className="text-center">
+                      {item?.strVesselType === `MotherVessel`
+                        ? `Mother Vessel`
+                        : `Lighter Vessel`}
+                    </td>
                     <td className="text-center">{item?.strVesselName}</td>
                     <td className="text-center">
                       {_dateFormatter(item?.dteInspectionDate)}
