@@ -32,7 +32,7 @@ export default function SalesInvoiceLanding() {
 
   const [showModal, setShowModal] = useState(false);
   const [singleItem, setSingleItem] = useState(null);
-  const [, onDelete] = useAxiosPost();
+  const [, onDelete] = useAxiosGet();
   // const [, collectionHandler] = useAxiosPost();
 
   useEffect(() => {
