@@ -45,8 +45,10 @@ export default function _Form({
       !values?.year ||
       ([1, 3]?.includes(values?.type?.value) &&
         !values?.zone &&
-        buId !== 144) ||
-      [4].includes(values?.type?.value) ||
+        buId !== 144) 
+      //   ||
+      // [4].includes(values?.type?.value)
+       ||
       ([1]?.includes(values?.type?.value) && buId === 144 && !values?.area)
     );
   };
