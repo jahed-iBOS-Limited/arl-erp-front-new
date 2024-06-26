@@ -34,9 +34,11 @@ const initData = {
   deliveryDate: "",
   reference: "",
   respondentAddress: "",
-  sourceCustomerType:"",
+  sourceCustomerType: "",
   upazila: "",
   customer: "",
+  territoryId: "",
+  territoryName: "",
 };
 
 function ComplainForm() {
@@ -62,7 +64,7 @@ function ComplainForm() {
       complainSubCategoryName: values?.issueSubType?.label || "",
       issueTitle: values?.issueTitle || "",
       accountId: accId,
-      businessUnitId: values?.respondentBusinessUnit?.value||0,
+      businessUnitId: values?.respondentBusinessUnit?.value || 0,
       description: values?.issueDetails || "",
       attachment: values?.attachment || "",
       actionById: userId,
@@ -70,7 +72,10 @@ function ComplainForm() {
       respondentTypeId: values?.respondentType?.value || 0,
       respondentTypeName: values?.respondentType?.label || "",
       respondentId: values?.respondentName?.value || 0,
-      respondentName: values?.respondentName?.label || (values?.respondentType?.value === 4 && values?.respondent) || "",
+      respondentName:
+        values?.respondentName?.label ||
+        (values?.respondentType?.value === 4 && values?.respondent) ||
+        "",
       distributionChannelId: values?.distributionChannel?.value || 0,
       delegateToId: singleData?.delegateToId || 0,
       delegateToName: singleData?.delegateToName || "",
@@ -93,12 +98,15 @@ function ComplainForm() {
       isActive: true,
       lastActionDateTime: new Date(),
       respondentType: values?.respondent || "",
-      contactSourceId: values?.contactSource?.value || 0, 
+      contactSourceId: values?.contactSource?.value || 0,
       contactSourceName: values?.contactSource?.label || "",
       respondentAddress: values?.respondentAddress || "",
       sourceCustomerType: values?.sourceCustomerType?.label || "",
       customerId: values?.customer?.value || 0,
       customerName: values?.customer?.label || "",
+      territoryName: values?.territoryName || "",
+      territoryId: values?.territoryId || 0,
+
       upazilaName: values?.upazila?.upazilaName || "",
       districtName: values?.upazila?.districtName || "",
     };
@@ -114,7 +122,7 @@ function ComplainForm() {
       }
     });
   };
-  
+
   useEffect(() => {
     if (edit || view) {
       const id = edit || view;

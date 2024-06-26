@@ -11,6 +11,7 @@ import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import printIcon from "../../../_helper/images/print-icon.png";
 import "./style.css";
 import { convertNumberToWords } from "../../../_helper/_convertMoneyToWord";
+import { formatMonthYear } from "../../../_helper/_getMonthYearFormat";
 
 const PrintInvoiceModal = ({ singleItem }) => {
   console.log("singleItem", singleItem);
@@ -127,27 +128,29 @@ const PrintInvoiceModal = ({ singleItem }) => {
             <div className="address_billing">
               <p className="address_title">BILLING ADDRESS</p>
               <p className="address_buyer">
-                <strong>Buyer Name: </strong>{" "}
+                <strong>Customer Name: </strong>{" "}
                 {printData[0]?.invocieHeader?.strCustomerName}
               </p>
               <p className="address_text">
-                <strong>Buyer Address: </strong>{" "}
+                <strong>Address: </strong>{" "}
                 {printData[0]?.invocieHeader?.strCustomerAddress}
               </p>
+              <p className="address_text">
+                <strong>Contact Person: </strong>{" "}
+                {printData[0]?.customerContactPerson}
+              </p>
+              <p className="address_text">
+                <strong>Contact Number: </strong>{" "}
+                {printData[0]?.customerContactPersonNumber}
+              </p>
             </div>
-            <div className="address_shipping">
+            {/* <div className="address_shipping">
               <p className="address_title"> SHIPPING ADDRESS</p>
-              {/* <p className="address_buyer">
-                <strong>Buyer Name: </strong>{" "}
-                {printData[0]?.invocieHeader?.strCustomerName}
-              </p> */}
               <p className="address_text">
               <strong>Address: </strong>{" "}
                 {printData[0]?.invocieHeader?.strCustomerAddress}
               </p>
-              {/* <p><strong>Contact Person:</strong> </p>
-              <p><strong>Contact Number:</strong> </p> */}
-            </div>
+            </div> */}
           </div>
           <div style={{ marginBottom: "15px" }}>
             <table>
@@ -319,10 +322,8 @@ const PrintInvoiceModal = ({ singleItem }) => {
               <h5 className="bd_title">Note:</h5>
               <ul>
                 <li>
-                  - Schedule for -{" "}
-                  {dateFormatWithMonthName(
-                    _dateFormatter(printData[0]?.invocieRow[0]?.dteDueDateTime)
-                  )}
+                  Month of{" "}
+                  {formatMonthYear(printData[0]?.invocieRow[0]?.dteDueDateTime)}
                 </li>
                 <li>- Tax exempted</li>
                 <li>- {printData[0]?.invocieHeader?.strRemarks}</li>

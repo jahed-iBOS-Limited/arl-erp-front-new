@@ -1,23 +1,20 @@
 import { Form, Formik } from "formik";
 import moment from "moment";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 
-import { useReactToPrint } from "react-to-print";
 import * as Yup from "yup";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
 import IForm from "../../../_helper/_form";
 import InputField from "../../../_helper/_inputField";
 import Loading from "../../../_helper/_loading";
 import NewSelect from "../../../_helper/_select";
-import PaginationTable from "../../../_helper/_tablePagination";
 import { _todayDate } from "../../../_helper/_todayDate";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 // import "./style.css";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { yearDDL } from "../../../humanCapitalManagement/report/employeeExpense/form/addEditForm";
+import AttachmentUploaderNew from "../../../_helper/attachmentUploaderNew";
 
 const initData = {
   businessUnit: "",
@@ -47,6 +44,7 @@ const initData = {
   dagNo: "",
   otherCost: "",
   deedYear: "",
+  strRegistrationAttachment: "",
 };
 export default function CreateLandRegister() {
   const {
@@ -59,13 +57,12 @@ export default function CreateLandRegister() {
   const history = useHistory();
   const location = useLocation();
   const { state } = location;
-  console.log({ state });
   const [thanaDDL, getThanaDDL] = useAxiosGet();
   const [subRegisterDDL, getSubRegisterDDL] = useAxiosGet();
   const [deedTypeDDL, getDeedTypeDDL] = useAxiosGet();
   const [districtDDL, getDistrictDDL, loadDistrictDDL] = useAxiosGet();
+  const [attachment, setAttachment] = useState("");
 
-  const printRef = useRef();
   const [, onSave, loader] = useAxiosPost();
 
   useEffect(() => {
@@ -118,6 +115,9 @@ export default function CreateLandRegister() {
       dteInsertDate: _todayDate(),
       intInsertBy: userId,
       strRemark: "", // assuming this value is not present in the form
+      strRegistrationAttachment: values?.strRegistrationAttachment
+        ? values?.strRegistrationAttachment
+        : state?.values?.strRegistrationAttachment,
     };
 
     onSave(`/asset/AGLandMange/SaveAGLandTrxGeneral`, payload, cb, true);
@@ -560,139 +560,31 @@ export default function CreateLandRegister() {
                 <div className="col-lg-3">
                   <InputField
                     value={values.ploatNo}
-                    label="Ploat No"
+                    label="Plot No"
                     name="ploatNo"
                     type="text"
                     onChange={(e) => setFieldValue("ploatNo", e.target.value)}
                   />
                 </div>
-
-                {/* <div className="col-lg-3">
-                  <button
-                    onClick={() => {
-                      getLandingData(values, pageNo, pageSize, "");
-                    }}
-                    type="button"
-                    className="btn  btn-primary mt-5"
-                  >
-                    View
-                  </button>
-                </div> */}
-              </div>
-              {/* {gridData?.data?.length > 0 && (
-                <div className="table-responsive">
-                  <table className="table table-striped mt-2 table-bordered bj-table bj-table-landing">
-                    <thead>
-                      <tr>
-                        <th>SL</th>
-                        <th>Business Unit Name</th>
-                        <th>Bank Name</th>
-                        <th>Branch Name</th>
-                        <th>Template Type Name</th>
-                        <th>Bank Letter Template Name</th>
-                        <th>Created Date</th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {gridData?.data?.map((item, index) => (
-                        <tr key={index}>
-                          <td>{index + 1}</td>
-                          <td className="text-center">
-                            {item?.strBusinessUnitName}
-                          </td>
-                          <td className="text-center">{item?.strBankName}</td>
-                          <td className="text-center">{item?.strBranchName}</td>
-                          <td className="text-center">
-                            {item?.strTemplateTypeName}
-                          </td>
-                          <td className="text-center">
-                            {item?.strBankLetterTemplateName}
-                          </td>
-                          <td className="text-center">
-                            {_dateFormatter(item?.dteUpdateDate)}
-                          </td>
-                          <td className="text-center">
-                            <div className="">
-                              <span
-                                className="px-5"
-                                onClick={() => {
-                                  setSingleRowItem(item);
-                                }}
-                              >
-                                <OverlayTrigger
-                                  overlay={
-                                    <Tooltip id="cs-icon">Print</Tooltip>
-                                  }
-                                >
-                                  <i
-                                    style={{ fontSize: "16px" }}
-                                    class="fa fa-print cursor-pointer"
-                                    aria-hidden="true"
-                                  ></i>
-                                </OverlayTrigger>
-                              </span>
-                            </div>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              )}
-
-              {gridData?.data?.length > 0 && (
-                <PaginationTable
-                  count={gridData?.totalRecords}
-                  setPositionHandler={setPositionHandler}
-                  paginationState={{
-                    pageNo,
-                    setPageNo,
-                    pageSize,
-                    setPageSize,
-                  }}
-                  values={values}
-                />
-              )} */}
-              <div>
-                <div ref={printRef} className="bank-letter-print-wrapper">
-                  <div style={{ margin: "-13px 50px 51px 50px" }}>
-                    <table>
-                      <thead>
-                        <tr>
-                          <td
-                            style={{
-                              border: "none",
-                            }}
-                          >
-                            {/* place holder for the fixed-position header */}
-                            <div
-                              style={{
-                                height: "110px",
-                              }}
-                            ></div>
-                          </td>
-                        </tr>
-                      </thead>
-                      {/* CONTENT GOES HERE */}
-                      <tbody></tbody>
-                      <tfoot>
-                        <tr>
-                          <td
-                            style={{
-                              border: "none",
-                            }}
-                          >
-                            {/* place holder for the fixed-position footer */}
-                            <div
-                              style={{
-                                height: "150px",
-                              }}
-                            ></div>
-                          </td>
-                        </tr>
-                      </tfoot>
-                    </table>
+                <div className="col-lg-3 mt-3">
+                  <div className="">
+                    <AttachmentUploaderNew
+                      style={{
+                        backgroundColor: "transparent",
+                        color: "black",
+                      }}
+                      CBAttachmentRes={(attachmentData) => {
+                        if (Array.isArray(attachmentData)) {
+                          console.log(attachmentData);
+                          console.log({ attachment: attachmentData });
+                          setAttachment(attachmentData?.[0]?.id);
+                          setFieldValue(
+                            "strRegistrationAttachment",
+                            attachmentData?.[0]?.id
+                          );
+                        }
+                      }}
+                    />
                   </div>
                 </div>
               </div>

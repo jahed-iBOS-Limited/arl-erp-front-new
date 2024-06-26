@@ -54,6 +54,9 @@ import VoyageTable from "./voyage/table/table";
 import { VoyageChecklist } from "./voyageChecklist";
 import { VoyageChecklistDetails } from "./voyageChecklist/components/voyageChecklistDetails";
 import PortDistanceReport from "./reports/portDistance";
+import VesselAuditLanding from "./vesselAuditInspection";
+import CreateEditVesselAudit from "./vesselAuditInspection/components/CreateEditVesselAudit";
+import ManagementDashboard from "./reports/managementDashboard";
 
 export function CharteringPages() {
   const [state, setState] = useState(CharteringState);
@@ -268,6 +271,19 @@ export function CharteringPages() {
               : NotPermittedPage
           }
         />
+
+        <Route
+          path="/chartering/certificateManagement/vesselAuditInspection/:type/:id"
+          component={CreateEditVesselAudit}
+        />
+        <Route
+          path="/chartering/certificateManagement/vesselAuditInspection/create"
+          component={CreateEditVesselAudit}
+        />
+        <Route
+          path="/chartering/certificateManagement/vesselAuditInspection"
+          component={VesselAuditLanding}
+        />
         {/* ======== Configuration ====== */}
         {/* Stakeholder */}
         <Route
@@ -351,9 +367,13 @@ export function CharteringPages() {
           path="/chartering/report/certificateDue"
           component={CertificateManagementReport}
         />
-         <Route
+        <Route
           path="/chartering/report/PortDistance"
           component={PortDistanceReport}
+        />
+        <Route
+          path="/chartering/report/managementDashboard"
+          component={ManagementDashboard}
         />
 
         {/* ======== Reports ======== */}

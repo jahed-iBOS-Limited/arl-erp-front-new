@@ -27,13 +27,14 @@ export const getIncomeStatement_api = async (
   reportType,
   profitCenId,
   viewType,
-  typeRef
+  typeRef,
+  subDivisionLabel,
 ) => {
   setLoading(true);
   try {
     const res = await axios.get(
       `/fino/IncomeStatement/GetIncomeStatementProjected?partName=${partName}&dteFromDate=${fromDate}&dteToDate=${toDate}&dteFromDateL=${fromDateL}&dteToDateL=${toDateL}&BusinessUnitGroup=${edLabel}&BusinessUnitId=${buId}&SBUID=${0}&intProfitCenId=${profitCenId ||
-        0}&fsComponentId=0&GLId=0&SUBGLId=0&ConvertionRate=${conversionRate}&SubGroup=all&reportTypeId=${reportType}&ViewType=${viewType}&ViewTypeReff=${typeRef}`
+        0}&fsComponentId=0&GLId=0&SUBGLId=0&ConvertionRate=${conversionRate}&SubGroup=${subDivisionLabel || "all"}&reportTypeId=${reportType}&ViewType=${viewType}&ViewTypeReff=${typeRef}`
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);

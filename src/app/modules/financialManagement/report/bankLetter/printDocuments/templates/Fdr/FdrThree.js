@@ -1,19 +1,19 @@
 import React from "react";
 import "../../templates/style.scss";
 import { amountToWords } from "../../../../../../_helper/_ConvertnumberToWord";
+import { _formatMoney } from "../../../../../../_helper/_formatMoney";
 
 const FdrThree = ({ singleRowItem }) => {
   const {
-    strBusinessUnitName,
-
+    strBusinessUnitShortName,
     strRefDate,
     strDate,
-
+    strBankShortName,
     strBankName,
 
     strBranchName,
     strBranchAddress,
-    strAccountType,
+    strAccountNo,
 
     strAccountName,
     numAmount,
@@ -24,50 +24,59 @@ const FdrThree = ({ singleRowItem }) => {
 
   return (
     <>
-      <div class="bank-letter-template-common-wrapper">
+      <div class="bank-letter-template-common-wrapper authoFDR-wrapper">
         <p>
-          Ref : {strBusinessUnitName}/FDR/{strRefDate}
+          Ref : {strBusinessUnitShortName?.toUpperCase()}/
+          {strBankShortName?.toUpperCase()}
+          /FDR/
+          {strDate.replaceAll("-", ".")}
         </p>
-        <p>Date : {strDate}</p>
+        <p style={{ marginTop: "-8px" }}>Date : {strRefDate}</p>
         <br />
         <p>The Head of the Branch</p>
         <p>
-          <strong>{strBankName}</strong>
+          <strong>{strBankName?.toUpperCase()}</strong>
         </p>
         <p>
-          <strong>{strBranchName} </strong>
+          <strong>
+            {strBranchName}{" "}
+            {strBranchName?.toLowerCase().includes("branch") ? "" : "Branch"}
+          </strong>
         </p>
         <p>{strBranchAddress}</p>
         <br />
         <p>
           <strong>
-            Subject: Issuance of FDR of BDT: {numAmount} as {strMarginType}{" "}
-            Margin.
+            Subject: Issuance of FDR for BDT, {_formatMoney(numAmount)} as{" "}
+            {strMarginType} Margin.
           </strong>
         </p>
+
         <br />
         <p>
           <strong>Dear Sir,</strong>
         </p>
-        <p>
+        <p style={{ marginTop: "-8px" }}>
           We have the pleasure to inform you that the Management of the Company
-          has decided to purchase {intNumOfMonth} Months FDR @ {numProfitRate}%
-          profit p.a. for{" "}
+          has decided to purchase a {intNumOfMonth} Months FDR @ {numProfitRate}
+          % profit p.a. for{" "}
           <strong>
-            BDT. {numAmount} {amountToWords(numAmount)} in the Name of{" "}
-            {strAccountName}
+            BDT. {numAmount} ({amountToWords(numAmount)?.toUpperCase()}) in the
+            Name of {strAccountName?.toUpperCase()}
           </strong>{" "}
           with auto renewal facility.
         </p>
-        <p>
-          By debiting our
-          <strong>
+        <p style={{ marginTop: "-8px" }}>
+          To proceed, we are authorizing you to debit our A/C{" "}
+          <b> {strAccountName} </b> a/c no.
+          <b> {strAccountNo} </b> with{" "}
+          <b>
             {" "}
-            {strAccountType} A/C No. {strAccountName}
-          </strong>{" "}
-          with your branch in the name of <strong> {strAccountName}</strong> for
-          the FDR and the same may kindly be arrange{" "}
-          <strong>Lien with {strMarginType}</strong> of {strAccountName}.
+            {strBankName}, {strBranchName}{" "}
+          </b>{" "}
+          {strBranchName?.toLowerCase().includes("branch") ? "" : "Branch"}.
+          Additionally, we would request you to lien the same with{" "}
+          {strMarginType} of {strAccountName}.
         </p>
         <br />
         <p>Thanking you,</p>
@@ -78,7 +87,10 @@ const FdrThree = ({ singleRowItem }) => {
         <br />
         <br />
         <br />
-        <p>Authorized Signature</p>
+        <div className="d-flex">
+          <p>Authorized Signature</p>
+          <p style={{ marginLeft: "35px" }}>Authorized Signature</p>
+        </div>
       </div>
     </>
   );

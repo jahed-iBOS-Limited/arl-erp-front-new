@@ -15,6 +15,9 @@ import { InventoryTransactionReportViewTableRow } from "../invTransaction/report
 import IForm from "./../../../_helper/_form";
 import Loading from "./../../../_helper/_loading";
 import QualityCheckViewModal from "./modal/viewModal";
+import IDelete from "../../../_helper/_helperIcons/_delete";
+import IConfirmModal from "../../../_helper/_confirmModal";
+import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 
 
 export default function ItemQualityCheckLanding() {
@@ -25,7 +28,7 @@ export default function ItemQualityCheckLanding() {
   const [pageSize, setPageSize] = useState(15);
   const [singleItemForMRR, setSingleItemForMRR] = useState(null);
   const {
-    profileData: { accountId: accId },
+    profileData: { accountId: accId, userId },
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
   const saveHandler = (values, cb) => {};
@@ -44,12 +47,14 @@ export default function ItemQualityCheckLanding() {
 
   const [isShowModalTwo, setIsShowModalTwo] = useState(false);
   const [currentRowData, setCurrentRowData] = useState("");
+  const [, onDelete] = useAxiosPost();
+
 
   useEffect(()=>{
     handleGetLandingData(pageNo, pageSize, initData);
     
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[initData])
+  },[])
 
   const handleGetLandingData = (pageNo, pageSize, values, searchValue="") => {
     const searchTerm = searchValue ? `&search=${searchValue}` : ""
@@ -200,6 +205,7 @@ export default function ItemQualityCheckLanding() {
                     className="btn btn-primary"
                     onClick={() => {
                       dispatch(setItemQualityCheckLandingInitDataAction(values));
+                      handleGetLandingData(pageNo, pageSize, values);
                       setSingleItemForMRR(false);
                     }}
                     disabled={!values?.plant || !values?.warehouse}
@@ -317,7 +323,8 @@ export default function ItemQualityCheckLanding() {
                         <td>{item?.warehouseComment}</td>
                         <td>{item?.status}</td>
 
-                        <td className="text-center">
+                        <td style={{minWidth:"30px"}} className="text-center">
+                          <div className="d-flex justify-content-between">
                           <span
                             onClick={() => {
                               setShowModal(true);
@@ -326,6 +333,24 @@ export default function ItemQualityCheckLanding() {
                           >
                             <IView />
                           </span>
+                          <span onClick={(e)=>{
+                               e.stopPropagation();
+                               IConfirmModal({
+                                message: `Are you sure to delete?`,
+                                yesAlertFunc: () => {
+                                  onDelete(
+                                    `/mes/QCTest/DeleteQCItem?businessUnitId=${buId}&qualityCheckId=${item?.qualityCheckId}&actionBy=${userId}`,
+                                    null,
+                                    () => {
+                                      handleGetLandingData(pageNo, pageSize, values);
+                                    },
+                                    true
+                                  );
+                                },
+                                noAlertFunc: () => {},
+                              });
+                              }}><IDelete /></span>
+                          </div>
                         </td>
                       </tr>
                     ))}

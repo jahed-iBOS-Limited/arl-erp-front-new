@@ -72,8 +72,6 @@ export default function ShipmentForm({
   const [rowDto, setRowDto] = useState([]);
   const [routeListDDL, setRouteListDDL] = useState([]);
 
-  console.log(costlaborRateStatus, "cost from add edit form")
-
   // get user profile data from store
   const {
     profileData: { accountId: accId, userId },
@@ -267,6 +265,9 @@ export default function ShipmentForm({
             totalPieces: values?.totalPieces || 0,
             veichleEntryId: values.veichleEntry?.value || 0,
             veichleEntryCode: values.veichleEntry?.label || "",
+            pumpModelId: values?.pump?.value || 0,
+            pumpModelName: values?.pump?.label || "",
+            pumpGroupHeadEnroll: values?.pump?.pumpGroupHeadEnroll || 0,
           },
           shipmentRowEntryList: rowDto.map((itm) => {
             return {
@@ -367,6 +368,9 @@ export default function ShipmentForm({
             laborSupplierId: values?.laborSupplierName?.value || 0,
             laborSupplierName: values?.laborSupplierName?.label || 0,
             transportZoneId: values?.transportZone?.value || 0,
+            pumpModelId: values?.pump?.value || 0,
+            pumpModelName: values?.pump?.label || "",
+            pumpGroupHeadEnroll: values?.pump?.pumpGroupHeadEnroll || 0,
           },
         };
         dispatch(saveShipment({ data: payload, cb, setDisabled }));
@@ -409,6 +413,7 @@ export default function ShipmentForm({
           rowId: 0,
           costlaborRateStatus: costlaborRateStatus,
           quantity: deliveryeDatabydata?.numQuantity,
+          pumpName: values?.pump?.label,
         },
       ];
 
@@ -533,7 +538,6 @@ export default function ShipmentForm({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [headerData]);
-
   return (
     <IForm
       title={id ? "Edit Shipment" : "Create Shipment"}
