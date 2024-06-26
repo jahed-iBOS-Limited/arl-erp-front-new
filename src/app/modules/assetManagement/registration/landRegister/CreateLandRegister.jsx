@@ -26,6 +26,7 @@ const initData = {
   registrationDate: "",
   landQuantity: "",
   seller: "",
+  buyer: "",
   csKhatian: "",
   csPlot: "",
   saKhatian: "",
@@ -40,8 +41,9 @@ const initData = {
   subRegister: "",
   registrationCost: "",
   brokerAmount: "",
-  ploatNo: "",
-  dagNo: "",
+  // ploatNo: "",
+  // dagNo: "",
+  remarks: "",
   otherCost: "",
   deedYear: "",
   strRegistrationAttachment: "",
@@ -114,7 +116,8 @@ export default function CreateLandRegister() {
       calcDeadYear: values?.deedYear?.value, // assuming this value is not present in the form
       dteInsertDate: _todayDate(),
       intInsertBy: userId,
-      strRemark: "", // assuming this value is not present in the form
+      strRemark: values?.remarks, // assuming this value is not present in the form
+      strBuyer: values?.buyer, // assuming this value is not present in the form
       strRegistrationAttachment: values?.strRegistrationAttachment
         ? values?.strRegistrationAttachment
         : state?.values?.strRegistrationAttachment,
@@ -137,6 +140,8 @@ export default function CreateLandRegister() {
       : "",
     landQuantity: state?.numTotalLandPurchaseQty || "",
     seller: state?.strSellerName || "",
+    buyer: state?.strBuyer || "",
+    remarks: state?.strRemark || "",
     csKhatian: state?.strCskhatian || "",
     csPlot: state?.strCsplotNo || "",
     saKhatian: state?.strSakhatianNo || "",
@@ -152,8 +157,8 @@ export default function CreateLandRegister() {
     brokerAmount: state?.monBroker || "",
     deedYear: { value: state?.calcDeadYear, label: state?.calcDeadYear },
     otherCost: state?.monOtherCost,
-    dagNo: state?.strDagNo,
-    ploatNo: state?.strPloatNo,
+    // dagNo: state?.strDagNo,
+    // ploatNo: state?.strPloatNo,
     subRegister: {
       value: state?.intSubOfficeId,
       label: state?.strSubOfficeName,
@@ -166,6 +171,7 @@ export default function CreateLandRegister() {
     deedYear: Yup.object().required("Deed Year  is required"),
     territory: Yup.string().required("Territory is required"),
     seller: Yup.string().required("Seller Name is required"),
+    buyer: Yup.string().required("Buyer Name is required"),
     deedNo: Yup.string().required("Deed No is required"),
     deedAmount: Yup.number().required("Deed Value is required"),
     landQuantity: Yup.number().required("Land Quantity is required"),
@@ -241,6 +247,16 @@ export default function CreateLandRegister() {
                     touched={touched}
                   />
                 </div>
+                {/* buyer Name */}
+                <div className="col-lg-3">
+                  <InputField
+                    value={values.buyer}
+                    label="Buyer Name"
+                    name="buyer"
+                    type="text"
+                    onChange={(e) => setFieldValue("buyer", e.target.value)}
+                  />
+                </div>
                 {/* territory */}
                 <div className="col-lg-3">
                   <InputField
@@ -284,6 +300,54 @@ export default function CreateLandRegister() {
                     touched={touched}
                   />
                 </div>
+                {/* mouza  */}
+                <div className="col-lg-3">
+                  <InputField
+                    value={values.mouza}
+                    label="Mouza Name"
+                    name="mouza"
+                    type="text"
+                    onChange={(e) => setFieldValue("mouza", e.target.value)}
+                  />
+                </div>
+                {/* Sub Registrar Office */}
+                <div className="col-lg-3">
+                  <NewSelect
+                    name="subRegister"
+                    options={subRegisterDDL || []}
+                    value={values?.subRegister}
+                    label="Sub Registrar Office"
+                    onChange={(valueOption) => {
+                      setFieldValue("subRegister", valueOption || "");
+                    }}
+                    errors={errors}
+                    touched={touched}
+                  />
+                  {/* <InputField
+                    value={values?.subRegister}
+                    label="Sub Registrar Office"
+                    name="subRegister"
+                    type="text"
+                    onChange={(e) =>
+                      setFieldValue("subRegister", e.target.value)
+                    }
+                  /> */}
+                </div>
+
+                {/* deedType */}
+                <div className="col-lg-3">
+                  <NewSelect
+                    name="deedType"
+                    options={deedTypeDDL?.length > 1 ? deedTypeDDL : []}
+                    value={values?.deedType}
+                    label="Deed Type"
+                    onChange={(valueOption) => {
+                      setFieldValue("deedType", valueOption || "");
+                    }}
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
                 {/* Deed No */}
                 <div className="col-lg-3">
                   <InputField
@@ -292,6 +356,45 @@ export default function CreateLandRegister() {
                     name="deedNo"
                     type="text"
                     onChange={(e) => setFieldValue("deedNo", e.target.value)}
+                  />
+                </div>
+                {/* register date */}
+                <div className="col-lg-3">
+                  <InputField
+                    value={values?.registrationDate}
+                    label="Registration Date"
+                    name="registrationDate"
+                    type="date"
+                    onChange={(e) => {
+                      setFieldValue("registrationDate", e.target.value);
+                    }}
+                  />
+                </div>
+                {/* deed year */}
+                <div className="col-lg-3">
+                  <NewSelect
+                    name="deedYear"
+                    options={yearDDL}
+                    value={values?.deedYear}
+                    label="Deed Year"
+                    onChange={(valueOption) => {
+                      setFieldValue("deedYear", valueOption || "");
+                    }}
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
+
+                {/* Land Quantity (Decimal) */}
+                <div className="col-lg-3">
+                  <InputField
+                    value={values.landQuantity}
+                    label="Land Quantity"
+                    name="landQuantity"
+                    type="number"
+                    onChange={(e) =>
+                      setFieldValue("landQuantity", e.target.value)
+                    }
                   />
                 </div>
                 {/* Deed value */}
@@ -307,57 +410,7 @@ export default function CreateLandRegister() {
                     }
                   />
                 </div>
-                {/* deedType */}
-                <div className="col-lg-3">
-                  <NewSelect
-                    name="deedType"
-                    options={deedTypeDDL?.length > 1 ? deedTypeDDL : []}
-                    value={values?.deedType}
-                    label="Deed Type"
-                    onChange={(valueOption) => {
-                      setFieldValue("deedType", valueOption || "");
-                    }}
-                    errors={errors}
-                    touched={touched}
-                  />
-                </div>
-                <div className="col-lg-3">
-                  <NewSelect
-                    name="deedYear"
-                    options={yearDDL}
-                    value={values?.deedYear}
-                    label="Deed Year"
-                    onChange={(valueOption) => {
-                      setFieldValue("deedYear", valueOption || "");
-                    }}
-                    errors={errors}
-                    touched={touched}
-                  />
-                </div>
-                {/* register date */}
-                <div className="col-lg-3">
-                  <InputField
-                    value={values?.registrationDate}
-                    label="Registration Date"
-                    name="registrationDate"
-                    type="date"
-                    onChange={(e) => {
-                      setFieldValue("registrationDate", e.target.value);
-                    }}
-                  />
-                </div>
-                {/* Land Quantity (Decimal) */}
-                <div className="col-lg-3">
-                  <InputField
-                    value={values.landQuantity}
-                    label="Land Quantity"
-                    name="landQuantity"
-                    type="number"
-                    onChange={(e) =>
-                      setFieldValue("landQuantity", e.target.value)
-                    }
-                  />
-                </div>
+
                 {/* Seller Name */}
                 <div className="col-lg-3">
                   <InputField
@@ -368,6 +421,7 @@ export default function CreateLandRegister() {
                     onChange={(e) => setFieldValue("seller", e.target.value)}
                   />
                 </div>
+
                 {/* CS Khatian  */}
                 <div className="col-lg-3">
                   <InputField
@@ -441,16 +495,19 @@ export default function CreateLandRegister() {
                     }
                   />
                 </div>
-                {/* mouza  */}
+                {/* City Jarip Khatian */}
                 <div className="col-lg-3">
                   <InputField
-                    value={values.mouza}
-                    label="Mouza Name"
-                    name="mouza"
+                    value={values.cityJaripKhatian}
+                    label="City Jarip Khatian"
+                    name="cityJaripKhatian"
                     type="text"
-                    onChange={(e) => setFieldValue("mouza", e.target.value)}
+                    onChange={(e) =>
+                      setFieldValue("cityJaripKhatian", e.target.value)
+                    }
                   />
                 </div>
+
                 {/* City Jarip Plot  */}
                 <div className="col-lg-3">
                   <InputField
@@ -472,41 +529,6 @@ export default function CreateLandRegister() {
                     type="number"
                     onChange={(e) =>
                       setFieldValue("cityJaripPlotLand", e.target.value)
-                    }
-                  />
-                </div>
-                {/* Sub Registrar Office */}
-                <div className="col-lg-3">
-                  <NewSelect
-                    name="subRegister"
-                    options={subRegisterDDL || []}
-                    value={values?.subRegister}
-                    label="Sub Registrar Office"
-                    onChange={(valueOption) => {
-                      setFieldValue("subRegister", valueOption || "");
-                    }}
-                    errors={errors}
-                    touched={touched}
-                  />
-                  {/* <InputField
-                    value={values?.subRegister}
-                    label="Sub Registrar Office"
-                    name="subRegister"
-                    type="text"
-                    onChange={(e) =>
-                      setFieldValue("subRegister", e.target.value)
-                    }
-                  /> */}
-                </div>
-                {/* City Jarip Khatian */}
-                <div className="col-lg-3">
-                  <InputField
-                    value={values.cityJaripKhatian}
-                    label="City Jarip Khatian"
-                    name="cityJaripKhatian"
-                    type="text"
-                    onChange={(e) =>
-                      setFieldValue("cityJaripKhatian", e.target.value)
                     }
                   />
                 </div>
@@ -545,27 +567,27 @@ export default function CreateLandRegister() {
                     onChange={(e) => setFieldValue("otherCost", e.target.value)}
                   />
                 </div>
-                {/* Dag No */}
+                {/* remarks  */}
                 <div className="col-lg-3">
                   <InputField
-                    value={values.dagNo}
-                    label="Dag No"
-                    name="dagNo"
+                    value={values.remarks}
+                    label="Remarks"
+                    name="remarks"
                     type="text"
-                    onChange={(e) => setFieldValue("dagNo", e.target.value)}
+                    onChange={(e) => setFieldValue("remarks", e.target.value)}
                   />
                 </div>
 
                 {/* Ploat No */}
-                <div className="col-lg-3">
+                {/* <div className="col-lg-3">
                   <InputField
                     value={values.ploatNo}
                     label="Plot No"
                     name="ploatNo"
                     type="text"
                     onChange={(e) => setFieldValue("ploatNo", e.target.value)}
-                  />
-                </div>
+                  /> */}
+                {/* </div> */}
                 <div className="col-lg-3 mt-3">
                   <div className="">
                     <AttachmentUploaderNew
