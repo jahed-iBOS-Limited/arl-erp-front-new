@@ -130,6 +130,7 @@ export default function LandRegister() {
                         <th>Land </th>
                         <th>Deed Value</th>
                         <th>Seller</th>
+                        <th>Buyer</th>
                         <th>CS Khatian</th>
                         <th>CS Plot</th>
                         <th>SA Khatian</th>
@@ -172,6 +173,7 @@ export default function LandRegister() {
                           </td>
                           <td className="text-center">{item?.monDeedValue}</td>
                           <td className="text-center">{item?.strSellerName}</td>
+                          <td className="text-center">{item?.strBuyer}</td>
                           <td className="text-center">{item?.strCskhatian}</td>
                           <td className="text-center">{item?.strCsplotNo}</td>
                           <td className="text-center">
