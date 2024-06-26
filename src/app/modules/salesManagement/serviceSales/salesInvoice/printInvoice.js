@@ -322,7 +322,7 @@ const PrintInvoiceModal = ({ singleItem }) => {
               <h5 className="bd_title">Note:</h5>
               <ul>
                 <li>
-                  - Schedule for -{" "}
+                  Month of{" "}
                   {formatMonthYear(printData[0]?.invocieRow[0]?.dteDueDateTime)}
                 </li>
                 <li>- Tax exempted</li>
