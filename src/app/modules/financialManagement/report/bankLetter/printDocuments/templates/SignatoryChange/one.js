@@ -78,30 +78,41 @@ const SignatoryChangeOne = ({ singleRowItem }) => {
             <thead>
               <tr>
                 <td style={{ width: 100, textAlign: "center" }}>S.L.</td>
-                <td style={{}}>Name</td>
-                <td style={{}}>Designation</td>
-                <td style={{}}>Remarks</td>
+                <td style={{ textAlign: "center" }}>Name</td>
+                <td style={{ textAlign: "center" }}>Designation</td>
+                <td style={{ textAlign: "center" }}>Remarks</td>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <td>1.</td>
-                <td style={{ fontWeight: 700 }}>B.M. Shahinur Islam</td>
-                <td>Chief Financial Officer</td>
-                <td style={{ fontWeight: 700 }}>To be Excluded</td>
+                <td style={{ fontWeight: 700, textAlign: "center" }}>
+                  B.M. Shahinur Islam
+                </td>
+                <td style={{ textAlign: "center" }}>Chief Financial Officer</td>
+                <td style={{ fontWeight: 700, textAlign: "center" }}>
+                  To be Excluded
+                </td>
               </tr>
               <tr>
                 <td>2.</td>
-                <td style={{ fontWeight: 700 }}>Md. Sheikh Sadi</td>
-                <td>Chief Treasury Officer</td>
-                <td rowSpan={2} style={{ fontWeight: 700 }}>
+                <td style={{ fontWeight: 700, textAlign: "center" }}>
+                  Md. Sheikh Sadi
+                </td>
+                <td style={{ textAlign: "center" }}>Chief Treasury Officer</td>
+                <td
+                  rowSpan={2}
+                  style={{ fontWeight: 700, textAlign: "center" }}
+                >
                   To be Included
                 </td>
               </tr>
               <tr>
                 <td>3.</td>
-                <td style={{ fontWeight: 700 }}>Md. Anamul Haque</td>
-                <td>Manager (Finance)</td>
+                <td style={{ fontWeight: 700, textAlign: "center" }}>
+                  Md. Anamul Haque
+                </td>
+                <td style={{ textAlign: "center" }}>Manager (Finance)</td>
                 {/* <td colspan="2">To be Excluded</td> */}
               </tr>
             </tbody>
