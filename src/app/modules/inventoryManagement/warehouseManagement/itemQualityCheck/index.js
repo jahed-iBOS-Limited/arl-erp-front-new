@@ -333,7 +333,7 @@ export default function ItemQualityCheckLanding() {
                           >
                             <IView />
                           </span>
-                          <span onClick={(e)=>{
+                          {!item?.isInventoryPosted && (<span onClick={(e)=>{
                                e.stopPropagation();
                                IConfirmModal({
                                 message: `Are you sure to delete?`,
@@ -349,7 +349,7 @@ export default function ItemQualityCheckLanding() {
                                 },
                                 noAlertFunc: () => {},
                               });
-                              }}><IDelete /></span>
+                              }}><IDelete /></span>)}
                           </div>
                         </td>
                       </tr>
