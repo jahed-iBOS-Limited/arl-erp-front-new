@@ -175,8 +175,8 @@ export default function UpdateMutation({
                   />
                 </div>
               </div>
-              <div className="col-lg-3 mt-3">
-                <div className="">
+              <div className="col-lg-1 mt-3" style={{ marginLeft: "-20px" }}>
+                <div className="mt-4">
                   {singleData?.strMutationAttachment ? (
                     <OverlayTrigger
                       overlay={<Tooltip id="cs-icon">View Attachment</Tooltip>}
@@ -190,7 +190,7 @@ export default function UpdateMutation({
                             )
                           );
                         }}
-                        className="ml-2"
+                        className=" "
                       >
                         <i
                           style={{ fontSize: "16px" }}
