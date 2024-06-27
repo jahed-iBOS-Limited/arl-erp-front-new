@@ -40,8 +40,14 @@ let initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
   type: "",
-  itemCategory: "",
-  itemType: "",
+  itemCategory: {
+    value: 0,
+    label: "All",
+  },
+  itemType: {
+    value: 0,
+    label: "All",
+  },
 };
 
 const PurchaseRequestReportTable = () => {
@@ -116,7 +122,8 @@ const PurchaseRequestReportTable = () => {
         pageSize,
         indentStatement?.type?.value || 3,
         "",
-        indentStatement?.itemCategory?.value || 0
+        indentStatement?.itemCategory?.value || 0,
+        indentStatement?.itemType?.value || 0
         // 3 means All
       );
       if (indentStatement?.plant) {
@@ -168,7 +175,8 @@ const PurchaseRequestReportTable = () => {
       pageSize,
       values?.type?.value,
       "",
-      values?.itemCategory?.value || 0
+      values?.itemCategory?.value || 0,
+      values?.itemType?.value || 0
     );
   };
 
@@ -188,7 +196,8 @@ const PurchaseRequestReportTable = () => {
       pageSize,
       values?.type?.value,
       value,
-      values?.itemCategory?.value || 0
+      values?.itemCategory?.value || 0,
+      values?.itemType?.value || 0
     );
   };
 
@@ -208,7 +217,8 @@ const PurchaseRequestReportTable = () => {
       pageSize,
       values?.type?.value,
       "",
-      values?.itemCategory?.value || 0
+      values?.itemCategory?.value || 0,
+      values?.itemType?.value || 0
     );
   };
 
@@ -368,7 +378,10 @@ const PurchaseRequestReportTable = () => {
                       label="Item Type"
                       onChange={(valueOption) => {
                         setFieldValue("itemType", valueOption);
-                        setFieldValue("itemCategory", "");
+                        setFieldValue("itemCategory", {
+                          value: 0,
+                          label: "All",
+                        });
                         getItemCategoryDDLByTypeApi(
                           profileData?.accountId,
                           selectedBusinessUnit?.value,
@@ -414,8 +427,7 @@ const PurchaseRequestReportTable = () => {
                         !values?.sbu ||
                         !values?.fromDate ||
                         !values?.type ||
-                        !values?.toDate ||
-                        !values?.itemCategory
+                        !values?.toDate
                       }
                       onClick={() => {
                         viewPurchaseOrderData(values);
