@@ -24,6 +24,8 @@ import MonthlySalesPlanLanding from "../../productionManagement/salesAndOperatio
 import ManufacturingOverheadPlanLanding from "../../productionManagement/salesAndOperationPlanning/manufacturingOverheadPlan";
 import ProjectedFinancialStatement from "../ProjectedFinancialStatement";
 import AssetLiabilityPlanEdit from "./AssetLiabilityPlan/Edit";
+import CreateEditProductAnalysis from "./productCostAnalysis/CreateEditProductAnalysis";
+import { ProductCostAnalysis } from "./productCostAnalysis";
 
 export function InternalControlBudgetPages() {
   const userRole = useSelector(
@@ -155,7 +157,7 @@ export function InternalControlBudgetPages() {
             : NotPermittedPage
         }
       />
-       <ContentRoute
+      <ContentRoute
         from="/internal-control/budget/AssetLiabilityPlan/edit/:yearId/:buId"
         component={
           AssetLiabilityPlanPermission?.isCreate
@@ -178,6 +180,14 @@ export function InternalControlBudgetPages() {
             ? AssetLiabilityPlan
             : NotPermittedPage
         }
+      />
+      <ContentRoute
+        from="/internal-control/budget/ProductCostAnalysis/create"
+        component={CreateEditProductAnalysis}
+      />
+      <ContentRoute
+        from="/internal-control/budget/ProductCostAnalysis"
+        component={ProductCostAnalysis}
       />
     </Switch>
   );

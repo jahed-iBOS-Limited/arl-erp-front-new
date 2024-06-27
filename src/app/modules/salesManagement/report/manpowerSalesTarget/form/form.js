@@ -9,6 +9,7 @@ import YearMonthForm from "../../../../_helper/commonInputFieldsGroups/yearMonth
 import IButton from "../../../../_helper/iButton";
 import SubsidyRateTable from "./subsidyRateTable";
 import ManpowerSalesTargetFormTable from "./table";
+import { _formatMoney } from "../../../../_helper/_formatMoney";
 
 const types = [
   { value: 1, label: "Sales Target" },
@@ -46,11 +47,11 @@ export default function _Form({
       ([1, 3]?.includes(values?.type?.value) &&
         !values?.zone &&
         buId !== 144) ||
-      [4].includes(values?.type?.value) ||
+      //   ||
+      // [4].includes(values?.type?.value)
       ([1]?.includes(values?.type?.value) && buId === 144 && !values?.area)
     );
   };
-
   return (
     <>
       <Formik
@@ -133,7 +134,9 @@ export default function _Form({
                             getTSOList(
                               `/oms/Complains/GetTerritoryOfficerDDL?accountId=${accId}&businessUnitId=${buId}&distributionChannelId=${
                                 allValues?.channel?.value
-                              }&territoryId=${0}&regionId=${allValues?.region?.value || 0}&areaId=${allValues?.area?.value || 0}`
+                              }&territoryId=${0}&regionId=${allValues?.region
+                                ?.value || 0}&areaId=${allValues?.area?.value ||
+                                0}`
                             );
                           }
                         },
@@ -208,6 +211,18 @@ export default function _Form({
                   </div>
                 </div>
               </Form>
+              {rowData?.filter((item) => item?.isSelected)?.length > 0 ? (
+                <p className="text-right" style={{ marginLeft: "-20px" }}>
+                  <b>
+                    Total Qnt:{" "}
+                    {_formatMoney(
+                      rowData
+                        ?.filter((item) => item?.isSelected)
+                        ?.reduce((acc, i) => acc + +i?.targetQty || 0, 0)
+                    )}
+                  </b>{" "}
+                </p>
+              ) : null}
               <ManpowerSalesTargetFormTable
                 obj={{
                   buId,

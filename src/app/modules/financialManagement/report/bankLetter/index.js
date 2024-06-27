@@ -200,7 +200,7 @@ export default function BankLetter() {
         touched,
       }) => (
         <>
-          {loader && <Loading />}
+          {(loader || loading) && <Loading />}
           <IForm
             title="Bank Letter"
             isHiddenReset
