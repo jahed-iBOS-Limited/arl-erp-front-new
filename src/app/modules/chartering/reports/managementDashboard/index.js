@@ -22,6 +22,8 @@ export default function ManagementDashboard() {
       return "c98e8d68-3a19-46b0-bf33-6a81b283be46";
     } else if (values?.reportType?.value === 4) {
       return "8e00fbd8-95b9-49ba-85b1-9f03487a9576";
+    } else if (values?.reportType?.value === 5) {
+      return "a1d05d40-4b95-429a-b3c3-2504e145de0f";
     }
     return "";
   };
@@ -43,10 +45,16 @@ export default function ManagementDashboard() {
       { name: "fromDate", value: values?.fromDate },
       { name: "toDate", value: values?.toDate },
     ];
+    const paramFive = [
+      { name: "dteFromDate", value: values?.fromDate },
+      { name: "dteToDate", value: values?.toDate },
+    ];
     if ([1, 2, 4].includes(values?.reportType?.value)) {
       return commonParam;
     } else if ([3].includes(values?.reportType?.value)) {
       return paramThree;
+    } else if ([5].includes(values?.reportType?.value)) {
+      return paramFive;
     }
     return [];
   };
@@ -87,6 +95,10 @@ export default function ManagementDashboard() {
                         {
                           value: 4,
                           label: "Shipping Profit Cost Center Report",
+                        },
+                        {
+                          value: 5,
+                          label: "ASLL SBU Report",
                         },
                       ]}
                       value={values?.reportType}
