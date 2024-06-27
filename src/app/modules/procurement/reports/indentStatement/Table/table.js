@@ -12,6 +12,7 @@ import {
   getPurchaseOrgList,
   getWhList,
   getPurchaseRequestLanding,
+  getItemTypeListDDL_api,
   getItemCategoryDDLByTypeApi,
 } from "../helper";
 import ILoader from "../../../../_helper/loader/_loader";
@@ -39,13 +40,15 @@ let initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
   type: "",
-  typeCategory: "",
+  itemCategory: "",
+  itemType: "",
 };
 
 const PurchaseRequestReportTable = () => {
   // const purchaseRequestLanding = useSelector((state) => {
   //   return state.localStorage.purchaseRequestLanding;
   // });
+  const [itemTypeOption, setItemTypeOption] = useState([]);
 
   // //paginationState
   const [pageNo, setPageNo] = React.useState(0);
@@ -113,11 +116,26 @@ const PurchaseRequestReportTable = () => {
         pageSize,
         indentStatement?.type?.value || 3,
         "",
-        indentStatement?.typeCategory?.value || 0
+        indentStatement?.itemCategory?.value || 0
         // 3 means All
       );
+      if (indentStatement?.plant) {
+        getWhList(
+          profileData?.userId,
+          profileData?.accountId,
+          selectedBusinessUnit?.value,
+          indentStatement?.plant?.value,
+          setWhList
+        );
+        getItemCategoryDDLByTypeApi(
+          profileData?.accountId,
+          selectedBusinessUnit?.value,
+          indentStatement?.itemType?.value || 0,
+          setItemCategoryDDLByType
+        );
+      }
     }
-  }, [ profileData?.accountId, selectedBusinessUnit?.value]);
+  }, [profileData?.accountId, selectedBusinessUnit?.value]);
 
   useEffect(() => {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
@@ -127,12 +145,8 @@ const PurchaseRequestReportTable = () => {
         selectedBusinessUnit?.value,
         setPoList
       );
-      getItemCategoryDDLByTypeApi(
-        profileData?.accountId,
-        selectedBusinessUnit?.value,
-        0,
-        setItemCategoryDDLByType
-      );
+
+      getItemTypeListDDL_api(setItemTypeOption);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileData, selectedBusinessUnit]);
@@ -154,7 +168,7 @@ const PurchaseRequestReportTable = () => {
       pageSize,
       values?.type?.value,
       "",
-      values?.typeCategory?.value || 0
+      values?.itemCategory?.value || 0
     );
   };
 
@@ -174,7 +188,7 @@ const PurchaseRequestReportTable = () => {
       pageSize,
       values?.type?.value,
       value,
-      values?.typeCategory?.value || 0
+      values?.itemCategory?.value || 0
     );
   };
 
@@ -194,7 +208,7 @@ const PurchaseRequestReportTable = () => {
       pageSize,
       values?.type?.value,
       "",
-      values?.typeCategory?.value || 0
+      values?.itemCategory?.value || 0
     );
   };
 
@@ -340,7 +354,6 @@ const PurchaseRequestReportTable = () => {
                       label="Type"
                       onChange={(v) => {
                         setFieldValue("type", v);
-                      
                       }}
                       placeholder="Type"
                       errors={errors}
@@ -349,7 +362,28 @@ const PurchaseRequestReportTable = () => {
                   </div>
                   <div className="col-lg-3">
                     <NewSelect
-                      name="typeCategory"
+                      name="itemType"
+                      options={itemTypeOption || []}
+                      value={values?.itemType}
+                      label="Item Type"
+                      onChange={(valueOption) => {
+                        setFieldValue("itemType", valueOption);
+                        setFieldValue("itemCategory", "");
+                        getItemCategoryDDLByTypeApi(
+                          profileData?.accountId,
+                          selectedBusinessUnit?.value,
+                          valueOption?.value,
+                          setItemCategoryDDLByType
+                        );
+                      }}
+                      placeholder="Item Type"
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
+                  <div className="col-lg-3">
+                    <NewSelect
+                      name="itemCategory"
                       options={
                         [
                           {
@@ -359,15 +393,15 @@ const PurchaseRequestReportTable = () => {
                           ...itemCategoryDDLByType,
                         ] || []
                       }
-                      value={values?.typeCategory}
-                      label="Type Category"
+                      value={values?.itemCategory}
+                      label="Item Category"
                       onChange={(v) => {
-                        setFieldValue("typeCategory", v);
+                        setFieldValue("itemCategory", v);
                       }}
-                      placeholder="Type Category"
+                      placeholder="Item Category"
                       errors={errors}
                       touched={touched}
-                    />{" "}
+                    />
                   </div>
                   <div className="col-lg-3 mt-6">
                     <button
@@ -381,7 +415,7 @@ const PurchaseRequestReportTable = () => {
                         !values?.fromDate ||
                         !values?.type ||
                         !values?.toDate ||
-                        !values?.typeCategory
+                        !values?.itemCategory
                       }
                       onClick={() => {
                         viewPurchaseOrderData(values);

@@ -110,3 +110,11 @@ export const getItemCategoryDDLByTypeApi = async (
     setter(dataMapping);
   } catch (error) {}
 };
+export const getItemTypeListDDL_api = async (setter) => {
+  try {
+    const res = await Axios.get(`/wms/WmsReport/GetItemTypeListDDL`);
+    if (res.status === 200 && res?.data) {
+      setter(res?.data);
+    }
+  } catch (error) {}
+};
