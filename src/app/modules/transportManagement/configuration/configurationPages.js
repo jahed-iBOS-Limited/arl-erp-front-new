@@ -38,6 +38,8 @@ import FuelRateConfig from "./fuleRateConfig/landing";
 import ShippingPointTransportZoneForm from "./shippingPointTransportZone/form/addEditForm";
 import ShippingPointTransportZoneLanding from "./shippingPointTransportZone/landing/form";
 import VehicleAllowanceSetup from "./vehicleAllowanceSetup/Landing";
+import PumpInformation from "./pumpinformation";
+import CreateEditPumpInformation from "./pumpinformation/createEdit";
 
 export function ConfigurationPages() {
   const userRole = useSelector(
@@ -104,6 +106,21 @@ export function ConfigurationPages() {
       <ContentRoute
         from="/transport-management/configuration/transportroute"
         component={TransportRoute}
+      />
+
+      <ContentRoute
+        from="/transport-management/configuration/pumpinformation/edit"
+        component={CreateEditPumpInformation}
+      />
+
+      <ContentRoute
+        from="/transport-management/configuration/pumpinformation/create"
+        component={CreateEditPumpInformation}
+      />
+
+      <ContentRoute
+        from="/transport-management/configuration/pumpinformation"
+        component={PumpInformation}
       />
 
       {/* Route Standard Cost */}
