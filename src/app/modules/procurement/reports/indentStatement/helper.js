@@ -67,13 +67,14 @@ export const getPurchaseRequestLanding = async (
   pageSize,
   sortType,
   search,
-  itemCtgId
+  itemCtgId,
+  itemTypeId
 ) => {
   setLoading(true);
   const searchPath = search ? `searchTerm=${search}&` : "";
   try {
     const res = await Axios.get(
-      `/procurement/PurchaseRequest/GetIndentStatement?${searchPath}AccountId=${accId}&BusinessUnitId=${buId}&SortType=${sortType}&Sbu=${sbu}&PurchaseOrganizationId=${poId}&Plant=${plantId}&WearHouse=${whId}&fromDate=${fromDate}&toDate=${toDate}&PageNo=${pageNo}&PageSize=${pageSize}&ItemCategoryId=${itemCtgId || 0}&ItemTypeId=0&viewOrder=desc`
+      `/procurement/PurchaseRequest/GetIndentStatement?${searchPath}AccountId=${accId}&BusinessUnitId=${buId}&SortType=${sortType}&Sbu=${sbu}&PurchaseOrganizationId=${poId}&Plant=${plantId}&WearHouse=${whId}&fromDate=${fromDate}&toDate=${toDate}&PageNo=${pageNo}&PageSize=${pageSize}&ItemCategoryId=${itemCtgId || 0}&ItemTypeId=${itemTypeId}&viewOrder=desc`
     );
     setLoading(false);
     setter(res?.data);
