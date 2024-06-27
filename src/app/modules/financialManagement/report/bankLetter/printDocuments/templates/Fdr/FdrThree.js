@@ -24,7 +24,10 @@ const FdrThree = ({ singleRowItem }) => {
 
   return (
     <>
-      <div class="bank-letter-template-common-wrapper authoFDR-wrapper">
+      <div
+        class="bank-letter-template-common-wrapper authoFDR-wrapper"
+        contentEditable={true}
+      >
         <p>
           Ref : {strBusinessUnitShortName?.toUpperCase()}/
           {strBankShortName?.toUpperCase()}
