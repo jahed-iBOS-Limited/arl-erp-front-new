@@ -26,10 +26,16 @@ const initData = {
   invoiceDay: "",
   validFrom: "",
   validTo: "",
+  agreementStartDate:"",
+  agreementEndDate:"",
   item: "",
   qty: "",
   rate: "",
   vat: "",
+  dteActualLiveDate: "",
+  intWarrantyMonth: "",
+  dteWarrantyEndDate: "",
+  accountManager: "",
 };
 
 export default function ServiceSalesCreate() {
@@ -52,6 +58,7 @@ export default function ServiceSalesCreate() {
   const [, saveHandlerFunc, loader] = useAxiosPost();
   const [salesOrgList, getSalesOrgList, salesOrgListLoader] = useAxiosGet();
   const [channelDDL, getChannelDDL, channelDDLloader] = useAxiosGet();
+  const [accountManagerList, getAccountManagerList] = useAxiosGet();
 
   useEffect(() => {
     if (itemList?.length) {
@@ -87,6 +94,9 @@ export default function ServiceSalesCreate() {
     );
     getItemDDL(
       `/oms/SalesOrder/GetgetServiceItemList?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}`
+    );
+    getAccountManagerList(
+      `/domain/EmployeeBasicInformation/GetEmployeeDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileData, selectedBusinessUnit]);
@@ -133,10 +143,15 @@ export default function ServiceSalesCreate() {
             ? "One Time"
             : values?.scheduleType?.label || "",
         intScheduleDayCount: +values?.invoiceDay || 0,
-        dteStartDateTime: values?.validFrom || _todayDate(),
-        dteEndDateTime: values?.validTo || _todayDate(),
+        dteStartDateTime: values?.validFrom || values?.agreementStartDate,
+        dteEndDateTime: values?.validTo || values?.agreementEndDate,
         strAttachmentLink: attachmentList[0]?.id || "",
         intActionBy: profileData?.userId,
+        dteActualLiveDate: values?.dteActualLiveDate || "",
+        intWarrantyMonth: values?.intWarrantyMonth || 0,
+        dteWarrantyEndDate: values?.dteWarrantyEndDate || "",
+        intAccountManagerEnroll: values?.accountManager?.value || "",
+        strAccountManagerName: values?.accountManager?.label,
       },
       row: itemList?.map((item) => ({
         intServiceSalesOrderRowId: 0,
@@ -273,6 +288,10 @@ export default function ServiceSalesCreate() {
                       setFieldValue("invoiceDay", "");
                       setFieldValue("validFrom", "");
                       setFieldValue("validTo", "");
+                      setFieldValue("dteActualLiveDate", "");
+                      setFieldValue("intWarrantyMonth", "");
+                      setFieldValue("dteWarrantyEndDate", "");
+                      setFieldValue("accountManager", "");
                       setItemList([]);
                       setSheduleList([]);
                       setSheduleListFOneTime([]);
@@ -337,7 +356,7 @@ export default function ServiceSalesCreate() {
                       <InputField
                         value={values?.validFrom}
                         disabled={!values?.scheduleType || !values?.invoiceDay}
-                        label="Valid From"
+                        label="Agreement Valid From"
                         name="validFrom"
                         type="date"
                         onChange={(e) => {
@@ -359,7 +378,7 @@ export default function ServiceSalesCreate() {
                     <div className="col-lg-3">
                       <InputField
                         value={values?.validTo}
-                        label="Valid To"
+                        label="Agreement Valid To"
                         name="validTo"
                         type="date"
                         min={addMonthsToDate(
@@ -378,6 +397,114 @@ export default function ServiceSalesCreate() {
                           setFieldValue("validTo", e.target.value);
                           setSheduleList([]);
                         }}
+                      />
+                    </div>
+                  </>
+                ) : null}
+
+                {[2]?.includes(values?.paymentType?.value) ? (
+                  <>
+                   <div className="col-lg-3">
+                      <InputField
+                        value={values?.agreementStartDate}
+                        label="Agreement Start Date"
+                        name="agreementStartDate"
+                        type="date"
+                        onChange={(e) => {
+                          setFieldValue("agreementStartDate", e.target.value);
+                          setSheduleList([]);
+                        }}
+                      />
+                    </div>
+                    <div className="col-lg-3">
+                    <InputField
+                        value={values?.agreementEndDate}
+                        label="Agreement End Date"
+                        name="agreementEndDate"
+                        type="date"
+                        onChange={(e) => {
+                          setFieldValue("agreementEndDate", e.target.value);
+                          setSheduleList([]);
+                        }}
+                      />
+                    </div>
+                    <div className="col-lg-3">
+                      <InputField
+                        value={values.dteActualLiveDate}
+                        label="Actual Live Date"
+                        name="dteActualLiveDate"
+                        type="date"
+                        onChange={(e) => {
+                          const date = e.target.value;
+                          setFieldValue("dteActualLiveDate", date);
+                          if (date && values.intWarrantyMonth) {
+                            const warrantyEndDate = addMonthsToDate(
+                              date,
+                              values.intWarrantyMonth
+                            );
+                            setFieldValue(
+                              "dteWarrantyEndDate",
+                              warrantyEndDate
+                            );
+                          } else {
+                            setFieldValue("dteWarrantyEndDate", ""); // Clear warranty end date if live date or warranty month is absent
+                          }
+                        }}
+                      />
+                    </div>
+                    <div className="col-lg-3">
+                      <InputField
+                        value={values.intWarrantyMonth}
+                        label="Warranty Month"
+                        name="intWarrantyMonth"
+                        type="number"
+                        onChange={(e) => {
+                          const warrantyMonth = parseInt(e.target.value, 10); // Ensure numeric value
+                          if (isNaN(warrantyMonth) || warrantyMonth < 0) {
+                            // Handle invalid input (e.g., toast notification)
+                            setFieldValue("intWarrantyMonth", "");
+                            setFieldValue("dteWarrantyEndDate", "");
+                            return;
+                          }
+                          setFieldValue("intWarrantyMonth", warrantyMonth);
+                          if (values.dteActualLiveDate) {
+                            const warrantyEndDate = addMonthsToDate(
+                              values.dteActualLiveDate,
+                              warrantyMonth
+                            );
+                            setFieldValue(
+                              "dteWarrantyEndDate",
+                              warrantyEndDate
+                            );
+                          }
+                        }}
+                      />
+                    </div>
+                    <div className="col-lg-3">
+                      <InputField
+                        disabled={
+                          !values.dteActualLiveDate || !values.intWarrantyMonth
+                        }
+                        value={values.dteWarrantyEndDate}
+                        label="Warranty End Date"
+                        name="dteWarrantyEndDate"
+                        type="date" // Assuming InputField supports date type
+                        onChange={(e) =>
+                          setFieldValue("dteWarrantyEndDate", e.target.value)
+                        }
+                      />
+                    </div>
+                    <div className="col-lg-3">
+                      <NewSelect
+                        name="accountManager"
+                        options={accountManagerList || []}
+                        value={values?.accountManager}
+                        label="Account Manager"
+                        onChange={(valueOption) => {
+                          setFieldValue("accountManager", valueOption);
+                        }}
+                        errors={errors}
+                        touched={touched}
                       />
                     </div>
                   </>

@@ -7,6 +7,7 @@ import Loading from "../../../../_helper/_loading";
 import NewSelect from "../../../../_helper/_select";
 import PaginationTable from "../../../../_helper/_tablePagination";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import { _dateFormatter } from "../../../../_helper/_dateFormate";
 
 const initData = {
   customer: "",
@@ -139,6 +140,10 @@ export default function ServiceSalesLanding() {
                           <th>Payment Type</th>
                           <th>Schedule Type</th>
                           <th>Due Invoice</th>
+                          <th>Actual Live Date</th>
+                          <th>Warranty Month</th>
+                          <th>Warranty End Date</th>
+                          <th>Account Manager Name</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -175,6 +180,16 @@ export default function ServiceSalesLanding() {
                             <td className="text-center">
                               {`${item?.invoiceCollectionCount} / ${item?.intInvoiceCount}`}
                             </td>
+                            <td className="text-center">
+                              {_dateFormatter(item?.dteActualLiveDate)}
+                            </td>
+                            <td className="text-center">
+                              {item?.intWarrantyMonth}
+                            </td>
+                            <td className="text-center">
+                              {_dateFormatter(item?.dteWarrantyEndDate)}
+                            </td>
+                            <td>{item?.strAccountManagerName}</td>
                           </tr>
                         ))}
                       </tbody>
