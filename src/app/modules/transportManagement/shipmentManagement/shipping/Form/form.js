@@ -115,7 +115,6 @@ export default function _Form({
   isEdit,
   rowDto,
   plantDDL,
-  vehicleDDL,
   ShipmentTypeDDL,
   salesOrgDDL,
   distributionChannelDDL,
@@ -149,6 +148,13 @@ export default function _Form({
   const [pumpDDL, getPumpDDL, , setPumpDDL] = useAxiosGet();
   const [, getVehicleEntryDDL, vehicleEntryDDLloader] = useAxiosGet();
   const [shipmentDetailInfo, getShipmentDetailInfo, loader] = useAxiosGet();
+  // const [, getVehicleForReadyMix] = useAxiosGet();
+  const [
+    vehicleDDL,
+    getVehicleDDL,
+    isLoadingVehicleDDL,
+    setVehicleDDL,
+  ] = useAxiosGet();
   const dispatch = useDispatch();
   const shippointDDL = useSelector((state) => {
     return state?.commonDDL?.shippointDDL;
@@ -205,10 +211,19 @@ export default function _Form({
         options: vehicleDDL,
         value: initData.Vehicle,
         isDisabled: isEdit ? false : rowDto?.length,
-        dependencyFunc: (currentValue, values, setter, label) => {
+        dependencyFunc: (currentValue, values, setter, label, valueOption) => {
           vehicleSingeDataView(label, accId, buId, setter);
           setter("supplierName", "");
           setter("laborSupplierName", "");
+
+          // if isGateMaintain true and  buidId (175) than veichleEntry data found
+          const veichleEntry = valueOption?.strEntryCode
+            ? {
+                value: valueOption?.intEntryId,
+                label: valueOption?.strEntryCode,
+              }
+            : "";
+          setter("veichleEntry", veichleEntry);
         },
       },
       {
@@ -241,9 +256,11 @@ export default function _Form({
     rowDto,
   ]);
 
-  const isGateMaintain = shippointDDL?.find(
-    (i) => i.value === headerData?.pgiShippoint?.value
-  )?.isGateMaintain;
+  // const isGateMaintain = shippointDDL?.find(
+  //   (i) => i.value === headerData?.pgiShippoint?.value
+  // )?.isGateMaintain;
+
+  const isGateMaintain = true;
 
   useEffect(() => {
     if (vehicleDDL?.length > 0 && document.getElementById("cardNoInput")) {
@@ -266,7 +283,29 @@ export default function _Form({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [buId, headerData]);
-  console.log({ rowDto });
+
+  useEffect(() => {
+    if (isGateMaintain && buId === 175) {
+      const partName = "GetAvailableVehicleForReadyMixShipment";
+      getVehicleDDL(
+        `/mes/MSIL/GetAllMSIL?PartName=${partName}&BusinessUnitId=${buId}`,
+        (resData) => {
+          const modifyData = resData?.map((item) => {
+            return {
+              ...item,
+              driverName: item?.strDriverName,
+            };
+          });
+          setVehicleDDL(modifyData);
+        }
+      );
+    } else {
+      getVehicleDDL(
+        `/tms/Vehicle/GetAvailableVehicleDDL?AccountId=${accId}&BusinessUnitId=${buId}`
+      );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [buId, isGateMaintain]);
   return (
     <>
       <Formik
@@ -315,6 +354,7 @@ export default function _Form({
               loadingTwo ||
               entryCodeDDLloader ||
               vehicleEntryDDLloader ||
+              isLoadingVehicleDDL ||
               loader) && <Loading />}
             {isSubsidyRunning && (
               <marquee
@@ -391,7 +431,10 @@ export default function _Form({
                                       )
                                       .then((res) => res?.data);
                                   }}
-                                  isDisabled={itm?.isDisabled}
+                                  isDisabled={
+                                    itm?.isDisabled ||
+                                    (isGateMaintain && buId === 175)
+                                  }
                                 />
                                 <FormikError
                                   errors={errors}
@@ -403,118 +446,147 @@ export default function _Form({
                           )
                         ) : itm?.type === "cardInput" ? (
                           isGateMaintain && (
-                            <div className="col-lg-3 d-flex">
-                              <div style={{ width: "inherit" }}>
-                                <InputField
-                                  disabled={itm?.isDisabled}
-                                  id="cardNoInput"
-                                  value={values?.strCardNo}
-                                  label={itm?.label}
-                                  name="strCardNo"
-                                  type="text"
-                                  onKeyPress={(e) => {
-                                    if (e.key === "Enter") {
-                                      document.getElementById(
-                                        "cardNoInput"
-                                      ).disabled = true;
-                                      getEntryCodeDDL(
-                                        `/mes/MSIL/GetAllMSIL?PartName=GetVehicleInfoByCardNumberForShipment&BusinessUnitId=${buId}&search=${values?.strCardNo}`,
-                                        (data) => {
-                                          if (data[0]?.strEntryCode) {
-                                            setFieldValue(
-                                              "veichleEntry",
-                                              isGateMaintain ? data?.[0] : ""
-                                            );
-                                            getVehicleEntryDDL(
-                                              `/wms/ItemPlantWarehouse/GetVehicleEntryDDL?accountId=${accId}&businessUnitId=${buId}&EntryCode=${data[0]?.strEntryCode}`,
+                            <>
+                              {isGateMaintain && buId === 175 ? (
+                                <></>
+                              ) : (
+                                <>
+                                  {" "}
+                                  <div className="col-lg-3 d-flex">
+                                    <div style={{ width: "inherit" }}>
+                                      <InputField
+                                        disabled={
+                                          itm?.isDisabled ||
+                                          (isGateMaintain && buId === 175)
+                                        }
+                                        id="cardNoInput"
+                                        value={values?.strCardNo}
+                                        label={itm?.label}
+                                        name="strCardNo"
+                                        type="text"
+                                        onKeyPress={(e) => {
+                                          if (e.key === "Enter") {
+                                            document.getElementById(
+                                              "cardNoInput"
+                                            ).disabled = true;
+                                            getEntryCodeDDL(
+                                              `/mes/MSIL/GetAllMSIL?PartName=GetVehicleInfoByCardNumberForShipment&BusinessUnitId=${buId}&search=${values?.strCardNo}`,
                                               (data) => {
-                                                const find = vehicleDDL?.find(
-                                                  (i) =>
-                                                    i.veichleId ===
-                                                    data[0]?.vehicleId
-                                                );
-                                                if (find) {
+                                                if (data[0]?.strEntryCode) {
                                                   setFieldValue(
-                                                    "laborSupplierName",
+                                                    "veichleEntry",
+                                                    isGateMaintain
+                                                      ? data?.[0]
+                                                      : ""
+                                                  );
+                                                  getVehicleEntryDDL(
+                                                    `/wms/ItemPlantWarehouse/GetVehicleEntryDDL?accountId=${accId}&businessUnitId=${buId}&EntryCode=${data[0]?.strEntryCode}`,
+                                                    (data) => {
+                                                      const find = vehicleDDL?.find(
+                                                        (i) =>
+                                                          i.veichleId ===
+                                                          data[0]?.vehicleId
+                                                      );
+                                                      if (find) {
+                                                        setFieldValue(
+                                                          "laborSupplierName",
+                                                          ""
+                                                        );
+                                                        vehicleSingeDataView(
+                                                          find?.label,
+                                                          accId,
+                                                          buId,
+                                                          setFieldValue
+                                                        );
+                                                        setFieldValue(
+                                                          "Vehicle",
+                                                          find || ""
+                                                        );
+                                                        setFieldValue(
+                                                          "supplierName",
+                                                          ""
+                                                        );
+                                                        setFieldValue(
+                                                          "laborSupplierName",
+                                                          ""
+                                                        );
+                                                        const controlsModify = [
+                                                          ...controls,
+                                                        ];
+                                                        controlsModify[2].isDisabled = true;
+                                                        setControls(
+                                                          controlsModify
+                                                        );
+                                                      }
+                                                    }
+                                                  );
+                                                } else {
+                                                  setFieldValue(
+                                                    "strCardNo",
                                                     ""
                                                   );
-                                                  vehicleSingeDataView(
-                                                    find?.label,
-                                                    accId,
-                                                    buId,
-                                                    setFieldValue
-                                                  );
                                                   setFieldValue(
-                                                    "Vehicle",
-                                                    find || ""
-                                                  );
-                                                  setFieldValue(
-                                                    "supplierName",
+                                                    "veichleEntry",
                                                     ""
                                                   );
-                                                  setFieldValue(
-                                                    "laborSupplierName",
-                                                    ""
+                                                  document.getElementById(
+                                                    "cardNoInput"
+                                                  ).disabled = false;
+                                                  document
+                                                    .getElementById(
+                                                      "cardNoInput"
+                                                    )
+                                                    .focus();
+                                                  toast.warn(
+                                                    "Card Number Not Found"
                                                   );
-                                                  const controlsModify = [
-                                                    ...controls,
-                                                  ];
-                                                  controlsModify[2].isDisabled = true;
-                                                  setControls(controlsModify);
                                                 }
                                               }
                                             );
-                                          } else {
-                                            setFieldValue("strCardNo", "");
-                                            setFieldValue("veichleEntry", "");
-                                            document.getElementById(
-                                              "cardNoInput"
-                                            ).disabled = false;
-                                            document
-                                              .getElementById("cardNoInput")
-                                              .focus();
-                                            toast.warn("Card Number Not Found");
                                           }
-                                        }
-                                      );
-                                    }
-                                  }}
-                                  onChange={(e) => {
-                                    setFieldValue("strCardNo", e.target.value);
-                                  }}
-                                />
-                              </div>
-                              {!isEdit && (
-                                <span
-                                  style={{
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                    marginLeft: "5px",
-                                    cursor: "pointer",
-                                    marginTop: "20px",
-                                  }}
-                                  onClick={() => {
-                                    setFieldValue("strCardNo", "");
-                                    document.getElementById(
-                                      "cardNoInput"
-                                    ).disabled = false;
-                                    document
-                                      .getElementById("cardNoInput")
-                                      .focus();
-                                    resetForm(initData);
-                                  }}
-                                >
-                                  <i
-                                    style={{
-                                      color: "blue",
-                                    }}
-                                    className="fa fa-refresh"
-                                    aria-hidden="true"
-                                  ></i>
-                                </span>
+                                        }}
+                                        onChange={(e) => {
+                                          setFieldValue(
+                                            "strCardNo",
+                                            e.target.value
+                                          );
+                                        }}
+                                      />
+                                    </div>
+                                    {!isEdit && (
+                                      <span
+                                        style={{
+                                          display: "flex",
+                                          alignItems: "center",
+                                          justifyContent: "center",
+                                          marginLeft: "5px",
+                                          cursor: "pointer",
+                                          marginTop: "20px",
+                                        }}
+                                        onClick={() => {
+                                          setFieldValue("strCardNo", "");
+                                          document.getElementById(
+                                            "cardNoInput"
+                                          ).disabled = false;
+                                          document
+                                            .getElementById("cardNoInput")
+                                            .focus();
+                                          resetForm(initData);
+                                        }}
+                                      >
+                                        <i
+                                          style={{
+                                            color: "blue",
+                                          }}
+                                          className="fa fa-refresh"
+                                          aria-hidden="true"
+                                        ></i>
+                                      </span>
+                                    )}
+                                  </div>
+                                </>
                               )}
-                            </div>
+                            </>
                           )
                         ) : (
                           <div className="col-lg-3">
