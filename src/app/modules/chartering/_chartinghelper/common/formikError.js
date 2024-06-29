@@ -13,8 +13,8 @@ const FormikError = ({ errors, name, touched }) => {
       }}
       className={errors[name] ? "text-danger" : "d-none"}
     >
-      {errors && errors[name] && touched && touched[name]
-        ? errors[name].value || errors[name]
+      {(errors && errors[name]) || (touched && touched[name])
+        ? errors[name]?.value || errors[name]
         : ""}
     </p>
   );

@@ -1,33 +1,34 @@
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
 import IView from "../../../_helper/_helperIcons/_view";
 import InputField from "../../../_helper/_inputField";
-import { _monthFirstDate } from "../../../_helper/_monthFirstDate";
+import PaginationSearch from "../../../_helper/_search";
 import NewSelect from "../../../_helper/_select";
 import PaginationTable from "../../../_helper/_tablePagination";
-import { _todayDate } from "../../../_helper/_todayDate";
 import IViewModal from "../../../_helper/_viewModal";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import { setItemQualityCheckLandingInitDataAction } from "../../../_helper/reduxForLocalStorage/Actions";
 import { InventoryTransactionReportViewTableRow } from "../invTransaction/report/tableRow";
 import IForm from "./../../../_helper/_form";
 import Loading from "./../../../_helper/_loading";
 import QualityCheckViewModal from "./modal/viewModal";
-import PaginationSearch from "../../../_helper/_search";
-const initData = {
-  plant: "",
-  warehouse: "",
-  fromDate: _monthFirstDate(),
-  toDate: _todayDate(),
-};
+import IDelete from "../../../_helper/_helperIcons/_delete";
+import IConfirmModal from "../../../_helper/_confirmModal";
+import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
+
+
 export default function ItemQualityCheckLanding() {
+  const initData = useSelector((state) => {
+    return state.localStorage.ItemQualityCheckLandingInitData || {};
+  }, shallowEqual);
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
   const [singleItemForMRR, setSingleItemForMRR] = useState(null);
   const {
-    profileData: { accountId: accId },
+    profileData: { accountId: accId, userId },
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
   const saveHandler = (values, cb) => {};
@@ -38,7 +39,7 @@ export default function ItemQualityCheckLanding() {
     loadingLandingData,
     setLandingData,
   ] = useAxiosGet();
-
+  const dispatch = useDispatch();
   const [plantDDL, getPlantDDL] = useAxiosGet();
   const [warehouseDDL, getWarehouseDDL] = useAxiosGet();
   const [isShowModal, setShowModal] = useState(false);
@@ -46,6 +47,14 @@ export default function ItemQualityCheckLanding() {
 
   const [isShowModalTwo, setIsShowModalTwo] = useState(false);
   const [currentRowData, setCurrentRowData] = useState("");
+  const [, onDelete] = useAxiosPost();
+
+
+  useEffect(()=>{
+    handleGetLandingData(pageNo, pageSize, initData);
+    
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[])
 
   const handleGetLandingData = (pageNo, pageSize, values, searchValue="") => {
     const searchTerm = searchValue ? `&search=${searchValue}` : ""
@@ -195,6 +204,7 @@ export default function ItemQualityCheckLanding() {
                     type="button"
                     className="btn btn-primary"
                     onClick={() => {
+                      dispatch(setItemQualityCheckLandingInitDataAction(values));
                       handleGetLandingData(pageNo, pageSize, values);
                       setSingleItemForMRR(false);
                     }}
@@ -313,7 +323,8 @@ export default function ItemQualityCheckLanding() {
                         <td>{item?.warehouseComment}</td>
                         <td>{item?.status}</td>
 
-                        <td className="text-center">
+                        <td style={{minWidth:"30px"}} className="text-center">
+                          <div className="d-flex justify-content-between">
                           <span
                             onClick={() => {
                               setShowModal(true);
@@ -322,6 +333,24 @@ export default function ItemQualityCheckLanding() {
                           >
                             <IView />
                           </span>
+                          {!item?.isInventoryPosted && (<span onClick={(e)=>{
+                               e.stopPropagation();
+                               IConfirmModal({
+                                message: `Are you sure to delete?`,
+                                yesAlertFunc: () => {
+                                  onDelete(
+                                    `/mes/QCTest/DeleteQCItem?businessUnitId=${buId}&qualityCheckId=${item?.qualityCheckId}&actionBy=${userId}`,
+                                    null,
+                                    () => {
+                                      handleGetLandingData(pageNo, pageSize, values);
+                                    },
+                                    true
+                                  );
+                                },
+                                noAlertFunc: () => {},
+                              });
+                              }}><IDelete /></span>)}
+                          </div>
                         </td>
                       </tr>
                     ))}

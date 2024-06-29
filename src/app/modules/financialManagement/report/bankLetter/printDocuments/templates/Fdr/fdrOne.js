@@ -68,8 +68,10 @@ const FdrONE = ({ singleRowItem }) => {
         <p>
           Resolve that the company will open an FDR for
           <strong> BDT {numAmount} </strong>
-          <strong> {amountToWords(numAmount)}</strong> with{" "}
-          <strong> {strBankName}</strong>
+          <strong>
+            {" "}
+            ({amountToWords(numAmount)?.toUpperCase()})
+          </strong> with <strong> {strBankName?.toUpperCase()}</strong>
         </p>
         <br />
         <p>
@@ -80,7 +82,7 @@ const FdrONE = ({ singleRowItem }) => {
             1. Md. Sheikh Sadi- Chief Treasury Officer; 2. Md. Masud Rana- Chief
             Supply Chain Officer; 3. Iftekhar Uddin Chowdhury- Senior Manager
             (Treasury); 4. Raihan Kabir- Deputy CFO; 5. Rakibul Alam Khan-
-            Manager (Finance) and 6. Md. Anamul Haque- Deputy Manager (Finance)
+            Manager (Finance) and 6. Md. Anamul Haque- Manager (Finance){" "}
           </strong>
           from now onward <strong>will sign and endorse:</strong>
         </p>
@@ -126,11 +128,11 @@ const FdrONE = ({ singleRowItem }) => {
         </p>
         <br />
         <br />
-        <p>Sd/-</p>
+        <p style={{ marginLeft: "40px" }}>Sd/-</p>
         <p>
           <strong>(Sheikh Jasim Uddin) </strong>
         </p>
-        <p>Managing Director</p>
+        <p style={{ marginTop: "-7px" }}>Managing Director</p>
       </div>
     </>
   );

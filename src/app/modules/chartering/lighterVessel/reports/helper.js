@@ -19,8 +19,8 @@ export const getMonthlyVoyageStatement = async (
     setter(
       res?.data?.map((item) => ({
         ...item,
-        jvDisable: false,
-        ajDisable: false,
+        jvDisable: item?.jvDisable || false,
+        ajDisable: item?.ajDisable || false,
         estFreightAmount: item?.estimatedCargoQty * item?.numFreight,
       }))
     );
@@ -234,12 +234,13 @@ export const CreateJournalVoucher = async (
   narration,
   actionBy,
   setLoading,
-  cb
+  cb,
+  values
 ) => {
   setLoading(true);
-  const diesel = `/domain/LighterVesselTrip/LighterVesselDiselJV?accountId=${accId}&businessUnitId=${buId}&monthId=${monthId}&yearid=${yearId}&Narration=${narration}&Actionby=${actionBy}`;
+  const diesel = `/domain/LighterVesselTrip/LighterVesselDiselJV?accountId=${accId}&businessUnitId=${buId}&fromDate=${values?.fromDate}&toDate=${values?.toDate}&Narration=${narration}&Actionby=${actionBy}`;
 
-  const lineExp = `/domain/LighterVesselTrip/LighterVesselLineJV?accountId=${accId}&businessUnitId=${buId}&monthId=${monthId}&yearid=${yearId}&Narration=${narration}&Actionby=${actionBy}`;
+  const lineExp = `/domain/LighterVesselTrip/LighterVesselLineJV?accountId=${accId}&businessUnitId=${buId}&fromDate=${values?.fromDate}&toDate=${values?.toDate}&Narration=${narration}&Actionby=${actionBy}`;
 
   const storeExp = `/domain/LighterVesselTrip/LighterVesselStoreExpJV?accountId=${accId}&businessUnitId=${buId}&monthId=${monthId}&yearid=${yearId}&Narration=${narration}&Actionby=${actionBy}`;
 

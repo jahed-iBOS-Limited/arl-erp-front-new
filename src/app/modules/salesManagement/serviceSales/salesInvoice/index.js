@@ -13,6 +13,8 @@ import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import IForm from "./../../../_helper/_form";
 import PrintInvoiceModal from "./printInvoice";
 import InputField from "../../../_helper/_inputField";
+import { formatMonthYear } from "../../../_helper/_getMonthYearFormat";
+import IDelete from "../../../_helper/_helperIcons/_delete";
 const initData = {
   customer: "",
   type: { value: 1, label: "Pending for Invoice" },
@@ -30,6 +32,7 @@ export default function SalesInvoiceLanding() {
 
   const [showModal, setShowModal] = useState(false);
   const [singleItem, setSingleItem] = useState(null);
+  const [, onDelete] = useAxiosGet();
   // const [, collectionHandler] = useAxiosPost();
 
   useEffect(() => {
@@ -252,6 +255,7 @@ export default function SalesInvoiceLanding() {
                             <th>Payment Percent</th>
                             <th>Schedule Amount</th>
                             <th>Remarks</th>
+                            <th>Action</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -315,6 +319,23 @@ export default function SalesInvoiceLanding() {
                                   }}
                                 />
                               </td>
+                              <td className="text-center"><span onClick={(e)=>{
+                               e.stopPropagation();
+                               IConfirmModal({
+                                message: `Are you sure to delete?`,
+                                yesAlertFunc: () => {
+                                  onDelete(
+                                    `/oms/ServiceSales/InactiveServiceSales?ServiceSalesOrderId=${item?.intServiceSalesOrderId}`,
+                                    null,
+                                    () => {
+                                      getData({ typeId: values?.type?.value, values });
+                                    },
+                                    true
+                                  );
+                                },
+                                noAlertFunc: () => {},
+                              });
+                              }}><IDelete style={{fontSize:"16px"}}/></span></td>
                             </tr>
                           ))}
                         </tbody>
@@ -331,6 +352,7 @@ export default function SalesInvoiceLanding() {
                             <th>Customer</th>
                             <th>Item Name</th>
                             <th>Address</th>
+                            <th style={{minWidth:"70px"}}>Month-Year</th>
                             <th>Schedule Type</th>
                             <th>Sales Type</th>
                             <th>Sales Order Code</th>
@@ -366,6 +388,9 @@ export default function SalesInvoiceLanding() {
                                 })()}
                               </td>
                               <td>{item?.invocieHeader?.strCustomerAddress}</td>
+                              <td className="text-center">
+                                {formatMonthYear(item?.invocieRow?.[0]?.dteDueDateTime)}
+                              </td>
                               <td>
                                 {item?.invocieHeader?.strScheduleTypeName}
                               </td>

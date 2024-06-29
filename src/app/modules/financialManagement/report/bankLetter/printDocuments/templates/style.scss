@@ -5,10 +5,11 @@
       line-height: 1.2;
       box-sizing: border-box;
       font-family: "Times New Roman", Times, serif; /* Classic serif font */
-      font-size: 18px; /* Good default size for print */
+      font-size: 16px; /* Good default size for print */
     }
     p {
       margin: 5px 0px 10px 0px;
+      text-align: justify !important;
     }
   
     table {
@@ -34,7 +35,7 @@
       border: 1px solid black;
       padding: 6px;
       border-collapse: collapse;
-      text-align: center;
+      // text-align: center;
     }
     table.signatory
     thead{
@@ -43,7 +44,30 @@
     &.signatory-wrapper {
       * {
         font-size: 17.7px !important; /* Specific font size for this file */
+        // margin-right:20px
+     
       }
   }
+    &.authoFDR-wrapper {
+      * {
+        font-size: 18px !important; /* Specific font size for this file */
+        // margin-right:20px
+     
+      }
+  }
+  &.bankCertificate-wrapper {
+    * {
+      font-size: 17px !important; /* Specific font size for this file */
+      // margin-right:20px
+   
+    }
+}
+  &.close-wrapper {
+    * {
+      font-size: 20px !important; /* Specific font size for this file */
+      // margin-right:20px
+   
+    }
+}
 
 }

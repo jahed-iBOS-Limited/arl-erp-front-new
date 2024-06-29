@@ -111,6 +111,10 @@ const LandingTable = ({ obj }) => {
                                     </>
                                   )}
                                 </p>
+                                <p>
+                                  <b>Reason: </b>
+                                  {itm?.description}
+                                </p>
                               </div>
                             ))}
                           </>

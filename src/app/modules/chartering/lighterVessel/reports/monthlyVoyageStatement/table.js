@@ -80,11 +80,24 @@ export default function MonthlyVoyageStatement() {
   }, [accId, buId]);
 
   const JournalPost = (values, item, index, journalType) => {
+    // const amount =
+    //   journalType === "jv"
+    //     ? item?.estFreightAmount
+    //     : journalType === "aj"
+    //     ? item?.estFreightAmount - item?.numTotalFreight
+    //     : 0;
+
+    const estFreightAmount =
+      (+item?.cargoQtyEst || 0) * (+item?.cargoFreightRate || 0);
+
+    const netFreight =
+      (+item?.cargoQtyAct || 0) * (+item?.cargoFreightRate || 0);
+
     const amount =
       journalType === "jv"
-        ? item?.estFreightAmount
+        ? estFreightAmount
         : journalType === "aj"
-        ? item?.estFreightAmount - item?.numTotalFreight
+        ? estFreightAmount - netFreight
         : 0;
 
     const narration = `Amount ${
@@ -93,7 +106,7 @@ export default function MonthlyVoyageStatement() {
       journalType === "jv" ? "credited" : "debited"
     } to Freight Income as provision of freight income of ${
       item?.lighterVesselName
-    }, Trip-${item?.tripNo} For the month of ${months[
+    }, Trip-${item?.tripNumber} For the month of ${months[
       new Date(values?.fromDate).getMonth()
     ] +
       "-" +
@@ -108,10 +121,10 @@ export default function MonthlyVoyageStatement() {
       date: values?.journalDate,
       // totalAmount: item?.numTotalFreight,
       totalAmount: amount,
-      narration: narration,
+      narration: values?.narration, //new requirement for narration user type text will go by client
       lighterVesselId: item?.lighterVesselId,
       consigneeParty: item?.consigneePartyId,
-      tripId: item?.lighterTripId,
+      tripId: item?.tripId,
     };
 
     const apiName =
@@ -121,9 +134,20 @@ export default function MonthlyVoyageStatement() {
         ? `LighterVesselIncomeSatetementAdjustmentJournal`
         : "";
 
+   const determineTypeId = () => {
+     const estFreightRounded = _fixedPoint(estFreightAmount, true, 0);
+     const netFreightRounded = _fixedPoint(netFreight, true, 0);
+     return estFreightRounded < netFreightRounded ? 1 : estFreightRounded > netFreightRounded ? 2 : 0;
+   };
+
     createJournal(
       `${imarineBaseUrl}/domain/LighterVesselStatement/${apiName}`,
-      payload,
+      journalType === "aj"
+        ? {
+            ...payload,
+            typeId: determineTypeId(),
+          }
+        : payload,
       () => {
         const field =
           journalType === "jv"
@@ -141,10 +165,10 @@ export default function MonthlyVoyageStatement() {
 
   const printRef = useRef();
 
-  let totalFinalQty = 0,
-    totalEstQty = 0,
-    totalEstFreight = 0,
-    totalFreight = 0;
+  // let totalFinalQty = 0,
+  //   totalEstQty = 0,
+  //   totalEstFreight = 0,
+  //   totalFreight = 0;
 
   const isLoading = loader || loading;
   const journalBtnDisable = (values) => {
@@ -290,10 +314,11 @@ export default function MonthlyVoyageStatement() {
                     </h4>
                   </div>
                   {gridData?.map((item, index) => {
-                    totalFinalQty += item?.numActualCargoQnty;
-                    totalEstQty += item?.estimatedCargoQty;
-                    totalEstFreight += item?.estFreightAmount;
-                    totalFreight += item?.numTotalFreight;
+                    // totalFinalQty += item?.numActualCargoQnty;
+                    // totalEstQty += item?.estimatedCargoQty;
+                    // totalEstFreight += item?.estFreightAmount;
+                    // totalFreight += item?.numTotalFreight;
+
                     return (
                       <tr key={index}>
                         <td className="text-center" style={{ width: "40px" }}>
@@ -345,8 +370,12 @@ export default function MonthlyVoyageStatement() {
                           )}
                         </td>
                         <td className="text-right">
-                          {_fixedPoint((+item?.cargoQtyAct || 0) *
-                              (+item?.cargoFreightRate || 0), true, 0)}
+                          {_fixedPoint(
+                            (+item?.cargoQtyAct || 0) *
+                              (+item?.cargoFreightRate || 0),
+                            true,
+                            0
+                          )}
                         </td>
                         <td>{item?.dischargePortName}</td>
                         <td>
@@ -385,17 +414,59 @@ export default function MonthlyVoyageStatement() {
                       <b>Total</b>
                     </td>
                     <td className="text-right">
-                      <b>{_fixedPoint(totalEstQty, true, 0)}</b>
+                      <b>
+                        {_fixedPoint(
+                          gridData?.reduce(
+                            (a, b) => a + (+b?.cargoQtyEst || 0),
+                            0
+                          ),
+                          true,
+                          0
+                        )}
+                      </b>
                     </td>
                     <td className="text-right">
-                      <b>{_fixedPoint(totalFinalQty, true, 0)}</b>
+                      <b>
+                        {_fixedPoint(
+                          gridData?.reduce(
+                            (a, b) => a + (+b?.cargoQtyAct || 0),
+                            0
+                          ),
+                          true,
+                          0
+                        )}
+                      </b>
                     </td>
                     <td> </td>
                     <td>
-                      <b>{_fixedPoint(totalEstFreight, true, 0)}</b>
+                      <b>
+                        {_fixedPoint(
+                          gridData?.reduce(
+                            (a, b) =>
+                              a +
+                              (+b?.cargoQtyEst || 0) *
+                                (+b?.cargoFreightRate || 0),
+                            0
+                          ),
+                          true,
+                          0
+                        )}
+                      </b>
                     </td>
                     <td className="text-right">
-                      <b>{_fixedPoint(totalFreight, true, 0)}</b>
+                      <b>
+                        {_fixedPoint(
+                          gridData?.reduce(
+                            (a, b) =>
+                              a +
+                              (+b?.cargoQtyAct || 0) *
+                                (+b?.cargoFreightRate || 0),
+                            0
+                          ),
+                          true,
+                          0
+                        )}
+                      </b>
                     </td>
                     <td> </td>
                     <td> </td>

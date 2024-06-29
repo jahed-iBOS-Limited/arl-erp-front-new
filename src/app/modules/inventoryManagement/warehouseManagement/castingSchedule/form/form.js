@@ -385,7 +385,7 @@ export default function _Form({
                       />
                     </div>
 
-                    <div className="col-lg-3">
+                    {/* <div className="col-lg-3">
                       <label>Non Pump</label>
                       <InputField
                         value={values?.nonPump}
@@ -394,7 +394,7 @@ export default function _Form({
                         touched={touched}
                         errors={errors}
                       />
-                    </div>
+                    </div> */}
 
                     <div className="col-lg-3">
                       <label>Pipe (Feet)</label>

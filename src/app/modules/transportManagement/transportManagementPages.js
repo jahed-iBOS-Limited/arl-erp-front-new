@@ -7,6 +7,7 @@ import { ConfigurationPages } from "./configuration/configurationPages";
 import { ShipmentManagementPages } from "./shipmentManagement/shipmentManagementPage";
 import TransportReportPages from "./report/reportPages";
 import { StuffTransportPages } from "./stuffTransport/stuffTransportPages";
+import FuelStationReport from "./fuelStationReport";
 
 export function TransportManagementPages() {
   return (
@@ -17,30 +18,30 @@ export function TransportManagementPages() {
           from="/transport-management"
           to="/transport-management/transportorganization"
         />
-
         {/* configuration Page */}
         <ContentRoute
           path="/transport-management/configuration"
           component={ConfigurationPages}
         />
-
--      <ContentRoute
+        -{" "}
+        <ContentRoute
+          path="/transport-management/stuffreport/fuelstationreport"
+          component={FuelStationReport}
+        />
+        <ContentRoute
           path="/transport-management/stuffreport"
           component={StuffTransportPages}
         />
-
-        {/* Route Management Page */}
+        - {/* Route Management Page */}
         <ContentRoute
           path="/transport-management/routecostmanagement"
           component={RouteManagementPage}
         />
-
         {/*Shipment Management Page */}
         <ContentRoute
           path="/transport-management/shipmentmanagement"
           component={ShipmentManagementPages}
         />
-
         {/* Configuration Management Page */}
         <ContentRoute
           path="/transport-management/configuration"

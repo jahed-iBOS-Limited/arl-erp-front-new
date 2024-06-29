@@ -5,10 +5,11 @@
     line-height: 1.2;
     box-sizing: border-box;
     font-family: "Times New Roman", Times, serif; /* Classic serif font */
-    font-size: 16px; /* Good default size for print */
+    font-size: 15.5px; /* Good default size for print */
   }
   p {
     margin: 5px 0px 10px 0px;
+    text-align: justify !important;
   }
 
   table {
@@ -37,10 +38,11 @@
     line-height: 1.2;
     box-sizing: border-box;
     font-family: "Times New Roman", Times, serif; /* Classic serif font */
-    font-size: 16px; /* Good default size for print */
+    font-size: 15.5px; /* Good default size for print */
   }
   p {
     margin: 2px 0px;
+    text-align: justify !important;
   }
 
   table {
@@ -60,4 +62,26 @@
     border: none;
     padding: 3px;
   }
+}
+@media print {
+  .ifoot {
+   position: fixed;
+   left: 0;
+   right: 0;
+   background-repeat: no-repeat;
+   background-size: cover;
+   width: 100%;
+ }
+
+
+ .ifoot {
+   bottom: 0;
+   height: 100px; /* Adjust as necessary */
+   background-position: left bottom;
+ }
+ 
+
+ .print-table {
+   page-break-inside: avoid; /* Ensure table rows do not break across pages */
+ }
 }

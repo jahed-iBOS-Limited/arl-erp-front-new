@@ -34,7 +34,7 @@ export default function TdsVdsStatement() {
       `/oms/SalesInformation/GetTDSVDSStatement?businessUnitId=${selectedBusinessUnit?.value}&fromDate=${initData?.fromDate}&toDate=${initData?.toDate}&type=1&nbrSubmitType=${initData?.reportType?.value}
       `
     );
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <Formik
@@ -159,7 +159,9 @@ export default function TdsVdsStatement() {
                               <td>{item?.strBusinessPartnerName}</td>
                               <td>{item?.companybin}</td>
                               <td className="text-right">
-                                {_formatMoney(item?.monTDSAmount)}
+                                {_formatMoney(
+                                  item?.monTDSAmount || item?.monVDSAmount || 0
+                                )}
                               </td>
                             </tr>
                           ))}

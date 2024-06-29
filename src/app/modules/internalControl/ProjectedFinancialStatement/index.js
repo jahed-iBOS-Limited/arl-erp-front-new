@@ -21,6 +21,9 @@ import {
 } from "./helper";
 import ProjectedIncomeStatement from "./projectedIncomeStatement";
 import TrailBalanceProjected from "./trailBalanceProjected";
+import ProjectedCashflowStatementIndirect from "./ProjectedCashflowStatementIndirect";
+import { getBusinessDDLByED } from "../budgetVarianceReports/incomeStatement/helper";
+import DivisionSubDivisionAndBusinessUnit from "./commonDivSubDivToBuN";
 
 const initData = {
   reportType: "",
@@ -54,6 +57,7 @@ export default function ProjectedFinancialStatement() {
     subDivisionDDL,
     getSubDivisionDDL,
     loadingOnSubDivisionDDL,
+    setSubDivisionDDL
   ] = useAxiosGet();
 
   const [
@@ -179,6 +183,7 @@ export default function ProjectedFinancialStatement() {
                       { value: 2, label: "Projected Income Statement" },
                       { value: 3, label: "Projected Balance Sheet" },
                       { value: 4, label: "Projected Cash Flow Statement" },
+                      { value: 9, label: "Projected Cash Flow Indirect" },
                       { value: 6, label: "Projected Financial Ratios" },
                       { value: 7, label: "Projected Planned Asset Schedule" },
                       { value: 8, label: "Projected Planned Fund Requirement" },
@@ -200,7 +205,19 @@ export default function ProjectedFinancialStatement() {
 
                 {[3]?.includes(values?.reportType?.value) ? (
                   <>
-                    <div className="col-md-3">
+                  <DivisionSubDivisionAndBusinessUnit
+                    values={values}
+                    setFieldValue={  setFieldValue}
+                    setSubDivisionDDL={  setSubDivisionDDL}
+                    setbuddl={  setbuddl}
+                    getSubDivisionDDL={  getSubDivisionDDL}
+                    subDivisionDDL={  subDivisionDDL}
+                    getBusinessDDLByED={  getBusinessDDLByED}
+                    enterpriseDivisionDDL={  enterpriseDivisionDDL}
+                    profileData={  profileData}
+                    buddl={buddl}
+                    />
+                    {/* <div className="col-md-3">
                       <NewSelect
                         name="enterpriseDivision"
                         options={enterpriseDivisionDDL || []}
@@ -232,7 +249,7 @@ export default function ProjectedFinancialStatement() {
                         }}
                         placeholder="Business Unit"
                       />
-                    </div>
+                    </div> */}
                     <div className="col-md-3">
                       <InputField
                         value={values?.date}
@@ -262,7 +279,19 @@ export default function ProjectedFinancialStatement() {
 
                 {[2]?.includes(values?.reportType?.value) ? (
                   <>
-                    <div className="col-md-3">
+                  <DivisionSubDivisionAndBusinessUnit
+                    values={values}
+                    setFieldValue={  setFieldValue}
+                    setSubDivisionDDL={  setSubDivisionDDL}
+                    setbuddl={  setbuddl}
+                    getSubDivisionDDL={  getSubDivisionDDL}
+                    subDivisionDDL={  subDivisionDDL}
+                    getBusinessDDLByED={  getBusinessDDLByED}
+                    enterpriseDivisionDDL={  enterpriseDivisionDDL}
+                    profileData={  profileData}
+                    buddl={buddl}
+                    />
+                    {/* <div className="col-md-3">
                       <NewSelect
                         name="enterpriseDivision"
                         options={enterpriseDivisionDDL || []}
@@ -313,7 +342,7 @@ export default function ProjectedFinancialStatement() {
                         }}
                         placeholder="Business Unit"
                       />
-                    </div>
+                    </div> */}
                     <div className="col-md-3">
                       <NewSelect
                         isDisabled={
@@ -486,6 +515,7 @@ export default function ProjectedFinancialStatement() {
                         }}
                       />
                     </div>
+                    
                     <div className="col-md-3">
                       <NewSelect
                         name="businessUnit"
@@ -498,6 +528,61 @@ export default function ProjectedFinancialStatement() {
                         placeholder="Business Unit"
                       />
                     </div>
+                    <div className="col-md-2">
+                      <label>Conversion Rate</label>
+                      <InputField
+                        value={values?.conversionRate}
+                        name="conversionRate"
+                        placeholder="Conversion Rate"
+                        type="text"
+                        onChange={(e) => {
+                          setFieldValue("conversionRate", e.target.value);
+                        }}
+                        min={0}
+                      />
+                    </div>
+                    <div className="col-lg-3">
+                      <InputField
+                        value={values?.fromDate}
+                        label="From Date"
+                        name="fromDate"
+                        type="date"
+                        onChange={(e) => {
+                          setFieldValue("fromDate", e.target.value);
+                          setRowData([]);
+                        }}
+                      />
+                    </div>
+                    <div className="col-lg-3">
+                      <InputField
+                        value={values?.toDate}
+                        label="To Date"
+                        min={values?.fromDate}
+                        name="toDate"
+                        type="date"
+                        onChange={(e) => {
+                          setFieldValue("toDate", e.target.value);
+                          setRowData([]);
+                        }}
+                      />
+                    </div>
+                  </>
+                ) : null}
+
+               {[9]?.includes(values?.reportType?.value) ? (
+                  <>
+                    <DivisionSubDivisionAndBusinessUnit
+                    values={values}
+                    setFieldValue={  setFieldValue}
+                    setSubDivisionDDL={  setSubDivisionDDL}
+                    setbuddl={  setbuddl}
+                    getSubDivisionDDL={  getSubDivisionDDL}
+                    subDivisionDDL={  subDivisionDDL}
+                    getBusinessDDLByED={  getBusinessDDLByED}
+                    enterpriseDivisionDDL={  enterpriseDivisionDDL}
+                    profileData={  profileData}
+                    buddl={buddl}
+                    />
                     <div className="col-md-2">
                       <label>Conversion Rate</label>
                       <InputField
@@ -784,12 +869,13 @@ export default function ProjectedFinancialStatement() {
                             ? values?.productDivision?.value
                             : values?.profitCenter?.value
                             ? values?.profitCenter?.label
-                            : values?.tradeType?.value
+                            : values?.tradeType?.value,
+                            values?.subDivision?.label,
                         );
                       }
                       if ([3]?.includes(values?.reportType?.value)) {
                         getRowData(
-                          `/fino/BalanceSheet/GetBalanceSheetProjected?AccountId=${profileData?.accountId}&BusinessUnitGroup=${values?.enterpriseDivision?.value}&BusinessUnitId=${values?.businessUnit?.value}&AsOnDate=${values?.date}&ConvertionRate=${values?.conversionRate}`,
+                          `/fino/BalanceSheet/GetBalanceSheetProjected?AccountId=${profileData?.accountId}&BusinessUnitGroup=${values?.enterpriseDivision?.value}&BusinessUnitId=${values?.businessUnit?.value}&SubGroup=${values?.subDivision?.label || ""}&AsOnDate=${values?.date}&ConvertionRate=${values?.conversionRate}`,
                           (data) => {
                             setRowData(manageBalanceData(data));
                           }
@@ -898,6 +984,16 @@ export default function ProjectedFinancialStatement() {
                           `/fino/Report/GetPlannedFundRequirement?businessUnitId=${values?.subDivisionBusinessUnit?.value}&strYear=${values?.year?.label}&businessUnitGroup=${values?.enterpriseDivision?.value}&subGroup=${values?.subDivision?.value}`
                         );
                       }
+                      // if ([9]?.includes(values?.reportType?.value)) {
+                      //   getRowData(
+                      //     `/fino/Report/GetCashFlowStatementProjected?BusinessUnitGroup=${values?.enterpriseDivision?.value}&businessUnitId=${values?.businessUnit?.value}&sbuId=0&fromDate=${values?.fromDate}&toDate=${values?.toDate}&ConvertionRate=${values?.conversionRate}`
+                      //   );
+                      // }
+                      if ([9]?.includes(values?.reportType?.value)) {
+                        getRowData(
+                          `/fino/Report/GetCashFlowStatementProjectedIndirect?BusinessUnitGroup=${values?.enterpriseDivision?.value}&SubGroup=${values?.subDivision?.label || ""}&businessUnitId=${values?.businessUnit?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}&ConvertionRate=${values?.conversionRate}`
+                        );
+                      }
                     }}
                     className="btn btn-primary"
                   >
@@ -957,6 +1053,14 @@ export default function ProjectedFinancialStatement() {
                   <ProjectedPlannedFundRequirement
                     rowData={rowData}
                     values={values}
+                  />
+                ) : null}
+
+                {[9]?.includes(values?.reportType?.value) ? (
+                  <ProjectedCashflowStatementIndirect
+                    rowData={rowData}
+                    values={values}
+                    selectedBusinessUnit={values?.businessUnit?.label}
                   />
                 ) : null}
               </div>

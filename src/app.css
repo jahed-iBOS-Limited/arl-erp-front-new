@@ -273,11 +273,12 @@ body {
   border: 1px solid #ecf0f3 !important;
   z-index: 999999;
 }
+
 .loan-scrollable-table thead tr:nth-child(2) th:first-child {
   position: -webkit-unset;
   /* for Safari */
   position: unset;
-  
+
 }
 
 .inventory-statement-report thead th:nth-child(2) {
@@ -2924,7 +2925,40 @@ body {
     min-width: 70px
   }
 
-  .paginationSearch{
+  .paginationSearch {
     width: auto !important;
   }
+}
+
+.projectedCashflowStatementIndirect .group-total {
+  background: #adc9ff !important;
+  font-weight: bold;
+}
+.projectedCashflowStatementIndirect .global-table tbody tr td {
+  font-size: 12px !important;
+  padding: 2px !important;
+}
+.projectedCashflowStatementIndirect .global-table thead tr th {
+  font-size: 12px !important;
+  padding: 2px !important;
+}
+.projectedCashflowStatementIndirect .projectedCashflowStatementIndirectTable{
+  width: 650px;
+  margin: auto;
+  overflow: auto;
+}
+table thead tr th.positionSticky {
+  position: -webkit-sticky;
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  background: #f8f9fa;
+}
+
+table tbody tr td.positionSticky {
+  position: -webkit-sticky;
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  background: #f8f9fa;
 }

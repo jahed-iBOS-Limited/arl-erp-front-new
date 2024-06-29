@@ -1,9 +1,8 @@
 import { Formik, Form } from "formik";
-import React, { useEffect, useState, useRef } from "react";
+import React, { useState, useRef } from "react";
 import { useSelector, shallowEqual, useDispatch } from "react-redux";
 import { _todayDate } from "../../../../_helper/_todayDate";
 import InputField from "./../../../../_helper/_inputField";
-import NewSelect from "./../../../../_helper/_select";
 import ReactToPrint from "react-to-print";
 import {
   ModalProgressBar,
@@ -12,17 +11,17 @@ import {
   CardHeader,
   CardHeaderToolbar,
 } from "./../../../../../../_metronic/_partials/controls";
-import { getIncomeStatement_api, getSbuDDL } from "../helper";
+import { getIncomeStatement_api,  } from "../helper";
 import { _formatMoney } from "./../../../../_helper/_formatMoney";
 import printIcon from "../../../../_helper/images/print-icon.png";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import { SetReportIncomestatementAction } from "./../../../../_helper/reduxForLocalStorage/Actions";
-
+import Loading from "../../../../_helper/_loading";
 const html2pdf = require("html2pdf.js");
 
 export function TableRow() {
-
   const { reportIncomestatement } = useSelector((state) => state?.localStorage);
+  const [isLoading, setIsLoading] = useState(false);
 
   const initData = {
     id: undefined,
@@ -35,7 +34,7 @@ export function TableRow() {
 
   const dispatch = useDispatch();
 
-  const [sbiDDL, setSbuDDL] = useState([]);
+  // const [sbiDDL, setSbuDDL] = useState([]);
   const [incomeStatement, setIncomeStatement] = useState([]);
   // get user profile data from store
   const storeData = useSelector((state) => {
@@ -44,13 +43,13 @@ export function TableRow() {
       selectedBusinessUnit: state?.authData?.selectedBusinessUnit,
     };
   }, shallowEqual);
-  const { profileData, selectedBusinessUnit } = storeData;
+  const { selectedBusinessUnit } = storeData;
 
-  useEffect(() => {
-    if (profileData.accountId && selectedBusinessUnit.value) {
-      getSbuDDL(profileData.accountId, selectedBusinessUnit.value, setSbuDDL);
-    }
-  }, [profileData, selectedBusinessUnit]);
+  // useEffect(() => {
+  //   if (profileData.accountId && selectedBusinessUnit.value) {
+  //     getSbuDDL(profileData.accountId, selectedBusinessUnit.value, setSbuDDL);
+  //   }
+  // }, [profileData, selectedBusinessUnit]);
   const pdfExport = (fileName) => {
     var element = document.getElementById("pdf-section");
     var opt = {
@@ -85,6 +84,9 @@ export function TableRow() {
       >
         {({ errors, touched, setFieldValue, isValid, values }) => (
           <>
+          {
+            isLoading && <Loading />
+          }
             <Card>
               {true && <ModalProgressBar />}
               <CardHeader title={"Income Statement Report"}>
@@ -131,7 +133,7 @@ export function TableRow() {
                   // ref={printRef}
                 >
                   <div className="row global-form incomestatementTablePrint">
-                    <div className="col-lg-3">
+                    {/* <div className="col-lg-3">
                       <NewSelect
                         name="SBU"
                         options={sbiDDL || []}
@@ -150,7 +152,7 @@ export function TableRow() {
                         errors={errors}
                         touched={touched}
                       />
-                    </div>
+                    </div> */}
                     <div className="col-lg-3">
                       <label>From Date</label>
                       <InputField
@@ -185,7 +187,7 @@ export function TableRow() {
                         }}
                       />
                     </div>
-                    <div className="col-lg-3">
+                    {/* <div className="col-lg-3">
                       <label>Last Period From</label>
                       <InputField
                         value={values?.lastPeriodFrom}
@@ -218,23 +220,23 @@ export function TableRow() {
                           );
                         }}
                       />
-                    </div>
+                    </div> */}
                     <div className="col-lg-3 mt-5">
                       <button
-                        className="btn btn-primary"
+                        className="btn btn-primary mt-1"
                         type="button"
                         onClick={() => {
                           getIncomeStatement_api(
                             values?.fromDate,
                             values?.todate,
-                            values?.lastPeriodFrom,
-                            values?.lastPeriodTo,
                             selectedBusinessUnit?.value,
                             values?.SBU?.value,
-                            setIncomeStatement
+                            setIncomeStatement,
+                            setIsLoading
                           );
                         }}
-                        disabled={!values?.SBU}
+                        // disabled={!values?.SBU}
+                        disabled={!values?.fromDate || !values?.todate}
                       >
                         Show
                       </button>
@@ -261,7 +263,7 @@ export function TableRow() {
                             <thead>
                               <tr>
                                 <th style={{ width: "500px" }}>Particulars</th>
-                                <th style={{ width: "200px" }}>Note SL</th>
+                                {/* <th style={{ width: "200px" }}>Note SL</th> */}
 
                                 <th
                                   style={{ width: "250px" }}
@@ -303,22 +305,23 @@ export function TableRow() {
                                       : data?.strFSComponentName ===
                                         "Earning Before Tax"
                                       ? "font-weight-bold"
+                                      : data?.isAggregate
+                                      ? "font-weight-bold"
                                       : ""
                                   }
                                 >
                                   <td className="text-left">
                                     {data?.strFSComponentName}
                                   </td>
-                                  <td></td>
-
+                                  {/* <td></td> */}
                                   <td className="text-right">
-                                    {_formatMoney(data?.monLastPeriodAmount)}
+                                    {data?.isLabel ? "" : _formatMoney(data?.monLastPeriodAmount)}
                                   </td>
                                   <td className="text-right">
-                                    {_formatMoney(data?.monCurrentPeriodAmount)}
+                                    {data?.isLabel ? "" : _formatMoney(data?.monCurrentPeriodAmount)}
                                   </td>
                                   <td className="text-right">
-                                    {_formatMoney(
+                                    {data?.isLabel ? "" : _formatMoney(
                                       data?.monLastPeriodAmount -
                                         data?.monCurrentPeriodAmount
                                     )}

@@ -95,7 +95,6 @@ function Form({
 
   const dispatch = useDispatch();
 
- 
   useEffect(() => {
     if (initData?.respondentType?.value) {
       // if type supplier
@@ -134,7 +133,10 @@ function Form({
         setComplainSubCategory
       );
 
-      if (initData?.respondentBusinessUnit?.value && initData?.issueType?.value) {
+      if (
+        initData?.respondentBusinessUnit?.value &&
+        initData?.issueType?.value
+      ) {
         getComplainSubcategoryApi(
           initData?.respondentBusinessUnit?.value,
           initData?.issueType?.value,
@@ -269,7 +271,7 @@ function Form({
                       setFieldValue("challanOrPO", "");
                       setFieldValue("respondent", "");
                       setFieldValue("deliveryDate", "");
-                      setFieldValue("sourceCustomerType","")
+                      setFieldValue("sourceCustomerType", "");
 
                       // if type supplier
                       if (valueOption?.value === 2) {
@@ -450,8 +452,17 @@ function Form({
                         // touched={touched}
                         isDisabled={true}
                       />
-                      <div style={{ marginTop: "23px", paddingLeft: "3px", display: !values || !values.sourceCustomerType ? "none" : "block" }}>
-                        <OverlayTrigger 
+                      <div
+                        style={{
+                          marginTop: "23px",
+                          paddingLeft: "3px",
+                          display:
+                            !values || !values.sourceCustomerType
+                              ? "none"
+                              : "block",
+                        }}
+                      >
+                        <OverlayTrigger
                           overlay={
                             <Tooltip id="cs-icon">
                               {"Add Respondent Name"}
@@ -578,7 +589,6 @@ function Form({
                         })
                         .catch((err) => []);
                     }}
-                    
                     placeholder="Search by Enroll/ID No/Name (min 3 letter)"
                   />
                 </div>
@@ -605,7 +615,7 @@ function Form({
                         className="btn btn-primary mr-2"
                         type="button"
                         onClick={() => setOpen(true)}
-                        style={{ padding: "4px 5px",marginTop:"14px" }}
+                        style={{ padding: "4px 5px", marginTop: "14px" }}
                       >
                         Attachment
                       </button>
@@ -615,7 +625,7 @@ function Form({
                   <div>
                     {values?.attachment && (
                       <button
-                      style={{ padding: "4px 5px",marginTop:"14px" }}
+                        style={{ padding: "4px 5px", marginTop: "14px" }}
                         className="btn btn-primary"
                         type="button"
                         onClick={() => {
