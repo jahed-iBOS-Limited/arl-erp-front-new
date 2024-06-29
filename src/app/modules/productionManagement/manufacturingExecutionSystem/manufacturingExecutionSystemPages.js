@@ -15,9 +15,9 @@ import findIndex from "./../../_helper/_findIndex";
 import BillofMaretialViewForm from "./billOfMaterial/View/addForm";
 import ProductionEntryApprovalForm from "./productionEntry/Approval/AddEditForm";
 import ProductionEntryBackCalculationApprovalForm from "./productionEntry/ApprovalForBackCalculation/AddEditForm";
-import BackCalculationEditForm from './productionEntry/BackCalculationEditForm/AddEditForm';
+import BackCalculationEditForm from "./productionEntry/BackCalculationEditForm/AddEditForm";
 import BackCalculationForm from "./productionEntry/BackCalculationForm/AddEditForm";
-import WithOutBackCalculationForm from './productionEntry/WithoutBackCalculationForm/AddEditForm';
+import WithOutBackCalculationForm from "./productionEntry/WithoutBackCalculationForm/AddEditForm";
 import { ProductionOrderLanding } from "./productionOrder/Table/tableHeader";
 import ProductionOrderClosed from "./productionOrder/closed/productionOrderClosed";
 import CreateSubPOForm from "./productionOrder/createSubPO/addForm";
@@ -28,6 +28,8 @@ import ReceiveFromShopFloorViewForm from "./receiveFromShopFloor/view/addEditFor
 import ShopFloorInvTransCreateForm from "./shopFloorInvTrans/Create/addEditForm";
 import { ShopFloorInvTransactionTable } from "./shopFloorInvTrans/Table/tableHeader";
 import ProductionEntryApprove from "./productionEntry/productionentryApprove";
+import MachineEmpAssign from "./machineEmpAssign";
+import CreateEditMachineEmpAssign from "./machineEmpAssign/CreateEditMachineEmpAssign";
 
 export function ManufacturingExecutionSystemPages() {
   const userRole = useSelector(
@@ -41,7 +43,6 @@ export function ManufacturingExecutionSystemPages() {
   const productionOrder = userRole[findIndex(userRole, "Production Order")];
   const productionEntry = userRole[findIndex(userRole, "Production Entry")];
   const billOfMaterial = userRole[findIndex(userRole, "Bill Of Material")];
-
 
   return (
     <Switch>
@@ -133,13 +134,21 @@ export function ManufacturingExecutionSystemPages() {
       <ContentRoute
         from="/production-management/mes/productionentry/create"
         component={
-          location?.state?.data?.isBackCalculation === 1 ? (productionEntry?.isCreate ? BackCalculationForm : NotPermittedPage) : (productionEntry?.isCreate ? WithOutBackCalculationForm : NotPermittedPage)
+          location?.state?.data?.isBackCalculation === 1
+            ? productionEntry?.isCreate
+              ? BackCalculationForm
+              : NotPermittedPage
+            : productionEntry?.isCreate
+            ? WithOutBackCalculationForm
+            : NotPermittedPage
         }
       />
       <ContentRoute
         from="/production-management/mes/productionentry/edit/:id"
         component={
-          productionEntry?.isEdit ? WithOutBackCalculationForm : NotPermittedPage
+          productionEntry?.isEdit
+            ? WithOutBackCalculationForm
+            : NotPermittedPage
         }
       />
       <ContentRoute
@@ -152,6 +161,19 @@ export function ManufacturingExecutionSystemPages() {
         from="/production-management/mes/productionentry"
         component={ProductionEntry}
       />
+      <ContentRoute
+        from="/production-management/mes/machine-employee-assign/edit/:id"
+        component={CreateEditMachineEmpAssign}
+      />
+      <ContentRoute
+        from="/production-management/mes/machine-employee-assign/create"
+        component={CreateEditMachineEmpAssign}
+      />
+      <ContentRoute
+        from="/production-management/mes/machine-employee-assign"
+        component={MachineEmpAssign}
+      />
+
       {/* Shop Floor Inventory Transaction*/}
       <ContentRoute
         from="/production-management/mes/shopFloorInventoryTransaction/view/:viewId"
