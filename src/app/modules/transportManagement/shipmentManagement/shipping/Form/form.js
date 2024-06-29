@@ -256,12 +256,10 @@ export default function _Form({
     rowDto,
   ]);
 
-  // const isGateMaintain = shippointDDL?.find(
-  //   (i) => i.value === headerData?.pgiShippoint?.value
-  // )?.isGateMaintain;
-
-  const isGateMaintain = true;
-
+  const isGateMaintain = shippointDDL?.find(
+    (i) => i.value === headerData?.pgiShippoint?.value
+  )?.isGateMaintain;
+  
   useEffect(() => {
     if (vehicleDDL?.length > 0 && document.getElementById("cardNoInput")) {
       document.getElementById("cardNoInput").focus();
