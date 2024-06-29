@@ -34,10 +34,11 @@ export default function DriverTripInfoTbl({ rowData }) {
     return acc + total;
   }, 0);
 
+  const totalCNG = rowData?.reduce((acc, curr) => acc + curr?.cng, 0);
   const totalLPG = rowData?.reduce((acc, curr) => acc + curr?.lpeg, 0);
   const totalDiesel = rowData?.reduce((acc, curr) => (acc = curr?.diesel), 0);
   const totalOctane = rowData?.reduce((acc, curr) => (acc = curr?.octane), 0);
-  const totalFuelCost = totalLPG + totalDiesel + totalOctane;
+  const totalFuelCost =totalCNG + totalLPG + totalDiesel + totalOctane;
   return (
     <div>
       <h4 className="text-center mt-5">
@@ -62,6 +63,7 @@ export default function DriverTripInfoTbl({ rowData }) {
             <th>Others</th>
             <th>Maintaince</th>
             <th>Total Driver Cost</th>
+            <th>CNG</th>
             <th>LPG Gas</th>
             <th>Diesel</th>
             <th>Octane </th>
@@ -94,11 +96,12 @@ export default function DriverTripInfoTbl({ rowData }) {
                     item?.numOthersAmount +
                     item?.numRepairingAmount}
                 </td>
+                <td className="text-right">{item?.cng}</td>
                 <td className="text-right">{item?.lpeg}</td>
                 <td className="text-right">{item?.diesel}</td>
                 <td className="text-right">{item?.octane}</td>
                 <td className="text-right">
-                  {item?.lpeg + item?.diesel + item?.octane}
+                  {item?.cng + item?.lpeg + item?.diesel + item?.octane}
                 </td>
                 <td className="text-center">
                   <div style={{display:"flex", gap:"4px",padding:"0px 8px"}}>
@@ -125,7 +128,7 @@ export default function DriverTripInfoTbl({ rowData }) {
             ))}
           {rowData?.length > 0 && (
             <tr style={{ fontWeight: "bold" }}>
-              <td colSpan={3}>Total</td>
+              <td colSpan={6}>Total</td>
               <td className="text-right"> {totalKM} </td>
               <td colSpan={3}></td>
               <td className="text-right">{_formatMoney(totalTollAmount)}</td>
@@ -133,10 +136,12 @@ export default function DriverTripInfoTbl({ rowData }) {
               <td className="text-right">{_formatMoney(totalOthers)}</td>
               <td className="text-right">{_formatMoney(totalMaintenance)}</td>
               <td className="text-right">{_formatMoney(totalDriverCost)}</td>
+              <td className="text-right">{_formatMoney(totalCNG)}</td>
               <td className="text-right">{_formatMoney(totalLPG)}</td>
               <td className="text-right">{_formatMoney(totalDiesel)}</td>
               <td className="text-right">{_formatMoney(totalOctane)}</td>
               <td className="text-right">{_formatMoney(totalFuelCost)}</td>
+              <td></td>
             </tr>
           )}
         </tbody>
