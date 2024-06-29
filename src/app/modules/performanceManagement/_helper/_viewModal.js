@@ -9,7 +9,7 @@ import {
 import { useLocation } from "react-router-dom";
 import { IQueryParser } from "../../_helper/_queryParser";
 import IViewModal from "../../_helper/_viewModal";
-import customStyles from "../../selectCustomStyle";
+import customStyles from "../../selectCustomStyle"; 
 
 export default function ViewModal({ show, onHide, history, children }) {
   const location = useLocation();
