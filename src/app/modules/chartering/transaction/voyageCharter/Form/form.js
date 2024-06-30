@@ -558,18 +558,25 @@ export default function _Form({
                           <button
                             onClick={() => {
                               const payload = {
-                                transactionId: +invoiceHireData?.freightInvoiceId || 0,
+                                transactionId:
+                                  +invoiceHireData?.freightInvoiceId || 0,
+                                voyageCharterId:
+                                  +invoiceHireData?.charterId || 0,
                                 unitId: selectedBusinessUnit?.value,
                                 accountId: profileData?.accountId,
                                 charterId: values?.charterer?.value,
                                 receiveAmount: +values?.receiveAmount || 0,
                                 bankAccountId: +values?.bankAccNo?.value || 0,
                                 receiveDate: values?.receivedDate || new Date(),
+                                hireNo:
+                                  values?.statement?.value === 1
+                                    ? "Initial"
+                                    : "Final",
                               };
                               voyageCharterBRApi(payload, setLoading, () => {
                                 setFieldValue("receiveAmount", "");
                                 setFieldValue("bankAccNo", "");
-                                setFieldValue("receivedDate", '');
+                                setFieldValue("receivedDate", "");
                               });
                             }}
                             type={"button"}
