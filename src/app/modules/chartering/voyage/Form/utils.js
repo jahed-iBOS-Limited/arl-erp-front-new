@@ -168,6 +168,7 @@ export const timeChartererSavePayloadMaker = (
       chartererVoyageId: 0, // Unknown
       chartererVoyageCode: "", // Unknown
       voyageTypeName: values?.voyageType?.label,
+      voyageNo: +values?.currentVoyageNo || 0,
       voyageStartDate: values?.startDate,
       voyageEndDate: values?.completionDate,
       voyageDurrition: values?.voyageDuration,
@@ -259,6 +260,7 @@ export const voyageChartererSavePayloadMaker = (
       chartererVoyageId: 0, // Unknown
       chartererVoyageCode: "", // Unknown
       voyageTypeName: values?.voyageType?.label,
+      voyageNo: +values?.currentVoyageNo || 0,
       voyageStartDate: values?.startDate,
       voyageEndDate: values?.completionDate,
       voyageDurrition: values?.voyageDuration,
@@ -308,6 +310,7 @@ export const voyageChartererEditPayloadMaker = (
       chartererVoyageId: 0, // Unknown
       chartererVoyageCode: "", // Unknown
       voyageTypeName: values?.voyageType?.label,
+      voyageNo: +values?.currentVoyageNo || 0,
       voyageStartDate: values?.startDate,
       voyageEndDate: values?.completionDate,
       voyageDurrition: values?.voyageDuration,
@@ -347,6 +350,7 @@ export const timeChartererEditPayloadMaker = (
       voyageId: id,
       voyageTypeId: values?.voyageType?.value,
       voyageTypeName: values?.voyageType?.label,
+      voyageNo: +values?.currentVoyageNo || 0,
       voyageStartDate: values?.startDate,
       voyageEndDate: values?.completionDate,
       voyageDurrition: values?.voyageDuration,
