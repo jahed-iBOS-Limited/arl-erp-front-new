@@ -86,7 +86,7 @@ export default function ShippingPrint({ id, shipmentCode, state }) {
               </div>
               <div className="d-flex justify-content-between my-5">
                 <div>
-                  <b>Delivery From: {`${state?.pgiShippoint?.label}`}</b>
+                  <b>Delivery From: {`${state?.pgiShippoint?.label || shippingPrint?.objHeader?.shipPointName}`}</b>
 
                   <br />
                   <b>Shipment No: {`${shipmentCode}`}</b>
