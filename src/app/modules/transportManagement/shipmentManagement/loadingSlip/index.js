@@ -62,35 +62,29 @@ function LoadingSlip() {
                             `/mes/MSIL/GetAllMSIL?PartName=GetVehicleInfoByCardNumber&BusinessUnitId=${selectedBusinessUnit?.value}&search=${values?.strCardNumber}`,
                             (data) => {
                               if (data?.length > 0) {
-                                getRegData(
-                                  `/mes/MSIL/GetAllMSIL?PartName=SecondWeightEntryCodeDDL&BusinessUnitId=${selectedBusinessUnit?.value}&search=${data?.[0]?.label}`,
-                                  (data) => {
-                                    if (data.length > 0) {
-                                      const entryCodeObj = data?.[0] || "";
-                                      setFieldValue("entryCode", entryCodeObj);
-                                      getShipmentDDL(
-                                        `/mes/MSIL/GetAllMSIL?PartName=ShipmentByGetVehicleEntry&AutoId=${entryCodeObj?.value}`,
-                                        (resData) => {
-                                          if (resData?.length === 1) {
-                                            setFieldValue(
-                                              "shipment",
-                                              resData?.[0] || ""
-                                            );
-                                            const firstShipment =
-                                              resData?.[0] || {};
-                                            setShowModal(true);
-                                            setClickRowData({
-                                              ...firstShipment,
-                                              id: firstShipment?.value,
-                                              shipmentCode:
-                                                firstShipment?.label,
-                                            });
-                                          }
-                                        }
-                                      );
+                                if (data.length > 0) {
+                                  const entryCodeObj = data?.[0] || "";
+                                  setFieldValue("entryCode", entryCodeObj);
+                                  getShipmentDDL(
+                                    `/mes/MSIL/GetAllMSIL?PartName=ShipmentByGetVehicleEntry&AutoId=${entryCodeObj?.value}`,
+                                    (resData) => {
+                                      if (resData?.length === 1) {
+                                        setFieldValue(
+                                          "shipment",
+                                          resData?.[0] || ""
+                                        );
+                                        const firstShipment =
+                                          resData?.[0] || {};
+                                        setShowModal(true);
+                                        setClickRowData({
+                                          ...firstShipment,
+                                          id: firstShipment?.value,
+                                          shipmentCode: firstShipment?.label,
+                                        });
+                                      }
                                     }
-                                  }
-                                );
+                                  );
+                                }
                               } else {
                                 toast.warn("কার্ড নাম্বার সঠিক নয়");
                                 setFieldValue("strCardNumber", "");
@@ -121,6 +115,8 @@ function LoadingSlip() {
                     }}
                     onClick={() => {
                       setFieldValue("strCardNumber", "");
+                      setFieldValue("entryCode", "");
+                      setFieldValue("shipment", "");
                       document.getElementById("cardNoInput").disabled = false;
                       document.getElementById("cardNoInput").focus();
                       resetForm();
@@ -138,7 +134,7 @@ function LoadingSlip() {
                 <div className="col-lg-3">
                   <label>রেজি. নং</label>
                   <SearchAsyncSelect
-                    // isDisabled
+                    isDisabled
                     selectedValue={values?.entryCode}
                     handleChange={(valueOption) => {
                       if (valueOption) {
