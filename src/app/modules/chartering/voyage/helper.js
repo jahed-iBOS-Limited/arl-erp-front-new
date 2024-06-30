@@ -274,6 +274,7 @@ export const getVoyageById = async (
         value: headerData?.voyageTypeId,
         label: headerData?.voyageTypeName,
       },
+      currentVoyageNo: headerData?.voyageNo || "",
       chartererVoyageCode: {
         value: 0,
         label: headerData?.voyageCode,
