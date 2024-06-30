@@ -25,6 +25,11 @@ import { tradersLetterhead } from "../../invoiceManagementSystem/salesInvoice/ba
 import { tradingLetterhead } from "../../invoiceManagementSystem/salesInvoice/base64Images/trading";
 import { hashemhead } from "../../invoiceManagementSystem/salesInvoice/base64Images/hashem";
 import { akijLogisticshead } from "../../invoiceManagementSystem/salesInvoice/base64Images/akijLogistics";
+import { seaLineLetterhead } from "../../invoiceManagementSystem/salesInvoice/base64Images/seaLine";
+import { seaLineShippingLetterhead } from "../../invoiceManagementSystem/salesInvoice/base64Images/seaLineShip";
+import { oceanLetterhead } from "../../invoiceManagementSystem/salesInvoice/base64Images/ocean";
+import { mariTimeLetterhead } from "../../invoiceManagementSystem/salesInvoice/base64Images/mariTime";
+import { akijShippingLetterhead } from "../../invoiceManagementSystem/salesInvoice/base64Images/akijShipping";
 
 export const getLetterHead = ({ buId }) => {
   const letterhead =
@@ -80,6 +85,16 @@ export const getLetterHead = ({ buId }) => {
       ? hashemhead
       : buId === 225
       ? akijLogisticshead
+      : buId === 208
+      ? seaLineLetterhead
+      : buId === 233
+      ? seaLineShippingLetterhead
+      : buId === 12
+      ? oceanLetterhead
+      : buId === 117
+      ? mariTimeLetterhead
+      : buId === 17
+      ? akijShippingLetterhead
       : "";
 
   return letterhead;
