@@ -53,6 +53,7 @@ const initData = {
   totalPieces: "",
   veichleEntry: "",
   strCardNo: "",
+  pump: ''
 };
 
 export default function ShipmentForm({
