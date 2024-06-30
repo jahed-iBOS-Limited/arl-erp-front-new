@@ -5,7 +5,6 @@ import { shallowEqual, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 
 import * as Yup from "yup";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import Loading from "../../../_helper/_loading";
 import IForm from "../../../_helper/_form";
@@ -15,7 +14,6 @@ import axios from "axios";
 import SearchAsyncSelect from "../../../_helper/SearchAsyncSelect";
 import { _todayDate } from "../../../_helper/_todayDate";
 import { getPlantDDL } from "../billOfMaterial/helper";
-import { set } from "lodash";
 import {
   getShopFloorDDL,
   getWorkCenterNameDDL,
@@ -23,35 +21,11 @@ import {
 
 const initData = {
   businessUnit: "",
-  territory: "",
-  thana: "",
-  deedNo: "",
-  deedAmount: "",
-  deedType: "",
-  registrationDate: "",
-  landQuantity: "",
-  seller: "",
-  buyer: "",
-  csKhatian: "",
-  csPlot: "",
-  saKhatian: "",
-  cityJaripKhatian: "",
-  saPlot: "",
-  rsPlot: "",
-  rsKhatian: "",
-  rsLandQuantity: "",
-  mouza: "",
-  cityJaripPlot: "",
-  cityJaripPlotLand: "",
-  subRegister: "",
-  registrationCost: "",
-  brokerAmount: "",
-  // ploatNo: "",
-  // dagNo: "",
-  remarks: "",
-  otherCost: "",
-  deedYear: "",
-  strRegistrationAttachment: "",
+  date: _todayDate(),
+  plant: "",
+  workCenter: "",
+  shopFloor: "",
+  assignTo: "",
 };
 export default function CreateEditMachineEmpAssign() {
   const {
@@ -107,6 +81,8 @@ export default function CreateEditMachineEmpAssign() {
       intMonthId: +`${moment(values?.date).format("MM")}`,
       intYearId: +`${moment(values?.date).format("YYYY")}`,
       isActive: true,
+      strShopFloorName: values?.shopFloor?.label,
+      intShopFloorId: values?.shopFloor?.value,
       intActionBy: userId,
       intUpdateBy: userId,
     };
@@ -126,19 +102,29 @@ export default function CreateEditMachineEmpAssign() {
   const mapStateToInitialValues = (state) => ({
     businessUnit: { value: buId, label: label },
     assignTo: { value: state?.intEmployeeId, label: state?.strEmployeeName },
+    shopFloor: { value: state?.intShopFloorId, label: state?.strShopFloorName },
     workCenter: { value: state?.intMachineId, label: state?.strMachineName },
     plant: { value: state?.intPlantId, label: state?.strPlantName },
     date: generateDate(state?.intMonthId, state?.intYearId),
   });
 
   const validationSchema = Yup.object().shape({
-    businessUnit: Yup.object().required("Business Unit is required"),
-    assignTo: Yup.object().required("Employee is required"),
-    plant: Yup.object().required("Plant is required"),
-    workCenter: Yup.object().required("Work center is required"),
-    shopFloor: Yup.object().required("Shop Floor  is required"),
+    businessUnit: Yup.object()
+      .required("Business Unit is required")
+      .typeError("Business Unit is required"),
+    assignTo: Yup.object()
+      .required("Employee is required")
+      .typeError("Employee is required"),
+    plant: Yup.object()
+      .required("Plant is required")
+      .typeError("Plant is required"),
+    workCenter: Yup.object()
+      .required("Work center is required")
+      .typeError("Work center is required"),
+    shopFloor: Yup.object()
+      .required("Shop Floor  is required")
+      .typeError("Shop Floor is required"),
   });
-
   return (
     <Formik
       enableReinitialize={true}
@@ -263,7 +249,7 @@ export default function CreateEditMachineEmpAssign() {
                   <NewSelect
                     name="shopFloor"
                     options={shopFloorDDL}
-                    value={values?.shopFloorName}
+                    value={values?.shopFloor}
                     label="Shop Floor"
                     onChange={(valueOption) => {
                       setFieldValue("shopFloor", valueOption);

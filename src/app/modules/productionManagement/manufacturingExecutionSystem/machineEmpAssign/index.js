@@ -129,6 +129,7 @@ export default function MachineEmpAssign() {
                         <th>SL</th>
                         <th>Employee Name</th>
                         <th>Plant</th>
+                        <th>Shop Floor</th>
                         <th>Machine Name</th>
                         <th>Month Year</th>
                         <th>Action</th>
@@ -142,6 +143,9 @@ export default function MachineEmpAssign() {
                             {item?.strEmployeeName}
                           </td>
                           <td className="text-center">{item?.strPlantName}</td>
+                          <td className="text-center">
+                            {item?.strShopFloorName}
+                          </td>
                           <td className="text-center">
                             {item?.strMachineName}
                           </td>
