@@ -231,7 +231,10 @@ export const GetTransactionDetails = async (
 ) => {
   setLoading(true);
   try {
-    const apiName = type === "create" ? "GetTimeCharterByIdForTimeCharter" : "GetTimeCharterById"; 
+    const apiName =
+      type === "create"
+        ? "GetTimeCharterByIdForTimeCharter"
+        : "GetTimeCharterById";
     const resInvoiceTransaction = await axios.get(
       `${imarineBaseUrl}/domain/TimeCharterTransaction/${apiName}?AccountId=${accId}&BusinessUnitId=${buId}&VesselId=${vesselId}&VoyageId=${voyageId}&HireTrasaction=${transactionId}`
     );
@@ -251,7 +254,6 @@ export const GetTransactionDetails = async (
       setLoading(false);
       return;
     } else {
-
       const prevHireList = res?.data?.previousTransaciton?.map((item) => {
         return {
           description: `${item?.transactionName} ${
@@ -310,8 +312,8 @@ export const GetTransactionDetails = async (
             tctransactionId: 0,
             duration: item?.offHireDurOnPercentage,
             quantity: 0,
-            debit: hireTypeName === 1 ? 0 : ( +item?.addressCommision || 0),
-            credit: hireTypeName === 1 ? (+item?.addressCommision) :  0,
+            debit: hireTypeName === 1 ? 0 : +item?.addressCommision || 0,
+            credit: hireTypeName === 1 ? +item?.addressCommision : 0,
             active: true,
             notes: "",
             isChecked: true,
@@ -720,13 +722,19 @@ export const createTimeCharterBR = async (
   charterId,
   amount,
   bankAccId,
+  voyageNo,
+  hireNo,
+  vesselName,
   setLoading,
   cb
 ) => {
   setLoading && setLoading(true);
   try {
+    // const res = await axios.get(
+    //   `/fino/BankJournal/TimeCharterBR?businessUnitId=${buId}&accountId=${accId}&charterId=${charterId}&amount=${amount}&bankAccountId=${bankAccId}`
+    // );
     const res = await axios.get(
-      `/fino/BankJournal/TimeCharterBR?businessUnitId=${buId}&accountId=${accId}&charterId=${charterId}&amount=${amount}&bankAccountId=${bankAccId}`
+      `${imarineBaseUrl}/domain/VoyageCharter/TimeCharterBRNew?businessUnitId=${buId}&accountId=${accId}&charterId=${charterId}&amount=${amount}&bankAccountId=${bankAccId}&VoyageNo=${voyageNo}&HireNo=${hireNo}&VesselName=${vesselName}`
     );
     toast.success(res?.data?.message);
     cb && cb();

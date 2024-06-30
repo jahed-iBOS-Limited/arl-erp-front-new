@@ -14,7 +14,7 @@ import {
   getSalesOrgList,
   GetTransactionDetails,
   timeCharterReceiveAmountUpdate,
-  validationSchema
+  validationSchema,
 } from "../helper";
 import EditInvoiceForOwner from "../invoice/editInvoiceForOwner";
 import InvoiceForCharterer from "../invoice/invoiceForCharterer";
@@ -53,8 +53,8 @@ export default function _Form({
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
 
-  useEffect(()=>{
-    if(type === "create" && preData?.vesselName?.value){
+  useEffect(() => {
+    if (type === "create" && preData?.vesselName?.value) {
       getVoyageDDLNew({
         accId,
         buId,
@@ -66,8 +66,8 @@ export default function _Form({
         voyageTypeId: 1,
       });
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[preData])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [preData]);
 
   useEffect(() => {
     if (singleData?.objRows?.length > 0 && viewType !== "edit") {
@@ -269,7 +269,9 @@ export default function _Form({
                   <button
                     type="button"
                     onClick={() => {
-                      if (type === "create" ? false : preData?.vesselName?.label) {
+                      if (
+                        type === "create" ? false : preData?.vesselName?.label
+                      ) {
                         history.push("/");
                       } else {
                         history.goBack();
@@ -346,7 +348,11 @@ export default function _Form({
                           });
                         }
                       }}
-                      isDisabled={type === "create" ? false : viewType || preData?.vesselName}
+                      isDisabled={
+                        type === "create"
+                          ? false
+                          : viewType || preData?.vesselName
+                      }
                       errors={errors}
                       touched={touched}
                     />
@@ -370,8 +376,10 @@ export default function _Form({
                         });
                         setFieldValue("voyageNo", valueOption);
                       }}
-                      isDisabled={type === "create" ? false :
-                        viewType || !values?.vesselName || preData?.voyageNo
+                      isDisabled={
+                        type === "create"
+                          ? false
+                          : viewType || !values?.vesselName || preData?.voyageNo
                       }
                       errors={errors}
                       touched={touched}
@@ -553,6 +561,9 @@ export default function _Form({
                                         invoiceHireData?.objHeader?.chtrId,
                                         values?.receiveAmount,
                                         values?.bankAccNo?.value,
+                                        values?.voyageNo?.value,
+                                        values?.transactionName?.label,
+                                        values?.vesselName?.value,
                                         setLoading,
                                         () => {
                                           resetForm(initData);
