@@ -1,33 +1,31 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import Form from "./form";
-import {
-  saveShipment,
-  getSalesContactById,
-  getSoldToPPIdAction,
-  getPaymentTermsDDLAction,
-  setSalesContactSingleEmpty,
-  // saveEditedShipment,
-  GetVehicleDDLAction,
-  GetPendingDeliveryDDLAction,
-  getVehicleSingleDatabyVehicleIdAction,
-  getDeliveryItemVolumeInfoAction,
-  getIsSubsidyRunningAction,
-} from "../_redux/Actions";
+import React, { useEffect, useState } from "react";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
+import { toast } from "react-toastify";
 import IForm from "../../../../_helper/_form";
 import {
-  getPlantDDLAction,
-  getSalesOrgDDLAction,
   getDistributionChannelDDLAction,
   getItemSaleDDLAction,
+  getPlantDDLAction,
+  getSalesOrgDDLAction,
 } from "../../../../_helper/_redux/Actions";
-import { isUniq } from "../../../../_helper/uniqChecker";
 import { _todayDate } from "../../../../_helper/_todayDate";
-import { useLocation } from "react-router-dom";
-import { getLoadingPointDDLAction } from "./../_redux/Actions";
-import { toast } from "react-toastify";
-import Loading from "./../../../../_helper/_loading";
+import { isUniq } from "../../../../_helper/uniqChecker";
+import {
+  GetPendingDeliveryDDLAction,
+  getDeliveryItemVolumeInfoAction,
+  getIsSubsidyRunningAction,
+  getPaymentTermsDDLAction,
+  getSalesContactById,
+  getSoldToPPIdAction,
+  getVehicleSingleDatabyVehicleIdAction,
+  saveShipment,
+  setSalesContactSingleEmpty,
+} from "../_redux/Actions";
 import { shipmentInfoUpdate } from "../helper";
+import Loading from "./../../../../_helper/_loading";
+import { getLoadingPointDDLAction } from "./../_redux/Actions";
+import Form from "./form";
 
 const initData = {
   id: undefined,
@@ -66,7 +64,7 @@ export default function ShipmentForm({
   const dispatch = useDispatch();
   const { state: headerData } = useLocation();
   const [isDisabled, setDisabled] = useState(false);
-  const [vehicleDDLLoding, setvehicleDDLLoding] = useState(false);
+  // const [vehicleDDLLoding, setvehicleDDLLoding] = useState(false);
   const [costlaborRateStatus, setCostlaborRateStatus] = useState(false);
   const [objProps, setObjprops] = useState({});
   const [rowDto, setRowDto] = useState([]);
@@ -91,7 +89,6 @@ export default function ShipmentForm({
   }, shallowEqual);
 
   const {
-    vehicleDDL,
     shipmentTypeDDL: ShipmentTypeDDL,
     pendingDeliveryDDL,
     deliverydata: deliveryeDatabydata,
@@ -136,7 +133,6 @@ export default function ShipmentForm({
       dispatch(getSoldToPPIdAction(accId, buId));
       dispatch(getPaymentTermsDDLAction());
       dispatch(getItemSaleDDLAction(accId, buId));
-      dispatch(GetVehicleDDLAction(accId, buId, setvehicleDDLLoding));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [buId, accId]);
@@ -155,71 +151,6 @@ export default function ShipmentForm({
     }
     if (values && accId && buId) {
       if (id) {
-        // const shipmentRowEntryList = rowDto.map((itm) => {
-        //   return {
-        //     deliveryId: itm.deliveryId,
-        //     deliveryCode: itm.deliveryCode,
-        //     shipToPartnerId: itm.shipToPartnerId,
-        //     shipToPartnerName: itm.shipToPartnerName,
-        //     shipToPartnerAddress: itm.shipToPartnerAddress,
-        //     loadingPointId: itm.loadingPointId,
-        //     distanceKm: +values.lastDistance,
-        //     eta: values.estimatedTimeofArrival,
-        //     transportZoneId: itm.transportZoneId,
-        //     itemTotalGrowssWeight: itm.itemTotalGrowssWeight,
-        //     itemTotalNetWeight: itm.itemTotalNetWeight,
-        //     itemTotalVolume: itm.itemTotalVolume,
-        //     unloadVehicleWeight: itm.unloadVehicleWeight,
-        //     unloadVehicleVolume: itm.unloadVehicleVolume,
-        //     rowId: itm?.rowId || 0,
-        //   };
-        // });
-        // const payload = {
-        //   shipmentHeader: {
-        //     supplierId: values?.supplierName?.value || 0,
-        //     supplierName: values?.supplierName?.label || "",
-        //     shipmentId: +id,
-        //     accountId: accId,
-        //     businessUnitId: buId,
-        //     businessUnitName: buName,
-        //     shipmentDate: values.shipmentdate,
-        //     routeId: values.route.value,
-        //     routeName: values.route.label,
-        //     //
-        //     planedLoadingTime: values.planedLoadingTime,
-        //     vehicleId: +values?.vehicleId || 0,
-        //     vehicleName: values.Vehicle.label,
-        //     shipmentCostId: values.Vehicle.value,
-        //     lastDestinationKm: +values.lastDistance,
-        //     departureDateTime: values.estimatedTimeofArrival,
-        //     actualDepartureDateTime: values.estimatedTimeofArrival,
-        //     driverId: values.driverId,
-        //     driverName: values.driverName,
-        //     driverContactNo: values.driverContactNo,
-        //     actionBy: userId,
-        //     active: true,
-        //     totalBundel: values?.totalBundle || 0,
-        //     totalPieces: values?.totalPieces || 0,
-        //     lastActionDateTime: _todayDate(),
-        //     itemTotalGrowssWeight:
-        //       deliveryItemVolumeInfo?.grossWeight ||
-        //       singleData?.shipmentHeader?.itemTotalGrowssWeight,
-        //     itemTotalNetWeight:
-        //       deliveryItemVolumeInfo?.netWeight ||
-        //       singleData?.shipmentHeader?.itemTotalGrowssWeight,
-        //     itemTotalVolume:
-        //       deliveryItemVolumeInfo?.volume ||
-        //       singleData?.shipmentHeader?.itemTotalVolume,
-        //     unloadVehicleWeight: vehicleSingleData?.weight,
-        //     unloadVehicleVolume: vehicleSingleData?.volume,
-        //     isLaborImpart: values?.isLaborImpart?.value || false,
-        //     transportZoneId: values.transportZone.value || 0,
-        //     veichleEntryId: values.veichleEntry?.value || 0,
-        //     veichleEntryCode: values.veichleEntry?.label || "",
-        //   },
-        //   shipmentRowEntryList: shipmentRowEntryList,
-        // };
-
         const payload = {
           userId: userId,
           shipmentHeader: {
@@ -544,7 +475,7 @@ export default function ShipmentForm({
       getProps={setObjprops}
       isDisabled={isDisabled}
     >
-      {(isDisabled || vehicleDDLLoding) && <Loading />}
+      {isDisabled && <Loading />}
       <Form
         headerData={headerData}
         {...objProps}
@@ -559,7 +490,6 @@ export default function ShipmentForm({
         salesOrgDDL={salesOrgDDL}
         distributionChannelDDL={distributionChannelDDL}
         salesOfficeDDL={salesOfficeDDL}
-        vehicleDDL={vehicleDDL}
         ShipmentTypeDDL={ShipmentTypeDDL}
         ShippointDDL={ShippointDDL}
         PendingDeliveryDDL={pendingDeliveryDDL}
