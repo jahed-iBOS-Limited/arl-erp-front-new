@@ -602,7 +602,7 @@ export const voyageCharterBRApi = async (payload, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.post(
-      `${imarineBaseUrl}/domain/VoyageCharter/VoyageCharterBR?VoyageCharterTransactionId=${payload?.transactionId}&businessUnitId=${payload?.unitId}&accountId=${payload?.accountId}&charterId=${payload?.charterId}&receiveAmount=${payload?.receiveAmount}&bankAccountId=${payload?.bankAccountId}&receiveDate=${payload?.receiveDate}`
+      `${imarineBaseUrl}/domain/VoyageCharter/VoyageCharterBRNew?VoyageCharterId=${payload?.voyageCharterId}&businessUnitId=${payload?.unitId}&accountId=${payload?.accountId}&charterId=${payload?.charterId}&receiveAmount=${payload?.receiveAmount}&bankAccountId=${payload?.bankAccountId}&ReceiveDate=${payload?.receiveDate}&HireNo=${payload?.hireNo}`
     );
     toast.success(res?.data?.message, { toastId: 234 });
     cb();

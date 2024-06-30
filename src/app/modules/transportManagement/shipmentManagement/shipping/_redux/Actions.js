@@ -429,6 +429,14 @@ export const getSalesContactById = (accId, buId, id, setDisabled) => (
             isLaborImpart: item?.shipmentHeader?.isLaborImpart
               ? { value: true, label: "Yes" }
               : { value: false, label: "No" },
+            pump: item?.shipmentHeader?.pumpModelId
+              ? {
+                  value: item?.shipmentHeader?.pumpModelId,
+                  label: item?.shipmentHeader?.pumpModelName,
+                  pumpGroupHeadEnroll:
+                    item?.shipmentHeader?.pumpGroupHeadEnroll,
+                }
+              : "",
           },
         };
         return dispatch(slice.SetDataById(data));

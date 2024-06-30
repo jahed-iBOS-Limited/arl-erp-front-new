@@ -259,7 +259,7 @@ export default function _Form({
   const isGateMaintain = shippointDDL?.find(
     (i) => i.value === headerData?.pgiShippoint?.value
   )?.isGateMaintain;
-  
+
   useEffect(() => {
     if (vehicleDDL?.length > 0 && document.getElementById("cardNoInput")) {
       document.getElementById("cardNoInput").focus();
@@ -281,7 +281,7 @@ export default function _Form({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [buId, headerData]);
-
+  const formikRef = React.useRef(null);
   useEffect(() => {
     if (isGateMaintain && buId === 175) {
       const partName = "GetAvailableVehicleForReadyMixShipment";
@@ -295,6 +295,29 @@ export default function _Form({
             };
           });
           setVehicleDDL(modifyData);
+
+          if (formikRef.current) {
+            // modifyData lest index data set
+            const vehicle = modifyData[modifyData?.length - 1];
+            formikRef.current.setFieldValue(
+              "Vehicle",
+              vehicle?.value ? vehicle : ""
+            );
+            vehicleSingeDataView(
+              vehicle?.label,
+              accId,
+              buId,
+              formikRef.current.setFieldValue
+            );
+            // if isGateMaintain true and  buidId (175) than veichleEntry data found
+            const veichleEntry = vehicle?.strEntryCode
+              ? {
+                  value: vehicle?.intEntryId,
+                  label: vehicle?.strEntryCode,
+                }
+              : "";
+            formikRef.current.setFieldValue("veichleEntry", veichleEntry);
+          }
         }
       );
     } else {
@@ -307,16 +330,12 @@ export default function _Form({
   return (
     <>
       <Formik
+        innerRef={formikRef}
         enableReinitialize={true}
         initialValues={
           isEdit
             ? {
                 ...initData,
-                pump: {
-                  value: initData?.pumpModelId,
-                  label: initData?.pumpModelName,
-                  pumpGroupHeadEnroll: initData?.pumpGroupHeadEnroll,
-                },
               }
             : {
                 ...initData,

@@ -14,6 +14,7 @@ import { shallowEqual, useSelector } from "react-redux";
 import NotPermitted from "../../performanceManagement/notPermittedPage/notPermitted";
 import ExportShipping from "./exportShipping";
 import ExportShipmentForm from "./exportShipping/Form/addEditForm";
+import LoadingSlip from "./loadingSlip";
 
 export function ShipmentManagementPages() {
 
@@ -133,6 +134,10 @@ export function ShipmentManagementPages() {
       <ContentRoute
         from="/transport-management/shipmentmanagement/transfershipping"
         component={ShipmentTransferLanding}
+      />
+       <ContentRoute
+        from="/transport-management/shipmentmanagement/loadingslip"
+        component={LoadingSlip}
       />
     </Switch>
   );
