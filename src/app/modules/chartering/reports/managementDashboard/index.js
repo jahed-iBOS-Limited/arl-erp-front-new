@@ -24,6 +24,8 @@ export default function ManagementDashboard() {
       return "8e00fbd8-95b9-49ba-85b1-9f03487a9576";
     } else if (values?.reportType?.value === 5) {
       return "a1d05d40-4b95-429a-b3c3-2504e145de0f";
+    }else if (values?.reportType?.value === 6) {
+      return "41233307-2a96-4de0-8955-cd0297c72a1a";
     }
     return "";
   };
@@ -100,6 +102,10 @@ export default function ManagementDashboard() {
                           value: 5,
                           label: "ASLL SBU Report",
                         },
+                        {
+                          value: 6,
+                          label: "Vessel Schedule",
+                        },
                       ]}
                       value={values?.reportType}
                       label="Report Type"
@@ -111,34 +117,39 @@ export default function ManagementDashboard() {
                       touched={touched}
                     />
                   </div>
-                  <div className="col-lg-3">
-                    <InputField
-                      value={values?.fromDate}
-                      label="From Date"
-                      name="fromDate"
-                      type="date"
-                      onChange={(e) => {
-                        setFieldValue("fromDate", e.target.value);
-                        setShow(false);
-                      }}
-                      errors={errors}
-                      touched={touched}
-                    />
-                  </div>
-                  <div className="col-lg-3">
-                    <InputField
-                      value={values?.toDate}
-                      label="To Date"
-                      name="toDate"
-                      type="date"
-                      onChange={(e) => {
-                        setFieldValue("toDate", e.target.value);
-                        setShow(false);
-                      }}
-                      errors={errors}
-                      touched={touched}
-                    />
-                  </div>
+                  {![6]?.includes(values?.reportType?.value) && (
+                    <>
+                      {" "}
+                      <div className="col-lg-3">
+                        <InputField
+                          value={values?.fromDate}
+                          label="From Date"
+                          name="fromDate"
+                          type="date"
+                          onChange={(e) => {
+                            setFieldValue("fromDate", e.target.value);
+                            setShow(false);
+                          }}
+                          errors={errors}
+                          touched={touched}
+                        />
+                      </div>
+                      <div className="col-lg-3">
+                        <InputField
+                          value={values?.toDate}
+                          label="To Date"
+                          name="toDate"
+                          type="date"
+                          onChange={(e) => {
+                            setFieldValue("toDate", e.target.value);
+                            setShow(false);
+                          }}
+                          errors={errors}
+                          touched={touched}
+                        />
+                      </div>
+                    </>
+                  )}
 
                   <div className="col-lg-3">
                     <button
