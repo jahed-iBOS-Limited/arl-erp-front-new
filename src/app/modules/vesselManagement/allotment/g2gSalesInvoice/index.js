@@ -1,7 +1,7 @@
 import { Form, Formik } from "formik";
 import React, { useEffect, useRef, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
-import ReactToPrint, { useReactToPrint } from "react-to-print";
+import { useReactToPrint } from "react-to-print";
 import * as Yup from "yup";
 import ICustomCard from "../../../_helper/_customCard";
 import InputField from "../../../_helper/_inputField";
@@ -12,6 +12,29 @@ import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import { PortAndMotherVessel } from "../../common/components";
 import GhatWiseDeliveryReport from "./ghatWiseDeliveryReport";
 import GodownsEntryReport from "./godownsEntryReport";
+import { batayonTradersLetterhead } from "../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/batayounTraders";
+import { bluePillLetterhead } from "../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/bluePill";
+import { bongoTradersLetterhead } from "../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/bongoTraders";
+import { buildingLetterhead } from "../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/building";
+import { cementLetterhead } from "../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/cement";
+import { commoditiesLetterhead } from "../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/commodities";
+import { dailyTradingLetterhead } from "../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/dailyTrading";
+import { directTradingLetterhead } from "../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/directTrading";
+import { essentialLetterhead } from "../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/essential";
+import { eurasiaTradingLetterhead } from "../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/eurasiaTrading";
+import { exoticaTradersLetterhead } from "../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/exoticaTraders";
+import { ispatLetterhead } from "../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/ispat";
+import { lineAsiaTradingLetterhead } from "../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/lineAsiaTrading";
+import { magnumLetterhead } from "../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/magnum";
+import { MTSLetterhead } from "../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/mts";
+import { nobayonTradersLetterhead } from "../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/nobayonTraders";
+import { oneTradingLetterhead } from "../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/oneTrading";
+import { optimaTradersLetterhead } from "../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/optimaTraders";
+import { polyFibreLetterhead } from "../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/polyFibre";
+import { readymixLetterhead } from "../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/readymix";
+import { resourceTradersLetterhead } from "../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/resourceTraders";
+import { tradersLetterhead } from "../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/traders";
+import { tradingLetterhead } from "../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/trading";
 import "./style.scss";
 const validationSchema = Yup.object().shape({});
 function G2GSalesInvoice() {
@@ -95,18 +118,67 @@ function G2GSalesInvoice() {
 
   const handlePrint = useReactToPrint({
     pageStyle: `@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}`,
-    onBeforePrint: () =>{
-      setUserPrintBtnClick(true)
+    onBeforePrint: () => {
+      setUserPrintBtnClick(true);
     },
     onAfterPrint: () => {
-      setUserPrintBtnClick(false)
+      setUserPrintBtnClick(false);
     },
     content: () => printRef.current,
   });
+  const letterhead =
+    buUnId === 175
+      ? readymixLetterhead
+      : buUnId === 94
+      ? MTSLetterhead
+      : buUnId === 144
+      ? essentialLetterhead
+      : buUnId === 4
+      ? cementLetterhead
+      : buUnId === 186
+      ? bluePillLetterhead
+      : buUnId === 8
+      ? polyFibreLetterhead
+      : buUnId === 224
+      ? ispatLetterhead
+      : buUnId === 220
+      ? buildingLetterhead
+      : buUnId === 171
+      ? magnumLetterhead
+      : buUnId === 221
+      ? commoditiesLetterhead
+      : buUnId === 216
+      ? tradersLetterhead
+      : buUnId === 213
+      ? tradingLetterhead
+      : buUnId === 181
+      ? oneTradingLetterhead
+      : buUnId === 212
+      ? batayonTradersLetterhead
+      : buUnId === 178
+      ? bongoTradersLetterhead
+      : buUnId === 182
+      ? dailyTradingLetterhead
+      : buUnId === 180
+      ? directTradingLetterhead
+      : buUnId === 183
+      ? eurasiaTradingLetterhead
+      : buUnId === 218
+      ? exoticaTradersLetterhead
+      : buUnId === 209
+      ? lineAsiaTradingLetterhead
+      : buUnId === 211
+      ? nobayonTradersLetterhead
+      : buUnId === 214
+      ? optimaTradersLetterhead
+      : buUnId === 210
+      ? resourceTradersLetterhead
+      : "";
+
   return (
     <>
       <ICustomCard title="G2G Sales Invoice">
-        <div className="g2gSalesInvoice">
+        <div id="g2gSalesInvoice">
           <Formik
             enableReinitialize={true}
             validationSchema={validationSchema}
@@ -229,6 +301,7 @@ function G2GSalesInvoice() {
                         type="button"
                         className="btn btn-primary mt-3"
                         onClick={() => {
+                          setGridData([]);
                           showHandelar(values);
                         }}
                         disabled={
@@ -263,18 +336,19 @@ function G2GSalesInvoice() {
                     </div>
                   </div>
                   {/* Godowns Entr Report */}
-                  {/* {values?.reportType?.value === 1 && gridData?.length > 0 && ( */}
-                  <>
-                    <GodownsEntryReport
-                      printRef={printRef}
-                      gridData={gridData}
-                      buUnName={buUnName}
-                      values={values}
-                      setFieldValue={setFieldValue}
-                      userPrintBtnClick={userPrintBtnClick}
-                    />
-                  </>
-                  {/* )} */}
+                  {values?.reportType?.value === 1 && gridData?.length > 0 && (
+                    <>
+                      <GodownsEntryReport
+                        printRef={printRef}
+                        gridData={gridData}
+                        buUnName={buUnName}
+                        values={values}
+                        setFieldValue={setFieldValue}
+                        userPrintBtnClick={userPrintBtnClick}
+                        letterhead={letterhead}
+                      />
+                    </>
+                  )}
                   {/*  Ghat wise delivery report (type : 2) */}
                   {values?.reportType?.value === 2 && gridData?.length > 0 && (
                     <>
