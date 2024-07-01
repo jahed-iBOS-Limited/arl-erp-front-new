@@ -1,16 +1,60 @@
-// @media print {
-//     .g2gSalesInvoice .printFormat {
-//       border: none !important;
-//     }
-//     .g2gSalesInvoice .printFormat::-webkit-calendar-picker-indicator {
-//       display: none !important;
-//     }
-//     /* Hide the calendar icon in Firefox */
-//     .g2gSalesInvoice .printFormat {
-//       -moz-appearance: textfield !important;
-//     }
-//     /* Hide the calendar icon in Internet Explorer and Edge */
-//     .g2gSalesInvoice .printFormat::-ms-clear {
-//       display: none !important;
-//     }
-//   }
+#godownsEntryReport {
+  padding: 0;
+  box-sizing: border-box;
+  font-size: 14px !important;
+  margin-top: 10px;
+  display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+#godownsEntryReport .invoice-header,
+#godownsEntryReport .invoice-footer {
+  display: none;
+}
+
+#godownsEntryReport p {
+  margin-bottom: 0px;
+}
+#godownsEntryReport .header {
+  display: flex;
+  gap: 40px;
+  padding-bottom: 10px;
+  align-items: center;
+  justify-content: space-between;
+  color: rgb(75, 25, 176);
+}
+
+#godownsEntryReport .header .office_info {
+  font-weight: bold;
+  font-size: 30px;
+  color: rgb(75, 25, 176) !important;
+}
+
+#godownsEntryReport .signature_wrapper {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+#godownsEntryReport .signature_wrapper .signature p {
+  position: relative;
+  padding-top: 2px;
+}
+// #godownsEntryR .godownsEntryReportWrapper{
+//   margin:  50px 51px 50px
+// }
+@media print {
+  #godownsEntryReport {
+    display: block !important;
+  }
+  #godownsEntryReport .invoice-header,
+  #godownsEntryReport .invoice-footer {
+    display: block !important;
+  }
+  #godownsEntryReport .global-table thead tr th {
+    font-size: 14px !important;
+  }
+  #godownsEntryReport .global-table tbody tr td {
+    font-size: 14px !important;
+  }
+}
