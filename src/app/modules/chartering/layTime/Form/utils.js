@@ -264,7 +264,7 @@ export const saveLayTimePayloadMaker = ({
       voyageNo: values?.voyageNo?.label,
       vesselArrive: values?.vesselArrived,
       berthedPortId: values?.portAt?.value || 0,
-      berthedPortName: values?.portAt || values?.portAt?.label || '',
+      berthedPortName: values?.portAt?.label || '',
       cargoId: values?.cargo?.value,
       cargoName: values?.cargo?.label,
       cargoQty: values?.cargoQty,
