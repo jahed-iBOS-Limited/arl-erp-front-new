@@ -10,6 +10,7 @@ import InputField from "../../../_helper/_inputField";
 import Loading from "../../../_helper/_loading";
 import NewSelect from "../../../_helper/_select";
 import { _todayDate } from "../../../_helper/_todayDate";
+import { _currentTime } from "../../../_helper/_currentTime";
 const initData = {
   strCardNumber: "",
   vehicleOutTime: "",
@@ -133,6 +134,7 @@ const GetOutByCard = () => {
                           type="text"
                           onKeyPress={(e) => {
                             if (e.key === "Enter") {
+                              setFieldValue("vehicleOutTime", _currentTime());
                               document.getElementById(
                                 "cardNoInput"
                               ).disabled = true;
@@ -173,6 +175,7 @@ const GetOutByCard = () => {
                         }}
                         onClick={() => {
                           setFieldValue("strCardNumber", "");
+                          setFieldValue("vehicleOutTime", '');
                           document.getElementById(
                             "cardNoInput"
                           ).disabled = false;
