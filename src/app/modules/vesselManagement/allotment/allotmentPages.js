@@ -31,6 +31,7 @@ import VesselShipPointChange from "./vesselShipPointChange/landing/table";
 import ShippingChallanInfo from "./shippingChallanInfo/landingPage";
 import ReceivePaymentInfoLanding from "./receivePaymentInfo/landing";
 import DumpToTruckDeliveryLanding from "./dumpToTruckDelivery/landingPage";
+import G2GSalesInvoice from "./g2gSalesInvoice";
 export default function AllotmentPages() {
   return (
     <Switch>
@@ -195,6 +196,11 @@ export default function AllotmentPages() {
       <ContentRoute
         path="/vessel-management/allotment/dumptotruckdelivery"
         component={DumpToTruckDeliveryLanding}
+      />
+
+      <ContentRoute
+        path="/vessel-management/allotment/g2gsalesinvoice"
+        component={G2GSalesInvoice}
       />
     </Switch>
   );
