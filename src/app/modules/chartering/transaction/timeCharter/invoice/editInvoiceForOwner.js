@@ -61,9 +61,9 @@ export default function EditInvoiceForOwner({
 
   return (
     <div className="p-4 transactionInvoice">
-      <div className="timeCharterLogo">
+      {/* <div className="timeCharterLogo">
         <img src={akijShippingLogo} alt={akijShippingLogo} />
-      </div>
+      </div> */}
       <h5 className="text-center uppercase mb-4">
         {values?.transactionName?.label} STATEMENT
       </h5>

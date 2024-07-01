@@ -57,6 +57,12 @@
   font-size: 14px;
 }
 
+.transactionInvoice .invoice-header,
+.transactionInvoice .invoice-footer {
+  display: none;
+}
+
+
 @media screen and (max-width: 767px) {
   .transactionInvoice .headerKey,
   .transactionInvoice .headerValue {
@@ -66,6 +72,9 @@
 }
 
 @media print {
+  body{
+    background-color: white !important;
+  }
   .invoiceForChartererWraper {
     margin: 0 40px !important;
   }
@@ -89,4 +98,8 @@
   .statementTitle {
     margin-top: 120px;
   }
+  .transactionInvoice .invoice-header,
+  .transactionInvoice .invoice-footer {
+  display: block !important;
+}
 }
