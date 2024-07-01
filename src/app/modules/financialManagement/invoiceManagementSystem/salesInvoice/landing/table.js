@@ -13,6 +13,10 @@ import InvoiceReceptForCement from "../invoiceCement/invoiceRecept";
 import IViewModal from "../../../../_helper/_viewModal";
 import CommercialInvoiceReport from "../ReportModal/reportModal";
 import CancelModal from "./cancleModal";
+import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
+import { useDispatch } from "react-redux";
+import AttachmentUploaderNew from "../../../../_helper/attachmentUploaderNew";
 
 const SalesInvoiceLandingTable = ({ obj }) => {
   const {
@@ -35,6 +39,8 @@ const SalesInvoiceLandingTable = ({ obj }) => {
   const [invoiceData, setInvoiceData] = useState([]);
   const [isCancelModalShow, setIsCancelModalShow] = useState(false);
   const [singleRowItem, setSingleRowItem] = useState(null);
+  const dispatch = useDispatch()
+  const [, onAttachmentUpload] = useAxiosPost()
 
   const history = useHistory();
 
@@ -110,7 +116,7 @@ const SalesInvoiceLandingTable = ({ obj }) => {
                     {values?.status?.value !== 3 && values?.type?.value !== 2 && (
                       <td className="text-center">
                         {values?.status?.value === 1 ? (
-                          <div className="d-flex justify-content-around">
+                          <div className="d-flex justify-content-around align-items-baseline">
                             <span>
                               <ICon
                                 title={"Print Sales Invoice"}
@@ -154,6 +160,39 @@ const SalesInvoiceLandingTable = ({ obj }) => {
                             >
                               <IClose title="Cancel Sales Invoice" />
                             </span>
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                console.log(tableData.attachment)
+                                dispatch(
+                                  getDownlloadFileView_Action(tableData.attachment)
+                                );
+                              }}
+                              style={{
+                                border: "none",
+                                background: "none",
+                                cursor: "pointer",
+                                padding: 0,
+                              }}
+                              type="button"
+                            >
+                              <ICon title={`View Attachment`}>
+                                <i class="far fa-file-image"></i>
+                              </ICon>
+                            </button>
+                            <AttachmentUploaderNew CBAttachmentRes={(image) => {
+                              if(image.length>0){
+                                const payload = {
+                                  "businessUnitId": buId,
+                                  "invoiceNumber": tableData.strInvoiceNumber,
+                                  "businessPartnerId": tableData.intPartnerId,
+                                  "attachment": image[0].id
+      
+                                }
+                                
+                                onAttachmentUpload('/oms/OManagementReport/UpdateSalesInvoiceAttachment', payload)
+                              }
+                              }} showIcon/>
                           </div>
                         ) : (
                           <button
