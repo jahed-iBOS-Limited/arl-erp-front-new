@@ -12,6 +12,7 @@ import NewSelect from "../../../_helper/_select";
 import IViewModal from "../../../_helper/_viewModal";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import ShippingPrint from "../shipping/shippingUnitView/shippingPrint";
+import QRCodeScanner from "../../../_helper/qrCodeScanner";
 const validationSchema = Yup.object().shape({});
 function LoadingSlip() {
   const { selectedBusinessUnit } = useSelector((state) => {
@@ -23,6 +24,46 @@ function LoadingSlip() {
   const [shipmentDDL, getShipmentDDL, shipmentDDLLoader] = useAxiosGet();
   const [showModal, setShowModal] = useState(false);
   const [clickRowData, setClickRowData] = useState({});
+  const [QRCodeScannerModal, setQRCodeScannerModal] = useState(false);
+
+  const qurScanHandler = ({ setFieldValue, values }) => {
+    setFieldValue("entryCode", "");
+    setFieldValue("shipment", "");
+    document.getElementById("cardNoInput").disabled = true;
+    getRegDDL(
+      `/mes/MSIL/GetAllMSIL?PartName=GetVehicleInfoByCardNumber&BusinessUnitId=${selectedBusinessUnit?.value}&search=${values?.strCardNumber}`,
+      (data) => {
+        if (data?.length > 0) {
+          if (data.length > 0) {
+            const entryCodeObj = data?.[0] || "";
+            setFieldValue("entryCode", entryCodeObj);
+            getShipmentDDL(
+              `/mes/MSIL/GetAllMSIL?PartName=ShipmentByGetVehicleEntry&AutoId=${entryCodeObj?.value}`,
+              (resData) => {
+                if (resData?.length === 1) {
+                  setFieldValue("shipment", resData?.[0] || "");
+                  const firstShipment = resData?.[0] || {};
+                  setShowModal(true);
+                  setClickRowData({
+                    ...firstShipment,
+                    id: firstShipment?.value,
+                    shipmentCode: firstShipment?.label,
+                  });
+                }
+              }
+            );
+          }
+        } else {
+          toast.warn("কার্ড নাম্বার সঠিক নয়");
+          setFieldValue("strCardNumber", "");
+          setFieldValue("entryCode", "");
+          setFieldValue("shipment", "");
+          document.getElementById("cardNoInput").disabled = false;
+          document.getElementById("cardNoInput").focus();
+        }
+      }
+    );
+  };
   return (
     <ICustomCard title="Loading Slip">
       <>
@@ -42,7 +83,27 @@ function LoadingSlip() {
                 <Loading />
               )}
               <div className="row global-form">
-                <div className="col-lg-3 d-flex">
+                <div
+                  className="col-lg-3 d-flex"
+                  style={{
+                    position: "relative",
+                  }}
+                >
+                  <div
+                    style={{
+                      position: "absolute",
+                      right: 0,
+                      top: 0,
+                      cursor: "pointer",
+                      color: "blue",
+                      zIndex: "1",
+                    }}
+                    onClick={() => {
+                      setQRCodeScannerModal(true);
+                    }}
+                  >
+                    QR Code <i class="fa fa-qrcode" aria-hidden="true"></i>
+                  </div>
                   <div style={{ width: "inherit" }}>
                     <InputField
                       id="cardNoInput"
@@ -190,7 +251,30 @@ function LoadingSlip() {
                   />
                 </div>
               </div>
-
+              {QRCodeScannerModal && (
+                <>
+                  <IViewModal
+                    show={QRCodeScannerModal}
+                    onHide={() => {
+                      setQRCodeScannerModal(false);
+                    }}
+                  >
+                    <QRCodeScanner
+                      QrCodeScannerCB={(result) => {
+                        setFieldValue("strCardNumber", result);
+                        setQRCodeScannerModal(false);
+                        qurScanHandler({
+                          setFieldValue,
+                          values: {
+                            ...values,
+                            strCardNumber: result,
+                          },
+                        });
+                      }}
+                    />
+                  </IViewModal>
+                </>
+              )}
               <IViewModal
                 show={showModal}
                 onHide={() => {

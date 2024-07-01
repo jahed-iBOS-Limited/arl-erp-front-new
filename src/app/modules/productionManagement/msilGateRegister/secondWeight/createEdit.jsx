@@ -16,6 +16,7 @@ import IViewModal from "../../../_helper/_viewModal";
 import SearchAsyncSelect from "./../../../_helper/SearchAsyncSelect";
 import Report from "./report";
 import ShippingNoteView from "./shippingNoteView";
+import QRCodeScanner from "../../../_helper/qrCodeScanner";
 
 const initData = {
   secondWeightDate: _todayDate(),
@@ -36,6 +37,7 @@ const initData = {
 };
 
 export default function SecondWeightCreateEdit({ weight }) {
+  const [QRCodeScannerModal, setQRCodeScannerModal] = useState(false);
   const [objProps, setObjprops] = useState({});
   const [, saveData, saveLoading] = useAxiosPost();
   const [vehicaleDDL, getVehicleDDL, vehicleLoading] = useAxiosGet();
@@ -132,6 +134,87 @@ export default function SecondWeightCreateEdit({ weight }) {
     );
   };
 
+  const qurScanHandler = ({ setFieldValue, values }) => {
+    document.getElementById(
+      "cardNoInput"
+    ).disabled = true;
+    getRegDDL(
+      `/mes/MSIL/GetAllMSIL?PartName=GetVehicleInfoByCardNumber&BusinessUnitId=${values?.businessUnit?.value}&search=${values?.strCardNumber}`,
+      (data) => {
+        if (data?.length > 0) {
+          getRegData(
+            `/mes/MSIL/GetAllMSIL?PartName=SecondWeightEntryCodeDDL&BusinessUnitId=${values?.businessUnit?.value}&search=${data?.[0]?.label}`,
+            (data) => {
+              if (data.length > 0) {
+                setFieldValue("entryCode", data[0]);
+                setGateEntryItemListId(
+                  data[0]?.intGateEntryItemListId
+                );
+                setFieldValue(
+                  "vehcileNumber",
+                  data[0]?.vehicleNo
+                );
+                setFieldValue(
+                  "itemName",
+                  data[0]?.materialName
+                );
+                setFieldValue(
+                  "entryDay",
+                  data[0]?.gateEntryDate?.split(
+                    "T"
+                  )[0]
+                );
+                setFieldValue(
+                  "clientName",
+                  data[0]?.strSupplierName
+                );
+                setFieldValue(
+                  "challanNo",
+                  data[0]?.invoiceNo
+                );
+                setFieldValue("supplierName", {
+                  value: data[0]?.intSupplierId,
+                  label: data[0]?.strSupplierName,
+                });
+                getCustomerDDL(
+                  `/mes/MSIL/GetAllMSIL?PartName=CustomerWithEntryCodeDDL&AutoId=${data[0]?.intVeichleEntryId}`,
+                  (data) => {}
+                );
+                getAllDataForEntry(
+                  `/mes/MSIL/GetAllMSIL?PartName=CurrentFirstWeightInfo&AutoId=${data[0]?.intGateEntryItemListId}`,
+                  (data) => {
+                    setFieldValue(
+                      "firstWeightDate",
+                      data[0]?.firstWeightDateTime?.split(
+                        "T"
+                      )[0]
+                    );
+                    setFieldValue(
+                      "firstWeight",
+                      data[0]?.firstWeight
+                    );
+                    getReportData(
+                      `/mes/MSIL/GetAllMSIL?PartName=FirstWeightSecondWeightInfoForPDF&AutoId=${data[0]?.intWeightmentId}`
+                    );
+                  }
+                );
+              }
+            }
+          );
+        } else {
+          toast.warn("কার্ড নাম্বার সঠিক নয়");
+          setFieldValue("strCardNumber", "");
+          document.getElementById(
+            "cardNoInput"
+          ).disabled = false;
+          document
+            .getElementById("cardNoInput")
+            .focus();
+        }
+      }
+    );
+  }
+
   return (
     <IForm isHiddenBack title="Second Weight" getProps={setObjprops}>
       <>
@@ -213,7 +296,24 @@ export default function SecondWeightCreateEdit({ weight }) {
                         }}
                       />
                     </div>
-                    <div className="col-lg-3 d-flex">
+                    <div className="col-lg-3 d-flex" style={{
+                      position: 'relative'
+                    }}>
+                       <div
+                        style={{
+                          position: "absolute",
+                          right: 0,
+                          top: 0,
+                          cursor: "pointer",
+                          color: "blue",
+                          zIndex: "1",
+                        }}
+                        onClick={() => {
+                          setQRCodeScannerModal(true);
+                        }}
+                      >
+                        QR Code <i class="fa fa-qrcode" aria-hidden="true"></i>
+                      </div>
                       <div style={{ width: "inherit" }}>
                         <InputField
                           id="cardNoInput"
@@ -777,6 +877,30 @@ export default function SecondWeightCreateEdit({ weight }) {
                   />
                 </IViewModal>
               </div>
+              {QRCodeScannerModal && (
+                <>
+                  <IViewModal
+                    show={QRCodeScannerModal}
+                    onHide={() => {
+                      setQRCodeScannerModal(false);
+                    }}
+                  >
+                    <QRCodeScanner
+                      QrCodeScannerCB={(result) => {
+                        setFieldValue("strCardNumber", result);
+                        setQRCodeScannerModal(false);
+                        qurScanHandler({
+                          setFieldValue,
+                          values: {
+                            ...values,
+                            strCardNumber: result,
+                          },
+                        });
+                      }}
+                    />
+                  </IViewModal>
+                </>
+              )}
             </>
           )}
         </Formik>
@@ -790,6 +914,7 @@ export default function SecondWeightCreateEdit({ weight }) {
           >
             <Report weightmentId={weightmentId} />
           </IViewModal>
+          
         </div>
       </>
     </IForm>

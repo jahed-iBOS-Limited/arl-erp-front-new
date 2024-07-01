@@ -11,6 +11,8 @@ import Loading from "../../../_helper/_loading";
 import NewSelect from "../../../_helper/_select";
 import { _todayDate } from "../../../_helper/_todayDate";
 import SearchAsyncSelect from "./../../../_helper/SearchAsyncSelect";
+import IViewModal from "../../../_helper/_viewModal";
+import QRCodeScanner from "../../../_helper/qrCodeScanner";
 
 const initData = {
   firstWeightDate: _todayDate(),
@@ -34,7 +36,7 @@ export default function FirstWeightCreateEdit({ weight }) {
   const [regDDL, getRegDDL, regDDLloader] = useAxiosGet();
   // eslint-disable-next-line no-unused-vars
   const [regData, getRegData, regDataLoader] = useAxiosGet();
-
+  const [QRCodeScannerModal, setQRCodeScannerModal] = useState(false);
   const { profileData } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
@@ -72,6 +74,41 @@ export default function FirstWeightCreateEdit({ weight }) {
       },
       cb,
       true
+    );
+  };
+
+  const qurScanHandler = ({ setFieldValue, values }) => {
+    document.getElementById("cardNoInput").disabled = true;
+    getRegDDL(
+      `/mes/MSIL/GetAllMSIL?PartName=GetVehicleInfoByCardNumber&BusinessUnitId=${values?.businessUnit?.value}&search=${values?.strCardNumber}`,
+      (data) => {
+        if (data.length > 0) {
+          // console.log("data", data[0])
+          // setFieldValue("entryCode", {
+          //   value: data?.[0]?.value,
+          //   label: data?.[0]?.label,
+          // });
+          // setFieldValue("entryCode", data[0]);
+          getRegData(
+            `/mes/MSIL/GetAllMSIL?PartName=FirstWeightEntryCodeDDL&BusinessUnitId=${values?.businessUnit?.value}&search=${data[0]?.label}`,
+            (data) => {
+              setFieldValue("entryCode", data[0]);
+              // console.log("FirstWeightEntryCodeDDL", data)
+              setGateEntryItemListId(data[0]?.intGateEntryItemListId);
+              setFieldValue("vehicaleNumber", data[0]?.vehicleNo);
+              setFieldValue("itemName", data[0]?.materialName);
+              setFieldValue("entryDay", data[0]?.gateEntryDate?.split("T")[0]);
+              setFieldValue("clientName", data[0]?.strSupplierName);
+              setFieldValue("challanNo", data[0]?.invoiceNo);
+            }
+          );
+        } else {
+          toast.warn("কার্ড নাম্বার সঠিক নয়");
+          setFieldValue("strCardNumber", "");
+          document.getElementById("cardNoInput").disabled = false;
+          document.getElementById("cardNoInput").focus();
+        }
+      }
     );
   };
   return (
@@ -141,7 +178,28 @@ export default function FirstWeightCreateEdit({ weight }) {
                         }}
                       />
                     </div>
-                    <div className="col-lg-3 d-flex">
+                    <div
+                      className="col-lg-3 d-flex"
+                      style={{
+                        position: "relative",
+                      }}
+                    >
+                      <div
+                        style={{
+                          position: "absolute",
+                          right: 0,
+                          top: 0,
+                          cursor: "pointer",
+                          color: "blue",
+                          zIndex: "1",
+                        }}
+                        onClick={() => {
+                          setQRCodeScannerModal(true);
+                        }}
+                      >
+                        QR Code <i class="fa fa-qrcode" aria-hidden="true"></i>
+                      </div>
+
                       <div style={{ width: "inherit" }}>
                         <InputField
                           id="cardNoInput"
@@ -409,7 +467,30 @@ export default function FirstWeightCreateEdit({ weight }) {
                     </div>
                   </div>
                 </div>
-
+                {QRCodeScannerModal && (
+                  <>
+                    <IViewModal
+                      show={QRCodeScannerModal}
+                      onHide={() => {
+                        setQRCodeScannerModal(false);
+                      }}
+                    >
+                      <QRCodeScanner
+                        QrCodeScannerCB={(result) => {
+                          setFieldValue("strCardNumber", result);
+                          setQRCodeScannerModal(false);
+                          qurScanHandler({
+                            setFieldValue,
+                            values: {
+                              ...values,
+                              strCardNumber: result,
+                            },
+                          });
+                        }}
+                      />
+                    </IViewModal>
+                  </>
+                )}
                 <button
                   type="button"
                   style={{ display: "none" }}

@@ -27,6 +27,7 @@ import FormikError from "./../../../../_helper/_formikError";
 import NewSelect from "./../../../../_helper/_select";
 import { getLoadingPointDDLAction } from "./../_redux/Actions";
 import ChallanItemsPreview from "./itemsPreview";
+import QRCodeScanner from "../../../../_helper/qrCodeScanner";
 // import InputField from "../../../../_helper/_inputField";
 // Validation schema
 const validationSchema = Yup.object().shape({
@@ -137,6 +138,7 @@ export default function _Form({
   setDisabled,
   deliveryeDatabydata,
 }) {
+  const [QRCodeScannerModal, setQRCodeScannerModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [loadingTwo, setLoadingTwo] = useState(false);
   const [controls, setControls] = useState([]);
@@ -334,7 +336,6 @@ export default function _Form({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [buId, headerData]);
 
-
   useEffect(() => {
     if (!isEdit) {
       if (formikRef.current) {
@@ -344,8 +345,44 @@ export default function _Form({
         );
       }
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loadingPointDDL]);
+
+  const qurScanHandler = ({ setFieldValue, values }) => {
+    document.getElementById("cardNoInput").disabled = true;
+    getEntryCodeDDL(
+      `/mes/MSIL/GetAllMSIL?PartName=GetVehicleInfoByCardNumberForShipment&BusinessUnitId=${buId}&search=${values?.strCardNo}`,
+      (data) => {
+        if (data[0]?.strEntryCode) {
+          setFieldValue("veichleEntry", isGateMaintain ? data?.[0] : "");
+          getVehicleEntryDDL(
+            `/wms/ItemPlantWarehouse/GetVehicleEntryDDL?accountId=${accId}&businessUnitId=${buId}&EntryCode=${data[0]?.strEntryCode}`,
+            (data) => {
+              const find = vehicleDDL?.find(
+                (i) => i.veichleId === data[0]?.vehicleId
+              );
+              if (find) {
+                setFieldValue("laborSupplierName", "");
+                vehicleSingeDataView(find?.label, accId, buId, setFieldValue);
+                setFieldValue("Vehicle", find || "");
+                setFieldValue("supplierName", "");
+                setFieldValue("laborSupplierName", "");
+                const controlsModify = [...controls];
+                controlsModify[2].isDisabled = true;
+                setControls(controlsModify);
+              }
+            }
+          );
+        } else {
+          setFieldValue("strCardNo", "");
+          setFieldValue("veichleEntry", "");
+          document.getElementById("cardNoInput").disabled = false;
+          document.getElementById("cardNoInput").focus();
+          toast.warn("Card Number Not Found");
+        }
+      }
+    );
+  };
   return (
     <>
       <Formik
@@ -475,7 +512,31 @@ export default function _Form({
                               ) : (
                                 <>
                                   {" "}
-                                  <div className="col-lg-3 d-flex">
+                                  <div
+                                    className="col-lg-3 d-flex"
+                                    style={{
+                                      position: "relative",
+                                    }}
+                                  >
+                                    <div
+                                      style={{
+                                        position: "absolute",
+                                        right: 0,
+                                        top: 0,
+                                        cursor: "pointer",
+                                        color: "blue",
+                                        zIndex: "1",
+                                      }}
+                                      onClick={() => {
+                                        setQRCodeScannerModal(true);
+                                      }}
+                                    >
+                                      QR Code{" "}
+                                      <i
+                                        class="fa fa-qrcode"
+                                        aria-hidden="true"
+                                      ></i>
+                                    </div>
                                     <div style={{ width: "inherit" }}>
                                       <InputField
                                         disabled={
@@ -1123,6 +1184,30 @@ export default function _Form({
               >
                 <ShipmentDetailsInfo rowDto={shipmentDetailInfo?.data} />
               </IViewModal>
+              {QRCodeScannerModal && (
+                <>
+                  <IViewModal
+                    show={QRCodeScannerModal}
+                    onHide={() => {
+                      setQRCodeScannerModal(false);
+                    }}
+                  >
+                    <QRCodeScanner
+                      QrCodeScannerCB={(result) => {
+                        setFieldValue("strCardNo", result);
+                        setQRCodeScannerModal(false);
+                        qurScanHandler({
+                          setFieldValue,
+                          values: {
+                            ...values,
+                            strCardNo: result,
+                          },
+                        });
+                      }}
+                    />
+                  </IViewModal>
+                </>
+              )}
               <button
                 // type="submit"
                 type="button"
