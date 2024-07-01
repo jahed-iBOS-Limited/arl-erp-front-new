@@ -26,6 +26,7 @@ import FormikError from "./../../../../_helper/_formikError";
 import NewSelect from "./../../../../_helper/_select";
 import { getLoadingPointDDLAction } from "./../_redux/Actions";
 import ChallanItemsPreview from "./itemsPreview";
+import QRCodeScanner from "../../../../_helper/qrCodeScanner";
 // import InputField from "../../../../_helper/_inputField";
 // Validation schema
 const validationSchema = Yup.object().shape({
@@ -136,6 +137,7 @@ export default function _Form({
   isSubsidyRunning,
   setDisabled,
 }) {
+  const [QRCodeScannerModal, setQRCodeScannerModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [loadingTwo, setLoadingTwo] = useState(false);
   const [controls, setControls] = useState([]);
@@ -232,6 +234,47 @@ export default function _Form({
       document.getElementById("cardNoInput").focus();
     }
   }, [vehicleDDL]);
+
+  const qurScanHandler = ({ setFieldValue, values }) => {
+    document.getElementById("cardNoInput").disabled = true;
+    getEntryCodeDDL(
+      `/mes/MSIL/GetAllMSIL?PartName=GetVehicleInfoByCardNumberForShipment&BusinessUnitId=${selectedBusinessUnit?.value}&search=${values?.strCardNo}`,
+      (data) => {
+        if (data[0]?.strEntryCode) {
+          setFieldValue("veichleEntry", isGateMaintain ? data?.[0] : "");
+          getVehicleEntryDDL(
+            `/wms/ItemPlantWarehouse/GetVehicleEntryDDL?accountId=${accountId}&businessUnitId=${buId}&EntryCode=${data[0]?.strEntryCode}`,
+            (data) => {
+              const find = vehicleDDL?.find(
+                (i) => i.veichleId === data[0]?.vehicleId
+              );
+              if (find) {
+                setFieldValue("laborSupplierName", "");
+                vehicleSingeDataView(
+                  find?.label,
+                  accountId,
+                  buId,
+                  setFieldValue
+                );
+                setFieldValue("Vehicle", find || "");
+                setFieldValue("supplierName", "");
+                setFieldValue("laborSupplierName", "");
+                const controlsModify = [...controls];
+                controlsModify[2].isDisabled = true;
+                setControls(controlsModify);
+              }
+            }
+          );
+        } else {
+          setFieldValue("strCardNo", "");
+          setFieldValue("veichleEntry", "");
+          document.getElementById("cardNoInput").disabled = false;
+          document.getElementById("cardNoInput").focus();
+          toast.warn("Card Number Not Found");
+        }
+      }
+    );
+  };
   return (
     <>
       <Formik
@@ -353,7 +396,28 @@ export default function _Form({
                           )
                         ) : itm?.type === "cardInput" ? (
                           isGateMaintain && (
-                            <div className="col-lg-3 d-flex">
+                            <div
+                              className="col-lg-3 d-flex"
+                              style={{
+                                position: "relative",
+                              }}
+                            >
+                              <div
+                                style={{
+                                  position: "absolute",
+                                  right: 0,
+                                  top: 0,
+                                  cursor: "pointer",
+                                  color: "blue",
+                                  zIndex: "1",
+                                }}
+                                onClick={() => {
+                                  setQRCodeScannerModal(true);
+                                }}
+                              >
+                                QR Code{" "}
+                                <i class="fa fa-qrcode" aria-hidden="true"></i>
+                              </div>
                               <div style={{ width: "inherit" }}>
                                 <InputField
                                   disabled={itm?.isDisabled}
@@ -691,59 +755,59 @@ export default function _Form({
                         </div>
                       )}
                       <div className="col-lg-3">
-                          <label> CNF Supplier</label>
-                          <SearchAsyncSelect
-                            selectedValue={values.cnfSupplier}
-                            handleChange={(valueOption) => {
-                              setFieldValue("cnfSupplier", valueOption);
-                            }}
-                            loadOptions={(v) => {
-                              if (v.length < 3) return [];
-                              return axios
-                                .get(
-                                  `/procurement/PurchaseOrder/GetSupplierListDDL?Search=${v}&AccountId=${accountId}&UnitId=${buId}&SBUId=${0}`
-                                )
-                                .then((res) => {
-                                  const updateList = res?.data.map((item) => ({
-                                    ...item,
-                                  }));
-                                  return updateList;
-                                });
-                            }}
-                          />
-                          <FormikError
-                            errors={errors}
-                            name="cnfSupplier"
-                            touched={touched}
-                          />
-                        </div>
-                        <div className="col-lg-3">
-                          <label> Freight Forwarder</label>
-                          <SearchAsyncSelect
-                            selectedValue={values.freightForwarder}
-                            handleChange={(valueOption) => {
-                              setFieldValue("freightForwarder", valueOption);
-                            }}
-                            loadOptions={(v) => {
-                              if (v.length < 3) return [];
-                              return axios
-                                .get(
-                                  `/procurement/PurchaseOrder/GetSupplierListDDL?Search=${v}&AccountId=${accountId}&UnitId=${buId}&SBUId=${0}`
-                                )
-                                .then((res) => {
-                                  const updateList = res?.data.map((item) => ({
-                                    ...item,
-                                  }));
-                                  return updateList;
-                                });
-                            }}
-                          />
-                          <FormikError
-                            errors={errors}
-                            name="freightForwarder"
-                            touched={touched}
-                          />
-                        </div>
+                        <label> CNF Supplier</label>
+                        <SearchAsyncSelect
+                          selectedValue={values.cnfSupplier}
+                          handleChange={(valueOption) => {
+                            setFieldValue("cnfSupplier", valueOption);
+                          }}
+                          loadOptions={(v) => {
+                            if (v.length < 3) return [];
+                            return axios
+                              .get(
+                                `/procurement/PurchaseOrder/GetSupplierListDDL?Search=${v}&AccountId=${accountId}&UnitId=${buId}&SBUId=${0}`
+                              )
+                              .then((res) => {
+                                const updateList = res?.data.map((item) => ({
+                                  ...item,
+                                }));
+                                return updateList;
+                              });
+                          }}
+                        />
+                        <FormikError
+                          errors={errors}
+                          name="cnfSupplier"
+                          touched={touched}
+                        />
+                      </div>
+                      <div className="col-lg-3">
+                        <label> Freight Forwarder</label>
+                        <SearchAsyncSelect
+                          selectedValue={values.freightForwarder}
+                          handleChange={(valueOption) => {
+                            setFieldValue("freightForwarder", valueOption);
+                          }}
+                          loadOptions={(v) => {
+                            if (v.length < 3) return [];
+                            return axios
+                              .get(
+                                `/procurement/PurchaseOrder/GetSupplierListDDL?Search=${v}&AccountId=${accountId}&UnitId=${buId}&SBUId=${0}`
+                              )
+                              .then((res) => {
+                                const updateList = res?.data.map((item) => ({
+                                  ...item,
+                                }));
+                                return updateList;
+                              });
+                          }}
+                        />
+                        <FormikError
+                          errors={errors}
+                          name="freightForwarder"
+                          touched={touched}
+                        />
+                      </div>
 
                       {/* <div className="col-lg-12"></div> */}
                       <div
@@ -858,82 +922,84 @@ export default function _Form({
                   {rowDto?.length >= 0 && (
                     <div className="table-responsive">
                       <table className="table table-striped table-bordered mt-1 bj-table bj-table-landing sales_order_landing_table">
-                      <thead>
-                        <tr>
-                          <th style={{ width: "35px" }}>SL</th>
-                          <th>Delivery Id</th>
-                          <th>Delivery No</th>
-                          <th>Ship To Party Name</th>
-                          <th>Ship To Address</th>
-                          <th>Transport Zone</th>
-                          <th>Loading Point</th>
-                          <th>Quantity</th>
-                          <th>Net (KG)</th>
-                          <th>Vol (CFT)</th>
-                          {!isEdit && <th>Action</th>}
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {rowDto.map((itm, index) => (
-                          <tr key={index}>
-                            <td className="text-center">{++index}</td>
-                            <td>
-                              <div className="text-right pr-2">
-                                {itm.deliveryId}
-                              </div>
-                            </td>
-                            <td>
-                              <div className="text-right pr-2">
-                                {itm.deliveryCode}
-                              </div>
-                            </td>
-                            <td>
-                              <div className="pl-2">
-                                {itm.shipToPartnerName}
-                              </div>
-                            </td>
-                            <td>
-                              <div className="pl-2">
-                                {itm.shipToPartnerAddress}
-                              </div>
-                            </td>
-                            <td>
-                              <div className="pl-2">
-                                {itm.transportZoneName}
-                              </div>
-                            </td>
-                            <td>
-                              <div className="pl-2">{itm.loadingPointName}</div>
-                            </td>
-                            <td>
-                              <div className="text-right pr-2">
-                                {itm?.quantity}
-                              </div>
-                            </td>
-                            <td>
-                              <div className="text-right pr-2">
-                                {itm?.itemTotalNetWeight}
-                              </div>
-                            </td>
-                            <td>
-                              <div className="text-right pr-2">
-                                {itm?.itemTotalVolume}
-                              </div>
-                            </td>
-                            {!isEdit && (
-                              <td className="text-center">
-                                <i
-                                  className="fa fa-trash"
-                                  onClick={() =>
-                                    remover(--index, setFieldValue)
-                                  }
-                                ></i>
-                              </td>
-                            )}
+                        <thead>
+                          <tr>
+                            <th style={{ width: "35px" }}>SL</th>
+                            <th>Delivery Id</th>
+                            <th>Delivery No</th>
+                            <th>Ship To Party Name</th>
+                            <th>Ship To Address</th>
+                            <th>Transport Zone</th>
+                            <th>Loading Point</th>
+                            <th>Quantity</th>
+                            <th>Net (KG)</th>
+                            <th>Vol (CFT)</th>
+                            {!isEdit && <th>Action</th>}
                           </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                        </thead>
+                        <tbody>
+                          {rowDto.map((itm, index) => (
+                            <tr key={index}>
+                              <td className="text-center">{++index}</td>
+                              <td>
+                                <div className="text-right pr-2">
+                                  {itm.deliveryId}
+                                </div>
+                              </td>
+                              <td>
+                                <div className="text-right pr-2">
+                                  {itm.deliveryCode}
+                                </div>
+                              </td>
+                              <td>
+                                <div className="pl-2">
+                                  {itm.shipToPartnerName}
+                                </div>
+                              </td>
+                              <td>
+                                <div className="pl-2">
+                                  {itm.shipToPartnerAddress}
+                                </div>
+                              </td>
+                              <td>
+                                <div className="pl-2">
+                                  {itm.transportZoneName}
+                                </div>
+                              </td>
+                              <td>
+                                <div className="pl-2">
+                                  {itm.loadingPointName}
+                                </div>
+                              </td>
+                              <td>
+                                <div className="text-right pr-2">
+                                  {itm?.quantity}
+                                </div>
+                              </td>
+                              <td>
+                                <div className="text-right pr-2">
+                                  {itm?.itemTotalNetWeight}
+                                </div>
+                              </td>
+                              <td>
+                                <div className="text-right pr-2">
+                                  {itm?.itemTotalVolume}
+                                </div>
+                              </td>
+                              {!isEdit && (
+                                <td className="text-center">
+                                  <i
+                                    className="fa fa-trash"
+                                    onClick={() =>
+                                      remover(--index, setFieldValue)
+                                    }
+                                  ></i>
+                                </td>
+                              )}
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
                     </div>
                   )}
                 </div>
@@ -946,6 +1012,30 @@ export default function _Form({
               >
                 <ChallanItemsPreview rowData={previewItems} />
               </IViewModal>
+              {QRCodeScannerModal && (
+                <>
+                  <IViewModal
+                    show={QRCodeScannerModal}
+                    onHide={() => {
+                      setQRCodeScannerModal(false);
+                    }}
+                  >
+                    <QRCodeScanner
+                      QrCodeScannerCB={(result) => {
+                        setFieldValue("strCardNo", result);
+                        setQRCodeScannerModal(false);
+                        qurScanHandler({
+                          setFieldValue,
+                          values: {
+                            ...values,
+                            strCardNo: result,
+                          },
+                        });
+                      }}
+                    />
+                  </IViewModal>
+                </>
+              )}
               <button
                 // type="submit"
                 type="button"

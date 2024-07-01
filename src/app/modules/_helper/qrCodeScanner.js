@@ -7,7 +7,6 @@ const QRCodeScanner = ({ QrCodeScannerCB }) => {
       QrCodeScannerCB(result.text);
     }
   };
-
   const handleError = (error) => {
     console.error(error);
   };
@@ -20,6 +19,7 @@ const QRCodeScanner = ({ QrCodeScannerCB }) => {
         onError={handleError}
         style={{ width: "100%" }}
         className="qr-scanner"
+        videoContainerStyle={{ paddingTop: "70%" }}
       />
     </div>
   );

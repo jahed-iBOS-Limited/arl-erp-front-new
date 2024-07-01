@@ -12,7 +12,7 @@ import { _todayDate } from "../../../_helper/_todayDate";
 import IViewModal from "../../../_helper/_viewModal";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import QRCodeScanner from "../../../_helper/QRCodeScanner";
+import QRCodeScanner from "../../../_helper/qrCodeScanner";
 const initData = {
   strCardNumber: "",
   vehicleOutTime: "",
