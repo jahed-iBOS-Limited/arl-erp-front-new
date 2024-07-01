@@ -265,22 +265,7 @@ export default function _Form({
       document.getElementById("cardNoInput").focus();
     }
   }, [vehicleDDL]);
-  useEffect(() => {
-    if (buId === 175 && headerData?.pgiShippoint?.value) {
-      getPumpDDL(
-        `/oms/Shipment/GetPumpModelDDL?businessUnitId=175&shipPointId=${headerData?.pgiShippoint?.value}`,
-        (data) => {
-          const modifiedData = data.map((itm) => ({
-            ...itm,
-            value: itm?.pumpModelId,
-            label: itm?.pumpModelName,
-          }));
-          setPumpDDL(modifiedData);
-        }
-      );
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [buId, headerData]);
+
   const formikRef = React.useRef(null);
   useEffect(() => {
     if (isGateMaintain && buId === 175) {
@@ -327,25 +312,46 @@ export default function _Form({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [buId, isGateMaintain]);
+
+  useEffect(() => {
+    if (buId === 175 && headerData?.pgiShippoint?.value) {
+      getPumpDDL(
+        `/oms/Shipment/GetPumpModelDDL?businessUnitId=175&shipPointId=${headerData?.pgiShippoint?.value}`,
+        (data) => {
+          const modifiedData = data.map((itm) => ({
+            ...itm,
+            value: itm?.pumpModelId,
+            label: itm?.pumpModelName,
+          }));
+          setPumpDDL(modifiedData);
+          if (formikRef.current) {
+            console.log("object");
+            formikRef.current.setFieldValue("pump", modifiedData?.[0] || "");
+          }
+        }
+      );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [buId, headerData]);
+
+
+  useEffect(() => {
+    if (!isEdit) {
+      if (formikRef.current) {
+        formikRef.current.setFieldValue(
+          "loadingPoint",
+          loadingPointDDL?.[0] || ""
+        );
+      }
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loadingPointDDL]);
   return (
     <>
       <Formik
         innerRef={formikRef}
         enableReinitialize={true}
-        initialValues={
-          isEdit
-            ? {
-                ...initData,
-              }
-            : {
-                ...initData,
-                shipPoint: headerData?.pgiShippoint?.value
-                  ? headerData?.pgiShippoint
-                  : "",
-                lastDistance: 0,
-                loadingPoint: loadingPointDDL?.[0] || "",
-              }
-        }
+        initialValues={initData}
         validationSchema={isEdit ? validationSchemaEdit : validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           if (isGateMaintain && !values?.veichleEntry?.value)
