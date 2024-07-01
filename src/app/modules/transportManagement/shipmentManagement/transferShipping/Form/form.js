@@ -858,13 +858,13 @@ export default function _Form({
                   >
                     <QRCodeScanner
                       QrCodeScannerCB={(result) => {
-                        setFieldValue("strCardNumber", result);
+                        setFieldValue("strCardNo", result);
                         setQRCodeScannerModal(false);
                         qurScanHandler({
                           setFieldValue,
                           values: {
                             ...values,
-                            strCardNumber: result,
+                            strCardNo: result,
                           },
                         });
                       }}

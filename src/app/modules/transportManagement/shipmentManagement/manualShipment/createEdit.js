@@ -670,13 +670,13 @@ export default function ManualShipmentCreate() {
                   >
                     <QRCodeScanner
                       QrCodeScannerCB={(result) => {
-                        setFieldValue("cardNoInput", result);
+                        setFieldValue("strCardNumber", result);
                         setQRCodeScannerModal(false);
                         qurScanHandler({
                           setFieldValue,
                           values: {
                             ...values,
-                            cardNoInput: result,
+                            strCardNumber: result,
                           },
                         });
                       }}

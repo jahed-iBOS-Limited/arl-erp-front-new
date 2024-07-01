@@ -14,6 +14,8 @@ import NewSelect from "../../../_helper/_select";
 import { _todayDate } from "../../../_helper/_todayDate";
 import { trimString } from "../../../_helper/_trimString";
 import BasicModal from "./../../../_helper/_BasicModal";
+import IViewModal from "../../../_helper/_viewModal";
+import QRCodeScanner from "../../../_helper/qrCodeScanner";
 
 const initData = {
   date: _todayDate(),
@@ -41,6 +43,7 @@ const initData = {
   poValidityDate:"",
 };
 export default function GateEntryCreate() {
+  const [QRCodeScannerModal, setQRCodeScannerModal] = useState(false);
   const [objProps, setObjprops] = useState({});
   const [, saveData, loading] = useAxiosPost();
   const { id } = useParams();
@@ -315,6 +318,15 @@ export default function GateEntryCreate() {
   const isPoVisible =(values)=>{
     return [188,189].includes(values?.businessUnit?.value) && isScalable && values?.clientType?.value === 1 ;
   }
+
+  const qurScanHandler = ({
+    setFieldValue,
+    values
+  }) => {
+    document.getElementById(
+      "cardNoInput"
+    ).disabled = true;
+  }
   return (
     <IForm title="Create Item Gate Entry" getProps={setObjprops}>
       {(loading ||
@@ -501,7 +513,25 @@ export default function GateEntryCreate() {
                         }}
                       />
                     </div>
-                    <div className="col-lg-3 d-flex">
+                    <div className="col-lg-3 d-flex" style={{
+                      position: 'relative'
+                    }}>
+                       <div
+                        style={{
+                          position: "absolute",
+                          right: 0,
+                          top: 0,
+                          cursor: "pointer",
+                          color: "blue",
+                          zIndex: "1",
+                        }}
+                        onClick={() => {
+                          setQRCodeScannerModal(true);
+                        }}
+                      >
+                        QR Code <i class="fa fa-qrcode" aria-hidden="true"></i>
+                      </div>
+
                       <div style={{ width: "inherit" }}>
                         <InputField
                           id="cardNoInput"
@@ -875,6 +905,30 @@ export default function GateEntryCreate() {
                     </div>
                   </div>
                 </div>
+                {QRCodeScannerModal && (
+                <>
+                  <IViewModal
+                    show={QRCodeScannerModal}
+                    onHide={() => {
+                      setQRCodeScannerModal(false);
+                    }}
+                  >
+                    <QRCodeScanner
+                      QrCodeScannerCB={(result) => {
+                        setFieldValue("strCardNumber", result);
+                        setQRCodeScannerModal(false);
+                        qurScanHandler({
+                          setFieldValue,
+                          values: {
+                            ...values,
+                            strCardNumber: result,
+                          },
+                        });
+                      }}
+                    />
+                  </IViewModal>
+                </>
+              )}
                 <button
                   type="button"
                   style={{ display: "none" }}
