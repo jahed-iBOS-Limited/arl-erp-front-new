@@ -40,7 +40,6 @@ const initData = {
   pendingDelivery: "",
   startDate: _todayDate(),
   shipmentdate: _todayDate(),
-  lastDistance: "",
   estimatedTimeofArrival: _todayDate(),
   planedLoadingTime: _todayDate(),
   driverName: "",
@@ -53,7 +52,8 @@ const initData = {
   totalPieces: "",
   veichleEntry: "",
   strCardNo: "",
-  pump: ''
+  pump: "",
+  lastDistance: 0,
 };
 
 export default function ShipmentForm({
@@ -480,7 +480,14 @@ export default function ShipmentForm({
       <Form
         headerData={headerData}
         {...objProps}
-        initData={singleData?.shipmentHeader || initData}
+        initData={
+          singleData?.shipmentHeader || {
+            ...initData,
+            shipPoint: headerData?.pgiShippoint?.value
+              ? headerData?.pgiShippoint
+              : "",
+          }
+        }
         saveHandler={saveHandler}
         accId={accId}
         buId={buId}
