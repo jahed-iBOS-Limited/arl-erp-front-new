@@ -37,7 +37,10 @@ export default function _Form({
   setFileObjects,
   setUploadedFile,
   uploadedFile,
-  setCPList,cpList
+  setCPList,cpList,
+  currentVoyageNo,
+  getCurrentVoyageNo,
+  setCurrentVoyageNo
 }) {
   const history = useHistory();
   const [businessPartnerNameDDL, setBusinessPartnerNameDDL] = useState([]);
@@ -68,6 +71,7 @@ export default function _Form({
             setChartererRowData([]);
             setBusinessPartnerGrid([]);
             resetForm(initData);
+            setCurrentVoyageNo("");
           });
         }}
       >
@@ -147,6 +151,9 @@ export default function _Form({
                 setCargoList={setCargoList}
                 setChartererRowData={setChartererRowData}
                 setTotalAmountHandler={setTotalAmountHandler}
+                currentVoyageNo={currentVoyageNo}
+                getCurrentVoyageNo={getCurrentVoyageNo}
+                setCurrentVoyageNo={setCurrentVoyageNo}
               />
 
               {/* Business Partner Section Common */}

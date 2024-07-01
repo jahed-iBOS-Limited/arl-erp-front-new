@@ -25,6 +25,9 @@ import { _todayDate } from "../../../../_helper/_todayDate";
 import { _timeFormatter } from "../../../../_helper/_timeFormatter";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import Loading from "./../../../../_helper/_loading";
+import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import moment from "moment";
+import IConfirmModal from "../../../../_helper/_confirmModal";
 
 const initData = {
   copyfrombomname: "",
@@ -63,11 +66,12 @@ export default function BillofMaretialCreateForm() {
   const [product, setProduct] = useState([]);
   const [netWeight, setNetWeight] = useState([]);
   const [material, setMaterial] = useState([]);
+  const [confirmModal, setConfirmModal] = useState(false);
   const [copyfrombomname, setCopyfrombomname] = useState([]);
   const [UOMDDL, setUOMDDL] = useState([]);
   const [headerItemUomDDL, setHeaderItemUomDDL] = useState([]);
   const [costTypeDDL, setCostTypeDDL] = useState([]);
-
+  const [confirm, checkConfirmation, loader, set] = useAxiosPost();
   const bomTypeDDL = [
     {
       value: 1,
@@ -190,6 +194,7 @@ export default function BillofMaretialCreateForm() {
           editRowBOM: objRow,
           editRowBOE: costElementRowData,
         };
+
         saveEditedBillofMaterial(payload, setDisabled);
       } else {
         let objRow = rowDto?.map((item) => ({
@@ -229,7 +234,23 @@ export default function BillofMaretialCreateForm() {
         if (objRow.length === 0) {
           toast.warning("Please add material");
         } else {
-          saveBillofMaterial(payload, cb, setDisabled);
+          const temp = rowDto?.map((item) => ({
+            itemId: +item?.material?.value,
+            quantity: item?.quantity,
+            monthId: +`${moment(_todayDate()).format("MM")}`,
+            yearId: +`${moment(_todayDate()).format("YYYY")}`,
+          }));
+          checkConfirmation(
+            `/procurement/PurchaseOrder/IsPossibleBOMAutoApproval`,
+            temp,
+            (res) => {
+              if (res[0]?.isPossible) {
+                saveBillofMaterial(payload, cb, setDisabled);
+              } else {
+                updatePoppup(payload, cb);
+              }
+            }
+          );
         }
       }
     }
@@ -294,7 +315,18 @@ export default function BillofMaretialCreateForm() {
     xData[sl][name] = value;
     setRowDto([...xData]);
   };
-
+  const updatePoppup = (payload, cb) => {
+    let confirmObject = {
+      title: "Confirm Action",
+      closeOnClickOutside: false,
+      message: "Are You Sure You Want this action? ",
+      yesAlertFunc: () => {
+        saveBillofMaterial(payload, cb, setDisabled);
+      },
+      noAlertFunc: () => {},
+    };
+    IConfirmModal(confirmObject);
+  };
   return (
     <IForm
       title={"Create Bill of Material"}

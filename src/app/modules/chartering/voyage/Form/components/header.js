@@ -1,11 +1,12 @@
 import moment from "moment";
 import React from "react";
 import { shallowEqual, useSelector } from "react-redux";
-import { getVesselDDL } from "../../../helper";
+import { imarineBaseUrl } from "../../../../../App";
+import { getDifference } from "../../../_chartinghelper/_getDateDiff";
 import FormikInput from "../../../_chartinghelper/common/formikInput";
 import FormikSelect from "../../../_chartinghelper/common/formikSelect";
 import customStyles from "../../../_chartinghelper/common/selectCustomStyle";
-import { getDifference } from "../../../_chartinghelper/_getDateDiff";
+import { getVesselDDL } from "../../../helper";
 import { GetOwnerVesselCharterVoyageID } from "../../helper";
 
 export default function Header({
@@ -21,10 +22,14 @@ export default function Header({
   setCargoList,
   setChartererRowData,
   setTotalAmountHandler,
+  currentVoyageNo,
+  getCurrentVoyageNo,
+  setCurrentVoyageNo,
 }) {
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state?.authData;
   }, shallowEqual);
+
 
   return (
     <>
@@ -46,6 +51,8 @@ export default function Header({
                 setFieldValue("hireType", valueOption);
                 setFieldValue("vesselName", "");
                 setFieldValue("ownerName", "");
+                setFieldValue("currentVoyageNo", "")
+                setCurrentVoyageNo("")
                 setVesselDDL([]);
                 if (valueOption) {
                   getVesselDDL(
@@ -100,6 +107,13 @@ export default function Header({
                 setFieldValue("ownerName", valueOption?.ownerName || "");
                 setFieldValue("ownerId", valueOption?.ownerId);
                 setFieldValue("vesselName", valueOption);
+                setFieldValue("currentVoyageNo", "")
+                setCurrentVoyageNo("")
+                if(valueOption){
+                  getCurrentVoyageNo(`${imarineBaseUrl}/domain/Voyage/CurrentVoyageNo?BusinessUnitId=${selectedBusinessUnit?.value}&VesselId=${valueOption?.value}&HireTypeId=${values?.hireType?.value}`,(res)=>{
+                    setFieldValue("currentVoyageNo", res || "")
+                  })
+                }
                 if (values?.hireType?.value === 1) {
                   GetOwnerVesselCharterVoyageID(
                     valueOption?.value,
@@ -113,7 +127,20 @@ export default function Header({
               touched={touched}
             />
           </div>
-
+          <div className="col-lg-3">
+            <label>Current Voyage No</label>
+            <FormikInput
+              value={values?.currentVoyageNo}
+              name="currentVoyageNo"
+              placeholder="Current Voyage No"
+              onChange={(e) => {
+                setFieldValue("currentVoyageNo", e.target.value)               
+              }}
+              type="number"
+              errors={errors}
+              touched={touched}
+            />
+          </div>
           {values?.chartererVoyageCode?.label && (
             <div className="col-lg-3">
               <FormikSelect

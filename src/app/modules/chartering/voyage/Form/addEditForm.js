@@ -29,6 +29,7 @@ import {
   voyageChartererEditPayloadMaker,
   voyageChartererSavePayloadMaker,
 } from "./utils";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 
 const date = new Date();
 
@@ -40,6 +41,7 @@ const initData = {
   hireType: "",
   vesselName: "",
   voyageType: "",
+  currentVoyageNo:"",
   chartererVoyageCode: "",
   businessPartnerName: "",
   businessPartnerType: "",
@@ -96,6 +98,8 @@ export default function VoyageForm() {
   const [fileObjects, setFileObjects] = useState([]);
   const [uploadedFile, setUploadedFile] = useState([]);
   const [cpList, setCPList] = useState([]);
+  const [currentVoyageNo, getCurrentVoyageNo, , setCurrentVoyageNo] = useAxiosGet()
+
 
   // get user profile data from store
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
@@ -155,6 +159,9 @@ export default function VoyageForm() {
   const saveHandler = (values, cb) => {
     if (!id) {
       /* Create Part */
+      if(currentVoyageNo && +values?.currentVoyageNo < +currentVoyageNo){
+        return toast.warn(`You cann't input less than ${currentVoyageNo}`)
+       }
       let payload;
       if (values?.voyageType?.value === 1) {
         payload = timeChartererSavePayloadMaker(
@@ -206,6 +213,9 @@ export default function VoyageForm() {
           toast.warning("Please add at least one charterer");
           return;
         }
+        if(currentVoyageNo && +values?.currentVoyageNo < +currentVoyageNo){
+          return toast.warn(`You cann't input less than ${currentVoyageNo}`)
+         }
         payload = voyageChartererEditPayloadMaker(
           +id,
           values,
@@ -256,6 +266,9 @@ export default function VoyageForm() {
         uploadedFile={uploadedFile}
         setCPList={setCPList}
         cpList={cpList}
+        currentVoyageNo={currentVoyageNo}
+        getCurrentVoyageNo={getCurrentVoyageNo}
+        setCurrentVoyageNo={setCurrentVoyageNo}
       />
     </>
   );
