@@ -1,0 +1,16 @@
+// @media print {
+//     .g2gSalesInvoice .printFormat {
+//       border: none !important;
+//     }
+//     .g2gSalesInvoice .printFormat::-webkit-calendar-picker-indicator {
+//       display: none !important;
+//     }
+//     /* Hide the calendar icon in Firefox */
+//     .g2gSalesInvoice .printFormat {
+//       -moz-appearance: textfield !important;
+//     }
+//     /* Hide the calendar icon in Internet Explorer and Edge */
+//     .g2gSalesInvoice .printFormat::-ms-clear {
+//       display: none !important;
+//     }
+//   }
