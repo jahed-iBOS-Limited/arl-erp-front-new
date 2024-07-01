@@ -19,6 +19,7 @@ import { getOwnerBankInfoDetailsById } from "../helper";
 import { BankInfoComponent } from "./bankInfoComponent";
 import "./style.css";
 import { useLocation } from "react-router-dom";
+import * as XLSX from "xlsx";
 
 
 const toWords = new ToWords({
@@ -63,6 +64,48 @@ export default function InvoiceForOwnerView({
 
   const printRef = useRef();
 
+  const exportToExcel = () => {
+    const wsData = [
+      ["VESSEL & VOYAGE :", `${invoiceHireData?.vesselName} & V${invoiceHireData?.voyageNo}`],
+      ["OWNER :", invoiceHireData?.ownerName],
+      ["CHTR :", invoiceHireData?.chtrName],
+      ["DELIVERY :", moment(invoiceHireData?.deliveryDate).format("DD-MMM-YYYY HH:mm A")],
+      ["REDELIVERY :", moment(invoiceHireData?.reDeliveryDate || invoiceHireData?.dteReDeliveryDate).format("DD-MMM-YYYY HH:mm A")],
+      ["TOTAL DURATION :", invoiceHireData?.totalDuration],
+      ["BROKERAGE :", `${invoiceHireData?.brokerage}%`],
+      ["ADD COMM :", `${invoiceHireData?.comm}%`],
+      ["LSFO PRICE/MT :", `${_formatMoney(invoiceHireData?.lsfoprice)} USD`],
+      ["DATE OF INVOICE :", invoiceHireData?.invoiceDate],
+      ["REF :", invoiceHireData?.refNo],
+      ["DUE DATE :", moment(invoiceHireData?.dueDate).format("DD-MMM-YYYY")],
+      ["START PORT :", invoiceHireData?.startPortName],
+      ["END PORT :", invoiceHireData?.endPortName],
+      ["DAILY HIRE :", `${_formatMoney(invoiceHireData?.dailyHire)} USD`],
+      ["ILOHC :", `${_formatMoney(invoiceHireData?.ilohc)} USD`],
+      ["C/V/E /DAYS :", `${_formatMoney(invoiceHireData?.cveday)} USD`],
+      ["LSMGO PR/MT :", `${_formatMoney(invoiceHireData?.lsmgoprice)} USD`],
+      [],
+      ["SR.", "DESCRIPTION", "Duration", "Quantity", "Debit", "Credit"],
+      ...rowData.map((item, index) => [
+        index + 1,
+        item.description,
+        +item.duration > 0 ? `${item.duration} DAYS` : "",
+        +item.quantity > 0 ? `${+item.quantity} MT` : "",
+        _formatMoneyWithDoller(item.credit?.toFixed(2)),
+        _formatMoneyWithDoller(item.debit?.toFixed(2)),
+      ]),
+      ["Total", "", "", "", _formatMoneyWithDoller(totalCredit?.toFixed(2)), _formatMoneyWithDoller(totalDebit?.toFixed(2))],
+      ["AMOUNT PAYABLE TO OWNERS", "", "", "", "", _formatMoneyWithDoller((totalCredit - totalDebit)?.toFixed(2))],
+      [`(In Word USD) ${toWords.convert((totalCredit - totalDebit)?.toFixed(2))}`],
+    ];
+
+    const wb = XLSX.utils.book_new();
+    const ws = XLSX.utils.aoa_to_sheet(wsData);
+    XLSX.utils.book_append_sheet(wb, ws, "Invoice");
+    XLSX.writeFile(wb, `${invoiceHireData?.vesselName}_Invoice.xlsx`);
+  };
+
+
   return (
     <>
       {loading && <Loading />}
@@ -90,6 +133,13 @@ export default function InvoiceForOwnerView({
           }}
         >
           Export PDF
+        </button>
+        <button
+          className="btn btn-primary px-3 py-2 mr-2 ml-3"
+          type="button"
+          onClick={exportToExcel}
+        >
+          Export Excel
         </button>
       </div>
       <div
