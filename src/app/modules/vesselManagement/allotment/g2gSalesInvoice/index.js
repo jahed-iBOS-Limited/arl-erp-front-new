@@ -1,7 +1,7 @@
 import { Form, Formik } from "formik";
 import React, { useEffect, useRef, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
-import ReactToPrint from "react-to-print";
+import ReactToPrint, { useReactToPrint } from "react-to-print";
 import * as Yup from "yup";
 import ICustomCard from "../../../_helper/_customCard";
 import InputField from "../../../_helper/_inputField";
@@ -11,16 +11,18 @@ import { _todayDate } from "../../../_helper/_todayDate";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import { PortAndMotherVessel } from "../../common/components";
 import GhatWiseDeliveryReport from "./ghatWiseDeliveryReport";
+import GodownsEntryReport from "./godownsEntryReport";
+import "./style.scss";
 const validationSchema = Yup.object().shape({});
 function G2GSalesInvoice() {
   const {
     profileData: { userId, accountId },
     selectedBusinessUnit: { value: buUnId, label: buUnName },
   } = useSelector((state) => state?.authData, shallowEqual);
-
+  const [userPrintBtnClick, setUserPrintBtnClick] = useState(false);
   const [shipPoint, getShipPoint] = useAxiosGet();
   const [, getGhatWiseDeliveryReport, gridDataLoading] = useAxiosGet();
-  const [loading, setLanding] = useState(false);
+  const [, getGodownsEntryReport, godownsEntryLoading] = useAxiosGet();
   const [gridData, setGridData] = useState([]);
   const printRef = useRef();
 
@@ -69,6 +71,13 @@ function G2GSalesInvoice() {
 
     switch (reportType) {
       case 1:
+        // Godowns Entry Report
+        getGodownsEntryReport(
+          `/tms/LigterLoadUnload/GetMotherVesselWiseGodownsEntryReport?accountId=${accountId}&businessUnitId=${buUnId}&motherVesslelId=${values?.motherVessel?.value}&&fromDate=${values?.fromDate}&toDate=${values?.toDate}`,
+          (resData) => {
+            setGridData(resData);
+          }
+        );
         break;
       case 2:
         // Ghat Wise Delivery Report
@@ -84,10 +93,20 @@ function G2GSalesInvoice() {
     }
   };
 
+  const handlePrint = useReactToPrint({
+    pageStyle: `@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}`,
+    onBeforePrint: () =>{
+      setUserPrintBtnClick(true)
+    },
+    onAfterPrint: () => {
+      setUserPrintBtnClick(false)
+    },
+    content: () => printRef.current,
+  });
   return (
     <>
       <ICustomCard title="G2G Sales Invoice">
-        <>
+        <div className="g2gSalesInvoice">
           <Formik
             enableReinitialize={true}
             validationSchema={validationSchema}
@@ -98,6 +117,8 @@ function G2GSalesInvoice() {
               motherVessel: "",
               fromDate: _todayDate(),
               toDate: _todayDate(),
+              godownsEntryTopDate: _todayDate(),
+              godownsEntryBottomDate: _todayDate(),
             }}
             onSubmit={(values, { setSubmitting, resetForm }) => {}}
           >
@@ -111,7 +132,7 @@ function G2GSalesInvoice() {
               isValid,
             }) => (
               <>
-                {(loading || gridDataLoading) && <Loading />}
+                {(godownsEntryLoading || gridDataLoading) && <Loading />}
                 <Form className="form">
                   <div className="row global-form">
                     <div className="col-lg-3">
@@ -222,28 +243,38 @@ function G2GSalesInvoice() {
                       </button>
                     </div>
                     <div className="col d-flex align-items-center justify-content-end">
-                      <ReactToPrint
-                        pageStyle={
-                          "@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}"
-                        }
-                        trigger={() => (
-                          <button
-                            type="button"
-                            className="btn btn-primary ml-3"
-                            disabled={gridData?.length > 0 ? false : true}
-                          >
-                            <i
-                              class="fa fa-print pointer"
-                              aria-hidden="true"
-                            ></i>
-                            Print
-                          </button>
-                        )}
-                        content={() => printRef.current}
-                      />
+                      <span
+                        onClick={() => {
+                          setUserPrintBtnClick(true);
+                          setTimeout(() => {
+                            handlePrint();
+                          }, 1000);
+                        }}
+                      >
+                        <button
+                          type="button"
+                          className="btn btn-primary ml-3"
+                          disabled={gridData?.length > 0 ? false : true}
+                        >
+                          <i class="fa fa-print pointer" aria-hidden="true"></i>
+                          Print
+                        </button>
+                      </span>
                     </div>
                   </div>
-
+                  {/* Godowns Entr Report */}
+                  {/* {values?.reportType?.value === 1 && gridData?.length > 0 && ( */}
+                  <>
+                    <GodownsEntryReport
+                      printRef={printRef}
+                      gridData={gridData}
+                      buUnName={buUnName}
+                      values={values}
+                      setFieldValue={setFieldValue}
+                      userPrintBtnClick={userPrintBtnClick}
+                    />
+                  </>
+                  {/* )} */}
                   {/*  Ghat wise delivery report (type : 2) */}
                   {values?.reportType?.value === 2 && gridData?.length > 0 && (
                     <>
@@ -252,6 +283,7 @@ function G2GSalesInvoice() {
                         gridData={gridData}
                         buUnName={buUnName}
                         values={values}
+                        setFieldValue={setFieldValue}
                       />
                     </>
                   )}
@@ -259,12 +291,10 @@ function G2GSalesInvoice() {
               </>
             )}
           </Formik>
-        </>
+        </div>
       </ICustomCard>
     </>
   );
 }
 
 export default G2GSalesInvoice;
-
-

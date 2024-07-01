@@ -2,6 +2,10 @@ import React from "react";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
 import { _fixedPoint } from "../../../_helper/_fixedPoint";
 const GhatWiseDeliveryReport = ({ printRef, gridData, buUnName, values }) => {
+
+  const motherVessel = values?.motherVessel?.label || "";
+  const motherVesselName = motherVessel?.split("(")?.[0].trim()
+
   return (
     <div ref={printRef}>
       <div>
@@ -11,9 +15,8 @@ const GhatWiseDeliveryReport = ({ printRef, gridData, buUnName, values }) => {
             <p>
               <span>Ghat Wise Delivery Report</span>
               <br />
-              <span>{values?.motherVessel?.label}</span>
-              <br />
-              <span>{values?.item?.label}</span>
+              <span>{motherVesselName}({values?.item?.label})</span>
+             
             </p>
           </div>
         </div>
