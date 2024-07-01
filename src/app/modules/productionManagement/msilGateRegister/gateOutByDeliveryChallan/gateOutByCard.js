@@ -2,15 +2,17 @@ import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
+import { _currentTime } from "../../../_helper/_currentTime";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
 import IForm from "../../../_helper/_form";
 import InputField from "../../../_helper/_inputField";
 import Loading from "../../../_helper/_loading";
 import NewSelect from "../../../_helper/_select";
 import { _todayDate } from "../../../_helper/_todayDate";
-import { _currentTime } from "../../../_helper/_currentTime";
+import IViewModal from "../../../_helper/_viewModal";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
+import QrCodeScanner from "./QRCodeScanner";
 const initData = {
   strCardNumber: "",
   vehicleOutTime: "",
@@ -24,6 +26,7 @@ const initData = {
 };
 const GetOutByCard = () => {
   const [objProps, setObjprops] = useState({});
+  const [QRCodeScanner, setQRCodeScanner] = useState(false);
   const [, saveData, saveDataLoader] = useAxiosPost();
   const [data, getData, dataLoader, setData] = useAxiosGet();
   const [afterLunch, setAfterLunch] = useState(true);
@@ -72,6 +75,22 @@ const GetOutByCard = () => {
       },
       cb,
       true
+    );
+  };
+
+  const qurScanHandler = ({ setFieldValue, values }) => {
+    setFieldValue("vehicleOutTime", _currentTime());
+    document.getElementById("cardNoInput").disabled = true;
+    getData(
+      `/mes/MSIL/GetAllMSIL?PartName=GetVehicleInfoByCardNumberForGateOut&BusinessUnitId=${values?.businessUnit?.value}&search=${values?.strCardNumber}`,
+      (data) => {
+        if (data?.length <= 0) {
+          setFieldValue("strCardNumber", "");
+          toast.warn("Vehicle entry not found");
+          document.getElementById("cardNoInput").disabled = false;
+          document.getElementById("cardNoInput").focus();
+        }
+      }
     );
   };
   return (
@@ -123,7 +142,27 @@ const GetOutByCard = () => {
                         }}
                       />
                     </div>
-                    <div className="col-lg-3 d-flex">
+                    <div
+                      className="col-lg-3 d-flex"
+                      style={{
+                        position: "relative",
+                      }}
+                    >
+                      <div
+                        style={{
+                          position: "absolute",
+                          right: 0,
+                          top: 0,
+                          cursor: "pointer",
+                          color: "blue",
+                          zIndex: '9999'
+                        }}
+                        onClick={() => {
+                          setQRCodeScanner(true);
+                        }}
+                      >
+                        QR Code <i class="fa fa-qrcode" aria-hidden="true"></i>
+                      </div>
                       <div style={{ width: "inherit" }}>
                         <InputField
                           id="cardNoInput"
@@ -174,8 +213,9 @@ const GetOutByCard = () => {
                           marginTop: "20px",
                         }}
                         onClick={() => {
+                          setData([]);
                           setFieldValue("strCardNumber", "");
-                          setFieldValue("vehicleOutTime", '');
+                          setFieldValue("vehicleOutTime", "");
                           document.getElementById(
                             "cardNoInput"
                           ).disabled = false;
@@ -375,6 +415,30 @@ const GetOutByCard = () => {
                   onSubmit={() => resetForm(initData)}
                 ></button>
               </Form>
+              {QRCodeScanner && (
+                <>
+                  <IViewModal
+                    show={QRCodeScanner}
+                    onHide={() => {
+                      setQRCodeScanner(false);
+                    }}
+                  >
+                    <QrCodeScanner
+                      QrCodeScannerCB={(result) => {
+                        setFieldValue("strCardNumber", result);
+                        setQRCodeScanner(false);
+                        qurScanHandler({
+                          setFieldValue,
+                          values: {
+                            ...values,
+                            strCardNumber: result,
+                          },
+                        });
+                      }}
+                    />
+                  </IViewModal>
+                </>
+              )}
             </>
           )}
         </Formik>
