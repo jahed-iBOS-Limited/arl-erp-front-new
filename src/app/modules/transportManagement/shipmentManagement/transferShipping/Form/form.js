@@ -15,7 +15,12 @@ import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import customStyles from "../../../../selectCustomStyle";
-import { GetPendingDeliveryDDLAction, getLoadingPointDDLAction } from "../_redux/Actions";
+import {
+  GetPendingDeliveryDDLAction,
+  getLoadingPointDDLAction,
+} from "../_redux/Actions";
+import IViewModal from "../../../../_helper/_viewModal";
+import QRCodeScanner from "../../../../_helper/qrCodeScanner";
 // Validation schema
 const validationSchema = Yup.object().shape({
   Vehicle: Yup.object().shape({
@@ -114,6 +119,7 @@ export default function _Form({
   loadingPointDDL,
   ShippointDDL,
 }) {
+  const [QRCodeScannerModal, setQRCodeScannerModal] = useState(false);
   const [controls, setControls] = useState([]);
   const dispatch = useDispatch();
   useEffect(() => {
@@ -208,6 +214,60 @@ export default function _Form({
   const isGateMaintain = ShippointDDL?.find(
     (i) => i.value === headerData?.pgiShippoint?.value
   )?.isGateMaintain;
+
+  const qurScanHandler = ({ setFieldValue, values }) => {
+    document.getElementById("cardNoInput").disabled = true;
+    getEntryCodeDDL(
+      `/mes/MSIL/GetAllMSIL?PartName=GetVehicleInfoByCardNumberForShipment&BusinessUnitId=${selectedBusinessUnit?.value}&search=${values?.strCardNo}`,
+      (data) => {
+        if (data[0]?.strEntryCode) {
+          setFieldValue("gateEntryCode", {
+            value: data[0]?.value,
+            label: data[0]?.label,
+          });
+          vehicleSingeDataView(
+            data[0]?.strTruckNumber,
+            accountId,
+            selectedBusinessUnit?.value,
+            setFieldValue
+          );
+          getVehicleEntryDDL(
+            `/wms/ItemPlantWarehouse/GetVehicleEntryDDL?accountId=${accountId}&businessUnitId=${selectedBusinessUnit?.value}&EntryCode=${data[0]?.strEntryCode}`,
+            (data) => {
+              const find = vehicleDDL?.find(
+                (i) => i.veichleId === data[0]?.vehicleId
+              );
+              if (find) {
+                setFieldValue("laborSupplierName", "");
+                vehicleSingeDataView(
+                  find?.label,
+                  accountId,
+                  selectedBusinessUnit?.value,
+                  setFieldValue
+                );
+                setFieldValue("Vehicle", find || "");
+                setFieldValue("supplierName", "");
+                setFieldValue("laborSupplierName", "");
+                const controlsModify = [...controls];
+                controlsModify[2].isDisabled = true;
+                setControls(controlsModify);
+              }
+              // setFieldValue("Vehicle", { value: data[0]?.value, label: data[0]?.vehicleCode });
+              const controlsModify = [...controls];
+              controlsModify[2].isDisabled = true;
+              setControls(controlsModify);
+            }
+          );
+        } else {
+          document.getElementById("cardNoInput").disabled = false;
+          document.getElementById("cardNoInput").focus();
+          setFieldValue("strCardNo", "");
+          toast.warn("Card Number Not Found");
+        }
+      }
+    );
+  };
+
   return (
     <>
       <Formik
@@ -312,7 +372,28 @@ export default function _Form({
                           )
                         ) : itm?.type === "cardInput" ? (
                           isGateMaintain && (
-                            <div className="col-lg-3 d-flex">
+                            <div
+                              className="col-lg-3 d-flex"
+                              style={{
+                                position: "relative",
+                              }}
+                            >
+                              <div
+                                style={{
+                                  position: "absolute",
+                                  right: 0,
+                                  top: 0,
+                                  cursor: "pointer",
+                                  color: "blue",
+                                  zIndex: "1",
+                                }}
+                                onClick={() => {
+                                  setQRCodeScannerModal(true);
+                                }}
+                              >
+                                QR Code{" "}
+                                <i class="fa fa-qrcode" aria-hidden="true"></i>
+                              </div>
                               <div style={{ width: "inherit" }}>
                                 <InputField
                                   id="cardNoInput"
@@ -705,68 +786,92 @@ export default function _Form({
                   {rowDto?.length >= 0 && (
                     <div className="table-responsive">
                       <table className="table table-striped table-bordered mt-1 bj-table bj-table-landing sales_order_landing_table">
-                      <thead>
-                        <tr>
-                          <th style={{ width: "35px" }}>SL</th>
-                          <th>Transfer Id</th>
-                          <th>Transfer No</th>
-                          <th>Ship To Warehouse</th>
-                          <th>Ship To Address</th>
-                          <th>Transport Zone</th>
-                          <th>Loading Point</th>
-                          <th>Net (KG)</th>
-                          <th>Vol (CFT)</th>
-                          <th>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {rowDto.map((itm, index) => (
-                          <tr key={index}>
-                            <td className="text-center">{++index}</td>
-                            <td>
-                              <div className="text-center">
-                                {itm.deliveryId}
-                              </div>
-                            </td>
-                            <td>
-                              <div>{itm.deliveryCode}</div>
-                            </td>
-                            <td>
-                              <div>{itm.shipToPartnerName}</div>
-                            </td>
-                            <td>
-                              <div>{itm.shipToPartnerAddress}</div>
-                            </td>
-                            <td>
-                              <div>{itm.transportZoneName}</div>
-                            </td>
-                            <td>
-                              <div>{itm.loadingPointName}</div>
-                            </td>
-                            <td>
-                              <div className="text-right">
-                                {itm?.itemTotalNetWeight}
-                              </div>
-                            </td>
-                            <td>
-                              <div className="text-right">
-                                {itm?.itemTotalVolume}
-                              </div>
-                            </td>
-                            <td className="text-center">
-                              <i
-                                className="fa fa-trash"
-                                onClick={() => remover(--index)}
-                              ></i>
-                            </td>
+                        <thead>
+                          <tr>
+                            <th style={{ width: "35px" }}>SL</th>
+                            <th>Transfer Id</th>
+                            <th>Transfer No</th>
+                            <th>Ship To Warehouse</th>
+                            <th>Ship To Address</th>
+                            <th>Transport Zone</th>
+                            <th>Loading Point</th>
+                            <th>Net (KG)</th>
+                            <th>Vol (CFT)</th>
+                            <th>Action</th>
                           </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                        </thead>
+                        <tbody>
+                          {rowDto.map((itm, index) => (
+                            <tr key={index}>
+                              <td className="text-center">{++index}</td>
+                              <td>
+                                <div className="text-center">
+                                  {itm.deliveryId}
+                                </div>
+                              </td>
+                              <td>
+                                <div>{itm.deliveryCode}</div>
+                              </td>
+                              <td>
+                                <div>{itm.shipToPartnerName}</div>
+                              </td>
+                              <td>
+                                <div>{itm.shipToPartnerAddress}</div>
+                              </td>
+                              <td>
+                                <div>{itm.transportZoneName}</div>
+                              </td>
+                              <td>
+                                <div>{itm.loadingPointName}</div>
+                              </td>
+                              <td>
+                                <div className="text-right">
+                                  {itm?.itemTotalNetWeight}
+                                </div>
+                              </td>
+                              <td>
+                                <div className="text-right">
+                                  {itm?.itemTotalVolume}
+                                </div>
+                              </td>
+                              <td className="text-center">
+                                <i
+                                  className="fa fa-trash"
+                                  onClick={() => remover(--index)}
+                                ></i>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
                     </div>
                   )}
                 </div>
               </div>
+              {QRCodeScannerModal && (
+                <>
+                  <IViewModal
+                    show={QRCodeScannerModal}
+                    onHide={() => {
+                      setQRCodeScannerModal(false);
+                    }}
+                  >
+                    <QRCodeScanner
+                      QrCodeScannerCB={(result) => {
+                        setFieldValue("strCardNumber", result);
+                        setQRCodeScannerModal(false);
+                        qurScanHandler({
+                          setFieldValue,
+                          values: {
+                            ...values,
+                            strCardNumber: result,
+                          },
+                        });
+                      }}
+                    />
+                  </IViewModal>
+                </>
+              )}
               <button
                 type="button"
                 style={{ display: "none" }}
