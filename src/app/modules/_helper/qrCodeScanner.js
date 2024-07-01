@@ -1,7 +1,7 @@
 import React from "react";
 import { QrReader } from "react-qr-reader";
 
-const QrCodeScanner = ({ QrCodeScannerCB }) => {
+const QRCodeScanner = ({ QrCodeScannerCB }) => {
   const handleScan = (result) => {
     if (result) {
       QrCodeScannerCB(result.text);
@@ -24,5 +24,4 @@ const QrCodeScanner = ({ QrCodeScannerCB }) => {
     </div>
   );
 };
-
-export default QrCodeScanner;
+export default QRCodeScanner;

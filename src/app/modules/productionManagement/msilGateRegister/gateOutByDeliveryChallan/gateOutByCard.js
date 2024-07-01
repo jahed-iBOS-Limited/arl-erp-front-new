@@ -12,7 +12,7 @@ import { _todayDate } from "../../../_helper/_todayDate";
 import IViewModal from "../../../_helper/_viewModal";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import QrCodeScanner from "./QRCodeScanner";
+import QRCodeScanner from "../../../_helper/QRCodeScanner";
 const initData = {
   strCardNumber: "",
   vehicleOutTime: "",
@@ -26,7 +26,7 @@ const initData = {
 };
 const GetOutByCard = () => {
   const [objProps, setObjprops] = useState({});
-  const [QRCodeScanner, setQRCodeScanner] = useState(false);
+  const [QRCodeScannerModal, setQRCodeScannerModal] = useState(false);
   const [, saveData, saveDataLoader] = useAxiosPost();
   const [data, getData, dataLoader, setData] = useAxiosGet();
   const [afterLunch, setAfterLunch] = useState(true);
@@ -155,10 +155,10 @@ const GetOutByCard = () => {
                           top: 0,
                           cursor: "pointer",
                           color: "blue",
-                          zIndex: '9999'
+                          zIndex: "1",
                         }}
                         onClick={() => {
-                          setQRCodeScanner(true);
+                          setQRCodeScannerModal(true);
                         }}
                       >
                         QR Code <i class="fa fa-qrcode" aria-hidden="true"></i>
@@ -415,18 +415,18 @@ const GetOutByCard = () => {
                   onSubmit={() => resetForm(initData)}
                 ></button>
               </Form>
-              {QRCodeScanner && (
+              {QRCodeScannerModal && (
                 <>
                   <IViewModal
-                    show={QRCodeScanner}
+                    show={QRCodeScannerModal}
                     onHide={() => {
-                      setQRCodeScanner(false);
+                      setQRCodeScannerModal(false);
                     }}
                   >
-                    <QrCodeScanner
+                    <QRCodeScanner
                       QrCodeScannerCB={(result) => {
                         setFieldValue("strCardNumber", result);
-                        setQRCodeScanner(false);
+                        setQRCodeScannerModal(false);
                         qurScanHandler({
                           setFieldValue,
                           values: {
