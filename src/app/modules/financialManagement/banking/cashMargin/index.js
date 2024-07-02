@@ -112,7 +112,7 @@ export default function CashMarginLanding() {
                     style={{ marginTop: "18px" }}
                     className="btn btn-primary"
                     type="button"
-                    disabled={!values?.type}
+                    disabled={!values?.cashMarginType}
                     onClick={() => {
                       commonGridData(pageNo, pageSize, values);
                     }}
@@ -171,7 +171,7 @@ export default function CashMarginLanding() {
                         <th>Principal Amount</th>
                         <th>Margin Percent</th>
                         <th>Margin Amount</th>
-                        <th>Balance</th>
+                        {/* <th>Balance</th> */}
                         <th>Maturity Date</th>
                         <th style={{ minWidth: "70px" }}>Action</th>
                       </tr>
@@ -192,7 +192,7 @@ export default function CashMarginLanding() {
                             {item?.numMarginPercent}
                           </td>
                           <td>{_formatMoney(item?.numMarginAmount)}</td>
-                          <td>{_formatMoney(item?.numBalance)}</td>
+                          {/* <td>{_formatMoney(item?.numBalance)}</td> */}
                           <td>{_dateFormatter(item?.dteMaturityDate)}</td>
                           <td>
                             <div className="d-flex justify-content-around">
