@@ -261,6 +261,7 @@ export default function ViewEditCashMargin() {
                     }}
                     errors={errors}
                     touched={touched}
+                    isDisabled={actionType === "view" ? true : false}
                   />
                 </div>
                 <div className="col-lg-3">
@@ -275,6 +276,7 @@ export default function ViewEditCashMargin() {
                     }}
                     errors={errors}
                     touched={touched}
+                    isDisabled={actionType === "view" ? true : false}
                   />
                 </div>
                 <div className="col-lg-3">
