@@ -1,7 +1,0 @@
-.paymentOnMaturity .loan-scrollable-table .scroll-table {
-    max-width: 100% !important;
-    max-height: 30em !important;
-    overflow: scroll !important;
-    position: relative !important;
-    z-index: 0 !important;
-  }
