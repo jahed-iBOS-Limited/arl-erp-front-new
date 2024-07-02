@@ -20,6 +20,7 @@ const QRCodeScanner = ({ QrCodeScannerCB }) => {
         style={{ width: "100%" }}
         className="qr-scanner"
         videoContainerStyle={{ paddingTop: "70%" }}
+        constraints={ {facingMode: 'environment'} }
       />
     </div>
   );
