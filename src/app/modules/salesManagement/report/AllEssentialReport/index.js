@@ -97,7 +97,7 @@ const AllEssentialReport = () => {
                   }}
                 />
 
-                {![3,4].includes(values?.reportType?.value) && (<FromDateToDateForm
+                {![3].includes(values?.reportType?.value) && (<FromDateToDateForm
                   obj={{
                     values,
                     setFieldValue,
