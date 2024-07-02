@@ -36,7 +36,8 @@ const initData = {
   cnfProvider: "",
   vasselName: "",
   etaDate: "",
-  ataDate: ""
+  ataDate: "",
+  numberOfContainer: "",
 };
 
 export default function InsurancePolicyForm({ type, id, lcNumber, poNumber }) {
@@ -207,20 +208,33 @@ export default function InsurancePolicyForm({ type, id, lcNumber, poNumber }) {
           invoiceNumber: values?.invoiceNumber,
           invoiceDate: values?.invoiceDate,
           vasselName: values?.vasselName,
-          // invoiceAmount: values?.invoiceAmount,
-          // currencyId: values.currencyId,
           docReceiveByBank: values?.docReceiveByBank ? values?.docReceiveByBank : "",
-          // packingCharge: +values?.packingCharge || 0,
-          // freightCharge: +values?.freightCharge || 0,
           shipmentDocumentId: uploadImage[0]?.id || "",
           lastActionBy: profileData?.userId,
           dueDate: values?.dueDate,
           cnfPartnerId: values?.cnfProvider?.value,
           cnfPartnerName: values?.cnfProvider?.label,
+          numberOfContainer: +values?.numberOfContainer || 0,
+          dteEta: values?.etaDate,
+          dteAta: values?.ataDate,
+          accountId: profileData?.accountId,
+          businessUnitId: selectedBusinessUnit?.value,
+          poId: state?.values?.poDDL?.poId,
+          lcId: state?.values?.poDDL?.lcId,
+          sbuId: state?.values?.poDDL?.sbuId,
+          plantId: state?.values?.poDDL?.plantId,
+          poNumber: state?.values?.poDDL?.poNumber,
+          lcNumber: state?.values?.poDDL?.lcNumber,
+          invoiceAmount: values?.invoiceAmount,
+          currencyId: state?.values?.poDDL?.currencyId,
+          packingCharge: values?.packingCharge || 0,
+          freightCharge: values?.freightCharge || 0,
+          cnFPartnerId: values?.cnfProvider?.value,
+          cnFPartnerName: values?.cnfProvider?.label,
         },
         // objRow: rowDto,
       };
-      EditShipment(payload);
+      EditShipment(payload, setDisabled);
     } else {
       if (index && shippedQuantity) {
         setter();
@@ -255,11 +269,12 @@ export default function InsurancePolicyForm({ type, id, lcNumber, poNumber }) {
           cnFPartnerId: values?.cnfProvider?.value,
           cnFPartnerName: values?.cnfProvider?.label,
           dteEta: values?.etaDate,
-          dteAta: values?.ataDate
+          dteAta: values?.ataDate,
+          numberOfContainer: +values?.numberOfContainer || 0,
         },
         objRow: await getQuantityItem(),
       };
-      await createShipment(payload, cb);
+      await createShipment(payload, cb, setDisabled);
     }
   };
 

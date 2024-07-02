@@ -115,6 +115,9 @@ export default function _Form({
           isValid,
         }) => (
           <>
+          {
+            console.log(errors, "errors")
+          }
             {/* {console.log(values, "values")} */}
             <Card>
               {/* {disableHandler(!isValid)} */}
@@ -352,11 +355,12 @@ export default function _Form({
                             value={values?.etaDate}
                             name="etaDate"
                             placeholder="Date"
-                            disabled={type== "edit"}
+                            disabled={type=== "edit"}
                             type="date"
                             onChange={(e) => {
                               setFieldValue("etaDate", e.target.value);
                             }}
+                          
                           />
                         </div>
                         <div className="col-lg-3">
@@ -369,6 +373,20 @@ export default function _Form({
                             onChange={(e) => {
                               setFieldValue("ataDate", e.target.value);
                             }}
+                            disabled={type === "view"}
+                          />
+                        </div>
+                        <div className="col-lg-3">
+                          <label>Number Of Container</label>
+                          <InputField
+                            value={values?.numberOfContainer || ''}
+                            name="numberOfContainer"
+                            placeholder="Number Of Container"
+                            type="number"
+                            onChange={(e) => {
+                              setFieldValue("numberOfContainer", e.target.value);
+                            }}
+                            disabled={type === "view"}
                           />
                         </div>
                         {type !== "view" && (
