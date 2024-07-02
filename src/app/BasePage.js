@@ -68,9 +68,7 @@ const RtmManagementPages = lazy(() =>
 const ImportManagementPages = lazy(() =>
   import("./modules/importManagement/importManagementPages")
 );
-const ImportManagementPagesNew = lazy(() =>
-  import("./modules/importManagement/importManagementPagesNew.js")
-);
+
 const AttachmentViewer = lazy(() =>
   import("./modules/_helper/attachmentViewer")
 );
@@ -188,7 +186,6 @@ const BasePage = () => {
           component={TransportManagementPages}
         />
         <Route path='/rtm-management' component={RtmManagementPages} />
-        {/* <Route path='/managementImport' component={ImportManagementPagesNew} /> */}
         <Route path='/managementImport' component={ImportManagementPages} />
         <Route path='/pos-management' component={PosManagementPages} />
         <Route path='/call-center-management' component={CallCenterPages} />
