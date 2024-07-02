@@ -7,7 +7,7 @@ const PrintHeader = ({ singleData }) => {
     id,
     layTimeTypeId,
     layTimeDate,
-    portAt,
+    // portAt,
     cargo,
     cargoQty,
     demurrageRate,
@@ -24,15 +24,18 @@ const PrintHeader = ({ singleData }) => {
     cargoUomSuffix,
   } = singleData || {};
 
+  const portAtName = singleData?.portAt?.label || singleData?.portAt || "";
+  const berthedPortCountry =
+    singleData?.portAt?.berthedPortCountry ||
+    singleData?.berthedPortCountry ||
+    "";
   return (
     <div>
       {id ? (
         <h5 className="text-center">
-          { portAt || portAt?.label
-            ? `LAYTIME STATEMENT AT ${portAt || portAt?.label}${
-                portAt?.berthedPortCountry
-                  ? `, ${portAt?.berthedPortCountry || ''}`
-                  : ""
+          {portAtName
+            ? `LAYTIME STATEMENT AT ${portAtName}${
+                berthedPortCountry ? `, ${berthedPortCountry || ""}` : ""
               }`
             : ""}
         </h5>
@@ -74,11 +77,9 @@ const PrintHeader = ({ singleData }) => {
             {moment(vesselArrived).format("DD-MMM-yyyy, HH:mm") || "-"} HRS LT
           </h6>
           <h6>
-            {portAt || portAt?.label
-              ? `${portAt || portAt?.label}${
-                  portAt?.berthedPortCountry
-                    ? `, ${portAt?.berthedPortCountry || ''}`
-                    : ""
+            {portAtName
+              ? `${portAtName}${
+                  berthedPortCountry ? `, ${berthedPortCountry || ""}` : ""
                 }`
               : ""}
           </h6>

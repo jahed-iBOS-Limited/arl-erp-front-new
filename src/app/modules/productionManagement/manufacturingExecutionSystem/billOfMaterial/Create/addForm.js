@@ -234,23 +234,7 @@ export default function BillofMaretialCreateForm() {
         if (objRow.length === 0) {
           toast.warning("Please add material");
         } else {
-          const temp = rowDto?.map((item) => ({
-            itemId: +item?.material?.value,
-            quantity: item?.quantity,
-            monthId: +`${moment(_todayDate()).format("MM")}`,
-            yearId: +`${moment(_todayDate()).format("YYYY")}`,
-          }));
-          checkConfirmation(
-            `/procurement/PurchaseOrder/IsPossibleBOMAutoApproval`,
-            temp,
-            (res) => {
-              if (res[0]?.isPossible) {
-                saveBillofMaterial(payload, cb, setDisabled);
-              } else {
-                updatePoppup(payload, cb);
-              }
-            }
-          );
+          saveBillofMaterial(payload, cb, setDisabled);
         }
       }
     }
@@ -315,18 +299,7 @@ export default function BillofMaretialCreateForm() {
     xData[sl][name] = value;
     setRowDto([...xData]);
   };
-  const updatePoppup = (payload, cb) => {
-    let confirmObject = {
-      title: "Confirm Action",
-      closeOnClickOutside: false,
-      message: "Are You Sure You Want this action? ",
-      yesAlertFunc: () => {
-        saveBillofMaterial(payload, cb, setDisabled);
-      },
-      noAlertFunc: () => {},
-    };
-    IConfirmModal(confirmObject);
-  };
+
   return (
     <IForm
       title={"Create Bill of Material"}
