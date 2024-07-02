@@ -61,7 +61,7 @@ export default function ViewEditCashMargin() {
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
-
+  const [bankAccountDDL, getBankAccountDDL] = useAxiosGet([]);
   const [objProps, setObjprops] = useState({});
   const { actionType, id } = useParams();
   const [rowData, setRowData] = useState([]);
@@ -69,7 +69,7 @@ export default function ViewEditCashMargin() {
   const [, editHandler, editLoading] = useAxiosPost();
   const location = useLocation();
   const [modifyData, setModifyData] = useState({});
-
+  const [bankDDL, getBankDDL] = useAxiosGet();
   useEffect(() => {
     if (location?.state?.intCashMarginId) {
       getByDataForCashMargin(
@@ -94,6 +94,21 @@ export default function ViewEditCashMargin() {
             marginAmount: cashMarginHeader?.numMarginAmount,
             narration: cashMarginHeader?.strRemarks,
             maturityDate: _dateFormatter(cashMarginHeader?.dteMaturityDate),
+            bankAccountNo: cashMarginHeader?.intBankAccountId
+              ? {
+                  value: cashMarginHeader?.intBankAccountId,
+                  label: cashMarginHeader?.strBankAccountName,
+                }
+              : "",
+            cashMarginType: cashMarginHeader?.strCashMarginType
+              ? {
+                  label: cashMarginHeader?.strCashMarginType,
+                  value:
+                    cashMarginHeader?.strCashMarginType === "Cash Refund"
+                      ? 1
+                      : 2,
+                }
+              : "",
           });
           setRowData(cashMarginRow);
         }
@@ -121,6 +136,9 @@ export default function ViewEditCashMargin() {
         dteMaturityDate: values?.maturityDate,
         strRemarks: values?.narration,
         intCreatedBy: profileData?.userId,
+        strBankAccountName: values?.bankAccountNo?.label || "",
+        intBankAccountId: values?.bankAccountNo?.value || 0,
+        strCashMarginType: values?.cashMarginType?.label || "",
       },
       cashMarginRow: rowData,
     };
@@ -128,32 +146,32 @@ export default function ViewEditCashMargin() {
       `/fino/FundManagement/EditFundCashMargin`,
       payload,
       () => {
-        getByDataForCashMargin(
-          `/fino/FundManagement/GetFundCashMarginById?cashMarginId=${location?.state?.intCashMarginId}`,
-          (data) => {
-            const { cashMarginHeader, cashMarginRow } = data;
+        // getByDataForCashMargin(
+        //   `/fino/FundManagement/GetFundCashMarginById?cashMarginId=${location?.state?.intCashMarginId}`,
+        //   (data) => {
+        //     const { cashMarginHeader, cashMarginRow } = data;
 
-            setModifyData({
-              cashMarginCode: cashMarginHeader?.strCashMarginCode,
-              refType: {
-                label: cashMarginHeader?.strReffType,
-                value: cashMarginHeader?.strReffType,
-              },
-              refNo: cashMarginHeader?.strReffNo,
-              bankName: {
-                value: cashMarginHeader?.intBankId,
-                label: cashMarginHeader?.strBankName,
-                code: cashMarginHeader?.strBankCode,
-              },
-              principleAmount: cashMarginHeader?.numPrincipleAmount,
-              marginPercent: cashMarginHeader?.numMarginPercent,
-              marginAmount: cashMarginHeader?.numMarginAmount,
-              narration: cashMarginHeader?.strRemarks,
-              maturityDate: _dateFormatter(cashMarginHeader?.dteMaturityDate),
-            });
-            setRowData(cashMarginRow);
-          }
-        );
+        //     setModifyData({
+        //       cashMarginCode: cashMarginHeader?.strCashMarginCode,
+        //       refType: {
+        //         label: cashMarginHeader?.strReffType,
+        //         value: cashMarginHeader?.strReffType,
+        //       },
+        //       refNo: cashMarginHeader?.strReffNo,
+        //       bankName: {
+        //         value: cashMarginHeader?.intBankId,
+        //         label: cashMarginHeader?.strBankName,
+        //         code: cashMarginHeader?.strBankCode,
+        //       },
+        //       principleAmount: cashMarginHeader?.numPrincipleAmount,
+        //       marginPercent: cashMarginHeader?.numMarginPercent,
+        //       marginAmount: cashMarginHeader?.numMarginAmount,
+        //       narration: cashMarginHeader?.strRemarks,
+        //       maturityDate: _dateFormatter(cashMarginHeader?.dteMaturityDate),
+        //     });
+        //     setRowData(cashMarginRow);
+        //   }
+        // );
       },
       true
     );
@@ -179,7 +197,13 @@ export default function ViewEditCashMargin() {
   };
 
   // let numBalance = 0
-
+  useEffect(() => {
+    getBankAccountDDL(
+      `/costmgmt/BankAccount/GetBankAccountDDL?AccountId=${profileData?.accountId}&BusinssUnitId=${selectedBusinessUnit?.value}`
+    );
+    getBankDDL(`/hcm/HCMDDL/GetBankDDL`);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [profileData, selectedBusinessUnit]);
   return (
     <Formik
       enableReinitialize={true}
@@ -223,7 +247,36 @@ export default function ViewEditCashMargin() {
                     }}
                   />
                 </div>
-
+                <div className="col-lg-3">
+                  <NewSelect
+                    name="cashMarginType"
+                    options={[
+                      { value: 1, label: "Cash Refund" },
+                      { value: 2, label: "Cash Payment" },
+                    ]}
+                    value={values?.cashMarginType || ""}
+                    label="Cash Margin Type"
+                    onChange={(valueOption) => {
+                      setFieldValue("cashMarginType", valueOption);
+                    }}
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <NewSelect
+                    isSearchable={true}
+                    options={bankAccountDDL || []}
+                    name="bankAccountNo"
+                    placeholder="Bank Account No"
+                    value={values?.bankAccountNo || ""}
+                    onChange={(valueOption) => {
+                      setFieldValue("bankAccountNo", valueOption);
+                    }}
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
                 <div className="col-lg-3">
                   <NewSelect
                     name="refType"
@@ -255,7 +308,7 @@ export default function ViewEditCashMargin() {
                 <div className="col-lg-3">
                   <NewSelect
                     name="bankName"
-                    options={[]}
+                    options={bankDDL || []}
                     value={values?.bankName}
                     label="Bank"
                     onChange={(valueOption) => {
