@@ -146,32 +146,32 @@ export default function ViewEditCashMargin() {
       `/fino/FundManagement/EditFundCashMargin`,
       payload,
       () => {
-        getByDataForCashMargin(
-          `/fino/FundManagement/GetFundCashMarginById?cashMarginId=${location?.state?.intCashMarginId}`,
-          (data) => {
-            const { cashMarginHeader, cashMarginRow } = data;
+        // getByDataForCashMargin(
+        //   `/fino/FundManagement/GetFundCashMarginById?cashMarginId=${location?.state?.intCashMarginId}`,
+        //   (data) => {
+        //     const { cashMarginHeader, cashMarginRow } = data;
 
-            setModifyData({
-              cashMarginCode: cashMarginHeader?.strCashMarginCode,
-              refType: {
-                label: cashMarginHeader?.strReffType,
-                value: cashMarginHeader?.strReffType,
-              },
-              refNo: cashMarginHeader?.strReffNo,
-              bankName: {
-                value: cashMarginHeader?.intBankId,
-                label: cashMarginHeader?.strBankName,
-                code: cashMarginHeader?.strBankCode,
-              },
-              principleAmount: cashMarginHeader?.numPrincipleAmount,
-              marginPercent: cashMarginHeader?.numMarginPercent,
-              marginAmount: cashMarginHeader?.numMarginAmount,
-              narration: cashMarginHeader?.strRemarks,
-              maturityDate: _dateFormatter(cashMarginHeader?.dteMaturityDate),
-            });
-            setRowData(cashMarginRow);
-          }
-        );
+        //     setModifyData({
+        //       cashMarginCode: cashMarginHeader?.strCashMarginCode,
+        //       refType: {
+        //         label: cashMarginHeader?.strReffType,
+        //         value: cashMarginHeader?.strReffType,
+        //       },
+        //       refNo: cashMarginHeader?.strReffNo,
+        //       bankName: {
+        //         value: cashMarginHeader?.intBankId,
+        //         label: cashMarginHeader?.strBankName,
+        //         code: cashMarginHeader?.strBankCode,
+        //       },
+        //       principleAmount: cashMarginHeader?.numPrincipleAmount,
+        //       marginPercent: cashMarginHeader?.numMarginPercent,
+        //       marginAmount: cashMarginHeader?.numMarginAmount,
+        //       narration: cashMarginHeader?.strRemarks,
+        //       maturityDate: _dateFormatter(cashMarginHeader?.dteMaturityDate),
+        //     });
+        //     setRowData(cashMarginRow);
+        //   }
+        // );
       },
       true
     );
