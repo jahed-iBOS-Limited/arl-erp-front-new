@@ -1,10 +1,17 @@
 import React from "react";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
 import { _fixedPoint } from "../../../_helper/_fixedPoint";
-const GhatWiseDeliveryReport = ({ printRef, gridData, buUnName, values }) => {
-
+import InputField from "../../../_helper/_inputField";
+const GodownsWiseDeliveryReport = ({
+  printRef,
+  gridData,
+  buUnName,
+  values,
+  userPrintBtnClick,
+  setFieldValue,
+}) => {
   const motherVessel = values?.motherVessel?.label || "";
-  const motherVesselName = motherVessel?.split("(")?.[0].trim()
+  const motherVesselName = motherVessel?.split("(")?.[0].trim();
 
   return (
     <div ref={printRef}>
@@ -13,10 +20,38 @@ const GhatWiseDeliveryReport = ({ printRef, gridData, buUnName, values }) => {
           <div className="col-lg-12 text-center">
             <h4 className="m-0">{buUnName}</h4>
             <p>
-              <span>Ghat Wise Delivery Report</span>
+              <span>
+                {values?.organization?.label} Godown: {values?.godown?.label}{" "}
+              </span>
               <br />
-              <span>{motherVesselName}({values?.item?.label})</span>
-             
+              <span>
+                Mother Vessel MV: {motherVesselName}({values?.item?.label})
+              </span>
+              <br />
+              <span
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                Program No: {values?.programNo}, Date:{" "}
+                {userPrintBtnClick ? (
+                  values?.godownWiseDeliveryDate
+                ) : (
+                  <InputField
+                    value={values?.godownWiseDeliveryDate}
+                    className="printFormat"
+                    name="fromDate"
+                    type="date"
+                    onChange={(e) => {
+                      setFieldValue("godownWiseDeliveryDate", e.target.value);
+                    }}
+                  />
+                )}{" "}
+              </span>
+              <br />
+              <span>{values?.item?.label}</span>
             </p>
           </div>
         </div>
@@ -34,8 +69,7 @@ const GhatWiseDeliveryReport = ({ printRef, gridData, buUnName, values }) => {
                   <th>Quantity(MT)</th>
                   <th>Quantity(BAG)</th>
                   <th>Epmty Bag</th>
-                  <th>Destination</th>
-                  <th>Receiving Date</th>
+                  <th>Remarks</th>
                 </tr>
               </thead>
 
@@ -47,25 +81,24 @@ const GhatWiseDeliveryReport = ({ printRef, gridData, buUnName, values }) => {
                     <td>{item?.vehicleRegNo}</td>
                     <td>{item?.deliveryCode}</td>
                     <td className="text-right">
-                      {item?.totalDeliveryQuantity}
+                      {item?.totalDeliveryQuantityTon}
                     </td>
-                    <td className="text-right">{item?.totalDeliveryValue}</td>
+                    <td className="text-right">
+                      {item?.totalDeliveryQuantityBag}
+                    </td>
                     <td className="text-right">{item?.emptyBag}</td>
-                    <td>{item?.shipPointName}</td>
-                    <td>
-                      {item?.receiveDate
-                        ? _dateFormatter(item?.receiveDate)
-                        : ""}
-                    </td>
+                    <td>{item?.remarks}</td>
                   </tr>
                 ))}
                 <tr>
-                  <td colSpan={4}><b>Total</b></td>
+                  <td colSpan={4}>
+                    <b>Total</b>
+                  </td>
                   <td className="text-right">
                     <b>
                       {_fixedPoint(
                         gridData?.reduce((acc, cur) => {
-                          return (acc += +cur?.totalDeliveryQuantity || 0);
+                          return (acc += +cur?.totalDeliveryQuantityTon || 0);
                         }, 0)
                       )}
                     </b>
@@ -74,7 +107,7 @@ const GhatWiseDeliveryReport = ({ printRef, gridData, buUnName, values }) => {
                     <b>
                       {_fixedPoint(
                         gridData?.reduce((acc, cur) => {
-                          return (acc += +cur?.totalDeliveryValue || 0);
+                          return (acc += +cur?.totalDeliveryQuantityBag || 0);
                         }, 0)
                       )}
                     </b>
@@ -88,7 +121,7 @@ const GhatWiseDeliveryReport = ({ printRef, gridData, buUnName, values }) => {
                       )}
                     </b>
                   </td>
-                  <td colSpan={2}></td>
+                  <td></td>
                 </tr>
               </tbody>
             </table>
@@ -98,4 +131,4 @@ const GhatWiseDeliveryReport = ({ printRef, gridData, buUnName, values }) => {
     </div>
   );
 };
-export default GhatWiseDeliveryReport;
+export default GodownsWiseDeliveryReport;

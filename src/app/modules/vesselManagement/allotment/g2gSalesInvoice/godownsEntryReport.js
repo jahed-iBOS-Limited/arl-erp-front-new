@@ -169,7 +169,7 @@ const GodownsEntryReport = ({
                           </tr>
                         ))}
                         <tr>
-                          <td colSpan={2}>Total</td>
+                          <td colSpan={2}><b>Total</b></td>
                           <td className="text-right">
                             <b>
                               {_fixedPoint(
