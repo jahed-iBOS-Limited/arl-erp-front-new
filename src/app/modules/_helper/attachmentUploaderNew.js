@@ -3,10 +3,14 @@ import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { uploadAttachment } from "../financialManagement/invoiceManagementSystem/billregister/helper";
 import { compressfile } from "./compressfile";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
-export default function AttachmentUploaderNew({ CBAttachmentRes, showIcon }) {
+export default function AttachmentUploaderNew({ CBAttachmentRes, showIcon, attachmentIcon, customStyle, tooltipLabel, fileUploadLimits }) {
   const [fileObjects, setFileObjects] = useState([]);
   const [open, setOpen] = useState(false);
+
+  const defaultStyle = { border: 'none', }
+  const mergeStyle = customStyle ? { ...defaultStyle, ...customStyle } : defaultStyle
 
   return (
     <>
@@ -19,17 +23,20 @@ export default function AttachmentUploaderNew({ CBAttachmentRes, showIcon }) {
           Attachment
         </button>
       ) : (
-        // <CloudUploadOutlined
-        //   onClick={() => setOpen(true)}
-        //   style={{ fontSize: "18px" }}
-        // />
-        <button onClick={() => setOpen(true)} type="button" style={{border: 'none'}}>
-          <i class="fa fa-upload" style={{fontSize: "16px"}} aria-hidden="true"></i>
-        </button>
+        <OverlayTrigger overlay={<Tooltip id="cs-icon">{tooltipLabel || "Upload Attachment"}</Tooltip>}>
+
+          <button
+            onClick={() => setOpen(true)}
+            type="button"
+            style={mergeStyle}>
+            <i class={`${attachmentIcon || 'fa fa-upload'}`} style={{ fontSize: "16px" }} aria-hidden="true"></i>
+          </button>
+        </OverlayTrigger>
       )}
 
       <DropzoneDialogBase
-        filesLimit={3}
+        filesLimit={fileUploadLimits || 3}
+        showAlerts={false}
         acceptedFiles={["image/*", "application/pdf"]}
         fileObjects={fileObjects}
         cancelButtonText={"cancel"}
@@ -37,7 +44,18 @@ export default function AttachmentUploaderNew({ CBAttachmentRes, showIcon }) {
         maxFileSize={7000000}
         open={open}
         onAdd={(newFileObjs) => {
-          setFileObjects && setFileObjects(fileObjects?.concat(newFileObjs));
+          // Previous
+          // setFileObjects && setFileObjects(fileObjects?.concat(newFileObjs));
+
+          // Current
+          setFileObjects((prevFileObjs) => {
+            if (fileObjects.length >= fileUploadLimits) {
+              toast.warn(`Your file limit is ${fileUploadLimits} only`)
+              return prevFileObjs
+            } else {
+              return [...prevFileObjs, ...newFileObjs]
+            }
+          })
         }}
         onDelete={(deleteFileObj) => {
           const newData = fileObjects?.filter(
@@ -66,6 +84,7 @@ export default function AttachmentUploaderNew({ CBAttachmentRes, showIcon }) {
                     if (res?.length) {
                       setOpen(false);
                       CBAttachmentRes && CBAttachmentRes(res);
+                      setFileObjects([])
                     } else {
                       CBAttachmentRes && CBAttachmentRes([]);
                     }

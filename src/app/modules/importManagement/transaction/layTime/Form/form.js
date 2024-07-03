@@ -9,6 +9,7 @@ import LayTimeTableBody from "./components/layTimeTableBody";
 import PrintView from "./components/printView";
 import IViewModal from "../../../../chartering/_chartinghelper/_viewModal";
 import { getVoyageDDLFilter } from "../../../../chartering/helper";
+import PrintInvoiceView from "./components/printInvoiceView";
 
 export default function _Form({
   title,
@@ -34,6 +35,7 @@ export default function _Form({
   const history = useHistory();
   const [voyageNoDDL, setVoyageNoDDL] = useState([]);
   const [show, setShow] = useState(false);
+  const [showInvoiceModal, setShowInvoiceModal] = useState(false);
   const [valuesState, setValuesState] = useState(null);
 
   const { state: preData } = useLocation();
@@ -67,6 +69,7 @@ export default function _Form({
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           saveHandler(values, () => {
+            setShowInvoiceModal(true)
             if (!id) {
               resetForm(initData);
               setRowData([]);
@@ -196,8 +199,8 @@ export default function _Form({
                 <div className="my-4">
                   {id ? (
                     <h5 className="text-center">
-                      { values?.portAt?.label
-                        ? `LAYTIME STATEMENT AT ${ values?.portAt?.label}${
+                      {values?.portAt?.label
+                        ? `LAYTIME STATEMENT AT ${values?.portAt?.label}${
                             values?.portAt?.berthedPortCountry ||
                             values?.portAt?.country
                               ? `, ${values?.portAt?.berthedPortCountry ||
@@ -276,6 +279,12 @@ export default function _Form({
                 errors={errors}
                 touched={touched}
               />
+            </IViewModal>
+            <IViewModal
+              show={showInvoiceModal}
+              onHide={() => setShowInvoiceModal(false)}
+            >
+              <PrintInvoiceView />
             </IViewModal>
           </>
         )}

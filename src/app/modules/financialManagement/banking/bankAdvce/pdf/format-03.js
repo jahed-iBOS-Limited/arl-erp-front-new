@@ -52,7 +52,7 @@ const FormatThree = ({
               To
             </p>
             <p style={{ fontSize: "10px" }} className="font-weight-bold">
-              Date: {dateFormatWithMonthName(_todayDate())}
+              Date: {dateFormatWithMonthName(values?.dateTime)}
             </p>
           </div>
           <p style={{ fontSize: "10px" }} className="font-weight-bold">

@@ -163,7 +163,6 @@ const SalesInvoiceLandingTable = ({ obj }) => {
                             <button
                               onClick={(e) => {
                                 e.stopPropagation();
-                                console.log(tableData.attachment)
                                 dispatch(
                                   getDownlloadFileView_Action(tableData.attachment)
                                 );
@@ -177,22 +176,28 @@ const SalesInvoiceLandingTable = ({ obj }) => {
                               type="button"
                             >
                               <ICon title={`View Attachment`}>
-                                <i class="far fa-file-image"></i>
+                                <i class="fa fa-eye"></i>
                               </ICon>
                             </button>
-                            <AttachmentUploaderNew CBAttachmentRes={(image) => {
-                              if(image.length>0){
-                                const payload = {
-                                  "businessUnitId": buId,
-                                  "invoiceNumber": tableData.strInvoiceNumber,
-                                  "businessPartnerId": tableData.intPartnerId,
-                                  "attachment": image[0].id
-      
+                            <AttachmentUploaderNew
+                              CBAttachmentRes={(image) => {
+                                if (image.length > 0) {
+                                  const payload = {
+                                    "businessUnitId": buId,
+                                    "invoiceNumber": tableData.strInvoiceNumber,
+                                    "businessPartnerId": tableData.intPartnerId,
+                                    "attachment": image[0].id
+
+                                  }
+
+                                  onAttachmentUpload('/oms/OManagementReport/UpdateSalesInvoiceAttachment', payload)
                                 }
-                                
-                                onAttachmentUpload('/oms/OManagementReport/UpdateSalesInvoiceAttachment', payload)
-                              }
-                              }} showIcon/>
+                              }}
+                              showIcon
+                              attachmentIcon='fa fa-paperclip'
+                              customStyle={{ 'background': 'transparent', 'padding': '4px 0' }}
+                              fileUploadLimits={1}
+                            />
                           </div>
                         ) : (
                           <button

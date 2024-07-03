@@ -3,7 +3,7 @@ import axios from "axios";
 import moment from "moment";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
-import { imarineBaseUrl } from "../../../../App";
+import { APIUrl, imarineBaseUrl } from "../../../../App";
 import { _todayDate } from "../../../chartering/_chartinghelper/_todayDate";
 import { _dateFormatter } from "../../../chartering/_chartinghelper/_dateFormatter";
 
@@ -99,7 +99,7 @@ export const saveLayTime = async (data, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.post(
-      `${imarineBaseUrl}/domain/LayTimeInfo/CreateLayTimeInfo`,
+      `${APIUrl}/imp/LayTime/CreateLayTimeInfo`,
       data
     );
     cb();
@@ -117,7 +117,7 @@ export const editLayTime = async (data, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.put(
-      `${imarineBaseUrl}/domain/LayTimeInfo/EditLayTimeInfo`,
+      `${APIUrl}/imp/LayTime/EditLayTimeInfo`,
       data
     );
     cb();
@@ -146,7 +146,7 @@ export const getLayTime = async (
   setLoading(true);
   try {
     const { data } = await axios.get(
-      `${imarineBaseUrl}/domain/LayTimeInfo/GetLayTimeByVesselVoyage?VesselId=${vesselId}&VoyageId=${voyageId}&TypeId=${layTimeTypeId}&CargoId=${cargoId}&BusinessPartnerType=${partnerTypeId}&BusinessPartnerId=${partnerId}`
+      `${imarineBaseUrl}/imp/LayTime/GetLayTimeByVesselVoyage?VesselId=${vesselId}&VoyageId=${voyageId}&TypeId=${layTimeTypeId}&CargoId=${cargoId}&BusinessPartnerType=${partnerTypeId}&BusinessPartnerId=${partnerId}`
     );
 
     if (!data?.objHeader?.layTimeId) {

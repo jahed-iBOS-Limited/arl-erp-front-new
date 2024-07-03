@@ -25,6 +25,8 @@ const initData = {
   reportType: { value: 1, label: "Days And Amount Base Balance" },
   viewType: "",
   businessUnit: { value: 0, label: "All" },
+  itemPrice:"",
+  businessPeriod:""
 };
 
 export default function CustomerBalanceDaysNLimit() {
@@ -199,7 +201,7 @@ export default function CustomerBalanceDaysNLimit() {
                     )}
 
                     {isShow &&
-                      [2, 3, 4, 5, 6, 7,8].includes(
+                      [2, 3, 4, 5, 6, 7,8,9].includes(
                         values?.reportType?.value
                       ) && (
                         <PowerBIReport
