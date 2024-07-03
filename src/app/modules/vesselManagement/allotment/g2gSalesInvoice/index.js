@@ -52,6 +52,11 @@ function G2GSalesInvoice() {
   const [, getGhatWiseDeliveryReport, gridDataLoading] = useAxiosGet();
   const [, getGodownsEntryReport, godownsEntryLoading] = useAxiosGet();
   const [, setUpdateInvoiceAttachent, updateInvoiceAttLoading] = useAxiosPut();
+  const [
+    ,
+    getUpdateInvoiceFromGodown,
+    updateInvoiceFromGodownLoading,
+  ] = useAxiosPut();
   const [destinationDDL, getDestinationDDL] = useAxiosGet();
   const [, getPerGodownsEntryReport] = useAxiosGet();
   const [organizationDDL, getOrganizationDDL] = useAxiosGet();
@@ -122,8 +127,11 @@ function G2GSalesInvoice() {
           `/tms/LigterLoadUnload/GetMotherVesselWiseGodownsEntryReport?accountId=${accountId}&businessUnitId=${buUnId}&motherVesslelId=${values?.motherVessel?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}`,
           (resData) => {
             setGridData(resData);
-            if(formikRef?.current){
-              formikRef.current.setFieldValue("godownsEntryAttachment", resData?.[0]?.invoicefromGovernment || '');
+            if (formikRef?.current) {
+              formikRef.current.setFieldValue(
+                "godownsEntryAttachment",
+                resData?.[0]?.invoicefromGovernment || ""
+              );
             }
           }
         );
@@ -143,6 +151,12 @@ function G2GSalesInvoice() {
           `/tms/LigterLoadUnload/GetPerGodownsEntryReport?accountId=${accountId}&businessUnitId=${buUnId}&motherVesslelId=${values?.motherVessel?.value}&shipToPartnerId=${values?.godown?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}`,
           (resData) => {
             setGridData(resData);
+            if (formikRef?.current) {
+              formikRef.current.setFieldValue(
+                "godownsEntryAttachment",
+                resData?.[0]?.invoicefromGovernment || ""
+              );
+            }
           }
         );
         break;
@@ -231,6 +245,27 @@ function G2GSalesInvoice() {
       true
     );
   };
+
+  const updateInvoiceFromGodownHandler = (values) => {
+    const payload = {
+      motherVesselId: values?.motherVessel?.value,
+      shipToPartnerId: values?.godown?.value,
+      soldToPartnerId: values?.organization?.value,
+      portId: values?.port?.value,
+      businessUnitId: buUnId,
+      attachentInvoice: values?.godownsEntryAttachment || '',
+      invoiceId: values?.invoiceId || 0,
+      invoiceDate: values?.godownWiseDeliveryDate || _todayDate(),
+    };
+    getUpdateInvoiceFromGodown(
+      `/tms/LigterLoadUnload/updateInvoiceFromGodown`,
+      payload,
+      () => {
+        showHandelar(values);
+      },
+      true
+    );
+  };
   return (
     <>
       <div id="g2gSalesInvoice">
@@ -256,6 +291,7 @@ function G2GSalesInvoice() {
             programNo: "",
             item: "",
             godownsEntryAttachment: "",
+            invoiceId: "",
           }}
           onSubmit={(values, { setSubmitting, resetForm }) => {}}
         >
@@ -297,7 +333,8 @@ function G2GSalesInvoice() {
               >
                 {(godownsEntryLoading ||
                   gridDataLoading ||
-                  updateInvoiceAttLoading) && <Loading />}
+                  updateInvoiceAttLoading ||
+                  updateInvoiceFromGodownLoading) && <Loading />}
                 <Form className="form">
                   <div className="row global-form">
                     <div className="col-lg-3">
@@ -487,6 +524,9 @@ function G2GSalesInvoice() {
                         values={values}
                         userPrintBtnClick={userPrintBtnClick}
                         setFieldValue={setFieldValue}
+                        updateInvoiceFromGodownHandler={
+                          updateInvoiceFromGodownHandler
+                        }
                       />
                     </>
                   )}
