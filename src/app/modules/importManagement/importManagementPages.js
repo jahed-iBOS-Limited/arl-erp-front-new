@@ -61,6 +61,9 @@ import CustomsRTGSCreate from "./transaction/customsRTGS/create";
 import ShipmentTracking from "./reports/shipmentTracking";
 import LcEatLanding from "./transaction/lc-eta/landing/tableHeader";
 import LcEatAddEditForm from "./transaction/lc-eta/form/addEditForm";
+import LayTimeForm from "./transaction/layTime/Form/addEditForm";
+import { DebitNote } from "./transaction/layTime/Form/debitNote";
+
 
 export function importManagementPages() {
   return (
@@ -243,6 +246,14 @@ export function importManagementPages() {
           component={OutstandingPayment}
         />
         {/* port charge finished */}
+        <ContentRoute
+          path="/managementImport/transaction/layTime/debitNote"
+          component={DebitNote}
+        />
+        <ContentRoute
+          path="/managementImport/transaction/layTime"
+          component={LayTimeForm}
+        />
         {/* Shipping charge start */}
         <ContentRoute
           path="/managementImport/transaction/shipping-charges/create"
