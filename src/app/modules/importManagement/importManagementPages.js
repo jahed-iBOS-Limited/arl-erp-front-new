@@ -63,6 +63,7 @@ import LcEatLanding from "./transaction/lc-eta/landing/tableHeader";
 import LcEatAddEditForm from "./transaction/lc-eta/form/addEditForm";
 import LayTimeForm from "./transaction/layTime/Form/addEditForm";
 import { DebitNote } from "./transaction/layTime/Form/debitNote";
+import ServiceChargesReportPage from "./reports/ServiceChargesReport";
 
 
 export function importManagementPages() {
@@ -386,6 +387,11 @@ export function importManagementPages() {
         <ContentRoute
           path="/managementImport/reports/fund-requisition"
           component={FundRequisition}
+        />
+
+        <ContentRoute
+          path="/managementImport/reports/ServiceChargesReport"
+          component={ServiceChargesReportPage}
         />
         {/* Proforma Invoice */}
         <ContentRoute
