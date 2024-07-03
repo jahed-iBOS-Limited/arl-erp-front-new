@@ -102,7 +102,7 @@ export const saveLayTime = async (data, setLoading, cb) => {
       `${APIUrl}/imp/LayTime/CreateLayTimeInfo`,
       data
     );
-    cb();
+    cb(res?.data);
     toast.success(res?.data?.message, { toastId: 2345 });
     setLoading(false);
   } catch (err) {
@@ -116,10 +116,7 @@ export const saveLayTime = async (data, setLoading, cb) => {
 export const editLayTime = async (data, setLoading, cb) => {
   setLoading(true);
   try {
-    const res = await axios.put(
-      `${APIUrl}/imp/LayTime/EditLayTimeInfo`,
-      data
-    );
+    const res = await axios.put(`${APIUrl}/imp/LayTime/EditLayTimeInfo`, data);
     cb();
     toast.success(res?.data?.message, { toastId: 2345 });
     setLoading(false);
