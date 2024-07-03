@@ -99,7 +99,7 @@ export const saveLayTime = async (data, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.post(
-      `${imarineBaseUrl}/domain/LayTimeInfo/CreateLayTimeInfo`,
+      `${imarineBaseUrl}/imp/LayTime/CreateLayTimeInfo`,
       data
     );
     cb();
@@ -117,7 +117,7 @@ export const editLayTime = async (data, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.put(
-      `${imarineBaseUrl}/domain/LayTimeInfo/EditLayTimeInfo`,
+      `${imarineBaseUrl}/imp/LayTime/EditLayTimeInfo`,
       data
     );
     cb();
@@ -146,7 +146,7 @@ export const getLayTime = async (
   setLoading(true);
   try {
     const { data } = await axios.get(
-      `${imarineBaseUrl}/domain/LayTimeInfo/GetLayTimeByVesselVoyage?VesselId=${vesselId}&VoyageId=${voyageId}&TypeId=${layTimeTypeId}&CargoId=${cargoId}&BusinessPartnerType=${partnerTypeId}&BusinessPartnerId=${partnerId}`
+      `${imarineBaseUrl}/imp/LayTime/GetLayTimeByVesselVoyage?VesselId=${vesselId}&VoyageId=${voyageId}&TypeId=${layTimeTypeId}&CargoId=${cargoId}&BusinessPartnerType=${partnerTypeId}&BusinessPartnerId=${partnerId}`
     );
 
     if (!data?.objHeader?.layTimeId) {
