@@ -268,7 +268,7 @@ export const saveLayTimePayloadMaker = ({
       voyageNo: values?.voyageNo,
       vesselArrive: values?.vesselArrived,
       berthedPortId: values?.portAt?.value || 0,
-      berthedPortName: values?.portAt?.label || '',
+      berthedPortName: values?.portAt?.label || "",
       cargoId: values?.cargo?.value,
       cargoName: values?.cargo?.label,
       cargoQty: values?.cargoQty,
@@ -293,8 +293,8 @@ export const saveLayTimePayloadMaker = ({
       actionBy: profileData?.userId,
       // stackHolderId: values?.stackHolderName?.value || 0,
       // stackHolderName: values?.stackHolderName?.label || "",
-      stackHolderId: 0,
-      stackHolderName: values?.stackHolderName,
+      stackHolderId: values?.stackHolderName?.value,
+      stackHolderName: values?.stackHolderName?.label,
       stackHolderTypeId: values?.stackHolderType?.value || 0,
       stackHolderTypeName: values?.stackHolderType?.label || "",
       cargoUomSuffix: values?.cargoUomSuffix || "",
@@ -507,9 +507,9 @@ export const addHandlerLayTimeRow = (
       //   );
       //   return false;
       // } else {
-        setRowData(sortedArray);
-        reset();
-        return true;
+      setRowData(sortedArray);
+      reset();
+      return true;
       // }
     } else {
       toast.warn("Please adjust the remaining time first", { toastId: 345678 });

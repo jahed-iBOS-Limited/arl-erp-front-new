@@ -13,7 +13,10 @@ import Form from "./form";
 import { saveLayTimePayloadMaker } from "./utils";
 import { _todayDate } from "../../../../chartering/_chartinghelper/_todayDate";
 import Loading from "../../../../chartering/_chartinghelper/loading/_loading";
-import { getBusinessPartnerTypeDDL, getVesselDDL } from "../../../../chartering/helper";
+import {
+  getBusinessPartnerTypeDDL,
+  getVesselDDL,
+} from "../../../../chartering/helper";
 
 export const initData = {
   /* Header */
@@ -35,6 +38,7 @@ export const initData = {
   stackHolderType: "",
   cargoUomSuffix: "",
   loadUnloadRateSuffix: "",
+  stackHolderBank: "",
 
   /* Row */
   ratio: 100,
