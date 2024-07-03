@@ -74,10 +74,10 @@ const PrintInvoiceModal = ({ singleItem }) => {
       >
         <div className="container">
           <img
-            style={{
-              width: "100px",
-              height: "100px",
-            }}
+            // style={{
+            //   width: "100px",
+            //   height: "100px",
+            // }}
             className="logo"
             src={`${APIUrl}/domain/Document/DownlloadFile?id=${selectedBusinessUnit?.imageId}`}
             alt="iBOS Ltd"
