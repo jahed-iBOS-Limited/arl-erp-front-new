@@ -117,6 +117,7 @@ export default function ServiceChargesReportPage() {
                                     />
                                 </div>
                                 <IButton
+                                    disabled={!values?.reportType || !values?.poId || !values?.fromDate || !values?.toDate}
                                     onClick={() => setShow(true)}
                                 />
                             </div>
