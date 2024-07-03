@@ -99,7 +99,7 @@ export const saveLayTime = async (data, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.post(
-      `${imarineBaseUrl}/imp/LayTime/CreateLayTimeInfo`,
+      `${APIUrl}/imp/LayTime/CreateLayTimeInfo`,
       data
     );
     cb();
@@ -117,7 +117,7 @@ export const editLayTime = async (data, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.put(
-      `${imarineBaseUrl}/imp/LayTime/EditLayTimeInfo`,
+      `${APIUrl}/imp/LayTime/EditLayTimeInfo`,
       data
     );
     cb();

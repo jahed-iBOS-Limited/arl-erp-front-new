@@ -199,8 +199,8 @@ export default function _Form({
                 <div className="my-4">
                   {id ? (
                     <h5 className="text-center">
-                      { values?.portAt?.label
-                        ? `LAYTIME STATEMENT AT ${ values?.portAt?.label}${
+                      {values?.portAt?.label
+                        ? `LAYTIME STATEMENT AT ${values?.portAt?.label}${
                             values?.portAt?.berthedPortCountry ||
                             values?.portAt?.country
                               ? `, ${values?.portAt?.berthedPortCountry ||
