@@ -84,7 +84,6 @@
     "react-flow-renderer": "^8.3.1",
     "react-grid-dnd": "^2.1.2",
     "react-grid-layout": "^1.1.1",
-    "react-hook-form": "^6.0.0",
     "react-html-table-to-excel": "^2.0.0",
     "react-inlinesvg": "1.2.0",
     "react-intl": "3.6.2",
