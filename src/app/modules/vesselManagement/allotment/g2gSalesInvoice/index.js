@@ -36,6 +36,7 @@ import { resourceTradersLetterhead } from "../../../financialManagement/invoiceM
 import { tradersLetterhead } from "../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/traders";
 import { tradingLetterhead } from "../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/trading";
 import "./style.scss";
+import GodownsWiseDeliveryReport from "./GodownWiseDeliveryReport";
 const validationSchema = Yup.object().shape({});
 function G2GSalesInvoice() {
   const {
@@ -46,6 +47,9 @@ function G2GSalesInvoice() {
   const [shipPoint, getShipPoint] = useAxiosGet();
   const [, getGhatWiseDeliveryReport, gridDataLoading] = useAxiosGet();
   const [, getGodownsEntryReport, godownsEntryLoading] = useAxiosGet();
+  const [destinationDDL, getDestinationDDL] = useAxiosGet();
+  const [, getPerGodownsEntryReport] = useAxiosGet();
+  const [organizationDDL, getOrganizationDDL] = useAxiosGet();
   const [gridData, setGridData] = useState([]);
   const printRef = useRef();
 
@@ -53,9 +57,17 @@ function G2GSalesInvoice() {
     getShipPoint(
       `/wms/ShipPoint/GetShipPointDDL?accountId=${accountId}&businessUnitId=${buUnId}`
     );
+    getOrganizationDDL(
+      `/tms/LigterLoadUnload/GetG2GBusinessPartnerDDL?BusinessUnitId=${buUnId}&AccountId=${accountId}`
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accountId]);
 
+  const getDestinationList = (partnerId, portId, motherVesselId) => {
+    getDestinationDDL(
+      `/tms/LigterLoadUnload/GetShipToPartnerAllotmentDDL?businessUnitId=${buUnId}&businessPartnerId=${partnerId}&portId=${portId}&motherVesselId=${motherVesselId}`
+    );
+  };
   const onChangeHandler = (fieldName, values, currentValue, setFieldValue) => {
     switch (fieldName) {
       case "shipPoint":
@@ -79,6 +91,12 @@ function G2GSalesInvoice() {
             value: currentValue?.itemId,
             label: currentValue?.itemName,
           });
+          const organizationId = values?.organization?.value;
+          getDestinationList(
+            organizationId,
+            values?.port?.value,
+            currentValue?.value
+          );
         } else {
           setFieldValue("programNo", "");
           setFieldValue("item", "");
@@ -106,6 +124,15 @@ function G2GSalesInvoice() {
         // Ghat Wise Delivery Report
         getGhatWiseDeliveryReport(
           `/tms/LigterLoadUnload/GetGhatWiseDeliveryReport?accountId=${accountId}&businessUnitId=${buUnId}&motherVesslelId=${values?.motherVessel?.value}&shipPointId=${values?.shipPoint?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}`,
+          (resData) => {
+            setGridData(resData);
+          }
+        );
+        break;
+      case 3:
+        // Godown Wise Delivery Report
+        getPerGodownsEntryReport(
+          `/tms/LigterLoadUnload/GetPerGodownsEntryReport?accountId=${accountId}&businessUnitId=${buUnId}&motherVesslelId=${values?.motherVessel?.value}&shipToPartnerId=${values?.godown?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}`,
           (resData) => {
             setGridData(resData);
           }
@@ -191,6 +218,11 @@ function G2GSalesInvoice() {
               toDate: _todayDate(),
               godownsEntryTopDate: _todayDate(),
               godownsEntryBottomDate: _todayDate(),
+              godownWiseDeliveryDate: _todayDate(),
+              organization: "",
+              godown: "",
+              programNo: "",
+              item: "",
             }}
             onSubmit={(values, { setSubmitting, resetForm }) => {}}
           >
@@ -215,11 +247,15 @@ function G2GSalesInvoice() {
                         options={[
                           {
                             value: 1,
-                            label: "Godowns Entry Report",
+                            label: "Mother Vessel Wise Godown Report",
                           },
                           {
                             value: 2,
                             label: "Ghat Wise Delivery Report",
+                          },
+                          {
+                            value: 3,
+                            label: "Godown Wise Delivery Report",
                           },
                         ]}
                         value={values?.reportType}
@@ -249,8 +285,28 @@ function G2GSalesInvoice() {
                         </div>
                       </>
                     )}
+                    {[3].includes(values?.reportType?.value) && (
+                      <div className="col-lg-3">
+                        <NewSelect
+                          name="organization"
+                          options={organizationDDL || []}
+                          value={values?.organization}
+                          label="Organization"
+                          onChange={(valueOption) => {
+                            setFieldValue("organization", valueOption);
+                            setFieldValue("shipPoint", "");
+                            setFieldValue("port", "");
+                            setFieldValue("motherVessel", "");
+                            setFieldValue("godown", "");
+                          }}
+                          placeholder="Organization"
+                          errors={errors}
+                          touched={touched}
+                        />
+                      </div>
+                    )}
 
-                    {[1, 2].includes(values?.reportType?.value) && (
+                    {[1, 2, 3].includes(values?.reportType?.value) && (
                       <>
                         {" "}
                         <PortAndMotherVessel
@@ -270,6 +326,23 @@ function G2GSalesInvoice() {
                           }}
                         />
                       </>
+                    )}
+                    {[3].includes(values?.reportType?.value) && (
+                      <div className="col-lg-3">
+                        <NewSelect
+                          name="godown"
+                          // options={godownDDL || []}
+                          options={destinationDDL || []}
+                          value={values?.godown}
+                          label="Destination/Godown Name"
+                          placeholder="Destination/Godown Name"
+                          errors={errors}
+                          touched={touched}
+                          onChange={(valueOption) => {
+                            setFieldValue("godown", valueOption);
+                          }}
+                        />
+                      </div>
                     )}
 
                     <div className="col-lg-3">
@@ -296,7 +369,7 @@ function G2GSalesInvoice() {
                         }}
                       />
                     </div>
-                    <div className="col-lg-2 d-flex align-items-center">
+                    <div className="col-lg-1 d-flex align-items-center">
                       <button
                         type="button"
                         className="btn btn-primary mt-3"
@@ -309,6 +382,8 @@ function G2GSalesInvoice() {
                           !values?.toDate ||
                           (values?.reportType?.value === 2
                             ? !values?.shipPoint || !values?.motherVessel
+                            : values?.reportType?.value === 3
+                            ? !values?.motherVessel || !values?.godown
                             : !values?.motherVessel)
                         }
                       >
@@ -335,7 +410,7 @@ function G2GSalesInvoice() {
                       </span>
                     </div>
                   </div>
-                  {/* Godowns Entr Report */}
+                  {/* Godowns Entry Report */}
                   {values?.reportType?.value === 1 && gridData?.length > 0 && (
                     <>
                       <GodownsEntryReport
@@ -357,6 +432,19 @@ function G2GSalesInvoice() {
                         gridData={gridData}
                         buUnName={buUnName}
                         values={values}
+                      />
+                    </>
+                  )}
+
+                  {/* Godown wise  Delivery Report */}
+                  {values?.reportType?.value === 3 && gridData?.length > 0 && (
+                    <>
+                      <GodownsWiseDeliveryReport
+                        printRef={printRef}
+                        gridData={gridData}
+                        buUnName={buUnName}
+                        values={values}
+                        userPrintBtnClick={userPrintBtnClick}
                         setFieldValue={setFieldValue}
                       />
                     </>

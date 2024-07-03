@@ -10,7 +10,11 @@ import IView from "../../../_helper/_helperIcons/_view";
 import Loading from "../../../_helper/_loading";
 import PaginationTable from "../../../_helper/_tablePagination";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import NewSelect from "../../../_helper/_select";
 
+const initData = {
+  cashMarginType: { value: 0, label: "All" },
+};
 export default function CashMarginLanding() {
   const { selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
@@ -23,23 +27,25 @@ export default function CashMarginLanding() {
   // const [, closeHandler] = useAxiosPost();
 
   useEffect(() => {
-    getRowData(
-      `/fino/FundManagement/GetFundCashMarginPagination?businessUnitId=${selectedBusinessUnit?.value}&viewOrder=asc&pageNo=${pageNo}&pageSize=${pageSize}`
-    );
+    commonGridData(pageNo, pageSize, initData);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   //setPositionHandler
   const setPositionHandler = (pageNo, pageSize, values) => {
+    commonGridData(pageNo, pageSize, values);
+  };
+
+  const commonGridData = (pageNo, pageSize, values) => {
     getRowData(
-      `/fino/FundManagement/GetFundCashMarginPagination?businessUnitId=${selectedBusinessUnit?.value}&viewOrder=asc&pageNo=${pageNo}&pageSize=${pageSize}`
+      `/fino/FundManagement/GetFundCashMarginPagination?businessUnitId=${selectedBusinessUnit?.value}&viewOrder=desc&pageNo=${pageNo}&pageSize=${pageSize}&CashMarginType=${values?.cashMarginType?.label}`
     );
   };
 
   return (
     <Formik
       enableReinitialize={true}
-      // initialValues={}
+      initialValues={initData}
       // validationSchema={{}}
       onSubmit={(values, { setSubmitting, resetForm }) => {}}
     >
@@ -79,8 +85,42 @@ export default function CashMarginLanding() {
             }}
           >
             <Form>
-              {/* <div className="form-group row global-form">
-                        <div className="col-lg-3">
+              <div className="form-group row global-form">
+                <div className="col-lg-3">
+                  <NewSelect
+                    name="cashMarginType"
+                    options={[
+                      { value: 0, label: "All" },
+                      { value: 1, label: "Cash Refund" },
+                      { value: 2, label: "Cash Payment" },
+                    ]}
+                    value={values?.cashMarginType || ""}
+                    label="Cash Margin Type"
+                    onChange={(valueOption) => {
+                      setFieldValue("cashMarginType", valueOption);
+                      commonGridData(pageNo, pageSize, {
+                        ...values,
+                        cashMarginType: valueOption,
+                      });
+                    }}
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
+                <div>
+                  <button
+                    style={{ marginTop: "18px" }}
+                    className="btn btn-primary"
+                    type="button"
+                    disabled={!values?.cashMarginType}
+                    onClick={() => {
+                      commonGridData(pageNo, pageSize, values);
+                    }}
+                  >
+                    View
+                  </button>
+                </div>
+                {/* <div className="col-lg-3">
                   <NewSelect
                     name="Type"
                     options={[
@@ -114,22 +154,24 @@ export default function CashMarginLanding() {
                   >
                     View
                   </button>
-                </div>
-                     </div> */}
+                </div> */}
+              </div>
               <div className="mt-5">
                 <div className="table-responsive">
                   <table className="table table-striped table-bordered bj-table bj-table-landing">
                     <thead>
                       <tr>
                         <th>SL</th>
+                        
                         <th>Cash Margin Code</th>
+                        <th>Cash Margin Type</th>
                         <th>Ref Type</th>
                         <th>Ref No</th>
                         <th>Bank Name</th>
                         <th>Principal Amount</th>
                         <th>Margin Percent</th>
                         <th>Margin Amount</th>
-                        <th>Balance</th>
+                        {/* <th>Balance</th> */}
                         <th>Maturity Date</th>
                         <th style={{ minWidth: "70px" }}>Action</th>
                       </tr>
@@ -139,6 +181,7 @@ export default function CashMarginLanding() {
                         <tr key={i}>
                           <td>{i + 1}</td>
                           <td>{item?.strCashMarginCode}</td>
+                          <td>{item?.strCashMarginType}</td>
                           <td>{item?.strReffType}</td>
                           <td>{item?.strReffNo}</td>
                           <td>{item?.strBankName}</td>
@@ -149,7 +192,7 @@ export default function CashMarginLanding() {
                             {item?.numMarginPercent}
                           </td>
                           <td>{_formatMoney(item?.numMarginAmount)}</td>
-                          <td>{_formatMoney(item?.numBalance)}</td>
+                          {/* <td>{_formatMoney(item?.numBalance)}</td> */}
                           <td>{_dateFormatter(item?.dteMaturityDate)}</td>
                           <td>
                             <div className="d-flex justify-content-around">
@@ -169,7 +212,7 @@ export default function CashMarginLanding() {
                               >
                                 <IView />
                               </span>
-                              <span
+                              {/* <span
                                 onClick={() => {
                                   history.push({
                                     pathname: `/financial-management/banking/CashMargin/edit/${item?.intCashMarginId}`,
@@ -184,7 +227,7 @@ export default function CashMarginLanding() {
                                 className="text-primary"
                               >
                                 <IEdit />
-                              </span>
+                              </span> */}
                             </div>
                           </td>
                         </tr>
