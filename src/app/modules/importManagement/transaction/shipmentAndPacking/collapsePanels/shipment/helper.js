@@ -13,13 +13,16 @@ export const getShipByDDL = async (setter) => {
   } catch (error) {}
 };
 
-export const createShipment = async (payload, cb) => {
+export const createShipment = async (payload, cb, setDisabled) => {
+  setDisabled && setDisabled(true)
   try {
     const res = await axios.post(`/imp/Shipment/CreateShipment`, payload);
 
+    setDisabled && setDisabled(false)
     toast.success(res.data.message);
     cb();
   } catch (error) {
+    setDisabled && setDisabled(false)
     toast.error(error?.response?.data?.message);
   }
 };
@@ -142,6 +145,7 @@ export const getShipmentDataById = async (
     if (res.status === 200 && res.data) {
       // localStorage.setItem('poNumber', response?.objHeader?.ponumber)
       const header = {
+        ...response?.objHeader,
         shipById: response?.objHeader?.shipById,
         shipByName: response?.objHeader?.shipByName,
         blAwbTrNo: response?.objHeader?.shipByNumber,
@@ -154,6 +158,8 @@ export const getShipmentDataById = async (
         docReceiveByBank: _dateFormatter(response?.objHeader?.docReceiveByBank),
         packingCharge: response?.objHeader?.packingCharge,
         freightCharge: response?.objHeader?.freightCharge,
+        ataDate: _dateFormatter(response?.objHeader?.dteAta),
+        etaDate: _dateFormatter(response?.objHeader?.dteEta),
         dueDate: _dateFormatter(response?.objHeader?.dueDate),
         currency: response?.objHeader?.currencyName,
         cnfProvider: {
@@ -173,13 +179,16 @@ export const getShipmentDataById = async (
   } catch (error) {}
 };
 
-export const EditShipment = async (payload) => {
+export const EditShipment = async (payload, setDisabled) => {
   try {
+    setDisabled && setDisabled(true);
     const res = await axios.put(`/imp/Shipment/EditShipment`, payload);
+    setDisabled && setDisabled(false);
     if (res.status === 200) {
       toast.success(res.data.message);
     }
   } catch (error) {
+    setDisabled && setDisabled(false);
     toast.error(error?.response?.data?.message);
   }
 };
