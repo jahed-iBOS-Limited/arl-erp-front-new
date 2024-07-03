@@ -40,6 +40,7 @@ import GodownsEntryReport from "./godownsEntryReport";
 
 import "./style.scss";
 import useAxiosPut from "../../../_helper/customHooks/useAxiosPut";
+import BillPreparationReport from "./BillPreparation";
 const validationSchema = Yup.object().shape({});
 function G2GSalesInvoice() {
   const formikRef = React.useRef(null);
@@ -253,7 +254,7 @@ function G2GSalesInvoice() {
       soldToPartnerId: values?.organization?.value,
       portId: values?.port?.value,
       businessUnitId: buUnId,
-      attachentInvoice: values?.godownsEntryAttachment || '',
+      attachentInvoice: values?.godownsEntryAttachment || "",
       invoiceId: values?.invoiceId || 0,
       invoiceDate: values?.godownWiseDeliveryDate || _todayDate(),
     };
@@ -354,6 +355,10 @@ function G2GSalesInvoice() {
                           {
                             value: 3,
                             label: "Invoice Submission To Godown",
+                          },
+                          {
+                            value: 4,
+                            label: "Bill Preparation",
                           },
                         ]}
                         value={values?.reportType}
@@ -527,6 +532,19 @@ function G2GSalesInvoice() {
                         updateInvoiceFromGodownHandler={
                           updateInvoiceFromGodownHandler
                         }
+                      />
+                    </>
+                  )}
+                  {/* Bill Preparation Report*/}
+                  {values?.reportType?.value === 4 && gridData?.length > 0 && (
+                    <>
+                      <BillPreparationReport
+                        printRef={printRef}
+                        gridData={gridData}
+                        buUnName={buUnName}
+                        values={values}
+                        userPrintBtnClick={userPrintBtnClick}
+                        setFieldValue={setFieldValue}
                       />
                     </>
                   )}
