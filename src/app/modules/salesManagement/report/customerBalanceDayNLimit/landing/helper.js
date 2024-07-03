@@ -7,22 +7,24 @@ export const getReportId = (values) => {
   const salesAndRevenueCollectionReport = `fb701cc3-194d-461a-920f-30c399229e0c`;
   const BPBACPAnalysisReport = `ad59feaf-a160-4175-bb65-1b37901b1af1`;
   const ReceivableOverDueReport = `80d11933-02e5-4f89-aeb6-fd0bbc6259db`
+  const SalesAnalysisAsPerReceivable = `4715097f-c49e-40d5-b296-4d0098aeb754`
   const reportId =
     typeId === 2
       ? regularIrregularParty
       : typeId === 3
-      ? sisterConcernOverdue
-      : typeId === 4
-      ? receivableReport
-      : typeId === 5
-      ? partyStatusReport
-      : typeId === 6
-      ? salesAndRevenueCollectionReport
-      : typeId === 7
-      ? BPBACPAnalysisReport
-      :  typeId === 8
-      ? ReceivableOverDueReport
-      : "";
+        ? sisterConcernOverdue
+        : typeId === 4
+          ? receivableReport
+          : typeId === 5
+            ? partyStatusReport
+            : typeId === 6
+              ? salesAndRevenueCollectionReport
+              : typeId === 7
+                ? BPBACPAnalysisReport
+                : typeId === 8
+                  ? ReceivableOverDueReport
+                  :
+                  typeId === 9 ? SalesAnalysisAsPerReceivable : "";
   return reportId;
 };
 
@@ -45,11 +47,11 @@ export const parameterValues = (values, buId, employeeId) => {
       name: "intchannelid",
       value: values?.channel?.value?.toString() || "0",
     },
-    { name: "region", value: values?.region?.value?.toString() || "0"},
+    { name: "region", value: values?.region?.value?.toString() || "0" },
     { name: "area", value: values?.area?.value?.toString() || "0" },
     { name: "territory", value: values?.territory?.value?.toString() || "0" },
     { name: "PartyStatus", value: values?.partyStatus?.value?.toString() || "0" },
-    { name: "PartyGroupId", value:  "0" },
+    { name: "PartyGroupId", value: "0" },
   ];
   const sisterConcernOverdue = [
     { name: "intunit", value: values?.businessUnit?.value?.toString() },
@@ -125,51 +127,69 @@ export const parameterValues = (values, buId, employeeId) => {
   ];
 
   const ReceivableOverDueReport = [
-       { name: "fromDate", value: values?.fromDate },
+    { name: "fromDate", value: values?.fromDate },
     { name: "toDate", value: values?.toDate },
   ];
+
+  const SalesAnalysisAsPerReceivable=[
+    {
+      name: "intchannelid",
+      value: values?.channel?.value?.toString() || "0",
+    },
+    { name: "BusinessUnitId", value: values?.businessUnit?.value?.toString() },
+    {
+      name: "reportDateTO",
+      value: values?.date,
+    },
+    {
+      name: "bussinessPeriod",
+      value: values?.businessPeriod?.toString(),
+    },
+    { name: "ItemPrice", value: values?.itemPrice?.toString() },
+   
+  ]
 
   const parameters =
     typeId === 2
       ? regularIrregularParty
       : typeId === 3
-      ? sisterConcernOverdue
-      : typeId === 4
-      ? receivableReport
-      : typeId === 5
-      ? partyStatusReport
-      : typeId === 6
-      ? salesAndRevenueCollectionReport
-      : typeId === 7
-      ? BPBACPAnalysisReport
-      :  typeId === 8
-      ? ReceivableOverDueReport
-      : [];
+        ? sisterConcernOverdue
+        : typeId === 4
+          ? receivableReport
+          : typeId === 5
+            ? partyStatusReport
+            : typeId === 6
+              ? salesAndRevenueCollectionReport
+              : typeId === 7
+                ? BPBACPAnalysisReport
+                : typeId === 8
+                  ? ReceivableOverDueReport
+                  : typeId===9?SalesAnalysisAsPerReceivable: [];
 
   return parameters;
 };
 
 export // Table Header
-const dayThs = [
-  "Sl",
-  "Partner Code",
-  "Partner Name",
-  "Ledger Balance",
-  "Credit Days",
-  "Permanent Credit Limit",
-  "Short Time Credit Limit",
-  "Total Credit Limit",
-  "Sales Amount",
-  "Deposit Amount",
-  "Limit Base Overdue",
-  "Days Base Overdue",
-  "Region",
-  "Area",
-  "Territory",
-  "Last Delivery Date",
-  "Last Payment Date",
-  "Product Delivery Gap",
-  "Payment Gap",
-  // "Delivery Date Difference",
-  // "Collection Date Difference",
-];
+  const dayThs = [
+    "Sl",
+    "Partner Code",
+    "Partner Name",
+    "Ledger Balance",
+    "Credit Days",
+    "Permanent Credit Limit",
+    "Short Time Credit Limit",
+    "Total Credit Limit",
+    "Sales Amount",
+    "Deposit Amount",
+    "Limit Base Overdue",
+    "Days Base Overdue",
+    "Region",
+    "Area",
+    "Territory",
+    "Last Delivery Date",
+    "Last Payment Date",
+    "Product Delivery Gap",
+    "Payment Gap",
+    // "Delivery Date Difference",
+    // "Collection Date Difference",
+  ];
