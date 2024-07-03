@@ -4,6 +4,8 @@ import { _dateFormatter } from "../../../_helper/_dateFormate";
 import { _fixedPoint } from "../../../_helper/_fixedPoint";
 import InputField from "../../../_helper/_inputField";
 import { empAttachment_action } from "./helper";
+import { useDispatch } from "react-redux";
+import { getDownlloadFileView_Action } from "../../../_helper/_redux/Actions";
 const GodownsEntryReport = ({
   printRef,
   gridData,
@@ -12,35 +14,78 @@ const GodownsEntryReport = ({
   setFieldValue,
   userPrintBtnClick,
   letterhead,
+  updateInvoiceAttachentHandler,
 }) => {
   const [open, setOpen] = useState(false);
   const [fileObjects, setFileObjects] = useState({});
   const motherVessel = values?.motherVessel?.label || "";
   const motherVesselName = motherVessel?.split("(")?.[0].trim();
+  const dispatch = useDispatch();
   return (
     <>
       <div className="row global-form">
         <div className="col d-flex align-items-center justify-content-end">
-          <span>
-            <button
-              type="button"
-              className="btn btn-primary mt-2 mr-2"
-              onClick={() => {
-                setOpen(true);
+          <span
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "15px",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "5px",
               }}
             >
-              <i class="fas fa-paperclip">Attachment</i>
-            </button>
+              {values?.godownsEntryAttachment && (
+                <>
+                  <span
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      dispatch(
+                        getDownlloadFileView_Action(
+                          values?.godownsEntryAttachment
+                        )
+                      );
+                    }}
+                    className="ml-2"
+                    style={{
+                      paddingTop: "5px",
+                    }}
+                  >
+                    <i
+                      style={{ fontSize: "16px" }}
+                      className={`fa pointer fa-eye`}
+                      aria-hidden="true"
+                    ></i>
+                  </span>
+                </>
+              )}
+
+              <button
+                type="button"
+                className="btn btn-primary mt-2 mr-2"
+                onClick={() => {
+                  setOpen(true);
+                }}
+              >
+                <i class="fas fa-paperclip">Attachment</i>
+              </button>
+            </div>
             <button
-            type="button"
-            className="btn btn-primary mt-2"
-            onClick={() => {}}
-          >
-            Save
-          </button>
+              type="button"
+              className="btn btn-primary mt-2"
+              onClick={() => {
+                updateInvoiceAttachentHandler(values);
+              }}
+              disabled={!values?.godownsEntryAttachment}
+            >
+              Save
+            </button>
           </span>
         </div>
-      
       </div>
       <div ref={printRef} id="godownsEntryReport">
         <div
@@ -298,7 +343,7 @@ const GodownsEntryReport = ({
         onSave={() => {
           setOpen(false);
           empAttachment_action(fileObjects).then((data) => {
-            setFieldValue("attachment", data[0]?.id);
+            setFieldValue("godownsEntryAttachment", data[0]?.id);
           });
         }}
         showPreviews={true}
