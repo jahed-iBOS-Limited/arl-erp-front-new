@@ -122,6 +122,7 @@
 .print-invoice-wrapper .bank_details {
   display: flex;
   justify-content: space-between;
+  margin-bottom: 100px;
 }
 
 .print-invoice-wrapper .bd_item p {
@@ -131,7 +132,6 @@
 .print-invoice-wrapper .signature {
   display: flex;
   justify-content: space-between;
-  margin-top: 200px;
   margin-bottom: 50px;
 }
 
