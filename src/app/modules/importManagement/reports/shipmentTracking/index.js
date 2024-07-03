@@ -10,9 +10,13 @@ import { _formatMoney } from "../../../_helper/_formatMoney";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
 import SearchAsyncSelect from "../../../_helper/SearchAsyncSelect";
 import Loading from "../../../_helper/_loading";
+import InputField from "../../../_helper/_inputField";
+import { _todayDate } from "../../../_helper/_todayDate";
 const initData = {
   lcnumber: "",
   po: "",
+  fromDate: _todayDate(),
+  toDate: _todayDate(),
 };
 export default function ShipmentTracking() {
   const {
@@ -202,14 +206,14 @@ export default function ShipmentTracking() {
       )
       .then((res) => res?.data);
   };
-  const loadPOList = (v) => {
-    if (v?.length < 3) return [];
-    return axios
-      .get(
-        `/imp/ImportCommonDDL/GetPoNoForAllCharge?accountId=${accountId}&businessUnitId=${buId}&search=${v}`
-      )
-      .then((res) => res?.data);
-  };
+  // const loadPOList = (v) => {
+  //   if (v?.length < 3) return [];
+  //   return axios
+  //     .get(
+  //       `/imp/ImportCommonDDL/GetPoNoForAllCharge?accountId=${accountId}&businessUnitId=${buId}&search=${v}`
+  //     )
+  //     .then((res) => res?.data);
+  // };
   const style = {
     minWidth: "50px",
   };
@@ -274,6 +278,30 @@ export default function ShipmentTracking() {
                     />
                   </div>
                   <div className="col-lg-3">
+                    <label>From Date</label>
+                    <InputField
+                      value={values?.fromDate}
+                      name="fromDate"
+                      placeholder="Date"
+                      type="date"
+                      onChange={(e) => {
+                        setFieldValue("fromDate", e.target.value);
+                      }}
+                    />
+                  </div>
+                  <div className="col-lg-3">
+                    <label>To Date</label>
+                    <InputField
+                      value={values?.toDate}
+                      name="toDate"
+                      placeholder="Date"
+                      type="date"
+                      onChange={(e) => {
+                        setFieldValue("toDate", e.target.value);
+                      }}
+                    />
+                  </div>
+                  {/* <div className="col-lg-3">
                     <label>Po No</label>
                     <SearchAsyncSelect
                       selectedValue={values?.po}
@@ -286,17 +314,21 @@ export default function ShipmentTracking() {
                         console.log({ valueOption });
                       }}
                     />
-                  </div>
+                  </div> */}
 
                   <div className="col-lg-2 pt-5 mt-1">
                     <button
                       type="button"
                       onClick={() => {
                         getGridData(
-                          `/imp/Shipment/GetImportShipmentTracking?businessUnitId=${buId}&lcId=${values?.lcnumber?.value}&purchaseOrderId=${values?.po?.poId}`
+                          `/imp/Shipment/GetImportShipmentTracking?businessUnitId=${buId}&lcId=${values
+                            ?.lcnumber?.value || 0}&fromDate=${
+                            values?.fromDate
+                          }&toDate=${values?.toDate}`
                         );
                       }}
                       className="btn btn-primary"
+                      disabled={!values?.fromDate || !values?.toDate}
                     >
                       Show
                     </button>

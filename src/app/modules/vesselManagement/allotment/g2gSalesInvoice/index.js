@@ -39,8 +39,11 @@ import GhatWiseDeliveryReport from "./ghatWiseDeliveryReport";
 import GodownsEntryReport from "./godownsEntryReport";
 
 import "./style.scss";
+import useAxiosPut from "../../../_helper/customHooks/useAxiosPut";
+import BillPreparationReport from "./BillPreparation";
 const validationSchema = Yup.object().shape({});
 function G2GSalesInvoice() {
+  const formikRef = React.useRef(null);
   const {
     profileData: { userId, accountId },
     selectedBusinessUnit: { value: buUnId, label: buUnName },
@@ -49,6 +52,12 @@ function G2GSalesInvoice() {
   const [shipPoint, getShipPoint] = useAxiosGet();
   const [, getGhatWiseDeliveryReport, gridDataLoading] = useAxiosGet();
   const [, getGodownsEntryReport, godownsEntryLoading] = useAxiosGet();
+  const [, setUpdateInvoiceAttachent, updateInvoiceAttLoading] = useAxiosPut();
+  const [
+    ,
+    getUpdateInvoiceFromGodown,
+    updateInvoiceFromGodownLoading,
+  ] = useAxiosPut();
   const [destinationDDL, getDestinationDDL] = useAxiosGet();
   const [, getPerGodownsEntryReport] = useAxiosGet();
   const [organizationDDL, getOrganizationDDL] = useAxiosGet();
@@ -116,9 +125,15 @@ function G2GSalesInvoice() {
       case 1:
         // Godowns Entry Report
         getGodownsEntryReport(
-          `/tms/LigterLoadUnload/GetMotherVesselWiseGodownsEntryReport?accountId=${accountId}&businessUnitId=${buUnId}&motherVesslelId=${values?.motherVessel?.value}&&fromDate=${values?.fromDate}&toDate=${values?.toDate}`,
+          `/tms/LigterLoadUnload/GetMotherVesselWiseGodownsEntryReport?accountId=${accountId}&businessUnitId=${buUnId}&motherVesslelId=${values?.motherVessel?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}`,
           (resData) => {
             setGridData(resData);
+            if (formikRef?.current) {
+              formikRef.current.setFieldValue(
+                "godownsEntryAttachment",
+                resData?.[0]?.invoicefromGovernment || ""
+              );
+            }
           }
         );
         break;
@@ -137,6 +152,12 @@ function G2GSalesInvoice() {
           `/tms/LigterLoadUnload/GetPerGodownsEntryReport?accountId=${accountId}&businessUnitId=${buUnId}&motherVesslelId=${values?.motherVessel?.value}&shipToPartnerId=${values?.godown?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}`,
           (resData) => {
             setGridData(resData);
+            if (formikRef?.current) {
+              formikRef.current.setFieldValue(
+                "godownsEntryAttachment",
+                resData?.[0]?.invoicefromGovernment || ""
+              );
+            }
           }
         );
         break;
@@ -215,10 +236,42 @@ function G2GSalesInvoice() {
     }
   };
 
+  const updateInvoiceAttachentHandler = (values) => {
+    setUpdateInvoiceAttachent(
+      `/tms/LigterLoadUnload/updateInvoiceAttachent?attachment=${values?.godownsEntryAttachment}&MvesselId=${values?.motherVessel?.value}`,
+      null,
+      () => {
+        showHandelar(values);
+      },
+      true
+    );
+  };
+
+  const updateInvoiceFromGodownHandler = (values) => {
+    const payload = {
+      motherVesselId: values?.motherVessel?.value,
+      shipToPartnerId: values?.godown?.value,
+      soldToPartnerId: values?.organization?.value,
+      portId: values?.port?.value,
+      businessUnitId: buUnId,
+      attachentInvoice: values?.godownsEntryAttachment || "",
+      invoiceId: values?.invoiceId || 0,
+      invoiceDate: values?.godownWiseDeliveryDate || _todayDate(),
+    };
+    getUpdateInvoiceFromGodown(
+      `/tms/LigterLoadUnload/updateInvoiceFromGodown`,
+      payload,
+      () => {
+        showHandelar(values);
+      },
+      true
+    );
+  };
   return (
     <>
       <div id="g2gSalesInvoice">
         <Formik
+          innerRef={formikRef}
           enableReinitialize={true}
           validationSchema={validationSchema}
           initialValues={{
@@ -238,6 +291,8 @@ function G2GSalesInvoice() {
             godown: "",
             programNo: "",
             item: "",
+            godownsEntryAttachment: "",
+            invoiceId: "",
           }}
           onSubmit={(values, { setSubmitting, resetForm }) => {}}
         >
@@ -277,7 +332,10 @@ function G2GSalesInvoice() {
                   );
                 }}
               >
-                {(godownsEntryLoading || gridDataLoading) && <Loading />}
+                {(godownsEntryLoading ||
+                  gridDataLoading ||
+                  updateInvoiceAttLoading ||
+                  updateInvoiceFromGodownLoading) && <Loading />}
                 <Form className="form">
                   <div className="row global-form">
                     <div className="col-lg-3">
@@ -298,11 +356,16 @@ function G2GSalesInvoice() {
                             value: 3,
                             label: "Invoice Submission To Godown",
                           },
+                          {
+                            value: 4,
+                            label: "Bill Preparation",
+                          },
                         ]}
                         value={values?.reportType}
                         onChange={(valueOption) => {
                           setGridData([]);
                           setFieldValue("reportType", valueOption);
+                          setFieldValue("godownsEntryAttachment", "");
                         }}
                       />
                     </div>
@@ -357,6 +420,7 @@ function G2GSalesInvoice() {
                             allElement: false,
                             onChange: (fieldName, allValues) => {
                               setGridData([]);
+                              setFieldValue("godownsEntryAttachment", "");
                               onChangeHandler(
                                 fieldName,
                                 values,
@@ -417,6 +481,7 @@ function G2GSalesInvoice() {
                         className="btn btn-primary mt-3"
                         onClick={() => {
                           setGridData([]);
+                          setFieldValue("godownsEntryAttachment", "");
                           showHandelar(values);
                         }}
                         disabled={isDisableFunction(values)}
@@ -425,7 +490,7 @@ function G2GSalesInvoice() {
                       </button>
                     </div>
                   </div>
-                  {/* Godowns Entry Report */}
+                  {/* Challan Submission To Jd Office */}
                   {values?.reportType?.value === 1 && gridData?.length > 0 && (
                     <>
                       <GodownsEntryReport
@@ -436,6 +501,9 @@ function G2GSalesInvoice() {
                         setFieldValue={setFieldValue}
                         userPrintBtnClick={userPrintBtnClick}
                         letterhead={letterhead}
+                        updateInvoiceAttachentHandler={
+                          updateInvoiceAttachentHandler
+                        }
                       />
                     </>
                   )}
@@ -461,11 +529,25 @@ function G2GSalesInvoice() {
                         values={values}
                         userPrintBtnClick={userPrintBtnClick}
                         setFieldValue={setFieldValue}
+                        updateInvoiceFromGodownHandler={
+                          updateInvoiceFromGodownHandler
+                        }
                       />
                     </>
                   )}
-
-              
+                  {/* Bill Preparation Report*/}
+                  {values?.reportType?.value === 4 && gridData?.length > 0 && (
+                    <>
+                      <BillPreparationReport
+                        printRef={printRef}
+                        gridData={gridData}
+                        buUnName={buUnName}
+                        values={values}
+                        userPrintBtnClick={userPrintBtnClick}
+                        setFieldValue={setFieldValue}
+                      />
+                    </>
+                  )}
                 </Form>
               </ICustomCard>
             </>

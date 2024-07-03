@@ -1,19 +1,17 @@
-import React, { useState } from "react";
 import { DropzoneDialogBase } from "material-ui-dropzone";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
 import { _fixedPoint } from "../../../_helper/_fixedPoint";
 import InputField from "../../../_helper/_inputField";
-import { useDispatch } from "react-redux";
-import { getDownlloadFileView_Action } from "../../../_helper/_redux/Actions";
 import { empAttachment_action } from "./helper";
-const GodownsWiseDeliveryReport = ({
+const BillPreparationReport = ({
   printRef,
   gridData,
   buUnName,
   values,
   userPrintBtnClick,
   setFieldValue,
-  updateInvoiceFromGodownHandler,
 }) => {
   const [open, setOpen] = useState(false);
   const [fileObjects, setFileObjects] = useState({});
@@ -23,81 +21,6 @@ const GodownsWiseDeliveryReport = ({
 
   return (
     <>
-      <div className="row global-form">
-        <div className="col-lg-3">
-          <InputField
-            value={values?.invoiceId || ''}
-            label="invoice No"
-            name="invoiceId"
-            type="number"
-            onChange={(e) => {
-              setFieldValue("invoiceId", e.target.value);
-            }}
-          />
-        </div>
-        <div className="col d-flex align-items-center justify-content-end">
-          <span
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "15px",
-            }}
-          >
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "5px",
-              }}
-            >
-              {values?.godownsEntryAttachment && (
-                <>
-                  <span
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      dispatch(
-                        getDownlloadFileView_Action(
-                          values?.godownsEntryAttachment
-                        )
-                      );
-                    }}
-                    className="ml-2"
-                    style={{
-                      paddingTop: "5px",
-                    }}
-                  >
-                    <i
-                      style={{ fontSize: "16px" }}
-                      className={`fa pointer fa-eye`}
-                      aria-hidden="true"
-                    ></i>
-                  </span>
-                </>
-              )}
-
-              <button
-                type="button"
-                className="btn btn-primary mt-2 mr-2"
-                onClick={() => {
-                  setOpen(true);
-                }}
-              >
-                <i class="fas fa-paperclip">Attachment</i>
-              </button>
-            </div>
-            <button
-              type="button"
-              className="btn btn-primary mt-2"
-              onClick={() => {
-                updateInvoiceFromGodownHandler(values);
-              }}
-              disabled={!values?.godownsEntryAttachment}
-            >
-              Save
-            </button>
-          </span>
-        </div>
-      </div>
       <div ref={printRef}>
         <div>
           <div className="row">
@@ -243,4 +166,4 @@ const GodownsWiseDeliveryReport = ({
     </>
   );
 };
-export default GodownsWiseDeliveryReport;
+export default BillPreparationReport;
