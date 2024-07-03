@@ -1,7 +1,9 @@
-import React from "react";
+import { DropzoneDialogBase } from "material-ui-dropzone";
+import React, { useState } from "react";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
 import { _fixedPoint } from "../../../_helper/_fixedPoint";
 import InputField from "../../../_helper/_inputField";
+import { empAttachment_action } from "./helper";
 const GodownsEntryReport = ({
   printRef,
   gridData,
@@ -9,12 +11,37 @@ const GodownsEntryReport = ({
   values,
   setFieldValue,
   userPrintBtnClick,
-  letterhead
+  letterhead,
 }) => {
+  const [open, setOpen] = useState(false);
+  const [fileObjects, setFileObjects] = useState({});
   const motherVessel = values?.motherVessel?.label || "";
   const motherVesselName = motherVessel?.split("(")?.[0].trim();
   return (
     <>
+      <div className="row global-form">
+        <div className="col d-flex align-items-center justify-content-end">
+          <span>
+            <button
+              type="button"
+              className="btn btn-primary mt-2 mr-2"
+              onClick={() => {
+                setOpen(true);
+              }}
+            >
+              <i class="fas fa-paperclip">Attachment</i>
+            </button>
+            <button
+            type="button"
+            className="btn btn-primary mt-2"
+            onClick={() => {}}
+          >
+            Save
+          </button>
+          </span>
+        </div>
+      
+      </div>
       <div ref={printRef} id="godownsEntryReport">
         <div
           className="invoice-header"
@@ -95,7 +122,11 @@ const GodownsEntryReport = ({
                     <p>যুগ্ন পরিচালক ( সার )</p>
                     <p>বাংলাদেশ কৃষি উন্নায়ন কর্পোরেশন,</p>
                     <p>১/বি, আগ্রাবাদ বা/এ, চট্টগ্রাম।</p>
-                    <p>
+                    <p
+                      style={{
+                        margin: "15px 0",
+                      }}
+                    >
                       বিষয়: বি এ ডি সি কর্তৃক প্রেরিত কর্মসূচী মোতাবেক চট্টগ্রাম
                       হইতে বিভিন্ন গন্তব্য স্থলে পরিবহনকৃত সারের চুড়ান্ত
                       প্রতিবেদন ও ইনভয়েজ ইস্যু করণ প্রসঙ্গে ।
@@ -169,7 +200,9 @@ const GodownsEntryReport = ({
                           </tr>
                         ))}
                         <tr>
-                          <td colSpan={2}><b>Total</b></td>
+                          <td colSpan={2}>
+                            <b>Total</b>
+                          </td>
                           <td className="text-right">
                             <b>
                               {_fixedPoint(
@@ -206,6 +239,23 @@ const GodownsEntryReport = ({
                   </div>
                 </div>
               </div>
+              <div
+                style={{
+                  marginBottom: "95px",
+                }}
+              >
+                <p>Thanking You</p>
+                <p>{buUnName}</p>
+              </div>
+              <div>
+                <span
+                  style={{
+                    borderTop: "1px solid #000",
+                  }}
+                >
+                  Authorized Signatory
+                </span>
+              </div>
             </div>
           </tbody>
 
@@ -227,6 +277,33 @@ const GodownsEntryReport = ({
           </tfoot>
         </table>
       </div>
+      <DropzoneDialogBase
+        filesLimit={5}
+        acceptedFiles={["image/*"]}
+        fileObjects={fileObjects}
+        cancelButtonText={"cancel"}
+        submitButtonText={"submit"}
+        maxFileSize={1000000}
+        open={open}
+        onAdd={(newFileObjs) => {
+          setFileObjects([].concat(newFileObjs));
+        }}
+        onDelete={(deleteFileObj) => {
+          const newData = fileObjects.filter(
+            (item) => item.file.name !== deleteFileObj.file.name
+          );
+          setFileObjects(newData);
+        }}
+        onClose={() => setOpen(false)}
+        onSave={() => {
+          setOpen(false);
+          empAttachment_action(fileObjects).then((data) => {
+            setFieldValue("attachment", data[0]?.id);
+          });
+        }}
+        showPreviews={true}
+        showFileNamesInPreview={true}
+      />
     </>
   );
 };

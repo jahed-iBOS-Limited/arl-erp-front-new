@@ -19,6 +19,7 @@
     "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
   line-height: 1.6;
 }
+
 .print-invoice-wrapper .container {
   margin: 40px;
   max-width: 1000px;
@@ -28,13 +29,15 @@
 }
 
 .print-invoice-wrapper .logo {
-  height: 80px;
-  width: 80px;
+  height: auto;
+  width: 190px !important;
+  position: absolute;
+  top: 55px;
 }
 
 .print-invoice-wrapper .info {
   text-align: center;
-  margin-top: -30px;
+  margin-top: 80px !important;
 }
 
 .print-invoice-wrapper .invoice_info {
@@ -68,10 +71,12 @@
   text-align: center;
   font-size: 12px;
 }
+
 .print-invoice-wrapper td {
   border-right: 2px solid black;
   border-bottom: 1px solid black;
 }
+
 .print-invoice-wrapper th {
   border-right: 2px solid black;
   background-color: #ebebe5;
@@ -89,6 +94,7 @@
 .print-invoice-wrapper tbody tr:last-child {
   border-bottom: 2px solid black;
 }
+
 .print-invoice-wrapper tfoot td {
   border: none;
 }
@@ -103,6 +109,7 @@
 .print-invoice-wrapper .bd_title {
   text-decoration: underline;
 }
+
 .print-invoice-wrapper .bd_title {
   font-size: 20px;
 }
@@ -116,6 +123,7 @@
   display: flex;
   justify-content: space-between;
 }
+
 .print-invoice-wrapper .bd_item p {
   font-size: 13px;
 }
@@ -123,7 +131,7 @@
 .print-invoice-wrapper .signature {
   display: flex;
   justify-content: space-between;
-  margin-top: 100px;
+  margin-top: 200px;
   margin-bottom: 50px;
 }
 
