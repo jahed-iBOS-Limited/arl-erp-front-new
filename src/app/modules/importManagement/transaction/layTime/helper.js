@@ -7,7 +7,6 @@ import { APIUrl, imarineBaseUrl } from "../../../../App";
 import { _todayDate } from "../../../chartering/_chartinghelper/_todayDate";
 import { _dateFormatter } from "../../../chartering/_chartinghelper/_dateFormatter";
 
-
 // Validation schema
 export const validationSchema = Yup.object().shape({
   // vesselName: Yup.object().shape({
@@ -20,7 +19,8 @@ export const validationSchema = Yup.object().shape({
   // }),
   vesselName: Yup.string().required("Vessel Name is required"),
   voyageNo: Yup.string().required("Voyage No is required"),
-  stackHolderName: Yup.string().required("This field is required"),
+  stackHolderName: Yup.object().required("This field is required"),
+  stackHolderBank: Yup.object().required("This field is required"),
 
   timeAllowedForLoading: Yup.string().required("This field is required"),
   vesselArrived: Yup.string().required("Vessel Arrived is required"),
@@ -102,7 +102,7 @@ export const saveLayTime = async (data, setLoading, cb) => {
       `${APIUrl}/imp/LayTime/CreateLayTimeInfo`,
       data
     );
-    cb();
+    cb(res?.data);
     toast.success(res?.data?.message, { toastId: 2345 });
     setLoading(false);
   } catch (err) {
@@ -116,10 +116,7 @@ export const saveLayTime = async (data, setLoading, cb) => {
 export const editLayTime = async (data, setLoading, cb) => {
   setLoading(true);
   try {
-    const res = await axios.put(
-      `${APIUrl}/imp/LayTime/EditLayTimeInfo`,
-      data
-    );
+    const res = await axios.put(`${APIUrl}/imp/LayTime/EditLayTimeInfo`, data);
     cb();
     toast.success(res?.data?.message, { toastId: 2345 });
     setLoading(false);
