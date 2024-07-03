@@ -3,8 +3,8 @@ import { Container, Row } from "react-bootstrap";
 // import mockup from "../asset/loginBg.png";
 import mockup from "../asset/update/loginB.png";
 import ibosLogo from "../asset/update/ibosLogo.png";
+import LoginForm from "./loginFormNew";
 import "../style.css";
-import LoginForm from "./loginForm";
 // import LoginForm from "../sign-in/LoginForm";
 
 const HomeComponent = () => {
@@ -23,7 +23,7 @@ const HomeComponent = () => {
               </p>
             </div>
             <div className="welcomeFrom">
-              <LoginForm />
+              <LoginForm />{" "}
             </div>
           </div>
 
