@@ -1,0 +1,12 @@
+.layTimeCreateCss .font-md {
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.layTimeCreateCss .text-middle {
+  vertical-align: middle;
+}
+
+.layTimeCreateCss table tr td {
+  font-size: 14px;
+}
