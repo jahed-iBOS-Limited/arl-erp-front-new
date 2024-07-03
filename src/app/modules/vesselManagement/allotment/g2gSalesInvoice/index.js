@@ -1,4 +1,5 @@
 import { Form, Formik } from "formik";
+import { DropzoneDialogBase } from "material-ui-dropzone";
 import React, { useEffect, useRef, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { useReactToPrint } from "react-to-print";
@@ -9,9 +10,6 @@ import Loading from "../../../_helper/_loading";
 import NewSelect from "../../../_helper/_select";
 import { _todayDate } from "../../../_helper/_todayDate";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { PortAndMotherVessel } from "../../common/components";
-import GhatWiseDeliveryReport from "./ghatWiseDeliveryReport";
-import GodownsEntryReport from "./godownsEntryReport";
 import { batayonTradersLetterhead } from "../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/batayounTraders";
 import { bluePillLetterhead } from "../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/bluePill";
 import { bongoTradersLetterhead } from "../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/bongoTraders";
@@ -35,8 +33,12 @@ import { readymixLetterhead } from "../../../financialManagement/invoiceManageme
 import { resourceTradersLetterhead } from "../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/resourceTraders";
 import { tradersLetterhead } from "../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/traders";
 import { tradingLetterhead } from "../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/trading";
-import "./style.scss";
+import { PortAndMotherVessel } from "../../common/components";
 import GodownsWiseDeliveryReport from "./GodownWiseDeliveryReport";
+import GhatWiseDeliveryReport from "./ghatWiseDeliveryReport";
+import GodownsEntryReport from "./godownsEntryReport";
+import { empAttachment_action } from "./helper";
+import "./style.scss";
 const validationSchema = Yup.object().shape({});
 function G2GSalesInvoice() {
   const {
@@ -51,6 +53,8 @@ function G2GSalesInvoice() {
   const [, getPerGodownsEntryReport] = useAxiosGet();
   const [organizationDDL, getOrganizationDDL] = useAxiosGet();
   const [gridData, setGridData] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [fileObjects, setFileObjects] = useState({});
   const printRef = useRef();
 
   useEffect(() => {
@@ -201,6 +205,17 @@ function G2GSalesInvoice() {
       : buUnId === 210
       ? resourceTradersLetterhead
       : "";
+  const isDisableFunction = (values) => {
+    const commonConditions =
+      !values?.fromDate || !values?.toDate || !values?.motherVessel;
+    if (values?.reportType?.value === 1) {
+      return commonConditions;
+    } else if (values?.reportType?.value === 2) {
+      return commonConditions || !values?.shipPoint;
+    } else if (values?.reportType?.value === 3) {
+      return commonConditions || !values?.godown;
+    }
+  };
 
   return (
     <>
@@ -398,6 +413,19 @@ function G2GSalesInvoice() {
                         }}
                       />
                     </div>
+                    <div className="col-lg-2">
+                      <span>
+                        <button
+                          type="button"
+                          className="btn btn-primary mt-4"
+                          onClick={() => {
+                            setOpen(true);
+                          }}
+                        >
+                          <i class="fas fa-paperclip">Attachment</i>
+                        </button>
+                      </span>
+                    </div>
 
                     <div className="col-lg-1 d-flex align-items-center">
                       <button
@@ -407,15 +435,7 @@ function G2GSalesInvoice() {
                           setGridData([]);
                           showHandelar(values);
                         }}
-                        disabled={
-                          !values?.fromDate ||
-                          !values?.toDate ||
-                          (values?.reportType?.value === 2
-                            ? !values?.shipPoint || !values?.motherVessel
-                            : values?.reportType?.value === 3
-                            ? !values?.motherVessel || !values?.godown
-                            : !values?.motherVessel)
-                        }
+                        disabled={isDisableFunction(values)}
                       >
                         Show
                       </button>
@@ -460,6 +480,34 @@ function G2GSalesInvoice() {
                       />
                     </>
                   )}
+
+                  <DropzoneDialogBase
+                    filesLimit={5}
+                    acceptedFiles={["image/*"]}
+                    fileObjects={fileObjects}
+                    cancelButtonText={"cancel"}
+                    submitButtonText={"submit"}
+                    maxFileSize={1000000}
+                    open={open}
+                    onAdd={(newFileObjs) => {
+                      setFileObjects([].concat(newFileObjs));
+                    }}
+                    onDelete={(deleteFileObj) => {
+                      const newData = fileObjects.filter(
+                        (item) => item.file.name !== deleteFileObj.file.name
+                      );
+                      setFileObjects(newData);
+                    }}
+                    onClose={() => setOpen(false)}
+                    onSave={() => {
+                      setOpen(false);
+                      empAttachment_action(fileObjects).then((data) => {
+                        setFieldValue("attachment", data[0]?.id);
+                      });
+                    }}
+                    showPreviews={true}
+                    showFileNamesInPreview={true}
+                  />
                 </Form>
               </ICustomCard>
             </>
