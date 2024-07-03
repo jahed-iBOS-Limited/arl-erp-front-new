@@ -1,5 +1,5 @@
 import { Form, Formik } from "formik";
-import { DropzoneDialogBase } from "material-ui-dropzone";
+
 import React, { useEffect, useRef, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { useReactToPrint } from "react-to-print";
@@ -37,7 +37,7 @@ import { PortAndMotherVessel } from "../../common/components";
 import GodownsWiseDeliveryReport from "./GodownWiseDeliveryReport";
 import GhatWiseDeliveryReport from "./ghatWiseDeliveryReport";
 import GodownsEntryReport from "./godownsEntryReport";
-import { empAttachment_action } from "./helper";
+
 import "./style.scss";
 const validationSchema = Yup.object().shape({});
 function G2GSalesInvoice() {
@@ -53,8 +53,6 @@ function G2GSalesInvoice() {
   const [, getPerGodownsEntryReport] = useAxiosGet();
   const [organizationDDL, getOrganizationDDL] = useAxiosGet();
   const [gridData, setGridData] = useState([]);
-  const [open, setOpen] = useState(false);
-  const [fileObjects, setFileObjects] = useState({});
   const printRef = useRef();
 
   useEffect(() => {
@@ -413,20 +411,6 @@ function G2GSalesInvoice() {
                         }}
                       />
                     </div>
-                    <div className="col-lg-2">
-                      <span>
-                        <button
-                          type="button"
-                          className="btn btn-primary mt-4"
-                          onClick={() => {
-                            setOpen(true);
-                          }}
-                        >
-                          <i class="fas fa-paperclip">Attachment</i>
-                        </button>
-                      </span>
-                    </div>
-
                     <div className="col-lg-1 d-flex align-items-center">
                       <button
                         type="button"
@@ -481,33 +465,7 @@ function G2GSalesInvoice() {
                     </>
                   )}
 
-                  <DropzoneDialogBase
-                    filesLimit={5}
-                    acceptedFiles={["image/*"]}
-                    fileObjects={fileObjects}
-                    cancelButtonText={"cancel"}
-                    submitButtonText={"submit"}
-                    maxFileSize={1000000}
-                    open={open}
-                    onAdd={(newFileObjs) => {
-                      setFileObjects([].concat(newFileObjs));
-                    }}
-                    onDelete={(deleteFileObj) => {
-                      const newData = fileObjects.filter(
-                        (item) => item.file.name !== deleteFileObj.file.name
-                      );
-                      setFileObjects(newData);
-                    }}
-                    onClose={() => setOpen(false)}
-                    onSave={() => {
-                      setOpen(false);
-                      empAttachment_action(fileObjects).then((data) => {
-                        setFieldValue("attachment", data[0]?.id);
-                      });
-                    }}
-                    showPreviews={true}
-                    showFileNamesInPreview={true}
-                  />
+              
                 </Form>
               </ICustomCard>
             </>

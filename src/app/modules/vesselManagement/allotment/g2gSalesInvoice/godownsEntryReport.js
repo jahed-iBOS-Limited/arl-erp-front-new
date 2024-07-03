@@ -1,7 +1,9 @@
-import React from "react";
+import { DropzoneDialogBase } from "material-ui-dropzone";
+import React, { useState } from "react";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
 import { _fixedPoint } from "../../../_helper/_fixedPoint";
 import InputField from "../../../_helper/_inputField";
+import { empAttachment_action } from "./helper";
 const GodownsEntryReport = ({
   printRef,
   gridData,
@@ -11,10 +13,35 @@ const GodownsEntryReport = ({
   userPrintBtnClick,
   letterhead,
 }) => {
+  const [open, setOpen] = useState(false);
+  const [fileObjects, setFileObjects] = useState({});
   const motherVessel = values?.motherVessel?.label || "";
   const motherVesselName = motherVessel?.split("(")?.[0].trim();
   return (
     <>
+      <div className="row global-form">
+        <div className="col d-flex align-items-center justify-content-end">
+          <span>
+            <button
+              type="button"
+              className="btn btn-primary mt-2 mr-2"
+              onClick={() => {
+                setOpen(true);
+              }}
+            >
+              <i class="fas fa-paperclip">Attachment</i>
+            </button>
+            <button
+            type="button"
+            className="btn btn-primary mt-2"
+            onClick={() => {}}
+          >
+            Save
+          </button>
+          </span>
+        </div>
+      
+      </div>
       <div ref={printRef} id="godownsEntryReport">
         <div
           className="invoice-header"
@@ -250,6 +277,33 @@ const GodownsEntryReport = ({
           </tfoot>
         </table>
       </div>
+      <DropzoneDialogBase
+        filesLimit={5}
+        acceptedFiles={["image/*"]}
+        fileObjects={fileObjects}
+        cancelButtonText={"cancel"}
+        submitButtonText={"submit"}
+        maxFileSize={1000000}
+        open={open}
+        onAdd={(newFileObjs) => {
+          setFileObjects([].concat(newFileObjs));
+        }}
+        onDelete={(deleteFileObj) => {
+          const newData = fileObjects.filter(
+            (item) => item.file.name !== deleteFileObj.file.name
+          );
+          setFileObjects(newData);
+        }}
+        onClose={() => setOpen(false)}
+        onSave={() => {
+          setOpen(false);
+          empAttachment_action(fileObjects).then((data) => {
+            setFieldValue("attachment", data[0]?.id);
+          });
+        }}
+        showPreviews={true}
+        showFileNamesInPreview={true}
+      />
     </>
   );
 };
