@@ -204,38 +204,66 @@ function G2GSalesInvoice() {
 
   return (
     <>
-      <ICustomCard title="G2G Sales Invoice">
-        <div id="g2gSalesInvoice">
-          <Formik
-            enableReinitialize={true}
-            validationSchema={validationSchema}
-            initialValues={{
-              reportType: { value: 1, label: "Godowns Entry Report" },
-              shipPoint: "",
-              port: "",
-              motherVessel: "",
-              fromDate: _todayDate(),
-              toDate: _todayDate(),
-              godownsEntryTopDate: _todayDate(),
-              godownsEntryBottomDate: _todayDate(),
-              godownWiseDeliveryDate: _todayDate(),
-              organization: "",
-              godown: "",
-              programNo: "",
-              item: "",
-            }}
-            onSubmit={(values, { setSubmitting, resetForm }) => {}}
-          >
-            {({
-              handleSubmit,
-              resetForm,
-              values,
-              errors,
-              touched,
-              setFieldValue,
-              isValid,
-            }) => (
-              <>
+      <div id="g2gSalesInvoice">
+        <Formik
+          enableReinitialize={true}
+          validationSchema={validationSchema}
+          initialValues={{
+            reportType: {
+              value: 1,
+              label: "Challan Submission To Jd Office",
+            },
+            shipPoint: "",
+            port: "",
+            motherVessel: "",
+            fromDate: _todayDate(),
+            toDate: _todayDate(),
+            godownsEntryTopDate: _todayDate(),
+            godownsEntryBottomDate: _todayDate(),
+            godownWiseDeliveryDate: _todayDate(),
+            organization: "",
+            godown: "",
+            programNo: "",
+            item: "",
+          }}
+          onSubmit={(values, { setSubmitting, resetForm }) => {}}
+        >
+          {({
+            handleSubmit,
+            resetForm,
+            values,
+            errors,
+            touched,
+            setFieldValue,
+            isValid,
+          }) => (
+            <>
+              <ICustomCard
+                title="G2G Sales Invoice"
+                renderProps={() => {
+                  return (
+                    <>
+                      <span
+                        onClick={() => {
+                          setUserPrintBtnClick(true);
+                          setTimeout(() => {
+                            handlePrint();
+                          }, 1000);
+                        }}
+                      >
+                        <button
+                          type="button"
+                          className="btn btn-primary ml-3"
+                          disabled={gridData?.length > 0 ? false : true}
+                        >
+                          <i class="fa fa-print pointer" aria-hidden="true"></i>
+                          Print
+                        </button>
+                      </span>
+                    </>
+                  );
+                }}
+              >
                 {(godownsEntryLoading || gridDataLoading) && <Loading />}
                 <Form className="form">
                   <div className="row global-form">
@@ -247,7 +275,7 @@ function G2GSalesInvoice() {
                         options={[
                           {
                             value: 1,
-                            label: "Mother Vessel Wise Godown Report",
+                            label: "Challan Submission To Jd Office",
                           },
                           {
                             value: 2,
@@ -255,7 +283,7 @@ function G2GSalesInvoice() {
                           },
                           {
                             value: 3,
-                            label: "Godown Wise Delivery Report",
+                            label: "Invoice Submission To Godown",
                           },
                         ]}
                         value={values?.reportType}
@@ -339,6 +367,7 @@ function G2GSalesInvoice() {
                           errors={errors}
                           touched={touched}
                           onChange={(valueOption) => {
+                            setGridData([]);
                             setFieldValue("godown", valueOption);
                           }}
                         />
@@ -369,6 +398,7 @@ function G2GSalesInvoice() {
                         }}
                       />
                     </div>
+
                     <div className="col-lg-1 d-flex align-items-center">
                       <button
                         type="button"
@@ -389,25 +419,6 @@ function G2GSalesInvoice() {
                       >
                         Show
                       </button>
-                    </div>
-                    <div className="col d-flex align-items-center justify-content-end">
-                      <span
-                        onClick={() => {
-                          setUserPrintBtnClick(true);
-                          setTimeout(() => {
-                            handlePrint();
-                          }, 1000);
-                        }}
-                      >
-                        <button
-                          type="button"
-                          className="btn btn-primary ml-3"
-                          disabled={gridData?.length > 0 ? false : true}
-                        >
-                          <i class="fa fa-print pointer" aria-hidden="true"></i>
-                          Print
-                        </button>
-                      </span>
                     </div>
                   </div>
                   {/* Godowns Entry Report */}
@@ -450,11 +461,11 @@ function G2GSalesInvoice() {
                     </>
                   )}
                 </Form>
-              </>
-            )}
-          </Formik>
-        </div>
-      </ICustomCard>
+              </ICustomCard>
+            </>
+          )}
+        </Formik>
+      </div>
     </>
   );
 }

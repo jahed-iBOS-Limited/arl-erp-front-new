@@ -9,7 +9,7 @@ const GodownsEntryReport = ({
   values,
   setFieldValue,
   userPrintBtnClick,
-  letterhead
+  letterhead,
 }) => {
   const motherVessel = values?.motherVessel?.label || "";
   const motherVesselName = motherVessel?.split("(")?.[0].trim();
@@ -95,7 +95,11 @@ const GodownsEntryReport = ({
                     <p>যুগ্ন পরিচালক ( সার )</p>
                     <p>বাংলাদেশ কৃষি উন্নায়ন কর্পোরেশন,</p>
                     <p>১/বি, আগ্রাবাদ বা/এ, চট্টগ্রাম।</p>
-                    <p>
+                    <p
+                      style={{
+                        margin: "15px 0",
+                      }}
+                    >
                       বিষয়: বি এ ডি সি কর্তৃক প্রেরিত কর্মসূচী মোতাবেক চট্টগ্রাম
                       হইতে বিভিন্ন গন্তব্য স্থলে পরিবহনকৃত সারের চুড়ান্ত
                       প্রতিবেদন ও ইনভয়েজ ইস্যু করণ প্রসঙ্গে ।
@@ -169,7 +173,9 @@ const GodownsEntryReport = ({
                           </tr>
                         ))}
                         <tr>
-                          <td colSpan={2}><b>Total</b></td>
+                          <td colSpan={2}>
+                            <b>Total</b>
+                          </td>
                           <td className="text-right">
                             <b>
                               {_fixedPoint(
@@ -205,6 +211,23 @@ const GodownsEntryReport = ({
                     </table>
                   </div>
                 </div>
+              </div>
+              <div
+                style={{
+                  marginBottom: "95px",
+                }}
+              >
+                <p>Thanking You</p>
+                <p>{buUnName}</p>
+              </div>
+              <div>
+                <span
+                  style={{
+                    borderTop: "1px solid #000",
+                  }}
+                >
+                  Authorized Signatory
+                </span>
               </div>
             </div>
           </tbody>
