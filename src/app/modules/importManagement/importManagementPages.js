@@ -63,10 +63,7 @@ import LcEatLanding from "./transaction/lc-eta/landing/tableHeader";
 import LcEatAddEditForm from "./transaction/lc-eta/form/addEditForm";
 import LayTimeForm from "./transaction/layTime/Form/addEditForm";
 import { DebitNote } from "./transaction/layTime/Form/debitNote";
-<<<<<<< HEAD
 import ServiceChargesReportPage from "./reports/ServiceChargesReport";
-=======
->>>>>>> 06ab6317 (new pay time for invoice)
 
 
 export function importManagementPages() {
