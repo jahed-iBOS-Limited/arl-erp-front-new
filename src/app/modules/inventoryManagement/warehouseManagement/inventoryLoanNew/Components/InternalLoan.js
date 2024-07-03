@@ -347,12 +347,16 @@ export default function InternalLoan({ loanType }) {
                             value: valueOption?.uomId,
                             label: valueOption?.uomName,
                           });
+                          // getItemRate(
+                          //   `/wms/InventoryTransaction/sprRuningRate?businessUnitId=${
+                          //     selectedBusinessUnit?.value
+                          //   }&whId=${values?.warehouse?.value || 0}&itemId=${
+                          //     valueOption?.value
+                          //   }`,
+                          //   (data) => setFieldValue("itemRate", data)
+                          // );
                           getItemRate(
-                            `/wms/InventoryTransaction/sprRuningRate?businessUnitId=${
-                              selectedBusinessUnit?.value
-                            }&whId=${values?.warehouse?.value || 0}&itemId=${
-                              valueOption?.value
-                            }`,
+                            `/wms/InventoryLoan/GetItemRate?ItemId=${valueOption?.value}&BusinessUnitId=${selectedBusinessUnit?.value}`,
                             (data) => setFieldValue("itemRate", data)
                           );
                           getAvailableStock(
