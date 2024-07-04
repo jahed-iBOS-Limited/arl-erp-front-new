@@ -30,7 +30,12 @@ import { seaLineShippingLetterhead } from "../../invoiceManagementSystem/salesIn
 import { oceanLetterhead } from "../../invoiceManagementSystem/salesInvoice/base64Images/ocean";
 import { mariTimeLetterhead } from "../../invoiceManagementSystem/salesInvoice/base64Images/mariTime";
 import { akijShippingLetterhead } from "../../invoiceManagementSystem/salesInvoice/base64Images/akijShipping";
-// 232 -agro,138-infoTech,102 singa,184 ibos, 189 kafil,234 south
+import { akijAgroLetterhead } from "../../invoiceManagementSystem/salesInvoice/base64Images/akijAgro";
+import { infoTechLetterhead } from "../../invoiceManagementSystem/salesInvoice/base64Images/infoTech";
+import { iBosLetterhead } from "../../invoiceManagementSystem/salesInvoice/base64Images/ibos";
+import { kafilLetterhead } from "../../invoiceManagementSystem/salesInvoice/base64Images/kafil";
+import { southAsiaLetterhead } from "../../invoiceManagementSystem/salesInvoice/base64Images/southAsia";
+// 102 singa,
 export const getLetterHead = ({ buId }) => {
   const letterhead =
     buId === 175
@@ -95,6 +100,16 @@ export const getLetterHead = ({ buId }) => {
       ? mariTimeLetterhead
       : buId === 17
       ? akijShippingLetterhead
+      : buId === 232
+      ? akijAgroLetterhead
+      : buId === 138
+      ? infoTechLetterhead
+      : buId === 184
+      ? iBosLetterhead
+      : buId === 189
+      ? kafilLetterhead
+      : buId === 234
+      ? southAsiaLetterhead
       : "";
 
   return letterhead;
