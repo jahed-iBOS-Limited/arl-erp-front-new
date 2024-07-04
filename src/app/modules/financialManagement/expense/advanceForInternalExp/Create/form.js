@@ -34,10 +34,10 @@ const validationSchema = Yup.object().shape({
     .required("Requested Amount is required"),
 
   dueDate: Yup.string().required("Due date is required"),
-  paymentType: Yup.object().shape({
-    label: Yup.string().required("Payment Type is required"),
-    value: Yup.string().required("Payment Type is required"),
-  }),
+  // paymentType: Yup.object().shape({
+  //   label: Yup.string().required("Payment Type is required"),
+  //   value: Yup.string().required("Payment Type is required"),
+  // }),
   // disbursementCenterName: Yup.object().shape({
   //   label: Yup.string().required("Disbursment Center is required"),
   //   value: Yup.string().required("Disbursment Center is required"),
