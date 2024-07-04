@@ -33,11 +33,12 @@ function LoginForm(props) {
         .required("password is required"),
     }),
     onSubmit: (values) => {
-      loginAction(false, values);
+      loginAction(false,);
     },
   });
 
-  const loginAction = (isSkipOtp, values) => {
+  const loginAction = (isSkipOtp) => {
+    const values  = formik.values
     axios
       .get(`/domain/Information/Basic?Email=${values?.email}`)
       .then((res) => {
