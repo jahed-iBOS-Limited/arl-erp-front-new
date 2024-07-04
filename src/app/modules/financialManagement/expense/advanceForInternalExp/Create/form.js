@@ -7,13 +7,12 @@ import FormikError from "../../../../_helper/_formikError";
 import { IInput } from "../../../../_helper/_input";
 import { _todayDate } from "../../../../_helper/_todayDate";
 import customStyles from "../../../../selectCustomStyle";
-import {
-  getPaymentType,
-  getRequestedEmp,
-  getSBU
-} from "../helper";
-import NewSelect from './../../../../_helper/_select';
-
+import { getPaymentType, getRequestedEmp, getSBU } from "../helper";
+import NewSelect from "./../../../../_helper/_select";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import { getCostCenter } from "../../expenseRegister/helper";
+import Loading from "../../../../_helper/_loading";
+import { CostElementDDLApi } from "../../../../inventoryManagement/warehouseManagement/invTransaction/Form/issueInvantory/helper";
 
 // Validation schema for Advance for Internal Expense
 const validationSchema = Yup.object().shape({
@@ -66,11 +65,20 @@ export default function _Form({
   approval,
 }) {
   const [requestedEmp, setRequestedEmp] = useState([]);
-  const [paymentType, setPaymentType] = useState([]);
+  const [costCenterDDl, setCostCenter] = useState([]);
+  const [costElementDDL, setCostElementDDL] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  // const [paymentType, setPaymentType] = useState([]);
   // const [disbursementCenterName, setDisbursementCenterName] = useState([]); // this ddl will be off order by miraz vai
   const [selectedSbu, setSelectedSbu] = useState([]);
   // const [expenseHeadDDL, setExpenseHeadDDL] = useState([]); // this ddl will be off order by miraz vai
-
+  const [
+    profitcenterDDL,
+    getProfitcenterDDL,
+    loadingOnGetProfitCenter,
+    setProfitcenterDDL,
+  ] = useAxiosGet();
   useEffect(() => {
     if (
       profileData.accountId &&
@@ -83,7 +91,7 @@ export default function _Form({
       //   selectedBusinessUnit.value,
       //   setExpenseHeadDDL
       // );
-      getPaymentType(setPaymentType);
+      // getPaymentType(setPaymentType);
 
       // getDisbursementCenterName(
       //   profileData.accountId,
@@ -103,7 +111,26 @@ export default function _Form({
       );
     }
   }, [state]);
-
+  useEffect(() => {
+    if ([184].includes(selectedBusinessUnit?.value)) {
+      getProfitcenterDDL(
+        `/costmgmt/ProfitCenter/GetProfitcenterDDLByCostCenterId?costCenterId=0&businessUnitId=${
+          selectedBusinessUnit.value
+        }&employeeId=${
+          [184].includes(selectedBusinessUnit?.value)
+            ? profileData?.employeeId
+            : 0
+        }`
+      );
+    }
+    getCostCenter(
+      profileData.accountId,
+      selectedBusinessUnit.value,
+      state?.selectedSbu?.value,
+      setCostCenter
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <>
       <Formik
@@ -142,9 +169,10 @@ export default function _Form({
           isValid,
         }) => (
           <>
+            {loading && <Loading />}
             <Form className="form form-label-right">
               <div className="row">
-                <div className="col-lg-6">
+                <div className="col-12">
                   <div className="row bank-journal bank-journal-custom bj-left">
                     {/* ///requested employee */}
 
@@ -175,6 +203,12 @@ export default function _Form({
                         onChange={(valueOption) => {
                           setFieldValue("SBU", valueOption);
                           setFieldValue("disbursementCenterName", "");
+                          getCostCenter(
+                            profileData.accountId,
+                            selectedBusinessUnit.value,
+                            valueOption?.value,
+                            setCostCenter
+                          );
                           // getDisbursementCenterName(
                           //   profileData.accountId,
                           //   selectedBusinessUnit?.value,
@@ -219,10 +253,96 @@ export default function _Form({
                         min={_todayDate()}
                       />
                     </div>
-
+                    <div className="col-lg-6 pl pr-1 mb-2">
+                      <label>Cost Center </label>
+                      <Select
+                        onChange={(valueOption) => {
+                          setFieldValue("costCenter", valueOption);
+                          if (valueOption) {
+                            setLoading(true);
+                            CostElementDDLApi(
+                              profileData.accountId,
+                              selectedBusinessUnit?.value,
+                              valueOption?.value,
+                              setCostElementDDL
+                            );
+                            if (![184].includes(selectedBusinessUnit?.value)) {
+                              setFieldValue("profitCenter", "");
+                              setProfitcenterDDL([]);
+                              getProfitcenterDDL(
+                                `/costmgmt/ProfitCenter/GetProfitcenterDDLByCostCenterId?costCenterId=${
+                                  valueOption?.value
+                                }&businessUnitId=${
+                                  selectedBusinessUnit.value
+                                }&employeeId=${
+                                  [184].includes(selectedBusinessUnit?.value)
+                                    ? profileData?.employeeId
+                                    : 0
+                                }`,
+                                (data) => {
+                                  if (data?.length === 1) {
+                                    setFieldValue("profitCenter", data[0]);
+                                  }
+                                }
+                              );
+                            }
+                            setLoading(false);
+                          }
+                        }}
+                        options={costCenterDDl || []}
+                        value={values?.costCenter}
+                        isSearchable={true}
+                        name="costCenter"
+                        styles={customStyles}
+                        placeholder="Cost Center"
+                      />
+                      <FormikError
+                        errors={errors}
+                        name="costCenter"
+                        touched={touched}
+                      />
+                    </div>
+                    <div className="col-lg-6 pl pr-1 mb-2">
+                      <label>Cost Element</label>
+                      <Select
+                        onChange={(valueOption) => {
+                          setFieldValue("costElement", valueOption);
+                        }}
+                        options={costElementDDL || []}
+                        value={values?.costElement}
+                        isSearchable={true}
+                        name="costElement"
+                        styles={customStyles}
+                        placeholder="Cost Element"
+                      />
+                      <FormikError
+                        errors={errors}
+                        name="costElement"
+                        touched={touched}
+                      />
+                    </div>
+                    <div className="col-lg-6 pl pr-1 mb-2">
+                      <label>Profit Center</label>
+                      <Select
+                        onChange={(valueOption) => {
+                          setFieldValue("profitCenter", valueOption);
+                        }}
+                        options={profitcenterDDL || []}
+                        value={values?.profitCenter}
+                        isSearchable={true}
+                        name="profitCenter"
+                        styles={customStyles}
+                        placeholder="Profit Center"
+                      />
+                      <FormikError
+                        errors={errors}
+                        name="profitCenter"
+                        touched={touched}
+                      />
+                    </div>
                     {/* ////  PAYMENT TYPE ////// */}
 
-                    <div className="col-lg-6 pl pr-1 mb-2">
+                    {/* <div className="col-lg-6 pl pr-1 mb-2">
                       <label>Select Payment Type</label>
                       <Select
                         onChange={(valueOption) => {
@@ -240,7 +360,7 @@ export default function _Form({
                         name="paymentType"
                         touched={touched}
                       />
-                    </div>
+                    </div> */}
 
                     {/* ////  DUSBURSEMENT CENTER ////// */}
                     {/* <div className="col-lg-6 pl pr-1 mb-2">
@@ -261,8 +381,8 @@ export default function _Form({
                         name="disbursementCenterName"
                         touched={touched}
                       />
-                    </div> */} 
-                      {/* DUSBURSEMENT CENTER & Expanse Head ddl will be hold order by miraz vai */}
+                    </div> */}
+                    {/* DUSBURSEMENT CENTER & Expanse Head ddl will be hold order by miraz vai */}
                     {/* <div className="col-lg-6 pl pr-1 mb-2">
                       <label>Expense Head</label>
                       <Select

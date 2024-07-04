@@ -30,7 +30,7 @@ import { seaLineShippingLetterhead } from "../../invoiceManagementSystem/salesIn
 import { oceanLetterhead } from "../../invoiceManagementSystem/salesInvoice/base64Images/ocean";
 import { mariTimeLetterhead } from "../../invoiceManagementSystem/salesInvoice/base64Images/mariTime";
 import { akijShippingLetterhead } from "../../invoiceManagementSystem/salesInvoice/base64Images/akijShipping";
-
+// 232 -agro,138-infoTech,102 singa
 export const getLetterHead = ({ buId }) => {
   const letterhead =
     buId === 175
