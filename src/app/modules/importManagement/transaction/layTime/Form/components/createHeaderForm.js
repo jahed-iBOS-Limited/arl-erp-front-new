@@ -2,19 +2,20 @@ import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 
-
 import { getCargoDDL, getLayTime, getPortDDL } from "../../helper";
 import { initData } from "../addEditForm";
 import { daysToDDHHMM } from "../utils";
 import FormikSelect from "../../../../../chartering/_chartinghelper/common/formikSelect";
 import customStyles from "../../../../../chartering/_chartinghelper/common/selectCustomStyle";
 import FormikInput from "../../../../../chartering/_chartinghelper/common/formikInput";
-import { getBusinessPartnerNameByVoyageDDL, getVoyageDDLNew } from "../../../../../chartering/helper";
+import {
+  getBusinessPartnerNameByVoyageDDL,
+  getVoyageDDLNew,
+} from "../../../../../chartering/helper";
 import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet";
 // import FormikSelect from "../../../../../chartering/_chartinghelper/common/formikSelect";
 // import customStyles from "../../../../../chartering/_chartinghelper/common/selectCustomStyle";
 // import FormikInput from "../../../../../chartering/_chartinghelper/common/formikInput";
-
 
 const HeaderLabelComponent = ({ name }) => {
   return (
@@ -60,16 +61,21 @@ export function CreateHeaderForm({
   const [cargoDDL, setCargoDDL] = useState([]);
   const [itemList, getItemList, , setItemList] = useAxiosGet();
   const [itemCategoryDDL, getItemCategoryDDL] = useAxiosGet();
+  const [partnerDDL, getPartnerDDL] = useAxiosGet();
+  const [bankDDL, getBankDDL, , setBankDDL] = useAxiosGet();
 
-
-
-useEffect(()=>{
-  getItemCategoryDDL(
-    `/wms/ItemPlantWarehouse/GetItemCategoryDDL?accountId=${accId}&businessUnitId=${buId}`
-  );
-  getPortDDL(`/imp/ImportCommonDDL/GetPortName?accountId=${accId}&businessUnitId=${buId}`)
-// eslint-disable-next-line react-hooks/exhaustive-deps
-},[])
+  useEffect(() => {
+    getItemCategoryDDL(
+      `/wms/ItemPlantWarehouse/GetItemCategoryDDL?accountId=${accId}&businessUnitId=${buId}`
+    );
+    getPortDDL(
+      `/imp/ImportCommonDDL/GetPortName?accountId=${accId}&businessUnitId=${buId}`
+    );
+    getPartnerDDL(
+      `/partner/BusinessPartnerBasicInfo/GetSoldToPartnerShipToPartnerDDL?accountId=${accId}&businessUnitId=${buId}`
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [buId]);
 
   return (
     <>
@@ -146,13 +152,13 @@ useEffect(()=>{
                 touched={touched}
               /> */}
               <FormikInput
-                    value={values?.vesselName}
-                    name="vesselName"
-                    type="text"
-                    label="Vessel Name"
-                    errors={errors}
-                    touched={touched}
-                  />
+                value={values?.vesselName}
+                name="vesselName"
+                type="text"
+                label="Vessel Name"
+                errors={errors}
+                touched={touched}
+              />
             </div>
             <div className="col-lg-3 pl-0">
               {/* <FormikSelect
@@ -178,14 +184,14 @@ useEffect(()=>{
                 errors={errors}
                 touched={touched}
               /> */}
-               <FormikInput
-                    value={values?.voyageNo}
-                    name="voyageNo"
-                    type="text"
-                    label="Voyage No"
-                    errors={errors}
-                    touched={touched}
-                  />
+              <FormikInput
+                value={values?.voyageNo}
+                name="voyageNo"
+                type="text"
+                label="Voyage No"
+                errors={errors}
+                touched={touched}
+              />
             </div>
           </div>
 
@@ -270,14 +276,54 @@ useEffect(()=>{
                 errors={errors}
                 touched={touched}
               /> */}
-               <FormikInput
-                    value={values?.stackHolderName}
-                    name="stackHolderName"
-                    type="text"
-                    placeholder="Business Partner Name"
-                    errors={errors}
-                    touched={touched}
-                  />
+              {/* <FormikInput
+                value={values?.stackHolderName}
+                name="stackHolderName"
+                type="text"
+                placeholder="Business Partner Name"
+                errors={errors}
+                touched={touched}
+              /> */}
+
+              <FormikSelect
+                value={values?.stackHolderName || ""}
+                isSearchable={true}
+                options={partnerDDL}
+                styles={customStyles}
+                name="stackHolderName"
+                placeholder="Business Partner Name"
+                onChange={(valueOption) => {
+                  setFieldValue("stackHolderName", valueOption);
+                  getBankDDL(
+                    `/partner/BusinessPartnerBankInfo/GetBusinessPartnerBankInfoByAccountIdBusinessUnitId?AccountId=${accId}&BusinessUnitId=${buId}&BusinessPartnerId=${valueOption?.value}&Status=true`,
+                    (data) => {
+                      const modifyData = data?.map((item) => ({
+                        ...item,
+                        value: item?.bankId,
+                        label: item?.bankName,
+                      }));
+                      setBankDDL(modifyData);
+                    }
+                  );
+                }}
+                errors={errors}
+                touched={touched}
+              />
+            </div>
+            <div className="col-lg-3">
+              <FormikSelect
+                value={values?.stackHolderBank || ""}
+                isSearchable={true}
+                options={bankDDL}
+                styles={customStyles}
+                name="stackHolderBank"
+                placeholder="Business Partner Bank"
+                onChange={(valueOption) => {
+                  setFieldValue("stackHolderBank", valueOption);
+                }}
+                errors={errors}
+                touched={touched}
+              />
             </div>
           </div>
           <div className="row my-2">
@@ -295,8 +341,10 @@ useEffect(()=>{
                     setFieldValue("itemCategory", valueOption || "");
                     setFieldValue("cargo", "");
                     setItemList([]);
-                    if(valueOption){
-                      getItemList(`wms/ItemPlantWarehouse/ItemByCategoryDDL?CategoryId=${valueOption?.value}`)
+                    if (valueOption) {
+                      getItemList(
+                        `wms/ItemPlantWarehouse/ItemByCategoryDDL?CategoryId=${valueOption?.value}`
+                      );
                     }
                   }}
                   errors={errors}
@@ -451,7 +499,6 @@ useEffect(()=>{
                   touched={touched}
                 />
               </div> */}
-              
             </>
             <>
               <HeaderLabelComponent

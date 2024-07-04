@@ -10,6 +10,7 @@ import PrintView from "./components/printView";
 import IViewModal from "../../../../chartering/_chartinghelper/_viewModal";
 import { getVoyageDDLFilter } from "../../../../chartering/helper";
 import PrintInvoiceView from "./components/printInvoiceView";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 
 export default function _Form({
   title,
@@ -37,8 +38,10 @@ export default function _Form({
   const [show, setShow] = useState(false);
   const [showInvoiceModal, setShowInvoiceModal] = useState(false);
   const [valuesState, setValuesState] = useState(null);
+  // const [debitData, setDebitData] = useState({});
 
   const { state: preData } = useLocation();
+  const [debitData, getModalData] = useAxiosGet();
 
   useEffect(() => {
     if (preData?.vesselName?.value) {
@@ -68,8 +71,9 @@ export default function _Form({
         }
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          saveHandler(values, () => {
-            setShowInvoiceModal(true)
+          saveHandler(values, (data) => {
+            getModalData(`/imp/LayTime/GetLayTimeById?LayTimeId=${data?.key}`);
+            setShowInvoiceModal(true);
             if (!id) {
               resetForm(initData);
               setRowData([]);
@@ -284,7 +288,7 @@ export default function _Form({
               show={showInvoiceModal}
               onHide={() => setShowInvoiceModal(false)}
             >
-              <PrintInvoiceView />
+              <PrintInvoiceView debitData={debitData} />
             </IViewModal>
           </>
         )}
