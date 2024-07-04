@@ -42,7 +42,7 @@ const initData = {
 };
 export default function ProjectedFinancialStatement() {
   const [buDDL, getBuDDL, buDDLloader, setBuDDL] = useAxiosGet();
-
+  const [showReport, setShowReport] = useState(false);
   const saveHandler = (values, cb) => {};
 
   const { profileData } = useSelector((state) => {
@@ -590,14 +590,14 @@ export default function ProjectedFinancialStatement() {
                           },
                         ]}
                         value={values?.reportTypeCashFlowIndirect}
-                        label="Report Type"
+                        label="View Type"
                         onChange={(valueOption) => {
                           setFieldValue(
                             "reportTypeCashFlowIndirect",
                             valueOption
                           );
                         }}
-                        placeholder="Report Type"
+                        placeholder="View Type"
                       />
                     </div>
                     <DivisionSubDivisionAndBusinessUnit
@@ -1029,18 +1029,22 @@ export default function ProjectedFinancialStatement() {
                       //   );
                       // }
                       if ([9]?.includes(values?.reportType?.value)) {
-                        getRowData(
-                          `/fino/Report/GetCashFlowStatementProjectedIndirect?BusinessUnitGroup=${
-                            values?.enterpriseDivision?.value
-                          }&SubGroup=${values?.subDivision?.label ||
-                            ""}&businessUnitId=${
-                            values?.businessUnit?.value
-                          }&fromDate=${values?.fromDate}&toDate=${
-                            values?.toDate
-                          }&ConvertionRate=${values?.conversionRate}&intType=${
-                            values?.reportTypeCashFlowIndirect?.value
-                          }`
-                        );
+                        setShowReport(false)
+                        setTimeout(() => {
+                          setShowReport(true)
+                        }, 1000);
+                        // getRowData(
+                        //   `/fino/Report/GetCashFlowStatementProjectedIndirect?BusinessUnitGroup=${
+                        //     values?.enterpriseDivision?.value
+                        //   }&SubGroup=${values?.subDivision?.label ||
+                        //     ""}&businessUnitId=${
+                        //     values?.businessUnit?.value
+                        //   }&fromDate=${values?.fromDate}&toDate=${
+                        //     values?.toDate
+                        //   }&ConvertionRate=${values?.conversionRate}&intType=${
+                        //     values?.reportTypeCashFlowIndirect?.value
+                        //   }`
+                        // );
                       }
                     }}
                     className="btn btn-primary"
@@ -1109,6 +1113,7 @@ export default function ProjectedFinancialStatement() {
                     rowData={rowData}
                     values={values}
                     selectedBusinessUnit={values?.businessUnit?.label}
+                    showReport={showReport}
                   />
                 ) : null}
               </div>
