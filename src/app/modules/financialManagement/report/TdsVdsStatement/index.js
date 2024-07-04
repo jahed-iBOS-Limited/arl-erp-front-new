@@ -228,6 +228,7 @@ export default function TdsVdsStatement() {
                     handleAllChecked={handleAllChecked}
                     handleCheckBox={handleCheckBox}
                     values={values}
+                    isPrintTable={true}
                   />
                 </div>
               </div>
@@ -239,7 +240,7 @@ export default function TdsVdsStatement() {
   );
 }
 
-const TableData = ({ tableData, handleAllChecked, values, handleCheckBox }) => {
+const TableData = ({ tableData, handleAllChecked, values, handleCheckBox, isPrintTable }) => {
   return (
     <>
       <div className="table-responsive">
@@ -310,6 +311,24 @@ const TableData = ({ tableData, handleAllChecked, values, handleCheckBox }) => {
                   </td>
                 </tr>
               ))}
+            <tr>
+              <td colSpan={isPrintTable ? 3: 4}>
+                <b>Total</b>
+              </td>
+              <td className="text-right">
+                <b>
+                  {" "}
+                  {_formatMoney(
+                    tableData?.reduce(
+                      (prev, curr) =>
+                        prev +
+                        (+curr?.monTDSAmount || +curr?.monVDSAmount || 0),
+                      0
+                    )
+                  )}
+                </b>
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>

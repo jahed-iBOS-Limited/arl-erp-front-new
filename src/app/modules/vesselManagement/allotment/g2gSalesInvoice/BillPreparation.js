@@ -1,8 +1,9 @@
 import React from "react";
+import { useDispatch } from "react-redux";
+import { amountToWords } from "../../../_helper/_ConvertnumberToWord";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
 import { _fixedPoint } from "../../../_helper/_fixedPoint";
-import InputField from "../../../_helper/_inputField";
-import { amountToWords } from "../../../_helper/_ConvertnumberToWord";
+import { getDownlloadFileView_Action } from "../../../_helper/_redux/Actions";
 const BillPreparationReport = ({
   printRef,
   gridData,
@@ -17,6 +18,8 @@ const BillPreparationReport = ({
   const totalPrice = gridData?.reduce((acc, cur) => {
     return (acc += +cur?.totalPrice || 0);
   }, 0);
+  const dispatch = useDispatch();
+  console.log("userPrintBtnClick", userPrintBtnClick); 
   return (
     <>
       <div ref={printRef}>
@@ -70,6 +73,7 @@ const BillPreparationReport = ({
                     <th>Short/Excess</th>
                     <th>Price/Ton(Taka)</th>
                     <th>Taka</th>
+                    {!userPrintBtnClick && <th>Action</th>}
                   </tr>
                 </thead>
 
@@ -91,6 +95,32 @@ const BillPreparationReport = ({
                       <td className="text-right">
                         <b>{item?.totalPrice}</b>
                       </td>
+                      {!userPrintBtnClick && (
+                        <td>
+                          {item?.attachentInvoice && (
+                            <span
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                dispatch(
+                                  getDownlloadFileView_Action(
+                                    item?.attachentInvoice
+                                  )
+                                );
+                              }}
+                              className="ml-2"
+                              style={{
+                                paddingTop: "5px",
+                              }}
+                            >
+                              <i
+                                style={{ fontSize: "16px" }}
+                                className={`fa pointer fa-eye`}
+                                aria-hidden="true"
+                              ></i>
+                            </span>
+                          )}
+                        </td>
+                      )}
                     </tr>
                   ))}
                   <tr>
@@ -136,9 +166,10 @@ const BillPreparationReport = ({
                     <td className="text-right">
                       <b>{_fixedPoint(totalPrice)}</b>
                     </td>
+                    {!userPrintBtnClick && <td></td>}
                   </tr>
                   <tr>
-                    <td colSpan={10}>
+                    <td colSpan={userPrintBtnClick ? 10 : 11}>
                       <b>Total (In Word): {amountToWords(totalPrice)}</b>
                     </td>
                   </tr>
@@ -148,7 +179,11 @@ const BillPreparationReport = ({
           </div>
           <div className="col-lg-12">
             <p>
-              This bill has been prepared as per contract and if any amount wrongly changed had detected by the corporation at any time, the corporation will be at liberty to impose discretionary penalty and realize the same for a regular bills, security deposit or performance guarantee.
+              This bill has been prepared as per contract and if any amount
+              wrongly changed had detected by the corporation at any time, the
+              corporation will be at liberty to impose discretionary penalty and
+              realize the same for a regular bills, security deposit or
+              performance guarantee.
             </p>
           </div>
         </div>
