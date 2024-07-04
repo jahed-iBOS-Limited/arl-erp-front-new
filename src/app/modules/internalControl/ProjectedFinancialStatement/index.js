@@ -38,6 +38,7 @@ const initData = {
   viewType: "",
   productDivision: "",
   tradeType: "",
+  reportTypeCashFlowIndirect: { value: 0, label: "All" },
 };
 export default function ProjectedFinancialStatement() {
   const [buDDL, getBuDDL, buDDLloader, setBuDDL] = useAxiosGet();
@@ -57,7 +58,7 @@ export default function ProjectedFinancialStatement() {
     subDivisionDDL,
     getSubDivisionDDL,
     loadingOnSubDivisionDDL,
-    setSubDivisionDDL
+    setSubDivisionDDL,
   ] = useAxiosGet();
 
   const [
@@ -205,17 +206,17 @@ export default function ProjectedFinancialStatement() {
 
                 {[3]?.includes(values?.reportType?.value) ? (
                   <>
-                  <DivisionSubDivisionAndBusinessUnit
-                    values={values}
-                    setFieldValue={  setFieldValue}
-                    setSubDivisionDDL={  setSubDivisionDDL}
-                    setbuddl={  setbuddl}
-                    getSubDivisionDDL={  getSubDivisionDDL}
-                    subDivisionDDL={  subDivisionDDL}
-                    getBusinessDDLByED={  getBusinessDDLByED}
-                    enterpriseDivisionDDL={  enterpriseDivisionDDL}
-                    profileData={  profileData}
-                    buddl={buddl}
+                    <DivisionSubDivisionAndBusinessUnit
+                      values={values}
+                      setFieldValue={setFieldValue}
+                      setSubDivisionDDL={setSubDivisionDDL}
+                      setbuddl={setbuddl}
+                      getSubDivisionDDL={getSubDivisionDDL}
+                      subDivisionDDL={subDivisionDDL}
+                      getBusinessDDLByED={getBusinessDDLByED}
+                      enterpriseDivisionDDL={enterpriseDivisionDDL}
+                      profileData={profileData}
+                      buddl={buddl}
                     />
                     {/* <div className="col-md-3">
                       <NewSelect
@@ -279,17 +280,17 @@ export default function ProjectedFinancialStatement() {
 
                 {[2]?.includes(values?.reportType?.value) ? (
                   <>
-                  <DivisionSubDivisionAndBusinessUnit
-                    values={values}
-                    setFieldValue={  setFieldValue}
-                    setSubDivisionDDL={  setSubDivisionDDL}
-                    setbuddl={  setbuddl}
-                    getSubDivisionDDL={  getSubDivisionDDL}
-                    subDivisionDDL={  subDivisionDDL}
-                    getBusinessDDLByED={  getBusinessDDLByED}
-                    enterpriseDivisionDDL={  enterpriseDivisionDDL}
-                    profileData={  profileData}
-                    buddl={buddl}
+                    <DivisionSubDivisionAndBusinessUnit
+                      values={values}
+                      setFieldValue={setFieldValue}
+                      setSubDivisionDDL={setSubDivisionDDL}
+                      setbuddl={setbuddl}
+                      getSubDivisionDDL={getSubDivisionDDL}
+                      subDivisionDDL={subDivisionDDL}
+                      getBusinessDDLByED={getBusinessDDLByED}
+                      enterpriseDivisionDDL={enterpriseDivisionDDL}
+                      profileData={profileData}
+                      buddl={buddl}
                     />
                     {/* <div className="col-md-3">
                       <NewSelect
@@ -515,7 +516,7 @@ export default function ProjectedFinancialStatement() {
                         }}
                       />
                     </div>
-                    
+
                     <div className="col-md-3">
                       <NewSelect
                         name="businessUnit"
@@ -569,21 +570,50 @@ export default function ProjectedFinancialStatement() {
                   </>
                 ) : null}
 
-               {[9]?.includes(values?.reportType?.value) ? (
+                {[9]?.includes(values?.reportType?.value) ? (
                   <>
+                    <div className="col-md-3">
+                      <NewSelect
+                        name="reportTypeCashFlowIndirect"
+                        options={[
+                          {
+                            value: 0,
+                            label: "All",
+                          },
+                          {
+                            value: 1,
+                            label: "Group by Unit",
+                          },
+                          {
+                            value: 2,
+                            label: "Group by Month",
+                          },
+                        ]}
+                        value={values?.reportTypeCashFlowIndirect}
+                        label="Report Type"
+                        onChange={(valueOption) => {
+                          setFieldValue(
+                            "reportTypeCashFlowIndirect",
+                            valueOption
+                          );
+                        }}
+                        placeholder="Report Type"
+                      />
+                    </div>
                     <DivisionSubDivisionAndBusinessUnit
-                    values={values}
-                    setFieldValue={  setFieldValue}
-                    setSubDivisionDDL={  setSubDivisionDDL}
-                    setbuddl={  setbuddl}
-                    getSubDivisionDDL={  getSubDivisionDDL}
-                    subDivisionDDL={  subDivisionDDL}
-                    getBusinessDDLByED={  getBusinessDDLByED}
-                    enterpriseDivisionDDL={  enterpriseDivisionDDL}
-                    profileData={  profileData}
-                    buddl={buddl}
+                      values={values}
+                      setFieldValue={setFieldValue}
+                      setSubDivisionDDL={setSubDivisionDDL}
+                      setbuddl={setbuddl}
+                      getSubDivisionDDL={getSubDivisionDDL}
+                      subDivisionDDL={subDivisionDDL}
+                      getBusinessDDLByED={getBusinessDDLByED}
+                      enterpriseDivisionDDL={enterpriseDivisionDDL}
+                      profileData={profileData}
+                      buddl={buddl}
                     />
-                    <div className="col-md-2">
+
+                    <div className="col-md-3">
                       <label>Conversion Rate</label>
                       <InputField
                         value={values?.conversionRate}
@@ -870,12 +900,21 @@ export default function ProjectedFinancialStatement() {
                             : values?.profitCenter?.value
                             ? values?.profitCenter?.label
                             : values?.tradeType?.value,
-                            values?.subDivision?.label,
+                          values?.subDivision?.label
                         );
                       }
                       if ([3]?.includes(values?.reportType?.value)) {
                         getRowData(
-                          `/fino/BalanceSheet/GetBalanceSheetProjected?AccountId=${profileData?.accountId}&BusinessUnitGroup=${values?.enterpriseDivision?.value}&BusinessUnitId=${values?.businessUnit?.value}&SubGroup=${values?.subDivision?.label || ""}&AsOnDate=${values?.date}&ConvertionRate=${values?.conversionRate}`,
+                          `/fino/BalanceSheet/GetBalanceSheetProjected?AccountId=${
+                            profileData?.accountId
+                          }&BusinessUnitGroup=${
+                            values?.enterpriseDivision?.value
+                          }&BusinessUnitId=${
+                            values?.businessUnit?.value
+                          }&SubGroup=${values?.subDivision?.label ||
+                            ""}&AsOnDate=${values?.date}&ConvertionRate=${
+                            values?.conversionRate
+                          }`,
                           (data) => {
                             setRowData(manageBalanceData(data));
                           }
@@ -991,7 +1030,16 @@ export default function ProjectedFinancialStatement() {
                       // }
                       if ([9]?.includes(values?.reportType?.value)) {
                         getRowData(
-                          `/fino/Report/GetCashFlowStatementProjectedIndirect?BusinessUnitGroup=${values?.enterpriseDivision?.value}&SubGroup=${values?.subDivision?.label || ""}&businessUnitId=${values?.businessUnit?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}&ConvertionRate=${values?.conversionRate}`
+                          `/fino/Report/GetCashFlowStatementProjectedIndirect?BusinessUnitGroup=${
+                            values?.enterpriseDivision?.value
+                          }&SubGroup=${values?.subDivision?.label ||
+                            ""}&businessUnitId=${
+                            values?.businessUnit?.value
+                          }&fromDate=${values?.fromDate}&toDate=${
+                            values?.toDate
+                          }&ConvertionRate=${values?.conversionRate}&intType=${
+                            values?.reportTypeCashFlowIndirect?.value
+                          }`
                         );
                       }
                     }}
