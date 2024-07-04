@@ -1,0 +1,8 @@
+.tdsVdsStatementReport {
+  .tdsVdsStatementReportPrintSection {
+    display: none;
+    @media print {
+      display: block;
+    }
+  }
+}
