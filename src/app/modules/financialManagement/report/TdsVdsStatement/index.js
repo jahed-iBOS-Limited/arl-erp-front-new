@@ -8,6 +8,9 @@ import Loading from "../../../_helper/_loading";
 import NewSelect from "../../../_helper/_select";
 import { _todayDate } from "../../../_helper/_todayDate";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import ReactToPrint from "react-to-print";
+import printIcon from "../../../_helper/images/print-icon.png";
+import "./style.scss";
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
@@ -17,6 +20,7 @@ const initData = {
   },
 };
 export default function TdsVdsStatement() {
+  const [selectRowDto, setSelectRowDto] = React.useState([]);
   const saveHandler = (values, cb) => {};
   const { selectedBusinessUnit } = useSelector(
     (state) => state?.authData,
@@ -36,6 +40,40 @@ export default function TdsVdsStatement() {
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const handleAllChecked = (e) => {
+    const { checked } = e.target;
+    const newData = tableData.map((item) => ({
+      ...item,
+      isCheck: checked,
+    }));
+    setTableData(newData);
+  };
+
+  const handleCheckBox = (field, value, index) => {
+    const newData = tableData.map((item, i) => {
+      if (index === i) {
+        return {
+          ...item,
+          [field]: value,
+        };
+      }
+      return item;
+    });
+    setTableData(newData);
+  };
+  const printRef = React.useRef();
+
+  useEffect(() => {
+    if (tableData && tableData.length > 0) {
+      const newData = tableData.filter((item) => item?.isCheck);
+      setSelectRowDto(newData);
+    } else {
+      setSelectRowDto([]);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tableData]);
+
   return (
     <Formik
       enableReinitialize={true}
@@ -63,11 +101,33 @@ export default function TdsVdsStatement() {
             isHiddenBack
             isHiddenSave
             renderProps={() => {
-              return <div></div>;
+              return (
+                <div>
+                  <ReactToPrint
+                    pageStyle={
+                      "@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}"
+                    }
+                    trigger={() => (
+                      <button
+                        type="button"
+                        className="btn btn-primary px-1 py-1 my-0"
+                      >
+                        <img
+                          style={{ width: "25px", paddingRight: "5px" }}
+                          src={printIcon}
+                          alt="print-icon"
+                        />
+                        Print
+                      </button>
+                    )}
+                    content={() => printRef.current}
+                  />
+                </div>
+              );
             }}
           >
             <Form>
-              <div>
+              <div className="tdsVdsStatementReport">
                 <div className="form-group  global-form row">
                   <div className="col-lg-3">
                     <NewSelect
@@ -141,33 +201,34 @@ export default function TdsVdsStatement() {
                   </div>
                 </div>
                 <div className="mt-2">
-                  <div className="table-responsive">
-                    <table className="table table-striped table-bordered bj-table bj-table-landing">
-                      <thead>
-                        <tr>
-                          <th>SL</th>
-                          <th>Business Partner Name</th>
-                          <th>BIN</th>
-                          <th>Amount</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {tableData?.length > 0 &&
-                          tableData?.map((item, index) => (
-                            <tr key={index}>
-                              <td>{index + 1}</td>
-                              <td>{item?.strBusinessPartnerName}</td>
-                              <td>{item?.companybin}</td>
-                              <td className="text-right">
-                                {_formatMoney(
-                                  item?.monTDSAmount || item?.monVDSAmount || 0
-                                )}
-                              </td>
-                            </tr>
-                          ))}
-                      </tbody>
-                    </table>
+                  <TableData
+                    tableData={tableData}
+                    handleAllChecked={handleAllChecked}
+                    values={values}
+                    handleCheckBox={handleCheckBox}
+                  />
+                </div>
+
+                {/* print section */}
+                <div
+                  ref={printRef}
+                  className="tdsVdsStatementReportPrintSection"
+                >
+                  <div className="text-center">
+                    <h2 className="m-0">{selectedBusinessUnit?.label}</h2>
+                    <h4 className="m-0">
+                      {values?.reportType?.label} Statement
+                    </h4>
+                    <p>
+                      From: {values?.fromDate} To: {values?.toDate}
+                    </p>
                   </div>
+                  <TableData
+                    tableData={selectRowDto}
+                    handleAllChecked={handleAllChecked}
+                    handleCheckBox={handleCheckBox}
+                    values={values}
+                  />
                 </div>
               </div>
             </Form>
@@ -177,3 +238,81 @@ export default function TdsVdsStatement() {
     </Formik>
   );
 }
+
+const TableData = ({ tableData, handleAllChecked, values, handleCheckBox }) => {
+  return (
+    <>
+      <div className="table-responsive">
+        <table className="table table-striped table-bordered global-table">
+          <thead>
+            <tr>
+              <th
+                style={{
+                  width: "50px",
+                }}
+                className="printSectionNone"
+              >
+                <div className="d-flex justify-content-center align-items-center">
+                  <input
+                    type="checkbox"
+                    name="isCheck"
+                    value="checkedall"
+                    onChange={(e) => handleAllChecked(e)}
+                    checked={
+                      tableData?.length > 0 &&
+                      tableData?.every((item) => item?.isCheck)
+                    }
+                  />
+                  <label className="pl-1">
+                    <b>ALL</b>
+                  </label>
+                </div>
+              </th>
+              <th>SL</th>
+              <th>Business Partner Name</th>
+              {values?.reportType?.value === 1 ? (
+                <th>Section</th>
+              ) : (
+                <th>BIN</th>
+              )}
+
+              <th>Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            {tableData?.length > 0 &&
+              tableData?.map((item, index) => (
+                <tr key={index}>
+                  <td className="printSectionNone">
+                    <label className="">
+                      <input
+                        type="checkbox"
+                        name="isCheck"
+                        checked={item?.isCheck || item?.purchaseRequestId}
+                        disabled={item?.purchaseRequestId}
+                        onChange={(e) =>
+                          handleCheckBox("isCheck", e.target.checked, index)
+                        }
+                      />
+                    </label>
+                  </td>
+                  <td className="text-center">{index + 1}</td>
+                  <td>{item?.strBusinessPartnerName}</td>
+                  <td>
+                    {values?.reportType?.value === 1
+                      ? item?.section
+                      : item?.companybin}
+                  </td>
+                  <td className="text-right">
+                    {_formatMoney(
+                      item?.monTDSAmount || item?.monVDSAmount || 0
+                    )}
+                  </td>
+                </tr>
+              ))}
+          </tbody>
+        </table>
+      </div>
+    </>
+  );
+};
