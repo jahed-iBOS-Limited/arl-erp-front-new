@@ -15,7 +15,7 @@ const SalesCommissionConfigureLandingTable = ({ obj }) => {
               <th>BP Rate/bag</th>
               <th>BA Rate/bag</th>
               <th>CP Rate/bag</th>
-              {[17, 18].includes(values?.commissionType?.value) && (
+              {[17, 18, 25].includes(values?.commissionType?.value) && (
                 <>
                   {" "}
                   <th>1-99%</th>
@@ -37,7 +37,7 @@ const SalesCommissionConfigureLandingTable = ({ obj }) => {
                   <td className="text-right">{item?.bacommissionRate}</td>
                   <td className="text-right">{item?.cpcommissionRate}</td>
 
-                  {[17, 18].includes(values?.commissionType?.value) && (
+                  {[17, 18, 25].includes(values?.commissionType?.value) && (
                     <>
                       <td className="text-right">
                         {item?.firstSlabCommissionRate}
