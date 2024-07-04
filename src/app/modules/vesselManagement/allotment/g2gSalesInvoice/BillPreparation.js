@@ -19,6 +19,7 @@ const BillPreparationReport = ({
     return (acc += +cur?.totalPrice || 0);
   }, 0);
   const dispatch = useDispatch();
+  console.log("userPrintBtnClick", userPrintBtnClick); 
   return (
     <>
       <div ref={printRef}>
