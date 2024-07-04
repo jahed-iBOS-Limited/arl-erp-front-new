@@ -55,6 +55,11 @@ function G2GSalesInvoice() {
   const [, setUpdateInvoiceAttachent, updateInvoiceAttLoading] = useAxiosPut();
   const [
     ,
+    getGodownsWiseBillPreparation,
+    godownsWiseBillLoading,
+  ] = useAxiosGet();
+  const [
+    ,
     getUpdateInvoiceFromGodown,
     updateInvoiceFromGodownLoading,
   ] = useAxiosPut();
@@ -160,6 +165,16 @@ function G2GSalesInvoice() {
             }
           }
         );
+        break;
+      case 4:
+        // Bill Preparation Report
+        getGodownsWiseBillPreparation(
+          `/tms/LigterLoadUnload/GetGodownsWiseBillPreparation?accountId=${accountId}&businessUnitId=${buUnId}&motherVesslelId=${values?.motherVessel?.value}&portId=${values?.port?.value}&soldToPartnerId=${values?.organization?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}`,
+          (resData) => {
+            setGridData(resData);
+          }
+        );
+
         break;
       default:
         break;
@@ -335,6 +350,7 @@ function G2GSalesInvoice() {
                 {(godownsEntryLoading ||
                   gridDataLoading ||
                   updateInvoiceAttLoading ||
+                  godownsWiseBillLoading ||
                   updateInvoiceFromGodownLoading) && <Loading />}
                 <Form className="form">
                   <div className="row global-form">
@@ -389,7 +405,7 @@ function G2GSalesInvoice() {
                         </div>
                       </>
                     )}
-                    {[3].includes(values?.reportType?.value) && (
+                    {[3, 4].includes(values?.reportType?.value) && (
                       <div className="col-lg-3">
                         <NewSelect
                           name="organization"
@@ -410,7 +426,7 @@ function G2GSalesInvoice() {
                       </div>
                     )}
 
-                    {[1, 2, 3].includes(values?.reportType?.value) && (
+                    {[1, 2, 3, 4].includes(values?.reportType?.value) && (
                       <>
                         {" "}
                         <PortAndMotherVessel

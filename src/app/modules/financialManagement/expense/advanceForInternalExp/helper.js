@@ -159,6 +159,18 @@ export const singleDataById = async (advId, setter, setDisabled) => {
           value: data.instrumentId,
           label: data.instrumentName,
         },
+        costCenter: {
+          value: data.costCenterid,
+          label: data.costCenterName,
+        },
+        costElement: {
+          value: data.costElementid,
+          label: data.costElementName,
+        },
+        profitCenter: {
+          value: data.profitCenterid,
+          label: data.profitCenterName,
+        },
         disbursementCenterName: {
           value: data.disbursementCenterId,
           label: data.disbursementCenterName,

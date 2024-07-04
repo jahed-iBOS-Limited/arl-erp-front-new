@@ -27,7 +27,10 @@ const initData = {
   SBU: "",
   approval: "",
   expenseHead: "",
-  expenseGroup: ""
+  expenseGroup: "",
+  profitCenter: "",
+  costElement: "",
+  costCenter: "",
 };
 
 export default function AdvanceCreateForm() {
@@ -51,7 +54,8 @@ export default function AdvanceCreateForm() {
       singleDataById(
         params?.id || params?.approval,
 
-        setSingleData, setDisabled
+        setSingleData,
+        setDisabled
       );
     }
   }, [params]);
@@ -75,8 +79,8 @@ export default function AdvanceCreateForm() {
           employeeId: values.requestedEmp.value,
           requestDate: _todayDate(),
           dueDate: values.dueDate,
-          instrumentId: values.paymentType.value,
-          instrumentName: values.paymentType.label,
+          instrumentId: 1, //values.paymentType.value,
+          instrumentName: "EFT", //values.paymentType.label,
           disbursementCenterId: values.disbursementCenterName.value || 0,
           disbursementCenterName: selectedBusinessUnit?.label,
           numRequestedAmount: values.numRequestedAmount,
@@ -86,6 +90,14 @@ export default function AdvanceCreateForm() {
           plantId: location?.state?.selectedPlant?.value || 0,
           // businessTransactionId: values?.expenseHead?.value || 0,
           expenseGroup: values?.expenseGroup?.value || "",
+
+          costCenterid: values?.costCenter?.value,
+          costElementid: values?.costElement?.value,
+          profitCenterid: values?.profitCenter?.value,
+          costCenterName: values?.costCenter?.label,
+          costElementName: values?.costElement?.label,
+          profitCenterName: values?.profitCenter?.label,
+          businessTransactionName: "",
         };
         dispatch(
           saveEditedAdvanceExpGridData({ data: payload, cb, setDisabled })
@@ -104,8 +116,8 @@ export default function AdvanceCreateForm() {
           employeeId: values.requestedEmp.value,
           requestDate: _todayDate(),
           dueDate: values.dueDate,
-          instrumentId: values.paymentType.value,
-          instrumentName: values.paymentType.label,
+          instrumentId: 1, //values.paymentType.value,
+          instrumentName: "EFT", //values.paymentType.label,
           disbursementCenterId: values.disbursementCenterName.value || 0,
           disbursementCenterName: selectedBusinessUnit?.label,
           numRequestedAmount: values.numRequestedAmount,
@@ -113,7 +125,14 @@ export default function AdvanceCreateForm() {
           actionBy: profileData?.userId,
           plantId: location?.state?.selectedPlant?.value || 0,
           // businessTransactionId: values?.expenseHead?.value || 0,
-          expenseGroup: values?.expenseGroup?.value || ""
+          expenseGroup: values?.expenseGroup?.value || "",
+          costCenterid: values?.costCenter?.value,
+          costElementid: values?.costElement?.value,
+          profitCenterid: values?.profitCenter?.value,
+          costCenterName: values?.costCenter?.label,
+          costElementName: values?.costElement?.label,
+          profitCenterName: values?.profitCenter?.label,
+          businessTransactionName: "",
         };
         dispatch(
           saveAdvanceExpJournal_Action({ data: payload, cb, setDisabled })
@@ -136,21 +155,25 @@ export default function AdvanceCreateForm() {
 
   return (
     <IForm
-      title= {params?.approval ? "Request For Advance Approval" : "Request For Advance" }
+      title={
+        params?.approval
+          ? "Request For Advance Approval"
+          : "Request For Advance"
+      }
       getProps={setObjprops}
       isDisabled={isDisabled}
-      submitBtnText={params?.approval  ? "Approval" : "Save"}
+      submitBtnText={params?.approval ? "Approval" : "Save"}
     >
       {isDisabled && <Loading />}
       <Form
         {...objProps}
-        initData={(params?.id || params?.approval) ? singleData : initData}
+        initData={params?.id || params?.approval ? singleData : initData}
         saveHandler={saveHandler}
         profileData={profileData}
         selectedBusinessUnit={selectedBusinessUnit}
         jorunalType={location?.state?.selectedJournal?.value}
         state={location.state}
-        isEdit={(params?.id || params?.approval) || false}
+        isEdit={params?.id || params?.approval || false}
       />
     </IForm>
   );
