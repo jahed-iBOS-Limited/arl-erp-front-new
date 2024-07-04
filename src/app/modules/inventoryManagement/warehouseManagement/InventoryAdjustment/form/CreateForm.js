@@ -142,7 +142,8 @@ export default function CreateForm({
         `/wms/InventoryTransaction/sprRuningQty?businessUnitId=${selectedBusinessUnit?.value}&whId=${location?.state?.warehouse?.value}&itemId=${values?.item?.value}`,
         (data) => {
           getCogs(
-            `/wms/InventoryTransaction/sprRuningRate?businessUnitId=${selectedBusinessUnit?.value}&whId=${location?.state?.warehouse?.value}&itemId=${values?.item?.value}`,
+            // `/wms/InventoryTransaction/sprRuningRate?businessUnitId=${selectedBusinessUnit?.value}&whId=${location?.state?.warehouse?.value}&itemId=${values?.item?.value}`,
+            `/wms/InventoryLoan/GetItemRate?ItemId=${values?.item?.value}&BusinessUnitId=${selectedBusinessUnit?.value}`,
             (cogs) => {
               const numTransactionQuantity = data * -1;
               const monTransactionValue = (
