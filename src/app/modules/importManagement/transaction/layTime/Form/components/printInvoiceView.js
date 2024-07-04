@@ -78,14 +78,14 @@ export default function PrintInvoiceView({ debitData = {} }) {
             <p>TO</p>
             <div style={{ marginLeft: "115px" }}>
               <p>{debitData?.objHeader?.stackHolderName}</p>
-              <p>{debitData?.objHeader?.stackHolderAddress}</p>
+              <p>{debitData?.bPbankInfo?.businessPartnerAddress}</p>
               <p> {debitData?.objHeader?.stackHolderAddress}</p>
             </div>
           </div>
           <div className="d-flex ">
             <p>FROM</p>
             <div style={{ marginLeft: "94px" }}>
-              <p>{selectedBusinessUnit?.label}</p>
+              <p>{selectedBusinessUnit?.label?.toUpperCase()}</p>
               <p>{selectedBusinessUnit?.businessUnitAddress}</p>
             </div>
           </div>
