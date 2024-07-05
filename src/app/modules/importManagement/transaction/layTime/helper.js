@@ -20,7 +20,7 @@ export const validationSchema = Yup.object().shape({
   vesselName: Yup.string().required("Vessel Name is required"),
   voyageNo: Yup.string().required("Voyage No is required"),
   stackHolderName: Yup.object().required("This field is required"),
-  stackHolderBank: Yup.object().required("This field is required"),
+  // stackHolderBank: Yup.object().required("This field is required"),
 
   timeAllowedForLoading: Yup.string().required("This field is required"),
   vesselArrived: Yup.string().required("Vessel Arrived is required"),
