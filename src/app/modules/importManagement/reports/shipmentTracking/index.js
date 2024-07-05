@@ -28,7 +28,7 @@ export default function ShipmentTracking() {
 
   const header = [
     {
-      name: "Merchandise Description",
+      name: "Sl",
       style: {
         minWidth: "30px",
       },
@@ -101,12 +101,12 @@ export default function ShipmentTracking() {
         minWidth: "100px",
       },
     },
-    {
-      name: "Unit Price/M.T",
-      style: {
-        minWidth: "100px",
-      },
-    },
+    // {
+    //   name: "Unit Price/M.T",
+    //   style: {
+    //     minWidth: "100px",
+    //   },
+    // },
     {
       name: "Total Price",
       style: {
@@ -139,12 +139,12 @@ export default function ShipmentTracking() {
         minWidth: "100px",
       },
     },
-    {
-      name: "Rest Qty",
-      style: {
-        minWidth: "100px",
-      },
-    },
+    // {
+    //   name: "Rest Qty",
+    //   style: {
+    //     minWidth: "100px",
+    //   },
+    // },
     {
       name: "ETA (Aprx)",
       style: {
@@ -366,7 +366,7 @@ export default function ShipmentTracking() {
                         {gridData.length >= 0 &&
                           gridData.map((data, index) => (
                             <tr key={index}>
-                              <td className="text-center">{""}</td>
+                              <td className="text-center">{index + 1}</td>
                               <td className="text-center">
                                 {data?.strCountryOriginName}
                               </td>
@@ -377,50 +377,46 @@ export default function ShipmentTracking() {
                                 {data?.strPINumber}
                               </td>
                               <td>{_dateFormatter(data?.dtePIDate)}</td>
-                              <td className="text-center">{""}</td>
+                              <td className="text-center">{data?.poNumber}</td>
                               <td>{data?.lCqty}</td>
-                              <td>{""}</td>
-                              <td></td>{" "}
+                              <td className="text-center">{_dateFormatter(data?.lcOpenDate)}</td>
+                              <td className="text-center">{data?.lcNumber}</td>{" "}
                               <td className="text-center">
                                 {_dateFormatter(data?.dteLCDate)}{" "}
                               </td>
-                              <td className="text-right"></td>{" "}
+                              <td className="text-center">{data?.issueBank}</td>{" "}
                               <td className="text-center">
                                 {_dateFormatter(data?.dteetadate)}{" "}
                               </td>
-                              <td className="text-right"></td>{" "}
-                              <td className="text-right">
+                              <td className="text-center">
                                 {_formatMoney(data?.numTotalPIAmountBDT)}{" "}
                               </td>
-                              <td className="text-right"></td>
+                              <td className="text-center">{data?.shipmentCode}</td>
                               <td className="text-center">{data?.strblno}</td>
-                              <td className="text-right"></td>{" "}
-                              <td className="text-right">
+                              <td className="text-center">{data?.shipmentCode}</td>{" "}
+                              <td className="text-center">
                                 {data?.numShipmentQuantity}{" "}
                               </td>{" "}
-                              <td className="text-right">
-                                {/* {_formatMoney(data?.numOther, 4)} */}{" "}
+                              <td className="text-center">
+                                {_dateFormatter(data?.dteetadate)}
                               </td>{" "}
-                              <td className="text-right">
-                                {/* {_formatMoney(data?.numPG, 4)} */}{" "}
+                              <td className="text-center">
+                                {data?.numShipmentQuantity}
                               </td>{" "}
-                              <td className="text-right">
-                                {/* {_formatMoney(data?.numPort, 4)} */}{" "}
+                              <td className="text-center">
+                               {_dateFormatter(data?.copyDocReceiveDate)}
                               </td>{" "}
-                              <td className="text-right">
-                                {/* {_formatMoney(data?.numScavatory, 4)} */}{" "}
-                              </td>{" "}
-                              <td className="text-right">
-                                {/* {_formatMoney(data?.numShipping, 4)} */}{" "}
+                              <td className="text-center">
+                                {_dateFormatter(data?.docReceiveDate)}
                               </td>
-                              <td className="text-right"></td>{" "}
-                              <td className="text-right">
+                              <td className="text-center">{data?.cnFPartnerName}</td>{" "}
+                              <td className="text-center">
                                 {data?.numNumberOfContainer}{" "}
                               </td>{" "}
-                              <td className="text-right">
+                              <td className="text-center">
                                 {data?.deliverystatus}
                               </td>
-                              <td>{""}</td>{" "}
+                              <td>{data?.remark}</td>{" "}
                             </tr>
                           ))}
                       </tbody>
