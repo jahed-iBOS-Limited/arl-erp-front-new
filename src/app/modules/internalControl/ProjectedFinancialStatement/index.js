@@ -17,13 +17,17 @@ import ProjectedTrailBalanceMultiColumn from "./ProjectedTrailBalanceMultiColumn
 import {
   getIncomeStatement_api,
   getProfitCenterDDL,
+  getReportId,
+  groupId,
   manageBalanceData,
+  parameterValues,
 } from "./helper";
 import ProjectedIncomeStatement from "./projectedIncomeStatement";
 import TrailBalanceProjected from "./trailBalanceProjected";
 import ProjectedCashflowStatementIndirect from "./ProjectedCashflowStatementIndirect";
 import { getBusinessDDLByED } from "../budgetVarianceReports/incomeStatement/helper";
 import DivisionSubDivisionAndBusinessUnit from "./commonDivSubDivToBuN";
+import PowerBIReport from "../../_helper/commonInputFieldsGroups/PowerBIReport";
 
 const initData = {
   reportType: "",
@@ -44,6 +48,7 @@ export default function ProjectedFinancialStatement() {
   const [buDDL, getBuDDL, buDDLloader, setBuDDL] = useAxiosGet();
   const [showReport, setShowReport] = useState(false);
   const saveHandler = (values, cb) => {};
+  const [show, setShow] = useState(false);
 
   const { profileData } = useSelector((state) => {
     return state.authData;
@@ -194,6 +199,7 @@ export default function ProjectedFinancialStatement() {
                     onChange={(valueOption) => {
                       setRowData([]);
                       setIncomeStatement([]);
+                      setShow(false);
                       setFieldValue("reportType", valueOption);
                       setValues({
                         ...initData,
@@ -357,15 +363,16 @@ export default function ProjectedFinancialStatement() {
                         options={[
                           { value: "profitCenter", label: "Profit Center" },
                           {
-                            value: "Product Division",
-                            label: "Product Division",
+                            value: "unitColumn",
+                            label: "Unit Column",
                           },
-                          { value: "Trade Type", label: "Trade Type" },
+                          { value: "monthColumn", label: "Month Column" },
                         ]}
                         value={values?.viewType}
                         label="View Type"
                         onChange={(valueOption) => {
                           setFieldValue("viewType", valueOption);
+                          setShow(false);
                           if (valueOption?.value === "profitCenter") {
                             getProfitCenterDDL(
                               values?.businessUnit?.value,
@@ -878,30 +885,34 @@ export default function ProjectedFinancialStatement() {
                         );
                       }
                       if ([2]?.includes(values?.reportType?.value)) {
-                        getIncomeStatement_api(
-                          values?.fromDate,
-                          values?.toDate,
-                          values?.toDate,
-                          values?.toDate,
-                          values?.businessUnit?.value,
-                          0,
-                          setIncomeStatement,
-                          "all",
-                          setLoading,
-                          "IncomeStatement",
-                          values?.enterpriseDivision?.value,
-                          values?.conversionRate,
-                          values?.subDivision,
-                          values?.reportType?.value,
-                          values?.profitCenter?.value,
-                          values?.viewType?.value,
-                          values?.productDivision?.value
-                            ? values?.productDivision?.value
-                            : values?.profitCenter?.value
-                            ? values?.profitCenter?.label
-                            : values?.tradeType?.value,
-                          values?.subDivision?.label
-                        );
+                        if (values?.viewType?.value === "profitCenter") {
+                          getIncomeStatement_api(
+                            values?.fromDate,
+                            values?.toDate,
+                            values?.toDate,
+                            values?.toDate,
+                            values?.businessUnit?.value,
+                            0,
+                            setIncomeStatement,
+                            "all",
+                            setLoading,
+                            "IncomeStatement",
+                            values?.enterpriseDivision?.value,
+                            values?.conversionRate,
+                            values?.subDivision,
+                            values?.reportType?.value,
+                            values?.profitCenter?.value,
+                            values?.viewType?.value,
+                            values?.productDivision?.value
+                              ? values?.productDivision?.value
+                              : values?.profitCenter?.value
+                              ? values?.profitCenter?.label
+                              : values?.tradeType?.value,
+                            values?.subDivision?.label
+                          );
+                        } else {
+                          setShow(true);
+                        }
                       }
                       if ([3]?.includes(values?.reportType?.value)) {
                         getRowData(
@@ -1029,9 +1040,9 @@ export default function ProjectedFinancialStatement() {
                       //   );
                       // }
                       if ([9]?.includes(values?.reportType?.value)) {
-                        setShowReport(false)
+                        setShowReport(false);
                         setTimeout(() => {
-                          setShowReport(true)
+                          setShowReport(true);
                         }, 1000);
                         // getRowData(
                         //   `/fino/Report/GetCashFlowStatementProjectedIndirect?BusinessUnitGroup=${
@@ -1061,10 +1072,18 @@ export default function ProjectedFinancialStatement() {
                     selectedBusinessUnit={values?.businessUnit?.label}
                   />
                 ) : null}
-                {[2]?.includes(values?.reportType?.value) ? (
+                {[2]?.includes(values?.reportType?.value) &&
+                values?.viewType?.value === "profitCenter" ? (
                   <ProjectedIncomeStatement
                     incomeStatement={incomeStatement}
                     values={values}
+                  />
+                ) : [2]?.includes(values?.reportType?.value) && show ? (
+                  <PowerBIReport
+                    reportId={getReportId(values)}
+                    groupId={groupId}
+                    parameterValues={parameterValues(values)}
+                    parameterPanel={false}
                   />
                 ) : null}
                 {[3]?.includes(values?.reportType?.value) ? (
