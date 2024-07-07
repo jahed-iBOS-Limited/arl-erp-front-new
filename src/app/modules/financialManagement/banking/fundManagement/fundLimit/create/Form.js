@@ -68,6 +68,11 @@ export default function LimitForm({
                 sanctionReference: landingRowData?.sanctionReference || "",
                 limitExpiryDate:
                   _dateFormatter(landingRowData?.limitExpiryDate) || "",
+                interestRate:
+                  +landingRowData?.interestRate || +singleData?.interestRate,
+                rateReview:
+                  +landingRowData?.rateReview || +singleData?.rateReview,
+                remarks: landingRowData?.remarks || singleData?.remarks,
               }
             : initData
         }
