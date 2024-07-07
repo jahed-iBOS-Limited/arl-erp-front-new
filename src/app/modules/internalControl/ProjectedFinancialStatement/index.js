@@ -352,13 +352,13 @@ export default function ProjectedFinancialStatement() {
                     </div> */}
                     <div className="col-md-3">
                       <NewSelect
-                        isDisabled={
-                          values?.businessUnit?.value === 0 ||
-                          !values?.businessUnit ||
-                          !values?.enterpriseDivision?.value
-                            ? true
-                            : false
-                        }
+                        // isDisabled={
+                        //   values?.businessUnit?.value === 0 ||
+                        //   !values?.businessUnit ||
+                        //   !values?.enterpriseDivision?.value
+                        //     ? true
+                        //     : false
+                        // }
                         name="viewType"
                         options={[
                           { value: "profitCenter", label: "Profit Center" },

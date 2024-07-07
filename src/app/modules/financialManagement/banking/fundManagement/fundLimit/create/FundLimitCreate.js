@@ -68,6 +68,9 @@ export default function FundLimitCreate({
       sanctionReference: values?.sanctionReference || "",
       limitExpiryDate: values?.limitExpiryDate || "",
       isActive: true,
+      interestRate: values?.rate,
+      rateReview: values?.rateReview,
+      remarks: values?.remarks,
     };
     createFundLimit(payloadForCreateAndEdit, setDisabled, cb);
   };
