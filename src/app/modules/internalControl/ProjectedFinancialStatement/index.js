@@ -17,13 +17,17 @@ import ProjectedTrailBalanceMultiColumn from "./ProjectedTrailBalanceMultiColumn
 import {
   getIncomeStatement_api,
   getProfitCenterDDL,
+  getReportId,
+  groupId,
   manageBalanceData,
+  parameterValues,
 } from "./helper";
 import ProjectedIncomeStatement from "./projectedIncomeStatement";
 import TrailBalanceProjected from "./trailBalanceProjected";
 import ProjectedCashflowStatementIndirect from "./ProjectedCashflowStatementIndirect";
 import { getBusinessDDLByED } from "../budgetVarianceReports/incomeStatement/helper";
 import DivisionSubDivisionAndBusinessUnit from "./commonDivSubDivToBuN";
+import PowerBIReport from "../../_helper/commonInputFieldsGroups/PowerBIReport";
 
 const initData = {
   reportType: "",
@@ -38,11 +42,13 @@ const initData = {
   viewType: "",
   productDivision: "",
   tradeType: "",
+  reportTypeCashFlowIndirect: { value: 0, label: "All" },
 };
 export default function ProjectedFinancialStatement() {
   const [buDDL, getBuDDL, buDDLloader, setBuDDL] = useAxiosGet();
-
+  const [showReport, setShowReport] = useState(false);
   const saveHandler = (values, cb) => {};
+  const [show, setShow] = useState(false);
 
   const { profileData } = useSelector((state) => {
     return state.authData;
@@ -57,7 +63,7 @@ export default function ProjectedFinancialStatement() {
     subDivisionDDL,
     getSubDivisionDDL,
     loadingOnSubDivisionDDL,
-    setSubDivisionDDL
+    setSubDivisionDDL,
   ] = useAxiosGet();
 
   const [
@@ -193,6 +199,7 @@ export default function ProjectedFinancialStatement() {
                     onChange={(valueOption) => {
                       setRowData([]);
                       setIncomeStatement([]);
+                      setShow(false);
                       setFieldValue("reportType", valueOption);
                       setValues({
                         ...initData,
@@ -205,17 +212,17 @@ export default function ProjectedFinancialStatement() {
 
                 {[3]?.includes(values?.reportType?.value) ? (
                   <>
-                  <DivisionSubDivisionAndBusinessUnit
-                    values={values}
-                    setFieldValue={  setFieldValue}
-                    setSubDivisionDDL={  setSubDivisionDDL}
-                    setbuddl={  setbuddl}
-                    getSubDivisionDDL={  getSubDivisionDDL}
-                    subDivisionDDL={  subDivisionDDL}
-                    getBusinessDDLByED={  getBusinessDDLByED}
-                    enterpriseDivisionDDL={  enterpriseDivisionDDL}
-                    profileData={  profileData}
-                    buddl={buddl}
+                    <DivisionSubDivisionAndBusinessUnit
+                      values={values}
+                      setFieldValue={setFieldValue}
+                      setSubDivisionDDL={setSubDivisionDDL}
+                      setbuddl={setbuddl}
+                      getSubDivisionDDL={getSubDivisionDDL}
+                      subDivisionDDL={subDivisionDDL}
+                      getBusinessDDLByED={getBusinessDDLByED}
+                      enterpriseDivisionDDL={enterpriseDivisionDDL}
+                      profileData={profileData}
+                      buddl={buddl}
                     />
                     {/* <div className="col-md-3">
                       <NewSelect
@@ -279,17 +286,17 @@ export default function ProjectedFinancialStatement() {
 
                 {[2]?.includes(values?.reportType?.value) ? (
                   <>
-                  <DivisionSubDivisionAndBusinessUnit
-                    values={values}
-                    setFieldValue={  setFieldValue}
-                    setSubDivisionDDL={  setSubDivisionDDL}
-                    setbuddl={  setbuddl}
-                    getSubDivisionDDL={  getSubDivisionDDL}
-                    subDivisionDDL={  subDivisionDDL}
-                    getBusinessDDLByED={  getBusinessDDLByED}
-                    enterpriseDivisionDDL={  enterpriseDivisionDDL}
-                    profileData={  profileData}
-                    buddl={buddl}
+                    <DivisionSubDivisionAndBusinessUnit
+                      values={values}
+                      setFieldValue={setFieldValue}
+                      setSubDivisionDDL={setSubDivisionDDL}
+                      setbuddl={setbuddl}
+                      getSubDivisionDDL={getSubDivisionDDL}
+                      subDivisionDDL={subDivisionDDL}
+                      getBusinessDDLByED={getBusinessDDLByED}
+                      enterpriseDivisionDDL={enterpriseDivisionDDL}
+                      profileData={profileData}
+                      buddl={buddl}
                     />
                     {/* <div className="col-md-3">
                       <NewSelect
@@ -356,15 +363,16 @@ export default function ProjectedFinancialStatement() {
                         options={[
                           { value: "profitCenter", label: "Profit Center" },
                           {
-                            value: "Product Division",
-                            label: "Product Division",
+                            value: "unitColumn",
+                            label: "Unit Column",
                           },
-                          { value: "Trade Type", label: "Trade Type" },
+                          { value: "monthColumn", label: "Month Column" },
                         ]}
                         value={values?.viewType}
                         label="View Type"
                         onChange={(valueOption) => {
                           setFieldValue("viewType", valueOption);
+                          setShow(false);
                           if (valueOption?.value === "profitCenter") {
                             getProfitCenterDDL(
                               values?.businessUnit?.value,
@@ -515,7 +523,7 @@ export default function ProjectedFinancialStatement() {
                         }}
                       />
                     </div>
-                    
+
                     <div className="col-md-3">
                       <NewSelect
                         name="businessUnit"
@@ -569,21 +577,50 @@ export default function ProjectedFinancialStatement() {
                   </>
                 ) : null}
 
-               {[9]?.includes(values?.reportType?.value) ? (
+                {[9]?.includes(values?.reportType?.value) ? (
                   <>
+                    <div className="col-md-3">
+                      <NewSelect
+                        name="reportTypeCashFlowIndirect"
+                        options={[
+                          {
+                            value: 0,
+                            label: "All",
+                          },
+                          {
+                            value: 1,
+                            label: "Group by Unit",
+                          },
+                          {
+                            value: 2,
+                            label: "Group by Month",
+                          },
+                        ]}
+                        value={values?.reportTypeCashFlowIndirect}
+                        label="View Type"
+                        onChange={(valueOption) => {
+                          setFieldValue(
+                            "reportTypeCashFlowIndirect",
+                            valueOption
+                          );
+                        }}
+                        placeholder="View Type"
+                      />
+                    </div>
                     <DivisionSubDivisionAndBusinessUnit
-                    values={values}
-                    setFieldValue={  setFieldValue}
-                    setSubDivisionDDL={  setSubDivisionDDL}
-                    setbuddl={  setbuddl}
-                    getSubDivisionDDL={  getSubDivisionDDL}
-                    subDivisionDDL={  subDivisionDDL}
-                    getBusinessDDLByED={  getBusinessDDLByED}
-                    enterpriseDivisionDDL={  enterpriseDivisionDDL}
-                    profileData={  profileData}
-                    buddl={buddl}
+                      values={values}
+                      setFieldValue={setFieldValue}
+                      setSubDivisionDDL={setSubDivisionDDL}
+                      setbuddl={setbuddl}
+                      getSubDivisionDDL={getSubDivisionDDL}
+                      subDivisionDDL={subDivisionDDL}
+                      getBusinessDDLByED={getBusinessDDLByED}
+                      enterpriseDivisionDDL={enterpriseDivisionDDL}
+                      profileData={profileData}
+                      buddl={buddl}
                     />
-                    <div className="col-md-2">
+
+                    <div className="col-md-3">
                       <label>Conversion Rate</label>
                       <InputField
                         value={values?.conversionRate}
@@ -848,34 +885,47 @@ export default function ProjectedFinancialStatement() {
                         );
                       }
                       if ([2]?.includes(values?.reportType?.value)) {
-                        getIncomeStatement_api(
-                          values?.fromDate,
-                          values?.toDate,
-                          values?.toDate,
-                          values?.toDate,
-                          values?.businessUnit?.value,
-                          0,
-                          setIncomeStatement,
-                          "all",
-                          setLoading,
-                          "IncomeStatement",
-                          values?.enterpriseDivision?.value,
-                          values?.conversionRate,
-                          values?.subDivision,
-                          values?.reportType?.value,
-                          values?.profitCenter?.value,
-                          values?.viewType?.value,
-                          values?.productDivision?.value
-                            ? values?.productDivision?.value
-                            : values?.profitCenter?.value
-                            ? values?.profitCenter?.label
-                            : values?.tradeType?.value,
-                            values?.subDivision?.label,
-                        );
+                        if (values?.viewType?.value === "profitCenter") {
+                          getIncomeStatement_api(
+                            values?.fromDate,
+                            values?.toDate,
+                            values?.toDate,
+                            values?.toDate,
+                            values?.businessUnit?.value,
+                            0,
+                            setIncomeStatement,
+                            "all",
+                            setLoading,
+                            "IncomeStatement",
+                            values?.enterpriseDivision?.value,
+                            values?.conversionRate,
+                            values?.subDivision,
+                            values?.reportType?.value,
+                            values?.profitCenter?.value,
+                            values?.viewType?.value,
+                            values?.productDivision?.value
+                              ? values?.productDivision?.value
+                              : values?.profitCenter?.value
+                              ? values?.profitCenter?.label
+                              : values?.tradeType?.value,
+                            values?.subDivision?.label
+                          );
+                        } else {
+                          setShow(true);
+                        }
                       }
                       if ([3]?.includes(values?.reportType?.value)) {
                         getRowData(
-                          `/fino/BalanceSheet/GetBalanceSheetProjected?AccountId=${profileData?.accountId}&BusinessUnitGroup=${values?.enterpriseDivision?.value}&BusinessUnitId=${values?.businessUnit?.value}&SubGroup=${values?.subDivision?.label || ""}&AsOnDate=${values?.date}&ConvertionRate=${values?.conversionRate}`,
+                          `/fino/BalanceSheet/GetBalanceSheetProjected?AccountId=${
+                            profileData?.accountId
+                          }&BusinessUnitGroup=${
+                            values?.enterpriseDivision?.value
+                          }&BusinessUnitId=${
+                            values?.businessUnit?.value
+                          }&SubGroup=${values?.subDivision?.label ||
+                            ""}&AsOnDate=${values?.date}&ConvertionRate=${
+                            values?.conversionRate
+                          }`,
                           (data) => {
                             setRowData(manageBalanceData(data));
                           }
@@ -990,9 +1040,22 @@ export default function ProjectedFinancialStatement() {
                       //   );
                       // }
                       if ([9]?.includes(values?.reportType?.value)) {
-                        getRowData(
-                          `/fino/Report/GetCashFlowStatementProjectedIndirect?BusinessUnitGroup=${values?.enterpriseDivision?.value}&SubGroup=${values?.subDivision?.label || ""}&businessUnitId=${values?.businessUnit?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}&ConvertionRate=${values?.conversionRate}`
-                        );
+                        setShowReport(false);
+                        setTimeout(() => {
+                          setShowReport(true);
+                        }, 1000);
+                        // getRowData(
+                        //   `/fino/Report/GetCashFlowStatementProjectedIndirect?BusinessUnitGroup=${
+                        //     values?.enterpriseDivision?.value
+                        //   }&SubGroup=${values?.subDivision?.label ||
+                        //     ""}&businessUnitId=${
+                        //     values?.businessUnit?.value
+                        //   }&fromDate=${values?.fromDate}&toDate=${
+                        //     values?.toDate
+                        //   }&ConvertionRate=${values?.conversionRate}&intType=${
+                        //     values?.reportTypeCashFlowIndirect?.value
+                        //   }`
+                        // );
                       }
                     }}
                     className="btn btn-primary"
@@ -1009,10 +1072,18 @@ export default function ProjectedFinancialStatement() {
                     selectedBusinessUnit={values?.businessUnit?.label}
                   />
                 ) : null}
-                {[2]?.includes(values?.reportType?.value) ? (
+                {[2]?.includes(values?.reportType?.value) &&
+                values?.viewType?.value === "profitCenter" ? (
                   <ProjectedIncomeStatement
                     incomeStatement={incomeStatement}
                     values={values}
+                  />
+                ) : [2]?.includes(values?.reportType?.value) && show ? (
+                  <PowerBIReport
+                    reportId={getReportId(values)}
+                    groupId={groupId}
+                    parameterValues={parameterValues(values)}
+                    parameterPanel={false}
                   />
                 ) : null}
                 {[3]?.includes(values?.reportType?.value) ? (
@@ -1061,6 +1132,7 @@ export default function ProjectedFinancialStatement() {
                     rowData={rowData}
                     values={values}
                     selectedBusinessUnit={values?.businessUnit?.label}
+                    showReport={showReport}
                   />
                 ) : null}
               </div>

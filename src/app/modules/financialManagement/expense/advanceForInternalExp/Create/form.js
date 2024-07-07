@@ -126,7 +126,7 @@ export default function _Form({
     getCostCenter(
       profileData.accountId,
       selectedBusinessUnit.value,
-      state?.selectedSbu?.value,
+      state?.selectedSbu?.value || state?.item?.sbuid,
       setCostCenter
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
