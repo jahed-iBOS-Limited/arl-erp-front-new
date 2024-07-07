@@ -194,7 +194,7 @@ export default function LimitForm({
                     // disabled={isEdit}
                   />
                 </div>
-
+                {/* 
                 <div className="col-lg-2 ">
                   <label>Interest Rate</label>
                   <InputField
@@ -237,7 +237,7 @@ export default function LimitForm({
                     min="0"
                     step="any"
                   />
-                </div>
+                </div> */}
               </div>
 
               <button
