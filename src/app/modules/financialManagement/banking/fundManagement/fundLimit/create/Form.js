@@ -194,6 +194,50 @@ export default function LimitForm({
                     // disabled={isEdit}
                   />
                 </div>
+
+                <div className="col-lg-2 ">
+                  <label>Interest Rate</label>
+                  <InputField
+                    value={values?.rate}
+                    name="rate"
+                    placeholder="Interest Rate"
+                    onChange={(e) => {
+                      setFieldValue("rate", e?.target?.value);
+                    }}
+                    type="number"
+                    min="0"
+                    step="any"
+                  />
+                </div>
+
+                <div className="col-lg-2 ">
+                  <label>Rate Review</label>
+                  <InputField
+                    value={values?.rateReview}
+                    name="rateReview"
+                    placeholder="Rate Review"
+                    onChange={(e) => {
+                      setFieldValue("rateReview", e?.target?.value);
+                    }}
+                    type="number"
+                    min="0"
+                    step="any"
+                  />
+                </div>
+                <div className="col-lg-2 ">
+                  <label>Remarks</label>
+                  <InputField
+                    value={values?.remarks}
+                    name="remarks"
+                    placeholder="Remarks"
+                    onChange={(e) => {
+                      setFieldValue("remarks", e?.target?.value);
+                    }}
+                    type="number"
+                    min="0"
+                    step="any"
+                  />
+                </div>
               </div>
 
               <button
