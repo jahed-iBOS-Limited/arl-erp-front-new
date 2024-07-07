@@ -23,6 +23,10 @@ const fundLimit = Yup.object().shape({
       value: Yup.string().required("Facility is required"),
     })
     .nullable(),
+  rateReview: Yup.number()
+    .typeError("Must be an integer")
+    .integer("Must be an integer")
+    .required("Required"),
 });
 
 export default function LimitForm({
@@ -194,7 +198,7 @@ export default function LimitForm({
                     // disabled={isEdit}
                   />
                 </div>
-                {/* 
+
                 <div className="col-lg-2 ">
                   <label>Interest Rate</label>
                   <InputField
@@ -217,11 +221,15 @@ export default function LimitForm({
                     name="rateReview"
                     placeholder="Rate Review"
                     onChange={(e) => {
-                      setFieldValue("rateReview", e?.target?.value);
+                      if (/^\d*$/.test(e?.target?.value)) {
+                        setFieldValue("rateReview", e?.target?.value);
+                      } else {
+                        setFieldValue("rateReview", e?.target?.value);
+                      }
                     }}
                     type="number"
                     min="0"
-                    step="any"
+                    step="1"
                   />
                 </div>
                 <div className="col-lg-2 ">
@@ -233,11 +241,9 @@ export default function LimitForm({
                     onChange={(e) => {
                       setFieldValue("remarks", e?.target?.value);
                     }}
-                    type="number"
-                    min="0"
-                    step="any"
+                    type="text"
                   />
-                </div> */}
+                </div>
               </div>
 
               <button
