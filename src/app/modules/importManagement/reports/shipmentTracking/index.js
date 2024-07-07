@@ -83,6 +83,12 @@ export default function ShipmentTracking() {
       },
     },
     {
+      name: "Incoterm Name",
+      style: {
+        minWidth: "140px",
+      },
+    },
+    {
       name: "LC ISSUE DATE",
       style: {
         minWidth: "140px",
@@ -379,8 +385,9 @@ export default function ShipmentTracking() {
                               <td>{_dateFormatter(data?.dtePIDate)}</td>
                               <td className="text-center">{data?.poNumber}</td>
                               <td>{data?.lCqty}</td>
-                              <td className="text-center">{_dateFormatter(data?.lcOpenDate)}</td>
+                              <td className="text-center"></td>
                               <td className="text-center">{data?.lcNumber}</td>{" "}
+                              <td className="text-center">{data?.incotermName}</td>{" "}
                               <td className="text-center">
                                 {_dateFormatter(data?.dteLCDate)}{" "}
                               </td>
@@ -393,7 +400,7 @@ export default function ShipmentTracking() {
                               </td>
                               <td className="text-center">{data?.shipmentCode}</td>
                               <td className="text-center">{data?.strblno}</td>
-                              <td className="text-center">{data?.shipmentCode}</td>{" "}
+                              <td className="text-center">{data?.invoiceNumber}</td>{" "}
                               <td className="text-center">
                                 {data?.numShipmentQuantity}{" "}
                               </td>{" "}
@@ -401,7 +408,7 @@ export default function ShipmentTracking() {
                                 {_dateFormatter(data?.dteetadate)}
                               </td>{" "}
                               <td className="text-center">
-                                {data?.numTotalPIAmountBDT}
+                                {data?.invoiceAmount}
                               </td>{" "}
                               <td className="text-center">
                                {_dateFormatter(data?.copyDocReceiveDate)}
