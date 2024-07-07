@@ -9,7 +9,7 @@ import { useLocation } from "react-router-dom";
 import LimitForm from "./Form";
 import { _dateFormatter } from "../../../../../_helper/_dateFormate";
 
-function addDays(date, days=180) {
+function addDays(date, days = 180) {
   var result = new Date(date);
   result.setDate(result.getDate() + days);
   return _dateFormatter(result);
@@ -20,9 +20,11 @@ const initData = {
   limit: "",
   updatedDate: _todayDate(),
   tenorDays: "",
+  remarks: "",
+  rate: "",
+  rateReview: "",
   sanctionReference: "",
   limitExpiryDate: addDays(_todayDate()),
-
 };
 
 export default function FundLimitCreate({
@@ -62,8 +64,8 @@ export default function FundLimitCreate({
       loanUpdateDate: values?.updatedDate,
       lastActionDatetime: _todayDate(),
       intActionBy: profileData?.userId,
-      tenureDays: values?.tenorDays|| 0,
-      sanctionReference:values?.sanctionReference || "",
+      tenureDays: values?.tenorDays || 0,
+      sanctionReference: values?.sanctionReference || "",
       limitExpiryDate: values?.limitExpiryDate || "",
       isActive: true,
     };
@@ -84,7 +86,7 @@ export default function FundLimitCreate({
         accountId={profileData?.accountId}
         selectedBusinessUnit={selectedBusinessUnit}
         isEdit={id || false}
-        landingRowData = {landingRowData}
+        landingRowData={landingRowData}
       />
     </IForm>
   );

@@ -214,7 +214,7 @@ export const projectedFinancialRatios = async ({
 
 export const getReportId = (values) => {
   const typeId = values?.reportType?.value;
-  const id = `07d8f2ae-a17c-4f11-b26c-6f636ac80914`;
+  const id = `40f2727f-155e-4e59-8cb4-225560f3173d`;
   const reportId = typeId === 2 ? id : "";
   return reportId;
 };
@@ -225,12 +225,28 @@ export const parameterValues = (values) => {
   const typeId = values?.reportType.value;
 
   const reportParameter = [
-    { name: "POid", value: values?.poId?.value.toString() || "" },
-    { name: "FromDate", value: values?.fromDate || "" },
-    { name: "ToDate", value: values?.toDate || "" },
+    { name: "strPartName", value: "IncomeStatement" },
+    { name: "intUnit", value: values?.businessUnit?.value.toString() || "" },
+    { name: "intSBUId", value: "0" },
+    { name: "intProfitCenId", value: "0" },
+    { name: "dteFromDate", value: values?.fromDate || "" },
+    { name: "dteToDate", value: values?.toDate || "" },
+    { name: "dteFromDateL", value: values?.toDate || "" },
+    { name: "dteToDateL", value: values?.toDate || "" },
+    { name: "intFSComponent", value: "0" },
+    { name: "glId", value: "0" },
+    { name: "subGlId", value: "0" },
+    {
+      name: "BusinessUnitGroup",
+      value: values?.enterpriseDivision?.value?.toString() || "",
+    },
+    { name: "ConvertionRate", value: values?.conversionRate?.toString() || "" },
+    { name: "SubGroup", value: values?.subDivision?.label.toString() || "all" },
+    { name: "ReportTypeId", value: values?.reportType.value.toString() || "" },
+    { name: "ViewTypeReff", value: "" },
   ];
   if (values?.viewType?.value) {
-    reportParameter.push({ name: "viewType", value: values.viewType.value });
+    reportParameter.push({ name: "ViewType", value: values.viewType.value });
   }
   const parameters = typeId === 2 ? reportParameter : [];
   return parameters;
