@@ -28,13 +28,14 @@ export const getIncomeStatement_api = async (
   profitCenId,
   viewType,
   typeRef,
-  subDivisionLabel,
+  subDivisionLabel
 ) => {
   setLoading(true);
   try {
     const res = await axios.get(
       `/fino/IncomeStatement/GetIncomeStatementProjected?partName=${partName}&dteFromDate=${fromDate}&dteToDate=${toDate}&dteFromDateL=${fromDateL}&dteToDateL=${toDateL}&BusinessUnitGroup=${edLabel}&BusinessUnitId=${buId}&SBUID=${0}&intProfitCenId=${profitCenId ||
-        0}&fsComponentId=0&GLId=0&SUBGLId=0&ConvertionRate=${conversionRate}&SubGroup=${subDivisionLabel || "all"}&reportTypeId=${reportType}&ViewType=${viewType}&ViewTypeReff=${typeRef}`
+        0}&fsComponentId=0&GLId=0&SUBGLId=0&ConvertionRate=${conversionRate}&SubGroup=${subDivisionLabel ||
+        "all"}&reportTypeId=${reportType}&ViewType=${viewType}&ViewTypeReff=${typeRef}`
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
@@ -209,4 +210,28 @@ export const projectedFinancialRatios = async ({
   } catch (error) {
     console.error("Error fetching data:", error);
   }
+};
+
+export const getReportId = (values) => {
+  const typeId = values?.reportType?.value;
+  const id = `07d8f2ae-a17c-4f11-b26c-6f636ac80914`;
+  const reportId = typeId === 2 ? id : "";
+  return reportId;
+};
+
+export const groupId = "e3ce45bb-e65e-43d7-9ad1-4aa4b958b29a";
+
+export const parameterValues = (values) => {
+  const typeId = values?.reportType.value;
+
+  const reportParameter = [
+    { name: "POid", value: values?.poId?.value.toString() || "" },
+    { name: "FromDate", value: values?.fromDate || "" },
+    { name: "ToDate", value: values?.toDate || "" },
+  ];
+  if (values?.viewType?.value) {
+    reportParameter.push({ name: "viewType", value: values.viewType.value });
+  }
+  const parameters = typeId === 2 ? reportParameter : [];
+  return parameters;
 };
