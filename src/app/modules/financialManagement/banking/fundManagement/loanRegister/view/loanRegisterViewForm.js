@@ -296,8 +296,7 @@ export default function LoanRegisterViewForm({
                       setFieldValue("remarks", "");
                     }}
                     type="text"
-
-                    // disabled={isEdit}
+                    disabled={true}
                   />
                 </div>
               </div>
