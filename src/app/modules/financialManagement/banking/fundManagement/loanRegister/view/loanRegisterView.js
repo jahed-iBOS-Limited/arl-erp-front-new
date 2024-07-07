@@ -15,6 +15,7 @@ const initData = {
   termDays: "",
   principle: "",
   interestRate: "",
+  remarks: "",
 };
 
 export default function LoanRegisterView({
