@@ -54,6 +54,8 @@ export default function LimitForm({
       getFundLimitById(isEdit, setSingleData, setLoading);
     }
   }, [isEdit]);
+  console.log({ singleData });
+  console.log({ landingRowData });
   return (
     <>
       <Formik
