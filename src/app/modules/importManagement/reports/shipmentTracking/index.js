@@ -401,7 +401,7 @@ export default function ShipmentTracking() {
                                 {_dateFormatter(data?.dteetadate)}
                               </td>{" "}
                               <td className="text-center">
-                                {data?.numShipmentQuantity}
+                                {data?.numTotalPIAmountBDT}
                               </td>{" "}
                               <td className="text-center">
                                {_dateFormatter(data?.copyDocReceiveDate)}

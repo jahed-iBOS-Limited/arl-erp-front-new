@@ -38,7 +38,7 @@ export default function ServiceChargesReportPage() {
       .get(
         `/imp/ImportCommonDDL/GetPONoDDL?searchTerm=${v}&accountId=${accId}&businessUnitId=${buUnId}`
       )
-      .then((res) => res.data);
+      .then((res) => [...res?.data, { value: 0, label: "All" }]);
   };
 
   return (
