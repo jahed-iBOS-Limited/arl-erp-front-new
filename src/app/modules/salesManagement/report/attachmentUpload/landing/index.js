@@ -25,7 +25,9 @@ import IButton from "../../../../_helper/iButton";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import AttachmentUploaderNew from "../../../../_helper/attachmentUploaderNew";
 
-const initData = { type: { value: 1, label: "BUET Test Report" }, customer: '', channel: '' };
+const initData = {
+  type: { value: 1, label: "BUET Test Report" }, channel: "", customer: ""
+};
 
 function AttachmentUpload() {
   const {
@@ -46,7 +48,7 @@ function AttachmentUpload() {
 
   useEffect(() => {
 
-    getLandingData(initData, pageNo, pageSize);
+    commonGridDataFunc(initData, pageNo, pageSize)
     getType(`/partner/BusinessPartnerBasicInfo/GetPolicyAttachmentType`, (data) => {
       const updatedType = data.map(item => {
         return {
@@ -61,12 +63,11 @@ function AttachmentUpload() {
     })
   }, [accId, buId]);
 
-  console.log(customerTargetPolicy)
-
 
   const handleCustomerTargetPolicyLanding = (values, pageNo, pageSize) => {
-    getCustomerTargetPolicy(`/partner/BusinessPartnerBasicInfo/GetBusinessPartnerPolicyPagination?search=${values?.customer?.label}&businessUnitId=${buId}&channelId=${values?.channel?.value}&attachmentTypeId=${values?.type?.value}&pageNo=${pageNo}&pageSize=${pageSize}`)
+    getCustomerTargetPolicy(`/partner/BusinessPartnerBasicInfo/GetBusinessPartnerPolicyPagination?search=${values?.customer.length > 0 ? values?.customer : ""}&businessUnitId=${buId}&channelId=${values?.channel?.value}&attachmentTypeId=${values?.type?.value}&pageNo=${pageNo}&pageSize=${pageSize}`)
   }
+
 
   const getLandingData = (values, pageNo = 0, pageSize = 15) => {
     getAttachmentUploads(
@@ -83,14 +84,24 @@ function AttachmentUpload() {
   };
 
 
-  const setPositionHandler = (pageNo, pageSize, values) => {
-    getLandingData(values, pageNo, pageSize);
-    console.log(pageNo, pageSize, values)
+  // const setPositionHandler = (pageNo, pageSize, values) => {
+  //   getLandingData(values, pageNo, pageSize);
+  //   if (values?.type?.value === 3) {
+  //     getCustomerTargetPolicy(`/partner/BusinessPartnerBasicInfo/GetBusinessPartnerPolicyPagination?search=${values?.customer?.label}&businessUnitId=${buId}&channelId=${values?.channel?.value}&attachmentTypeId=${values?.type?.value}&pageNo=${pageNo}&pageSize=${pageSize}`)
+  //   }
+  // };
+  const commonGridDataFunc = (values, pageNo, pageSize) => {
     if (values?.type?.value === 3) {
-      getCustomerTargetPolicy(`/partner/BusinessPartnerBasicInfo/GetBusinessPartnerPolicyPagination?search=${values?.customer?.label}&businessUnitId=${buId}&channelId=${values?.channel?.value}&attachmentTypeId=${values?.type?.value}&pageNo=${pageNo}&pageSize=${pageSize}`)
-    }
-  };
+      handleCustomerTargetPolicyLanding(values, pageNo, pageSize)
+    } else {
+      getLandingData(
+        { ...values },
+        pageNo,
+        pageSize
+      );
 
+    }
+  }
   return (
     <>
       {loading && <Loading />}
@@ -112,11 +123,11 @@ function AttachmentUpload() {
                       options={type}
                       onChange={(valueOption) => {
                         setFieldValue("type", valueOption);
-                        getLandingData(
-                          { ...values, type: valueOption },
-                          pageNo,
-                          pageSize
-                        );
+                        const modfyValues = {
+                          ...values,
+                          type: valueOption
+                        }
+                        commonGridDataFunc(modfyValues, pageNo, pageSize)
                       }}
                       placeholder="Select One"
                       errors={errors}
@@ -140,29 +151,26 @@ function AttachmentUpload() {
                             touched={touched}
                           />
                         </div>
+
                         <div className="col-lg-3">
-                          <label>Customer</label>
-                          <SearchAsyncSelect
-                            selectedValue={values?.customer}
-                            handleChange={(valueOption) => {
-                              setFieldValue("customer", valueOption);
-                            }}
-                            isDisabled={!values?.channel}
-                            placeholder="Search Customer"
-                            loadOptions={(v) => {
-                              const searchValue = v.trim();
-                              if (searchValue?.length < 3 || !searchValue) return [];
-                              return axios
-                                .get(
-                                  `/partner/PManagementCommonDDL/GetCustomerNameDDLByChannelId?SearchTerm=${searchValue}&AccountId=${accId}&BusinessUnitId=${buId}&ChannelId=${values?.channel?.value}`
-                                )
-                                .then((res) => res?.data);
+                          <InputField
+                            value={values?.customer}
+                            label="Customer"
+                            name="customer"
+                            type="text"
+                            onChange={(e) => {
+                              setFieldValue("customer", e.target.value);
                             }}
                           />
                         </div>
+                        
+
                         <div className="col-lg-3">
                           <IButton
-                            onClick={() => handleCustomerTargetPolicyLanding(values, pageNo, pageSize)}
+                            onClick={() => {
+                              commonGridDataFunc(values, pageNo, pageSize)
+                            }}
+                            disabled={!values?.channel?.value}
                           />
                         </div>
                       </>
@@ -268,7 +276,16 @@ function AttachmentUpload() {
                                   checked={item?.isSelected}
                                   onChange={(e) => {
                                     const data = [...customerTargetPolicy?.data]
-                                    data[index]['isSelected'] = e.target.checked
+                                    const checked = e.target.checked
+                                    const updateAttachment = data?.map((item, id) => {
+                                      if (id === index) {
+                                        // console.log(item)
+                                        return { ...item, isSelected: checked }
+                                      }
+                                      return item
+                                    })
+                                    setSelectedRow(updateAttachment)
+
                                   }}
                                 />
                               </td>
@@ -277,7 +294,7 @@ function AttachmentUpload() {
                               <td> {item?.businessPartnerName} </td>
                               <td> {item?.reason} </td>
                               <td>
-                                <div>
+                                <div className="">
                                   {item?.attachment ? (
                                     <OverlayTrigger
                                       overlay={
@@ -306,17 +323,30 @@ function AttachmentUpload() {
                                     </OverlayTrigger>
                                   ) : null}
 
-                                  {/* <AttachmentUploaderNew
-                                  CBAttachmentRes={(image) => {
-                                    if (image.length > 0) {
-                                      console.log(image)
-                                      }
+
+                                  <span className="ml-2">
+                                    <AttachmentUploaderNew
+                                      CBAttachmentRes={(image) => {
+                                        if (image.length > 0) {
+                                          // console.log(image)
+                                          const updateAttachment = selectedRow?.map((item, id) => {
+                                            if (id === index) {
+                                              return {
+                                                ...item, attachment: image[0]?.id
+                                              }
+                                            }
+                                            return item
+                                          })
+                                          setSelectedRow(updateAttachment)
+                                        }
                                       }}
                                       showIcon
                                       attachmentIcon='fa fa-paperclip'
                                       customStyle={{ 'background': 'transparent', 'padding': '4px 0' }}
                                       fileUploadLimits={1}
-                                      /> */}
+                                    />
+                                  </span>
+
                                 </div>
                               </td>
                             </tr>
@@ -330,7 +360,9 @@ function AttachmentUpload() {
                 {values?.type?.value === 3 && customerTargetPolicy?.data?.length > 0 && (
                   <PaginationTable
                     count={customerTargetPolicy?.totalCount}
-                    setPositionHandler={setPositionHandler}
+                    setPositionHandler={(pageNo, pageSize) => {
+                      commonGridDataFunc(values, pageNo, pageSize)
+                    }}
                     paginationState={{
                       pageNo,
                       setPageNo,
@@ -344,7 +376,9 @@ function AttachmentUpload() {
                 {gridData?.data?.length > 0 && (
                   <PaginationTable
                     count={gridData?.totalCount}
-                    setPositionHandler={setPositionHandler}
+                    setPositionHandler={(pageNo, pageSize) => {
+                      commonGridDataFunc(values, pageNo, pageSize)
+                    }}
                     paginationState={{
                       pageNo,
                       setPageNo,
@@ -359,8 +393,11 @@ function AttachmentUpload() {
                 <AttachmentUploadForm
                   value={values}
                   setShow={setShow}
-                  getLandingData={getLandingData}
+                  getLandingData={() => {
+                    commonGridDataFunc(values, pageNo, pageSize)
+                  }}
                   reportType={type}
+                  gridData={gridData}
                 />
               </IViewModal>
             </>
