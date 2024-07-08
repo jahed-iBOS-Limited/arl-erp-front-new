@@ -43,7 +43,8 @@ export default function AttachmentUploadForm({
   value,
   setShow,
   getLandingData,
-  reportType
+  reportType,
+  gridData
 }) {
   const {
     profileData: { accountId: accId, userId },
@@ -151,7 +152,6 @@ export default function AttachmentUploadForm({
     setFieldValue('reason', '')
   }
 
-
   return (
     <>
       {(loading || seletedRowPostLoading) && <Loading />}
@@ -172,10 +172,13 @@ export default function AttachmentUploadForm({
                 type="button"
                 onClick={() => {
                   if (attachmentLists?.filter(item => item.isSelected === true && item.attachment.length > 0)) {
-                    onSelectedRowPost(`/partner/BusinessPartnerBasicInfo/CreateBusinessPartnerPolicy`, attachmentLists, () => { }, true)
+                    onSelectedRowPost(`/partner/BusinessPartnerBasicInfo/CreateBusinessPartnerPolicy`, attachmentLists, () => {
+                      getLandingData(value);
+                      setShow(false);
+                    })
                   }
                 }}
-                disabled={loading}
+                disabled={attachmentLists?.filter(item => item?.isSelected)?.length < 1 && gridData.length < 1}
               >
                 Done
               </button>
@@ -415,6 +418,8 @@ export default function AttachmentUploadForm({
                   showPreviews={true}
                   showFileNamesInPreview={true}
                 />
+
+
               </div>
             </form>
 
