@@ -170,6 +170,8 @@ export default function LoanRegisterViewForm({
                     value={values?.facility}
                     onChange={(valueOption) => {
                       setFieldValue("facility", valueOption);
+                      setFieldValue("remarks", valueOption?.remarks);
+                      setFieldValue("interestRate", valueOption?.iterestRate);
                       setFieldValue("termDays", valueOption?.tenorDays || 0);
                     }}
                     errors={errors}
@@ -267,6 +269,7 @@ export default function LoanRegisterViewForm({
                     // disabled={isEdit}
                   />
                 </div>
+
                 {!renewId && (
                   <div className="col-lg-2">
                     <NewSelect
@@ -283,6 +286,19 @@ export default function LoanRegisterViewForm({
                     />
                   </div>
                 )}
+                <div className="col-lg-2 ">
+                  <label>Remarks</label>
+                  <InputField
+                    value={values?.remarks}
+                    name="remarks"
+                    placeholder="Remarks"
+                    onChange={(e) => {
+                      setFieldValue("remarks", "");
+                    }}
+                    type="text"
+                    disabled={true}
+                  />
+                </div>
               </div>
 
               <button

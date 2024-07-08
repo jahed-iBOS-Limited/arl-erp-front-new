@@ -226,7 +226,7 @@ export const parameterValues = (values) => {
 
   const reportParameter = [
     { name: "strPartName", value: "IncomeStatement" },
-    { name: "intUnit", value: values?.businessUnit?.value.toString() || "" },
+    { name: "intUnit", value: values?.businessUnit?.value?.toString() || "" },
     { name: "intSBUId", value: "0" },
     { name: "intProfitCenId", value: "0" },
     { name: "dteFromDate", value: values?.fromDate || "" },
@@ -241,8 +241,11 @@ export const parameterValues = (values) => {
       value: values?.enterpriseDivision?.value?.toString() || "",
     },
     { name: "ConvertionRate", value: values?.conversionRate?.toString() || "" },
-    { name: "SubGroup", value: values?.subDivision?.label.toString() || "all" },
-    { name: "ReportTypeId", value: values?.reportType.value.toString() || "" },
+    {
+      name: "SubGroup",
+      value: values?.subDivision?.label?.toString() || "all",
+    },
+    { name: "ReportTypeId", value: values?.reportType.value?.toString() || "" },
     { name: "ViewTypeReff", value: "" },
   ];
   if (values?.viewType?.value) {

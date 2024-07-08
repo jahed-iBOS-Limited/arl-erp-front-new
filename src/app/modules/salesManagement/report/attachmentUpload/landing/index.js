@@ -16,20 +16,57 @@ import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions"
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import ICon from "../../../../chartering/_chartinghelper/icons/_icon";
 import { toast } from "react-toastify";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import { getDistributionChannelById } from "../../../configuration/distributionChannel/_redux/Actions";
+import { getDistributionChannelDDL } from "../../../orderManagement/salesOrder/_redux/Api";
+import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
+import axios from "axios";
+import IButton from "../../../../_helper/iButton";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import AttachmentUploaderNew from "../../../../_helper/attachmentUploaderNew";
 
-const initData = { type: { value: 1, label: "BUET Test Report" } };
+const initData = { type: { value: 1, label: "BUET Test Report" }, customer: '', channel: '' };
 
 function AttachmentUpload() {
   const {
     profileData: { accountId: accId },
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
+  const dispatch = useDispatch();
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
   const [gridData, setGridData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [show, setShow] = useState(false);
-  const dispatch = useDispatch();
+  const [selectedRow, setSelectedRow] = useState('')
+  const [type, getType, , setType] = useAxiosGet()
+  const [distributionChannelDDL, getDistributionChannelDDL] = useAxiosGet()
+  const [customerTargetPolicy, getCustomerTargetPolicy] = useAxiosGet()
+
+
+  useEffect(() => {
+
+    getLandingData(initData, pageNo, pageSize);
+    getType(`/partner/BusinessPartnerBasicInfo/GetPolicyAttachmentType`, (data) => {
+      const updatedType = data.map(item => {
+        return {
+          value: item?.typeId,
+          label: item?.typeName
+        }
+      }
+      )
+      setType(updatedType)
+
+      getDistributionChannelDDL(`/oms/DistributionChannel/GetDistributionChannelDDL?AccountId=${accId}&BUnitId=${buId}`)
+    })
+  }, [accId, buId]);
+
+  console.log(customerTargetPolicy)
+
+
+  const handleCustomerTargetPolicyLanding = (values, pageNo, pageSize) => {
+    getCustomerTargetPolicy(`/partner/BusinessPartnerBasicInfo/GetBusinessPartnerPolicyPagination?search=${values?.customer?.label}&businessUnitId=${buId}&channelId=${values?.channel?.value}&attachmentTypeId=${values?.type?.value}&pageNo=${pageNo}&pageSize=${pageSize}`)
+  }
 
   const getLandingData = (values, pageNo = 0, pageSize = 15) => {
     getAttachmentUploads(
@@ -45,12 +82,13 @@ function AttachmentUpload() {
     );
   };
 
-  useEffect(() => {
-    getLandingData(initData, pageNo, pageSize);
-  }, [accId, buId]);
 
   const setPositionHandler = (pageNo, pageSize, values) => {
     getLandingData(values, pageNo, pageSize);
+    console.log(pageNo, pageSize, values)
+    if (values?.type?.value === 3) {
+      getCustomerTargetPolicy(`/partner/BusinessPartnerBasicInfo/GetBusinessPartnerPolicyPagination?search=${values?.customer?.label}&businessUnitId=${buId}&channelId=${values?.channel?.value}&attachmentTypeId=${values?.type?.value}&pageNo=${pageNo}&pageSize=${pageSize}`)
+    }
   };
 
   return (
@@ -71,14 +109,11 @@ function AttachmentUpload() {
                     <NewSelect
                       value={values?.type}
                       name="type"
-                      options={[
-                        { value: 1, label: "BUET Test Report" },
-                        { value: 2, label: "QC Report" },
-                      ]}
-                      onChange={(e) => {
-                        setFieldValue("type", e);
+                      options={type}
+                      onChange={(valueOption) => {
+                        setFieldValue("type", valueOption);
                         getLandingData(
-                          { ...values, type: e },
+                          { ...values, type: valueOption },
                           pageNo,
                           pageSize
                         );
@@ -89,6 +124,50 @@ function AttachmentUpload() {
                       label="Type"
                     />
                   </div>
+                  {
+                    values?.type?.value === 3 && (
+                      <>
+                        <div className="col-lg-3">
+                          <NewSelect
+                            name="channel"
+                            options={distributionChannelDDL}
+                            value={values?.channel}
+                            label="Distribution Channel"
+                            onChange={(valueOption) => {
+                              setFieldValue("channel", valueOption);
+                            }}
+                            errors={errors}
+                            touched={touched}
+                          />
+                        </div>
+                        <div className="col-lg-3">
+                          <label>Customer</label>
+                          <SearchAsyncSelect
+                            selectedValue={values?.customer}
+                            handleChange={(valueOption) => {
+                              setFieldValue("customer", valueOption);
+                            }}
+                            isDisabled={!values?.channel}
+                            placeholder="Search Customer"
+                            loadOptions={(v) => {
+                              const searchValue = v.trim();
+                              if (searchValue?.length < 3 || !searchValue) return [];
+                              return axios
+                                .get(
+                                  `/partner/PManagementCommonDDL/GetCustomerNameDDLByChannelId?SearchTerm=${searchValue}&AccountId=${accId}&BusinessUnitId=${buId}&ChannelId=${values?.channel?.value}`
+                                )
+                                .then((res) => res?.data);
+                            }}
+                          />
+                        </div>
+                        <div className="col-lg-3">
+                          <IButton
+                            onClick={() => handleCustomerTargetPolicyLanding(values, pageNo, pageSize)}
+                          />
+                        </div>
+                      </>
+                    )
+                  }
                 </div>
                 {gridData?.data?.length > 0 && (
                   <div className="table-responsive">
@@ -163,6 +242,105 @@ function AttachmentUpload() {
                   </div>
                 )}
 
+                {
+                  values?.type?.value === 3 && customerTargetPolicy?.data?.length > 0 &&
+                  <div className="table-responsive">
+                    <table className="table table-striped table-bordered bj-table bj-table-landing">
+                      <thead>
+                        <tr>
+                          <th></th>
+                          <th style={{ width: "30px" }}>SL</th>
+                          <th>Channel</th>
+                          <th>Customer</th>
+                          <th>Reason</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {customerTargetPolicy?.data?.map((item, index) => {
+                          return (
+                            <tr key={index}>
+                              <td
+                                className="text-center"
+                              >
+                                <input
+                                  type="checkbox"
+                                  checked={item?.isSelected}
+                                  onChange={(e) => {
+                                    const data = [...customerTargetPolicy?.data]
+                                    data[index]['isSelected'] = e.target.checked
+                                  }}
+                                />
+                              </td>
+                              <td className="text-center">{index + 1}</td>
+                              <td> {item?.channelName} </td>
+                              <td> {item?.businessPartnerName} </td>
+                              <td> {item?.reason} </td>
+                              <td>
+                                <div>
+                                  {item?.attachment ? (
+                                    <OverlayTrigger
+                                      overlay={
+                                        <Tooltip id="cs-icon">
+                                          View Attachment
+                                        </Tooltip>
+                                      }
+                                    >
+                                      <span
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          dispatch(
+                                            getDownlloadFileView_Action(
+                                              item?.attachment
+                                            )
+                                          );
+                                        }}
+                                        className="mt-2 ml-2"
+                                      >
+                                        <i
+                                          style={{ fontSize: "16px" }}
+                                          className={`fa pointer fa-eye`}
+                                          aria-hidden="true"
+                                        ></i>
+                                      </span>
+                                    </OverlayTrigger>
+                                  ) : null}
+
+                                  {/* <AttachmentUploaderNew
+                                  CBAttachmentRes={(image) => {
+                                    if (image.length > 0) {
+                                      console.log(image)
+                                      }
+                                      }}
+                                      showIcon
+                                      attachmentIcon='fa fa-paperclip'
+                                      customStyle={{ 'background': 'transparent', 'padding': '4px 0' }}
+                                      fileUploadLimits={1}
+                                      /> */}
+                                </div>
+                              </td>
+                            </tr>
+                          )
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
+                }
+
+                {values?.type?.value === 3 && customerTargetPolicy?.data?.length > 0 && (
+                  <PaginationTable
+                    count={customerTargetPolicy?.totalCount}
+                    setPositionHandler={setPositionHandler}
+                    paginationState={{
+                      pageNo,
+                      setPageNo,
+                      pageSize,
+                      setPageSize,
+                    }}
+                    values={values}
+                  />
+                )}
+
                 {gridData?.data?.length > 0 && (
                   <PaginationTable
                     count={gridData?.totalCount}
@@ -182,6 +360,7 @@ function AttachmentUpload() {
                   value={values}
                   setShow={setShow}
                   getLandingData={getLandingData}
+                  reportType={type}
                 />
               </IViewModal>
             </>
