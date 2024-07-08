@@ -382,7 +382,7 @@ export default function ServiceSalesCreate() {
                     <div className="col-lg-3">
                       <InputField
                         value={values?.invoiceDay}
-                        disabled={agreementDatesForRecuuring}
+                        // disabled={agreementDatesForRecuuring}
                         label="Invoice Day"
                         name="invoiceDay"
                         type="number"
@@ -400,11 +400,12 @@ export default function ServiceSalesCreate() {
                     <div className="col-lg-3">
                       <InputField
                         value={values?.validFrom}
-                        disabled={
-                          !values?.scheduleType ||
-                          !values?.invoiceDay ||
-                          agreementDatesForRecuuring
-                        }
+                        // disabled={
+                        //   !values?.scheduleType ||
+                        //   !values?.invoiceDay ||
+                        //   agreementDatesForRecuuring
+                        // }
+                        disabled={!values?.scheduleType || !values?.invoiceDay}
                         label="Agreement Valid From"
                         name="validFrom"
                         type="date"
@@ -427,7 +428,7 @@ export default function ServiceSalesCreate() {
                     <div className="col-lg-3">
                       <InputField
                         value={values?.validTo}
-                        disabled={agreementDatesForRecuuring}
+                        // disabled={agreementDatesForRecuuring}
                         label="Agreement Valid To"
                         name="validTo"
                         type="date"
