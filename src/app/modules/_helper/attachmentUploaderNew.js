@@ -4,16 +4,21 @@ import { toast } from "react-toastify";
 import { uploadAttachment } from "../financialManagement/invoiceManagementSystem/billregister/helper";
 import { compressfile } from "./compressfile";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import Loading from "./_loading";
 
 export default function AttachmentUploaderNew({ CBAttachmentRes, showIcon, attachmentIcon, customStyle, tooltipLabel, fileUploadLimits }) {
   const [fileObjects, setFileObjects] = useState([]);
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] =  useState(false)
 
   const defaultStyle = { border: 'none', }
   const mergeStyle = customStyle ? { ...defaultStyle, ...customStyle } : defaultStyle
 
   return (
     <>
+    {
+      loading && <Loading/>
+    }
       {!showIcon ? (
         <button
           className="btn btn-primary"
@@ -69,6 +74,8 @@ export default function AttachmentUploaderNew({ CBAttachmentRes, showIcon, attac
         }}
         onSave={() => {
           (async () => {
+            setOpen(false);
+            setLoading(true)
             try {
               let compressedFile = [];
               if (fileObjects?.length > 0) {
@@ -79,7 +86,7 @@ export default function AttachmentUploaderNew({ CBAttachmentRes, showIcon, attac
               if (compressedFile?.length < 1) {
                 return toast.warn("Attachment required");
               } else {
-                uploadAttachment(compressedFile)
+                uploadAttachment(compressedFile, setLoading)
                   .then((res) => {
                     if (res?.length) {
                       setOpen(false);
@@ -93,7 +100,9 @@ export default function AttachmentUploaderNew({ CBAttachmentRes, showIcon, attac
                     CBAttachmentRes && CBAttachmentRes([]);
                   });
               }
+              setLoading(false)
             } catch (error) {
+              setLoading(false)
               toast.error("File upload error");
             }
           })();
