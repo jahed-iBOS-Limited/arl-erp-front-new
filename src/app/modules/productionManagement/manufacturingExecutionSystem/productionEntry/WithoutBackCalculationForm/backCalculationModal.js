@@ -35,7 +35,7 @@ export default function BackCalculationModal({
       currenctItem?.requiredQuantity * currenctItem?.numStockRateByDate
     );
   }, 0);
-
+console.log("calculateTotalValue", calculateTotalValue)
   const calculateTotalExpence = () => {
     const { lotSize, billOfExpense } = rowData?.[0] || {};
     return (billOfExpense / lotSize) * goodQty;
@@ -43,7 +43,7 @@ export default function BackCalculationModal({
 
   useEffect(() => {
     getBomDetails(
-      `/mes/BOM/GetItemDtailsByProductionOrderId?productionOrderId=${productionOrderId}`,
+      `https://192.168.3.93:45456/mes/BOM/GetItemDtailsByProductionOrderId?productionOrderId=${productionOrderId}`,
       (bomData) => {
         const payload = bomData?.map((item) => ({
           businessUnitId: buId,
@@ -66,7 +66,7 @@ export default function BackCalculationModal({
 
               return {
                 ...item,
-                numStockRateByDate: targetItem?.numStockRateByDate,
+                numStockRateByDate: item?.numAverageRate,
                 numStockByDate: targetItem?.numStockByDate,
                 requiredQuantity:
                   values?.isLastProduction &&
@@ -110,6 +110,7 @@ export default function BackCalculationModal({
             noAlertFunc: () => {},
           });
         } else {
+          console.log("calculateTotalValue2", calculateTotalValue)
           setFieldValue("materialCost", calculateTotalValue);
           setFieldValue("overheadCost", calculateTotalExpence());
           setIsShowModal(false);
