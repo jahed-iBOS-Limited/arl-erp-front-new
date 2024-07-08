@@ -177,7 +177,7 @@ function AttachmentUpload() {
                     )
                   }
                 </div>
-                {gridData?.data?.length > 0 && (
+                {values?.type?.value !== 3  && gridData?.data?.length > 0 && (
                   <div className="table-responsive">
                     <table className="table table-striped table-bordered bj-table bj-table-landing">
                       <thead>
@@ -250,8 +250,7 @@ function AttachmentUpload() {
                   </div>
                 )}
 
-                {
-                  values?.type?.value === 3 && customerTargetPolicy?.data?.length > 0 &&
+                {values?.type?.value === 3 && customerTargetPolicy?.data?.length > 0 &&
                   <div className="table-responsive">
                     <table className="table table-striped table-bordered bj-table bj-table-landing">
                       <thead>
@@ -373,7 +372,7 @@ function AttachmentUpload() {
                   />
                 )}
 
-                {gridData?.data?.length > 0 && (
+                {values?.type?.value !== 3  && gridData?.data?.length > 0 && (
                   <PaginationTable
                     count={gridData?.totalCount}
                     setPositionHandler={(pageNo, pageSize) => {
