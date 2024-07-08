@@ -168,6 +168,7 @@ export default function TransferInForm({
         setRowDto([
           ...rowDto,
           {
+            ...values?.item,
             itemId: values.item?.value,
             itemName: values.item?.itemName,
             itemCode: values.item?.code,
@@ -196,6 +197,7 @@ export default function TransferInForm({
     } else {
       let data = itemDDL?.map((data) => {
         return {
+          ...data,
           itemId: data?.value,
           itemName: data.label.split("[")[0].trim(),
           uoMid: data.baseUoMId,
