@@ -24,6 +24,7 @@ import axios from "axios";
 import IButton from "../../../../_helper/iButton";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import AttachmentUploaderNew from "../../../../_helper/attachmentUploaderNew";
+import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 
 const initData = {
   type: { value: 1, label: "BUET Test Report" }, channel: "", customer: ""
@@ -43,7 +44,8 @@ function AttachmentUpload() {
   const [selectedRow, setSelectedRow] = useState('')
   const [type, getType, , setType] = useAxiosGet()
   const [distributionChannelDDL, getDistributionChannelDDL] = useAxiosGet()
-  const [customerTargetPolicy, getCustomerTargetPolicy] = useAxiosGet()
+  const [customerTargetPolicy, getCustomerTargetPolicy, , setCustomerTargetPolicyData] = useAxiosGet()
+  const [, updateCustomerRowAttachement, updateCustomerRowAttachementLoading] = useAxiosPost()
 
 
   useEffect(() => {
@@ -163,7 +165,7 @@ function AttachmentUpload() {
                             }}
                           />
                         </div>
-                        
+
 
                         <div className="col-lg-3">
                           <IButton
@@ -173,11 +175,30 @@ function AttachmentUpload() {
                             disabled={!values?.channel?.value}
                           />
                         </div>
+
+                        {customerTargetPolicy?.data?.filter(item => item?.isSelected)?.length > 0 &&
+                          <div className="col-lg-3">
+                            <IButton
+                              onClick={() => {
+                                if (customerTargetPolicy?.data?.filter(item => item.isSelected === true && item.attachment.length > 0)) {
+
+                                  updateCustomerRowAttachement(`/partner/BusinessPartnerBasicInfo/CreateBusinessPartnerPolicy`, customerTargetPolicy?.data, () => {
+                                    commonGridDataFunc(values, pageNo, pageSize);
+                                  })
+                                }
+
+                              }}
+
+                            >
+                              Update
+                            </IButton>
+                          </div>
+                        }
                       </>
                     )
                   }
                 </div>
-                {gridData?.data?.length > 0 && (
+                {values?.type?.value !== 3 && gridData?.data?.length > 0 && (
                   <div className="table-responsive">
                     <table className="table table-striped table-bordered bj-table bj-table-landing">
                       <thead>
@@ -250,8 +271,7 @@ function AttachmentUpload() {
                   </div>
                 )}
 
-                {
-                  values?.type?.value === 3 && customerTargetPolicy?.data?.length > 0 &&
+                {values?.type?.value === 3 && customerTargetPolicy?.data?.length > 0 &&
                   <div className="table-responsive">
                     <table className="table table-striped table-bordered bj-table bj-table-landing">
                       <thead>
@@ -275,16 +295,17 @@ function AttachmentUpload() {
                                   type="checkbox"
                                   checked={item?.isSelected}
                                   onChange={(e) => {
-                                    const data = [...customerTargetPolicy?.data]
-                                    const checked = e.target.checked
-                                    const updateAttachment = data?.map((item, id) => {
-                                      if (id === index) {
-                                        // console.log(item)
-                                        return { ...item, isSelected: checked }
+                                    const checked = e.target.checked;
+                                    const updatedData = customerTargetPolicy?.data.map((rowData, idx) => {
+                                      if (idx === index) {
+                                        return { ...rowData, isSelected: checked };
                                       }
-                                      return item
+                                      return rowData;
+                                    });
+
+                                    setCustomerTargetPolicyData(prevValue => {
+                                      return { ...prevValue, data: updatedData }
                                     })
-                                    setSelectedRow(updateAttachment)
 
                                   }}
                                 />
@@ -324,20 +345,23 @@ function AttachmentUpload() {
                                   ) : null}
 
 
-                                  <span className="ml-2">
+                                  {item.isSelected && <span className="ml-2">
                                     <AttachmentUploaderNew
                                       CBAttachmentRes={(image) => {
-                                        if (image.length > 0) {
-                                          // console.log(image)
-                                          const updateAttachment = selectedRow?.map((item, id) => {
-                                            if (id === index) {
+                                        if (image[0]?.id) {
+                                          const updatedData = customerTargetPolicy?.data.map((rowData, idx) => {
+                                            if (idx === index) {
                                               return {
-                                                ...item, attachment: image[0]?.id
-                                              }
+                                                ...rowData,
+                                                attachment: image[0]?.id,
+                                              };
                                             }
-                                            return item
-                                          })
-                                          setSelectedRow(updateAttachment)
+                                            return rowData;
+                                          });
+
+                                          setCustomerTargetPolicyData((prevValue) => {
+                                            return { ...prevValue, data: updatedData };
+                                          });
                                         }
                                       }}
                                       showIcon
@@ -345,7 +369,7 @@ function AttachmentUpload() {
                                       customStyle={{ 'background': 'transparent', 'padding': '4px 0' }}
                                       fileUploadLimits={1}
                                     />
-                                  </span>
+                                  </span>}
 
                                 </div>
                               </td>
@@ -373,7 +397,7 @@ function AttachmentUpload() {
                   />
                 )}
 
-                {gridData?.data?.length > 0 && (
+                {values?.type?.value !== 3 && gridData?.data?.length > 0 && (
                   <PaginationTable
                     count={gridData?.totalCount}
                     setPositionHandler={(pageNo, pageSize) => {

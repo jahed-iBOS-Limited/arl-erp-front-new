@@ -8,6 +8,7 @@ import { _todayDate } from "../../../_helper/_todayDate";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import { shallowEqual, useSelector } from "react-redux";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
+import PaginationSearch from "../../../_helper/_search";
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
@@ -19,6 +20,15 @@ export default function DispatchReport() {
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
+
+  const getLandingData = (values, searchTerm = "") =>{
+    const strStatus = values?.status?.value ? `&Status=${values?.status?.value}` : ""; 
+    const strSearch = searchTerm ? `&Search=${searchTerm}` : ""; 
+
+    getGridData(
+      `/tms/DocumentDispatch/DispatchReport?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}${strStatus}${strSearch}`
+    );
+  }
 
   return (
     <Formik
@@ -94,9 +104,7 @@ export default function DispatchReport() {
                   <div className="mt-5">
                     <button
                       onClick={() => {
-                        getGridData(
-                          `/tms/DocumentDispatch/DispatchReport?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&Status=${values?.status?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}`
-                        );
+                       getLandingData(values);
                       }}
                       type="button"
                       className="btn btn-primary"
@@ -106,6 +114,17 @@ export default function DispatchReport() {
                   </div>
                 </div>
                 <div className="mt-5">
+                {gridData?.length > 0 && (
+                  <div className="my-3">
+                    <PaginationSearch
+                      placeholder="Search..."
+                      paginationSearchHandler={(searchTerm, values)=>{
+                        getLandingData(values, searchTerm)
+                      }}
+                      values={values}
+                    />
+                  </div>
+                )}
                   <div className="table-responsive">
                     <table class="table table-striped table-bordered bj-table bj-table-landing">
                       <thead>
