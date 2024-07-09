@@ -32,6 +32,11 @@ import { useReactToPrint } from "react-to-print";
 import IEdit from "../../../../../_helper/_helperIcons/_edit";
 import IConfirmModal from "../../../../../_helper/_confirmModal";
 import { toast } from "react-toastify";
+import InfoCircle from "../../../../../_helper/_helperIcons/_infoCircle";
+import "./style.css";
+import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet";
+import moment from "moment";
+
 const LoanRegisterLanding = () => {
   const history = useHistory();
   const initData = {
@@ -41,7 +46,12 @@ const LoanRegisterLanding = () => {
     loanClass: "",
     applicationType: { label: "ALL", value: 0 },
   };
-
+  const [
+    historyData,
+    getHistory,
+    loadingHistory,
+    setHistoryData,
+  ] = useAxiosGet();
   // ref
   // eslint-disable-next-line no-unused-vars
   const printRef = useRef();
@@ -55,7 +65,7 @@ const LoanRegisterLanding = () => {
   const [open, setOpen] = useState(false);
   const [fdrNo, setFdrNo] = useState("");
   const [attachments, setAttachments] = useState([]);
-  const [modalShow, setModalShow] = useState(false);
+  const [show, setShow] = useState(false);
   const [, postCloseLoanRegister, closeLoanRegisterLoader] = useAxiosPost();
   const [singleItem, setSingleItem] = useState(null);
   const [isPrinting, setIsPrinting] = useState(false);
@@ -198,7 +208,7 @@ const LoanRegisterLanding = () => {
   };
   return (
     <>
-      {(loading || closeLoanRegisterLoader) && <Loading />}
+      {(loading || closeLoanRegisterLoader || loadingHistory) && <Loading />}
       <Formik
         enableReinitialize={true}
         initialValues={initData}
@@ -361,7 +371,20 @@ const LoanRegisterLanding = () => {
                                 <td className="text-">{item?.strBankName}</td>
                                 <td className="text-">{item?.loanTypeName}</td>
                                 <td className="text-">{item?.loanClassName}</td>
-                                <td className="text-">{item?.facilityName}</td>
+                                <td className="text-">
+                                  {item?.facilityName}{" "}
+                                  <span className="facility-icon">
+                                    <InfoCircle
+                                      clickHandler={() => {
+                                        getHistory(
+                                          `/fino/FundManagement/GetLoanRegisterHistory?loanAccountId=${item?.intLoanAccountId}&journalCode=${item?.brCode}`
+                                        );
+                                        setShow(true);
+                                      }}
+                                      classes="text-primary"
+                                    />
+                                  </span>
+                                </td>
                                 <td className="text-">
                                   {item?.strLoanAccountName}
                                 </td>
@@ -615,6 +638,52 @@ const LoanRegisterLanding = () => {
                 attachments={attachments}
               />
             </IViewModal>
+            {show && !loadingHistory && (
+              <IViewModal show={show} onHide={() => setShow(false)}>
+                <div
+                  style={{
+                    textAlign: "center",
+                    margin: "20px 0",
+                  }}
+                >
+                  <h3>Created By: {historyData?.createdBy}</h3>
+                  <h4>
+                    Confirmation Date:{" "}
+                    {historyData?.confirmedAt
+                      ? moment(historyData?.confirmedAt)?.format("ll")
+                      : ""}
+                  </h4>
+                  {historyData?.history?.length > 0 && (
+                    <table className="table table-bordered">
+                      <thead>
+                        <tr>
+                          <th>Loan Account ID</th>
+                          <th>Transaction Date</th>
+                          <th>Amount</th>
+                          <th>Narration</th>
+                          <th>Journal Code</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {historyData?.history?.map((item, index) => (
+                          <tr key={index}>
+                            <td>{item?.loanAccountId}</td>
+                            <td>
+                              {new Date(
+                                item?.transactionDate
+                              ).toLocaleDateString()}
+                            </td>
+                            <td>{item?.amount}</td>
+                            <td>{item?.narration}</td>
+                            <td>{item?.journalCode}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  )}
+                </div>
+              </IViewModal>
+            )}
             {singleItem && (
               <PdfRender printRef={printRef} singleItem={singleItem} />
             )}
