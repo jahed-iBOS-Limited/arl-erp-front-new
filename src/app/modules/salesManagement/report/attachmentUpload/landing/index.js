@@ -44,7 +44,7 @@ function AttachmentUpload() {
   const [selectedRow, setSelectedRow] = useState('')
   const [type, getType, , setType] = useAxiosGet()
   const [distributionChannelDDL, getDistributionChannelDDL] = useAxiosGet()
-  const [customerTargetPolicy, getCustomerTargetPolicy, , setCustomerTargetPolicyData] = useAxiosGet()
+  const [customerTargetPolicy, getCustomerTargetPolicy, getCustomerTargetPolicyLoading, setCustomerTargetPolicyData] = useAxiosGet()
   const [, updateCustomerRowAttachement, updateCustomerRowAttachementLoading] = useAxiosPost()
 
 
@@ -106,7 +106,7 @@ function AttachmentUpload() {
   }
   return (
     <>
-      {loading && <Loading />}
+      {(loading || updateCustomerRowAttachementLoading || getCustomerTargetPolicyLoading) && <Loading />}
       <ICustomCard
         title="Attachment Upload"
         createHandler={() => {
@@ -167,17 +167,16 @@ function AttachmentUpload() {
                         </div>
 
 
-                        <div className="col-lg-3">
+                        <div className="col-lg-3 row">
                           <IButton
                             onClick={() => {
                               commonGridDataFunc(values, pageNo, pageSize)
                             }}
                             disabled={!values?.channel?.value}
+                            colSize={6}
                           />
-                        </div>
+                          {customerTargetPolicy?.data?.filter(item => item?.isSelected)?.length > 0 &&
 
-                        {customerTargetPolicy?.data?.filter(item => item?.isSelected)?.length > 0 &&
-                          <div className="col-lg-3">
                             <IButton
                               onClick={() => {
                                 if (customerTargetPolicy?.data?.filter(item => item.isSelected === true && item.attachment.length > 0)) {
@@ -186,14 +185,14 @@ function AttachmentUpload() {
                                     commonGridDataFunc(values, pageNo, pageSize);
                                   })
                                 }
-
                               }}
-
+                              className={'ml-2 btn-primary'}
+                              colSize={6}
                             >
                               Update
                             </IButton>
-                          </div>
-                        }
+                          }
+                        </div>
                       </>
                     )
                   }
@@ -276,7 +275,25 @@ function AttachmentUpload() {
                     <table className="table table-striped table-bordered bj-table bj-table-landing">
                       <thead>
                         <tr>
-                          <th></th>
+                          <th>
+                            <input
+                              type="checkbox"
+                              checked={customerTargetPolicy?.data?.every(item => item.isSelected)}
+                              onChange={(e) => {
+                                const checked = e.target.checked
+                                const updateCustomerTargetPolicy = customerTargetPolicy?.data.map(item => {
+                                  return {
+                                    ...item, isSelected: checked
+                                  }
+                                })
+                                // console.log(customerTargetPolicy)
+                                // console.log(updateCustomerTargetPolicy)
+                                setCustomerTargetPolicyData(prevValue => {
+                                  return { ...prevValue, data: updateCustomerTargetPolicy }
+                                })
+                              }}
+                            />
+                          </th>
                           <th style={{ width: "30px" }}>SL</th>
                           <th>Channel</th>
                           <th>Customer</th>
