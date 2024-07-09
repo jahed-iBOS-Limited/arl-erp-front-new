@@ -40,6 +40,7 @@ export default function RepayForm({
       setLoading
     );
   }, [profileData, selectedBusinessUnit, location]);
+  console.log({ location });
   return (
     <>
       <Formik
@@ -139,6 +140,10 @@ export default function RepayForm({
                     }}
                     type="number"
                     min="0"
+                    max={
+                      location?.state?.principal ||
+                      "100000000000000000000000000000"
+                    }
                     step="any"
                   />
                 </div>

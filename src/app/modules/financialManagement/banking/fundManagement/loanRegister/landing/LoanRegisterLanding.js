@@ -31,6 +31,7 @@ import PdfRender from "../components/PdfRender";
 import { useReactToPrint } from "react-to-print";
 import IEdit from "../../../../../_helper/_helperIcons/_edit";
 import IConfirmModal from "../../../../../_helper/_confirmModal";
+import { toast } from "react-toastify";
 const LoanRegisterLanding = () => {
   const history = useHistory();
   const initData = {
@@ -56,8 +57,8 @@ const LoanRegisterLanding = () => {
   const [attachments, setAttachments] = useState([]);
   const [modalShow, setModalShow] = useState(false);
   const [, postCloseLoanRegister, closeLoanRegisterLoader] = useAxiosPost();
-  const [singleItem,setSingleItem] = useState(null)
-  const [isPrinting, setIsPrinting] = useState(false); 
+  const [singleItem, setSingleItem] = useState(null);
+  const [isPrinting, setIsPrinting] = useState(false);
   const {
     profileData,
     selectedBusinessUnit: { value: buId },
@@ -98,7 +99,7 @@ const LoanRegisterLanding = () => {
       pageSize,
       setLoanRegisterData,
       setLoading,
-      values?.applicationType?.value||0
+      values?.applicationType?.value || 0
     );
   };
 
@@ -134,10 +135,10 @@ const LoanRegisterLanding = () => {
     content: () => printRef.current,
     pageStyle:
       "@media print{body { -webkit-print-color-adjust: exact; margin: 0mm;}@page {size: portrait ! important}}",
-      onAfterPrint: () => {
-        setIsPrinting(false);
-        setLoading(false);
-      },
+    onAfterPrint: () => {
+      setIsPrinting(false);
+      setLoading(false);
+    },
   });
   useEffect(() => {
     if (isPrinting) {
@@ -145,14 +146,13 @@ const LoanRegisterLanding = () => {
     }
   }, [isPrinting]);
 
-
-  const handlePrintClick = ({item}) => {
-    setLoading(true); 
+  const handlePrintClick = ({ item }) => {
+    setLoading(true);
     setSingleItem(item);
     setIsPrinting(true);
   };
 
-  const confirm = (item,values) => {
+  const confirm = (item, values) => {
     let confirmObject = {
       title: "Are you sure?",
       message: "You want to confirm this loan?",
@@ -167,20 +167,20 @@ const LoanRegisterLanding = () => {
             pageSize,
             setLoanRegisterData,
             setLoading,
-            values?.applicationType?.value||0
+            values?.applicationType?.value || 0
           );
         };
         createLoanRegister(
           profileData?.accountId,
           buId,
           item?.strLoanAccountName,
-         item?.intBankId,
+          item?.intBankId,
           item?.intBankAccountId,
           item?.intLoanFacilityId,
-          item?.dteStartDate||0,
-          item?.intTenureDays||0,
-          item?.numPrinciple||0,
-          item?.numInterestRate||0,
+          item?.dteStartDate || 0,
+          item?.intTenureDays || 0,
+          item?.numPrinciple || 0,
+          item?.numInterestRate || 0,
           item?.disbursementPurposeId || 0,
           item?.disbursementPurposeId || "",
           profileData?.userId,
@@ -304,7 +304,7 @@ const LoanRegisterLanding = () => {
                             pageSize,
                             setLoanRegisterData,
                             setLoading,
-                            values?.applicationType?.value||0
+                            values?.applicationType?.value || 0
                           );
                         }}
                       >
@@ -328,10 +328,14 @@ const LoanRegisterLanding = () => {
                               <th>Loan Acc</th>
                               <th>BR Number</th>
                               <th style={{ minWidth: "50px" }}>Tenure</th>
-                              <th style={{ minWidth: "" }}>Disbursement Purpose</th>
+                              <th style={{ minWidth: "" }}>
+                                Disbursement Purpose
+                              </th>
                               <th style={{ minWidth: "90px" }}>OpenDate</th>
                               <th style={{ minWidth: "90px" }}>Mature Date</th>
-                              <th style={{ minWidth: "90px" }}>Application Status</th>
+                              <th style={{ minWidth: "90px" }}>
+                                Application Status
+                              </th>
                               <th style={{ minWidth: "100px" }}>Principal</th>
                               <th style={{ minWidth: "50px" }}>Int.Rate</th>
                               <th style={{ minWidth: "100px" }}>Interest</th>
@@ -347,7 +351,7 @@ const LoanRegisterLanding = () => {
                               <th style={{ minWidth: "100px" }}>
                                 Principal Balance
                               </th>
-                              <th style={{ minWidth: "200px" }}>Actionm</th>
+                              <th style={{ minWidth: "200px" }}>Action</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -363,16 +367,26 @@ const LoanRegisterLanding = () => {
                                 </td>
                                 <td className="text-">{item?.brCode}</td>
                                 <td className="text-">{item?.intTenureDays}</td>
-                                <td className="text-">{item?.disbursementPurposeName}</td>
+                                <td className="text-">
+                                  {item?.disbursementPurposeName}
+                                </td>
                                 <td className="text-">
                                   {_dateFormatter(item?.dteStartDate)}
                                 </td>
                                 <td className="text-">
                                   {_dateFormatter(item?.dteMaturityDate)}
                                 </td>
-                                <td>{item?.isLoanApproved?"Approved":"Pending"}</td>
+                                <td>
+                                  {item?.isLoanApproved
+                                    ? "Approved"
+                                    : "Pending"}
+                                </td>
                                 <td className="text-right">
-                                  {_formatMoney(item?.numPrinciple<0?0:item?.numPrinciple)}
+                                  {_formatMoney(
+                                    item?.numPrinciple < 0
+                                      ? 0
+                                      : item?.numPrinciple
+                                  )}
                                 </td>
                                 <td className="text-right">
                                   {_formatMoney(item?.numInterestRate)}
@@ -390,9 +404,11 @@ const LoanRegisterLanding = () => {
                                   {_formatMoney(item?.interestAmount)}
                                 </td>
                                 <td className="text-right">
-                                  {_formatMoney(
-                                    item?.numPrinciple - item?.numPaid
-                                  )}
+                                  {item?.numPrinciple - item?.numPaid >= 1
+                                    ? _formatMoney(
+                                        item?.numPrinciple - item?.numPaid
+                                      )
+                                    : 0}
                                 </td>
                                 <td className="text-center">
                                   <div className="d-flex justify-content-around">
@@ -431,12 +447,25 @@ const LoanRegisterLanding = () => {
                                         marginLeft: "4px",
                                         cursor: "pointer",
                                       }}
-                                      onClick={() =>
-                                        history.push({
-                                          pathname: `/financial-management/banking/loan-register/repay/${item?.intLoanAccountId}`,
-                                          state: { bankId: item?.intBankId },
-                                        })
-                                      }
+                                      onClick={() => {
+                                        if (
+                                          item?.numPrinciple - item?.numPaid <
+                                          1
+                                        ) {
+                                          toast.warn("You have already repaid");
+                                          return;
+                                        } else {
+                                          history.push({
+                                            pathname: `/financial-management/banking/loan-register/repay/${item?.intLoanAccountId}`,
+                                            state: {
+                                              bankId: item?.intBankId,
+                                              principal:
+                                                item?.numPrinciple -
+                                                item?.numPaid,
+                                            },
+                                          });
+                                        }
+                                      }}
                                     >
                                       Repay
                                     </span>
@@ -455,41 +484,42 @@ const LoanRegisterLanding = () => {
                                     >
                                       Renew
                                     </span>
-                                  {!item?.isLoanApproved?  <span
-                                      className="text-primary "
-                                      style={{
-                                        marginLeft: "4px",
-                                        marginRight : "4px",
-                                        cursor: "pointer",
-                                      }}
-                                      onClick={() =>
-                                        confirm(item,values)
-                                      }
-                                    >
-                                      Confirm
-                                    </span>:null}
-                                    
-                                    <span style={{marginRight:"4px"}}>
-                                    <ICon
-                                      title={"Print"}
-                                      onClick={() => {
-                                        handlePrintClick({item})
-                                      }}
-                                    >
-                                      <i class="fas fa-print"></i>
-                                    </ICon>
-                                    
-                                  </span>
-                                    {!item?.isLoanApproved ?  <span
-                                    onClick={() =>
-                                      history.push({
-                                        pathname: `/financial-management/banking/loan-register/edit/${item?.intLoanAccountId}`,
-                                        state:item,
-                                      })
-                                    }
-                                  >
-                                    <IEdit />
-                                  </span>:null}
+                                    {!item?.isLoanApproved ? (
+                                      <span
+                                        className="text-primary "
+                                        style={{
+                                          marginLeft: "4px",
+                                          marginRight: "4px",
+                                          cursor: "pointer",
+                                        }}
+                                        onClick={() => confirm(item, values)}
+                                      >
+                                        Confirm
+                                      </span>
+                                    ) : null}
+
+                                    <span style={{ marginRight: "4px" }}>
+                                      <ICon
+                                        title={"Print"}
+                                        onClick={() => {
+                                          handlePrintClick({ item });
+                                        }}
+                                      >
+                                        <i class="fas fa-print"></i>
+                                      </ICon>
+                                    </span>
+                                    {!item?.isLoanApproved ? (
+                                      <span
+                                        onClick={() =>
+                                          history.push({
+                                            pathname: `/financial-management/banking/loan-register/edit/${item?.intLoanAccountId}`,
+                                            state: item,
+                                          })
+                                        }
+                                      >
+                                        <IEdit />
+                                      </span>
+                                    ) : null}
                                     {/* for close */}
                                     {item?.numPaid === 0 ? (
                                       <span
@@ -514,8 +544,8 @@ const LoanRegisterLanding = () => {
                                                   pageSize,
                                                   setLoanRegisterData,
                                                   setLoading,
-                                                  values?.applicationType?.value||0
-
+                                                  values?.applicationType
+                                                    ?.value || 0
                                                 );
                                               }
                                             );
@@ -532,7 +562,7 @@ const LoanRegisterLanding = () => {
                             <tr>
                               <td></td>
                               <td className="text-center">Total</td>
-                              <td colSpan={7}></td>
+                              <td colSpan={10}></td>
                               <td className="text-right">
                                 <b> {_formatMoney(totalPrincipleAmount)}</b>
                               </td>
@@ -585,9 +615,9 @@ const LoanRegisterLanding = () => {
                 attachments={attachments}
               />
             </IViewModal>
-           {
-            singleItem &&  <PdfRender printRef={printRef} singleItem={singleItem}/>
-           }
+            {singleItem && (
+              <PdfRender printRef={printRef} singleItem={singleItem} />
+            )}
 
             {/* <IViewModal show={modalShow} onHide={() => setModalShow(false)}>
          </IViewModal> */}
