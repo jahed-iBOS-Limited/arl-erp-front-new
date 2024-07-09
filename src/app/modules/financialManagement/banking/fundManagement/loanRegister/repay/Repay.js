@@ -5,6 +5,8 @@ import Loading from "../../../../../_helper/_loading";
 import { _todayDate } from "../../../../../_helper/_todayDate";
 import { createRepay } from "../../helper";
 import RepayForm from "./Form";
+import { useLocation } from "react-router";
+import { toast } from "react-toastify";
 
 const initData = {
   account: "",
@@ -31,11 +33,15 @@ export default function RepayCreate({
   const singleData = useSelector((state) => {
     return state.costControllingUnit?.singleData;
   }, shallowEqual);
-
-
+  const location = useLocation();
 
   const saveHandler = async (values, cb) => {
-    console.log(values);
+    if (
+      location?.state?.principal &&
+      values?.principal > location?.state?.principal
+    ) {
+      return toast.error("Principal amount can't be greater than reapy amount");
+    }
     createRepay(
       profileData?.accountId,
       selectedBusinessUnit?.value,
@@ -67,6 +73,7 @@ export default function RepayCreate({
         accountId={profileData?.accountId}
         selectedBusinessUnit={selectedBusinessUnit}
         isEdit={id || false}
+        location={location}
       />
     </IForm>
   );
