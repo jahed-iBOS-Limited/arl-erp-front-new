@@ -45,7 +45,7 @@ const initData = {
 
 // Government subsidy ids for six business units - (bongo, batayon, arl traders, direct trading, daily trading, eureshia)
 const idSet1 = [8, 9, 10, 11, 12, 13, 21];
-const idSet2 = [14, 15, 16, 17, 18, 19, 20,25, 22];
+const idSet2 = [14, 15, 16, 17, 18, 19, 20,25, 22, 27];
 const allIds = [...idSet1, ...idSet2];
 
 const CommissionReportAndJV = () => {
