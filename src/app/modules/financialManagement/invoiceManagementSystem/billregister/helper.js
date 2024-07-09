@@ -1020,12 +1020,12 @@ export const PostLabourBillEntry_api = async (
 };
 
 export const uploadAttachment = async (attachment, setDisabled) => {
+  setDisabled && setDisabled(true);
   let formData = new FormData();
   attachment.forEach((file) => {
     formData.append("files", file);
   });
   try {
-    setDisabled && setDisabled(true);
     let { data } = await Axios.post("/domain/Document/UploadFile", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
