@@ -564,6 +564,7 @@ export default function _Form({
                                         values?.voyageNo?.value,
                                         values?.transactionName?.label,
                                         values?.vesselName?.value,
+                                        values?.receivedDate,
                                         setLoading,
                                         () => {
                                           resetForm(initData);

@@ -725,6 +725,7 @@ export const createTimeCharterBR = async (
   voyageNo,
   hireNo,
   vesselName,
+  receiveDate,
   setLoading,
   cb
 ) => {
@@ -734,7 +735,7 @@ export const createTimeCharterBR = async (
     //   `/fino/BankJournal/TimeCharterBR?businessUnitId=${buId}&accountId=${accId}&charterId=${charterId}&amount=${amount}&bankAccountId=${bankAccId}`
     // );
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/VoyageCharter/TimeCharterBRNew?businessUnitId=${buId}&accountId=${accId}&charterId=${charterId}&amount=${amount}&bankAccountId=${bankAccId}&VoyageNo=${voyageNo}&HireNo=${hireNo}&VesselName=${vesselName}`
+      `${imarineBaseUrl}/domain/VoyageCharter/TimeCharterBRNew?businessUnitId=${buId}&accountId=${accId}&charterId=${charterId}&amount=${amount}&bankAccountId=${bankAccId}&VoyageNo=${voyageNo}&HireNo=${hireNo}&VesselName=${vesselName}&receiveDate=${receiveDate}`
     );
     toast.success(res?.data?.message);
     cb && cb();
