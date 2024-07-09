@@ -1,0 +1,8 @@
+.facility-icon {
+    display: none;
+    margin-left: 5px; /* Adjust as needed */
+  }
+  
+  tr:hover .facility-icon {
+    display: inline;
+  }
