@@ -41,12 +41,33 @@ const header = (buId, values) => {
     "Commission",
   ];
 
+  const H_three = [
+    "SL",
+    "Customer ID",
+    "Customer Code",
+    "Customer Name",
+    "Address",
+    "Party Status",
+    "Payment Type",
+    "Region",
+    "Area",
+    "Territory",
+    "Target Qty",
+    "Delivery Quantity",
+    "Achievement",
+    "Commission",
+    "ShipToPartner Id",
+    "ShipToPartner Name"
+  ];
+
   if (buId === 144) {
     return H_one;
+  }else if (typeId === 26) {
+    return H_three;
   } else if (typeId !== 8) {
     return H_two;
   } else if (typeId === 8) {
-    return H_two.toSpliced(13, 0, "Commission Rate"); // here will work after namaz
+    return H_two.toSpliced(13, 0, "Commission Rate");
   }
 };
 
@@ -74,14 +95,14 @@ const CommissionReportAndJVTable = ({ obj }) => {
               onClick={() => allSelect(!selectedAll())}
               className="cursor-pointer"
             >
-              <th style={{ width: "40px" }}>
+              {![26].includes(values?.type?.value) && ( <th style={{ width: "40px" }}>
                 <input
                   type="checkbox"
                   value={selectedAll()}
                   checked={selectedAll()}
                   onChange={() => {}}
                 />
-              </th>
+              </th>)}
               {header(buId, values).map((th, index) => {
                 return <th key={index}> {th} </th>;
               })}
@@ -102,7 +123,7 @@ const CommissionReportAndJVTable = ({ obj }) => {
 
               return (
                 <tr className="cursor-pointer" key={index}>
-                  <td
+                 {![26].includes(values?.type?.value) && ( <td
                     onClick={() => {
                       rowDataHandler(index, "isSelected", !item.isSelected);
                     }}
@@ -122,7 +143,7 @@ const CommissionReportAndJVTable = ({ obj }) => {
                       checked={item?.isSelected}
                       onChange={() => {}}
                     />
-                  </td>
+                  </td>)}
                   <td style={{ width: "40px" }} className="text-center">
                     {index + 1}
                   </td>
@@ -214,11 +235,21 @@ const CommissionReportAndJVTable = ({ obj }) => {
                       </td>
                     </>
                   )}
+                  {values?.type?.value === 26 && (
+                    <>
+                    <td className="text-center">
+                      {item?.intShipToPartnerid}
+                    </td>
+                    <td className="">
+                    {item?.strShipToPartnername}
+                  </td>
+                    </>
+                  )}
                 </tr>
               );
             })}
             <tr style={{ textAlign: "right", fontWeight: "bold" }}>
-              <td colSpan={buId === 144 ? 9 : 11} className="text-right">
+              <td colSpan={values?.type?.value === 26 ? 10 : buId === 144 ? 9 : 11} className="text-right">
                 Total
               </td>
               <td>
