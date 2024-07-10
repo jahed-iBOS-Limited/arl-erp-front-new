@@ -10,14 +10,15 @@ const CementInvoice = ({ printRef, invoiceData, businessPartnerInfo }) => {
   }, shallowEqual);
   return (
     <div className="print_invoice_wrapper" ref={printRef}>
-      <div className="d-flex">
-        <div>
-          <p>Corporate Office : Akij House, 19¹, Bir Uttam Mir Shawkat Sarak</p>
+      <div className="header">
+        <div className="office_info">
+          <p>Corporate Office :Akij House, 198, Bir Uttam Mir Shawkat Sarak</p>
           <p>
-            (Gulshan-Tejgaon Link Road), Tejgaon I/A, Dhaka-120¹, Phone :
-            0913313131, 0904313131
+            (Gulshan-Tejgaon Link Road), Tejgaon I/A, Dhaka-1208, Phone :
+            09613313131, 09604313131
           </p>
           <p>Email: info@akij.net, Website: www.akijcement.com</p>
+
           <p>Factory Location: Nabiganj, Kadam Rasul, Narayangonj.</p>
         </div>
         <div className="logo">
@@ -174,9 +175,8 @@ const CementInvoice = ({ printRef, invoiceData, businessPartnerInfo }) => {
         <p>Received By</p>
       </div>
       <br />
-      <br />
-      <br />
-      <p className="text-center">
+
+      <p className="text-center mt-4">
         This is an automatically generated price quotation, no signature is
         required
       </p>

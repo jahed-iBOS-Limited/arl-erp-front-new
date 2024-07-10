@@ -41,10 +41,10 @@ export default function FuelStationReport() {
     "SL No",
     "Car No",
     "Octane (Ltr)",
-    "Octane Rate(1 Ltr)",
+    "Octane Rate(Per Ltr)",
 
     "Diesel(Ltr)",
-    "Diesel Rate(1 Ltr)",
+    "Diesel Rate(Per Ltr)",
 
     "CNG",
     "CNG Rate",
@@ -61,10 +61,10 @@ export default function FuelStationReport() {
     "Car No",
 
     "Octane (Ltr)",
-    "Octane Rate(1 Ltr)",
+    "Octane Rate(Per Ltr)",
 
     "Diesel(Ltr)",
-    "Diesel Rate(1 Ltr)",
+    "Diesel Rate(Per Ltr)",
 
     "CNG",
     "CNG Rate",
