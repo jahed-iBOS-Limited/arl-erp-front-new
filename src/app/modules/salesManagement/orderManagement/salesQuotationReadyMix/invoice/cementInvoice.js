@@ -53,10 +53,6 @@ const CementInvoice = ({ printRef, invoiceData, businessPartnerInfo }) => {
             <p>Brand Name</p>
             <p>Cement Type</p>
             <p>Category</p>
-            <p>
-              Portland Composite Cement (CEM-II), Strength Class 42.5 according
-              to BDS EN 197-1:2003
-            </p>
           </div>
           <div>
             <p>: Akij</p>
@@ -67,33 +63,31 @@ const CementInvoice = ({ printRef, invoiceData, businessPartnerInfo }) => {
             </p>
           </div>
         </div>
+        <p>
+          Portland Composite Cement (CEM-II), Strength Class 42.5 according to
+          BDS EN 197-1:2003
+        </p>
         <table
           style={{
             width: "100%",
             borderCollapse: "collapse",
             margin: "20px 0",
           }}
-          className="table-bordered"
+          className="table table-bordered"
         >
           <thead>
             <tr>
-              <th>SL</th>
-              <th>Destination</th>
-              <th>Product</th>
-              <th>UOM</th>
-              <th>Transport type</th>
+              <th rowSpan={2}>SL</th>
+              <th rowSpan={2}>Destination</th>
+              <th rowSpan={2}>Product</th>
+              <th rowSpan={2}>UOM</th>
+              <th rowSpan={2}>Transport type</th>
               <th colspan="2">Price in BDT</th>
               <th>Remarks</th>
             </tr>
             <tr>
-              <th></th>
-              <th></th>
-              <th></th>
-              <th></th>
-              <th></th>
               <th>RemarkEx-Factory</th>
               <th>Reach Price (Inclusive Transport)</th>
-              <th></th>
             </tr>
             <tr></tr>
           </thead>
