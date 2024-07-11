@@ -561,7 +561,7 @@ export default function _Form({
                                 transactionId:
                                   +invoiceHireData?.freightInvoiceId || 0,
                                 voyageCharterId:
-                                  +invoiceHireData?.charterId || 0,
+                                  +invoiceHireData?.freightInvoiceId || 0,
                                 unitId: selectedBusinessUnit?.value,
                                 accountId: profileData?.accountId,
                                 charterId: values?.charterer?.value,
