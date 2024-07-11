@@ -301,6 +301,9 @@ const FundLimitLanding = () => {
                                 <th>Sanction Reference</th>
                                 <th>Limit Expiry Date</th>
                                 <th>Last Updated Date</th>
+                                <th>Interest</th>
+                                <th>Rate Review</th>
+                                <th>Remarks</th>
                                 <th style={{ width: "70px" }}>Action</th>
                               </tr>
                             </thead>
@@ -333,6 +336,15 @@ const FundLimitLanding = () => {
 
                                   <td className="text-center">
                                     {_dateFormatter(item?.loanUpdateDate)}
+                                  </td>
+                                  <td className="text-center">
+                                    {item?.interestRate}
+                                  </td>
+                                  <td className="text-center">
+                                    {item?.rateReview}
+                                  </td>
+                                  <td className="text-center">
+                                    {item?.remarks}
                                   </td>
 
                                   <td className="text-center">
