@@ -11,6 +11,7 @@ import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import useDebounce from "../../../_helper/customHooks/useDebounce";
 import IForm from "./../../../_helper/_form";
 import Loading from "./../../../_helper/_loading";
+import IDelete from "../../../_helper/_helperIcons/_delete";
 
 const initData = {
   customerCategory: "",
@@ -19,11 +20,15 @@ const initData = {
   searchText: "",
   fromDate: "",
   toDate: "",
+  per1: "",
+  per2: "",
+  amount: "",
 };
 
 export default function CustomerIncentive() {
   const debounce = useDebounce();
   const [searchValue, setSearchValue] = useState("");
+  const [percentageList, setPercentageList] = useState([]);
   // const [headingSelect, setHeadingSelect] = useState(false);
   const [, saveData, saveLoader] = useAxiosPost();
   const [
@@ -32,6 +37,8 @@ export default function CustomerIncentive() {
     loadTradeCommission,
     setTradeCommission,
   ] = useAxiosGet();
+
+  const [targetData, getTargetData, loader, setTargetData] = useAxiosPost();
 
   //redux store
   const { value: buId } = useSelector((state) => {
@@ -125,7 +132,14 @@ export default function CustomerIncentive() {
 
   // get trade commission api handler
   const getTradeCommissionHandler = (values) => {
-    if (values?.incentiveType?.value === "Performance") {
+    if (
+      ["WithTarget", "WithoutTarget"].includes(values?.incentiveType?.value)
+    ) {
+      let url = `/oms/SalesInformation/GetTradeCommissionWithTarget?partName=${values?.incentiveType?.value}&businessUnitId=${buId}&customerId=0&Frommonth=${values?.fromDate}&Tomonth=${values?.toDate}`;
+      getTargetData(url, percentageList, (res) => {
+        setTradeCommission(res);
+      });
+    } else if (values?.incentiveType?.value === "Performance") {
       getTradeCommission(
         `oms/SalesInformation/GetTradeCommissionForPerformance?businessUnitId=${buId}&customerId=0&FromDate=${values?.fromDate}&ToDate=${values?.toDate}&customerCategory=${values?.customerCategory?.value}&incentiveType=${values?.incentiveType?.value}`
       );
@@ -144,6 +158,9 @@ export default function CustomerIncentive() {
         { value: "General", label: "General" },
         { value: "Delivery", label: "Delivery" },
         { value: "Performance", label: "Performance Bonus" },
+        { value: "Performance", label: "Performance Bonus" },
+        { value: "WithTarget", label: "With Target" },
+        { value: "WithoutTarget", label: " Without Target" },
       ];
     } else if (["Platinum", "Gold"].includes(customerCategoryLabel)) {
       return [{ value: "Monthly", label: "Monthly" }];
@@ -183,99 +200,233 @@ export default function CustomerIncentive() {
             renderProps={() => {}}
           >
             <Form>
-              <div className="row global-form align-items-center">
-                <div className="col-md-3">
-                  <NewSelect
-                    name="customerCategory"
-                    label="Customer Category"
-                    options={[
-                      { value: "All", label: "All" },
-                      { value: "Platinum", label: "Platinum" },
-                      { value: "Gold", label: "Gold" },
-                    ]}
-                    value={values?.customerCategory}
-                    onChange={(valueOption) => {
-                      setFieldValue("customerCategory", valueOption);
-                      setFieldValue("incentiveType", "");
-                      setTradeCommission([]);
-                    }}
-                    errors={errors}
-                    touched={touched}
-                  />
-                </div>
-                <div className="col-md-3">
-                  <NewSelect
-                    name="incentiveType"
-                    label="Incentive Type"
-                    options={modifyIncentiveTypeOptions(values)}
-                    value={values?.incentiveType}
-                    onChange={(valueOption) => {
-                      setFieldValue("incentiveType", valueOption);
-                      setTradeCommission([]);
-                    }}
-                    errors={errors}
-                    touched={touched}
-                  />
-                </div>
-                {values?.incentiveType?.value === "Performance" ? (
-                  <>
-                    <div className="col-lg-3">
-                      <label>From Month-Year</label>
-                      <InputField
-                        name="fromMonthYear"
-                        type="month"
-                        placeholder="From Date"
-                        value={values?.fromMonthYear}
-                        onChange={(e) => {
-                          setFieldValue("fromMonthYear", e?.target?.value);
-                          setFieldValue("fromDate", `${e?.target?.value}-01`);
-                          setTradeCommission([]);
-                        }}
-                      />
-                    </div>
-                    <div className="col-lg-3">
-                      <label>To Month-Year</label>
-                      <InputField
-                        name="toMonthYear"
-                        type="month"
-                        placeholder="From Date"
-                        value={values?.toMonthYear}
-                        onChange={(e) => {
-                          setFieldValue("toMonthYear", e?.target?.value);
-                          setTradeCommission([]);
-
-                          if (e.target.value) {
-                            const [year, month] = e?.target?.value
-                              ?.split("-")
-                              .map(Number);
-                            const nextMonthFirstDay = new Date(year, month, 1);
-                            const lastDateOfMonth = new Date(
-                              nextMonthFirstDay - 1
-                            );
-                            const formattedLastDate = lastDateOfMonth
-                              .toISOString()
-                              .split("T")[0];
-                            setFieldValue("toDate", formattedLastDate || "");
-                          }
-                        }}
-                      />
-                    </div>
-                  </>
-                ) : (
-                  <div className="col-lg-3">
-                    <label>Month-Year</label>
-                    <InputField
-                      name="monthYear"
-                      type="month"
-                      placeholder="From Date"
-                      value={values?.monthYear}
-                      onChange={(e) => {
-                        setFieldValue("monthYear", e?.target?.value);
+              <div className="global-form align-items-center">
+                <div className="row">
+                  <div className="col-md-3">
+                    <NewSelect
+                      name="customerCategory"
+                      label="Customer Category"
+                      options={[
+                        { value: "All", label: "All" },
+                        { value: "Platinum", label: "Platinum" },
+                        { value: "Gold", label: "Gold" },
+                      ]}
+                      value={values?.customerCategory}
+                      onChange={(valueOption) => {
+                        setFieldValue("customerCategory", valueOption);
+                        setFieldValue("incentiveType", "");
+                        setFieldValue("per1", "");
+                        setFieldValue("per2", "");
+                        setFieldValue("amount", "");
                         setTradeCommission([]);
+                        setPercentageList([]);
                       }}
+                      errors={errors}
+                      touched={touched}
                     />
                   </div>
-                )}
+                  <div className="col-md-3">
+                    <NewSelect
+                      name="incentiveType"
+                      label="Incentive Type"
+                      options={modifyIncentiveTypeOptions(values)}
+                      value={values?.incentiveType}
+                      onChange={(valueOption) => {
+                        setFieldValue("incentiveType", valueOption);
+                        setTradeCommission([]);
+                        setPercentageList([]);
+                        setFieldValue("per1", "");
+                        setFieldValue("per2", "");
+                        setFieldValue("amount", "");
+                      }}
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
+                  {["Performance", "WithTarget", "WithoutTarget"].includes(
+                    values?.incentiveType?.value
+                  ) ? (
+                    <>
+                      <div className="col-lg-3">
+                        <label>From Month-Year</label>
+                        <InputField
+                          name="fromMonthYear"
+                          type="month"
+                          placeholder="From Date"
+                          value={values?.fromMonthYear}
+                          onChange={(e) => {
+                            setFieldValue("fromMonthYear", e?.target?.value);
+                            setFieldValue("fromDate", `${e?.target?.value}-01`);
+                            setTradeCommission([]);
+                          }}
+                        />
+                      </div>
+                      <div className="col-lg-3">
+                        <label>To Month-Year</label>
+                        <InputField
+                          name="toMonthYear"
+                          type="month"
+                          placeholder="From Date"
+                          value={values?.toMonthYear}
+                          onChange={(e) => {
+                            setFieldValue("toMonthYear", e?.target?.value);
+                            setTradeCommission([]);
+
+                            if (e.target.value) {
+                              const [year, month] = e?.target?.value
+                                ?.split("-")
+                                .map(Number);
+                              const nextMonthFirstDay = new Date(
+                                year,
+                                month,
+                                1
+                              );
+                              const lastDateOfMonth = new Date(
+                                nextMonthFirstDay - 1
+                              );
+                              const formattedLastDate = lastDateOfMonth
+                                .toISOString()
+                                .split("T")[0];
+                              setFieldValue("toDate", formattedLastDate || "");
+                            }
+                          }}
+                        />
+                      </div>
+                    </>
+                  ) : (
+                    <div className="col-lg-3">
+                      <label>Month-Year</label>
+                      <InputField
+                        name="monthYear"
+                        type="month"
+                        placeholder="From Date"
+                        value={values?.monthYear}
+                        onChange={(e) => {
+                          setFieldValue("monthYear", e?.target?.value);
+                          setTradeCommission([]);
+                        }}
+                      />
+                    </div>
+                  )}
+                </div>
+                {["WithTarget", "WithoutTarget"].includes(
+                  values?.incentiveType?.value
+                ) ? (
+                  <>
+                    <div className="row">
+                      <div className="col-lg-3">
+                        <InputField
+                          value={values?.per1}
+                          label={
+                            values?.incentiveType?.value === "WithTarget"
+                              ? "Percentage One"
+                              : "Quantity One"
+                          }
+                          name="per1"
+                          type="number"
+                          onChange={(e) => {
+                            setFieldValue("per1", e.target.value);
+                          }}
+                        />
+                      </div>
+                      <div className="col-lg-3">
+                        <InputField
+                          value={values?.per2}
+                          label={
+                            values?.incentiveType?.value === "WithTarget"
+                              ? "Percentage Two"
+                              : "Quantity Two"
+                          }
+                          name="per2"
+                          type="number"
+                          onChange={(e) => {
+                            setFieldValue("per2", e.target.value);
+                          }}
+                        />
+                      </div>
+                      <div className="col-lg-3">
+                        <InputField
+                          value={values?.amount}
+                          label="Amount"
+                          name="amount"
+                          type="number"
+                          onChange={(e) => {
+                            setFieldValue("amount", e.target.value);
+                          }}
+                        />
+                      </div>
+                      <div>
+                        <button
+                          type="button"
+                          className="btn btn-primary mt-5"
+                          disabled={
+                            !values?.per1 || !values?.per2 || !values?.amount
+                          }
+                          onClick={() => {
+                            const data = {
+                              per1: values?.per1,
+                              per2: values?.per2,
+                              amount: values?.amount,
+                            };
+                            setPercentageList([...percentageList, data]);
+                            setFieldValue("per1", "");
+                            setFieldValue("per2", "");
+                            setFieldValue("amount", "");
+                          }}
+                        >
+                          Add
+                        </button>
+                      </div>
+                    </div>
+                    <div className="row mt-4">
+                      <div className="col-6">
+                        <div className="table-responsive">
+                          <table className="table table-striped table-bordered bj-table bj-table-landing">
+                            <thead>
+                              <tr>
+                                <th>
+                                  {values?.incentiveType?.value === "WithTarget"
+                                    ? "Percentage One"
+                                    : "Quantity One"}
+                                </th>
+                                <th>
+                                  {values?.incentiveType?.value === "WithTarget"
+                                    ? "Percentage Two"
+                                    : "Quantity Two"}
+                                </th>
+                                <th>Amount</th>
+                                <th>Action</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {percentageList.map((item, index) => (
+                                <tr key={index}>
+                                  <td className="text-center">{item?.per1}</td>
+                                  <td className="text-center">{item?.per2}</td>
+                                  <td className="text-center">
+                                    {item?.amount}
+                                  </td>
+                                  <td className="text=center">
+                                    <span
+                                      onClick={() => {
+                                        const data = percentageList.filter(
+                                          (item, i) => i !== index
+                                        );
+                                        setPercentageList(data);
+                                      }}
+                                    >
+                                      <IDelete />
+                                    </span>
+                                  </td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                ) : null}
                 <div className="col-md-3 d-flex mt-3" style={{ gap: "10px" }}>
                   <div>
                     <button
