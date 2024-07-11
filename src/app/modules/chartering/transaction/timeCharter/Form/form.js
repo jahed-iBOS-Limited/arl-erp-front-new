@@ -614,9 +614,7 @@ export default function _Form({
                   )}
                 </div>
               </div>
-
               {/* if hire is created and Journal is not created then show this section */}
-
               {invoiceHireData?.objHeader?.tctransactionId > 0 &&
                 !invoiceHireData?.objHeader?.journalVoucherCode && (
                   <div className="marine-form-card-content">
@@ -752,14 +750,42 @@ export default function _Form({
                   </div>
                 )}
               {/* Invoice For Owner */}
-              {values?.hireTypeName?.value === 1 ? (
-                <>
-                  {/* Invoice For Owner Create */}
-                  {invoiceHireData?.vesselId &&
-                  invoiceHireData?.vesselName &&
-                  rowData?.length > 0 ? (
-                    <InvoiceForOwner
-                      invoiceHireData={invoiceHireData}
+              {/* {values?.hireTypeName?.value === 1 ? ( */}
+              <>
+                {/* Invoice For Owner Create */}
+                {invoiceHireData?.vesselId &&
+                invoiceHireData?.vesselName &&
+                rowData?.length > 0 ? (
+                  <InvoiceForOwner
+                    invoiceHireData={invoiceHireData}
+                    formikprops={{
+                      handleSubmit,
+                      resetForm,
+                      values,
+                      errors,
+                      touched,
+                      setFieldValue,
+                      isValid,
+                    }}
+                    rowData={rowData}
+                    setRowData={setRowData}
+                    rowDtoHandler={rowDtoHandler}
+                    addHandler={addHandler}
+                    deleteHandler={deleteHandler}
+                    offHireDuration={offHireDuration}
+                  />
+                ) : null}
+
+                {/* Invoice For Owner View */}
+                {invoiceHireData?.objRows?.length > 0 ||
+                (id &&
+                  viewType !== "edit" &&
+                  singleData?.objRows?.length > 0) ? (
+                  <>
+                    <InvoiceForOwnerView
+                      invoiceHireData={
+                        id ? singleData?.objHeader : invoiceHireData?.objHeader
+                      }
                       formikprops={{
                         handleSubmit,
                         resetForm,
@@ -771,66 +797,35 @@ export default function _Form({
                       }}
                       rowData={rowData}
                       setRowData={setRowData}
-                      rowDtoHandler={rowDtoHandler}
-                      addHandler={addHandler}
-                      deleteHandler={deleteHandler}
-                      offHireDuration={offHireDuration}
                     />
-                  ) : null}
-
-                  {/* Invoice For Owner View */}
-                  {invoiceHireData?.objRows?.length > 0 ||
-                  (id &&
-                    viewType !== "edit" &&
-                    singleData?.objRows?.length > 0) ? (
-                    <>
-                      <InvoiceForOwnerView
-                        invoiceHireData={
-                          id
-                            ? singleData?.objHeader
-                            : invoiceHireData?.objHeader
-                        }
-                        formikprops={{
-                          handleSubmit,
-                          resetForm,
-                          values,
-                          errors,
-                          touched,
-                          setFieldValue,
-                          isValid,
-                        }}
-                        rowData={rowData}
-                        setRowData={setRowData}
-                      />
-                    </>
-                  ) : viewType === "edit" ? (
-                    <EditInvoiceForOwner
-                      invoiceHireData={dataForEdit?.objHeader}
-                      formikprops={{
-                        handleSubmit,
-                        resetForm,
-                        values,
-                        errors,
-                        touched,
-                        setFieldValue,
-                        isValid,
-                      }}
-                      rowData={rowData}
-                      setRowData={setRowData}
-                      rowDtoHandler={rowDtoHandler}
-                      addHandler={addHandler}
-                      deleteHandler={deleteHandler}
-                      offHireDuration={offHireDuration}
-                    />
-                  ) : null}
-                </>
-              ) : null}
-
+                  </>
+                ) : viewType === "edit" ? (
+                  <EditInvoiceForOwner
+                    invoiceHireData={dataForEdit?.objHeader}
+                    formikprops={{
+                      handleSubmit,
+                      resetForm,
+                      values,
+                      errors,
+                      touched,
+                      setFieldValue,
+                      isValid,
+                    }}
+                    rowData={rowData}
+                    setRowData={setRowData}
+                    rowDtoHandler={rowDtoHandler}
+                    addHandler={addHandler}
+                    deleteHandler={deleteHandler}
+                    offHireDuration={offHireDuration}
+                  />
+                ) : null}
+              </>
+              {/* // ) : null} */}
               {/* Invoice For Charterer */}
-              {values?.hireTypeName?.value === 2 ? (
-                <>
-                  {/* Invoice For Charterer Create */}
-                  {invoiceHireData?.vesselId &&
+              {/* {values?.hireTypeName?.value === 2 ? ( */}
+              <>
+                {/* Invoice For Charterer Create */}
+                {/* {invoiceHireData?.vesselId &&
                   invoiceHireData?.vesselName &&
                   rowData?.length > 0 ? (
                     <InvoiceForCharterer
@@ -850,10 +845,10 @@ export default function _Form({
                       addHandler={addHandler}
                       deleteHandler={deleteHandler}
                     />
-                  ) : null}
+                  ) : null} */}
 
-                  {/* Invoice For Charterer View */}
-                  {invoiceHireData?.objRows?.length > 0 ||
+                {/* Invoice For Charterer View */}
+                {/* {invoiceHireData?.objRows?.length > 0 ||
                   (id && singleData?.objRows?.length > 0) ? (
                     <>
                       <InvoiceForChartererView
@@ -875,9 +870,9 @@ export default function _Form({
                         setRowData={setRowData}
                       />
                     </>
-                  ) : null}
-                </>
-              ) : null}
+                  ) : null} */}
+              </>
+              {/* ) : null} */}
             </form>
           </>
         )}
