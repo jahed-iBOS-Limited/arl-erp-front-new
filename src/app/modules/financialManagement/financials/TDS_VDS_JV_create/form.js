@@ -124,7 +124,7 @@ export default function _Form({ bankDDL, setDisabled, btnRef }) {
         fetchCostCenterDDL(sbuId);
       }
     });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accId, buId]);
 
   //Load ddsl
@@ -134,7 +134,7 @@ export default function _Form({ bankDDL, setDisabled, btnRef }) {
 
     getBillTypeDDL(`/fino/FinanceCommonDDL/GetBillTypeDDL`, (data) => {
       // const firstTwo = data.slice(0, 2); //Show only first two
-      const filterData = data.filter((item)=> [1,2,6].includes(item?.value))
+      const filterData = data.filter((item) => [1, 2, 6].includes(item?.value))
       setBillTypeDDL(filterData);
     });
 
@@ -178,7 +178,7 @@ export default function _Form({ bankDDL, setDisabled, btnRef }) {
       (item) => item.taxVatJournalId > 0 || item.taxVatJournalId == null
     );
 
-    if(isNotPemittedForSave){
+    if (isNotPemittedForSave) {
       return toast.warn(`Not Permitted`)
     }
 
@@ -395,13 +395,13 @@ export default function _Form({ bankDDL, setDisabled, btnRef }) {
                     </button>
                   </div> */}
                   {values?.status?.label === 'Complete' && (<div className='col-lg-1'>
-                      <button onClick={()=>{
-                    const  isExisSelectedRow = editableData?.some((item)=>item?.isSelect)
-                        if(!isExisSelectedRow){
-                          return toast.warn("Please Select At least one Row")
-                        }
-                        setIsShowPrintModal(true)
-                      }} type='button' className="btn btn-primary mt-5">Print</button>
+                    <button onClick={() => {
+                      const isExisSelectedRow = editableData?.some((item) => item?.isSelect)
+                      if (!isExisSelectedRow) {
+                        return toast.warn("Please Select At least one Row")
+                      }
+                      setIsShowPrintModal(true)
+                    }} type='button' className="btn btn-primary mt-5">Print</button>
                   </div>)}
                 </div>
               </div>
@@ -434,20 +434,20 @@ export default function _Form({ bankDDL, setDisabled, btnRef }) {
                 style={{ display: 'none' }}
                 // ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
-                // onClick={() => setRowDto([])}
+              // onClick={() => setRowDto([])}
               ></button>
             </Form>
             {isShowPrintModal && (
-                  <IViewModal
-                    show={isShowPrintModal}
-                    onHide={() => {
-                      setIsShowPrintModal(false);
-                    }}
-                    title=""
-                  >
-                   <PrintView selectedRow={editableData.filter(item => item?.isSelect)}/>
-                  </IViewModal>
-                )}
+              <IViewModal
+                show={isShowPrintModal}
+                onHide={() => {
+                  setIsShowPrintModal(false);
+                }}
+                title=""
+              >
+                <PrintView selectedRow={editableData.filter(item => item?.isSelect)} currentSelectedAccNo={values?.accountNo} />
+              </IViewModal>
+            )}
           </>
         )}
       </Formik>
