@@ -57,6 +57,8 @@ const initData = {
   lcMarginPercent: "",
   lcMarginValue: "",
   lcMarginDueDate: "",
+  marginType:"",
+  numInterestRate:""
 };
 
 export default function AddEditForm() {

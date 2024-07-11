@@ -60,6 +60,11 @@ export const getLandingData = async (
 //   }
 // };
 
+export const marginTypeDDLArr = [
+  { value: 1, label: 'Cash Margin', },
+  { value: 2, label: 'Fdr Margin' }
+]
+
 //get single data;
 export const getSingleData = async (id, setter, setDisabled) => {
   setDisabled(true);
@@ -124,9 +129,9 @@ export const getSingleData = async (id, setter, setDisabled) => {
       },
       bankAccount: res?.data?.bankAccountNo
         ? {
-            value: res?.data?.bankAccountId,
-            label: res?.data?.bankAccountNo,
-          }
+          value: res?.data?.bankAccountId,
+          label: res?.data?.bankAccountNo,
+        }
         : "",
       description: res?.data?.description,
       // lcMarginPercent: res?.data?.lcMarginPercentage || "",
@@ -212,6 +217,7 @@ const createPayloadChange = (
     subPonumber: "",
     incoTerms: values?.encoTerms?.value,
     materialTypeId: values?.materialType?.value,
+    bankName: values?.bankName?.label,
     bankId: values?.bankName?.value,
     lctypeId: values?.lcType?.value,
     dteLcdate: values?.lcDate,
@@ -241,6 +247,8 @@ const createPayloadChange = (
     lcMarginPercentage: +values?.lcMarginPercent || 0,
     lcMarginValue: +values?.lcMarginValue || 0,
     lcMarginDueDate: values?.lcMarginDueDate || null,
+    marginType: values?.marginType?.value,
+    numInterestRate: values?.numInterestRate || 0
   };
   return payload;
 };
@@ -452,14 +460,10 @@ export const getCalculationFormLandingForm = async (
     // console.log(values, "calculation form landing");
     setLoading(true);
     const res = await Axios.get(
-      `/imp/FormulaForCalculation/GetFormulaForLcBankCharge?businessUnitId=${businessUnitId}&poId=${
-        values?.poId
-      }&tenorDays=${
-        values?.lcTenor
-      }&poTotalFc=${+values?.PIAmountFC}&toleranceRate=${
-        values?.tolarance
-      }&excRate=${values?.exchangeRate}&bankId=${
-        values?.bankName?.value
+      `/imp/FormulaForCalculation/GetFormulaForLcBankCharge?businessUnitId=${businessUnitId}&poId=${values?.poId
+      }&tenorDays=${values?.lcTenor
+      }&poTotalFc=${+values?.PIAmountFC}&toleranceRate=${values?.tolarance
+      }&excRate=${values?.exchangeRate}&bankId=${values?.bankName?.value
       }&type=${values?.lcType?.value}`
     );
     setLoading(false);
@@ -578,4 +582,8 @@ export const validationSchema = Yup.object().shape({
   //   .required("LC Margin is required"),
   lcMarginValue: Yup.number().required("LC Margin Value is required"),
   lcMarginDueDate: Yup.date().required("LC Margin Due Date is required"),
+  marginType: Yup.object().shape({
+    value: Yup.string().required("Margin type is required"),
+  }),
+  numInterestRate: Yup.number().min(0, 'Must be above 0').max(100, 'Must be below 100')
 });
