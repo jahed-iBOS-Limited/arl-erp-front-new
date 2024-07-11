@@ -14,6 +14,8 @@ import axios from "axios";
 import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
 import FormikError from "../../../../_helper/_formikError";
 import TextArea from "../../../../_helper/TextArea";
+import { shallowEqual, useSelector } from "react-redux";
+import CementInvoice from "../invoice/cementInvoice";
 
 // Validation schema
 const validationSchema = Yup.object().shape({
@@ -98,7 +100,11 @@ export default function _Form({
         return res?.data;
       });
   };
-
+  const {
+    selectedBusinessUnit: { value: sbuId, label },
+  } = useSelector((state) => {
+    return state.authData;
+  }, shallowEqual);
   return (
     <>
       <Formik
@@ -694,13 +700,21 @@ export default function _Form({
                 onSubmit={() => resetForm(initData)}
               ></button>
 
-              {savedData ? (
+              {savedData &&
+              (sbuId !== 4 ||
+                (sbuId === 4 && values?.customerType?.value === 1)) ? (
                 <InvoiceRecept
                   printRef={printRef}
                   invoiceData={savedData?.customResponse}
                   businessPartnerInfo={savedData?.businessPartnerInfo}
                 />
-              ) : null}
+              ) : (
+                <CementInvoice
+                  printRef={printRef}
+                  invoiceData={savedData?.customResponse}
+                  businessPartnerInfo={savedData?.businessPartnerInfo}
+                />
+              )}
             </Form>
           </>
         )}

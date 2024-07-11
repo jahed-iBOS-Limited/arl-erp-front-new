@@ -1,5 +1,5 @@
 import { Form, Formik } from "formik";
-import React from "react";
+import React, { useEffect } from "react";
 import InputField from "../../../_helper/_inputField";
 import NewSelect from "../../../_helper/_select";
 import IForm from "./../../../_helper/_form";
@@ -8,6 +8,7 @@ import { _todayDate } from "../../../_helper/_todayDate";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import { shallowEqual, useSelector } from "react-redux";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
+import PaginationSearch from "../../../_helper/_search";
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
@@ -16,9 +17,26 @@ const initData = {
 export default function DispatchReport() {
   const saveHandler = (values, cb) => {};
   const [gridData, getGridData, loader] = useAxiosGet();
+  const [statusDDl, getStatus] = useAxiosGet();
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
+
+  const getLandingData = (values, searchTerm = "") => {
+    const strStatus = values?.status?.label
+      ? `&Status=${values?.status?.label}`
+      : "";
+    const strSearch = searchTerm ? `&Search=${searchTerm}` : "";
+
+    getGridData(
+      `/tms/DocumentDispatch/DispatchReport?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}${strStatus}${strSearch}`
+    );
+  };
+  useEffect(() => {
+    getStatus(
+      `/tms/DocumentDispatch/GetDispatchStatusDDL?businessUnitId=${selectedBusinessUnit?.value}`
+    );
+  }, []);
 
   return (
     <Formik
@@ -76,12 +94,7 @@ export default function DispatchReport() {
                   <div className="col-lg-3">
                     <NewSelect
                       name="status"
-                      options={[
-                        { value: "Send", label: "Send" },
-                        { value: "Not Send", label: "Not Send" },
-                        { value: "Received", label: "Received" },
-                        { value: "Owner Received", label: "Owner Received" },
-                      ]}
+                      options={statusDDl || []}
                       value={values?.status}
                       label="Status"
                       onChange={(valueOption) => {
@@ -94,9 +107,7 @@ export default function DispatchReport() {
                   <div className="mt-5">
                     <button
                       onClick={() => {
-                        getGridData(
-                          `/tms/DocumentDispatch/DispatchReport?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&Status=${values?.status?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}`
-                        );
+                        getLandingData(values);
                       }}
                       type="button"
                       className="btn btn-primary"
@@ -106,6 +117,17 @@ export default function DispatchReport() {
                   </div>
                 </div>
                 <div className="mt-5">
+                  {gridData?.length > 0 && (
+                    <div className="my-3">
+                      <PaginationSearch
+                        placeholder="Search..."
+                        paginationSearchHandler={(searchTerm, values) => {
+                          getLandingData(values, searchTerm);
+                        }}
+                        values={values}
+                      />
+                    </div>
+                  )}
                   <div className="table-responsive">
                     <table class="table table-striped table-bordered bj-table bj-table-landing">
                       <thead>

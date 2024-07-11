@@ -62,7 +62,7 @@ export default function EditForm({ obj }) {
                     <th>BP Rate/bag</th>
                     <th>BA Rate/bag</th>
                     <th>CP Rate/bag</th>
-                    {[17, 18, 25].includes(preValues?.commissionType?.value) && (
+                    {[17, 18, 25, 27].includes(preValues?.commissionType?.value) && (
                       <>
                         <th>1-99%</th>
                         <th>100-999%</th>
@@ -118,7 +118,7 @@ export default function EditForm({ obj }) {
                         }}
                       />
                     </td>
-                    {[17, 18, 25].includes(preValues?.commissionType?.value) && (
+                    {[17, 18, 25, 27].includes(preValues?.commissionType?.value) && (
                       <>
                         <td>
                           <InputField

@@ -13,6 +13,7 @@ import {
   GetBankDDL,
   getCalculationFormLandingForm,
   LCTypeDDLAction,
+  marginTypeDDLArr,
   materialTypeDDLAction,
   originTypeDDLAction,
   PortDDLAction,
@@ -52,6 +53,7 @@ export default function _Form({
   const [portDDL, setPortDDL] = useState([]);
   const [open, setOpen] = useState(false);
   const [bankDDL, setBankDDL] = useState([]);
+  const [marginTypeDDL, setMarginTypeDDL] = useState(marginTypeDDLArr)
   const [isShowModal, setIsShowModal] = useState(false);
   const [calculationFormData, setCalculationFormData] = useState("");
 
@@ -323,7 +325,7 @@ export default function _Form({
                       errors={errors}
                       touched={touched}
                       isDisabled={true}
-                      // isDisabled={viewType === "view" || forDisable?.currencyId}
+                    // isDisabled={viewType === "view" || forDisable?.currencyId}
                     />
                     {/* <label>Currency</label>
                     <InputField
@@ -348,7 +350,7 @@ export default function _Form({
                           "PIAmountBDT",
                           values?.PIAmountFC
                             ? (+valueOption.target.value ||
-                                +initData?.PIAmountFC) * +values?.exchangeRate
+                              +initData?.PIAmountFC) * +values?.exchangeRate
                             : ""
                         );
                       }}
@@ -375,8 +377,8 @@ export default function _Form({
                           "PIAmountBDT",
                           e?.target.value
                             ? values?.PIAmountFC *
-                                (Number(e?.target?.value) ||
-                                  initData?.exchangeRate)
+                            (Number(e?.target?.value) ||
+                              initData?.exchangeRate)
                             : ""
                         );
                         // setFieldValue(
@@ -546,12 +548,25 @@ export default function _Form({
                     />
                   </div> */}
                   <div className="col-lg-3">
+                    <NewSelect
+                      name="marginType"
+                      options={marginTypeDDL}
+                      value={values?.marginType}
+                      label="Margin Type"
+                      onChange={(valueOption) => {
+                        setFieldValue("marginType", valueOption);
+                      }}
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
+                  <div className="col-lg-3">
                     <label>LC Margine Value</label>
                     <InputField
                       value={values?.lcMarginValue}
                       name="lcMarginValue"
                       type="number"
-                      // disabled
+                    // disabled
                     />
                   </div>
                   <div className="col-lg-3">
@@ -561,6 +576,14 @@ export default function _Form({
                       name="lcMarginDueDate"
                       type="date"
                       disabled={viewType === "view"}
+                    />
+                  </div>
+                  <div className="col-lg-3">
+                    <label>Interest Rate</label>
+                    <InputField
+                      value={values?.numInterestRate}
+                      name="numInterestRate"
+                      type="number"
                     />
                   </div>
                   <div className="col-lg-3">
@@ -576,7 +599,7 @@ export default function _Form({
                   <div
                     className="col-auto"
                     style={{ marginTop: "26px" }}
-                    // marginLeft: "20px"
+                  // marginLeft: "20px"
                   >
                     <button
                       className="btn btn-primary"
@@ -615,7 +638,7 @@ export default function _Form({
                     <div
                       className="col-lg-2"
                       style={{ marginTop: "26px" }}
-                      // marginLeft: "20px"
+                    // marginLeft: "20px"
                     >
                       <button
                         className="btn btn-primary d-flex"

@@ -245,7 +245,7 @@ export default function ItemQualityCheckLanding() {
               {landingData?.data?.length > 0 && (
                   <div className="my-3">
                     <PaginationSearch
-                      placeholder="PO code & MRR code"
+                      placeholder="PO code & MRR code & Entry Code"
                       paginationSearchHandler={paginationSearchHandler}
                       values={values}
                     />
@@ -262,6 +262,7 @@ export default function ItemQualityCheckLanding() {
                       <th>SL</th>
                       <th>MRR Code</th>
                       <th>Purchase Order Code</th>
+                      <th>Entry Code</th>
                       <th>Date</th>
                       <th>Supplier Name</th>
                       <th>Address</th>
@@ -310,6 +311,7 @@ export default function ItemQualityCheckLanding() {
                           </span>
                         </td>
                         <td className="text-center">{item?.purchaseOrderCode}</td>
+                        <td className="text-center">{item?.entryCode}</td>
                         <td>{_dateFormatter(item?.createdAt)}</td>
                         <td>{item?.supplierName}</td>
                         <td>{item?.supplierAddress}</td>

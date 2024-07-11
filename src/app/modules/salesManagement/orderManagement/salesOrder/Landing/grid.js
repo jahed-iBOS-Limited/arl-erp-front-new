@@ -3,7 +3,7 @@ import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import IView from "../../../../_helper/_helperIcons/_view";
 import IEdit from "../../../../_helper/_helperIcons/_edit";
 import { withRouter } from "react-router-dom";
-import { useSelector, shallowEqual } from "react-redux";
+import { useSelector, shallowEqual, useDispatch } from "react-redux";
 import { _dateFormatter } from "./../../../../_helper/_dateFormate";
 import PaginationTable from "../../../../_helper/_tablePagination";
 import PaginationSearch from "../../../../_helper/_search";
@@ -14,6 +14,7 @@ import ShippointTransferModel from "./shippointTransferModel";
 import Loading from "../../../../_helper/_loading";
 import IApproval from "../../../../_helper/_helperIcons/_approval";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
 const GridData = ({
   callBackFuncGridData,
   history,
@@ -43,6 +44,7 @@ const GridData = ({
   const [clickRowData, setClickRowData] = React.useState("");
   const [permitted, getPermission] = useAxiosGet();
   const [, getAddressChangingPermission, loader] = useAxiosGet();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     getPermission(
@@ -131,6 +133,7 @@ const GridData = ({
                               }
                             />
                           </span>
+
                           {/* Edit Icon*/}
                           {values?.orderStatus?.value !== 4 && (
                             <>
@@ -301,6 +304,29 @@ const GridData = ({
                               )}
                             </>
                           )}
+                          {td?.attachment ? (
+                            <OverlayTrigger
+                              overlay={
+                                <Tooltip id="cs-icon">View Attachment</Tooltip>
+                              }
+                            >
+                              <span
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  dispatch(
+                                    getDownlloadFileView_Action(td?.attachment)
+                                  );
+                                }}
+                                className="mt-2 ml-2"
+                              >
+                                <i
+                                  style={{ fontSize: "16px" }}
+                                  className={`fa pointer fa-eye`}
+                                  aria-hidden="true"
+                                ></i>
+                              </span>
+                            </OverlayTrigger>
+                          ) : null}
                         </div>
                       </td>
                     </tr>

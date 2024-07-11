@@ -44,6 +44,14 @@ export const _dateTimeFormatter = (param, format) => {
   }
 };
 
+// date.getDay() return 0-6 & 0 for sunday & upto 6 for saturday. access the current day index number from days array
+export const _todayDayWeekName=()=>{
+  const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  const date=new Date()
+  const dayName=days[date.getDay()] // days[4] // thursday
+  return dayName // Thursday
+}
+
 export const dateFormatWithMonthName = (date) => {
   const monthNames = [
     "January",
@@ -80,3 +88,24 @@ export const excelDateFormatter = (excelDate) => {
   const date = new Date((excelDate - 25569) * 24 * 60 * 60 * 1000);
   return _dateFormatter(date);
 };
+
+// date.getMonth() reutrn 0-11 and 0 start for January & 11 for December. accessing the current index from months array we can get current month
+export const currentMonthAndYear=()=>{
+  const months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "June",
+    "July",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+  const date=new Date()
+  const month=months[date.getMonth()] // months[6] // July
+  return `${month} ${date.getFullYear()}` // July 24
+}

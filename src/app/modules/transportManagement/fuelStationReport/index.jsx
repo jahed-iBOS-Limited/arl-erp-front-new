@@ -41,8 +41,13 @@ export default function FuelStationReport() {
     "SL No",
     "Car No",
     "Octane (Ltr)",
+    "Octane Rate(Per Ltr)",
+
     "Diesel(Ltr)",
+    "Diesel Rate(Per Ltr)",
+
     "CNG",
+    "CNG Rate",
 
     "Amount (Taka)",
     "CNG Amount (Taka)",
@@ -56,8 +61,13 @@ export default function FuelStationReport() {
     "Car No",
 
     "Octane (Ltr)",
+    "Octane Rate(Per Ltr)",
+
     "Diesel(Ltr)",
+    "Diesel Rate(Per Ltr)",
+
     "CNG",
+    "CNG Rate",
 
     "Amount (Taka)",
     "CNG Amount (Taka)",
@@ -158,6 +168,7 @@ export default function FuelStationReport() {
                     value={values?.fuelRequisition}
                     label="Requisition Type"
                     onChange={(valueOption) => {
+                      setGridData([]);
                       setFieldValue("fuelRequisition", valueOption || "");
                     }}
                     errors={errors}
@@ -262,9 +273,18 @@ export default function FuelStationReport() {
                                       {item?.octane}
                                     </td>
                                     <td className="text-center">
+                                      {item?.octaneRate}
+                                    </td>
+                                    <td className="text-center">
                                       {item.disel}
                                     </td>
+                                    <td className="text-center">
+                                      {item.diselRate}
+                                    </td>
                                     <td className="text-center">{item.cng}</td>
+                                    <td className="text-center">
+                                      {item.cngRate}
+                                    </td>
                                     <td className="text-center">
                                       {item?.octaneAmount || item?.diselAmount}
                                     </td>
@@ -286,6 +306,7 @@ export default function FuelStationReport() {
                                       )
                                       .toFixed(2)}
                                   </td>
+                                  <td></td>
                                   <td className="text-right">
                                     {" "}
                                     {gridData
@@ -295,6 +316,8 @@ export default function FuelStationReport() {
                                       )
                                       .toFixed(2)}
                                   </td>
+                                  <td></td>
+
                                   <td className="text-right">
                                     {" "}
                                     {gridData
@@ -304,6 +327,7 @@ export default function FuelStationReport() {
                                       )
                                       .toFixed(2)}
                                   </td>
+                                  <td></td>
                                   <td className="text-right">
                                     {" "}
                                     {gridData
@@ -345,9 +369,18 @@ export default function FuelStationReport() {
                                       {item?.octane}
                                     </td>
                                     <td className="text-center">
+                                      {item?.octaneRate}
+                                    </td>
+                                    <td className="text-center">
                                       {item?.disel}
                                     </td>
+                                    <td className="text-center">
+                                      {item?.diselRate}
+                                    </td>
                                     <td className="text-center">{item.cng}</td>
+                                    <td className="text-center">
+                                      {item.cngRate}
+                                    </td>
                                     <td className="text-center">
                                       {item?.octaneAmount || item?.diselAmount}
                                     </td>
@@ -369,6 +402,7 @@ export default function FuelStationReport() {
                                       )
                                       .toFixed(2)}
                                   </td>
+                                  <td></td>
                                   <td className="text-right">
                                     {" "}
                                     {gridData
@@ -378,6 +412,8 @@ export default function FuelStationReport() {
                                       )
                                       .toFixed(2)}
                                   </td>
+                                  <td></td>
+
                                   <td className="text-right">
                                     {" "}
                                     {gridData
@@ -387,6 +423,8 @@ export default function FuelStationReport() {
                                       )
                                       .toFixed(2)}
                                   </td>
+                                  <td></td>
+
                                   <td className="text-right">
                                     {" "}
                                     {gridData
