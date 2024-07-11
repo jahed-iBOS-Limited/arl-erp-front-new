@@ -700,7 +700,9 @@ export default function _Form({
                 onSubmit={() => resetForm(initData)}
               ></button>
 
-              {savedData && sbuId !== 4 ? (
+              {savedData &&
+              (sbuId !== 4 ||
+                (sbuId === 4 && values?.customerType?.value === 1)) ? (
                 <InvoiceRecept
                   printRef={printRef}
                   invoiceData={savedData?.customResponse}

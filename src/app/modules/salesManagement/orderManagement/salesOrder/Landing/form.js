@@ -242,7 +242,7 @@ export default function HeaderForm({ loading, setLoading }) {
       {
         label: "Dist. Channel",
         name: "distributionChannel",
-        options: [{value: 0, label: "All"}, ...distributionChannelDDL] || [],
+        options: [{ value: 0, label: "All" }, ...distributionChannelDDL] || [],
         isDisabled: ["sbu"],
       },
       {
@@ -284,7 +284,6 @@ export default function HeaderForm({ loading, setLoading }) {
         null,
         setLoading,
         salesOrderLanding?.distributionChannel?.value
-
       )
     );
   };
@@ -363,8 +362,7 @@ export default function HeaderForm({ loading, setLoading }) {
               pageSize,
               null,
               setLoading,
-              values?.distributionChannel?.value,
-
+              values?.distributionChannel?.value
             )
           );
         }
@@ -413,8 +411,7 @@ export default function HeaderForm({ loading, setLoading }) {
           1000,
           null,
           setLoading,
-          values?.distributionChannel?.value,
-
+          values?.distributionChannel?.value
         )
       );
       // dispatch(
@@ -460,10 +457,10 @@ export default function HeaderForm({ loading, setLoading }) {
       >
         {({ errors, touched, setFieldValue, isValid, values }) => (
           <>
-            <Form className='form form-label-right'>
-              <div className='row global-form m-0'>
+            <Form className="form form-label-right">
+              <div className="row global-form m-0">
                 {controlls.map((itm, idex) => (
-                  <div className='col-lg-3'>
+                  <div className="col-lg-3">
                     <ISelect
                       dependencyFunc={itm?.dependencyFunc}
                       label={itm?.label}
@@ -480,10 +477,10 @@ export default function HeaderForm({ loading, setLoading }) {
                   </div>
                 ))}
                 {/* View button */}
-                <div className='d-flex col-lg-3'>
+                <div className="d-flex col-lg-3">
                   <button
-                    type='button'
-                    className='btn btn-primary mt-5'
+                    type="button"
+                    className="btn btn-primary mt-5"
                     onClick={() => {
                       dispatch(
                         getSalesOrderGridData(
@@ -504,10 +501,11 @@ export default function HeaderForm({ loading, setLoading }) {
                   >
                     View
                   </button>
-                  <div className='text-right ml-2'>
+                  {console.log({ values })}
+                  <div className="text-right ml-2">
                     <button
-                      type='button'
-                      className='btn btn-primary mt-5'
+                      type="button"
+                      className="btn btn-primary mt-5"
                       onClick={() => {
                         history.push({
                           pathname: `/sales-management/ordermanagement/salesorder/create`,
@@ -520,7 +518,7 @@ export default function HeaderForm({ loading, setLoading }) {
                         !values?.plant?.value ||
                         !values?.salesOrg?.value ||
                         !values?.shippoint?.value ||
-                        !values?.distributionChannel?.value ||
+                        !values?.distributionChannel?.label ||
                         !values?.salesOffice?.value ||
                         !values?.orderType
                       }
