@@ -43,10 +43,11 @@ export const getBankDDLAll = async (setter, setLoading) => {
 };
 
 //facility ddl
-export const getFacilityDLL = async (buiId, bankId,setter, setLoading) => {
+export const getFacilityDLL = async (buiId, bankId, setter, setLoading) => {
   try {
     setLoading(true);
-    const res = await Axios.get(`/fino/FundManagement/GetFacilityDDL?BusinessUnitId=${buiId}&BankId=${bankId || 0}
+    const res = await Axios.get(`/fino/FundManagement/GetFacilityDDL?BusinessUnitId=${buiId}&BankId=${bankId ||
+      0}
     `);
     setter(res?.data);
     setLoading(false);
@@ -193,9 +194,14 @@ export const getLoanRegisterLanding = async (
   pageSize,
   setter,
   setLoading,
-  applicationType=0
+  applicationType = 0
 ) => {
-  const IsApproved = applicationType===1?`&isLoanApproved=${false}`:applicationType===2?`&isLoanApproved=${true}`:""
+  const IsApproved =
+    applicationType === 1
+      ? `&isLoanApproved=${false}`
+      : applicationType === 2
+      ? `&isLoanApproved=${true}`
+      : "";
   try {
     setLoading(true);
     const res = await Axios.get(
@@ -232,7 +238,8 @@ export const createLoanRegister = async (
   setDisabled(true);
   try {
     const res = await Axios.post(
-      `/fino/FundManagement/FundLoanAccountCreate?accountId=${accId}&businessUnitId=${buId}&loanAcc=${loanAcc}&bankId=${bankId}&bankAccId=${bankAccId}&facilityId=${facilityId}&startDate=${startDate}&tenureDays=${tenureDays}&numPrinciple=${principle}&numIntRate=${interest}&actionById=${actionId}&disbursementPurposeId=${disbursementPurposeId}&disbursementPurposeName=${disbursementPurposeName ||""}&isConfirm=${isConfirm}&loanAccountId=${loanAccountId}`
+      `/fino/FundManagement/FundLoanAccountCreate?accountId=${accId}&businessUnitId=${buId}&loanAcc=${loanAcc}&bankId=${bankId}&bankAccId=${bankAccId}&facilityId=${facilityId}&startDate=${startDate}&tenureDays=${tenureDays}&numPrinciple=${principle}&numIntRate=${interest}&actionById=${actionId}&disbursementPurposeId=${disbursementPurposeId}&disbursementPurposeName=${disbursementPurposeName ||
+        ""}&isConfirm=${isConfirm}&loanAccountId=${loanAccountId}`
     );
     setDisabled(false);
     if (res.status === 200) {
@@ -436,7 +443,7 @@ export const DeleteFundManagementApi = async (limitId, setLoading, cb) => {
   setLoading && setLoading(true);
   try {
     const res = await Axios.post(
-      `/fino/FundManagement/DeleteFundManagement?BankLoanLimitId=${limitId}`,
+      `/fino/FundManagement/DeleteFundManagement?BankLoanLimitId=${limitId}`
     );
     toast.success(res?.data?.message);
     cb();

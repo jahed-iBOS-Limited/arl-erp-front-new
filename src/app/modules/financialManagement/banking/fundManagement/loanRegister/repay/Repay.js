@@ -34,7 +34,7 @@ export default function RepayCreate({
     return state.costControllingUnit?.singleData;
   }, shallowEqual);
   const location = useLocation();
-
+  console.log(location.state, "location.state");
   const saveHandler = async (values, cb) => {
     if (
       location?.state?.principal &&
@@ -44,7 +44,7 @@ export default function RepayCreate({
     }
     createRepay(
       profileData?.accountId,
-      selectedBusinessUnit?.value,
+      location?.state?.bu || selectedBusinessUnit?.value,
       +id,
       values?.account?.value,
       0,
