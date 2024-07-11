@@ -97,6 +97,7 @@ const initData = {
   isUnloadLabourByCompany: { value: false, label: "No" },
   haveBroker: { value: false, label: "No" },
   brokerName: "",
+  attachment: "",
 };
 
 export default function SalesOrderForm({
@@ -364,6 +365,7 @@ export default function SalesOrderForm({
             salesOrderValidityDays: collectionDays?.salesOrderValidityDays,
             salesOrderExpiredDate: "2023-06-22T14:08:10.512Z",
             // collectionDays: values?.collectionDays || 0,
+            attachment: values?.attachment,
           },
           objRow: newRowDto,
         };
@@ -456,6 +458,7 @@ export default function SalesOrderForm({
             salesOrderValidityDays: collectionDays?.salesOrderValidityDays,
             salesOrderExpiredDate: "2023-06-22T14:08:10.512Z",
             commissionAgentId: values?.brokerName?.value,
+            attachment: values?.attachment,
           },
           objRow: newRowDto,
         };

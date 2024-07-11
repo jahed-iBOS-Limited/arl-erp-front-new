@@ -42,6 +42,7 @@ import { _todayDate } from "../../../../_helper/_todayDate";
 import { toast } from "react-toastify";
 import StockInfo from "./stockInfo";
 import useDebounce from "../../../../_helper/customHooks/useDebounce";
+import AttachmentUploaderNew from "../../../../_helper/attachmentUploaderNew";
 
 // Validation schema
 const validationSchema = Yup.object().shape({
@@ -736,6 +737,24 @@ export default function _Form({
                           />
                         </div>
                       )}
+                      <div className="col-lg-3 mt-5 pt-1">
+                        <div className="">
+                          <AttachmentUploaderNew
+                            style={{
+                              backgroundColor: "transparent",
+                              color: "black",
+                            }}
+                            CBAttachmentRes={(attachmentData) => {
+                              if (Array.isArray(attachmentData)) {
+                                setFieldValue(
+                                  "attachment",
+                                  attachmentData?.[0]?.id
+                                );
+                              }
+                            }}
+                          />
+                        </div>
+                      </div>
                       {isBUIEssentials && channelBulk && (
                         <>
                           <div className="col-lg-3">
@@ -1246,7 +1265,9 @@ export default function _Form({
                           >
                             Basic Price
                           </th>
-                          {isBUIEssentials && channelBulk && <th>Account Price</th>}
+                          {isBUIEssentials && channelBulk && (
+                            <th>Account Price</th>
+                          )}
                           {selectedBusinessUnit?.value === 175 ? (
                             <>
                               {" "}
@@ -1419,7 +1440,11 @@ export default function _Form({
                                   )}
                                 </>
                               )}
-                              {isBUIEssentials && channelBulk && <td className="text-center">{itm?.accountsItemPrice}</td>}
+                              {isBUIEssentials && channelBulk && (
+                                <td className="text-center">
+                                  {itm?.accountsItemPrice}
+                                </td>
+                              )}
                               {selectedBusinessUnit?.value === 175 ? (
                                 <>
                                   <td className="text-center">
