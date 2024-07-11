@@ -23,6 +23,7 @@ import {
   createLoanRegister,
   getAttachments,
   getBankDDLAll,
+  getBusinessUnitDDL,
   getLoanRegisterLanding,
 } from "../../helper";
 import IClose from "../../../../../_helper/_helperIcons/_close";
@@ -44,6 +45,7 @@ const LoanRegisterLanding = () => {
     status: { label: "ALL", value: 0 },
     loanType: "",
     loanClass: "",
+    businessUnit: "",
     applicationType: { label: "ALL", value: 0 },
   };
   const [
@@ -52,6 +54,12 @@ const LoanRegisterLanding = () => {
     loadingHistory,
     setHistoryData,
   ] = useAxiosGet();
+  const [
+    businessUnitDDL,
+    getBusinessUnitDDL,
+    loadUnit,
+    setBusinessUnitDDL,
+  ] = useAxiosGet();
   // ref
   // eslint-disable-next-line no-unused-vars
   const printRef = useRef();
@@ -59,6 +67,7 @@ const LoanRegisterLanding = () => {
   // eslint-disable-next-line no-unused-vars
   const [loading, setLoading] = useState(false);
   const [loanRegisterData, setLoanRegisterData] = useState([]);
+
   const [bankDDL, setBankDDL] = useState([]);
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
@@ -82,7 +91,18 @@ const LoanRegisterLanding = () => {
 
   useEffect(() => {
     getBankDDLAll(setBankDDL, setLoading);
-  }, []);
+    getBusinessUnitDDL(
+      `/domain/OrganizationalUnitUserPermission/GetBusinessUnitPermissionbyUser?UserId=${profileData?.userId}&ClientId=${profileData?.accountId}`,
+      (data) => {
+        const temp = data?.map((item) => ({
+          ...item,
+          value: item?.organizationUnitReffId,
+          label: item?.organizationUnitReffName,
+        }));
+        setBusinessUnitDDL(temp);
+      }
+    );
+  }, [profileData?.userId]);
 
   useEffect(() => {
     getLoanRegisterLanding(
@@ -163,6 +183,7 @@ const LoanRegisterLanding = () => {
   };
 
   const confirm = (item, values) => {
+    console.log({ item });
     let confirmObject = {
       title: "Are you sure?",
       message: "You want to confirm this loan?",
@@ -170,7 +191,7 @@ const LoanRegisterLanding = () => {
         const cb = () => {
           getLoanRegisterLanding(
             profileData?.accountId,
-            buId,
+            item?.intBusinessUnitId || buId,
             values?.bank?.value,
             values?.status?.value,
             pageNo,
@@ -182,7 +203,7 @@ const LoanRegisterLanding = () => {
         };
         createLoanRegister(
           profileData?.accountId,
-          buId,
+          item?.intBusinessUnitId,
           item?.strLoanAccountName,
           item?.intBankId,
           item?.intBankAccountId,
@@ -208,7 +229,9 @@ const LoanRegisterLanding = () => {
   };
   return (
     <>
-      {(loading || closeLoanRegisterLoader || loadingHistory) && <Loading />}
+      {(loading || closeLoanRegisterLoader || loadingHistory || loadUnit) && (
+        <Loading />
+      )}
       <Formik
         enableReinitialize={true}
         initialValues={initData}
@@ -244,6 +267,28 @@ const LoanRegisterLanding = () => {
                   <div className="form-group row global-form align-items-end">
                     <div className="col-lg-3">
                       <NewSelect
+                        name="businessUnit"
+                        options={
+                          [{ value: 0, label: "All" }, ...businessUnitDDL] || []
+                        }
+                        value={values?.businessUnit}
+                        label="BusinessUnit"
+                        onChange={(valueOption) => {
+                          if (valueOption) {
+                            setFieldValue("businessUnit", valueOption);
+                            setLoanRegisterData([]);
+                          } else {
+                            setLoanRegisterData([]);
+                            setFieldValue("businessUnit", "");
+                          }
+                        }}
+                        placeholder="BusinessUnit"
+                        errors={errors}
+                        touched={touched}
+                      />
+                    </div>
+                    <div className="col-lg-3">
+                      <NewSelect
                         name="bank"
                         options={bankDDL}
                         value={values?.bank}
@@ -256,7 +301,7 @@ const LoanRegisterLanding = () => {
                         placeholder="Bank"
                       />
                     </div>
-                    <div className="col-lg-3">
+                    <div className="col-lg-2">
                       <NewSelect
                         name="status"
                         options={[
@@ -278,7 +323,7 @@ const LoanRegisterLanding = () => {
                         placeholder="Status"
                       />
                     </div>
-                    <div className="col-lg-3">
+                    <div className="col-lg-2">
                       <NewSelect
                         name="applicationType"
                         options={[
@@ -307,7 +352,7 @@ const LoanRegisterLanding = () => {
                         onClick={(e) => {
                           getLoanRegisterLanding(
                             profileData?.accountId,
-                            buId,
+                            values?.businessUnit?.value || buId,
                             values?.bank?.value,
                             values?.status?.value,
                             pageNo,
@@ -450,7 +495,7 @@ const LoanRegisterLanding = () => {
                                         onClick={() => {
                                           setFdrNo(item?.strLoanAccountName);
                                           getAttachments(
-                                            buId,
+                                            values?.businessUnit?.value,
                                             2,
                                             item?.strLoanAccountName,
                                             setAttachments,
@@ -485,6 +530,7 @@ const LoanRegisterLanding = () => {
                                               principal:
                                                 item?.numPrinciple -
                                                 item?.numPaid,
+                                              bu: values?.businessUnit?.value,
                                             },
                                           });
                                         }
@@ -555,12 +601,12 @@ const LoanRegisterLanding = () => {
                                         <IClose
                                           closer={() => {
                                             postCloseLoanRegister(
-                                              `/fino/FundManagement/CancelLoanRegister?businessUnitId=${buId}&loanAccountId=${item?.intLoanAccountId}&actionBy=${profileData?.userId}`,
+                                              `/fino/FundManagement/CancelLoanRegister?businessUnitId=${values?.businessUnit?.value}&loanAccountId=${item?.intLoanAccountId}&actionBy=${profileData?.userId}`,
                                               null,
                                               () => {
                                                 getLoanRegisterLanding(
                                                   profileData?.accountId,
-                                                  buId,
+                                                  values?.businessUnit?.value,
                                                   values?.bank?.value,
                                                   values?.status?.value,
                                                   pageNo,
