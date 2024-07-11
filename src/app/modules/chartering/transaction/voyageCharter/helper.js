@@ -446,9 +446,10 @@ export const getInvoiceData = async (
             {
               freightInvoiceId: 0,
               sl: 0,
-              particulars: `AMOUNT RECEIVED BEFORE (${
-                header?.freightPercentage
-              }% FREIGHT ON ${_dateFormatter(header?.dteInvoiceDate)})`,
+              // particulars: `AMOUNT RECEIVED BEFORE (${
+              //   header?.freightPercentage
+              // }% FREIGHT ON ${_dateFormatter(header?.dteInvoiceDate)})`,
+              particulars: header?.totalNetPaybleDescription || '',
               cargoQty: 0,
               freightRate: 0,
               debit: 0,
