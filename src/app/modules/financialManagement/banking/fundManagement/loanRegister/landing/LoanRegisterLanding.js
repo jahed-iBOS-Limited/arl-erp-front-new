@@ -54,12 +54,6 @@ const LoanRegisterLanding = () => {
     loadingHistory,
     setHistoryData,
   ] = useAxiosGet();
-  const [
-    businessUnitDDL,
-    getBusinessUnitDDL,
-    loadUnit,
-    setBusinessUnitDDL,
-  ] = useAxiosGet();
   // ref
   // eslint-disable-next-line no-unused-vars
   const printRef = useRef();
@@ -67,6 +61,7 @@ const LoanRegisterLanding = () => {
   // eslint-disable-next-line no-unused-vars
   const [loading, setLoading] = useState(false);
   const [loanRegisterData, setLoanRegisterData] = useState([]);
+  const [businessUnitDDL, setBusinessUnitDDL] = useState([]);
 
   const [bankDDL, setBankDDL] = useState([]);
   const [pageNo, setPageNo] = useState(0);
@@ -91,18 +86,8 @@ const LoanRegisterLanding = () => {
 
   useEffect(() => {
     getBankDDLAll(setBankDDL, setLoading);
-    getBusinessUnitDDL(
-      `/domain/OrganizationalUnitUserPermission/GetBusinessUnitPermissionbyUser?UserId=${profileData?.userId}&ClientId=${profileData?.accountId}`,
-      (data) => {
-        const temp = data?.map((item) => ({
-          ...item,
-          value: item?.organizationUnitReffId,
-          label: item?.organizationUnitReffName,
-        }));
-        setBusinessUnitDDL(temp);
-      }
-    );
-  }, [profileData?.userId]);
+    getBusinessUnitDDL(profileData?.accountId, setBusinessUnitDDL);
+  }, []);
 
   useEffect(() => {
     getLoanRegisterLanding(
@@ -229,9 +214,7 @@ const LoanRegisterLanding = () => {
   };
   return (
     <>
-      {(loading || closeLoanRegisterLoader || loadingHistory || loadUnit) && (
-        <Loading />
-      )}
+      {(loading || closeLoanRegisterLoader || loadingHistory) && <Loading />}
       <Formik
         enableReinitialize={true}
         initialValues={initData}
