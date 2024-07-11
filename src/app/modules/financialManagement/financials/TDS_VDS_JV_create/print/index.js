@@ -5,7 +5,7 @@ import { useReactToPrint } from "react-to-print";
 import Print from "./print";
 import "./style.scss";
 
-export default function PrintView({selectedRow}) {
+export default function PrintView({ selectedRow,currentSelectedAccNo }) {
   const { selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
@@ -79,9 +79,9 @@ export default function PrintView({selectedRow}) {
                 </td>
               </tr>
             </thead>
-            {/* CONTENT GOES HERE */}
+            {/* CONTENT GOES HERE (Send selected row & current selected account number which is selected in formik*/}
             <tbody>
-              <Print selectedRow={selectedRow} />
+              <Print selectedRow={selectedRow}  currentSelectedAccNo={currentSelectedAccNo}/>
             </tbody>
             <tfoot>
               <tr>
