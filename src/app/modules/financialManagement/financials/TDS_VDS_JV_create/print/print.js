@@ -2,9 +2,12 @@ import React, { useEffect } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import { amountToWords } from "../../../../_helper/_ConvertnumberToWord";
+import { _todayDate } from "../../../../_helper/_todayDate";
+import { _todayDayWeekName, currentMonthAndYear, dateFormatWithMonthName } from "../../../../_helper/_dateFormate";
 
-export default function Print({ selectedRow }) {
+export default function Print({ selectedRow, currentSelectedAccNo }) {
   const {
+    // eslint-disable-next-line no-unused-vars
     profileData: { accountId: accId },
     selectedBusinessUnit: { value: buId, label: buName, businessUnitAddress },
   } = useSelector((state) => state.authData, shallowEqual);
@@ -29,7 +32,7 @@ export default function Print({ selectedRow }) {
       }}
       contenteditable="true"
     >
-      <div style={{ marginBottom: 20 }}>Date: Wednesday, June 05, 2024</div>
+      <div style={{ marginBottom: 20 }}>Date: {_todayDayWeekName()}, {dateFormatWithMonthName(_todayDate())}</div>
       <div style={{ marginBottom: 20 }}>
         <p>To,</p>
         <p>
@@ -49,8 +52,8 @@ export default function Print({ selectedRow }) {
         <p>Dear Sir,</p>
         <p>
           We do hereby request you to make payment by Bangladesh Bank Challan as
-          per below table debiting the total amounts to our CD Account No.
-          20502130100077310
+          per below table debiting the total amounts to our CD Account No.{" "}
+          {currentSelectedAccNo?.bankAccNo || 'Not Assigned'}
         </p>
       </div>
       <table
@@ -179,13 +182,13 @@ export default function Print({ selectedRow }) {
       <div style={{ marginBottom: 20 }}>
         <p>Other Information:</p>
         <p>
-          Financial Year: 2023-24
+          Financial Year: 2025-26
           <br />
           As per Act: SECTION 89
           <br />
           Old Challan Code: 1110223103258
           <br />
-          Depositing Month: For The Month Nov 23
+          Depositing Month: For The Month {currentMonthAndYear()}
         </p>
       </div>
       <div style={{ marginBottom: 20 }}>
@@ -199,8 +202,11 @@ export default function Print({ selectedRow }) {
       </div>
       <div>
         <p>Yours faithfully,</p>
-        <p>FOR AKIJ CEMENT COMPANY LIMITED</p>
-        <p style={{ marginTop: "60px" }}>Authorized Signature</p>
+        <p>FOR {buName?.toUpperCase()}</p>
+        <div style={{ display: 'flex', flexFlow: 'row wrap', columnGap: '80px', marginTop: "60px" }}>
+          <p>Authorized Signature</p>
+          <p>Authorized Signature</p>
+        </div>
       </div>
     </div>
   );
