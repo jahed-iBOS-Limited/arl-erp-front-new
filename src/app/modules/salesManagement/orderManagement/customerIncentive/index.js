@@ -110,6 +110,9 @@ export default function CustomerIncentive() {
           dteDate: item?.dteDate || "",
           businessUnitId: buId,
           actionBy: userId,
+          fromRange: item?.per1,
+          toRange: item?.per2,
+          inputAmount: item?.amount,
         };
         // eslint-disable-next-line no-unused-expressions
         selectedTradeCommission?.push(newItem);
@@ -135,7 +138,7 @@ export default function CustomerIncentive() {
     if (
       ["WithTarget", "WithoutTarget"].includes(values?.incentiveType?.value)
     ) {
-      let url = `/oms/SalesInformation/GetTradeCommissionWithTarget?partName=${values?.incentiveType?.value}&businessUnitId=${buId}&customerId=0&Frommonth=${values?.fromDate}&Tomonth=${values?.toDate}`;
+      let url = `/oms/SalesInformation/GetTradeCommissionTarget?partName=${values?.incentiveType?.value}&businessUnitId=${buId}&customerId=0&Frommonth=${values?.fromDate}&Tomonth=${values?.toDate}`;
       getTargetData(url, percentageList, (res) => {
         setTradeCommission(res);
       });
@@ -364,9 +367,9 @@ export default function CustomerIncentive() {
                           }
                           onClick={() => {
                             const data = {
-                              per1: values?.per1,
-                              per2: values?.per2,
-                              amount: values?.amount,
+                              per1: +values?.per1,
+                              per2: +values?.per2,
+                              amount: +values?.amount,
                             };
                             setPercentageList([...percentageList, data]);
                             setFieldValue("per1", "");
@@ -406,7 +409,7 @@ export default function CustomerIncentive() {
                                   <td className="text-center">
                                     {item?.amount}
                                   </td>
-                                  <td className="text=center">
+                                  <td className="text-center">
                                     <span
                                       onClick={() => {
                                         const data = percentageList.filter(
@@ -434,7 +437,12 @@ export default function CustomerIncentive() {
                       className="btn btn-primary"
                       onClick={() => getTradeCommissionHandler(values)}
                       disabled={
-                        !values?.customerCategory || !values?.incentiveType
+                        !values?.customerCategory ||
+                        !values?.incentiveType ||
+                        (["WithTarget", "WithoutTarget"].includes(
+                          values?.incentiveType?.value
+                        ) &&
+                          !percentageList?.length)
                       }
                     >
                       View
@@ -531,11 +539,21 @@ export default function CustomerIncentive() {
                             ? "Avg Delivery Qty"
                             : "Delivery Qty"}
                         </th>
+                        {["WithTarget", "WithoutTarget"].includes(
+                          values?.incentiveType?.value
+                        ) && <th>Target Quantity</th>}
                         {/* <th>Total Delivery Qty</th> */}
-                        <th>Opening Balance</th>
-                        <th>Sales Amount</th>
-                        <th>Collection Amount</th>
-                        <th>Balance</th>
+                        {!["WithTarget", "WithoutTarget"].includes(
+                          values?.incentiveType?.value
+                        ) ? (
+                          <>
+                            {" "}
+                            <th>Opening Balance</th>
+                            <th>Sales Amount</th>
+                            <th>Collection Amount</th>
+                            <th>Balance</th>
+                          </>
+                        ) : null}
                         <th>Amount</th>
                         <th>Is JV Posted</th>
                       </tr>
@@ -571,21 +589,35 @@ export default function CustomerIncentive() {
                             <td className="text-right">
                               {item?.deliveryQty || 0}
                             </td>
+                            {["WithTarget", "WithoutTarget"].includes(
+                              values?.incentiveType?.value
+                            ) && (
+                              <td className="text-right">
+                                {item?.targetQuantity || 0}
+                              </td>
+                            )}
                             {/* <td className="text-right">
                               {item?.totalDeliveryQTY || 0}
                             </td> */}
-                            <td className="text-right">
-                              {_formatMoney(item?.openingBalance)}
-                            </td>
-                            <td className="text-right">
-                              {_formatMoney(item?.salesAmount)}
-                            </td>
-                            <td className="text-right">
-                              {_formatMoney(item?.collectionAmount)}
-                            </td>{" "}
-                            <td className="text-right">
-                              {_formatMoney(item?.balance)}
-                            </td>
+                            {!["WithTarget", "WithoutTarget"].includes(
+                              values?.incentiveType?.value
+                            ) ? (
+                              <>
+                                {" "}
+                                <td className="text-right">
+                                  {_formatMoney(item?.openingBalance)}
+                                </td>
+                                <td className="text-right">
+                                  {_formatMoney(item?.salesAmount)}
+                                </td>
+                                <td className="text-right">
+                                  {_formatMoney(item?.collectionAmount)}
+                                </td>{" "}
+                                <td className="text-right">
+                                  {_formatMoney(item?.balance)}
+                                </td>
+                              </>
+                            ) : null}
                             <td className="text-right">
                               {_formatMoney(item?.incentiveAmount)}
                             </td>
@@ -604,18 +636,31 @@ export default function CustomerIncentive() {
                         <td className="font-weight-bold text-right">
                           {countTotal("deliveryQty")}
                         </td>
-                        <td className="font-weight-bold text-right">
-                          {_formatMoney(countTotal("openingBalance"))}
-                        </td>
-                        <td className="font-weight-bold text-right">
-                          {_formatMoney(countTotal("salesAmount"))}
-                        </td>
-                        <td className="font-weight-bold text-right">
-                          {_formatMoney(countTotal("collectionAmount"))}
-                        </td>{" "}
-                        <td className="font-weight-bold text-right">
-                          {countTotal("balance")}
-                        </td>
+                        {["WithTarget", "WithoutTarget"].includes(
+                          values?.incentiveType?.value
+                        ) && (
+                          <td className="font-weight-bold text-right">
+                            {countTotal("targetQuantity")}
+                          </td>
+                        )}
+                        {!["WithTarget", "WithoutTarget"].includes(
+                          values?.incentiveType?.value
+                        ) ? (
+                          <>
+                            <td className="font-weight-bold text-right">
+                              {_formatMoney(countTotal("openingBalance"))}
+                            </td>
+                            <td className="font-weight-bold text-right">
+                              {_formatMoney(countTotal("salesAmount"))}
+                            </td>
+                            <td className="font-weight-bold text-right">
+                              {_formatMoney(countTotal("collectionAmount"))}
+                            </td>{" "}
+                            <td className="font-weight-bold text-right">
+                              {countTotal("balance")}
+                            </td>
+                          </>
+                        ) : null}
                         <td className="font-weight-bold text-right">
                           {_formatMoney(countTotal("incentiveAmount"))}
                         </td>
