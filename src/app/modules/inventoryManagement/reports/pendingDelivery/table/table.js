@@ -524,7 +524,7 @@ const PendingDeliveryReportTable = () => {
                   </div>
                 </div>
               </form>
-              <GridView gridData={gridData} setGridData={setGridData} />
+              <GridView gridData={gridData} setGridData={setGridData} selectedBusinessUnit={selectedBusinessUnit} />
             </CardBody>
           </Card>
         </>
