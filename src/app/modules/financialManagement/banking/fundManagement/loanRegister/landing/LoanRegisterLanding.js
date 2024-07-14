@@ -248,28 +248,30 @@ const LoanRegisterLanding = () => {
               <CardBody>
                 <Form className="form form-label-right">
                   <div className="form-group row global-form align-items-end">
-                    <div className="col-lg-3">
-                      <NewSelect
-                        name="businessUnit"
-                        options={
-                          [{ value: 0, label: "All" }, ...businessUnitDDL] || []
-                        }
-                        value={values?.businessUnit}
-                        label="BusinessUnit"
-                        onChange={(valueOption) => {
-                          if (valueOption) {
-                            setFieldValue("businessUnit", valueOption);
-                            setLoanRegisterData([]);
-                          } else {
-                            setLoanRegisterData([]);
-                            setFieldValue("businessUnit", "");
+                    {
+                      buId === 136 && <div className="col-lg-3">
+                        <NewSelect
+                          name="businessUnit"
+                          options={
+                            [{ value: 0, label: "All" }, ...businessUnitDDL] || []
                           }
-                        }}
-                        placeholder="BusinessUnit"
-                        errors={errors}
-                        touched={touched}
-                      />
-                    </div>
+                          value={values?.businessUnit}
+                          label="BusinessUnit"
+                          onChange={(valueOption) => {
+                            if (valueOption) {
+                              setFieldValue("businessUnit", valueOption);
+                              setLoanRegisterData([]);
+                            } else {
+                              setLoanRegisterData([]);
+                              setFieldValue("businessUnit", "");
+                            }
+                          }}
+                          placeholder="BusinessUnit"
+                          errors={errors}
+                          touched={touched}
+                        />
+                      </div>
+                    }
                     <div className="col-lg-3">
                       <NewSelect
                         name="bank"
@@ -335,7 +337,7 @@ const LoanRegisterLanding = () => {
                         onClick={(e) => {
                           getLoanRegisterLanding(
                             profileData?.accountId,
-                            values?.businessUnit?.value || buId,
+                            buId === 136 ? values?.businessUnit?.value : buId,
                             values?.bank?.value,
                             values?.status?.value,
                             pageNo,
