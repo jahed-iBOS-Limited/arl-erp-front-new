@@ -220,7 +220,6 @@ export default function LoanRegisterViewForm({
                     type="number"
                     min="0"
                     step="any"
-                    disabled
                   />
                 </div>
                 <div className="col-lg-2 pl pr-1 mb-1">
