@@ -15,9 +15,9 @@ const initData = {
   status: "",
 };
 export default function DispatchReport() {
-  const saveHandler = (values, cb) => {};
+  const saveHandler = (values, cb) => { };
   const [gridData, getGridData, loader] = useAxiosGet();
-  const [statusDDl, getStatus] = useAxiosGet();
+  const [statusDDl, getStatus, , setStatusDDL] = useAxiosGet();
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
@@ -34,8 +34,17 @@ export default function DispatchReport() {
   };
   useEffect(() => {
     getStatus(
-      `/tms/DocumentDispatch/GetDispatchStatusDDL?businessUnitId=${selectedBusinessUnit?.value}`
+      `/tms/DocumentDispatch/GetDispatchStatusDDL?businessUnitId=${selectedBusinessUnit?.value}`, (data) => {
+        const updatedStatus = data?.map((item, index) => {
+          return {
+            ...item,
+            value: index+1
+          }
+        })
+        setStatusDDL(updatedStatus)
+      }
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
