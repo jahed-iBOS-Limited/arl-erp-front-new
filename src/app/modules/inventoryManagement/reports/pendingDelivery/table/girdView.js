@@ -3,13 +3,13 @@ import moment from "moment";
 import { _dateFormatterTwo } from "../../../../_helper/_dateFormate";
 import "./style.css";
 
-const GridView = ({ gridData, setGridData }) => {
+const GridView = ({ gridData, setGridData, selectedBusinessUnit }) => {
   // one item select
   const itemSlectedHandler = (index, gridData, item) => {
     const isItemCheck = gridData?.find((item) => item?.itemCheck);
     if (
       isItemCheck?.objRowData?.soldToPartnerId ===
-        item?.objRowData?.soldToPartnerId ||
+      item?.objRowData?.soldToPartnerId ||
       !isItemCheck
     ) {
       const copyRowDto = [...gridData];
@@ -28,6 +28,7 @@ const GridView = ({ gridData, setGridData }) => {
   //   return modifyGridData;
   // };
 
+  const buUnId=selectedBusinessUnit?.value
 
   return (
     <>
@@ -60,8 +61,11 @@ const GridView = ({ gridData, setGridData }) => {
                     <th>Order No.</th>
                     <th>Order Date/Time</th>
                     <th style={{ minWidth: "120px" }}>Item Name</th>
+                    <th>Item Price</th>
                     <th>Order Qty.</th>
+                    {buUnId === 144 && <th>Order Qty.&nbsp;(Ton)</th>}
                     <th>Pending Qty.</th>
+                    {buUnId === 144 && <th>Pending Qty.&nbsp;(Ton)</th>}
                     <th>Vehicle Type</th>
                     <th>Unloading Time</th>
                     <th>Region</th>
@@ -85,6 +89,9 @@ const GridView = ({ gridData, setGridData }) => {
                       region,
                       area,
                       territory,
+                      numItemPrice,
+                      numOrderQuantityTon,
+                      pendingQtyTon,
                     } = item?.objRowData;
 
                     return (
@@ -115,8 +122,11 @@ const GridView = ({ gridData, setGridData }) => {
                           {moment(orderDateTime).format("LT")}
                         </td>
                         <td>{itemName}</td>
+                        <td className="text-right">{numItemPrice}</td>
                         <td className="text-right">{numOrderQuantity}</td>
+                        {buUnId === 144 && <td className="text-right">{numOrderQuantityTon}</td>}
                         <td className="text-right">{pendingQty}</td>
+                        {buUnId === 144 && <td className="text-right">{pendingQtyTon}</td>}
                         <td></td>
                         <td>{_dateFormatterTwo(deliveryTime)}</td>
                         <td>{region}</td>
