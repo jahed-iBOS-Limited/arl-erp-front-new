@@ -219,7 +219,7 @@ const LoanRegisterLanding = () => {
         enableReinitialize={true}
         initialValues={initData}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          saveHandler(values, (code) => {});
+          saveHandler(values, (code) => { });
         }}
       >
         {({ values, errors, touched, setFieldValue }) => (
@@ -457,8 +457,8 @@ const LoanRegisterLanding = () => {
                                 <td className="text-right">
                                   {item?.numPrinciple - item?.numPaid >= 1
                                     ? _formatMoney(
-                                        item?.numPrinciple - item?.numPaid
-                                      )
+                                      item?.numPrinciple - item?.numPaid
+                                    )
                                     : 0}
                                 </td>
                                 <td className="text-center">
@@ -514,6 +514,7 @@ const LoanRegisterLanding = () => {
                                                 item?.numPrinciple -
                                                 item?.numPaid,
                                               bu: values?.businessUnit?.value,
+                                              strLoanAccountName: item?.strLoanAccountName
                                             },
                                           });
                                         }
