@@ -73,6 +73,13 @@ export default function ServicePO({
   const [isDisabled, setDisabled] = useState(false);
   const history = useHistory();
   const [, postUpdateExpense, loadingUpdateExpense] = useAxiosPost();
+  const [
+    transferUnitSupplierDDL,
+    getTransferUnitSupplierDDL,
+    ,
+    setTransferUnitSupplierDDL,
+  ] = useAxiosGet();
+
   useEffect(() => {
     dispatch(getSbuDDLAction(accountId, buId));
     dispatch(getPurchaseOrgDDLAction(accountId, buId));
@@ -351,6 +358,12 @@ export default function ServicePO({
           transferCostElementId: values?.costElement?.value || 0,
           transferCostCenterId: values?.costCenter?.value || 0,
           profitCenterId: values?.profitCenter?.value || 0,
+          intTransferUnitPartnerId: values?.isTransfer
+            ? values?.transferBusinessUnitSupplier?.value || 0
+            : 0,
+          strTransferUnitPartnerName: values?.isTransfer
+            ? values?.transferBusinessUnitSupplier?.label || ""
+            : "",
         },
         objRowListDTO,
         objImageListDTO: values?.attachmentList?.map((attachment) => ({
@@ -906,6 +919,26 @@ export default function ServicePO({
                                 valueOption?.value,
                                 setProfitCenterList,
                                 setLoading
+                              );
+                              getTransferUnitSupplierDDL(
+                                `/procurement/PurchaseOrder/GetSupplierListDDL?AccountId=${accountId}&UnitId=${valueOption?.value}&SBUId=0`
+                              );
+                            }}
+                            errors={errors}
+                            touched={touched}
+                          />
+                        </div>
+                        <div className="col-lg-2">
+                          <NewSelect
+                            label="Transfer Business Unit Supplier"
+                            options={transferUnitSupplierDDL || []}
+                            value={values?.transferBusinessUnitSupplier}
+                            name="transferBusinessUnitSupplier"
+                            isDisabled={!values?.isTransfer}
+                            onChange={(valueOption) => {
+                              setFieldValue(
+                                "transferBusinessUnitSupplier",
+                                valueOption
                               );
                             }}
                             errors={errors}
