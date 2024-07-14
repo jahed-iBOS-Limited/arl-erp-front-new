@@ -18,6 +18,7 @@ import { _formatMoney } from "../../../_chartinghelper/_formatMoney";
 import IDelete from "../../../_chartinghelper/icons/_delete";
 import IViewModal from "../../../_chartinghelper/_viewModal";
 import { _dateFormatter } from "../../../_chartinghelper/_dateFormatter";
+import ServicePO from "./servicePo";
 
 export default function _Form({
   title,
@@ -43,6 +44,8 @@ export default function _Form({
   const [businessPartnerLabel, setBusinessPartnerLabel] = useState("");
   const [show, setShow] = useState(false);
   // const [singleRow, setSingleRow] = useState({});
+  const [isShowPoModal, setIsShowPoModal] = useState(false);
+  const [singleData, setSingleData] = useState({});
 
   const setBPLabel = (businessPartnerTypeId) => {
     let label = "";
@@ -414,7 +417,8 @@ export default function _Form({
                       // { name: "Final Amount" },
                       // { name: "Paid Amount" },
                       // { name: "Due Amount" },
-                      viewType !== "view" && { name: "Action" },
+                      // viewType !== "view" && { name: "Action" },
+                      { name: "Action" },
                     ]}
                   >
                     {rowData?.map((item, index) => (
@@ -426,6 +430,22 @@ export default function _Form({
                         <td className="text-right">
                           {_formatMoney(item?.costAmount)}
                         </td>
+                        {viewType === "view" && (
+                          <td className="text-center">
+                            <div className="btn-container">
+                              <button
+                                type="button"
+                                className="btn btn-primary "
+                                onClick={() => {
+                                  setIsShowPoModal(true);
+                                  setSingleData(item);
+                                }}
+                              >
+                                PO Create
+                              </button>
+                            </div>
+                          </td>
+                        )}
                         {/* <td className="text-right">
                           {_formatMoney(item?.totalAmount)}
                         </td> */}
@@ -495,6 +515,18 @@ export default function _Form({
                 setLoading={setLoading}
                 // singleRow={singleRow}
                 setRowData={setRowData}
+              />
+            </IViewModal>
+
+            <IViewModal
+              show={isShowPoModal}
+              onHide={() => setIsShowPoModal(false)}
+            >
+              <ServicePO
+                isShowPoModal={isShowPoModal}
+                setIsShowPoModal={setIsShowPoModal}
+                singleData={singleData}
+                setSingleData={setSingleData}
               />
             </IViewModal>
           </>
