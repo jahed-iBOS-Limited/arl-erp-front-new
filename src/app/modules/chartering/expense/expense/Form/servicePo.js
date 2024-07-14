@@ -3,7 +3,13 @@ import { Formik, Form, Field } from "formik";
 import { useLocation } from "react-router-dom";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { initData, lastPriceFunc, validationSchemaForPo } from "../helper";
+import {
+  getAdditionalCostById,
+  getCostTypeDDL,
+  initData,
+  lastPriceFunc,
+  validationSchemaForPo,
+} from "../helper";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import axios from "axios";
 import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
@@ -49,6 +55,8 @@ export default function ServicePO({
   isShowPoModal,
   setSingleData,
   singleData,
+  setRowData,
+  setCostTypeDDL,
 }) {
   const {
     profileData: { accountId },
@@ -417,6 +425,19 @@ export default function ServicePO({
               () => {
                 setIsShowPoModal(false);
                 setSingleData({});
+                getAdditionalCostById(
+                  location?.state?.vesselId,
+                  location?.state?.voyageId,
+                  setRowData,
+                  setLoading,
+                  (data) => {
+                    getCostTypeDDL(
+                      data?.voyageTypeId,
+                      setCostTypeDDL,
+                      setLoading
+                    );
+                  }
+                );
               },
               true
             );

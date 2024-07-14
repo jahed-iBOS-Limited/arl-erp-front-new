@@ -430,7 +430,7 @@ export default function _Form({
                         <td className="text-right">
                           {_formatMoney(item?.costAmount)}
                         </td>
-                        {viewType === "view" && (
+                        {viewType === "view" && !item?.purchaseOrderNo && (
                           <td className="text-center">
                             <div className="btn-container">
                               <button
@@ -460,9 +460,10 @@ export default function _Form({
                             className="text-center d-flex justify-content-center"
                             // style={{ maxWidth: "120px" }}
                           >
-                            {(viewType === "edit" || !viewType) && (
-                              <IDelete remover={removeRow} id={index} />
-                            )}
+                            {(viewType === "edit" || !viewType) &&
+                              !item?.purchaseOrderNo && (
+                                <IDelete remover={removeRow} id={index} />
+                              )}
                             {/* {(viewType === "edit" || viewType === "cash") && (
                               <div className="d-flex justify-content-center">
                                 <span style={{ opacity: "0%" }}>
@@ -527,6 +528,8 @@ export default function _Form({
                 setIsShowPoModal={setIsShowPoModal}
                 singleData={singleData}
                 setSingleData={setSingleData}
+                setCostTypeDDL={setCostTypeDDL}
+                setRowData={setRowData}
               />
             </IViewModal>
           </>
