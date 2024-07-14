@@ -40,11 +40,17 @@ export default function RepayForm({
       setLoading
     );
   }, [profileData, selectedBusinessUnit, location]);
+
+  const initialValues = {
+    ...initData,
+    instrumentNo: location?.state?.strLoanAccountName || initData?.instrumentNo
+  }
+
   return (
     <>
       <Formik
         enableReinitialize={true}
-        initialValues={initData}
+        initialValues={initialValues}
         validationSchema={loanRegister}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           saveHandler(values, () => {
