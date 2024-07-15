@@ -49,6 +49,7 @@ import {
 } from "../../../../_helper/_redux/Actions";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import { imarineBaseUrl } from "../../../../../App";
+import { setValue } from "../../../lighterVessel/trip/helper";
 
 export default function ServicePO({
   setIsShowPoModal,
@@ -229,6 +230,7 @@ export default function ServicePO({
       `/procurement/PurchaseOrder/TransferPoBusinessUnit_reverse?UnitId=${buId}`
     );
     dispatch(getPaymentTermsListDDLAction());
+    dispatch(getCurrencyDDLAction(accountId, 11, buId));
   }, [buId]);
   const getIsDisabledAddBtn = (values) => {
     if (values.isTransfer) {
@@ -408,8 +410,6 @@ export default function ServicePO({
         validationSchema={validationSchemaForPo}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           saveHandler({ ...values, attachmentList }, rowDto, (res) => {
-            console.log({ res });
-            console.log({ singleData });
             resetForm(initData);
             setAttachmentList([]);
             setRowDto([]);
@@ -497,6 +497,8 @@ export default function ServicePO({
                         value={values?.purchaseOrg}
                         label="Purchase Org"
                         onChange={(valueOption) => {
+                          setFieldValue("currency", "");
+
                           if (valueOption?.value) {
                             setFieldValue("purchaseOrg", valueOption);
                             getRefNoDdlForServicePo(
@@ -523,6 +525,13 @@ export default function ServicePO({
                                 values?.referenceNo
                               )
                             );
+                            dispatch(
+                              getCurrencyDDLAction(
+                                accountId,
+                                valueOption?.value,
+                                buId
+                              )
+                            );
                           }
                         }}
                         placeholder="Purchase Org"
@@ -537,10 +546,7 @@ export default function ServicePO({
                         value={values?.plant}
                         label="Plant"
                         onChange={(valueOption) => {
-                          setFieldValue("plant", valueOption);
-
                           if (valueOption?.value) {
-                            setFieldValue("plant", valueOption);
                             dispatch(
                               getWareHouseDDLAction(
                                 profileData?.userId,
@@ -549,13 +555,7 @@ export default function ServicePO({
                                 valueOption?.value
                               )
                             );
-                            dispatch(
-                              getCurrencyDDLAction(
-                                accountId,
-                                values?.purchaseOrg?.value,
-                                buId
-                              )
-                            );
+
                             getRefNoDdlForServicePo(
                               accountId,
                               buId,
@@ -578,7 +578,12 @@ export default function ServicePO({
                               3,
                               values?.referenceNo
                             );
+                            setFieldValue("plant", valueOption);
+                          } else {
+                            setFieldValue("plant", "");
                           }
+                          setFieldValue("warehouse", "");
+                          setFieldValue("deliveryAddress", "");
                         }}
                         placeholder="Plant"
                         errors={errors}
