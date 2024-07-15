@@ -593,7 +593,7 @@ const LoanRegisterLanding = () => {
                                         <IClose
                                           closer={() => {
                                             postCloseLoanRegister(
-                                              `/fino/FundManagement/CancelLoanRegister?businessUnitId=${values?.businessUnit?.value}&loanAccountId=${item?.intLoanAccountId}&actionBy=${profileData?.userId}`,
+                                              `/fino/FundManagement/CancelLoanRegister?businessUnitId=${item?.intBusinessUnitId}&loanAccountId=${item?.intLoanAccountId}&actionBy=${profileData?.userId}`,
                                               null,
                                               () => {
                                                 getLoanRegisterLanding(
