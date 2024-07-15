@@ -413,6 +413,7 @@ export default function _Form({
                       { name: "Cost Type Name" },
                       { name: "Transaction Date" },
                       { name: "Cost Amount" },
+                      { name: "PO Code" },
                       // { name: "Advance Amount" },
                       // { name: "Final Amount" },
                       // { name: "Paid Amount" },
@@ -430,20 +431,23 @@ export default function _Form({
                         <td className="text-right">
                           {_formatMoney(item?.costAmount)}
                         </td>
-                        {viewType === "view" && !item?.purchaseOrderNo && (
+                        <td className="text-right">{item?.purchaseOrderNo}</td>
+                        {viewType === "view" && (
                           <td className="text-center">
-                            <div className="btn-container">
-                              <button
-                                type="button"
-                                className="btn btn-primary "
-                                onClick={() => {
-                                  setIsShowPoModal(true);
-                                  setSingleData(item);
-                                }}
-                              >
-                                PO Create
-                              </button>
-                            </div>
+                            {!item?.purchaseOrderNo && (
+                              <div className="btn-container">
+                                <button
+                                  type="button"
+                                  className="btn btn-primary "
+                                  onClick={() => {
+                                    setIsShowPoModal(true);
+                                    setSingleData(item);
+                                  }}
+                                >
+                                  PO Create
+                                </button>
+                              </div>
+                            )}
                           </td>
                         )}
                         {/* <td className="text-right">
@@ -461,9 +465,13 @@ export default function _Form({
                             // style={{ maxWidth: "120px" }}
                           >
                             {(viewType === "edit" || !viewType) &&
-                              !item?.purchaseOrderNo && (
+                            !item?.purchaseOrderNo ? (
+                              <div>
                                 <IDelete remover={removeRow} id={index} />
-                              )}
+                              </div>
+                            ) : (
+                              <div>&nbsp;</div>
+                            )}
                             {/* {(viewType === "edit" || viewType === "cash") && (
                               <div className="d-flex justify-content-center">
                                 <span style={{ opacity: "0%" }}>
