@@ -682,7 +682,7 @@ export default function CustomerIncentive() {
                       <tr>
                         <td
                           className="font-weight-bold text-left ml-2"
-                          colSpan={6}
+                          colSpan={7}
                         >
                           Total
                         </td>
