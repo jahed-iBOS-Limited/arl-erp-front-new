@@ -219,7 +219,7 @@ const LoanRegisterLanding = () => {
         enableReinitialize={true}
         initialValues={initData}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          saveHandler(values, (code) => { });
+          saveHandler(values, (code) => {});
         }}
       >
         {({ values, errors, touched, setFieldValue }) => (
@@ -248,12 +248,13 @@ const LoanRegisterLanding = () => {
               <CardBody>
                 <Form className="form form-label-right">
                   <div className="form-group row global-form align-items-end">
-                    {
-                      buId === 136 && <div className="col-lg-3">
+                    {buId === 136 && (
+                      <div className="col-lg-3">
                         <NewSelect
                           name="businessUnit"
                           options={
-                            [{ value: 0, label: "All" }, ...businessUnitDDL] || []
+                            [{ value: 0, label: "All" }, ...businessUnitDDL] ||
+                            []
                           }
                           value={values?.businessUnit}
                           label="BusinessUnit"
@@ -271,7 +272,7 @@ const LoanRegisterLanding = () => {
                           touched={touched}
                         />
                       </div>
-                    }
+                    )}
                     <div className="col-lg-3">
                       <NewSelect
                         name="bank"
@@ -337,7 +338,9 @@ const LoanRegisterLanding = () => {
                         onClick={(e) => {
                           getLoanRegisterLanding(
                             profileData?.accountId,
-                            values?.businessUnit?.value >= 0 ? values?.businessUnit?.value : buId,
+                            values?.businessUnit?.value >= 0
+                              ? values?.businessUnit?.value
+                              : buId,
                             values?.bank?.value,
                             values?.status?.value,
                             pageNo,
@@ -362,6 +365,7 @@ const LoanRegisterLanding = () => {
                             <tr>
                               <th>SL</th>
                               <th>Bank</th>
+                              <th>SBU</th>
                               <th style={{ minWidth: "70px" }}>Loan Type</th>
                               <th style={{ minWidth: "70px" }}>Loan Class</th>
                               <th style={{ minWidth: "70px" }}>Facility</th>
@@ -399,6 +403,7 @@ const LoanRegisterLanding = () => {
                               <tr key={index}>
                                 <td className="text-center">{index + 1}</td>
                                 <td className="text-">{item?.strBankName}</td>
+                                <td className="text-">{item?.sbuName}</td>
                                 <td className="text-">{item?.loanTypeName}</td>
                                 <td className="text-">{item?.loanClassName}</td>
                                 <td className="text-">
@@ -459,8 +464,8 @@ const LoanRegisterLanding = () => {
                                 <td className="text-right">
                                   {item?.numPrinciple - item?.numPaid >= 1
                                     ? _formatMoney(
-                                      item?.numPrinciple - item?.numPaid
-                                    )
+                                        item?.numPrinciple - item?.numPaid
+                                      )
                                     : 0}
                                 </td>
                                 <td className="text-center">
@@ -516,7 +521,8 @@ const LoanRegisterLanding = () => {
                                                 item?.numPrinciple -
                                                 item?.numPaid,
                                               bu: values?.businessUnit?.value,
-                                              strLoanAccountName: item?.strLoanAccountName
+                                              strLoanAccountName:
+                                                item?.strLoanAccountName,
                                             },
                                           });
                                         }
@@ -592,7 +598,11 @@ const LoanRegisterLanding = () => {
                                               () => {
                                                 getLoanRegisterLanding(
                                                   profileData?.accountId,
-                                                  values?.businessUnit?.value >= 0 ? values?.businessUnit?.value : buId,
+                                                  values?.businessUnit?.value >=
+                                                    0
+                                                    ? values?.businessUnit
+                                                        ?.value
+                                                    : buId,
                                                   values?.bank?.value,
                                                   values?.status?.value,
                                                   pageNo,
@@ -617,7 +627,7 @@ const LoanRegisterLanding = () => {
                             <tr>
                               <td></td>
                               <td className="text-center">Total</td>
-                              <td colSpan={10}></td>
+                              <td colSpan={11}></td>
                               <td className="text-right">
                                 <b> {_formatMoney(totalPrincipleAmount)}</b>
                               </td>
