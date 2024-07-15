@@ -356,6 +356,7 @@ export default function CustomerIncentive() {
                           }}
                         />
                       </div>
+                      <div className="col-1"><input type="check"/></div>
                       <div className="col-lg-3">
                         <InputField
                           value={values?.per2}

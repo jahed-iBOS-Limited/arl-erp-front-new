@@ -107,7 +107,7 @@ const LoanRegisterLanding = () => {
   const setPositionHandler = (pageNo, pageSize, values) => {
     getLoanRegisterLanding(
       profileData?.accountId,
-      buId,
+      values?.businessUnit?.value >= 0 ? values?.businessUnit?.value : buId,
       values?.bank?.value,
       values?.status?.value,
       pageNo,
@@ -176,7 +176,7 @@ const LoanRegisterLanding = () => {
         const cb = () => {
           getLoanRegisterLanding(
             profileData?.accountId,
-            item?.intBusinessUnitId || buId,
+            item?.intBusinessUnitId,
             values?.bank?.value,
             values?.status?.value,
             pageNo,
@@ -335,7 +335,7 @@ const LoanRegisterLanding = () => {
                         onClick={(e) => {
                           getLoanRegisterLanding(
                             profileData?.accountId,
-                            values?.businessUnit?.value || buId,
+                            values?.businessUnit?.value >= 0 ? values?.businessUnit?.value : buId,
                             values?.bank?.value,
                             values?.status?.value,
                             pageNo,
@@ -589,7 +589,7 @@ const LoanRegisterLanding = () => {
                                               () => {
                                                 getLoanRegisterLanding(
                                                   profileData?.accountId,
-                                                  values?.businessUnit?.value,
+                                                  values?.businessUnit?.value >= 0 ? values?.businessUnit?.value : buId,
                                                   values?.bank?.value,
                                                   values?.status?.value,
                                                   pageNo,
