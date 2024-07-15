@@ -69,6 +69,8 @@ export default function DeliveryReportTable({ id }) {
     productType,
     orderReferenceNo,
     warehouseName,
+    businessPartnerCode,
+    isCodeShowInChallan,
   } = deliveryOrderReportData;
 
   let totalQuantity = deliveryOrderReportData?.rows?.reduce(
@@ -201,7 +203,7 @@ export default function DeliveryReportTable({ id }) {
                     <tr>
                       <td>Ship To Partner</td>
                       <td>:</td>
-                      <td>{shipToPartner}</td>{" "}
+                      <td>{isCodeShowInChallan ? businessPartnerCode : `${shipToPartner} [${businessPartnerCode}]`}</td>{" "}
                       <td style={{ width: "120px" }}>Delivery Order</td>
                       <td>:</td>
                       <td>{deliveryOrder}</td>
@@ -303,7 +305,7 @@ export default function DeliveryReportTable({ id }) {
                 </div>
                 <div>
                   <b style={{ borderTop: "1px solid", padding: "5px 0 0" }}>
-                    Receiver's Signature With Seal & Date
+                    Receiver's Signature With Seal & Date22
                   </b>
                 </div>
               </div>
