@@ -9,14 +9,21 @@ import YearMonthForm from "../../../../_helper/commonInputFieldsGroups/yearMonth
 import {
   getCustomerNameDDL,
   getDistributionDDL,
-  getItemRequestGridData
+  getItemRequestGridData,
+  getParameterValues,
+  getReportId,
+  groupId,
+  reportType
 } from "../helper";
 import InputField from "./../../../../_helper/_inputField";
 import NewSelect from "./../../../../_helper/_select";
 import PowerBIReport from "./../../../../_helper/commonInputFieldsGroups/PowerBIReport";
 import ReceivableDueReportTable from "./receivableDueReportTable";
+import RATForm from "../../../../_helper/commonInputFieldsGroups/ratForm";
+import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
+
 const initialValues = {
-  reportType: { value: 0, label: "Receivable Due Report" },
+  reportType: { value: 3, label: 'Sales Analysis as Per Receivable' },
   dueDate: _todayDate(),
   transactionDate: _todayDate(),
   month: "",
@@ -60,29 +67,13 @@ export function TableRow(props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileData.accountId, selectedBusinessUnit.value]);
 
-  const groupId = "e3ce45bb-e65e-43d7-9ad1-4aa4b958b29a";
-  const reportId = "9962e8c5-114a-4b50-8ef4-e3368e0248b6";
-
-  const parameterValues = (values) => {
-
-    
-    return [
-   
-      { name: "intunit", value: `${selectedBusinessUnit.value}` },
-      { name: "YearID", value: `${values?.year?.value}` },
-      { name: "MonthID", value: `${values?.month?.value}` },
-      { name: "intpartid", value: `${values?.reportType?.value}` },
-      { name: "channelid", value: `${values?.distributionChannel?.value}` },
-      { name: "partnerid", value: `${values?.customerNameDDL?.value}` },
-    ];
-  };
 
   return (
     <>
       <Formik
         enableReinitialize={true}
         initialValues={initialValues}
-        onSubmit={(values, { setSubmitting, resetForm }) => {}}
+        onSubmit={(values, { setSubmitting, resetForm }) => { }}
       >
         {({ values, errors, touched, setFieldValue }) => (
           <Form className='form form-label-right'>
@@ -91,11 +82,7 @@ export function TableRow(props) {
                 <div className='col-lg-2'>
                   <NewSelect
                     name='reportType'
-                    options={[
-                      { value: 0, label: "Receivable Due Report" },
-                      { value: 1, label: "Day Base Collection" },
-                      { value: 2, label: "Month Basis" },
-                    ]}
+                    options={reportType}
                     value={values?.reportType}
                     label='Report Type'
                     onChange={(valueOption) => {
@@ -155,7 +142,7 @@ export function TableRow(props) {
                         colSize: "col-lg-2",
                       }}
                     />
-                   
+
                     <div className='col-lg-2'>
                       <NewSelect
                         name='distributionChannel'
@@ -202,15 +189,69 @@ export function TableRow(props) {
                   </>
                 )}
 
+                {/* Field & DDL For Report Type 3 */}
+                {
+                  [3].includes(values?.reportType?.value) && (
+                    <>
+                      <RATForm
+                        obj={{
+                          values,
+                          setFieldValue,
+                          channel: true,
+                          region: true,
+                          area: true,
+                          territory: true,
+                          onChange: (allValues, fieldName) => {
+                            if (fieldName === 'channel') {
+                              setShowReport(false);
+                              setFieldValue('customerNameDDL', "")
+                              setCustomerNameDDL([]);
+                              getCustomerNameDDL(
+                                profileData.accountId,
+                                selectedBusinessUnit.value,
+                                6,
+                                allValues?.channel?.value,
+                                setCustomerNameDDL
+                              );
+                            }
+                          }
+                        }}
+                      />
+                      <div className='col-lg-2'>
+                        <NewSelect
+                          name='customerNameDDL'
+                          options={customerNameDDL || []}
+                          value={values?.customerNameDDL}
+                          label='Customer Name'
+                          onChange={(valueOption) => {
+                            setShowReport(false);
+                            setFieldValue("customerNameDDL", valueOption);
+                          }}
+                          placeholder='Customer name'
+                          errors={errors}
+                          touched={touched}
+                          isDisabled={!values?.channel}
+                        />
+                      </div>
+                      <FromDateToDateForm
+                        obj={{
+                          values,
+                          setFieldValue,
+                        }}
+                      />
+                    </>
+                  )
+                }
+
                 <div className='col-lg-2 mt-5'>
                   <button
                     className='btn btn-primary'
                     type='button'
                     disabled={
                       !values?.reportType?.value ||
-                      [0].includes(values?.reportType?.value)
+                        [0].includes(values?.reportType?.value)
                         ? !values?.dueDate || !values?.transactionDate
-                        : !values?.month ||
+                        : [3].includes(values?.reportType?.value) ? !values?.customerNameDDL || !values?.channel || !values?.toDate || !values?.fromDate || !values?.region || !values?.area || !values?.territory : !values?.month ||
                           !values?.year ||
                           !values?.distributionChannel ||
                           !values?.customerNameDDL
@@ -227,8 +268,9 @@ export function TableRow(props) {
                           setLoading
                         );
                       }
-                      // Day Base Collection and Month Basis
-                      if ([1, 2].includes(values?.reportType?.value)) {
+                      // Day Base Collection and Month Basis and Sales Analysis as Per Receiveable
+                      if ([1, 2, 3].includes(values?.reportType?.value)) {
+                        console.log(values)
                         setShowReport(true);
                       }
                     }}
@@ -245,13 +287,13 @@ export function TableRow(props) {
               )}
 
               {/* if Day Base Collection */}
-              {[1, 2].includes(values?.reportType?.value) && (
+              {[1, 2, 3].includes(values?.reportType?.value) && (
                 <>
                   {showReport && (
                     <PowerBIReport
-                      reportId={reportId}
+                      reportId={getReportId(values?.reportType?.value)}
                       groupId={groupId}
-                      parameterValues={parameterValues(values)}
+                      parameterValues={getParameterValues(values, selectedBusinessUnit.value)}
                       parameterPanel={false}
                     />
                   )}
