@@ -12,6 +12,7 @@ import useDebounce from "../../../_helper/customHooks/useDebounce";
 import IForm from "./../../../_helper/_form";
 import Loading from "./../../../_helper/_loading";
 import IDelete from "../../../_helper/_helperIcons/_delete";
+import { toast } from "react-toastify";
 
 const initData = {
   customerCategory: "",
@@ -31,6 +32,7 @@ export default function CustomerIncentive() {
   const [percentageList, setPercentageList] = useState([]);
   // const [headingSelect, setHeadingSelect] = useState(false);
   const [, saveData, saveLoader] = useAxiosPost();
+  const [isAbove, setIsAbove] = useState(false)
   const [
     tradeCommission,
     getTradeCommission,
@@ -110,9 +112,9 @@ export default function CustomerIncentive() {
           dteDate: item?.dteDate || "",
           businessUnitId: buId,
           actionBy: userId,
-          fromRange: item?.per1,
-          toRange: item?.per2,
-          inputAmount: item?.amount,
+          fromRange: item?.fromRange,
+          toRange: item?.toRange,
+          inputAmount: item?.inputAmount,
         };
         // eslint-disable-next-line no-unused-expressions
         selectedTradeCommission?.push(newItem);
@@ -356,7 +358,23 @@ export default function CustomerIncentive() {
                           }}
                         />
                       </div>
-                      <div className="col-1"><input type="check"/></div>
+                      <div className="col-1 mt-5">
+                        <input
+                          className="mt-3"
+                          type="checkbox"
+                          checked={isAbove}
+                          onChange={(e) => {
+                            setIsAbove(!isAbove)
+                            setFieldValue("per2", "");
+                            if (e.target.checked) {
+                              setFieldValue("per2", 1000);
+                            }
+                          }}
+                        />
+                        <label style={{ position: "relative", bottom: "4px" }}>
+                          Is Above
+                        </label>
+                      </div>
                       <div className="col-lg-3">
                         <InputField
                           value={values?.per2}
@@ -367,6 +385,7 @@ export default function CustomerIncentive() {
                           }
                           name="per2"
                           type="number"
+                          disabled={values?.isAbove}
                           onChange={(e) => {
                             setFieldValue("per2", e.target.value);
                           }}
@@ -391,15 +410,22 @@ export default function CustomerIncentive() {
                             !values?.per1 || !values?.per2 || !values?.amount
                           }
                           onClick={() => {
+                            if (percentageList?.find((item) => item?.isAbove)) {
+                              return toast.warn(
+                                "You cann't add now because you alredy add IsAbove"
+                              );
+                            }
                             const data = {
                               per1: +values?.per1,
                               per2: +values?.per2,
                               amount: +values?.amount,
+                              isAbove: isAbove,
                             };
                             setPercentageList([...percentageList, data]);
                             setFieldValue("per1", "");
                             setFieldValue("per2", "");
                             setFieldValue("amount", "");
+                            setIsAbove(false)
                           }}
                         >
                           Add
@@ -555,6 +581,7 @@ export default function CustomerIncentive() {
                           />
                         </th>
                         <th>SL</th>
+                        <th>Incentive Type</th>
                         <th>Customer Code</th>
                         <th>Customer Name</th>
                         <th>Customer Category</th>
@@ -605,6 +632,7 @@ export default function CustomerIncentive() {
                               />
                             </td>
                             <td>{index + 1}</td>
+                            <td>{item?.incentiveType}</td>
                             <td className="text-center">
                               {item?.customerCode || ""}
                             </td>
