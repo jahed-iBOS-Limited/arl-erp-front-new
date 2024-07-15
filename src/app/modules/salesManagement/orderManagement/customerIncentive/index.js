@@ -138,7 +138,7 @@ export default function CustomerIncentive() {
     if (
       ["WithTarget", "WithoutTarget"].includes(values?.incentiveType?.value)
     ) {
-      let url = `/oms/SalesInformation/GetTradeCommissionTarget?partName=${values?.incentiveType?.value}&businessUnitId=${buId}&customerId=0&Frommonth=${values?.fromDate}&Tomonth=${values?.toDate}`;
+      let url = `/oms/SalesInformation/GetTradeCommissionTarget?partName=${values?.incentiveType?.value}&businessUnitId=${buId}&customerId=0&fromDate=${values?.fromDate}&toDate=${values?.toDate}`;
       getTargetData(url, percentageList, (res) => {
         setTradeCommission(res);
       });
@@ -160,7 +160,6 @@ export default function CustomerIncentive() {
       return [
         { value: "General", label: "General" },
         { value: "Delivery", label: "Delivery" },
-        { value: "Performance", label: "Performance Bonus" },
         { value: "Performance", label: "Performance Bonus" },
         { value: "WithTarget", label: "With Target" },
         { value: "WithoutTarget", label: " Without Target" },
@@ -246,9 +245,7 @@ export default function CustomerIncentive() {
                       touched={touched}
                     />
                   </div>
-                  {["Performance", "WithTarget", "WithoutTarget"].includes(
-                    values?.incentiveType?.value
-                  ) ? (
+                  {["Performance"].includes(values?.incentiveType?.value) ? (
                     <>
                       <div className="col-lg-3">
                         <label>From Month-Year</label>
@@ -296,6 +293,33 @@ export default function CustomerIncentive() {
                         />
                       </div>
                     </>
+                  ) : ["WithTarget", "WithoutTarget"].includes(
+                      values?.incentiveType?.value
+                    ) ? (
+                    <>
+                      <div className="col-lg-3">
+                        <InputField
+                          value={values?.fromDate}
+                          label="From Date"
+                          name="fromDate"
+                          type="date"
+                          onChange={(e) => {
+                            setFieldValue("fromDate", e.target.value);
+                          }}
+                        />
+                      </div>
+                      <div className="col-lg-3">
+                        <InputField
+                          value={values?.toDate}
+                          label="To Date"
+                          name="toDate"
+                          type="date"
+                          onChange={(e) => {
+                            setFieldValue("toDate", e.target.value);
+                          }}
+                        />
+                      </div>
+                    </>
                   ) : (
                     <div className="col-lg-3">
                       <label>Month-Year</label>
@@ -322,8 +346,8 @@ export default function CustomerIncentive() {
                           value={values?.per1}
                           label={
                             values?.incentiveType?.value === "WithTarget"
-                              ? "Percentage One"
-                              : "Quantity One"
+                              ? "From Percentage "
+                              : "From Quantity"
                           }
                           name="per1"
                           type="number"
@@ -332,13 +356,14 @@ export default function CustomerIncentive() {
                           }}
                         />
                       </div>
+                      <div className="col-1"><input type="check"/></div>
                       <div className="col-lg-3">
                         <InputField
                           value={values?.per2}
                           label={
                             values?.incentiveType?.value === "WithTarget"
-                              ? "Percentage Two"
-                              : "Quantity Two"
+                              ? "To Percentage"
+                              : "To Quantity"
                           }
                           name="per2"
                           type="number"
@@ -389,13 +414,13 @@ export default function CustomerIncentive() {
                               <tr>
                                 <th>
                                   {values?.incentiveType?.value === "WithTarget"
-                                    ? "Percentage One"
-                                    : "Quantity One"}
+                                    ? "From Percentage "
+                                    : "From Quantity"}
                                 </th>
                                 <th>
                                   {values?.incentiveType?.value === "WithTarget"
-                                    ? "Percentage Two"
-                                    : "Quantity Two"}
+                                    ? "To Percentage "
+                                    : "To Quantity "}
                                 </th>
                                 <th>Amount</th>
                                 <th>Action</th>
