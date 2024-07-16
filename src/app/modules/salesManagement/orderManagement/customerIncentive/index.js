@@ -12,6 +12,7 @@ import useDebounce from "../../../_helper/customHooks/useDebounce";
 import IForm from "./../../../_helper/_form";
 import Loading from "./../../../_helper/_loading";
 import IDelete from "../../../_helper/_helperIcons/_delete";
+import { toast } from "react-toastify";
 
 const initData = {
   customerCategory: "",
@@ -31,6 +32,7 @@ export default function CustomerIncentive() {
   const [percentageList, setPercentageList] = useState([]);
   // const [headingSelect, setHeadingSelect] = useState(false);
   const [, saveData, saveLoader] = useAxiosPost();
+  const [isAbove, setIsAbove] = useState(false)
   const [
     tradeCommission,
     getTradeCommission,
@@ -110,6 +112,9 @@ export default function CustomerIncentive() {
           dteDate: item?.dteDate || "",
           businessUnitId: buId,
           actionBy: userId,
+          fromRange: item?.fromRange,
+          toRange: item?.toRange,
+          inputAmount: item?.inputAmount,
         };
         // eslint-disable-next-line no-unused-expressions
         selectedTradeCommission?.push(newItem);
@@ -135,7 +140,7 @@ export default function CustomerIncentive() {
     if (
       ["WithTarget", "WithoutTarget"].includes(values?.incentiveType?.value)
     ) {
-      let url = `/oms/SalesInformation/GetTradeCommissionWithTarget?partName=${values?.incentiveType?.value}&businessUnitId=${buId}&customerId=0&Frommonth=${values?.fromDate}&Tomonth=${values?.toDate}`;
+      let url = `/oms/SalesInformation/GetTradeCommissionTarget?partName=${values?.incentiveType?.value}&businessUnitId=${buId}&customerId=0&fromDate=${values?.fromDate}&toDate=${values?.toDate}`;
       getTargetData(url, percentageList, (res) => {
         setTradeCommission(res);
       });
@@ -157,7 +162,6 @@ export default function CustomerIncentive() {
       return [
         { value: "General", label: "General" },
         { value: "Delivery", label: "Delivery" },
-        { value: "Performance", label: "Performance Bonus" },
         { value: "Performance", label: "Performance Bonus" },
         { value: "WithTarget", label: "With Target" },
         { value: "WithoutTarget", label: " Without Target" },
@@ -243,9 +247,7 @@ export default function CustomerIncentive() {
                       touched={touched}
                     />
                   </div>
-                  {["Performance", "WithTarget", "WithoutTarget"].includes(
-                    values?.incentiveType?.value
-                  ) ? (
+                  {["Performance"].includes(values?.incentiveType?.value) ? (
                     <>
                       <div className="col-lg-3">
                         <label>From Month-Year</label>
@@ -293,6 +295,33 @@ export default function CustomerIncentive() {
                         />
                       </div>
                     </>
+                  ) : ["WithTarget", "WithoutTarget"].includes(
+                      values?.incentiveType?.value
+                    ) ? (
+                    <>
+                      <div className="col-lg-3">
+                        <InputField
+                          value={values?.fromDate}
+                          label="From Date"
+                          name="fromDate"
+                          type="date"
+                          onChange={(e) => {
+                            setFieldValue("fromDate", e.target.value);
+                          }}
+                        />
+                      </div>
+                      <div className="col-lg-3">
+                        <InputField
+                          value={values?.toDate}
+                          label="To Date"
+                          name="toDate"
+                          type="date"
+                          onChange={(e) => {
+                            setFieldValue("toDate", e.target.value);
+                          }}
+                        />
+                      </div>
+                    </>
                   ) : (
                     <div className="col-lg-3">
                       <label>Month-Year</label>
@@ -319,8 +348,8 @@ export default function CustomerIncentive() {
                           value={values?.per1}
                           label={
                             values?.incentiveType?.value === "WithTarget"
-                              ? "Percentage One"
-                              : "Quantity One"
+                              ? "From Percentage "
+                              : "From Quantity"
                           }
                           name="per1"
                           type="number"
@@ -329,16 +358,34 @@ export default function CustomerIncentive() {
                           }}
                         />
                       </div>
+                      <div className="col-1 mt-5">
+                        <input
+                          className="mt-3"
+                          type="checkbox"
+                          checked={isAbove}
+                          onChange={(e) => {
+                            setIsAbove(!isAbove)
+                            setFieldValue("per2", "");
+                            if (e.target.checked) {
+                              setFieldValue("per2", 1000);
+                            }
+                          }}
+                        />
+                        <label style={{ position: "relative", bottom: "4px" }}>
+                          Is Above
+                        </label>
+                      </div>
                       <div className="col-lg-3">
                         <InputField
                           value={values?.per2}
                           label={
                             values?.incentiveType?.value === "WithTarget"
-                              ? "Percentage Two"
-                              : "Quantity Two"
+                              ? "To Percentage"
+                              : "To Quantity"
                           }
                           name="per2"
                           type="number"
+                          disabled={values?.isAbove}
                           onChange={(e) => {
                             setFieldValue("per2", e.target.value);
                           }}
@@ -363,15 +410,22 @@ export default function CustomerIncentive() {
                             !values?.per1 || !values?.per2 || !values?.amount
                           }
                           onClick={() => {
+                            if (percentageList?.find((item) => item?.isAbove)) {
+                              return toast.warn(
+                                "You cann't add now because you alredy add IsAbove"
+                              );
+                            }
                             const data = {
-                              per1: values?.per1,
-                              per2: values?.per2,
-                              amount: values?.amount,
+                              per1: +values?.per1,
+                              per2: +values?.per2,
+                              amount: +values?.amount,
+                              isAbove: isAbove,
                             };
                             setPercentageList([...percentageList, data]);
                             setFieldValue("per1", "");
                             setFieldValue("per2", "");
                             setFieldValue("amount", "");
+                            setIsAbove(false)
                           }}
                         >
                           Add
@@ -386,13 +440,13 @@ export default function CustomerIncentive() {
                               <tr>
                                 <th>
                                   {values?.incentiveType?.value === "WithTarget"
-                                    ? "Percentage One"
-                                    : "Quantity One"}
+                                    ? "From Percentage "
+                                    : "From Quantity"}
                                 </th>
                                 <th>
                                   {values?.incentiveType?.value === "WithTarget"
-                                    ? "Percentage Two"
-                                    : "Quantity Two"}
+                                    ? "To Percentage "
+                                    : "To Quantity "}
                                 </th>
                                 <th>Amount</th>
                                 <th>Action</th>
@@ -406,7 +460,7 @@ export default function CustomerIncentive() {
                                   <td className="text-center">
                                     {item?.amount}
                                   </td>
-                                  <td className="text=center">
+                                  <td className="text-center">
                                     <span
                                       onClick={() => {
                                         const data = percentageList.filter(
@@ -434,7 +488,12 @@ export default function CustomerIncentive() {
                       className="btn btn-primary"
                       onClick={() => getTradeCommissionHandler(values)}
                       disabled={
-                        !values?.customerCategory || !values?.incentiveType
+                        !values?.customerCategory ||
+                        !values?.incentiveType ||
+                        (["WithTarget", "WithoutTarget"].includes(
+                          values?.incentiveType?.value
+                        ) &&
+                          !percentageList?.length)
                       }
                     >
                       View
@@ -522,6 +581,7 @@ export default function CustomerIncentive() {
                           />
                         </th>
                         <th>SL</th>
+                        <th>Incentive Type</th>
                         <th>Customer Code</th>
                         <th>Customer Name</th>
                         <th>Customer Category</th>
@@ -531,11 +591,21 @@ export default function CustomerIncentive() {
                             ? "Avg Delivery Qty"
                             : "Delivery Qty"}
                         </th>
+                        {["WithTarget", "WithoutTarget"].includes(
+                          values?.incentiveType?.value
+                        ) && <th>Target Quantity</th>}
                         {/* <th>Total Delivery Qty</th> */}
-                        <th>Opening Balance</th>
-                        <th>Sales Amount</th>
-                        <th>Collection Amount</th>
-                        <th>Balance</th>
+                        {!["WithTarget", "WithoutTarget"].includes(
+                          values?.incentiveType?.value
+                        ) ? (
+                          <>
+                            {" "}
+                            <th>Opening Balance</th>
+                            <th>Sales Amount</th>
+                            <th>Collection Amount</th>
+                            <th>Balance</th>
+                          </>
+                        ) : null}
                         <th>Amount</th>
                         <th>Is JV Posted</th>
                       </tr>
@@ -562,6 +632,7 @@ export default function CustomerIncentive() {
                               />
                             </td>
                             <td>{index + 1}</td>
+                            <td>{item?.incentiveType}</td>
                             <td className="text-center">
                               {item?.customerCode || ""}
                             </td>
@@ -571,21 +642,35 @@ export default function CustomerIncentive() {
                             <td className="text-right">
                               {item?.deliveryQty || 0}
                             </td>
+                            {["WithTarget", "WithoutTarget"].includes(
+                              values?.incentiveType?.value
+                            ) && (
+                              <td className="text-right">
+                                {item?.targetQuantity || 0}
+                              </td>
+                            )}
                             {/* <td className="text-right">
                               {item?.totalDeliveryQTY || 0}
                             </td> */}
-                            <td className="text-right">
-                              {_formatMoney(item?.openingBalance)}
-                            </td>
-                            <td className="text-right">
-                              {_formatMoney(item?.salesAmount)}
-                            </td>
-                            <td className="text-right">
-                              {_formatMoney(item?.collectionAmount)}
-                            </td>{" "}
-                            <td className="text-right">
-                              {_formatMoney(item?.balance)}
-                            </td>
+                            {!["WithTarget", "WithoutTarget"].includes(
+                              values?.incentiveType?.value
+                            ) ? (
+                              <>
+                                {" "}
+                                <td className="text-right">
+                                  {_formatMoney(item?.openingBalance)}
+                                </td>
+                                <td className="text-right">
+                                  {_formatMoney(item?.salesAmount)}
+                                </td>
+                                <td className="text-right">
+                                  {_formatMoney(item?.collectionAmount)}
+                                </td>{" "}
+                                <td className="text-right">
+                                  {_formatMoney(item?.balance)}
+                                </td>
+                              </>
+                            ) : null}
                             <td className="text-right">
                               {_formatMoney(item?.incentiveAmount)}
                             </td>
@@ -597,25 +682,38 @@ export default function CustomerIncentive() {
                       <tr>
                         <td
                           className="font-weight-bold text-left ml-2"
-                          colSpan={6}
+                          colSpan={7}
                         >
                           Total
                         </td>
                         <td className="font-weight-bold text-right">
                           {countTotal("deliveryQty")}
                         </td>
-                        <td className="font-weight-bold text-right">
-                          {_formatMoney(countTotal("openingBalance"))}
-                        </td>
-                        <td className="font-weight-bold text-right">
-                          {_formatMoney(countTotal("salesAmount"))}
-                        </td>
-                        <td className="font-weight-bold text-right">
-                          {_formatMoney(countTotal("collectionAmount"))}
-                        </td>{" "}
-                        <td className="font-weight-bold text-right">
-                          {countTotal("balance")}
-                        </td>
+                        {["WithTarget", "WithoutTarget"].includes(
+                          values?.incentiveType?.value
+                        ) && (
+                          <td className="font-weight-bold text-right">
+                            {countTotal("targetQuantity")}
+                          </td>
+                        )}
+                        {!["WithTarget", "WithoutTarget"].includes(
+                          values?.incentiveType?.value
+                        ) ? (
+                          <>
+                            <td className="font-weight-bold text-right">
+                              {_formatMoney(countTotal("openingBalance"))}
+                            </td>
+                            <td className="font-weight-bold text-right">
+                              {_formatMoney(countTotal("salesAmount"))}
+                            </td>
+                            <td className="font-weight-bold text-right">
+                              {_formatMoney(countTotal("collectionAmount"))}
+                            </td>{" "}
+                            <td className="font-weight-bold text-right">
+                              {countTotal("balance")}
+                            </td>
+                          </>
+                        ) : null}
                         <td className="font-weight-bold text-right">
                           {_formatMoney(countTotal("incentiveAmount"))}
                         </td>

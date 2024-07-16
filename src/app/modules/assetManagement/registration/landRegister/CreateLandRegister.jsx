@@ -47,6 +47,7 @@ const initData = {
   otherCost: "",
   deedYear: "",
   strRegistrationAttachment: "",
+  biakhatian: "",
 };
 export default function CreateLandRegister() {
   const {
@@ -103,21 +104,24 @@ export default function CreateLandRegister() {
       numCityJoripLandQty: parseFloat(values?.cityJaripPlotLand) || 0,
       monBroker: parseFloat(values?.brokerAmount) || 0,
       monRegistrationCost: parseFloat(values?.registrationCost) || 0,
-      monAit: 0, // assuming this value is not present in the form
+      monAit: 0,
       monOtherCost: parseFloat(values?.otherCost) || 0,
-      strRemarkForOtherCost: "", // assuming this value is not present in the form
+      strRemarkForOtherCost: "",
       intThanaId: values?.thana?.value || 0,
       strThanakName: values?.thana?.label || "",
       strMouzaName: values?.mouza || "",
       strPloatNo: values?.ploatNo || "",
       strDagNo: values?.dagNo || "",
-      ysnComplete: true, // assuming this value is always true
-      ysnActive: true, // assuming this value is always true
-      calcDeadYear: values?.deedYear?.value, // assuming this value is not present in the form
+      ysnComplete: true,
+      ysnActive: true,
+      calcDeadYear: values?.registrationDate
+        ? moment(values?.registrationDate)?.format("YYYY")
+        : "",
       dteInsertDate: _todayDate(),
+      strBiaMutationKhotian: values?.biakhatian || "",
       intInsertBy: userId,
-      strRemark: values?.remarks, // assuming this value is not present in the form
-      strBuyer: values?.buyer, // assuming this value is not present in the form
+      strRemark: values?.remarks,
+      strBuyer: values?.buyer,
       strRegistrationAttachment: values?.strRegistrationAttachment
         ? values?.strRegistrationAttachment
         : state?.values?.strRegistrationAttachment,
@@ -157,6 +161,7 @@ export default function CreateLandRegister() {
     brokerAmount: state?.monBroker || "",
     deedYear: { value: state?.calcDeadYear, label: state?.calcDeadYear },
     otherCost: state?.monOtherCost,
+    biakhatian: state?.strBiaMutationKhotian || "",
     // dagNo: state?.strDagNo,
     // ploatNo: state?.strPloatNo,
     subRegister: {
@@ -168,11 +173,12 @@ export default function CreateLandRegister() {
   const validationSchema = Yup.object().shape({
     businessUnit: Yup.object().required("Business Unit is required"),
     deedType: Yup.object().required("Deed Type  is required"),
-    deedYear: Yup.object().required("Deed Year  is required"),
+    // deedYear: Yup.object().required("Deed Year  is required"),
     territory: Yup.string().required("Territory is required"),
     seller: Yup.string().required("Seller Name is required"),
     buyer: Yup.string().required("Buyer Name is required"),
     deedNo: Yup.string().required("Deed No is required"),
+    mouza: Yup.string().required("Mouza is required"),
     deedAmount: Yup.number().required("Deed Value is required"),
     landQuantity: Yup.number().required("Land Quantity is required"),
     registrationDate: Yup.date().required("Registration Date is required"),
@@ -371,7 +377,7 @@ export default function CreateLandRegister() {
                   />
                 </div>
                 {/* deed year */}
-                <div className="col-lg-3">
+                {/* <div className="col-lg-3">
                   <NewSelect
                     name="deedYear"
                     options={yearDDL}
@@ -383,7 +389,7 @@ export default function CreateLandRegister() {
                     errors={errors}
                     touched={touched}
                   />
-                </div>
+                </div> */}
 
                 {/* Land Quantity (Decimal) */}
                 <div className="col-lg-3">
@@ -532,7 +538,18 @@ export default function CreateLandRegister() {
                     }
                   />
                 </div>
-
+                {/* bia mutaiton khatian*/}
+                <div className="col-lg-3">
+                  <InputField
+                    value={values.biakhatian}
+                    label="Bia Mutation Khatian"
+                    name="biakhatian"
+                    type="text"
+                    onChange={(e) =>
+                      setFieldValue("biakhatian", e.target.value)
+                    }
+                  />
+                </div>
                 {/* Registration Cost*/}
                 <div className="col-lg-3">
                   <InputField

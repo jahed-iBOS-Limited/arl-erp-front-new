@@ -1,17 +1,55 @@
 import { Form, Formik } from "formik";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import InputField from "../../../_helper/_inputField";
 import NewSelect from "../../../_helper/_select";
 import PowerBIReport from "../../../_helper/commonInputFieldsGroups/PowerBIReport";
 import IForm from "./../../../_helper/_form";
+import FormikSelect from "../../_chartinghelper/common/formikSelect";
+import { getVesselDDL, getVoyageDDLNew } from "../../helper";
+import Loading from "../../../_helper/_loading";
+
+
+const initData = {
+  vesselName: ""
+}
 
 export default function ManagementDashboard() {
-  const { selectedBusinessUnit } = useSelector((state) => {
+  const { selectedBusinessUnit, profileData } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
 
   const [show, setShow] = useState(false);
+  const [vesselDDL, setVesselDDL] = useState([])
+  const [voyageNoDDL, setVoyageNoDDL] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+
+  useEffect(() => {
+    getVesselDDL(
+      profileData?.accountId,
+      selectedBusinessUnit?.value,
+      setVesselDDL
+    );
+    if (initData?.vesselName) {
+      getVoyageDDL(initData);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const getVoyageDDL = (values) => {
+    getVoyageDDLNew({
+      accId: profileData?.accountId,
+      buId: selectedBusinessUnit?.value,
+      id: values?.vesselName?.value,
+      setter: setVoyageNoDDL,
+      setLoading: setLoading,
+      hireType: 0,
+      isComplete: 0,
+      voyageTypeId: 0,
+    });
+  };
+
 
   const getReportId = (values) => {
     if (values?.reportType?.value === 1) {
@@ -24,8 +62,10 @@ export default function ManagementDashboard() {
       return "8e00fbd8-95b9-49ba-85b1-9f03487a9576";
     } else if (values?.reportType?.value === 5) {
       return "a1d05d40-4b95-429a-b3c3-2504e145de0f";
-    }else if (values?.reportType?.value === 6) {
+    } else if (values?.reportType?.value === 6) {
       return "41233307-2a96-4de0-8955-cd0297c72a1a";
+    } else if (values?.reportType?.value === 7) {
+      return "8369ab2a-0fee-46bc-9d84-9659fc3ad7cd";
     }
     return "";
   };
@@ -51,12 +91,21 @@ export default function ManagementDashboard() {
       { name: "dteFromDate", value: values?.fromDate },
       { name: "dteToDate", value: values?.toDate },
     ];
+    const paramSeven = [
+      { name: "intUnit", value: selectedBusinessUnit?.value?.toString() },
+      { name: "intVesselId", value: values?.vesselName?.value?.toString() },
+      { name: "intVoyageNo", value: values?.voyageNo?.value?.toString() },
+      { name: "dteFromDate", value: values?.fromDate },
+      { name: "dteToDate", value: values?.toDate },
+    ];
     if ([1, 2, 4].includes(values?.reportType?.value)) {
       return commonParam;
     } else if ([3].includes(values?.reportType?.value)) {
       return paramThree;
     } else if ([5].includes(values?.reportType?.value)) {
       return paramFive;
+    } else if ([7].includes(values?.reportType?.value)) {
+      return paramSeven;
     }
     return [];
   };
@@ -64,9 +113,9 @@ export default function ManagementDashboard() {
   return (
     <Formik
       enableReinitialize={true}
-      initialValues={{}}
+      initialValues={initData}
       // validationSchema={{}}
-      onSubmit={(values, { setSubmitting, resetForm }) => {}}
+      onSubmit={(values, { setSubmitting, resetForm }) => { }}
     >
       {({
         handleSubmit,
@@ -78,6 +127,7 @@ export default function ManagementDashboard() {
         touched,
       }) => (
         <>
+          {loading && <Loading />}
           <IForm
             title="Management Dashboard"
             isHiddenReset
@@ -106,17 +156,63 @@ export default function ManagementDashboard() {
                           value: 6,
                           label: "Vessel Schedule",
                         },
+                        {
+                          value: 7,
+                          label: "Voyage Revenue Expense",
+                        },
                       ]}
                       value={values?.reportType}
                       label="Report Type"
                       onChange={(valueOption) => {
                         setFieldValue("reportType", valueOption || "");
+                        setFieldValue('vesselName', "")
                         setShow(false);
                       }}
                       errors={errors}
                       touched={touched}
                     />
                   </div>
+                  {[7].includes(values?.reportType?.value) && (
+                    <>
+                      <div className="col-lg-3">
+                        <FormikSelect
+                          value={values?.vesselName || ""}
+                          isSearchable={true}
+                          options={vesselDDL || []}
+                          name="vesselName"
+                          placeholder="Vessel Name"
+                          label="Vessel Name"
+                          onChange={(valueOption) => {
+                            setVoyageNoDDL([]);
+                            setFieldValue("vesselName", valueOption);
+                            if (valueOption) {
+                              getVoyageDDL({ ...values, vesselName: valueOption });
+                            }
+                            setShow(false)
+                          }}
+                          errors={errors}
+                          touched={touched}
+                        />
+                      </div>
+
+                      <div className="col-lg-3">
+                        <FormikSelect
+                          value={values?.voyageNo || ""}
+                          isSearchable={true}
+                          options={voyageNoDDL || []}
+                          name="voyageNo"
+                          placeholder="Voyage No"
+                          label="Voyage No"
+                          onChange={(valueOption) => {
+                            setFieldValue("voyageNo", valueOption);
+                            setShow(false)
+                          }}
+                          isDisabled={!values?.vesselName}
+                          errors={errors}
+                          touched={touched}
+                        />
+                      </div></>
+                  )}
                   {![6]?.includes(values?.reportType?.value) && (
                     <>
                       {" "}

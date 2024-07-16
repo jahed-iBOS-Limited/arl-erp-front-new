@@ -66,12 +66,14 @@ export default function UpdateMutation({
     );
   };
   const validationSchema = Yup.object().shape({
-    strHoldingNo: Yup.string().required("Holding No is required"),
-    strMutitaionKhotianNo: Yup.string().required(
-      "Mutitaion Khotian is required"
-    ),
-    monMutationFees: Yup.number().required("Mutation Fees is required"),
-    monVat: Yup.number().required("Vat is required"),
+    strHoldingNo: Yup.string()
+      .required("Holding No is required")
+      .typeError("Holding No is required"),
+    strMutitaionKhotianNo: Yup.string()
+      .required("Mutitaion Khotian is required")
+      .typeError("Mutation Khatian is required"),
+    // monMutationFees: Yup.number().required("Mutation Fees is required"),
+    // monVat: Yup.number().required("Vat is required"),
   });
   return (
     <Formik
@@ -102,7 +104,7 @@ export default function UpdateMutation({
               <div className="col-lg-3">
                 <InputField
                   value={values.monVat}
-                  label="Vat"
+                  label="Govt Fee"
                   name="monVat"
                   type="number"
                   onChange={(e) => setFieldValue("monVat", e.target.value)}
@@ -125,7 +127,7 @@ export default function UpdateMutation({
               <div className="col-lg-3">
                 <InputField
                   value={values.strDcrno}
-                  label="Dcr No"
+                  label="DCR No"
                   name="strDcrno"
                   type="text"
                   onChange={(e) => setFieldValue("strDcrno", e.target.value)}
@@ -147,7 +149,7 @@ export default function UpdateMutation({
               <div className="col-lg-3">
                 <InputField
                   value={values.strMutitaionKhotianNo}
-                  label="Mutitaion Khotian"
+                  label="Mutation Khatian"
                   name="strMutitaionKhotianNo"
                   type="text"
                   onChange={(e) =>

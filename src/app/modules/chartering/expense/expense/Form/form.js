@@ -18,6 +18,7 @@ import { _formatMoney } from "../../../_chartinghelper/_formatMoney";
 import IDelete from "../../../_chartinghelper/icons/_delete";
 import IViewModal from "../../../_chartinghelper/_viewModal";
 import { _dateFormatter } from "../../../_chartinghelper/_dateFormatter";
+import ServicePO from "./servicePo";
 
 export default function _Form({
   title,
@@ -43,6 +44,8 @@ export default function _Form({
   const [businessPartnerLabel, setBusinessPartnerLabel] = useState("");
   const [show, setShow] = useState(false);
   // const [singleRow, setSingleRow] = useState({});
+  const [isShowPoModal, setIsShowPoModal] = useState(false);
+  const [singleData, setSingleData] = useState({});
 
   const setBPLabel = (businessPartnerTypeId) => {
     let label = "";
@@ -410,11 +413,13 @@ export default function _Form({
                       { name: "Cost Type Name" },
                       { name: "Transaction Date" },
                       { name: "Cost Amount" },
+                      { name: "PO Code" },
                       // { name: "Advance Amount" },
                       // { name: "Final Amount" },
                       // { name: "Paid Amount" },
                       // { name: "Due Amount" },
-                      viewType !== "view" && { name: "Action" },
+                      // viewType !== "view" && { name: "Action" },
+                      { name: "Action" },
                     ]}
                   >
                     {rowData?.map((item, index) => (
@@ -426,6 +431,25 @@ export default function _Form({
                         <td className="text-right">
                           {_formatMoney(item?.costAmount)}
                         </td>
+                        <td className="text-right">{item?.purchaseOrderNo}</td>
+                        {viewType === "view" && (
+                          <td className="text-center">
+                            {!item?.purchaseOrderNo && (
+                              <div className="btn-container">
+                                <button
+                                  type="button"
+                                  className="btn btn-primary "
+                                  onClick={() => {
+                                    setIsShowPoModal(true);
+                                    setSingleData(item);
+                                  }}
+                                >
+                                  PO Create
+                                </button>
+                              </div>
+                            )}
+                          </td>
+                        )}
                         {/* <td className="text-right">
                           {_formatMoney(item?.totalAmount)}
                         </td> */}
@@ -440,8 +464,13 @@ export default function _Form({
                             className="text-center d-flex justify-content-center"
                             // style={{ maxWidth: "120px" }}
                           >
-                            {(viewType === "edit" || !viewType) && (
-                              <IDelete remover={removeRow} id={index} />
+                            {(viewType === "edit" || !viewType) &&
+                            !item?.purchaseOrderNo ? (
+                              <div>
+                                <IDelete remover={removeRow} id={index} />
+                              </div>
+                            ) : (
+                              <div>&nbsp;</div>
                             )}
                             {/* {(viewType === "edit" || viewType === "cash") && (
                               <div className="d-flex justify-content-center">
@@ -494,6 +523,20 @@ export default function _Form({
                 setShow={setShow}
                 setLoading={setLoading}
                 // singleRow={singleRow}
+                setRowData={setRowData}
+              />
+            </IViewModal>
+
+            <IViewModal
+              show={isShowPoModal}
+              onHide={() => setIsShowPoModal(false)}
+            >
+              <ServicePO
+                isShowPoModal={isShowPoModal}
+                setIsShowPoModal={setIsShowPoModal}
+                singleData={singleData}
+                setSingleData={setSingleData}
+                setCostTypeDDL={setCostTypeDDL}
                 setRowData={setRowData}
               />
             </IViewModal>

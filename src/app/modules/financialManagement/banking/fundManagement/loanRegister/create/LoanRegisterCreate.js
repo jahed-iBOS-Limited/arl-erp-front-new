@@ -25,7 +25,7 @@ const initData = {
 export default function LoanRegisterCreate({
   history,
   match: {
-    params: { id,editId, renewId },
+    params: { id, editId, renewId },
   },
 }) {
   const [objProps, setObjprops] = useState({});
@@ -33,7 +33,7 @@ export default function LoanRegisterCreate({
   const [modifyData, setModifyData] = useState(null);
   const [, renewSave] = useAxiosPost();
   const location = useLocation();
-
+  console.log(location?.state, "state");
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state?.authData;
   }, shallowEqual);
@@ -66,7 +66,7 @@ export default function LoanRegisterCreate({
           : "",
       });
     }
-  }, [renewId, location,editId]);
+  }, [renewId, location, editId]);
   const singleData = useSelector((state) => {
     return state.costControllingUnit?.singleData;
   }, shallowEqual);
@@ -89,11 +89,12 @@ export default function LoanRegisterCreate({
       renewSave(
         `/fino/FundManagement/FundLoanAccountRenew?accountId=${
           profileData?.accountId
-        }&businessUnitId=${
-          selectedBusinessUnit?.value
-        }&loanAccId=${renewId}&bankId=${location?.state?.intBankId}&bankAccId=${
-          values?.account?.value
-        }&facilityId=${values?.facility?.value}&startDate=${
+        }&businessUnitId=${location?.state?.intBusinessUnitId ||
+          selectedBusinessUnit?.value}&loanAccId=${renewId}&bankId=${
+          location?.state?.intBankId
+        }&bankAccId=${values?.account?.value}&facilityId=${
+          values?.facility?.value
+        }&startDate=${
           values?.openingDate
         }&tenureDays=${+values?.termDays}&numPrinciple=${+values?.principle}&numIntRate=${+values?.interestRate}&actionById=${
           profileData?.userId
@@ -110,16 +111,17 @@ export default function LoanRegisterCreate({
 
     if (editId) {
       const editPayload = {
-        loanAccountId:+editId,
+        loanAccountId: +editId,
         accountId: profileData?.accountId,
-        branchId: selectedBusinessUnit?.value,
-        loanAcc: values?.loanAccNo||"",
-        facilityId:values?.facility?.value|| 0,
-        startDate: values?.openingDate||"",
-        tenureDays: +values?.termDays|| 0,
-        numPrinciple:+values?.principle|| 0,
-        numIntRate:+values?.interestRate|| 0,
-        actionById:profileData?.userId|| 0,
+        branchId:
+          location?.state?.intBusinessUnitId || selectedBusinessUnit?.value,
+        loanAcc: values?.loanAccNo || "",
+        facilityId: values?.facility?.value || 0,
+        startDate: values?.openingDate || "",
+        tenureDays: +values?.termDays || 0,
+        numPrinciple: +values?.principle || 0,
+        numIntRate: +values?.interestRate || 0,
+        actionById: profileData?.userId || 0,
         disbursementPurposeId: values?.disbursementPurpose?.value || 0,
         disbursementPurposeName: values?.disbursementPurpose?.label || "",
       };
@@ -148,7 +150,13 @@ export default function LoanRegisterCreate({
 
   return (
     <IForm
-      title={renewId ? `Renew Loan Register` : editId? `Edit Loan Register`:`Create Loan Register`}
+      title={
+        renewId
+          ? `Renew Loan Register`
+          : editId
+          ? `Edit Loan Register`
+          : `Create Loan Register`
+      }
       getProps={setObjprops}
       isDisabled={isDisabled}
     >

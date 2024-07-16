@@ -34,18 +34,23 @@ export default function RepayForm({
   useEffect(() => {
     getBankAccountDDLByBankId(
       profileData?.accountId,
-      selectedBusinessUnit?.value,
+      location?.state?.bu || selectedBusinessUnit?.value,
       location?.state?.bankId,
       setAccountDDL,
       setLoading
     );
   }, [profileData, selectedBusinessUnit, location]);
-  console.log({ location });
+
+  const initialValues = {
+    ...initData,
+    instrumentNo: location?.state?.strLoanAccountName || initData?.instrumentNo
+  }
+
   return (
     <>
       <Formik
         enableReinitialize={true}
-        initialValues={initData}
+        initialValues={initialValues}
         validationSchema={loanRegister}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           saveHandler(values, () => {

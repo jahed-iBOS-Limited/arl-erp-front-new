@@ -459,7 +459,7 @@ export const savePurchaseOrderForAssetStandardService = (
     .then((res) => {
       if (res.status === 200) {
         // toast.success(res.data?.message || "Submitted successfully");
-        payload.cb();
+        payload.cb(res);
         payload.setDisabled(false);
         const obj = {
           title: res.data?.message,

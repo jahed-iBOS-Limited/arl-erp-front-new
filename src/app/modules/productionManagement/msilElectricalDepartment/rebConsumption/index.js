@@ -13,6 +13,8 @@ import InputField from "../../../_helper/_inputField";
 import Loading from "../../../_helper/_loading";
 import NewSelect from "../../../_helper/_select";
 import { ITable } from "../../../_helper/_table";
+import IViewModal from "../../../_helper/_viewModal";
+import JVModalView from "./jvView";
 
 export default function REBConsumption() {
   const [pageNo, setPageNo] = useState(0);
@@ -20,6 +22,7 @@ export default function REBConsumption() {
   const [landingData, getLandingData, lodar, setLandingData] = useAxiosGet();
   const history = useHistory();
   const dispatch = useDispatch();
+  const [showJVModal, setShowJVModal] = useState(false);
 
   const rebConsumptionLanding = useSelector((state) => {
     return state.localStorage.rebConsumptionLanding;
@@ -163,6 +166,11 @@ export default function REBConsumption() {
                     Show
                   </button>
                 </div>
+                <div className="col-log-1">
+                  <button onClick={()=>{
+                    setShowJVModal(true)
+                  }} type="button" className="btn btn-primary mt-5">Month End</button>
+                </div>
               </div>
 
               <div style={{ marginTop: "15px" }}>
@@ -247,6 +255,17 @@ export default function REBConsumption() {
                     }}
                     values={rebConsumptionLanding}
                   />
+                )}
+                {showJVModal && (
+                  <IViewModal
+                  title={"JV View for REB Consumption"}
+                    show={showJVModal}
+                    onHide={() => {
+                      setShowJVModal(false);
+                    }}
+                  >
+                    <JVModalView values={values} buId={selectedBusinessUnit?.value}/>
+                  </IViewModal>
                 )}
               </div>
             </Form>
