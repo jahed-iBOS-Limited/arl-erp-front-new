@@ -95,6 +95,8 @@ export const inventoryStatement_api = async ({
     api = `/wms/WmsReport/InventoryStatementStokeCoverage?businessUnitId=${buId}&whld=${warehouseId}&numAverageDay=${avgDays}${typeIdQuery}${categoryIdQuery}${itemSubIdQuery}&pageNo=${pageNo}&pageSize=${pageSize}${searchPath}`;
   } else if (type?.value === 5) {
     api = `/procurement/Report/GetInventoryStatement?businessUnitId=${buId}&intPlantId=${plantId}&fromDate=${fromDate}&toDate=${toDate}&intItemTypeId=${itemtypeId}&itemId=0&warehouseId=${warehouseId}&pageNo=${pageNo}&pageSize=${pageSize}${searchForInvNew}`;
+  }else if (type?.value === 6) {
+    api = `/procurement/Report/GetInventoryStatementV2?businessUnitId=${buId}&intPlantId=${plantId}&fromDate=${fromDate}&toDate=${toDate}&intItemTypeId=${itemtypeId}&itemId=0&warehouseId=${warehouseId}&pageNo=${pageNo}&pageSize=${pageSize}${searchForInvNew}`;
   } else {
     api = `/wms/WmsReport/InventoryRegister?AccountId=${accId}&BusinessUnitId=${buId}&warehouseId=${warehouseId}&plantId=${plantId}&fromDate=${fromDate}&toDate=${toDate}&type=${type?.value}&Itemtype=${itemtypeId}&ItemCategory=${itemcatId}&itemSubCategory=${itemSubId}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc${searchPath}`;
   }
@@ -103,7 +105,7 @@ export const inventoryStatement_api = async ({
     const res = await Axios.get(api);
     setLoading(false);
     if (res.status === 200 && res?.data) {
-      if (type?.value === 5) {
+      if ([5,6].includes(type?.value)) {
         const updatedData = res?.data?.map((item) => ({
           ...item,
           closingValues: item?.numCloseQty * item?.numRate,
@@ -149,12 +151,13 @@ export const InventoryLedger_api_new = async (
   toDate,
   itemId,
   setter,
-  setLoading
+  setLoading,
+  type
 ) => {
   try {
     setLoading(true);
     const res = await Axios.get(
-      `/wms/InventoryTransaction/GetInventoryLedger?businessUnitId=${buId}&fromDate=${fromDate}&toDate=${toDate}&itemId=${itemId}&warehouseId=${warehouseId}`
+     type === 6 ? `https://192.168.7.243:45455/wms/InventoryTransaction/GetInventoryLedgerV2?businessUnitId=${buId}&fromDate=${fromDate}&toDate=${toDate}&itemId=${itemId}&warehouseId=${warehouseId}` : `/wms/InventoryTransaction/GetInventoryLedger?businessUnitId=${buId}&fromDate=${fromDate}&toDate=${toDate}&itemId=${itemId}&warehouseId=${warehouseId}`
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);

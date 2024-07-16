@@ -43,7 +43,7 @@ console.log("calculateTotalValue", calculateTotalValue)
 
   useEffect(() => {
     getBomDetails(
-      `https://192.168.3.93:45456/mes/BOM/GetItemDtailsByProductionOrderId?productionOrderId=${productionOrderId}`,
+      `https://192.168.7.243:45456/mes/BOM/GetItemDtailsByProductionOrderId?productionOrderId=${productionOrderId}`,
       (bomData) => {
         const payload = bomData?.map((item) => ({
           businessUnitId: buId,

@@ -377,7 +377,7 @@ export function TableRow(props) {
           };
         });
         generateJsonToExcel(
-          values?.type?.value === 5 ? registerNewHeader : header,
+           [5,6].includes(values?.type?.value) ? registerNewHeader : header,
           _data
         );
       },
@@ -434,6 +434,7 @@ export function TableRow(props) {
                               { value: 3, label: "Inventory In-Out" },
                               { value: 4, label: "Inventory Coverage" },
                               { value: 5, label: "Inventory Register New" },
+                              { value: 6, label: "Inventory Statement" },
                             ]}
                             value={values?.type}
                             label="Type"
@@ -764,7 +765,7 @@ export function TableRow(props) {
                         inventoryStatement={inventoryStatement}
                         setIsShowModal={setIsShowModal}
                       />
-                    ) : values?.type?.value === 5 ? (
+                    ) :  [5,6].includes(values?.type?.value) ? (
                       <RegisterNewTable
                         setTableItem={setTableItem}
                         inventoryStatement={inventoryStatement}
