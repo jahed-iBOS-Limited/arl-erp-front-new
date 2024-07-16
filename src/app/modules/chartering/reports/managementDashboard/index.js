@@ -26,6 +26,8 @@ export default function ManagementDashboard() {
       return "a1d05d40-4b95-429a-b3c3-2504e145de0f";
     }else if (values?.reportType?.value === 6) {
       return "41233307-2a96-4de0-8955-cd0297c72a1a";
+    }else if (values?.reportType?.value === 7) {
+      return "8369ab2a-0fee-46bc-9d84-9659fc3ad7cd";
     }
     return "";
   };
@@ -51,12 +53,19 @@ export default function ManagementDashboard() {
       { name: "dteFromDate", value: values?.fromDate },
       { name: "dteToDate", value: values?.toDate },
     ];
+    const paramSeven = [
+      { name: "intUnit", value: selectedBusinessUnit?.value?.toString() },
+      { name: "dteFromDate", value: values?.fromDate },
+      { name: "dteToDate", value: values?.toDate },
+    ];
     if ([1, 2, 4].includes(values?.reportType?.value)) {
       return commonParam;
     } else if ([3].includes(values?.reportType?.value)) {
       return paramThree;
     } else if ([5].includes(values?.reportType?.value)) {
       return paramFive;
+    }else if ([7].includes(values?.reportType?.value)) {
+      return paramSeven;
     }
     return [];
   };
@@ -105,6 +114,10 @@ export default function ManagementDashboard() {
                         {
                           value: 6,
                           label: "Vessel Schedule",
+                        },
+                        {
+                          value: 7,
+                          label: "Voyage Revenue Expense",
                         },
                       ]}
                       value={values?.reportType}
