@@ -149,6 +149,7 @@ export default function LandRegister() {
                         <th>Dcr</th>
                         <th>Mutitaion Khotian</th>
                         <th>Holding No</th>
+                        <th>Bia Khatian</th>
                         <th>Action</th>
                       </tr>
                     </thead>
@@ -211,6 +212,9 @@ export default function LandRegister() {
                             {item?.strMutitaionKhotianNo}
                           </td>
                           <td className="text-center">{item?.strHoldingNo}</td>
+                          <td className="text-center">
+                            {item?.strBiaMutationKhotian}
+                          </td>
 
                           <td className="text-center">
                             <div className="btn-container">
