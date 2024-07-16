@@ -45,7 +45,7 @@ const initData = {
 
 // Government subsidy ids for six business units - (bongo, batayon, arl traders, direct trading, daily trading, eureshia)
 const idSet1 = [8, 9, 10, 11, 12, 13, 21];
-const idSet2 = [14, 15, 16, 17, 18, 19, 20,25, 22, 26, 27];
+const idSet2 = [14, 15, 16, 17, 18, 19, 20, 25, 22, 26, 27];
 const allIds = [...idSet1, ...idSet2];
 
 const CommissionReportAndJV = () => {
@@ -178,7 +178,7 @@ const CommissionReportAndJV = () => {
         row: selectedItems?.map((item) => ({
           ...item,
           ammount: item?.commissiontaka,
-          rowNaration: item?.rowNarration || "",
+          rowNaration: item?.rowNarration || item?.paymentType,
           isProcess: false,
         })),
         img: {
@@ -271,7 +271,7 @@ const CommissionReportAndJV = () => {
                                 values?.fromDate &&
                                 values?.toDate
                               )) ||
-                             [6, 26]?.includes(values?.type?.value)
+                            [6, 26]?.includes(values?.type?.value)
                           }
                         >
                           JV Create
