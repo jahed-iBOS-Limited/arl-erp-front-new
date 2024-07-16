@@ -118,7 +118,7 @@ export default function CreateLandRegister() {
         ? moment(values?.registrationDate)?.format("YYYY")
         : "",
       dteInsertDate: _todayDate(),
-      biakhatian: values?.biakhatian || "",
+      strBiaMutationKhotian: values?.biakhatian || "",
       intInsertBy: userId,
       strRemark: values?.remarks,
       strBuyer: values?.buyer,
@@ -161,6 +161,7 @@ export default function CreateLandRegister() {
     brokerAmount: state?.monBroker || "",
     deedYear: { value: state?.calcDeadYear, label: state?.calcDeadYear },
     otherCost: state?.monOtherCost,
+    biakhatian: state?.strBiaMutationKhotian || "",
     // dagNo: state?.strDagNo,
     // ploatNo: state?.strPloatNo,
     subRegister: {
