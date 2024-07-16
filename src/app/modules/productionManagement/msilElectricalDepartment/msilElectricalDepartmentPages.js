@@ -78,7 +78,7 @@ export function MsilElectricalDepartmentPages() {
         path="/production-management/msil-Electrical/GeneratorFuelConsumption/create"
         component={
           fuelConsumption?.isCreate ? (
-            selectedBusinessUnit?.value === 4 ? GeneratorGasConsumptionCreate : FuelConsumptionCreate
+            [4, 171, 224].includes(selectedBusinessUnit?.value) ? GeneratorGasConsumptionCreate : FuelConsumptionCreate
           ) : NotPermittedPage
         }
       />
