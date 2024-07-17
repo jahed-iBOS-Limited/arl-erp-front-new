@@ -157,7 +157,7 @@ export default function CreateForm({
       if (data) {
         alert("Item Already added");
       } else {
-        getCurrentRateList(`https://192.168.3.94:45455/wms/InventoryLoan/GetMultipleItemRatesByIds?ItemIds=${values?.item?.value}&BusinessUnitId=${selectedBusinessUnit?.value}`, (currentRateList)=>{
+        getCurrentRateList(`/wms/InventoryLoan/GetMultipleItemRatesByIds?ItemIds=${values?.item?.value}&BusinessUnitId=${selectedBusinessUnit?.value}`, (currentRateList)=>{
           setRowDto([
             ...rowDto,
             {
@@ -183,7 +183,7 @@ export default function CreateForm({
     } else {
       const itemIds = itemDDL.map((data) => data.value).join(",");
       getCurrentRateList(
-        `https://192.168.7.243:45455/wms/InventoryLoan/GetMultipleItemRatesByIds?ItemIds=${itemIds}&BusinessUnitId=${selectedBusinessUnit?.value}`,
+        `/wms/InventoryLoan/GetMultipleItemRatesByIds?ItemIds=${itemIds}&BusinessUnitId=${selectedBusinessUnit?.value}`,
         (currentRateList) => {
           let data = itemDDL?.map((data, index) => {
             return {

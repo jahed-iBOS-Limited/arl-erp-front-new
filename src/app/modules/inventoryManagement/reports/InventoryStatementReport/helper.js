@@ -157,7 +157,7 @@ export const InventoryLedger_api_new = async (
   try {
     setLoading(true);
     const res = await Axios.get(
-     type === 6 ? `https://192.168.7.243:45455/wms/InventoryTransaction/GetInventoryLedgerV2?businessUnitId=${buId}&fromDate=${fromDate}&toDate=${toDate}&itemId=${itemId}&warehouseId=${warehouseId}` : `/wms/InventoryTransaction/GetInventoryLedger?businessUnitId=${buId}&fromDate=${fromDate}&toDate=${toDate}&itemId=${itemId}&warehouseId=${warehouseId}`
+     type === 6 ? `/wms/InventoryTransaction/GetInventoryLedgerV2?businessUnitId=${buId}&fromDate=${fromDate}&toDate=${toDate}&itemId=${itemId}&warehouseId=${warehouseId}` : `/wms/InventoryTransaction/GetInventoryLedger?businessUnitId=${buId}&fromDate=${fromDate}&toDate=${toDate}&itemId=${itemId}&warehouseId=${warehouseId}`
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
