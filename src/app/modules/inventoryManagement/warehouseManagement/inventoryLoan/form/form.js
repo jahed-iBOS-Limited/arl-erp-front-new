@@ -300,12 +300,16 @@ export default function _Form({
                       handleChange={(valueOption) => {
                         setFieldValue("item", valueOption);
                         if (valueOption) {
+                          // getItemRate(
+                          //   `/wms/InventoryTransaction/sprRuningRate?businessUnitId=${
+                          //     selectedBusinessUnit?.value
+                          //   }&whId=${values?.warehouse?.value || 0}&itemId=${
+                          //     valueOption?.value
+                          //   }`,
+                          //   (data) => setFieldValue("itemRate", data)
+                          // );
                           getItemRate(
-                            `/wms/InventoryTransaction/sprRuningRate?businessUnitId=${
-                              selectedBusinessUnit?.value
-                            }&whId=${values?.warehouse?.value || 0}&itemId=${
-                              valueOption?.value
-                            }`,
+                            `/wms/InventoryLoan/GetItemRate?ItemId=${valueOption?.value}&BusinessUnitId=${selectedBusinessUnit?.value}`,
                             (data) => setFieldValue("itemRate", data)
                           );
                           getAvailableStock(`/wms/InventoryTransaction/sprRuningQty?businessUnitId=${selectedBusinessUnit?.value}&whId=${values?.warehouse?.value}&itemId=${valueOption?.value}`)

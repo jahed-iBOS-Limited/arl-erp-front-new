@@ -43,6 +43,7 @@ export default function CreateForm({
   const [isProjectIdExist, setIsProjectIdExist] = useState(false);
   const [coseElementDDL, setCostElementDDL] = useState([]);
   const [profitcenterDDL, getProfitcenterDDL, , setProfitcenterDDL] = useAxiosGet();
+  const [, getCurrentRateList ] = useAxiosGet();
 
   const [fileObjects, setFileObjects] = useState([]);
   const [open, setOpen] = useState(false);
@@ -156,46 +157,56 @@ export default function CreateForm({
       if (data) {
         alert("Item Already added");
       } else {
-        setRowDto([
-          ...rowDto,
-          {
-            ...values?.item,
-            itemId: values?.item?.value,
-            itemName: values?.item?.itemName,
-            itemCode: values?.item?.code,
-            uoMid: values?.item?.baseUoMId,
-            uoMname: values?.item?.baseUoMName,
-            refQty: values?.item?.refQty || 0,
-            restQty: values?.item?.restQty || 0,
-            baseValue: values.item.baseValue || 0,
-            availableStock: values?.item?.locationBasedStock[0]?.currentStock,
-            location: values?.item?.locationBasedStock[0],
-            LocationDDL: values?.item?.locationBasedStock,
-            stockType: { value: 1, label: "Open Stock" },
-            quantity: 0,
-          },
-        ]);
+        getCurrentRateList(`/wms/InventoryLoan/GetMultipleItemRatesByIds?ItemIds=${values?.item?.value}&BusinessUnitId=${selectedBusinessUnit?.value}`, (currentRateList)=>{
+          setRowDto([
+            ...rowDto,
+            {
+              ...values?.item,
+              itemId: values?.item?.value,
+              itemName: values?.item?.itemName,
+              itemCode: values?.item?.code,
+              uoMid: values?.item?.baseUoMId,
+              uoMname: values?.item?.baseUoMName,
+              refQty: values?.item?.refQty || 0,
+              restQty: values?.item?.restQty || 0,
+              // baseValue: values.item.baseValue || 0,
+              baseValue: currentRateList[0]?.numAverageRate || 0,
+              availableStock: values?.item?.locationBasedStock[0]?.currentStock,
+              location: values?.item?.locationBasedStock[0],
+              LocationDDL: values?.item?.locationBasedStock,
+              stockType: { value: 1, label: "Open Stock" },
+              quantity: 0,
+            },
+          ]);
+        })
       }
     } else {
-      let data = itemDDL?.map((data) => {
-        return {
-          ...data,
-          itemId: data?.value,
-          itemName: data?.itemName,
-          uoMid: data?.baseUoMId,
-          uoMname: data?.baseUoMName,
-          itemCode: data?.code,
-          refQty: data?.refQty || 0,
-          restQty: data?.restQty || 0,
-          baseValue: data?.baseValue || 0,
-          availableStock: data?.locationBasedStock[0]?.currentStock,
-          location: data?.locationBasedStock[0],
-          LocationDDL: data?.locationBasedStock,
-          stockType: { value: 1, label: "Open Stock" },
-          quantity: 0,
-        };
-      });
-      setRowDto(data);
+      const itemIds = itemDDL.map((data) => data.value).join(",");
+      getCurrentRateList(
+        `/wms/InventoryLoan/GetMultipleItemRatesByIds?ItemIds=${itemIds}&BusinessUnitId=${selectedBusinessUnit?.value}`,
+        (currentRateList) => {
+          let data = itemDDL?.map((data, index) => {
+            return {
+              ...data,
+              itemId: data?.value,
+              itemName: data?.itemName,
+              uoMid: data?.baseUoMId,
+              uoMname: data?.baseUoMName,
+              itemCode: data?.code,
+              refQty: data?.refQty || 0,
+              restQty: data?.restQty || 0,
+              // baseValue: data?.baseValue || 0,
+              baseValue: currentRateList[index]?.numAverageRate || 0,
+              availableStock: data?.locationBasedStock[0]?.currentStock,
+              location: data?.locationBasedStock[0],
+              LocationDDL: data?.locationBasedStock,
+              stockType: { value: 1, label: "Open Stock" },
+              quantity: 0,
+            };
+          });
+          setRowDto(data);
+        }
+        );
     }
   };
 

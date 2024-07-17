@@ -29,7 +29,8 @@ const DetailsModalNew = ({ tableItem, values, type, whId }) => {
       values?.toDate,
       tableItem?.itemId,
       setInventoryLedger,
-      setLoading
+      setLoading,
+      type
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tableItem]);
@@ -80,7 +81,7 @@ const DetailsModalNew = ({ tableItem, values, type, whId }) => {
           <h6 className="text-center">
             Item Name: {`${tableItem?.strItemName} (${tableItem?.strItemCode}`})
             <span className="ml-2">
-              UOM: {type === 5 ? tableItem?.strBaseUOM : tableItem?.strUomName}
+              UOM: {[5,6].includes(type) ? tableItem?.strBaseUOM : tableItem?.strUomName}
             </span>
           </h6>
         </div>
