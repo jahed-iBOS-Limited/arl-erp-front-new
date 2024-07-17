@@ -135,9 +135,11 @@ export default function TransferInvCreateForm({
     getItemStockQty(`/wms/InventoryTransaction/sprRuningQty?businessUnitId=${selectedBusinessUnit?.value
       }&whId=${invTransaction?.warehouse?.value
       }&itemId=${values.item?.value}`, (resQty) => {
-        getItemCurrentRate(`/wms/InventoryTransaction/sprRuningRate?businessUnitId=${selectedBusinessUnit?.value
-          }&whId=${invTransaction?.warehouse?.value
-          }&itemId=${values.item?.value}`, (resRate) => {
+        // Previous api
+        // `/wms/InventoryTransaction/sprRuningRate?businessUnitId=${selectedBusinessUnit?.value
+        //   }&whId=${invTransaction?.warehouse?.value
+        //   }&itemId=${values.item?.value}`
+        getItemCurrentRate(`/wms/InventoryLoan/GetItemRate?ItemId=${values.item?.value}&BusinessUnitId=${selectedBusinessUnit?.value}`, (resRate) => {
             if (values.isAllItem === false) {
               let data = rowDto?.find((data) => data?.itemName === values?.item?.label);
               if (data) {
