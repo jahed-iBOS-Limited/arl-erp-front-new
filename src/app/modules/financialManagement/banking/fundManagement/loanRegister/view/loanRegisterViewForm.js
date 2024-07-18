@@ -201,7 +201,7 @@ export default function LoanRegisterViewForm({
                     name="openingDate"
                     placeholder="Date"
                     type="date"
-                    // disabled={isEdit}
+                    disabled={renewId}
                   />
                 </div>
                 <div className="col-lg-2 pl pr-1 mb-1">
@@ -247,6 +247,7 @@ export default function LoanRegisterViewForm({
                     min="0"
                     step="any"
                     // disabled={isEdit}
+                    disabled={renewId}
                   />
                 </div>
                 <div className="col-lg-2 pl pr-1 mb-1">
