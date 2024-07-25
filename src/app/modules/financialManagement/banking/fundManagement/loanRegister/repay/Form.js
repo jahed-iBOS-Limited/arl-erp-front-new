@@ -6,6 +6,7 @@ import * as Yup from "yup";
 import InputField from "../../../../../_helper/_inputField";
 import NewSelect from "../../../../../_helper/_select";
 import { getBankAccountDDLByBankId } from "../../helper";
+import { toast } from "react-toastify";
 
 const loanRegister = Yup.object().shape({
   account: Yup.object().shape({
@@ -43,8 +44,8 @@ export default function RepayForm({
 
   const initialValues = {
     ...initData,
-    instrumentNo: location?.state?.strLoanAccountName || initData?.instrumentNo
-  }
+    instrumentNo: location?.state?.strLoanAccountName || initData?.instrumentNo,
+  };
 
   return (
     <>
@@ -53,6 +54,9 @@ export default function RepayForm({
         initialValues={initialValues}
         validationSchema={loanRegister}
         onSubmit={(values, { setSubmitting, resetForm }) => {
+          if (values?.principalAmount <= 0) {
+            return toast.error("Principal Amount must be greater than 0");
+          }
           saveHandler(values, () => {
             resetForm(initData);
             history.push("/financial-management/banking/loan-register");
@@ -144,7 +148,7 @@ export default function RepayForm({
                       }
                     }}
                     type="number"
-                    min="0"
+                    min={1}
                     max={
                       location?.state?.principal ||
                       "100000000000000000000000000000"
