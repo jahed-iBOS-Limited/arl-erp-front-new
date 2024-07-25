@@ -32,6 +32,8 @@ import ShippingChallanInfo from "./shippingChallanInfo/landingPage";
 import ReceivePaymentInfoLanding from "./receivePaymentInfo/landing";
 import DumpToTruckDeliveryLanding from "./dumpToTruckDelivery/landingPage";
 import G2GSalesInvoice from "./g2gSalesInvoice";
+import TenderSubmissionCreateEditForm from "./tenderSubmission/form/addEditForm";
+import TenderSubmissionLanding from "./tenderSubmission/landing";
 export default function AllotmentPages() {
   return (
     <Switch>
@@ -98,6 +100,16 @@ export default function AllotmentPages() {
       <ContentRoute
         path="/vessel-management/allotment/mothervesselvoyageinfo"
         component={MotherVesselVoyageInformationTable}
+      />
+
+      <ContentRoute
+        path="/vessel-management/allotment/tendersubmition/entry"
+        component={TenderSubmissionCreateEditForm}
+      />
+
+      <ContentRoute
+        path="/vessel-management/allotment/tendersubmition"
+        component={TenderSubmissionLanding}
       />
       {/* Tender Information */}
       <ContentRoute
