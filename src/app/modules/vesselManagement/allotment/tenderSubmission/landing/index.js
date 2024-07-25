@@ -48,7 +48,7 @@ export default function TenderSubmissionLanding() {
                                         type="button"
                                         className="btn btn-primary"
                                         onClick={() => {
-                                            history.push("/vessel-management/allotment/tendersubmition/entry");
+                                            history.push("/vessel-management/allotment/tendersubmission/entry");
                                         }}
                                     >
                                         Create
