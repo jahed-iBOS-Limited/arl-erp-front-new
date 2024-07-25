@@ -11,7 +11,25 @@ export default function TenderSubmissionCreateEditForm() {
     const [objProps, setObjprops] = useState({});
 
     const saveHandler = (values, cb) => {
-        alert(JSON.stringify(values, null, 2));
+        const payload = {
+            enquiry: values?.enquiry,
+            submissionDate: values?.submissionDate,
+            foreignQnt: values?.foreignQnt,
+            qntUnit: values?.qntUnit || "MT",
+            productName: values?.productName,
+            loadPort: values?.loadPort?.value,
+            dischargePort: values?.dischargePort?.value,
+            foreignPriceUSD: values?.foreignPriceUSD,
+            commercialDate: values?.commercialDate,
+            commercialNo: values?.commercialNo,
+            motherVessel: values?.motherVessel?.value,
+            localTransportations: values?.localTransportations?.map(item => ({
+                godownName: item?.godownName?.value,
+                quantity: item?.quantity,
+                price: item?.price
+            }))
+        }
+        alert(JSON.stringify(payload, null, 2));
     };
 
     return (
