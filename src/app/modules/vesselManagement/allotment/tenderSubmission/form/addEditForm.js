@@ -178,7 +178,6 @@ export default function TenderSubmissionCreateEditForm() {
                                                 values.localTransportations.map((localTransport, index) => {
                                                     return (
                                                         <React.Fragment key={index}>
-                                                            {/** both these conventions do the same */}
                                                             <div className="col-lg-3">
                                                                 <NewSelect
                                                                     name={`localTransportations[${index}].godownName`}

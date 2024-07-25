@@ -3,7 +3,7 @@ import React from "react";
 import * as Yup from "yup";
 
 
-
+// Error message display field for field array of of tender submission create & edit page
 export const ErrorMessage = ({ name }) => (
     <Field
         name={name}
@@ -15,6 +15,8 @@ export const ErrorMessage = ({ name }) => (
     />
 );
 
+
+// Inital data for tender submission create & edit page
 export const initData = {
     enquiry: "",
     submissionDate: "",
@@ -36,7 +38,7 @@ export const initData = {
 
 
 
-
+// Validation schema for tender submission create & edit page
 export const validationSchema = Yup.object({
     enquiry: Yup.string().required("Enquiry is required"),
     submissionDate: Yup.date().required("Submission date is required"),
