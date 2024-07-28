@@ -319,6 +319,7 @@ export default function _Form({
                       <th>Quantity</th>
                       <th>Rate</th>
                       <th>Bill Amount</th>
+                      <th>Standerd Amount</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -365,6 +366,7 @@ export default function _Form({
                             }}
                           />
                         </td>
+                        <td className="text-right">{item?.standardAmount}</td>
                       </tr>
                     ))}
                   </tbody>
