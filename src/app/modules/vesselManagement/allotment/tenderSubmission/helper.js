@@ -1,6 +1,8 @@
+import axios from "axios";
 import { Field, getIn } from "formik";
 import React from "react";
 import * as Yup from "yup";
+import { imarineBaseUrl } from "../../../../App";
 
 
 // Error message display field for field array of of tender submission create & edit page
@@ -28,7 +30,8 @@ export const initData = {
     foreignPriceUSD: "",
     commercialDate: "",
     commercialNo: "",
-    motherVessel: "",
+    referenceNo:"",
+    referenceDate:"",
     localTransportations: [{
         godownName: "",
         quantity: "",
@@ -63,3 +66,36 @@ export const validationSchema = Yup.object({
         .min(1, 'Minimum 1 local transport')
 
 });
+
+
+export const getMotherVesselDDL = async (accId, buId, setter) => {
+    try {
+        const res = await axios.get(
+            `${imarineBaseUrl}/domain/LighterVessel/GetMotherVesselDDL?AccountId=${accId}&BusinessUnitId=${buId}`
+        );
+        setter(res.data);
+    } catch (error) {
+        setter([]);
+    }
+};
+
+
+export const getDischargePortDDL = async (setter) => {
+    try {
+        const res = await axios.get(`/wms/FertilizerOperation/GetDomesticPortDDL`);
+        setter(res?.data);
+    } catch (error) {
+        setter([]);
+    }
+};
+
+export const GetLoadPortDDL = async (setter) => {
+    try {
+        const res = await axios.get(
+            `${imarineBaseUrl}/domain/Vessel/GetCountryDDL`
+        );
+        setter(res?.data);
+    } catch (error) {
+        setter([]);
+    }
+};

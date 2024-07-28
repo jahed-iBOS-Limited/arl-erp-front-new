@@ -1,32 +1,64 @@
 import { FieldArray, Form, Formik } from "formik";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Loading from "../../../../_helper/_loading";
 import IForm from "../../../../_helper/_form";
 import NewSelect from "../../../../_helper/_select";
 import InputField from "../../../../_helper/_inputField";
-import { ErrorMessage, initData, validationSchema } from "../helper";
+import { ErrorMessage, getDischargePortDDL, GetLoadPortDDL, getMotherVesselDDL, initData, validationSchema } from "../helper";
+import { shallowEqual, useSelector } from "react-redux";
+
 
 
 export default function TenderSubmissionCreateEditForm() {
+    const { profileData: { accountId }, selectedBusinessUnit: { label: buUnName, value: buUnId } } = useSelector(state => state?.authData, shallowEqual)
+
     const [objProps, setObjprops] = useState({});
+    const [dischargeDDL, setDischargeDDL] = useState([])
+    const [loadPortDDL, setLoadPortDDL] = useState([])
+    const [motherVesselDDL, setMotherVesselDDL] = useState([]);
+    console.log(buUnName)
+
+
+    useEffect(() => {
+        getDischargePortDDL(setDischargeDDL)
+        GetLoadPortDDL(setLoadPortDDL)
+        getMotherVesselDDL(
+            accountId,
+            buUnId,
+            setMotherVesselDDL
+        );
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     const saveHandler = (values, cb) => {
         const payload = {
-            enquiry: values?.enquiry,
-            submissionDate: values?.submissionDate,
-            foreignQnt: values?.foreignQnt,
-            qntUnit: values?.qntUnit || "MT",
-            productName: values?.productName,
-            loadPort: values?.loadPort?.value,
-            dischargePort: values?.dischargePort?.value,
-            foreignPriceUSD: values?.foreignPriceUSD,
-            commercialDate: values?.commercialDate,
-            commercialNo: values?.commercialNo,
-            motherVessel: values?.motherVessel?.value,
-            localTransportations: values?.localTransportations?.map(item => ({
+            header: {
+                tenderId: 0,
+                accountId: accountId,
+                businessUnitId: buUnId,
+                businessUnitName: buUnName,
+                enquiryNo: values?.enquiry,
+                submissionDate: values?.submissionDate,
+                totalQty: values?.foreignQnt,
+                foreignQty: values?.foreignQnt,
+                uomname: '',
+                itemName: values?.productName,
+                loadPortId: values?.loadPort?.value,
+                loadPortName: values?.loadPort?.label,
+                dischargePortId: values?.dischargePort?.value,
+                dischargePortName: values?.dischargePort?.label,
+                foreignPriceUsd: values?.foreignPriceUSD,
+                commercialNo: values?.commercialNo,
+                commercialDate: values?.commercialDate,
+                referencelNo: values?.referencelNo,
+                referenceDate: values?.referenceDate,
+            },
+            rows: values?.localTransportations?.map(item => ({
+                godownId: 0,
                 godownName: item?.godownName?.value,
                 quantity: item?.quantity,
-                price: item?.price
+                perQtyTonPriceBd: item?.price,
+                perQtyPriceWords: '',
             }))
         }
         alert(JSON.stringify(payload, null, 2));
@@ -106,10 +138,7 @@ export default function TenderSubmissionCreateEditForm() {
                                 <div className="col-lg-3">
                                     <NewSelect
                                         name="loadPort"
-                                        options={[
-                                            { value: 1, label: "Item-1" },
-                                            { value: 2, label: "Item-2" },
-                                        ]}
+                                        options={loadPortDDL}
                                         value={values?.loadPort}
                                         label="Load Port"
                                         onChange={(valueOption) => {
@@ -122,10 +151,7 @@ export default function TenderSubmissionCreateEditForm() {
                                 <div className="col-lg-3">
                                     <NewSelect
                                         name="dischargePort"
-                                        options={[
-                                            { value: 1, label: "Item-1" },
-                                            { value: 2, label: "Item-2" },
-                                        ]}
+                                        options={dischargeDDL}
                                         value={values?.dischargePort}
                                         label="Discharge Port"
                                         onChange={(valueOption) => {
@@ -167,13 +193,22 @@ export default function TenderSubmissionCreateEditForm() {
                                             setFieldValue("commercialNo", e.target.value);
                                         }}
                                     />
-                                </div><div className="col-lg-3">
+                                </div>
+                                <div className="col-lg-3">
+                                    <InputField
+                                        value={values?.referenceNo}
+                                        label="Reference No"
+                                        name="referenceNo"
+                                        type="text"
+                                        onChange={(e) => {
+                                            setFieldValue("referenceNo", e.target.value);
+                                        }}
+                                    />
+                                </div>
+                                <div className="col-lg-3">
                                     <NewSelect
                                         name="motherVessel"
-                                        options={[
-                                            { value: 1, label: "Item-1" },
-                                            { value: 2, label: "Item-2" },
-                                        ]}
+                                        options={motherVesselDDL}
                                         value={values?.motherVessel}
                                         label="Mother Vessel"
                                         onChange={(valueOption) => {
