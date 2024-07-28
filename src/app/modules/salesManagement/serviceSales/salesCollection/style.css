@@ -1,0 +1,153 @@
+/* * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+} */
+
+.print-invoice-wrapper ul,
+.print-invoice-wrapper ol {
+  list-style: none;
+}
+
+.print-invoice-wrapper a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.print-invoice-wrapper {
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+}
+
+.print-invoice-wrapper .container {
+  margin: 40px;
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 10px;
+}
+
+.print-invoice-wrapper .logo {
+  height: auto;
+  width: 190px !important;
+  position: absolute;
+  top: 55px;
+}
+
+.print-invoice-wrapper .info {
+  text-align: center;
+  margin-top: 80px !important;
+}
+
+.print-invoice-wrapper .invoice_info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 15px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.print-invoice-wrapper .address {
+  background-color: #ebebe0;
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 25px;
+  font-size: 14px;
+}
+
+.print-invoice-wrapper .address_title {
+  font-weight: 600;
+  text-decoration: underline;
+  font-size: 15px;
+}
+
+.print-invoice-wrapper table {
+  border: 2px solid black;
+  border-collapse: collapse;
+  width: 100%;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 12px;
+}
+
+.print-invoice-wrapper td {
+  border-right: 2px solid black;
+  border-bottom: 1px solid black;
+}
+
+.print-invoice-wrapper th {
+  border-right: 2px solid black;
+  background-color: #ebebe5;
+}
+
+.print-invoice-wrapper tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+/* Style for odd rows */
+.print-invoice-wrapper tr:nth-child(odd) {
+  background-color: #f2f2f2;
+}
+
+.print-invoice-wrapper tbody tr:last-child {
+  border-bottom: 2px solid black;
+}
+
+.print-invoice-wrapper tfoot td {
+  border: none;
+}
+
+.taka-in-words {
+  width: 100%;
+  font-size: 13px;
+  margin: 40px 0;
+  display: flex;
+}
+
+.print-invoice-wrapper .bd_title {
+  text-decoration: underline;
+}
+
+.print-invoice-wrapper .bd_title {
+  font-size: 20px;
+}
+
+.print-invoice-wrapper .bd_title p {
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.print-invoice-wrapper .bank_details {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 100px;
+}
+
+.print-invoice-wrapper .bd_item p {
+  font-size: 13px;
+}
+
+.print-invoice-wrapper .signature {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 50px;
+}
+
+.print-invoice-wrapper .signature p {
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top: 1px dashed black;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.print-invoice-wrapper .contact {
+  background-color: #c3dae9;
+  padding: 5px 10px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-evenly;
+  font-size: 13px;
+}

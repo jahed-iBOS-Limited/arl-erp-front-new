@@ -10,7 +10,7 @@ import { _todayDate } from "../../../_helper/_todayDate";
 import IViewModal from "../../../_helper/_viewModal";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import IForm from "./../../../_helper/_form";
+import IForm from "../../../_helper/_form";
 import PrintInvoiceModal from "./printInvoice";
 import InputField from "../../../_helper/_inputField";
 import { formatMonthYear } from "../../../_helper/_getMonthYearFormat";
@@ -222,7 +222,7 @@ export default function SalesInvoiceLanding() {
                         { value: 2, label: "One Time" },
                       ]}
                       value={values?.paymentType}
-                      label="Bill Type"
+                      label="Payment Type"
                       onChange={(valueOption) => {
                         setFieldValue("paymentType", valueOption);
                         setRowData([]);

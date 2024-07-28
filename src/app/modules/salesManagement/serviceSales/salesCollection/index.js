@@ -10,7 +10,7 @@ import { _todayDate } from "../../../_helper/_todayDate";
 import IViewModal from "../../../_helper/_viewModal";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import IForm from "./../../../_helper/_form";
+import IForm from "../../../_helper/_form";
 import PrintInvoiceModal from "./printInvoice";
 import InputField from "../../../_helper/_inputField";
 import { formatMonthYear } from "../../../_helper/_getMonthYearFormat";
@@ -18,11 +18,11 @@ import IDelete from "../../../_helper/_helperIcons/_delete";
 const initData = {
   customer: "",
   type: { value: 1, label: "Pending for Invoice" },
-  paymentType:"",
-  fromDate:"",
-  toDate:""
+  paymentType: "",
+  fromDate: "",
+  toDate: "",
 };
-export default function SalesInvoiceLanding() {
+export default function SalesCollectionLanding() {
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
@@ -31,7 +31,7 @@ export default function SalesInvoiceLanding() {
   const [rowData, getRowData, loader, setRowData] = useAxiosGet();
   const [itemDDL, getItemDDL] = useAxiosGet();
   const [, saveHandler, saveLoader] = useAxiosPost();
-  const [, collectionHandler] = useAxiosGet();
+  const [, collectionHandler] = useAxiosPost();
 
   const [showModal, setShowModal] = useState(false);
   const [singleItem, setSingleItem] = useState(null);
@@ -52,18 +52,27 @@ export default function SalesInvoiceLanding() {
   }, [profileData, selectedBusinessUnit]);
 
   const getData = ({ typeId, values }) => {
-    const strFromAndToDate = values?.fromDate && values?.toDate ? `&FromDate=${values?.fromDate}&ToDate=${values?.toDate}` : "";
+    const strFromAndToDate =
+      values?.fromDate && values?.toDate
+        ? `&FromDate=${values?.fromDate}&ToDate=${values?.toDate}`
+        : "";
     let apiUrl = [2]?.includes(typeId)
       ? `/oms/ServiceSales/GetServiceSalesInvocieList?accountId=${
           profileData?.accountId
         }&businessUnitId=${
           selectedBusinessUnit?.value
-        }&customerId=0&isCollectionComplte=${false}${strFromAndToDate}`
-      : `/oms/ServiceSales/GetServiceScheduleList?accountId=${
+        }&customerId=${values?.customer?.value || 0}&isCollectionComplte=${false}${strFromAndToDate}`
+        : `/oms/ServiceSales/GetServiceSalesInvocieList?accountId=${
           profileData?.accountId
         }&businessUnitId=${
           selectedBusinessUnit?.value
-        }&serviceSalesOrderId=${0}&dteTodate=${_todayDate()}&paymentTypeId=${values?.paymentType?.value || 0}`;
+        }&customerId=${values?.customer?.value || 0}&isCollectionComplte=${true}${strFromAndToDate}`
+      // : `/oms/ServiceSales/GetServiceScheduleList?accountId=${
+      //     profileData?.accountId
+      //   }&businessUnitId=${
+      //     selectedBusinessUnit?.value
+      //   }&serviceSalesOrderId=${0}&dteTodate=${_todayDate()}&paymentTypeId=${values
+      //     ?.paymentType?.value || 0}`;
 
     getRowData(apiUrl, (data) => {
       const result = data?.map((item) => ({ ...item, isChecked: false }));
@@ -91,7 +100,7 @@ export default function SalesInvoiceLanding() {
         <>
           {(loader || saveLoader) && <Loading />}
           <IForm
-            title="Sales Invoice"
+            title="Sales Collection"
             isHiddenReset
             isHiddenBack
             isHiddenSave
@@ -184,12 +193,12 @@ export default function SalesInvoiceLanding() {
             <Form>
               <div>
                 <div className="form-group  global-form row">
-                <div className="col-lg-3">
+                  <div className="col-lg-3">
                     <NewSelect
                       name="type"
                       options={[
-                        { value: 1, label: "Pending for Invoice" },
-                        { value: 2, label: "Created Invoice" },
+                        { value: 2, label: "Pending for Collection" },
+                        { value: 1, label: "Collected" },
                       ]}
                       value={values?.type}
                       label="Type"
@@ -231,30 +240,32 @@ export default function SalesInvoiceLanding() {
                       touched={touched}
                     />
                   </div>
-                 {values?.type?.value === 2 && ( <>
-                  <div className="col-lg-3">
-                  <InputField
-                    value={values?.fromDate}
-                    label="From Date"
-                    name="fromDate"
-                    type="date"
-                    onChange={(e) => {
-                      setFieldValue("fromDate", e.target.value);
-                    }}
-                  />
-                </div>
-                <div className="col-lg-3">
-                  <InputField
-                    value={values?.toDate}
-                    label="To Date"
-                    name="toDate"
-                    type="date"
-                    onChange={(e) => {
-                      setFieldValue("toDate", e.target.value);
-                    }}
-                  />
-                </div>
-                  </>)}
+                  {values?.type?.value === 2 && (
+                    <>
+                      <div className="col-lg-3">
+                        <InputField
+                          value={values?.fromDate}
+                          label="From Date"
+                          name="fromDate"
+                          type="date"
+                          onChange={(e) => {
+                            setFieldValue("fromDate", e.target.value);
+                          }}
+                        />
+                      </div>
+                      <div className="col-lg-3">
+                        <InputField
+                          value={values?.toDate}
+                          label="To Date"
+                          name="toDate"
+                          type="date"
+                          onChange={(e) => {
+                            setFieldValue("toDate", e.target.value);
+                          }}
+                        />
+                      </div>
+                    </>
+                  )}
                   <div>
                     <button
                       className="btn btn-primary"
@@ -268,7 +279,7 @@ export default function SalesInvoiceLanding() {
                     </button>
                   </div>
                 </div>
-                {[1]?.includes(values?.type?.value) ? (
+                {/* {[1]?.includes(values?.type?.value) ? (
                   <div className="mt-5">
                     <div className="table-responsive">
                       <table className="table table-striped table-bordered bj-table bj-table-landing">
@@ -366,23 +377,32 @@ export default function SalesInvoiceLanding() {
                                   }}
                                 />
                               </td>
-                              <td className="text-center"><span onClick={(e)=>{
-                               e.stopPropagation();
-                               IConfirmModal({
-                                message: `Are you sure to delete?`,
-                                yesAlertFunc: () => {
-                                  onDelete(
-                                    `/oms/ServiceSales/InactiveServiceSales?ServiceSalesOrderId=${item?.intServiceSalesOrderId}`,
-                                    null,
-                                    () => {
-                                      getData({ typeId: values?.type?.value, values });
-                                    },
-                                    true
-                                  );
-                                },
-                                noAlertFunc: () => {},
-                              });
-                              }}><IDelete style={{fontSize:"16px"}}/></span></td>
+                              <td className="text-center">
+                                <span
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    IConfirmModal({
+                                      message: `Are you sure to delete?`,
+                                      yesAlertFunc: () => {
+                                        onDelete(
+                                          `/oms/ServiceSales/InactiveServiceSales?ServiceSalesOrderId=${item?.intServiceSalesOrderId}`,
+                                          null,
+                                          () => {
+                                            getData({
+                                              typeId: values?.type?.value,
+                                              values,
+                                            });
+                                          },
+                                          true
+                                        );
+                                      },
+                                      noAlertFunc: () => {},
+                                    });
+                                  }}
+                                >
+                                  <IDelete style={{ fontSize: "16px" }} />
+                                </span>
+                              </td>
                             </tr>
                           ))}
                         </tbody>
@@ -390,7 +410,9 @@ export default function SalesInvoiceLanding() {
                     </div>
                   </div>
                 ) : (
-                  <div className="mt-5">
+                 
+                )} */}
+                 <div className="mt-5">
                     <div className="table-responsive">
                       <table className="table table-striped table-bordered bj-table bj-table-landing">
                         <thead>
@@ -399,11 +421,11 @@ export default function SalesInvoiceLanding() {
                             <th>Customer</th>
                             <th>Item Name</th>
                             <th>Address</th>
-                            <th style={{minWidth:"70px"}}>Month-Year</th>
+                            <th style={{ minWidth: "70px" }}>Month-Year</th>
                             <th>Schedule Type</th>
                             <th>Sales Type</th>
                             <th>Sales Order Code</th>
-                            {/* <th>Action</th> */}
+                            <th>Action</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -436,14 +458,16 @@ export default function SalesInvoiceLanding() {
                               </td>
                               <td>{item?.invocieHeader?.strCustomerAddress}</td>
                               <td className="text-center">
-                                {formatMonthYear(item?.invocieRow?.[0]?.dteDueDateTime)}
+                                {formatMonthYear(
+                                  item?.invocieRow?.[0]?.dteDueDateTime
+                                )}
                               </td>
                               <td>
                                 {item?.invocieHeader?.strScheduleTypeName}
                               </td>
                               <td>{item?.invocieHeader?.strSalesTypeName}</td>
                               <td>{item?.strServiceSalesOrderCode}</td>
-                              {/* <td>
+                              <td>
                                 <div className="d-flex justify-content-between">
                                   <OverlayTrigger
                                     overlay={
@@ -459,7 +483,10 @@ export default function SalesInvoiceLanding() {
                                             title: "Are you sure ?",
                                             yesAlertFunc: () => {
                                               collectionHandler(
-                                                `/oms/ServiceSales/InvoiceCollection?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&serviceSalesInvoiceId=${item?.invocieHeader?.intServiceSalesInvoiceId}`
+                                                `/oms/ServiceSales/InvoiceCollection?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&serviceSalesInvoiceId=${item?.invocieHeader?.intServiceSalesInvoiceId}`, null, ()=>{
+                                                  getData({ typeId: values?.type?.value, values });
+                                                },
+                                                true
                                               );
                                             },
                                             noAlertFunc: () => {},
@@ -497,14 +524,13 @@ export default function SalesInvoiceLanding() {
                                     </span>
                                   </OverlayTrigger>
                                 </div>
-                              </td> */}
+                              </td>
                             </tr>
                           ))}
                         </tbody>
                       </table>
                     </div>
                   </div>
-                )}
               </div>
               <IViewModal
                 show={showModal}
