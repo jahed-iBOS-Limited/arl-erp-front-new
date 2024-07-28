@@ -42,7 +42,7 @@ export default function G2GLighterBill() {
   const getData = (values, searchTerm) => {
     const search = searchTerm ? `&SearchTerm=${searchTerm}` : "";
     getGridData(
-      `/tms/LigterLoadUnload/PreDataForLighterVesselCarrierBillG2G?AccountId=${accId}&BusinessUnitId=${buId}&MotherVesselId=${values?.motherVessel?.value}&CarrierAgentId=${values?.carrierName?.value}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}${search}`
+      `/tms/LigterLoadUnload/PreDataForLighterVesselCarrierBillG2G?AccountId=${accId}&BusinessUnitId=${buId}&MotherVesselId=${values?.motherVessel?.value}&CarrierAgentId=${values?.carrierName?.value}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}&billTypeId=${values?.billType?.value}${search}`
     );
   };
 

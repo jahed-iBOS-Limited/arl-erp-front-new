@@ -1,6 +1,6 @@
 import axios from "axios";
 import { Form, Formik } from "formik";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import * as Yup from "yup";
 import SearchAsyncSelect from "../../../../../_helper/SearchAsyncSelect";
@@ -14,6 +14,8 @@ import AttachFile from "../../../../../_helper/commonInputFieldsGroups/attachemn
 import FromDateToDateForm from "../../../../../_helper/commonInputFieldsGroups/dateForm";
 import IButton from "../../../../../_helper/iButton";
 import { PortAndMotherVessel } from "../../../../../vesselManagement/common/components";
+import NewSelect from "../../../../../_helper/_select";
+import { GetBillTypeDDL } from "../../helper";
 
 const validationSchema = Yup.object().shape({
   billNo: Yup.string().required("Bill No is Required"),
@@ -35,6 +37,8 @@ export default function _Form({
 }) {
   const [open, setOpen] = React.useState(false);
   // const [lighterCarrierDDL, getLighterCarrierDDL] = useAxiosGet();
+  const [billTypeDDL, setBillTypeDDL] = useState([]);
+
   const dispatch = useDispatch();
   const loadOptions = async (v) => {
     await [];
@@ -50,6 +54,13 @@ export default function _Form({
         return [...updateList];
       });
   };
+
+  useEffect(() => {
+    if (buId && accId) {
+      GetBillTypeDDL(setBillTypeDDL)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <>
@@ -111,6 +122,20 @@ export default function _Form({
                       />
                     </div> */}
 
+                    <div className="col-lg-3">
+                      <NewSelect
+                        name="billType"
+                        options={billTypeDDL || []}
+                        value={values?.billType}
+                        label="Bill Type"
+                        onChange={(valueOption) => {
+                          setFieldValue("billType", valueOption);
+                        }}
+                        placeholder="Bill Type"
+                        errors={errors}
+                        touched={touched}
+                      />
+                    </div>
                     <div className="col-lg-3">
                       <label>Carrier Name</label>
                       <SearchAsyncSelect
@@ -294,6 +319,7 @@ export default function _Form({
                       <th>Quantity</th>
                       <th>Rate</th>
                       <th>Bill Amount</th>
+                      <th>Standerd Amount</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -340,6 +366,7 @@ export default function _Form({
                             }}
                           />
                         </td>
+                        <td className="text-right">{item?.standardAmount}</td>
                       </tr>
                     ))}
                   </tbody>
