@@ -7,12 +7,7 @@ import NewSelect from "../../../../_helper/_select";
 import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
 import IButton from "../../../../_helper/iButton";
 
-export default function _Form({ 
-  viewType,
-  initData,
-  postData, 
-  saveHandler,
-}) {
+export default function _Form({ viewType, initData, postData, saveHandler }) {
   const history = useHistory();
 
   return (
@@ -22,7 +17,7 @@ export default function _Form({
         initialValues={initData}
         onSubmit={(values, { resetForm }) => {
           saveHandler(values, () => {
-            resetForm(initData); 
+            resetForm(initData);
           });
         }}
       >
@@ -40,14 +35,14 @@ export default function _Form({
               backHandler={() => history.goBack()}
               resetHandler={
                 viewType !== "view"
-                  ? () => { 
+                  ? () => {
                       resetForm(initData);
                     }
                   : ""
               }
               saveHandler={() => {
                 handleSubmit();
-              }} 
+              }}
             >
               <form className="form form-label-right">
                 <div className="global-form">
@@ -85,6 +80,9 @@ export default function _Form({
                     <FromDateToDateForm obj={{ values, setFieldValue }} />
 
                     <IButton
+                      disabled={
+                        !values?.conditionType || !values?.conditionTypeRef
+                      }
                       onClick={() => {
                         postData(
                           `/fino/ReturnSales/ShipToPartnerTargetEntryFromGoogleSheet`,
