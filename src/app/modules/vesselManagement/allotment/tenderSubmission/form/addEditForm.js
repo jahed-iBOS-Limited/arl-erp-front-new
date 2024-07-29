@@ -4,44 +4,57 @@ import Loading from "../../../../_helper/_loading";
 import IForm from "../../../../_helper/_form";
 import NewSelect from "../../../../_helper/_select";
 import InputField from "../../../../_helper/_inputField";
-import { ErrorMessage, getDischargePortDDL, GetLoadPortDDL, getMotherVesselDDL, initData, validationSchema } from "../helper";
+import { businessPartnerDDL, ErrorMessage, getDischargePortDDL, GetLoadPortDDL, initData, validationSchema } from "../helper";
 import { shallowEqual, useSelector } from "react-redux";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 
 
 
 export default function TenderSubmissionCreateEditForm() {
-    const { profileData: { accountId }, selectedBusinessUnit: { label: buUnName, value: buUnId } } = useSelector(state => state?.authData, shallowEqual)
+    const { profileData: { userId, accountId }, selectedBusinessUnit: { label: buUnName, value: buUnId } } = useSelector(state => state?.authData, shallowEqual)
 
     const [objProps, setObjprops] = useState({});
     const [dischargeDDL, setDischargeDDL] = useState([])
     const [loadPortDDL, setLoadPortDDL] = useState([])
-    const [motherVesselDDL, setMotherVesselDDL] = useState([]);
-    console.log(buUnName)
+    const [godownDDL, getGodownDDL, getGodownDDLLoading, updateGodownDDLLoading] = useAxiosGet()
+    const [, submitTender, submitTenderLoading] = useAxiosPost()
 
+    const getGodownDDLList = (businessPartner) => {
+        const url = `/tms/LigterLoadUnload/GetShipToPartnerG2GPagination?AccountId=${accountId}&BusinessUnitId=${buUnId}&BusinessPartnerId=${businessPartner?.value}&PageNo=${0}&PageSize=${100}`
+        getGodownDDL(url, (data) => {
+            const updateDDL = data?.data?.map(item => {
+                return {
+                    value: item?.shiptoPartnerId,
+                    label: item?.shipToParterName
+                }
+            })
+            updateGodownDDLLoading(updateDDL)
+        })
+
+
+    }
 
     useEffect(() => {
         getDischargePortDDL(setDischargeDDL)
         GetLoadPortDDL(setLoadPortDDL)
-        getMotherVesselDDL(
-            accountId,
-            buUnId,
-            setMotherVesselDDL
-        );
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const saveHandler = (values, cb) => {
         const payload = {
             header: {
-                tenderId: 0,
                 accountId: accountId,
                 businessUnitId: buUnId,
                 businessUnitName: buUnName,
+                tenderId: 0,
+                businessPartnerId: values?.businessPartner?.value,
+                businessPartnerName: values?.businessPartner?.label,
                 enquiryNo: values?.enquiry,
                 submissionDate: values?.submissionDate,
-                totalQty: values?.foreignQnt,
                 foreignQty: values?.foreignQnt,
-                uomname: '',
+                totalQty: values?.foreignQnt,
+                uomname: values?.uomname,
                 itemName: values?.productName,
                 loadPortId: values?.loadPort?.value,
                 loadPortName: values?.loadPort?.label,
@@ -50,18 +63,23 @@ export default function TenderSubmissionCreateEditForm() {
                 foreignPriceUsd: values?.foreignPriceUSD,
                 commercialNo: values?.commercialNo,
                 commercialDate: values?.commercialDate,
-                referencelNo: values?.referencelNo,
+                referenceNo: values?.referenceNo,
                 referenceDate: values?.referenceDate,
+                actionBy: userId,
             },
             rows: values?.localTransportations?.map(item => ({
-                godownId: 0,
-                godownName: item?.godownName?.value,
+                godownId: item?.godownName?.value,
+                godownName: item?.godownName?.label,
                 quantity: item?.quantity,
                 perQtyTonPriceBd: item?.price,
                 perQtyPriceWords: '',
+                tenderHeaderId: 0,
+                tenderRowId: 0
             }))
         }
-        alert(JSON.stringify(payload, null, 2));
+        submitTender(`/tms/TenderSubmission/CreateOrUpdateTenderSubission`, payload, cb,
+            true
+        )
     };
 
     return (
@@ -84,12 +102,26 @@ export default function TenderSubmissionCreateEditForm() {
                 touched,
             }) => (
                 <>
-                    {false && <Loading />}
+                    {(getGodownDDLLoading || submitTenderLoading) && <Loading />}
                     <IForm title="Tender Submission Create" getProps={setObjprops}>
                         <Form>
                             <div className="form-group  global-form row">
                                 <div className="col-lg-12">
                                     <h4>Foreign Part</h4>
+                                </div>
+                                <div className="col-lg-3">
+                                    <NewSelect
+                                        name="businessPartner"
+                                        options={businessPartnerDDL}
+                                        value={values?.businessPartner}
+                                        label="Business Partner"
+                                        onChange={(valueOption) => {
+                                            setFieldValue("businessPartner", valueOption);
+                                            getGodownDDLList(valueOption)
+                                        }}
+                                        errors={errors}
+                                        touched={touched}
+                                    />
                                 </div>
                                 <div className="col-lg-3">
                                     <InputField
@@ -121,6 +153,17 @@ export default function TenderSubmissionCreateEditForm() {
                                         type="text"
                                         onChange={(e) => {
                                             setFieldValue("foreignQnt", e.target.value);
+                                        }}
+                                    />
+                                </div>
+                                <div className="col-lg-3">
+                                    <InputField
+                                        value={values?.uomname}
+                                        label="Qnt Unit"
+                                        name="uomname"
+                                        type="text"
+                                        onChange={(e) => {
+                                            setFieldValue("uomname", e.target.value);
                                         }}
                                     />
                                 </div>
@@ -174,23 +217,23 @@ export default function TenderSubmissionCreateEditForm() {
                                 </div>
                                 <div className="col-lg-3">
                                     <InputField
-                                        value={values?.commercialDate}
-                                        label="Commercial Date"
-                                        name="commercialDate"
-                                        type="date"
-                                        onChange={(e) => {
-                                            setFieldValue("commercialDate", e.target.value);
-                                        }}
-                                    />
-                                </div>
-                                <div className="col-lg-3">
-                                    <InputField
                                         value={values?.commercialNo}
                                         label="Commercial No"
                                         name="commercialNo"
                                         type="text"
                                         onChange={(e) => {
                                             setFieldValue("commercialNo", e.target.value);
+                                        }}
+                                    />
+                                </div>
+                                <div className="col-lg-3">
+                                    <InputField
+                                        value={values?.commercialDate}
+                                        label="Commercial Date"
+                                        name="commercialDate"
+                                        type="date"
+                                        onChange={(e) => {
+                                            setFieldValue("commercialDate", e.target.value);
                                         }}
                                     />
                                 </div>
@@ -206,19 +249,16 @@ export default function TenderSubmissionCreateEditForm() {
                                     />
                                 </div>
                                 <div className="col-lg-3">
-                                    <NewSelect
-                                        name="motherVessel"
-                                        options={motherVesselDDL}
-                                        value={values?.motherVessel}
-                                        label="Mother Vessel"
-                                        onChange={(valueOption) => {
-                                            setFieldValue("motherVessel", valueOption);
+                                    <InputField
+                                        value={values?.referenceDate}
+                                        label="Reference Date"
+                                        name="referenceDate"
+                                        type="date"
+                                        onChange={(e) => {
+                                            setFieldValue("referenceDate", e.target.value);
                                         }}
-                                        errors={errors}
-                                        touched={touched}
                                     />
                                 </div>
-
 
                                 <div className="col-lg-12 mt-2">
                                     <h4>Local Transport</h4>
@@ -234,10 +274,7 @@ export default function TenderSubmissionCreateEditForm() {
                                                             <div className="col-lg-3">
                                                                 <NewSelect
                                                                     name={`localTransportations[${index}].godownName`}
-                                                                    options={[
-                                                                        { value: 1, label: "Item-1" },
-                                                                        { value: 2, label: "Item-2" },
-                                                                    ]}
+                                                                    options={godownDDL || []}
                                                                     value={values?.localTransportations[index].godownName}
                                                                     label="Godowns"
                                                                     onChange={(valueOption) => {
