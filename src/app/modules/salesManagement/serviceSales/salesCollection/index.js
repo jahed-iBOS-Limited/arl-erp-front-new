@@ -82,8 +82,9 @@ export default function SalesCollectionLanding() {
 
     const modifyData = data.map((item) => {
       const updatedInvoiceRow = item.invocieRow.map((invRow) => {
-        const needCollectionAmount =
-          (invRow.numScheduleAmount || 0) + (invRow.numScheduleVatAmount || 0);
+        // const needCollectionAmount =
+        //   (invRow.numScheduleAmount || 0) + (invRow.numScheduleVatAmount || 0);
+        const needCollectionAmount = invRow?.needCollectionAmount2;
 
         let CollectionAmount;
         let PendingAmount;
@@ -152,8 +153,22 @@ export default function SalesCollectionLanding() {
     //     ?.paymentType?.value || 0}`;
 
     getRowData(apiUrl, (data) => {
-      const result = data?.map((item) => ({ ...item, isChecked: false }));
-      setRowData(result);
+      const modifyData = data.map((item) => {
+        return {
+          ...item,
+          isChecked: false,
+          invocieRow: [
+            {
+              ...item?.invocieRow[0],
+              needCollectionAmount2:
+                +item?.invocieRow[0]?.numPendingAmount ||
+                (+item?.invocieRow[0]?.numScheduleAmount || 0) +
+                  (+item?.invocieRow[0]?.numScheduleVatAmount || 0),
+            },
+          ],
+        };
+      });
+      setRowData(modifyData);
     });
   };
 
