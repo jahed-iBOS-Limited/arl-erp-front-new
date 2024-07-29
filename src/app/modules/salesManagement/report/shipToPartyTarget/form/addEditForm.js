@@ -1,11 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import Loading from "../../../../_helper/_loading";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import Form from "./form";
 import { _todayDate } from "../../../../_helper/_todayDate";
 import { _firstDateofMonth } from "../../../../_helper/_firstDateOfCurrentMonth";
+import { shallowEqual, useSelector } from "react-redux";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 
 const initData = {
   conditionType: "",
@@ -16,10 +18,18 @@ const initData = {
 
 export default function ShipToPartyTargetEntryForm() {
   // get user data from store
-  // const {
-  //   profileData: { accountId: accId },
-  //   selectedBusinessUnit: { value: buId },
-  // } = useSelector((state) => state?.authData, shallowEqual);
+  const {
+    profileData: { accountId: accId },
+    selectedBusinessUnit: { value: buId },
+  } = useSelector((state) => state?.authData, shallowEqual);
+  const [channelList, getChannelList] = useAxiosGet();
+
+  useEffect(() => {
+    getChannelList(
+      `/oms/DistributionChannel/GetDistributionChannelDDL?AccountId=${accId}&BUnitId=${buId}`
+    );
+    // getTransportZoneDDL(accId, buId, setZoneDDL);
+  }, [accId, buId]);
 
   const { type } = useParams();
   const [objProps] = useState({});
@@ -36,6 +46,7 @@ export default function ShipToPartyTargetEntryForm() {
           viewType={type}
           initData={initData}
           postData={postData}
+          channelList={channelList}
           saveHandler={saveHandler}
         />
       </div>

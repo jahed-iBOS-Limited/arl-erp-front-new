@@ -7,7 +7,13 @@ import NewSelect from "../../../../_helper/_select";
 import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
 import IButton from "../../../../_helper/iButton";
 
-export default function _Form({ viewType, initData, postData, saveHandler }) {
+export default function _Form({
+  viewType,
+  initData,
+  postData,
+  saveHandler,
+  channelList,
+}) {
   const history = useHistory();
 
   return (
@@ -50,7 +56,12 @@ export default function _Form({ viewType, initData, postData, saveHandler }) {
                     <div className="col-lg-3">
                       <NewSelect
                         name="conditionType"
-                        options={[]}
+                        options={[
+                          {
+                            value: 2,
+                            label: "Distribution Channel",
+                          },
+                        ]}
                         value={values?.conditionType}
                         label="Condition Type"
                         onChange={(valueOption) => {
@@ -65,7 +76,7 @@ export default function _Form({ viewType, initData, postData, saveHandler }) {
                     <div className="col-lg-3">
                       <NewSelect
                         name="conditionTypeRef"
-                        options={[]}
+                        options={channelList || []}
                         value={values?.conditionTypeRef}
                         label="Condition Type Ref"
                         onChange={(valueOption) => {
@@ -74,7 +85,7 @@ export default function _Form({ viewType, initData, postData, saveHandler }) {
                         placeholder="Select Condition Type Ref"
                         errors={errors}
                         touched={touched}
-                        isDisabled={viewType}
+                        isDisabled={viewType || !values?.conditionType}
                       />
                     </div>
                     <FromDateToDateForm obj={{ values, setFieldValue }} />
