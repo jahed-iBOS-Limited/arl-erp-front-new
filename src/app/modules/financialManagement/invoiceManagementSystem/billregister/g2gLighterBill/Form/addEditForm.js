@@ -79,6 +79,7 @@ export default function G2GLighterBill() {
           lighterToBolgateRate: 0,
           bolgateToDamRate: 0,
           othersCostRate: +item?.carrierRate,
+          standardAmount: +item?.standardAmount
         }));
 
         const payload = {
