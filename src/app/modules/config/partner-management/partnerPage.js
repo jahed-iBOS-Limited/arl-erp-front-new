@@ -42,6 +42,8 @@ import BusinessPartnerGroupForm from "./businessPartnerGroup/form/addEditForm";
 import SalesForceBenefitAnalysis from "./salesForceBenefitAlalysis";
 import PartnerRegApproval from "./partnerRegistrationApproval";
 import CreateApprovePartner from "./partnerRegistrationApproval/CreateApprovePartner";
+import HomeBuildersInfoEntryForm from "./homeBuildersInfo/form/addEditForm";
+import HomeBuildersInfoLanding from "./homeBuildersInfo/landing";
 
 export function PartnerPages() {
   const userRole = useSelector(
@@ -312,6 +314,15 @@ export function PartnerPages() {
       <ContentRoute
         from="/config/partner-management/Salesforcebenefitanalysis"
         component={SalesForceBenefitAnalysis}
+      />
+
+      <ContentRoute
+        from="/config/partner-management/HomeBuildersInfo/entry"
+        component={HomeBuildersInfoEntryForm}
+      />
+      <ContentRoute
+        from="/config/partner-management/HomeBuildersInfo"
+        component={HomeBuildersInfoLanding}
       />
     </Switch>
   );
