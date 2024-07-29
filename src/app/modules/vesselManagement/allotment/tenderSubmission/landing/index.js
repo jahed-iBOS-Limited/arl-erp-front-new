@@ -98,12 +98,12 @@ export default function TenderSubmissionLanding() {
                                     <thead>
                                         <tr className="cursor-pointer">
                                             <th>SL</th>
-                                            <th>enquiryNo</th>
-                                            <th>itemName</th>
-                                            <th>loadPortName</th>
-                                            <th>dischargePortName</th>
-                                            <th>foreignPriceUsd</th>
-                                            <th>totalQty</th>
+                                            <th>Enquiry No</th>
+                                            <th>Item Name</th>
+                                            <th>Load Port</th>
+                                            <th>Discharge Port</th>
+                                            <th>Foreign Price (USD)</th>
+                                            <th>Total Qnt</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
