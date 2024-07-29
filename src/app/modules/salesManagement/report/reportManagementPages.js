@@ -49,6 +49,8 @@ import ShipToPartyDelivery from "./shipToPartyDelivery/Table/table";
 import VehicleArrangeInfo from "./vehicleArrangeInfo/landing/table";
 import CustomerYearlyAchievement from "./customerYearlyAchievement";
 import AllEssentialReport from "./AllEssentialReport";
+import ShipToPartyTargetLanding from "./shipToPartyTarget/landing";
+import ShipToPartyTargetEntryForm from "./shipToPartyTarget/form/addEditForm";
 
 export function ReportManagementPages() {
   const userRole = useSelector(
@@ -314,6 +316,15 @@ export function ReportManagementPages() {
       <ContentRoute
         path="/sales-management/report/AllEssentialReport"
         component={AllEssentialReport}
+      />
+
+      <ContentRoute
+        path="/sales-management/report/shiptopartnertarget/entry"
+        component={ShipToPartyTargetEntryForm}
+      />
+      <ContentRoute
+        path="/sales-management/report/shiptopartnertarget"
+        component={ShipToPartyTargetLanding}
       />
     </Switch>
   );
