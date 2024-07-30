@@ -4,6 +4,7 @@ import { ContentRoute } from "../../../../_metronic/layout";
 import ServiceSalesCreate from "./serviceSalesOrder/serviceSales/create";
 import SalesInvoiceLanding from "./salesInvoice";
 import ServiceSalesLanding from "./serviceSalesOrder/serviceSales";
+import SalesCollectionLanding from "./salesCollection";
 
 export function ServiceSalesPages() {
   return (
@@ -28,6 +29,10 @@ export function ServiceSalesPages() {
       <ContentRoute
         from="/sales-management/servicesales/servsalesinvoice"
         component={SalesInvoiceLanding}
+      />
+      <ContentRoute
+        from="/sales-management/servicesales/servsalescollection"
+        component={SalesCollectionLanding}
       />
     </Switch>
   );
