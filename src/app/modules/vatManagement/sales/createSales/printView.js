@@ -248,7 +248,7 @@ function PrintViewSixPointThree({ salesInvoicePrintStatus, singleData }) {
           </div>
         </div>
         <div className='mt-5'>
-          <p> &copy; System developed by iBOS Limited</p>
+          <p> &copy; System developed by AKIJ iBOS Limited</p>
         </div>
       </div>
     </>

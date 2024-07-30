@@ -299,7 +299,7 @@ const PrintInvoiceModal = ({ singleItem }) => {
               <h5 className="bd_title">Bank Details:</h5>
               <p>
                 {" "}
-                <strong>A/C Name: </strong>iBOS Limited
+                <strong>A/C Name: </strong>AKIJ iBOS Limited
               </p>
               <p>
                 {" "}
