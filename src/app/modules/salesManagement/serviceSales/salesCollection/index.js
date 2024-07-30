@@ -2,19 +2,16 @@ import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { shallowEqual, useSelector } from "react-redux";
-import IConfirmModal from "../../../_helper/_confirmModal";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
+import IForm from "../../../_helper/_form";
+import { formatMonthYear } from "../../../_helper/_getMonthYearFormat";
+import InputField from "../../../_helper/_inputField";
 import Loading from "../../../_helper/_loading";
 import NewSelect from "../../../_helper/_select";
 import { _todayDate } from "../../../_helper/_todayDate";
 import IViewModal from "../../../_helper/_viewModal";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import IForm from "../../../_helper/_form";
 import PrintInvoiceModal from "./printInvoice";
-import InputField from "../../../_helper/_inputField";
-import { formatMonthYear } from "../../../_helper/_getMonthYearFormat";
-import IDelete from "../../../_helper/_helperIcons/_delete";
 const initData = {
   customer: "",
   type: { value: 1, label: "Pending for Invoice" },
@@ -371,159 +368,32 @@ export default function SalesCollectionLanding() {
                     </button>
                   </div>
                 </div>
-                {/* {[1]?.includes(values?.type?.value) ? (
-                  <div className="mt-5">
-                    <div className="table-responsive">
-                      <table className="table table-striped table-bordered bj-table bj-table-landing">
-                        <thead>
-                          <tr>
-                            <th>
-                              <input
-                                type="checkbox"
-                                checked={
-                                  rowData?.length > 0 &&
-                                  rowData?.every((item) => item?.isChecked)
-                                }
-                                onChange={(e) => {
-                                  setRowData(
-                                    rowData?.map((item) => {
-                                      return {
-                                        ...item,
-                                        isChecked: e?.target?.checked,
-                                      };
-                                    })
-                                  );
-                                }}
-                              />
-                            </th>
-                            <th>Customer</th>
-                            <th>Schedule Type</th>
-                            <th>Item Name</th>
-                            <th>Payment Type</th>
-                            <th>Due Date</th>
-                            <th>Payment Percent</th>
-                            <th>Schedule Amount</th>
-                            <th>Remarks</th>
-                            <th>Action</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {rowData?.map((item, index) => (
-                            <tr key={index}>
-                              <td>
-                                <input
-                                  type="checkbox"
-                                  value={item?.isChecked}
-                                  checked={item?.isChecked}
-                                  onChange={(e) => {
-                                    const data = [...rowData];
-                                    data[index]["isChecked"] = e.target.checked;
-                                    console.log("data", data);
-                                    setRowData(data);
-                                  }}
-                                />
-                              </td>
-                              <td>{item?.strCustomerName}</td>
-                              <td>{item?.strScheduleTypeName}</td>
-                              <td>
-                                {(() => {
-                                  const itemStrings = item?.items?.map(
-                                    (singleItem) => {
-                                      const itemName =
-                                        singleItem.strItemName || "N/A";
-                                      const qty =
-                                        typeof singleItem.numSalesQty ===
-                                        "number"
-                                          ? singleItem.numSalesQty
-                                          : "N/A";
-                                      const rate =
-                                        typeof singleItem.numRate === "number"
-                                          ? singleItem.numRate
-                                          : "N/A";
 
-                                      return `${itemName} - Qty: ${qty}, Rate: ${rate}`;
-                                    }
-                                  );
-
-                                  return itemStrings?.join(" / ");
-                                })()}
-                              </td>
-                              <td>{item?.strPaymentType}</td>
-                              <td className="text-center">
-                                {_dateFormatter(item?.dteDueDateTime)}
-                              </td>
-                              <td className="text-center">
-                                {item?.intPaymentByPercent}
-                              </td>
-                              <td className="text-right">
-                                {item?.numScheduleAmount}
-                              </td>
-                              <td>
-                                <InputField
-                                  type="text"
-                                  onChange={(e) => {
-                                    const data = [...rowData];
-                                    data[index]["remarks"] =
-                                      e.target.value || "";
-                                    setRowData(data);
-                                  }}
-                                />
-                              </td>
-                              <td className="text-center">
-                                <span
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    IConfirmModal({
-                                      message: `Are you sure to delete?`,
-                                      yesAlertFunc: () => {
-                                        onDelete(
-                                          `/oms/ServiceSales/InactiveServiceSales?ServiceSalesOrderId=${item?.intServiceSalesOrderId}`,
-                                          null,
-                                          () => {
-                                            getData({
-                                              typeId: values?.type?.value,
-                                              values,
-                                            });
-                                          },
-                                          true
-                                        );
-                                      },
-                                      noAlertFunc: () => {},
-                                    });
-                                  }}
-                                >
-                                  <IDelete style={{ fontSize: "16px" }} />
-                                </span>
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
+                {[2].includes(values?.type?.value) && rowData && (
+                  <div className="row mt-5 flex-center">
+                    <div className="col-lg-3">
+                      <InputField
+                        value={receivableAmount || ""}
+                        type="number"
+                        placeholder="Receivable Amount"
+                        onChange={(e) => {
+                          if (!e.target.value) {
+                            getData({ typeId: values?.type?.value, values });
+                          }
+                          setReceivableAmount(+e.target.value);
+                        }}
+                      />
+                    </div>
+                    <div>
+                      <button
+                        disabled={!receivableAmount}
+                        className="btn btn-primary"
+                      >
+                        Collection
+                      </button>
                     </div>
                   </div>
-                ) : (
-                 
-                )} */}
-                <div className="row mt-5 flex-center">
-                  <div className="col-lg-3">
-                    <InputField
-                      value={receivableAmount || ""}
-                      type="number"
-                      placeholder="Receivable Amount"
-                      onChange={(e) => {
-                        setReceivableAmount(+e.target.value);
-                      }}
-                    />
-                  </div>
-                  <div>
-                    <button
-                      disabled={!receivableAmount}
-                      className="btn btn-primary"
-                    >
-                      Collection
-                    </button>
-                  </div>
-                </div>
+                )}
                 <div className="mt-5">
                   <div className="table-responsive">
                     <table className="table table-striped table-bordered bj-table bj-table-landing">
