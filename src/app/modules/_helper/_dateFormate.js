@@ -1,6 +1,7 @@
 import isDate from "lodash/isDate";
 import moment from "moment";
 
+// Format date // 2024-07-30T00:00:00 => 2024-07-30
 export const _dateFormatter = (param) => {
   if (param) {
     const date = new Date(param);
@@ -16,6 +17,7 @@ export const _dateFormatter = (param) => {
   }
 };
 
+// Format date two // 2024-07-30T00:00:00 => 30-07-2024
 export const _dateFormatterTwo = (param) => {
   if (param) {
     const date = new Date(param);
