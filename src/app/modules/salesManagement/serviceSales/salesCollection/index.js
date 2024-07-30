@@ -12,6 +12,7 @@ import IViewModal from "../../../_helper/_viewModal";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import PrintInvoiceModal from "./printInvoice";
+import CollectionModal from "./collection";
 const initData = {
   customer: "",
   type: { value: 1, label: "Pending for Invoice" },
@@ -26,52 +27,14 @@ export default function SalesCollectionLanding() {
 
   const [customerList, getCustomerList] = useAxiosGet();
   const [rowData, getRowData, loader, setRowData] = useAxiosGet();
-  const [itemDDL, getItemDDL] = useAxiosGet();
   const [, saveHandler, saveLoader] = useAxiosPost();
-  const [, collectionHandler] = useAxiosPost();
   const [receivableAmount, setReceivableAmount] = useState(0);
 
   const [showModal, setShowModal] = useState(false);
+  const [showCollectionModal, setShowCollectionModal] = useState(false);
   const [singleItem, setSingleItem] = useState(null);
-  const [, onDelete] = useAxiosGet();
-  // const [, collectionHandler] = useAxiosPost();
 
   console.log("rowData", rowData);
-
-  // useEffect(() => {
-  //   const data = [...rowData];
-  //   // data.length = 1;
-  //   let Ramount = +receivableAmount;
-  //   const modifyData = data.map((item, index) => {
-  //     let needCollectionAmount =
-  //       (+item?.invocieRow[0]?.numScheduleAmount || 0) +
-  //       (+item?.invocieRow[0]?.numScheduleVatAmount || 0);
-  //     console.log("needCollectionAmount", needCollectionAmount);
-  //     console.log("Ramount", Ramount);
-  //     let CollectionAmount =
-  //       +Ramount > +needCollectionAmount ? +needCollectionAmount : +Ramount;
-
-  //     let PendingAmount =
-  //       +Ramount > +needCollectionAmount ? 0 : +needCollectionAmount - +Ramount;
-
-  //     Ramount = Math.abs(+needCollectionAmount - +Ramount);
-  //     console.log("CollectionAmount", CollectionAmount);
-  //     console.log("PendingAmount", PendingAmount);
-  //     return {
-  //       ...item,
-  //       invocieRow: [
-  //         {
-  //           ...item?.invocieRow[0],
-  //           numCollectionAmount: +Ramount > 0 ? CollectionAmount : 0,
-  //           numPendingAmount: +Ramount > 0 ? PendingAmount : 0,
-  //         },
-  //       ],
-  //     };
-  //   });
-
-  //   setRowData(modifyData);
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [receivableAmount]);
 
   useEffect(() => {
     const data = [...rowData];
@@ -117,9 +80,6 @@ export default function SalesCollectionLanding() {
     getCustomerList(
       `/partner/BusinessPartnerBasicInfo/GetSoldToPartnerShipToPartnerDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}`
     );
-    getItemDDL(
-      `/oms/SalesOrder/GetgetServiceItemList?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}`
-    );
 
     getData({ typeId: 1, values: {} });
 
@@ -142,12 +102,6 @@ export default function SalesCollectionLanding() {
         }&businessUnitId=${selectedBusinessUnit?.value}&customerId=${values
           ?.customer?.value ||
           0}&isCollectionComplte=${true}${strFromAndToDate}`;
-    // : `/oms/ServiceSales/GetServiceScheduleList?accountId=${
-    //     profileData?.accountId
-    //   }&businessUnitId=${
-    //     selectedBusinessUnit?.value
-    //   }&serviceSalesOrderId=${0}&dteTodate=${_todayDate()}&paymentTypeId=${values
-    //     ?.paymentType?.value || 0}`;
 
     getRowData(apiUrl, (data) => {
       const modifyData = data.map((item) => {
@@ -361,6 +315,7 @@ export default function SalesCollectionLanding() {
                       type="button"
                       style={{ marginTop: "17px" }}
                       onClick={() => {
+                        setReceivableAmount(0);
                         getData({ typeId: values?.type?.value, values });
                       }}
                     >
@@ -388,6 +343,10 @@ export default function SalesCollectionLanding() {
                       <button
                         disabled={!receivableAmount}
                         className="btn btn-primary"
+                        type="button"
+                        onClick={() => {
+                          setShowCollectionModal(true);
+                        }}
                       >
                         Collection
                       </button>
@@ -552,13 +511,24 @@ export default function SalesCollectionLanding() {
                   </div>
                 </div>
               </div>
-              <IViewModal
-                show={showModal}
-                onHide={() => setShowModal(false)}
-                title=""
-              >
-                <PrintInvoiceModal singleItem={singleItem} />
-              </IViewModal>
+              <div>
+                <IViewModal
+                  show={showModal}
+                  onHide={() => setShowModal(false)}
+                  title=""
+                >
+                  <PrintInvoiceModal singleItem={singleItem} />
+                </IViewModal>
+              </div>
+              <div>
+                <IViewModal
+                  show={showCollectionModal}
+                  onHide={() => setShowCollectionModal(false)}
+                  title=""
+                >
+                  <CollectionModal rowData={rowData} />
+                </IViewModal>
+              </div>
             </Form>
           </IForm>
         </>
