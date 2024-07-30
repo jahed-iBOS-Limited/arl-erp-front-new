@@ -1,8 +1,20 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
 import PaginationTable from "../../../../_helper/_tablePagination";
+import { _dateFormatter } from "../../../../_helper/_dateFormate";
 
-const header = ["SL", "Month", "Year", "ShipPoint", "Target Qty", "Action"];
+const header = [
+  "SL",
+  "Name",
+  "Address",
+  "Contact No.",
+  "NID No",
+  "Project Status",
+  "Storied Type",
+  "Start Date",
+  "End Date (approximate)",
+  "Action",
+];
 
 const HomeBuildersInfoLandingTable = ({ obj }) => {
   const {
@@ -17,7 +29,7 @@ const HomeBuildersInfoLandingTable = ({ obj }) => {
 
   return (
     <>
-      {gridData?.data?.length > 0 && (
+      {gridData?.objdata?.length > 0 && (
         <table
           className={
             "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
@@ -30,18 +42,25 @@ const HomeBuildersInfoLandingTable = ({ obj }) => {
               ))}
             </tr>
           </thead>
-          {gridData?.data?.map((item, index) => {
+          {gridData?.objdata?.map((item, index) => {
             return (
               <tr key={index}>
                 <td className="text-center">{index + 1}</td>
-
-                <td>{item?.targetYearId}</td>
+                <td>{item?.strName}</td>
+                <td>{item?.strPresentAddress}</td>
+                <td>{item?.strContactNumber}</td>
+                <td>{item?.strNationalId}</td>
+                <td>{item?.strProjectStatus}</td>
+                <td>{item?.strStroyedTye}</td>
+                <td>{_dateFormatter(item?.dteStartDate)}</td>
+                <td>{_dateFormatter(item?.dteEndDate)}</td>
+                <td></td>
               </tr>
             );
           })}
         </table>
       )}
-      {gridData?.data?.length > 0 && (
+      {gridData?.objdata?.length > 0 && (
         <PaginationTable
           count={gridData?.totalCount}
           setPositionHandler={(pageNo, pageSize) => {
