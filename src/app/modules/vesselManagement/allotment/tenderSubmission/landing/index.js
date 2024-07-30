@@ -66,10 +66,11 @@ export default function TenderSubmissionLanding() {
     // }
 
     // Callback approch for fetch details along with print page view
-    const fetchTenderDetailsCallback = (tenderId, callback) => {
+    const fetchTenderDetailsCallback = (tenderId, loading, callback) => {
         const url = `/tms/TenderSubmission/GetTenderSubmissionById?AccountId=${accountId}&BusinessUnitId=${buUnId}&TenderId=${tenderId}`
-        getTenderDetails(url)
-        callback()
+        getTenderDetails(url, ()=> {
+            callback()
+        })
     }
 
     return (
@@ -177,12 +178,8 @@ export default function TenderSubmissionLanding() {
                                                                 //     handleTenderPrint()
                                                                 // }}
                                                                 // 2nd approch
-                                                                // onClick={() => {
-                                                                //     fetchTenderDetailsCallback(item?.tenderId, getSubmittedTenderLoading, handleTenderPrint)
-                                                                // }}
                                                                 onClick={() => {
-                                                                    fetchTenderDetailsCallback(item?.tenderId, () => setShowModal(true))
-
+                                                                    fetchTenderDetailsCallback(item?.tenderId, getSubmittedTenderLoading, handleTenderPrint)
                                                                 }}
                                                             >
                                                                 <OverlayTrigger
@@ -222,81 +219,53 @@ export default function TenderSubmissionLanding() {
                             )}
                         </Form>
 
-                        <IViewModal
-                            title={"Print Template"}
-                            show={showModal}
-                            onHide={() => {
-                                setShowModal(false);
-                            }}
-                        >
-                            <>
-                                <div
-                                    style={{
-                                        display: "flex",
-                                        justifyContent: "flex-end",
-                                        margin: "20px;",
-                                    }}
-                                >
-                                    <button
-                                        style={{ cursor: "pointer" }}
-                                        type="button"
-                                        className="btn btn-primary"
-                                        onClick={() => {
-                                            handleTenderPrint();
-                                            setShowModal(false);
-                                        }}
-                                    >
-                                        Print
-                                    </button>
-                                </div>
-                                <div ref={printRef}>
-                                    <div style={{ margin: "-13px 0 51px 0" }}>
-                                        <table>
-                                            <thead>
-                                                <div
-                                                    className="invoice-header"
-                                                    style={{
-                                                        backgroundImage: `url(${getLetterHead({
-                                                            buId: buUnId,
-                                                        })})`,
-                                                        backgroundRepeat: "no-repeat",
-                                                        height: "150px",
-                                                        backgroundPosition: "left 10px",
-                                                        backgroundSize: "cover",
-                                                        // position: "fixed",
-                                                        width: "100%",
-                                                        top: "-50px",
-                                                    }}
-                                                ></div>
-                                            </thead>
-                                            {/* CONTENT GOES HERE */}
-                                            <tbody>
-                                                <div style={{ margin: "40px 75px 0 75px" }}>
-                                                    <Print tenderDetails={tenderDetails} />
-                                                </div>
-                                            </tbody>
-                                            <tfoot>
-                                                <div
-                                                    className="ifoot"
-                                                    style={{
-                                                        backgroundImage: `url(${getLetterHead({
-                                                            buId: buUnId,
-                                                        })})`,
-                                                        backgroundRepeat: "no-repeat",
-                                                        height: "100px",
-                                                        backgroundPosition: "left bottom",
-                                                        backgroundSize: "cover",
-                                                        bottom: "-0px",
-                                                        // position: "fixed",
-                                                        width: "100%",
-                                                    }}
-                                                ></div>
-                                            </tfoot>
-                                        </table>
-                                    </div>
-                                </div>
-                            </>
-                        </IViewModal>
+
+                        <div ref={printRef}>
+                            <div style={{ margin: "-13px 0 51px 0" }}>
+                                <table>
+                                    <thead>
+                                        <div
+                                            className="invoice-header"
+                                            style={{
+                                                backgroundImage: `url(${getLetterHead({
+                                                    buId: buUnId,
+                                                })})`,
+                                                backgroundRepeat: "no-repeat",
+                                                height: "150px",
+                                                backgroundPosition: "left 10px",
+                                                backgroundSize: "cover",
+                                                // position: "fixed",
+                                                width: "100%",
+                                                top: "-50px",
+                                            }}
+                                        ></div>
+                                    </thead>
+                                    {/* CONTENT GOES HERE */}
+                                    <tbody>
+                                        <div style={{ margin: "40px 50px 0 50px" }}>
+                                            <Print tenderDetails={tenderDetails} />
+                                        </div>
+                                    </tbody>
+                                    <tfoot>
+                                        <div
+                                            className="ifoot"
+                                            style={{
+                                                backgroundImage: `url(${getLetterHead({
+                                                    buId: buUnId,
+                                                })})`,
+                                                backgroundRepeat: "no-repeat",
+                                                height: "100px",
+                                                backgroundPosition: "left bottom",
+                                                backgroundSize: "cover",
+                                                bottom: "-0px",
+                                                // position: "fixed",
+                                                width: "100%",
+                                            }}
+                                        ></div>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
                     </IForm>
                 </>
             )}
