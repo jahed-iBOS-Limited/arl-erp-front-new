@@ -11,8 +11,10 @@ import { shallowEqual, useSelector } from "react-redux";
 
 const initData = {
   type: "",
-  month: "",
-  year: "",
+  channel: "",
+  region: "",
+  area: "",
+  territory: "",
 };
 
 const HomeBuildersInfoLanding = () => {
@@ -38,9 +40,11 @@ const HomeBuildersInfoLanding = () => {
     getGridData(
       `/oms/SitePeopleInfos/SitePeopleDetailsInfoReport?LevelId=${
         employeeInfo?.empLevelId
-      }&RegionId=${values?.region?.value || 0}&AreaId=${values?.region?.value ||
-        0}&TerritoryId=${values?.region?.value ||
-        0}&BusinessId=${buId}&TypeId=3&employeeId=${employeeId}&PageNo=${_pageNo}&PageSize=${_pageSize}`
+      }&RegionId=${values?.region?.value || 0}&AreaId=${values?.area?.value ||
+        0}&TerritoryId=${values?.territory?.value ||
+        0}&BusinessId=${buId}&TypeId=${
+        values?.type?.value
+      }&employeeId=${employeeId}&PageNo=${_pageNo}&PageSize=${_pageSize}`
     );
   };
 
