@@ -159,7 +159,7 @@ export default function TenderSubmissionCreateEditForm() {
                                 <div className="col-lg-3">
                                     <InputField
                                         value={values?.uomname}
-                                        label="Qnt Unit"
+                                        label="Unit"
                                         name="uomname"
                                         type="text"
                                         onChange={(e) => {

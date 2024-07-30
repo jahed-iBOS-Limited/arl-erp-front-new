@@ -11,8 +11,7 @@ import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { getLetterHead } from "../../../../financialManagement/report/bankLetter/helper";
 import Print from "../print/printTender";
 import { useReactToPrint } from "react-to-print";
-import IViewModal from "../../../../_helper/_viewModal";
-
+import "../print/style.css"
 
 
 // const initData = {};
@@ -25,7 +24,6 @@ export default function TenderSubmissionLanding() {
 
     const [pageNo, setPageNo] = useState(0)
     const [pageSize, setPageSize] = useState(15)
-    const [showModal, setShowModal] = useState(false)
     const [submittedTenderLists, getSubmittedTenderLists, getSubmittedTenderLoading] = useAxiosGet()
     const [tenderDetails, getTenderDetails, getTenderDetailsLoading] = useAxiosGet()
 
@@ -127,12 +125,13 @@ export default function TenderSubmissionLanding() {
                                     <thead>
                                         <tr className="cursor-pointer">
                                             <th>SL</th>
+                                            <th style={{width: '150px'}}>Business Partner</th>
                                             <th>Enquiry No</th>
                                             <th>Item Name</th>
                                             <th>Load Port</th>
                                             <th>Discharge Port</th>
-                                            <th>Foreign Price (USD)</th>
-                                            <th>Total Qnt</th>
+                                            <th style={{width: '150px'}}>Foreign Price (USD)</th>
+                                            <th style={{width: '150px'}}>Total Qt</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -146,6 +145,7 @@ export default function TenderSubmissionLanding() {
                                                     >
                                                         {index + 1}
                                                     </td>
+                                                    <td>{item?.businessPartnerName}</td>
                                                     <td>{item?.enquiryNo}</td>
                                                     <td>{item?.itemName}</td>
                                                     <td>{item?.loadPortName}</td>
@@ -220,7 +220,7 @@ export default function TenderSubmissionLanding() {
                         </Form>
 
 
-                        <div ref={printRef}>
+                        <div ref={printRef} className="tender-print-preview">
                             <div style={{ margin: "-13px 0 51px 0" }}>
                                 <table>
                                     <thead>
@@ -242,7 +242,7 @@ export default function TenderSubmissionLanding() {
                                     </thead>
                                     {/* CONTENT GOES HERE */}
                                     <tbody>
-                                        <div style={{ margin: "40px 50px 0 50px" }}>
+                                        <div style={{ margin: "40px 75px 0 75px" }}>
                                             <Print tenderDetails={tenderDetails} />
                                         </div>
                                     </tbody>
