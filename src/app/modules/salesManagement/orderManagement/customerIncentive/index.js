@@ -178,7 +178,7 @@ export default function CustomerIncentive() {
         { value: "Performance", label: "Performance Bonus" },
         { value: "WithTarget", label: "With Target" },
         { value: "WithoutTarget", label: " Without Target" },
-        { value: "DeliveryIncentive(WithAmount)", label: "DeliveryIncentive (WithAmount)" },
+        { value: "DeliveryIncentive(WithAmount)", label: "Delivery Incentive (WithAmount)" },
       ];
     } else if (["Platinum", "Gold"].includes(customerCategoryLabel)) {
       return [{ value: "Monthly", label: "Monthly" }];
