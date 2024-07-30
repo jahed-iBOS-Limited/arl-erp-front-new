@@ -137,7 +137,7 @@ export default function CustomerIncentive() {
 
   // get trade commission api handler
   const getTradeCommissionHandler = (values) => {
-    const payload = ["WithAmount"].includes(values?.incentiveType?.value)
+    const payload = ["DeliveryIncentive(WithAmount)"].includes(values?.incentiveType?.value)
       ? [
           {
             per1: 0,
@@ -149,7 +149,7 @@ export default function CustomerIncentive() {
       : percentageList;
 
     if (
-      ["WithTarget", "WithoutTarget", "WithAmount"].includes(
+      ["WithTarget", "WithoutTarget", "DeliveryIncentive(WithAmount)"].includes(
         values?.incentiveType?.value
       )
     ) {
@@ -178,7 +178,7 @@ export default function CustomerIncentive() {
         { value: "Performance", label: "Performance Bonus" },
         { value: "WithTarget", label: "With Target" },
         { value: "WithoutTarget", label: " Without Target" },
-        { value: "WithAmount", label: "With Amount" },
+        { value: "DeliveryIncentive(WithAmount)", label: "DeliveryIncentive (WithAmount)" },
       ];
     } else if (["Platinum", "Gold"].includes(customerCategoryLabel)) {
       return [{ value: "Monthly", label: "Monthly" }];
@@ -309,7 +309,7 @@ export default function CustomerIncentive() {
                         />
                       </div>
                     </>
-                  ) : ["WithTarget", "WithoutTarget", "WithAmount"].includes(
+                  ) : ["WithTarget", "WithoutTarget", "DeliveryIncentive(WithAmount)"].includes(
                       values?.incentiveType?.value
                     ) ? (
                     <>
@@ -497,7 +497,7 @@ export default function CustomerIncentive() {
                   </>
                 ) : null}
                 <div className="row">
-                  {["WithAmount"].includes(values?.incentiveType?.value) && (
+                  {["DeliveryIncentive(WithAmount)"].includes(values?.incentiveType?.value) && (
                     <div className="col-lg-3">
                       <InputField
                         value={values?.amount}
@@ -621,11 +621,11 @@ export default function CustomerIncentive() {
                             ? "Avg Delivery Qty"
                             : "Delivery Qty"}
                         </th>
-                        {["WithTarget", "WithoutTarget",  "WithAmount"].includes(
+                        {["WithTarget", "WithoutTarget",  "DeliveryIncentive(WithAmount)"].includes(
                           values?.incentiveType?.value
                         ) && <th>Target Quantity</th>}
                         {/* <th>Total Delivery Qty</th> */}
-                        {!["WithTarget", "WithoutTarget",  "WithAmount"].includes(
+                        {!["WithTarget", "WithoutTarget",  "DeliveryIncentive(WithAmount)"].includes(
                           values?.incentiveType?.value
                         ) ? (
                           <>
@@ -672,7 +672,7 @@ export default function CustomerIncentive() {
                             <td className="text-right">
                               {item?.deliveryQty || 0}
                             </td>
-                            {["WithTarget", "WithoutTarget",  "WithAmount"].includes(
+                            {["WithTarget", "WithoutTarget",  "DeliveryIncentive(WithAmount)"].includes(
                               values?.incentiveType?.value
                             ) && (
                               <td className="text-right">
@@ -682,7 +682,7 @@ export default function CustomerIncentive() {
                             {/* <td className="text-right">
                               {item?.totalDeliveryQTY || 0}
                             </td> */}
-                            {!["WithTarget", "WithoutTarget",  "WithAmount"].includes(
+                            {!["WithTarget", "WithoutTarget",  "DeliveryIncentive(WithAmount)"].includes(
                               values?.incentiveType?.value
                             ) ? (
                               <>
@@ -719,14 +719,14 @@ export default function CustomerIncentive() {
                         <td className="font-weight-bold text-right">
                           {countTotal("deliveryQty")}
                         </td>
-                        {["WithTarget", "WithoutTarget",  "WithAmount"].includes(
+                        {["WithTarget", "WithoutTarget",  "DeliveryIncentive(WithAmount)"].includes(
                           values?.incentiveType?.value
                         ) && (
                           <td className="font-weight-bold text-right">
                             {countTotal("targetQuantity")}
                           </td>
                         )}
-                        {!["WithTarget", "WithoutTarget",  "WithAmount"].includes(
+                        {!["WithTarget", "WithoutTarget",  "DeliveryIncentive(WithAmount)"].includes(
                           values?.incentiveType?.value
                         ) ? (
                           <>
