@@ -1,0 +1,11 @@
+.print-only table,
+th,
+td {
+  border-collapse: collapse;
+  border: 1px solid #ddd;
+}
+.print-only th,
+td {
+  padding: 8px;
+  font-size: 14px;
+}

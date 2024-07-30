@@ -1,14 +1,17 @@
-
 import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
 import Loading from "../../../../_helper/_loading";
 import IForm from "../../../../_helper/_form";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import { shallowEqual, useSelector } from "react-redux";
 import PaginationTable from "../../../../_helper/_tablePagination";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
 import IEdit from "../../../../_helper/_helperIcons/_edit";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import { getLetterHead } from "../../../../financialManagement/report/bankLetter/helper";
+import Print from "../print/printTender";
+import { useReactToPrint } from "react-to-print";
+import IViewModal from "../../../../_helper/_viewModal";
 
 
 
@@ -17,30 +20,57 @@ import IEdit from "../../../../_helper/_helperIcons/_edit";
 
 export default function TenderSubmissionLanding() {
     const history = useHistory();
+    const printRef = useRef()
     const { profileData: { accountId }, selectedBusinessUnit: { value: buUnId } } = useSelector(state => state.authData, shallowEqual)
 
     const [pageNo, setPageNo] = useState(0)
     const [pageSize, setPageSize] = useState(15)
-    const [submittedTenderLists, getSubmittedTenderLists] = useAxiosGet()
+    const [showModal, setShowModal] = useState(false)
+    const [submittedTenderLists, getSubmittedTenderLists, getSubmittedTenderLoading] = useAxiosGet()
+    const [tenderDetails, getTenderDetails, getTenderDetailsLoading] = useAxiosGet()
 
 
     useEffect(() => {
+        // Fetch sumitted tender data
         fetchSubmittedTenderData(pageNo, pageSize)
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
+    // Fetch sumitted tender with page & pageSize (but fetch is occuring with getSubmittedTenderLists)
     const fetchSubmittedTenderData = (pageNo, pageSize) => {
         const url = `/tms/TenderSubmission/GetTenderSubmissionpagination?AccountId=${accountId}&BusinessUnitId=${buUnId}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc`
 
         getSubmittedTenderLists(url)
     }
 
+    // Set paginations
     const setPositionHandler = (pageNo, pageSize) => {
         fetchSubmittedTenderData(pageNo, pageSize)
     }
 
 
     const saveHandler = (values, cb) => { };
+
+
+    // Handle tender print directly
+    const handleTenderPrint = useReactToPrint({
+        content: () => printRef.current,
+        pageStyle: "@media print{body { -webkit-print-color-adjust: exact; margin: 0mm;}@page {size: portrait ! important}}",
+    })
+
+    // Async await approch for fetch details along with print page view
+    // const fetchTenderDetails = async (tenderId,) => {
+    //     const url = `/tms/TenderSubmission/GetTenderSubmissionById?AccountId=${accountId}&BusinessUnitId=${buUnId}8&TenderId=${tenderId}`
+    //     const response = await getTenderDetails(url)
+    //     return response
+    // }
+
+    // Callback approch for fetch details along with print page view
+    const fetchTenderDetailsCallback = (tenderId, callback) => {
+        const url = `/tms/TenderSubmission/GetTenderSubmissionById?AccountId=${accountId}&BusinessUnitId=${buUnId}&TenderId=${tenderId}`
+        getTenderDetails(url)
+        callback()
+    }
 
     return (
         <Formik
@@ -63,7 +93,7 @@ export default function TenderSubmissionLanding() {
                 touched,
             }) => (
                 <>
-                    {false && <Loading />}
+                    {(getSubmittedTenderLoading || getTenderDetailsLoading) && <Loading />}
                     <IForm
                         title="Tender Submission"
                         isHiddenReset
@@ -86,8 +116,6 @@ export default function TenderSubmissionLanding() {
                         }}
                     >
                         <Form>
-
-
                             <div className="table-responsive">
                                 <table
                                     id="table-to-xlsx"
@@ -98,12 +126,12 @@ export default function TenderSubmissionLanding() {
                                     <thead>
                                         <tr className="cursor-pointer">
                                             <th>SL</th>
-                                            <th>enquiryNo</th>
-                                            <th>itemName</th>
-                                            <th>loadPortName</th>
-                                            <th>dischargePortName</th>
-                                            <th>foreignPriceUsd</th>
-                                            <th>totalQty</th>
+                                            <th>Enquiry No</th>
+                                            <th>Item Name</th>
+                                            <th>Load Port</th>
+                                            <th>Discharge Port</th>
+                                            <th>Foreign Price (USD)</th>
+                                            <th>Total Qnt</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -133,14 +161,6 @@ export default function TenderSubmissionLanding() {
                                                     >
                                                         <div className="d-flex justify-content-around">
                                                             <span>
-                                                                <IDelete
-                                                                // remover={(id) => {
-                                                                //     deleteHandler(id, values);
-                                                                // }}
-                                                                // id={item?.shiptoPartnerId}
-                                                                />
-                                                            </span>
-                                                            <span>
                                                                 <IEdit
                                                                     onClick={() => {
                                                                         // setFormType("edit");
@@ -149,6 +169,33 @@ export default function TenderSubmissionLanding() {
                                                                     }}
                                                                 // id={item?.shiptoPartnerId}
                                                                 />
+                                                            </span>
+                                                            <span
+                                                                // 1st approch
+                                                                // onClick={() => {
+                                                                //     fetchTenderDetails(item?.tenderId)
+                                                                //     handleTenderPrint()
+                                                                // }}
+                                                                // 2nd approch
+                                                                // onClick={() => {
+                                                                //     fetchTenderDetailsCallback(item?.tenderId, getSubmittedTenderLoading, handleTenderPrint)
+                                                                // }}
+                                                                onClick={() => {
+                                                                    fetchTenderDetailsCallback(item?.tenderId, () => setShowModal(true))
+
+                                                                }}
+                                                            >
+                                                                <OverlayTrigger
+                                                                    overlay={
+                                                                        <Tooltip id="cs-icon">Print</Tooltip>
+                                                                    }
+                                                                >
+                                                                    <i
+                                                                        style={{ fontSize: "16px" }}
+                                                                        class="fa fa-print cursor-pointer"
+                                                                        aria-hidden="true"
+                                                                    ></i>
+                                                                </OverlayTrigger>
                                                             </span>
                                                         </div>
                                                     </td>
@@ -174,6 +221,82 @@ export default function TenderSubmissionLanding() {
                                 />
                             )}
                         </Form>
+
+                        <IViewModal
+                            title={"Print Template"}
+                            show={showModal}
+                            onHide={() => {
+                                setShowModal(false);
+                            }}
+                        >
+                            <>
+                                <div
+                                    style={{
+                                        display: "flex",
+                                        justifyContent: "flex-end",
+                                        margin: "20px;",
+                                    }}
+                                >
+                                    <button
+                                        style={{ cursor: "pointer" }}
+                                        type="button"
+                                        className="btn btn-primary"
+                                        onClick={() => {
+                                            handleTenderPrint();
+                                            setShowModal(false);
+                                        }}
+                                    >
+                                        Print
+                                    </button>
+                                </div>
+                                <div ref={printRef}>
+                                    <div style={{ margin: "-13px 0 51px 0" }}>
+                                        <table>
+                                            <thead>
+                                                <div
+                                                    className="invoice-header"
+                                                    style={{
+                                                        backgroundImage: `url(${getLetterHead({
+                                                            buId: buUnId,
+                                                        })})`,
+                                                        backgroundRepeat: "no-repeat",
+                                                        height: "150px",
+                                                        backgroundPosition: "left 10px",
+                                                        backgroundSize: "cover",
+                                                        // position: "fixed",
+                                                        width: "100%",
+                                                        top: "-50px",
+                                                    }}
+                                                ></div>
+                                            </thead>
+                                            {/* CONTENT GOES HERE */}
+                                            <tbody>
+                                                <div style={{ margin: "40px 75px 0 75px" }}>
+                                                    <Print tenderDetails={tenderDetails} />
+                                                </div>
+                                            </tbody>
+                                            <tfoot>
+                                                <div
+                                                    className="ifoot"
+                                                    style={{
+                                                        backgroundImage: `url(${getLetterHead({
+                                                            buId: buUnId,
+                                                        })})`,
+                                                        backgroundRepeat: "no-repeat",
+                                                        height: "100px",
+                                                        backgroundPosition: "left bottom",
+                                                        backgroundSize: "cover",
+                                                        bottom: "-0px",
+                                                        // position: "fixed",
+                                                        width: "100%",
+                                                    }}
+                                                ></div>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                            </>
+                        </IViewModal>
                     </IForm>
                 </>
             )}
