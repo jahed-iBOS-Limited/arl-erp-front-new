@@ -123,4 +123,4 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 
 ## Thanks
 
-Powered by iBOS Limited
+Powered by AKIJ iBOS Limited
