@@ -142,7 +142,7 @@ const SalesInvoicePrint = ({
           <div className="invoice-footer text-center">
             {/* <p style={{ width: "55%" }}>Thank you for shopping with Us</p>
             <p style={{ width: "42%" }}>Visit Us: www.ibos.io</p> */}
-            <p>System By : iBOS Limited</p>
+            <p>System By : AKIJ iBOS Limited</p>
           </div>
         </>
       }
