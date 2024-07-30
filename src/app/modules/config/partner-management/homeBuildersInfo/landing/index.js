@@ -40,8 +40,8 @@ const HomeBuildersInfoLanding = () => {
     getGridData(
       `/oms/SitePeopleInfos/SitePeopleDetailsInfoReport?LevelId=${
         employeeInfo?.empLevelId
-      }&RegionId=${values?.region?.value || 0}&AreaId=${values?.region?.value ||
-        0}&TerritoryId=${values?.region?.value ||
+      }&RegionId=${values?.region?.value || 0}&AreaId=${values?.area?.value ||
+        0}&TerritoryId=${values?.territory?.value ||
         0}&BusinessId=${buId}&TypeId=${
         values?.type?.value
       }&employeeId=${employeeId}&PageNo=${_pageNo}&PageSize=${_pageSize}`
