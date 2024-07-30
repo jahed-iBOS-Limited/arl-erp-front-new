@@ -56,8 +56,23 @@ export default function _Form({
               <form className="form form-label-right">
                 <div className="global-form">
                   <div className="row">
+                    <div className="col-lg-3">
+                      <NewSelect
+                        name="type"
+                        options={[
+                          { value: 1, label: "Engineer" },
+                          { value: 2, label: "Mason" },
+                          { value: 3, label: "IHB" },
+                        ]}
+                        value={values?.type}
+                        label="Type"
+                        onChange={(valueOption) => {
+                          setFieldValue("type", valueOption);
+                        }}
+                        placeholder="Type"
+                      />
+                    </div>
                     <RATForm obj={{ values, setFieldValue }} />
-
                     <div className="col-lg-3">
                       <InputField
                         label="Name"
@@ -103,7 +118,6 @@ export default function _Form({
                         type="text"
                       />
                     </div>
-
                     <div className="col-lg-3">
                       <InputField
                         label="Birth Date"
@@ -143,7 +157,6 @@ export default function _Form({
                         type="date"
                       />
                     </div>
-
                     <div className="col-lg-3">
                       <InputField
                         label="Approximate End Date"
