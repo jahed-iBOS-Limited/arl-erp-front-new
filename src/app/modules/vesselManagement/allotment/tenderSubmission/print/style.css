@@ -9,3 +9,14 @@ td {
   padding: 8px;
   font-size: 14px;
 }
+/* Hide the div on screen */
+.tender-print-preview {
+  display: none;
+}
+
+/* Show the div only when printing */
+@media print {
+  .tender-print-preview {
+    display: block;
+  }
+}
