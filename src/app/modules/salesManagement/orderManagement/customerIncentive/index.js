@@ -32,7 +32,7 @@ export default function CustomerIncentive() {
   const [percentageList, setPercentageList] = useState([]);
   // const [headingSelect, setHeadingSelect] = useState(false);
   const [, saveData, saveLoader] = useAxiosPost();
-  const [isAbove, setIsAbove] = useState(false)
+  const [isAbove, setIsAbove] = useState(false);
   const [
     tradeCommission,
     getTradeCommission,
@@ -137,11 +137,24 @@ export default function CustomerIncentive() {
 
   // get trade commission api handler
   const getTradeCommissionHandler = (values) => {
+    const payload = ["WithAmount"].includes(values?.incentiveType?.value)
+      ? [
+          {
+            per1: 0,
+            per2: 0,
+            amount: +values?.amount,
+            isAbove: false,
+          },
+        ]
+      : percentageList;
+
     if (
-      ["WithTarget", "WithoutTarget"].includes(values?.incentiveType?.value)
+      ["WithTarget", "WithoutTarget", "WithAmount"].includes(
+        values?.incentiveType?.value
+      )
     ) {
       let url = `/oms/SalesInformation/GetTradeCommissionTarget?partName=${values?.incentiveType?.value}&businessUnitId=${buId}&customerId=0&fromDate=${values?.fromDate}&toDate=${values?.toDate}`;
-      getTargetData(url, percentageList, (res) => {
+      getTargetData(url, payload, (res) => {
         setTradeCommission(res);
       });
     } else if (values?.incentiveType?.value === "Performance") {
@@ -165,6 +178,7 @@ export default function CustomerIncentive() {
         { value: "Performance", label: "Performance Bonus" },
         { value: "WithTarget", label: "With Target" },
         { value: "WithoutTarget", label: " Without Target" },
+        { value: "WithAmount", label: "With Amount" },
       ];
     } else if (["Platinum", "Gold"].includes(customerCategoryLabel)) {
       return [{ value: "Monthly", label: "Monthly" }];
@@ -295,7 +309,7 @@ export default function CustomerIncentive() {
                         />
                       </div>
                     </>
-                  ) : ["WithTarget", "WithoutTarget"].includes(
+                  ) : ["WithTarget", "WithoutTarget", "WithAmount"].includes(
                       values?.incentiveType?.value
                     ) ? (
                     <>
@@ -338,6 +352,7 @@ export default function CustomerIncentive() {
                     </div>
                   )}
                 </div>
+
                 {["WithTarget", "WithoutTarget"].includes(
                   values?.incentiveType?.value
                 ) ? (
@@ -364,7 +379,7 @@ export default function CustomerIncentive() {
                           type="checkbox"
                           checked={isAbove}
                           onChange={(e) => {
-                            setIsAbove(!isAbove)
+                            setIsAbove(!isAbove);
                             setFieldValue("per2", "");
                             if (e.target.checked) {
                               setFieldValue("per2", 1000);
@@ -425,7 +440,7 @@ export default function CustomerIncentive() {
                             setFieldValue("per1", "");
                             setFieldValue("per2", "");
                             setFieldValue("amount", "");
-                            setIsAbove(false)
+                            setIsAbove(false);
                           }}
                         >
                           Add
@@ -481,34 +496,49 @@ export default function CustomerIncentive() {
                     </div>
                   </>
                 ) : null}
-                <div className="col-md-3 d-flex mt-3" style={{ gap: "10px" }}>
-                  <div>
-                    <button
-                      type="button"
-                      className="btn btn-primary"
-                      onClick={() => getTradeCommissionHandler(values)}
-                      disabled={
-                        !values?.customerCategory ||
-                        !values?.incentiveType ||
-                        (["WithTarget", "WithoutTarget"].includes(
-                          values?.incentiveType?.value
-                        ) &&
-                          !percentageList?.length)
-                      }
-                    >
-                      View
-                    </button>
-                  </div>
-                  <div>
-                    {tradeCommission?.length > 0 && (
-                      <ReactHtmlTableToExcel
-                        className="btn btn-primary"
-                        table="table-to-xlsx"
-                        filename="Customer Incentive"
-                        sheet="Sheet-1"
-                        buttonText="Export Excel"
+                <div className="row">
+                  {["WithAmount"].includes(values?.incentiveType?.value) && (
+                    <div className="col-lg-3">
+                      <InputField
+                        value={values?.amount}
+                        label="Amount"
+                        name="amount"
+                        type="number"
+                        onChange={(e) => {
+                          setFieldValue("amount", e.target.value);
+                        }}
                       />
-                    )}
+                    </div>
+                  )}
+                  <div className="col-md-3 d-flex mt-3" style={{ gap: "10px" }}>
+                    <div>
+                      <button
+                        type="button"
+                        className="btn btn-primary mt-2"
+                        onClick={() => getTradeCommissionHandler(values)}
+                        disabled={
+                          !values?.customerCategory ||
+                          !values?.incentiveType ||
+                          (["WithTarget", "WithoutTarget"].includes(
+                            values?.incentiveType?.value
+                          ) &&
+                            !percentageList?.length)
+                        }
+                      >
+                        View
+                      </button>
+                    </div>
+                    <div>
+                      {tradeCommission?.length > 0 && (
+                        <ReactHtmlTableToExcel
+                          className="btn btn-primary mt-2"
+                          table="table-to-xlsx"
+                          filename="Customer Incentive"
+                          sheet="Sheet-1"
+                          buttonText="Export Excel"
+                        />
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -591,11 +621,11 @@ export default function CustomerIncentive() {
                             ? "Avg Delivery Qty"
                             : "Delivery Qty"}
                         </th>
-                        {["WithTarget", "WithoutTarget"].includes(
+                        {["WithTarget", "WithoutTarget",  "WithAmount"].includes(
                           values?.incentiveType?.value
                         ) && <th>Target Quantity</th>}
                         {/* <th>Total Delivery Qty</th> */}
-                        {!["WithTarget", "WithoutTarget"].includes(
+                        {!["WithTarget", "WithoutTarget",  "WithAmount"].includes(
                           values?.incentiveType?.value
                         ) ? (
                           <>
@@ -642,7 +672,7 @@ export default function CustomerIncentive() {
                             <td className="text-right">
                               {item?.deliveryQty || 0}
                             </td>
-                            {["WithTarget", "WithoutTarget"].includes(
+                            {["WithTarget", "WithoutTarget",  "WithAmount"].includes(
                               values?.incentiveType?.value
                             ) && (
                               <td className="text-right">
@@ -652,7 +682,7 @@ export default function CustomerIncentive() {
                             {/* <td className="text-right">
                               {item?.totalDeliveryQTY || 0}
                             </td> */}
-                            {!["WithTarget", "WithoutTarget"].includes(
+                            {!["WithTarget", "WithoutTarget",  "WithAmount"].includes(
                               values?.incentiveType?.value
                             ) ? (
                               <>
@@ -689,14 +719,14 @@ export default function CustomerIncentive() {
                         <td className="font-weight-bold text-right">
                           {countTotal("deliveryQty")}
                         </td>
-                        {["WithTarget", "WithoutTarget"].includes(
+                        {["WithTarget", "WithoutTarget",  "WithAmount"].includes(
                           values?.incentiveType?.value
                         ) && (
                           <td className="font-weight-bold text-right">
                             {countTotal("targetQuantity")}
                           </td>
                         )}
-                        {!["WithTarget", "WithoutTarget"].includes(
+                        {!["WithTarget", "WithoutTarget",  "WithAmount"].includes(
                           values?.incentiveType?.value
                         ) ? (
                           <>
