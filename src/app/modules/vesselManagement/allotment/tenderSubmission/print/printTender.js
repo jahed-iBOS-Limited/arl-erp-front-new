@@ -14,29 +14,29 @@ const PrintPage = ({ tenderDetails: { header, rows } }) => {
         </small>
       </div>
       <table style={{ margin: '20px 0' }}>
-        <thead>
+        <thead style={{padding:'10px 0'}}>
           <tr>
             <th colSpan={6} style={{ textAlign: 'center' }}>DESCRIPTION OF ITEM</th>
           </tr>
         </thead>
         <tbody>
           <tr style={{ width: "100%" }}>
-            <td rowSpan={2} colspan={2} style={{ width: "30%" }}>
-              PART – A (FOREIGN PART) TRANSPORTATION OF {header?.foreignQty} {header?.uomname} (+/-10%) BULK{" "}
+            <td rowSpan={2} colspan={2} style={{ width: "30%", textAlign: "left" }}>
+              <strong style={{ display: 'block' }}>PART – A</strong> <strong style={{ display: 'block' }}>(FOREIGN PART)</strong> TRANSPORTATION OF {header?.foreignQty} {header?.uomname} (+/-10%) BULK{" "}
               {header?.itemName} IN SINGLE SHIPMENT FROM {header?.loadPortName} TO {header?.dischargePortName} PORT, BANGLADESH (FREE IN & LINER OUT BASIS)
             </td>
             <td colSpan={4}>
-              PART – B (LOCAL TRANSPORTATION) TRANSPORTATION OF {header?.foreignQty} {header?.uomname}
+              <strong style={{ display: 'block' }}>PART – B</strong> <strong style={{ display: 'block' }}>(LOCAL TRANSPORTATION)</strong> TRANSPORTATION OF {header?.foreignQty} {header?.uomname}
               (+/-10%) BULK {header?.itemName} FROM MOTHER VESSEL AT OUTER ANCHORAGE
               OF {header?.dischargePortName} PORT AND DELIVER IN 50 KG NET BAG AT BELOW MENTION BUFFER /
               FACTORY GODOWNS:
             </td>
           </tr>
           <tr>
-            <td>Name of Factory</td>
-            <td>PERCENTAGE (%) OF QUANTITY (BASIS B/L QUANTITY)</td>
-            <td>PRICE PER M. TON IN BDT.</td>
-            <td>PRICE PER M. TON IN WORDS BDT.</td>
+            <td style={{ fontWeight: "bold" }}>Name of Factory</td>
+            <td style={{ fontWeight: "bold" }}>PERCENTAGE (%) OF QUANTITY (BASIS B/L QUANTITY)</td>
+            <td style={{ fontWeight: "bold" }}>PRICE PER M. TON IN BDT.</td>
+            <td style={{ fontWeight: "bold" }}>PRICE PER M. TON IN WORDS BDT.</td>
           </tr>
           {rows?.map((item, index) => (
             <>
@@ -47,8 +47,8 @@ const PrintPage = ({ tenderDetails: { header, rows } }) => {
                 </>}
                 {<>
                   <td style={{ textAlign: 'center' }}>{item?.godownName}</td>
-                  <td style={{ textAlign: 'right' }}>{item?.quantity}</td>
-                  <td style={{ textAlign: 'right' }}>{item?.perQtyTonPriceBd}</td>
+                  <td style={{ textAlign: 'right', fontWeight: "bold" }}>{item?.quantity}</td>
+                  <td style={{ textAlign: 'right', fontWeight: "bold" }}>{item?.perQtyTonPriceBd}</td>
                   <td style={{ textAlign: 'center' }}>{item?.perQtyPriceWords}</td>
                 </>}
               </tr>
