@@ -92,7 +92,6 @@ export default function BankJournalCreateFormCollection() {
       `/oms/ServiceSales/MultipleInvoiceCollection`,
       payload,
       () => {
-        alert("Working")
         const obj = {
           title: "Bank Journal Code",
           message: journalCode,
