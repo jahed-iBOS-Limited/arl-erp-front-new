@@ -64,7 +64,7 @@ export default function TenderSubmissionLanding() {
     // }
 
     // Callback approch for fetch details along with print page view
-    const fetchTenderDetailsCallback = (tenderId, loading, callback) => {
+    const fetchTenderDetailsCallback = (tenderId, callback) => {
         const url = `/tms/TenderSubmission/GetTenderSubmissionById?AccountId=${accountId}&BusinessUnitId=${buUnId}&TenderId=${tenderId}`
         getTenderDetails(url, ()=> {
             callback()
@@ -179,7 +179,7 @@ export default function TenderSubmissionLanding() {
                                                                 // }}
                                                                 // 2nd approch
                                                                 onClick={() => {
-                                                                    fetchTenderDetailsCallback(item?.tenderId, getSubmittedTenderLoading, handleTenderPrint)
+                                                                    fetchTenderDetailsCallback(item?.tenderId, handleTenderPrint)
                                                                 }}
                                                             >
                                                                 <OverlayTrigger
