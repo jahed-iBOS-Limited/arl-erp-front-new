@@ -37,18 +37,18 @@ const PrintPage = ({ tenderDetails: { header, rows } }) => {
               </td>
             </tr>
             <tr>
-              <td style={{ fontWeight: "bold" }}>Name of Factory</td>
-              <td style={{ fontWeight: "bold" }}>PERCENTAGE (%) OF QUANTITY (BASIS B/L QUANTITY)</td>
-              <td style={{ fontWeight: "bold" }}>PRICE PER M. TON IN BDT.</td>
-              <td style={{ fontWeight: "bold" }}>PRICE PER M. TON IN WORDS BDT.</td>
+              <td style={{ fontWeight: "bold", textAlign: 'center' }}>Name of Factory</td>
+              <td style={{ fontWeight: "bold", textAlign: 'center' }}>PERCENTAGE (%) OF QUANTITY (BASIS B/L QUANTITY)</td>
+              <td style={{ fontWeight: "bold", textAlign: 'center' }}>PRICE PER M. TON IN BDT.</td>
+              <td style={{ fontWeight: "bold", textAlign: 'center' }}>PRICE PER M. TON IN WORDS BDT.</td>
             </tr>
             <tr>
 
               <td >PRICE PER M.TON IN USD</td>
               <td style={{ width: "150px" }}></td>
-              <td style={{ textAlign: 'center' }}>{firstDataOnTable?.godownName}</td>
-              <td style={{ textAlign: 'right', fontWeight: "bold" }}>{firstDataOnTable?.quantity}</td>
-              <td style={{ textAlign: 'right', fontWeight: "bold" }}>{firstDataOnTable?.perQtyTonPriceBd}</td>
+              <td style={{ textAlign: 'left' }}>{firstDataOnTable?.godownName}</td>
+              <td style={{ textAlign: 'right', fontWeight: "bold", width: "100px" }}>{firstDataOnTable?.quantity}</td>
+              <td style={{ textAlign: 'right', fontWeight: "bold", width: "100px" }}>{firstDataOnTable?.perQtyTonPriceBd}</td>
               <td style={{ textAlign: 'center' }}>{firstDataOnTable?.perQtyPriceWords}</td>
 
             </tr>
@@ -57,14 +57,14 @@ const PrintPage = ({ tenderDetails: { header, rows } }) => {
                 <>
                   <tr>
                     {index === 0 && <>
-                      <td rowSpan={11}>PRICE PER M. TON IN WORDS</td>
-                      <td rowSpan={11} style={{ width: "150px" }}></td>
+                      <td rowSpan={restDataOnTable.length}>PRICE PER M. TON IN WORDS</td>
+                      <td rowSpan={restDataOnTable.length} style={{ width: "150px" }}></td>
                     </>
                     }
                     <>
-                      <td style={{ textAlign: 'center' }}>{item?.godownName}</td>
-                      <td style={{ textAlign: 'right', fontWeight: "bold" }}>{item?.quantity}</td>
-                      <td style={{ textAlign: 'right', fontWeight: "bold" }}>{item?.perQtyTonPriceBd}</td>
+                      <td style={{ textAlign: 'left' }}>{item?.godownName}</td>
+                      <td style={{ textAlign: 'right', fontWeight: "bold", width: "100px" }}>{item?.quantity}</td>
+                      <td style={{ textAlign: 'right', fontWeight: "bold", width: "100px" }}>{item?.perQtyTonPriceBd}</td>
                       <td style={{ textAlign: 'center' }}>{item?.perQtyPriceWords}</td>
                     </>
                   </tr>
