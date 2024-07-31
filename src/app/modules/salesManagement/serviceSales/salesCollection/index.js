@@ -1,8 +1,12 @@
+import axios from "axios";
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { shallowEqual, useSelector } from "react-redux";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router";
+import SearchAsyncSelect from "../../../_helper/SearchAsyncSelect";
 import IForm from "../../../_helper/_form";
+import FormikError from "../../../_helper/_formikError";
 import { formatMonthYear } from "../../../_helper/_getMonthYearFormat";
 import InputField from "../../../_helper/_inputField";
 import Loading from "../../../_helper/_loading";
@@ -11,28 +15,34 @@ import { _todayDate } from "../../../_helper/_todayDate";
 import IViewModal from "../../../_helper/_viewModal";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import PrintInvoiceModal from "./printInvoice";
+import { setSalesCollectionInitDataAction } from "../../../_helper/reduxForLocalStorage/Actions";
 import CollectionModal from "./collection";
-const initData = {
-  customer: "",
-  type: { value: 1, label: "Pending for Invoice" },
-  paymentType: "",
-  fromDate: "",
-  toDate: "",
-};
+import { getSBU } from "./helper";
+import PrintInvoiceModal from "./printInvoice";
+
 export default function SalesCollectionLanding() {
+  const initData = useSelector((state) => {
+    return state.localStorage.SalesCollectionInitData || {};
+  }, shallowEqual);
+
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
 
-  const [customerList, getCustomerList] = useAxiosGet();
   const [rowData, getRowData, loader, setRowData] = useAxiosGet();
-  const [, saveHandler, saveLoader] = useAxiosPost();
   const [receivableAmount, setReceivableAmount] = useState(0);
 
   const [showModal, setShowModal] = useState(false);
   const [showCollectionModal, setShowCollectionModal] = useState(false);
   const [singleItem, setSingleItem] = useState(null);
+  const [paymentType, setPaymentType] = useState(1);
+  const [sbuDDl, setSbuDDl] = useState([]);
+  const history = useHistory();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    getSBU(profileData?.accountId, selectedBusinessUnit.value, setSbuDDl);
+  }, [profileData, selectedBusinessUnit]);
 
   console.log("rowData", rowData);
 
@@ -77,12 +87,8 @@ export default function SalesCollectionLanding() {
   }, [receivableAmount]);
 
   useEffect(() => {
-    getCustomerList(
-      `/partner/BusinessPartnerBasicInfo/GetSoldToPartnerShipToPartnerDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}`
-    );
-
-    getData({ typeId: 1, values: {} });
-
+    getData({ typeId: initData?.type?.value, values: initData || {} });
+    setPaymentType(initData?.paymentType || 1);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileData, selectedBusinessUnit]);
 
@@ -111,6 +117,10 @@ export default function SalesCollectionLanding() {
           invocieRow: [
             {
               ...item?.invocieRow[0],
+              alreadyCollectedAmount:
+                +item?.invocieRow[0]?.numCollectionAmount || 0,
+              numCollectionAmount: 0,
+              peviousPendingAmount: +item?.invocieRow[0]?.numPendingAmount || 0,
               needCollectionAmount2:
                 +item?.invocieRow[0]?.numPendingAmount ||
                 (+item?.invocieRow[0]?.numScheduleAmount || 0) +
@@ -123,10 +133,26 @@ export default function SalesCollectionLanding() {
     });
   };
 
+  const loadTransactionList = (v) => {
+    if (v?.length < 3) return [];
+    return axios
+      .get(
+        `/partner/BusinessPartnerPurchaseInfo/GetTransactionByTypeSearchDDL?AccountId=${
+          profileData?.accountId
+        }&BusinessUnitId=${
+          selectedBusinessUnit?.value
+        }&Search=${v}&PartnerTypeName=${""}&RefferanceTypeId=${2}`
+      )
+      .then((res) => {
+        return res?.data;
+      })
+      .catch((err) => []);
+  };
+
   return (
     <Formik
       enableReinitialize={true}
-      initialValues={initData}
+      initialValues={{ ...initData, sbu: sbuDDl[0] }}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         console.log(values);
       }}
@@ -141,97 +167,12 @@ export default function SalesCollectionLanding() {
         touched,
       }) => (
         <>
-          {(loader || saveLoader) && <Loading />}
+          {loader && <Loading />}
           <IForm
             title="Sales Collection"
             isHiddenReset
             isHiddenBack
             isHiddenSave
-            renderProps={() => {
-              return (
-                <div>
-                  <button
-                    type="button"
-                    className="btn btn-primary"
-                    disabled={!rowData?.some((item) => item?.isChecked)}
-                    onClick={() => {
-                      let data = rowData?.filter((item) => item?.isChecked);
-                      let payload = data.map((item) => ({
-                        header: {
-                          intDistributionChannelId:
-                            item?.intDistributionChannelId,
-                          strDistributionChannelName:
-                            item?.strDistributionChannelName,
-
-                          //   intServiceSalesInvoiceId: 0,
-                          //   strServiceSalesInvoiceCode: "",
-                          strServiceSalesOrderCode:
-                            item?.strServiceSalesOrderCode,
-                          intServiceSalesOrderId: item?.intServiceSalesOrderId,
-                          dteInvoiceDateTime: _todayDate(),
-                          intAccountId: profileData?.accountId,
-                          intBusinessUnitId: selectedBusinessUnit?.value,
-                          intSalesTypeId: item?.intSalesTypeId,
-                          strSalesTypeName: item?.strSalesTypeName,
-                          intCustomerId: item?.intCustomerId,
-                          strCustomerCode: item?.strCustomerCode || "",
-                          strCustomerName: item?.strCustomerName,
-                          strCustomerAddress: item?.strCustomerAddress,
-                          strCustomerAddress2: "",
-                          intScheduleTypeId: item?.intScheduleTypeId,
-                          strScheduleTypeName: item?.strScheduleTypeName,
-                          intActionBy: profileData?.userId,
-                          strRemarks: item?.remarks || "",
-                        },
-                        // row: data?.map((item) => ({
-                        //   //   intServiceSalesInvoiceRowId: 0,
-                        //   //   intServiceSalesInvoiceId: 0,
-                        //   intServiceSalesScheduleId:
-                        //     item?.intServiceSalesScheduleId,
-                        //   dteScheduleCreateDateTime:
-                        //     item?.dteScheduleCreateDateTime,
-                        //   dteDueDateTime: item?.dteDueDateTime,
-                        //   numScheduleAmount: item?.numScheduleAmount,
-                        //   //   numCollectionAmount: 0,
-                        //   //   numPendingAmount: 0,
-                        //   //   numAdjustPreviousAmount: 0,
-                        //   isActive: true,
-                        // })),
-                        row: [
-                          {
-                            //   intServiceSalesInvoiceRowId: 0,
-                            //   intServiceSalesInvoiceId: 0,
-                            intServiceSalesScheduleId:
-                              item?.intServiceSalesScheduleId,
-                            dteScheduleCreateDateTime:
-                              item?.dteScheduleCreateDateTime,
-                            dteDueDateTime: item?.dteDueDateTime,
-                            numScheduleAmount: item?.numScheduleAmount,
-                            numScheduleVatAmount:
-                              item?.numScheduleVatAmount || 0,
-                            //   numCollectionAmount: 0,
-                            //   numPendingAmount: 0,
-                            //   numAdjustPreviousAmount: 0,
-                            isActive: true,
-                          },
-                        ],
-                      }));
-
-                      saveHandler(
-                        `/oms/ServiceSales/CreateServiceSalesInvocie`,
-                        payload,
-                        () => {
-                          getData({ typeId: values?.type?.value, values });
-                        },
-                        true
-                      );
-                    }}
-                  >
-                    Create
-                  </button>
-                </div>
-              );
-            }}
           >
             <Form>
               <div>
@@ -254,15 +195,18 @@ export default function SalesCollectionLanding() {
                     />
                   </div>
                   <div className="col-lg-3">
-                    <NewSelect
-                      name="customer"
-                      options={customerList || []}
-                      value={values?.customer}
-                      label="Customer"
-                      onChange={(valueOption) => {
+                    <label>Customer</label>
+                    <SearchAsyncSelect
+                      selectedValue={values?.customer}
+                      isSearchIcon={true}
+                      handleChange={(valueOption) => {
                         setFieldValue("customer", valueOption);
                       }}
+                      loadOptions={loadTransactionList}
+                    />
+                    <FormikError
                       errors={errors}
+                      name="customer"
                       touched={touched}
                     />
                   </div>
@@ -311,12 +255,18 @@ export default function SalesCollectionLanding() {
                   )}
                   <div>
                     <button
+                      disabled={!values?.customer}
                       className="btn btn-primary"
                       type="button"
                       style={{ marginTop: "17px" }}
                       onClick={() => {
+                        dispatch(
+                          setSalesCollectionInitDataAction({
+                            ...values,
+                            paymentType,
+                          })
+                        );
                         setReceivableAmount(0);
-                        getData({ typeId: values?.type?.value, values });
                       }}
                     >
                       Show
@@ -324,34 +274,133 @@ export default function SalesCollectionLanding() {
                   </div>
                 </div>
 
-                {[2].includes(values?.type?.value) && rowData && (
-                  <div className="row mt-5 flex-center">
-                    <div className="col-lg-3">
-                      <InputField
-                        value={receivableAmount || ""}
-                        type="number"
-                        placeholder="Receivable Amount"
-                        onChange={(e) => {
-                          if (!e.target.value) {
-                            getData({ typeId: values?.type?.value, values });
-                          }
-                          setReceivableAmount(+e.target.value);
-                        }}
-                      />
+                {[2].includes(values?.type?.value) && rowData?.length > 0 && (
+                  <>
+                    <div className="row mt-5">
+                      <div className="col-lg-4">
+                        <label className="mr-3">
+                          <input
+                            type="radio"
+                            name="paymentType"
+                            checked={paymentType === 1}
+                            className="mr-1 pointer"
+                            style={{ position: "relative", top: "2px" }}
+                            onChange={(valueOption) => {
+                              setPaymentType(1);
+                            }}
+                          />
+                          Cash
+                        </label>
+                        <label className="mr-3">
+                          <input
+                            type="radio"
+                            name="paymentType"
+                            checked={paymentType === 2}
+                            className="mr-1 pointer"
+                            style={{ position: "relative", top: "2px" }}
+                            onChange={(e) => {
+                              setPaymentType(2);
+                            }}
+                          />
+                          Bank
+                        </label>
+                      </div>
                     </div>
-                    <div>
-                      <button
-                        disabled={!receivableAmount}
-                        className="btn btn-primary"
-                        type="button"
-                        onClick={() => {
-                          setShowCollectionModal(true);
-                        }}
-                      >
-                        Collection
-                      </button>
+                    <div className="form-group  global-form mt-3">
+                      <div className="row">
+                        {[2].includes(paymentType) && (
+                          <>
+                            <div className="col-lg-3">
+                              <NewSelect
+                                name="sbu"
+                                options={sbuDDl}
+                                value={values?.sbu}
+                                label="SBU"
+                                onChange={(valueOption) => {
+                                  setFieldValue("sbu", valueOption);
+                                }}
+                                isDisabled
+                                errors={errors}
+                                touched={touched}
+                              />
+                            </div>
+                            <div className="col-lg-3">
+                              <NewSelect
+                                name="accountingJournalTypeId"
+                                options={[
+                                  { value: 4, label: "Bank Receipts " },
+                                  //   { value: 5, label: "Bank Payments" },
+                                  //   { value: 6, label: "Bank Transfer" },
+                                ]}
+                                value={values?.accountingJournalTypeId}
+                                label="Select Journal Type"
+                                onChange={(valueOption) => {
+                                  setFieldValue(
+                                    "accountingJournalTypeId",
+                                    valueOption
+                                  );
+                                }}
+                                isDisabled
+                                errors={errors}
+                                touched={touched}
+                              />
+                            </div>
+                            <div className="col-lg-3">
+                              <InputField
+                                value={receivableAmount || ""}
+                                type="number"
+                                placeholder="Receivable Amount"
+                                label="Receivable Amount"
+                                onChange={(e) => {
+                                  if (!e.target.value) {
+                                    getData({
+                                      typeId: values?.type?.value,
+                                      values,
+                                    });
+                                  }
+                                  setReceivableAmount(+e.target.value);
+                                }}
+                              />
+                            </div>
+                            <div>
+                              <button
+                                disabled={!receivableAmount}
+                                className="btn btn-primary mt-5"
+                                type="button"
+                                onClick={() => {
+                                  // setShowCollectionModal(true);
+                                  dispatch(
+                                    setSalesCollectionInitDataAction({
+                                      ...values,
+                                      paymentType,
+                                    })
+                                  );
+                                  history.push({
+                                    pathname: `/financial-management/financials/bank/collection`,
+                                    state: {
+                                      selectedJournal:
+                                        values.accountingJournalTypeId,
+                                      selectedSbu: values.sbu,
+                                      transactionDate: _todayDate(),
+                                      customerDetails: values?.customer,
+                                      receivableAmount: receivableAmount,
+                                      collectionRow: rowData?.filter(
+                                        (item) =>
+                                          item?.invocieRow?.[0]
+                                            ?.numCollectionAmount
+                                      ),
+                                    },
+                                  });
+                                }}
+                              >
+                                Collection
+                              </button>
+                            </div>
+                          </>
+                        )}
+                      </div>
                     </div>
-                  </div>
+                  </>
                 )}
                 <div className="mt-5">
                   <div className="table-responsive">
@@ -369,6 +418,7 @@ export default function SalesCollectionLanding() {
                           <th>Schedule Amount</th>
                           <th>Schedule Vat Amountt</th>
                           <th>Collection Amount</th>
+                          <th>Already Collected Amount</th>
                           <th>Pending Amount</th>
                           <th>Adjust Previous Amount</th>
                           <th>Action</th>
@@ -412,20 +462,6 @@ export default function SalesCollectionLanding() {
                             <td>{item?.strServiceSalesOrderCode}</td>
                             <td>
                               {item?.invocieRow?.[0]?.numScheduleAmount || ""}
-                              {/* <InputField
-                                disabled
-                                value={
-                                  item?.invocieRow?.[0]?.numScheduleAmount || ""
-                                }
-                                type="number"
-                                onChange={(e) => {
-                                  const data = [...rowData];
-                                  data[index]["invocieRow"][0][
-                                    "numScheduleAmount"
-                                  ] = e.target.value;
-                                  setRowData(data);
-                                }}
-                              /> */}
                             </td>
                             <td className="text-rignt">
                               {item?.invocieRow?.[0]?.numScheduleVatAmount ||
@@ -433,6 +469,10 @@ export default function SalesCollectionLanding() {
                             </td>
                             <td className="text-rignt">
                               {item?.invocieRow?.[0]?.numCollectionAmount || ""}
+                            </td>
+                            <td className="text-rignt">
+                              {item?.invocieRow?.[0]?.alreadyCollectedAmount ||
+                                ""}
                             </td>
                             <td className="text-rignt">
                               {item?.invocieRow?.[0]?.numPendingAmount || ""}
@@ -443,43 +483,6 @@ export default function SalesCollectionLanding() {
                             </td>
                             <td>
                               <div className="d-flex justify-content-between">
-                                {/* <OverlayTrigger
-                                  overlay={
-                                    <Tooltip id="cs-icon">
-                                      {"Collection"}
-                                    </Tooltip>
-                                  }
-                                >
-                                  <span>
-                                    <i
-                                      onClick={() => {
-                                        IConfirmModal({
-                                          title: "Are you sure ?",
-                                          yesAlertFunc: () => {
-                                            collectionHandler(
-                                              `/oms/ServiceSales/InvoiceCollection?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&serviceSalesInvoiceId=${item?.invocieHeader?.intServiceSalesInvoiceId}`,
-                                              null,
-                                              () => {
-                                                getData({
-                                                  typeId: values?.type?.value,
-                                                  values,
-                                                });
-                                              },
-                                              true
-                                            );
-                                          },
-                                          noAlertFunc: () => {},
-                                        });
-                                      }}
-                                      style={{
-                                        fontSize: "16px",
-                                        cursor: "pointer",
-                                      }}
-                                      class="fa fa-archive"
-                                      aria-hidden="true"
-                                    ></i>
-                                  </span>
-                                </OverlayTrigger> */}
                                 <OverlayTrigger
                                   overlay={
                                     <Tooltip id="cs-icon">
@@ -526,7 +529,11 @@ export default function SalesCollectionLanding() {
                   onHide={() => setShowCollectionModal(false)}
                   title=""
                 >
-                  <CollectionModal rowData={rowData} />
+                  <CollectionModal
+                    rowData={rowData}
+                    customerDetails={values?.customer}
+                    receivableAmount={receivableAmount}
+                  />
                 </IViewModal>
               </div>
             </Form>

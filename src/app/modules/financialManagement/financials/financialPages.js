@@ -34,6 +34,7 @@ import PaymentAdviceForm from "./paymentAdvice/form/addEditForm";
 import ProductionCost from "./productionCosting";
 import ReconciliationJournal from "./reconciliationJournal/table/tableHeader";
 import TransferJournalToTax from "./transferJournalToTax";
+import BankJournalCreateFormCollection from "./bankJournal/collectionCreate/addForm";
 // import DepreciationJournal from "./depreciationJournal/table/tableHeader"
 
 export function FinalcialPages() {
@@ -64,6 +65,12 @@ export function FinalcialPages() {
       <ContentRoute
         path="/financial-management/financials/bank/edit/:id"
         component={bankJournal?.isEdit ? BankJournalEditForm : NotPermittedPage}
+      />
+       <ContentRoute
+        path="/financial-management/financials/bank/collection"
+        component={
+          bankJournal?.isCreate ? BankJournalCreateFormCollection : NotPermittedPage
+        }
       />
       <ContentRoute
         path="/financial-management/financials/bank/create"

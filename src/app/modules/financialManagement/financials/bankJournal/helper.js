@@ -199,7 +199,7 @@ export const saveBankJournal = async (
     );
     if (res.status === 200) {
       toast.success(res?.message || "Submitted successfully");
-      cb();
+      cb && cb(res?.data?.code);
       setRowDto([]);
       setDisabled(false);
       const obj = {
