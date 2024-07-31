@@ -92,7 +92,18 @@ export default function BankJournalCreateFormCollection() {
       `/oms/ServiceSales/MultipleInvoiceCollection`,
       payload,
       () => {
-        history.goBack();
+        alert("Working")
+        const obj = {
+          title: "Bank Journal Code",
+          message: journalCode,
+          yesAlertFunc: () => {
+            history.goBack();
+          },
+          noAlertFunc: () => {
+            history.goBack();
+          },
+        };
+        IConfirmModal(obj);
       },
       true
     );
@@ -333,7 +344,7 @@ export default function BankJournalCreateFormCollection() {
             payload,
             (journalCode) => {
               cb();
-              collectionSave(journalCode)
+              collectionSave(journalCode);
             },
             setRowDto,
             setDisabled,
@@ -346,7 +357,7 @@ export default function BankJournalCreateFormCollection() {
             saveBankJournal(
               payload,
               (journalCode) => {
-                collectionSave(journalCode)
+                collectionSave(journalCode);
                 cb();
               },
               setRowDto,
