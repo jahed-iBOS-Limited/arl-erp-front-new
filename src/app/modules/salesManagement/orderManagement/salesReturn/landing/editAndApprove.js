@@ -39,16 +39,18 @@ const EditAndApprove = ({ rows, setRows, setOpen, getLanding, preValues }) => {
       }),
     };
     const cb = () => {
-      const payloadForApprove = {
-        header: {
-          salesReturnId: rows?.data[0]?.salesReturnId,
-          intApproveBySupervisor: employeeId,
+      const payloadForApprove = [
+        {
+          header: {
+            salesReturnId: rows?.data[0]?.salesReturnId,
+            intApproveBySupervisor: employeeId,
+          },
+          row: rows?.data?.map((element) => ({
+            rowId: element?.rowId,
+            supervisorAprvQnt: element?.quantity,
+          })),
         },
-        row: rows?.data?.map((element) => ({
-          rowId: element?.rowId,
-          supervisorAprvQnt: element?.quantity,
-        })),
-      };
+      ];
 
       // const payload = rows?.data?.map((item) => {
       //   return {

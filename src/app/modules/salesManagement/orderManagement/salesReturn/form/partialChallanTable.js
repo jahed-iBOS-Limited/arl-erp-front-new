@@ -10,7 +10,7 @@ export default function PartialChallanTable({ obj }) {
   const dataChangeHandler = (headerIndex, rowIndex, key, value) => {
     let _data = [...gridData];
 
-    _data[headerIndex]["rowData"][rowIndex][key] = value;
+    _data[headerIndex]["rowData"][rowIndex][key] = +value;
     setGridData(_data);
   };
 
@@ -38,6 +38,7 @@ export default function PartialChallanTable({ obj }) {
               <th>SL</th>
               <th>Challan No</th>
               <th>Delivery Date</th>
+              <th>Item SL</th>
               <th>Item Name</th>
               <th>Item Price</th>
               <th>Delivery Quantity</th>
@@ -52,6 +53,7 @@ export default function PartialChallanTable({ obj }) {
                 <>
                   <tr key={index}>
                     <td
+                      rowSpan={item?.rowData?.length + 1}
                       onClick={() => {
                         let _data = [...gridData];
                         _data[index]["isSelected"] = !item.isSelected;
@@ -66,70 +68,71 @@ export default function PartialChallanTable({ obj }) {
                         onChange={() => {}}
                       />
                     </td>
-                    <td rowSpan={item?.rowData?.length}> {index + 1}</td>
-                    <td rowSpan={item?.rowData?.length}>
+                    <td rowSpan={item?.rowData?.length + 1}> {index + 1}</td>
+                    <td rowSpan={item?.rowData?.length + 1}>
                       {" "}
                       {item?.deliveryCode}
                     </td>
-                    <td rowSpan={item?.rowData?.length}>
+                    <td rowSpan={item?.rowData?.length + 1}>
                       {" "}
                       {_dateFormatter(item?.deliveryDate)}
                     </td>
-                    {item?.rowData?.map((element, rowIndex) => {
-                      totalDeliveryQty += element?.quantity;
-                      totalAmount += element?.amount;
-                      totalDamage += element?.returnQty;
-                      return (
-                        <>
-                          <td>{element?.itemName}</td>
-                          <td className="text-right">
-                            {_fixedPoint(element?.itemPrice, true, 0)}
-                          </td>
-                          <td className="text-right">
-                            {_fixedPoint(element?.quantity, true)}
-                          </td>
-                          <td className="text-right">
-                            {_fixedPoint(element?.amount, true)}
-                          </td>
-                          <td className="text-right">
-                            {item?.isSelected ? (
-                              <InputField
-                                value={item?.returnQty}
-                                name="returnQty"
-                                placeholder="Return qty"
-                                type="number"
-                                onChange={(e) => {
-                                  dataChangeHandler(
-                                    index,
-                                    rowIndex,
-                                    "returnQty",
-                                    +e?.target?.value
-                                  );
-                                }}
-                                onBlur={(e) => {
-                                  if (+e?.target?.value > element?.quantity) {
-                                    toast.warn(
-                                      "Return qty can not be greater than delivery qty"
-                                    );
-                                  }
-                                }}
-                              />
-                            ) : (
-                              item?.returnQty
-                            )}
-                          </td>
-                          <td className="text-right">
-                            {element?.quantity - element?.returnQty}
-                          </td>
-                        </>
-                      );
-                    })}
                   </tr>
+                  {item?.rowData?.map((element, rowIndex) => {
+                    totalDeliveryQty += element?.quantity;
+                    totalAmount += element?.amount;
+                    totalDamage += +element?.returnQty;
+                    return (
+                      <tr>
+                        <td>{rowIndex + 1}</td>
+                        <td>{element?.itemName}</td>
+                        <td className="text-right">
+                          {_fixedPoint(element?.itemPrice, true, 0)}
+                        </td>
+                        <td className="text-right">
+                          {_fixedPoint(element?.quantity, true)}
+                        </td>
+                        <td className="text-right">
+                          {_fixedPoint(element?.amount, true)}
+                        </td>
+                        <td className="text-right">
+                          {item?.isSelected ? (
+                            <InputField
+                              value={item?.returnQty}
+                              name="returnQty"
+                              placeholder="Return qty"
+                              type="number"
+                              onChange={(e) => {
+                                dataChangeHandler(
+                                  index,
+                                  rowIndex,
+                                  "returnQty",
+                                  +e?.target?.value
+                                );
+                              }}
+                              onBlur={(e) => {
+                                if (+e?.target?.value > element?.quantity) {
+                                  toast.warn(
+                                    "Return qty can not be greater than delivery qty"
+                                  );
+                                }
+                              }}
+                            />
+                          ) : (
+                            item?.returnQty
+                          )}
+                        </td>
+                        <td className="text-right">
+                          {element?.quantity - element?.returnQty}
+                        </td>
+                      </tr>
+                    );
+                  })}
                 </>
               );
             })}
             <tr style={{ textAlign: "right", fontWeight: "bold" }}>
-              <td colSpan={6} className="text-right">
+              <td colSpan={7} className="text-right">
                 <b>Total</b>
               </td>
               <td>{_fixedPoint(totalDeliveryQty, true)}</td>
