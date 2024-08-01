@@ -98,6 +98,7 @@ export default function ServiceSalesCreateRecurring({ singleData }) {
                     strCustomerCode: res?.strCustomerName,
                   }
                 : "",
+            rate: +res?.numServerAmount || 0 + res?.numScheduleAmount || 0,
           });
         }
       );
@@ -149,6 +150,8 @@ export default function ServiceSalesCreateRecurring({ singleData }) {
   const saveHandler = (values, cb) => {
     if (!values?.distributionChannel?.value)
       return toast.warn("Distribution Channel is required");
+    if (!values?.salesOrg?.value) return toast.warn("Sales Org is required");
+    if (!values?.customer?.value) return toast.warn("Customer is required");
     if (itemList?.length < 0) return toast.warn("Add at least one Item");
     if (scheduleList?.length < 0) return toast.warn("Add Schedule");
     let totalPercentage = scheduleListFOneTime.reduce(
@@ -197,6 +200,7 @@ export default function ServiceSalesCreateRecurring({ singleData }) {
         dteWarrantyEndDate: values?.dteWarrantyEndDate || null,
         intAccountManagerEnroll: values?.accountManager?.value || 0,
         strAccountManagerName: values?.accountManager?.label || "",
+        intOnetimeServiceSalesOrderId: singleData?.intServiceSalesOrderId,
       },
       row: itemList?.map((item) => ({
         intServiceSalesOrderRowId: 0,
@@ -291,6 +295,7 @@ export default function ServiceSalesCreateRecurring({ singleData }) {
                     }}
                     errors={errors}
                     touched={touched}
+                    isDisabled
                   />
                 </div>
                 <div className="col-lg-3">
@@ -304,6 +309,7 @@ export default function ServiceSalesCreateRecurring({ singleData }) {
                     }}
                     errors={errors}
                     touched={touched}
+                    isDisabled
                   />
                 </div>
                 <div className="col-lg-3">
@@ -348,6 +354,7 @@ export default function ServiceSalesCreateRecurring({ singleData }) {
                     }}
                     errors={errors}
                     touched={touched}
+                    isDisabled
                   />
                 </div>
                 <div className="col-lg-3">
@@ -653,7 +660,7 @@ export default function ServiceSalesCreateRecurring({ singleData }) {
                 </div>
                 <div className="col-lg-2">
                   <InputField
-                    value={values?.rate}
+                    value={values?.rate || ""}
                     label="Rate"
                     name="rate"
                     type="number"
