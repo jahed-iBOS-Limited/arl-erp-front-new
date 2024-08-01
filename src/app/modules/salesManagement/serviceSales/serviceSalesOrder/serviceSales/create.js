@@ -37,6 +37,8 @@ const initData = {
   intWarrantyMonth: "",
   dteWarrantyEndDate: "",
   accountManager: "",
+  numScheduleAmount: "",
+  numServerAmount: "",
 };
 
 export default function ServiceSalesCreate() {
@@ -159,6 +161,8 @@ export default function ServiceSalesCreate() {
         dteWarrantyEndDate: values?.dteWarrantyEndDate || null,
         intAccountManagerEnroll: values?.accountManager?.value || 0,
         strAccountManagerName: values?.accountManager?.label || "",
+        numScheduleAmount: +values?.numScheduleAmount || 0,
+        numServerAmount: +values?.numServerAmount || 0,
       },
       row: itemList?.map((item) => ({
         intServiceSalesOrderRowId: 0,
@@ -571,6 +575,28 @@ export default function ServiceSalesCreate() {
                         touched={touched}
                       />
                     </div>
+                    <div className="col-lg-3">
+                  <InputField
+                    value={values?.numScheduleAmount}
+                    label="Schedule Amount"
+                    name="numScheduleAmount"
+                    type="number"
+                    onChange={(e) => {
+                      setFieldValue("numScheduleAmount", e.target.value);
+                    }}
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <InputField
+                    value={values?.numServerAmount}
+                    label="Server Amount"
+                    name="numServerAmount"
+                    type="number"
+                    onChange={(e) => {
+                      setFieldValue("numServerAmount", e.target.value);
+                    }}
+                  />
+                </div>
                   </>
                 ) : null}
 

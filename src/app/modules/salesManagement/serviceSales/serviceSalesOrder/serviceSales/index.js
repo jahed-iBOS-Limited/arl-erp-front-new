@@ -26,6 +26,7 @@ export default function ServiceSalesLanding() {
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
   const [showModal, setShowModal] = useState(false);
+  const [singleData, setSingleData] = useState(null);
 
   useEffect(() => {
     getCustomerList(
@@ -200,6 +201,7 @@ export default function ServiceSalesLanding() {
                               <div className="d-flex">
                                 <span
                                   onClick={() => {
+                                    setSingleData(item);
                                     setShowModal(true);
                                   }}
                                   className=""
@@ -249,7 +251,7 @@ export default function ServiceSalesLanding() {
                         setShowModal(false);
                       }}
                     >
-                      <ServiceSalesCreateRecurring />
+                      <ServiceSalesCreateRecurring singleData={singleData} />
                     </IViewModal>
                   </div>
                 </div>

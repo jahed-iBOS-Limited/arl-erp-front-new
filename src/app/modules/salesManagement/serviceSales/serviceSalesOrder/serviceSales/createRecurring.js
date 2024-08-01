@@ -39,7 +39,7 @@ const initData = {
   accountManager: "",
 };
 
-export default function ServiceSalesCreateRecurring() {
+export default function ServiceSalesCreateRecurring({ singleData }) {
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
@@ -60,12 +60,50 @@ export default function ServiceSalesCreateRecurring() {
   const [salesOrgList, getSalesOrgList, salesOrgListLoader] = useAxiosGet();
   const [channelDDL, getChannelDDL, channelDDLloader] = useAxiosGet();
   const [accountManagerList, getAccountManagerList] = useAxiosGet();
+  const [, getPrevData, loading2] = useAxiosGet();
   const [
     agreementDatesForRecuuring,
     getAgreementDatesForRecuuring,
     loading,
     setAgreementDatesForRecuuring,
   ] = useAxiosGet();
+  const [modifyInitData, setModifyInitData] = useState(initData);
+
+  useEffect(() => {
+    if (singleData?.intServiceSalesOrderId) {
+      getPrevData(
+        `/oms/ServiceSales/GetServiceSaleInfoBySalesOrderId?intServiceSalesOrderId=${singleData?.intServiceSalesOrderId}`,
+        (res) => {
+          setModifyInitData({
+            ...initData,
+            distributionChannel:
+              res?.intDistributionChannelId && res?.strDistributionChannelName
+                ? {
+                    value: res?.intDistributionChannelId,
+                    label: res?.strDistributionChannelName,
+                  }
+                : "",
+            salesOrg:
+              res?.intSalesTypeId && res?.strSalesTypeName
+                ? {
+                    value: res?.intSalesTypeId,
+                    label: res?.strSalesTypeName,
+                  }
+                : "",
+            customer:
+              res?.intCustomerId && res?.strCustomerName
+                ? {
+                    value: res?.intCustomerId,
+                    label: res?.strCustomerName,
+                    strCustomerCode: res?.strCustomerName,
+                  }
+                : "",
+          });
+        }
+      );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [singleData]);
 
   useEffect(() => {
     if (itemList?.length) {
@@ -211,10 +249,10 @@ export default function ServiceSalesCreateRecurring() {
   return (
     <Formik
       enableReinitialize={true}
-      initialValues={initData}
+      initialValues={modifyInitData}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
-          resetForm(initData);
+          resetForm(modifyInitData);
           setItemList([]);
           setSheduleList([]);
           setSheduleListFOneTime([]);
@@ -233,6 +271,7 @@ export default function ServiceSalesCreateRecurring() {
       }) => (
         <>
           {(loader ||
+            loading2 ||
             channelDDLloader ||
             salesOrgListLoader ||
             loading ||
