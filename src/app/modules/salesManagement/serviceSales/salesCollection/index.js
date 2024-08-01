@@ -194,6 +194,10 @@ export default function SalesCollectionLanding() {
                       label="Type"
                       onChange={(valueOption) => {
                         setFieldValue("type", valueOption);
+                        setFieldValue("fromDate", "");
+                        setFieldValue("toDate", "");
+                        setFieldValue("customer", "");
+                        setFieldValue("paymentType", "");
                         setRowData([]);
                       }}
                       errors={errors}
@@ -233,7 +237,7 @@ export default function SalesCollectionLanding() {
                       touched={touched}
                     />
                   </div>
-                  {values?.type?.value === 2 && (
+                  {values?.type?.value === 1 && (
                     <>
                       <div className="col-lg-3">
                         <InputField
@@ -261,7 +265,7 @@ export default function SalesCollectionLanding() {
                   )}
                   <div>
                     <button
-                      disabled={!values?.customer}
+                      disabled={[2].includes(values?.type?.value) && !values?.customer}
                       className="btn btn-primary"
                       type="button"
                       style={{ marginTop: "17px" }}
