@@ -361,14 +361,19 @@ const SalesReturn = () => {
                                             <IEdit title="Update and Approve" />
                                           </span>
                                         )}
-                                      <span
-                                        className="cursor-pointer"
-                                        onClick={() => {
-                                          cancelHandler(item, values);
-                                        }}
-                                      >
-                                        <IClose title="Cancel Sales Return" />
-                                      </span>
+                                      {(([1].includes(values?.viewAs?.value) &&
+                                        !item?.isApprovedBySupervisor) ||
+                                        ([2].includes(values?.viewAs?.value) &&
+                                          !item?.isApprovedByAccount)) && (
+                                        <span
+                                          className="cursor-pointer"
+                                          onClick={() => {
+                                            cancelHandler(item, values);
+                                          }}
+                                        >
+                                          <IClose title="Cancel Sales Return" />
+                                        </span>
+                                      )}
                                       {[2, 0].includes(values?.status?.value) &&
                                         ([1].includes(
                                           values?.returnType?.value
