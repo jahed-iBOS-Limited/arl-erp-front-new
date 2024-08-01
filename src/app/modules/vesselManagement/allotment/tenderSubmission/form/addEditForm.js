@@ -124,7 +124,7 @@ export default function TenderSubmissionCreateEditForm() {
             commercialDate: _dateFormatter(header?.commercialDate),
             referenceNo: header?.referenceNo,
             referenceDate: _dateFormatter(header?.referenceDate),
-            isAccept: {
+            approveStatus: {
                 label: header?.approveStatus?.label,
                 value: header?.approveStatus?.value,
             },
