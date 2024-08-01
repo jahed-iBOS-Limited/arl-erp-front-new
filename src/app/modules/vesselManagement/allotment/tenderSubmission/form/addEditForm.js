@@ -1,6 +1,7 @@
 import { FieldArray, Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import Loading from "../../../../_helper/_loading";
+import { useLocation, useParams } from "react-router";
 import IForm from "../../../../_helper/_form";
 import NewSelect from "../../../../_helper/_select";
 import InputField from "../../../../_helper/_inputField";
@@ -8,16 +9,20 @@ import { businessPartnerDDL, convertToText, ErrorMessage, getDischargePortDDL, G
 import { shallowEqual, useSelector } from "react-redux";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import { _dateFormatter } from "../../../../_helper/_dateFormate";
 
 
 
 export default function TenderSubmissionCreateEditForm() {
     const { profileData: { userId, accountId }, selectedBusinessUnit: { label: buUnName, value: buUnId } } = useSelector(state => state?.authData, shallowEqual)
+    const { id } = useParams()
+    const { state } = useLocation()
 
     const [objProps, setObjprops] = useState({});
     const [dischargeDDL, setDischargeDDL] = useState([])
     const [loadPortDDL, setLoadPortDDL] = useState([])
     const [godownDDL, getGodownDDL, getGodownDDLLoading, updateGodownDDLLoading] = useAxiosGet()
+    const [tenderDetails, getTenderDetails] = useAxiosGet()
     const [, submitTender, submitTenderLoading] = useAxiosPost()
 
     const getGodownDDLList = (businessPartner) => {
@@ -31,15 +36,24 @@ export default function TenderSubmissionCreateEditForm() {
             })
             updateGodownDDLLoading(updateDDL)
         })
-
-
     }
 
     useEffect(() => {
         getDischargePortDDL(setDischargeDDL)
         GetLoadPortDDL(setLoadPortDDL)
+        // Id Id (Edit)
+        if (id && state) {
+            console.log({ businessPartner: { value: state?.businessPartnerId } })
+            fetchTenderDetails(id)
+            getGodownDDLList({ value: state?.businessPartnerId })
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
+
+    const fetchTenderDetails = (tenderId) => {
+        const url = `/tms/TenderSubmission/GetTenderSubmissionById?AccountId=${accountId}&BusinessUnitId=${buUnId}&TenderId=${tenderId}`
+        getTenderDetails(url)
+    }
 
     const saveHandler = (values, cb) => {
         const payload = {
@@ -47,7 +61,7 @@ export default function TenderSubmissionCreateEditForm() {
                 accountId: accountId,
                 businessUnitId: buUnId,
                 businessUnitName: buUnName,
-                tenderId: 0,
+                tenderId: id ? id : 0,
                 businessPartnerId: values?.businessPartner?.value,
                 businessPartnerName: values?.businessPartner?.label,
                 enquiryNo: values?.enquiry,
@@ -66,6 +80,7 @@ export default function TenderSubmissionCreateEditForm() {
                 referenceNo: values?.referenceNo,
                 referenceDate: values?.referenceDate,
                 actionBy: userId,
+                isActive: true
             },
             rows: values?.localTransportations?.map(item => ({
                 godownId: item?.godownName?.value,
@@ -73,8 +88,9 @@ export default function TenderSubmissionCreateEditForm() {
                 quantity: item?.quantity,
                 perQtyTonPriceBd: item?.price,
                 perQtyPriceWords: convertToText(item?.price),
-                tenderHeaderId: 0,
-                tenderRowId: 0
+                tenderHeaderId: id ? id : 0,
+                tenderRowId: id ? item?.tenderRowId : 0,
+                isActive: true
             }))
         }
         submitTender(`/tms/TenderSubmission/CreateOrUpdateTenderSubission`, payload, cb,
@@ -82,14 +98,56 @@ export default function TenderSubmissionCreateEditForm() {
         )
     };
 
+    const updateState = ({ header, rows }) => {
+        const editData = {
+            businessPartner: {
+                value: header?.businessPartnerId,
+                label: header?.businessPartnerName
+            },
+            enquiry: header?.enquiryNo,
+            submissionDate: _dateFormatter(header?.submissionDate),
+            foreignQnt: header?.foreignQty,
+            uomname: header?.uomname,
+            productName: header?.itemName,
+            loadPort: {
+                label: header?.loadPortName,
+                value: header?.loadPortId
+            },
+            dischargePort: {
+                label: header?.dischargePortName,
+                value: header?.dischargePortId
+            },
+            foreignPriceUSD: header?.foreignPriceUsd,
+            commercialNo: header?.commercialNo,
+            commercialDate: _dateFormatter(header?.commercialDate),
+            referenceNo: header?.referenceNo,
+            referenceDate: _dateFormatter(header?.referenceDate),
+            localTransportations: rows?.map(item => {
+                return {
+                    tenderRowId: item?.tenderRowId,
+                    tenderHeaderId: item?.tenderHeaderId,
+                    godownName: {
+                        value: 98654,
+                        label: item?.godownName
+                    },
+                    quantity: item?.quantity,
+                    price: item?.perQtyTonPriceBd,
+                    perQtyPriceWords: item?.perQtyTonPriceBd
+                }
+            })
+        }
+        return editData
+
+    }
+
     return (
         <Formik
             enableReinitialize={true}
-            initialValues={initData}
+            initialValues={id ? updateState(tenderDetails) : initData}
             validationSchema={validationSchema}
             onSubmit={(values, { setSubmitting, resetForm }) => {
                 saveHandler(values, () => {
-                    resetForm(initData);
+                    !id && resetForm(initData)
                 });
             }}
         >
@@ -126,7 +184,7 @@ export default function TenderSubmissionCreateEditForm() {
                                 <div className="col-lg-3">
                                     <InputField
                                         value={values?.enquiry}
-                                        label="Enquiry"
+                                        label="Enquiry No"
                                         name="enquiry"
                                         type="text"
                                         onChange={(e) => {
@@ -228,6 +286,7 @@ export default function TenderSubmissionCreateEditForm() {
                                 </div>
                                 <div className="col-lg-3">
                                     <InputField
+
                                         value={values?.commercialDate}
                                         label="Commercial Date"
                                         name="commercialDate"
@@ -268,7 +327,7 @@ export default function TenderSubmissionCreateEditForm() {
                                     render={arrayHelpers => (
                                         <>
                                             {
-                                                values.localTransportations.map((localTransport, index) => {
+                                                values?.localTransportations?.map((localTransport, index) => {
                                                     return (
                                                         <React.Fragment key={index}>
                                                             <div className="col-lg-3">
@@ -317,7 +376,7 @@ export default function TenderSubmissionCreateEditForm() {
 
                                                             {
                                                                 values?.localTransportations.length > 1 ? <span type="button" className="px-2 py-1 ml-2 align-self-end rounded font-xl" onClick={() => arrayHelpers.remove(index)}>
-                                                                    <i class="fa fa-times text-danger" style={{ fontSize: '18px' }} aria-hidden="true"></i>
+                                                                    <i class="fa fa-trash text-danger" style={{ fontSize: '16px' }} aria-hidden="true"></i>
                                                                 </span> : <></>
                                                             }
 
@@ -329,9 +388,9 @@ export default function TenderSubmissionCreateEditForm() {
                                             <span
                                                 type="button"
                                                 className="px-2 py-1 text-success ml-2 align-self-end rounded font-xl"
-                                                onClick={() => arrayHelpers.push({ godownName: '', quantity: '', price: '' })}
+                                                onClick={() => arrayHelpers.push({ godownName: '', quantity: '', price: '', tenderHeaderId: 0, tenderRowId: 0 })}
                                             >
-                                                <i class="fa fa-plus text-success" style={{ fontSize: '18px' }} aria-hidden="true"></i>
+                                                <i class="fa fa-plus text-success" style={{ fontSize: '16px' }} aria-hidden="true"></i>
                                             </span>
                                         </>
                                     )}
