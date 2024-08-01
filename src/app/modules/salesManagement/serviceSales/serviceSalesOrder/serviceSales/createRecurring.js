@@ -21,7 +21,7 @@ const initData = {
   distributionChannel: "",
   salesOrg: "",
   customer: "",
-  paymentType: { value: 2, label: "One Time" },
+  paymentType: { value: 1, label: "Re-Curring" },
   billToParty: "",
   scheduleType: "",
   invoiceDay: "",
@@ -39,7 +39,7 @@ const initData = {
   accountManager: "",
 };
 
-export default function ServiceSalesCreate() {
+export default function ServiceSalesCreateRecurring() {
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
@@ -238,7 +238,7 @@ export default function ServiceSalesCreate() {
             loading ||
             customerListLoader ||
             itemDDLloader) && <Loading />}
-          <IForm title="Create Service Sales Order" getProps={setObjprops}>
+          <IForm title="Create Re-Curring Sales Order" getProps={setObjprops}>
             <Form>
               <div className="form-group  global-form row">
                 <div className="col-lg-3">
@@ -272,8 +272,8 @@ export default function ServiceSalesCreate() {
                     name="paymentType"
                     isDisabled
                     options={[
-                      // { value: 1, label: "Re-Curring" },
-                      { value: 2, label: "One Time" },
+                      { value: 1, label: "Re-Curring" },
+                      //   { value: 2, label: "One Time" },
                     ]}
                     value={values?.paymentType}
                     label="Payment Type"

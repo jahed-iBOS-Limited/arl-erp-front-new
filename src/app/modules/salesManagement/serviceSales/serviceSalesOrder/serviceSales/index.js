@@ -8,6 +8,9 @@ import NewSelect from "../../../../_helper/_select";
 import PaginationTable from "../../../../_helper/_tablePagination";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import IViewModal from "../../../../_helper/_viewModal";
+import ServiceSalesCreateRecurring from "./createRecurring";
 
 const initData = {
   customer: "",
@@ -22,6 +25,7 @@ export default function ServiceSalesLanding() {
   const [scheduleList, getScheduleList, loader] = useAxiosGet();
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     getCustomerList(
@@ -144,6 +148,7 @@ export default function ServiceSalesLanding() {
                           <th>Warranty Month</th>
                           <th>Warranty End Date</th>
                           <th>Account Manager Name</th>
+                          <th>Action</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -190,6 +195,34 @@ export default function ServiceSalesLanding() {
                               {_dateFormatter(item?.dteWarrantyEndDate)}
                             </td>
                             <td>{item?.strAccountManagerName}</td>
+                            <td>
+                              {" "}
+                              <div className="d-flex">
+                                <span
+                                  onClick={() => {
+                                    setShowModal(true);
+                                  }}
+                                  className=""
+                                >
+                                  <OverlayTrigger
+                                    overlay={
+                                      <Tooltip
+                                        className="mytooltip"
+                                        id="info-tooltip"
+                                      >
+                                        Create Recurring
+                                      </Tooltip>
+                                    }
+                                  >
+                                    <i
+                                      style={{ fontSize: "16px" }}
+                                      class="fa fa-plus-square"
+                                      aria-hidden="true"
+                                    ></i>
+                                  </OverlayTrigger>
+                                </span>
+                              </div>
+                            </td>
                           </tr>
                         ))}
                       </tbody>
@@ -209,6 +242,16 @@ export default function ServiceSalesLanding() {
                       values={values}
                     />
                   )}
+                  <div>
+                    <IViewModal
+                      show={showModal}
+                      onHide={() => {
+                        setShowModal(false);
+                      }}
+                    >
+                      <ServiceSalesCreateRecurring />
+                    </IViewModal>
+                  </div>
                 </div>
               </div>
             </Form>
