@@ -9,6 +9,7 @@ import { _todayDate } from "../../../../_helper/_todayDate";
 import Loading from "../../../../_helper/_loading";
 import { confirmAlert } from "react-confirm-alert";
 import  "./style.css";
+import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 
 const initData = {
   id: undefined,
@@ -44,6 +45,8 @@ export default function CashJournaFormForCollection({
   const [rowDto, setRowDto] = useState([]);
   const { state: headerData } = useLocation();
   const [attachmentFile, setAttachmentFile] = useState("");
+  const [, onCollectionHandler] = useAxiosPost();
+
 
 
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
@@ -75,6 +78,51 @@ export default function CashJournaFormForCollection({
       ],
     });
   };
+
+  const collectionSave = (journalCode) => {
+    const payload = headerData?.collectionRow?.map((item) => ({
+      intServiceSalesInvoiceRowId:
+        item?.invocieRow?.[0]?.intServiceSalesInvoiceRowId,
+      intServiceSalesInvoiceId: item?.invocieRow?.[0]?.intServiceSalesInvoiceId,
+      intServiceSalesScheduleId:
+        item?.invocieRow?.[0]?.intServiceSalesScheduleId,
+      dteScheduleCreateDateTime:
+        item?.invocieRow?.[0]?.dteScheduleCreateDateTime,
+      dteDueDateTime: item?.invocieRow?.[0]?.dteDueDateTime,
+      strReceiveAbleJournalCode: journalCode,
+      numScheduleAmount: item?.invocieRow?.[0]?.numScheduleAmount,
+      numScheduleVatAmount: item?.invocieRow?.[0]?.numScheduleVatAmount,
+      // numCollectionAmount: item?.invocieRow?.[0]?.numCollectionAmount,
+      numCollectionAmount:
+        item?.invocieRow?.[0]?.alreadyCollectedAmount +
+        item?.invocieRow?.[0]?.numCollectionAmount,
+      numPendingAmount: item?.invocieRow?.[0]?.numPendingAmount,
+      numAdjustPreviousAmount: item?.invocieRow?.[0]?.numAdjustPreviousAmount,
+      isCollectionComplete: item?.invocieRow?.[0]?.numPendingAmount
+        ? false
+        : true,
+      numReceivePendingAmount: item?.invocieRow?.[0]?.peviousPendingAmount || 0,
+    }));
+    onCollectionHandler(
+      `/oms/ServiceSales/MultipleInvoiceCollection`,
+      payload,
+      () => {
+        const obj = {
+          title: "Cash Journal Code",
+          message: journalCode,
+          yesAlertFunc: () => {
+            history.goBack();
+          },
+          noAlertFunc: () => {
+            history.goBack();
+          },
+        };
+        IConfirmModal(obj);
+      },
+      true
+    );
+  };
+
   const saveHandler = async (values, cb) => {
     if(headerData?.accountingJournalTypeId === 2 && !id && !attachmentFile){
       return toast.warn("Attachment Required")
@@ -100,8 +148,8 @@ export default function CashJournaFormForCollection({
       {
         rowId: 0,
         bankAccountId:
-          values.trasferTo.value === 2 ? 0 : values?.gLBankAc?.value,
-        bankAccNo: values.trasferTo.value === 2 ? "" : values?.gLBankAc?.label,
+          values?.trasferTo?.value === 2 ? 0 : values?.gLBankAc?.value,
+        bankAccNo: values?.trasferTo?.value === 2 ? "" : values?.gLBankAc?.label,
         businessTransactionId: 0,
         businessTransactionCode: "",
         businessTransactionName: "",
@@ -210,7 +258,10 @@ export default function CashJournaFormForCollection({
     dispatch(
       saveCashJournal_Action({
         data: payload,
-        cb,
+        cb : (journalCode)=>{
+          collectionSave(journalCode);
+          cb()
+        },
         setDisabled,
         IConfirmModal,
       })

@@ -356,8 +356,8 @@ export default function BankJournalCreateFormCollection() {
             saveBankJournal(
               payload,
               (journalCode) => {
-                collectionSave(journalCode);
                 cb();
+                collectionSave(journalCode);
               },
               setRowDto,
               setDisabled,
