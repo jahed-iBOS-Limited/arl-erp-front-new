@@ -35,6 +35,7 @@ import ProductionCost from "./productionCosting";
 import ReconciliationJournal from "./reconciliationJournal/table/tableHeader";
 import TransferJournalToTax from "./transferJournalToTax";
 import BankJournalCreateFormCollection from "./bankJournal/collectionCreate/addForm";
+import CashJournaFormForCollection from "./cashJournal/collectionCreate/addEditForm";
 // import DepreciationJournal from "./depreciationJournal/table/tableHeader"
 
 export function FinalcialPages() {
@@ -117,6 +118,10 @@ export function FinalcialPages() {
       <ContentRoute
         path="/financial-management/financials/cash/edit/:id"
         component={cashJournal?.isEdit ? CashJournaEditForm : NotPermittedPage}
+      />
+      <ContentRoute
+        path="/financial-management/financials/cash/collection"
+        component={cashJournal?.isCreate ? CashJournaFormForCollection : NotPermittedPage}
       />
       <ContentRoute
         path="/financial-management/financials/cash/create"

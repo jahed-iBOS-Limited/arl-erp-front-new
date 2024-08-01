@@ -152,7 +152,14 @@ export default function SalesCollectionLanding() {
   return (
     <Formik
       enableReinitialize={true}
-      initialValues={{ ...initData, sbu: sbuDDl[0] }}
+      initialValues={{
+        ...initData,
+        sbu: sbuDDl[0],
+        accountingJournalTypeId:
+          paymentType === 2
+            ? { value: 4, label: "Bank Receipts " }
+            : { value: 1, label: "Cash Receipts" },
+      }}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         console.log(values);
       }}
@@ -308,7 +315,7 @@ export default function SalesCollectionLanding() {
                     </div>
                     <div className="form-group  global-form mt-3">
                       <div className="row">
-                        {[2].includes(paymentType) && (
+                        {[1, 2].includes(paymentType) && (
                           <>
                             <div className="col-lg-3">
                               <NewSelect
@@ -327,11 +334,11 @@ export default function SalesCollectionLanding() {
                             <div className="col-lg-3">
                               <NewSelect
                                 name="accountingJournalTypeId"
-                                options={[
-                                  { value: 4, label: "Bank Receipts " },
-                                  //   { value: 5, label: "Bank Payments" },
-                                  //   { value: 6, label: "Bank Transfer" },
-                                ]}
+                                options={
+                                  paymentType === 2
+                                    ? [{ value: 4, label: "Bank Receipts " }]
+                                    : [{ value: 1, label: "Cash Receipts" }]
+                                }
                                 value={values?.accountingJournalTypeId}
                                 label="Select Journal Type"
                                 onChange={(valueOption) => {
@@ -375,22 +382,41 @@ export default function SalesCollectionLanding() {
                                       paymentType,
                                     })
                                   );
-                                  history.push({
-                                    pathname: `/financial-management/financials/bank/collection`,
-                                    state: {
-                                      selectedJournal:
-                                        values.accountingJournalTypeId,
-                                      selectedSbu: values.sbu,
-                                      transactionDate: _todayDate(),
-                                      customerDetails: values?.customer,
-                                      receivableAmount: receivableAmount,
-                                      collectionRow: rowData?.filter(
-                                        (item) =>
-                                          item?.invocieRow?.[0]
-                                            ?.numCollectionAmount
-                                      ),
-                                    },
-                                  });
+                                  history.push(
+                                    paymentType === 2
+                                      ? {
+                                          pathname: `/financial-management/financials/bank/collection`,
+                                          state: {
+                                            selectedJournal:
+                                              values.accountingJournalTypeId,
+                                            selectedSbu: values.sbu,
+                                            transactionDate: _todayDate(),
+                                            customerDetails: values?.customer,
+                                            receivableAmount: receivableAmount,
+                                            collectionRow: rowData?.filter(
+                                              (item) =>
+                                                item?.invocieRow?.[0]
+                                                  ?.numCollectionAmount
+                                            ),
+                                          },
+                                        }
+                                      : {
+                                          pathname: `/financial-management/financials/cash/collection`,
+                                          state: {
+                                            ...values,
+                                            accountingJournalTypeId:
+                                              values?.accountingJournalTypeId
+                                                ?.value,
+                                            customerDetails: values?.customer,
+                                            receivableAmount: receivableAmount,
+                                            collectionRow: rowData?.filter(
+                                              (item) =>
+                                                item?.invocieRow?.[0]
+                                                  ?.numCollectionAmount
+                                            ),
+                                          },
+                                        }
+                                  );
                                 }}
                               >
                                 Collection
