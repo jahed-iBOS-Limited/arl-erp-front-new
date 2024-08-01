@@ -21,7 +21,7 @@ const initData = {
   distributionChannel: "",
   salesOrg: "",
   customer: "",
-  paymentType: { value: 2, label: "One Time" },
+  paymentType: { value: 1, label: "Re-Curring" },
   billToParty: "",
   scheduleType: "",
   invoiceDay: "",
@@ -37,11 +37,9 @@ const initData = {
   intWarrantyMonth: "",
   dteWarrantyEndDate: "",
   accountManager: "",
-  numScheduleAmount: "",
-  numServerAmount: "",
 };
 
-export default function ServiceSalesCreate() {
+export default function ServiceSalesCreateRecurring({ singleData }) {
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
@@ -62,12 +60,51 @@ export default function ServiceSalesCreate() {
   const [salesOrgList, getSalesOrgList, salesOrgListLoader] = useAxiosGet();
   const [channelDDL, getChannelDDL, channelDDLloader] = useAxiosGet();
   const [accountManagerList, getAccountManagerList] = useAxiosGet();
+  const [, getPrevData, loading2] = useAxiosGet();
   const [
     agreementDatesForRecuuring,
     getAgreementDatesForRecuuring,
     loading,
     setAgreementDatesForRecuuring,
   ] = useAxiosGet();
+  const [modifyInitData, setModifyInitData] = useState(initData);
+
+  useEffect(() => {
+    if (singleData?.intServiceSalesOrderId) {
+      getPrevData(
+        `/oms/ServiceSales/GetServiceSaleInfoBySalesOrderId?intServiceSalesOrderId=${singleData?.intServiceSalesOrderId}`,
+        (res) => {
+          setModifyInitData({
+            ...initData,
+            distributionChannel:
+              res?.intDistributionChannelId && res?.strDistributionChannelName
+                ? {
+                    value: res?.intDistributionChannelId,
+                    label: res?.strDistributionChannelName,
+                  }
+                : "",
+            salesOrg:
+              res?.intSalesTypeId && res?.strSalesTypeName
+                ? {
+                    value: res?.intSalesTypeId,
+                    label: res?.strSalesTypeName,
+                  }
+                : "",
+            customer:
+              res?.intCustomerId && res?.strCustomerName
+                ? {
+                    value: res?.intCustomerId,
+                    label: res?.strCustomerName,
+                    strCustomerCode: res?.strCustomerName,
+                  }
+                : "",
+            rate: +res?.numServerAmount || 0 + res?.numScheduleAmount || 0,
+          });
+        }
+      );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [singleData]);
 
   useEffect(() => {
     if (itemList?.length) {
@@ -113,6 +150,8 @@ export default function ServiceSalesCreate() {
   const saveHandler = (values, cb) => {
     if (!values?.distributionChannel?.value)
       return toast.warn("Distribution Channel is required");
+    if (!values?.salesOrg?.value) return toast.warn("Sales Org is required");
+    if (!values?.customer?.value) return toast.warn("Customer is required");
     if (itemList?.length < 0) return toast.warn("Add at least one Item");
     if (scheduleList?.length < 0) return toast.warn("Add Schedule");
     let totalPercentage = scheduleListFOneTime.reduce(
@@ -161,8 +200,7 @@ export default function ServiceSalesCreate() {
         dteWarrantyEndDate: values?.dteWarrantyEndDate || null,
         intAccountManagerEnroll: values?.accountManager?.value || 0,
         strAccountManagerName: values?.accountManager?.label || "",
-        numScheduleAmount: +values?.numScheduleAmount || 0,
-        numServerAmount: +values?.numServerAmount || 0,
+        intOnetimeServiceSalesOrderId: singleData?.intServiceSalesOrderId,
       },
       row: itemList?.map((item) => ({
         intServiceSalesOrderRowId: 0,
@@ -215,10 +253,10 @@ export default function ServiceSalesCreate() {
   return (
     <Formik
       enableReinitialize={true}
-      initialValues={initData}
+      initialValues={modifyInitData}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
-          resetForm(initData);
+          resetForm(modifyInitData);
           setItemList([]);
           setSheduleList([]);
           setSheduleListFOneTime([]);
@@ -237,12 +275,13 @@ export default function ServiceSalesCreate() {
       }) => (
         <>
           {(loader ||
+            loading2 ||
             channelDDLloader ||
             salesOrgListLoader ||
             loading ||
             customerListLoader ||
             itemDDLloader) && <Loading />}
-          <IForm title="Create Service Sales Order" getProps={setObjprops}>
+          <IForm title="Create Re-Curring Sales Order" getProps={setObjprops}>
             <Form>
               <div className="form-group  global-form row">
                 <div className="col-lg-3">
@@ -256,6 +295,7 @@ export default function ServiceSalesCreate() {
                     }}
                     errors={errors}
                     touched={touched}
+                    isDisabled
                   />
                 </div>
                 <div className="col-lg-3">
@@ -269,6 +309,7 @@ export default function ServiceSalesCreate() {
                     }}
                     errors={errors}
                     touched={touched}
+                    isDisabled
                   />
                 </div>
                 <div className="col-lg-3">
@@ -276,8 +317,8 @@ export default function ServiceSalesCreate() {
                     name="paymentType"
                     isDisabled
                     options={[
-                      // { value: 1, label: "Re-Curring" },
-                      { value: 2, label: "One Time" },
+                      { value: 1, label: "Re-Curring" },
+                      //   { value: 2, label: "One Time" },
                     ]}
                     value={values?.paymentType}
                     label="Payment Type"
@@ -313,6 +354,7 @@ export default function ServiceSalesCreate() {
                     }}
                     errors={errors}
                     touched={touched}
+                    isDisabled
                   />
                 </div>
                 <div className="col-lg-3">
@@ -575,28 +617,6 @@ export default function ServiceSalesCreate() {
                         touched={touched}
                       />
                     </div>
-                    <div className="col-lg-3">
-                  <InputField
-                    value={values?.numScheduleAmount}
-                    label="Schedule Amount"
-                    name="numScheduleAmount"
-                    type="number"
-                    onChange={(e) => {
-                      setFieldValue("numScheduleAmount", e.target.value);
-                    }}
-                  />
-                </div>
-                <div className="col-lg-3">
-                  <InputField
-                    value={values?.numServerAmount}
-                    label="Server Amount"
-                    name="numServerAmount"
-                    type="number"
-                    onChange={(e) => {
-                      setFieldValue("numServerAmount", e.target.value);
-                    }}
-                  />
-                </div>
                   </>
                 ) : null}
 
@@ -640,7 +660,7 @@ export default function ServiceSalesCreate() {
                 </div>
                 <div className="col-lg-2">
                   <InputField
-                    value={values?.rate}
+                    value={values?.rate || ""}
                     label="Rate"
                     name="rate"
                     type="number"
