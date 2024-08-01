@@ -440,3 +440,6 @@ export const setOEECapacityConfigurationAction = (data) => (dispatch) => {
 export const setItemQualityCheckLandingInitDataAction = (data) => (dispatch) => {
   dispatch(slice.setItemQualityCheckLandingInitData(data));
 };
+export const setSalesCollectionInitDataAction = (data) => (dispatch) => {
+  dispatch(slice.setSalesCollectionInitData(data));
+};
