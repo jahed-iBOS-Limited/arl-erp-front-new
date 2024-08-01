@@ -89,7 +89,7 @@ export default function SalesCollectionLanding() {
     getData({ typeId: initData?.type?.value, values: initData || {} });
     setPaymentType(initData?.paymentType || 1);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [profileData, selectedBusinessUnit]);
+  }, [profileData, selectedBusinessUnit, initData]);
 
   const getData = ({ typeId, values }) => {
     const strFromAndToDate =
