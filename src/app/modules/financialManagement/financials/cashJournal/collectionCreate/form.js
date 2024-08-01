@@ -30,6 +30,7 @@ import { useDispatch } from "react-redux";
 import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { confirmAlert } from "react-confirm-alert";
+import { _todayDate } from "../../../../_helper/_todayDate";
 
 const receiptsJournal = Yup.object().shape({
   receiveFrom: Yup.string()
@@ -199,6 +200,7 @@ export default function _Form({
           receiveFrom: headerData?.accountingJournalTypeId === 1 ? initData?.transaction?.label : "",
           paidTo : headerData?.accountingJournalTypeId === 2 ? initData?.transaction?.label : "",
           transaction : initData?.transaction,
+          transactionDate: _todayDate(),
         }}
         validationSchema={
           headerData?.accountingJournalTypeId === 1

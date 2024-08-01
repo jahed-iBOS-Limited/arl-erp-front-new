@@ -14,7 +14,6 @@ import NewSelect from "../../../_helper/_select";
 import { _todayDate } from "../../../_helper/_todayDate";
 import IViewModal from "../../../_helper/_viewModal";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import { setSalesCollectionInitDataAction } from "../../../_helper/reduxForLocalStorage/Actions";
 import CollectionModal from "./collection";
 import { getSBU } from "./helper";
@@ -489,21 +488,21 @@ export default function SalesCollectionLanding() {
                             <td>
                               {item?.invocieRow?.[0]?.numScheduleAmount || ""}
                             </td>
-                            <td className="text-rignt">
+                            <td className="text-right">
                               {item?.invocieRow?.[0]?.numScheduleVatAmount ||
                                 ""}
                             </td>
-                            <td className="text-rignt">
+                            <td className="text-right">
                               {item?.invocieRow?.[0]?.numCollectionAmount || ""}
                             </td>
-                            <td className="text-rignt">
+                            <td className="text-right">
                               {item?.invocieRow?.[0]?.alreadyCollectedAmount ||
                                 ""}
                             </td>
-                            <td className="text-rignt">
+                            <td className="text-right">
                               {item?.invocieRow?.[0]?.numPendingAmount || ""}
                             </td>
-                            <td className="text-rignt">
+                            <td className="text-right">
                               {item?.invocieRow?.[0]?.numAdjustPreviousAmount ||
                                 ""}
                             </td>
