@@ -199,15 +199,15 @@ export const saveBankJournal = async (
     );
     if (res.status === 200) {
       toast.success(res?.message || "Submitted successfully");
-      cb();
+      cb && cb(res?.data?.code);
       setRowDto([]);
       setDisabled(false);
-      const obj = {
-        title: "Bank Journal Code",
-        message: res?.data?.code,
-        noAlertFunc: () => {},
-      };
-      IConfirmModal(obj);
+      // const obj = {
+      //   title: "Bank Journal Code",
+      //   message: res?.data?.code,
+      //   noAlertFunc: () => {},
+      // };
+      // IConfirmModal(obj);
     }
   } catch (error) {
     toast.warn(error?.response?.data?.message);

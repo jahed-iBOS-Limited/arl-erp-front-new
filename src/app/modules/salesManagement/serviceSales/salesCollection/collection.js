@@ -1,13 +1,37 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Form, Formik } from "formik";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import IForm from "./../../../_helper/_form";
 import Loading from "./../../../_helper/_loading";
+import { getSBU } from "./helper";
+import NewSelect from "../../../_helper/_select";
+import { shallowEqual, useSelector } from "react-redux";
+import { useHistory } from "react-router";
+import { _todayDate } from "../../../_helper/_todayDate";
 
-const initData = {};
+const initData = {
+  sbu: "",
+  accountingJournalTypeId: { value: 4, label: "Bank Receipts " },
+};
 
-export default function CollectionModal() {
+export default function CollectionModal({
+  rowData,
+  customerDetails,
+  receivableAmount,
+}) {
+  const { profileData, selectedBusinessUnit } = useSelector((state) => {
+    return state.authData;
+  }, shallowEqual);
+
+  const history = useHistory();
+
   const [objProps, setObjprops] = useState({});
   const [paymentType, setPaymentType] = useState(1);
+  const [sbuDDl, setSbuDDl] = useState([]);
+
+  useEffect(() => {
+    getSBU(profileData?.accountId, selectedBusinessUnit.value, setSbuDDl);
+  }, [profileData, selectedBusinessUnit]);
 
   const saveHandler = (values, cb) => {
     alert("Working...");
@@ -15,7 +39,7 @@ export default function CollectionModal() {
   return (
     <Formik
       enableReinitialize={true}
-      initialValues={initData}
+      initialValues={{ ...initData, sbu: sbuDDl[0] }}
       //   validationSchema={validationSchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
@@ -34,7 +58,37 @@ export default function CollectionModal() {
       }) => (
         <>
           {false && <Loading />}
-          <IForm title="Collection" getProps={setObjprops}>
+          <IForm
+            title="Collection"
+            getProps={setObjprops}
+            isHiddenBack={true}
+            isHiddenReset={true}
+            isHiddenSave={true}
+            renderProps={() => {
+              return (
+                <div>
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={() => {
+                      history.push({
+                        pathname: `/financial-management/financials/bank/collection`,
+                        state: {
+                          selectedJournal: values.accountingJournalTypeId,
+                          selectedSbu: values.sbu,
+                          transactionDate: _todayDate(),
+                          customerDetails: customerDetails,
+                          receivableAmount: receivableAmount,
+                        },
+                      });
+                    }}
+                  >
+                    Create
+                  </button>
+                </div>
+              );
+            }}
+          >
             <Form>
               <div className="row mt-5">
                 <div className="col-lg-4">
@@ -67,55 +121,40 @@ export default function CollectionModal() {
                 </div>
               </div>
               <div className="form-group  global-form row">
-                {/* <div className="col-lg-3">
-                  <NewSelect
-                    name="item"
-                    options={[
-                      { value: 1, label: "Item-1" },
-                      { value: 2, label: "Item-2" },
-                    ]}
-                    value={values?.item}
-                    label="Item"
-                    onChange={(valueOption) => {
-                      setFieldValue("item", valueOption);
-                    }}
-                    errors={errors}
-                    touched={touched}
-                  />
-                </div>
-                <div className="col-lg-3">
-                  <InputField
-                    value={values?.remarks}
-                    label="Remarks"
-                    name="remarks"
-                    type="text"
-                    onChange={(e) => {
-                      setFieldValue("remarks", e.target.value);
-                    }}
-                  />
-                </div> */}
-                {/* <div className="col-lg-3">
-                  <InputField
-                    value={values?.amount}
-                    label="Amount"
-                    name="amount"
-                    type="number"
-                    onChange={(e) => {
-                      setFieldValue("amount", e.target.value);
-                    }}
-                  />
-                </div>
-                <div className="col-lg-3">
-                  <InputField
-                    value={values?.date}
-                    label="Date"
-                    name="date"
-                    type="date"
-                    onChange={(e) => {
-                      setFieldValue("date", e.target.value);
-                    }}
-                  />
-                </div> */}
+                {[2].includes(paymentType) && (
+                  <>
+                    <div className="col-lg-3">
+                      <NewSelect
+                        name="sbu"
+                        options={sbuDDl}
+                        value={values?.sbu}
+                        label="SBU"
+                        onChange={(valueOption) => {
+                          setFieldValue("sbu", valueOption);
+                        }}
+                        errors={errors}
+                        touched={touched}
+                      />
+                    </div>
+                    <div className="col-lg-3">
+                      <NewSelect
+                        name="accountingJournalTypeId"
+                        options={[
+                          { value: 4, label: "Bank Receipts " },
+                          //   { value: 5, label: "Bank Payments" },
+                          //   { value: 6, label: "Bank Transfer" },
+                        ]}
+                        value={values?.accountingJournalTypeId}
+                        label="Select Journal Type"
+                        onChange={(valueOption) => {
+                          setFieldValue("accountingJournalTypeId", valueOption);
+                        }}
+                        errors={errors}
+                        touched={touched}
+                      />
+                    </div>
+                  </>
+                )}
               </div>
 
               <button
