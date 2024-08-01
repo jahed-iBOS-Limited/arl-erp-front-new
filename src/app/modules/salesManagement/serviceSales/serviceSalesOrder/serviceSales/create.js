@@ -494,7 +494,7 @@ export default function ServiceSalesCreate() {
                     <div className="col-lg-3">
                       <InputField
                         value={values.dteActualLiveDate}
-                        label="Actual Live Date"
+                        label="Projected Live Date"
                         name="dteActualLiveDate"
                         type="date"
                         onChange={(e) => {
