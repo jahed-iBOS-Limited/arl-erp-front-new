@@ -103,7 +103,8 @@ export const editSalesReturn = async (payload, cb, setLoading) => {
   setLoading(true);
   try {
     const res = await axios.put(
-      `/oms/SalesReturnAndCancelProcess/EditSalesReturn`,
+      `/oms/SalesReturnAndCancelProcess/EditPartialSalesReturn`,
+      // `/oms/SalesReturnAndCancelProcess/EditSalesReturn`,
       payload
     );
     toast.success(res?.data?.message);

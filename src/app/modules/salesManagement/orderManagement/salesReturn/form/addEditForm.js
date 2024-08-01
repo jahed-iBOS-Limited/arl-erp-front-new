@@ -173,7 +173,7 @@ function SalesReturnForm() {
             uoMId: 0,
             uoMName: "string",
             issueQty: 0,
-            returnQty: row?.returnQty,
+            returnQty: row?.returnQty || 0,
             basePrice: row?.itemPrice,
             returnPercentage: _fixedPoint(
               (row?.returnQty / row?.quantity) * 100,
