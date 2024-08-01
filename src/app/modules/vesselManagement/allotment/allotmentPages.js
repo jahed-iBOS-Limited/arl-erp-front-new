@@ -105,6 +105,11 @@ export default function AllotmentPages() {
       {/* Tender Submission */}
 
       <ContentRoute
+        path="/vessel-management/allotment/tendersubmission/edit/:id"
+        component={TenderSubmissionCreateEditForm}
+      />
+
+      <ContentRoute
         path="/vessel-management/allotment/tendersubmission/entry"
         component={TenderSubmissionCreateEditForm}
       />
