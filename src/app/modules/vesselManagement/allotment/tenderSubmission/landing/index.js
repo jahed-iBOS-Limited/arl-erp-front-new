@@ -132,6 +132,7 @@ export default function TenderSubmissionLanding() {
                                             <th>Discharge Port</th>
                                             <th style={{ width: '150px' }}>Foreign Price (USD)</th>
                                             <th style={{ width: '150px' }}>Total Qty</th>
+                                            <th>Status</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -155,6 +156,9 @@ export default function TenderSubmissionLanding() {
                                                     </td>
                                                     <td className="text-right" style={{ width: "70px" }}>
                                                         {item?.totalQty}
+                                                    </td>
+                                                    <td style={{ width: "70px" }}>
+                                                        {item?.isAccept===null?'No':'Approved'}
                                                     </td>
                                                     <td
                                                         style={{ width: "80px" }}
