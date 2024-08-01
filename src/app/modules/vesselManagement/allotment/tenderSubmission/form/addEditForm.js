@@ -4,7 +4,7 @@ import Loading from "../../../../_helper/_loading";
 import IForm from "../../../../_helper/_form";
 import NewSelect from "../../../../_helper/_select";
 import InputField from "../../../../_helper/_inputField";
-import { businessPartnerDDL, ErrorMessage, getDischargePortDDL, GetLoadPortDDL, initData, validationSchema } from "../helper";
+import { businessPartnerDDL, convertToText, ErrorMessage, getDischargePortDDL, GetLoadPortDDL, initData, validationSchema } from "../helper";
 import { shallowEqual, useSelector } from "react-redux";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
@@ -72,7 +72,7 @@ export default function TenderSubmissionCreateEditForm() {
                 godownName: item?.godownName?.label,
                 quantity: item?.quantity,
                 perQtyTonPriceBd: item?.price,
-                perQtyPriceWords: '',
+                perQtyPriceWords: convertToText(item?.price),
                 tenderHeaderId: 0,
                 tenderRowId: 0
             }))
