@@ -13,6 +13,10 @@ import { _todayDate } from "../../../_helper/_todayDate";
 import SearchAsyncSelect from "./../../../_helper/SearchAsyncSelect";
 import IViewModal from "../../../_helper/_viewModal";
 import QRCodeScanner from "../../../_helper/qrCodeScanner";
+import {
+  getShopFloorDDL,
+  getWorkCenterNameDDL,
+} from "../../configuration/routing/helper";
 
 const initData = {
   firstWeightDate: _todayDate(),
@@ -27,6 +31,9 @@ const initData = {
   challanNo: "",
   strCardNumber: "",
   businessUnit: "",
+  plant: "",
+  shopFloorName: "",
+  packerName: "",
 };
 export default function FirstWeightCreateEdit({ weight }) {
   const [objProps, setObjprops] = useState({});
@@ -37,23 +44,35 @@ export default function FirstWeightCreateEdit({ weight }) {
   // eslint-disable-next-line no-unused-vars
   const [regData, getRegData, regDataLoader] = useAxiosGet();
   const [QRCodeScannerModal, setQRCodeScannerModal] = useState(false);
-  const { profileData } = useSelector((state) => {
+  const [plantDDL, getPlantDDL] = useAxiosGet();
+  const [shopFloorDDL, setShopFloorDDL] = useState([]);
+  const [packerDDL, setPackerDDL] = useState([]);
+
+  const {
+    profileData: { accountId: accId, userId },
+    selectedBusinessUnit,
+    businessUnitList: businessUnitDDL,
+  } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
 
-  const businessUnitDDL = useSelector((state) => {
-    return state.authData.businessUnitList;
-  }, shallowEqual);
+  // const businessUnitDDL = useSelector((state) => {
+  //   return state.authData.businessUnitList;
+  // }, shallowEqual);
 
-  const selectedBusinessUnit = useSelector((state) => {
-    return state.authData.selectedBusinessUnit;
-  }, shallowEqual);
+  // const selectedBusinessUnit = useSelector((state) => {
+  //   return state.authData.selectedBusinessUnit;
+  // }, shallowEqual);
 
   useEffect(() => {
     if (selectedBusinessUnit) {
       initData.businessUnit = selectedBusinessUnit;
     }
-  }, [selectedBusinessUnit]);
+    getPlantDDL(
+      `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accId}&BusinessUnitId=${selectedBusinessUnit?.value}&OrgUnitTypeId=7`
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedBusinessUnit, accId, userId]);
 
   const saveHandler = async (values, cb) => {
     if (!values?.entryCode?.value) return toast.warn("প্রবেশের কোড প্রয়োজন");
@@ -70,7 +89,8 @@ export default function FirstWeightCreateEdit({ weight }) {
         intPartnerId: 0,
         numWeight: +values?.firstWeight,
         strRemarks: values?.firstWeightRemarks || "",
-        intActionBy: profileData?.userId,
+        intActionBy: userId,
+        strPackareName: values?.packerName?.label,
       },
       cb,
       true
@@ -441,6 +461,66 @@ export default function FirstWeightCreateEdit({ weight }) {
                         />
                       </div>
                     ) : null}
+
+                    <div className="col-lg-3">
+                      <NewSelect
+                        label="Plant"
+                        options={plantDDL}
+                        onChange={(valueOption) => {
+                          setFieldValue("plant", valueOption);
+                          getShopFloorDDL(
+                            accId,
+                            selectedBusinessUnit?.value,
+                            valueOption?.value,
+                            setShopFloorDDL
+                          );
+                        }}
+                        value={values.plant}
+                        name="plant"
+                        placeholder="Plant"
+                        errors={errors}
+                        touched={touched}
+                      />
+                    </div>
+                    <div className="col-lg-3">
+                      <NewSelect
+                        name="shopFloorName"
+                        options={shopFloorDDL}
+                        value={values?.shopFloorName}
+                        label="Shop Floor Name"
+                        onChange={(valueOption) => {
+                          setFieldValue("shopFloorName", valueOption);
+
+                          getWorkCenterNameDDL(
+                            accId,
+                            selectedBusinessUnit?.value,
+                            values?.plant?.value,
+                            valueOption?.value,
+                            setPackerDDL
+                          );
+                          setFieldValue("packerName", "");
+                        }}
+                        placeholder="Shop Floor Name"
+                        errors={errors}
+                        touched={touched}
+                        isDisabled={!values?.plant}
+                      />
+                    </div>
+                    <div className="col-lg-3">
+                      <NewSelect
+                        label="Packer Name"
+                        options={packerDDL}
+                        onChange={(valueOption) => {
+                          setFieldValue("packerName", valueOption);
+                        }}
+                        value={values.packerName}
+                        placeholder="Packer Name"
+                        name="packerName"
+                        errors={errors}
+                        touched={touched}
+                        isDisabled={!values?.shopFloorName}
+                      />
+                    </div>
 
                     <div className="col-lg-3">
                       <InputField
