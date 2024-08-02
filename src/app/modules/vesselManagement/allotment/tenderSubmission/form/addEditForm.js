@@ -10,6 +10,7 @@ import { shallowEqual, useSelector } from "react-redux";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import AttachmentUploaderNew from "../../../../_helper/attachmentUploaderNew";
 
 
 
@@ -24,6 +25,7 @@ export default function TenderSubmissionCreateEditForm() {
     const [godownDDL, getGodownDDL, getGodownDDLLoading, updateGodownDDLLoading] = useAxiosGet()
     const [tenderDetails, getTenderDetails] = useAxiosGet()
     const [, submitTender, submitTenderLoading] = useAxiosPost()
+    // const [, onAttachmentUpload, onAttachmentUploadLoading] = useAxiosPost()
 
     const getGodownDDLList = (businessPartner) => {
         const url = `/tms/LigterLoadUnload/GetShipToPartnerG2GPagination?AccountId=${accountId}&BusinessUnitId=${buUnId}&BusinessPartnerId=${businessPartner?.value}&PageNo=${0}&PageSize=${100}`
@@ -43,7 +45,6 @@ export default function TenderSubmissionCreateEditForm() {
         GetLoadPortDDL(setLoadPortDDL)
         // Id Id (Edit)
         if (id && state) {
-            console.log({ businessPartner: { value: state?.businessPartnerId } })
             fetchTenderDetails(id)
             getGodownDDLList({ value: state?.businessPartnerId })
         }
@@ -80,7 +81,8 @@ export default function TenderSubmissionCreateEditForm() {
                 referenceNo: values?.referenceNo,
                 referenceDate: values?.referenceDate,
                 actionBy: userId,
-                isActive: true
+                isActive: true,
+                isAccept: values?.approveStatus?.value
             },
             rows: values?.localTransportations?.map(item => ({
                 godownId: item?.godownName?.value,
@@ -122,6 +124,10 @@ export default function TenderSubmissionCreateEditForm() {
             commercialDate: _dateFormatter(header?.commercialDate),
             referenceNo: header?.referenceNo,
             referenceDate: _dateFormatter(header?.referenceDate),
+            approveStatus: {
+                label: header?.approveStatus?.label,
+                value: header?.approveStatus?.value,
+            },
             localTransportations: rows?.map(item => {
                 return {
                     tenderRowId: item?.tenderRowId,
@@ -318,6 +324,39 @@ export default function TenderSubmissionCreateEditForm() {
                                         }}
                                     />
                                 </div>
+                                {
+                                    id && <>
+                                        <div class="col-lg-3">
+                                            <NewSelect
+                                                name="approveStatus"
+                                                options={[{ value: 0, label: 'No' }, { value: 1, label: 'Approve' }]}
+                                                value={values?.approveStatus}
+                                                label="Approve Status"
+                                                onChange={(valueOption) => {
+                                                    setFieldValue("approveStatus", valueOption);
+                                                }}
+                                                errors={errors}
+                                                touched={touched}
+                                            />
+                                        </div>
+                                        <div className="col-lg-3 mt-3 d-flex align-items-center">
+                                            <p className="mr-2">Upload Attachment</p>
+                                            <AttachmentUploaderNew
+                                                CBAttachmentRes={(image) => {
+                                                    if (image.length > 0) {
+                                                        console.log(image)
+                                                        // onAttachmentUpload('/oms/OManagementReport/UpdateSalesInvoiceAttachment', )
+                                                        setFieldValue("attachment", image[0].id)
+                                                    }
+                                                }}
+                                                showIcon
+                                                attachmentIcon='fa fa-paperclip'
+                                                customStyle={{ 'background': 'transparent', 'padding': '4px 0' }}
+                                                fileUploadLimits={1}
+                                            />
+                                        </div>
+                                    </>
+                                }
 
                                 <div className="col-lg-12 mt-2">
                                     <h4>Local Transport</h4>

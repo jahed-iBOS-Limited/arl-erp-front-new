@@ -36,6 +36,7 @@ export const initData = {
     commercialDate: "",
     referenceNo: "",
     referenceDate: "",
+    approveStatus: "",
     localTransportations: [{
         godownName: "",
         quantity: "",
