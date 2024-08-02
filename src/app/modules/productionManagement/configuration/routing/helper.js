@@ -87,7 +87,14 @@ export const getShopFloorDDL = (accId, buId, plantId, setter) => {
       setter(res.data);
     });
 };
-export const getBomNameDDL = (accId, buId, plantId, itemId, shopFloorId, setter) => {
+export const getBomNameDDL = (
+  accId,
+  buId,
+  plantId,
+  itemId,
+  shopFloorId,
+  setter
+) => {
   axios
     .get(
       `/mes/MesDDL/GetBoMNameDDL?AccountId=${accId}&BusinessUnitId=${buId}&PlantId=${plantId}&ItemId=${itemId}&ShopFloorId=${shopFloorId}`
@@ -109,7 +116,10 @@ export const getWorkCenterNameDDL = (
       `/mes/MesDDL/GetWorkCenterDDL?AccountId=${accId}&BusinessUnitId=${buId}&PlantId=${plantId}&ShopFloorId=${shopFloorId}`
     )
     .then((res) => {
-      setter(res.data);
+      const modifiedData = res?.data?.filter(
+        (item) => item?.label.split("-")[0].toLowerCase() === "packer"
+      );
+      setter(modifiedData);
     });
 };
 
