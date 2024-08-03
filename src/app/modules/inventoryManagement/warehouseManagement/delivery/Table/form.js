@@ -1,34 +1,35 @@
+import { Form, Formik } from "formik";
 import React, { useEffect } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import * as Yup from "yup";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import { setDeliveryLandingAction } from "../../../../_helper/reduxForLocalStorage/Actions";
 import {
-  ModalProgressBar,
+  clearGridDataActions,
+  getDeliveryGridData,
+  getDistributionChannelDDLAction,
+  getSBUDDLDelivery_Aciton,
+  GetShipPointDDLAction,
+  GetWarehouseDDLAction,
+} from "../_redux/Actions";
+import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
+  ModalProgressBar,
 } from "./../../../../../../_metronic/_partials/controls";
-import { TableRow } from "./tableRow";
-import NewSelect from "./../../../../_helper/_select";
-import { useSelector } from "react-redux";
-import { shallowEqual, useDispatch } from "react-redux";
-import {
-  getSBUDDLDelivery_Aciton,
-  getDistributionChannelDDLAction,
-  GetShipPointDDLAction,
-  getDeliveryGridData,
-  GetWarehouseDDLAction,
-  clearGridDataActions,
-} from "../_redux/Actions";
-import { setDeliveryLandingAction } from "../../../../_helper/reduxForLocalStorage/Actions";
 import InputField from "./../../../../_helper/_inputField";
+import NewSelect from "./../../../../_helper/_select";
 import { _todayDate } from "./../../../../_helper/_todayDate";
+import { TableRow } from "./tableRow";
 // Validation schema
 const validationSchema = Yup.object().shape({});
 
 const initData = {
   sbu: "",
+  plant: "",
   distributionChannel: "",
   shipPoint: "",
   status: { value: false, label: "Incomplete" },
@@ -42,6 +43,7 @@ export default function HeaderFormDedivery() {
   const history = useHistory();
   const dispatch = useDispatch();
   const [loading, setLoading] = React.useState(false);
+  const [plantDDL, getPlantDDL] = useAxiosGet();
 
   const deliveryLanding = useSelector((state) => {
     return state.localStorage.deliveryLanding;
@@ -70,6 +72,9 @@ export default function HeaderFormDedivery() {
 
   useEffect(() => {
     if (selectedBusinessUnit?.value && profileData?.accountId) {
+      getPlantDDL(
+        `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${profileData?.userId}&AccId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&OrgUnitTypeId=7`
+      );
       dispatch(
         getSBUDDLDelivery_Aciton(
           profileData.accountId,
@@ -225,6 +230,22 @@ export default function HeaderFormDedivery() {
                         touched={touched}
                       />
                     </div>
+                    {selectedBusinessUnit?.value === 144 && (
+                      <div className="col-lg-2">
+                        <NewSelect
+                          name="plant"
+                          options={plantDDL || []}
+                          value={values?.plant}
+                          label="Plant"
+                          onChange={(valueOption) => {
+                            setFieldValue("plant", valueOption);
+                          }}
+                          placeholder="Plant"
+                          errors={errors}
+                          touched={touched}
+                        />
+                      </div>
+                    )}
                     <div className="col-lg-2">
                       <NewSelect
                         name="distributionChannel"
