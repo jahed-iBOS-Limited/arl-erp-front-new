@@ -158,7 +158,7 @@ export default function TenderSubmissionLanding() {
                                                         {item?.totalQty}
                                                     </td>
                                                     <td style={{ width: "70px" }}>
-                                                        {item?.isAccept === false ? 'No' : 'Approved'}
+                                                        {item?.isAccept === null ? 'No' : 'Approved'}
                                                     </td>
                                                     <td
                                                         style={{ width: "80px" }}
