@@ -16,6 +16,8 @@ import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import { addMonthsToDate, calculateMonthDifference } from "./helper";
 import Schedule from "./schedule";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import { dateFormatterForInput } from "../../../../productionManagement/msilProduction/meltingProduction/helper";
+import moment from "moment";
 
 const initData = {
   distributionChannel: "",
@@ -45,7 +47,7 @@ export default function ServiceSalesCreate({ isEdit = false, singleData }) {
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
-
+  console.log({ singleData });
   const [objProps, setObjprops] = useState({});
   const [attachmentList, setAttachmentList] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
@@ -59,6 +61,7 @@ export default function ServiceSalesCreate({ isEdit = false, singleData }) {
   const [actualVatAmount, setActualVatAmount] = useState(0);
   const formikRef = React.useRef(null);
   const [, saveHandlerFunc, loader] = useAxiosPost();
+  const [, updateSalesOrder, load] = useAxiosPost();
   const [salesOrgList, getSalesOrgList, salesOrgListLoader] = useAxiosGet();
   const [channelDDL, getChannelDDL, channelDDLloader] = useAxiosGet();
   const [accountManagerList, getAccountManagerList] = useAxiosGet();
@@ -111,6 +114,7 @@ export default function ServiceSalesCreate({ isEdit = false, singleData }) {
   }, [profileData, selectedBusinessUnit]);
 
   const saveHandler = (values, cb) => {
+    console.log({ values, itemList, scheduleList, scheduleListFOneTime });
     if (!values?.distributionChannel?.value)
       return toast.warn("Distribution Channel is required");
     if (itemList?.length < 0) return toast.warn("Add at least one Item");
@@ -193,13 +197,111 @@ export default function ServiceSalesCreate({ isEdit = false, singleData }) {
     };
 
     console.log("payload", payload);
-
-    saveHandlerFunc(
-      `oms/ServiceSales/createServiceSalesOrder`,
-      payload,
-      cb,
-      true
-    );
+    if (isEdit) {
+      const header = {
+        intServiceSalesOrderId: singleData?.intServiceSalesOrderId,
+        strServiceSalesOrderCode: singleData?.strServiceSalesOrderCode,
+        intAccountId: singleData?.intAccountId,
+        intBusinessUnitId: singleData?.intBusinessUnitId,
+        dteOrderDate:
+          values?.agreementStartDate || singleData?.dteStartDateTime,
+        intDistributionChannelId: values?.distributionChannel?.value,
+        strDistributionChannelName: values?.distributionChannel?.label,
+        intPaymentTypeId: values?.paymentType?.value || 0,
+        strPaymentType: values?.paymentType?.label,
+        intSalesTypeId: values?.salesOrg?.value,
+        strSalesTypeName: values?.salesOrg?.label,
+        intCustomerId: values?.customer?.value,
+        strCustomerCode: values?.customer?.code || singleData?.strCustomerCode,
+        strCustomerName: values?.customer?.label || singleData?.strCustomerName,
+        strCustomerAddress:
+          values?.customer?.address || singleData?.strCustomerAddress,
+        intScheduleTypeId:
+          values?.paymentType?.value === 2
+            ? 4
+            : values?.scheduleType?.value || 0,
+        strScheduleTypeName:
+          values?.paymentType?.value === 2
+            ? "One Time"
+            : values?.scheduleType?.label || "",
+        intScheduleDayCount:
+          +values?.invoiceDay || singleData?.intScheduleDayCount,
+        dteStartDateTime:
+          values?.agreementStartDate || singleData?.dteStartDateTime,
+        dteEndDateTime: values?.agreementEndDate || singleData?.dteEndDateTime,
+        dteActualLiveDate:
+          values?.dteActualLiveDate || singleData?.dteActualLiveDate,
+        intWarrantyMonth:
+          values?.intWarrantyMonth || singleData?.intWarrantyMonth,
+        dteWarrantyEndDate:
+          values?.dteWarrantyEndDate || singleData?.dteWarrantyEndDate || null,
+        intAccountManagerEnroll:
+          values?.accountManager?.value ||
+          singleData?.intAccountManagerEnroll ||
+          0,
+        strAccountManagerName:
+          values?.accountManager?.label ||
+          singleData?.strAccountManagerName ||
+          "",
+        intOnetimeServiceSalesOrderId: 0,
+        numTotalSalesAmount: 0,
+        numScheduleAmount: +values?.numScheduleAmount || 0,
+        numServerAmount: +values?.numServerAmount || 0,
+        strAttachmentLink:
+          attachmentList[0]?.id || singleData?.strAttachmentLink,
+        isActive: true,
+        intActionBy: profileData?.userId,
+      };
+      const row = itemList?.map((item) => ({
+        intServiceSalesOrderRowId: item?.intServiceSalesOrderRowId,
+        intServiceSalesOrderId: item?.intServiceSalesOrderId,
+        intItemId: item?.value || item?.intItemId,
+        strItemName: item?.label || item?.strItemName,
+        strUom: item?.strUom || "",
+        numSalesQty: +item?.qty || +item?.numSalesQty || 0,
+        numRate: +item?.rate || +item?.numRate || 0,
+        numSalesAmount:
+          (+item?.qty || +item?.numSalesQty || 0) *
+          (+item?.rate || +item?.numRate || 0),
+        numSalesVatAmount: item?.vatAmount || +item?.numSalesVatAmount || 0,
+        numNetSalesAmount: +netAmount || item?.numNetSalesAmount || 0,
+        isActive: true,
+      }));
+      const schedule = scheduleArray?.map((schedule) => ({
+        intServiceSalesScheduleId: schedule?.intServiceSalesScheduleId || 0,
+        intServiceSalesOrderId: schedule?.intServiceSalesOrderId || 0,
+        dteScheduleDateTime:
+          schedule?.dteScheduleCreateDateTime || _todayDate(),
+        dteDueDateTime: schedule?.dueDate || schedule?.dteDueDateTime,
+        intPaymentByPercent:
+          +schedule?.percentage || +schedule?.intPaymentByPercent0,
+        numScheduleVatAmount:
+          +schedule?.scheduleListFOneTimeVat ||
+          +schedule?.vatAmount ||
+          +schedule?.numScheduleVatAmount,
+        numScheduleAmount: +schedule?.amount || schedule?.numScheduleAmount,
+        strRemarks: schedule?.remarks || schedule?.strRemarks || "",
+        isInvoiceComplete: schedule?.isInvoiceComplete,
+        isActive: true,
+      }));
+      updateSalesOrder(
+        `/oms/ServiceSales/UpdateServiceSalesOrder`,
+        {
+          header: header,
+          row: row,
+          schedule: schedule,
+        },
+        cb,
+        true
+      );
+    } else {
+      saveHandlerFunc(
+        `oms/ServiceSales/createServiceSalesOrder`,
+        payload,
+        cb,
+        true
+      );
+    }
   };
 
   const getTotalPersecentage = (newValue, index) => {
@@ -211,6 +313,38 @@ export default function ServiceSalesCreate({ isEdit = false, singleData }) {
       }
     }, 0);
   };
+  useEffect(() => {
+    if (isEdit) {
+      const mappedItems = singleData?.items.map((item) => ({
+        ...item,
+        strItemCode: item.intItemId, // Assuming intItemId is used as Item Code
+        label: item.strItemName,
+        qty: item.numSalesQty,
+        rate: item.numRate,
+        amount: item.numSalesAmount,
+        vat:
+          item.numSalesVatAmount === 0
+            ? "0%"
+            : `${((item.numSalesVatAmount / item.numSalesAmount) * 100).toFixed(
+                2
+              )}%`,
+        vatAmount: item.numSalesVatAmount,
+        netAmount: item.numNetSalesAmount,
+      }));
+      const transformedSchedules = singleData.schedules.map((schedule) => ({
+        ...schedule,
+        dueDate: moment(schedule.dteDueDateTime).format("YYYY-MM-DD"), // Convert to 'YYYY-MM-DD' format
+        percentage: schedule.intPaymentByPercent,
+        amount: schedule.numScheduleAmount,
+        scheduleListFOneTimeVat: schedule.numScheduleVatAmount,
+        remarks: schedule.strRemarks || "",
+        isInvoiceComplete: schedule.isInvoiceComplete,
+      }));
+
+      setSheduleListFOneTime(transformedSchedules);
+      setItemList(mappedItems);
+    }
+  }, [isEdit, singleData]);
 
   return (
     <Formik
@@ -223,7 +357,18 @@ export default function ServiceSalesCreate({ isEdit = false, singleData }) {
                 value: singleData?.intSalesTypeId,
                 label: singleData?.strSalesTypeName,
               },
+              distributionChannel: {
+                value: singleData?.intDistributionChannelId,
+                label: singleData?.strDistributionChannelName,
+              },
+              accountManager: {
+                value: singleData?.intAccountManagerEnroll,
+                label: singleData?.strAccountManagerName,
+              },
               billToParty: singleData?.strCustomerName,
+              numScheduleAmount: singleData?.numScheduleAmount,
+              numServerAmount: singleData?.numServerAmount,
+
               customer: {
                 value: singleData?.intCustomerId,
                 label: singleData?.strCustomerName,
@@ -232,10 +377,19 @@ export default function ServiceSalesCreate({ isEdit = false, singleData }) {
                 value: singleData?.intItemId || "",
                 label: singleData?.strItemName || "",
               },
-              agreementStartDate: singleData?.agreementStartDate,
-              agreementEndDate: singleData?.dteEndDateTime,
+              agreementStartDate: moment(singleData?.dteStartDateTime).format(
+                "YYYY-MM-DD"
+              ),
+              agreementEndDate: moment(singleData?.dteEndDateTime).format(
+                "YYYY-MM-DD"
+              ),
               intWarrantyMonth: singleData?.intWarrantyMonth,
-              dteWarrantyEndDate: singleData?.dteWarrantyEndDate,
+              dteWarrantyEndDate: dateFormatterForInput(
+                singleData?.dteWarrantyEndDate
+              ),
+              dteActualLiveDate: dateFormatterForInput(
+                singleData?.dteActualLiveDate
+              ),
             }
           : initData
       }
@@ -264,8 +418,14 @@ export default function ServiceSalesCreate({ isEdit = false, singleData }) {
             salesOrgListLoader ||
             loading ||
             customerListLoader ||
+            load ||
             itemDDLloader) && <Loading />}
-          <IForm title="Create Service Sales Order" getProps={setObjprops}>
+          <IForm
+            title={`${isEdit ? "Edit" : "Create"} Service Sales Order`}
+            getProps={setObjprops}
+          >
+            {console.log({ values })}
+
             <Form>
               <div className="form-group  global-form row">
                 <div className="col-lg-3">
@@ -279,6 +439,7 @@ export default function ServiceSalesCreate({ isEdit = false, singleData }) {
                     }}
                     errors={errors}
                     touched={touched}
+                    // isDisabled={isEdit}
                   />
                 </div>
                 <div className="col-lg-3">
@@ -292,6 +453,7 @@ export default function ServiceSalesCreate({ isEdit = false, singleData }) {
                     }}
                     errors={errors}
                     touched={touched}
+                    isDisabled={isEdit}
                   />
                 </div>
                 <div className="col-lg-3">
@@ -325,6 +487,7 @@ export default function ServiceSalesCreate({ isEdit = false, singleData }) {
                 <div className="col-lg-3">
                   <NewSelect
                     name="customer"
+                    isDisabled={isEdit}
                     options={customerList || []}
                     value={values?.customer}
                     label="Customer"
@@ -344,6 +507,7 @@ export default function ServiceSalesCreate({ isEdit = false, singleData }) {
                     options={itemDDL || []}
                     value={values?.item}
                     label="Item Name"
+                    isDisabled={isEdit}
                     onChange={(valueOption) => {
                       setFieldValue("item", valueOption);
                       setAgreementDatesForRecuuring(null);
@@ -372,6 +536,7 @@ export default function ServiceSalesCreate({ isEdit = false, singleData }) {
                 </div>
                 <div className="col-lg-3">
                   <InputField
+                    disabled={isEdit}
                     value={values?.billToParty}
                     label="Bill To Party"
                     name="billToParty"
@@ -587,6 +752,7 @@ export default function ServiceSalesCreate({ isEdit = false, singleData }) {
                     </div>
                     <div className="col-lg-3">
                       <NewSelect
+                        isDisabled={isEdit}
                         name="accountManager"
                         options={accountManagerList || []}
                         value={values?.accountManager}
@@ -986,6 +1152,7 @@ export default function ServiceSalesCreate({ isEdit = false, singleData }) {
                                   <InputField
                                     value={item?.dueDate}
                                     type="date"
+                                    disabled={isEdit}
                                     onChange={(e) => {
                                       let data = [...scheduleListFOneTime];
                                       data[index]["dueDate"] = e.target.value;
@@ -998,6 +1165,7 @@ export default function ServiceSalesCreate({ isEdit = false, singleData }) {
                                   <InputField
                                     value={item?.percentage || ""}
                                     type="number"
+                                    disabled={isEdit}
                                     onChange={(e) => {
                                       const newValue = +e.target.value;
                                       let totalPercentage = getTotalPersecentage(
@@ -1040,6 +1208,7 @@ export default function ServiceSalesCreate({ isEdit = false, singleData }) {
                                 <td>
                                   <InputField
                                     value={item?.remarks}
+                                    disabled={isEdit}
                                     type="text"
                                     onChange={(e) => {
                                       let updatedScheduleList = [
