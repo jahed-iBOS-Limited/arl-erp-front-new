@@ -82,7 +82,7 @@ export default function TenderSubmissionCreateEditForm() {
                 referenceDate: values?.referenceDate,
                 actionBy: userId,
                 isActive: true,
-                isAccept: values?.approveStatus?.value
+                isAccept: values?.approveStatus
             },
             rows: values?.localTransportations?.map(item => ({
                 godownId: item?.godownName?.value,
@@ -124,10 +124,7 @@ export default function TenderSubmissionCreateEditForm() {
             commercialDate: _dateFormatter(header?.commercialDate),
             referenceNo: header?.referenceNo,
             referenceDate: _dateFormatter(header?.referenceDate),
-            approveStatus: {
-                label: header?.approveStatus?.label,
-                value: header?.approveStatus?.value,
-            },
+            approveStatus: header?.approveStatus,
             localTransportations: rows?.map(item => {
                 return {
                     tenderRowId: item?.tenderRowId,
@@ -326,21 +323,25 @@ export default function TenderSubmissionCreateEditForm() {
                                 </div>
                                 {
                                     id && <>
-                                        <div class="col-lg-3">
-                                            <NewSelect
-                                                name="approveStatus"
-                                                options={[{ value: 0, label: 'No' }, { value: 1, label: 'Approve' }]}
-                                                value={values?.approveStatus}
-                                                label="Approve Status"
-                                                onChange={(valueOption) => {
-                                                    setFieldValue("approveStatus", valueOption);
-                                                }}
-                                                errors={errors}
-                                                touched={touched}
-                                            />
-                                        </div>
+                                        {tenderDetails?.header?.isAccept !== true &&
+                                            <div className="col-lg-3 mt-5 d-flex align-items-center">
+                                                <input
+                                                    type="checkbox"
+                                                    id="approveStatus"
+                                                    name="approveStatus"
+                                                    value={values?.approveStatus}
+                                                    checked={values?.approveStatus}
+                                                    onChange={(e) => {
+                                                        setFieldValue('approveStatus', e.target.checked)
+                                                    }}
+
+                                                />
+                                                <label htmlFor="approveStatus" className="pl-1">
+                                                    Approve
+                                                </label>
+                                            </div>
+                                        }
                                         <div className="col-lg-3 mt-3 d-flex align-items-center">
-                                            <p className="mr-2">Upload Attachment</p>
                                             <AttachmentUploaderNew
                                                 CBAttachmentRes={(image) => {
                                                     if (image.length > 0) {
@@ -349,8 +350,8 @@ export default function TenderSubmissionCreateEditForm() {
                                                         setFieldValue("attachment", image[0].id)
                                                     }
                                                 }}
-                                                showIcon
-                                                attachmentIcon='fa fa-paperclip'
+                                                // showIcon
+                                                // attachmentIcon='fa fa-paperclip'
                                                 customStyle={{ 'background': 'transparent', 'padding': '4px 0' }}
                                                 fileUploadLimits={1}
                                             />
