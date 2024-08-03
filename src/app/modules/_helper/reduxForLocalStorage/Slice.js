@@ -660,6 +660,16 @@ const initState = {
     warehouse: "",
     fromDate: _monthFirstDate(),
     toDate: _todayDate(),
+  },
+  SalesCollectionInitData : {
+    customer: "",
+    type: { value: 1, label: "Pending for Invoice" },
+    paymentType: "",
+    fromDate: "",
+    toDate: "",
+  
+    sbu: "",
+    accountingJournalTypeId: { value: 4, label: "Bank Receipts " },
   }
 };
 
@@ -1163,6 +1173,10 @@ export const localStorageSlice = createSlice({
     setItemQualityCheckLandingInitData: (state, action) => {
       const { payload } = action;
       state.ItemQualityCheckLandingInitData = payload;
+    },
+    setSalesCollectionInitData: (state, action) => {
+      const { payload } = action;
+      state.SalesCollectionInitData = payload;
     },
   },
 });

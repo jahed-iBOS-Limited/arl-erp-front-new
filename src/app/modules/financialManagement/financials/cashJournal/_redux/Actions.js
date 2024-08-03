@@ -11,14 +11,14 @@ export const saveCashJournal_Action = (payload) => () => {
     .then((res) => {
       if (res.status === 200) {
         toast.success(res.data?.message || "Submitted successfully");
-        payload.cb();
+        payload.cb(res?.data?.code);
         payload.setDisabled(false);
-        const obj = {
-          title: "Cash Journal Code",
-          message: res?.data?.code,
-          noAlertFunc: () => {},
-        };
-        payload.IConfirmModal(obj);
+        // const obj = {
+        //   title: "Cash Journal Code",
+        //   message: res?.data?.code,
+        //   noAlertFunc: () => {},
+        // };
+        // payload.IConfirmModal(obj);
       }
     })
     .catch((err) => {

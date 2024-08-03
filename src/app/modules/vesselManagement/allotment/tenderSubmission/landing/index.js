@@ -22,7 +22,7 @@ export default function TenderSubmissionLanding() {
     const printRef = useRef()
     const { profileData: { accountId }, selectedBusinessUnit: { value: buUnId } } = useSelector(state => state.authData, shallowEqual)
 
-    const [pageNo, setPageNo] = useState(0)
+    const [pageNo, setPageNo] = useState(1)
     const [pageSize, setPageSize] = useState(15)
     const [submittedTenderLists, getSubmittedTenderLists, getSubmittedTenderLoading] = useAxiosGet()
     const [tenderDetails, getTenderDetails, getTenderDetailsLoading] = useAxiosGet()
@@ -64,9 +64,9 @@ export default function TenderSubmissionLanding() {
     // }
 
     // Callback approch for fetch details along with print page view
-    const fetchTenderDetailsCallback = (tenderId, loading, callback) => {
+    const fetchTenderDetailsCallback = (tenderId, callback) => {
         const url = `/tms/TenderSubmission/GetTenderSubmissionById?AccountId=${accountId}&BusinessUnitId=${buUnId}&TenderId=${tenderId}`
-        getTenderDetails(url, ()=> {
+        getTenderDetails(url, () => {
             callback()
         })
     }
@@ -125,13 +125,14 @@ export default function TenderSubmissionLanding() {
                                     <thead>
                                         <tr className="cursor-pointer">
                                             <th>SL</th>
-                                            <th style={{width: '150px'}}>Business Partner</th>
+                                            <th style={{ width: '150px' }}>Business Partner</th>
                                             <th>Enquiry No</th>
                                             <th>Item Name</th>
                                             <th>Load Port</th>
                                             <th>Discharge Port</th>
-                                            <th style={{width: '150px'}}>Foreign Price (USD)</th>
-                                            <th style={{width: '150px'}}>Total Qt</th>
+                                            <th style={{ width: '150px' }}>Foreign Price (USD)</th>
+                                            <th style={{ width: '150px' }}>Total Qty</th>
+                                            <th>Status</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -148,13 +149,16 @@ export default function TenderSubmissionLanding() {
                                                     <td>{item?.businessPartnerName}</td>
                                                     <td>{item?.enquiryNo}</td>
                                                     <td>{item?.itemName}</td>
-                                                    <td>{item?.loadPortName}</td>
-                                                    <td>{item?.dischargePortName}</td>
-                                                    <td className="text-right">
+                                                    <td style={{ width: "200px" }}>{item?.loadPortName}</td>
+                                                    <td style={{ width: "200px" }}>{item?.dischargePortName}</td>
+                                                    <td className="text-right" style={{ width: "70px" }}>
                                                         {item?.foreignPriceUsd}
                                                     </td>
-                                                    <td className="text-right">
+                                                    <td className="text-right" style={{ width: "70px" }}>
                                                         {item?.totalQty}
+                                                    </td>
+                                                    <td style={{ width: "70px" }}>
+                                                        {item?.isAccept===null?'No':'Approved'}
                                                     </td>
                                                     <td
                                                         style={{ width: "80px" }}
@@ -164,8 +168,10 @@ export default function TenderSubmissionLanding() {
                                                             <span>
                                                                 <IEdit
                                                                     onClick={() => {
-                                                                        // setFormType("edit");
-                                                                        // setSingleItem(item);
+                                                                        history.push({
+                                                                            pathname: `/vessel-management/allotment/tendersubmission/edit/${item?.tenderId}`,
+                                                                            state: item
+                                                                        });
                                                                         // setShow(true);
                                                                     }}
                                                                 // id={item?.shiptoPartnerId}
@@ -179,7 +185,7 @@ export default function TenderSubmissionLanding() {
                                                                 // }}
                                                                 // 2nd approch
                                                                 onClick={() => {
-                                                                    fetchTenderDetailsCallback(item?.tenderId, getSubmittedTenderLoading, handleTenderPrint)
+                                                                    fetchTenderDetailsCallback(item?.tenderId, handleTenderPrint)
                                                                 }}
                                                             >
                                                                 <OverlayTrigger
@@ -234,7 +240,7 @@ export default function TenderSubmissionLanding() {
                                                 height: "150px",
                                                 backgroundPosition: "left 10px",
                                                 backgroundSize: "cover",
-                                                // position: "fixed",
+                                                position: "fixed",
                                                 width: "100%",
                                                 top: "-50px",
                                             }}
@@ -258,7 +264,7 @@ export default function TenderSubmissionLanding() {
                                                 backgroundPosition: "left bottom",
                                                 backgroundSize: "cover",
                                                 bottom: "-0px",
-                                                // position: "fixed",
+                                                position: "fixed",
                                                 width: "100%",
                                             }}
                                         ></div>

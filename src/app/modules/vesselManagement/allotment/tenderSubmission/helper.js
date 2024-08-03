@@ -36,6 +36,7 @@ export const initData = {
     commercialDate: "",
     referenceNo: "",
     referenceDate: "",
+    approveStatus: "",
     localTransportations: [{
         godownName: "",
         quantity: "",
@@ -73,6 +74,7 @@ export const validationSchema = Yup.object({
 });
 
 
+// Get Load Port DDL (Naltional Load)
 export const getDischargePortDDL = async (setter) => {
     try {
         const res = await axios.get(`/wms/FertilizerOperation/GetDomesticPortDDL`);
@@ -82,6 +84,7 @@ export const getDischargePortDDL = async (setter) => {
     }
 };
 
+// Get Load Port DDL (Internaltional Load)
 export const GetLoadPortDDL = async (setter) => {
     try {
         const res = await axios.get(
@@ -92,3 +95,44 @@ export const GetLoadPortDDL = async (setter) => {
         setter([]);
     }
 };
+
+// For number to text convert
+const ones = ["", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"];
+const teens = ["Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"];
+const tens = ["", "", "Twenty", "Thirty", "Fourty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"];
+const thousands = ["", "Thousand", "Lakh", "Crore"];
+
+// Helper function for convert number to text
+function convertBelowThousand(num) {
+    if (num === 0) return "";
+    if (num < 10) return ones[num];
+    if (num < 20) return teens[num - 10];
+    if (num < 100) return tens[Math.floor(num / 10)] + (num % 10 !== 0 ? " " + ones[num % 10] : "");
+    return ones[Math.floor(num / 100)] + " Hundred" + (num % 100 !== 0 ? " and " + convertBelowThousand(num % 100) : "");
+}
+
+// Helper function for convert number to text
+function convertToWords(num) {
+    if (num === 0) return "Zero";
+
+    let parts = [];
+    let thousandIndex = 0;
+
+    while (num > 0) {
+        let part = num % 1000;
+        if (part > 0) {
+            parts.unshift(convertBelowThousand(part) + (thousands[thousandIndex] ? " " + thousands[thousandIndex] : ""));
+        }
+        num = Math.floor(num / 1000);
+        thousandIndex++;
+    }
+
+    return parts.join(" ");
+}
+
+// Main function for convert number to text
+export function convertToText(n) {
+    if (n === "") return ""
+    if (n === 0) return "ZERO TAKA ONLY";
+    return convertToWords(n).trim().toUpperCase() + " TAKA ONLY";
+}

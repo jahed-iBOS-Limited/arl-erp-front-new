@@ -132,7 +132,7 @@ function FirstWeight() {
                             getShipPoint(
                               `/mes/MSIL/GetAllMSIL?PartName=GetShipPointForVehicleEntry&BusinessUnitId=${valueOption?.value}&AutoId=${profileData?.userId}`,
                               (data) => {
-                                if (data === [])
+                                if (data?.length < 1)
                                   return toast.warn("No Ship Point Found");
                                 setFieldValue("shipPoint", data[0]);
                               }
@@ -244,6 +244,7 @@ function FirstWeight() {
                             <th>ওজন নং</th>
                             <th>1st Weight</th>
                             <th>1st Weight Time</th>
+                            <th>Packer Name</th>
 
                             {selectedBusinessUnit?.value === 171 ||
                             selectedBusinessUnit?.value === 224 ? (
@@ -287,6 +288,9 @@ function FirstWeight() {
                                   {extractTimeFromDateTime(
                                     item?.dteFirstWeightDateTime
                                   )}
+                                </td>
+                                <td className="text-center">
+                                  {item?.strPackerName}
                                 </td>
                                 {selectedBusinessUnit?.value === 171 ||
                                 selectedBusinessUnit?.value === 224 ? (

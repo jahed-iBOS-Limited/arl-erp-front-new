@@ -301,7 +301,7 @@ export default function SalesInvoiceLanding() {
                             <th>Payment Percent</th>
                             <th>Schedule Amount</th>
                             <th>Remarks</th>
-                            <th>Action</th>
+                            {/* <th>Action</th> */}
                           </tr>
                         </thead>
                         <tbody>
@@ -366,7 +366,7 @@ export default function SalesInvoiceLanding() {
                                   }}
                                 />
                               </td>
-                              <td className="text-center"><span onClick={(e)=>{
+                              {/* <td className="text-center"><span onClick={(e)=>{
                                e.stopPropagation();
                                IConfirmModal({
                                 message: `Are you sure to delete?`,
@@ -382,7 +382,7 @@ export default function SalesInvoiceLanding() {
                                 },
                                 noAlertFunc: () => {},
                               });
-                              }}><IDelete style={{fontSize:"16px"}}/></span></td>
+                              }}><IDelete style={{fontSize:"16px"}}/></span></td> */}
                             </tr>
                           ))}
                         </tbody>

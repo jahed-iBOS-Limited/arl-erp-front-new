@@ -10,7 +10,7 @@ import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import { shallowEqual, useSelector } from "react-redux";
 
 const initData = {
-  type: "",
+  type: { value: 3, label: "IHB" },
   channel: "",
   region: "",
   area: "",
@@ -48,11 +48,43 @@ const HomeBuildersInfoLanding = () => {
     );
   };
 
+  const initialValues = {
+    ...initData,
+    channel:
+      employeeInfo?.empLevelId === 7
+        ? {
+            value: employeeInfo?.empChannelId,
+            label: employeeInfo?.empChannelName,
+          }
+        : "",
+    region:
+      employeeInfo?.empLevelId === 7
+        ? {
+            value: employeeInfo?.regionId,
+            label: employeeInfo?.regionName,
+          }
+        : "",
+    area:
+      employeeInfo?.empLevelId === 7
+        ? {
+            value: employeeInfo?.areaId,
+            label: employeeInfo?.areaName,
+          }
+        : "",
+    territory:
+      employeeInfo?.empLevelId === 7
+        ? {
+            value: employeeInfo?.territoryInfoId,
+            label: employeeInfo?.territoryInfoName,
+          }
+        : "",
+  };
+
   return (
     <>
       <Formik
         enableReinitialize={true}
-        initialValues={initData}
+        initialValues={initialValues}
         onSubmit={() => {}}
       >
         {({ values, setFieldValue }) => (
