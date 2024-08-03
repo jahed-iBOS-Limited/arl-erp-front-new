@@ -119,7 +119,7 @@ export default function TenderSubmissionLanding() {
                                 <table
                                     id="table-to-xlsx"
                                     className={
-                                        "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+                                        "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm global-table"
                                     }
                                 >
                                     <thead>
@@ -158,7 +158,7 @@ export default function TenderSubmissionLanding() {
                                                         {item?.totalQty}
                                                     </td>
                                                     <td style={{ width: "70px" }}>
-                                                        {item?.isAccept === null ? 'No' : 'Approved'}
+                                                        {item?.isAccept === null || item?.isAccept === false ? 'No' : 'Approved'}
                                                     </td>
                                                     <td
                                                         style={{ width: "80px" }}
@@ -240,9 +240,9 @@ export default function TenderSubmissionLanding() {
                                                 height: "150px",
                                                 backgroundPosition: "left 10px",
                                                 backgroundSize: "cover",
-                                                position: "fixed",
+                                                // position: "fixed",
                                                 width: "100%",
-                                                top: "-50px",
+                                                top: "-60px",
                                             }}
                                         ></div>
                                     </thead>
@@ -263,7 +263,7 @@ export default function TenderSubmissionLanding() {
                                                 height: "100px",
                                                 backgroundPosition: "left bottom",
                                                 backgroundSize: "cover",
-                                                bottom: "-0px",
+                                                bottom: "-25px",
                                                 position: "fixed",
                                                 width: "100%",
                                             }}

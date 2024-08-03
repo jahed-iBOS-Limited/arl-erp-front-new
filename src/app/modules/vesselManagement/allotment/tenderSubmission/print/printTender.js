@@ -101,8 +101,8 @@ const PrintPage = ({ tenderDetails: { header, rows } }) => {
                 </>
               )
             })}
-            <tr>
-              <td colSpan={3} height={500}>
+            <tr height={500}>
+              <td colSpan={3} >
                 <span style={{ display: "block", marginBottom: "30px" }}
                 >QUOTATION ENQUIRY NO:</span>
 
