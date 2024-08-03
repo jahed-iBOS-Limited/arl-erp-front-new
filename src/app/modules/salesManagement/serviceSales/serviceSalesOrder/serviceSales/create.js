@@ -41,7 +41,7 @@ const initData = {
   numServerAmount: "",
 };
 
-export default function ServiceSalesCreate() {
+export default function ServiceSalesCreate({ isEdit = false, singleData }) {
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
@@ -215,7 +215,30 @@ export default function ServiceSalesCreate() {
   return (
     <Formik
       enableReinitialize={true}
-      initialValues={initData}
+      initialValues={
+        isEdit
+          ? {
+              ...initData,
+              salesOrg: {
+                value: singleData?.intSalesTypeId,
+                label: singleData?.strSalesTypeName,
+              },
+              billToParty: singleData?.strCustomerName,
+              customer: {
+                value: singleData?.intCustomerId,
+                label: singleData?.strCustomerName,
+              },
+              item: {
+                value: singleData?.intItemId || "",
+                label: singleData?.strItemName || "",
+              },
+              agreementStartDate: singleData?.agreementStartDate,
+              agreementEndDate: singleData?.dteEndDateTime,
+              intWarrantyMonth: singleData?.intWarrantyMonth,
+              dteWarrantyEndDate: singleData?.dteWarrantyEndDate,
+            }
+          : initData
+      }
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
           resetForm(initData);
@@ -576,27 +599,27 @@ export default function ServiceSalesCreate() {
                       />
                     </div>
                     <div className="col-lg-3">
-                  <InputField
-                    value={values?.numScheduleAmount}
-                    label="Schedule Amount"
-                    name="numScheduleAmount"
-                    type="number"
-                    onChange={(e) => {
-                      setFieldValue("numScheduleAmount", e.target.value);
-                    }}
-                  />
-                </div>
-                <div className="col-lg-3">
-                  <InputField
-                    value={values?.numServerAmount}
-                    label="Server Amount"
-                    name="numServerAmount"
-                    type="number"
-                    onChange={(e) => {
-                      setFieldValue("numServerAmount", e.target.value);
-                    }}
-                  />
-                </div>
+                      <InputField
+                        value={values?.numScheduleAmount}
+                        label="Schedule Amount"
+                        name="numScheduleAmount"
+                        type="number"
+                        onChange={(e) => {
+                          setFieldValue("numScheduleAmount", e.target.value);
+                        }}
+                      />
+                    </div>
+                    <div className="col-lg-3">
+                      <InputField
+                        value={values?.numServerAmount}
+                        label="Server Amount"
+                        name="numServerAmount"
+                        type="number"
+                        onChange={(e) => {
+                          setFieldValue("numServerAmount", e.target.value);
+                        }}
+                      />
+                    </div>
                   </>
                 ) : null}
 
