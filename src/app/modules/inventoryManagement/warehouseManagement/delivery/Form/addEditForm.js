@@ -233,6 +233,8 @@ export default function DeliveryForm({
             shipmentType: values?.shipmentType?.label || "",
             requestDeliveryDate: requestDeliveryDate,
             territoryId: values?.soldToParty?.terriToryId || 0,
+            plantId: headerData?.plant?.value,
+            plantName: headerData?.plant?.label,
           },
           objRow: rowData,
           objShipRequest: {
