@@ -15,6 +15,7 @@ const initData = {
   principalAmount: "",
   interestAmount: "",
   transDate: _todayDate(),
+  numExciseDuty: "",
 };
 
 export default function RepayCreate({
@@ -54,6 +55,7 @@ export default function RepayCreate({
       +values?.interestAmount,
       values?.transDate,
       profileData?.userId,
+      values?.numExciseDuty || 0,
       cb
     );
   };

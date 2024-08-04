@@ -265,12 +265,13 @@ export const createRepay = async (
   interestAmount,
   transDate,
   actionId,
+  numExciseDuty,
   cb
 ) => {
   try {
     const res = await Axios.post(
       `/fino/FundManagement/FundLoanRepay?accountId=${accId}&businessUnitId=${buId}&loanAccId=${loanAcc}&bankAccId=${bankAccId}&instrumentId=${instrumentId}&instrumentNo=${instrumentNo}&instrumentDate=${instrumentDate}&numAmount=${principalAmount}&numInterestAmount=${interestAmount ||
-        0}&transDate=${transDate}&actionById=${actionId}`
+        0}&transDate=${transDate}&actionById=${actionId}&numExciseDuty=${numExciseDuty}`
     );
     if (res.status === 200) {
       toast.success(res?.message || "Submitted successfully");
