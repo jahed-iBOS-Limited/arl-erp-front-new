@@ -11,6 +11,10 @@ import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import IViewModal from "../../../../_helper/_viewModal";
 import ServiceSalesCreateRecurring from "./createRecurring";
+import IEdit from "../../../../_helper/_helperIcons/_edit";
+import IView from "../../../../_helper/_helperIcons/_view";
+import ServiceSalesOrderView from "./View";
+import ServiceSalesCreate from "./create";
 
 const initData = {
   customer: "",
@@ -23,10 +27,13 @@ export default function ServiceSalesLanding() {
   const [customerList, getCustomerList] = useAxiosGet();
   const [, getItemDDL] = useAxiosGet();
   const [scheduleList, getScheduleList, loader] = useAxiosGet();
+  const [salesOrder, getSalesOrder, load] = useAxiosGet();
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
   const [showModal, setShowModal] = useState(false);
   const [singleData, setSingleData] = useState(null);
+  const [view, setView] = useState(false);
+  const [edit, setEdit] = useState(false);
 
   useEffect(() => {
     getCustomerList(
@@ -223,6 +230,35 @@ export default function ServiceSalesLanding() {
                                     ></i>
                                   </OverlayTrigger>
                                 </span>
+                                <span
+                                  className="mx-2"
+                                  onClick={() => {
+                                    getSalesOrder(
+                                      `/oms/ServiceSales/GetServiceSalesOrderById?ServiceSalesOrderId=${item?.intServiceSalesOrderId}`,
+                                      (data) => {
+                                        setSingleData(data);
+                                        setEdit(true);
+                                        console.log({ data });
+                                      }
+                                    );
+                                  }}
+                                >
+                                  <IEdit />
+                                </span>
+                                <span className="">
+                                  <IView
+                                    clickHandler={(e) => {
+                                      getSalesOrder(
+                                        `/oms/ServiceSales/GetServiceSalesOrderById?ServiceSalesOrderId=${item?.intServiceSalesOrderId}`,
+                                        (data) => {
+                                          setSingleData(data);
+                                          setView(true);
+                                          console.log({ data });
+                                        }
+                                      );
+                                    }}
+                                  />
+                                </span>
                               </div>
                             </td>
                           </tr>
@@ -252,6 +288,27 @@ export default function ServiceSalesLanding() {
                       }}
                     >
                       <ServiceSalesCreateRecurring singleData={singleData} />
+                    </IViewModal>
+                    <IViewModal
+                      show={view}
+                      onHide={() => {
+                        setView(false);
+                      }}
+                    >
+                      <ServiceSalesOrderView
+                        serviceSalesOrderData={singleData}
+                      />
+                    </IViewModal>
+                    <IViewModal
+                      show={edit}
+                      onHide={() => {
+                        setEdit(false);
+                      }}
+                    >
+                      <ServiceSalesCreate
+                        isEdit={true}
+                        singleData={singleData}
+                      />
                     </IViewModal>
                   </div>
                 </div>
