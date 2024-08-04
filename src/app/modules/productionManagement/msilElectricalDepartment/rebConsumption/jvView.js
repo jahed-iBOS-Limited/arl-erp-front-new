@@ -140,11 +140,17 @@ import React, { useEffect, useState, useMemo } from "react";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import Loading from "../../../_helper/_loading";
 import InputField from "../../../_helper/_inputField";
+import { shallowEqual, useSelector } from "react-redux";
+import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 
-export default function JVModalView({ values, buId }) {
+export default function JVModalView({ values, buId, setShowJVModal }) {
   const [gridData, getGridData, loading, setGridData] = useAxiosGet();
+  const [, saveGridData, load] = useAxiosPost();
   const [damageChange, setDamageChange] = useState(0);
   const meterRent = 100;
+  const { profileData } = useSelector((state) => {
+    return state.authData;
+  }, shallowEqual);
 
   useEffect(() => {
     getGridData(
@@ -182,13 +188,50 @@ export default function JVModalView({ values, buId }) {
       newRate * newGridData[index].totalRebconsumedUnit;
     setGridData(newGridData);
   };
+  const saveREBConsumption = () => {
+    const payload = gridData?.map((item) => ({
+      consumptionId: 0,
+      costTypeId: 1,
+      strCostTypeName: "REB Consumption",
+      particularsId: item?.rebconsumptionTypeId,
+      particularsName: item?.rebconsumptionType,
+      consumptionType: item?.rebconsumptionType,
+      totalValue: item?.totalValue,
+      demandChage: damageChange,
+      meterRent: meterRent,
+      rmscivsrent: 0,
+      vatamt: ((item.totalValue + damageChange) * 5) / 100,
+      businessUnitId: buId,
+      monthId: new Date(values.fromDate).getMonth() + 1,
+      yearId: new Date(values.fromDate).getFullYear(),
+      isActive: true,
+      dteCreatedAt: new Date().toISOString(),
+      createdBy: 2550,
+      rebTotalConsmQuantity: item?.totalRebconsumedUnit,
+      rate: item?.intREBConsmRate,
+    }));
+    saveGridData(
+      `mes/MSIL/CreateRebconsumptionMonthEndingVoucher?FromDate=${values?.fromDate}&ToDate=${values?.toDate}&BusinessUnitId=${buId}`,
+      payload,
+      () => {
+        setShowJVModal(false);
+      },
+      true
+    );
+  };
 
   return (
     <>
       {loading && <Loading />}
       <div>
         <div className="text-right my-3">
-          <button onClick={() => {}} type="button" className="btn btn-primary">
+          <button
+            onClick={() => {
+              saveREBConsumption();
+            }}
+            type="button"
+            className="btn btn-primary"
+          >
             Save
           </button>
         </div>
@@ -221,14 +264,18 @@ export default function JVModalView({ values, buId }) {
                         onChange={(e) => handleRateChange(i, +e.target.value)}
                       />
                     </td>
-                    <td className="text-center">{item?.totalValue || ""}</td>
+                    <td className="text-center">
+                      {item?.totalValue?.toFixed(2) || ""}
+                    </td>
                   </tr>
                 ))}
               <tr>
                 <td colSpan={2}>Total</td>
-                <td className="text-center">{totalRebconsumedUnit}</td>
+                <td className="text-center">
+                  {totalRebconsumedUnit?.toFixed(2)}
+                </td>
                 <td></td>
-                <td className="text-center">{grandTotalValue}</td>
+                <td className="text-center">{grandTotalValue?.toFixed(2)}</td>
               </tr>
               <tr>
                 <td colSpan={4}>Demand Change</td>
@@ -245,22 +292,24 @@ export default function JVModalView({ values, buId }) {
                   Total
                 </td>
                 <td className="text-center">
-                  {grandTotalValue + damageChange}
+                  {(grandTotalValue + damageChange)?.toFixed(2)}
                 </td>
               </tr>
               <tr>
                 <td colSpan={4}>Vat (5%)</td>
-                <td className="text-center">{vat}</td>
+                <td className="text-center">{vat?.toFixed(2)}</td>
               </tr>
               <tr>
                 <td colSpan={4}>Meter Rent</td>
-                <td className="text-center">{meterRent}</td>
+                <td className="text-center">{meterRent?.toFixed(2)}</td>
               </tr>
               <tr>
                 <td className="text-center text-bold" colSpan={4}>
                   Total Bill Amount
                 </td>
-                <td className="text-center text-bold">{totalBillAmount}</td>
+                <td className="text-center text-bold">
+                  {totalBillAmount?.toFixed(2)}
+                </td>
               </tr>
             </thead>
             <tbody></tbody>
