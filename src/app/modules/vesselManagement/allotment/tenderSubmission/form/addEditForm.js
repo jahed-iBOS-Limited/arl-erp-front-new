@@ -73,9 +73,6 @@ export default function TenderSubmissionCreateEditForm() {
   };
 
   const saveHandler = (values, cb) => {
-    console.log("SAS", values?.approveStatus);
-    console.log("SAS", values?.attachment);
-
     const payload = {
       header: {
         accountId: accountId,
