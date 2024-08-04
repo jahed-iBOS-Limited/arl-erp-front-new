@@ -190,12 +190,12 @@ export default function JVModalView({ values, buId, setShowJVModal }) {
   };
   const saveREBConsumption = () => {
     const payload = gridData?.map((item) => ({
-      consumptionId: item?.rebconsumptionTypeId,
+      consumptionId: 0,
       costTypeId: 1,
       strCostTypeName: "REB Consumption",
       particularsId: item?.rebconsumptionTypeId,
       particularsName: item?.rebconsumptionType,
-      consumptionType: item?.rebconsumptionType,
+      consumptionType: "REB Consumption",
       totalValue: item?.totalValue,
       demandChage: damageChange,
       meterRent: meterRent,
