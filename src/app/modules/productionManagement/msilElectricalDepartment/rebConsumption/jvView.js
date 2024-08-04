@@ -141,11 +141,11 @@ import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import Loading from "../../../_helper/_loading";
 import InputField from "../../../_helper/_inputField";
 import { shallowEqual, useSelector } from "react-redux";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
+import useAxiosPut from "../../../_helper/customHooks/useAxiosPut";
 
 export default function JVModalView({ values, buId, setShowJVModal }) {
   const [gridData, getGridData, loading, setGridData] = useAxiosGet();
-  const [, saveGridData, load] = useAxiosPost();
+  const [, saveGridData, load] = useAxiosPut();
   const [damageChange, setDamageChange] = useState(0);
   const meterRent = 100;
   const { profileData } = useSelector((state) => {
@@ -206,7 +206,7 @@ export default function JVModalView({ values, buId, setShowJVModal }) {
       yearId: new Date(values.fromDate).getFullYear(),
       isActive: true,
       dteCreatedAt: new Date().toISOString(),
-      createdBy: 2550,
+      createdBy: profileData?.userId,
       rebTotalConsmQuantity: item?.totalRebconsumedUnit,
       rate: item?.intREBConsmRate,
     }));
