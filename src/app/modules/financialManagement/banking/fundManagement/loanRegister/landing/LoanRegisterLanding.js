@@ -368,7 +368,7 @@ const LoanRegisterLanding = () => {
                               <th>SBU</th>
                               <th style={{ minWidth: "70px" }}>Loan Type</th>
                               <th style={{ minWidth: "70px" }}>Loan Class</th>
-                              <th style={{ minWidth: "70px" }}>Facility</th>
+                              <th style={{ minWidth: "120px" }}>Facility</th>
                               <th>Loan Acc</th>
                               <th>BR Number</th>
                               <th style={{ minWidth: "50px" }}>Tenure</th>

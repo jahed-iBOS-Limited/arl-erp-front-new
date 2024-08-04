@@ -140,8 +140,8 @@ export default function ServiceSalesLanding() {
                   </div>
                 </div>
                 <div className="mt-5">
-                  <div className="table-responsive">
-                    <table className="table table-striped table-bordered bj-table bj-table-landing">
+                  <div className="table-responsive common-scrollable-table scroll-table _table overflow-auto">
+                    <table className="table table-striped table-bordered bj-table bj-table-landing global-table">
                       <thead>
                         <tr>
                           <th style={{ maxWidth: "20px" }}>SL</th>
@@ -151,7 +151,9 @@ export default function ServiceSalesLanding() {
                           <th>Salaes Type Name</th>
                           <th>Payment Type</th>
                           <th>Schedule Type</th>
-                          <th>Due Invoice</th>
+                          <th>Total Invoice</th>
+                          <th>Total Schedules</th>
+                          <th>Total Invoice Collection</th>
                           <th>Actual Live Date</th>
                           <th>Warranty Month</th>
                           <th>Warranty End Date</th>
@@ -191,7 +193,13 @@ export default function ServiceSalesLanding() {
                             <td>{item?.strPaymentType}</td>
                             <td>{item?.strScheduleTypeName}</td>
                             <td className="text-center">
-                              {`${item?.invoiceCollectionCount} / ${item?.intInvoiceCount}`}
+                              {item?.intInvoiceCount}
+                            </td>
+                            <td className="text-center">
+                              {item?.intScheduleCount}
+                            </td>
+                            <td className="text-center">
+                              {item?.invoiceCollectionCount}
                             </td>
                             <td className="text-center">
                               {_dateFormatter(item?.dteActualLiveDate)}
@@ -238,7 +246,6 @@ export default function ServiceSalesLanding() {
                                       (data) => {
                                         setSingleData(data);
                                         setEdit(true);
-                                        console.log({ data });
                                       }
                                     );
                                   }}
@@ -253,7 +260,6 @@ export default function ServiceSalesLanding() {
                                         (data) => {
                                           setSingleData(data);
                                           setView(true);
-                                          console.log({ data });
                                         }
                                       );
                                     }}
@@ -295,8 +301,9 @@ export default function ServiceSalesLanding() {
                         setView(false);
                       }}
                     >
-                      <ServiceSalesOrderView
-                        serviceSalesOrderData={singleData}
+                      <ServiceSalesCreate
+                        isView={true}
+                        singleData={singleData}
                       />
                     </IViewModal>
                     <IViewModal
