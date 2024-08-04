@@ -48,7 +48,7 @@
 //                       )}
 //                       <td>{item?.rebconsumptionType}</td>
 //                       <td className="text-center">
-//                         {item?.totalRebconsumedUnit}
+//                         {item?.totalFuelconsumedUnit}
 //                       </td>
 //                       <td className="text-center">
 //                         {" "}
@@ -59,7 +59,7 @@
 //                             const modifyData = [...gridData];
 //                             modifyData[i]["intREBConsmRate"] = +e.target.value;
 //                             modifyData[i]["totalValue"] =
-//                               +e.target.value * item?.totalRebconsumedUnit || 0;
+//                               +e.target.value * item?.totalFuelconsumedUnit || 0;
 //                             setGridData(modifyData);
 //                           }}
 //                         />
@@ -72,7 +72,7 @@
 //                 <td colSpan={2}>Total</td>
 //                 <td className="text-center">
 //                   {gridData.reduce((accumulator, currentValue) => {
-//                     return accumulator + currentValue.totalRebconsumedUnit;
+//                     return accumulator + currentValue.totalFuelconsumedUnit;
 //                   }, 0)}
 //                 </td>
 //                 <td></td>
@@ -147,27 +147,32 @@ export default function JVModalView({ values, buId, setShowJVModal }) {
   const [gridData, getGridData, loading, setGridData] = useAxiosGet();
   const [, saveGridData, load] = useAxiosPut();
   const [damageChange, setDamageChange] = useState(0);
-  const meterRent = 100;
+  const rmscivsrent = 5220;
   const { profileData } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
+
   useEffect(() => {
     getGridData(
-      `mes/MSIL/GetRebconsumptionMonthEnding?FromDate=${values?.fromDate}&ToDate=${values?.toDate}&BusinessUnitId=${buId}`
+      `mes/MSIL/GetFuelConsumptionSummery?FromDate=${values?.fromDate}&ToDate=${values?.toDate}&BusinessUnitId=${buId}`
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // fuelType: "Gas";
+  // particulars: "Fuel Consumption";
+  // rate: null;
+  // totalFuelQuantity: 0;
   const grandTotalValue = useMemo(() => {
     return gridData.reduce(
-      (accumulator, item) => accumulator + (item.totalValue || 0),
+      (accumulator, item) => accumulator + (item?.totalValue || 0),
       0
     );
   }, [gridData]);
 
-  const totalRebconsumedUnit = useMemo(() => {
+  const totalFuelconsumedUnit = useMemo(() => {
     return gridData.reduce(
-      (accumulator, item) => accumulator + (item.totalRebconsumedUnit || 0),
+      (accumulator, item) => accumulator + (item?.totalFuelQuantity || 0),
       0
     );
   }, [gridData]);
@@ -177,28 +182,28 @@ export default function JVModalView({ values, buId, setShowJVModal }) {
   }, [grandTotalValue, damageChange]);
 
   const totalBillAmount = useMemo(() => {
-    return grandTotalValue + damageChange + vat + meterRent;
-  }, [grandTotalValue, damageChange, vat, meterRent]);
+    return grandTotalValue + damageChange + vat + rmscivsrent;
+  }, [grandTotalValue, damageChange, vat, rmscivsrent]);
 
   const handleRateChange = (index, newRate) => {
     const newGridData = [...gridData];
-    newGridData[index].intREBConsmRate = newRate;
+    newGridData[index].rate = newRate;
     newGridData[index].totalValue =
-      newRate * newGridData[index].totalRebconsumedUnit;
+      newRate * newGridData[index].totalFuelQuantity;
     setGridData(newGridData);
   };
-  const saveREBConsumption = () => {
+  const saveFuelConsumption = () => {
     const payload = gridData?.map((item) => ({
       consumptionId: 0,
-      costTypeId: 1,
-      strCostTypeName: "REB Consumption",
-      particularsId: item?.rebconsumptionTypeId,
-      particularsName: item?.rebconsumptionType,
-      consumptionType: "REB Consumption",
+      costTypeId: 2,
+      strCostTypeName: "Fuel Consumption",
+      particularsId: 16,
+      particularsName: "Fuel Consumption",
+      consumptionType: "Gas",
       totalValue: item?.totalValue,
       demandChage: damageChange,
-      meterRent: meterRent,
-      rmscivsrent: 0,
+      meterRent: 0,
+      rmscivsrent: rmscivsrent,
       vatamt: ((item.totalValue + damageChange) * 5) / 100,
       businessUnitId: buId,
       monthId: new Date(values.fromDate).getMonth() + 1,
@@ -206,12 +211,12 @@ export default function JVModalView({ values, buId, setShowJVModal }) {
       isActive: true,
       dteCreatedAt: new Date().toISOString(),
       createdBy: profileData?.userId,
-      rebTotalConsmQuantity: item?.totalRebconsumedUnit,
-      rate: item?.intREBConsmRate,
+      rebTotalConsmQuantity: item?.totalFuelconsumedUnit,
+      rate: item?.rate,
     }));
     saveGridData(
-      `mes/MSIL/CreateRebconsumptionMonthEndingVoucher?FromDate=${values?.fromDate}&ToDate=${values?.toDate}&BusinessUnitId=${buId}`,
-      payload,
+      `/mes/MSIL/CreateGeneratorFuelConsumptionVoucher?FromDate=${values?.fromDate}&ToDate=${values?.toDate}&BusinessUnitId=${buId}`,
+      payload[0],
       () => {
         setShowJVModal(false);
       },
@@ -226,7 +231,7 @@ export default function JVModalView({ values, buId, setShowJVModal }) {
         <div className="text-right my-3">
           <button
             onClick={() => {
-              saveREBConsumption();
+              saveFuelConsumption();
             }}
             type="button"
             className="btn btn-primary"
@@ -248,17 +253,13 @@ export default function JVModalView({ values, buId, setShowJVModal }) {
                 gridData.map((item, i) => (
                   <tr key={i}>
                     {i === 0 && (
-                      <td rowSpan={gridData.length}>
-                        {item?.rebconsumptionTypeName}
-                      </td>
+                      <td rowSpan={gridData.length}>{item?.particulars}</td>
                     )}
-                    <td>{item?.rebconsumptionType}</td>
-                    <td className="text-center">
-                      {item?.totalRebconsumedUnit}
-                    </td>
+                    <td>{item?.fuelType}</td>
+                    <td className="text-center">{item?.totalFuelQuantity}</td>
                     <td className="text-center">
                       <InputField
-                        value={item?.intREBConsmRate || ""}
+                        value={item?.rate || 0}
                         type="number"
                         onChange={(e) => handleRateChange(i, +e.target.value)}
                       />
@@ -271,7 +272,7 @@ export default function JVModalView({ values, buId, setShowJVModal }) {
               <tr>
                 <td colSpan={2}>Total</td>
                 <td className="text-center">
-                  {totalRebconsumedUnit?.toFixed(2)}
+                  {totalFuelconsumedUnit?.toFixed(2)}
                 </td>
                 <td></td>
                 <td className="text-center">{grandTotalValue?.toFixed(2)}</td>
@@ -300,7 +301,7 @@ export default function JVModalView({ values, buId, setShowJVModal }) {
               </tr>
               <tr>
                 <td colSpan={4}>Meter Rent</td>
-                <td className="text-center">{meterRent?.toFixed(2)}</td>
+                <td className="text-center">{rmscivsrent?.toFixed(2)}</td>
               </tr>
               <tr>
                 <td className="text-center text-bold" colSpan={4}>
