@@ -167,9 +167,15 @@ export default function REBConsumption() {
                   </button>
                 </div>
                 <div className="col-log-1">
-                  <button onClick={()=>{
-                    setShowJVModal(true)
-                  }} type="button" className="btn btn-primary mt-5">Month End</button>
+                  <button
+                    onClick={() => {
+                      setShowJVModal(true);
+                    }}
+                    type="button"
+                    className="btn btn-primary mt-5"
+                  >
+                    Month End
+                  </button>
                 </div>
               </div>
 
@@ -258,13 +264,17 @@ export default function REBConsumption() {
                 )}
                 {showJVModal && (
                   <IViewModal
-                  title={"JV View for REB Consumption"}
+                    title={"JV View for REB Consumption"}
                     show={showJVModal}
                     onHide={() => {
                       setShowJVModal(false);
                     }}
                   >
-                    <JVModalView values={values} buId={selectedBusinessUnit?.value}/>
+                    <JVModalView
+                      values={values}
+                      buId={selectedBusinessUnit?.value}
+                      setShowJVModal={setShowJVModal}
+                    />
                   </IViewModal>
                 )}
               </div>

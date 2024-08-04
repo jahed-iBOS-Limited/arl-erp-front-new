@@ -43,11 +43,14 @@ const initData = {
   numServerAmount: "",
 };
 
-export default function ServiceSalesCreate({ isEdit = false, singleData }) {
+export default function ServiceSalesCreate({
+  isEdit = false,
+  isView = false,
+  singleData,
+}) {
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
-  console.log({ singleData });
   const [objProps, setObjprops] = useState({});
   const [attachmentList, setAttachmentList] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
@@ -114,7 +117,6 @@ export default function ServiceSalesCreate({ isEdit = false, singleData }) {
   }, [profileData, selectedBusinessUnit]);
 
   const saveHandler = (values, cb) => {
-    console.log({ values, itemList, scheduleList, scheduleListFOneTime });
     if (!values?.distributionChannel?.value)
       return toast.warn("Distribution Channel is required");
     if (itemList?.length < 0) return toast.warn("Add at least one Item");
@@ -196,7 +198,6 @@ export default function ServiceSalesCreate({ isEdit = false, singleData }) {
       })),
     };
 
-    console.log("payload", payload);
     if (isEdit) {
       const header = {
         intServiceSalesOrderId: singleData?.intServiceSalesOrderId,
@@ -314,7 +315,7 @@ export default function ServiceSalesCreate({ isEdit = false, singleData }) {
     }, 0);
   };
   useEffect(() => {
-    if (isEdit) {
+    if (isEdit || isView) {
       const mappedItems = singleData?.items.map((item) => ({
         ...item,
         strItemCode: item.intItemId, // Assuming intItemId is used as Item Code
@@ -344,13 +345,13 @@ export default function ServiceSalesCreate({ isEdit = false, singleData }) {
       setSheduleListFOneTime(transformedSchedules);
       setItemList(mappedItems);
     }
-  }, [isEdit, singleData]);
+  }, [isEdit, isView, singleData]);
 
   return (
     <Formik
       enableReinitialize={true}
       initialValues={
-        isEdit
+        isEdit || isView
           ? {
               ...initData,
               salesOrg: {
@@ -421,11 +422,14 @@ export default function ServiceSalesCreate({ isEdit = false, singleData }) {
             load ||
             itemDDLloader) && <Loading />}
           <IForm
-            title={`${isEdit ? "Edit" : "Create"} Service Sales Order`}
+            title={`${
+              isEdit ? "Edit" : isView ? "View" : "Create"
+            } Service Sales Order`}
+            isHiddenBack={isView}
+            isHiddenReset={isView}
+            isHiddenSave={isView}
             getProps={setObjprops}
           >
-            {console.log({ values })}
-
             <Form>
               <div className="form-group  global-form row">
                 <div className="col-lg-3">
@@ -439,7 +443,7 @@ export default function ServiceSalesCreate({ isEdit = false, singleData }) {
                     }}
                     errors={errors}
                     touched={touched}
-                    // isDisabled={isEdit}
+                    isDisabled={isEdit || isView}
                   />
                 </div>
                 <div className="col-lg-3">
@@ -453,7 +457,7 @@ export default function ServiceSalesCreate({ isEdit = false, singleData }) {
                     }}
                     errors={errors}
                     touched={touched}
-                    isDisabled={isEdit}
+                    isDisabled={isEdit || isView}
                   />
                 </div>
                 <div className="col-lg-3">
@@ -487,7 +491,7 @@ export default function ServiceSalesCreate({ isEdit = false, singleData }) {
                 <div className="col-lg-3">
                   <NewSelect
                     name="customer"
-                    isDisabled={isEdit}
+                    isDisabled={isEdit || isView}
                     options={customerList || []}
                     value={values?.customer}
                     label="Customer"
@@ -507,7 +511,7 @@ export default function ServiceSalesCreate({ isEdit = false, singleData }) {
                     options={itemDDL || []}
                     value={values?.item}
                     label="Item Name"
-                    isDisabled={isEdit}
+                    isDisabled={isEdit || isView}
                     onChange={(valueOption) => {
                       setFieldValue("item", valueOption);
                       setAgreementDatesForRecuuring(null);
@@ -536,7 +540,7 @@ export default function ServiceSalesCreate({ isEdit = false, singleData }) {
                 </div>
                 <div className="col-lg-3">
                   <InputField
-                    disabled={isEdit}
+                    disabled={isEdit || isView}
                     value={values?.billToParty}
                     label="Bill To Party"
                     name="billToParty"
@@ -650,6 +654,7 @@ export default function ServiceSalesCreate({ isEdit = false, singleData }) {
                   <>
                     <div className="col-lg-3">
                       <InputField
+                        disabled={isView}
                         value={values?.agreementStartDate}
                         label="Agreement Start Date"
                         name="agreementStartDate"
@@ -664,7 +669,7 @@ export default function ServiceSalesCreate({ isEdit = false, singleData }) {
                     <div className="col-lg-3">
                       <InputField
                         value={values?.agreementEndDate}
-                        disabled={!values?.agreementStartDate}
+                        disabled={!values?.agreementStartDate || isView}
                         label="Agreement End Date"
                         name="agreementEndDate"
                         type="date"
@@ -686,6 +691,7 @@ export default function ServiceSalesCreate({ isEdit = false, singleData }) {
                     </div>
                     <div className="col-lg-3">
                       <InputField
+                        disabled={isView}
                         value={values.dteActualLiveDate}
                         label="Projected Live Date"
                         name="dteActualLiveDate"
@@ -710,6 +716,7 @@ export default function ServiceSalesCreate({ isEdit = false, singleData }) {
                     </div>
                     <div className="col-lg-3">
                       <InputField
+                        disabled={isView}
                         value={values.intWarrantyMonth}
                         label="Warranty Month"
                         name="intWarrantyMonth"
@@ -738,9 +745,10 @@ export default function ServiceSalesCreate({ isEdit = false, singleData }) {
                     </div>
                     <div className="col-lg-3">
                       <InputField
-                        disabled={
-                          !values.dteActualLiveDate || !values.intWarrantyMonth
-                        }
+                        // disabled={
+                        //   !values.dteActualLiveDate || !values.intWarrantyMonth
+                        // }
+                        disabled={isView}
                         value={values.dteWarrantyEndDate}
                         label="Warranty End Date"
                         name="dteWarrantyEndDate"
@@ -752,7 +760,7 @@ export default function ServiceSalesCreate({ isEdit = false, singleData }) {
                     </div>
                     <div className="col-lg-3">
                       <NewSelect
-                        isDisabled={isEdit}
+                        isDisabled={isEdit || isView}
                         name="accountManager"
                         options={accountManagerList || []}
                         value={values?.accountManager}
@@ -766,6 +774,7 @@ export default function ServiceSalesCreate({ isEdit = false, singleData }) {
                     </div>
                     <div className="col-lg-3">
                       <InputField
+                        disabled={isView}
                         value={values?.numScheduleAmount}
                         label="Schedule Amount"
                         name="numScheduleAmount"
@@ -777,6 +786,7 @@ export default function ServiceSalesCreate({ isEdit = false, singleData }) {
                     </div>
                     <div className="col-lg-3">
                       <InputField
+                        disabled={isView}
                         value={values?.numServerAmount}
                         label="Server Amount"
                         name="numServerAmount"
@@ -820,6 +830,7 @@ export default function ServiceSalesCreate({ isEdit = false, singleData }) {
                   <InputField
                     value={values?.qty}
                     label="Qty"
+                    disabled={isEdit || isView}
                     name="qty"
                     type="number"
                     onChange={(e) => {
@@ -832,6 +843,7 @@ export default function ServiceSalesCreate({ isEdit = false, singleData }) {
                     value={values?.rate}
                     label="Rate"
                     name="rate"
+                    disabled={isEdit || isView}
                     type="number"
                     onChange={(e) => {
                       setFieldValue("rate", e.target.value);
@@ -842,6 +854,7 @@ export default function ServiceSalesCreate({ isEdit = false, singleData }) {
                   <InputField
                     value={values?.vat}
                     label="Vat %"
+                    disabled={isEdit || isView}
                     name="vat"
                     type="number"
                     onChange={(e) => {
@@ -951,7 +964,9 @@ export default function ServiceSalesCreate({ isEdit = false, singleData }) {
                       </button>
                     </div>
                   ) : null}
-                  {[2]?.includes(values?.paymentType?.value) ? (
+                  {[2]?.includes(values?.paymentType?.value) &&
+                  !isEdit &&
+                  !isView ? (
                     <>
                       <div style={{ marginTop: "18px" }} className="ml-4">
                         <button
@@ -1058,18 +1073,20 @@ export default function ServiceSalesCreate({ isEdit = false, singleData }) {
                               <td className="text-center">{item?.vatAmount}</td>
                               <td className="text-right">{item?.netAmount}</td>
                               <td className="text-center">
-                                <IDelete
-                                  style={{ fontSize: "16px" }}
-                                  remover={(index) => {
-                                    let data = itemList.filter(
-                                      (item, i) => i !== index
-                                    );
-                                    setItemList(data);
-                                    setSheduleList([]);
-                                    setSheduleListFOneTime([]);
-                                  }}
-                                  id={index}
-                                />
+                                {!isView && !isEdit && (
+                                  <IDelete
+                                    style={{ fontSize: "16px" }}
+                                    remover={(index) => {
+                                      let data = itemList.filter(
+                                        (item, i) => i !== index
+                                      );
+                                      setItemList(data);
+                                      setSheduleList([]);
+                                      setSheduleListFOneTime([]);
+                                    }}
+                                    id={index}
+                                  />
+                                )}
                               </td>
                             </tr>
                           ))}
@@ -1152,7 +1169,7 @@ export default function ServiceSalesCreate({ isEdit = false, singleData }) {
                                   <InputField
                                     value={item?.dueDate}
                                     type="date"
-                                    disabled={isEdit}
+                                    disabled={isEdit || isView}
                                     onChange={(e) => {
                                       let data = [...scheduleListFOneTime];
                                       data[index]["dueDate"] = e.target.value;
@@ -1161,11 +1178,10 @@ export default function ServiceSalesCreate({ isEdit = false, singleData }) {
                                   />
                                 </td>
                                 <td>
-                                  {console.log("itemList", itemList)}
                                   <InputField
                                     value={item?.percentage || ""}
                                     type="number"
-                                    disabled={isEdit}
+                                    disabled={isEdit || isView}
                                     onChange={(e) => {
                                       const newValue = +e.target.value;
                                       let totalPercentage = getTotalPersecentage(
@@ -1208,7 +1224,7 @@ export default function ServiceSalesCreate({ isEdit = false, singleData }) {
                                 <td>
                                   <InputField
                                     value={item?.remarks}
-                                    disabled={isEdit}
+                                    disabled={isEdit || isView}
                                     type="text"
                                     onChange={(e) => {
                                       let updatedScheduleList = [
@@ -1224,79 +1240,85 @@ export default function ServiceSalesCreate({ isEdit = false, singleData }) {
                                   />
                                 </td>
                                 <td>
-                                  <div className="d-flex justify-content-around">
-                                    <OverlayTrigger
-                                      overlay={
-                                        <Tooltip id="cs-icon">{"Add"}</Tooltip>
-                                      }
-                                    >
-                                      <span>
-                                        <i
-                                          style={{
-                                            fontSize: "16px",
-                                            cursor: "pointer",
-                                          }}
-                                          className="fa fa-plus-square"
-                                          onClick={() => {
-                                            const newValue =
-                                              scheduleListFOneTime[index][
-                                                "percentage"
+                                  {!isView && !isEdit && (
+                                    <div className="d-flex justify-content-around">
+                                      <OverlayTrigger
+                                        overlay={
+                                          <Tooltip id="cs-icon">
+                                            {"Add"}
+                                          </Tooltip>
+                                        }
+                                      >
+                                        <span>
+                                          <i
+                                            style={{
+                                              fontSize: "16px",
+                                              cursor: "pointer",
+                                            }}
+                                            className="fa fa-plus-square"
+                                            onClick={() => {
+                                              const newValue =
+                                                scheduleListFOneTime[index][
+                                                  "percentage"
+                                                ];
+
+                                              if (!newValue) {
+                                                return toast.warn(
+                                                  "Please add percentage"
+                                                );
+                                              }
+
+                                              let totalPercentage = scheduleListFOneTime.reduce(
+                                                (acc, curr, currIndex) => {
+                                                  if (currIndex === index) {
+                                                    return acc + newValue;
+                                                  } else {
+                                                    return (
+                                                      acc + curr.percentage
+                                                    );
+                                                  }
+                                                },
+                                                0
+                                              );
+
+                                              if (totalPercentage >= 100) {
+                                                return toast.warn(
+                                                  "Total percentage already 100"
+                                                );
+                                              }
+
+                                              let updatedScheduleList = [
+                                                ...scheduleListFOneTime,
                                               ];
 
-                                            if (!newValue) {
-                                              return toast.warn(
-                                                "Please add percentage"
-                                              );
-                                            }
+                                              setSheduleListFOneTime([
+                                                ...updatedScheduleList,
+                                                {
+                                                  dueDate: _todayDate(),
+                                                  percentage: 0,
+                                                  amount: 0,
+                                                  remarks: "",
+                                                },
+                                              ]);
+                                            }}
+                                          ></i>
+                                        </span>
+                                      </OverlayTrigger>
 
-                                            let totalPercentage = scheduleListFOneTime.reduce(
-                                              (acc, curr, currIndex) => {
-                                                if (currIndex === index) {
-                                                  return acc + newValue;
-                                                } else {
-                                                  return acc + curr.percentage;
-                                                }
-                                              },
-                                              0
-                                            );
-
-                                            if (totalPercentage >= 100) {
-                                              return toast.warn(
-                                                "Total percentage already 100"
-                                              );
-                                            }
-
-                                            let updatedScheduleList = [
-                                              ...scheduleListFOneTime,
-                                            ];
-
-                                            setSheduleListFOneTime([
-                                              ...updatedScheduleList,
-                                              {
-                                                dueDate: _todayDate(),
-                                                percentage: 0,
-                                                amount: 0,
-                                                remarks: "",
-                                              },
-                                            ]);
-                                          }}
-                                        ></i>
-                                      </span>
-                                    </OverlayTrigger>
-
-                                    <IDelete
-                                      style={{ fontSize: "16px" }}
-                                      id={index}
-                                      remover={(index) => {
-                                        let updatedScheduleList = scheduleListFOneTime?.filter(
-                                          (schedule, i) => i !== index
-                                        );
-                                        setSheduleListFOneTime(
-                                          updatedScheduleList
-                                        );
-                                      }}
-                                    />
-                                  </div>
+                                      <IDelete
+                                        style={{ fontSize: "16px" }}
+                                        id={index}
+                                        remover={(index) => {
+                                          let updatedScheduleList = scheduleListFOneTime?.filter(
+                                            (schedule, i) => i !== index
+                                          );
+                                          setSheduleListFOneTime(
+                                            updatedScheduleList
+                                          );
+                                        }}
+                                      />
+                                    </div>
+                                  )}
                                 </td>
                               </tr>
                             ))}
