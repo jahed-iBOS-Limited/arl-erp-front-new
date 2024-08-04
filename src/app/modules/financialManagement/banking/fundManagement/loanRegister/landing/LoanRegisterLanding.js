@@ -536,12 +536,22 @@ const LoanRegisterLanding = () => {
                                         marginLeft: "4px",
                                         cursor: "pointer",
                                       }}
-                                      onClick={() =>
-                                        history.push({
-                                          pathname: `/financial-management/banking/loan-register/re-new/${item?.intLoanAccountId}`,
-                                          state: item,
-                                        })
-                                      }
+                                      onClick={() => {
+                                        if (
+                                          item?.numPrinciple - item?.numPaid <
+                                          1
+                                        ) {
+                                          toast.warn(
+                                            "You can't renew this loan"
+                                          );
+                                          return;
+                                        } else {
+                                          history.push({
+                                            pathname: `/financial-management/banking/loan-register/re-new/${item?.intLoanAccountId}`,
+                                            state: item,
+                                          });
+                                        }
+                                      }}
                                     >
                                       Renew
                                     </span>

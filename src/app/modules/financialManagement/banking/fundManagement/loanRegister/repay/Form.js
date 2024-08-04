@@ -14,6 +14,7 @@ const loanRegister = Yup.object().shape({
     value: Yup.string().required("Bank is required"),
   }),
   instrumentNo: Yup.string().required("Instrument No is required"),
+  // numExciseDuty: Yup.string().required("Excise Duty  is required"),
   // principalAmount: Yup.number().required("Principal Amount is required"),
 });
 
@@ -167,6 +168,24 @@ export default function RepayForm({
                         setFieldValue("interestAmount", e.target.value);
                       } else {
                         setFieldValue("interestAmount", "");
+                      }
+                    }}
+                    type="number"
+                    min="0"
+                    step="any"
+                  />
+                </div>
+                <div className="col-lg-2 pl pr-1 mb-1">
+                  <label> Excise Duty</label>
+                  <InputField
+                    value={values?.numExciseDuty}
+                    name="numExciseDuty"
+                    placeholder="Excise Duty"
+                    onChange={(e) => {
+                      if (e.target.value > 0) {
+                        setFieldValue("numExciseDuty", e.target.value);
+                      } else {
+                        setFieldValue("numExciseDuty", "");
                       }
                     }}
                     type="number"
