@@ -2,7 +2,6 @@ import { FieldArray, Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { useLocation, useParams } from "react-router";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import IForm from "../../../../_helper/_form";
 import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
@@ -14,9 +13,11 @@ import {
   businessPartnerDDL,
   convertToText,
   ErrorMessage,
+  fetchTenderDetails,
   getDischargePortDDL,
   GetLoadPortDDL,
   initData,
+  updateState,
   validationSchema,
 } from "../helper";
 
@@ -61,16 +62,11 @@ export default function TenderSubmissionCreateEditForm() {
     GetLoadPortDDL(setLoadPortDDL);
     // Id Id (Edit)
     if (id && state) {
-      fetchTenderDetails(id);
+      fetchTenderDetails(id, accountId, buUnId, getTenderDetails);
       getGodownDDLList({ value: state?.businessPartnerId });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const fetchTenderDetails = (tenderId) => {
-    const url = `/tms/TenderSubmission/GetTenderSubmissionById?AccountId=${accountId}&BusinessUnitId=${buUnId}&TenderId=${tenderId}`;
-    getTenderDetails(url);
-  };
 
   const saveHandler = (values, cb) => {
     const payload = {
@@ -118,51 +114,6 @@ export default function TenderSubmissionCreateEditForm() {
       cb,
       true
     );
-  };
-
-  const updateState = ({ header, rows }) => {
-    console.log("SAS", header?.isAccept);
-    console.log("SAS", header?.attachment);
-    const editData = {
-      businessPartner: {
-        value: header?.businessPartnerId,
-        label: header?.businessPartnerName,
-      },
-      attachment: header?.attachment,
-      enquiry: header?.enquiryNo,
-      submissionDate: _dateFormatter(header?.submissionDate),
-      foreignQnt: header?.foreignQty,
-      uomname: header?.uomname,
-      productName: header?.itemName,
-      loadPort: {
-        label: header?.loadPortName,
-        value: header?.loadPortId,
-      },
-      dischargePort: {
-        label: header?.dischargePortName,
-        value: header?.dischargePortId,
-      },
-      foreignPriceUSD: header?.foreignPriceUsd,
-      commercialNo: header?.commercialNo,
-      commercialDate: _dateFormatter(header?.commercialDate),
-      referenceNo: header?.referenceNo,
-      referenceDate: _dateFormatter(header?.referenceDate),
-      approveStatus: header?.isAccept,
-      localTransportations: rows?.map((item) => {
-        return {
-          tenderRowId: item?.tenderRowId,
-          tenderHeaderId: item?.tenderHeaderId,
-          godownName: {
-            value: 98654,
-            label: item?.godownName,
-          },
-          quantity: item?.quantity,
-          price: item?.perQtyTonPriceBd,
-          perQtyPriceWords: item?.perQtyTonPriceBd,
-        };
-      }),
-    };
-    return editData;
   };
 
   return (

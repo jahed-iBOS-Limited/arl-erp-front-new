@@ -3,6 +3,7 @@ import { Field, getIn } from "formik";
 import React from "react";
 import * as Yup from "yup";
 import { imarineBaseUrl } from "../../../../App";
+import { _dateFormatter } from "../../../_helper/_dateFormate";
 
 // Error message display field for field array of of tender submission create & edit page
 export const ErrorMessage = ({ name }) => (
@@ -16,7 +17,11 @@ export const ErrorMessage = ({ name }) => (
   />
 );
 
-export const businessPartnerDDL = [{ value: 89497, label: "BCIC" }];
+// Business partner value & label (get from vessel management > configeration > godowns)
+export const businessPartnerDDL = [
+  { value: 89497, label: "BCIC" },
+  { value: 88075, label: "BIDC" },
+];
 
 // Inital data for tender submission create & edit page
 export const initData = {
@@ -101,6 +106,61 @@ export const GetLoadPortDDL = async (setter) => {
   } catch (error) {
     setter([]);
   }
+};
+
+// Fetch tender details with tender id
+export const fetchTenderDetails = (
+  tenderId,
+  accountId,
+  buUnId,
+  getTenderDetailsCallback
+) => {
+  const url = `/tms/TenderSubmission/GetTenderSubmissionById?AccountId=${accountId}&BusinessUnitId=${buUnId}&TenderId=${tenderId}`;
+  getTenderDetailsCallback(url);
+};
+
+// State function when update data
+export const updateState = ({ header, rows }) => {
+  const editData = {
+    businessPartner: {
+      value: header?.businessPartnerId,
+      label: header?.businessPartnerName,
+    },
+    attachment: header?.attachment,
+    enquiry: header?.enquiryNo,
+    submissionDate: _dateFormatter(header?.submissionDate),
+    foreignQnt: header?.foreignQty,
+    uomname: header?.uomname,
+    productName: header?.itemName,
+    loadPort: {
+      label: header?.loadPortName,
+      value: header?.loadPortId,
+    },
+    dischargePort: {
+      label: header?.dischargePortName,
+      value: header?.dischargePortId,
+    },
+    foreignPriceUSD: header?.foreignPriceUsd,
+    commercialNo: header?.commercialNo,
+    commercialDate: _dateFormatter(header?.commercialDate),
+    referenceNo: header?.referenceNo,
+    referenceDate: _dateFormatter(header?.referenceDate),
+    approveStatus: header?.isAccept,
+    localTransportations: rows?.map((item) => {
+      return {
+        tenderRowId: item?.tenderRowId,
+        tenderHeaderId: item?.tenderHeaderId,
+        godownName: {
+          value: 98654,
+          label: item?.godownName,
+        },
+        quantity: item?.quantity,
+        price: item?.perQtyTonPriceBd,
+        perQtyPriceWords: item?.perQtyTonPriceBd,
+      };
+    }),
+  };
+  return editData;
 };
 
 // For number to text convert
