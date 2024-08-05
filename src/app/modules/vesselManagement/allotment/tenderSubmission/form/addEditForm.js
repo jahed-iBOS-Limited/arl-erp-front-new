@@ -15,6 +15,7 @@ import {
   ErrorMessage,
   fetchTenderDetails,
   getDischargePortDDL,
+  getGodownDDLList,
   GetLoadPortDDL,
   initData,
   updateState,
@@ -26,8 +27,8 @@ export default function TenderSubmissionCreateEditForm() {
     profileData: { userId, accountId },
     selectedBusinessUnit: { label: buUnName, value: buUnId },
   } = useSelector((state) => state?.authData, shallowEqual);
-  const { id } = useParams();
-  const { state } = useLocation();
+  const { id: tenderId } = useParams();
+  const { state: landingPageState } = useLocation();
 
   const [objProps, setObjprops] = useState({});
   const [dischargeDDL, setDischargeDDL] = useState([]);
@@ -36,34 +37,25 @@ export default function TenderSubmissionCreateEditForm() {
     godownDDL,
     getGodownDDL,
     getGodownDDLLoading,
-    updateGodownDDLLoading,
+    updateGodownDDL,
   ] = useAxiosGet();
   const [tenderDetails, getTenderDetails] = useAxiosGet();
   const [, submitTender, submitTenderLoading] = useAxiosPost();
   // const [, onAttachmentUpload, onAttachmentUploadLoading] = useAxiosPost()
 
-  const getGodownDDLList = (businessPartner) => {
-    const url = `/tms/LigterLoadUnload/GetShipToPartnerG2GPagination?AccountId=${accountId}&BusinessUnitId=${buUnId}&BusinessPartnerId=${
-      businessPartner?.value
-    }&PageNo=${0}&PageSize=${100}`;
-    getGodownDDL(url, (data) => {
-      const updateDDL = data?.data?.map((item) => {
-        return {
-          value: item?.shiptoPartnerId,
-          label: item?.shipToParterName,
-        };
-      });
-      updateGodownDDLLoading(updateDDL);
-    });
-  };
-
   useEffect(() => {
     getDischargePortDDL(setDischargeDDL);
     GetLoadPortDDL(setLoadPortDDL);
     // Id Id (Edit)
-    if (id && state) {
-      fetchTenderDetails(id, accountId, buUnId, getTenderDetails);
-      getGodownDDLList({ value: state?.businessPartnerId });
+    if (tenderId && landingPageState) {
+      fetchTenderDetails(tenderId, accountId, buUnId, getTenderDetails);
+      getGodownDDLList(
+        { value: landingPageState?.businessPartnerId },
+        accountId,
+        buUnId,
+        getGodownDDL,
+        updateGodownDDL
+      );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -74,7 +66,7 @@ export default function TenderSubmissionCreateEditForm() {
         accountId: accountId,
         businessUnitId: buUnId,
         businessUnitName: buUnName,
-        tenderId: id ? id : 0,
+        tenderId: tenderId ? tenderId : 0,
         businessPartnerId: values?.businessPartner?.value,
         businessPartnerName: values?.businessPartner?.label,
         enquiryNo: values?.enquiry,
@@ -103,8 +95,8 @@ export default function TenderSubmissionCreateEditForm() {
         quantity: item?.quantity,
         perQtyTonPriceBd: item?.price,
         perQtyPriceWords: convertToText(item?.price),
-        tenderHeaderId: id ? id : 0,
-        tenderRowId: id ? item?.tenderRowId : 0,
+        tenderHeaderId: tenderId ? tenderId : 0,
+        tenderRowId: tenderId ? item?.tenderRowId : 0,
         isActive: true,
       })),
     };
@@ -119,11 +111,11 @@ export default function TenderSubmissionCreateEditForm() {
   return (
     <Formik
       enableReinitialize={true}
-      initialValues={id ? updateState(tenderDetails) : initData}
+      initialValues={tenderId ? updateState(tenderDetails) : initData}
       validationSchema={validationSchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
-          !id && resetForm(initData);
+          !tenderId && resetForm(initData);
         });
       }}
     >
@@ -151,7 +143,14 @@ export default function TenderSubmissionCreateEditForm() {
                     label="Business Partner"
                     onChange={(valueOption) => {
                       setFieldValue("businessPartner", valueOption);
-                      getGodownDDLList(valueOption);
+                      // {"value": 89497, "label": "BCIC"}
+                      getGodownDDLList(
+                        valueOption,
+                        accountId,
+                        buUnId,
+                        getGodownDDL,
+                        updateGodownDDL
+                      );
                     }}
                     errors={errors}
                     touched={touched}
@@ -293,7 +292,7 @@ export default function TenderSubmissionCreateEditForm() {
                     }}
                   />
                 </div>
-                {id && (
+                {tenderId && (
                   <>
                     {tenderDetails?.header?.isAccept !== true && (
                       <div className="col-lg-3 mt-5 d-flex align-items-center">
