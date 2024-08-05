@@ -163,6 +163,28 @@ export const updateState = ({ header, rows }) => {
   return editData;
 };
 
+// get godown list function
+export const getGodownDDLList = (
+  businessPartner,
+  accountId,
+  buUnId,
+  getGodownDDLFunc,
+  updateGodownDDLFunc
+) => {
+  const url = `/tms/LigterLoadUnload/GetShipToPartnerG2GPagination?AccountId=${accountId}&BusinessUnitId=${buUnId}&BusinessPartnerId=${
+    businessPartner?.value
+  }&PageNo=${0}&PageSize=${100}`;
+  getGodownDDLFunc(url, (data) => {
+    const updateDDL = data?.data?.map((item) => {
+      return {
+        value: item?.shiptoPartnerId,
+        label: item?.shipToParterName,
+      };
+    });
+    updateGodownDDLFunc(updateDDL);
+  });
+};
+
 // For number to text convert
 const ones = [
   "",
