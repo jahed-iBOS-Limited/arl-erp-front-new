@@ -25,6 +25,7 @@ export const businessPartnerDDL = [
 
 // Inital data for tender submission create & edit page
 export const initData = {
+  // common state
   businessPartner: "",
   enquiry: "",
   submissionDate: "",
@@ -34,11 +35,12 @@ export const initData = {
   loadPort: "",
   dischargePort: "",
   foreignPriceUSD: "",
+  approveStatus: "",
+  // bcic state
   commercialNo: "",
   commercialDate: "",
   referenceNo: "",
   referenceDate: "",
-  approveStatus: "",
   localTransportations: [
     {
       godownName: "",
@@ -46,6 +48,13 @@ export const initData = {
       price: "",
     },
   ],
+  // badc
+  dueDate: "",
+  dueTime: "",
+  lotQty: "",
+  contractDate: "",
+  dischargeRatio: "",
+  laycanDate: "",
 };
 
 // Validation schema for tender submission create & edit page
