@@ -123,7 +123,7 @@ export default function TenderSubmissionCreateEditForm() {
         accountId: accountId,
         businessUnitId: buUnId,
         businessUnitName: buUnName,
-        tenderId: tenderId ? tenderId : 1,
+        tenderId: 0,
         actionBy: userId,
         isActive: true,
         //common
@@ -131,13 +131,13 @@ export default function TenderSubmissionCreateEditForm() {
         businessPartnerName: values?.businessPartner?.label,
         enquiryNo: values?.enquiry,
         submissionDate: values?.submissionDate,
-        foreignQty: values?.foreignQnt,
+        foreignQty: +values?.foreignQnt,
         uomname: values?.uomname,
         itemName: values?.productName,
         loadPortId: values?.loadPort?.value,
         loadPortName: values?.loadPort?.label,
-        foreignPriceUsd: values?.foreignPriceUSD,
-        isAccept: values?.approveStatus,
+        foreignPriceUsd: +values?.foreignPriceUSD,
+        isAccept: values?.approveStatus ? values?.approveStatus : false,
         attachment: values?.attachment,
         //badc
         ghat1: values?.ghat1?.label, // chittagong
@@ -148,16 +148,27 @@ export default function TenderSubmissionCreateEditForm() {
         contractDate: values?.contractDate,
         dischargeRatio: values?.dischargeRatio,
         laycandate: values?.laycanDate,
-        pricePerQty: 10,
-        pricePerBag: 10,
+        pricePerQty: +values?.pricePerQty,
+        pricePerBag: +values?.pricePerBag,
       };
     }
     return {};
   };
 
+  const selectUrl = (businessPartner) => {
+    switch (businessPartner) {
+      case "BCIC":
+        return `/tms/TenderSubmission/CreateOrUpdateTenderSubission`;
+      case "BADC":
+        return `tms/TenderSubmission/CreateOrEditBIDCTenderSubmission`;
+      default:
+        return "";
+    }
+  };
+
   const saveHandler = (values, cb) => {
     submitTender(
-      `/tms/TenderSubmission/CreateOrUpdateTenderSubission`,
+      selectUrl(values?.businessPartner?.label),
       selectPayload(values),
       cb,
       true
@@ -166,6 +177,11 @@ export default function TenderSubmissionCreateEditForm() {
 
   const commonFormField = (values, setFieldValue, errors, touched) => (
     <>
+      {values?.businessPartner?.label === "BCIC" && (
+        <div className="col-lg-12 mt-2">
+          <h4>Foreign Part</h4>
+        </div>
+      )}
       <div className="col-lg-3">
         <InputField
           value={values?.enquiry}
@@ -250,9 +266,6 @@ export default function TenderSubmissionCreateEditForm() {
 
   const bcicFormFieldForeignPart = (values, setFieldValue, errors, touched) => (
     <>
-      <div className="col-lg-12 mt-2">
-        <h4>Foreign Part</h4>
-      </div>
       <div className="col-lg-3">
         <NewSelect
           name="dischargePort"
@@ -571,6 +584,28 @@ export default function TenderSubmissionCreateEditForm() {
           }}
         />
       </div>
+      <div className="col-lg-3">
+        <InputField
+          value={values?.pricePerQty}
+          label="Price Per Qty"
+          name="pricePerQty"
+          type="number"
+          onChange={(e) => {
+            setFieldValue("pricePerQty", e.target.value);
+          }}
+        />
+      </div>
+      <div className="col-lg-3">
+        <InputField
+          value={values?.pricePerBag}
+          label="Price Per Bag"
+          name="pricePerBag"
+          type="number"
+          onChange={(e) => {
+            setFieldValue("pricePerBag", e.target.value);
+          }}
+        />
+      </div>
     </>
   );
 
@@ -635,10 +670,15 @@ export default function TenderSubmissionCreateEditForm() {
                 {commonFormField(values, setFieldValue, errors, touched)}
 
                 {values?.businessPartner?.label === "BCIC" &&
-                  bcicFormFieldForeignPart(values, setFieldValue)}
+                  bcicFormFieldForeignPart(
+                    values,
+                    setFieldValue,
+                    errors,
+                    touched
+                  )}
 
                 {values?.businessPartner?.label === "BADC" &&
-                  badcFormField(values, setFieldValue)}
+                  badcFormField(values, setFieldValue, errors, touched)}
 
                 {tenderId && editFormField(values, setFieldValue)}
               </div>
