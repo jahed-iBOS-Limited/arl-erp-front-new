@@ -72,7 +72,24 @@ export const validationSchema = Yup.object({
   uomname: Yup.string().required("Qnt Unit is required"),
   productName: Yup.string().required("Product name is required"),
   loadPort: Yup.string().required("Load port is required"),
-  dischargePort: Yup.string().required("Discharge port is required"),
+  dischargePort: Yup.string().when("businessPartner", {
+    is: (businessPartner) =>
+      businessPartner && businessPartner?.label === "BCIC",
+    then: Yup.string().required("Discharge port is required"),
+    otherwise: Yup.string(),
+  }),
+  ghat1: Yup.string().when("businessPartner", {
+    is: (businessPartner) =>
+      businessPartner && businessPartner?.label === "BADC",
+    then: Yup.string().required("Ghat 1 is required"),
+    otherwise: Yup.string(),
+  }),
+  ghat2: Yup.string().when("businessPartner", {
+    is: (businessPartner) =>
+      businessPartner && businessPartner?.label === "BADC",
+    then: Yup.string().required("Ghat 2 is required"),
+    otherwise: Yup.string(),
+  }),
   foreignPriceUSD: Yup.number()
     .positive()
     .min(0)
