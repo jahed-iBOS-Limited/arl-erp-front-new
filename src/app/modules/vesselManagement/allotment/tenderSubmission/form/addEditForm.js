@@ -35,6 +35,7 @@ export default function TenderSubmissionCreateEditForm() {
   // DDL
   const [dischargeDDL, setDischargeDDL] = useState([]);
   const [loadPortDDL, setLoadPortDDL] = useState([]);
+  // const [ghatDDL,setGhatDDL]=useState([])
 
   // Data fetch axios get
   const [
@@ -44,6 +45,7 @@ export default function TenderSubmissionCreateEditForm() {
     updateGodownDDL,
   ] = useAxiosGet();
   const [tenderDetails, getTenderDetails] = useAxiosGet();
+  const [ghatDDL, getGhatDDL, getGhatDDLLoading] = useAxiosGet();
 
   // Data post/save axios post
   const [, submitTender, submitTenderLoading] = useAxiosPost();
@@ -68,6 +70,7 @@ export default function TenderSubmissionCreateEditForm() {
   }, []);
 
   const selectPayload = (values) => {
+    // BCIC tender submission payload
     if (values?.businessPartner?.label === "BCIC") {
       return {
         header: {
@@ -88,12 +91,12 @@ export default function TenderSubmissionCreateEditForm() {
           itemName: values?.productName,
           loadPortId: values?.loadPort?.value,
           loadPortName: values?.loadPort?.label,
-          dischargePortId: values?.dischargePort?.value,
-          dischargePortName: values?.dischargePort?.label,
           foreignPriceUsd: values?.foreignPriceUSD,
           isAccept: values?.approveStatus,
           attachment: values?.attachment,
           // bcic
+          dischargePortId: values?.dischargePort?.value,
+          dischargePortName: values?.dischargePort?.label,
           totalQty: values?.foreignQnt,
           commercialNo: values?.commercialNo,
           commercialDate: values?.commercialDate,
@@ -114,12 +117,13 @@ export default function TenderSubmissionCreateEditForm() {
       };
     }
 
+    // BADC tender submission payload
     if (values?.businessPartner?.label === "BADC") {
       return {
         accountId: accountId,
         businessUnitId: buUnId,
         businessUnitName: buUnName,
-        tenderId: tenderId ? tenderId : 0,
+        tenderId: tenderId ? tenderId : 1,
         actionBy: userId,
         isActive: true,
         //common
@@ -132,12 +136,12 @@ export default function TenderSubmissionCreateEditForm() {
         itemName: values?.productName,
         loadPortId: values?.loadPort?.value,
         loadPortName: values?.loadPort?.label,
-        dischargePortId: values?.dischargePort?.value,
-        dischargePortName: values?.dischargePort?.label,
         foreignPriceUsd: values?.foreignPriceUSD,
         isAccept: values?.approveStatus,
         attachment: values?.attachment,
         //badc
+        ghat1: values?.ghat1?.label, // chittagong
+        ghat2: values?.ghat2?.label, // mongla
         dueDate: values?.dueDate,
         dueTime: values?.dueTime,
         lotqty: values?.lotQty,
@@ -231,19 +235,6 @@ export default function TenderSubmissionCreateEditForm() {
         />
       </div>
       <div className="col-lg-3">
-        <NewSelect
-          name="dischargePort"
-          options={dischargeDDL}
-          value={values?.dischargePort}
-          label="Discharge Port"
-          onChange={(valueOption) => {
-            setFieldValue("dischargePort", valueOption);
-          }}
-          errors={errors}
-          touched={touched}
-        />
-      </div>
-      <div className="col-lg-3">
         <InputField
           value={values?.foreignPriceUSD}
           label="Foreign Price (USD)"
@@ -257,8 +248,24 @@ export default function TenderSubmissionCreateEditForm() {
     </>
   );
 
-  const bcicFormFieldForeignPart = (values, setFieldValue) => (
+  const bcicFormFieldForeignPart = (values, setFieldValue, errors, touched) => (
     <>
+      <div className="col-lg-12 mt-2">
+        <h4>Foreign Part</h4>
+      </div>
+      <div className="col-lg-3">
+        <NewSelect
+          name="dischargePort"
+          options={dischargeDDL}
+          value={values?.dischargePort}
+          label="Discharge Port"
+          onChange={(valueOption) => {
+            setFieldValue("dischargePort", valueOption);
+          }}
+          errors={errors}
+          touched={touched}
+        />
+      </div>
       <div className="col-lg-3">
         <InputField
           value={values?.commercialNo}
@@ -470,8 +477,34 @@ export default function TenderSubmissionCreateEditForm() {
     </>
   );
 
-  const badcFormField = (values, setFieldValue) => (
+  const badcFormField = (values, setFieldValue, errors, touched) => (
     <>
+      <div className="col-lg-3">
+        <NewSelect
+          name="ghat1"
+          options={ghatDDL}
+          value={values?.ghat1}
+          label="Discharge ghat (Chittagong)"
+          onChange={(valueOption) => {
+            setFieldValue("ghat1", valueOption);
+          }}
+          errors={errors}
+          touched={touched}
+        />
+      </div>
+      <div className="col-lg-3">
+        <NewSelect
+          name="ghat2"
+          options={ghatDDL}
+          value={values?.ghat2}
+          label="Discharge ghat (Mongla)"
+          onChange={(valueOption) => {
+            setFieldValue("ghat2", valueOption);
+          }}
+          errors={errors}
+          touched={touched}
+        />
+      </div>
       <div className="col-lg-3">
         <InputField
           value={values?.dueDate}
@@ -561,7 +594,9 @@ export default function TenderSubmissionCreateEditForm() {
         touched,
       }) => (
         <>
-          {(getGodownDDLLoading || submitTenderLoading) && <Loading />}
+          {(getGodownDDLLoading ||
+            submitTenderLoading ||
+            getGhatDDLLoading) && <Loading />}
           <IForm title="Tender Submission Create" getProps={setObjprops}>
             <Form>
               <pre>{JSON.stringify(values, null, 2)}</pre>
@@ -583,6 +618,12 @@ export default function TenderSubmissionCreateEditForm() {
                         getGodownDDL,
                         updateGodownDDL
                       );
+                      // fetch ghat ddl when badc select
+                      if (valueOption?.label === "BADC") {
+                        getGhatDDL(
+                          `/wms/ShipPoint/GetShipPointDDL?accountId=${accountId}&businessUnitId=${buUnId}`
+                        );
+                      }
                     }}
                     errors={errors}
                     touched={touched}
@@ -591,9 +632,6 @@ export default function TenderSubmissionCreateEditForm() {
               </div>
 
               <div className="form-group  global-form row">
-                <div className="col-lg-12 mt-2">
-                  <h4>Foreign Part</h4>
-                </div>
                 {commonFormField(values, setFieldValue, errors, touched)}
 
                 {values?.businessPartner?.label === "BCIC" &&
