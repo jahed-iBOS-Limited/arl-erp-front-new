@@ -52,9 +52,13 @@ export const initData = {
   dueDate: "",
   dueTime: "",
   lotQty: "",
+  ghat1: "",
+  ghat2: "",
   contractDate: "",
   dischargeRatio: "",
   laycanDate: "",
+  pricePerQty: "",
+  pricePerBag: "",
 };
 
 // Validation schema for tender submission create & edit page
@@ -76,18 +80,6 @@ export const validationSchema = Yup.object({
     is: (businessPartner) =>
       businessPartner && businessPartner?.label === "BCIC",
     then: Yup.string().required("Discharge port is required"),
-    otherwise: Yup.string(),
-  }),
-  ghat1: Yup.string().when("businessPartner", {
-    is: (businessPartner) =>
-      businessPartner && businessPartner?.label === "BADC",
-    then: Yup.string().required("Ghat 1 is required"),
-    otherwise: Yup.string(),
-  }),
-  ghat2: Yup.string().when("businessPartner", {
-    is: (businessPartner) =>
-      businessPartner && businessPartner?.label === "BADC",
-    then: Yup.string().required("Ghat 2 is required"),
     otherwise: Yup.string(),
   }),
   foreignPriceUSD: Yup.number()
@@ -116,42 +108,6 @@ export const validationSchema = Yup.object({
     is: (businessPartner) =>
       businessPartner && businessPartner?.label === "BCIC",
     then: Yup.date().required("Reference date is required"),
-    otherwise: Yup.date(),
-  }),
-  dueDate: Yup.date().when("businessPartner", {
-    is: (businessPartner) =>
-      businessPartner && businessPartner?.label === "BADC",
-    then: Yup.date().required("Due date is required"),
-    otherwise: Yup.date(),
-  }),
-  dueTime: Yup.string().when("businessPartner", {
-    is: (businessPartner) =>
-      businessPartner && businessPartner?.label === "BADC",
-    then: Yup.string().required("Due time is required"),
-    otherwise: Yup.string(),
-  }),
-  lotQty: Yup.string().when("businessPartner", {
-    is: (businessPartner) =>
-      businessPartner && businessPartner?.label === "BADC",
-    then: Yup.string().required("Lot Qty is required"),
-    otherwise: Yup.string(),
-  }),
-  dischargeRatio: Yup.string().when("businessPartner", {
-    is: (businessPartner) =>
-      businessPartner && businessPartner?.label === "BADC",
-    then: Yup.string().required("Discharge ratio is required"),
-    otherwise: Yup.string(),
-  }),
-  contractDate: Yup.date().when("businessPartner", {
-    is: (businessPartner) =>
-      businessPartner && businessPartner?.label === "BADC",
-    then: Yup.date().required("Contract date is required"),
-    otherwise: Yup.date(),
-  }),
-  laycanDate: Yup.date().when("businessPartner", {
-    is: (businessPartner) =>
-      businessPartner && businessPartner?.label === "BADC",
-    then: Yup.date().required("Laycan date is required"),
     otherwise: Yup.date(),
   }),
   localTransportations: Yup.array()
@@ -193,6 +149,72 @@ export const validationSchema = Yup.object({
         .required("Local transport is required"),
       otherwise: Yup.array().notRequired(),
     }),
+  dueDate: Yup.date().when("businessPartner", {
+    is: (businessPartner) =>
+      businessPartner && businessPartner?.label === "BADC",
+    then: Yup.date().required("Due date is required"),
+    otherwise: Yup.date(),
+  }),
+  dueTime: Yup.string().when("businessPartner", {
+    is: (businessPartner) =>
+      businessPartner && businessPartner?.label === "BADC",
+    then: Yup.string().required("Due time is required"),
+    otherwise: Yup.string(),
+  }),
+  lotQty: Yup.string().when("businessPartner", {
+    is: (businessPartner) =>
+      businessPartner && businessPartner?.label === "BADC",
+    then: Yup.string().required("Lot Qty is required"),
+    otherwise: Yup.string(),
+  }),
+  ghat1: Yup.string().when("businessPartner", {
+    is: (businessPartner) =>
+      businessPartner && businessPartner?.label === "BADC",
+    then: Yup.string().required("Ghat 1 is required"),
+    otherwise: Yup.string(),
+  }),
+  ghat2: Yup.string().when("businessPartner", {
+    is: (businessPartner) =>
+      businessPartner && businessPartner?.label === "BADC",
+    then: Yup.string().required("Ghat 2 is required"),
+    otherwise: Yup.string(),
+  }),
+  dischargeRatio: Yup.string().when("businessPartner", {
+    is: (businessPartner) =>
+      businessPartner && businessPartner?.label === "BADC",
+    then: Yup.string().required("Discharge ratio is required"),
+    otherwise: Yup.string(),
+  }),
+  pricePerQty: Yup.number()
+    .positive()
+    .min(0)
+    .when("businessPartner", {
+      is: (businessPartner) =>
+        businessPartner && businessPartner?.label === "BADC",
+      then: Yup.number().required("Discharge ratio is required"),
+      otherwise: Yup.number(),
+    }),
+  pricePerBag: Yup.number()
+    .positive()
+    .min(0)
+    .when("businessPartner", {
+      is: (businessPartner) =>
+        businessPartner && businessPartner?.label === "BADC",
+      then: Yup.number().required("Discharge ratio is required"),
+      otherwise: Yup.number(),
+    }),
+  contractDate: Yup.date().when("businessPartner", {
+    is: (businessPartner) =>
+      businessPartner && businessPartner?.label === "BADC",
+    then: Yup.date().required("Contract date is required"),
+    otherwise: Yup.date(),
+  }),
+  laycanDate: Yup.date().when("businessPartner", {
+    is: (businessPartner) =>
+      businessPartner && businessPartner?.label === "BADC",
+    then: Yup.date().required("Laycan date is required"),
+    otherwise: Yup.date(),
+  }),
 });
 
 // Get Load Port DDL (Naltional Load)
