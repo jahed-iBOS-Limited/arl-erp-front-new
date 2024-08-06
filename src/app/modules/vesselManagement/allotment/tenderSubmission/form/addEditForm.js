@@ -67,19 +67,67 @@ export default function TenderSubmissionCreateEditForm() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const saveHandler = (values, cb) => {
-    const payload = {
-      header: {
+  const selectPayload = (values) => {
+    if (values?.businessPartner?.label === "BCIC") {
+      return {
+        header: {
+          //global
+          accountId: accountId,
+          businessUnitId: buUnId,
+          businessUnitName: buUnName,
+          tenderId: tenderId ? tenderId : 0,
+          actionBy: userId,
+          isActive: true,
+          // common
+          businessPartnerId: values?.businessPartner?.value,
+          businessPartnerName: values?.businessPartner?.label,
+          enquiryNo: values?.enquiry,
+          submissionDate: values?.submissionDate,
+          foreignQty: values?.foreignQnt,
+          uomname: values?.uomname,
+          itemName: values?.productName,
+          loadPortId: values?.loadPort?.value,
+          loadPortName: values?.loadPort?.label,
+          dischargePortId: values?.dischargePort?.value,
+          dischargePortName: values?.dischargePort?.label,
+          foreignPriceUsd: values?.foreignPriceUSD,
+          isAccept: values?.approveStatus,
+          attachment: values?.attachment,
+          // bcic
+          totalQty: values?.foreignQnt,
+          commercialNo: values?.commercialNo,
+          commercialDate: values?.commercialDate,
+          referenceNo: values?.referenceNo,
+          referenceDate: values?.referenceDate,
+        },
+        // bcic
+        rows: values?.localTransportations?.map((item) => ({
+          godownId: item?.godownName?.value,
+          godownName: item?.godownName?.label,
+          quantity: item?.quantity,
+          perQtyTonPriceBd: item?.price,
+          perQtyPriceWords: convertToText(item?.price),
+          tenderHeaderId: tenderId ? tenderId : 0,
+          tenderRowId: tenderId ? item?.tenderRowId : 0,
+          isActive: true,
+        })),
+      };
+    }
+
+    if (values?.businessPartner?.label === "BADC") {
+      return {
         accountId: accountId,
         businessUnitId: buUnId,
         businessUnitName: buUnName,
         tenderId: tenderId ? tenderId : 0,
+        actionBy: userId,
+        isActive: true,
+        //common
         businessPartnerId: values?.businessPartner?.value,
         businessPartnerName: values?.businessPartner?.label,
         enquiryNo: values?.enquiry,
         submissionDate: values?.submissionDate,
         foreignQty: values?.foreignQnt,
-        totalQty: values?.foreignQnt,
         uomname: values?.uomname,
         itemName: values?.productName,
         loadPortId: values?.loadPort?.value,
@@ -87,29 +135,26 @@ export default function TenderSubmissionCreateEditForm() {
         dischargePortId: values?.dischargePort?.value,
         dischargePortName: values?.dischargePort?.label,
         foreignPriceUsd: values?.foreignPriceUSD,
-        commercialNo: values?.commercialNo,
-        commercialDate: values?.commercialDate,
-        referenceNo: values?.referenceNo,
-        referenceDate: values?.referenceDate,
-        actionBy: userId,
-        isActive: true,
         isAccept: values?.approveStatus,
         attachment: values?.attachment,
-      },
-      rows: values?.localTransportations?.map((item) => ({
-        godownId: item?.godownName?.value,
-        godownName: item?.godownName?.label,
-        quantity: item?.quantity,
-        perQtyTonPriceBd: item?.price,
-        perQtyPriceWords: convertToText(item?.price),
-        tenderHeaderId: tenderId ? tenderId : 0,
-        tenderRowId: tenderId ? item?.tenderRowId : 0,
-        isActive: true,
-      })),
-    };
+        //badc
+        dueDate: values?.dueDate,
+        dueTime: values?.dueTime,
+        lotqty: values?.lotQty,
+        contractDate: values?.contractDate,
+        dischargeRatio: values?.dischargeRatio,
+        laycandate: values?.laycanDate,
+        pricePerQty: 10,
+        pricePerBag: 10,
+      };
+    }
+    return {};
+  };
+
+  const saveHandler = (values, cb) => {
     submitTender(
       `/tms/TenderSubmission/CreateOrUpdateTenderSubission`,
-      payload,
+      selectPayload(values),
       cb,
       true
     );
