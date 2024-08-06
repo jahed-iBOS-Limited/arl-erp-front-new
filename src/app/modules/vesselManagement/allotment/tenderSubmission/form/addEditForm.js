@@ -425,6 +425,77 @@ export default function TenderSubmissionCreateEditForm() {
     </>
   );
 
+  const badcFormField = (values, setFieldValue) => (
+    <>
+      <div className="col-lg-3">
+        <InputField
+          value={values?.dueDate}
+          label="Due Date"
+          name="dueDate"
+          type="date"
+          onChange={(e) => {
+            setFieldValue("dueDate", e.target.value);
+          }}
+        />
+      </div>
+      <div className="col-lg-3">
+        <InputField
+          value={values?.dueTime}
+          label="Due Time"
+          name="dueTime"
+          type="time"
+          onChange={(e) => {
+            setFieldValue("dueTime", e.target.value);
+          }}
+        />
+      </div>
+      <div className="col-lg-3">
+        <InputField
+          value={values?.lotQty}
+          label="Lot Qty"
+          name="lotQty"
+          type="text"
+          onChange={(e) => {
+            setFieldValue("lotQty", e.target.value);
+          }}
+        />
+      </div>
+      <div className="col-lg-3">
+        <InputField
+          value={values?.dischargeRatio}
+          label="Discharge Ratio"
+          name="dischargeRatio"
+          type="text"
+          onChange={(e) => {
+            setFieldValue("dischargeRatio", e.target.value);
+          }}
+        />
+      </div>
+      <div className="col-lg-3">
+        <InputField
+          value={values?.contractDate}
+          label="Contract Date"
+          name="contractDate"
+          type="date"
+          onChange={(e) => {
+            setFieldValue("contractDate", e.target.value);
+          }}
+        />
+      </div>
+      <div className="col-lg-3">
+        <InputField
+          value={values?.laycanDate}
+          label="Laycan Date"
+          name="laycanDate"
+          type="date"
+          onChange={(e) => {
+            setFieldValue("laycanDate", e.target.value);
+          }}
+        />
+      </div>
+    </>
+  );
+
   return (
     <Formik
       enableReinitialize={true}
@@ -482,6 +553,9 @@ export default function TenderSubmissionCreateEditForm() {
 
                 {values?.businessPartner?.label === "BCIC" &&
                   bcicFormFieldForeignPart(values, setFieldValue)}
+
+                {values?.businessPartner?.label === "BADC" &&
+                  badcFormField(values, setFieldValue)}
 
                 {tenderId && editFormField(values, setFieldValue)}
               </div>
