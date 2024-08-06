@@ -634,7 +634,6 @@ export default function TenderSubmissionCreateEditForm() {
             getGhatDDLLoading) && <Loading />}
           <IForm title="Tender Submission Create" getProps={setObjprops}>
             <Form>
-              <pre>{JSON.stringify(values, null, 2)}</pre>
               <div className="form-group  global-form row">
                 <div className="col-lg-3">
                   <NewSelect
