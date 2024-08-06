@@ -20,7 +20,7 @@ export const ErrorMessage = ({ name }) => (
 // Business partner value & label (get from vessel management > configeration > godowns)
 export const businessPartnerDDL = [
   { value: 89497, label: "BCIC" },
-  { value: 88075, label: "BIDC" },
+  { value: 88075, label: "BADC" },
 ];
 
 // Inital data for tender submission create & edit page
@@ -59,6 +59,10 @@ export const initData = {
 
 // Validation schema for tender submission create & edit page
 export const validationSchema = Yup.object({
+  businessPartner: Yup.object({
+    label: Yup.string().required("Business partner label is required"),
+    value: Yup.string().required("Business partner value is required"),
+  }).required("Business partner is required"),
   enquiry: Yup.string().required("Enquiry is required"),
   submissionDate: Yup.date().required("Submission date is required"),
   foreignQnt: Yup.number()
@@ -73,26 +77,105 @@ export const validationSchema = Yup.object({
     .positive()
     .min(0)
     .required("Foreign price is required"),
-  commercialDate: Yup.date().required("Commercial date is required"),
-  commercialNo: Yup.string().required("Commercial no is required"),
-  referenceNo: Yup.string().required("Reference no is required"),
-  referenceDate: Yup.date().required("Reference date is required"),
+  commercialDate: Yup.date().when("businessPartner", {
+    is: (businessPartner) =>
+      businessPartner && businessPartner?.label === "BCIC",
+    then: Yup.date().required("Commercial date is required"),
+    otherwise: Yup.date(),
+  }),
+  commercialNo: Yup.string().when("businessPartner", {
+    is: (businessPartner) =>
+      businessPartner && businessPartner?.label === "BCIC",
+    then: Yup.string().required("Commercial no is required"),
+    otherwise: Yup.string(),
+  }),
+  referenceNo: Yup.string().when("businessPartner", {
+    is: (businessPartner) =>
+      businessPartner && businessPartner?.label === "BCIC",
+    then: Yup.string().required("Reference no is required"),
+    otherwise: Yup.string(),
+  }),
+  referenceDate: Yup.date().when("businessPartner", {
+    is: (businessPartner) =>
+      businessPartner && businessPartner?.label === "BCIC",
+    then: Yup.date().required("Reference date is required"),
+    otherwise: Yup.date(),
+  }),
+  dueDate: Yup.date().when("businessPartner", {
+    is: (businessPartner) =>
+      businessPartner && businessPartner?.label === "BADC",
+    then: Yup.date().required("Due date is required"),
+    otherwise: Yup.date(),
+  }),
+  dueTime: Yup.string().when("businessPartner", {
+    is: (businessPartner) =>
+      businessPartner && businessPartner?.label === "BADC",
+    then: Yup.string().required("Due time is required"),
+    otherwise: Yup.string(),
+  }),
+  lotQty: Yup.string().when("businessPartner", {
+    is: (businessPartner) =>
+      businessPartner && businessPartner?.label === "BADC",
+    then: Yup.string().required("Lot Qty is required"),
+    otherwise: Yup.string(),
+  }),
+  dischargeRatio: Yup.string().when("businessPartner", {
+    is: (businessPartner) =>
+      businessPartner && businessPartner?.label === "BADC",
+    then: Yup.string().required("Discharge ratio is required"),
+    otherwise: Yup.string(),
+  }),
+  contractDate: Yup.date().when("businessPartner", {
+    is: (businessPartner) =>
+      businessPartner && businessPartner?.label === "BADC",
+    then: Yup.date().required("Contract date is required"),
+    otherwise: Yup.date(),
+  }),
+  laycanDate: Yup.date().when("businessPartner", {
+    is: (businessPartner) =>
+      businessPartner && businessPartner?.label === "BADC",
+    then: Yup.date().required("Laycan date is required"),
+    otherwise: Yup.date(),
+  }),
   localTransportations: Yup.array()
     .of(
       Yup.object({
-        godownName: Yup.string().required("Godown is required"),
+        godownName: Yup.string().when("$businessPartner", {
+          is: (businessPartner) =>
+            businessPartner && businessPartner?.label === "BCIC",
+          then: Yup.string().required("Godown is required"),
+          otherwise: Yup.string(),
+        }),
         quantity: Yup.number()
           .positive()
           .min(0)
-          .required("Quantity is required"),
+          .when("$businessPartner", {
+            is: (businessPartner) =>
+              businessPartner && businessPartner?.label === "BCIC",
+            then: Yup.number().required("Quantity is required"),
+            otherwise: Yup.number(),
+          }),
         price: Yup.number()
           .positive()
           .min(0)
-          .required("Price is required"),
+          .when("$businessPartner", {
+            is: (businessPartner) => {
+              console.log(businessPartner);
+              return businessPartner && businessPartner?.label === "BCIC";
+            },
+            then: Yup.number().required("Price is required"),
+            otherwise: Yup.number(),
+          }),
       })
     )
-    .required("Local transport is required")
-    .min(1, "Minimum 1 local transport"),
+    .when("businessPartner", {
+      is: (businessPartner) =>
+        businessPartner && businessPartner?.label === "BCIC",
+      then: Yup.array()
+        .min(1, "Minimum 1 local transport")
+        .required("Local transport is required"),
+      otherwise: Yup.array().notRequired(),
+    }),
 });
 
 // Get Load Port DDL (Naltional Load)
