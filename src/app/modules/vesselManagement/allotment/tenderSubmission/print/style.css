@@ -1,3 +1,4 @@
+/*BCIC Table*/
 .print-only table,
 th,
 td {
@@ -13,6 +14,25 @@ td {
 /* Hide the div on screen */
 .tender-print-preview {
   display: none;
+}
+
+/*BADC Table*/
+.badc-tender-table tbody tr td:nth-child(4){
+ width: 80px;
+ text-align: center;
+}
+.badc-tender-table tbody tr td:nth-child(5){
+  width: 240px;
+}
+.badc-tender-table tbody .qoutedPriceNumber{
+  font-weight: 600;
+  text-align: right;
+}
+.badc-tender-table tbody .qoutedPriceString{
+  text-align: center;
+}
+.badc-tender-table tbody .foreign-local-td{
+  width: 240px;
 }
 
 /* Show the div only when printing */
