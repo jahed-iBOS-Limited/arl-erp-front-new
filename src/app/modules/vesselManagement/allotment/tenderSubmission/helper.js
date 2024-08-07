@@ -265,6 +265,26 @@ export const fetchSubmittedTenderData = (accountId, buUnId, values, pageNo, page
     getTenderDetailsListFunc(url);
 };
 
+// Async await approch for fetch details along with print page view
+// const fetchTenderDetails = async (tenderId,) => {
+//     const url = `/tms/TenderSubmission/GetTenderSubmissionById?AccountId=${accountId}&BusinessUnitId=${buUnId}8&TenderId=${tenderId}`
+//     const response = await getTenderDetails(url)
+//     return response
+// }
+
+
+// Callback approch for fetch details along with print page view
+export const fetchTenderDetailsCallback = (accountId, buUnId, values, tenderId, getTenderDetailsFunc, callback) => {
+    let url = '';
+
+    if (values?.businessPartner?.label === 'BCIC') {
+        url = `/tms/TenderSubmission/GetTenderSubmissionById?AccountId=${accountId}&BusinessUnitId=${buUnId}&TenderId=${tenderId}`;
+        getTenderDetailsFunc(url, () => {
+            callback();
+        });
+    }
+};
+
 // State function when update data
 export const updateState = ({ header, rows }) => {
     const editData = {
