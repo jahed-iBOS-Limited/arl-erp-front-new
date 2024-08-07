@@ -2,8 +2,10 @@ import { Form, Formik } from "formik";
 import React, { useMemo, useState } from "react";
 import ReactHtmlTableToExcel from "react-html-table-to-excel";
 import { shallowEqual, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import IConfirmModal from "../../../_helper/_confirmModal";
 import { _formatMoney } from "../../../_helper/_formatMoney";
+import IDelete from "../../../_helper/_helperIcons/_delete";
 import InputField from "../../../_helper/_inputField";
 import NewSelect from "../../../_helper/_select";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
@@ -11,8 +13,6 @@ import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import useDebounce from "../../../_helper/customHooks/useDebounce";
 import IForm from "./../../../_helper/_form";
 import Loading from "./../../../_helper/_loading";
-import IDelete from "../../../_helper/_helperIcons/_delete";
-import { toast } from "react-toastify";
 
 const initData = {
   customerCategory: "",
@@ -137,7 +137,9 @@ export default function CustomerIncentive() {
 
   // get trade commission api handler
   const getTradeCommissionHandler = (values) => {
-    const payload = ["DeliveryIncentive(WithAmount)"].includes(values?.incentiveType?.value)
+    const payload = ["DeliveryIncentive(WithAmount)"].includes(
+      values?.incentiveType?.value
+    )
       ? [
           {
             per1: 0,
@@ -178,9 +180,12 @@ export default function CustomerIncentive() {
         { value: "Performance", label: "Performance Bonus" },
         { value: "WithTarget", label: "With Target" },
         { value: "WithoutTarget", label: " Without Target" },
-        { value: "DeliveryIncentive(WithAmount)", label: "Delivery Incentive (WithAmount)" },
+        {
+          value: "DeliveryIncentive(WithAmount)",
+          label: "Delivery Incentive (WithAmount)",
+        },
       ];
-    } else if (["Platinum", "Gold"].includes(customerCategoryLabel)) {
+    } else if (["Cash", "Gold"].includes(customerCategoryLabel)) {
       return [{ value: "Monthly", label: "Monthly" }];
     } else {
       return [];
@@ -226,7 +231,7 @@ export default function CustomerIncentive() {
                       label="Customer Category"
                       options={[
                         { value: "All", label: "All" },
-                        { value: "Platinum", label: "Platinum" },
+                        { value: "Cash", label: "Cash" },
                         { value: "Gold", label: "Gold" },
                       ]}
                       value={values?.customerCategory}
@@ -309,9 +314,11 @@ export default function CustomerIncentive() {
                         />
                       </div>
                     </>
-                  ) : ["WithTarget", "WithoutTarget", "DeliveryIncentive(WithAmount)"].includes(
-                      values?.incentiveType?.value
-                    ) ? (
+                  ) : [
+                      "WithTarget",
+                      "WithoutTarget",
+                      "DeliveryIncentive(WithAmount)",
+                    ].includes(values?.incentiveType?.value) ? (
                     <>
                       <div className="col-lg-3">
                         <InputField
@@ -497,7 +504,9 @@ export default function CustomerIncentive() {
                   </>
                 ) : null}
                 <div className="row">
-                  {["DeliveryIncentive(WithAmount)"].includes(values?.incentiveType?.value) && (
+                  {["DeliveryIncentive(WithAmount)"].includes(
+                    values?.incentiveType?.value
+                  ) && (
                     <div className="col-lg-3">
                       <InputField
                         value={values?.amount}
@@ -621,13 +630,19 @@ export default function CustomerIncentive() {
                             ? "Avg Delivery Qty"
                             : "Delivery Qty"}
                         </th>
-                        {["WithTarget", "WithoutTarget",  "DeliveryIncentive(WithAmount)"].includes(
-                          values?.incentiveType?.value
-                        ) && <th>Target Quantity</th>}
+                        {[
+                          "WithTarget",
+                          "WithoutTarget",
+                          "DeliveryIncentive(WithAmount)",
+                        ].includes(values?.incentiveType?.value) && (
+                          <th>Target Quantity</th>
+                        )}
                         {/* <th>Total Delivery Qty</th> */}
-                        {!["WithTarget", "WithoutTarget",  "DeliveryIncentive(WithAmount)"].includes(
-                          values?.incentiveType?.value
-                        ) ? (
+                        {![
+                          "WithTarget",
+                          "WithoutTarget",
+                          "DeliveryIncentive(WithAmount)",
+                        ].includes(values?.incentiveType?.value) ? (
                           <>
                             {" "}
                             <th>Opening Balance</th>
@@ -672,9 +687,11 @@ export default function CustomerIncentive() {
                             <td className="text-right">
                               {item?.deliveryQty || 0}
                             </td>
-                            {["WithTarget", "WithoutTarget",  "DeliveryIncentive(WithAmount)"].includes(
-                              values?.incentiveType?.value
-                            ) && (
+                            {[
+                              "WithTarget",
+                              "WithoutTarget",
+                              "DeliveryIncentive(WithAmount)",
+                            ].includes(values?.incentiveType?.value) && (
                               <td className="text-right">
                                 {item?.targetQuantity || 0}
                               </td>
@@ -682,9 +699,11 @@ export default function CustomerIncentive() {
                             {/* <td className="text-right">
                               {item?.totalDeliveryQTY || 0}
                             </td> */}
-                            {!["WithTarget", "WithoutTarget",  "DeliveryIncentive(WithAmount)"].includes(
-                              values?.incentiveType?.value
-                            ) ? (
+                            {![
+                              "WithTarget",
+                              "WithoutTarget",
+                              "DeliveryIncentive(WithAmount)",
+                            ].includes(values?.incentiveType?.value) ? (
                               <>
                                 {" "}
                                 <td className="text-right">
@@ -719,16 +738,20 @@ export default function CustomerIncentive() {
                         <td className="font-weight-bold text-right">
                           {countTotal("deliveryQty")}
                         </td>
-                        {["WithTarget", "WithoutTarget",  "DeliveryIncentive(WithAmount)"].includes(
-                          values?.incentiveType?.value
-                        ) && (
+                        {[
+                          "WithTarget",
+                          "WithoutTarget",
+                          "DeliveryIncentive(WithAmount)",
+                        ].includes(values?.incentiveType?.value) && (
                           <td className="font-weight-bold text-right">
                             {countTotal("targetQuantity")}
                           </td>
                         )}
-                        {!["WithTarget", "WithoutTarget",  "DeliveryIncentive(WithAmount)"].includes(
-                          values?.incentiveType?.value
-                        ) ? (
+                        {![
+                          "WithTarget",
+                          "WithoutTarget",
+                          "DeliveryIncentive(WithAmount)",
+                        ].includes(values?.incentiveType?.value) ? (
                           <>
                             <td className="font-weight-bold text-right">
                               {_formatMoney(countTotal("openingBalance"))}
