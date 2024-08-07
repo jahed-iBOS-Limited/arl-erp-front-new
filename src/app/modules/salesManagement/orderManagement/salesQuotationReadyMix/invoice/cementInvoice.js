@@ -162,8 +162,8 @@ const CementInvoice = ({ printRef, invoiceData, businessPartnerInfo }) => {
       <div className="d-flex justify-content-between">
         <div>
           <p>Prepared By</p>
-          <p>(Md. Abul Bashar)</p>
-          <p>Deputy Manage</p>
+          <p>{employeeFullName}</p>
+          <p>{designationName}</p>
           <p>Akij Cement Company Limited</p>
         </div>
         <p>Received By</p>
