@@ -18,6 +18,8 @@ import {
   getGodownDDLList,
   GetLoadPortDDL,
   initData,
+  selectPayload,
+  selectUrl,
   updateState,
   validationSchema,
 } from "../helper";
@@ -30,7 +32,6 @@ export default function TenderSubmissionCreateEditForm() {
   // For edit
   const { id: tenderId } = useParams();
   const { state: landingPageState } = useLocation();
-  console.log(landingPageState)
   // Default
   const [objProps, setObjprops] = useState({});
   // DDL
@@ -77,107 +78,12 @@ export default function TenderSubmissionCreateEditForm() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const selectPayload = (values) => {
-    // BCIC tender submission payload
-    if (values?.businessPartner?.label === "BCIC") {
-      return {
-        header: {
-          //global
-          accountId: accountId,
-          businessUnitId: buUnId,
-          businessUnitName: buUnName,
-          tenderId: tenderId ? tenderId : 0,
-          actionBy: userId,
-          isActive: true,
-          // common
-          businessPartnerId: values?.businessPartner?.value,
-          businessPartnerName: values?.businessPartner?.label,
-          enquiryNo: values?.enquiry,
-          submissionDate: values?.submissionDate,
-          foreignQty: values?.foreignQnt,
-          uomname: values?.uomname,
-          itemName: values?.productName,
-          loadPortId: values?.loadPort?.value,
-          loadPortName: values?.loadPort?.label,
-          foreignPriceUsd: values?.foreignPriceUSD,
-          isAccept: values?.approveStatus,
-          attachment: values?.attachment,
-          // bcic
-          dischargePortId: values?.dischargePort?.value,
-          dischargePortName: values?.dischargePort?.label,
-          totalQty: values?.foreignQnt,
-          commercialNo: values?.commercialNo,
-          commercialDate: values?.commercialDate,
-          referenceNo: values?.referenceNo,
-          referenceDate: values?.referenceDate,
-        },
-        // bcic
-        rows: values?.localTransportations?.map((item) => ({
-          godownId: item?.godownName?.value,
-          godownName: item?.godownName?.label,
-          quantity: item?.quantity,
-          perQtyTonPriceBd: item?.price,
-          perQtyPriceWords: convertToText(item?.price),
-          tenderHeaderId: tenderId ? tenderId : 0,
-          tenderRowId: tenderId ? item?.tenderRowId : 0,
-          isActive: true,
-        })),
-      };
-    }
 
-    // BADC tender submission payload
-    if (values?.businessPartner?.label === "BADC") {
-      return {
-        accountId: accountId,
-        businessUnitId: buUnId,
-        businessUnitName: buUnName,
-        tenderId: 0,
-        actionBy: userId,
-        isActive: true,
-        //common
-        businessPartnerId: values?.businessPartner?.value,
-        businessPartnerName: values?.businessPartner?.label,
-        enquiryNo: values?.enquiry,
-        submissionDate: values?.submissionDate,
-        foreignQty: +values?.foreignQnt,
-        uomname: values?.uomname,
-        itemName: values?.productName,
-        loadPortId: values?.loadPort?.value,
-        loadPortName: values?.loadPort?.label,
-        foreignPriceUsd: +values?.foreignPriceUSD,
-        isAccept: values?.approveStatus ? values?.approveStatus : false,
-        attachment: values?.attachment,
-        //badc
-        ghat1: values?.ghat1?.label, // chittagong
-        ghat2: values?.ghat2?.label, // mongla
-        dueDate: values?.dueDate,
-        dueTime: values?.dueTime,
-        lotqty: values?.lotQty,
-        contractDate: values?.contractDate,
-        dischargeRatio: values?.dischargeRatio,
-        laycandate: values?.laycanDate,
-        pricePerQty: +values?.pricePerQty,
-        pricePerBag: +values?.pricePerBag,
-      };
-    }
-    return {};
-  };
-
-  const selectUrl = (businessPartner) => {
-    switch (businessPartner) {
-      case "BCIC":
-        return `/tms/TenderSubmission/CreateOrUpdateTenderSubission`;
-      case "BADC":
-        return `tms/TenderSubmission/CreateOrEditBIDCTenderSubmission`;
-      default:
-        return "";
-    }
-  };
 
   const saveHandler = (values, cb) => {
     submitTender(
       selectUrl(values?.businessPartner?.label),
-      selectPayload(values),
+      selectPayload(values, { accountId, buUnId, buUnName, tenderId, userId }),
       cb,
       true
     );
@@ -616,6 +522,7 @@ export default function TenderSubmissionCreateEditForm() {
       </div>
     </>
   );
+  console.log(tenderDetails)
 
   return (
     <Formik
