@@ -356,7 +356,7 @@ export const updateState = (tenderDetails) => {
                 label: tenderDetails?.ghat2,
             },
             dueDate: _dateFormatter(tenderDetails?.dueDate),
-            dueTime: tenderDetails?.strDueTime,
+            dueTime: tenderDetails?.dueTime,
             lotQty: tenderDetails?.lotqty,
             contractDate: _dateFormatter(tenderDetails?.contractDate),
             dischargeRatio: tenderDetails?.dischargeRatio,
