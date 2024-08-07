@@ -1,6 +1,14 @@
 import React from "react";
 
-const IButton = ({ onClick, className, type, children, disabled, colSize }) => {
+const IButton = ({
+  onClick,
+  className,
+  type,
+  children,
+  disabled,
+  colSize,
+  title = "View",
+}) => {
   return (
     <div className={`${colSize ? colSize : "col-12"} mt-5 text-right`}>
       <button
@@ -9,7 +17,7 @@ const IButton = ({ onClick, className, type, children, disabled, colSize }) => {
         onClick={onClick}
         disabled={disabled}
       >
-        {children ? children : "View"}
+        {children ? children : title}
       </button>
     </div>
   );
