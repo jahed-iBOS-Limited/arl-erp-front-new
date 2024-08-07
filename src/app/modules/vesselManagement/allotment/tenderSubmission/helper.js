@@ -569,7 +569,7 @@ export const selectPayload = (values, { accountId, buUnId, buUnName, tenderId, u
             accountId: accountId,
             businessUnitId: buUnId,
             businessUnitName: buUnName,
-            tenderId: tenderId ? tenderId : 0,
+            tenderId: tenderId ? +tenderId : 0,
             actionBy: userId,
             isActive: true,
             //common

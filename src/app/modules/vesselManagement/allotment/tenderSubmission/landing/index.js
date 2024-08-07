@@ -8,13 +8,13 @@ import Loading from "../../../../_helper/_loading";
 import PaginationTable from "../../../../_helper/_tablePagination";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import { getLetterHead } from "../../../../financialManagement/report/bankLetter/helper";
-import Print from "../print/printTender";
 import "../print/style.css";
 import NewSelect from "../../../../_helper/_select";
 import { businessPartnerDDL, fetchSubmittedTenderData } from "../helper";
 import * as Yup from 'yup'
 import BCICTendersTable from "./bcicTable";
 import BADCTendersTable from "./badcTable";
+import PrintBCICTender from "../print/printBCICTender";
 
 // const initData = {};
 
@@ -201,7 +201,7 @@ export default function TenderSubmissionLanding() {
                   {/* CONTENT GOES HERE */}
                   <tbody>
                     <div style={{ margin: "40px 75px 0 75px" }}>
-                      <Print tenderDetails={tenderDetails} />
+                      <PrintBCICTender tenderDetails={tenderDetails} />
                     </div>
                   </tbody>
                   <tfoot>
