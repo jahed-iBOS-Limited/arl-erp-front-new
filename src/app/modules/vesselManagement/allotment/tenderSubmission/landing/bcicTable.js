@@ -5,7 +5,7 @@ import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
 import ICon from '../../../../chartering/_chartinghelper/icons/_icon';
 import { useDispatch } from 'react-redux';
-import { fetchTenderDetailsCallback } from '../helper';
+import { fetchTenderDetailsCallbackForPrintAndCreateEditPage } from '../helper';
 
 const BCICTendersTable = ({ accountId, buUnId, values, submittedTenderLists, handleTenderPrint, getTenderDetails }) => {
     const dispatch = useDispatch()
@@ -82,7 +82,7 @@ const BCICTendersTable = ({ accountId, buUnId, values, submittedTenderLists, han
                                             // }}
                                             // 2nd approch
                                             onClick={() => {
-                                                fetchTenderDetailsCallback(
+                                                fetchTenderDetailsCallbackForPrintAndCreateEditPage(
                                                     accountId,
                                                     buUnId,
                                                     values,

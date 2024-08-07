@@ -240,7 +240,7 @@ export const GetLoadPortDDL = async (setter) => {
 };
 
 // Fetch tender details with tender id
-export const fetchTenderDetails = (
+export const fetchTenderDetailsForCreateEditPage = (
     tenderId,
     accountId,
     buUnId,
@@ -274,15 +274,20 @@ export const fetchSubmittedTenderData = (accountId, buUnId, values, pageNo, page
 
 
 // Callback approch for fetch details along with print page view
-export const fetchTenderDetailsCallback = (accountId, buUnId, values, tenderId, getTenderDetailsFunc, callback) => {
+export const fetchTenderDetailsCallbackForPrintAndCreateEditPage = (accountId, buUnId, values, tenderId, getTenderDetailsFunc, callback) => {
     let url = '';
+    console.log(values?.businessPartnerName?.label)
 
     if (values?.businessPartner?.label === 'BCIC') {
         url = `/tms/TenderSubmission/GetTenderSubmissionById?AccountId=${accountId}&BusinessUnitId=${buUnId}&TenderId=${tenderId}`;
-        getTenderDetailsFunc(url, () => {
-            callback();
-        });
     }
+    if (values?.businessPartner?.label === 'BADC') {
+        url = `/tms/TenderSubmission/GetBIDCTenderSubmissionById?AccountId=${accountId}&BusinessunitId=${buUnId}&TenderId=${tenderId}`;
+    }
+    getTenderDetailsFunc(url, () => {
+        callback && callback();
+    });
+
 };
 
 // State function when update data

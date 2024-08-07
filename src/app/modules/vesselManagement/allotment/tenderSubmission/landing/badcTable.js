@@ -2,7 +2,7 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import IEdit from '../../../../_helper/_helperIcons/_edit'
-import { fetchTenderDetailsCallback } from '../helper'
+import { fetchTenderDetailsCallbackForPrintAndCreateEditPage } from '../helper'
 import { OverlayTrigger, Tooltip } from 'react-bootstrap'
 import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions'
 import ICon from '../../../../chartering/_chartinghelper/icons/_icon'
@@ -12,7 +12,6 @@ const BADCTendersTable = ({ accountId, buUnId, values, submittedTenderLists, han
     const dispatch = useDispatch()
     const history = useHistory()
 
-    console.log(submittedTenderLists)
 
     return (
         <div className="table-responsive">
@@ -85,7 +84,7 @@ const BADCTendersTable = ({ accountId, buUnId, values, submittedTenderLists, han
                                             // }}
                                             // 2nd approch
                                             onClick={() => {
-                                                fetchTenderDetailsCallback(
+                                                fetchTenderDetailsCallbackForPrintAndCreateEditPage(
                                                     accountId,
                                                     buUnId,
                                                     values,

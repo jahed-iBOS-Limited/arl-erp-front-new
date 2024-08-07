@@ -13,7 +13,7 @@ import {
   businessPartnerDDL,
   convertToText,
   ErrorMessage,
-  fetchTenderDetails,
+  fetchTenderDetailsCallbackForPrintAndCreateEditPage,
   getDischargePortDDL,
   getGodownDDLList,
   GetLoadPortDDL,
@@ -30,6 +30,7 @@ export default function TenderSubmissionCreateEditForm() {
   // For edit
   const { id: tenderId } = useParams();
   const { state: landingPageState } = useLocation();
+  console.log(landingPageState)
   // Default
   const [objProps, setObjprops] = useState({});
   // DDL
@@ -57,7 +58,14 @@ export default function TenderSubmissionCreateEditForm() {
     // Id tenderId  than this is edit mode
     if (tenderId && landingPageState) {
       // Fetch when edit mode active
-      fetchTenderDetails(tenderId, accountId, buUnId, getTenderDetails);
+      fetchTenderDetailsCallbackForPrintAndCreateEditPage(
+        accountId,
+        buUnId,
+        { businessPartner: { label: landingPageState?.businessPartnerName } },
+        tenderId,
+        getTenderDetails,
+
+      );
       getGodownDDLList(
         { value: landingPageState?.businessPartnerId },
         accountId,
