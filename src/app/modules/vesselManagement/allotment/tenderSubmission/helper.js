@@ -356,7 +356,7 @@ export const updateState = (tenderDetails) => {
                 label: tenderDetails?.ghat2,
             },
             dueDate: _dateFormatter(tenderDetails?.dueDate),
-            dueTime: tenderDetails?.strDueTime,
+            dueTime: tenderDetails?.dueTime,
             lotQty: tenderDetails?.lotqty,
             contractDate: _dateFormatter(tenderDetails?.contractDate),
             dischargeRatio: tenderDetails?.dischargeRatio,
@@ -569,7 +569,7 @@ export const selectPayload = (values, { accountId, buUnId, buUnName, tenderId, u
             accountId: accountId,
             businessUnitId: buUnId,
             businessUnitName: buUnName,
-            tenderId: tenderId ? tenderId : 0,
+            tenderId: tenderId ? +tenderId : 0,
             actionBy: userId,
             isActive: true,
             //common
