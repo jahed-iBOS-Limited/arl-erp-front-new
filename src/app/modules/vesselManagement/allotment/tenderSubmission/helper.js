@@ -33,10 +33,10 @@ export const initData = {
     uomname: "",
     productName: "",
     loadPort: "",
-    dischargePort: "",
     foreignPriceUSD: "",
     approveStatus: "",
     // bcic state
+    dischargePort: "",
     commercialNo: "",
     commercialDate: "",
     referenceNo: "",
@@ -291,47 +291,98 @@ export const fetchTenderDetailsCallbackForPrintAndCreateEditPage = (accountId, b
 };
 
 // State function when update data
-export const updateState = ({ header, rows }) => {
-    const editData = {
-        businessPartner: {
-            value: header?.businessPartnerId,
-            label: header?.businessPartnerName,
-        },
-        attachment: header?.attachment,
-        enquiry: header?.enquiryNo,
-        submissionDate: _dateFormatter(header?.submissionDate),
-        foreignQnt: header?.foreignQty,
-        uomname: header?.uomname,
-        productName: header?.itemName,
-        loadPort: {
-            label: header?.loadPortName,
-            value: header?.loadPortId,
-        },
-        dischargePort: {
-            label: header?.dischargePortName,
-            value: header?.dischargePortId,
-        },
-        foreignPriceUSD: header?.foreignPriceUsd,
-        commercialNo: header?.commercialNo,
-        commercialDate: _dateFormatter(header?.commercialDate),
-        referenceNo: header?.referenceNo,
-        referenceDate: _dateFormatter(header?.referenceDate),
-        approveStatus: header?.isAccept,
-        localTransportations: rows?.map((item) => {
-            return {
-                tenderRowId: item?.tenderRowId,
-                tenderHeaderId: item?.tenderHeaderId,
-                godownName: {
-                    value: 98654,
-                    label: item?.godownName,
-                },
-                quantity: item?.quantity,
-                price: item?.perQtyTonPriceBd,
-                perQtyPriceWords: item?.perQtyTonPriceBd,
-            };
-        }),
-    };
-    return editData;
+//export const updateState = ({ header, rows, }, ...rest) => {
+export const updateState = (tenderDetails) => {
+
+    const isBCIC = tenderDetails?.header || tenderDetails?.rows
+    if (isBCIC) {
+        const { header, rows } = tenderDetails
+
+        const bcicState = {
+            dischargePort: {
+                label: header?.dischargePortName,
+                value: header?.dischargePortId,
+            },
+            commercialNo: header?.commercialNo,
+            commercialDate: _dateFormatter(header?.commercialDate),
+            referenceNo: header?.referenceNo,
+            referenceDate: _dateFormatter(header?.referenceDate),
+            localTransportations: rows?.map((item) => {
+                return {
+                    tenderRowId: item?.tenderRowId,
+                    tenderHeaderId: item?.tenderHeaderId,
+                    godownName: {
+                        value: 98654,
+                        label: item?.godownName,
+                    },
+                    quantity: item?.quantity,
+                    price: item?.perQtyTonPriceBd,
+                    perQtyPriceWords: item?.perQtyTonPriceBd,
+                };
+            }),
+        }
+
+        const commonEditData = {
+            //bcic
+            ...bcicState,
+
+            // global
+            businessPartner: header?.businessPartnerId ? {
+                value: header?.businessPartnerId,
+                label: header?.businessPartnerName,
+            } : '',
+            // common
+            enquiry: header?.enquiryNo,
+            submissionDate: _dateFormatter(header?.submissionDate),
+            foreignQnt: header?.foreignQty,
+            uomname: header?.uomname,
+            productName: header?.itemName,
+            loadPort: {
+                label: header?.loadPortName,
+                value: header?.loadPortId,
+            },
+            foreignPriceUSD: header?.foreignPriceUsd,
+            // edit 
+            attachment: header?.attachment,
+            approveStatus: header?.isAccept,
+        };
+        return commonEditData;
+    } else {
+        const badcState = {
+            ghat1: {
+                label: tenderDetails?.ghat1
+            },
+            ghat2: {
+                label: tenderDetails?.ghat2,
+                value: 443
+            }
+        }
+
+        const commonEditData = {
+            //bcic
+            ...badcState,
+            // global
+            businessPartner: tenderDetails?.businessPartnerId ? {
+                value: tenderDetails?.businessPartnerId,
+                label: tenderDetails?.businessPartnerName,
+            } : '',
+            // common
+            enquiry: tenderDetails?.enquiryNo,
+            submissionDate: _dateFormatter(tenderDetails?.submissionDate),
+            foreignQnt: tenderDetails?.foreignQty,
+            uomname: tenderDetails?.uomname,
+            productName: tenderDetails?.itemName,
+            loadPort: {
+                label: tenderDetails?.loadPortName,
+                value: tenderDetails?.loadPortId,
+            },
+            foreignPriceUSD: tenderDetails?.foreignPriceUsd,
+            // edit 
+            attachment: tenderDetails?.attachment,
+            approveStatus: tenderDetails?.isAccept,
+        };
+        return commonEditData
+    }
 };
 
 // get godown list function
@@ -442,3 +493,103 @@ export function convertToText(n) {
             .toUpperCase() + " TAKA ONLY"
     );
 }
+
+
+// Select url for create tender on create and edit page
+export const selectUrl = (businessPartner) => {
+    switch (businessPartner) {
+        case "BCIC":
+            return `/tms/TenderSubmission/CreateOrUpdateTenderSubission`;
+        case "BADC":
+            return `tms/TenderSubmission/CreateOrEditBIDCTenderSubmission`;
+        default:
+            return "";
+    }
+};
+
+// Select payload for save tender data on create and edit page
+export const selectPayload = (values, { accountId, buUnId, buUnName, tenderId, userId }) => {
+    // BCIC tender submission payload
+    if (values?.businessPartner?.label === "BCIC") {
+        return {
+            header: {
+                //global
+                accountId: accountId,
+                businessUnitId: buUnId,
+                businessUnitName: buUnName,
+                tenderId: tenderId ? tenderId : 0,
+                actionBy: userId,
+                isActive: true,
+                // common
+                businessPartnerId: values?.businessPartner?.value,
+                businessPartnerName: values?.businessPartner?.label,
+                enquiryNo: values?.enquiry,
+                submissionDate: values?.submissionDate,
+                foreignQty: values?.foreignQnt,
+                uomname: values?.uomname,
+                itemName: values?.productName,
+                loadPortId: values?.loadPort?.value,
+                loadPortName: values?.loadPort?.label,
+                foreignPriceUsd: values?.foreignPriceUSD,
+                isAccept: values?.approveStatus,
+                attachment: values?.attachment,
+                // bcic
+                dischargePortId: values?.dischargePort?.value,
+                dischargePortName: values?.dischargePort?.label,
+                totalQty: values?.foreignQnt,
+                commercialNo: values?.commercialNo,
+                commercialDate: values?.commercialDate,
+                referenceNo: values?.referenceNo,
+                referenceDate: values?.referenceDate,
+            },
+            // bcic
+            rows: values?.localTransportations?.map((item) => ({
+                godownId: item?.godownName?.value,
+                godownName: item?.godownName?.label,
+                quantity: item?.quantity,
+                perQtyTonPriceBd: item?.price,
+                perQtyPriceWords: convertToText(item?.price),
+                tenderHeaderId: tenderId ? tenderId : 0,
+                tenderRowId: tenderId ? item?.tenderRowId : 0,
+                isActive: true,
+            })),
+        };
+    }
+
+    // BADC tender submission payload
+    if (values?.businessPartner?.label === "BADC") {
+        return {
+            accountId: accountId,
+            businessUnitId: buUnId,
+            businessUnitName: buUnName,
+            tenderId: 0,
+            actionBy: userId,
+            isActive: true,
+            //common
+            businessPartnerId: values?.businessPartner?.value,
+            businessPartnerName: values?.businessPartner?.label,
+            enquiryNo: values?.enquiry,
+            submissionDate: values?.submissionDate,
+            foreignQty: +values?.foreignQnt,
+            uomname: values?.uomname,
+            itemName: values?.productName,
+            loadPortId: values?.loadPort?.value,
+            loadPortName: values?.loadPort?.label,
+            foreignPriceUsd: +values?.foreignPriceUSD,
+            isAccept: values?.approveStatus ? values?.approveStatus : false,
+            attachment: values?.attachment,
+            //badc
+            ghat1: values?.ghat1?.label, // chittagong
+            ghat2: values?.ghat2?.label, // mongla
+            dueDate: values?.dueDate,
+            dueTime: values?.dueTime,
+            lotqty: values?.lotQty,
+            contractDate: values?.contractDate,
+            dischargeRatio: values?.dischargeRatio,
+            laycandate: values?.laycanDate,
+            pricePerQty: +values?.pricePerQty,
+            pricePerBag: +values?.pricePerBag,
+        };
+    }
+    return {};
+};
