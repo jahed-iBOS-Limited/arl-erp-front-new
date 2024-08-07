@@ -28,9 +28,9 @@ const BADCTendersTable = ({ accountId, buUnId, values, submittedTenderLists, han
                         <th>Enquiry No</th>
                         <th>Item Name</th>
                         <th>Load Port</th>
-                        <th>Discharge Port</th>
-                        <th style={{ width: "150px" }}>Foreign Price (USD)</th>
-                        <th style={{ width: "150px" }}>Total Qty</th>
+                        <th>Ghat (Mongla)</th>
+                        <th>Ghat (Chittagong)</th>
+                        <th style={{ width: "150px" }}>Foreign Qty</th>
                         <th>Status</th>
                         <th>Actions</th>
                     </tr>
@@ -49,13 +49,13 @@ const BADCTendersTable = ({ accountId, buUnId, values, submittedTenderLists, han
                                     {item?.loadPortName}
                                 </td>
                                 <td style={{ width: "200px" }}>
-                                    {item?.dischargePortName}
+                                    {item?.ghat1}
+                                </td>
+                                <td style={{ width: "200px" }}>
+                                    {item?.ghat2}
                                 </td>
                                 <td className="text-right" style={{ width: "70px" }}>
-                                    {item?.foreignPriceUsd}
-                                </td>
-                                <td className="text-right" style={{ width: "70px" }}>
-                                    {item?.totalQty}
+                                    {item?.foreignQty}
                                 </td>
                                 <td style={{ width: "70px" }}>
                                     {item?.isAccept === null || item?.isAccept === false
