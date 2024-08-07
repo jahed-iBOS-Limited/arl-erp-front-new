@@ -11,8 +11,8 @@ import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import {
   businessPartnerDDL,
-  convertToText,
   ErrorMessage,
+  fetchGhatDDL,
   fetchTenderDetailsCallbackForPrintAndCreateEditPage,
   getDischargePortDDL,
   getGodownDDLList,
@@ -74,6 +74,9 @@ export default function TenderSubmissionCreateEditForm() {
         getGodownDDL,
         updateGodownDDL
       );
+
+      fetchGhatDDL(accountId, buUnId, getGhatDDL)
+
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -522,7 +525,6 @@ export default function TenderSubmissionCreateEditForm() {
       </div>
     </>
   );
-  console.log(tenderDetails)
 
   return (
     <Formik
@@ -569,9 +571,7 @@ export default function TenderSubmissionCreateEditForm() {
                       );
                       // fetch ghat ddl when badc select
                       if (valueOption?.label === "BADC") {
-                        getGhatDDL(
-                          `/wms/ShipPoint/GetShipPointDDL?accountId=${accountId}&businessUnitId=${buUnId}`
-                        );
+                        fetchGhatDDL(accountId, buUnId, getGhatDDL)
                       }
                     }}
                     errors={errors}
