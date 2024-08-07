@@ -15,6 +15,7 @@ import * as Yup from 'yup'
 import BCICTendersTable from "./bcicTable";
 import BADCTendersTable from "./badcTable";
 import PrintBCICTender from "../print/printBCICTender";
+import PrintBADCTender from "../print/printBADCTender";
 
 // const initData = {};
 
@@ -201,7 +202,11 @@ export default function TenderSubmissionLanding() {
                   {/* CONTENT GOES HERE */}
                   <tbody>
                     <div style={{ margin: "40px 75px 0 75px" }}>
-                      <PrintBCICTender tenderDetails={tenderDetails} />
+                      {
+                        values?.businessPartner?.label === 'BCIC' ? <PrintBCICTender tenderDetails={tenderDetails} />
+                          :
+                          <PrintBADCTender tenderDetails={tenderDetails} />
+                      }
                     </div>
                   </tbody>
                   <tfoot>
