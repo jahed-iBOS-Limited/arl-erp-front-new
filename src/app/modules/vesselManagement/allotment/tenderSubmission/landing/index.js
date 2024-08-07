@@ -14,6 +14,9 @@ import ICon from "../../../../chartering/_chartinghelper/icons/_icon";
 import { getLetterHead } from "../../../../financialManagement/report/bankLetter/helper";
 import Print from "../print/printTender";
 import "../print/style.css";
+import NewSelect from "../../../../_helper/_select";
+import { businessPartnerDDL, fetchSubmittedTenderData } from "../helper";
+import * as Yup from 'yup'
 
 // const initData = {};
 
@@ -41,23 +44,16 @@ export default function TenderSubmissionLanding() {
 
   useEffect(() => {
     // Fetch sumitted tender data
-    fetchSubmittedTenderData(pageNo, pageSize);
+    // fetchSubmittedTenderData(pageNo, pageSize);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  // Fetch sumitted tender with page & pageSize (but fetch is occuring with getSubmittedTenderLists)
-  const fetchSubmittedTenderData = (pageNo, pageSize) => {
-    const url = `/tms/TenderSubmission/GetTenderSubmissionpagination?AccountId=${accountId}&BusinessUnitId=${buUnId}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc`;
-
-    getSubmittedTenderLists(url);
-  };
 
   // Set paginations
   const setPositionHandler = (pageNo, pageSize) => {
     fetchSubmittedTenderData(pageNo, pageSize);
   };
 
-  const saveHandler = (values, cb) => {};
+  const saveHandler = (values, cb) => { };
 
   // Handle tender print directly
   const handleTenderPrint = useReactToPrint({
@@ -84,8 +80,12 @@ export default function TenderSubmissionLanding() {
   return (
     <Formik
       enableReinitialize={true}
-      initialValues={{}}
-      // validationSchema={{}}
+      initialValues={{
+        businessPartner: ""
+      }}
+      validationSchema={Yup.object({
+        businessPartner: Yup.string().required("Select a business partner")
+      })}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
           resetForm();
@@ -129,6 +129,30 @@ export default function TenderSubmissionLanding() {
             }}
           >
             <Form>
+              <div className="row global-form">
+                <div className="col-lg-3">
+                  <NewSelect
+                    name="businessPartner"
+                    options={businessPartnerDDL}
+                    value={values?.businessPartner}
+                    label="Business Partner"
+                    onChange={(valueOption) => {
+                      setFieldValue("businessPartner", valueOption);
+                    }}
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <button
+                    className="btn btn-primary mt-5"
+                    type="button"
+                    onClick={() => {
+                      fetchSubmittedTenderData(accountId, buUnId, values, pageNo, pageSize, getSubmittedTenderLists)
+                    }}
+                  >
+                    View
+                  </button>
+                </div>
+              </div>
               <div className="table-responsive">
                 <table
                   id="table-to-xlsx"
@@ -188,7 +212,7 @@ export default function TenderSubmissionLanding() {
                                     });
                                     // setShow(true);
                                   }}
-                                  // id={item?.shiptoPartnerId}
+                                // id={item?.shiptoPartnerId}
                                 />
                               </span>
                               <span
