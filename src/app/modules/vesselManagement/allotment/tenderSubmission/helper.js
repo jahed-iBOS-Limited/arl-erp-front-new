@@ -354,8 +354,15 @@ export const updateState = (tenderDetails) => {
             },
             ghat2: {
                 label: tenderDetails?.ghat2,
-                value: 443
-            }
+            },
+            dueDate: _dateFormatter(tenderDetails?.dueDate),
+            dueTime: tenderDetails?.strDueTime,
+            lotQty: tenderDetails?.lotqty,
+            contractDate: _dateFormatter(tenderDetails?.contractDate),
+            dischargeRatio: tenderDetails?.dischargeRatio,
+            laycanDate: _dateFormatter(tenderDetails?.laycandate),
+            pricePerQty: tenderDetails?.pricePerQty,
+            pricePerBag: tenderDetails?.pricePerBag
         }
 
         const commonEditData = {
@@ -562,7 +569,7 @@ export const selectPayload = (values, { accountId, buUnId, buUnName, tenderId, u
             accountId: accountId,
             businessUnitId: buUnId,
             businessUnitName: buUnName,
-            tenderId: 0,
+            tenderId: tenderId ? tenderId : 0,
             actionBy: userId,
             isActive: true,
             //common
@@ -593,3 +600,11 @@ export const selectPayload = (values, { accountId, buUnId, buUnName, tenderId, u
     }
     return {};
 };
+
+
+// fetch ghat ddl for badc create & edit
+export const fetchGhatDDL = (accountId, buUnId, getGhatDDLFunc) => {
+    getGhatDDLFunc(
+        `/wms/ShipPoint/GetShipPointDDL?accountId=${accountId}&businessUnitId=${buUnId}`
+    )
+}
