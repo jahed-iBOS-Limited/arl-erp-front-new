@@ -17,6 +17,9 @@ import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
 import { useDispatch } from "react-redux";
 import AttachmentUploaderNew from "../../../../_helper/attachmentUploaderNew";
+import IExtend from "../../../../_helper/_helperIcons/_extend";
+import InvoiceList from "./InvoiceList";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 
 const SalesInvoiceLandingTable = ({ obj }) => {
   const {
@@ -36,6 +39,7 @@ const SalesInvoiceLandingTable = ({ obj }) => {
   } = obj;
 
   const [isModalShow, setModalShow] = useState(false);
+  const [invoiceDataShow, setInvoiceDataShow] = useState(false);
   const [invoiceData, setInvoiceData] = useState([]);
   const [isCancelModalShow, setIsCancelModalShow] = useState(false);
   const [singleRowItem, setSingleRowItem] = useState(null);
@@ -48,6 +52,7 @@ const SalesInvoiceLandingTable = ({ obj }) => {
     printRefCement,
     handleInvoicePrintCement,
   } = useCementInvoicePrintHandler();
+  const [data, getData] = useAxiosGet();
 
   return (
     <>
@@ -164,6 +169,7 @@ const SalesInvoiceLandingTable = ({ obj }) => {
                             >
                               <IClose title="Cancel Sales Invoice" />
                             </span>
+
                             <button
                               onClick={(e) => {
                                 e.stopPropagation();
@@ -209,6 +215,25 @@ const SalesInvoiceLandingTable = ({ obj }) => {
                               }}
                               fileUploadLimits={1}
                             />
+                            <span
+                              className="cursor-pointer"
+                              onClick={() => {
+                                getData(
+                                  `/oms/OManagementReport/GetSalesOrderAttachment?invoiceNumber=${tableData?.strInvoiceNumber}&businessUnitId=${buId}`,
+                                  (data) => {
+                                    if (data?.length < 0) {
+                                      setInvoiceDataShow(false);
+                                      toast.warn("No data found");
+                                    } else {
+                                      setInvoiceDataShow(true);
+                                    }
+                                  }
+                                );
+                                setSingleRowItem(tableData);
+                              }}
+                            >
+                              <IExtend title="View Invoices" />
+                            </span>
                           </div>
                         ) : (
                           <button
@@ -285,6 +310,20 @@ const SalesInvoiceLandingTable = ({ obj }) => {
                 pageSize,
                 setLoading,
               }}
+            />
+          </IViewModal>
+        </>
+        <>
+          <IViewModal
+            show={invoiceDataShow}
+            onHide={() => {
+              setInvoiceDataShow(false);
+            }}
+          >
+            <InvoiceList
+              item={singleRowItem}
+              setInvoiceDataShow={setInvoiceDataShow}
+              data={data}
             />
           </IViewModal>
         </>

@@ -412,6 +412,19 @@ export default function _Form({
                               values?.salesOrg?.value,
                               setItemDDL
                             );
+                            getTerritory(
+                              `/oms/TerritoryInfo/GetTerrotoryRegionAreaByChannel?channelId=${valueOption?.value}&regionId=${values?.region?.value}&areaId=${values?.area?.value}`,
+                              (data) => {
+                                const modifiedData = data?.map((item) => {
+                                  return {
+                                    ...item,
+                                    value: item?.territoryId,
+                                    label: item?.territoryName,
+                                  };
+                                });
+                                setTerritory(modifiedData);
+                              }
+                            );
                           }}
                           placeholder="Distribution Channel"
                           errors={errors}
