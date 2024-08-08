@@ -37,6 +37,7 @@ const initData = {
   intWarrantyMonth: "",
   dteWarrantyEndDate: "",
   accountManager: "",
+  status:"",
 };
 
 export default function ServiceSalesCreateRecurring({ singleData }) {
@@ -101,6 +102,7 @@ export default function ServiceSalesCreateRecurring({ singleData }) {
                   }
                 : "",
             rate: +res?.numServerAmount || 0 + res?.numScheduleAmount || 0,
+            status : res?.strStatus ? {value: res?.strStatus, label:res?.strStatus} : "",
           });
         }
       );
@@ -203,6 +205,7 @@ export default function ServiceSalesCreateRecurring({ singleData }) {
         intAccountManagerEnroll: values?.accountManager?.value || 0,
         strAccountManagerName: values?.accountManager?.label || "",
         intOnetimeServiceSalesOrderId: singleData?.intServiceSalesOrderId,
+        strStatus:singleData?.strStatus || values?.status?.value,
       },
       row: itemList?.map((item) => ({
         intServiceSalesOrderRowId: 0,
@@ -497,6 +500,27 @@ export default function ServiceSalesCreateRecurring({ singleData }) {
                           setFieldValue("validTo", e.target.value);
                           setSheduleList([]);
                         }}
+                      />
+                    </div>
+                    <div className="col-lg-3">
+                      <NewSelect
+                        name="status"
+                        options={[
+                          { value: "Closed", label: "Closed", },
+                          { value: "Discontinued", label: "Discontinued"},
+                          { value: "Locked", label: "Locked"},
+                          { value: "Running", label: "Running"},
+                        ]}
+                        value={values?.status}
+                        label="Status"
+                        onChange={(valueOption) => {
+                          setFieldValue("status", valueOption);
+                          setItemList([]);
+                          setSheduleList([]);
+                          setSheduleListFOneTime([]);
+                        }}
+                        errors={errors}
+                        touched={touched}
                       />
                     </div>
                   </>
