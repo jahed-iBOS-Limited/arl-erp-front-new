@@ -408,11 +408,13 @@ export const GetSalesTargetEntry = async (
   const sbuid = values?.sbu?.value;
   const targetMonth = values?.targetMonth?.value;
   const targetYear = values?.targetYear?.value;
-  const itemId = values?.item?.value
+  const itemId = values?.item?.value;
   setLoading(true);
   try {
     const res = await Axios.get(
-      `/oms/CustomerSalesTarget/GetSalesTargetEntryForACCL?accId=${accId}&buId=${buId}&channelId=${channelId}&areaId=${areaId}&itemId=${itemId}&sbuid=${sbuid}&targetMonth=${targetMonth}&targetYear=${targetYear}`
+      `/oms/CustomerSalesTarget/GetSalesTargetEntryForACCL?accId=${accId}&buId=${buId}&channelId=${channelId}&areaId=${areaId}&itemId=${itemId}&TerritoryId=${values
+        ?.territory?.value ||
+        0}&sbuid=${sbuid}&targetMonth=${targetMonth}&targetYear=${targetYear}`
     );
     setter(
       res?.data
