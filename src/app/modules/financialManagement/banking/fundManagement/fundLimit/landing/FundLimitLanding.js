@@ -324,7 +324,7 @@ const FundLimitLanding = () => {
                                       {_formatMoney(item?.numLimit)}
                                     </td>
                                     <td className="text-right">
-                                      {(item?.facilityName === 'STL' && item?.utilizedAmount < 0) ? 0 : _formatMoney(item?.utilizedAmount)}
+                                      {(item?.facilityName === 'STL' && item?.utilizedAmount < 0) ? _formatMoney(0) : _formatMoney(item?.utilizedAmount)}
                                     </td>
                                     <td className="text-right">
                                       {_formatMoney(
