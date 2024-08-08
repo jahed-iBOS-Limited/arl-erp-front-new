@@ -51,6 +51,7 @@ export const getCustomersSalesTarget_Api = async (
   chId,
   arId,
   regId,
+  territoryId,
   type,
   pageNo,
   pageSize
@@ -58,7 +59,7 @@ export const getCustomersSalesTarget_Api = async (
   setLoading(true);
   try {
     const res = await Axios.get(
-      `/oms/CustomerSalesTarget/CustomersSalesTargetLandingPagination?AccountId=${accId}&BusinessUnitId=${buId}&FromDate=${fromDate}&ToDate=${toDate}&channelId=${chId}&AreaId=${arId}&RegionId=${regId}&type=${type}&vieworder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
+      `/oms/CustomerSalesTarget/CustomersSalesTargetLandingPagination?AccountId=${accId}&BusinessUnitId=${buId}&FromDate=${fromDate}&ToDate=${toDate}&channelId=${chId}&AreaId=${arId}&RegionId=${regId}&TerritoryId=${territoryId}&type=${type}&vieworder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
     );
 
     setter({
