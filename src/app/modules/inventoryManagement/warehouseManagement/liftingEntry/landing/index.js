@@ -1,27 +1,26 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable react-hooks/exhaustive-deps */
-import { Form, Formik } from "formik";
+import { Formik } from "formik";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import { shallowEqual, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { getDistributionChannelDDL_api } from "../../../../salesManagement/report/customerSalesTargetReport/helper";
 import ICustomCard from "../../../../_helper/_customCard";
+import { _firstDateofMonth } from "../../../../_helper/_firstDateOfCurrentMonth";
 import { _fixedPoint } from "../../../../_helper/_fixedPoint";
 import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
 import NewSelect from "../../../../_helper/_select";
 import { _todayDate } from "../../../../_helper/_todayDate";
+import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
+import PowerBIReport from "../../../../_helper/commonInputFieldsGroups/PowerBIReport";
+import RATForm from "../../../../_helper/commonInputFieldsGroups/ratForm";
+import IButton from "../../../../_helper/iButton";
 import { monthDDL } from "../form/addEditForm";
 import {
   getAllDates,
-  getAreaList,
   GetEmployeeLoginInfo_api,
   getItemList,
-  getLiftingEntryList,
   getLiftingEntryLists,
-  getRegionList,
   getSalesOrgList,
 } from "../helper";
 import "./style.css";
@@ -30,9 +29,12 @@ const initData = {
   date: _todayDate(),
   salesOrg: "",
   channel: "",
-  item: "",
-  area: "",
   region: "",
+  area: "",
+  territory: "",
+  item: "",
+  fromDate: _firstDateofMonth(),
+  toDate: _todayDate(),
 };
 
 function LiftingEntry({ title, viewType }) {
@@ -47,20 +49,30 @@ function LiftingEntry({ title, viewType }) {
   const [loading, setLoading] = useState(false);
   const [salesOrgs, setSalesOrgs] = useState([]);
   const [itemList, setItemList] = useState([]);
-  const [regionList, setRegionList] = useState([]);
-  const [areaList, setAreaList] = useState([]);
-  const [channelList, setChannelList] = useState([]);
   const [dateList, setDateList] = useState([]);
-  const [area, setArea] = useState([]);
   const [filteredArea, setFilteredArea] = useState([]);
   const [employeeInfo, setEmployeeInfo] = useState({});
+  const [showReport, setShowReport] = useState(false);
+
+  const groupId = `e3ce45bb-e65e-43d7-9ad1-4aa4b958b29a`;
+  const reportId = `9e9f68fe-fb6e-4c2a-b8c2-b6199d60fc8c`;
+
+  const parameterValues = (values) => {
+    const params = [
+      { name: "BusinessUnitId", value: `${selectedBusinessUnit?.value}` },
+      { name: "EmployeeId", value: `${profileData?.employeeId}` },
+      { name: "intLevelId", value: `${employeeInfo?.empLevelId}` },
+      { name: "channelid", value: `${values?.channel?.value}` },
+      { name: "FromDate", value: `${values?.fromDate}` },
+      { name: "ToDate", value: `${values?.toDate}` },
+      { name: "intPartid", value: `${values?.reportType?.value}` },
+      { name: "intTerritoryid", value: `${values?.territory?.value}` },
+    ];
+
+    return params || [];
+  };
 
   useEffect(() => {
-    getDistributionChannelDDL_api(
-      profileData?.accountId,
-      selectedBusinessUnit?.value,
-      setChannelList
-    );
     getSalesOrgList(
       profileData?.accountId,
       selectedBusinessUnit?.value,
@@ -131,11 +143,18 @@ function LiftingEntry({ title, viewType }) {
       }
     });
     setRowDto([...gridData]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gridData]);
 
-  useEffect(() => {
-    console.log("area", area);
-  }, [area]);
+  const disableHandler = (values) => {
+    const reportTypeId = values?.reportType?.value;
+    return (
+      !values?.reportType ||
+      (reportTypeId === 1
+        ? !values?.liftingPlanType || !values?.item
+        : !values?.territory)
+    );
+  };
 
   return (
     <>
@@ -167,156 +186,139 @@ function LiftingEntry({ title, viewType }) {
         >
           {({ values, setFieldValue, errors, touched }) => (
             <>
-              <Form>
+              <form>
                 <div className="row global-form">
                   <div className="col-lg-3">
-                    <label>Date</label>
-                    <InputField
-                      value={values?.date}
-                      name="date"
-                      placeholder="Date"
-                      type="date"
-                      onChange={(e) => {
-                        setGridData([]);
-                        setFieldValue("date", e.target.value);
-                      }}
-                    />
-                  </div>
-                  <div className="col-lg-3">
                     <NewSelect
-                      name="liftingPlanType"
+                      name="reportType"
                       options={[
-                        { value: 1, label: "Lifting Entry" },
-                        { value: 2, label: "Bag Production" },
+                        { value: 1, label: "Manual Entry" },
+                        { value: 2, label: "Auto Entry" },
                       ]}
-                      value={values?.liftingPlanType}
-                      label="Lifting Plan Type"
+                      value={values?.reportType}
+                      label="Report Type"
                       onChange={(valueOption) => {
+                        setShowReport(false);
                         setGridData([]);
-                        setFieldValue("liftingPlanType", valueOption);
+                        setFieldValue("reportType", valueOption);
                       }}
-                      placeholder="Lifting Plan Type"
+                      placeholder="Report Type"
                       errors={errors}
                       touched={touched}
                     />
                   </div>
-                  <div className="col-lg-3">
-                    <NewSelect
-                      name="salesOrg"
-                      options={salesOrgs || []}
-                      value={values?.salesOrg}
-                      label="Sales Organization"
-                      onChange={(valueOption) => {
+                  {[1].includes(values?.reportType?.value) && (
+                    <>
+                      <div className="col-lg-3">
+                        <label>Date</label>
+                        <InputField
+                          value={values?.date}
+                          name="date"
+                          placeholder="Date"
+                          type="date"
+                          onChange={(e) => {
+                            setGridData([]);
+                            setFieldValue("date", e.target.value);
+                          }}
+                        />
+                      </div>
+                      <div className="col-lg-3">
+                        <NewSelect
+                          name="liftingPlanType"
+                          options={[
+                            { value: 1, label: "Lifting Entry" },
+                            { value: 2, label: "Bag Production" },
+                          ]}
+                          value={values?.liftingPlanType}
+                          label="Lifting Plan Type"
+                          onChange={(valueOption) => {
+                            setGridData([]);
+                            setFieldValue("liftingPlanType", valueOption);
+                          }}
+                          placeholder="Lifting Plan Type"
+                          errors={errors}
+                          touched={touched}
+                        />
+                      </div>
+                      <div className="col-lg-3">
+                        <NewSelect
+                          name="salesOrg"
+                          options={salesOrgs || []}
+                          value={values?.salesOrg}
+                          label="Sales Organization"
+                          onChange={(valueOption) => {
+                            setGridData([]);
+                            setFieldValue("salesOrg", valueOption);
+                          }}
+                          placeholder="Sales Organization"
+                          errors={errors}
+                          touched={touched}
+                        />
+                      </div>
+                    </>
+                  )}
+
+                  <RATForm
+                    obj={{
+                      values,
+                      setFieldValue,
+                      region: [2].includes(values?.reportType?.value),
+                      area: [2].includes(values?.reportType?.value),
+                      territory: [2].includes(values?.reportType?.value),
+                      onChange: (allValues, fieldName) => {
+                        setShowReport(false);
                         setGridData([]);
-                        setFieldValue("salesOrg", valueOption);
-                      }}
-                      placeholder="Sales Organization"
-                      errors={errors}
-                      touched={touched}
-                    />
-                  </div>
-                  <div className="col-lg-3">
-                    <NewSelect
-                      name="channel"
-                      options={channelList || []}
-                      value={values?.channel}
-                      label="Distribution Channel"
-                      onChange={(valueOption) => {
-                        setGridData([]);
-                        setFieldValue("channel", valueOption);
-                        getItemList(
-                          profileData?.accountId,
-                          selectedBusinessUnit?.value,
-                          valueOption?.value,
-                          values?.salesOrg?.value,
-                          setItemList,
-                          setLoading
-                        );
-                        getRegionList(
-                          valueOption?.value,
-                          setRegionList,
-                          setLoading
-                        );
-                      }}
-                      placeholder="Distribution Channel"
-                      errors={errors}
-                      touched={touched}
-                      isDisabled={!values?.salesOrg}
-                    />
-                  </div>
-                  <div className="col-lg-3">
-                    <NewSelect
-                      name="item"
-                      options={[{ label: "All", value: 0 }, ...itemList] || []}
-                      value={values?.item}
-                      label="Item"
-                      onChange={(valueOption) => {
-                        setGridData([]);
-                        setFieldValue("item", valueOption);
-                      }}
-                      placeholder="Item"
-                      errors={errors}
-                      touched={touched}
-                      isDisabled={!values?.channel || !values?.salesOrg}
-                    />
-                  </div>
-                  {/* <div className="col-lg-3">
-                    <NewSelect
-                      name="region"
-                      options={
-                        [{ value: 0, label: "All" }, ...regionList] || []
-                      }
-                      value={values?.region}
-                      label="Region"
-                      onChange={(valueOption) => {
-                        setGridData([]);
-                        setFieldValue("region", valueOption);
-                        getAreaList(
-                          values?.channel?.value,
-                          valueOption?.value,
-                          setAreaList,
-                          setLoading
-                        );
-                        if (valueOption?.label === "All") {
-                          setFieldValue("area", { value: 0, label: "All" });
-                        } else {
-                          setFieldValue("area", "");
+                        if (fieldName === "channel") {
+                          getItemList(
+                            profileData?.accountId,
+                            selectedBusinessUnit?.value,
+                            allValues?.channel?.value,
+                            values?.salesOrg?.value,
+                            setItemList,
+                            setLoading
+                          );
                         }
+                      },
+                    }}
+                  />
+
+                  {[1].includes(values?.reportType?.value) && (
+                    <div className="col-lg-3">
+                      <NewSelect
+                        name="item"
+                        options={
+                          [{ label: "All", value: 0 }, ...itemList] || []
+                        }
+                        value={values?.item}
+                        label="Item"
+                        onChange={(valueOption) => {
+                          setGridData([]);
+                          setFieldValue("item", valueOption);
+                        }}
+                        placeholder="Item"
+                        errors={errors}
+                        touched={touched}
+                        isDisabled={!values?.channel || !values?.salesOrg}
+                      />
+                    </div>
+                  )}
+                  {[2].includes(values?.reportType?.value) && (
+                    <FromDateToDateForm
+                      obj={{
+                        values,
+                        setFieldValue,
+                        onChange: () => {
+                          setShowReport(false);
+                        },
                       }}
-                      placeholder="Region"
-                      errors={errors}
-                      touched={touched}
-                      isDisabled={!values?.channel || !values?.salesOrg}
                     />
-                  </div>
-                  <div className="col-lg-3">
-                    <NewSelect
-                      name="area"
-                      options={[{ value: 0, label: "All" }, ...areaList] || []}
-                      value={values?.area}
-                      label="Area"
-                      onChange={(valueOption) => {
-                        setGridData([]);
-                        setFieldValue("area", valueOption);
-                      }}
-                      placeholder="Area"
-                      errors={errors}
-                      touched={touched}
-                      isDisabled={
-                        !values?.channel ||
-                        !values?.salesOrg ||
-                        !values?.region ||
-                        values?.region?.label === "All"
-                      }
-                    />
-                  </div> */}
-                  <div className="col-lg-3 d-flex align-items-center">
-                    <button
-                      type="button"
-                      className="btn btn-primary mt-4 mr-4"
-                      disabled={!values?.liftingPlanType || !values?.item}
-                      onClick={() => {
-                        setGridData([]);
+                  )}
+
+                  <IButton
+                    disabled={disableHandler(values)}
+                    onClick={() => {
+                      setGridData([]);
+                      if (values?.reportType?.value === 1) {
                         getLandingData(values);
                         setDateList(
                           getAllDates(
@@ -324,13 +326,13 @@ function LiftingEntry({ title, viewType }) {
                             new Date(values?.date)?.getFullYear()
                           )
                         );
-                      }}
-                    >
-                      View
-                    </button>
-                  </div>
+                      } else if (values?.reportType?.value === 2) {
+                        setShowReport(true);
+                      }
+                    }}
+                  />
                 </div>
-                {rowDto?.length > 0 && (
+                {!showReport && rowDto?.length > 0 && (
                   <div className="sales-details-scrollable-table">
                     <div className="scroll-table _table">
                       <table
@@ -393,8 +395,6 @@ function LiftingEntry({ title, viewType }) {
                         </thead>
                         <tbody>
                           {rowDto?.map((td, index) => {
-                            let totalPCC = 0;
-                            let totalOPC = 0;
                             return (
                               <tr key={index}>
                                 <td className="text-center">{index + 1}</td>
@@ -454,7 +454,15 @@ function LiftingEntry({ title, viewType }) {
                     </div>
                   </div>
                 )}
-              </Form>
+              </form>
+              {showReport && [2].includes(values?.reportType?.value) && (
+                <PowerBIReport
+                  reportId={reportId}
+                  groupId={groupId}
+                  parameterValues={parameterValues(values)}
+                  parameterPanel={false}
+                />
+              )}
             </>
           )}
         </Formik>
