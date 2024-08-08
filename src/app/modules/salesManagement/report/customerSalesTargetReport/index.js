@@ -21,6 +21,7 @@ import InputField from "../../../_helper/_inputField";
 import IEdit from "../../../_helper/_helperIcons/_edit";
 import IApproval from "../../../_helper/_helperIcons/_approval";
 import IClose from "../../../_helper/_helperIcons/_close";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 
 const CustomerSalesTargetReport = () => {
   const [pageNo, setPageNo] = useState(0);
@@ -29,6 +30,7 @@ const CustomerSalesTargetReport = () => {
   const [rowDto, setRowDto] = useState([]);
   const [areaDDL, setAreaDDL] = useState([]);
   const [distributionChannelDDL, setDistributionChannelDDL] = useState([]);
+  const [territoryDDl, getTerritory, load, setTerritory] = useAxiosGet();
   const [regionDDL, setRegionDDL] = useState([]);
   // get user profile data from store
   const profileData = useSelector((state) => {
@@ -55,7 +57,6 @@ const CustomerSalesTargetReport = () => {
       );
     }
   }, [selectedBusinessUnit, profileData]);
-
   const commonGridFunc = (values, _pageNo = pageNo, _pageSize = pageSize) => {
     // setRowDto([]);
     getCustomersSalesTarget_Api(
@@ -68,6 +69,7 @@ const CustomerSalesTargetReport = () => {
       values?.distributionChannel?.value,
       values?.area?.value,
       values?.region?.value,
+      values?.territory?.value,
       values?.reportType?.value,
       _pageNo,
       _pageSize
@@ -104,7 +106,7 @@ const CustomerSalesTargetReport = () => {
           isValid,
         }) => (
           <>
-            {loading && <Loading />}
+            {(loading || load) && <Loading />}
             <Form className="form form-label-right">
               <div className="row mt-2">
                 <div className="col-lg-12">
@@ -128,7 +130,6 @@ const CustomerSalesTargetReport = () => {
                         touched={touched}
                       />
                     </div>
-
                     <div className="col-lg-3">
                       <NewSelect
                         name="distributionChannel"
@@ -156,6 +157,19 @@ const CustomerSalesTargetReport = () => {
                             setFieldValue("region", { value: 0, label: "All" });
                             setFieldValue("area", { value: 0, label: "All" });
                           }
+                          getTerritory(
+                            `/oms/TerritoryInfo/GetTerrotoryRegionAreaByChannel?channelId=${valueOption?.value}&regionId=${values?.region?.value}&areaId=${values?.area?.value}`,
+                            (data) => {
+                              const modifiedData = data?.map((item) => {
+                                return {
+                                  ...item,
+                                  value: item?.territoryId,
+                                  label: item?.territoryName,
+                                };
+                              });
+                              setTerritory(modifiedData);
+                            }
+                          );
                         }}
                         placeholder="Distribution Channel"
                         errors={errors}
@@ -181,6 +195,19 @@ const CustomerSalesTargetReport = () => {
                               value: "areaId",
                               label: "areaName",
                             });
+                            getTerritory(
+                              `/oms/TerritoryInfo/GetTerrotoryRegionAreaByChannel?channelId=${values?.distributionChannel?.value}&regionId=${valueOption?.value}&areaId=${values?.area?.value}`,
+                              (data) => {
+                                const modifiedData = data?.map((item) => {
+                                  return {
+                                    ...item,
+                                    value: item?.territoryId,
+                                    label: item?.territoryName,
+                                  };
+                                });
+                                setTerritory(modifiedData);
+                              }
+                            );
                           }
                           if (valueOption?.value === 0) {
                             setFieldValue("area", { value: 0, label: "All" });
@@ -204,6 +231,19 @@ const CustomerSalesTargetReport = () => {
                         onChange={(valueOption) => {
                           setRowDto([]);
                           setFieldValue("area", valueOption);
+                          getTerritory(
+                            `/oms/TerritoryInfo/GetTerrotoryRegionAreaByChannel?channelId=${values?.distributionChannel?.value}&regionId=${values?.region?.value}&areaId=${valueOption?.value}`,
+                            (data) => {
+                              const modifiedData = data?.map((item) => {
+                                return {
+                                  ...item,
+                                  value: item?.territoryId,
+                                  label: item?.territoryName,
+                                };
+                              });
+                              setTerritory(modifiedData);
+                            }
+                          );
                         }}
                         placeholder="Area"
                         errors={errors}
@@ -213,6 +253,24 @@ const CustomerSalesTargetReport = () => {
                         }
                       />
                     </div>
+                    {/* {selectedBusinessUnit?.value === 4 &&
+                      values?.distributionChannel?.value !== 46 && ( */}
+                    <div className="col-lg-3">
+                      <NewSelect
+                        name="territory"
+                        options={territoryDDl}
+                        value={values?.territory}
+                        label="Territory"
+                        onChange={(valueOption) => {
+                          setRowDto([]);
+                          setFieldValue("territory", valueOption);
+                        }}
+                        placeholder="Territory"
+                        errors={errors}
+                        touched={touched}
+                      />
+                    </div>
+                    {/* // )} */}
                     <div className="col-lg-3">
                       <FormikInput
                         value={values?.fromDate}
