@@ -388,10 +388,10 @@ export default function ServiceSalesCreate({
               ),
               intWarrantyMonth: singleData?.intWarrantyMonth,
               dteWarrantyEndDate: dateFormatterForInput(
-                singleData?.dteWarrantyEndDate
+                singleData?.dteWarrantyEndDate || ""
               ),
               dteActualLiveDate: dateFormatterForInput(
-                singleData?.dteActualLiveDate
+                singleData?.dteActualLiveDate || ""
               ),
             }
           : initData
