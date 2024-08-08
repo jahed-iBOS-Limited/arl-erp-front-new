@@ -39,8 +39,8 @@ const SalesInvoiceLandingTable = ({ obj }) => {
   const [invoiceData, setInvoiceData] = useState([]);
   const [isCancelModalShow, setIsCancelModalShow] = useState(false);
   const [singleRowItem, setSingleRowItem] = useState(null);
-  const dispatch = useDispatch()
-  const [, onAttachmentUpload] = useAxiosPost()
+  const dispatch = useDispatch();
+  const [, onAttachmentUpload] = useAxiosPost();
 
   const history = useHistory();
 
@@ -75,6 +75,8 @@ const SalesInvoiceLandingTable = ({ obj }) => {
                       <th>Project Location</th>
                     </>
                   )}
+                  <th>Primary Qty</th>
+                  <th>Return Qty</th>
                   <th>Net Qty</th>
                   <th>Invoice Amount</th>
                   {values?.status?.value !== 3 && values?.type?.value !== 2 && (
@@ -109,6 +111,8 @@ const SalesInvoiceLandingTable = ({ obj }) => {
                         <td>{tableData?.strProjectLocation}</td>
                       </>
                     )}
+                    <td className="text-right">{tableData?.primaryQuantity}</td>
+                    <td className="text-right">{tableData?.returnQuantity}</td>
                     <td className="text-right">{tableData?.numQuantity}</td>
                     <td className="text-right">
                       {_fixedPoint(tableData?.invoiceAmount || 0)}
@@ -164,7 +168,9 @@ const SalesInvoiceLandingTable = ({ obj }) => {
                               onClick={(e) => {
                                 e.stopPropagation();
                                 dispatch(
-                                  getDownlloadFileView_Action(tableData.attachment)
+                                  getDownlloadFileView_Action(
+                                    tableData.attachment
+                                  )
                                 );
                               }}
                               style={{
@@ -183,19 +189,24 @@ const SalesInvoiceLandingTable = ({ obj }) => {
                               CBAttachmentRes={(image) => {
                                 if (image.length > 0) {
                                   const payload = {
-                                    "businessUnitId": buId,
-                                    "invoiceNumber": tableData.strInvoiceNumber,
-                                    "businessPartnerId": tableData.intPartnerId,
-                                    "attachment": image[0].id
+                                    businessUnitId: buId,
+                                    invoiceNumber: tableData.strInvoiceNumber,
+                                    businessPartnerId: tableData.intPartnerId,
+                                    attachment: image[0].id,
+                                  };
 
-                                  }
-
-                                  onAttachmentUpload('/oms/OManagementReport/UpdateSalesInvoiceAttachment', payload)
+                                  onAttachmentUpload(
+                                    "/oms/OManagementReport/UpdateSalesInvoiceAttachment",
+                                    payload
+                                  );
                                 }
                               }}
                               showIcon
-                              attachmentIcon='fa fa-paperclip'
-                              customStyle={{ 'background': 'transparent', 'padding': '4px 0' }}
+                              attachmentIcon="fa fa-paperclip"
+                              customStyle={{
+                                background: "transparent",
+                                padding: "4px 0",
+                              }}
                               fileUploadLimits={1}
                             />
                           </div>
