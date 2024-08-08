@@ -17,6 +17,7 @@ import {
 import Table from "./table";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import { _fixedPoint } from "../../../../_helper/_fixedPoint";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 
 const validationSchema = Yup.object().shape({
   targetMonth: Yup.object().shape({
@@ -58,6 +59,8 @@ export default function _Form({
   const [areaDDL, setAreaDDL] = useState([]);
   const [salesOrgDDL, setSalesOrgDDL] = useState([]);
   const [itemDDL, setItemDDL] = useState([]);
+  const [territoryDDl, getTerritory, , setTerritory] = useAxiosGet();
+
   React.useEffect(() => {
     if (isEdit) {
       setRowDto(singleRowData);
@@ -457,6 +460,19 @@ export default function _Form({
                                 value: "areaId",
                                 label: "areaName",
                               });
+                              getTerritory(
+                                `/oms/TerritoryInfo/GetTerrotoryRegionAreaByChannel?channelId=${values?.distributionChannel?.value}&regionId=${valueOption?.value}&areaId=${values?.area?.value}`,
+                                (data) => {
+                                  const modifiedData = data?.map((item) => {
+                                    return {
+                                      ...item,
+                                      value: item?.territoryId,
+                                      label: item?.territoryName,
+                                    };
+                                  });
+                                  setTerritory(modifiedData);
+                                }
+                              );
                             }
                           }}
                           placeholder="Region"
@@ -474,6 +490,19 @@ export default function _Form({
                           onChange={(valueOption) => {
                             setRowDto([]);
                             setFieldValue("area", valueOption);
+                            getTerritory(
+                              `/oms/TerritoryInfo/GetTerrotoryRegionAreaByChannel?channelId=${values?.distributionChannel?.value}&regionId=${values?.region?.value}&areaId=${valueOption?.value}`,
+                              (data) => {
+                                const modifiedData = data?.map((item) => {
+                                  return {
+                                    ...item,
+                                    value: item?.territoryId,
+                                    label: item?.territoryName,
+                                  };
+                                });
+                                setTerritory(modifiedData);
+                              }
+                            );
                           }}
                           placeholder="Area"
                           errors={errors}
@@ -481,6 +510,24 @@ export default function _Form({
                           isDisabled={!values?.region}
                         />
                       </div>
+                      {selectedBusinessUnit?.value === 4 &&
+                        values?.distributionChannel?.value !== 46 && (
+                          <div className="col-lg-3">
+                            <NewSelect
+                              name="territory"
+                              options={territoryDDl}
+                              value={values?.territory}
+                              label="Territory"
+                              onChange={(valueOption) => {
+                                setRowDto([]);
+                                setFieldValue("territory", valueOption);
+                              }}
+                              placeholder="Territory"
+                              errors={errors}
+                              touched={touched}
+                            />
+                          </div>
+                        )}
                       <div className="col-lg-3 mt-5">
                         <div className="d-flex">
                           <button
