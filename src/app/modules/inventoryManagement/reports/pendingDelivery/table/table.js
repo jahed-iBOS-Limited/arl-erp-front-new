@@ -35,6 +35,7 @@ import { pendingDeliveryReportLandingAction } from "./../../../../_helper/reduxF
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
 
 const initData = {
+  reportType: "",
   sbu: "",
   shippingPoint: "",
   distributionChannel: "",
@@ -102,19 +103,20 @@ const PendingDeliveryReportTable = () => {
       "YYYY-MM-DDTHH:mm:ss"
     );
 
-    GetDataOfSalesOrderByTerriroryId_api(
-      profileData.accountId,
-      selectedBusinessUnit.value,
-      values?.warehouse?.value,
-      values?.distributionChannel?.value,
-      values?.region?.value,
-      values?.area?.value,
-      values?.territory?.value,
-      values?.soldToParty?.value,
+    GetDataOfSalesOrderByTerriroryId_api({
+      typeId: values?.reportType?.value,
+      accId: profileData?.accountId,
+      buId: selectedBusinessUnit?.value,
+      warehouseId: values?.warehouse?.value,
+      channelId: values?.distributionChannel?.value,
+      regionId: values?.region?.value,
+      areaId: values?.area?.value,
+      territoryId: values?.territory?.value,
+      soldToPartyId: values?.soldToParty?.value,
       fromDate,
       toDate,
-      setGridData
-    );
+      setter: setGridData,
+    });
   };
 
   const modifyItemList = (values) => {
@@ -268,6 +270,23 @@ const PendingDeliveryReportTable = () => {
             <CardBody>
               <form className="form form-label-right global-form">
                 <div className="row">
+                  <div className="col-lg-2">
+                    <NewSelect
+                      label="Select Report Type"
+                      options={[
+                        { value: 1, label: "Pending Delivery Report" },
+                        { value: 2, label: "Pending Delivery-Shipment Report" },
+                      ]}
+                      value={values?.reportType}
+                      name="reportType"
+                      setFieldValue={setFieldValue}
+                      onChange={(valueOption) => {
+                        setFieldValue("reportType", valueOption);
+                      }}
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
                   <div className="col-lg-2">
                     <NewSelect
                       label="Select SBU"
@@ -524,7 +543,11 @@ const PendingDeliveryReportTable = () => {
                   </div>
                 </div>
               </form>
-              <GridView gridData={gridData} setGridData={setGridData} selectedBusinessUnit={selectedBusinessUnit} />
+              <GridView
+                gridData={gridData}
+                setGridData={setGridData}
+                selectedBusinessUnit={selectedBusinessUnit}
+              />
             </CardBody>
           </Card>
         </>

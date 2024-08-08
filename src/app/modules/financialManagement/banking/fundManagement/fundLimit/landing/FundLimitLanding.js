@@ -94,7 +94,10 @@ const FundLimitLanding = () => {
     [fundLimitData?.data]
   );
   const totalUtilizedAmount = useMemo(
-    () => fundLimitData?.data?.reduce((a, c) => a + c.utilizedAmount, 0),
+    () => {
+      // console.log(fundLimitData?.data?.reduce((a, c) => a + (c?.facilityName === 'STL' && Math.sign(c?.utilizedAmount) === -1 ? 5 : c?.utilizedAmount), 0))
+      return fundLimitData?.data?.reduce((a, c) => a + (c?.facilityName === 'STL' && c?.utilizedAmount < 0 ? 0 : c?.utilizedAmount), 0)
+    },
     [fundLimitData?.data]
   );
   const totalBalance = useMemo(
@@ -116,7 +119,7 @@ const FundLimitLanding = () => {
         }}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          saveHandler(values, (code) => {});
+          saveHandler(values, (code) => { });
         }}
       >
         {({
@@ -308,110 +311,113 @@ const FundLimitLanding = () => {
                               </tr>
                             </thead>
                             <tbody>
-                              {fundLimitData?.data?.map((item, index) => (
-                                <tr key={index}>
-                                  <td className="text-center">{index + 1}</td>
-                                  <td className="">{item?.businessUnitName}</td>
-                                  <td className="">{item?.bankName}</td>
-                                  <td className="">{item?.facilityName}</td>
+                              {fundLimitData?.data?.map((item, index) => {
+                                // console.log(item?.utilizedAmount)
+                                return (
+                                  <tr key={index}>
+                                    <td className="text-center">{index + 1}</td>
+                                    <td className="">{item?.businessUnitName}</td>
+                                    <td className="">{item?.bankName}</td>
+                                    <td className="">{item?.facilityName}</td>
 
-                                  <td className="text-right">
-                                    {_formatMoney(item?.numLimit)}
-                                  </td>
-                                  <td className="text-right">
-                                    {_formatMoney(item?.utilizedAmount)}
-                                  </td>
-                                  <td className="text-right">
-                                    {_formatMoney(
-                                      item?.numLimit - item?.utilizedAmount
-                                    )}
-                                  </td>
-                                  <td className="">{item?.tenureDays}</td>
-                                  <td className="">
-                                    {item?.sanctionReference}
-                                  </td>
-                                  <td className="">
-                                    {_dateFormatter(item?.limitExpiryDate)}
-                                  </td>
+                                    <td className="text-right">
+                                      {_formatMoney(item?.numLimit)}
+                                    </td>
+                                    <td className="text-right">
+                                      {(item?.facilityName === 'STL' && item?.utilizedAmount < 0) ? 0 : _formatMoney(item?.utilizedAmount)}
+                                    </td>
+                                    <td className="text-right">
+                                      {_formatMoney(
+                                        item?.numLimit - item?.utilizedAmount
+                                      )}
+                                    </td>
+                                    <td className="">{item?.tenureDays}</td>
+                                    <td className="">
+                                      {item?.sanctionReference}
+                                    </td>
+                                    <td className="">
+                                      {_dateFormatter(item?.limitExpiryDate)}
+                                    </td>
 
-                                  <td className="text-center">
-                                    {_dateFormatter(item?.loanUpdateDate)}
-                                  </td>
-                                  <td className="text-center">
-                                    {item?.interestRate}
-                                  </td>
-                                  <td className="text-center">
-                                    {item?.rateReview}
-                                  </td>
-                                  <td className="text-center">
-                                    {item?.remarks}
-                                  </td>
+                                    <td className="text-center">
+                                      {_dateFormatter(item?.loanUpdateDate)}
+                                    </td>
+                                    <td className="text-center">
+                                      {item?.interestRate}
+                                    </td>
+                                    <td className="text-center">
+                                      {item?.rateReview}
+                                    </td>
+                                    <td className="text-center">
+                                      {item?.remarks}
+                                    </td>
 
-                                  <td className="text-center">
-                                    <div
-                                      style={{
-                                        display: "flex",
-                                        gap: "10px",
-                                        alignItems: "center",
-                                      }}
-                                    >
-                                      <span
-                                        style={{ marginRight: "4px" }}
-                                        onClick={() => {
-                                          setSingleItem(item);
-                                          setIsModalShow(true);
+                                    <td className="text-center">
+                                      <div
+                                        style={{
+                                          display: "flex",
+                                          gap: "10px",
+                                          alignItems: "center",
                                         }}
                                       >
-                                        <IView />
-                                      </span>
-                                      <span
-                                        onClick={() =>
-                                          history.push({
-                                            pathname: `/financial-management/banking/fund-limit/edit/${item?.bankLoanLimitId}`,
-                                            landingRowData: item,
-                                          })
-                                        }
-                                      >
-                                        <IEdit />
-                                      </span>
-                                      {(!item?.limitExpiryDate ||
-                                        item?.isDelete) && (
-                                        <>
-                                          <span
-                                            onClick={() => {
-                                              let confirmObject = {
-                                                title: "Are you sure?",
-                                                message: `Are you sure you want to delete this complain?`,
-                                                yesAlertFunc: () => {
-                                                  DeleteFundManagementApi(
-                                                    item?.bankLoanLimitId,
-                                                    setLoading,
-                                                    () => {
-                                                      getFundLimitLandingData(
-                                                        profileData?.accountId,
-                                                        values?.businessUnit
-                                                          ?.value,
-                                                        pageNo,
-                                                        pageSize,
-                                                        setFundLimitData,
-                                                        setLoading
+                                        <span
+                                          style={{ marginRight: "4px" }}
+                                          onClick={() => {
+                                            setSingleItem(item);
+                                            setIsModalShow(true);
+                                          }}
+                                        >
+                                          <IView />
+                                        </span>
+                                        <span
+                                          onClick={() =>
+                                            history.push({
+                                              pathname: `/financial-management/banking/fund-limit/edit/${item?.bankLoanLimitId}`,
+                                              landingRowData: item,
+                                            })
+                                          }
+                                        >
+                                          <IEdit />
+                                        </span>
+                                        {(!item?.limitExpiryDate ||
+                                          item?.isDelete) && (
+                                            <>
+                                              <span
+                                                onClick={() => {
+                                                  let confirmObject = {
+                                                    title: "Are you sure?",
+                                                    message: `Are you sure you want to delete this complain?`,
+                                                    yesAlertFunc: () => {
+                                                      DeleteFundManagementApi(
+                                                        item?.bankLoanLimitId,
+                                                        setLoading,
+                                                        () => {
+                                                          getFundLimitLandingData(
+                                                            profileData?.accountId,
+                                                            values?.businessUnit
+                                                              ?.value,
+                                                            pageNo,
+                                                            pageSize,
+                                                            setFundLimitData,
+                                                            setLoading
+                                                          );
+                                                        }
                                                       );
-                                                    }
-                                                  );
-                                                },
-                                                noAlertFunc: () => {},
-                                              };
-                                              IConfirmModal(confirmObject);
-                                            }}
-                                          >
-                                            <IDelete />
-                                          </span>
-                                        </>
-                                      )}
-                                    </div>
-                                  </td>
-                                </tr>
-                              ))}
+                                                    },
+                                                    noAlertFunc: () => { },
+                                                  };
+                                                  IConfirmModal(confirmObject);
+                                                }}
+                                              >
+                                                <IDelete />
+                                              </span>
+                                            </>
+                                          )}
+                                      </div>
+                                    </td>
+                                  </tr>
+                                )
+                              })}
 
                               <tr>
                                 <td></td>
