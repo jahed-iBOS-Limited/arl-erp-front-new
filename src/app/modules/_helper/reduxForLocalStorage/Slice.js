@@ -82,6 +82,7 @@ const initState = {
     toDate: _todayDate(),
   },
   pendingDeliveryReportLanding: {
+    reportType: "",
     sbu: "",
     shippingPoint: "",
     distributionChannel: "",
