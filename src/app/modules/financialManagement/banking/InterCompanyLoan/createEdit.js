@@ -212,7 +212,7 @@ export default function InterCompanyLoanCreate() {
                 <div className="col-lg-3">
                   <InputField
                     value={values?.inRate}
-                    label="Rate"
+                    label="Interest Rate"
                     name="inRate"
                     type="number"
                     onChange={(e) => {

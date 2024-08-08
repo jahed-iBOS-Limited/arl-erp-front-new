@@ -158,6 +158,7 @@ export default function ServiceSalesLanding() {
                           <th>Warranty Month</th>
                           <th>Warranty End Date</th>
                           <th>Account Manager Name</th>
+                          <th>Status</th>
                           <th>Action</th>
                         </tr>
                       </thead>
@@ -211,6 +212,7 @@ export default function ServiceSalesLanding() {
                               {_dateFormatter(item?.dteWarrantyEndDate)}
                             </td>
                             <td>{item?.strAccountManagerName}</td>
+                            <td>{item?.strStatus}</td>
                             <td>
                               {" "}
                               <div className="d-flex">
