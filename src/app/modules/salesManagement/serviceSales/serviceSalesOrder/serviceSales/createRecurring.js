@@ -96,6 +96,8 @@ export default function ServiceSalesCreateRecurring({ singleData }) {
                     value: res?.intCustomerId,
                     label: res?.strCustomerName,
                     strCustomerCode: res?.strCustomerName,
+                    code: res?.strCustomerCode,
+                    address: res?.strCustomerAddress
                   }
                 : "",
             rate: +res?.numServerAmount || 0 + res?.numScheduleAmount || 0,
