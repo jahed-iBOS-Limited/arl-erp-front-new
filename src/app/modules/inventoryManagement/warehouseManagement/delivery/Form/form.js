@@ -132,13 +132,13 @@ export default function _Form({
     183 = Eurasia Trading Company Ltd
     209 = Lineasia Trading Co. Ltd. 
     212 = Batayon Traders Ltd.
+    216 = ARL Traders Ltd.
     221 = Akij Commodities Ltd. 
-    232 = Akij Agro Feed Ltd. 
-    ARL traders, 
+    232 = Akij Agro Feed Ltd.  
     */
 
     if (
-      [178, 180, 181, 182, 183, 209, 212, 221, 232].includes(
+      [178, 180, 181, 182, 183, 209, 212, 216, 221, 232].includes(
         selectedBusinessUnit?.value
       )
     ) {
