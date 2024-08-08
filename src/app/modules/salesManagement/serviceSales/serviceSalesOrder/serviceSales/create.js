@@ -306,13 +306,15 @@ export default function ServiceSalesCreate({
   };
 
   const getTotalPersecentage = (newValue, index) => {
-    scheduleListFOneTime.reduce((acc, curr, currIndex) => {
+    const totalPercentage = scheduleListFOneTime.reduce((acc, curr, currIndex) => {
       if (currIndex === index) {
-        return acc + newValue;
+        return acc + (+newValue || 0);
       } else {
-        return acc + curr.percentage;
+        return acc + (+curr.percentage || 0);
       }
     }, 0);
+  
+    return totalPercentage;
   };
   useEffect(() => {
     if (isEdit || isView) {
@@ -1184,6 +1186,9 @@ export default function ServiceSalesCreate({
                                     disabled={isEdit || isView}
                                     onChange={(e) => {
                                       const newValue = +e.target.value;
+                                      if(newValue < 0){
+                                        return;
+                                      }
                                       let totalPercentage = getTotalPersecentage(
                                         newValue,
                                         index
