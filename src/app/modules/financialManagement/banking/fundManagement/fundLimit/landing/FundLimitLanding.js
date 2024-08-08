@@ -103,7 +103,7 @@ const FundLimitLanding = () => {
   const totalBalance = useMemo(
     () =>
       fundLimitData?.data?.reduce(
-        (a, c) => a + (c.numLimit - c.utilizedAmount),
+        (a, c) => a + ((c?.facilityName === 'STL' && c?.utilizedAmount < 0 ? c?.numLimit : c?.numLimit - c?.utilizedAmount)),
         0
       ),
     [fundLimitData?.data]
@@ -313,6 +313,7 @@ const FundLimitLanding = () => {
                             <tbody>
                               {fundLimitData?.data?.map((item, index) => {
                                 // console.log(item?.utilizedAmount)
+                                // console.log(item?.numLimit - (item?.facilityName === 'STL' && item?.utilizedAmount < 0) ? 0 : item?.utilizedAmount)
                                 return (
                                   <tr key={index}>
                                     <td className="text-center">{index + 1}</td>
@@ -327,9 +328,9 @@ const FundLimitLanding = () => {
                                       {(item?.facilityName === 'STL' && item?.utilizedAmount < 0) ? _formatMoney(0) : _formatMoney(item?.utilizedAmount)}
                                     </td>
                                     <td className="text-right">
-                                      {_formatMoney(
-                                        item?.numLimit - item?.utilizedAmount
-                                      )}
+                                      {
+                                        item?.facilityName === 'STL' && item?.utilizedAmount < 0 ? _formatMoney(item?.numLimit) : _formatMoney(item?.numLimit - item?.utilizedAmount)
+                                      }
                                     </td>
                                     <td className="">{item?.tenureDays}</td>
                                     <td className="">
