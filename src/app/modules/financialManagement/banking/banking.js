@@ -30,6 +30,8 @@ import NonBankingFundCreateEdit from "./nonBankingFund/createEdit";
 import Repay from "./nonBankingFund/repay";
 import BankLetter from "../report/bankLetter";
 import BankStock from "../report/bankStock";
+import InterCompanyLoan from "./InterCompanyLoan";
+import InterCompanyLoanCreate from "./InterCompanyLoan/createEdit";
 
 export function Banking() {
   return (
@@ -183,6 +185,14 @@ export function Banking() {
       <ContentRoute
         path="/financial-management/banking/NonBankingFund"
         component={NonBankingFund}
+      />
+      <ContentRoute
+        path="/financial-management/banking/InterCompanyLoan/create"
+        component={InterCompanyLoanCreate}
+      />
+       <ContentRoute
+        path="/financial-management/banking/InterCompanyLoan"
+        component={InterCompanyLoan}
       />
     </Switch>
   );

@@ -2,7 +2,7 @@ import React from "react";
 import { _dateFormatterTwo } from "../../../../_helper/_dateFormate";
 import "./style.css";
 
-const PrintPage = ({ tenderDetails: { header, rows } }) => {
+const PrintBCICTender = ({ tenderDetails: { header, rows } }) => {
   const firstDataOnTable = rows?.length > 0 && rows[0];
   const firstHalfDataOnTable =
     rows?.length > 0 && rows?.slice(1, Math.floor(rows?.length / 2));
@@ -227,4 +227,4 @@ const PrintPage = ({ tenderDetails: { header, rows } }) => {
   );
 };
 
-export default PrintPage;
+export default PrintBCICTender;
