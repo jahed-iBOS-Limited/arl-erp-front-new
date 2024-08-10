@@ -5,10 +5,10 @@ import { shallowEqual, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import NewSelect from "../../../_helper/_select";
 import PaginationTable from "../../../_helper/_tablePagination";
+import IViewModal from "../../../_helper/_viewModal";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import IForm from "./../../../_helper/_form";
 import Loading from "./../../../_helper/_loading";
-import IViewModal from "../../../_helper/_viewModal";
 import RepayProvisionActionModal from "./repayProvision";
 const initData = {};
 export default function InterCompanyLoan() {
@@ -127,7 +127,6 @@ export default function InterCompanyLoan() {
                         <th>Total Payable</th>
                         <th>Remaining Principle</th>
                         <th>Repay</th>
-                        <th>Provision</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -153,6 +152,10 @@ export default function InterCompanyLoan() {
                                 className=""
                                 onClick={() => {
                                   setSingleData(item);
+                                  history.push({
+                                    pathname: `/financial-management/banking/InterCompanyLoan/view`,
+                                    state: item,
+                                  });
                                 }}
                               >
                                 <OverlayTrigger
@@ -165,66 +168,28 @@ export default function InterCompanyLoan() {
                                   ></i>
                                 </OverlayTrigger>
                               </span>
-                              <span
-                                className="px-5"
-                                onClick={() => {
-                                  setSingleData(item);
-                                  setActionType("Repay");
-                                  setShowModal(true)
-                                }}
-                              >
-                                <OverlayTrigger
-                                  overlay={
-                                    <Tooltip id="cs-icon">Repay</Tooltip>
-                                  }
+                              {item?.isRepayButton && (
+                                <span
+                                  className="px-5"
+                                  onClick={() => {
+                                    setSingleData(item);
+                                    setActionType("Repay");
+                                    setShowModal(true);
+                                  }}
                                 >
-                                  <i
-                                    style={{ fontSize: "16px" }}
-                                    class="fa fa-history cursor-pointer"
-                                    aria-hidden="true"
-                                  ></i>
-                                </OverlayTrigger>
-                              </span>
-                            </div>
-                          </td>
-                          <td className="text-center">
-                            <div className="">
-                              <span
-                                className=""
-                                onClick={() => {
-                                  setSingleData(item);
-                                }}
-                              >
-                                <OverlayTrigger
-                                  overlay={<Tooltip id="cs-icon">View</Tooltip>}
-                                >
-                                  <i
-                                    style={{ fontSize: "16px" }}
-                                    class="fa fa-eye cursor-pointer"
-                                    aria-hidden="true"
-                                  ></i>
-                                </OverlayTrigger>
-                              </span>
-                              <span
-                                className="px-5"
-                                onClick={() => {
-                                  setSingleData(item);
-                                  setActionType("Provision");
-                                  setShowModal(true)
-                                }}
-                              >
-                                <OverlayTrigger
-                                  overlay={
-                                    <Tooltip id="cs-icon">Provision</Tooltip>
-                                  }
-                                >
-                                  <i
-                                    style={{ fontSize: "16px" }}
-                                    class="fa fa-history cursor-pointer"
-                                    aria-hidden="true"
-                                  ></i>
-                                </OverlayTrigger>
-                              </span>
+                                  <OverlayTrigger
+                                    overlay={
+                                      <Tooltip id="cs-icon">Repay</Tooltip>
+                                    }
+                                  >
+                                    <i
+                                      style={{ fontSize: "16px" }}
+                                      class="fa fa-history cursor-pointer"
+                                      aria-hidden="true"
+                                    ></i>
+                                  </OverlayTrigger>
+                                </span>
+                              )}
                             </div>
                           </td>
                         </tr>

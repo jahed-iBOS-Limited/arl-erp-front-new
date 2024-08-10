@@ -32,6 +32,7 @@ import BankLetter from "../report/bankLetter";
 import BankStock from "../report/bankStock";
 import InterCompanyLoan from "./InterCompanyLoan";
 import InterCompanyLoanCreate from "./InterCompanyLoan/createEdit";
+import RepayViewModal from "./InterCompanyLoan/repayView";
 
 export function Banking() {
   return (
@@ -185,6 +186,10 @@ export function Banking() {
       <ContentRoute
         path="/financial-management/banking/NonBankingFund"
         component={NonBankingFund}
+      />
+      <ContentRoute
+        path="/financial-management/banking/InterCompanyLoan/view"
+        component={RepayViewModal}
       />
       <ContentRoute
         path="/financial-management/banking/InterCompanyLoan/create"

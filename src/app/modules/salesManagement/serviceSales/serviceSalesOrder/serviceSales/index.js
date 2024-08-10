@@ -13,7 +13,6 @@ import IViewModal from "../../../../_helper/_viewModal";
 import ServiceSalesCreateRecurring from "./createRecurring";
 import IEdit from "../../../../_helper/_helperIcons/_edit";
 import IView from "../../../../_helper/_helperIcons/_view";
-import ServiceSalesOrderView from "./View";
 import ServiceSalesCreate from "./create";
 
 const initData = {
