@@ -10,6 +10,7 @@ import Loading from "./../../../_helper/_loading";
 const initData = {
   transactionDate: _todayDate(),
   amount: "",
+  interestAmount: "",
 };
 
 export default function RepayProvisionActionModal({ singleData, actionType }) {
@@ -26,7 +27,8 @@ export default function RepayProvisionActionModal({ singleData, actionType }) {
       loanId: singleData?.loanId,
       type: actionType,
       transactionDate: values?.transactionDate,
-      amount: +values?.amount,
+      amount: +values?.amount || 0,
+      interestAmount: +values?.interestAmount || 0,
       createdBy: profileData?.userId,
     };
     onSave(
@@ -85,6 +87,17 @@ export default function RepayProvisionActionModal({ singleData, actionType }) {
                     type="number"
                     onChange={(e) => {
                       setFieldValue("amount", e.target.value);
+                    }}
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <InputField
+                    value={values?.interestAmount}
+                    label="Interest Amount"
+                    name="interestAmount"
+                    type="number"
+                    onChange={(e) => {
+                      setFieldValue("interestAmount", e.target.value);
                     }}
                   />
                 </div>
