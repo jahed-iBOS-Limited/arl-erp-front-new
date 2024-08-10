@@ -368,7 +368,7 @@ const LoanRegisterLanding = () => {
                               <th>SBU</th>
                               <th style={{ minWidth: "70px" }}>Loan Type</th>
                               <th style={{ minWidth: "70px" }}>Loan Class</th>
-                              <th style={{ minWidth: "70px" }}>Facility</th>
+                              <th style={{ minWidth: "120px" }}>Facility</th>
                               <th>Loan Acc</th>
                               <th>BR Number</th>
                               <th style={{ minWidth: "50px" }}>Tenure</th>
@@ -382,6 +382,9 @@ const LoanRegisterLanding = () => {
                               </th>
                               <th style={{ minWidth: "100px" }}>Principal</th>
                               <th style={{ minWidth: "50px" }}>Int.Rate</th>
+                              <th style={{ minWidth: "50px" }}>
+                                Outstanding Excise Duty
+                              </th>
                               <th style={{ minWidth: "100px" }}>Interest</th>
                               <th style={{ minWidth: "100px" }}>
                                 Total Payable
@@ -391,6 +394,9 @@ const LoanRegisterLanding = () => {
                               </th>
                               <th style={{ minWidth: "100px" }}>
                                 Paid Interest
+                              </th>
+                              <th style={{ minWidth: "50px" }}>
+                                Paid Excise Duty
                               </th>
                               <th style={{ minWidth: "100px" }}>
                                 Principal Balance
@@ -449,6 +455,7 @@ const LoanRegisterLanding = () => {
                                 <td className="text-right">
                                   {_formatMoney(item?.numInterestRate)}
                                 </td>
+                                <td className="text-right">-</td>
                                 <td className="text-right">
                                   {_formatMoney(item?.numInterest)}
                                 </td>
@@ -460,6 +467,9 @@ const LoanRegisterLanding = () => {
                                 </td>
                                 <td className="text-right">
                                   {_formatMoney(item?.interestAmount)}
+                                </td>
+                                <td className="text-right">
+                                  {_formatMoney(item?.numExciseDuty)}
                                 </td>
                                 <td className="text-right">
                                   {item?.numPrinciple - item?.numPaid >= 1
@@ -536,12 +546,22 @@ const LoanRegisterLanding = () => {
                                         marginLeft: "4px",
                                         cursor: "pointer",
                                       }}
-                                      onClick={() =>
-                                        history.push({
-                                          pathname: `/financial-management/banking/loan-register/re-new/${item?.intLoanAccountId}`,
-                                          state: item,
-                                        })
-                                      }
+                                      onClick={() => {
+                                        if (
+                                          item?.numPrinciple - item?.numPaid <
+                                          1
+                                        ) {
+                                          toast.warn(
+                                            "You can't renew this loan"
+                                          );
+                                          return;
+                                        } else {
+                                          history.push({
+                                            pathname: `/financial-management/banking/loan-register/re-new/${item?.intLoanAccountId}`,
+                                            state: item,
+                                          });
+                                        }
+                                      }}
                                     >
                                       Renew
                                     </span>
@@ -632,6 +652,7 @@ const LoanRegisterLanding = () => {
                                 <b> {_formatMoney(totalPrincipleAmount)}</b>
                               </td>
                               <td className="text-right"></td>
+                              <td className="text-right"></td>
                               <td className="text-right">
                                 <b> {_formatMoney(totalInterestAmount)}</b>
                               </td>
@@ -644,6 +665,7 @@ const LoanRegisterLanding = () => {
                               <td className="text-right">
                                 <b> {_formatMoney(totalPaidInterest)}</b>
                               </td>
+                              <td className="text-right"></td>
                               <td className="text-right">
                                 <b> {_formatMoney(totalBalance)}</b>
                               </td>

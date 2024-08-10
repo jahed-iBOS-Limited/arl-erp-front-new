@@ -124,8 +124,24 @@ export default function _Form({
   const isTransportRate = selectedBusinessUnit?.value === 94;
 
   const isAvailableBalance = (array) => {
-    // when business unit will be daily trading company Ltd, direct trading, eurasia, bongo traders or ARL traders
-    if ([178, 180, 182, 183, 212].includes(selectedBusinessUnit?.value)) {
+    /* when business unit will be 
+    178 = Bongo Traders Ltd
+    180 = Direct Trading Company Ltd 
+    181 = Asia One Trading Company Ltd
+    182 = Daily Trading Company Ltd
+    183 = Eurasia Trading Company Ltd
+    209 = Lineasia Trading Co. Ltd. 
+    212 = Batayon Traders Ltd.
+    216 = ARL Traders Ltd.
+    221 = Akij Commodities Ltd. 
+    232 = Akij Agro Feed Ltd.  
+    */
+
+    if (
+      [178, 180, 181, 182, 183, 209, 212, 216, 221, 232].includes(
+        selectedBusinessUnit?.value
+      )
+    ) {
       return false;
     }
     // if Day Limit true

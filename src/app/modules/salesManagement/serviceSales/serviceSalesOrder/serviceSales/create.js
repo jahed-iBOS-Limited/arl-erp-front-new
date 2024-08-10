@@ -16,6 +16,8 @@ import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import { addMonthsToDate, calculateMonthDifference } from "./helper";
 import Schedule from "./schedule";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import { dateFormatterForInput } from "../../../../productionManagement/msilProduction/meltingProduction/helper";
+import moment from "moment";
 
 const initData = {
   distributionChannel: "",
@@ -39,13 +41,17 @@ const initData = {
   accountManager: "",
   numScheduleAmount: "",
   numServerAmount: "",
+  status:"",
 };
 
-export default function ServiceSalesCreate() {
+export default function ServiceSalesCreate({
+  isEdit = false,
+  isView = false,
+  singleData,
+}) {
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
-
   const [objProps, setObjprops] = useState({});
   const [attachmentList, setAttachmentList] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
@@ -59,6 +65,7 @@ export default function ServiceSalesCreate() {
   const [actualVatAmount, setActualVatAmount] = useState(0);
   const formikRef = React.useRef(null);
   const [, saveHandlerFunc, loader] = useAxiosPost();
+  const [, updateSalesOrder, load] = useAxiosPost();
   const [salesOrgList, getSalesOrgList, salesOrgListLoader] = useAxiosGet();
   const [channelDDL, getChannelDDL, channelDDLloader] = useAxiosGet();
   const [accountManagerList, getAccountManagerList] = useAxiosGet();
@@ -119,7 +126,7 @@ export default function ServiceSalesCreate() {
       (accumulator, currentValue) => accumulator + currentValue["percentage"],
       0
     );
-    if (values?.paymentType?.label === "One Time" && +totalPercentage !== 100) {
+    if (!isEdit && values?.paymentType?.label === "One Time" && +totalPercentage !== 100) {
       return toast.warn("Total percentage should be 100");
     }
 
@@ -163,6 +170,7 @@ export default function ServiceSalesCreate() {
         strAccountManagerName: values?.accountManager?.label || "",
         numScheduleAmount: +values?.numScheduleAmount || 0,
         numServerAmount: +values?.numServerAmount || 0,
+        strStatus:values?.status?.value,
       },
       row: itemList?.map((item) => ({
         intServiceSalesOrderRowId: 0,
@@ -192,30 +200,208 @@ export default function ServiceSalesCreate() {
       })),
     };
 
-    console.log("payload", payload);
-
-    saveHandlerFunc(
-      `oms/ServiceSales/createServiceSalesOrder`,
-      payload,
-      cb,
-      true
-    );
+    if (isEdit) {
+      const header = {
+        intServiceSalesOrderId: singleData?.intServiceSalesOrderId,
+        strServiceSalesOrderCode: singleData?.strServiceSalesOrderCode,
+        intAccountId: singleData?.intAccountId,
+        intBusinessUnitId: singleData?.intBusinessUnitId,
+        dteOrderDate:
+          values?.agreementStartDate || singleData?.dteStartDateTime,
+        intDistributionChannelId: values?.distributionChannel?.value,
+        strDistributionChannelName: values?.distributionChannel?.label,
+        intPaymentTypeId: values?.paymentType?.value || 0,
+        strPaymentType: values?.paymentType?.label,
+        intSalesTypeId: values?.salesOrg?.value,
+        strSalesTypeName: values?.salesOrg?.label,
+        intCustomerId: values?.customer?.value,
+        strCustomerCode: values?.customer?.code || singleData?.strCustomerCode,
+        strCustomerName: values?.customer?.label || singleData?.strCustomerName,
+        strCustomerAddress:
+          values?.customer?.address || singleData?.strCustomerAddress,
+        intScheduleTypeId:
+          values?.paymentType?.value === 2
+            ? 4
+            : values?.scheduleType?.value || 0,
+        strScheduleTypeName:
+          values?.paymentType?.value === 2
+            ? "One Time"
+            : values?.scheduleType?.label || "",
+        intScheduleDayCount:
+          +values?.invoiceDay || singleData?.intScheduleDayCount || 0,
+        dteStartDateTime:
+          values?.agreementStartDate || singleData?.dteStartDateTime,
+        dteEndDateTime: values?.agreementEndDate || singleData?.dteEndDateTime,
+        dteActualLiveDate:
+          values?.dteActualLiveDate || singleData?.dteActualLiveDate,
+        intWarrantyMonth:
+          values?.intWarrantyMonth || singleData?.intWarrantyMonth,
+        dteWarrantyEndDate:
+          values?.dteWarrantyEndDate || singleData?.dteWarrantyEndDate || null,
+        intAccountManagerEnroll:
+          values?.accountManager?.value ||
+          singleData?.intAccountManagerEnroll ||
+          0,
+        strAccountManagerName:
+          values?.accountManager?.label ||
+          singleData?.strAccountManagerName ||
+          "",
+        intOnetimeServiceSalesOrderId: 0,
+        numTotalSalesAmount: 0,
+        numScheduleAmount: +values?.numScheduleAmount || 0,
+        numServerAmount: +values?.numServerAmount || 0,
+        strAttachmentLink:
+          attachmentList[0]?.id || singleData?.strAttachmentLink,
+        isActive: true,
+        intActionBy: profileData?.userId,
+        strStatus: values?.status?.value || singleData?.strStatus,
+      };
+      // const row = itemList?.map((item) => ({
+      //   intServiceSalesOrderRowId: item?.intServiceSalesOrderRowId,
+      //   intServiceSalesOrderId: item?.intServiceSalesOrderId,
+      //   intItemId: item?.value || item?.intItemId,
+      //   strItemName: item?.label || item?.strItemName,
+      //   strUom: item?.strUom || "",
+      //   numSalesQty: +item?.qty || +item?.numSalesQty || 0,
+      //   numRate: +item?.rate || +item?.numRate || 0,
+      //   numSalesAmount:
+      //     (+item?.qty || +item?.numSalesQty || 0) *
+      //     (+item?.rate || +item?.numRate || 0),
+      //   numSalesVatAmount: item?.vatAmount || +item?.numSalesVatAmount || 0,
+      //   numNetSalesAmount: +netAmount || item?.numNetSalesAmount || 0,
+      //   isActive: true,
+      // }));
+      // const schedule = scheduleArray?.map((schedule) => ({
+      //   intServiceSalesScheduleId: schedule?.intServiceSalesScheduleId || 0,
+      //   intServiceSalesOrderId: schedule?.intServiceSalesOrderId || 0,
+      //   dteScheduleDateTime:
+      //     schedule?.dteScheduleCreateDateTime || _todayDate(),
+      //   dteDueDateTime: schedule?.dueDate || schedule?.dteDueDateTime,
+      //   intPaymentByPercent:
+      //     +schedule?.percentage || +schedule?.intPaymentByPercent0,
+      //   numScheduleVatAmount:
+      //     +schedule?.scheduleListFOneTimeVat ||
+      //     +schedule?.vatAmount ||
+      //     +schedule?.numScheduleVatAmount,
+      //   numScheduleAmount: +schedule?.amount || schedule?.numScheduleAmount,
+      //   strRemarks: schedule?.remarks || schedule?.strRemarks || "",
+      //   isInvoiceComplete: schedule?.isInvoiceComplete,
+      //   isActive: true,
+      // }));
+      updateSalesOrder(
+        `/oms/ServiceSales/UpdateServiceSalesOrder`,
+        {
+          header: header,
+          // row: row,
+          // schedule: schedule,
+        },
+        cb,
+        true
+      );
+    } else {
+      saveHandlerFunc(
+        `oms/ServiceSales/createServiceSalesOrder`,
+        payload,
+        cb,
+        true
+      );
+    }
   };
 
   const getTotalPersecentage = (newValue, index) => {
-    scheduleListFOneTime.reduce((acc, curr, currIndex) => {
+    const totalPercentage = scheduleListFOneTime.reduce((acc, curr, currIndex) => {
       if (currIndex === index) {
-        return acc + newValue;
+        return acc + (+newValue || 0);
       } else {
-        return acc + curr.percentage;
+        return acc + (+curr.percentage || 0);
       }
     }, 0);
+  
+    return totalPercentage;
   };
+  useEffect(() => {
+    if (isEdit || isView) {
+      const mappedItems = singleData?.items.map((item) => ({
+        ...item,
+        strItemCode: item.intItemId, // Assuming intItemId is used as Item Code
+        label: item.strItemName,
+        qty: item.numSalesQty,
+        rate: item.numRate,
+        amount: item.numSalesAmount,
+        vat:
+          item.numSalesVatAmount === 0
+            ? "0%"
+            : `${((item.numSalesVatAmount / item.numSalesAmount) * 100).toFixed(
+                2
+              )}%`,
+        vatAmount: item.numSalesVatAmount,
+        netAmount: item.numNetSalesAmount,
+      }));
+      const transformedSchedules = singleData.schedules.map((schedule) => ({
+        ...schedule,
+        dueDate: moment(schedule.dteDueDateTime).format("YYYY-MM-DD"), // Convert to 'YYYY-MM-DD' format
+        percentage: schedule.intPaymentByPercent,
+        amount: schedule.numScheduleAmount,
+        scheduleListFOneTimeVat: schedule.numScheduleVatAmount,
+        remarks: schedule.strRemarks || "",
+        isInvoiceComplete: schedule.isInvoiceComplete,
+      }));
+
+      setSheduleListFOneTime(transformedSchedules);
+      setItemList(mappedItems);
+    }
+  }, [isEdit, isView, singleData]);
 
   return (
     <Formik
       enableReinitialize={true}
-      initialValues={initData}
+      initialValues={
+        isEdit || isView
+          ? {
+              ...initData,
+              salesOrg: {
+                value: singleData?.intSalesTypeId,
+                label: singleData?.strSalesTypeName,
+              },
+              distributionChannel: {
+                value: singleData?.intDistributionChannelId,
+                label: singleData?.strDistributionChannelName,
+              },
+              accountManager: {
+                value: singleData?.intAccountManagerEnroll,
+                label: singleData?.strAccountManagerName,
+              },
+              billToParty: singleData?.strCustomerName,
+              numScheduleAmount: singleData?.numScheduleAmount,
+              numServerAmount: singleData?.numServerAmount,
+
+              customer: {
+                value: singleData?.intCustomerId,
+                label: singleData?.strCustomerName,
+              },
+              item: {
+                value: singleData?.intItemId || "",
+                label: singleData?.strItemName || "",
+              },
+              agreementStartDate: moment(singleData?.dteStartDateTime).format(
+                "YYYY-MM-DD"
+              ),
+              agreementEndDate: moment(singleData?.dteEndDateTime).format(
+                "YYYY-MM-DD"
+              ),
+              intWarrantyMonth: singleData?.intWarrantyMonth,
+              dteWarrantyEndDate: dateFormatterForInput(
+                singleData?.dteWarrantyEndDate || ""
+              ),
+              dteActualLiveDate: dateFormatterForInput(
+                singleData?.dteActualLiveDate || ""
+              ),
+              status : singleData?.strStatus ? {value: singleData?.strStatus, label:singleData?.strStatus} : "",
+            }
+          : {
+            ...initData,
+            status: !isEdit && !isView ? { value: "Running", label: "Running"} : ""}
+      }
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
           resetForm(initData);
@@ -241,8 +427,17 @@ export default function ServiceSalesCreate() {
             salesOrgListLoader ||
             loading ||
             customerListLoader ||
+            load ||
             itemDDLloader) && <Loading />}
-          <IForm title="Create Service Sales Order" getProps={setObjprops}>
+          <IForm
+            title={`${
+              isEdit ? "Edit" : isView ? "View" : "Create"
+            } Service Sales Order`}
+            isHiddenBack={isView}
+            isHiddenReset={isView}
+            isHiddenSave={isView}
+            getProps={setObjprops}
+          >
             <Form>
               <div className="form-group  global-form row">
                 <div className="col-lg-3">
@@ -256,6 +451,7 @@ export default function ServiceSalesCreate() {
                     }}
                     errors={errors}
                     touched={touched}
+                    isDisabled={isEdit || isView}
                   />
                 </div>
                 <div className="col-lg-3">
@@ -269,6 +465,7 @@ export default function ServiceSalesCreate() {
                     }}
                     errors={errors}
                     touched={touched}
+                    isDisabled={isEdit || isView}
                   />
                 </div>
                 <div className="col-lg-3">
@@ -302,6 +499,7 @@ export default function ServiceSalesCreate() {
                 <div className="col-lg-3">
                   <NewSelect
                     name="customer"
+                    isDisabled={isEdit || isView}
                     options={customerList || []}
                     value={values?.customer}
                     label="Customer"
@@ -321,6 +519,7 @@ export default function ServiceSalesCreate() {
                     options={itemDDL || []}
                     value={values?.item}
                     label="Item Name"
+                    isDisabled={isEdit || isView}
                     onChange={(valueOption) => {
                       setFieldValue("item", valueOption);
                       setAgreementDatesForRecuuring(null);
@@ -349,6 +548,7 @@ export default function ServiceSalesCreate() {
                 </div>
                 <div className="col-lg-3">
                   <InputField
+                    disabled={isEdit || isView}
                     value={values?.billToParty}
                     label="Bill To Party"
                     name="billToParty"
@@ -462,6 +662,7 @@ export default function ServiceSalesCreate() {
                   <>
                     <div className="col-lg-3">
                       <InputField
+                        disabled={isView}
                         value={values?.agreementStartDate}
                         label="Agreement Start Date"
                         name="agreementStartDate"
@@ -476,7 +677,7 @@ export default function ServiceSalesCreate() {
                     <div className="col-lg-3">
                       <InputField
                         value={values?.agreementEndDate}
-                        disabled={!values?.agreementStartDate}
+                        disabled={!values?.agreementStartDate || isView}
                         label="Agreement End Date"
                         name="agreementEndDate"
                         type="date"
@@ -498,6 +699,7 @@ export default function ServiceSalesCreate() {
                     </div>
                     <div className="col-lg-3">
                       <InputField
+                        disabled={isView}
                         value={values.dteActualLiveDate}
                         label="Projected Live Date"
                         name="dteActualLiveDate"
@@ -522,6 +724,7 @@ export default function ServiceSalesCreate() {
                     </div>
                     <div className="col-lg-3">
                       <InputField
+                        disabled={isView}
                         value={values.intWarrantyMonth}
                         label="Warranty Month"
                         name="intWarrantyMonth"
@@ -550,9 +753,10 @@ export default function ServiceSalesCreate() {
                     </div>
                     <div className="col-lg-3">
                       <InputField
-                        disabled={
-                          !values.dteActualLiveDate || !values.intWarrantyMonth
-                        }
+                        // disabled={
+                        //   !values.dteActualLiveDate || !values.intWarrantyMonth
+                        // }
+                        disabled={isView}
                         value={values.dteWarrantyEndDate}
                         label="Warranty End Date"
                         name="dteWarrantyEndDate"
@@ -564,6 +768,7 @@ export default function ServiceSalesCreate() {
                     </div>
                     <div className="col-lg-3">
                       <NewSelect
+                        isDisabled={isEdit || isView}
                         name="accountManager"
                         options={accountManagerList || []}
                         value={values?.accountManager}
@@ -576,27 +781,51 @@ export default function ServiceSalesCreate() {
                       />
                     </div>
                     <div className="col-lg-3">
-                  <InputField
-                    value={values?.numScheduleAmount}
-                    label="Schedule Amount"
-                    name="numScheduleAmount"
-                    type="number"
-                    onChange={(e) => {
-                      setFieldValue("numScheduleAmount", e.target.value);
-                    }}
-                  />
-                </div>
-                <div className="col-lg-3">
-                  <InputField
-                    value={values?.numServerAmount}
-                    label="Server Amount"
-                    name="numServerAmount"
-                    type="number"
-                    onChange={(e) => {
-                      setFieldValue("numServerAmount", e.target.value);
-                    }}
-                  />
-                </div>
+                      <InputField
+                        disabled={isView}
+                        value={values?.numScheduleAmount}
+                        label="Schedule Amount"
+                        name="numScheduleAmount"
+                        type="number"
+                        onChange={(e) => {
+                          setFieldValue("numScheduleAmount", e.target.value);
+                        }}
+                      />
+                    </div>
+                    <div className="col-lg-3">
+                      <InputField
+                        disabled={isView}
+                        value={values?.numServerAmount}
+                        label="Server Amount"
+                        name="numServerAmount"
+                        type="number"
+                        onChange={(e) => {
+                          setFieldValue("numServerAmount", e.target.value);
+                        }}
+                      />
+                    </div>
+                    <div className="col-lg-3">
+                      <NewSelect
+                        name="status"
+                        options={[
+                          { value: "Closed", label: "Closed", },
+                          { value: "Discontinued", label: "Discontinued"},
+                          { value: "Locked", label: "Locked"},
+                          { value: "Running", label: "Running"},
+                        ]}
+                        disabled={!isEdit}
+                        value={values?.status}
+                        label="Status"
+                        onChange={(valueOption) => {
+                          setFieldValue("status", valueOption);
+                          setItemList([]);
+                          setSheduleList([]);
+                          setSheduleListFOneTime([]);
+                        }}
+                        errors={errors}
+                        touched={touched}
+                      />
+                    </div>
                   </>
                 ) : null}
 
@@ -631,6 +860,7 @@ export default function ServiceSalesCreate() {
                   <InputField
                     value={values?.qty}
                     label="Qty"
+                    disabled={isEdit || isView}
                     name="qty"
                     type="number"
                     onChange={(e) => {
@@ -643,6 +873,7 @@ export default function ServiceSalesCreate() {
                     value={values?.rate}
                     label="Rate"
                     name="rate"
+                    disabled={isEdit || isView}
                     type="number"
                     onChange={(e) => {
                       setFieldValue("rate", e.target.value);
@@ -653,6 +884,7 @@ export default function ServiceSalesCreate() {
                   <InputField
                     value={values?.vat}
                     label="Vat %"
+                    disabled={isEdit || isView}
                     name="vat"
                     type="number"
                     onChange={(e) => {
@@ -762,7 +994,9 @@ export default function ServiceSalesCreate() {
                       </button>
                     </div>
                   ) : null}
-                  {[2]?.includes(values?.paymentType?.value) ? (
+                  {[2]?.includes(values?.paymentType?.value) &&
+                  !isEdit &&
+                  !isView ? (
                     <>
                       <div style={{ marginTop: "18px" }} className="ml-4">
                         <button
@@ -869,18 +1103,20 @@ export default function ServiceSalesCreate() {
                               <td className="text-center">{item?.vatAmount}</td>
                               <td className="text-right">{item?.netAmount}</td>
                               <td className="text-center">
-                                <IDelete
-                                  style={{ fontSize: "16px" }}
-                                  remover={(index) => {
-                                    let data = itemList.filter(
-                                      (item, i) => i !== index
-                                    );
-                                    setItemList(data);
-                                    setSheduleList([]);
-                                    setSheduleListFOneTime([]);
-                                  }}
-                                  id={index}
-                                />
+                                {!isView && !isEdit && (
+                                  <IDelete
+                                    style={{ fontSize: "16px" }}
+                                    remover={(index) => {
+                                      let data = itemList.filter(
+                                        (item, i) => i !== index
+                                      );
+                                      setItemList(data);
+                                      setSheduleList([]);
+                                      setSheduleListFOneTime([]);
+                                    }}
+                                    id={index}
+                                  />
+                                )}
                               </td>
                             </tr>
                           ))}
@@ -963,6 +1199,7 @@ export default function ServiceSalesCreate() {
                                   <InputField
                                     value={item?.dueDate}
                                     type="date"
+                                    disabled={isEdit || isView}
                                     onChange={(e) => {
                                       let data = [...scheduleListFOneTime];
                                       data[index]["dueDate"] = e.target.value;
@@ -971,12 +1208,15 @@ export default function ServiceSalesCreate() {
                                   />
                                 </td>
                                 <td>
-                                  {console.log("itemList", itemList)}
                                   <InputField
                                     value={item?.percentage || ""}
                                     type="number"
+                                    disabled={isEdit || isView}
                                     onChange={(e) => {
                                       const newValue = +e.target.value;
+                                      if(newValue < 0){
+                                        return;
+                                      }
                                       let totalPercentage = getTotalPersecentage(
                                         newValue,
                                         index
@@ -1017,6 +1257,7 @@ export default function ServiceSalesCreate() {
                                 <td>
                                   <InputField
                                     value={item?.remarks}
+                                    disabled={isEdit || isView}
                                     type="text"
                                     onChange={(e) => {
                                       let updatedScheduleList = [
@@ -1032,79 +1273,85 @@ export default function ServiceSalesCreate() {
                                   />
                                 </td>
                                 <td>
-                                  <div className="d-flex justify-content-around">
-                                    <OverlayTrigger
-                                      overlay={
-                                        <Tooltip id="cs-icon">{"Add"}</Tooltip>
-                                      }
-                                    >
-                                      <span>
-                                        <i
-                                          style={{
-                                            fontSize: "16px",
-                                            cursor: "pointer",
-                                          }}
-                                          className="fa fa-plus-square"
-                                          onClick={() => {
-                                            const newValue =
-                                              scheduleListFOneTime[index][
-                                                "percentage"
+                                  {!isView && !isEdit && (
+                                    <div className="d-flex justify-content-around">
+                                      <OverlayTrigger
+                                        overlay={
+                                          <Tooltip id="cs-icon">
+                                            {"Add"}
+                                          </Tooltip>
+                                        }
+                                      >
+                                        <span>
+                                          <i
+                                            style={{
+                                              fontSize: "16px",
+                                              cursor: "pointer",
+                                            }}
+                                            className="fa fa-plus-square"
+                                            onClick={() => {
+                                              const newValue =
+                                                scheduleListFOneTime[index][
+                                                  "percentage"
+                                                ];
+
+                                              if (!newValue) {
+                                                return toast.warn(
+                                                  "Please add percentage"
+                                                );
+                                              }
+
+                                              let totalPercentage = scheduleListFOneTime.reduce(
+                                                (acc, curr, currIndex) => {
+                                                  if (currIndex === index) {
+                                                    return acc + newValue;
+                                                  } else {
+                                                    return (
+                                                      acc + curr.percentage
+                                                    );
+                                                  }
+                                                },
+                                                0
+                                              );
+
+                                              if (totalPercentage >= 100) {
+                                                return toast.warn(
+                                                  "Total percentage already 100"
+                                                );
+                                              }
+
+                                              let updatedScheduleList = [
+                                                ...scheduleListFOneTime,
                                               ];
 
-                                            if (!newValue) {
-                                              return toast.warn(
-                                                "Please add percentage"
-                                              );
-                                            }
+                                              setSheduleListFOneTime([
+                                                ...updatedScheduleList,
+                                                {
+                                                  dueDate: _todayDate(),
+                                                  percentage: 0,
+                                                  amount: 0,
+                                                  remarks: "",
+                                                },
+                                              ]);
+                                            }}
+                                          ></i>
+                                        </span>
+                                      </OverlayTrigger>
 
-                                            let totalPercentage = scheduleListFOneTime.reduce(
-                                              (acc, curr, currIndex) => {
-                                                if (currIndex === index) {
-                                                  return acc + newValue;
-                                                } else {
-                                                  return acc + curr.percentage;
-                                                }
-                                              },
-                                              0
-                                            );
-
-                                            if (totalPercentage >= 100) {
-                                              return toast.warn(
-                                                "Total percentage already 100"
-                                              );
-                                            }
-
-                                            let updatedScheduleList = [
-                                              ...scheduleListFOneTime,
-                                            ];
-
-                                            setSheduleListFOneTime([
-                                              ...updatedScheduleList,
-                                              {
-                                                dueDate: _todayDate(),
-                                                percentage: 0,
-                                                amount: 0,
-                                                remarks: "",
-                                              },
-                                            ]);
-                                          }}
-                                        ></i>
-                                      </span>
-                                    </OverlayTrigger>
-
-                                    <IDelete
-                                      style={{ fontSize: "16px" }}
-                                      id={index}
-                                      remover={(index) => {
-                                        let updatedScheduleList = scheduleListFOneTime?.filter(
-                                          (schedule, i) => i !== index
-                                        );
-                                        setSheduleListFOneTime(
-                                          updatedScheduleList
-                                        );
-                                      }}
-                                    />
-                                  </div>
+                                      <IDelete
+                                        style={{ fontSize: "16px" }}
+                                        id={index}
+                                        remover={(index) => {
+                                          let updatedScheduleList = scheduleListFOneTime?.filter(
+                                            (schedule, i) => i !== index
+                                          );
+                                          setSheduleListFOneTime(
+                                            updatedScheduleList
+                                          );
+                                        }}
+                                      />
+                                    </div>
+                                  )}
                                 </td>
                               </tr>
                             ))}

@@ -44,6 +44,7 @@ import PartnerRegApproval from "./partnerRegistrationApproval";
 import CreateApprovePartner from "./partnerRegistrationApproval/CreateApprovePartner";
 import HomeBuildersInfoEntryForm from "./homeBuildersInfo/form/addEditForm";
 import HomeBuildersInfoLanding from "./homeBuildersInfo/landing";
+import ExclusivePartnerInfo from "./exclusivePartnerInfo";
 
 export function PartnerPages() {
   const userRole = useSelector(
@@ -216,6 +217,10 @@ export function PartnerPages() {
       <ContentRoute
         from="/config/partner-management/ShipToPartnerInfo"
         component={ShipToPartnerInfoTable}
+      />
+      <ContentRoute
+        from="/config/partner-management/ExclusiveRetailer"
+        component={ExclusivePartnerInfo}
       />
 
       {/* Ship to partner transfer */}

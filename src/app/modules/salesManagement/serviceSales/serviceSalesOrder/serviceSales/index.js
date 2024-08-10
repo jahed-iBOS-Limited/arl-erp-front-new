@@ -11,6 +11,10 @@ import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import IViewModal from "../../../../_helper/_viewModal";
 import ServiceSalesCreateRecurring from "./createRecurring";
+import IEdit from "../../../../_helper/_helperIcons/_edit";
+import IView from "../../../../_helper/_helperIcons/_view";
+import ServiceSalesOrderView from "./View";
+import ServiceSalesCreate from "./create";
 
 const initData = {
   customer: "",
@@ -23,10 +27,13 @@ export default function ServiceSalesLanding() {
   const [customerList, getCustomerList] = useAxiosGet();
   const [, getItemDDL] = useAxiosGet();
   const [scheduleList, getScheduleList, loader] = useAxiosGet();
+  const [salesOrder, getSalesOrder, load] = useAxiosGet();
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
   const [showModal, setShowModal] = useState(false);
   const [singleData, setSingleData] = useState(null);
+  const [view, setView] = useState(false);
+  const [edit, setEdit] = useState(false);
 
   useEffect(() => {
     getCustomerList(
@@ -133,8 +140,8 @@ export default function ServiceSalesLanding() {
                   </div>
                 </div>
                 <div className="mt-5">
-                  <div className="table-responsive">
-                    <table className="table table-striped table-bordered bj-table bj-table-landing">
+                  <div className="table-responsive common-scrollable-table scroll-table _table overflow-auto">
+                    <table className="table table-striped table-bordered bj-table bj-table-landing global-table">
                       <thead>
                         <tr>
                           <th style={{ maxWidth: "20px" }}>SL</th>
@@ -144,11 +151,14 @@ export default function ServiceSalesLanding() {
                           <th>Salaes Type Name</th>
                           <th>Payment Type</th>
                           <th>Schedule Type</th>
-                          <th>Due Invoice</th>
+                          <th>Total Invoice</th>
+                          <th>Total Schedules</th>
+                          <th>Total Invoice Collection</th>
                           <th>Actual Live Date</th>
                           <th>Warranty Month</th>
                           <th>Warranty End Date</th>
                           <th>Account Manager Name</th>
+                          <th>Status</th>
                           <th>Action</th>
                         </tr>
                       </thead>
@@ -184,7 +194,13 @@ export default function ServiceSalesLanding() {
                             <td>{item?.strPaymentType}</td>
                             <td>{item?.strScheduleTypeName}</td>
                             <td className="text-center">
-                              {`${item?.invoiceCollectionCount} / ${item?.intInvoiceCount}`}
+                              {item?.intInvoiceCount}
+                            </td>
+                            <td className="text-center">
+                              {item?.intScheduleCount}
+                            </td>
+                            <td className="text-center">
+                              {item?.invoiceCollectionCount}
                             </td>
                             <td className="text-center">
                               {_dateFormatter(item?.dteActualLiveDate)}
@@ -196,6 +212,7 @@ export default function ServiceSalesLanding() {
                               {_dateFormatter(item?.dteWarrantyEndDate)}
                             </td>
                             <td>{item?.strAccountManagerName}</td>
+                            <td>{item?.strStatus}</td>
                             <td>
                               {" "}
                               <div className="d-flex">
@@ -222,6 +239,33 @@ export default function ServiceSalesLanding() {
                                       aria-hidden="true"
                                     ></i>
                                   </OverlayTrigger>
+                                </span>
+                                <span
+                                  className="mx-2"
+                                  onClick={() => {
+                                    getSalesOrder(
+                                      `/oms/ServiceSales/GetServiceSalesOrderById?ServiceSalesOrderId=${item?.intServiceSalesOrderId}`,
+                                      (data) => {
+                                        setSingleData(data);
+                                        setEdit(true);
+                                      }
+                                    );
+                                  }}
+                                >
+                                  <IEdit />
+                                </span>
+                                <span className="">
+                                  <IView
+                                    clickHandler={(e) => {
+                                      getSalesOrder(
+                                        `/oms/ServiceSales/GetServiceSalesOrderById?ServiceSalesOrderId=${item?.intServiceSalesOrderId}`,
+                                        (data) => {
+                                          setSingleData(data);
+                                          setView(true);
+                                        }
+                                      );
+                                    }}
+                                  />
                                 </span>
                               </div>
                             </td>
@@ -252,6 +296,28 @@ export default function ServiceSalesLanding() {
                       }}
                     >
                       <ServiceSalesCreateRecurring singleData={singleData} />
+                    </IViewModal>
+                    <IViewModal
+                      show={view}
+                      onHide={() => {
+                        setView(false);
+                      }}
+                    >
+                      <ServiceSalesCreate
+                        isView={true}
+                        singleData={singleData}
+                      />
+                    </IViewModal>
+                    <IViewModal
+                      show={edit}
+                      onHide={() => {
+                        setEdit(false);
+                      }}
+                    >
+                      <ServiceSalesCreate
+                        isEdit={true}
+                        singleData={singleData}
+                      />
                     </IViewModal>
                   </div>
                 </div>

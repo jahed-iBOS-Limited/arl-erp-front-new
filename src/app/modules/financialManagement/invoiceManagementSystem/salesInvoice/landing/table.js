@@ -17,6 +17,9 @@ import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
 import { useDispatch } from "react-redux";
 import AttachmentUploaderNew from "../../../../_helper/attachmentUploaderNew";
+import IExtend from "../../../../_helper/_helperIcons/_extend";
+import InvoiceList from "./InvoiceList";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 
 const SalesInvoiceLandingTable = ({ obj }) => {
   const {
@@ -36,11 +39,12 @@ const SalesInvoiceLandingTable = ({ obj }) => {
   } = obj;
 
   const [isModalShow, setModalShow] = useState(false);
+  const [invoiceDataShow, setInvoiceDataShow] = useState(false);
   const [invoiceData, setInvoiceData] = useState([]);
   const [isCancelModalShow, setIsCancelModalShow] = useState(false);
   const [singleRowItem, setSingleRowItem] = useState(null);
-  const dispatch = useDispatch()
-  const [, onAttachmentUpload] = useAxiosPost()
+  const dispatch = useDispatch();
+  const [, onAttachmentUpload] = useAxiosPost();
 
   const history = useHistory();
 
@@ -48,6 +52,7 @@ const SalesInvoiceLandingTable = ({ obj }) => {
     printRefCement,
     handleInvoicePrintCement,
   } = useCementInvoicePrintHandler();
+  const [data, getData] = useAxiosGet();
 
   return (
     <>
@@ -75,6 +80,8 @@ const SalesInvoiceLandingTable = ({ obj }) => {
                       <th>Project Location</th>
                     </>
                   )}
+                  <th>Primary Qty</th>
+                  <th>Return Qty</th>
                   <th>Net Qty</th>
                   <th>Invoice Amount</th>
                   {values?.status?.value !== 3 && values?.type?.value !== 2 && (
@@ -109,6 +116,8 @@ const SalesInvoiceLandingTable = ({ obj }) => {
                         <td>{tableData?.strProjectLocation}</td>
                       </>
                     )}
+                    <td className="text-right">{tableData?.primaryQuantity}</td>
+                    <td className="text-right">{tableData?.returnQuantity}</td>
                     <td className="text-right">{tableData?.numQuantity}</td>
                     <td className="text-right">
                       {_fixedPoint(tableData?.invoiceAmount || 0)}
@@ -160,11 +169,14 @@ const SalesInvoiceLandingTable = ({ obj }) => {
                             >
                               <IClose title="Cancel Sales Invoice" />
                             </span>
+
                             <button
                               onClick={(e) => {
                                 e.stopPropagation();
                                 dispatch(
-                                  getDownlloadFileView_Action(tableData.attachment)
+                                  getDownlloadFileView_Action(
+                                    tableData.attachment
+                                  )
                                 );
                               }}
                               style={{
@@ -183,21 +195,45 @@ const SalesInvoiceLandingTable = ({ obj }) => {
                               CBAttachmentRes={(image) => {
                                 if (image.length > 0) {
                                   const payload = {
-                                    "businessUnitId": buId,
-                                    "invoiceNumber": tableData.strInvoiceNumber,
-                                    "businessPartnerId": tableData.intPartnerId,
-                                    "attachment": image[0].id
+                                    businessUnitId: buId,
+                                    invoiceNumber: tableData.strInvoiceNumber,
+                                    businessPartnerId: tableData.intPartnerId,
+                                    attachment: image[0].id,
+                                  };
 
-                                  }
-
-                                  onAttachmentUpload('/oms/OManagementReport/UpdateSalesInvoiceAttachment', payload)
+                                  onAttachmentUpload(
+                                    "/oms/OManagementReport/UpdateSalesInvoiceAttachment",
+                                    payload
+                                  );
                                 }
                               }}
                               showIcon
-                              attachmentIcon='fa fa-paperclip'
-                              customStyle={{ 'background': 'transparent', 'padding': '4px 0' }}
+                              attachmentIcon="fa fa-paperclip"
+                              customStyle={{
+                                background: "transparent",
+                                padding: "4px 0",
+                              }}
                               fileUploadLimits={1}
                             />
+                            <span
+                              className="cursor-pointer"
+                              onClick={() => {
+                                getData(
+                                  `/oms/OManagementReport/GetSalesOrderAttachment?invoiceNumber=${tableData?.strInvoiceNumber}&businessUnitId=${buId}`,
+                                  (data) => {
+                                    if (data?.length < 0) {
+                                      setInvoiceDataShow(false);
+                                      toast.warn("No data found");
+                                    } else {
+                                      setInvoiceDataShow(true);
+                                    }
+                                  }
+                                );
+                                setSingleRowItem(tableData);
+                              }}
+                            >
+                              <IExtend title="View Invoices" />
+                            </span>
                           </div>
                         ) : (
                           <button
@@ -274,6 +310,20 @@ const SalesInvoiceLandingTable = ({ obj }) => {
                 pageSize,
                 setLoading,
               }}
+            />
+          </IViewModal>
+        </>
+        <>
+          <IViewModal
+            show={invoiceDataShow}
+            onHide={() => {
+              setInvoiceDataShow(false);
+            }}
+          >
+            <InvoiceList
+              item={singleRowItem}
+              setInvoiceDataShow={setInvoiceDataShow}
+              data={data}
             />
           </IViewModal>
         </>

@@ -12,6 +12,8 @@ import InputField from "../../../_helper/_inputField";
 import Loading from "../../../_helper/_loading";
 import NewSelect from "../../../_helper/_select";
 import { ITable } from "../../../_helper/_table";
+import IViewModal from "../../../_helper/_viewModal";
+import JVModalView from "./jvView";
 
 export default function FuelConsumption() {
   const [pageNo, setPageNo] = useState(0);
@@ -19,6 +21,7 @@ export default function FuelConsumption() {
   const [landigData, getlandingData, lodar] = useAxiosGet();
   const history = useHistory();
   const dispatch = useDispatch();
+  const [showJVModal, setShowJVModal] = useState(false);
 
   const rebConsumptionLanding = useSelector((state) => {
     return state.localStorage.fuelConsumptionLanding;
@@ -127,6 +130,17 @@ export default function FuelConsumption() {
                       Show
                     </button>
                   </div>
+                  <div className="col-lg-2">
+                    <button
+                      onClick={() => {
+                        setShowJVModal(true);
+                      }}
+                      type="button"
+                      className="btn btn-primary mt-5"
+                    >
+                      Month End
+                    </button>
+                  </div>
                 </div>
 
                 <div style={{ marginTop: "15px" }}>
@@ -184,6 +198,22 @@ export default function FuelConsumption() {
                       }}
                       values={rebConsumptionLanding}
                     />
+                  )}
+
+                  {showJVModal && (
+                    <IViewModal
+                      title={"JV View for Fuel Consumption"}
+                      show={showJVModal}
+                      onHide={() => {
+                        setShowJVModal(false);
+                      }}
+                    >
+                      <JVModalView
+                        values={values}
+                        buId={selectedBusinessUnit?.value}
+                        setShowJVModal={setShowJVModal}
+                      />
+                    </IViewModal>
                   )}
                 </div>
               </Form>
