@@ -64,8 +64,7 @@ export default function TenderSubmissionCreateEditForm() {
         buUnId,
         { businessPartner: { label: landingPageState?.businessPartnerName } },
         tenderId,
-        getTenderDetails,
-
+        getTenderDetails
       );
       getGodownDDLList(
         { value: landingPageState?.businessPartnerId },
@@ -75,13 +74,10 @@ export default function TenderSubmissionCreateEditForm() {
         updateGodownDDL
       );
 
-      fetchGhatDDL(accountId, buUnId, getGhatDDL)
-
+      fetchGhatDDL(accountId, buUnId, getGhatDDL);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-
 
   const saveHandler = (values, cb) => {
     submitTender(
@@ -132,7 +128,7 @@ export default function TenderSubmissionCreateEditForm() {
           }}
         />
       </div>
-      <div className="col-lg-3">
+      {/*<div className="col-lg-3">
         <InputField
           value={values?.uomname}
           label="Unit"
@@ -142,7 +138,7 @@ export default function TenderSubmissionCreateEditForm() {
             setFieldValue("uomname", e.target.value);
           }}
         />
-      </div>
+      </div>*/}
       <div className="col-lg-3">
         <InputField
           value={values?.productName}
@@ -165,17 +161,6 @@ export default function TenderSubmissionCreateEditForm() {
           }}
           errors={errors}
           touched={touched}
-        />
-      </div>
-      <div className="col-lg-3">
-        <InputField
-          value={values?.foreignPriceUSD}
-          label="Foreign Price (USD)"
-          name="foreignPriceUSD"
-          type="number"
-          onChange={(e) => {
-            setFieldValue("foreignPriceUSD", e.target.value);
-          }}
         />
       </div>
     </>
@@ -220,16 +205,16 @@ export default function TenderSubmissionCreateEditForm() {
       </div>
       <div className="col-lg-3">
         <InputField
-          value={values?.referenceNo}
-          label="Reference No"
-          name="referenceNo"
+          value={values?.remarks}
+          label="Remarks"
+          name="remarks"
           type="text"
           onChange={(e) => {
-            setFieldValue("referenceNo", e.target.value);
+            setFieldValue("remarks", e.target.value);
           }}
         />
       </div>
-      <div className="col-lg-3">
+      {/*<div className="col-lg-3">
         <InputField
           value={values?.referenceDate}
           label="Reference Date"
@@ -239,7 +224,7 @@ export default function TenderSubmissionCreateEditForm() {
             setFieldValue("referenceDate", e.target.value);
           }}
         />
-      </div>
+      </div> */}
     </>
   );
 
@@ -369,16 +354,27 @@ export default function TenderSubmissionCreateEditForm() {
 
   const editFormField = (values, setFieldValue) => (
     <>
+      <div className="col-lg-3">
+        <InputField
+          value={values?.foreignPriceUSD}
+          label="Foreign Price (USD)"
+          name="foreignPriceUSD"
+          type="number"
+          onChange={(e) => {
+            setFieldValue("foreignPriceUSD", e.target.value);
+          }}
+        />
+      </div>
       {tenderDetails?.header?.isAccept !== true && (
         <div className="col-lg-3 mt-5 d-flex align-items-center">
           <input
             type="checkbox"
-            id="approveStatus"
-            name="approveStatus"
-            value={values?.approveStatus}
-            checked={values?.approveStatus}
+            id="isAccept"
+            name="isAccept"
+            value={values?.isAccept}
+            checked={values?.isAccept}
             onChange={(e) => {
-              setFieldValue("approveStatus", e.target.checked);
+              setFieldValue("isAccept", e.target.checked);
             }}
           />
           <label htmlFor="approveStatus" className="pl-1">
@@ -386,6 +382,21 @@ export default function TenderSubmissionCreateEditForm() {
           </label>
         </div>
       )}
+      <div className="col-lg-3 mt-5 d-flex align-items-center">
+        <input
+          type="checkbox"
+          id="approveStatus"
+          name="approveStatus"
+          value={values?.approveStatus}
+          checked={values?.approveStatus}
+          onChange={(e) => {
+            setFieldValue("approveStatus", e.target.checked);
+          }}
+        />
+        <label htmlFor="approveStatus" className="pl-1">
+          Approve
+        </label>
+      </div>
       <div className="col-lg-3 mt-3 d-flex align-items-center">
         <AttachmentUploaderNew
           CBAttachmentRes={(image) => {
@@ -571,7 +582,7 @@ export default function TenderSubmissionCreateEditForm() {
                       );
                       // fetch ghat ddl when badc select
                       if (valueOption?.label === "BADC") {
-                        fetchGhatDDL(accountId, buUnId, getGhatDDL)
+                        fetchGhatDDL(accountId, buUnId, getGhatDDL);
                       }
                     }}
                     errors={errors}
