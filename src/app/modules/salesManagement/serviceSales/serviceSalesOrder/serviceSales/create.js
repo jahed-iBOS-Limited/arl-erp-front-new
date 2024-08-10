@@ -41,6 +41,7 @@ const initData = {
   accountManager: "",
   numScheduleAmount: "",
   numServerAmount: "",
+  status:"",
 };
 
 export default function ServiceSalesCreate({
@@ -125,7 +126,7 @@ export default function ServiceSalesCreate({
       (accumulator, currentValue) => accumulator + currentValue["percentage"],
       0
     );
-    if (values?.paymentType?.label === "One Time" && +totalPercentage !== 100) {
+    if (!isEdit && values?.paymentType?.label === "One Time" && +totalPercentage !== 100) {
       return toast.warn("Total percentage should be 100");
     }
 
@@ -169,6 +170,7 @@ export default function ServiceSalesCreate({
         strAccountManagerName: values?.accountManager?.label || "",
         numScheduleAmount: +values?.numScheduleAmount || 0,
         numServerAmount: +values?.numServerAmount || 0,
+        strStatus:values?.status?.value,
       },
       row: itemList?.map((item) => ({
         intServiceSalesOrderRowId: 0,
@@ -226,7 +228,7 @@ export default function ServiceSalesCreate({
             ? "One Time"
             : values?.scheduleType?.label || "",
         intScheduleDayCount:
-          +values?.invoiceDay || singleData?.intScheduleDayCount,
+          +values?.invoiceDay || singleData?.intScheduleDayCount || 0,
         dteStartDateTime:
           values?.agreementStartDate || singleData?.dteStartDateTime,
         dteEndDateTime: values?.agreementEndDate || singleData?.dteEndDateTime,
@@ -252,45 +254,46 @@ export default function ServiceSalesCreate({
           attachmentList[0]?.id || singleData?.strAttachmentLink,
         isActive: true,
         intActionBy: profileData?.userId,
+        strStatus: values?.status?.value || singleData?.strStatus,
       };
-      const row = itemList?.map((item) => ({
-        intServiceSalesOrderRowId: item?.intServiceSalesOrderRowId,
-        intServiceSalesOrderId: item?.intServiceSalesOrderId,
-        intItemId: item?.value || item?.intItemId,
-        strItemName: item?.label || item?.strItemName,
-        strUom: item?.strUom || "",
-        numSalesQty: +item?.qty || +item?.numSalesQty || 0,
-        numRate: +item?.rate || +item?.numRate || 0,
-        numSalesAmount:
-          (+item?.qty || +item?.numSalesQty || 0) *
-          (+item?.rate || +item?.numRate || 0),
-        numSalesVatAmount: item?.vatAmount || +item?.numSalesVatAmount || 0,
-        numNetSalesAmount: +netAmount || item?.numNetSalesAmount || 0,
-        isActive: true,
-      }));
-      const schedule = scheduleArray?.map((schedule) => ({
-        intServiceSalesScheduleId: schedule?.intServiceSalesScheduleId || 0,
-        intServiceSalesOrderId: schedule?.intServiceSalesOrderId || 0,
-        dteScheduleDateTime:
-          schedule?.dteScheduleCreateDateTime || _todayDate(),
-        dteDueDateTime: schedule?.dueDate || schedule?.dteDueDateTime,
-        intPaymentByPercent:
-          +schedule?.percentage || +schedule?.intPaymentByPercent0,
-        numScheduleVatAmount:
-          +schedule?.scheduleListFOneTimeVat ||
-          +schedule?.vatAmount ||
-          +schedule?.numScheduleVatAmount,
-        numScheduleAmount: +schedule?.amount || schedule?.numScheduleAmount,
-        strRemarks: schedule?.remarks || schedule?.strRemarks || "",
-        isInvoiceComplete: schedule?.isInvoiceComplete,
-        isActive: true,
-      }));
+      // const row = itemList?.map((item) => ({
+      //   intServiceSalesOrderRowId: item?.intServiceSalesOrderRowId,
+      //   intServiceSalesOrderId: item?.intServiceSalesOrderId,
+      //   intItemId: item?.value || item?.intItemId,
+      //   strItemName: item?.label || item?.strItemName,
+      //   strUom: item?.strUom || "",
+      //   numSalesQty: +item?.qty || +item?.numSalesQty || 0,
+      //   numRate: +item?.rate || +item?.numRate || 0,
+      //   numSalesAmount:
+      //     (+item?.qty || +item?.numSalesQty || 0) *
+      //     (+item?.rate || +item?.numRate || 0),
+      //   numSalesVatAmount: item?.vatAmount || +item?.numSalesVatAmount || 0,
+      //   numNetSalesAmount: +netAmount || item?.numNetSalesAmount || 0,
+      //   isActive: true,
+      // }));
+      // const schedule = scheduleArray?.map((schedule) => ({
+      //   intServiceSalesScheduleId: schedule?.intServiceSalesScheduleId || 0,
+      //   intServiceSalesOrderId: schedule?.intServiceSalesOrderId || 0,
+      //   dteScheduleDateTime:
+      //     schedule?.dteScheduleCreateDateTime || _todayDate(),
+      //   dteDueDateTime: schedule?.dueDate || schedule?.dteDueDateTime,
+      //   intPaymentByPercent:
+      //     +schedule?.percentage || +schedule?.intPaymentByPercent0,
+      //   numScheduleVatAmount:
+      //     +schedule?.scheduleListFOneTimeVat ||
+      //     +schedule?.vatAmount ||
+      //     +schedule?.numScheduleVatAmount,
+      //   numScheduleAmount: +schedule?.amount || schedule?.numScheduleAmount,
+      //   strRemarks: schedule?.remarks || schedule?.strRemarks || "",
+      //   isInvoiceComplete: schedule?.isInvoiceComplete,
+      //   isActive: true,
+      // }));
       updateSalesOrder(
         `/oms/ServiceSales/UpdateServiceSalesOrder`,
         {
           header: header,
-          row: row,
-          schedule: schedule,
+          // row: row,
+          // schedule: schedule,
         },
         cb,
         true
@@ -306,13 +309,15 @@ export default function ServiceSalesCreate({
   };
 
   const getTotalPersecentage = (newValue, index) => {
-    scheduleListFOneTime.reduce((acc, curr, currIndex) => {
+    const totalPercentage = scheduleListFOneTime.reduce((acc, curr, currIndex) => {
       if (currIndex === index) {
-        return acc + newValue;
+        return acc + (+newValue || 0);
       } else {
-        return acc + curr.percentage;
+        return acc + (+curr.percentage || 0);
       }
     }, 0);
+  
+    return totalPercentage;
   };
   useEffect(() => {
     if (isEdit || isView) {
@@ -386,13 +391,16 @@ export default function ServiceSalesCreate({
               ),
               intWarrantyMonth: singleData?.intWarrantyMonth,
               dteWarrantyEndDate: dateFormatterForInput(
-                singleData?.dteWarrantyEndDate
+                singleData?.dteWarrantyEndDate || ""
               ),
               dteActualLiveDate: dateFormatterForInput(
-                singleData?.dteActualLiveDate
+                singleData?.dteActualLiveDate || ""
               ),
+              status : singleData?.strStatus ? {value: singleData?.strStatus, label:singleData?.strStatus} : "",
             }
-          : initData
+          : {
+            ...initData,
+            status: !isEdit && !isView ? { value: "Running", label: "Running"} : ""}
       }
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
@@ -796,6 +804,28 @@ export default function ServiceSalesCreate({
                         }}
                       />
                     </div>
+                    <div className="col-lg-3">
+                      <NewSelect
+                        name="status"
+                        options={[
+                          { value: "Closed", label: "Closed", },
+                          { value: "Discontinued", label: "Discontinued"},
+                          { value: "Locked", label: "Locked"},
+                          { value: "Running", label: "Running"},
+                        ]}
+                        disabled={!isEdit}
+                        value={values?.status}
+                        label="Status"
+                        onChange={(valueOption) => {
+                          setFieldValue("status", valueOption);
+                          setItemList([]);
+                          setSheduleList([]);
+                          setSheduleListFOneTime([]);
+                        }}
+                        errors={errors}
+                        touched={touched}
+                      />
+                    </div>
                   </>
                 ) : null}
 
@@ -1184,6 +1214,9 @@ export default function ServiceSalesCreate({
                                     disabled={isEdit || isView}
                                     onChange={(e) => {
                                       const newValue = +e.target.value;
+                                      if(newValue < 0){
+                                        return;
+                                      }
                                       let totalPercentage = getTotalPersecentage(
                                         newValue,
                                         index

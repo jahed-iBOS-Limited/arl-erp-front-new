@@ -123,7 +123,7 @@ export default function InterCompanyLoan() {
                         <th>Investment Partner</th>
                         <th>Loan Type</th>
                         <th>Principle Amount</th>
-                        <th>In Amount</th>
+                        <th>Interest Amount</th>
                         <th>Total Payable</th>
                         <th>Remaining Principle</th>
                         <th>Repay</th>
