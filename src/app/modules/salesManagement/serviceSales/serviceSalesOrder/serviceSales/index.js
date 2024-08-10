@@ -13,7 +13,6 @@ import IViewModal from "../../../../_helper/_viewModal";
 import ServiceSalesCreateRecurring from "./createRecurring";
 import IEdit from "../../../../_helper/_helperIcons/_edit";
 import IView from "../../../../_helper/_helperIcons/_view";
-import ServiceSalesOrderView from "./View";
 import ServiceSalesCreate from "./create";
 
 const initData = {
@@ -45,10 +44,15 @@ export default function ServiceSalesLanding() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileData, selectedBusinessUnit]);
 
+  useEffect(() => {
+    getData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const saveHandler = (values, cb) => {};
   const history = useHistory();
 
-  const setPositionHandler = (pageNo, pageSize, values) => {
+  const getData = (values) => {
     getScheduleList(
       `/oms/ServiceSales/GetServiceSalesLanding?accountId=${
         profileData?.accountId
@@ -56,6 +60,10 @@ export default function ServiceSalesLanding() {
         ?.customer?.value || 0}&itemId=${values?.item?.value ||
         0}&pageNo=${pageNo}&pageSize=${pageSize}`
     );
+  };
+
+  const setPositionHandler = (pageNo, pageSize, values) => {
+    getData(values);
   };
 
   return (
@@ -125,14 +133,7 @@ export default function ServiceSalesLanding() {
                       type="button"
                       style={{ marginTop: "17px" }}
                       onClick={() => {
-                        getScheduleList(
-                          `/oms/ServiceSales/GetServiceSalesLanding?accountId=${
-                            profileData?.accountId
-                          }&businessUnitId=${
-                            selectedBusinessUnit?.value
-                          }&customerId=${values?.customer?.value ||
-                            0}&itemId=${0}&pageNo=${pageNo}&pageSize=${pageSize}`
-                        );
+                        getData(values);
                       }}
                     >
                       Show
@@ -216,57 +217,68 @@ export default function ServiceSalesLanding() {
                             <td>
                               {" "}
                               <div className="d-flex">
-                                <span
-                                  onClick={() => {
-                                    setSingleData(item);
-                                    setShowModal(true);
-                                  }}
-                                  className=""
-                                >
-                                  <OverlayTrigger
-                                    overlay={
-                                      <Tooltip
-                                        className="mytooltip"
-                                        id="info-tooltip"
-                                      >
-                                        Create Recurring
-                                      </Tooltip>
-                                    }
-                                  >
-                                    <i
-                                      style={{ fontSize: "16px" }}
-                                      class="fa fa-plus-square"
-                                      aria-hidden="true"
-                                    ></i>
-                                  </OverlayTrigger>
-                                </span>
-                                <span
-                                  className="mx-2"
-                                  onClick={() => {
-                                    getSalesOrder(
-                                      `/oms/ServiceSales/GetServiceSalesOrderById?ServiceSalesOrderId=${item?.intServiceSalesOrderId}`,
-                                      (data) => {
-                                        setSingleData(data);
-                                        setEdit(true);
-                                      }
-                                    );
-                                  }}
-                                >
-                                  <IEdit />
-                                </span>
-                                <span className="">
-                                  <IView
-                                    clickHandler={(e) => {
-                                      getSalesOrder(
-                                        `/oms/ServiceSales/GetServiceSalesOrderById?ServiceSalesOrderId=${item?.intServiceSalesOrderId}`,
-                                        (data) => {
-                                          setSingleData(data);
-                                          setView(true);
+                                {!["Re-Curring"].includes(
+                                  item?.strPaymentType
+                                ) &&
+                                  ["Running"]?.includes(item?.strStatus) && (
+                                    <span
+                                      onClick={() => {
+                                        setSingleData(item);
+                                        setShowModal(true);
+                                      }}
+                                      className=""
+                                    >
+                                      <OverlayTrigger
+                                        overlay={
+                                          <Tooltip
+                                            className="mytooltip"
+                                            id="info-tooltip"
+                                          >
+                                            Create Recurring
+                                          </Tooltip>
                                         }
-                                      );
-                                    }}
-                                  />
-                                </span>
+                                      >
+                                        <i
+                                          style={{ fontSize: "16px" }}
+                                          class="fa fa-plus-square"
+                                          aria-hidden="true"
+                                        ></i>
+                                      </OverlayTrigger>
+                                    </span>
+                                  )}
+                                {!["Re-Curring"].includes(
+                                  item?.strPaymentType
+                                ) && (
+                                  <>
+                                    <span
+                                      className="mx-2"
+                                      onClick={() => {
+                                        getSalesOrder(
+                                          `/oms/ServiceSales/GetServiceSalesOrderById?ServiceSalesOrderId=${item?.intServiceSalesOrderId}`,
+                                          (data) => {
+                                            setSingleData(data);
+                                            setEdit(true);
+                                          }
+                                        );
+                                      }}
+                                    >
+                                      <IEdit />
+                                    </span>
+                                    <span className="">
+                                      <IView
+                                        clickHandler={(e) => {
+                                          getSalesOrder(
+                                            `/oms/ServiceSales/GetServiceSalesOrderById?ServiceSalesOrderId=${item?.intServiceSalesOrderId}`,
+                                            (data) => {
+                                              setSingleData(data);
+                                              setView(true);
+                                            }
+                                          );
+                                        }}
+                                      />
+                                    </span>
+                                  </>
+                                )}
                               </div>
                             </td>
                           </tr>

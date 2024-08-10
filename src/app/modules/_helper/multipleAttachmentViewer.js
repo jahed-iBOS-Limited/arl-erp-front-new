@@ -6,6 +6,7 @@ import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { getMultipleFileViewEmpty } from "./_redux/Actions";
 import { getDownlloadFileView_Action } from "./_redux/Actions";
 import { APIUrl } from "../../App";
+import printIcon from "../_helper/images/printIcon.svg";
 const MultipleAttachmentViewer = ({ isShow, btnText }) => {
   const multipleImageView = useSelector((state) => {
     return state?.commonDDL?.multipleImageView;
@@ -39,21 +40,36 @@ const MultipleAttachmentViewer = ({ isShow, btnText }) => {
                 <div style={{ border: "1px solid #cccccc61" }}>
                   <div></div>
                   <div>
-                    {multipleImageView?.url?.map((id) => (
-                      <img
-                        src={`${APIUrl}/domain/Document/DownlloadFile?id=${id}`}
-                        alt=""
-                        style={{
-                          width: "300px",
-                          height: "300px",
-                          padding: "4px",
-                          borderRadius: "10px",
-                        }}
-                        onClick={() => {
-                          dispatch(getDownlloadFileView_Action(id));
-                        }}
-                      />
-                    ))}
+                    {multipleImageView?.url?.map((id) => {
+                      if (id?.includes(".pdf")) {
+                        return (
+                          <img
+                            style={{ width: "150px" }}
+                            src={printIcon}
+                            alt="print-icon"
+                            onClick={() => {
+                              dispatch(getDownlloadFileView_Action(id));
+                            }}
+                          />
+                        );
+                      } else {
+                        return (
+                          <img
+                            src={`${APIUrl}/domain/Document/DownlloadFile?id=${id}`}
+                            alt=""
+                            style={{
+                              width: "200px",
+                              height: "200px",
+                              padding: "4px",
+                              borderRadius: "10px",
+                            }}
+                            onClick={() => {
+                              dispatch(getDownlloadFileView_Action(id));
+                            }}
+                          />
+                        );
+                      }
+                    })}
                   </div>
                 </div>
               </Modal.Body>
