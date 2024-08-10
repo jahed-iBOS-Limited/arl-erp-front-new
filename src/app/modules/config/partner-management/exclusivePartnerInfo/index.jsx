@@ -216,7 +216,7 @@ export default function ExclusivePartnerInfo() {
                     setIsShowUpdateModal(false);
                     setSingleData(null);
                   }}
-                  title="Land Mutation"
+                  title="Exclusive Partner Info Update"
                 >
                   <EditShipInfo
                     getGridData={getGridData}
