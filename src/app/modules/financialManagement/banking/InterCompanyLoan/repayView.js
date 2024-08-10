@@ -8,6 +8,7 @@ import Loading from "./../../../_helper/_loading";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import { useLocation } from "react-router";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
+import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 
 const initData = {
   transactionDate: _todayDate(),
@@ -21,17 +22,22 @@ export default function RepayViewModal() {
     return state.authData;
   }, shallowEqual);
   const [rowData, getRowData, loader] = useAxiosGet();
+  const [, onSavePost] = useAxiosPost();
 
   const location = useLocation();
 
   useEffect(() => {
-    getRowData(
-      `/fino/CommonFino/InterCompanyLoanGetById?loanId=${location.state?.loanId}&type=repay&viewByBusinessUnitId=${location?.state?.viewByBusinessUnitId}`
-    );
+    getData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location]);
 
   const saveHandler = (values, cb) => {};
+
+  const getData = () => {
+    getRowData(
+      `/fino/CommonFino/InterCompanyLoanGetById?loanId=${location.state?.loanId}&type=repay&viewByBusinessUnitId=${location?.state?.viewByBusinessUnitId}`
+    );
+  };
 
   return (
     <Formik
@@ -91,6 +97,20 @@ export default function RepayViewModal() {
                                 <button
                                   type="button"
                                   className="btn btn-primary"
+                                  onClick={() => {
+                                    onSavePost(
+                                      `/fino/CommonFino/InterCompanyLoanBankJournal`,
+                                      {
+                                        loanId: item?.loanId,
+                                        rowId: item?.rowId,
+                                        createdBy: profileData?.userId,
+                                      },
+                                      () => {
+                                        getData();
+                                      },
+                                      true
+                                    );
+                                  }}
                                 >
                                   Post
                                 </button>
