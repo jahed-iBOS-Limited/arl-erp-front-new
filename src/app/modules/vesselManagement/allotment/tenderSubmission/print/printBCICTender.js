@@ -38,8 +38,8 @@ const PrintBCICTender = ({ tenderDetails: { header, rows } }) => {
               >
                 <strong style={{ display: "block" }}>PART – A</strong>{" "}
                 <strong style={{ display: "block" }}>(FOREIGN PART)</strong>{" "}
-                TRANSPORTATION OF {header?.foreignQty} {header?.uomname}{" "}
-                (+/-10%) {header?.itemName} IN SINGLE SHIPMENT FROM{" "}
+                TRANSPORTATION OF {header?.foreignQty} MT (+/-10%){" "}
+                {header?.itemName} IN SINGLE SHIPMENT FROM{" "}
                 {header?.loadPortName} TO {header?.dischargePortName} PORT,
                 BANGLADESH (FREE IN & LINER OUT BASIS)
               </td>

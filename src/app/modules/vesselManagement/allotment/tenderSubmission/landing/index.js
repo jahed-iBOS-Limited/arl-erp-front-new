@@ -3,19 +3,26 @@ import React, { useEffect, useRef, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { useReactToPrint } from "react-to-print";
+import * as Yup from "yup";
+import { currentMonthInitData } from "../../../../_helper/_currentMonth";
 import IForm from "../../../../_helper/_form";
 import Loading from "../../../../_helper/_loading";
+import NewSelect from "../../../../_helper/_select";
 import PaginationTable from "../../../../_helper/_tablePagination";
+import { _todayDate } from "../../../../_helper/_todayDate";
+import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import { getLetterHead } from "../../../../financialManagement/report/bankLetter/helper";
-import "../print/style.css";
-import NewSelect from "../../../../_helper/_select";
-import { businessPartnerDDL, fetchSubmittedTenderData } from "../helper";
-import * as Yup from 'yup'
-import BCICTendersTable from "./bcicTable";
-import BADCTendersTable from "./badcTable";
-import PrintBCICTender from "../print/printBCICTender";
+import {
+  approveStatusDDL,
+  businessPartnerDDL,
+  fetchSubmittedTenderData,
+} from "../helper";
 import PrintBADCTender from "../print/printBADCTender";
+import PrintBCICTender from "../print/printBCICTender";
+import "../print/style.css";
+import BADCTendersTable from "./badcTable";
+import BCICTendersTable from "./bcicTable";
 
 // const initData = {};
 
@@ -34,7 +41,7 @@ export default function TenderSubmissionLanding() {
     submittedTenderLists,
     getSubmittedTenderLists,
     getSubmittedTenderLoading,
-    setSubmittedTenderList
+    setSubmittedTenderList,
   ] = useAxiosGet();
   const [
     tenderDetails,
@@ -53,7 +60,7 @@ export default function TenderSubmissionLanding() {
     fetchSubmittedTenderData(pageNo, pageSize);
   };
 
-  const saveHandler = (values, cb) => { };
+  const saveHandler = (values, cb) => {};
 
   // Handle tender print directly
   const handleTenderPrint = useReactToPrint({
@@ -62,19 +69,20 @@ export default function TenderSubmissionLanding() {
       "@media print{body { -webkit-print-color-adjust: exact; margin: 0mm;}@page {size: portrait ! important}}",
   });
 
-
-
   return (
     <Formik
       enableReinitialize={true}
       initialValues={{
-        businessPartner: { value: 89497, label: "BCIC" }
+        businessPartner: { value: 89497, label: "BCIC" },
+        fromDate: currentMonthInitData(),
+        toDate: _todayDate(),
+        approvalStatus: "",
       }}
       validationSchema={Yup.object({
         businessPartner: Yup.object({
           value: Yup.string().required(),
-          label: Yup.string().required()
-        }).required("Select a business partner")
+          label: Yup.string().required(),
+        }).required("Select a business partner"),
       })}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
@@ -128,7 +136,20 @@ export default function TenderSubmissionLanding() {
                     label="Business Partner"
                     onChange={(valueOption) => {
                       setFieldValue("businessPartner", valueOption);
-                      setSubmittedTenderList([])
+                      setSubmittedTenderList([]);
+                    }}
+                  />
+                </div>
+                <FromDateToDateForm obj={{ setFieldValue, values }} />
+                <div className="col-lg-3">
+                  <NewSelect
+                    name="approveStatus"
+                    options={approveStatusDDL}
+                    value={values?.approveStatus}
+                    label="Approve Status"
+                    onChange={(valueOption) => {
+                      setFieldValue("approveStatus", valueOption);
+                      setSubmittedTenderList([]);
                     }}
                   />
                 </div>
@@ -137,7 +158,14 @@ export default function TenderSubmissionLanding() {
                     className="btn btn-primary mt-5"
                     type="button"
                     onClick={() => {
-                      fetchSubmittedTenderData(accountId, buUnId, values, pageNo, pageSize, getSubmittedTenderLists)
+                      fetchSubmittedTenderData(
+                        accountId,
+                        buUnId,
+                        values,
+                        pageNo,
+                        pageSize,
+                        getSubmittedTenderLists
+                      );
                     }}
                   >
                     View
@@ -146,15 +174,8 @@ export default function TenderSubmissionLanding() {
               </div>
 
               {/* Table of BCIC & BADC Tender  */}
-              {
-                values?.businessPartner?.label === 'BCIC' ? <BCICTendersTable
-                  accountId={accountId}
-                  buUnId={buUnId}
-                  values={values}
-                  submittedTenderLists={submittedTenderLists}
-                  handleTenderPrint={handleTenderPrint}
-                  getTenderDetails={getTenderDetails}
-                /> : <BADCTendersTable
+              {values?.businessPartner?.label === "BCIC" ? (
+                <BCICTendersTable
                   accountId={accountId}
                   buUnId={buUnId}
                   values={values}
@@ -162,7 +183,16 @@ export default function TenderSubmissionLanding() {
                   handleTenderPrint={handleTenderPrint}
                   getTenderDetails={getTenderDetails}
                 />
-              }
+              ) : (
+                <BADCTendersTable
+                  accountId={accountId}
+                  buUnId={buUnId}
+                  values={values}
+                  submittedTenderLists={submittedTenderLists}
+                  handleTenderPrint={handleTenderPrint}
+                  getTenderDetails={getTenderDetails}
+                />
+              )}
 
               {/* Paginations of BCIC & BADC Tender  */}
               {submittedTenderLists?.data?.length > 0 && (
@@ -202,11 +232,11 @@ export default function TenderSubmissionLanding() {
                   {/* CONTENT GOES HERE */}
                   <tbody>
                     <div style={{ margin: "40px 75px 0 75px" }}>
-                      {
-                        values?.businessPartner?.label === 'BCIC' ? <PrintBCICTender tenderDetails={tenderDetails} />
-                          :
-                          <PrintBADCTender tenderDetails={tenderDetails} />
-                      }
+                      {values?.businessPartner?.label === "BCIC" ? (
+                        <PrintBCICTender tenderDetails={tenderDetails} />
+                      ) : (
+                        <PrintBADCTender tenderDetails={tenderDetails} />
+                      )}
                     </div>
                   </tbody>
                   <tfoot>
