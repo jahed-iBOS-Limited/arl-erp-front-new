@@ -41,13 +41,14 @@ const initData = {
   accountManager: "",
   numScheduleAmount: "",
   numServerAmount: "",
-  status:"",
+  status: "",
 };
 
 export default function ServiceSalesCreate({
   isEdit = false,
   isView = false,
   singleData,
+  getData,
 }) {
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
@@ -126,7 +127,11 @@ export default function ServiceSalesCreate({
       (accumulator, currentValue) => accumulator + currentValue["percentage"],
       0
     );
-    if (!isEdit && values?.paymentType?.label === "One Time" && +totalPercentage !== 100) {
+    if (
+      !isEdit &&
+      values?.paymentType?.label === "One Time" &&
+      +totalPercentage !== 100
+    ) {
       return toast.warn("Total percentage should be 100");
     }
 
@@ -170,7 +175,7 @@ export default function ServiceSalesCreate({
         strAccountManagerName: values?.accountManager?.label || "",
         numScheduleAmount: +values?.numScheduleAmount || 0,
         numServerAmount: +values?.numServerAmount || 0,
-        strStatus:values?.status?.value,
+        strStatus: values?.status?.value,
       },
       row: itemList?.map((item) => ({
         intServiceSalesOrderRowId: 0,
@@ -309,14 +314,17 @@ export default function ServiceSalesCreate({
   };
 
   const getTotalPersecentage = (newValue, index) => {
-    const totalPercentage = scheduleListFOneTime.reduce((acc, curr, currIndex) => {
-      if (currIndex === index) {
-        return acc + (+newValue || 0);
-      } else {
-        return acc + (+curr.percentage || 0);
-      }
-    }, 0);
-  
+    const totalPercentage = scheduleListFOneTime.reduce(
+      (acc, curr, currIndex) => {
+        if (currIndex === index) {
+          return acc + (+newValue || 0);
+        } else {
+          return acc + (+curr.percentage || 0);
+        }
+      },
+      0
+    );
+
     return totalPercentage;
   };
   useEffect(() => {
@@ -330,10 +338,8 @@ export default function ServiceSalesCreate({
         amount: item.numSalesAmount,
         vat:
           item.numSalesVatAmount === 0
-            ? "0%"
-            : `${((item.numSalesVatAmount / item.numSalesAmount) * 100).toFixed(
-                2
-              )}%`,
+            ? 0
+            : (item.numSalesVatAmount / item.numSalesAmount) * 100,
         vatAmount: item.numSalesVatAmount,
         netAmount: item.numNetSalesAmount,
       }));
@@ -343,11 +349,18 @@ export default function ServiceSalesCreate({
         percentage: schedule.intPaymentByPercent,
         amount: schedule.numScheduleAmount,
         scheduleListFOneTimeVat: schedule.numScheduleVatAmount,
+        vat:
+          schedule.numScheduleVatAmount === 0
+            ? 0
+            : (schedule.numScheduleVatAmount / schedule.numScheduleAmount) *
+              100,
+        vatAmount: schedule?.numScheduleVatAmount,
         remarks: schedule.strRemarks || "",
         isInvoiceComplete: schedule.isInvoiceComplete,
       }));
 
       setSheduleListFOneTime(transformedSchedules);
+      setSheduleList(transformedSchedules);
       setItemList(mappedItems);
     }
   }, [isEdit, isView, singleData]);
@@ -359,6 +372,18 @@ export default function ServiceSalesCreate({
         isEdit || isView
           ? {
               ...initData,
+              paymentType: {
+                value: singleData?.strPaymentType === "One Time" ? 2 : 1,
+                label: singleData?.strPaymentType,
+              },
+              scheduleType:
+                singleData?.strScheduleTypeName === "Monthly"
+                  ? { value: 1, label: "Monthly", range: 1 }
+                  : singleData?.strScheduleTypeName === "Quarterly"
+                  ? { value: 2, label: "Quarterly", range: 3 }
+                  : singleData?.strScheduleTypeName === "Yearly"
+                  ? { value: 3, label: "Yearly", range: 12 }
+                  : { value: 1, label: "Monthly", range: 1 },
               salesOrg: {
                 value: singleData?.intSalesTypeId,
                 label: singleData?.strSalesTypeName,
@@ -389,6 +414,10 @@ export default function ServiceSalesCreate({
               agreementEndDate: moment(singleData?.dteEndDateTime).format(
                 "YYYY-MM-DD"
               ),
+              validFrom: moment(singleData?.dteStartDateTime).format(
+                "YYYY-MM-DD"
+              ),
+              validTo: moment(singleData?.dteEndDateTime).format("YYYY-MM-DD"),
               intWarrantyMonth: singleData?.intWarrantyMonth,
               dteWarrantyEndDate: dateFormatterForInput(
                 singleData?.dteWarrantyEndDate || ""
@@ -396,11 +425,17 @@ export default function ServiceSalesCreate({
               dteActualLiveDate: dateFormatterForInput(
                 singleData?.dteActualLiveDate || ""
               ),
-              status : singleData?.strStatus ? {value: singleData?.strStatus, label:singleData?.strStatus} : "",
+              status: singleData?.strStatus
+                ? { value: singleData?.strStatus, label: singleData?.strStatus }
+                : "",
             }
           : {
-            ...initData,
-            status: !isEdit && !isView ? { value: "Running", label: "Running"} : ""}
+              ...initData,
+              status:
+                !isEdit && !isView
+                  ? { value: "Running", label: "Running" }
+                  : "",
+            }
       }
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
@@ -408,6 +443,7 @@ export default function ServiceSalesCreate({
           setItemList([]);
           setSheduleList([]);
           setSheduleListFOneTime([]);
+          getData && getData();
         });
       }}
       innerRef={formikRef}
@@ -582,6 +618,7 @@ export default function ServiceSalesCreate({
                         }}
                         errors={errors}
                         touched={touched}
+                        isDisabled={isView}
                       />
                     </div>
                     <div className="col-lg-3">
@@ -590,6 +627,7 @@ export default function ServiceSalesCreate({
                         // disabled={agreementDatesForRecuuring}
                         label="Invoice Day"
                         name="invoiceDay"
+                        disabled={isView}
                         type="number"
                         onChange={(e) => {
                           if (+e.target.value < 0 || +e.target.value > 31) {
@@ -610,7 +648,9 @@ export default function ServiceSalesCreate({
                         //   !values?.invoiceDay ||
                         //   agreementDatesForRecuuring
                         // }
-                        disabled={!values?.scheduleType || !values?.invoiceDay}
+                        disabled={
+                          !values?.scheduleType || !values?.invoiceDay || isView
+                        }
                         label="Agreement Valid From"
                         name="validFrom"
                         type="date"
@@ -634,6 +674,7 @@ export default function ServiceSalesCreate({
                       <InputField
                         value={values?.validTo}
                         // disabled={agreementDatesForRecuuring}
+                        disabled={isView}
                         label="Agreement Valid To"
                         name="validTo"
                         type="date"
@@ -808,12 +849,12 @@ export default function ServiceSalesCreate({
                       <NewSelect
                         name="status"
                         options={[
-                          { value: "Closed", label: "Closed", },
-                          { value: "Discontinued", label: "Discontinued"},
-                          { value: "Locked", label: "Locked"},
-                          { value: "Running", label: "Running"},
+                          { value: "Closed", label: "Closed" },
+                          { value: "Discontinued", label: "Discontinued" },
+                          { value: "Locked", label: "Locked" },
+                          { value: "Running", label: "Running" },
                         ]}
-                        disabled={!isEdit}
+                        isDisabled={!isEdit}
                         value={values?.status}
                         label="Status"
                         onChange={(valueOption) => {
@@ -1214,7 +1255,7 @@ export default function ServiceSalesCreate({
                                     disabled={isEdit || isView}
                                     onChange={(e) => {
                                       const newValue = +e.target.value;
-                                      if(newValue < 0){
+                                      if (newValue < 0) {
                                         return;
                                       }
                                       let totalPercentage = getTotalPersecentage(
