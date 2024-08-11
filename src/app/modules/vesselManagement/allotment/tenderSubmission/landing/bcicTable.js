@@ -62,18 +62,20 @@ const BCICTendersTable = ({ accountId, buUnId, values, submittedTenderLists, han
                                 </td>
                                 <td style={{ width: "80px" }} className="text-center">
                                     <div className="d-flex justify-content-around">
-                                        <span>
-                                            <IEdit
-                                                onClick={() => {
-                                                    history.push({
-                                                        pathname: `/vessel-management/allotment/tendersubmission/edit/${item?.tenderId}`,
-                                                        state: item,
-                                                    });
-                                                    // setShow(true);
-                                                }}
-                                            // id={item?.shiptoPartnerId}
-                                            />
-                                        </span>
+                                        {item?.isAccept !== true &&
+                                            <span>
+                                                <IEdit
+                                                    onClick={() => {
+                                                        history.push({
+                                                            pathname: `/vessel-management/allotment/tendersubmission/edit/${item?.tenderId}`,
+                                                            state: item,
+                                                        });
+                                                        // setShow(true);
+                                                    }}
+                                                // id={item?.shiptoPartnerId}
+                                                />
+                                            </span>
+                                        }
                                         <span
                                             // 1st approch
                                             // onClick={() => {
