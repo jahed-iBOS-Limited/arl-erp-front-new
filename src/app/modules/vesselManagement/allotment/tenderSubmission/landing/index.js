@@ -4,7 +4,6 @@ import { shallowEqual, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { useReactToPrint } from "react-to-print";
 import * as Yup from "yup";
-import { currentMonthInitData } from "../../../../_helper/_currentMonth";
 import IForm from "../../../../_helper/_form";
 import Loading from "../../../../_helper/_loading";
 import NewSelect from "../../../../_helper/_select";
@@ -23,6 +22,7 @@ import PrintBCICTender from "../print/printBCICTender";
 import "../print/style.css";
 import BADCTendersTable from "./badcTable";
 import BCICTendersTable from "./bcicTable";
+import { _monthFirstDate } from "../../../../_helper/_monthFirstDate";
 
 // const initData = {};
 
@@ -60,7 +60,7 @@ export default function TenderSubmissionLanding() {
     fetchSubmittedTenderData(pageNo, pageSize);
   };
 
-  const saveHandler = (values, cb) => {};
+  // const saveHandler = (values, cb) => { };
 
   // Handle tender print directly
   const handleTenderPrint = useReactToPrint({
@@ -74,21 +74,26 @@ export default function TenderSubmissionLanding() {
       enableReinitialize={true}
       initialValues={{
         businessPartner: { value: 89497, label: "BCIC" },
-        fromDate: currentMonthInitData(),
+        fromDate: _monthFirstDate(),
         toDate: _todayDate(),
-        approvalStatus: "",
+        approveStatus: "",
       }}
       validationSchema={Yup.object({
         businessPartner: Yup.object({
-          value: Yup.string().required(),
-          label: Yup.string().required(),
+          value: Yup.string().required("Select a status"),
+          label: Yup.string().required("Select a status"),
         }).required("Select a business partner"),
-      })}
-      onSubmit={(values, { setSubmitting, resetForm }) => {
-        saveHandler(values, () => {
-          resetForm();
-        });
-      }}
+        approveStatus: Yup.object({
+          value: Yup.string().required("Select a status"),
+          label: Yup.string().required("Select a status")
+        }).required("Select a status"),
+      })
+      }
+    // onSubmit={(values, { setSubmitting, resetForm }) => {
+    //   saveHandler(values, () => {
+    //     resetForm();
+    //   });
+    // }}
     >
       {({
         handleSubmit,
@@ -96,6 +101,7 @@ export default function TenderSubmissionLanding() {
         values,
         setFieldValue,
         isValid,
+        dirty,
         errors,
         touched,
       }) => (
@@ -156,7 +162,7 @@ export default function TenderSubmissionLanding() {
                 <div className="col-lg-3">
                   <button
                     className="btn btn-primary mt-5"
-                    type="button"
+                    type="submit"
                     onClick={() => {
                       fetchSubmittedTenderData(
                         accountId,
@@ -167,6 +173,7 @@ export default function TenderSubmissionLanding() {
                         getSubmittedTenderLists
                       );
                     }}
+                    disabled={!isValid || !dirty}
                   >
                     View
                   </button>
@@ -262,6 +269,6 @@ export default function TenderSubmissionLanding() {
           </IForm>
         </>
       )}
-    </Formik>
+    </ Formik>
   );
 }

@@ -1,6 +1,7 @@
 import React from "react";
 import { _dateFormatterTwo } from "../../../../_helper/_dateFormate";
 import "./style.css";
+import { convertToText } from "../helper";
 
 const PrintBCICTender = ({ tenderDetails: { header, rows } }) => {
   const firstDataOnTable = rows?.length > 0 && rows[0];
@@ -48,7 +49,7 @@ const PrintBCICTender = ({ tenderDetails: { header, rows } }) => {
                 <strong style={{ display: "block" }}>
                   (LOCAL TRANSPORTATION)
                 </strong>{" "}
-                TRANSPORTATION OF {header?.foreignQty} {header?.uomname}
+                TRANSPORTATION OF {header?.foreignQty} MT
                 (+/-10%) {header?.itemName} FROM MOTHER VESSEL AT OUTER
                 ANCHORAGE OF {header?.dischargePortName} PORT AND DELIVER IN 50
                 KG NET BAG AT BELOW MENTION BUFFER / FACTORY GODOWNS:
@@ -116,7 +117,7 @@ const PrintBCICTender = ({ tenderDetails: { header, rows } }) => {
                         <td
                           rowSpan={firstHalfDataOnTable.length}
                           colSpan={2}
-                        ></td>
+                        >{header?.foreignPriceUsd} {header?.foreignPriceUsd ? " $" : ''}</td>
                       </>
                     )}
                     <>
@@ -167,7 +168,7 @@ const PrintBCICTender = ({ tenderDetails: { header, rows } }) => {
                           <td
                             rowSpan={lastHalfDataOnTable.length}
                             colSpan={2}
-                          ></td>
+                          >{convertToText(header?.foreignPriceUsd, 'USD')}</td>
                         </>
                       )}
                       <>
@@ -202,19 +203,25 @@ const PrintBCICTender = ({ tenderDetails: { header, rows } }) => {
               })}
             <tr height={500}>
               <td colSpan={3}>
-                <span style={{ display: "block", marginBottom: "30px" }}>
+                <span style={{ display: "block", marginBottom: "20px" }}>
                   QUOTATION ENQUIRY NO:
                 </span>
-                REF. {header?.referenceNo} DATED:{" "}
-                {_dateFormatterTwo(header?.referenceDate)} COMC-
-                {header?.commercialNo}, DATED:{" "}
-                {_dateFormatterTwo(header?.commercialDate)}
+                <span className="text-center d-block">
+                  REF. {header?.referenceNo} DATED:{" "}
+                  {_dateFormatterTwo(header?.referenceDate)}
+                </span>
+                <span className="text-center d-block">
+                  COMC-
+                  {header?.commercialNo}, DATED:{" "}
+                  {_dateFormatterTwo(header?.commercialDate)}
+                </span>
               </td>
               <td
                 colSpan={3}
                 style={{
                   verticalAlign: "baseline",
                   textAlign: "center",
+                  paddingTop: "20px"
                 }}
               >
                 Name and Address of the PROPRIETOR

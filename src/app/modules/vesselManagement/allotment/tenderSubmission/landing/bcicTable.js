@@ -28,7 +28,7 @@ const BCICTendersTable = ({ accountId, buUnId, values, submittedTenderLists, han
                         <th>Load Port</th>
                         <th>Discharge Port</th>
                         <th style={{ width: "150px" }}>Foreign Price (USD)</th>
-                        <th style={{ width: "150px" }}>Total Qty</th>
+                        <th style={{ width: "150px" }}>Foreign Qty</th>
                         <th>Status</th>
                         <th>Actions</th>
                     </tr>
@@ -50,30 +50,31 @@ const BCICTendersTable = ({ accountId, buUnId, values, submittedTenderLists, han
                                     {item?.dischargePortName}
                                 </td>
                                 <td className="text-right" style={{ width: "70px" }}>
-                                    {item?.foreignPriceUsd}
+                                    {item?.foreignPriceUsd === null ? 0 : item?.foreignPriceUsd}
                                 </td>
                                 <td className="text-right" style={{ width: "70px" }}>
-                                    {item?.totalQty}
+                                    {item?.foreignQty}
                                 </td>
                                 <td style={{ width: "70px" }}>
-                                    {item?.isAccept === null || item?.isAccept === false
-                                        ? "No"
-                                        : "Approved"}
+                                    {item?.isAccept ? "Approved" : item?.isReject ? "Reject" : item?.isPending ? "Pending"
+                                        : "NA"}
                                 </td>
                                 <td style={{ width: "80px" }} className="text-center">
                                     <div className="d-flex justify-content-around">
-                                        <span>
-                                            <IEdit
-                                                onClick={() => {
-                                                    history.push({
-                                                        pathname: `/vessel-management/allotment/tendersubmission/edit/${item?.tenderId}`,
-                                                        state: item,
-                                                    });
-                                                    // setShow(true);
-                                                }}
-                                            // id={item?.shiptoPartnerId}
-                                            />
-                                        </span>
+                                        {item?.isAccept !== true &&
+                                            <span>
+                                                <IEdit
+                                                    onClick={() => {
+                                                        history.push({
+                                                            pathname: `/vessel-management/allotment/tendersubmission/edit/${item?.tenderId}`,
+                                                            state: item,
+                                                        });
+                                                        // setShow(true);
+                                                    }}
+                                                // id={item?.shiptoPartnerId}
+                                                />
+                                            </span>
+                                        }
                                         <span
                                             // 1st approch
                                             // onClick={() => {
