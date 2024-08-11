@@ -60,7 +60,7 @@ export default function TenderSubmissionLanding() {
     fetchSubmittedTenderData(pageNo, pageSize);
   };
 
-  const saveHandler = (values, cb) => {};
+  // const saveHandler = (values, cb) => { };
 
   // Handle tender print directly
   const handleTenderPrint = useReactToPrint({
@@ -76,19 +76,24 @@ export default function TenderSubmissionLanding() {
         businessPartner: { value: 89497, label: "BCIC" },
         fromDate: _monthFirstDate(),
         toDate: _todayDate(),
-        approvalStatus: "",
+        approveStatus: "",
       }}
       validationSchema={Yup.object({
         businessPartner: Yup.object({
-          value: Yup.string().required(),
-          label: Yup.string().required(),
+          value: Yup.string().required("Select a status"),
+          label: Yup.string().required("Select a status"),
         }).required("Select a business partner"),
-      })}
-      onSubmit={(values, { setSubmitting, resetForm }) => {
-        saveHandler(values, () => {
-          resetForm();
-        });
-      }}
+        approveStatus: Yup.object({
+          value: Yup.string().required("Select a status"),
+          label: Yup.string().required("Select a status")
+        }).required("Select a status"),
+      })
+      }
+    // onSubmit={(values, { setSubmitting, resetForm }) => {
+    //   saveHandler(values, () => {
+    //     resetForm();
+    //   });
+    // }}
     >
       {({
         handleSubmit,
@@ -96,6 +101,7 @@ export default function TenderSubmissionLanding() {
         values,
         setFieldValue,
         isValid,
+        dirty,
         errors,
         touched,
       }) => (
@@ -103,6 +109,7 @@ export default function TenderSubmissionLanding() {
           {(getSubmittedTenderLoading || getTenderDetailsLoading) && (
             <Loading />
           )}
+          {console.log(errors)}
           <IForm
             title="Tender Submission"
             isHiddenReset
@@ -156,7 +163,7 @@ export default function TenderSubmissionLanding() {
                 <div className="col-lg-3">
                   <button
                     className="btn btn-primary mt-5"
-                    type="button"
+                    type="submit"
                     onClick={() => {
                       fetchSubmittedTenderData(
                         accountId,
@@ -167,6 +174,7 @@ export default function TenderSubmissionLanding() {
                         getSubmittedTenderLists
                       );
                     }}
+                    disabled={!isValid || !dirty}
                   >
                     View
                   </button>
@@ -262,6 +270,6 @@ export default function TenderSubmissionLanding() {
           </IForm>
         </>
       )}
-    </Formik>
+    </ Formik>
   );
 }
