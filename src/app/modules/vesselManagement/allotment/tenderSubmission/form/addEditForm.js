@@ -385,16 +385,16 @@ export default function TenderSubmissionCreateEditForm() {
       <div className="col-lg-3 mt-5 d-flex align-items-center">
         <input
           type="checkbox"
-          id="approveStatus"
-          name="approveStatus"
-          value={values?.approveStatus}
-          checked={values?.approveStatus}
+          id="isReject"
+          name="isReject"
+          value={values?.isReject}
+          checked={values?.isReject}
           onChange={(e) => {
-            setFieldValue("approveStatus", e.target.checked);
+            setFieldValue("isReject", e.target.checked);
           }}
         />
-        <label htmlFor="approveStatus" className="pl-1">
-          Approve
+        <label htmlFor="isReject" className="pl-1">
+          Reject
         </label>
       </div>
       <div className="col-lg-3 mt-3 d-flex align-items-center">
