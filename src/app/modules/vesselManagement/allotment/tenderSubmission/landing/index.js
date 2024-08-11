@@ -4,7 +4,6 @@ import { shallowEqual, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { useReactToPrint } from "react-to-print";
 import * as Yup from "yup";
-import { currentMonthInitData } from "../../../../_helper/_currentMonth";
 import IForm from "../../../../_helper/_form";
 import Loading from "../../../../_helper/_loading";
 import NewSelect from "../../../../_helper/_select";
@@ -23,6 +22,7 @@ import PrintBCICTender from "../print/printBCICTender";
 import "../print/style.css";
 import BADCTendersTable from "./badcTable";
 import BCICTendersTable from "./bcicTable";
+import { _monthFirstDate } from "../../../../_helper/_monthFirstDate";
 
 // const initData = {};
 
@@ -74,7 +74,7 @@ export default function TenderSubmissionLanding() {
       enableReinitialize={true}
       initialValues={{
         businessPartner: { value: 89497, label: "BCIC" },
-        fromDate: currentMonthInitData(),
+        fromDate: _monthFirstDate(),
         toDate: _todayDate(),
         approvalStatus: "",
       }}
