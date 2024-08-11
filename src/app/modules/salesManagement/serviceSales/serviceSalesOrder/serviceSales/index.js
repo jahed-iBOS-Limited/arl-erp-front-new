@@ -220,7 +220,12 @@ export default function ServiceSalesLanding() {
                                 {!["Re-Curring"].includes(
                                   item?.strPaymentType
                                 ) &&
-                                  ["Running"]?.includes(item?.strStatus) && (
+                                  ["Running"]?.includes(item?.strStatus) &&
+                                  ![
+                                    "Closed",
+                                    "Discontinued",
+                                    "Locked",
+                                  ]?.includes(item?.strStatus) && (
                                     <span
                                       onClick={() => {
                                         setSingleData(item);
@@ -246,39 +251,37 @@ export default function ServiceSalesLanding() {
                                       </OverlayTrigger>
                                     </span>
                                   )}
-                                {!["Re-Curring"].includes(
-                                  item?.strPaymentType
+                                {!["Closed", "Discontinued"]?.includes(
+                                  item?.strStatus
                                 ) && (
-                                  <>
-                                    <span
-                                      className="mx-2"
-                                      onClick={() => {
-                                        getSalesOrder(
-                                          `/oms/ServiceSales/GetServiceSalesOrderById?ServiceSalesOrderId=${item?.intServiceSalesOrderId}`,
-                                          (data) => {
-                                            setSingleData(data);
-                                            setEdit(true);
-                                          }
-                                        );
-                                      }}
-                                    >
-                                      <IEdit />
-                                    </span>
-                                    <span className="">
-                                      <IView
-                                        clickHandler={(e) => {
-                                          getSalesOrder(
-                                            `/oms/ServiceSales/GetServiceSalesOrderById?ServiceSalesOrderId=${item?.intServiceSalesOrderId}`,
-                                            (data) => {
-                                              setSingleData(data);
-                                              setView(true);
-                                            }
-                                          );
-                                        }}
-                                      />
-                                    </span>
-                                  </>
+                                  <span
+                                    className="mx-2"
+                                    onClick={() => {
+                                      getSalesOrder(
+                                        `/oms/ServiceSales/GetServiceSalesOrderById?ServiceSalesOrderId=${item?.intServiceSalesOrderId}`,
+                                        (data) => {
+                                          setSingleData(data);
+                                          setEdit(true);
+                                        }
+                                      );
+                                    }}
+                                  >
+                                    <IEdit />
+                                  </span>
                                 )}
+                                <span className="">
+                                  <IView
+                                    clickHandler={(e) => {
+                                      getSalesOrder(
+                                        `/oms/ServiceSales/GetServiceSalesOrderById?ServiceSalesOrderId=${item?.intServiceSalesOrderId}`,
+                                        (data) => {
+                                          setSingleData(data);
+                                          setView(true);
+                                        }
+                                      );
+                                    }}
+                                  />
+                                </span>
                               </div>
                             </td>
                           </tr>
@@ -307,7 +310,10 @@ export default function ServiceSalesLanding() {
                         setShowModal(false);
                       }}
                     >
-                      <ServiceSalesCreateRecurring singleData={singleData} />
+                      <ServiceSalesCreateRecurring
+                        singleData={singleData}
+                        getData={getData}
+                      />
                     </IViewModal>
                     <IViewModal
                       show={view}
@@ -315,10 +321,19 @@ export default function ServiceSalesLanding() {
                         setView(false);
                       }}
                     >
-                      <ServiceSalesCreate
-                        isView={true}
-                        singleData={singleData}
-                      />
+                      {["Re-Curring"].includes(singleData?.strPaymentType) ? (
+                        <ServiceSalesCreateRecurring
+                          isView={true}
+                          singleData={singleData}
+                          getData={getData}
+                        />
+                      ) : (
+                        <ServiceSalesCreate
+                          isView={true}
+                          singleData={singleData}
+                          getData={getData}
+                        />
+                      )}
                     </IViewModal>
                     <IViewModal
                       show={edit}
@@ -326,10 +341,19 @@ export default function ServiceSalesLanding() {
                         setEdit(false);
                       }}
                     >
-                      <ServiceSalesCreate
-                        isEdit={true}
-                        singleData={singleData}
-                      />
+                      {["Re-Curring"].includes(singleData?.strPaymentType) ? (
+                        <ServiceSalesCreateRecurring
+                          isEdit={true}
+                          singleData={singleData}
+                          getData={getData}
+                        />
+                      ) : (
+                        <ServiceSalesCreate
+                          isEdit={true}
+                          singleData={singleData}
+                          getData={getData}
+                        />
+                      )}
                     </IViewModal>
                   </div>
                 </div>
