@@ -109,7 +109,6 @@ export default function TenderSubmissionLanding() {
           {(getSubmittedTenderLoading || getTenderDetailsLoading) && (
             <Loading />
           )}
-          {console.log(errors)}
           <IForm
             title="Tender Submission"
             isHiddenReset
