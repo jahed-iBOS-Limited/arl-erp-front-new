@@ -38,19 +38,14 @@ export const initData = {
     enquiry: "",
     submissionDate: "",
     foreignQnt: "",
-    isAccept: "",
-    isReject: "",
-    // uomname: "",
     productName: "",
     loadPort: "",
-    approveStatus: "",
-    // bcic state
     foreignPriceUSD: "",
+    // bcic state
     dischargePort: "",
     commercialNo: "",
     commercialDate: "",
     remarks: "",
-    // referenceDate: "",
     localTransportations: [
         {
             godownName: "",
@@ -73,6 +68,7 @@ export const initData = {
 
 // Validation schema for tender submission create & edit page
 export const validationSchema = Yup.object({
+    // common
     businessPartner: Yup.object({
         label: Yup.string().required("Business partner label is required"),
         value: Yup.string().required("Business partner value is required"),
@@ -83,19 +79,18 @@ export const validationSchema = Yup.object({
         .positive()
         .min(0)
         .required("Foreign qnt is required"),
-    // uomname: Yup.string().required("Qnt Unit is required"),
     productName: Yup.string().required("Product name is required"),
     loadPort: Yup.string().required("Load port is required"),
+    foreignPriceUSD: Yup.number()
+        .positive()
+        .min(0),
+    // bcic
     dischargePort: Yup.string().when("businessPartner", {
         is: (businessPartner) =>
             businessPartner && businessPartner?.label === "BCIC",
         then: Yup.string().required("Discharge port is required"),
         otherwise: Yup.string(),
     }),
-    foreignPriceUSD: Yup.number()
-        .positive()
-        .min(0),
-    // .required("Foreign price is required"),
     commercialDate: Yup.date().when("businessPartner", {
         is: (businessPartner) =>
             businessPartner && businessPartner?.label === "BCIC",
@@ -114,12 +109,6 @@ export const validationSchema = Yup.object({
         then: Yup.string().required("Remarks is required"),
         otherwise: Yup.string(),
     }),
-    // referenceDate: Yup.date().when("businessPartner", {
-    //     is: (businessPartner) =>
-    //         businessPartner && businessPartner?.label === "BCIC",
-    //     then: Yup.date().required("Reference date is required"),
-    //     otherwise: Yup.date(),
-    // }),
     localTransportations: Yup.array()
         .of(
             Yup.object({
@@ -155,10 +144,13 @@ export const validationSchema = Yup.object({
             is: (businessPartner) =>
                 businessPartner && businessPartner?.label === "BCIC",
             then: Yup.array()
-                .min(1, "Minimum 1 local transport")
+                .min(4, "Minimum 4 local transport")
+                .max(14, "Maximum 14 local transport")
                 .required("Local transport is required"),
             otherwise: Yup.array().notRequired(),
         }),
+
+    // badc
     dueDate: Yup.date().when("businessPartner", {
         is: (businessPartner) =>
             businessPartner && businessPartner?.label === "BADC",
@@ -189,11 +181,23 @@ export const validationSchema = Yup.object({
         then: Yup.string().required("Ghat 2 is required"),
         otherwise: Yup.string(),
     }),
+    contractDate: Yup.date().when("businessPartner", {
+        is: (businessPartner) =>
+            businessPartner && businessPartner?.label === "BADC",
+        then: Yup.date().required("Contract date is required"),
+        otherwise: Yup.date(),
+    }),
     dischargeRatio: Yup.string().when("businessPartner", {
         is: (businessPartner) =>
             businessPartner && businessPartner?.label === "BADC",
         then: Yup.string().required("Discharge ratio is required"),
         otherwise: Yup.string(),
+    }),
+    laycanDate: Yup.date().when("businessPartner", {
+        is: (businessPartner) =>
+            businessPartner && businessPartner?.label === "BADC",
+        then: Yup.date().required("Laycan date is required"),
+        otherwise: Yup.date(),
     }),
     pricePerQty: Yup.number()
         .positive()
@@ -213,18 +217,6 @@ export const validationSchema = Yup.object({
             then: Yup.number().required("Discharge ratio is required"),
             otherwise: Yup.number(),
         }),
-    contractDate: Yup.date().when("businessPartner", {
-        is: (businessPartner) =>
-            businessPartner && businessPartner?.label === "BADC",
-        then: Yup.date().required("Contract date is required"),
-        otherwise: Yup.date(),
-    }),
-    laycanDate: Yup.date().when("businessPartner", {
-        is: (businessPartner) =>
-            businessPartner && businessPartner?.label === "BADC",
-        then: Yup.date().required("Laycan date is required"),
-        otherwise: Yup.date(),
-    }),
 });
 
 // Get Load Port DDL (Naltional Load)
@@ -272,10 +264,10 @@ export const fetchSubmittedTenderData = (
     let url = "";
 
     if (values?.businessPartner?.label === "BCIC") {
-        url = `/tms/TenderSubmission/GetTenderSubmissionpagination?AccountId=${accountId}&BusinessUnitId=${buUnId}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc&fromDate=${values?.fromDate}&toDate=${values?.toDate}`;
+        url = `/tms/TenderSubmission/GetTenderSubmissionpagination?AccountId=${accountId}&BusinessUnitId=${buUnId}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc&fromDate=${values?.fromDate}&toDate=${values?.toDate}&status=${values?.approveStatus?.value}`;
     }
     if (values?.businessPartner?.label === "BADC") {
-        url = `/tms/TenderSubmission/GetBIDCTenderpagination?AccountId=${accountId}&BusinessUnitId=${buUnId}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc&fromDate=${values?.fromDate}&toDate=${values?.toDate}`;
+        url = `/tms/TenderSubmission/GetBIDCTenderpagination?AccountId=${accountId}&BusinessUnitId=${buUnId}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc&fromDate=${values?.fromDate}&toDate=${values?.toDate}&status=${values?.approveStatus?.value}`;
     }
 
     getTenderDetailsListFunc(url);
@@ -298,7 +290,7 @@ export const fetchTenderDetailsCallbackForPrintAndCreateEditPage = (
     callback
 ) => {
     let url = "";
-    console.log(values?.businessPartnerName?.label);
+    // console.log(values?.businessPartnerName?.label);
 
     if (values?.businessPartner?.label === "BCIC") {
         url = `/tms/TenderSubmission/GetTenderSubmissionById?AccountId=${accountId}&BusinessUnitId=${buUnId}&TenderId=${tenderId}`;
@@ -326,7 +318,6 @@ export const updateState = (tenderDetails) => {
             commercialNo: header?.commercialNo,
             commercialDate: _dateFormatter(header?.commercialDate),
             remarks: header?.strRemarks,
-            // referenceDate: _dateFormatter(header?.referenceDate),
             localTransportations: rows?.map((item) => {
                 return {
                     tenderRowId: item?.tenderRowId,
@@ -357,7 +348,6 @@ export const updateState = (tenderDetails) => {
             enquiry: header?.enquiryNo,
             submissionDate: _dateFormatter(header?.submissionDate),
             foreignQnt: header?.foreignQty,
-            // uomname: header?.uomname,
             productName: header?.itemName,
             loadPort: {
                 label: header?.loadPortName,
@@ -366,7 +356,8 @@ export const updateState = (tenderDetails) => {
             // edit
             foreignPriceUSD: header?.foreignPriceUsd,
             attachment: header?.attachment,
-            approveStatus: header?.isAccept,
+            isAccept: header?.isAccept,
+            isReject: header?.isReject,
         };
         return commonEditData;
     } else {
@@ -401,7 +392,6 @@ export const updateState = (tenderDetails) => {
             enquiry: tenderDetails?.enquiryNo,
             submissionDate: _dateFormatter(tenderDetails?.submissionDate),
             foreignQnt: tenderDetails?.foreignQty,
-            // uomname: tenderDetails?.uomname,
             productName: tenderDetails?.itemName,
             loadPort: {
                 label: tenderDetails?.loadPortName,
@@ -410,7 +400,8 @@ export const updateState = (tenderDetails) => {
             foreignPriceUSD: tenderDetails?.foreignPriceUsd,
             // edit
             attachment: tenderDetails?.attachment,
-            approveStatus: tenderDetails?.isAccept,
+            isAccept: tenderDetails?.isAccept,
+            isReject: tenderDetails?.isReject,
         };
         return commonEditData;
     }
@@ -568,7 +559,6 @@ export const selectPayload = (
                 enquiryNo: values?.enquiry,
                 submissionDate: values?.submissionDate,
                 foreignQty: values?.foreignQnt,
-                // uomname: values?.uomname,
                 itemName: values?.productName,
                 loadPortId: values?.loadPort?.value,
                 loadPortName: values?.loadPort?.label,
