@@ -13,9 +13,10 @@ import {
   businessPartnerDDL,
   ErrorMessage,
   fetchGhatDDL,
+  fetchMotherVesselLists,
   fetchTenderDetailsCallbackForPrintAndCreateEditPage,
   getDischargePortDDL,
-  getGodownDDLList,
+  fetchGodownDDLList,
   GetLoadPortDDL,
   initData,
   selectPayload,
@@ -48,6 +49,7 @@ export default function TenderSubmissionCreateEditForm() {
   ] = useAxiosGet();
   const [tenderDetails, getTenderDetails] = useAxiosGet();
   const [ghatDDL, getGhatDDL, getGhatDDLLoading] = useAxiosGet();
+  const [motherVesselDDL, getMotherVesselDDL] = useAxiosGet()
 
   // Data post/save axios post
   const [, submitTender, submitTenderLoading] = useAxiosPost();
@@ -66,7 +68,9 @@ export default function TenderSubmissionCreateEditForm() {
         tenderId,
         getTenderDetails
       );
-      getGodownDDLList(
+
+      // fetch godown list for bcic
+      fetchGodownDDLList(
         { value: landingPageState?.businessPartnerId },
         accountId,
         buUnId,
@@ -74,7 +78,11 @@ export default function TenderSubmissionCreateEditForm() {
         updateGodownDDL
       );
 
+      // fetch ghat ddl for badc
       fetchGhatDDL(accountId, buUnId, getGhatDDL);
+
+      // fetch mother vessel for bcic
+      fetchMotherVesselLists(accountId, buUnId, landingPageState?.dischargePortId, getMotherVesselDDL)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -176,6 +184,7 @@ export default function TenderSubmissionCreateEditForm() {
           label="Discharge Port"
           onChange={(valueOption) => {
             setFieldValue("dischargePort", valueOption);
+            fetchMotherVesselLists(accountId, buUnId, valueOption?.value, getMotherVesselDDL)
           }}
           errors={errors}
           touched={touched}
@@ -355,6 +364,18 @@ export default function TenderSubmissionCreateEditForm() {
   const editFormField = (values, setFieldValue) => (
     <>
       <div className="col-lg-3">
+        <NewSelect
+          name="motherVessel"
+          options={motherVesselDDL}
+          value={values?.motherVessel}
+          label="Mother Vessel"
+          onChange={(valueOption) => {
+            setFieldValue("motherVessel", valueOption);
+          }}
+          placeholder="Mother Vessel"
+        />
+      </div>
+      <div className="col-lg-3">
         <InputField
           value={values?.foreignPriceUSD}
           label="Foreign Price (USD)"
@@ -366,7 +387,7 @@ export default function TenderSubmissionCreateEditForm() {
         />
       </div>
       {tenderDetails?.header?.isAccept !== true && (
-        <div className="col-lg-3 mt-5 d-flex align-items-center">
+        <div className="col-lg-1 mt-5 d-flex align-items-center">
           <input
             type="checkbox"
             id="isAccept"
@@ -376,13 +397,14 @@ export default function TenderSubmissionCreateEditForm() {
             onChange={(e) => {
               setFieldValue("isAccept", e.target.checked);
             }}
+            disabled={values?.isReject}
           />
           <label htmlFor="approveStatus" className="pl-1">
             Approve
           </label>
         </div>
       )}
-      <div className="col-lg-3 mt-5 d-flex align-items-center">
+      <div className="col-lg-1 mt-5 d-flex align-items-center">
         <input
           type="checkbox"
           id="isReject"
@@ -392,6 +414,7 @@ export default function TenderSubmissionCreateEditForm() {
           onChange={(e) => {
             setFieldValue("isReject", e.target.checked);
           }}
+          disabled={values?.isAccept}
         />
         <label htmlFor="isReject" className="pl-1">
           Reject
@@ -573,7 +596,7 @@ export default function TenderSubmissionCreateEditForm() {
                       setFieldValue("businessPartner", valueOption);
                       // {"value": 89497, "label": "BCIC"}
                       // fetch when initial bcic select in create page
-                      getGodownDDLList(
+                      fetchGodownDDLList(
                         valueOption,
                         accountId,
                         buUnId,
