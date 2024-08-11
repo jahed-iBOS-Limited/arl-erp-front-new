@@ -16,6 +16,8 @@ import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import { addMonthsToDate, calculateMonthDifference } from "./helper";
 import Schedule from "./schedule";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import { dateFormatterForInput } from "../../../../productionManagement/msilProduction/meltingProduction/helper";
+import moment from "moment";
 
 const initData = {
   distributionChannel: "",
@@ -37,10 +39,15 @@ const initData = {
   intWarrantyMonth: "",
   dteWarrantyEndDate: "",
   accountManager: "",
-  status:"",
+  status: "",
 };
 
-export default function ServiceSalesCreateRecurring({ singleData }) {
+export default function ServiceSalesCreateRecurring({
+  isEdit,
+  isView,
+  singleData,
+  getData,
+}) {
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
@@ -58,57 +65,16 @@ export default function ServiceSalesCreateRecurring({ singleData }) {
   const [actualVatAmount, setActualVatAmount] = useState(0);
   const formikRef = React.useRef(null);
   const [, saveHandlerFunc, loader] = useAxiosPost();
+  const [, updateSalesOrder, load] = useAxiosPost();
   const [salesOrgList, getSalesOrgList, salesOrgListLoader] = useAxiosGet();
   const [channelDDL, getChannelDDL, channelDDLloader] = useAxiosGet();
   const [accountManagerList, getAccountManagerList] = useAxiosGet();
-  const [, getPrevData, loading2] = useAxiosGet();
   const [
     agreementDatesForRecuuring,
     getAgreementDatesForRecuuring,
     loading,
     setAgreementDatesForRecuuring,
   ] = useAxiosGet();
-  const [modifyInitData, setModifyInitData] = useState(initData);
-
-  useEffect(() => {
-    if (singleData?.intServiceSalesOrderId) {
-      getPrevData(
-        `/oms/ServiceSales/GetServiceSaleInfoBySalesOrderId?intServiceSalesOrderId=${singleData?.intServiceSalesOrderId}`,
-        (res) => {
-          setModifyInitData({
-            ...initData,
-            distributionChannel:
-              res?.intDistributionChannelId && res?.strDistributionChannelName
-                ? {
-                    value: res?.intDistributionChannelId,
-                    label: res?.strDistributionChannelName,
-                  }
-                : "",
-            salesOrg:
-              res?.intSalesTypeId && res?.strSalesTypeName
-                ? {
-                    value: res?.intSalesTypeId,
-                    label: res?.strSalesTypeName,
-                  }
-                : "",
-            customer:
-              res?.intCustomerId && res?.strCustomerName
-                ? {
-                    value: res?.intCustomerId,
-                    label: res?.strCustomerName,
-                    strCustomerCode: res?.strCustomerName,
-                    code: res?.strCustomerCode,
-                    address: res?.strCustomerAddress
-                  }
-                : "",
-            rate: +res?.numServerAmount || 0 + res?.numScheduleAmount || 0,
-            status : res?.strStatus ? {value: res?.strStatus, label:res?.strStatus} : "",
-          });
-        }
-      );
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [singleData]);
 
   useEffect(() => {
     if (itemList?.length) {
@@ -150,6 +116,44 @@ export default function ServiceSalesCreateRecurring({ singleData }) {
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileData, selectedBusinessUnit]);
+
+  useEffect(() => {
+    if (isEdit || isView) {
+      const mappedItems = singleData?.items.map((item) => ({
+        ...item,
+        strItemCode: item.intItemId, // Assuming intItemId is used as Item Code
+        label: item.strItemName,
+        qty: item.numSalesQty,
+        rate: item.numRate,
+        amount: item.numSalesAmount,
+        vat:
+          item.numSalesVatAmount === 0
+            ? 0
+            : (item.numSalesVatAmount / item.numSalesAmount) * 100,
+        vatAmount: item.numSalesVatAmount,
+        netAmount: item.numNetSalesAmount,
+      }));
+      const transformedSchedules = singleData.schedules.map((schedule) => ({
+        ...schedule,
+        dueDate: moment(schedule.dteDueDateTime).format("YYYY-MM-DD"), // Convert to 'YYYY-MM-DD' format
+        percentage: schedule.intPaymentByPercent,
+        amount: schedule.numScheduleAmount,
+        scheduleListFOneTimeVat: schedule.numScheduleVatAmount,
+        vat:
+          schedule.numScheduleVatAmount === 0
+            ? 0
+            : (schedule.numScheduleVatAmount / schedule.numScheduleAmount) *
+              100,
+        vatAmount: schedule?.numScheduleVatAmount,
+        remarks: schedule.strRemarks || "",
+        isInvoiceComplete: schedule.isInvoiceComplete,
+      }));
+
+      setSheduleListFOneTime(transformedSchedules);
+      setSheduleList(transformedSchedules);
+      setItemList(mappedItems);
+    }
+  }, [isEdit, isView, singleData]);
 
   const saveHandler = (values, cb) => {
     if (!values?.distributionChannel?.value)
@@ -205,7 +209,7 @@ export default function ServiceSalesCreateRecurring({ singleData }) {
         intAccountManagerEnroll: values?.accountManager?.value || 0,
         strAccountManagerName: values?.accountManager?.label || "",
         intOnetimeServiceSalesOrderId: singleData?.intServiceSalesOrderId,
-        strStatus:singleData?.strStatus || values?.status?.value,
+        strStatus: singleData?.strStatus || values?.status?.value,
       },
       row: itemList?.map((item) => ({
         intServiceSalesOrderRowId: 0,
@@ -235,14 +239,112 @@ export default function ServiceSalesCreateRecurring({ singleData }) {
       })),
     };
 
-    console.log("payload", payload);
-
-    saveHandlerFunc(
-      `oms/ServiceSales/createServiceSalesOrder`,
-      payload,
-      cb,
-      true
-    );
+    if (isEdit) {
+      const header = {
+        intServiceSalesOrderId: singleData?.intServiceSalesOrderId,
+        strServiceSalesOrderCode: singleData?.strServiceSalesOrderCode,
+        intAccountId: singleData?.intAccountId,
+        intBusinessUnitId: singleData?.intBusinessUnitId,
+        dteOrderDate:
+          values?.agreementStartDate || singleData?.dteStartDateTime,
+        intDistributionChannelId: values?.distributionChannel?.value,
+        strDistributionChannelName: values?.distributionChannel?.label,
+        intPaymentTypeId: values?.paymentType?.value || 0,
+        strPaymentType: values?.paymentType?.label,
+        intSalesTypeId: values?.salesOrg?.value,
+        strSalesTypeName: values?.salesOrg?.label,
+        intCustomerId: values?.customer?.value,
+        strCustomerCode: values?.customer?.code || singleData?.strCustomerCode,
+        strCustomerName: values?.customer?.label || singleData?.strCustomerName,
+        strCustomerAddress:
+          values?.customer?.address || singleData?.strCustomerAddress,
+        intScheduleTypeId:
+          values?.paymentType?.value === 2
+            ? 4
+            : values?.scheduleType?.value || 0,
+        strScheduleTypeName:
+          values?.paymentType?.value === 2
+            ? "One Time"
+            : values?.scheduleType?.label || "",
+        intScheduleDayCount:
+          +values?.invoiceDay || singleData?.intScheduleDayCount || 0,
+        dteStartDateTime:
+          values?.agreementStartDate || singleData?.dteStartDateTime,
+        dteEndDateTime: values?.agreementEndDate || singleData?.dteEndDateTime,
+        // dteActualLiveDate:
+        //   values?.dteActualLiveDate || singleData?.dteActualLiveDate,
+        intWarrantyMonth:
+          values?.intWarrantyMonth || singleData?.intWarrantyMonth,
+        // dteWarrantyEndDate:
+        //   values?.dteWarrantyEndDate || singleData?.dteWarrantyEndDate || null,
+        intAccountManagerEnroll:
+          values?.accountManager?.value ||
+          singleData?.intAccountManagerEnroll ||
+          0,
+        strAccountManagerName:
+          values?.accountManager?.label ||
+          singleData?.strAccountManagerName ||
+          "",
+        intOnetimeServiceSalesOrderId: 0,
+        numTotalSalesAmount: 0,
+        numScheduleAmount: +values?.numScheduleAmount || 0,
+        numServerAmount: +values?.numServerAmount || 0,
+        strAttachmentLink:
+          attachmentList[0]?.id || singleData?.strAttachmentLink,
+        isActive: true,
+        intActionBy: profileData?.userId,
+        strStatus: values?.status?.value || singleData?.strStatus,
+      };
+      // const row = itemList?.map((item) => ({
+      //   intServiceSalesOrderRowId: item?.intServiceSalesOrderRowId,
+      //   intServiceSalesOrderId: item?.intServiceSalesOrderId,
+      //   intItemId: item?.value || item?.intItemId,
+      //   strItemName: item?.label || item?.strItemName,
+      //   strUom: item?.strUom || "",
+      //   numSalesQty: +item?.qty || +item?.numSalesQty || 0,
+      //   numRate: +item?.rate || +item?.numRate || 0,
+      //   numSalesAmount:
+      //     (+item?.qty || +item?.numSalesQty || 0) *
+      //     (+item?.rate || +item?.numRate || 0),
+      //   numSalesVatAmount: item?.vatAmount || +item?.numSalesVatAmount || 0,
+      //   numNetSalesAmount: +netAmount || item?.numNetSalesAmount || 0,
+      //   isActive: true,
+      // }));
+      // const schedule = scheduleArray?.map((schedule) => ({
+      //   intServiceSalesScheduleId: schedule?.intServiceSalesScheduleId || 0,
+      //   intServiceSalesOrderId: schedule?.intServiceSalesOrderId || 0,
+      //   dteScheduleDateTime:
+      //     schedule?.dteScheduleCreateDateTime || _todayDate(),
+      //   dteDueDateTime: schedule?.dueDate || schedule?.dteDueDateTime,
+      //   intPaymentByPercent:
+      //     +schedule?.percentage || +schedule?.intPaymentByPercent0,
+      //   numScheduleVatAmount:
+      //     +schedule?.scheduleListFOneTimeVat ||
+      //     +schedule?.vatAmount ||
+      //     +schedule?.numScheduleVatAmount,
+      //   numScheduleAmount: +schedule?.amount || schedule?.numScheduleAmount,
+      //   strRemarks: schedule?.remarks || schedule?.strRemarks || "",
+      //   isInvoiceComplete: schedule?.isInvoiceComplete,
+      //   isActive: true,
+      // }));
+      updateSalesOrder(
+        `/oms/ServiceSales/UpdateServiceSalesOrder`,
+        {
+          header: header,
+          // row: row,
+          // schedule: schedule,
+        },
+        cb,
+        true
+      );
+    } else {
+      saveHandlerFunc(
+        `oms/ServiceSales/createServiceSalesOrder`,
+        payload,
+        cb,
+        true
+      );
+    }
   };
 
   const getTotalPersecentage = (newValue, index) => {
@@ -258,13 +360,82 @@ export default function ServiceSalesCreateRecurring({ singleData }) {
   return (
     <Formik
       enableReinitialize={true}
-      initialValues={modifyInitData}
+      initialValues={
+        isEdit || isView
+          ? {
+              ...initData,
+              paymentType: {
+                value: singleData?.strPaymentType === "One Time" ? 2 : 1,
+                label: singleData?.strPaymentType,
+              },
+              scheduleType:
+                singleData?.strScheduleTypeName === "Monthly"
+                  ? { value: 1, label: "Monthly", range: 1 }
+                  : singleData?.strScheduleTypeName === "Quarterly"
+                  ? { value: 2, label: "Quarterly", range: 3 }
+                  : singleData?.strScheduleTypeName === "Yearly"
+                  ? { value: 3, label: "Yearly", range: 12 }
+                  : { value: 1, label: "Monthly", range: 1 },
+              salesOrg: {
+                value: singleData?.intSalesTypeId,
+                label: singleData?.strSalesTypeName,
+              },
+              distributionChannel: {
+                value: singleData?.intDistributionChannelId,
+                label: singleData?.strDistributionChannelName,
+              },
+              accountManager: {
+                value: singleData?.intAccountManagerEnroll,
+                label: singleData?.strAccountManagerName,
+              },
+              billToParty: singleData?.strCustomerName,
+              numScheduleAmount: singleData?.numScheduleAmount,
+              numServerAmount: singleData?.numServerAmount,
+
+              customer: {
+                value: singleData?.intCustomerId,
+                label: singleData?.strCustomerName,
+              },
+              item: {
+                value: singleData?.intItemId || "",
+                label: singleData?.strItemName || "",
+              },
+              agreementStartDate: moment(singleData?.dteStartDateTime).format(
+                "YYYY-MM-DD"
+              ),
+              agreementEndDate: moment(singleData?.dteEndDateTime).format(
+                "YYYY-MM-DD"
+              ),
+              validFrom: moment(singleData?.dteStartDateTime).format(
+                "YYYY-MM-DD"
+              ),
+              validTo: moment(singleData?.dteEndDateTime).format("YYYY-MM-DD"),
+              intWarrantyMonth: singleData?.intWarrantyMonth,
+              dteWarrantyEndDate: dateFormatterForInput(
+                singleData?.dteWarrantyEndDate || ""
+              ),
+              dteActualLiveDate: dateFormatterForInput(
+                singleData?.dteActualLiveDate || ""
+              ),
+              status: singleData?.strStatus
+                ? { value: singleData?.strStatus, label: singleData?.strStatus }
+                : "",
+            }
+          : {
+              ...initData,
+              status:
+                !isEdit && !isView
+                  ? { value: "Running", label: "Running" }
+                  : "",
+            }
+      }
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
-          resetForm(modifyInitData);
+          resetForm(initData);
           setItemList([]);
           setSheduleList([]);
           setSheduleListFOneTime([]);
+          getData && getData();
         });
       }}
       innerRef={formikRef}
@@ -280,13 +451,21 @@ export default function ServiceSalesCreateRecurring({ singleData }) {
       }) => (
         <>
           {(loader ||
-            loading2 ||
+            load ||
             channelDDLloader ||
             salesOrgListLoader ||
             loading ||
             customerListLoader ||
             itemDDLloader) && <Loading />}
-          <IForm title="Create Re-Curring Sales Order" getProps={setObjprops}>
+          <IForm
+            title={`${
+              isEdit ? "Edit" : isView ? "View" : "Create"
+            } Re-Curring Sales Order`}
+            getProps={setObjprops}
+            isHiddenBack={isView}
+            isHiddenReset={isView}
+            isHiddenSave={isView}
+          >
             <Form>
               <div className="form-group  global-form row">
                 <div className="col-lg-3">
@@ -368,6 +547,7 @@ export default function ServiceSalesCreateRecurring({ singleData }) {
                     options={itemDDL || []}
                     value={values?.item}
                     label="Item Name"
+                    isDisabled={isEdit || isView}
                     onChange={(valueOption) => {
                       setFieldValue("item", valueOption);
                       setAgreementDatesForRecuuring(null);
@@ -418,6 +598,7 @@ export default function ServiceSalesCreateRecurring({ singleData }) {
                         ]}
                         value={values?.scheduleType}
                         label="Schedule Type"
+                        isDisabled={isEdit || isView}
                         onChange={(valueOption) => {
                           setFieldValue("scheduleType", valueOption);
                           if (!agreementDatesForRecuuring) {
@@ -438,6 +619,7 @@ export default function ServiceSalesCreateRecurring({ singleData }) {
                         label="Invoice Day"
                         name="invoiceDay"
                         type="number"
+                        disabled={isEdit || isView}
                         onChange={(e) => {
                           if (+e.target.value < 0 || +e.target.value > 31) {
                             return toast.warn("Invoice Day should be 1 to 31");
@@ -484,6 +666,7 @@ export default function ServiceSalesCreateRecurring({ singleData }) {
                         label="Agreement Valid To"
                         name="validTo"
                         type="date"
+                        disabled={isEdit || isView}
                         min={addMonthsToDate(
                           values?.validFrom || _todayDate(),
                           values?.scheduleType?.range || 1
@@ -506,18 +689,16 @@ export default function ServiceSalesCreateRecurring({ singleData }) {
                       <NewSelect
                         name="status"
                         options={[
-                          { value: "Closed", label: "Closed", },
-                          { value: "Discontinued", label: "Discontinued"},
-                          { value: "Locked", label: "Locked"},
-                          { value: "Running", label: "Running"},
+                          { value: "Closed", label: "Closed" },
+                          { value: "Discontinued", label: "Discontinued" },
+                          { value: "Locked", label: "Locked" },
+                          { value: "Running", label: "Running" },
                         ]}
                         value={values?.status}
+                        isDisabled={isView}
                         label="Status"
                         onChange={(valueOption) => {
                           setFieldValue("status", valueOption);
-                          setItemList([]);
-                          setSheduleList([]);
-                          setSheduleListFOneTime([]);
                         }}
                         errors={errors}
                         touched={touched}
@@ -915,18 +1096,20 @@ export default function ServiceSalesCreateRecurring({ singleData }) {
                               <td className="text-center">{item?.vatAmount}</td>
                               <td className="text-right">{item?.netAmount}</td>
                               <td className="text-center">
-                                <IDelete
-                                  style={{ fontSize: "16px" }}
-                                  remover={(index) => {
-                                    let data = itemList.filter(
-                                      (item, i) => i !== index
-                                    );
-                                    setItemList(data);
-                                    setSheduleList([]);
-                                    setSheduleListFOneTime([]);
-                                  }}
-                                  id={index}
-                                />
+                                {!isEdit && !isView && (
+                                  <IDelete
+                                    style={{ fontSize: "16px" }}
+                                    remover={(index) => {
+                                      let data = itemList.filter(
+                                        (item, i) => i !== index
+                                      );
+                                      setItemList(data);
+                                      setSheduleList([]);
+                                      setSheduleListFOneTime([]);
+                                    }}
+                                    id={index}
+                                  />
+                                )}
                               </td>
                             </tr>
                           ))}

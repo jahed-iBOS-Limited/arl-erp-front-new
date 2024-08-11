@@ -48,6 +48,7 @@ export default function ServiceSalesCreate({
   isEdit = false,
   isView = false,
   singleData,
+  getData,
 }) {
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
@@ -337,10 +338,8 @@ export default function ServiceSalesCreate({
         amount: item.numSalesAmount,
         vat:
           item.numSalesVatAmount === 0
-            ? "0%"
-            : `${((item.numSalesVatAmount / item.numSalesAmount) * 100).toFixed(
-                2
-              )}%`,
+            ? 0
+            : (item.numSalesVatAmount / item.numSalesAmount) * 100,
         vatAmount: item.numSalesVatAmount,
         netAmount: item.numNetSalesAmount,
       }));
@@ -352,11 +351,9 @@ export default function ServiceSalesCreate({
         scheduleListFOneTimeVat: schedule.numScheduleVatAmount,
         vat:
           schedule.numScheduleVatAmount === 0
-            ? "0%"
-            : `${(
-                (schedule.numScheduleVatAmount / schedule.numScheduleAmount) *
-                100
-              ).toFixed(2)}%`,
+            ? 0
+            : (schedule.numScheduleVatAmount / schedule.numScheduleAmount) *
+              100,
         vatAmount: schedule?.numScheduleVatAmount,
         remarks: schedule.strRemarks || "",
         isInvoiceComplete: schedule.isInvoiceComplete,
@@ -420,9 +417,7 @@ export default function ServiceSalesCreate({
               validFrom: moment(singleData?.dteStartDateTime).format(
                 "YYYY-MM-DD"
               ),
-              validTo: moment(singleData?.dteEndDateTime).format(
-                "YYYY-MM-DD"
-              ),
+              validTo: moment(singleData?.dteEndDateTime).format("YYYY-MM-DD"),
               intWarrantyMonth: singleData?.intWarrantyMonth,
               dteWarrantyEndDate: dateFormatterForInput(
                 singleData?.dteWarrantyEndDate || ""
@@ -448,6 +443,7 @@ export default function ServiceSalesCreate({
           setItemList([]);
           setSheduleList([]);
           setSheduleListFOneTime([]);
+          getData && getData();
         });
       }}
       innerRef={formikRef}
@@ -652,7 +648,9 @@ export default function ServiceSalesCreate({
                         //   !values?.invoiceDay ||
                         //   agreementDatesForRecuuring
                         // }
-                        disabled={!values?.scheduleType || !values?.invoiceDay || isView}
+                        disabled={
+                          !values?.scheduleType || !values?.invoiceDay || isView
+                        }
                         label="Agreement Valid From"
                         name="validFrom"
                         type="date"
