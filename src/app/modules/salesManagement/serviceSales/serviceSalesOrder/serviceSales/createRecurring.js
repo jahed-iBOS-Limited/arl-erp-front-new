@@ -177,7 +177,7 @@ export default function ServiceSalesCreateRecurring({
     let payload = {
       header: {
         intServiceSalesOrderId: 0,
-        strServiceSalesOrderCode: "",
+        strServiceSalesOrderCode: singleData?.strServiceSalesOrderCode,
         intAccountId: profileData?.accountId,
         intBusinessUnitId: selectedBusinessUnit?.value,
         intDistributionChannelId: values?.distributionChannel?.value, // add new field
@@ -185,9 +185,9 @@ export default function ServiceSalesCreateRecurring({
         intSalesTypeId: values?.salesOrg?.value,
         strSalesTypeName: values?.salesOrg?.label,
         intCustomerId: values?.customer?.value || 0,
-        strCustomerCode: values?.customer?.code || "",
+        strCustomerCode: values?.customer?.code || singleData?.strCustomerCode || "",
         strCustomerName: values?.customer?.label,
-        strCustomerAddress: values?.customer?.address,
+        strCustomerAddress: values?.customer?.address || singleData?.strCustomerAddress || "",
         intPaymentTypeId: values?.paymentType?.value || 0,
         strPaymentType: values?.paymentType?.label || "",
         intScheduleTypeId:
@@ -254,10 +254,10 @@ export default function ServiceSalesCreateRecurring({
         intSalesTypeId: values?.salesOrg?.value,
         strSalesTypeName: values?.salesOrg?.label,
         intCustomerId: values?.customer?.value,
-        strCustomerCode: values?.customer?.code || singleData?.strCustomerCode,
+        strCustomerCode: values?.customer?.code || singleData?.strCustomerCode || "",
         strCustomerName: values?.customer?.label || singleData?.strCustomerName,
         strCustomerAddress:
-          values?.customer?.address || singleData?.strCustomerAddress,
+          values?.customer?.address || singleData?.strCustomerAddress || "",
         intScheduleTypeId:
           values?.paymentType?.value === 2
             ? 4
@@ -427,6 +427,21 @@ export default function ServiceSalesCreateRecurring({
                 !isEdit && !isView
                   ? { value: "Running", label: "Running" }
                   : "",
+              salesOrg: {
+                value: singleData?.intSalesTypeId,
+                label: singleData?.strSalesTypeName,
+              },
+              distributionChannel: {
+                value: singleData?.intDistributionChannelId,
+                label: singleData?.strDistributionChannelName,
+              },
+              customer: {
+                value: singleData?.intCustomerId,
+                label: singleData?.strCustomerName,
+              },
+              rate:
+                (+singleData?.numScheduleAmount || 0) +
+                (+singleData?.numServerAmount || 0),
             }
       }
       onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -551,24 +566,24 @@ export default function ServiceSalesCreateRecurring({
                     onChange={(valueOption) => {
                       setFieldValue("item", valueOption);
                       setAgreementDatesForRecuuring(null);
-                      if (
-                        valueOption &&
-                        [1].includes(values?.paymentType?.value)
-                      ) {
-                        getAgreementDatesForRecuuring(
-                          `/oms/ServiceSales/RecurringSalseInfo?intCustomerId=${values?.customer?.value}&intItemId=${valueOption?.value}`,
-                          (res) => {
-                            setFieldValue(
-                              "validFrom",
-                              _dateFormatter(res?.dteStartDateTime) || ""
-                            );
-                            setFieldValue(
-                              "validTo",
-                              _dateFormatter(res?.dteEndDateTime) || ""
-                            );
-                          }
-                        );
-                      }
+                      // if (
+                      //   valueOption &&
+                      //   [1].includes(values?.paymentType?.value)
+                      // ) {
+                      //   getAgreementDatesForRecuuring(
+                      //     `/oms/ServiceSales/RecurringSalseInfo?intCustomerId=${values?.customer?.value}&intItemId=${valueOption?.value}`,
+                      //     (res) => {
+                      //       setFieldValue(
+                      //         "validFrom",
+                      //         _dateFormatter(res?.dteStartDateTime) || ""
+                      //       );
+                      //       setFieldValue(
+                      //         "validTo",
+                      //         _dateFormatter(res?.dteEndDateTime) || ""
+                      //       );
+                      //     }
+                      //   );
+                      // }
                     }}
                     errors={errors}
                     touched={touched}
