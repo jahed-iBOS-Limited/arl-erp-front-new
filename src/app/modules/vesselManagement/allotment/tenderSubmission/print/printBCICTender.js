@@ -117,7 +117,7 @@ const PrintBCICTender = ({ tenderDetails: { header, rows } }) => {
                         <td
                           rowSpan={firstHalfDataOnTable.length}
                           colSpan={2}
-                        >{header?.foreignPriceUsd}</td>
+                        >{header?.foreignPriceUsd} {header?.foreignPriceUsd ? " $" : ''}</td>
                       </>
                     )}
                     <>
