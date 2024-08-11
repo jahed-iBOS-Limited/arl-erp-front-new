@@ -42,7 +42,7 @@ export const GetDataOfSalesOrderByTerriroryId_api = async ({
   try {
     const api_one = `/oms/SalesOrder/GetDataOfSalesOrderByTerriroryId?AccountId=${accId}&BusinessUnitId=${buId}&WearHouseId=${warehouseId}&DistributionChannel=${channelId}&Region=${regionId}&Area=${areaId}&TerritoryId=${territoryId}&PartnerId=${soldToPartyId}&FromDate=${fromDate}&ToDate=${toDate}`;
 
-    const api_two = `/oms/SalesOrder/GetPendingDeliveryShipmentByTerrirory?AccountId=1&BusinessUnitId=144&WearHouseId=10271&DistributionChannel=67&Region=0&Area=0&TerritoryId=0&PartnerId=0&FromDate=2024-08-06T00:00:00&ToDate=2024-08-06T23:59:59`;
+    const api_two = `/oms/SalesOrder/GetPendingDeliveryShipmentByTerrirory?AccountId=${accId}&BusinessUnitId=${buId}&WearHouseId=${warehouseId}&DistributionChannel=${channelId}&Region=${regionId}&Area=${areaId}&TerritoryId=${territoryId}&PartnerId=${soldToPartyId}&FromDate=${fromDate}&ToDate=${toDate}`;
 
     const URL = typeId === 1 ? api_one : api_two;
 
