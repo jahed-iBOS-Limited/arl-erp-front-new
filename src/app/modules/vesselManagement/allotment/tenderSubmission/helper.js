@@ -103,12 +103,7 @@ export const validationSchema = Yup.object({
         then: Yup.string().required("Commercial no is required"),
         otherwise: Yup.string(),
     }),
-    remarks: Yup.string().when("businessPartner", {
-        is: (businessPartner) =>
-            businessPartner && businessPartner?.label === "BCIC",
-        then: Yup.string().required("Remarks is required"),
-        otherwise: Yup.string(),
-    }),
+    remarks: Yup.string(),
     localTransportations: Yup.array()
         .of(
             Yup.object({
@@ -311,21 +306,25 @@ export const updateState = (tenderDetails) => {
         const { header, rows } = tenderDetails;
 
         const bcicState = {
-            dischargePort: {
+            dischargePort: header?.dischargePortId ? {
                 label: header?.dischargePortName,
                 value: header?.dischargePortId,
-            },
+            } : "",
             commercialNo: header?.commercialNo,
             commercialDate: _dateFormatter(header?.commercialDate),
             remarks: header?.strRemarks,
+            motherVessel: header?.motherVesselId ? {
+                label: header?.motherVesselName,
+                value: header?.motherVesselId
+            } : "",
             localTransportations: rows?.map((item) => {
                 return {
                     tenderRowId: item?.tenderRowId,
                     tenderHeaderId: item?.tenderHeaderId,
-                    godownName: {
-                        value: 98654,
+                    godownName: item?.godownName ? {
+                        value: item?.godownId,
                         label: item?.godownName,
-                    },
+                    } : "",
                     quantity: item?.quantity,
                     price: item?.perQtyTonPriceBd,
                     perQtyPriceWords: item?.perQtyTonPriceBd,
@@ -349,10 +348,10 @@ export const updateState = (tenderDetails) => {
             submissionDate: _dateFormatter(header?.submissionDate),
             foreignQnt: header?.foreignQty,
             productName: header?.itemName,
-            loadPort: {
+            loadPort: header?.loadPortId ? {
                 label: header?.loadPortName,
                 value: header?.loadPortId,
-            },
+            } : "",
             // edit
             foreignPriceUSD: header?.foreignPriceUsd,
             attachment: header?.attachment,
@@ -362,12 +361,12 @@ export const updateState = (tenderDetails) => {
         return commonEditData;
     } else {
         const badcState = {
-            ghat1: {
+            ghat1: tenderDetails?.ghat1 ? {
                 label: tenderDetails?.ghat1,
-            },
-            ghat2: {
+            } : "",
+            ghat2: tenderDetails?.ghat2 ? {
                 label: tenderDetails?.ghat2,
-            },
+            } : "",
             dueDate: _dateFormatter(tenderDetails?.dueDate),
             dueTime: tenderDetails?.dueTime,
             lotQty: tenderDetails?.lotqty,
@@ -393,10 +392,10 @@ export const updateState = (tenderDetails) => {
             submissionDate: _dateFormatter(tenderDetails?.submissionDate),
             foreignQnt: tenderDetails?.foreignQty,
             productName: tenderDetails?.itemName,
-            loadPort: {
+            loadPort: tenderDetails?.loadPortId ? {
                 label: tenderDetails?.loadPortName,
                 value: tenderDetails?.loadPortId,
-            },
+            } : "",
             foreignPriceUSD: tenderDetails?.foreignPriceUsd,
             // edit
             attachment: tenderDetails?.attachment,
@@ -407,8 +406,8 @@ export const updateState = (tenderDetails) => {
     }
 };
 
-// get godown list function
-export const getGodownDDLList = (
+// fetch godown list function
+export const fetchGodownDDLList = (
     businessPartner,
     accountId,
     buUnId,
@@ -517,7 +516,7 @@ export function convertToText(n, uoc) {
         );
     }
     if (n === "") return "";
-    if (n === 0) return `ZERO ${uoc.toUpperCase()} ONLY`;
+    if (n === 0 || n === null) return "";
     return (
         convertToWords(n)
             .trim()
@@ -573,7 +572,8 @@ export const selectPayload = (
                 commercialNo: values?.commercialNo,
                 commercialDate: values?.commercialDate,
                 remarks: values?.remarks,
-                // referenceDate: values?.referenceDate,
+                motherVesselId: values?.motherVessel?.value,
+                motherVesselName: values?.motherVessel?.label
             },
             // bcic
             rows: values?.localTransportations?.map((item) => ({
@@ -633,3 +633,9 @@ export const fetchGhatDDL = (accountId, buUnId, getGhatDDLFunc) => {
         `/wms/ShipPoint/GetShipPointDDL?accountId=${accountId}&businessUnitId=${buUnId}`
     );
 };
+
+
+// fetch mother vessel with port 
+export const fetchMotherVesselLists = (accId, buUnId, portId, getMotherVesselDDL) => {
+    getMotherVesselDDL(`/wms/FertilizerOperation/GetMotherVesselDDL?AccountId=${accId}&BusinessUnitId=${buUnId}&PortId=${portId}`)
+}
