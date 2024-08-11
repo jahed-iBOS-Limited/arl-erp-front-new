@@ -361,7 +361,7 @@ export default function TenderSubmissionCreateEditForm() {
     </div>
   );
 
-  const editFormField = (values, setFieldValue) => (
+  const bcicEditFormField = (values, setFieldValue) => (
     <>
       <div className="col-lg-3">
         <NewSelect
@@ -375,6 +375,11 @@ export default function TenderSubmissionCreateEditForm() {
           placeholder="Mother Vessel"
         />
       </div>
+    </>
+  )
+
+  const commonEditFormField = (values, setFieldValue) => (
+    <>
       <div className="col-lg-3">
         <InputField
           value={values?.foreignPriceUSD}
@@ -386,7 +391,26 @@ export default function TenderSubmissionCreateEditForm() {
           }}
         />
       </div>
-      {tenderDetails?.header?.isAccept !== true && (
+
+      <div className="col-lg-3 mt-3 d-flex align-items-center">
+        <AttachmentUploaderNew
+          CBAttachmentRes={(image) => {
+            if (image.length > 0) {
+              // console.log(image);
+
+              setFieldValue("attachment", image[0].id);
+            }
+          }}
+          // showIcon
+          // attachmentIcon='fa fa-paperclip'
+          customStyle={{
+            background: "transparent",
+            padding: "4px 0",
+          }}
+          fileUploadLimits={1}
+        />
+      </div>
+      {(tenderDetails?.header?.isAccept !== true || tenderDetails?.isAccept !== true) && (
         <div className="col-lg-1 mt-5 d-flex align-items-center">
           <input
             type="checkbox"
@@ -420,30 +444,12 @@ export default function TenderSubmissionCreateEditForm() {
           Reject
         </label>
       </div>
-      <div className="col-lg-3 mt-3 d-flex align-items-center">
-        <AttachmentUploaderNew
-          CBAttachmentRes={(image) => {
-            if (image.length > 0) {
-              console.log(image);
-              // onAttachmentUpload('/oms/OManagementReport/UpdateSalesInvoiceAttachment', )
-              setFieldValue("attachment", image[0].id);
-            }
-          }}
-          // showIcon
-          // attachmentIcon='fa fa-paperclip'
-          customStyle={{
-            background: "transparent",
-            padding: "4px 0",
-          }}
-          fileUploadLimits={1}
-        />
-      </div>
     </>
   );
 
   const badcFormField = (values, setFieldValue, errors, touched) => (
     <>
-      <div className="col-lg-3">
+      {/* <div className="col-lg-3">
         <NewSelect
           name="ghat1"
           options={ghatDDL}
@@ -468,7 +474,7 @@ export default function TenderSubmissionCreateEditForm() {
           errors={errors}
           touched={touched}
         />
-      </div>
+      </div> */}
       <div className="col-lg-3">
         <InputField
           value={values?.dueDate}
@@ -502,7 +508,7 @@ export default function TenderSubmissionCreateEditForm() {
           }}
         />
       </div>
-      <div className="col-lg-3">
+      {/* <div className="col-lg-3">
         <InputField
           value={values?.dischargeRatio}
           label="Discharge Ratio"
@@ -512,7 +518,7 @@ export default function TenderSubmissionCreateEditForm() {
             setFieldValue("dischargeRatio", e.target.value);
           }}
         />
-      </div>
+      </div> */}
       <div className="col-lg-3">
         <InputField
           value={values?.contractDate}
@@ -535,7 +541,7 @@ export default function TenderSubmissionCreateEditForm() {
           }}
         />
       </div>
-      <div className="col-lg-3">
+      {/* <div className="col-lg-3">
         <InputField
           value={values?.pricePerQty}
           label="Price Per Qty"
@@ -545,7 +551,7 @@ export default function TenderSubmissionCreateEditForm() {
             setFieldValue("pricePerQty", e.target.value);
           }}
         />
-      </div>
+      </div> */}
       <div className="col-lg-3">
         <InputField
           value={values?.pricePerBag}
@@ -628,7 +634,9 @@ export default function TenderSubmissionCreateEditForm() {
                 {values?.businessPartner?.label === "BADC" &&
                   badcFormField(values, setFieldValue, errors, touched)}
 
-                {tenderId && editFormField(values, setFieldValue)}
+                {tenderId && values?.businessPartner?.label === 'BCIC' && bcicEditFormField(values, setFieldValue)}
+
+                {tenderId && commonEditFormField(values, setFieldValue)}
               </div>
 
               {values?.businessPartner?.label === "BCIC" &&
