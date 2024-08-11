@@ -5,6 +5,7 @@ import ServiceSalesCreate from "./serviceSalesOrder/serviceSales/create";
 import SalesInvoiceLanding from "./salesInvoice";
 import ServiceSalesLanding from "./serviceSalesOrder/serviceSales";
 import SalesCollectionLanding from "./salesCollection";
+import ServiceSalesReport from "./report/serviceSales";
 
 export function ServiceSalesPages() {
   return (
@@ -33,6 +34,10 @@ export function ServiceSalesPages() {
       <ContentRoute
         from="/sales-management/servicesales/servsalescollection"
         component={SalesCollectionLanding}
+      />
+      <ContentRoute
+        from="/sales-management/servicesales/servsalesreports"
+        component={ServiceSalesReport}
       />
     </Switch>
   );
