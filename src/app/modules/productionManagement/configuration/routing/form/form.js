@@ -55,7 +55,7 @@ export default function _Form({
 }) {
   // eslint-disable-next-line no-unused-vars
   const [createPageData, setCreatePageData] = useState({});
-
+  console.log({ workCenterNameDDL });
   return (
     <>
       <Formik
@@ -165,7 +165,7 @@ export default function _Form({
                         setFieldValue
                       );
                     }}
-                    value={values.workCenterName}
+                    value={values?.workCenterName}
                     placeholder="Work Center Name"
                     name="workCenterName"
                     errors={errors}
