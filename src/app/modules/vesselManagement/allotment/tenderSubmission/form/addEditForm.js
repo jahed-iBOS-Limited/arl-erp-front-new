@@ -13,9 +13,10 @@ import {
   businessPartnerDDL,
   ErrorMessage,
   fetchGhatDDL,
+  fetchMotherVesselLists,
   fetchTenderDetailsCallbackForPrintAndCreateEditPage,
   getDischargePortDDL,
-  getGodownDDLList,
+  fetchGodownDDLList,
   GetLoadPortDDL,
   initData,
   selectPayload,
@@ -48,6 +49,7 @@ export default function TenderSubmissionCreateEditForm() {
   ] = useAxiosGet();
   const [tenderDetails, getTenderDetails] = useAxiosGet();
   const [ghatDDL, getGhatDDL, getGhatDDLLoading] = useAxiosGet();
+  const [motherVesselDDL, getMotherVesselDDL] = useAxiosGet()
 
   // Data post/save axios post
   const [, submitTender, submitTenderLoading] = useAxiosPost();
@@ -64,10 +66,11 @@ export default function TenderSubmissionCreateEditForm() {
         buUnId,
         { businessPartner: { label: landingPageState?.businessPartnerName } },
         tenderId,
-        getTenderDetails,
-
+        getTenderDetails
       );
-      getGodownDDLList(
+
+      // fetch godown list for bcic
+      fetchGodownDDLList(
         { value: landingPageState?.businessPartnerId },
         accountId,
         buUnId,
@@ -75,13 +78,14 @@ export default function TenderSubmissionCreateEditForm() {
         updateGodownDDL
       );
 
-      fetchGhatDDL(accountId, buUnId, getGhatDDL)
+      // fetch ghat ddl for badc
+      fetchGhatDDL(accountId, buUnId, getGhatDDL);
 
+      // fetch mother vessel for bcic
+      fetchMotherVesselLists(accountId, buUnId, landingPageState?.dischargePortId, getMotherVesselDDL)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-
 
   const saveHandler = (values, cb) => {
     submitTender(
@@ -132,7 +136,7 @@ export default function TenderSubmissionCreateEditForm() {
           }}
         />
       </div>
-      <div className="col-lg-3">
+      {/*<div className="col-lg-3">
         <InputField
           value={values?.uomname}
           label="Unit"
@@ -142,7 +146,7 @@ export default function TenderSubmissionCreateEditForm() {
             setFieldValue("uomname", e.target.value);
           }}
         />
-      </div>
+      </div>*/}
       <div className="col-lg-3">
         <InputField
           value={values?.productName}
@@ -167,17 +171,6 @@ export default function TenderSubmissionCreateEditForm() {
           touched={touched}
         />
       </div>
-      <div className="col-lg-3">
-        <InputField
-          value={values?.foreignPriceUSD}
-          label="Foreign Price (USD)"
-          name="foreignPriceUSD"
-          type="number"
-          onChange={(e) => {
-            setFieldValue("foreignPriceUSD", e.target.value);
-          }}
-        />
-      </div>
     </>
   );
 
@@ -191,6 +184,7 @@ export default function TenderSubmissionCreateEditForm() {
           label="Discharge Port"
           onChange={(valueOption) => {
             setFieldValue("dischargePort", valueOption);
+            fetchMotherVesselLists(accountId, buUnId, valueOption?.value, getMotherVesselDDL)
           }}
           errors={errors}
           touched={touched}
@@ -220,16 +214,16 @@ export default function TenderSubmissionCreateEditForm() {
       </div>
       <div className="col-lg-3">
         <InputField
-          value={values?.referenceNo}
-          label="Reference No"
-          name="referenceNo"
+          value={values?.remarks}
+          label="Remarks"
+          name="remarks"
           type="text"
           onChange={(e) => {
-            setFieldValue("referenceNo", e.target.value);
+            setFieldValue("remarks", e.target.value);
           }}
         />
       </div>
-      <div className="col-lg-3">
+      {/*<div className="col-lg-3">
         <InputField
           value={values?.referenceDate}
           label="Reference Date"
@@ -239,7 +233,7 @@ export default function TenderSubmissionCreateEditForm() {
             setFieldValue("referenceDate", e.target.value);
           }}
         />
-      </div>
+      </div> */}
     </>
   );
 
@@ -369,23 +363,63 @@ export default function TenderSubmissionCreateEditForm() {
 
   const editFormField = (values, setFieldValue) => (
     <>
+      <div className="col-lg-3">
+        <NewSelect
+          name="motherVessel"
+          options={motherVesselDDL}
+          value={values?.motherVessel}
+          label="Mother Vessel"
+          onChange={(valueOption) => {
+            setFieldValue("motherVessel", valueOption);
+          }}
+          placeholder="Mother Vessel"
+        />
+      </div>
+      <div className="col-lg-3">
+        <InputField
+          value={values?.foreignPriceUSD}
+          label="Foreign Price (USD)"
+          name="foreignPriceUSD"
+          type="number"
+          onChange={(e) => {
+            setFieldValue("foreignPriceUSD", e.target.value);
+          }}
+        />
+      </div>
       {tenderDetails?.header?.isAccept !== true && (
-        <div className="col-lg-3 mt-5 d-flex align-items-center">
+        <div className="col-lg-1 mt-5 d-flex align-items-center">
           <input
             type="checkbox"
-            id="approveStatus"
-            name="approveStatus"
-            value={values?.approveStatus}
-            checked={values?.approveStatus}
+            id="isAccept"
+            name="isAccept"
+            value={values?.isAccept}
+            checked={values?.isAccept}
             onChange={(e) => {
-              setFieldValue("approveStatus", e.target.checked);
+              setFieldValue("isAccept", e.target.checked);
             }}
+            disabled={values?.isReject}
           />
           <label htmlFor="approveStatus" className="pl-1">
             Approve
           </label>
         </div>
       )}
+      <div className="col-lg-1 mt-5 d-flex align-items-center">
+        <input
+          type="checkbox"
+          id="isReject"
+          name="isReject"
+          value={values?.isReject}
+          checked={values?.isReject}
+          onChange={(e) => {
+            setFieldValue("isReject", e.target.checked);
+          }}
+          disabled={values?.isAccept}
+        />
+        <label htmlFor="isReject" className="pl-1">
+          Reject
+        </label>
+      </div>
       <div className="col-lg-3 mt-3 d-flex align-items-center">
         <AttachmentUploaderNew
           CBAttachmentRes={(image) => {
@@ -562,7 +596,7 @@ export default function TenderSubmissionCreateEditForm() {
                       setFieldValue("businessPartner", valueOption);
                       // {"value": 89497, "label": "BCIC"}
                       // fetch when initial bcic select in create page
-                      getGodownDDLList(
+                      fetchGodownDDLList(
                         valueOption,
                         accountId,
                         buUnId,
@@ -571,7 +605,7 @@ export default function TenderSubmissionCreateEditForm() {
                       );
                       // fetch ghat ddl when badc select
                       if (valueOption?.label === "BADC") {
-                        fetchGhatDDL(accountId, buUnId, getGhatDDL)
+                        fetchGhatDDL(accountId, buUnId, getGhatDDL);
                       }
                     }}
                     errors={errors}

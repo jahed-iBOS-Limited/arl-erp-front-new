@@ -34,7 +34,7 @@ export default function SalesCollectionLanding() {
   const [showModal, setShowModal] = useState(false);
   const [showCollectionModal, setShowCollectionModal] = useState(false);
   const [singleItem, setSingleItem] = useState(null);
-  const [paymentType, setPaymentType] = useState(1);
+  const [paymentType, setPaymentType] = useState(2);
   const [sbuDDl, setSbuDDl] = useState([]);
   const history = useHistory();
   const dispatch = useDispatch();
@@ -87,7 +87,7 @@ export default function SalesCollectionLanding() {
 
   useEffect(() => {
     getData({ typeId: initData?.type?.value, values: initData || {} });
-    setPaymentType(initData?.paymentType || 1);
+    setPaymentType(initData?.paymentType || 2);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileData, selectedBusinessUnit, initData]);
 
@@ -288,6 +288,19 @@ export default function SalesCollectionLanding() {
                   <>
                     <div className="row mt-5">
                       <div className="col-lg-4">
+                      <label className="mr-3">
+                          <input
+                            type="radio"
+                            name="paymentType"
+                            checked={paymentType === 2}
+                            className="mr-1 pointer"
+                            style={{ position: "relative", top: "2px" }}
+                            onChange={(e) => {
+                              setPaymentType(2);
+                            }}
+                          />
+                          Bank
+                        </label>
                         <label className="mr-3">
                           <input
                             type="radio"
@@ -300,19 +313,6 @@ export default function SalesCollectionLanding() {
                             }}
                           />
                           Cash
-                        </label>
-                        <label className="mr-3">
-                          <input
-                            type="radio"
-                            name="paymentType"
-                            checked={paymentType === 2}
-                            className="mr-1 pointer"
-                            style={{ position: "relative", top: "2px" }}
-                            onChange={(e) => {
-                              setPaymentType(2);
-                            }}
-                          />
-                          Bank
                         </label>
                       </div>
                     </div>
