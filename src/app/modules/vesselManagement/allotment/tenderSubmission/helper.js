@@ -57,12 +57,12 @@ export const initData = {
     dueDate: "",
     dueTime: "",
     lotQty: "",
-    ghat1: "",
-    ghat2: "",
+    // ghat1: "",
+    // ghat2: "",
     contractDate: "",
-    dischargeRatio: "",
+    // dischargeRatio: "",
     laycanDate: "",
-    pricePerQty: "",
+    // pricePerQty: "",
     pricePerBag: "",
 };
 
@@ -164,45 +164,20 @@ export const validationSchema = Yup.object({
         then: Yup.string().required("Lot Qty is required"),
         otherwise: Yup.string(),
     }),
-    ghat1: Yup.string().when("businessPartner", {
-        is: (businessPartner) =>
-            businessPartner && businessPartner?.label === "BADC",
-        then: Yup.string().required("Ghat 1 is required"),
-        otherwise: Yup.string(),
-    }),
-    ghat2: Yup.string().when("businessPartner", {
-        is: (businessPartner) =>
-            businessPartner && businessPartner?.label === "BADC",
-        then: Yup.string().required("Ghat 2 is required"),
-        otherwise: Yup.string(),
-    }),
+
     contractDate: Yup.date().when("businessPartner", {
         is: (businessPartner) =>
             businessPartner && businessPartner?.label === "BADC",
         then: Yup.date().required("Contract date is required"),
         otherwise: Yup.date(),
     }),
-    dischargeRatio: Yup.string().when("businessPartner", {
-        is: (businessPartner) =>
-            businessPartner && businessPartner?.label === "BADC",
-        then: Yup.string().required("Discharge ratio is required"),
-        otherwise: Yup.string(),
-    }),
+
     laycanDate: Yup.date().when("businessPartner", {
         is: (businessPartner) =>
             businessPartner && businessPartner?.label === "BADC",
         then: Yup.date().required("Laycan date is required"),
         otherwise: Yup.date(),
     }),
-    pricePerQty: Yup.number()
-        .positive()
-        .min(0)
-        .when("businessPartner", {
-            is: (businessPartner) =>
-                businessPartner && businessPartner?.label === "BADC",
-            then: Yup.number().required("Discharge ratio is required"),
-            otherwise: Yup.number(),
-        }),
     pricePerBag: Yup.number()
         .positive()
         .min(0)
@@ -361,24 +336,16 @@ export const updateState = (tenderDetails) => {
         return commonEditData;
     } else {
         const badcState = {
-            ghat1: tenderDetails?.ghat1 ? {
-                label: tenderDetails?.ghat1,
-            } : "",
-            ghat2: tenderDetails?.ghat2 ? {
-                label: tenderDetails?.ghat2,
-            } : "",
             dueDate: _dateFormatter(tenderDetails?.dueDate),
             dueTime: tenderDetails?.dueTime,
             lotQty: tenderDetails?.lotqty,
             contractDate: _dateFormatter(tenderDetails?.contractDate),
-            dischargeRatio: tenderDetails?.dischargeRatio,
             laycanDate: _dateFormatter(tenderDetails?.laycandate),
-            pricePerQty: tenderDetails?.pricePerQty,
             pricePerBag: tenderDetails?.pricePerBag,
         };
 
         const commonEditData = {
-            //bcic
+            //badc
             ...badcState,
             // global
             businessPartner: tenderDetails?.businessPartnerId
@@ -396,8 +363,8 @@ export const updateState = (tenderDetails) => {
                 label: tenderDetails?.loadPortName,
                 value: tenderDetails?.loadPortId,
             } : "",
-            foreignPriceUSD: tenderDetails?.foreignPriceUsd,
             // edit
+            foreignPriceUSD: tenderDetails?.foreignPriceUsd,
             attachment: tenderDetails?.attachment,
             isAccept: tenderDetails?.isAccept,
             isReject: tenderDetails?.isReject,
@@ -604,23 +571,19 @@ export const selectPayload = (
             enquiryNo: values?.enquiry,
             submissionDate: values?.submissionDate,
             foreignQty: +values?.foreignQnt,
-            uomname: values?.uomname,
             itemName: values?.productName,
             loadPortId: values?.loadPort?.value,
             loadPortName: values?.loadPort?.label,
-            // foreignPriceUsd: +values?.foreignPriceUSD,
-            isAccept: values?.approveStatus ? values?.approveStatus : false,
+            isAccept: values?.isAccept,
+            isReject: values?.isReject,
             attachment: values?.attachment,
             //badc
-            ghat1: values?.ghat1?.label, // chittagong
-            ghat2: values?.ghat2?.label, // mongla
+            foreignPriceUsd: +values?.foreignPriceUSD,
             dueDate: values?.dueDate,
             dueTime: values?.dueTime,
             lotqty: values?.lotQty,
             contractDate: values?.contractDate,
-            dischargeRatio: values?.dischargeRatio,
             laycandate: values?.laycanDate,
-            pricePerQty: +values?.pricePerQty,
             pricePerBag: +values?.pricePerBag,
         };
     }
