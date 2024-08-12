@@ -743,6 +743,7 @@ export const getItemforReceiveInvForeignPOAction = (
     .getItemWithReceiveInvForeignDDL(acId, buId, poId, shipId)
     .then((res) => {
       const { status, data } = res;
+      console.log("data",data);
       if (status === 200 && data) {
         let itemData = data.map((item) => {
           return {
@@ -762,6 +763,7 @@ export const getItemforReceiveInvForeignPOAction = (
             discount: item?.numDiscount,
             totalPOValue: item?.numTotalValue,
             intReferenceId: item?.intReferenceId,
+            isSerialMaintain:item?.isSerialMaintain
           };
         });
 
