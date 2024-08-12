@@ -73,18 +73,11 @@ export default function DeliveryForm({
     return state.authData;
   }, shallowEqual);
 
-  const {
-    partnerBalance,
-    availableBalance,
-    undeliveryValues,
-    isBalanceCheck,
-  } = useSelector((state) => {
+  const { partnerBalance, availableBalance, undeliveryValues, isBalanceCheck } = useSelector((state) => {
     return state.salesOrder;
   }, shallowEqual);
 
-  const is_BalanceCheck =
-    isBalanceCheck?.balanceCheckOnDelivery &&
-    !isBalanceCheck?.balanceCheckOnOrder;
+  const is_BalanceCheck = isBalanceCheck?.balanceCheckOnDelivery && !isBalanceCheck?.balanceCheckOnOrder;
 
   // get shipPointDDL ddl from store
   const {
@@ -117,30 +110,13 @@ export default function DeliveryForm({
   //initial Load ShipPointDDL & DeliveryType dispatch
   useEffect(() => {
     if (selectedBusinessUnit?.value && profileData?.accountId) {
-      dispatch(
-        GetSoldToPartyDDLAction(
-          profileData.accountId,
-          selectedBusinessUnit.value
-        )
-      );
-      dispatch(
-        GetCategoryDDLAction(profileData.accountId, selectedBusinessUnit.value)
-      );
+      dispatch(GetSoldToPartyDDLAction(profileData.accountId, selectedBusinessUnit.value));
+      dispatch(GetCategoryDDLAction(profileData.accountId, selectedBusinessUnit.value));
       if (!id) {
-        dispatch(
-          GetShipPointDDLAction(
-            profileData.accountId,
-            selectedBusinessUnit.value
-          )
-        );
+        dispatch(GetShipPointDDLAction(profileData.accountId, selectedBusinessUnit.value));
         dispatch(GetDeliveryTypeAction());
       }
-      dispatch(
-        GetSalesConfigurationBalanceCheck_acion(
-          profileData?.accountId,
-          selectedBusinessUnit?.value
-        )
-      );
+      dispatch(GetSalesConfigurationBalanceCheck_acion(profileData?.accountId, selectedBusinessUnit?.value));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedBusinessUnit, profileData]);
@@ -150,15 +126,22 @@ export default function DeliveryForm({
   };
 
   const saveHandler = async (values, cb) => {
+    const hasEqual = values?.itemLists?.some((ele, i) => {
+      const list = ele[i]?.scannedItemSerialList?.filter((item) => item?.isCheck);
+      return +ele.deliveryQty !== list?.length;
+    });
+
+    if (hasEqual) {
+      return toast.warn("Delivery Quantity and Item Serial List need to be same");
+    }
+
     if (values && profileData?.accountId && selectedBusinessUnit?.value) {
       let requestDeliveryDate = "";
       //curent date compare with request date
       if (moment(values?.requestTime).isBefore(moment())) {
         requestDeliveryDate = moment().format("YYYY-MM-DDTHH:mm:ss");
       } else {
-        requestDeliveryDate = moment(values?.requestTime).format(
-          "YYYY-MM-DDTHH:mm:ss"
-        );
+        requestDeliveryDate = moment(values?.requestTime).format("YYYY-MM-DDTHH:mm:ss");
       }
       let list = [];
       if (values?.itemLists?.length > 0) {
@@ -174,6 +157,9 @@ export default function DeliveryForm({
         });
       }
       const rowData = list?.map((itm) => {
+        const list = itm?.scannedItemSerialList;
+        const filteredItem = list?.filter((item) => item?.isCheck);
+
         return {
           rowId: itm.deliveryRowId || 0,
           salesOrderId: itm?.salesOrderId || itm?.rowId || 0,
@@ -190,8 +176,11 @@ export default function DeliveryForm({
           salesOrder: itm?.salesOrder,
           specification: itm?.specification || "",
           vatAmount: itm?.vatAmount || 0,
-          shipmentExtraAmount:
-            (+itm?.extraRate || 0) * (+itm?.deliveryQty || 0),
+          serialNumber: filteredItem?.map((el) => ({
+            autoID: el?.autoID,
+            serialNumber: el?.serialNumber,
+          })),
+          shipmentExtraAmount: (+itm?.extraRate || 0) * (+itm?.deliveryQty || 0),
           shipmentExtraRate: +itm?.extraRate || 0,
         };
       });
@@ -204,10 +193,8 @@ export default function DeliveryForm({
         const payload = {
           headerData: {
             deliveryId: singleData?.objDeliveryHeaderLandingDTO?.deliveryId,
-            shipToPartyId:
-              singleData?.objDeliveryHeaderLandingDTO?.shipToPartnerId,
-            shipToPartyName:
-              singleData?.objDeliveryHeaderLandingDTO?.shipToPartnerName,
+            shipToPartyId: singleData?.objDeliveryHeaderLandingDTO?.shipToPartnerId,
+            shipToPartyName: singleData?.objDeliveryHeaderLandingDTO?.shipToPartnerName,
             shipPointId: singleData?.objDeliveryHeaderLandingDTO?.shipPointId,
             actionBy: profileData.userId,
             lastActionDateTime: _todayDate(),
@@ -250,10 +237,7 @@ export default function DeliveryForm({
         };
 
         if ([4].includes(selectedBusinessUnit?.value)) {
-          const totalQty = rowData?.reduce(
-            (acc, cur) => (acc += +cur?.quantity || 0),
-            0
-          );
+          const totalQty = rowData?.reduce((acc, cur) => (acc += +cur?.quantity || 0), 0);
           GetDeliveryApprroximateDateTimeApi(
             selectedBusinessUnit?.value,
             headerData?.shipPoint?.value,
@@ -267,9 +251,7 @@ export default function DeliveryForm({
                 title: "Notice",
                 message: `Your Approximate Delivery Will be \n
                 From ${moment().format("DD-MM-YYYY hh:mm A")} \n
-                To ResponseTime ${moment(apprroximateDate).format(
-                  "DD-MM-YYYY hh:mm A"
-                )}`,
+                To ResponseTime ${moment(apprroximateDate).format("DD-MM-YYYY hh:mm A")}`,
                 yesAlertFunc: async () => {
                   dispatch(
                     saveCreateDelivery({
@@ -308,33 +290,20 @@ export default function DeliveryForm({
     if (payload) {
       dispatch(getPartnerBalance_action(payload));
       dispatch(getUndeliveryValues_action(payload));
-      dispatch(
-        GetSalesOrderListDDLAction(selectedBusinessUnit.value, payload, 0)
-      );
+      dispatch(GetSalesOrderListDDLAction(selectedBusinessUnit.value, payload, 0));
     }
   };
 
   useEffect(() => {
     if (id && singleData?.objDeliveryHeaderLandingDTO?.soldToPartnerId) {
-      const {
-        soldToPartnerId,
-        shipToPartnerId,
-      } = singleData?.objDeliveryHeaderLandingDTO;
+      const { soldToPartnerId, shipToPartnerId } = singleData?.objDeliveryHeaderLandingDTO;
       dispatch(getPartnerBalance_action(soldToPartnerId));
       dispatch(getUndeliveryValues_action(soldToPartnerId));
       dispatch(GetDeliveryTypeAction());
-      dispatch(
-        GetSalesOrderListDDLAction(
-          selectedBusinessUnit.value,
-          soldToPartnerId,
-          shipToPartnerId
-        )
-      );
+      dispatch(GetSalesOrderListDDLAction(selectedBusinessUnit.value, soldToPartnerId, shipToPartnerId));
 
       // Available Balance api call
-      const orderIdList = singleData?.objListDeliveryRowDetailsDTO?.map(
-        (itm) => itm?.salesOrderId
-      );
+      const orderIdList = singleData?.objListDeliveryRowDetailsDTO?.map((itm) => itm?.salesOrderId);
       dispatch(getAvailableBalance_Action(soldToPartnerId, orderIdList, 2));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -359,18 +328,17 @@ export default function DeliveryForm({
             amount: ele.objRowData.numItemPrice * ele.objRowData.pendingQty,
             specification: ele.objRowData.specification,
             selectLocation: ele?.objLocation?.[0] || "",
-            vatAmount:
-              ele?.objRowData?.vatItemPrice * ele?.objRowData?.pendingQty,
+            vatAmount: ele?.objRowData?.vatItemPrice * ele?.objRowData?.pendingQty,
             isItemShow: true,
             extraRate: +values?.shipmentType?.extraRate || 0,
+            scannedItemSerialList: ele?.rowItemSerialList,
           };
           if (ele?.objRowData?.isTradeFreeItem) {
             const itemFindIdx = modifiedSalesOrderList?.findIndex(
               (i) => i?.itemId === ele?.objRowData?.itemAgainstOffer
             );
             if (itemFindIdx !== -1) {
-              const prvOffer =
-                modifiedSalesOrderList[itemFindIdx]?.offerItemList || [];
+              const prvOffer = modifiedSalesOrderList[itemFindIdx]?.offerItemList || [];
               modifiedSalesOrderList[itemFindIdx] = {
                 ...modifiedSalesOrderList[itemFindIdx],
                 offerItemList: [...prvOffer, obj],
@@ -382,24 +350,16 @@ export default function DeliveryForm({
         });
       }
 
-      if (
-        isUniq("salesOrderId", values?.salesOrder?.value, values?.itemLists)
-      ) {
+      if (isUniq("salesOrderId", values?.salesOrder?.value, values?.itemLists)) {
         const itemList = [...values?.itemLists, ...modifiedSalesOrderList];
         setValues({
           ...values,
           itemLists: itemList,
         });
         const orderIdList = itemList?.map((itm) => itm?.salesOrderId);
+        dispatch(getAvailableBalance_Action(values?.soldToParty?.value, orderIdList, 2));
         dispatch(
-          getAvailableBalance_Action(values?.soldToParty?.value, orderIdList, 2)
-        );
-        dispatch(
-          GetSalesOrderListDDLAction(
-            selectedBusinessUnit.value,
-            values?.soldToParty?.value,
-            values?.shipToParty?.value
-          )
+          GetSalesOrderListDDLAction(selectedBusinessUnit.value, values?.soldToParty?.value, values?.shipToParty?.value)
         );
       }
     } else {
@@ -414,9 +374,7 @@ export default function DeliveryForm({
       itemLists: ccdata,
     });
     const orderIdList = ccdata?.map((itm) => itm?.salesOrderId);
-    dispatch(
-      getAvailableBalance_Action(values?.soldToParty?.value, orderIdList, 2)
-    );
+    dispatch(getAvailableBalance_Action(values?.soldToParty?.value, orderIdList, 2));
   };
   useEffect(() => {
     return () => {
@@ -429,11 +387,7 @@ export default function DeliveryForm({
   }, []);
 
   useEffect(() => {
-    if (
-      headerData?.sbu?.value &&
-      headerData?.shipPoint?.value &&
-      headerData?.distributionChannel?.value
-    ) {
+    if (headerData?.sbu?.value && headerData?.shipPoint?.value && headerData?.distributionChannel?.value) {
       dispatch(
         getSoldToPartner_Action(
           profileData?.accountId,
@@ -443,13 +397,7 @@ export default function DeliveryForm({
           headerData?.distributionChannel?.value
         )
       );
-      dispatch(
-        GetWarehouseDDLAction(
-          profileData.accountId,
-          selectedBusinessUnit.value,
-          headerData?.shipPoint?.value
-        )
-      );
+      dispatch(GetWarehouseDDLAction(profileData.accountId, selectedBusinessUnit.value, headerData?.shipPoint?.value));
       // if user Pending "Order menu" crate btn click
       if (headerData?.soldToParty?.value) {
         shipToPartyDispatcher(headerData?.soldToParty?.value);
@@ -474,12 +422,8 @@ export default function DeliveryForm({
         initData={
           singleData || {
             ...initData,
-            warehouse: headerData?.warehouse?.value
-              ? headerData?.warehouse
-              : "",
-            soldToParty: headerData?.soldToParty?.value
-              ? headerData?.soldToParty
-              : "",
+            warehouse: headerData?.warehouse?.value ? headerData?.warehouse : "",
+            soldToParty: headerData?.soldToParty?.value ? headerData?.soldToParty : "",
             itemLists: pendingDeliveryReportitemList || [],
             businessUnitId: selectedBusinessUnit?.value,
           }
