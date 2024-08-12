@@ -156,6 +156,10 @@ const CustomerSalesTargetReport = () => {
                           if (valueOption?.value === 0) {
                             setFieldValue("region", { value: 0, label: "All" });
                             setFieldValue("area", { value: 0, label: "All" });
+                            setFieldValue("territory", {
+                              value: 0,
+                              label: "All",
+                            });
                           }
                           getTerritory(
                             `/oms/TerritoryInfo/GetTerrotoryRegionAreaByChannel?channelId=${valueOption?.value}&regionId=${values?.region?.value}&areaId=${values?.area?.value}`,
@@ -258,7 +262,7 @@ const CustomerSalesTargetReport = () => {
                     <div className="col-lg-3">
                       <NewSelect
                         name="territory"
-                        options={territoryDDl}
+                        options={[{ value: 0, label: "All" }, ...territoryDDl]}
                         value={values?.territory}
                         label="Territory"
                         onChange={(valueOption) => {
@@ -268,6 +272,7 @@ const CustomerSalesTargetReport = () => {
                         placeholder="Territory"
                         errors={errors}
                         touched={touched}
+                        isDisabled={!values?.area || values?.area?.value === 0}
                       />
                     </div>
                     {/* // )} */}
