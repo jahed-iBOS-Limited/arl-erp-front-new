@@ -31,13 +31,7 @@ import { getSupplierDDL, initData, validationSchema } from "./helper";
 import RowDtoTable from "./rowDtoTable";
 const { actions: slice } = invTransactionSlice;
 
-export default function ReceiveInvCreateForm({
-  btnRef,
-  resetBtnRef,
-  disableHandler,
-  landingData,
-  isEdit,
-}) {
+export default function ReceiveInvCreateForm({ btnRef, resetBtnRef, disableHandler, landingData, isEdit }) {
   // eslint-disable-next-line no-unused-vars
   const [isDisabled, setDisabled] = useState(false);
   const dispatch = useDispatch();
@@ -46,7 +40,12 @@ export default function ReceiveInvCreateForm({
   const [open, setOpen] = useState(false);
   const [supplierDDL, setSupplierDDL] = useState(false);
   const [foreignPurchaseDDL, setForeginPurchase] = useState([]);
+  const [inLineRowItemView, setInLineRowItemView] = useState({
+    isView: false,
+    data: {},
+  });
 
+  const [items, setItems] = useState(rowDto);
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state?.authData;
   }, shallowEqual);
@@ -68,8 +67,7 @@ export default function ReceiveInvCreateForm({
   let totalValue = rowDto?.reduce((sum, data) => sum + data?.totalValue, 0);
   let netValue = rowDto?.reduce((sum, data) => sum + data?.netValue, 0);
 
-  console.log("rowDto", rowDto);
-  console.log("landingData", landingData);
+  const [quantity, setQuantity] = useState();
 
   //dispatch action creators
   useEffect(() => {
@@ -81,15 +79,8 @@ export default function ReceiveInvCreateForm({
     //     selectedBusinessUnit.value
     //   )
     // );
-    getSupplierDDL(
-      profileData.accountId,
-      selectedBusinessUnit.value,
-      landingData?.sbu?.value,
-      setSupplierDDL
-    );
-    dispatch(
-      getpersonnelDDLAction(profileData.accountId, selectedBusinessUnit.value)
-    );
+    getSupplierDDL(profileData.accountId, selectedBusinessUnit.value, landingData?.sbu?.value, setSupplierDDL);
+    dispatch(getpersonnelDDLAction(profileData.accountId, selectedBusinessUnit.value));
     dispatch(getStockDDLAction());
     return () => {
       dispatch(slice.setItemDDL([]));
@@ -115,13 +106,7 @@ export default function ReceiveInvCreateForm({
         )
       );
     }
-    dispatch(
-      getTransactionTypeDDLAction(
-        landingData?.transGrup?.value,
-        refTyp?.value,
-        setFieldValue
-      )
-    );
+    dispatch(getTransactionTypeDDLAction(landingData?.transGrup?.value, refTyp?.value, setFieldValue));
     // if (refTyp.label === 'NA (Without Reference)') {
     //   dispatch(
     //     getItemDDLForWithoutRefAction(
@@ -135,13 +120,7 @@ export default function ReceiveInvCreateForm({
   };
 
   const onChangeForRefNo = (refNo, values) => {
-    dispatch(
-      getItemforReceiveInvAction(
-        values?.refType?.value,
-        values?.refType?.label,
-        refNo?.value
-      )
-    );
+    dispatch(getItemforReceiveInvAction(values?.refType?.value, values?.refType?.label, refNo?.value));
   };
 
   //add row Dto Data
@@ -151,7 +130,7 @@ export default function ReceiveInvCreateForm({
       if (data?.length > 0) {
         toast.warning("Item Already added", { toastId: "receiveInventory" });
       } else {
-        setRowDto([
+        const dto = [
           ...rowDto,
           {
             referenceId: values?.item?.intReferenceId,
@@ -165,10 +144,7 @@ export default function ReceiveInvCreateForm({
             vatValue: values?.item?.vatValue || 0,
             returnQuntity: values?.item?.returnQty || 0,
             issueQuantity: values?.item?.issueQty || 0,
-            baseValue:
-              values.refType.label === "NA (Without Reference)"
-                ? 0
-                : values.item.baseValue,
+            baseValue: values.refType.label === "NA (Without Reference)" ? 0 : values.item.baseValue,
             location: values.item.locationddl[0],
             stockType: { value: 1, label: "Open Stock" }, //values?.transType?.label === "Receive For PO To Blocked Stock" ? { value: 2, label: "Block Stock" } : { value: 1, label: "Open Stock" },
             quantity: "",
@@ -182,8 +158,11 @@ export default function ReceiveInvCreateForm({
             salesRate: values?.item?.salesRate || 0,
             mrpRate: values?.item?.mrpRate || 0,
             expiredDate: _todayDate(),
+            isSerialMaintain: values?.item?.isSerialMaintain,
+            serialList: [],
           },
-        ]);
+        ];
+        setRowDto(dto);
       }
     } else {
       let data = itemDDL?.map((data) => {
@@ -213,9 +192,12 @@ export default function ReceiveInvCreateForm({
           salesRate: data?.salesRate || 0,
           mrpRate: data?.mrpRate || 0,
           expiredDate: _todayDate(),
+          serialList: [],
+          isSerialMaintain:data?.isSerialMaintain,
         };
       });
       setRowDto(data);
+      console.log("from all",data);
     }
   };
 
@@ -233,9 +215,7 @@ export default function ReceiveInvCreateForm({
       _sl[name] = value ? +value : value;
       _sl["tatalVat"] = (_sl?.vatValue / _sl?.refQty) * +value;
       _sl["totalValue"] = _sl?.baseValue.toFixed(2) * +value;
-      _sl["netValue"] =
-        (_sl?.vatValue / _sl?.refQty) * +value +
-        _sl?.baseValue.toFixed(2) * +value;
+      _sl["netValue"] = (_sl?.vatValue / _sl?.refQty) * +value + _sl?.baseValue.toFixed(2) * +value;
     } else if (name === "baseValue") {
       _sl[name] = value ? +value : value;
     } else {
@@ -262,7 +242,7 @@ export default function ReceiveInvCreateForm({
     if (totalVat.toFixed(4) > 0 && values?.vatAmmount < 1)
       return toast.warn("Vat amount should be greater than zero");
 
-    if (totalVat == 0 && values?.vatAmmount > 0)
+    if (totalVat === 0 && values?.vatAmmount > 0)
       return toast.warn("Vat amount should be zero, because total amount zero");
 
     if (
@@ -272,6 +252,25 @@ export default function ReceiveInvCreateForm({
       return toast.warn("Challan and Challan Date is required");
 
     if (isDisabled) return "";
+
+    const isInvalid = rowDto?.some((item) => {
+      const list = item?.serialList;
+      if (!list) {
+        return false;
+      }
+      const hasMissingBarcode = list.some((element) => {
+        if (!element.hasOwnProperty("barCode") || element.barCode === "") {
+          return true;
+        }
+        return false;
+      });
+      return !!hasMissingBarcode;
+    });
+
+    if (isInvalid) {
+      return toast.warn("Item quantity and serial list with barcode value need to be the same.");
+    }
+
     if (rowDto.length === 0) {
       toast.warning("Please Add Item", { toastId: "receiveInventory" });
     } else {
@@ -300,6 +299,46 @@ export default function ReceiveInvCreateForm({
               salesRate: +data?.salesRate || 0,
               mrpRate: +data?.mrpRate || 0,
               expiredDate: data?.expiredDate,
+              serialNumber: data?.serialList?.map((item) => ({
+                sl: 0,
+                autoId: 0,
+                itemId: data?.itemId,
+                itemName: data?.itemName,
+                uoMid: data?.uoMid,
+                uoMname: data?.uoMname,
+                supplierId: values?.busiPartner.value || 0,
+                supplierName: values?.busiPartner.label || "",
+                purchaseOrderId: values.refNo.value || 0,
+                purchaseOrderCode: values.refNo.label || "NA",
+                purchaseOrderDate: "2024-08-07T04:02:16.322Z",
+                mrrid: 0,
+                mrrcode: "",
+                mrrdate: "2024-08-07T04:02:16.322Z",
+                itemWiseSerialNo: 0,
+                customerId: 0,
+                customerName: "string",
+                challanNo: values?.challanNO,
+                salesOrderId: 0,
+                salesOrderCode: "string",
+                salesOrderDate: "2024-08-07T04:02:16.322Z",
+                serialNo: item?.barCode || "",
+                actionBy: 0,
+                insertDate: "2024-08-07T04:02:16.322Z",
+                isActive: true,
+                lastActionDateTime: "2024-08-07T04:02:16.322Z",
+                challanDate: values?.challanDate,
+                itemCode: "string",
+                challanNoForGet: {
+                  value: "string",
+                  label: "string",
+                  deliveryDate: "2024-08-07T04:02:16.322Z",
+                  customerId: 0,
+                  customerName: "string",
+                  salesOrderId: 0,
+                  salesOrderCode: "string",
+                  salesOrderDate: "2024-08-07T04:02:16.322Z",
+                },
+              })),
             };
           })
           .filter((data) => data.numTransactionQuantity > 0);
@@ -368,10 +407,7 @@ export default function ReceiveInvCreateForm({
               objtransfer: {},
             };
             modifyPlyload.objHeader["isPOS"] =
-              landingData?.warehouse?.isPOS &&
-              modifyPlyload?.objHeader?.referenceTypeId === 1
-                ? true
-                : false;
+              landingData?.warehouse?.isPOS && modifyPlyload?.objHeader?.referenceTypeId === 1 ? true : false;
             let compressedFile = [];
             if (fileObjects?.length > 0) {
               compressedFile = await compressfile(
@@ -472,15 +508,7 @@ export default function ReceiveInvCreateForm({
           });
         }}
       >
-        {({
-          handleSubmit,
-          resetForm,
-          values,
-          errors,
-          touched,
-          setFieldValue,
-          isValid,
-        }) => (
+        {({ handleSubmit, resetForm, values, errors, touched, setFieldValue, isValid }) => (
           <>
             {disableHandler && disableHandler(!isValid)}
             <Form className="form form-label-right po-label">
@@ -548,11 +576,7 @@ export default function ReceiveInvCreateForm({
                       }}
                       disabled={true}
                     />
-                    <FormikError
-                      errors={errors}
-                      name="refNo"
-                      touched={touched}
-                    />
+                    <FormikError errors={errors} name="refNo" touched={touched} />
                   </div>
                 ) : values.refType.label === "PO (Purchase Order)" ? (
                   <div className="col-lg-2">
@@ -564,16 +588,9 @@ export default function ReceiveInvCreateForm({
                         setFieldValue("item", "");
                         setFieldValue("othersCharge", data?.othersCharge || 0);
                         setFieldValue("foreignPurchase", "");
-                        if (
-                          data?.purchaseOrganizationName ===
-                          "Foreign Procurement"
-                        ) {
+                        if (data?.purchaseOrganizationName === "Foreign Procurement") {
                           dispatch(slice.setItemDDL([]));
-                          getForeignPurchaseDDL(
-                            data?.value,
-                            landingData?.plant?.value,
-                            setForeginPurchase
-                          );
+                          getForeignPurchaseDDL(data?.value, landingData?.plant?.value, setForeginPurchase);
                         } else {
                           dispatch(
                             getItemforReceiveInvForeignPOAction(
@@ -614,7 +631,9 @@ export default function ReceiveInvCreateForm({
                         if (v?.length < 3) return [];
                         return axios
                           .get(
-                            `/wms/InventoryTransaction/GetPoNoForInventory?PoTypeId=1&businessUnitId=${selectedBusinessUnit?.value}&SbuId=${landingData?.sbu?.value}&PlantId=${landingData?.plant?.value}&WearhouseId=${landingData?.warehouse?.value}&Search=${v}`
+                            `/wms/InventoryTransaction/GetPoNoForInventory?PoTypeId=1&businessUnitId=${selectedBusinessUnit?.value ||
+                              0}&SbuId=${landingData?.sbu?.value || 0}&PlantId=${landingData?.plant?.value ||
+                              0}&WearhouseId=${landingData?.warehouse?.value || 0}&Search=${v || ""}`
                           )
                           .then((res) => {
                             // const updateList = res?.data.map((item) => ({
@@ -625,11 +644,7 @@ export default function ReceiveInvCreateForm({
                           });
                       }}
                     />
-                    <FormikError
-                      errors={errors}
-                      name="refNo"
-                      touched={touched}
-                    />
+                    <FormikError errors={errors} name="refNo" touched={touched} />
                   </div>
                 ) : (
                   <div className="col-lg-2">
@@ -644,16 +659,9 @@ export default function ReceiveInvCreateForm({
                         setFieldValue("item", "");
                         setFieldValue("othersCharge", data?.othersCharge || 0);
                         setFieldValue("foreignPurchase", "");
-                        if (
-                          data?.purchaseOrganizationName ===
-                          "Foreign Procurement"
-                        ) {
+                        if (data?.purchaseOrganizationName === "Foreign Procurement") {
                           dispatch(slice.setItemDDL([]));
-                          getForeignPurchaseDDL(
-                            data?.value,
-                            landingData?.plant?.value,
-                            setForeginPurchase
-                          );
+                          getForeignPurchaseDDL(data?.value, landingData?.plant?.value, setForeginPurchase);
                         } else {
                           dispatch(
                             getItemforReceiveInvForeignPOAction(
@@ -691,17 +699,13 @@ export default function ReceiveInvCreateForm({
                         setRowDto([]);
                       }}
                       // setFieldValue={setFieldValue}
-                      isDisabled={
-                        values.refType.label === "NA (Without Reference)" ||
-                        values.refType === ""
-                      }
+                      isDisabled={values.refType.label === "NA (Without Reference)" || values.refType === ""}
                       errors={errors}
                       touched={touched}
                     />
                   </div>
                 )}
-                {values?.refNo?.purchaseOrganizationName ===
-                  "Foreign Procurement" && (
+                {values?.refNo?.purchaseOrganizationName === "Foreign Procurement" && (
                   <div className="col-lg-2">
                     <NewSelect
                       label="Invoice"
@@ -712,8 +716,8 @@ export default function ReceiveInvCreateForm({
                       onChange={(value) => {
                         setFieldValue("foreignPurchase", value);
                         setRowDto([]);
-                        if(!value?.isApprove){
-                          return toast.warn("Your 'Invoice Number' invoice has not been approved, Please approve it")
+                        if (!value?.isApprove) {
+                          return toast.warn("Your 'Invoice Number' invoice has not been approved, Please approve it");
                         }
                         dispatch(
                           getItemforReceiveInvForeignPOAction(
@@ -764,9 +768,7 @@ export default function ReceiveInvCreateForm({
                     //setFieldValue={setFieldValue}
                     errors={errors}
                     touched={touched}
-                    isDisabled={
-                      values.refType.label !== "NA (Without Reference)"
-                    }
+                    isDisabled={values.refType.label !== "NA (Without Reference)"}
                   />
                 </div>
                 {/* <div className="col-lg-3">
@@ -783,12 +785,7 @@ export default function ReceiveInvCreateForm({
 
                 <div className="col-lg-2">
                   <label>Challan</label>
-                  <InputField
-                    value={values?.challanNO}
-                    placeholder="Challan"
-                    name="challanNO"
-                    autoComplete="off"
-                  />
+                  <InputField value={values?.challanNO} placeholder="Challan" name="challanNO" autoComplete="off" />
                 </div>
                 <div className="col-lg-2">
                   <label>Challan Date</label>
@@ -811,12 +808,7 @@ export default function ReceiveInvCreateForm({
                 </div>
                 <div className="col-lg-2">
                   <label>Gate Entry No</label>
-                  <InputField
-                    value={values?.getEntry}
-                    placeholder="Gate Entry No"
-                    name="getEntry"
-                    autoComplete="off"
-                  />
+                  <InputField value={values?.getEntry} placeholder="Gate Entry No" name="getEntry" autoComplete="off" />
                 </div>
                 <div className="col-lg-2">
                   <label>Vat Amount</label>
@@ -868,12 +860,7 @@ export default function ReceiveInvCreateForm({
                 )}
                 <div className="col-lg-2">
                   <label>Comments</label>
-                  <InputField
-                    value={values?.remarks}
-                    placeholder="Comments"
-                    name="remarks"
-                    autoComplete="off"
-                  />
+                  <InputField value={values?.remarks} placeholder="Comments" name="remarks" autoComplete="off" />
                 </div>
                 {values?.refType?.value === 1 && (
                   <div className="col-lg-2">
@@ -916,11 +903,7 @@ export default function ReceiveInvCreateForm({
                 )}
 
                 <div className="col-lg-3 mt-5">
-                  <button
-                    className="btn btn-primary mr-2"
-                    type="button"
-                    onClick={() => setOpen(true)}
-                  >
+                  <button className="btn btn-primary mr-2" type="button" onClick={() => setOpen(true)}>
                     Attachment
                   </button>
                 </div>
@@ -939,7 +922,11 @@ export default function ReceiveInvCreateForm({
                         if (v?.length < 3) return [];
                         return axios
                           .get(
-                            `/wms/InventoryTransaction/GetItemForReceiveInventory?accountId=${profileData.accountId}&businessUnitId=${selectedBusinessUnit?.value}&plantId=${landingData?.plant?.value}&warehouseId=${landingData?.warehouse?.value}&searchTerm=${v}&RefTypeId=${values?.refType?.value}`
+                            `/wms/InventoryTransaction/GetItemForReceiveInventory?accountId=${
+                              profileData.accountId
+                            }&businessUnitId=${selectedBusinessUnit?.value || 0}&plantId=${landingData?.plant?.value ||
+                              0}&warehouseId=${landingData?.warehouse?.value || 0}&searchTerm=${v ||
+                              ""}&RefTypeId=${values?.refType?.value || 0}`
                           )
                           .then((res) => {
                             const updateList = res?.data.map((item) => ({
@@ -951,11 +938,7 @@ export default function ReceiveInvCreateForm({
                       }}
                       disabled={true}
                     />
-                    <FormikError
-                      errors={errors}
-                      name="item"
-                      touched={touched}
-                    />
+                    <FormikError errors={errors} name="item" touched={touched} />
                   </div>
                 ) : (
                   <div className="col-lg-3">
@@ -965,12 +948,8 @@ export default function ReceiveInvCreateForm({
                       value={values.item}
                       name="item"
                       setFieldValue={setFieldValue}
-                      isDisabled={
-                        values.isAllItem === true || values.refType === ""
-                      }
-                      isOptionSelected={(option, selectValue) =>
-                        selectValue.some((i) => i === option)
-                      }
+                      isDisabled={values.isAllItem === true || values.refType === ""}
+                      isOptionSelected={(option, selectValue) => selectValue.some((i) => i === option)}
                       errors={errors}
                       touched={touched}
                     />
@@ -1029,15 +1008,9 @@ export default function ReceiveInvCreateForm({
                     className="col-lg-6 d-flex align-items-end justify-content-end"
                     // style={{ marginTop: "45px" }}
                   >
-                    <span className="mr-2 mt-auto font-weight-bold">
-                      Vat: {totalVat.toFixed(4)}
-                    </span>
-                    <span className="mr-2 mt-auto font-weight-bold">
-                      Amount: {totalValue.toFixed(4)}
-                    </span>
-                    <span className="mr-2 mt-auto font-weight-bold">
-                      Net Amount: {netValue.toFixed(4)}
-                    </span>
+                    <span className="mr-2 mt-auto font-weight-bold">Vat: {totalVat.toFixed(4)}</span>
+                    <span className="mr-2 mt-auto font-weight-bold">Amount: {totalValue.toFixed(4)}</span>
+                    <span className="mr-2 mt-auto font-weight-bold">Net Amount: {netValue.toFixed(4)}</span>
                   </div>
                 )}
               </div>
@@ -1052,6 +1025,12 @@ export default function ReceiveInvCreateForm({
                 locationTypeDDL={locationTypeDDL}
                 values={values}
                 landingData={landingData}
+                setInLineRowItemView={setInLineRowItemView}
+                inLineRowItemView={inLineRowItemView}
+                setFieldValue={setFieldValue}
+                setItems={setItems}
+                items={items}
+                setQuantity={setQuantity}
               />
 
               <DropzoneDialogBase
@@ -1067,9 +1046,7 @@ export default function ReceiveInvCreateForm({
                   //setFileObjects([].concat(newFileObjs));
                 }}
                 onDelete={(deleteFileObj) => {
-                  const newData = fileObjects.filter(
-                    (item) => item.file.name !== deleteFileObj.file.name
-                  );
+                  const newData = fileObjects.filter((item) => item.file.name !== deleteFileObj.file.name);
                   setFileObjects(newData);
                 }}
                 onClose={() => setOpen(false)}
@@ -1105,12 +1082,7 @@ export default function ReceiveInvCreateForm({
                 showFileNamesInPreview={true}
               /> */}
 
-              <button
-                type="button"
-                style={{ display: "none" }}
-                ref={btnRef}
-                onClick={() => handleSubmit()}
-              ></button>
+              <button type="button" style={{ display: "none" }} ref={btnRef} onClick={() => handleSubmit()}></button>
 
               <button
                 type="reset"

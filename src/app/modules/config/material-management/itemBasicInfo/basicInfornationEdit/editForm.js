@@ -60,6 +60,7 @@ export default function EditForm({ history,isViewPage }) {
           maximumQuantity :meta?.maximumQuantity || "",
           reorderQuantity : meta?.reorderQuantity || "",
           reorderLevel:meta?.reorderLevel || "",
+          isMaintainSerial : meta?.isSerialMaintain
         });
     }
   };
@@ -89,6 +90,7 @@ export default function EditForm({ history,isViewPage }) {
         maximumQuantity : +values?.maximumQuantity || 0,
         reorderQuantity : +values?.reorderQuantity || 0,
         reorderLevel: values?.reorderLevel || "",
+        isSerialMaintain :!!values?.isMaintainSerial || false
       };
 
       try {
@@ -173,6 +175,7 @@ export default function EditForm({ history,isViewPage }) {
               isDisabledCode={true}
               selectedBusinessUnit={selectedBusinessUnit}
               accountId={profileData.accountId}
+              id={id}
             />
           </div>
         )}

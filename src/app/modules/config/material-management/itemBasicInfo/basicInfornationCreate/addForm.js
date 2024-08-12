@@ -74,6 +74,7 @@ export default function AddForm({
         actionBy,
         isActive: true,
         accountId,
+        isSerialMaintain: !!values?.isMaintainSerial
       };
       if (!saveConfigBtn) {
         try {
