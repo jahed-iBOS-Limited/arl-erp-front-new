@@ -3,7 +3,6 @@ import React, { useEffect, useRef, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { useReactToPrint } from "react-to-print";
-import * as Yup from "yup";
 import IForm from "../../../../_helper/_form";
 import Loading from "../../../../_helper/_loading";
 import NewSelect from "../../../../_helper/_select";
@@ -16,6 +15,7 @@ import {
   approveStatusDDL,
   businessPartnerDDL,
   fetchSubmittedTenderData,
+  landingPageValidationSchema,
 } from "../helper";
 import PrintBADCTender from "../print/printBADCTender";
 import PrintBCICTender from "../print/printBCICTender";
@@ -60,7 +60,16 @@ export default function TenderSubmissionLanding() {
     fetchSubmittedTenderData(pageNo, pageSize);
   };
 
-  // const saveHandler = (values, cb) => { };
+  const saveHandler = (values, cb) => {
+    fetchSubmittedTenderData(
+      accountId,
+      buUnId,
+      values,
+      pageNo,
+      pageSize,
+      getSubmittedTenderLists
+    );
+  };
 
   // Handle tender print directly
   const handleTenderPrint = useReactToPrint({
@@ -73,27 +82,17 @@ export default function TenderSubmissionLanding() {
     <Formik
       enableReinitialize={true}
       initialValues={{
-        businessPartner: { value: 89497, label: "BCIC" },
+        businessPartner: { value: 88075, label: "BADC" },
         fromDate: _monthFirstDate(),
         toDate: _todayDate(),
         approveStatus: "",
       }}
-      validationSchema={Yup.object({
-        businessPartner: Yup.object({
-          value: Yup.string().required("Select a status"),
-          label: Yup.string().required("Select a status"),
-        }).required("Select a business partner"),
-        approveStatus: Yup.object({
-          value: Yup.string().required("Select a status"),
-          label: Yup.string().required("Select a status")
-        }).required("Select a status"),
-      })
-      }
-    // onSubmit={(values, { setSubmitting, resetForm }) => {
-    //   saveHandler(values, () => {
-    //     resetForm();
-    //   });
-    // }}
+      validationSchema={landingPageValidationSchema}
+      onSubmit={(values, { setSubmitting, resetForm }) => {
+        saveHandler(values, () => {
+          resetForm();
+        });
+      }}
     >
       {({
         handleSubmit,
@@ -144,6 +143,8 @@ export default function TenderSubmissionLanding() {
                       setFieldValue("businessPartner", valueOption);
                       setSubmittedTenderList([]);
                     }}
+                    errors={errors}
+                    touched={touched}
                   />
                 </div>
                 <FromDateToDateForm obj={{ setFieldValue, values }} />
@@ -157,23 +158,26 @@ export default function TenderSubmissionLanding() {
                       setFieldValue("approveStatus", valueOption);
                       setSubmittedTenderList([]);
                     }}
+                    errors={errors}
+                    touched={touched}
                   />
                 </div>
                 <div className="col-lg-3">
                   <button
                     className="btn btn-primary mt-5"
                     type="submit"
-                    onClick={() => {
-                      fetchSubmittedTenderData(
-                        accountId,
-                        buUnId,
-                        values,
-                        pageNo,
-                        pageSize,
-                        getSubmittedTenderLists
-                      );
-                    }}
-                    disabled={!isValid || !dirty}
+                    // onClick={() => {
+                    //   fetchSubmittedTenderData(
+                    //     accountId,
+                    //     buUnId,
+                    //     values,
+                    //     pageNo,
+                    //     pageSize,
+                    //     getSubmittedTenderLists
+                    //   );
+                    // }}
+                    onSubmit={() => handleSubmit()}
+                  // disabled={!isValid || !dirty}
                   >
                     View
                   </button>

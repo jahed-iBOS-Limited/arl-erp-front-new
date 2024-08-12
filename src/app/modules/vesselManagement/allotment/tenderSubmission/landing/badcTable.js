@@ -28,9 +28,8 @@ const BADCTendersTable = ({ accountId, buUnId, values, submittedTenderLists, han
                         <th>Enquiry No</th>
                         <th>Item Name</th>
                         <th>Load Port</th>
-                        <th>Ghat (Mongla)</th>
-                        <th>Ghat (Chittagong)</th>
-                        <th style={{ width: "150px" }}>Foreign Qty</th>
+                        <th style={{ width: "150px" }}>Foreign Qty (MT)</th>
+                        <th>Foreign Price (USD)</th>
                         <th>Status</th>
                         <th>Actions</th>
                     </tr>
@@ -48,34 +47,31 @@ const BADCTendersTable = ({ accountId, buUnId, values, submittedTenderLists, han
                                 <td style={{ width: "200px" }}>
                                     {item?.loadPortName}
                                 </td>
-                                <td style={{ width: "200px" }}>
-                                    {item?.ghat1}
-                                </td>
-                                <td style={{ width: "200px" }}>
-                                    {item?.ghat2}
-                                </td>
                                 <td className="text-right" style={{ width: "70px" }}>
                                     {item?.foreignQty}
                                 </td>
+                                <td className="text-right" style={{ width: "200px" }}>
+                                    {item?.foreignPriceUsd === null ? 0 : item?.foreignPriceUsd}
+                                </td>
                                 <td style={{ width: "70px" }}>
-                                    {item?.isAccept === null || item?.isAccept === false
-                                        ? "No"
-                                        : "Approved"}
+                                    {item?.isAccept ? "Approved" : item?.isReject ? "Reject" : item?.isPending ? "Pending" : "NA"}
                                 </td>
                                 <td style={{ width: "80px" }} className="text-center">
                                     <div className="d-flex justify-content-around">
-                                        <span>
-                                            <IEdit
-                                                onClick={() => {
-                                                    history.push({
-                                                        pathname: `/vessel-management/allotment/tendersubmission/edit/${item?.tenderId}`,
-                                                        state: item,
-                                                    });
-                                                    // setShow(true);
-                                                }}
-                                            // id={item?.shiptoPartnerId}
-                                            />
-                                        </span>
+                                        {
+                                            !item?.isAccept ? <span>
+                                                <IEdit
+                                                    onClick={() => {
+                                                        history.push({
+                                                            pathname: `/vessel-management/allotment/tendersubmission/edit/${item?.tenderId}`,
+                                                            state: item,
+                                                        });
+                                                        // setShow(true);
+                                                    }}
+                                                // id={item?.shiptoPartnerId}
+                                                />
+                                            </span> : <></>
+                                        }
                                         <span
                                             // 1st approch
                                             // onClick={() => {
