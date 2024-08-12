@@ -1,25 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import { useDispatch } from "react-redux";
-import {
-  GetDataBySalesOrderAction,
-  getShipToPartner_Action,
-} from "../_redux/Actions";
+import { GetDataBySalesOrderAction, getShipToPartner_Action } from "../_redux/Actions";
 import NewSelect from "../../../../_helper/_select";
 import { useSelector } from "react-redux";
 import { shallowEqual } from "react-redux";
 import InputField from "./../../../../_helper/_inputField";
 import { toast } from "react-toastify";
-import {
-  GetShipmentTypeApi,
-  bagType,
-  carType,
-  deliveryMode,
-  mode,
-} from "../utils";
+import { GetShipmentTypeApi, bagType, carType, deliveryMode, mode } from "../utils";
 import FormikInput from "../../../../chartering/_chartinghelper/common/formikInput";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import IHistory from "../../../../_helper/_helperIcons/_history";
+import IViewModal from "../../../../_helper/_viewModal";
+import ItemInformation from "../../invTransaction/Form/receiveInventory/view/ItemInformation";
 // Validation schema
 export const validationSchema = Yup.object().shape({
   warehouse: Yup.object().shape({
@@ -106,6 +100,8 @@ export default function _Form({
     return state.authData.selectedBusinessUnit;
   }, shallowEqual);
 
+  const [currRowInfo, setCurrRowInfo] = useState({ isView: false, data: {}, rowIndex: 0 });
+
   const dispatch = useDispatch();
   const [shipmentTypeDDl, setShipmentTypeDDl] = React.useState([]);
 
@@ -137,11 +133,7 @@ export default function _Form({
     232 = Akij Agro Feed Ltd.  
     */
 
-    if (
-      [178, 180, 181, 182, 183, 209, 212, 216, 221, 232].includes(
-        selectedBusinessUnit?.value
-      )
-    ) {
+    if ([178, 180, 181, 182, 183, 209, 212, 216, 221, 232].includes(selectedBusinessUnit?.value)) {
       return false;
     }
     // if Day Limit true
@@ -212,29 +204,14 @@ export default function _Form({
           });
         }}
       >
-        {({
-          handleSubmit,
-          resetForm,
-          values,
-          errors,
-          touched,
-          setFieldValue,
-          isValid,
-          setValues,
-        }) => (
+        {({ handleSubmit, resetForm, values, errors, touched, setFieldValue, isValid, setValues }) => (
           <>
             {setBtnDisabled(isAvailableBalance(values?.itemLists))}
             <Form className="form form-label-right">
               <div className="row">
                 {values?.warehouse && (
-                  <div
-                    className="col-lg-12 text-center  h-75"
-                    style={{ backgroundColor: "yellow" }}
-                  >
-                    <h5
-                      style={{ fontSize: "30px", marginBottom: "0px" }}
-                      className="text-middle py-2"
-                    >
+                  <div className="col-lg-12 text-center  h-75" style={{ backgroundColor: "yellow" }}>
+                    <h5 style={{ fontSize: "30px", marginBottom: "0px" }} className="text-middle py-2">
                       Selected Warehouse: {values?.warehouse?.label}
                     </h5>
                   </div>
@@ -278,10 +255,7 @@ export default function _Form({
                               setShipmentTypeDDl,
                               setDisabled,
                               (resData) => {
-                                setFieldValue(
-                                  "shipmentType",
-                                  resData?.[0] || ""
-                                );
+                                setFieldValue("shipmentType", resData?.[0] || "");
                               }
                             );
                           }
@@ -289,9 +263,7 @@ export default function _Form({
                         placeholder="Select Sold To Party"
                         errors={errors}
                         touched={touched}
-                        isDisabled={
-                          values?.itemLists?.length > 0 ? true : isEdit
-                        }
+                        isDisabled={values?.itemLists?.length > 0 ? true : isEdit}
                       />
                     </div>
                     <div className="col-lg-3 mb-1">
@@ -411,9 +383,7 @@ export default function _Form({
                             placeholder="Select Shipment Type"
                             errors={errors}
                             touched={touched}
-                            isDisabled={
-                              values?.itemLists?.length > 0 ? true : isEdit
-                            }
+                            isDisabled={values?.itemLists?.length > 0 ? true : isEdit}
                             isClearable={false}
                           />
                         </div>
@@ -445,11 +415,7 @@ export default function _Form({
                           setFieldValue("salesOrder", valueOption);
                           setFieldValue("shipToParty", "");
                           dispatch(
-                            GetDataBySalesOrderAction(
-                              valueOption?.value,
-                              values?.warehouse?.value,
-                              setDisabled
-                            )
+                            GetDataBySalesOrderAction(valueOption?.value, values?.warehouse?.value, setDisabled)
                           );
                           dispatch(
                             getShipToPartner_Action(
@@ -478,11 +444,7 @@ export default function _Form({
                         placeholder="Select Ship To Party"
                         errors={errors}
                         touched={touched}
-                        isDisabled={
-                          values?.itemLists?.length > 0
-                            ? true
-                            : isEdit || !values?.salesOrder
-                        }
+                        isDisabled={values?.itemLists?.length > 0 ? true : isEdit || !values?.salesOrder}
                       />
                     </div>
 
@@ -536,18 +498,10 @@ export default function _Form({
                             <li>
                               <div>
                                 <b className="">Delivery Amount: </b>
-                                <span
-                                  className={
-                                    isAvailableBalance(values?.itemLists)
-                                      ? "text-danger "
-                                      : ""
-                                  }
-                                >
+                                <span className={isAvailableBalance(values?.itemLists) ? "text-danger " : ""}>
                                   {totalAmountCalFunc(
                                     values?.itemLists,
-                                    values?.itemLists?.[0]?.isVatPrice
-                                      ? "vatAmount"
-                                      : "amount"
+                                    values?.itemLists?.[0]?.isVatPrice ? "vatAmount" : "amount"
                                   )}
                                 </span>
                               </div>
@@ -555,10 +509,7 @@ export default function _Form({
                             <li>
                               <div>
                                 <b>Delivery Qty: </b>
-                                {totalAmountCalFunc(
-                                  values?.itemLists,
-                                  "deliveryQty"
-                                )}
+                                {totalAmountCalFunc(values?.itemLists, "deliveryQty")}
                               </div>
                             </li>
                             {partnerBalance?.isDayLimit && (
@@ -599,24 +550,18 @@ export default function _Form({
                                 <th style={{ width: "20px" }}>Extra Rate</th>
                               </>
                             )}
-                            {isTransportRate && (
-                              <th style={{ width: "20px" }}>Transport Rate</th>
-                            )}
+                            {isTransportRate && <th style={{ width: "20px" }}>Transport Rate</th>}
                             <th style={{ width: "20px" }}>Available Stock</th>
                             <th style={{ width: "20px" }}>Order Qty</th>
                             <th style={{ width: "20px" }}>Pending Qty</th>
                             <th style={{ width: "120px" }}>Delivery Qty</th>
                             <th style={{ width: "10px" }}>Offers</th>
-                            {!isEdit && (
-                              <th style={{ width: "50px" }}>Action</th>
-                            )}
+                            {!isEdit && <th style={{ width: "50px" }}>Action</th>}
                           </tr>
                         </thead>
                         <tbody>
                           {values?.itemLists.map((itm, index) => {
-                            let _numItemPrice = itm?.isVatPrice
-                              ? itm?.vatItemPrice
-                              : itm?.numItemPrice;
+                            let _numItemPrice = itm?.isVatPrice ? itm?.vatItemPrice : itm?.numItemPrice;
                             return (
                               <>
                                 <tr key={index}>
@@ -624,22 +569,31 @@ export default function _Form({
                                     <div className="pl-2">{itm.itemCode}</div>
                                   </td>
                                   <td>
-                                    <div className="pl-2">
-                                      {itm.specification}
-                                    </div>
+                                    <div className="pl-2">{itm.specification}</div>
                                   </td>
                                   <td>
-                                    <div className="pl-2">
-                                      {itm.shipToParty}
-                                    </div>
+                                    <div className="pl-2">{itm.shipToParty}</div>
                                   </td>
                                   <td>
-                                    <div className="pl-2">
-                                      {itm.shipToPartnerAddress}
-                                    </div>
+                                    <div className="pl-2">{itm.shipToPartnerAddress}</div>
                                   </td>
                                   <td style={{ width: "90px" }}>
-                                    <div className="pl-2">{itm.itemName}</div>
+                                    <div className="pl-2">
+                                      {itm?.isSerialMaintain && (
+                                        <IHistory
+                                          title={"Info"}
+                                          styles={{ margin: "5px" }}
+                                          clickHandler={() => {
+                                            setCurrRowInfo({
+                                              isView: true,
+                                              data: itm,
+                                              rowIndex: index,
+                                            });
+                                          }}
+                                        />
+                                      )}
+                                      {itm.itemName}
+                                    </div>
                                   </td>
                                   <td
                                     style={{
@@ -651,15 +605,9 @@ export default function _Form({
                                     <NewSelect
                                       name={`itemLists.${index}.selectLocation`}
                                       options={itm?.objLocation}
-                                      value={
-                                        values?.itemLists[index]
-                                          ?.selectLocation || ""
-                                      }
+                                      value={values?.itemLists[index]?.selectLocation || ""}
                                       onChange={(valueOption) => {
-                                        setFieldValue(
-                                          `itemLists.${index}.selectLocation`,
-                                          valueOption || ""
-                                        );
+                                        setFieldValue(`itemLists.${index}.selectLocation`, valueOption || "");
                                       }}
                                       errors={errors}
                                       touched={touched}
@@ -667,43 +615,28 @@ export default function _Form({
                                     />
                                   </td>
                                   <td style={{ width: "20px" }}>
-                                    <div className="text-right pr-2">
-                                      {_numItemPrice}
-                                    </div>
+                                    <div className="text-right pr-2">{_numItemPrice}</div>
                                   </td>
-                                  {[4].includes(
-                                    selectedBusinessUnit?.value
-                                  ) && (
+                                  {[4].includes(selectedBusinessUnit?.value) && (
                                     <>
                                       <td style={{ width: "20px" }}>
-                                        <div className="text-right pr-2">
-                                          {itm?.extraRate || 0}
-                                        </div>
+                                        <div className="text-right pr-2">{itm?.extraRate || 0}</div>
                                       </td>
                                     </>
                                   )}
                                   {isTransportRate && (
-                                    <td
-                                      style={{ width: "20px" }}
-                                      className="text-right"
-                                    >
+                                    <td style={{ width: "20px" }} className="text-right">
                                       {itm.transportRate || 0}
                                     </td>
                                   )}
                                   <td style={{ width: "20px" }}>
-                                    <div className="text-right pr-2">
-                                      {itm?.availableStock}
-                                    </div>
+                                    <div className="text-right pr-2">{itm?.availableStock}</div>
                                   </td>
                                   <td style={{ width: "20px" }}>
-                                    <div className="text-right pr-2">
-                                      {itm.numOrderQuantity}
-                                    </div>
+                                    <div className="text-right pr-2">{itm.numOrderQuantity}</div>
                                   </td>
                                   <td style={{ width: "20px" }}>
-                                    <div className="text-right pr-2">
-                                      {itm.pendingQty}
-                                    </div>
+                                    <div className="text-right pr-2">{itm.pendingQty}</div>
                                   </td>
                                   <td
                                     style={{
@@ -713,91 +646,52 @@ export default function _Form({
                                   >
                                     <div className="px-2">
                                       <InputField
-                                        value={
-                                          values?.itemLists[index]
-                                            ?.deliveryQty || ""
-                                        }
+                                        value={values?.itemLists[index]?.deliveryQty || ""}
                                         name={`itemLists.${index}.deliveryQty`}
                                         placeholder="Delivery Qty"
                                         type="number"
                                         step="any"
                                         onChange={(e) => {
-                                          setFieldValue(
-                                            `itemLists.${index}.deliveryQty`,
-                                            e.target.value || ""
-                                          );
+                                          setFieldValue(`itemLists.${index}.deliveryQty`, e.target.value || "");
                                           setFieldValue(
                                             `itemLists.${index}.amount`,
-                                            (
-                                              values?.itemLists[index]
-                                                ?.numItemPrice * e.target.value
-                                            ).toFixed(2)
+                                            (values?.itemLists[index]?.numItemPrice * e.target.value).toFixed(2)
                                           );
                                           setFieldValue(
                                             `itemLists.${index}.vatAmount`,
-                                            (
-                                              values?.itemLists[index]
-                                                ?.vatItemPrice * e.target.value
-                                            ).toFixed(2)
+                                            (values?.itemLists[index]?.vatItemPrice * e.target.value).toFixed(2)
                                           );
 
                                           // ======offer item qty change logic=====
-                                          const modifid = values?.itemLists[
-                                            index
-                                          ]?.offerItemList?.map((itm) => {
-                                            let calNumber =
-                                              (+itm?.offerRatio || 0) *
-                                              (+e.target.value || 0);
+                                          const modifid = values?.itemLists[index]?.offerItemList?.map((itm) => {
+                                            let calNumber = (+itm?.offerRatio || 0) * (+e.target.value || 0);
                                             let acculNumber = 0;
-                                            const decimalPoint = Number(
-                                              `.${calNumber
-                                                .toString()
-                                                .split(".")[1] || 0}`
-                                            );
+                                            const decimalPoint = Number(`.${calNumber.toString().split(".")[1] || 0}`);
                                             if (decimalPoint >= 0.95) {
-                                              acculNumber = Math.round(
-                                                calNumber
-                                              );
+                                              acculNumber = Math.round(calNumber);
                                             } else {
-                                              acculNumber = Math.floor(
-                                                calNumber
-                                              );
+                                              acculNumber = Math.floor(calNumber);
                                             }
                                             return {
                                               ...itm,
                                               deliveryQty: acculNumber,
-                                              isItemShow:
-                                                acculNumber > 0 ? true : false,
+                                              isItemShow: acculNumber > 0 ? true : false,
                                             };
                                           });
-                                          setFieldValue(
-                                            `itemLists.${index}.offerItemList`,
-                                            modifid
-                                          );
+                                          setFieldValue(`itemLists.${index}.offerItemList`, modifid);
                                         }}
                                         errors={errors}
                                         touched={touched}
-                                        max={
-                                          isEdit
-                                            ? itm?.maxDeliveryQty
-                                            : itm?.pendingQty
-                                        }
+                                        max={isEdit ? itm?.maxDeliveryQty : itm?.pendingQty}
                                       />
                                     </div>
                                   </td>
                                   <td style={{ width: "10px" }}>
-                                    <div className="pl-2">
-                                      {itm.freeItem ? "Yes" : "No"}
-                                    </div>
+                                    <div className="pl-2">{itm.freeItem ? "Yes" : "No"}</div>
                                   </td>
                                   {!isEdit && (
                                     <td className="text-center">
-                                      <i
-                                        className="fa fa-trash"
-                                        onClick={() =>
-                                          remover(index, setValues, values)
-                                        }
-                                      ></i>
+                                      <i className="fa fa-trash" onClick={() => remover(index, setValues, values)}></i>
                                     </td>
                                   )}
                                 </tr>
@@ -807,34 +701,21 @@ export default function _Form({
                                     {itm?.offerItemList
                                       ?.filter((itm) => itm?.isItemShow)
                                       ?.map((OfferItm) => (
-                                        <tr
-                                          key={index}
-                                          style={{ background: "#ffffa9" }}
-                                        >
+                                        <tr key={index} style={{ background: "#ffffa9" }}>
                                           <td>
-                                            <div className="pl-2">
-                                              {OfferItm?.itemCode}
-                                            </div>
+                                            <div className="pl-2">{OfferItm?.itemCode}</div>
                                           </td>
                                           <td>
-                                            <div className="pl-2">
-                                              {OfferItm?.specification}
-                                            </div>
+                                            <div className="pl-2">{OfferItm?.specification}</div>
                                           </td>
                                           <td>
-                                            <div className="pl-2">
-                                              {OfferItm?.shipToParty}
-                                            </div>
+                                            <div className="pl-2">{OfferItm?.shipToParty}</div>
                                           </td>
                                           <td>
-                                            <div className="pl-2">
-                                              {OfferItm?.shipToPartnerAddress}
-                                            </div>
+                                            <div className="pl-2">{OfferItm?.shipToPartnerAddress}</div>
                                           </td>
                                           <td style={{ width: "90px" }}>
-                                            <div className="pl-2">
-                                              {OfferItm?.itemName}
-                                            </div>
+                                            <div className="pl-2">{OfferItm?.itemName}</div>
                                           </td>
                                           <td
                                             style={{
@@ -846,27 +727,18 @@ export default function _Form({
                                             {OfferItm?.selectLocation?.label}
                                           </td>
                                           <td style={{ width: "20px" }}>
-                                            <div className="text-right pr-2">
-                                              {_numItemPrice}
-                                            </div>
+                                            <div className="text-right pr-2">{_numItemPrice}</div>
                                           </td>
                                           {isTransportRate && (
-                                            <td
-                                              style={{ width: "20px" }}
-                                              className="text-right"
-                                            >
+                                            <td style={{ width: "20px" }} className="text-right">
                                               {OfferItm?.transportRate || 0}
                                             </td>
                                           )}
                                           <td style={{ width: "20px" }}>
-                                            <div className="text-right pr-2">
-                                              {OfferItm?.numOrderQuantity}
-                                            </div>
+                                            <div className="text-right pr-2">{OfferItm?.numOrderQuantity}</div>
                                           </td>
                                           <td style={{ width: "20px" }}>
-                                            <div className="text-right pr-2">
-                                              {OfferItm?.pendingQty}
-                                            </div>
+                                            <div className="text-right pr-2">{OfferItm?.pendingQty}</div>
                                           </td>
                                           <td
                                             style={{
@@ -874,17 +746,13 @@ export default function _Form({
                                               verticalAlign: "middle",
                                             }}
                                           >
-                                            <div className="px-2">
-                                              {OfferItm?.deliveryQty}
-                                            </div>
+                                            <div className="px-2">{OfferItm?.deliveryQty}</div>
                                           </td>
                                           <td style={{ width: "10px" }}>
                                             <div className="pl-2">Yes</div>
                                           </td>
 
-                                          {!isEdit && (
-                                            <td className="text-center"></td>
-                                          )}
+                                          {!isEdit && <td className="text-center"></td>}
                                         </tr>
                                       ))}
                                   </>
@@ -899,12 +767,7 @@ export default function _Form({
                 </div>
               </div>
 
-              <button
-                type="submit"
-                style={{ display: "none" }}
-                ref={btnRef}
-                onSubmit={() => handleSubmit()}
-              ></button>
+              <button type="submit" style={{ display: "none" }} ref={btnRef} onSubmit={() => handleSubmit()}></button>
 
               <button
                 type="reset"
@@ -912,6 +775,22 @@ export default function _Form({
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>
+              <IViewModal
+                show={currRowInfo?.isView}
+                onHide={() =>
+                  setCurrRowInfo((prev) => ({
+                    ...prev,
+                    isView: false,
+                  }))
+                }
+              >
+                <ItemInformation
+                  currRowInfo={currRowInfo}
+                  setFieldValue={setFieldValue}
+                  rowDto={values?.itemLists}
+                  isFromDelivery={true}
+                />
+              </IViewModal>
             </Form>
           </>
         )}
