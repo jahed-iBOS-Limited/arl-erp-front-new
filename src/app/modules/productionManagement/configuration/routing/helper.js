@@ -116,10 +116,10 @@ export const getWorkCenterNameDDL = (
       `/mes/MesDDL/GetWorkCenterDDL?AccountId=${accId}&BusinessUnitId=${buId}&PlantId=${plantId}&ShopFloorId=${shopFloorId}`
     )
     .then((res) => {
-      const modifiedData = res?.data?.filter(
-        (item) => item?.label.split("-")[0].toLowerCase() === "packer"
-      );
-      setter(modifiedData);
+      // const modifiedData = res?.data?.filter(
+      //   (item) => item?.label.split("-")[0].toLowerCase() === "packer"
+      // );
+      setter(res?.data);
     });
 };
 
