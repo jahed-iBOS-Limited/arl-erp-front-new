@@ -17,6 +17,8 @@ import Loading from "../../../_helper/_loading";
 import { _monthFirstDate } from "../../../_helper/_monthFirstDate";
 import PaginationTable from "../../../_helper/_tablePagination";
 import { _todayDate } from "../../../_helper/_todayDate";
+import IViewModal from "../../../_helper/_viewModal";
+import JVModalView from "./jvView";
 
 const initData = {
   fromDate: _monthFirstDate(),
@@ -45,6 +47,7 @@ const GeneratorGasConsumptionLanding = () => {
       `/mes/MSIL/GetElectricalGeneratorFuelConsumptionLanding?BusinessUnitId=${selectedBusinessUnit.value}&FromDate=${values.fromDate}&ToDate=${values.toDate}&pageNumber=${pageNo}&pageSize=${pageSize}`
     );
   };
+  const [showJVModal, setShowJVModal] = useState(false);
 
   return (
     <>
@@ -111,6 +114,17 @@ const GeneratorGasConsumptionLanding = () => {
                         }}
                       >
                         Show
+                      </button>
+                    </div>
+                    <div className="col-lg-2">
+                      <button
+                        onClick={() => {
+                          setShowJVModal(true);
+                        }}
+                        type="button"
+                        className="btn btn-primary mt-5"
+                      >
+                        Month End
                       </button>
                     </div>
                   </div>
@@ -187,6 +201,21 @@ const GeneratorGasConsumptionLanding = () => {
                         }}
                         values={values}
                       />
+                    )}
+                    {showJVModal && (
+                      <IViewModal
+                        title={"JV View for Gas Consumption"}
+                        show={showJVModal}
+                        onHide={() => {
+                          setShowJVModal(false);
+                        }}
+                      >
+                        <JVModalView
+                          values={values}
+                          buId={selectedBusinessUnit?.value}
+                          setShowJVModal={setShowJVModal}
+                        />
+                      </IViewModal>
                     )}
                   </div>
                 </div>

@@ -12,16 +12,16 @@ import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import {
   businessPartnerDDL,
   ErrorMessage,
-  fetchGhatDDL,
+  fetchMotherVesselLists,
   fetchTenderDetailsCallbackForPrintAndCreateEditPage,
   getDischargePortDDL,
-  getGodownDDLList,
+  fetchGodownDDLList,
   GetLoadPortDDL,
   initData,
   selectPayload,
   selectUrl,
   updateState,
-  validationSchema,
+  createPageValidationSchema,
 } from "../helper";
 
 export default function TenderSubmissionCreateEditForm() {
@@ -47,7 +47,9 @@ export default function TenderSubmissionCreateEditForm() {
     updateGodownDDL,
   ] = useAxiosGet();
   const [tenderDetails, getTenderDetails] = useAxiosGet();
-  const [ghatDDL, getGhatDDL, getGhatDDLLoading] = useAxiosGet();
+  // ! remove ghat for requirement change
+  // const [ghatDDL, getGhatDDL, getGhatDDLLoading] = useAxiosGet();
+  const [motherVesselDDL, getMotherVesselDDL] = useAxiosGet()
 
   // Data post/save axios post
   const [, submitTender, submitTenderLoading] = useAxiosPost();
@@ -64,10 +66,11 @@ export default function TenderSubmissionCreateEditForm() {
         buUnId,
         { businessPartner: { label: landingPageState?.businessPartnerName } },
         tenderId,
-        getTenderDetails,
-
+        getTenderDetails
       );
-      getGodownDDLList(
+
+      // fetch godown list for bcic
+      fetchGodownDDLList(
         { value: landingPageState?.businessPartnerId },
         accountId,
         buUnId,
@@ -75,13 +78,17 @@ export default function TenderSubmissionCreateEditForm() {
         updateGodownDDL
       );
 
-      fetchGhatDDL(accountId, buUnId, getGhatDDL)
+      // ! remove ghat for requirement change
+      // fetch ghat ddl for badc
+      // fetchGhatDDL(accountId, buUnId, getGhatDDL);
 
+      // fetch mother vessel for bcic
+      if (landingPageState?.businessPartnerName === 'BCIC') {
+        fetchMotherVesselLists(accountId, buUnId, landingPageState?.dischargePortId, getMotherVesselDDL)
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-
 
   const saveHandler = (values, cb) => {
     submitTender(
@@ -132,7 +139,7 @@ export default function TenderSubmissionCreateEditForm() {
           }}
         />
       </div>
-      <div className="col-lg-3">
+      {/*<div className="col-lg-3">
         <InputField
           value={values?.uomname}
           label="Unit"
@@ -142,7 +149,7 @@ export default function TenderSubmissionCreateEditForm() {
             setFieldValue("uomname", e.target.value);
           }}
         />
-      </div>
+      </div>*/}
       <div className="col-lg-3">
         <InputField
           value={values?.productName}
@@ -169,12 +176,12 @@ export default function TenderSubmissionCreateEditForm() {
       </div>
       <div className="col-lg-3">
         <InputField
-          value={values?.foreignPriceUSD}
-          label="Foreign Price (USD)"
-          name="foreignPriceUSD"
-          type="number"
+          value={values?.remarks}
+          label="Remarks"
+          name="remarks"
+          type="text"
           onChange={(e) => {
-            setFieldValue("foreignPriceUSD", e.target.value);
+            setFieldValue("remarks", e.target.value);
           }}
         />
       </div>
@@ -191,6 +198,7 @@ export default function TenderSubmissionCreateEditForm() {
           label="Discharge Port"
           onChange={(valueOption) => {
             setFieldValue("dischargePort", valueOption);
+            fetchMotherVesselLists(accountId, buUnId, valueOption?.value, getMotherVesselDDL)
           }}
           errors={errors}
           touched={touched}
@@ -218,18 +226,7 @@ export default function TenderSubmissionCreateEditForm() {
           }}
         />
       </div>
-      <div className="col-lg-3">
-        <InputField
-          value={values?.referenceNo}
-          label="Reference No"
-          name="referenceNo"
-          type="text"
-          onChange={(e) => {
-            setFieldValue("referenceNo", e.target.value);
-          }}
-        />
-      </div>
-      <div className="col-lg-3">
+      {/*<div className="col-lg-3">
         <InputField
           value={values?.referenceDate}
           label="Reference Date"
@@ -239,7 +236,7 @@ export default function TenderSubmissionCreateEditForm() {
             setFieldValue("referenceDate", e.target.value);
           }}
         />
-      </div>
+      </div> */}
     </>
   );
 
@@ -367,31 +364,43 @@ export default function TenderSubmissionCreateEditForm() {
     </div>
   );
 
-  const editFormField = (values, setFieldValue) => (
+  const bcicEditFormField = (values, setFieldValue) => (
     <>
-      {tenderDetails?.header?.isAccept !== true && (
-        <div className="col-lg-3 mt-5 d-flex align-items-center">
-          <input
-            type="checkbox"
-            id="approveStatus"
-            name="approveStatus"
-            value={values?.approveStatus}
-            checked={values?.approveStatus}
-            onChange={(e) => {
-              setFieldValue("approveStatus", e.target.checked);
-            }}
-          />
-          <label htmlFor="approveStatus" className="pl-1">
-            Approve
-          </label>
-        </div>
-      )}
+      <div className="col-lg-3">
+        <NewSelect
+          name="motherVessel"
+          options={motherVesselDDL}
+          value={values?.motherVessel}
+          label="Mother Vessel"
+          onChange={(valueOption) => {
+            setFieldValue("motherVessel", valueOption);
+          }}
+          placeholder="Mother Vessel"
+        />
+      </div>
+    </>
+  )
+
+  const commonEditFormField = (values, setFieldValue) => (
+    <>
+      <div className="col-lg-3">
+        <InputField
+          value={values?.foreignPriceUSD}
+          label="Foreign Price (USD)"
+          name="foreignPriceUSD"
+          type="number"
+          onChange={(e) => {
+            setFieldValue("foreignPriceUSD", e.target.value);
+          }}
+        />
+      </div>
+
       <div className="col-lg-3 mt-3 d-flex align-items-center">
         <AttachmentUploaderNew
           CBAttachmentRes={(image) => {
             if (image.length > 0) {
-              console.log(image);
-              // onAttachmentUpload('/oms/OManagementReport/UpdateSalesInvoiceAttachment', )
+              // console.log(image);
+
               setFieldValue("attachment", image[0].id);
             }
           }}
@@ -404,12 +413,46 @@ export default function TenderSubmissionCreateEditForm() {
           fileUploadLimits={1}
         />
       </div>
+      {(tenderDetails?.header?.isAccept !== true || tenderDetails?.isAccept !== true) && (
+        <div className="col-lg-1 mt-5 d-flex align-items-center">
+          <input
+            type="checkbox"
+            id="isAccept"
+            name="isAccept"
+            value={values?.isAccept}
+            checked={values?.isAccept}
+            onChange={(e) => {
+              setFieldValue("isAccept", e.target.checked);
+            }}
+            disabled={values?.isReject}
+          />
+          <label htmlFor="approveStatus" className="pl-1">
+            Approve
+          </label>
+        </div>
+      )}
+      <div className="col-lg-1 mt-5 d-flex align-items-center">
+        <input
+          type="checkbox"
+          id="isReject"
+          name="isReject"
+          value={values?.isReject}
+          checked={values?.isReject}
+          onChange={(e) => {
+            setFieldValue("isReject", e.target.checked);
+          }}
+          disabled={values?.isAccept}
+        />
+        <label htmlFor="isReject" className="pl-1">
+          Reject
+        </label>
+      </div>
     </>
   );
 
   const badcFormField = (values, setFieldValue, errors, touched) => (
     <>
-      <div className="col-lg-3">
+      {/* <div className="col-lg-3">
         <NewSelect
           name="ghat1"
           options={ghatDDL}
@@ -434,7 +477,7 @@ export default function TenderSubmissionCreateEditForm() {
           errors={errors}
           touched={touched}
         />
-      </div>
+      </div> */}
       <div className="col-lg-3">
         <InputField
           value={values?.dueDate}
@@ -468,7 +511,7 @@ export default function TenderSubmissionCreateEditForm() {
           }}
         />
       </div>
-      <div className="col-lg-3">
+      {/* <div className="col-lg-3">
         <InputField
           value={values?.dischargeRatio}
           label="Discharge Ratio"
@@ -478,7 +521,7 @@ export default function TenderSubmissionCreateEditForm() {
             setFieldValue("dischargeRatio", e.target.value);
           }}
         />
-      </div>
+      </div> */}
       <div className="col-lg-3">
         <InputField
           value={values?.contractDate}
@@ -501,7 +544,7 @@ export default function TenderSubmissionCreateEditForm() {
           }}
         />
       </div>
-      <div className="col-lg-3">
+      {/* <div className="col-lg-3">
         <InputField
           value={values?.pricePerQty}
           label="Price Per Qty"
@@ -511,26 +554,29 @@ export default function TenderSubmissionCreateEditForm() {
             setFieldValue("pricePerQty", e.target.value);
           }}
         />
-      </div>
-      <div className="col-lg-3">
-        <InputField
-          value={values?.pricePerBag}
-          label="Price Per Bag"
-          name="pricePerBag"
-          type="number"
-          onChange={(e) => {
-            setFieldValue("pricePerBag", e.target.value);
-          }}
-        />
-      </div>
+      </div> */}
     </>
   );
+
+  const badcEditFormField = (values, setFieldValue) => (
+    <div className="col-lg-3">
+      <InputField
+        value={values?.pricePerBag}
+        label="Price Per Bag"
+        name="pricePerBag"
+        type="number"
+        onChange={(e) => {
+          setFieldValue("pricePerBag", e.target.value);
+        }}
+      />
+    </div>
+  )
 
   return (
     <Formik
       enableReinitialize={true}
       initialValues={tenderId ? updateState(tenderDetails) : initData}
-      validationSchema={validationSchema}
+      validationSchema={createPageValidationSchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
           !tenderId && resetForm(initData);
@@ -547,8 +593,7 @@ export default function TenderSubmissionCreateEditForm() {
       }) => (
         <>
           {(getGodownDDLLoading ||
-            submitTenderLoading ||
-            getGhatDDLLoading) && <Loading />}
+            submitTenderLoading) && <Loading />}
           <IForm title="Tender Submission Create" getProps={setObjprops}>
             <Form>
               <div className="form-group  global-form row">
@@ -562,17 +607,18 @@ export default function TenderSubmissionCreateEditForm() {
                       setFieldValue("businessPartner", valueOption);
                       // {"value": 89497, "label": "BCIC"}
                       // fetch when initial bcic select in create page
-                      getGodownDDLList(
+                      fetchGodownDDLList(
                         valueOption,
                         accountId,
                         buUnId,
                         getGodownDDL,
                         updateGodownDDL
                       );
+                      // ! remove ghat for requirement change
                       // fetch ghat ddl when badc select
-                      if (valueOption?.label === "BADC") {
-                        fetchGhatDDL(accountId, buUnId, getGhatDDL)
-                      }
+                      // if (valueOption?.label === "BADC") {
+                      //   fetchGhatDDL(accountId, buUnId, getGhatDDL);
+                      // }
                     }}
                     errors={errors}
                     touched={touched}
@@ -594,7 +640,12 @@ export default function TenderSubmissionCreateEditForm() {
                 {values?.businessPartner?.label === "BADC" &&
                   badcFormField(values, setFieldValue, errors, touched)}
 
-                {tenderId && editFormField(values, setFieldValue)}
+                {tenderId && values?.businessPartner?.label === 'BCIC' && bcicEditFormField(values, setFieldValue)}
+
+                {tenderId && values?.businessPartner?.label === 'BADC' && badcEditFormField(values, setFieldValue)}
+
+                {tenderId && commonEditFormField(values, setFieldValue)}
+
               </div>
 
               {values?.businessPartner?.label === "BCIC" &&

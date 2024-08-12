@@ -465,7 +465,6 @@ export default function _Form({
                             onChange={(valueOption) => {
                               setFieldValue("gl", valueOption);
                             }}
-                            isDisabled={true}
                             options={values?.transaction?.glData || []}
                             value={values?.gl}
                             isSearchable={true}
