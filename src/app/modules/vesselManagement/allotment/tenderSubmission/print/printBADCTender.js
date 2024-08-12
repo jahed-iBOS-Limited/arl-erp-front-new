@@ -32,43 +32,43 @@ const PrintBADCTender = ({ tenderDetails }) => {
                 </thead>
                 <tbody>
                     <tr style={{ width: "100%" }}>
-                        <td rowSpan={2} style={{width: '80px'}}></td>
+                        <td rowSpan={2} style={{ width: '80px' }}></td>
                         <td rowSpan={2} className='foreign-local-td'>
-                            TRANSPORTATION OF {tenderDetails?.lotqty}TH LOT (CONTRACT {_dateFormatterTwo(tenderDetails?.contractDate)}) OF{" "}{tenderDetails?.foreignQty}{" "} {tenderDetails?.uomname} (+/-10%) {tenderDetails?.itemName} IN BULK FROM {" "}{tenderDetails?.loadPortName}{" "} TO CHATTOGRAM & {tenderDetails?.ghat1} VIA OUTER ANCHORAGE OF CHATTOGRAM PORT, BANGLADESH AND/OR {tenderDetails?.ghat2}, MONGLA PORT, BANGLADESH (RATIO: {tenderDetails?.dischargeRatio}). LAY CAN {_dateFormatterTwo(tenderDetails?.laycandate)}
+                            TRANSPORTATION OF {tenderDetails?.lotqty}TH LOT (CONTRACT {_dateFormatterTwo(tenderDetails?.contractDate)}) OF{" "}{tenderDetails?.foreignQty}{" "} MT (+/-10%) {tenderDetails?.itemName} IN BULK FROM {" "}{tenderDetails?.loadPortName}{" "} TO CHATTOGRAM & SHIROMONI GHAT, KHULNA VIA OUTER ANCHORAGE OF CHATTOGRAM PORT, BANGLADESH AND/OR HARBARIA, MONGLA PORT, BANGLADESH (RATIO: CTG & MONGLA: 40%:60%). LAY CAN {_dateFormatterTwo(tenderDetails?.laycandate)}
                         </td>
                         <td rowSpan={2} className='foreign-local-td'>
-                            ITEM-1: QUOTED PRICE FOR TRANSPORTATION OF {tenderDetails?.itemName} FROM OUTER ANCHORAGE OF CHATTOGRAM PORT TO THE GHATS OF {tenderDetails?.ghat1} PORT/PRIVATE GHAT AFTER COMPLETION OF NECESSARY WORKS./ QUOTED PRICE FOR FROM OUTER ANCHORAGE OF {tenderDetails?.ghat2} PORT TO THE GHATS OF KHULNA/ AFTER COMPLETION OF NECESSARY WORKS:
+                            ITEM-1: QUOTED PRICE FOR TRANSPORTATION OF {tenderDetails?.itemName} FROM OUTER ANCHORAGE OF CHATTOGRAM PORT TO THE GHATS OF CHATTOGRAM PORT/PRIVATE GHAT AFTER COMPLETION OF NECESSARY WORKS./ QUOTED PRICE FOR FROM OUTER ANCHORAGE OF MONGLA PORT TO THE GHATS OF KHULNA/ AFTER COMPLETION OF NECESSARY WORKS:
                         </td>
                         <td colSpan={1} rowSpan={1}>
                             IN FUGURE :</td>
-                        <td colSpan={1} rowSpan={1} className='qoutedPriceNumber'>{tenderDetails?.pricePerQty} {" "}TK/MT</td>
+                        <td colSpan={1} rowSpan={1} className='qoutedPriceNumber'>1000 TK/MT</td>
 
                     </tr>
                     <tr>
                         <td rowSpan={1}>IN WORD:</td>
-                        <td rowSpan={1} className='qoutedPriceString'>{convertToText(tenderDetails?.pricePerQty)}</td>
+                        <td rowSpan={1} className='qoutedPriceString'>{convertToText(1000)}</td>
                     </tr>
                     <tr>
-                        <td rowSpan={2} style={{width: '80px'}}><strong>Price Per M.Ton in USD</strong></td>
-                        <td rowSpan={2} className='foreign-local-td text-right'><strong>{tenderDetails?.foreignPriceUsd} {" "} $</strong></td>
+                        <td rowSpan={2} style={{ width: '80px' }}><strong>Price Per M.Ton in USD</strong></td>
+                        <td rowSpan={2} className='foreign-local-td text-right'><strong>{tenderDetails?.foreignPriceUsd !== 0 && tenderDetails?.foreignPriceUsd} {" "}{tenderDetails?.foreignPriceUsd !== 0 && "$"} </strong></td>
                         <td rowSpan={2} className='foreign-local-td text-center'>ITEM-2: QUOTED PRICE FOR BAG SUPPLY AND BAGGING:</td>
                         <td colSpan={1} rowSpan={1}>IN FUGURE :</td>
-                        <td colSpan={1} rowSpan={1} className='qoutedPriceNumber'>{tenderDetails?.pricePerQty}{" "}TK/MT</td>
+                        <td colSpan={1} rowSpan={1} className='qoutedPriceNumber'>{tenderDetails?.pricePerBag !== 0 && tenderDetails?.pricePerBag}{" "}TK/MT</td>
                     </tr>
                     <tr>
                         <td colSpan={1} rowSpan={1}>IN WORD:</td>
-                        <td colSpan={1} rowSpan={1} className='qoutedPriceString'>{convertToText(tenderDetails?.pricePerQty)}</td>
+                        <td colSpan={1} rowSpan={1} className='qoutedPriceString'>{convertToText(tenderDetails?.pricePerBag)}</td>
                     </tr>
                     <tr>
-                        <td rowSpan={2} style={{width: '80px'}}><strong>Price Per M.Ton in USD (in words)</strong></td>
-                        <td rowSpan={2} className='foreign-local-td text-center'><strong>{convertToText(tenderDetails?.foreignPriceUsd)}</strong></td>
+                        <td rowSpan={2} style={{ width: '80px' }}><strong>Price Per M.Ton in USD (in words)</strong></td>
+                        <td rowSpan={2} className='foreign-local-td text-center'><strong>{convertToText(tenderDetails?.foreignPriceUsd, "USD")}</strong></td>
                         <td rowSpan={2} className='foreign-local-td text-center'><strong>Total Price:</strong></td>
                         <td colSpan={1} rowSpan={1}>IN FUGURE :</td>
-                        <td colSpan={1} rowSpan={1} className='qoutedPriceNumber'>{tenderDetails?.pricePerQty}{" "}TK/MT</td>
+                        <td colSpan={1} rowSpan={1} className='qoutedPriceNumber'>{tenderDetails?.pricePerBag === 0 ? null : 1000 + tenderDetails?.pricePerBag}{" "}TK/MT</td>
                     </tr>
                     <tr>
                         <td colSpan={1} rowSpan={1}>IN WORD:</td>
-                        <td colSpan={1} rowSpan={1} className='qoutedPriceString'>{convertToText(tenderDetails?.pricePerQty)}</td>
+                        <td colSpan={1} rowSpan={1} className='qoutedPriceString'>{convertToText(1000 + tenderDetails?.pricePerBag !== 0 && +tenderDetails?.pricePerBag)}</td>
                     </tr>
 
 
