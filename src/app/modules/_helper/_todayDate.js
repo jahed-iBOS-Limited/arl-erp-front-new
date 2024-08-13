@@ -9,6 +9,16 @@ export const _todayDate = () => {
   return todayDate;
 };
 
+export const _firstDateOfMonth = () => {
+  var today = new Date();
+  const firstDate =
+    today.getFullYear() +
+    "-" +
+    ("0" + (today.getMonth() + 1)).slice(-2) +
+    "-01";
+  return firstDate;
+};
+
 
 // date 3 month ago
 export const _threeMonthAgoDate = () => {
