@@ -7,14 +7,15 @@ import IForm from "./../../../_helper/_form";
 import Loading from "./../../../_helper/_loading";
 import InputField from "../../../_helper/_inputField";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
+import { _firstDateOfMonth, _todayDate } from "../../../_helper/_todayDate";
 
 
 const initData = {
   reportType: "",
   customer: "",
   paymentType: "",
-  fromDate: "",
-  toDate: "",
+  fromDate: _firstDateOfMonth(),
+  toDate: _todayDate(),
 };
 
 export default function ServiceSalesReport() {
@@ -101,7 +102,7 @@ export default function ServiceSalesReport() {
   return (
     <Formik
       enableReinitialize={true}
-      initialValues={{}}
+      initialValues={initData}
       // validationSchema={{}}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
@@ -149,6 +150,17 @@ export default function ServiceSalesReport() {
                   <>
                     <div className="col-lg-3">
                       <NewSelect
+                        name="customer"
+                        options={customerList || []}
+                        value={values?.customer}
+                        label="Customer"
+                        onChange={(valueOption) => {
+                          setFieldValue("customer", valueOption);
+                        }}
+                      />
+                    </div>
+                    <div className="col-lg-3">
+                      <NewSelect
                         name="paymentType"
                         options={[
                           { value: 1, label: "Re-Curring" },
@@ -161,17 +173,6 @@ export default function ServiceSalesReport() {
                         }}
                         errors={errors}
                         touched={touched}
-                      />
-                    </div>
-                    <div className="col-lg-3">
-                      <NewSelect
-                        name="customer"
-                        options={customerList || []}
-                        value={values?.customer}
-                        label="Customer"
-                        onChange={(valueOption) => {
-                          setFieldValue("customer", valueOption);
-                        }}
                       />
                     </div>
                     <div className="col-lg-2">
