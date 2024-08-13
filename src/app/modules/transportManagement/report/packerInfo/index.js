@@ -41,7 +41,7 @@ export default function PackerInfo() {
   }, shallowEqual);
 
   const [reportData, getReportData] = useAxiosGet();
-  const [, onComplete] = useAxiosPost();
+  const [, onComplete, loader] = useAxiosPost();
   const [shipmentId, setShipmentId] = useState(null);
 
   const saveHandler = (values, cb) => {
@@ -70,7 +70,7 @@ export default function PackerInfo() {
         touched,
       }) => (
         <>
-          {false && <Loading />}
+          {loader && <Loading />}
           <IForm
             title="Packer Info"
             getProps={setObjprops}
@@ -93,7 +93,10 @@ export default function PackerInfo() {
                         return toast.warn("Required Shipment Id");
                       }
                       onComplete(
-                        `/oms/LoadingPoint/CompletePacker?shipmentId=${shipmentId}`
+                        `/oms/LoadingPoint/CompletePacker?shipmentId=${shipmentId}`,
+                        null,
+                        null,
+                        true
                       );
                     }}
                   >
