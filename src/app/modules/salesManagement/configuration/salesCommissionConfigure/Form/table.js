@@ -275,6 +275,7 @@ const TableThree = ({ obj }) => {
               <th
                 onClick={() => allSelect(!selectedAll())}
                 style={{ minWidth: "30px" }}
+                rowSpan={2}
               >
                 <input
                   type="checkbox"
@@ -283,14 +284,25 @@ const TableThree = ({ obj }) => {
                   onChange={() => {}}
                 />
               </th>
-              <th style={{ width: "40px" }}>SL</th>
-              <th>Area Name</th>
-              <th>BP Rate/bag</th>
-              <th>BA Rate/bag</th>
-              <th>CP Rate/bag</th>
-              <th>1-99%</th>
+              <th rowSpan={2} style={{ width: "40px" }}>
+                SL
+              </th>
+              <th rowSpan={2}>Area Name</th>
+              <th colSpan={2}>Achievement</th>
+              <th colSpan={2}>Quantity</th>
+              <th rowSpan={2}>BP Rate/bag</th>
+              <th rowSpan={2}>BA Rate/bag</th>
+              <th rowSpan={2}>CP Rate/bag</th>
+
+              {/* <th>1-99%</th>
               <th>100-999%</th>
-              <th> {">"}999% </th>
+              <th> {">"}999% </th> */}
+            </tr>
+            <tr>
+              <th>From</th>
+              <th>To</th>
+              <th>From</th>
+              <th>To</th>
             </tr>
           </thead>
           <tbody>
@@ -312,6 +324,10 @@ const TableThree = ({ obj }) => {
                   </td>
                   <td> {index + 1}</td>
                   <td>{item?.areaName}</td>
+                  <td>{item?.achievementFrom}</td>
+                  <td>{item?.achievementTo}</td>
+                  <td>{item?.offerQntFrom}</td>
+                  <td>{item?.offerQntTo}</td>
                   <td>
                     <InputField
                       value={item?.bpcommissionRate}
@@ -357,7 +373,7 @@ const TableThree = ({ obj }) => {
                       }}
                     />
                   </td>
-                  <td>
+                  {/* <td>
                     <InputField
                       value={item?.firstSlabCommissionRate}
                       name="firstSlabCommissionRate"
@@ -398,7 +414,7 @@ const TableThree = ({ obj }) => {
                         );
                       }}
                     />
-                  </td>
+                  </td> */}
                 </tr>
               );
             })}

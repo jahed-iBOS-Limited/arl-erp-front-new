@@ -64,18 +64,65 @@ export default function _Form({
                     obj={{
                       values,
                       setFieldValue,
-                      area: [14, 16, 20, 23].includes(
+                      area: [14, 16, 20, 23, 17, 18, 25, 27].includes(
                         values?.commissionType?.value
                       ),
                       territory: false,
                       allElement: false,
                       onChange: () => {
-                        setRowData([]);
+                        if (
+                          ![17, 18, 25, 27].includes(
+                            values?.commissionType?.value
+                          )
+                        ) {
+                          setRowData([]);
+                        }
                       },
                     }}
                   />
 
                   <FromDateToDateForm obj={{ values, setFieldValue }} />
+
+                  {[17, 18, 25, 27].includes(values?.commissionType?.value) && (
+                    <>
+                      <div className={`col-lg-3`}>
+                        <InputField
+                          label="From Achievement"
+                          value={values?.fromAchievement}
+                          name="fromAchievement"
+                          placeholder="From Achievement"
+                          type={`text`}
+                        />
+                      </div>
+                      <div className={`col-lg-3`}>
+                        <InputField
+                          label="To Achievement"
+                          value={values?.toAchievement}
+                          name="toAchievement"
+                          placeholder="To Achievement"
+                          type={`text`}
+                        />
+                      </div>
+                      <div className={`col-lg-3`}>
+                        <InputField
+                          label="From Quantity"
+                          value={values?.fromQuantity}
+                          name="fromQuantity"
+                          placeholder="From Quantity"
+                          type={`text`}
+                        />
+                      </div>
+                      <div className={`col-lg-3`}>
+                        <InputField
+                          label="To Quantity"
+                          value={values?.toQuantity}
+                          name="toQuantity"
+                          placeholder="To Quantity"
+                          type={`text`}
+                        />
+                      </div>
+                    </>
+                  )}
 
                   <div className={`col-lg-3`}>
                     <InputField
@@ -87,8 +134,25 @@ export default function _Form({
                     />
                   </div>
                   <IButton
+                    title={
+                      [17, 18, 25, 27].includes(values?.commissionType?.value)
+                        ? "Add"
+                        : "Show"
+                    }
                     onClick={() => {
-                      getAreas(values);
+                      getAreas(values, () => {
+                        if (
+                          [17, 18, 25, 27].includes(
+                            values?.commissionType?.value
+                          )
+                        ) {
+                          setFieldValue("area", "");
+                          setFieldValue("fromAchievement", "");
+                          setFieldValue("toAchievement", "");
+                          setFieldValue("fromQuantity", "");
+                          setFieldValue("toQuantity", "");
+                        }
+                      });
                     }}
                   />
                 </div>
