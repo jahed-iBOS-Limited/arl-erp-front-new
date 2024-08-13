@@ -6,6 +6,7 @@ import ICustomTable from "../../../../_helper/_customTable";
 import { _dateFormatterTwo } from "../../../../_helper/_dateFormate";
 import { getTransportStatusAndInfo } from "../helper";
 import Loading from "./../../../../_helper/_loading";
+import QRCode from "qrcode.react";
 
 export default function ShippingPrint({ id, shipmentCode, state }) {
   const [loading, setLoading] = useState(false);
@@ -76,17 +77,36 @@ export default function ShippingPrint({ id, shipmentCode, state }) {
           >
             {loading && <Loading />}
             <div>
-              <div className="text-center my-2">
-                <h3> Shipping Note </h3>
-                <h4 className="display-5"> {buName} </h4>
-                <h6 className="display-5">
-                  {" "}
-                  {shippingPrint?.objHeader?.shipPointAddress}{" "}
-                </h6>
+              <div style={{ display: "flex" }}>
+                <div style={{ width: "15%" }}></div>
+                <div style={{ width: "70%" }}>
+                  <div className="text-center my-2">
+                    <h3> Shipping Note </h3>
+                    <h4 className="display-5"> {buName} </h4>
+                    <h6 className="display-5">
+                      {" "}
+                      {shippingPrint?.objHeader?.shipPointAddress}{" "}
+                    </h6>
+                  </div>
+                </div>
+                <div style={{ width: "15%", paddingTop: "5px" }}>
+                  {buId === 4 && (
+                    <QRCode
+                      data-qr={"Shipment Code"}
+                      value={shipmentCode || ""}
+                      size={70}
+                    />
+                  )}
+                </div>
               </div>
+
               <div className="d-flex justify-content-between my-5">
                 <div>
-                  <b>Delivery From: {`${state?.pgiShippoint?.label || shippingPrint?.objHeader?.shipPointName}`}</b>
+                  <b>
+                    Delivery From:{" "}
+                    {`${state?.pgiShippoint?.label ||
+                      shippingPrint?.objHeader?.shipPointName}`}
+                  </b>
 
                   <br />
                   <b>Shipment No: {`${shipmentCode}`}</b>
@@ -124,6 +144,7 @@ export default function ShippingPrint({ id, shipmentCode, state }) {
                       shippingPrint?.objHeader?.pricingDate
                     ) || ""}`}
                   </b>
+
                   <br />
                   {(buId === 171 || buId === 224) && (
                     <b>Narration: {`${transportStatus[0]?.label || ""}`}</b>
@@ -188,6 +209,8 @@ export default function ShippingPrint({ id, shipmentCode, state }) {
                     {_dateFormatterTwo(shippingPrint?.objHeader?.completeDate)}
                   </b>
                   <br />
+                  <b>Packer Name: {shippingPrint?.objHeader?.packerName}</b>
+                  <br />
                   {(buId === 171 || buId === 224) && (
                     <b>
                       Unload by Company:{" "}
@@ -199,13 +222,13 @@ export default function ShippingPrint({ id, shipmentCode, state }) {
 
               <div className=" my-5">
                 <ICustomTable ths={ths}>
-                  {shippingPrint?.objRow?.map((itm) => {
+                  {shippingPrint?.objRow?.map((itm, index) => {
                     totalQuantity += itm?.quantity;
                     totalItemPrice += itm?.itemPrice;
                     totalAmount +=
                       (+itm?.itemPrice || 0) * (+itm?.quantity || 0);
                     return (
-                      <tr>
+                      <tr key={index}>
                         <td>
                           <div className="text-left">{itm?.customerName} </div>
                         </td>
