@@ -117,15 +117,13 @@ export default function ProjectedIncomeStatement({ incomeStatement, values }) {
                     <tr>
                       <th style={{ width: "500px" }}>Particulars</th>
                       <th style={{ width: "200px" }}>Note SL</th>
-
                       <th
                         style={{ width: "250px" }}
                         className="incTableThPadding"
                       >
                         <span>
-                          Last Period
-                          <br />
-                          {/* {`${values?.fromDate} to ${values?.todate}`} */}
+                          Budget <br />
+                          {/* {`${values?.lastPeriodFrom} to ${values?.lastPeriodTo}`} */}
                         </span>
                       </th>
                       <th
@@ -133,8 +131,9 @@ export default function ProjectedIncomeStatement({ incomeStatement, values }) {
                         className="incTableThPadding"
                       >
                         <span>
-                          Current Period <br />
-                          {/* {`${values?.lastPeriodFrom} to ${values?.lastPeriodTo}`} */}
+                          Actual
+                          <br />
+                          {/* {`${values?.fromDate} to ${values?.todate}`} */}
                         </span>
                       </th>
                       <th style={{ width: "250px" }}>Variance</th>
@@ -155,6 +154,16 @@ export default function ProjectedIncomeStatement({ incomeStatement, values }) {
                           </td>
                           <td></td>
 
+                         
+                          <td className="text-right pointer">
+                            <span>
+                              {" "}
+                              {/* {_formatMoney(data?.monCurrentPeriodAmount)} */}
+                              {numberWithCommas(
+                                Math.round(data?.monCurrentPeriodAmount) || 0
+                              )}
+                            </span>
+                          </td>
                           <td
                             className="text-right"
                             // onClick={() => {
@@ -180,19 +189,9 @@ export default function ProjectedIncomeStatement({ incomeStatement, values }) {
                               Math.round(data?.monLastPeriodAmount) || 0
                             )}
                           </td>
-                          <td className="text-right pointer">
-                            <span>
-                              {" "}
-                              {/* {_formatMoney(data?.monCurrentPeriodAmount)} */}
-                              {numberWithCommas(
-                                Math.round(data?.monCurrentPeriodAmount) || 0
-                              )}
-                            </span>
-                          </td>
                           <td className="text-right">
                             {numberWithCommas(
-                              Math.round(data?.monLastPeriodAmount) -
-                                Math.round(data?.monCurrentPeriodAmount)
+                              Math.round(data?.monCurrentPeriodAmount) - Math.round(data?.monLastPeriodAmount) 
                             )}
                           </td>
                         </tr>
