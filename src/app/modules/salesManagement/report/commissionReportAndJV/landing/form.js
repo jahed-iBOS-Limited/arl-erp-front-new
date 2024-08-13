@@ -8,8 +8,18 @@ import TextArea from "../../../../_helper/TextArea";
 import IButton from "../../../../_helper/iButton";
 import AttachFile from "../../../../_helper/commonInputFieldsGroups/attachemntUpload";
 import { _fixedPoint } from "../../../../_helper/_fixedPoint";
+import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
+import { shallowEqual, useSelector } from "react-redux";
+import axios from "axios";
 
 export default function CommissionReportAndJVForm({ obj }) {
+  const {
+    profileData: { accountId: accId },
+
+    selectedBusinessUnit: { value: buId },
+  } = useSelector((state) => {
+    return state.authData;
+  }, shallowEqual);
   const {
     open,
     idSet1,
@@ -27,6 +37,15 @@ export default function CommissionReportAndJVForm({ obj }) {
     transactionHeads,
     setUploadedImage,
   } = obj;
+  const customerList = (v) => {
+    const searchValue = v.trim();
+    if (searchValue?.length < 3 || !searchValue) return [];
+    return axios
+      .get(
+        `/partner/PManagementCommonDDL/GetCustomerNameDDLByChannelId?SearchTerm=${searchValue}&AccountId=${accId}&BusinessUnitId=${buId}&ChannelId=${values?.channel?.value}`
+      )
+      .then((res) => res?.data);
+  };
   return (
     <>
       <form className="form form-label-right">
@@ -213,13 +232,151 @@ export default function CommissionReportAndJVForm({ obj }) {
                     )}
                   </>
                 )}
-                {[24].includes(values?.type?.value) && <></>}
-                <IButton
-                  onClick={() => {
-                    getData(values);
-                  }}
-                  disabled={isDisabled(values)}
-                />
+                {[24].includes(values?.type?.value) && (
+                  <>
+                    <div className="col-lg-2">
+                      <NewSelect
+                        name="viewAs"
+                        options={[
+                          { value: 1, label: "Supervisor" },
+                          // { value: 2, label: "Accountant" },
+                        ]}
+                        value={values?.viewAs}
+                        label="View As"
+                        onChange={(valueOption) => {
+                          setFieldValue("viewAs", valueOption);
+                          // setGridData([]);
+                        }}
+                        placeholder="View As"
+                      />
+                    </div>
+                    {buId === 4 && (
+                      <>
+                        <RATForm
+                          obj={{
+                            values,
+                            setFieldValue,
+                            region: false,
+                            area: false,
+                            territory: false,
+                            columnSize: "col-lg-2",
+                            onChange: () => {
+                              setFieldValue("customer", "");
+                            },
+                          }}
+                        />
+                        <div className="col-lg-2">
+                          <label>Customer</label>
+                          <SearchAsyncSelect
+                            selectedValue={values?.customer}
+                            handleChange={(valueOption) => {
+                              setFieldValue("customer", valueOption);
+                            }}
+                            isDisabled={!values?.channel}
+                            placeholder="Search Customer"
+                            loadOptions={customerList || []}
+                          />
+                        </div>
+                      </>
+                    )}
+                    <FromDateToDateForm
+                      obj={{ values, setFieldValue, colSize: "col-lg-2" }}
+                    />{" "}
+                    <div className="col-lg-2">
+                      <NewSelect
+                        name="status"
+                        options={[
+                          { value: 0, label: "All" },
+                          { value: 1, label: "Approved" },
+                          { value: 2, label: "Pending" },
+                          { value: 3, label: "Canceled" },
+                        ]}
+                        value={values?.status}
+                        label="Status"
+                        onChange={(valueOption) => {
+                          setFieldValue("status", valueOption);
+                        }}
+                        placeholder="Status"
+                      />
+                    </div>
+                    <div className="col-lg-2">
+                      <NewSelect
+                        name="sbu"
+                        options={sbuDDL || []}
+                        value={values?.sbu}
+                        label="SBU"
+                        onChange={(valueOption) => {
+                          setFieldValue("sbu", valueOption);
+                        }}
+                        placeholder="Select SBU"
+                      />
+                    </div>
+                    <div className="col-lg-3">
+                      <label>Narration</label>
+                      <TextArea
+                        name="narration"
+                        placeholder="Narration"
+                        value={values?.narration}
+                        type="text"
+                      />
+                    </div>
+                    <div className="col">
+                      <IButton
+                        colSize={"text-left "}
+                        onClick={() => setOpen(true)}
+                      >
+                        Attach File
+                      </IButton>
+                      <AttachFile
+                        obj={{
+                          open,
+                          setOpen,
+                          setUploadedImage,
+                        }}
+                      />
+                    </div>
+                    {values?.viewAs?.value === 2 && (
+                      <>
+                        <div className="col-md-2">
+                          <NewSelect
+                            name="sbu"
+                            options={sbuDDL || []}
+                            value={values?.sbu}
+                            label="SBU"
+                            onChange={(valueOption) => {
+                              setFieldValue("sbu", valueOption);
+                            }}
+                            placeholder="Select SBU"
+                          />
+                        </div>{" "}
+                        <div className="col-lg-4">
+                          <label>Narration</label>
+                          <TextArea
+                            name="narration"
+                            value={values?.narration}
+                            label="Narration"
+                            placeholder="Narration"
+                          />
+                        </div>
+                      </>
+                    )}
+                  </>
+                )}
+                {values?.type?.value === 24 ? (
+                  <IButton
+                    onClick={() => {
+                      getData(values);
+                    }}
+                    // disabled={isDisabled(values)}
+                  />
+                ) : (
+                  <IButton
+                    onClick={() => {
+                      getData(values);
+                    }}
+                    disabled={isDisabled(values)}
+                  />
+                )}
               </>
             )}
 

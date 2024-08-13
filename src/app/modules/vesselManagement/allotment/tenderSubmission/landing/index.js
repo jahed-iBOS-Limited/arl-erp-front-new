@@ -82,7 +82,7 @@ export default function TenderSubmissionLanding() {
     <Formik
       enableReinitialize={true}
       initialValues={{
-        businessPartner: { value: 88075, label: "BADC" },
+        businessPartner: "",
         fromDate: _monthFirstDate(),
         toDate: _todayDate(),
         approveStatus: "",
