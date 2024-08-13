@@ -19,6 +19,7 @@ import BudgetVsSalesVarient from "./salesBudgetVarianceReport";
 import TrailBalanceReport from "./trailBalance";
 import WorkingCapitalVarianceReport from "./workingCapitalVarianceReport";
 import InventoryVarianceReport from "./workingVarianceReport";
+import IncomestatementNew from "./incomeStatementNew";
 
 const BudgetVarianceReportPages = () => {
   return (
@@ -35,6 +36,10 @@ const BudgetVarianceReportPages = () => {
       <ContentRoute
         path="/internal-control/budgetvariancereport/incomestatement"
         component={Incomestatement}
+      />
+      <ContentRoute
+        path="/internal-control/budgetvariancereport/income_statement_new"
+        component={IncomestatementNew}
       />
       <ContentRoute
         path="/internal-control/budgetvariancereport/balancereport"

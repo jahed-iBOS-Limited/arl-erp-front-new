@@ -1,5 +1,5 @@
 import axios from "axios";
-import { _lastDateOfMonthPreviousYear } from "../../_helper/_todayDate";
+import { _lastDateOfMonth } from "../../../_helper/_todayDate";
 
 export const getProfitCenterDDL = async (buId, setter) => {
   try {
@@ -213,18 +213,10 @@ export const projectedFinancialRatios = async ({
   }
 };
 
-export const getReportId = (values) => {
-  const typeId = values?.reportType?.value;
-  const id = `40f2727f-155e-4e59-8cb4-225560f3173d`;
-  const reportId = typeId === 2 ? id : "";
-  return reportId;
-};
 
 export const groupId = "e3ce45bb-e65e-43d7-9ad1-4aa4b958b29a";
 
 export const parameterValues = (values) => {
-  const typeId = values?.reportType.value;
-
   const reportParameter = [
     { name: "strPartName", value: "IncomeStatement" },
     { name: "intUnit", value: values?.businessUnit?.value?.toString() || "" },
@@ -232,8 +224,8 @@ export const parameterValues = (values) => {
     { name: "intProfitCenId", value: "0" },
     { name: "dteFromDate", value: values?.fromDate || "" },
     { name: "dteToDate", value: values?.toDate || "" },
-    { name: "dteFromDateL", value: _lastDateOfMonthPreviousYear(values?.fromDate)  || "" },
-    { name: "dteToDateL", value: _lastDateOfMonthPreviousYear(values?.toDate) || "" },
+    { name: "dteFromDateL", value: _lastDateOfMonth(values?.fromDate) || "" },
+    { name: "dteToDateL", value: _lastDateOfMonth(values?.toDate) || "" },
     { name: "intFSComponent", value: "0" },
     { name: "glId", value: "0" },
     { name: "subGlId", value: "0" },
@@ -246,12 +238,9 @@ export const parameterValues = (values) => {
       name: "SubGroup",
       value: values?.subDivision?.label?.toString() || "all",
     },
-    { name: "ReportTypeId", value: values?.reportType.value?.toString() || "" },
-    { name: "ViewTypeReff", value: "" },
+    { name: "ReportTypeId", value: "2" },
+    { name: "ViewTypeReff", value:  values?.viewType?.value?.toString() || "" },
   ];
-  if (values?.viewType?.value) {
-    reportParameter.push({ name: "ViewType", value: values.viewType.value });
-  }
-  const parameters = typeId === 2 ? reportParameter : [];
-  return parameters;
+ 
+  return reportParameter;
 };
