@@ -16,6 +16,10 @@ const initData = {
   toDate: _todayDate(),
   channel: "",
   region: "",
+  fromAchievement: "",
+  toAchievement: "",
+  fromQuantity: "",
+  toQuantity: "",
   commonRate: "",
 };
 
@@ -46,7 +50,7 @@ export default function SalesCommissionConfigureEntryForm() {
     );
   }, [buId]);
 
-  const getAreas = (values) => {
+  const getAreas = (values, cb) => {
     const commissionTypeId = values?.commissionType?.value;
     const channelId = values?.channel?.value;
     const regionId = values?.region?.value;
@@ -88,6 +92,30 @@ export default function SalesCommissionConfigureEntryForm() {
       }
 
       setRowData(newArray);
+    } else if ([17, 18, 25, 27].includes(commissionTypeId)) {
+      const newRow = {
+        value: values?.area?.value,
+        label: values?.area?.label,
+        areaId: values?.area?.value,
+        areaName: values?.area?.label,
+        commissionDate: "",
+        commissionRate: "",
+        salesQty: "",
+        ratePerBag: "",
+        bpcommissionRate: commonRate,
+        bacommissionRate: commonRate,
+        cpcommissionRate: commonRate,
+        firstSlabCommissionRate: "",
+        secondSlabCommissionRate: "",
+        thirdSlabCommissionRate: "",
+
+        offerQntFrom: +values?.fromQuantity,
+        offerQntTo: +values?.toQuantity,
+        achievementFrom: +values?.fromAchievement,
+        achievementTo: +values?.toAchievement,
+      };
+      setRowData([...rowData, newRow]);
+      cb && cb();
     } else {
       getAreaList(
         `/oms/TerritoryInfo/GetTerrotoryRegionAreaByChannel?channelId=${channelId}${region}`,
