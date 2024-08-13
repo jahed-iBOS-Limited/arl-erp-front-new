@@ -205,7 +205,6 @@ export default function _Form({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileData, selectedBusinessUnit, id, product]);
-
   return (
     <>
       <Formik
@@ -447,27 +446,32 @@ export default function _Form({
                         touched={touched}
                       />
                     </div>
-                    <div className="col-lg-3 mb-2">
-                      <NewSelect
-                        name="customerCategory"
-                        options={[
-                          {
-                            value: "Platinum",
-                            label: "Platinum",
-                          },
-                          { value: "Gold", label: "Gold" },
-                          { value: "Silver", label: "Silver" },
-                        ]}
-                        value={values?.customerCategory}
-                        label="Customer Category"
-                        onChange={(valueOption) => {
-                          setFieldValue("customerCategory", valueOption);
-                        }}
-                        placeholder="Customer Category"
-                        errors={errors}
-                        touched={touched}
-                      />
-                    </div>
+                    {[171, 224].includes(selectedBusinessUnit?.value) && (
+                      <div className="col-lg-3 mb-2">
+                        <NewSelect
+                          name="customerCategory"
+                          options={[
+                            {
+                              value: "Cash",
+                              label: "Cash",
+                            },
+                            { value: "Credit", label: "Credit" },
+                            {
+                              value: "Credit (100% BG)",
+                              label: "Credit (100% BG)",
+                            },
+                          ]}
+                          value={values?.customerCategory}
+                          label="Customer Category"
+                          onChange={(valueOption) => {
+                            setFieldValue("customerCategory", valueOption);
+                          }}
+                          placeholder="Customer Category"
+                          errors={errors}
+                          touched={touched}
+                        />
+                      </div>
+                    )}
                     <div className="col-lg-3 mb-2">
                       <NewSelect
                         name="agConcern"
@@ -533,10 +537,7 @@ export default function _Form({
                         <input
                           type="checkbox"
                           onChange={(e) => {
-                            setFieldValue(
-                              "isManualAuto",
-                              e.target.checked
-                            );
+                            setFieldValue("isManualAuto", e.target.checked);
                           }}
                           name="isManualAuto"
                           label="Price Including Tax"
@@ -741,147 +742,152 @@ export default function _Form({
               <div className="row cash_journal bank-journal bank-journal-custom">
                 <div className="col-lg-3 pr-0 pl-0">
                   {rowDto?.length > 0 ? (
-                   <div className="table-responsive">
-                     <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
-                      <thead>
-                        <tr>
-                          <th>SL</th>
-                          <th>Shipping Point</th>
-                          <th>Default</th>
-                          <th>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {rowDto.map((itm, idx) => {
-                          return (
-                            <tr key={idx}>
-                              <td>{idx + 1}</td>
-                              <td>
-                                <div className="pl-2">{itm.shipPointName}</div>
-                              </td>
-                              <td>
-                                <div className="pl-2">
-                                  <input
-                                    id="isDefaultShippoint"
-                                    type="checkbox"
-                                    className=""
-                                    value={itm?.isDefaultShippoint}
-                                    checked={itm?.isDefaultShippoint}
-                                    name={itm?.isDefaultShippoint}
-                                    onChange={(e) => {
-                                      itemSlectedHandler(e.target.checked, idx);
-                                    }}
-                                  />
-                                </div>
-                              </td>
-                              <td className="text-center">
-                                {/* <IDelete
+                    <div className="table-responsive">
+                      <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
+                        <thead>
+                          <tr>
+                            <th>SL</th>
+                            <th>Shipping Point</th>
+                            <th>Default</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {rowDto.map((itm, idx) => {
+                            return (
+                              <tr key={idx}>
+                                <td>{idx + 1}</td>
+                                <td>
+                                  <div className="pl-2">
+                                    {itm.shipPointName}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="pl-2">
+                                    <input
+                                      id="isDefaultShippoint"
+                                      type="checkbox"
+                                      className=""
+                                      value={itm?.isDefaultShippoint}
+                                      checked={itm?.isDefaultShippoint}
+                                      name={itm?.isDefaultShippoint}
+                                      onChange={(e) => {
+                                        itemSlectedHandler(
+                                          e.target.checked,
+                                          idx
+                                        );
+                                      }}
+                                    />
+                                  </div>
+                                </td>
+                                <td className="text-center">
+                                  {/* <IDelete
                                   remover={remover}
                                   id={itm?.shipPointId}
                                 /> */}
-                                <i
-                                  className="fa fa-trash deleteBtn text-danger"
-                                  onClick={() =>
-                                    remover(
-                                      itm?.shipPointId,
-                                      itm?.isDefaultShippoint
-                                    )
-                                  }
-                                ></i>
-                              </td>
-                            </tr>
-                          );
-                        })}
-                      </tbody>
-                    </table>
-                   </div>
+                                  <i
+                                    className="fa fa-trash deleteBtn text-danger"
+                                    onClick={() =>
+                                      remover(
+                                        itm?.shipPointId,
+                                        itm?.isDefaultShippoint
+                                      )
+                                    }
+                                  ></i>
+                                </td>
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      </table>
+                    </div>
                   ) : (
                     ""
                   )}
                 </div>
                 <div className="col-lg-9 pr-0 pl-0">
                   {rowDtoTwo?.length > 0 ? (
-                   <div className="table-responsive">
-                     <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
-                      <thead>
-                        <tr>
-                          <th>SL</th>
-                          <th>Ship To Parner Name</th>
-                          <th>Address</th>
-                          <th>Contact</th>
-                          <th>Transport Zone</th>
-                          {selectedBusinessUnit?.value === 4 && (
-                            <th>Operational Zone</th>
-                          )}
-                          <th>Default</th>
-                          <th>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {rowDtoTwo.map((itm, idx) => {
-                          return (
-                            <tr key={idx}>
-                              <td>{idx + 1}</td>
-                              <td>
-                                <div className="pl-2">
-                                  {itm?.partnerShippingName}
-                                </div>
-                              </td>
-                              <td>
-                                <div className="pl-2">
-                                  {itm?.partnerShippingAddress}
-                                </div>
-                              </td>
-                              <td>
-                                <div className="pl-2">
-                                  {itm?.partnerShippingContact}
-                                </div>
-                              </td>
-                              <td>
-                                <div className="pl-2">
-                                  {itm?.transportZoneName}
-                                </div>
-                              </td>
-                              {selectedBusinessUnit?.value === 4 && (
+                    <div className="table-responsive">
+                      <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
+                        <thead>
+                          <tr>
+                            <th>SL</th>
+                            <th>Ship To Parner Name</th>
+                            <th>Address</th>
+                            <th>Contact</th>
+                            <th>Transport Zone</th>
+                            {selectedBusinessUnit?.value === 4 && (
+                              <th>Operational Zone</th>
+                            )}
+                            <th>Default</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {rowDtoTwo.map((itm, idx) => {
+                            return (
+                              <tr key={idx}>
+                                <td>{idx + 1}</td>
                                 <td>
                                   <div className="pl-2">
-                                    {itm?.setUpZoneName}
+                                    {itm?.partnerShippingName}
                                   </div>
                                 </td>
-                              )}
-                              <td>
-                                <div className="pl-2">
-                                  <input
-                                    id="isDefaultshipToParner"
-                                    type="checkbox"
-                                    className=""
-                                    value={itm?.isDefaultAddress}
-                                    checked={itm?.isDefaultAddress}
-                                    name={itm?.isDefaultAddress}
-                                    onChange={(e) => {
-                                      itemSlectedHandlerTwo(
-                                        e.target.checked,
-                                        idx
-                                      );
-                                    }}
-                                  />
-                                </div>
-                              </td>
-                              <td className="text-center">
-                                {/* <IDelete remover={removerTwo} id={idx} /> */}
-                                <i
-                                  className="fa fa-trash deleteBtn text-danger"
-                                  onClick={() =>
-                                    removerTwo(idx, itm?.isDefaultAddress)
-                                  }
-                                ></i>
-                              </td>
-                            </tr>
-                          );
-                        })}
-                      </tbody>
-                    </table>
-                   </div>
+                                <td>
+                                  <div className="pl-2">
+                                    {itm?.partnerShippingAddress}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="pl-2">
+                                    {itm?.partnerShippingContact}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="pl-2">
+                                    {itm?.transportZoneName}
+                                  </div>
+                                </td>
+                                {selectedBusinessUnit?.value === 4 && (
+                                  <td>
+                                    <div className="pl-2">
+                                      {itm?.setUpZoneName}
+                                    </div>
+                                  </td>
+                                )}
+                                <td>
+                                  <div className="pl-2">
+                                    <input
+                                      id="isDefaultshipToParner"
+                                      type="checkbox"
+                                      className=""
+                                      value={itm?.isDefaultAddress}
+                                      checked={itm?.isDefaultAddress}
+                                      name={itm?.isDefaultAddress}
+                                      onChange={(e) => {
+                                        itemSlectedHandlerTwo(
+                                          e.target.checked,
+                                          idx
+                                        );
+                                      }}
+                                    />
+                                  </div>
+                                </td>
+                                <td className="text-center">
+                                  {/* <IDelete remover={removerTwo} id={idx} /> */}
+                                  <i
+                                    className="fa fa-trash deleteBtn text-danger"
+                                    onClick={() =>
+                                      removerTwo(idx, itm?.isDefaultAddress)
+                                    }
+                                  ></i>
+                                </td>
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      </table>
+                    </div>
                   ) : (
                     ""
                   )}
@@ -1040,7 +1046,7 @@ export default function _Form({
                             issueDate: values?.issueDate || "",
                             toName: values?.toName,
                             location: values?.location,
-                            district: values?.district
+                            district: values?.district,
                           };
                           morgazeSetter(obj);
                         }}
@@ -1061,53 +1067,53 @@ export default function _Form({
                   <div className="row">
                     <div className="col-lg-12">
                       {morgazeRowDto?.length > 0 ? (
-                      <div className="table-responsive">
+                        <div className="table-responsive">
                           <table className="table table-striped table-bordered global-table mt-0">
-                          <thead>
-                            <tr>
-                              <th>SL</th>
-                              <th>Morgaze Type</th>
-                              <th>Amount</th>
-                              <th>Narration</th>
-                              <th>Bank Name</th>
-                              <th>Branch Name</th>
-                              <th>Ref No.</th>
-                              <th>Expire Date</th>
-                              <th>Issue Date</th>
-                              <th>To Name</th>
-                              <th>Location</th>
-                              <th>District</th>
-                              <th>Action</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {morgazeRowDto?.map((itm, idx) => {
-                              return (
-                                <tr key={itm?.mortgageTypeId + idx}>
-                                  <td className="text-center">{idx + 1}</td>
-                                  <td>{itm?.mortageTypeName}</td>
-                                  <td>{itm?.numMortgageAmount}</td>
-                                  <td>{itm?.narration}</td>
-                                  <td>{itm?.bankName}</td>
-                                  <td>{itm?.branchName}</td>
-                                  <td>{itm?.refNo}</td>
-                                  <td>{_dateFormatter(itm?.expireDate)}</td>
-                                  <td>{_dateFormatter(itm?.issueDate)}</td>
-                                  <td>{itm?.toName}</td>
-                                  <td>{itm?.location}</td>
-                                  <td>{itm?.district}</td>
-                                  <td className="text-center">
-                                    <IDelete
-                                      remover={morgazeRemover}
-                                      id={itm?.mortgageTypeId}
-                                    />
-                                  </td>
-                                </tr>
-                              );
-                            })}
-                          </tbody>
-                        </table>
-                      </div>
+                            <thead>
+                              <tr>
+                                <th>SL</th>
+                                <th>Morgaze Type</th>
+                                <th>Amount</th>
+                                <th>Narration</th>
+                                <th>Bank Name</th>
+                                <th>Branch Name</th>
+                                <th>Ref No.</th>
+                                <th>Expire Date</th>
+                                <th>Issue Date</th>
+                                <th>To Name</th>
+                                <th>Location</th>
+                                <th>District</th>
+                                <th>Action</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {morgazeRowDto?.map((itm, idx) => {
+                                return (
+                                  <tr key={itm?.mortgageTypeId + idx}>
+                                    <td className="text-center">{idx + 1}</td>
+                                    <td>{itm?.mortageTypeName}</td>
+                                    <td>{itm?.numMortgageAmount}</td>
+                                    <td>{itm?.narration}</td>
+                                    <td>{itm?.bankName}</td>
+                                    <td>{itm?.branchName}</td>
+                                    <td>{itm?.refNo}</td>
+                                    <td>{_dateFormatter(itm?.expireDate)}</td>
+                                    <td>{_dateFormatter(itm?.issueDate)}</td>
+                                    <td>{itm?.toName}</td>
+                                    <td>{itm?.location}</td>
+                                    <td>{itm?.district}</td>
+                                    <td className="text-center">
+                                      <IDelete
+                                        remover={morgazeRemover}
+                                        id={itm?.mortgageTypeId}
+                                      />
+                                    </td>
+                                  </tr>
+                                );
+                              })}
+                            </tbody>
+                          </table>
+                        </div>
                       ) : (
                         ""
                       )}
@@ -1395,89 +1401,93 @@ export default function _Form({
                         {creditRowDto?.length > 0 ? (
                           <div className="table-responsive">
                             <table className="table table-striped table-bordered global-table mt-0">
-                            <thead>
-                              <tr>
-                                <th>SL</th>
-                                <th style={{ width: "120px" }}>Credit Limit</th>
-                                <th>Valid From</th>
-                                <th>Valid To</th>
-                                <th>Limit Status</th>
-                                <th>Attachments</th>
-                                <th>Action</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {creditRowDto?.map((itm, idx) => {
-                                return (
-                                  itm?.isDayLimit === false && (
-                                    <tr key={idx}>
-                                      <td className="text-center">{idx + 1}</td>
-                                      <td style={{ width: "60px" }}>
-                                        <InputField
-                                          value={itm?.creditLimit}
-                                          name="names"
-                                          placeholder="Name"
-                                          type="number"
-                                          disabled={true} // Last Chnage Assign By | Iftakhar Alam
-                                          onChange={(e) =>
-                                            setCreditLimitAmount(
-                                              idx,
-                                              e.target.value
-                                            )
-                                          }
-                                          min="0"
-                                        />
-                                      </td>
-                                      <td>
-                                        <div>
-                                          <div className="text-right pr-2">
-                                            {_dateFormatter(itm?.fromDate)}
+                              <thead>
+                                <tr>
+                                  <th>SL</th>
+                                  <th style={{ width: "120px" }}>
+                                    Credit Limit
+                                  </th>
+                                  <th>Valid From</th>
+                                  <th>Valid To</th>
+                                  <th>Limit Status</th>
+                                  <th>Attachments</th>
+                                  <th>Action</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {creditRowDto?.map((itm, idx) => {
+                                  return (
+                                    itm?.isDayLimit === false && (
+                                      <tr key={idx}>
+                                        <td className="text-center">
+                                          {idx + 1}
+                                        </td>
+                                        <td style={{ width: "60px" }}>
+                                          <InputField
+                                            value={itm?.creditLimit}
+                                            name="names"
+                                            placeholder="Name"
+                                            type="number"
+                                            disabled={true} // Last Chnage Assign By | Iftakhar Alam
+                                            onChange={(e) =>
+                                              setCreditLimitAmount(
+                                                idx,
+                                                e.target.value
+                                              )
+                                            }
+                                            min="0"
+                                          />
+                                        </td>
+                                        <td>
+                                          <div>
+                                            <div className="text-right pr-2">
+                                              {_dateFormatter(itm?.fromDate)}
+                                            </div>
                                           </div>
-                                        </div>
-                                      </td>
-                                      <td>
-                                        <div>
-                                          <div className="text-right pr-2">
-                                            {_dateFormatter(itm?.toDate)}
+                                        </td>
+                                        <td>
+                                          <div>
+                                            <div className="text-right pr-2">
+                                              {_dateFormatter(itm?.toDate)}
+                                            </div>
                                           </div>
-                                        </div>
-                                      </td>
-                                      <td>
-                                        <div>{itm?.strLimitStatus}</div>
-                                      </td>
-                                      <td>
-                                        <div>
-                                          <div className="text-center pointer">
-                                            {itm?.uploadFile ? (
-                                              <span
-                                                onClick={() => {
-                                                  dispatch(
-                                                    getDownlloadFileView_Action(
-                                                      itm?.uploadFile
-                                                    )
-                                                  );
-                                                }}
-                                              >
-                                                <i class="fas fa-eye"></i>
-                                              </span>
-                                            ) : (
-                                              "-"
-                                            )}
+                                        </td>
+                                        <td>
+                                          <div>{itm?.strLimitStatus}</div>
+                                        </td>
+                                        <td>
+                                          <div>
+                                            <div className="text-center pointer">
+                                              {itm?.uploadFile ? (
+                                                <span
+                                                  onClick={() => {
+                                                    dispatch(
+                                                      getDownlloadFileView_Action(
+                                                        itm?.uploadFile
+                                                      )
+                                                    );
+                                                  }}
+                                                >
+                                                  <i class="fas fa-eye"></i>
+                                                </span>
+                                              ) : (
+                                                "-"
+                                              )}
+                                            </div>
                                           </div>
-                                        </div>
-                                      </td>
-                                      <td className="text-center">
-                                        <IDelete
-                                          remover={creditRemover}
-                                          id={idx}
-                                        />
-                                      </td>
-                                    </tr>
-                                  )
-                                );
-                              })}
-                            </tbody>
-                          </table>
+                                        </td>
+                                        <td className="text-center">
+                                          <IDelete
+                                            remover={creditRemover}
+                                            id={idx}
+                                          />
+                                        </td>
+                                      </tr>
+                                    )
+                                  );
+                                })}
+                              </tbody>
+                            </table>
                           </div>
                         ) : (
                           ""
