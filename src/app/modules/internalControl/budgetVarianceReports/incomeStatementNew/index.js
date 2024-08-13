@@ -113,7 +113,7 @@ export default function IncomestatementNew() {
             buDDLloader ||
             loadingOnSubDivisionDDL) && <Loading />}
           <IForm
-            title="Income Statement New"
+            title="Income Statement"
             isHiddenReset
             isHiddenBack
             isHiddenSave
