@@ -18,6 +18,8 @@ import { getSBUDDL } from "../../../../transportManagement/report/productWiseShi
 import {
   createJV,
   createTradeCommissionJV,
+  createTradeDamageJV,
+  createTradeForeinJV,
   getCommissionReport,
   getCommissionStatus,
   getTradeCommissionData,
@@ -25,6 +27,7 @@ import {
 import CommissionReportAndJVForm from "./form";
 import CommissionReportAndJVTable from "./table";
 import CommissionReportAndJVTableTwo from "./tableTwo";
+import DamangeReportAndJVTable from "./damageJV";
 
 const initData = {
   reportType: { value: 1, label: "Pending" },
@@ -54,6 +57,7 @@ const CommissionReportAndJV = () => {
   const [sbuDDL, setSbuDDL] = useState([]);
   const [reportTypes, getReportTypes] = useAxiosGet([]);
   const [transactionHeads, getTransactionHeads] = useAxiosGet([]);
+  const [, getDamageData, load] = useAxiosGet([]);
   const [open, setOpen] = useState(false);
   const [uploadedImage, setUploadedImage] = useState([]);
 
@@ -74,10 +78,18 @@ const CommissionReportAndJV = () => {
   }, [accId, buId]);
 
   const getData = (values) => {
+    console.log({ values });
     const ids = [8, 9, 10, 11, 12, 13];
     const typeId = ids.includes(values?.type?.value) ? 8 : values?.type?.value;
     if (values?.reportType?.value === 1) {
-      if ([5, 3, 6, 7, ...allIds].includes(values?.type?.value)) {
+      if (values?.type?.value === 24) {
+        getDamageData(
+          `/oms/SalesReturnAndCancelProcess/GetDamageReturnForJv?SalesReturnType=2&accId=${accId}&status=${values?.status?.value}&BusuinessUnitId=${buId}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}&CustomerId=${values?.customer?.value}&ChannelId=${values?.channel?.value}`,
+          (data) => {
+            setRowData(data);
+          }
+        );
+      } else if ([5, 3, 6, 7, ...allIds].includes(values?.type?.value)) {
         getTradeCommissionData(
           // values?.type?.value,
           typeId,
@@ -148,12 +160,56 @@ const CommissionReportAndJV = () => {
   //   totalAchievement = 0;
 
   const JVCrate = (values) => {
-    if ([5, 7, ...allIds].includes(values?.type?.value)) {
+    if (values?.type?.value === 24) {
+      const selectedItems = rowData?.filter((item) => item?.isSelected);
+      const totalAmountForDamange = selectedItems?.reduce(
+        (a, b) => a + +b?.totalReturnAmount,
+        0
+      );
+      const ids = [8, 9, 10, 11, 12, 13];
+      const commissionTypeId = ids.includes(values?.type?.value)
+        ? 8
+        : values?.type?.value;
+      const payload = {
+        headerObject: {
+          accountId: accId,
+          unitId: buId,
+          unitName: buName,
+          sbuId: values?.sbu?.value,
+          commissionId: values?.transactionHead?.value,
+          commissionName: values?.transactionHead?.label,
+          fromDate: values?.fromDate,
+          toDate: values?.toDate,
+          narration: values?.narration,
+          totalAmmount: totalAmountForDamange,
+          actionBy: userId,
+          // commissionTypeId: values?.type?.value,
+          commissionTypeId: commissionTypeId,
+          commissionTypeName: values?.type?.label,
+        },
+        rowObject: selectedItems?.map((item) => ({
+          ...item,
+          ammount: item?.totalReturnAmount,
+          isProcess: false,
+          deliveryQty: item?.totalReturnQty,
+          customerId: item?.businessPartnerId,
+          customerCode: item?.businessPartnerCode,
+          customerName: item?.businessPartnerName,
+          deliveryId: item?.deliveryId,
+          rowNaration: item?.deliveryChallan,
+        })),
+
+        img: { imageId: uploadedImage[0]?.id },
+      };
+
+      createTradeDamageJV(payload, setLoading);
+    } else if ([5, 7, ...allIds].includes(values?.type?.value)) {
       const selectedItems = rowData?.filter((item) => item?.isSelected);
       const totalAmount = selectedItems?.reduce(
         (a, b) => a + +b?.commissiontaka,
         0
       );
+
       const ids = [8, 9, 10, 11, 12, 13];
       const commissionTypeId = ids.includes(values?.type?.value)
         ? 8
@@ -180,13 +236,22 @@ const CommissionReportAndJV = () => {
           ammount: item?.commissiontaka,
           rowNaration: item?.rowNarration || item?.paymentType,
           isProcess: false,
+          deliveryQty: item?.deliveryQty,
         })),
         img: {
           imageId: uploadedImage[0]?.id,
         },
       };
-
-      createTradeCommissionJV(payload, setLoading);
+      if (values?.type?.value === 22) {
+        const modifiedPayload = {
+          headerObject: payload?.header,
+          rowObject: payload?.row,
+          imageObject: [payload?.img],
+        };
+        createTradeForeinJV(modifiedPayload, setLoading);
+      } else {
+        createTradeCommissionJV(payload, setLoading);
+      }
     } else {
       const payload = rowData?.filter((item) => item?.isSelected);
       createJV(
@@ -282,7 +347,7 @@ const CommissionReportAndJV = () => {
                 </CardHeaderToolbar>
               </CardHeader>
               <CardBody>
-                {loading && <Loading />}
+                {(loading || load) && <Loading />}
                 <CommissionReportAndJVForm
                   obj={{
                     open,
@@ -303,7 +368,7 @@ const CommissionReportAndJV = () => {
                   }}
                 />
                 {/* Pending Table */}
-                {values?.reportType?.value === 1 && (
+                {values?.type?.value !== 24 && values?.reportType?.value === 1 && (
                   <CommissionReportAndJVTable
                     obj={{
                       buId,
@@ -316,7 +381,19 @@ const CommissionReportAndJV = () => {
                     }}
                   />
                 )}
-
+                {values?.type?.value == 24 && values?.reportType?.value === 1 && (
+                  <DamangeReportAndJVTable
+                    obj={{
+                      buId,
+                      values,
+                      rowData,
+                      allSelect,
+                      selectedAll,
+                      editCommission,
+                      rowDataHandler,
+                    }}
+                  />
+                )}
                 {/* JV Created Table */}
                 {values?.reportType?.value === 2 && (
                   <CommissionReportAndJVTableTwo

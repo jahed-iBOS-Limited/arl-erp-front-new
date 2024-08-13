@@ -61,7 +61,7 @@ export const initData = {
     // ghat2: "",
     contractDate: "",
     // dischargeRatio: "",
-    laycanDate: "",
+    layCan: "",
     // pricePerQty: "",
     pricePerBag: "",
 };
@@ -172,11 +172,11 @@ export const createPageValidationSchema = Yup.object({
         otherwise: Yup.date(),
     }),
 
-    laycanDate: Yup.date().when("businessPartner", {
+    layCan: Yup.string().when("businessPartner", {
         is: (businessPartner) =>
             businessPartner && businessPartner?.label === "BADC",
-        then: Yup.date().required("Laycan date is required"),
-        otherwise: Yup.date(),
+        then: Yup.string().required("Laycan is required"),
+        otherwise: Yup.string(),
     }),
     pricePerBag: Yup.number()
         .positive()
@@ -348,7 +348,7 @@ export const updateState = (tenderDetails) => {
             dueTime: tenderDetails?.dueTime,
             lotQty: tenderDetails?.lotqty,
             contractDate: _dateFormatter(tenderDetails?.contractDate),
-            laycanDate: _dateFormatter(tenderDetails?.laycandate),
+            layCan: tenderDetails?.layCan,
             pricePerBag: tenderDetails?.pricePerBag,
         };
 
@@ -583,7 +583,7 @@ export const selectPayload = (
             dueTime: values?.dueTime,
             lotqty: values?.lotQty,
             contractDate: values?.contractDate,
-            laycandate: values?.laycanDate,
+            layCan: values?.layCan,
             pricePerBag: +values?.pricePerBag,
         };
     }

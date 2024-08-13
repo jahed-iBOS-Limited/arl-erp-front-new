@@ -124,6 +124,34 @@ export const createTradeCommissionJV = async (payload, setLoading) => {
     setLoading && setLoading(false);
   }
 };
+export const createTradeForeinJV = async (payload, setLoading) => {
+  setLoading && setLoading(true);
+  try {
+    const res = await axios.post(
+      `/oms/SalesInformation/CreateForeignTourCommissionJv`,
+      payload
+    );
+    toast.success(res?.data?.message);
+    setLoading && setLoading(false);
+  } catch (error) {
+    toast.error(error?.response?.data?.message);
+    setLoading && setLoading(false);
+  }
+};
+export const createTradeDamageJV = async (payload, setLoading) => {
+  setLoading && setLoading(true);
+  try {
+    const res = await axios.post(
+      `/oms/SalesInformation/DamageCommisionEntry`,
+      payload
+    );
+    toast.success(res?.data?.message);
+    setLoading && setLoading(false);
+  } catch (error) {
+    toast.error(error?.response?.data?.message);
+    setLoading && setLoading(false);
+  }
+};
 
 export const cancelJV = async (typeId, monthId, yearId, setLoading) => {
   setLoading && setLoading(true);
