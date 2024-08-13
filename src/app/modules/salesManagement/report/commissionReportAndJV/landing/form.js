@@ -62,6 +62,7 @@ export default function CommissionReportAndJVForm({ obj }) {
                   setRowData([]);
                   setFieldValue("month", "");
                   setFieldValue("year", "");
+                  console.log({ valueOption });
                 }}
                 placeholder="Select Report Name"
               />
@@ -212,6 +213,7 @@ export default function CommissionReportAndJVForm({ obj }) {
                     )}
                   </>
                 )}
+                {[24].includes(values?.type?.value) && <></>}
                 <IButton
                   onClick={() => {
                     getData(values);

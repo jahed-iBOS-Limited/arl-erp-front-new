@@ -18,6 +18,7 @@ import { getSBUDDL } from "../../../../transportManagement/report/productWiseShi
 import {
   createJV,
   createTradeCommissionJV,
+  createTradeForeinJV,
   getCommissionReport,
   getCommissionStatus,
   getTradeCommissionData,
@@ -148,6 +149,7 @@ const CommissionReportAndJV = () => {
   //   totalAchievement = 0;
 
   const JVCrate = (values) => {
+    console.log(values);
     if ([5, 7, ...allIds].includes(values?.type?.value)) {
       const selectedItems = rowData?.filter((item) => item?.isSelected);
       const totalAmount = selectedItems?.reduce(
@@ -180,13 +182,23 @@ const CommissionReportAndJV = () => {
           ammount: item?.commissiontaka,
           rowNaration: item?.rowNarration || item?.paymentType,
           isProcess: false,
+          deliveryQty: item?.deliveryQty,
         })),
         img: {
           imageId: uploadedImage[0]?.id,
         },
       };
-
-      createTradeCommissionJV(payload, setLoading);
+      if (values?.type?.value === 22) {
+        const modifiedPayload = {
+          headerObject: payload?.header,
+          rowObject: payload?.row,
+          imageObject: [payload?.img],
+        };
+        console.log({ modifiedPayload });
+        createTradeForeinJV(modifiedPayload, setLoading);
+      } else {
+        createTradeCommissionJV(payload, setLoading);
+      }
     } else {
       const payload = rowData?.filter((item) => item?.isSelected);
       createJV(
