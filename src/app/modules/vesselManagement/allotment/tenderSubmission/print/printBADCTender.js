@@ -34,7 +34,7 @@ const PrintBADCTender = ({ tenderDetails }) => {
                     <tr style={{ width: "100%" }}>
                         <td rowSpan={2} style={{ width: '80px' }}></td>
                         <td rowSpan={2} className='foreign-local-td'>
-                            TRANSPORTATION OF {tenderDetails?.lotqty}TH LOT (CONTRACT {_dateFormatterTwo(tenderDetails?.contractDate)}) OF{" "}{tenderDetails?.foreignQty}{" "} MT (+/-10%) {tenderDetails?.itemName} IN BULK FROM {" "}{tenderDetails?.loadPortName}{" "} TO CHATTOGRAM & SHIROMONI GHAT, KHULNA VIA OUTER ANCHORAGE OF CHATTOGRAM PORT, BANGLADESH AND/OR HARBARIA, MONGLA PORT, BANGLADESH (RATIO: CTG & MONGLA: 40%:60%). LAY CAN {_dateFormatterTwo(tenderDetails?.laycandate)}
+                            TRANSPORTATION OF {tenderDetails?.lotqty}TH LOT (CONTRACT {_dateFormatterTwo(tenderDetails?.contractDate)}) OF{" "}{tenderDetails?.foreignQty}{" "} MT (+/-10%) {tenderDetails?.itemName} IN BULK FROM {" "}{tenderDetails?.loadPortName}{" "} TO CHATTOGRAM & SHIROMONI GHAT, KHULNA VIA OUTER ANCHORAGE OF CHATTOGRAM PORT, BANGLADESH AND/OR HARBARIA, MONGLA PORT, BANGLADESH (RATIO: CTG & MONGLA: 40%:60%). LAY CAN {tenderDetails?.layCan}
                         </td>
                         <td rowSpan={2} className='foreign-local-td'>
                             ITEM-1: QUOTED PRICE FOR TRANSPORTATION OF {tenderDetails?.itemName} FROM OUTER ANCHORAGE OF CHATTOGRAM PORT TO THE GHATS OF CHATTOGRAM PORT/PRIVATE GHAT AFTER COMPLETION OF NECESSARY WORKS./ QUOTED PRICE FOR FROM OUTER ANCHORAGE OF MONGLA PORT TO THE GHATS OF KHULNA/ AFTER COMPLETION OF NECESSARY WORKS:
