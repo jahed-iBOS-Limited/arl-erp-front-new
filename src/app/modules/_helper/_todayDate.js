@@ -19,6 +19,54 @@ export const _firstDateOfMonth = () => {
   return firstDate;
 };
 
+export const _lastDateOfMonth = (dateString) => {
+  if (!dateString) return "";
+
+  // Parse the input date
+  const date = new Date(dateString);
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+
+  // Create a new date object for the first day of the next month
+  const nextMonth = new Date(year, month, 1);
+
+  // Subtract 1 day to get the last day of the given month
+  const lastDay = new Date(nextMonth - 1);
+
+  // Format the last day to 'YYYY-MM-DD'
+  const lastDate =
+    lastDay.getFullYear() +
+    "-" +
+    ("0" + (lastDay.getMonth() + 1)).slice(-2) +
+    "-" +
+    ("0" + lastDay.getDate()).slice(-2);
+
+  return lastDate;
+};
+
+export const _lastDateOfMonthPreviousYear = (dateString) => {
+  if(!dateString) return "";
+  const date = new Date(dateString);
+  const previousYear = date.getFullYear() - 1;
+  const month = date.getMonth() + 1;
+
+  // Create a new date object for the first day of the next month in the previous year
+  const nextMonthPreviousYear = new Date(previousYear, month, 1);
+
+  // Subtract 1 day to get the last day of the same month in the previous year
+  const lastDayPreviousYear = new Date(nextMonthPreviousYear - 1);
+
+  const lastDatePreviousYear =
+    lastDayPreviousYear.getFullYear() +
+    "-" +
+    ("0" + (lastDayPreviousYear.getMonth() + 1)).slice(-2) +
+    "-" +
+    ("0" + lastDayPreviousYear.getDate()).slice(-2);
+
+  return lastDatePreviousYear;
+};
+
+
 
 // date 3 month ago
 export const _threeMonthAgoDate = () => {
