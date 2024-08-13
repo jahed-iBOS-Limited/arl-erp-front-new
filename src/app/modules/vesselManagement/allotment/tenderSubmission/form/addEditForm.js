@@ -535,12 +535,12 @@ export default function TenderSubmissionCreateEditForm() {
       </div>
       <div className="col-lg-3">
         <InputField
-          value={values?.laycanDate}
-          label="Laycan Date"
-          name="laycanDate"
-          type="date"
+          value={values?.layCan}
+          label="Laycan"
+          name="layCan"
+          type="text"
           onChange={(e) => {
-            setFieldValue("laycanDate", e.target.value);
+            setFieldValue("layCan", e.target.value);
           }}
         />
       </div>
