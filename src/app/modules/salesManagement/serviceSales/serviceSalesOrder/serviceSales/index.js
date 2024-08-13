@@ -220,12 +220,7 @@ export default function ServiceSalesLanding() {
                                 {!["Re-Curring"].includes(
                                   item?.strPaymentType
                                 ) &&
-                                  ["Running"]?.includes(item?.strStatus) &&
-                                  ![
-                                    "Closed",
-                                    "Discontinued",
-                                    "Locked",
-                                  ]?.includes(item?.strStatus) && (
+                                  ["Running"]?.includes(item?.strStatus) && (
                                     <span
                                       onClick={() => {
                                         setSingleData(item);
