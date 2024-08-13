@@ -25,6 +25,7 @@ import TripSlabCostReport from "./tripSlabCostReport/landing/table";
 import VehicleFuelCostReport from "./vehicleFuelCostReport/landing";
 import VehicleFuelReport from "./vehicleFuelReport/landing/landing";
 import LogisticDashBoard from "./logisticDashBoard";
+import PackerInfo from "./packerInfo";
 
 export function TransportReportPages() {
   return (
@@ -80,6 +81,10 @@ export function TransportReportPages() {
         <ContentRoute
           path="/transport-management/report/dashboardpdd"
           component={Dashboardpdd}
+        />
+         <ContentRoute
+          path="/transport-management/report/PackerInfo"
+          component={PackerInfo}
         />
         <ContentRoute
           path="/transport-management/report/LogisticDashBoard"
