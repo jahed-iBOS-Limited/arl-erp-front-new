@@ -1,22 +1,15 @@
 import { Form, Formik } from "formik";
-import moment from "moment";
 import React, { useEffect, useState } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { shallowEqual, useSelector } from "react-redux";
 
-import { useReactToPrint } from "react-to-print";
-
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import PaginationTable from "../../../_helper/_tablePagination";
 import Loading from "../../../_helper/_loading";
 import IForm from "../../../_helper/_form";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
 import IViewModal from "../../../_helper/_viewModal";
 import EditShipInfo from "./EditShipInfo";
 import NewSelect from "../../../_helper/_select";
-import { channel } from "redux-saga";
 
 const initData = {
   channel: "",
@@ -26,20 +19,18 @@ const initData = {
 };
 export default function ExclusivePartnerInfo() {
   const {
-    profileData: { userId, accountId },
-    selectedBusinessUnit: { value: buId, label },
+    profileData: { accountId },
+    selectedBusinessUnit: { value: buId },
   } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
-  const history = useHistory();
-  const dispatch = useDispatch();
   const [isShowUpdateModal, setIsShowUpdateModal] = useState(false);
-  const [, onSave, loader] = useAxiosPost();
-  const [gridData, getGridData, loading] = useAxiosGet();
-  const [channelDDL, getChannel, loadingChannel] = useAxiosGet();
-  const [salesDDL, getSales, loadingSale] = useAxiosGet();
-  const [customerDDL, getCustomer, loadingCustomer] = useAxiosGet();
-  const [shopDDL, getShop, loadingShop] = useAxiosGet();
+  const [, , loader] = useAxiosPost();
+  const [gridData, getGridData] = useAxiosGet();
+  const [channelDDL, getChannel] = useAxiosGet();
+  const [salesDDL, getSales] = useAxiosGet();
+  const [customerDDL, getCustomer] = useAxiosGet();
+  const [shopDDL, getShop] = useAxiosGet();
   const [singleData, setSingleData] = useState(null);
 
   useEffect(() => {
@@ -164,13 +155,18 @@ export default function ExclusivePartnerInfo() {
                   <table className="table table-striped mt-2 table-bordered bj-table bj-table-landing">
                     <thead>
                       <tr>
-                        <th>Name</th>
-                        <th>Bank Account</th>
+                        {/* <th>Name</th> */}
+                        <th>Address</th>
+                        <th>Contact</th>
+                        <th>Account Name</th>
+                        <th>Account No</th>
+                        <th>Bank</th>
                         <th>Branch Name</th>
+                        <th>Routing</th>
                         <th>Birth Date</th>
                         <th>Marriage Date</th>
                         <th>National Id</th>
-                        <th>Blood Group</th>
+                        <th>Transport Zone</th>
                         <th>Shirt Size</th>
                         <th>Jacket Size </th>
                         <th>Panjabi Size</th>
@@ -179,15 +175,27 @@ export default function ExclusivePartnerInfo() {
                     </thead>
                     <tbody>
                       <tr key={1}>
-                        <td className="text-center">
+                        {/* <td className="text-center">
                           {gridData?.shiptoPartnerName}
+                        </td> */}
+                        <td className="text-center">
+                          {values?.shop?.address ||
+                            values?.shop?.shiptoPartnerAddress}
                         </td>
                         <td className="text-center">
-                          {gridData?.bankAccountName}-{gridData?.bankAccountNo}
+                          {values?.shop?.contactNumber}
                         </td>
+                        <td className="text-center">
+                          {gridData?.bankAccountName}
+                        </td>
+                        <td className="text-center">
+                          {gridData?.bankAccountNo}
+                        </td>
+                        <td className="text-center">{gridData?.bankName}</td>
                         <td className="text-center">
                           {gridData?.strBranchName}
                         </td>
+                        <td className="text-center">{gridData?.routingNo}</td>
 
                         <td className="text-center">
                           {_dateFormatter(gridData?.birthDate)}
@@ -196,7 +204,9 @@ export default function ExclusivePartnerInfo() {
                           {_dateFormatter(gridData?.marriageDate)}
                         </td>
                         <td className="text-center">{gridData?.nationalId}</td>
-                        <td className="text-center">{gridData?.bloodGroup}</td>
+                        <td className="text-center">
+                          {gridData?.transportZoneName}
+                        </td>
                         <td className="text-center">{gridData?.shirtSize}</td>
                         <td className="text-center">{gridData?.jacketSize}</td>
                         <td className="text-center">{gridData?.panjabiSize}</td>
