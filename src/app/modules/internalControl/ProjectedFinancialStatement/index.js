@@ -28,6 +28,7 @@ import ProjectedCashflowStatementIndirect from "./ProjectedCashflowStatementIndi
 import { getBusinessDDLByED } from "../budgetVarianceReports/incomeStatement/helper";
 import DivisionSubDivisionAndBusinessUnit from "./commonDivSubDivToBuN";
 import PowerBIReport from "../../_helper/commonInputFieldsGroups/PowerBIReport";
+import { _lastDateOfMonthPreviousYear } from "../../_helper/_todayDate";
 
 const initData = {
   reportType: "",
@@ -889,8 +890,8 @@ export default function ProjectedFinancialStatement() {
                           getIncomeStatement_api(
                             values?.fromDate,
                             values?.toDate,
-                            values?.toDate,
-                            values?.toDate,
+                            _lastDateOfMonthPreviousYear(values?.fromDate),
+                            _lastDateOfMonthPreviousYear(values?.toDate),
                             values?.businessUnit?.value,
                             0,
                             setIncomeStatement,
