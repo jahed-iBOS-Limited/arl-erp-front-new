@@ -73,7 +73,8 @@ export const reportType = [
   { value: 0, label: "Receivable Due Report" },
   { value: 1, label: "Day Base Collection" },
   { value: 2, label: "Month Basis" },
-  { value: 3, label: 'Sales Analysis as Per Receivable' }
+  { value: 3, label: 'Sales Analysis as Per Receivable' },
+  { value: 4, label: 'Customer Sales Invoice & Receive Info' }
 ]
 
 export const groupId = "e3ce45bb-e65e-43d7-9ad1-4aa4b958b29a";
@@ -81,6 +82,7 @@ export const groupId = "e3ce45bb-e65e-43d7-9ad1-4aa4b958b29a";
 export const getReportId = (reportType) => {
   const DayAndMonthBasisReportId = "9962e8c5-114a-4b50-8ef4-e3368e0248b6"
   const SalesAnalysisAsPerReceivableReportId = '17af24d4-8e62-45ed-a4d7-08c91808b3c6'
+  const CustomerSalesInvoiceReceiveInfoId = '17af24d4-8e62-45ed-a4d7-08c91808b3c6'
 
   switch (reportType) {
     case 1:
@@ -88,6 +90,8 @@ export const getReportId = (reportType) => {
       return DayAndMonthBasisReportId
     case 3:
       return SalesAnalysisAsPerReceivableReportId
+    case 4:
+      return CustomerSalesInvoiceReceiveInfoId
     default:
       return null
   }
@@ -118,7 +122,19 @@ export const getParameterValues = (values, buId) => {
     { name: "dteInvoiceToDate", value: `${values?.toDate}` },
   ]
 
-  const parameters = reportType === 1 || reportType === 2 ? dayAndMonthBasis : reportType === 3 ? salesAndRevenueCollection : []
+  const customerSalesInvoiceReceiveInfo = [
+    { name: "intPartid", value: `${1}` },
+    { name: "intUnitid", value: `${buId}` },
+    { name: "intchannelid", value: `${values?.channel?.value}` },
+    { name: "intRegionid", value: `${values?.region?.value}` },
+    { name: "intAreaid", value: `${values?.area?.value}` },
+    { name: "intTerritoryid", value: `${values?.territory?.value}` },
+    { name: "intCustomerId", value: `${values?.customerNameDDL?.value}` },
+    { name: "dteInvoiceFromDate", value: `${values?.fromDate}` },
+    { name: "dteInvoiceToDate", value: `${values?.toDate}` },
+  ]
+
+  const parameters = reportType === 1 || reportType === 2 ? dayAndMonthBasis : reportType === 3 ? salesAndRevenueCollection : reportType === 4 ? customerSalesInvoiceReceiveInfo : []
 
   return parameters
 }

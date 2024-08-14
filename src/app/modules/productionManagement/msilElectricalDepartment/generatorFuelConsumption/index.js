@@ -130,7 +130,7 @@ export default function FuelConsumption() {
                       Show
                     </button>
                   </div>
-                  <div className="col-lg-2">
+                  <div className="col-lg-2" style={{ marginTop: "1px" }}>
                     <button
                       onClick={() => {
                         setShowJVModal(true);

@@ -166,7 +166,7 @@ export default function REBConsumption() {
                     Show
                   </button>
                 </div>
-                <div className="col-log-1">
+                <div className="col-lg-2" style={{ marginTop: "1px" }}>
                   <button
                     onClick={() => {
                       setShowJVModal(true);
