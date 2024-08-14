@@ -113,7 +113,7 @@ export default function IncomestatementNew() {
             buDDLloader ||
             loadingOnSubDivisionDDL) && <Loading />}
           <IForm
-            title="Income Statement New"
+            title="Income Statement"
             isHiddenReset
             isHiddenBack
             isHiddenSave
@@ -310,7 +310,7 @@ export default function IncomestatementNew() {
                   />
                 ) : show ? (
                   <PowerBIReport
-                    reportId={`40f2727f-155e-4e59-8cb4-225560f3173d`}
+                    reportId={`e05ac8cd-afc4-4fdb-b6b3-1669e79720b7`}
                     groupId={groupId}
                     parameterValues={parameterValues(values)}
                     parameterPanel={false}
