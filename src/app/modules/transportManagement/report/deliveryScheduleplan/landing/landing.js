@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 import { Paper, Tab, Tabs, makeStyles } from "@material-ui/core";
 import { SaveOutlined } from "@material-ui/icons";
-import { Form, Formik } from "formik";
+import { Formik } from "formik";
 import moment from "moment";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
@@ -19,8 +19,10 @@ import { dateFormatWithMonthName } from "../../../../_helper/_dateFormate";
 import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
 import { _todayDate } from "../../../../_helper/_todayDate";
+import PowerBIReport from "../../../../_helper/commonInputFieldsGroups/PowerBIReport";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import IButton from "../../../../_helper/iButton";
 import printIcon from "../../../../_helper/images/print-icon.png";
 import {
   CreateTransportScheduleTypeApi,
@@ -33,6 +35,7 @@ import NewSelect from "./../../../../_helper/_select";
 import ConfirmtionModal from "./components/Modal";
 import RATForm from "./ratForm";
 import "./style.scss";
+import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
@@ -48,6 +51,7 @@ const initData = {
   territory: "",
   isMoreFiter: false,
   logisticByFilter: { value: 0, label: "All" },
+  isGateOut: { value: false, label: "NO" },
 };
 
 const useStyles = makeStyles({
@@ -93,6 +97,8 @@ function DeliveryScheduleplanReport() {
   const [shipmentTypeDDl, setShipmentTypeDDl] = React.useState([]);
   const [deliveryStatusDDL, getDeliveryStatusDDL] = useAxiosGet();
   const [, updateDeliveryStatus, updateDeliveryStatusLoading] = useAxiosPost();
+  const [showBIReport, setShowBIReport] = useState(false);
+
   // Get user profile data from store
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return {
@@ -100,13 +106,34 @@ function DeliveryScheduleplanReport() {
       selectedBusinessUnit: state?.authData?.selectedBusinessUnit,
     };
   }, shallowEqual);
+
+  const reportId = `1ba40322-cba5-46fd-87c7-e40ca7b43d25`;
+  const groupId = `e3ce45bb-e65e-43d7-9ad1-4aa4b958b29a`;
+
+  const parameterValues = (values) => {
+    // console.log(values?.fromDate);
+    return [
+      { name: "isGateOut", value: `${values?.isGateOut?.value}` },
+      { name: "intpartid", value: `${2}` },
+      { name: "fromDate", value: `${values?.fromDate}` },
+      { name: "toDtae", value: `${values?.toDate}` },
+      { name: "accountId", value: `${+profileData?.accountId}` },
+      { name: "businessUnitId", value: `${+selectedBusinessUnit?.value}` },
+      { name: "shipmentType", value: `${+values?.logisticByFilter?.value}` },
+      { name: "shippointId", value: `${+values?.shipPoint?.value}` },
+    ];
+  };
+
   const shippointDDL = useSelector((state) => {
     return state.commonDDL.shippointDDL;
   }, shallowEqual);
+
   const printRef = useRef();
+
   const [windowSize, setWindowSize] = useState({
     width: window.innerWidth,
   });
+
   const handleResize = () => {
     setWindowSize({
       width: window.innerWidth,
@@ -137,6 +164,7 @@ function DeliveryScheduleplanReport() {
     getDeliveryStatusDDL(
       `/oms/SalesOrganization/GetDeliveryScheduleStatusDDL?BusinessUnitId=${selectedBusinessUnit.value}`
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedBusinessUnit]);
 
   const handleChange = (newValue, values) => {
@@ -209,6 +237,7 @@ function DeliveryScheduleplanReport() {
       ?.filter((itm) => itm?.itemCheck)
       ?.reduce((acc, curr) => acc + curr?.quantity, 0);
   }, [gridData]);
+
   return (
     <>
       {(loading || updateDeliveryStatusLoading) && <Loading />}
@@ -251,8 +280,30 @@ function DeliveryScheduleplanReport() {
               </CardHeader>
               <CardBody>
                 <>
-                  <Form>
+                  <form>
                     <div className="row global-form p-0 m-0 pb-1">
+                      <div className="col-lg-3">
+                        <NewSelect
+                          name="reportType"
+                          options={[
+                            { value: 1, label: "Shipment Plan Info" },
+                            {
+                              value: 2,
+                              label: "Shipmen Plan Using Auto Suggestion",
+                            },
+                          ]}
+                          value={values?.reportType}
+                          label="Report Type"
+                          onChange={(valueOption) => {
+                            setFieldValue("reportType", valueOption);
+                            setGridData([]);
+                            setShowBIReport(false);
+                          }}
+                          placeholder="Report Type"
+                          errors={errors}
+                          touched={touched}
+                        />
+                      </div>
                       <div className="col-lg-3">
                         <NewSelect
                           name="shipPoint"
@@ -264,6 +315,7 @@ function DeliveryScheduleplanReport() {
                           onChange={(valueOption) => {
                             setFieldValue("shipPoint", valueOption);
                             setGridData([]);
+                            setShowBIReport(false);
                           }}
                           placeholder="Ship Point"
                           errors={errors}
@@ -271,36 +323,59 @@ function DeliveryScheduleplanReport() {
                           isClearable={false}
                         />
                       </div>
+                      {values?.reportType?.value === 2 && (
+                        <div className="col-lg-3">
+                          <NewSelect
+                            name="isGateOut"
+                            options={[
+                              { value: true, label: "YES" },
+                              { value: false, label: "NO" },
+                            ]}
+                            value={values?.isGateOut}
+                            label="Is Gate Out?"
+                            onChange={(valueOption) => {
+                              setFieldValue("isGateOut", valueOption);
+                              setShowBIReport(false);
+                            }}
+                            placeholder="Is Gate Out?"
+                            errors={errors}
+                            touched={touched}
+                          />
+                        </div>
+                      )}
 
-                      <div className="col-lg-3">
-                        <NewSelect
-                          name="trackingType"
-                          options={[
-                            { value: 1, label: "Tracking Pending" },
-                            { value: 2, label: "Tracking Complete" },
-                          ]}
-                          value={values?.trackingType}
-                          label="Tracking Type"
-                          onChange={(valueOption) => {
-                            setGridData([]);
-                            setFieldValue("trackingType", valueOption);
-                            setFieldValue("logisticBy", "");
-                            setFieldValue("isMoreFiter", false);
-                            setFieldValue("channel", "");
-                            setFieldValue("region", "");
-                            setFieldValue("area", "");
-                            setFieldValue("territory", "");
-                            setFieldValue("logisticByFilter", {
-                              value: 0,
-                              label: "All",
-                            });
-                          }}
-                          placeholder="Tracking Type"
-                          errors={errors}
-                          touched={touched}
-                          isClearable={false}
-                        />
-                      </div>
+                      {values?.reportType?.value === 1 && (
+                        <div className="col-lg-3">
+                          <NewSelect
+                            name="trackingType"
+                            options={[
+                              { value: 1, label: "Tracking Pending" },
+                              { value: 2, label: "Tracking Complete" },
+                            ]}
+                            value={values?.trackingType}
+                            label="Tracking Type"
+                            onChange={(valueOption) => {
+                              setGridData([]);
+                              setFieldValue("trackingType", valueOption);
+                              setFieldValue("logisticBy", "");
+                              setFieldValue("isMoreFiter", false);
+                              setFieldValue("channel", "");
+                              setFieldValue("region", "");
+                              setFieldValue("area", "");
+                              setFieldValue("territory", "");
+                              setFieldValue("logisticByFilter", {
+                                value: 0,
+                                label: "All",
+                              });
+                              setShowBIReport(false);
+                            }}
+                            placeholder="Tracking Type"
+                            errors={errors}
+                            touched={touched}
+                            isClearable={false}
+                          />
+                        </div>
+                      )}
                       {values?.trackingType?.value === 2 && (
                         <>
                           <div className="col-lg-3">
@@ -315,13 +390,16 @@ function DeliveryScheduleplanReport() {
                               label="Logistic By"
                               onChange={(valueOption) => {
                                 setFieldValue("logisticByFilter", valueOption);
-                                filterGridDataFunc(
-                                  {
-                                    ...values,
-                                    logisticByFilter: valueOption,
-                                  },
-                                  gridDataWithOutFilter
-                                );
+                                setShowBIReport(false);
+                                if (values?.reportType?.value === 1) {
+                                  filterGridDataFunc(
+                                    {
+                                      ...values,
+                                      logisticByFilter: valueOption,
+                                    },
+                                    gridDataWithOutFilter
+                                  );
+                                }
                               }}
                               placeholder="Logistic By"
                               errors={errors}
@@ -330,145 +408,172 @@ function DeliveryScheduleplanReport() {
                           </div>
                         </>
                       )}
-                      <div className="col-lg-2"></div>
-                      {values?.trackingType?.value === 1 && (
+                      {values?.reportType?.value === 2 && (
                         <>
-                          <div className="col-lg-4">
-                            <div className="d-flex">
-                              <NewSelect
-                                name="logisticBy"
-                                options={[
-                                  { value: 1, label: "Company" },
-                                  { value: 2, label: "Supplier" },
-                                ]}
-                                value={values?.logisticBy}
-                                label="Logistic By"
-                                onChange={(valueOption) => {
-                                  setFieldValue("logisticBy", valueOption);
-                                }}
-                                placeholder="Logistic By"
-                                errors={errors}
-                                touched={touched}
-                                isClearable={false}
-                                isDisabled={!gridData?.some((i) => i.itemCheck)}
-                              />
-                              <button
-                                disabled={
-                                  // !values?.logisticBy?.value ||
-                                  !gridData?.some((i) => i.itemCheck)
-                                }
-                                type="button"
-                                style={{ marginTop: "17px" }}
-                                className="btn btn-primary ml-2"
-                                onClick={() => {
-                                  const payload = gridData
-                                    ?.filter((i) => i?.itemCheck)
-                                    .map((itm) => ({
-                                      deliveryId:
-                                        itm?.intDeliveryId ||
-                                        itm?.deliveryId ||
-                                        0,
-                                      poviderTypeId: values?.logisticBy?.value,
-                                      providerTypeName:
-                                        values?.logisticBy?.label,
-                                      scheduleName: itm?.scheduleName || "",
-                                      scheduleId:
-                                        deliveryStatusDDL.find(
-                                          (i) => i.label === itm?.scheduleName
-                                        )?.value || 0,
-                                      scheduleDate:
-                                        itm?.deliveryScheduleDate || new Date(),
-                                    }));
-
-                                  if (selectedBusinessUnit?.value === 144) {
-                                    const isDeliveryStatusSelected = payload?.every(
-                                      (item) => item.scheduleName !== ""
-                                    );
-
-                                    console.log(
-                                      "isDeliveryStatusSelected",
-                                      !isDeliveryStatusSelected
-                                    );
-
-                                    if (!isDeliveryStatusSelected)
-                                      return toast.warn(
-                                        "Delivery Status Must be Selected!"
-                                      );
-                                    return;
-                                  }
-                                  if (!values?.logisticBy)
-                                    return toast.warn(
-                                      "Logistic By Must be Selected!"
-                                    );
-                                  console.log(payload);
-
-                                  CreateTransportScheduleTypeApi(
-                                    payload,
-                                    setLoading,
-                                    () => {
-                                      setGridData([]);
-                                      commonGridApi(values);
-                                      setFieldValue("logisticBy", "");
-                                      setFieldValue("isMoreFiter", false);
-                                      setFieldValue("channel", "");
-                                      setFieldValue("region", "");
-                                      setFieldValue("area", "");
-                                      setFieldValue("territory", "");
-                                    }
-                                  );
-                                }}
-                              >
-                                Save
-                              </button>
-                            </div>
-                          </div>
+                          <FromDateToDateForm obj={{ values, setFieldValue }} />
+                          <IButton
+                            title="View"
+                            onClick={() => {
+                              setShowBIReport(true);
+                            }}
+                            disabled={
+                              !values?.isGateOut ||
+                              !values?.shipPoint ||
+                              !values?.logisticByFilter
+                            }
+                          />
                         </>
                       )}
+                      {/* <div className="col-lg-2"></div> */}
+                      {values?.trackingType?.value === 1 &&
+                        values?.reportType?.value === 1 && (
+                          <>
+                            <div className="col-lg-3">
+                              <div className="d-flex">
+                                <NewSelect
+                                  name="logisticBy"
+                                  options={[
+                                    { value: 1, label: "Company" },
+                                    { value: 2, label: "Supplier" },
+                                  ]}
+                                  value={values?.logisticBy}
+                                  label="Logistic By"
+                                  onChange={(valueOption) => {
+                                    setFieldValue("logisticBy", valueOption);
+                                  }}
+                                  placeholder="Logistic By"
+                                  errors={errors}
+                                  touched={touched}
+                                  isClearable={false}
+                                  isDisabled={
+                                    !gridData?.some((i) => i.itemCheck)
+                                  }
+                                />
+                                <button
+                                  disabled={
+                                    // !values?.logisticBy?.value ||
+                                    !gridData?.some((i) => i.itemCheck)
+                                  }
+                                  type="button"
+                                  style={{ marginTop: "17px" }}
+                                  className="btn btn-primary ml-2"
+                                  onClick={() => {
+                                    const payload = gridData
+                                      ?.filter((i) => i?.itemCheck)
+                                      .map((itm) => ({
+                                        deliveryId:
+                                          itm?.intDeliveryId ||
+                                          itm?.deliveryId ||
+                                          0,
+                                        poviderTypeId:
+                                          values?.logisticBy?.value,
+                                        providerTypeName:
+                                          values?.logisticBy?.label,
+                                        scheduleName: itm?.scheduleName || "",
+                                        scheduleId:
+                                          deliveryStatusDDL.find(
+                                            (i) => i.label === itm?.scheduleName
+                                          )?.value || 0,
+                                        scheduleDate:
+                                          itm?.deliveryScheduleDate ||
+                                          new Date(),
+                                      }));
 
-                      <div className="col-lg-12 p-0 m-0">
-                        <Paper square className={classes.root}>
-                          <div>
-                            <Tabs
-                              value={shipmentType}
-                              indicatorColor="primary"
-                              textColor="primary"
-                              onChange={(e, value) => {
-                                handleChange(value, values);
-                              }}
-                              aria-label="disabled tabs example"
-                            >
-                              {shipmentTypeDDl?.map((itm, idx) => {
-                                return (
-                                  <Tab
-                                    label={itm?.label}
-                                    className={classes.tab}
-                                  />
-                                );
-                              })}
-                            </Tabs>
-                          </div>
-                          {windowSize?.width > 600 && <RestElements 
-                          values={values}
-                          setFieldValue={setFieldValue}
-                          setGridData={setGridData}
-                          commonGridApi={commonGridApi}
-                          filterGridDataFunc={filterGridDataFunc}
-                          gridDataWithOutFilter={gridDataWithOutFilter}
-                          mobileResponsive={false}
-                          />}
-                        </Paper>
-                        {/* Duplicate for responsive  */}
-                        {windowSize?.width < 600 && <RestElements 
-                          values={values}
-                          setFieldValue={setFieldValue}
-                          setGridData={setGridData}
-                          commonGridApi={commonGridApi}
-                          filterGridDataFunc={filterGridDataFunc}
-                          gridDataWithOutFilter={gridDataWithOutFilter}
-                          mobileResponsive={true}
-                          />}
-                      </div>
-                      {values?.isMoreFiter && (
+                                    if (selectedBusinessUnit?.value === 144) {
+                                      const isDeliveryStatusSelected = payload?.every(
+                                        (item) => item.scheduleName !== ""
+                                      );
+
+                                      console.log(
+                                        "isDeliveryStatusSelected",
+                                        !isDeliveryStatusSelected
+                                      );
+
+                                      if (!isDeliveryStatusSelected)
+                                        return toast.warn(
+                                          "Delivery Status Must be Selected!"
+                                        );
+                                      return;
+                                    }
+                                    if (!values?.logisticBy)
+                                      return toast.warn(
+                                        "Logistic By Must be Selected!"
+                                      );
+                                    console.log(payload);
+
+                                    CreateTransportScheduleTypeApi(
+                                      payload,
+                                      setLoading,
+                                      () => {
+                                        setGridData([]);
+                                        commonGridApi(values);
+                                        setFieldValue("logisticBy", "");
+                                        setFieldValue("isMoreFiter", false);
+                                        setFieldValue("channel", "");
+                                        setFieldValue("region", "");
+                                        setFieldValue("area", "");
+                                        setFieldValue("territory", "");
+                                      }
+                                    );
+                                  }}
+                                >
+                                  Save
+                                </button>
+                              </div>
+                            </div>
+                          </>
+                        )}
+
+                      {values?.reportType?.value === 1 && (
+                        <div className="col-lg-12 p-0 m-0">
+                          <Paper square className={classes.root}>
+                            <div>
+                              <Tabs
+                                value={shipmentType}
+                                indicatorColor="primary"
+                                textColor="primary"
+                                onChange={(e, value) => {
+                                  handleChange(value, values);
+                                }}
+                                aria-label="disabled tabs example"
+                              >
+                                {shipmentTypeDDl?.map((itm, idx) => {
+                                  return (
+                                    <Tab
+                                      label={itm?.label}
+                                      className={classes.tab}
+                                    />
+                                  );
+                                })}
+                              </Tabs>
+                            </div>
+                            {windowSize?.width > 600 && (
+                              <RestElements
+                                values={values}
+                                setFieldValue={setFieldValue}
+                                setGridData={setGridData}
+                                commonGridApi={commonGridApi}
+                                filterGridDataFunc={filterGridDataFunc}
+                                gridDataWithOutFilter={gridDataWithOutFilter}
+                                mobileResponsive={false}
+                              />
+                            )}
+                          </Paper>
+                          {/* Duplicate for responsive  */}
+                          {windowSize?.width < 600 && (
+                            <RestElements
+                              values={values}
+                              setFieldValue={setFieldValue}
+                              setGridData={setGridData}
+                              commonGridApi={commonGridApi}
+                              filterGridDataFunc={filterGridDataFunc}
+                              gridDataWithOutFilter={gridDataWithOutFilter}
+                              mobileResponsive={true}
+                            />
+                          )}
+                        </div>
+                      )}
+                      {values?.isMoreFiter && values?.reportType?.value === 1 && (
                         <>
                           <RATForm
                             obj={{
@@ -486,7 +591,7 @@ function DeliveryScheduleplanReport() {
                     </div>
 
                     {/* Table Start */}
-                    {gridData?.length > 0 && (
+                    {!showBIReport && gridData?.length > 0 && (
                       <div
                         ref={printRef}
                         className="deliveryScheduleplanPrintSection"
@@ -845,7 +950,16 @@ function DeliveryScheduleplanReport() {
                         </div>
                       </div>
                     )}
-                  </Form>
+                    {showBIReport &&
+                      [2].includes(values?.reportType?.value) && (
+                        <PowerBIReport
+                          reportId={reportId}
+                          groupId={groupId}
+                          parameterValues={parameterValues(values)}
+                          parameterPanel={false}
+                        />
+                      )}
+                  </form>
                 </>
               </CardBody>
             </Card>
@@ -865,8 +979,7 @@ const RestElements = ({
   commonGridApi,
   filterGridDataFunc,
   gridDataWithOutFilter,
-  mobileResponsive
-
+  mobileResponsive,
 }) => {
   return (
     <>

@@ -2,8 +2,9 @@ import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { shallowEqual, useSelector } from "react-redux";
-import IConfirmModal from "../../../_helper/_confirmModal";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
+import { formatMonthYear } from "../../../_helper/_getMonthYearFormat";
+import InputField from "../../../_helper/_inputField";
 import Loading from "../../../_helper/_loading";
 import NewSelect from "../../../_helper/_select";
 import { _todayDate } from "../../../_helper/_todayDate";
@@ -12,9 +13,6 @@ import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import IForm from "./../../../_helper/_form";
 import PrintInvoiceModal from "./printInvoice";
-import InputField from "../../../_helper/_inputField";
-import { formatMonthYear } from "../../../_helper/_getMonthYearFormat";
-import IDelete from "../../../_helper/_helperIcons/_delete";
 const initData = {
   customer: "",
   type: { value: 1, label: "Pending for Invoice" },
@@ -29,23 +27,16 @@ export default function SalesInvoiceLanding() {
 
   const [customerList, getCustomerList] = useAxiosGet();
   const [rowData, getRowData, loader, setRowData] = useAxiosGet();
-  const [itemDDL, getItemDDL] = useAxiosGet();
   const [, saveHandler, saveLoader] = useAxiosPost();
-  const [, collectionHandler] = useAxiosGet();
 
   const [showModal, setShowModal] = useState(false);
   const [singleItem, setSingleItem] = useState(null);
-  const [, onDelete] = useAxiosGet();
   // const [, collectionHandler] = useAxiosPost();
 
   useEffect(() => {
     getCustomerList(
       `/partner/BusinessPartnerBasicInfo/GetSoldToPartnerShipToPartnerDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}`
     );
-    getItemDDL(
-      `/oms/SalesOrder/GetgetServiceItemList?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}`
-    );
-
     getData({ typeId: 1, values: {} });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -403,7 +394,7 @@ export default function SalesInvoiceLanding() {
                             <th>Schedule Type</th>
                             <th>Sales Type</th>
                             <th>Sales Order Code</th>
-                            {/* <th>Action</th> */}
+                            <th>Action</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -443,9 +434,9 @@ export default function SalesInvoiceLanding() {
                               </td>
                               <td>{item?.invocieHeader?.strSalesTypeName}</td>
                               <td>{item?.strServiceSalesOrderCode}</td>
-                              {/* <td>
+                              <td>
                                 <div className="d-flex justify-content-between">
-                                  <OverlayTrigger
+                                  {/* <OverlayTrigger
                                     overlay={
                                       <Tooltip id="cs-icon">
                                         {"Collection"}
@@ -473,7 +464,7 @@ export default function SalesInvoiceLanding() {
                                         aria-hidden="true"
                                       ></i>
                                     </span>
-                                  </OverlayTrigger>
+                                  </OverlayTrigger> */}
                                   <OverlayTrigger
                                     overlay={
                                       <Tooltip id="cs-icon">
@@ -497,7 +488,7 @@ export default function SalesInvoiceLanding() {
                                     </span>
                                   </OverlayTrigger>
                                 </div>
-                              </td> */}
+                              </td>
                             </tr>
                           ))}
                         </tbody>

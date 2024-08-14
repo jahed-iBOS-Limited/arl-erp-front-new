@@ -142,19 +142,24 @@ import Loading from "../../../_helper/_loading";
 import InputField from "../../../_helper/_inputField";
 import { shallowEqual, useSelector } from "react-redux";
 import useAxiosPut from "../../../_helper/customHooks/useAxiosPut";
+import moment from "moment";
 
 export default function JVModalView({ values, buId, setShowJVModal }) {
   const [gridData, getGridData, loading, setGridData] = useAxiosGet();
   const [, saveGridData, load] = useAxiosPut();
   const [damageChange, setDamageChange] = useState(0);
-  const rmscivsrent = 5220;
+  const rmscivsrent = 100;
   const { profileData } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
 
   useEffect(() => {
     getGridData(
-      `mes/MSIL/GetFuelConsumptionSummery?FromDate=${values?.fromDate}&ToDate=${values?.toDate}&BusinessUnitId=${buId}`
+      `mes/MSIL/GetFuelConsumptionMonthEnd?MonthId=${moment(
+        values?.fromDate
+      )?.format("MM")}&YearId=${moment(values?.toDate).format(
+        "YYYY"
+      )}&BusinessUnitId=${buId}`
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

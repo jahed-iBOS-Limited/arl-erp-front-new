@@ -137,6 +137,7 @@ export default function _Form({
   isSubsidyRunning,
   setDisabled,
   deliveryeDatabydata,
+  packerList,
 }) {
   const [QRCodeScannerModal, setQRCodeScannerModal] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -392,7 +393,7 @@ export default function _Form({
         validationSchema={isEdit ? validationSchemaEdit : validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           if (isGateMaintain && !values?.veichleEntry?.value)
-            return toast.warn("Veichle Entry is required ");
+            return toast.warn("Vehicle Entry is required ");
           saveHandler(values, () => {
             resetForm(initData);
             document.getElementById("cardNoInput").disabled = false;
@@ -537,7 +538,11 @@ export default function _Form({
                                         aria-hidden="true"
                                       ></i>
                                     </div>
-                                    <div style={{ width: "inherit" }}>
+                                    <div
+                                      style={{
+                                        width: "inherit",
+                                      }}
+                                    >
                                       <InputField
                                         disabled={
                                           itm?.isDisabled ||
@@ -785,57 +790,74 @@ export default function _Form({
                         </div>
                       ) : null}
                       {!isEdit && (
-                        <div className="col-lg-3">
-                          <NewSelect
-                            name="pendingDelivery"
-                            placeholder="Pending Delivery List"
-                            label="Pending Delivery List"
-                            options={PendingDeliveryDDL || []}
-                            value={values?.pendingDelivery}
-                            isDisabled={!values?.Vehicle}
-                            onChange={(valueOption) => {
-                              setFieldValue("pendingDelivery", valueOption);
+                        <>
+                          <div className="col-lg-3">
+                            <NewSelect
+                              name="pendingDelivery"
+                              placeholder="Pending Delivery List"
+                              label="Pending Delivery List"
+                              options={PendingDeliveryDDL || []}
+                              value={values?.pendingDelivery}
+                              isDisabled={!values?.Vehicle}
+                              onChange={(valueOption) => {
+                                setFieldValue("pendingDelivery", valueOption);
 
-                              if (valueOption?.value) {
-                                dispatch(
-                                  getDeliveryItemVolumeInfoAction(
+                                if (valueOption?.value) {
+                                  dispatch(
+                                    getDeliveryItemVolumeInfoAction(
+                                      valueOption?.value,
+                                      setDisabled
+                                    )
+                                  );
+                                  dispatch(
+                                    getDeliveryeDatabyId(
+                                      valueOption?.value,
+                                      values,
+                                      buId,
+                                      setCostlaborRateStatus,
+                                      setLoading
+                                    )
+                                  );
+                                  dispatch(
+                                    getStockStatusOnShipmentAction(
+                                      valueOption?.value,
+                                      buId,
+                                      setLoadingTwo
+                                    )
+                                  );
+                                  dispatch(
+                                    getVehicleNo_action(
+                                      valueOption?.value,
+                                      buId
+                                    )
+                                  );
+                                  getTransportStatusAndInfo(
+                                    1,
+                                    buId,
                                     valueOption?.value,
+                                    setTransportStatus,
                                     setDisabled
-                                  )
-                                );
-                                dispatch(
-                                  getDeliveryeDatabyId(
-                                    valueOption?.value,
-                                    values,
-                                    buId,
-                                    setCostlaborRateStatus,
-                                    setLoading
-                                  )
-                                );
-                                dispatch(
-                                  getStockStatusOnShipmentAction(
-                                    valueOption?.value,
-                                    buId,
-                                    setLoadingTwo
-                                  )
-                                );
-                                dispatch(
-                                  getVehicleNo_action(valueOption?.value, buId)
-                                );
-                                getTransportStatusAndInfo(
-                                  1,
-                                  buId,
-                                  valueOption?.value,
-                                  setTransportStatus,
-                                  setDisabled
-                                );
-                                // getShipmentDetailInfo(
-                                //   `/oms/Shipment/ChallanWiseTransportZoneRate?accountId=${accId}&businessUnitId=${buId}&deliveryId=${valueOption?.value}&shipPointId=${values?.shipPoint?.value}`
-                                // );
-                              }
-                            }}
-                          />
-                        </div>
+                                  );
+                                  // getShipmentDetailInfo(
+                                  //   `/oms/Shipment/ChallanWiseTransportZoneRate?accountId=${accId}&businessUnitId=${buId}&deliveryId=${valueOption?.value}&shipPointId=${values?.shipPoint?.value}`
+                                  // );
+                                }
+                              }}
+                            />
+                          </div>{" "}
+                          <div className="col-lg-3">
+                            <NewSelect
+                              name="packer"
+                              placeholder="Packer"
+                              label="Packer"
+                              options={packerList || []}
+                              value={values?.packer}
+                              onChange={(valueOption) => {
+                                setFieldValue("packer", valueOption);
+                              }}
+                            />
+                          </div>
+                        </>
                       )}
 
                       <div className="col-lg-3 mt-5">

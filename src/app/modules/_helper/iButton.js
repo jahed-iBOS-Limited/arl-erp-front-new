@@ -10,7 +10,7 @@ const IButton = ({
   title = "View",
 }) => {
   return (
-    <div className={`${colSize ? colSize : "col-12"} mt-5 text-right`}>
+    <div className={`text-right ${colSize ? colSize : "col-12"} mt-5 `}>
       <button
         className={`btn ${className ? className : "btn-primary"}`}
         type={type ? type : "button"}
