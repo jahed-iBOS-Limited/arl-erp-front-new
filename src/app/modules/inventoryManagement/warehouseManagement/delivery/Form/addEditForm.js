@@ -126,22 +126,22 @@ export default function DeliveryForm({
   };
 
   const saveHandler = async (values, cb) => {
-    // const hasEqual = values?.itemLists?.some((ele, i) => {
-    //   const _deliveryQty = +ele?.deliveryQty
-    //   const list = ele?.scannedItemSerialList;
+    const hasEqual = values?.itemLists?.some((ele, i) => {
+      const _deliveryQty = +ele?.deliveryQty
+      const list = ele?.scannedItemSerialList;
       
-    //   if(!list){
-    //     return false ;
-    //   }
-    //   const arraysWithChecked = list?.filter((itm)=> itm?.isItWithCurrentPurchaseOrder || itm?.isCheck);
-    //   console.log("arraysWithChecked",arraysWithChecked);
-    //   console.log("_deliveryQty",_deliveryQty);
-    //   if( list?.length > 0  && ( _deliveryQty !== arraysWithChecked)){
-    //     return true
-    //   }return false
-    // });
+      if(!list){
+        return false ;
+      }
+      const arraysWithChecked = list?.filter((itm)=> itm?.isItWithCurrentPurchaseOrder || itm?.isCheck);
+      console.log("arraysWithChecked",arraysWithChecked);
+      console.log("_deliveryQty",_deliveryQty);
+      if( list?.length > 0  && ( _deliveryQty !== arraysWithChecked?.length)){
+        return true
+      }return false
+    });
 
-    // if(hasEqual) return toast.warn("Delivery qty must equal to the length of serial checked list !")
+    if(hasEqual) return toast.warn("Delivery qty must equal to the length of serial checked list !")
 
  
 
