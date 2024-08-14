@@ -127,13 +127,23 @@ export default function DeliveryForm({
 
   const saveHandler = async (values, cb) => {
     const hasEqual = values?.itemLists?.some((ele, i) => {
-      const list = ele[i]?.scannedItemSerialList?.filter((item) => item?.isCheck);
-      return +ele.deliveryQty !== list?.length;
+      const _deliveryQty = +ele?.deliveryQty
+      const list = ele?.scannedItemSerialList;
+      
+      if(!list){
+        return false ;
+      }
+      const arraysWithChecked = list?.filter((itm)=> itm?.isItWithCurrentPurchaseOrder || itm?.isCheck);
+      console.log("arraysWithChecked",arraysWithChecked);
+      console.log("_deliveryQty",_deliveryQty);
+      if( list?.length > 0  && ( _deliveryQty !== arraysWithChecked?.length)){
+        return true
+      }return false
     });
 
-    if (hasEqual) {
-      return toast.warn("Delivery Quantity and Item Serial List need to be same");
-    }
+    if(hasEqual) return toast.warn("Delivery qty must equal to the length of serial checked list !")
+
+ 
 
     if (values && profileData?.accountId && selectedBusinessUnit?.value) {
       let requestDeliveryDate = "";
@@ -158,7 +168,15 @@ export default function DeliveryForm({
       }
       const rowData = list?.map((itm) => {
         const list = itm?.scannedItemSerialList;
-        const filteredItem = list?.filter((item) => item?.isCheck);
+        const filteredItem = list?.filter((item) => item?.isCheck || item?.isItWithCurrentPurchaseOrder);
+        const payloadKey = id ? "autoID" : "serialNumber";
+        const payloadValue = id
+          ? filteredItem?.map((el) => el?.autoID) 
+          : filteredItem?.map((el) => ({
+              autoID: el?.autoID,
+              serialNumber: el?.serialNumber,
+              isCheck: el?.isCheck,
+            }));
 
         return {
           rowId: itm.deliveryRowId || 0,
@@ -176,10 +194,7 @@ export default function DeliveryForm({
           salesOrder: itm?.salesOrder,
           specification: itm?.specification || "",
           vatAmount: itm?.vatAmount || 0,
-          serialNumber: filteredItem?.map((el) => ({
-            autoID: el?.autoID,
-            serialNumber: el?.serialNumber,
-          })),
+          [payloadKey]: payloadValue, 
           shipmentExtraAmount: (+itm?.extraRate || 0) * (+itm?.deliveryQty || 0),
           shipmentExtraRate: +itm?.extraRate || 0,
         };
