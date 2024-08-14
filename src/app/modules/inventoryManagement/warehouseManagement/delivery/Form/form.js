@@ -171,6 +171,11 @@ export default function _Form({
     return _dateFormatter(thirtyDaysFromToday);
   };
 
+  // const getValidation = ({ itm, index }) => {
+  //   const list = itm[index]?.scannedItemSerialList;
+  //   return !!(!list || list.length === 0);
+  // };
+
   return (
     <>
       <Formik
@@ -561,6 +566,7 @@ export default function _Form({
                         </thead>
                         <tbody>
                           {values?.itemLists.map((itm, index) => {
+
                             let _numItemPrice = itm?.isVatPrice ? itm?.vatItemPrice : itm?.numItemPrice;
                             return (
                               <>
@@ -584,17 +590,20 @@ export default function _Form({
                                           title={"Info"}
                                           styles={{ margin: "5px" }}
                                           clickHandler={() => {
-                                            setCurrRowInfo({
-                                              isView: true,
-                                              data: itm,
-                                              rowIndex: index,
-                                            });
+                                            // const validation = getValidation({ itm, index });
+                                            // if(!isEdit && !validation)  return  toast.warn("It row has no serial list , please create serial list first !");
+                                              setCurrRowInfo({
+                                                isView: true,
+                                                data: itm,
+                                                rowIndex: index,
+                                              });
                                           }}
                                         />
                                       )}
                                       {itm.itemName}
                                     </div>
                                   </td>
+
                                   <td
                                     style={{
                                       width: "75px",
@@ -789,6 +798,7 @@ export default function _Form({
                   setFieldValue={setFieldValue}
                   rowDto={values?.itemLists}
                   isFromDelivery={true}
+                  isEdit={isEdit}
                 />
               </IViewModal>
             </Form>
