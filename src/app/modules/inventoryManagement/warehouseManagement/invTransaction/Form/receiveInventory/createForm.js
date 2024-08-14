@@ -50,6 +50,9 @@ export default function ReceiveInvCreateForm({ btnRef, resetBtnRef, disableHandl
     return state?.authData;
   }, shallowEqual);
 
+  const businessUnitId = selectedBusinessUnit?.value;
+  const isWorkable = (businessUnitId === 138 || businessUnitId === 186 )
+
   // redux store data
   const {
     referenceTypeDDL,
@@ -158,7 +161,7 @@ export default function ReceiveInvCreateForm({ btnRef, resetBtnRef, disableHandl
             salesRate: values?.item?.salesRate || 0,
             mrpRate: values?.item?.mrpRate || 0,
             expiredDate: _todayDate(),
-            isSerialMaintain: values?.item?.isSerialMaintain,
+            isSerialMaintain:  values?.item?.isSerialMaintain,
             serialList: [],
           },
         ];
@@ -253,22 +256,24 @@ export default function ReceiveInvCreateForm({ btnRef, resetBtnRef, disableHandl
 
     if (isDisabled) return "";
 
-    const isInvalid = rowDto?.some((item) => {
-      const list = item?.serialList;
-      if (!list) {
-        return false;
-      }
-      const hasMissingBarcode = list.some((element) => {
-        if (!(element.hasOwnProperty("barCode")) || element.barCode === "") {
-          return true;
+    if(isWorkable){
+      const isInvalid = rowDto?.some((item) => {
+        const list = item?.serialList;
+        if (!list) {
+          return false;
         }
-        return false;
+        const hasMissingBarcode = list.some((element) => {
+          if (!(element.hasOwnProperty("barCode")) || element.barCode === "") {
+            return true;
+          }
+          return false;
+        });
+        return !!hasMissingBarcode;
       });
-      return !!hasMissingBarcode;
-    });
-
-    if (isInvalid) {
-      return toast.warn("Item quantity and serial list with barcode value need to be  same.");
+  
+      if (isInvalid) {
+        return toast.warn("Item quantity and serial list with barcode value need to be  same.");
+      }
     }
 
     if (rowDto.length === 0) {
@@ -1031,6 +1036,7 @@ export default function ReceiveInvCreateForm({ btnRef, resetBtnRef, disableHandl
                 setItems={setItems}
                 items={items}
                 setQuantity={setQuantity}
+                isWorkable={isWorkable}
               />
 
               <DropzoneDialogBase
