@@ -85,11 +85,15 @@ export default function PackerInfo() {
                   <button
                     type="button"
                     className="btn btn-primary"
+                    disabled={!reportData?.objHeader?.shipmentId && !shipmentId}
                     onClick={() => {
                       if (selectedBusinessUnit?.value !== 4) {
                         return toast.warn(
                           "Only Business Unit Cement is Permitted !!!"
                         );
+                      }
+                      if (reportData?.objHeader?.isLoaded) {
+                        return toast.warn("Already Completed");
                       }
                       onComplete(
                         `/oms/LoadingPoint/CompletePacker?shipmentId=${
@@ -100,6 +104,7 @@ export default function PackerInfo() {
                         null,
                         () => {
                           resetForm(initData);
+                          setShipmentId(null);
                         },
                         true
                       );
@@ -124,6 +129,7 @@ export default function PackerInfo() {
                       onChange={(e) => {
                         setActionType("Auto");
                         resetForm(initData);
+                        setShipmentId(null);
                       }}
                     />
                     Auto
@@ -138,11 +144,24 @@ export default function PackerInfo() {
                       onChange={(e) => {
                         setActionType("Manual");
                         resetForm(initData);
+                        setShipmentId(null);
                       }}
                     />
                     Manual
                   </label>
                 </div>
+                {reportData?.objHeader?.isLoaded && (
+                  <p
+                    style={{
+                      textAlign: "center",
+                      fontSize: "16px",
+                      fontWeight: "bold",
+                    }}
+                    className="text-danger"
+                  >
+                    Packer Completed
+                  </p>
+                )}
                 <div className="form-group  global-form row">
                   {["Auto"].includes(actionType) ? (
                     <div className="col-lg-3">
@@ -295,7 +314,7 @@ export default function PackerInfo() {
                     setIsQRCodeSHow(false);
                     setShipmentId(result);
                     getReportData(
-                      `/wms/Delivery/GetDeliveryPrintInfo?ShipmentId=${result}`,
+                      `/wms/Delivery/GetDeliveryPrintInfo?ShipmentId=${+result}`,
                       (res) => {
                         setFieldValue(
                           "shippingPoint",
