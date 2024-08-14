@@ -89,6 +89,7 @@ export default function _Form({
   setDisabled,
   is_BalanceCheck,
   categoryDDL,
+  isWorkable
 }) {
   // get user profile data from store
   const profileData = useSelector((state) => {
@@ -170,11 +171,6 @@ export default function _Form({
 
     return _dateFormatter(thirtyDaysFromToday);
   };
-
-  // const getValidation = ({ itm, index }) => {
-  //   const list = itm[index]?.scannedItemSerialList;
-  //   return !!(!list || list.length === 0);
-  // };
 
   return (
     <>
@@ -585,13 +581,11 @@ export default function _Form({
                                   </td>
                                   <td style={{ width: "90px" }}>
                                     <div className="pl-2">
-                                      {itm?.isSerialMaintain && (
+                                      {(itm?.isSerialMaintain && isWorkable) && (
                                         <IHistory
                                           title={"Info"}
                                           styles={{ margin: "5px" }}
                                           clickHandler={() => {
-                                            // const validation = getValidation({ itm, index });
-                                            // if(!isEdit && !validation)  return  toast.warn("It row has no serial list , please create serial list first !");
                                               setCurrRowInfo({
                                                 isView: true,
                                                 data: itm,
