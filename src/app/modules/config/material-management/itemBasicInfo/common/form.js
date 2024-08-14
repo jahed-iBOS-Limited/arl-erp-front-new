@@ -44,6 +44,7 @@ export default function _Form({
   accountId,
   setSaveConfigBtn,
   id,
+  isWorkable,
 }) {
   const [itemTypeList, setItemTypeList] = useState("");
   const [itemCategoryList, setItemCategoryList] = useState("");
@@ -279,19 +280,21 @@ export default function _Form({
                       : ""}
                   </p>
                 </div>
-                <div className="col-lg-1 d-flex align-items-center">
-                  <div className="mr-2">isSerialize</div>
-                  <input
-                    type="checkbox"
-                    name="isMaintainSerial"
-                    value={data?.IsSerialMaintain}
-                    checked={values?.isMaintainSerial}
-                    id="isMaintainSerial"
-                    onChange={(e) => {
-                      setFieldValue("isMaintainSerial", e.target.checked);
-                    }}
-                  />
-                </div>
+                {isWorkable && (
+                  <div className="col-lg-1 d-flex align-items-center">
+                    <div className="mr-2">isSerialize</div>
+                    <input
+                      type="checkbox"
+                      name="isMaintainSerial"
+                      value={data?.IsSerialMaintain}
+                      checked={values?.isMaintainSerial}
+                      id="isMaintainSerial"
+                      onChange={(e) => {
+                        setFieldValue("isMaintainSerial", e.target.checked);
+                      }}
+                    />
+                  </div>
+                )}
               </div>
               <button
                 type="submit"

@@ -30,6 +30,9 @@ export default function EditForm({ history,isViewPage }) {
     return state.authData.selectedBusinessUnit;
   }, shallowEqual);
 
+  const businessUnitId = selectedBusinessUnit?.value;
+  const isWorkable = (businessUnitId === 138 || businessUnitId === 186 )
+
   let { id } = useParams();
   useEffect(() => {
     getDataById(id);
@@ -176,6 +179,7 @@ export default function EditForm({ history,isViewPage }) {
               selectedBusinessUnit={selectedBusinessUnit}
               accountId={profileData.accountId}
               id={id}
+              isWorkable={isWorkable}
             />
           </div>
         )}

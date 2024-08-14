@@ -27,7 +27,7 @@ const RowDtoTable = ({
   setInLineRowItemView,
   inLineRowItemView,
   setFieldValue,
-  setQuantity,
+  isWorkable
 }) => {
   const getSerialList = (row) => {
     const list = [];
@@ -103,13 +103,12 @@ const RowDtoTable = ({
                   <td className="text-center align-middle"> {index + 1} </td>
                   <td className="text-center align-middle"> {item?.itemCode} </td>
                   <td className="">
-                    {item?.isSerialMaintain && (
+                    {(item?.isSerialMaintain && isWorkable) && (
                       <IHistory
                         title={"Info"}
                         styles={{ margin: "5px" }}
                         clickHandler={() => {
                           onRowSerialClick(item, index);
-                          setQuantity(+item?.quantity);
                         }}
                       />
                     )}

@@ -77,6 +77,9 @@ export default function DeliveryForm({
     return state.salesOrder;
   }, shallowEqual);
 
+  const businessUnitId = selectedBusinessUnit?.value;
+  const isWorkable = businessUnitId === 138 || businessUnitId === 186;
+
   const is_BalanceCheck = isBalanceCheck?.balanceCheckOnDelivery && !isBalanceCheck?.balanceCheckOnOrder;
 
   // get shipPointDDL ddl from store
@@ -126,24 +129,25 @@ export default function DeliveryForm({
   };
 
   const saveHandler = async (values, cb) => {
-    const hasEqual = values?.itemLists?.some((ele, i) => {
-      const _deliveryQty = +ele?.deliveryQty
-      const list = ele?.scannedItemSerialList;
-      
-      if(!list){
-        return false ;
-      }
-      const arraysWithChecked = list?.filter((itm)=> itm?.isItWithCurrentPurchaseOrder || itm?.isCheck);
-      console.log("arraysWithChecked",arraysWithChecked);
-      console.log("_deliveryQty",_deliveryQty);
-      if( list?.length > 0  && ( _deliveryQty !== arraysWithChecked?.length)){
-        return true
-      }return false
-    });
+    if (isWorkable) {
+      const hasEqual = values?.itemLists?.some((ele, i) => {
+        const _deliveryQty = +ele?.deliveryQty;
+        const list = ele?.scannedItemSerialList;
 
-    if(hasEqual) return toast.warn("Delivery qty must equal to the length of serial checked list !")
+        if (!list) {
+          return false;
+        }
+        const arraysWithChecked = list?.filter((itm) => itm?.isItWithCurrentPurchaseOrder || itm?.isCheck);
+        console.log("arraysWithChecked", arraysWithChecked);
+        console.log("_deliveryQty", _deliveryQty);
+        if (list?.length > 0 && _deliveryQty !== arraysWithChecked?.length) {
+          return true;
+        }
+        return false;
+      });
 
- 
+      if (hasEqual) return toast.warn("Delivery qty must equal to the length of serial checked list !");
+    }
 
     if (values && profileData?.accountId && selectedBusinessUnit?.value) {
       let requestDeliveryDate = "";
@@ -171,7 +175,7 @@ export default function DeliveryForm({
         const filteredItem = list?.filter((item) => item?.isCheck || item?.isItWithCurrentPurchaseOrder);
         const payloadKey = id ? "autoID" : "serialNumber";
         const payloadValue = id
-          ? filteredItem?.map((el) => el?.autoID) 
+          ? filteredItem?.map((el) => el?.autoID)
           : filteredItem?.map((el) => ({
               autoID: el?.autoID,
               serialNumber: el?.serialNumber,
@@ -194,7 +198,7 @@ export default function DeliveryForm({
           salesOrder: itm?.salesOrder,
           specification: itm?.specification || "",
           vatAmount: itm?.vatAmount || 0,
-          [payloadKey]: payloadValue, 
+          [payloadKey]: payloadValue,
           shipmentExtraAmount: (+itm?.extraRate || 0) * (+itm?.deliveryQty || 0),
           shipmentExtraRate: +itm?.extraRate || 0,
         };
@@ -468,6 +472,7 @@ export default function DeliveryForm({
         setDisabled={setDisabled}
         is_BalanceCheck={is_BalanceCheck}
         categoryDDL={categoryDDL}
+        isWorkable={isWorkable}
       />
     </IForm>
   );
