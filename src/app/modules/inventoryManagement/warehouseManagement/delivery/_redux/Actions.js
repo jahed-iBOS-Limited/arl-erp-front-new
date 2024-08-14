@@ -198,6 +198,7 @@ export const getDeliveryById = (id) => (dispatch) => {
     .then((res) => {
       if (res.status === 200) {
         const item = res?.data;
+        console.log("item",item);
 
         const modifiedSalesOrderList = [];
         if (res?.data?.objListDeliveryRowDetailsDTO?.length > 0) {
@@ -231,6 +232,7 @@ export const getDeliveryById = (id) => (dispatch) => {
               numItemPrice: +ele?.itemPrice - (+ele?.shipmentExtraRate || 0),
               extraRate: +ele?.shipmentExtraRate || 0,
               numOrderQuantity: +ele?.orderQuantity,
+              scannedItemSerialList:ele?.rowItemSerialList,
               objLocation: [
                 {
                   value: ele?.locationId,

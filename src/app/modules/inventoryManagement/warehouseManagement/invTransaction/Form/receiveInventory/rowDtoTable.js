@@ -38,10 +38,8 @@ const RowDtoTable = ({
   };
 
   const onRowSerialClick = (item, index) => {
-    if (+item?.quantity <= 0) toast.warn("quantity is zero");
-    // if(+item?.quantity !== 0 && (+item?.quantity !== item?.serialList?.length)) {
-      
-    // }
+    if (+item?.quantity <= 0) return toast.warn("quantity is zero");
+
     const serialList = item?.serialList?.length > 0 && item?.serialList?.length === +item?.quantity ? item?.serialList : getSerialList(item);
     const updateRowDto = getUpdatedFirstLevelList(rowDto, "serialList", index, serialList);
     setRowDto(updateRowDto);
