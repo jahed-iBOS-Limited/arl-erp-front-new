@@ -148,38 +148,50 @@ export default function JVModalView({ values, buId, setShowJVModal }) {
   const [gridData, getGridData, loading, setGridData] = useAxiosGet();
   const [, saveGridData, load] = useAxiosPut();
   const [damageChange, setDamageChange] = useState(0);
-  const rmscivsrent = 100;
+  const rmscivsrent = 0;
   const { profileData } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
 
   useEffect(() => {
     getGridData(
-      `mes/MSIL/GetFuelConsumptionMonthEnd?MonthId=${moment(
+      `/mes/MSIL/GetFuelConsumptionMonthEnd?MonthId=${moment(
         values?.fromDate
-      )?.format("MM")}&YearId=${moment(values?.toDate).format(
+      )?.format("M")}&YearId=${moment(values?.toDate).format(
         "YYYY"
-      )}&BusinessUnitId=${buId}`
+      )}&BusinessUnitId=${buId}`,
+      (data) => {
+        const modifyData = [
+          {
+            totalFuelQuantity: data,
+            rate: 0,
+            totalValue: 0,
+            particulars: "Fuel Consumption",
+            fuelType: "Gas",
+          },
+        ];
+        setGridData(modifyData);
+      }
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // fuelType: "Gas";
-  // particulars: "Fuel Consumption";
-  // rate: null;
-  // totalFuelQuantity: 0;
   const grandTotalValue = useMemo(() => {
-    return gridData.reduce(
-      (accumulator, item) => accumulator + (item?.totalValue || 0),
-      0
-    );
+    if (gridData?.length > 0) {
+      return gridData.reduce(
+        (accumulator, item) => accumulator + (item?.totalValue || 0),
+        0
+      );
+    }
   }, [gridData]);
 
   const totalFuelconsumedUnit = useMemo(() => {
-    return gridData.reduce(
-      (accumulator, item) => accumulator + (item?.totalFuelQuantity || 0),
-      0
-    );
+    if (gridData?.length > 0) {
+      return gridData?.reduce(
+        (accumulator, item) => accumulator + (item?.totalFuelQuantity || 0),
+        0
+      );
+    }
   }, [gridData]);
 
   const vat = useMemo(() => {
@@ -200,9 +212,9 @@ export default function JVModalView({ values, buId, setShowJVModal }) {
   const saveFuelConsumption = () => {
     const payload = gridData?.map((item) => ({
       consumptionId: 0,
-      costTypeId: 2,
+      costTypeId: 0,
       strCostTypeName: "Fuel Consumption",
-      particularsId: 16,
+      particularsId: 0,
       particularsName: "Fuel Consumption",
       consumptionType: "Gas",
       totalValue: item?.totalValue,
@@ -216,11 +228,11 @@ export default function JVModalView({ values, buId, setShowJVModal }) {
       isActive: true,
       dteCreatedAt: new Date().toISOString(),
       createdBy: profileData?.userId,
-      rebTotalConsmQuantity: item?.totalFuelconsumedUnit,
+      rebTotalConsmQuantity: gridData[0]?.totalFuelQuantity,
       rate: item?.rate,
     }));
     saveGridData(
-      `/mes/MSIL/CreateGeneratorFuelConsumptionVoucher?FromDate=${values?.fromDate}&ToDate=${values?.toDate}&BusinessUnitId=${buId}`,
+      `/mes/MSIL/CreateGeneratorFuelConsumptionVoucher`,
       payload[0],
       () => {
         setShowJVModal(false);
