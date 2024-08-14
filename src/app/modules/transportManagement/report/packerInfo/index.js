@@ -1,19 +1,20 @@
 import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import * as Yup from "yup";
+import { _dateFormatter } from "../../../_helper/_dateFormate";
+import IViewModal from "../../../_helper/_viewModal";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
+import QRCodeScanner from "../../../_helper/qrCodeScanner";
 import IForm from "./../../../_helper/_form";
 import InputField from "./../../../_helper/_inputField";
 import Loading from "./../../../_helper/_loading";
-import NewSelect from "./../../../_helper/_select";
-import IViewModal from "../../../_helper/_viewModal";
-import QRCodeScanner from "../../../_helper/qrCodeScanner";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import { toast } from "react-toastify";
-import { shallowEqual, useSelector } from "react-redux";
 
 const initData = {
   shipmentId: "",
+  shipmentCode: "",
   shippingPoint: "",
   vehicleNumber: "",
   driver: "",
@@ -49,6 +50,7 @@ export default function PackerInfo() {
   };
 
   const [isQrCodeShow, setIsQRCodeSHow] = useState(false);
+  const [actionType, setActionType] = useState("Auto");
   return (
     <Formik
       enableReinitialize={true}
@@ -89,13 +91,16 @@ export default function PackerInfo() {
                           "Only Business Unit Cement is Permitted !!!"
                         );
                       }
-                      if (!shipmentId) {
-                        return toast.warn("Required Shipment Id");
-                      }
                       onComplete(
-                        `/oms/LoadingPoint/CompletePacker?shipmentId=${shipmentId}`,
+                        `/oms/LoadingPoint/CompletePacker?shipmentId=${
+                          actionType === "Auto"
+                            ? shipmentId
+                            : reportData?.objHeader?.shipmentId
+                        }`,
                         null,
-                        null,
+                        () => {
+                          resetForm(initData);
+                        },
                         true
                       );
                     }}
@@ -108,29 +113,108 @@ export default function PackerInfo() {
           >
             <Form>
               <>
+                <div className="col-lg-4 mb-2 mt-5">
+                  <label className="mr-3">
+                    <input
+                      type="radio"
+                      name="actionType"
+                      checked={actionType === "Auto"}
+                      className="mr-1 pointer"
+                      style={{ position: "relative", top: "2px" }}
+                      onChange={(e) => {
+                        setActionType("Auto");
+                        resetForm(initData);
+                      }}
+                    />
+                    Auto
+                  </label>
+                  <label>
+                    <input
+                      type="radio"
+                      name="actionType"
+                      checked={actionType === "Manual"}
+                      className="mr-1 pointer"
+                      style={{ position: "relative", top: "2px" }}
+                      onChange={(e) => {
+                        setActionType("Manual");
+                        resetForm(initData);
+                      }}
+                    />
+                    Manual
+                  </label>
+                </div>
                 <div className="form-group  global-form row">
-                  <div className="col-lg-3">
-                    <div style={{ display: "inline-block", width: "95%" }}>
+                  {["Auto"].includes(actionType) ? (
+                    <div className="col-lg-3">
+                      <div style={{ display: "inline-block", width: "95%" }}>
+                        <InputField
+                          value={shipmentId}
+                          label="Shipment Id"
+                          name="shipmentId"
+                          type="text"
+                          disabled
+                        />
+                      </div>
+                      <span
+                        className="pl-1"
+                        style={{ display: "inline-block" }}
+                      >
+                        <i
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setIsQRCodeSHow(true);
+                          }}
+                          style={{ color: "blue", cursor: "pointer" }}
+                          class="fa fa-qrcode"
+                          aria-hidden="true"
+                        ></i>
+                      </span>
+                    </div>
+                  ) : (
+                    <div className="col-lg-3">
                       <InputField
-                        value={shipmentId}
-                        label="Shipment Id"
-                        name="shipmentId"
+                        value={values?.shipmentCode}
+                        label="Shipment Code"
+                        name="shipmentCode"
                         type="text"
-                        disabled
+                        onChange={(e) => {
+                          setFieldValue("shipmentCode", e.target.value);
+                        }}
+                        onKeyDown={(e) => {
+                          if (e.keyCode === 13) {
+                            setFieldValue("shipmentCode", e.target.value);
+                            getReportData(
+                              `/wms/Delivery/GetDeliveryPrintInfoManual?businessUnitId=${selectedBusinessUnit?.value}&shipmentCode=${e.target.value}`,
+                              (res) => {
+                                setFieldValue(
+                                  "shippingPoint",
+                                  res?.objHeader?.shipPointName || ""
+                                );
+                                setFieldValue(
+                                  "vehicleNumber",
+                                  res?.objHeader?.strVehicleName || ""
+                                );
+                                setFieldValue(
+                                  "driver",
+                                  res?.objHeader?.driverName || ""
+                                );
+                                setFieldValue(
+                                  "packerName",
+                                  res?.objHeader?.packerName || ""
+                                );
+                                setFieldValue(
+                                  "delliveryDate",
+                                  _dateFormatter(res?.objHeader?.pricingDate) ||
+                                    ""
+                                );
+                              }
+                            );
+                          }
+                        }}
                       />
                     </div>
-                    <span className="pl-1" style={{ display: "inline-block" }}>
-                      <i
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setIsQRCodeSHow(true);
-                        }}
-                        style={{ color: "blue", cursor: "pointer" }}
-                        class="fa fa-qrcode"
-                        aria-hidden="true"
-                      ></i>
-                    </span>
-                  </div>
+                  )}
+
                   <div className="col-lg-3">
                     <InputField
                       value={values?.shippingPoint}
@@ -169,7 +253,7 @@ export default function PackerInfo() {
                       value={values?.packerName}
                       label="Packer Name"
                       name="packerName"
-                      type="number"
+                      type="text"
                       onChange={(e) => {
                         setFieldValue("packerName", e.target.value);
                       }}
@@ -231,7 +315,7 @@ export default function PackerInfo() {
                         );
                         setFieldValue(
                           "delliveryDate",
-                          res?.objHeader?.pricingDate || ""
+                          _dateFormatter(res?.objHeader?.pricingDate) || ""
                         );
                       }
                     );
