@@ -239,8 +239,11 @@ export const parameterValues = (values) => {
       value: values?.subDivision?.label?.toString() || "all",
     },
     { name: "ReportTypeId", value: "2" },
-    { name: "ViewTypeReff", value:  values?.viewType?.value?.toString() || "" },
+    { name: "ViewTypeReff", value: "" },
   ];
+  if (values?.viewType?.value) {
+    reportParameter.push({ name: "ViewType", value: values.viewType.value });
+  }
  
   return reportParameter;
 };
