@@ -1,12 +1,12 @@
 import React, { useRef, useEffect } from "react";
 import { getUpdatedFirstLevelList } from "../rowDtoTable";
 
-const ItemInformation = ({ currRowInfo, setFieldValue, rowDto, isFromDelivery, setRowDto }) => {
+const ItemInformation = ({ currRowInfo, setFieldValue, rowDto, isFromDelivery, setRowDto, isEdit }) => {
   const inputRefs = useRef([]);
   const currentRowIndex = currRowInfo?.rowIndex;
-  const itemSerialList = Array.isArray(rowDto[currentRowIndex]?.serialList) ? rowDto[currentRowIndex]?.serialList : [];
+  const itemSerialList = Array.isArray(rowDto[currentRowIndex]?.serialList) ? rowDto[currentRowIndex]?.serialList : []; //from inventory receive page
 
-  const itemList = Array.isArray(rowDto[currentRowIndex]?.scannedItemSerialList)
+  const itemList = Array.isArray(rowDto[currentRowIndex]?.scannedItemSerialList)   //from customer delivery page
     ? rowDto[currentRowIndex]?.scannedItemSerialList
     : [];
 
@@ -37,6 +37,10 @@ const ItemInformation = ({ currRowInfo, setFieldValue, rowDto, isFromDelivery, s
     const childList = [...exactClickedRow?.scannedItemSerialList];
     const clickedRow = childList[i];
 
+    if (isEdit && clickedRow) {
+      clickedRow.isItWithCurrentPurchaseOrder = value;
+    }
+
     if (clickedRow) {
       clickedRow.isCheck = value;
     }
@@ -47,6 +51,16 @@ const ItemInformation = ({ currRowInfo, setFieldValue, rowDto, isFromDelivery, s
     const deepClone = JSON.parse(JSON.stringify(rowDto));
 
     const exactClickedRow = deepClone[currentRowIndex];
+
+    if (isEdit) {
+      const updatedChildList = exactClickedRow?.scannedItemSerialList.map((item) => {
+        return {
+          ...item,
+          isItWithCurrentPurchaseOrder: value,
+        };
+      });
+      exactClickedRow.scannedItemSerialList = updatedChildList;
+    }
 
     const updatedChildList = exactClickedRow?.scannedItemSerialList.map((item) => {
       return {
@@ -71,7 +85,7 @@ const ItemInformation = ({ currRowInfo, setFieldValue, rowDto, isFromDelivery, s
     const exactClickedRow = deepClone[currentRowIndex]; //mother array;
     const childList = [...exactClickedRow?.scannedItemSerialList]; //child array
 
-    return childList?.length > 0 && childList?.every((item) => item?.isCheck);
+    return childList?.length > 0 && childList?.every((item) => item?.isCheck || item?.isItWithCurrentPurchaseOrder);
   };
 
   const handleKeyDown = (event, index) => {
@@ -159,7 +173,7 @@ const ItemInformation = ({ currRowInfo, setFieldValue, rowDto, isFromDelivery, s
                         <input
                           type="checkbox"
                           name="isCheck"
-                          checked={item?.isCheck}
+                          checked={item?.isCheck || item?.isItWithCurrentPurchaseOrder}
                           onChange={(e) => {
                             const value = e.target.checked;
                             singleChecker({ value, i });
@@ -190,10 +204,6 @@ const ItemInformation = ({ currRowInfo, setFieldValue, rowDto, isFromDelivery, s
                           type="text"
                           onChange={(event) => {
                             onRowChange({ value: event.target.value, key: "barCode", index: i });
-                            const value = event.target.value;
-                            // if (value && inputRefs.current[i + 1]) {
-                            //   inputRefs.current[i + 1].focus();
-                            // }
                           }}
                           onKeyDown={(e) => handleKeyDown(e, i)}
                           ref={(el) => (inputRefs.current[i] = el)}
