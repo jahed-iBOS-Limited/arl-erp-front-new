@@ -89,12 +89,12 @@ export default function ShippingPrint({ id, shipmentCode, state }) {
                     </h6>
                   </div>
                 </div>
-                <div style={{ width: "15%", paddingTop: "5px" }}>
+                <div style={{ width: "15%", paddingTop: "20px" }}>
                   {buId === 4 && (
                     <QRCode
                       data-qr={"Shipment Code"}
-                      value={shipmentCode || ""}
-                      size={70}
+                      value={id || ""}
+                      size={120}
                     />
                   )}
                 </div>
