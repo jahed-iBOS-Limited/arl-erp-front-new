@@ -142,6 +142,7 @@ import Loading from "../../../_helper/_loading";
 import InputField from "../../../_helper/_inputField";
 import { shallowEqual, useSelector } from "react-redux";
 import useAxiosPut from "../../../_helper/customHooks/useAxiosPut";
+import moment from "moment";
 
 export default function JVModalView({ values, buId, setShowJVModal }) {
   const [gridData, getGridData, loading, setGridData] = useAxiosGet();
@@ -154,27 +155,48 @@ export default function JVModalView({ values, buId, setShowJVModal }) {
 
   useEffect(() => {
     getGridData(
-      `mes/MSIL/GetFuelConsumptionSummery?FromDate=${values?.fromDate}&ToDate=${values?.toDate}&BusinessUnitId=${buId}`
+      `/mes/MSIL/GetFuelConsumptionMonthEnd?MonthId=${moment(
+        values?.fromDate
+      )?.format("M")}&YearId=${moment(values?.toDate).format(
+        "YYYY"
+      )}&BusinessUnitId=${buId}`,
+      (data) => {
+        const modifyData = [
+          {
+            totalFuelQuantity: data,
+            rate: 0,
+            totalValue: 0,
+            particulars: "Fuel Consumption",
+            fuelType: "Gas",
+          },
+        ];
+        setGridData(modifyData);
+      }
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  // fuelType: "Gas";
-  // particulars: "Fuel Consumption";
-  // rate: null;
-  // totalFuelQuantity: 0;
+  // useEffect(() => {
+  //   getGridData(
+  //     `mes/MSIL/GetFuelConsumptionSummery?FromDate=${values?.fromDate}&ToDate=${values?.toDate}&BusinessUnitId=${buId}`
+  //   );
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
   const grandTotalValue = useMemo(() => {
-    return gridData.reduce(
-      (accumulator, item) => accumulator + (item?.totalValue || 0),
-      0
-    );
+    if (gridData?.length > 0) {
+      return gridData?.reduce(
+        (accumulator, item) => accumulator + (item?.totalValue || 0),
+        0
+      );
+    }
   }, [gridData]);
 
   const totalFuelconsumedUnit = useMemo(() => {
-    return gridData.reduce(
-      (accumulator, item) => accumulator + (item?.totalFuelQuantity || 0),
-      0
-    );
+    if (gridData?.length > 0) {
+      return gridData?.reduce(
+        (accumulator, item) => accumulator + (item?.totalFuelQuantity || 0),
+        0
+      );
+    }
   }, [gridData]);
 
   const vat = useMemo(() => {
@@ -211,7 +233,7 @@ export default function JVModalView({ values, buId, setShowJVModal }) {
       isActive: true,
       dteCreatedAt: new Date().toISOString(),
       createdBy: profileData?.userId,
-      rebTotalConsmQuantity: item?.totalFuelconsumedUnit,
+      rebTotalConsmQuantity: gridData[0]?.totalFuelQuantity,
       rate: item?.rate,
     }));
     saveGridData(
