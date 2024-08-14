@@ -191,7 +191,7 @@ export function TableRow(props) {
 
                 {/* Field & DDL For Report Type 3 */}
                 {
-                  [3].includes(values?.reportType?.value) && (
+                  [3,4].includes(values?.reportType?.value) && (
                     <>
                       <RATForm
                         obj={{
@@ -251,7 +251,7 @@ export function TableRow(props) {
                       !values?.reportType?.value ||
                         [0].includes(values?.reportType?.value)
                         ? !values?.dueDate || !values?.transactionDate
-                        : [3].includes(values?.reportType?.value) ? !values?.customerNameDDL || !values?.channel || !values?.toDate || !values?.fromDate || !values?.region || !values?.area || !values?.territory : !values?.month ||
+                        : [3,4].includes(values?.reportType?.value) ? !values?.customerNameDDL || !values?.channel || !values?.toDate || !values?.fromDate || !values?.region || !values?.area || !values?.territory : !values?.month ||
                           !values?.year ||
                           !values?.distributionChannel ||
                           !values?.customerNameDDL
@@ -269,7 +269,7 @@ export function TableRow(props) {
                         );
                       }
                       // Day Base Collection and Month Basis and Sales Analysis as Per Receiveable
-                      if ([1, 2, 3].includes(values?.reportType?.value)) {
+                      if ([1, 2, 3, 4].includes(values?.reportType?.value)) {
                         console.log(values)
                         setShowReport(true);
                       }
@@ -287,7 +287,7 @@ export function TableRow(props) {
               )}
 
               {/* if Day Base Collection */}
-              {[1, 2, 3].includes(values?.reportType?.value) && (
+              {[1, 2, 3, 4].includes(values?.reportType?.value) && (
                 <>
                   {showReport && (
                     <PowerBIReport

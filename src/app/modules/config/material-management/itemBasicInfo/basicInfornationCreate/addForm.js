@@ -45,6 +45,10 @@ export default function AddForm({
   const selectedBusinessUnit = useSelector((state) => {
     return state.authData.selectedBusinessUnit;
   }, shallowEqual);
+
+  const businessUnitId = selectedBusinessUnit?.value;
+  const isWorkable = businessUnitId === 138 || businessUnitId === 186;
+
   const saveData = async (values, cb) => {
     setDisabled(true);
     if (
@@ -197,6 +201,7 @@ export default function AddForm({
             selectedBusinessUnit={selectedBusinessUnit}
             accountId={profileData.accountId}
             setSaveConfigBtn={setSaveConfigBtn}
+            isWorkable={isWorkable}
           />
         </div>
       </CardBody>
