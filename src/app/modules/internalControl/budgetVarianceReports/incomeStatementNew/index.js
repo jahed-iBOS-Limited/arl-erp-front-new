@@ -19,6 +19,7 @@ import ProjectedIncomeStatement from "./projectedIncomeStatement";
 import PowerBIReport from "../../../_helper/commonInputFieldsGroups/PowerBIReport";
 import { getBusinessDDLByED } from "../incomeStatement/helper";
 import DivisionSubDivisionAndBusinessUnit from "./commonDivSubDivToBuN";
+import { _lastDateOfMonth } from "../../../_helper/_todayDate";
 
 const initData = {
   reportType: "",
@@ -267,8 +268,8 @@ export default function IncomestatementNew() {
                         getIncomeStatement_api(
                           values?.fromDate,
                           values?.toDate,
-                          values?.toDate,
-                          values?.toDate,
+                          _lastDateOfMonth(values?.fromDate),
+                          _lastDateOfMonth(values?.toDate),
                           values?.businessUnit?.value,
                           0,
                           setIncomeStatement,
