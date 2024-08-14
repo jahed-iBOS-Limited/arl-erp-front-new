@@ -165,8 +165,12 @@ export default function ExclusivePartnerInfo() {
                     <thead>
                       <tr>
                         <th>Name</th>
-                        <th>Bank Account</th>
+                        <th>Address</th>
+                        <th>Contact</th>
+                        <th>Account Name</th>
+                        <th>Account No</th>
                         <th>Branch Name</th>
+                        <th>Routing</th>
                         <th>Birth Date</th>
                         <th>Marriage Date</th>
                         <th>National Id</th>
@@ -183,11 +187,22 @@ export default function ExclusivePartnerInfo() {
                           {gridData?.shiptoPartnerName}
                         </td>
                         <td className="text-center">
-                          {gridData?.bankAccountName}-{gridData?.bankAccountNo}
+                          {values?.shop?.address ||
+                            values?.shop?.shiptoPartnerAddress}
+                        </td>
+                        <td className="text-center">
+                          {values?.shop?.contactNumber}
+                        </td>
+                        <td className="text-center">
+                          {gridData?.bankAccountName}
+                        </td>
+                        <td className="text-center">
+                          {gridData?.bankAccountNo}
                         </td>
                         <td className="text-center">
                           {gridData?.strBranchName}
                         </td>
+                        <td className="text-center">{gridData?.routingNo}</td>
 
                         <td className="text-center">
                           {_dateFormatter(gridData?.birthDate)}
