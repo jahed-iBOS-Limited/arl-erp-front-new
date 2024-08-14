@@ -26,6 +26,7 @@ import { shipmentInfoUpdate } from "../helper";
 import Loading from "./../../../../_helper/_loading";
 import { getLoadingPointDDLAction } from "./../_redux/Actions";
 import Form from "./form";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 
 const initData = {
   id: undefined,
@@ -54,6 +55,7 @@ const initData = {
   strCardNo: "",
   pump: "",
   lastDistance: 0,
+  packer: 0,
 };
 
 export default function ShipmentForm({
@@ -70,6 +72,7 @@ export default function ShipmentForm({
   const [objProps, setObjprops] = useState({});
   const [rowDto, setRowDto] = useState([]);
   const [routeListDDL, setRouteListDDL] = useState([]);
+  const [packerList, getPackerList, , setPackerList] = useAxiosGet();
 
   // get user profile data from store
   const {
@@ -134,6 +137,18 @@ export default function ShipmentForm({
       dispatch(getSoldToPPIdAction(accId, buId));
       dispatch(getPaymentTermsDDLAction());
       dispatch(getItemSaleDDLAction(accId, buId));
+      getPackerList(
+        `/mes/WorkCenter/GetWorkCenterListByTypeId?WorkCenterTypeId=1&AccountId=${accId}&BusinessUnitId=${buId}`,
+        (resData) => {
+          setPackerList(
+            resData?.map((item) => ({
+              ...item,
+              value: item?.workCenterId,
+              label: item?.workCenterName,
+            }))
+          );
+        }
+      );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [buId, accId]);
@@ -303,6 +318,7 @@ export default function ShipmentForm({
             pumpModelId: values?.pump?.value || 0,
             pumpModelName: values?.pump?.label || "",
             pumpGroupHeadEnroll: values?.pump?.pumpGroupHeadEnroll || 0,
+            packerId: values?.packer?.value,
           },
         };
         dispatch(saveShipment({ data: payload, cb, setDisabled }));
@@ -519,6 +535,7 @@ export default function ShipmentForm({
         isSubsidyRunning={isSubsidyRunning}
         setDisabled={setDisabled}
         deliveryeDatabydata={deliveryeDatabydata}
+        packerList={packerList}
       />
     </IForm>
   );
