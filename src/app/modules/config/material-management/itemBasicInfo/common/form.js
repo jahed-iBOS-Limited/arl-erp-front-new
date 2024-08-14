@@ -9,11 +9,7 @@ import customStyles from "../../../../selectCustomStyle";
 // Validation schema
 const DataValiadtionSchema = Yup.object().shape({
   itemName: Yup.string().when("businessUnit", {
-    is: (businessUnit) =>
-      businessUnit === 12 ||
-      businessUnit === 17 ||
-      businessUnit === 102 ||
-      businessUnit === 117,
+    is: (businessUnit) => businessUnit === 12 || businessUnit === 17 || businessUnit === 102 || businessUnit === 117,
     then: Yup.string()
       .min(2, "Minimum 2 symbols")
       .max(500, "Maximum 500 symbols")
@@ -47,6 +43,7 @@ export default function _Form({
   selectedBusinessUnit,
   accountId,
   setSaveConfigBtn,
+  id,
 }) {
   const [itemTypeList, setItemTypeList] = useState("");
   const [itemCategoryList, setItemCategoryList] = useState("");
@@ -142,16 +139,7 @@ export default function _Form({
           });
         }}
       >
-        {({
-          handleSubmit,
-          resetForm,
-          values,
-          handleChange,
-          errors,
-          touched,
-          setFieldValue,
-          isValid,
-        }) => (
+        {({ handleSubmit, resetForm, values, handleChange, errors, touched, setFieldValue, isValid }) => (
           <>
             <Form className="form form-label-right">
               <div className="form-group row global-form">
@@ -225,9 +213,7 @@ export default function _Form({
                     }}
                     className="text-danger"
                   >
-                    {errors && errors.itemType && touched && touched.itemType
-                      ? errors.itemType.value
-                      : ""}
+                    {errors && errors.itemType && touched && touched.itemType ? errors.itemType.value : ""}
                   </p>
                 </div>
                 <div className="col-lg-3">
@@ -240,10 +226,7 @@ export default function _Form({
                         value={values?.itemCategory}
                         onChange={(valueOption) => {
                           setFieldValue("itemSubCategory", "");
-                          subcategoryApiCaller(
-                            valueOption?.value,
-                            values.itemType.value
-                          );
+                          subcategoryApiCaller(valueOption?.value, values.itemType.value);
                           setFieldValue("itemCategory", valueOption);
                         }}
                         isSearchable={true}
@@ -261,12 +244,7 @@ export default function _Form({
                     }}
                     className="text-danger"
                   >
-                    {errors &&
-                    errors.itemCategory &&
-                    touched &&
-                    touched.itemCategory
-                      ? errors.itemCategory.value
-                      : ""}
+                    {errors && errors.itemCategory && touched && touched.itemCategory ? errors.itemCategory.value : ""}
                   </p>
                 </div>
                 <div className="col-lg-3">
@@ -283,10 +261,7 @@ export default function _Form({
                         isSearchable={true}
                         styles={customStyles}
                         name="itemSubCategory"
-                        isDisabled={
-                          !itemCategoryOption.length ||
-                          !itemSubCategoryOption.length
-                        }
+                        isDisabled={!itemCategoryOption.length || !itemSubCategoryOption.length}
                       />
                     )}
                   />
@@ -299,13 +274,23 @@ export default function _Form({
                     }}
                     className="text-danger"
                   >
-                    {touched &&
-                    touched?.itemSubCategory &&
-                    errors &&
-                    errors?.itemSubCategory
+                    {touched && touched?.itemSubCategory && errors && errors?.itemSubCategory
                       ? errors?.itemSubCategory.value
                       : ""}
                   </p>
+                </div>
+                <div className="col-lg-1 d-flex align-items-center">
+                  <div className="mr-2">isSerialize</div>
+                  <input
+                    type="checkbox"
+                    name="isMaintainSerial"
+                    value={data?.IsSerialMaintain}
+                    checked={values?.isMaintainSerial}
+                    id="isMaintainSerial"
+                    onChange={(e) => {
+                      setFieldValue("isMaintainSerial", e.target.checked);
+                    }}
+                  />
                 </div>
               </div>
               <button

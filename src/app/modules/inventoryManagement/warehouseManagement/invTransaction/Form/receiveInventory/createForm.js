@@ -259,7 +259,7 @@ export default function ReceiveInvCreateForm({ btnRef, resetBtnRef, disableHandl
         return false;
       }
       const hasMissingBarcode = list.some((element) => {
-        if (!element.hasOwnProperty("barCode") || element.barCode === "") {
+        if (!(element.hasOwnProperty("barCode")) || element.barCode === "") {
           return true;
         }
         return false;
@@ -268,7 +268,7 @@ export default function ReceiveInvCreateForm({ btnRef, resetBtnRef, disableHandl
     });
 
     if (isInvalid) {
-      return toast.warn("Item quantity and serial list with barcode value need to be the same.");
+      return toast.warn("Item quantity and serial list with barcode value need to be  same.");
     }
 
     if (rowDto.length === 0) {
