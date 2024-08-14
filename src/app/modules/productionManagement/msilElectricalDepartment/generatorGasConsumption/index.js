@@ -19,6 +19,7 @@ import PaginationTable from "../../../_helper/_tablePagination";
 import { _todayDate } from "../../../_helper/_todayDate";
 import IViewModal from "../../../_helper/_viewModal";
 import JVModalView from "./jvView";
+import { toast } from "react-toastify";
 
 const initData = {
   fromDate: _monthFirstDate(),
@@ -48,7 +49,41 @@ const GeneratorGasConsumptionLanding = () => {
     );
   };
   const [showJVModal, setShowJVModal] = useState(false);
+  function validateDates(startDate, endDate) {
+    // Create Date objects from the input values
+    const start = new Date(startDate);
+    const end = new Date(endDate);
 
+    // Check if both dates are in the same month and year
+    const sameMonthAndYear =
+      start.getMonth() === end.getMonth() &&
+      start.getFullYear() === end.getFullYear();
+
+    if (!sameMonthAndYear) {
+      alert("Error: The selected dates must be in the same month and year.");
+      return false;
+    }
+
+    // Get the first and last day of the month for the selected start date
+    const firstDayOfMonth = new Date(start.getFullYear(), start.getMonth(), 1);
+    const lastDayOfMonth = new Date(
+      start.getFullYear(),
+      start.getMonth() + 1,
+      0
+    );
+
+    const isStartDateFirstOfMonth =
+      start.getDate() === firstDayOfMonth.getDate();
+
+    const isEndDateLastOfMonth = end.getDate() === lastDayOfMonth.getDate();
+
+    if (!isStartDateFirstOfMonth || !isEndDateLastOfMonth) {
+      // alert("Error: Please select the first and last date of the same month.");
+      return false;
+    }
+
+    return true;
+  }
   return (
     <>
       <Formik
@@ -119,7 +154,13 @@ const GeneratorGasConsumptionLanding = () => {
                     <div className="col-lg-2" style={{ marginTop: "1px" }}>
                       <button
                         onClick={() => {
-                          setShowJVModal(true);
+                          if (validateDates(values?.fromDate, values?.toDate)) {
+                            setShowJVModal(true);
+                          } else {
+                            toast.error(
+                              "Please select the first and last date of the same month to create JV."
+                            );
+                          }
                         }}
                         type="button"
                         className="btn btn-primary mt-5"
