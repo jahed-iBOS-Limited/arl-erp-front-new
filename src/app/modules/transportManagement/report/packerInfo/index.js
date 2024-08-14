@@ -210,29 +210,30 @@ export default function PackerInfo() {
                   QrCodeScannerCB={(result) => {
                     setIsQRCodeSHow(false);
                     setShipmentId(result);
-                    setFieldValue(
-                      "shippingPoint",
-                      result?.objHeader?.shipPointName || ""
-                    );
-                    setFieldValue(
-                      "vehicleNumber",
-                      result?.objHeader?.strVehicleName || ""
-                    );
-                    setFieldValue(
-                      "driver",
-                      result?.objHeader?.driverName || ""
-                    );
-                    setFieldValue(
-                      "packerName",
-                      result?.objHeader?.packerName || ""
-                    );
-                    setFieldValue(
-                      "delliveryDate",
-                      result?.objHeader?.pricingDate || ""
-                    );
-
                     getReportData(
-                      `/wms/Delivery/GetDeliveryPrintInfo?ShipmentId=${result}`
+                      `/wms/Delivery/GetDeliveryPrintInfo?ShipmentId=${result}`,
+                      (res) => {
+                        setFieldValue(
+                          "shippingPoint",
+                          res?.objHeader?.shipPointName || ""
+                        );
+                        setFieldValue(
+                          "vehicleNumber",
+                          res?.objHeader?.strVehicleName || ""
+                        );
+                        setFieldValue(
+                          "driver",
+                          res?.objHeader?.driverName || ""
+                        );
+                        setFieldValue(
+                          "packerName",
+                          res?.objHeader?.packerName || ""
+                        );
+                        setFieldValue(
+                          "delliveryDate",
+                          res?.objHeader?.pricingDate || ""
+                        );
+                      }
                     );
                   }}
                 />
