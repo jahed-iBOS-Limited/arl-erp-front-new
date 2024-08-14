@@ -176,11 +176,6 @@ export default function JVModalView({ values, buId, setShowJVModal }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // fuelType: "Gas";
-  // particulars: "Fuel Consumption";
-  // rate: null;
-  // totalFuelQuantity: 0;
-  console.log({ gridData });
   const grandTotalValue = useMemo(() => {
     if (gridData?.length > 0) {
       return gridData.reduce(
