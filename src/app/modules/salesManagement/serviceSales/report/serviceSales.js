@@ -8,7 +8,7 @@ import Loading from "./../../../_helper/_loading";
 import InputField from "../../../_helper/_inputField";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
 import { _firstDateOfMonth, _todayDate } from "../../../_helper/_todayDate";
-
+import ReactHTMLTableToExcel from "react-html-table-to-excel";
 
 const initData = {
   reportType: "",
@@ -98,6 +98,10 @@ export default function ServiceSalesReport() {
   );
 
   const saveHandler = (values, cb) => {};
+
+  // Add unique IDs for the tables
+  const tableIdType1 = "sales-order-wise-report-table";
+  const tableIdType2 = "service-sales-bill-report-table";
 
   return (
     <Formik
@@ -210,9 +214,35 @@ export default function ServiceSalesReport() {
                     </button>
                   </div>
                 </div>
+                {rowData?.length > 0 && (
+                  <div className="d-flex justify-content-end mt-5">
+                    {values?.reportType?.value === 1 ? (
+                      <ReactHTMLTableToExcel
+                        id="date-wise-table-xls-button-att-reports"
+                        className="btn btn-primary"
+                        table={tableIdType1}
+                        filename={"Sales Order Wise Report"}
+                        sheet={"Sales Order Wise Report"}
+                        buttonText="Export Excel"
+                      />
+                    ) : values?.reportType?.value === 2 ? (
+                      <ReactHTMLTableToExcel
+                        id="date-wise-table-xls-button-att-reports"
+                        className="btn btn-primary"
+                        table={tableIdType2}
+                        filename={"Service Sales Bill Report"}
+                        sheet={"Service Sales Bill Report"}
+                        buttonText="Export Excel"
+                      />
+                    ) : null}
+                  </div>
+                )}
                 <div className="table-responsive">
                   {values?.reportType?.value === 1 && (
-                    <table className="table table-striped mt-2 table-bordered bj-table bj-table-landing">
+                    <table
+                      id={tableIdType1}
+                      className="table table-striped mt-2 table-bordered bj-table bj-table-landing"
+                    >
                       <thead>
                         <tr>
                           <th>SL</th>
@@ -298,7 +328,10 @@ export default function ServiceSalesReport() {
                   )}
 
                   {values?.reportType?.value === 2 && (
-                    <table className="table table-striped mt-2 table-bordered bj-table bj-table-landing">
+                    <table
+                      id={tableIdType2}
+                      className="table table-striped mt-2 table-bordered bj-table bj-table-landing"
+                    >
                       <thead>
                         <tr>
                           <th>SL</th>
