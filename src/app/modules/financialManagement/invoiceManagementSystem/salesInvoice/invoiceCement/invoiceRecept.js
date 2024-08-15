@@ -29,7 +29,7 @@ import { nobayonTradersLetterhead } from "../base64Images/nobayonTraders";
 import { optimaTradersLetterhead } from "../base64Images/optimaTraders";
 import { resourceTradersLetterhead } from "../base64Images/resourceTraders";
 
-const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
+const InvoiceReceptForCement = ({ printRef, invoiceData, channelId, isWorkable, isWithVat, typedVat }) => {
   const toWords = new ToWords({
     localeCode: "en-BD",
     converterOptions: {
@@ -110,6 +110,7 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
       : "";
 
   const isVatinclude = invoiceData?.[0]?.isVatinclude || false;
+  const isVatIncludeFromDelivery = isWithVat || false;
   return (
     <div>
       <div ref={printRef} id="print_sales_invoice_wrapper_cement">
@@ -180,10 +181,7 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
               </div>
               <div>
                 <p>
-                  <b>
-                    DATE:{" "}
-                    {_dateFormatter(invoiceData[0]?.invoiceDate || new Date())}
-                  </b>
+                  <b>DATE: {_dateFormatter(invoiceData[0]?.invoiceDate || new Date())}</b>
                 </p>
                 <p>
                   <b>Reference: {invoiceData[0]?.referance}</b>
@@ -195,15 +193,11 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
                 <p>{invoiceData[0]?.businessPartnerAddress}</p>
 
                 <p style={{ margin: "2px 0" }}>
-                  <strong> Delivery Address:</strong>{" "}
-                  {invoiceData[0]?.projLocation}
+                  <strong> Delivery Address:</strong> {invoiceData[0]?.projLocation}
                 </p>
 
                 <p>Dear Sir,</p>
-                <p>
-                  We are pleased to issue a bill in favour of our supply as per
-                  your purchase order.
-                </p>
+                <p>We are pleased to issue a bill in favour of our supply as per your purchase order.</p>
                 <br />
               </div>
               <div className="main_table">
@@ -215,13 +209,9 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
                         <th style={getStyle}>Item</th>
                         <th style={getStyle}>Sales Order</th>
                         {/* <th style={getStyle}>Destination</th> */}
-                        <th style={{ width: "90px", ...getStyle }}>
-                          Delivery Date
-                        </th>
+                        <th style={{ width: "90px", ...getStyle }}>Delivery Date</th>
                         <th style={getStyle}>Challan No.</th>
-                        <th style={getStyle}>{`${
-                          channelId === 43 ? "Primary Qty" : "Qty"
-                        }`}</th>
+                        <th style={getStyle}>{`${channelId === 43 ? "Primary Qty" : "Qty"}`}</th>
                         <th style={getStyle}>UoM</th>
                         {channelId === 43 && <th style={getStyle}>Net Qty</th>}
 
@@ -231,9 +221,9 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
                         </th>
                         <th style={getStyle}>
                           Total Amount
-                          {isVatinclude ? " (Without VAT)" : ""}
+                          {isVatinclude || isVatIncludeFromDelivery ? " (Without VAT)" : ""}
                         </th>
-                        {isVatinclude && (
+                        {(isVatinclude || isVatIncludeFromDelivery) && (
                           <>
                             {" "}
                             <th style={getStyle}>Vat Amount</th>
@@ -242,133 +232,181 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
                         )}
                       </tr>
                     </thead>
-                    <tbody>
-                      {invoiceData?.map((item, index) => {
-                        let totalAmount = 0;
-                        let vatAmount = 0;
-                        let amountWithVat = 0;
+                    {isWorkable ? (
+                      <tbody>
+                        {invoiceData?.map((item, index) => {
+                          const totalAmount = +item?.quantity * +item?.itemRate;
+                          const vatAmount = +(totalAmount * (+typedVat / 100));
+                          const amountWithVat = totalAmount + vatAmount;
 
-                        if ([8].includes(buId)) {
-                          // if vat is included in the price
-                          if (isVatinclude) {
-                            totalAmount =
-                              (+item?.totalAmount || 0) -
-                              (+item?.vatAmount || 0);
+                          totalQty = totalQty + +item?.quantity;
+                          grandTotal = grandTotal + totalAmount;
+                          grandVatTotal = grandVatTotal + vatAmount;
+                          grandTotalWithVat = grandTotalWithVat + amountWithVat;
+
+                          return (
+                            <>
+                              <tr>
+                                <td className="text-center">{index + 1}</td>
+                                <td>{item?.itemName}</td>
+                                <td>{item?.orderCode}</td>
+                                {/* <td>{item?.deliveryAddress}</td> */}
+                                <td>{_dateFormatter(item?.deliveriDate)}</td>
+                                <td>{item?.deliveryCode}</td>
+                                <td className="text-right">{item?.quantity}</td>
+                                <td className="text-right">{item?.uom}</td>
+                                <td className="text-right" style={{ width: "60px" }}>
+                                  {item?.itemRate}
+                                </td>
+                                <td className="text-right">{_fixedPoint(totalAmount, true)}</td>
+                                {isVatIncludeFromDelivery && (
+                                  <>
+                                    <td className="text-right">{_fixedPoint(vatAmount, true)}</td>
+                                    <td className="text-right">{_fixedPoint(amountWithVat, true)}</td>
+                                  </>
+                                )}
+                              </tr>
+                            </>
+                          );
+                        })}
+
+                        <tr style={{ textAlign: "right", fontWeight: "bold" }}>
+                          <td colSpan={5}>Grand Total</td>
+                          <td>{_fixedPoint(totalQty, true)}</td>
+                          <td> </td>
+                          <td> </td>
+                          <td>{_fixedPoint(grandTotal, true)}</td>
+                          {isVatIncludeFromDelivery && (
+                            <>
+                              <td>{_fixedPoint(grandVatTotal, true)}</td>
+                              <td>{_fixedPoint(grandTotalWithVat, true)}</td>
+                            </>
+                          )}
+                        </tr>
+                        <tr style={{ fontWeight: "bold", textAlign: "left" }}>
+                          <td
+                            colSpan={
+                              channelId === 43
+                                ? isVatIncludeFromDelivery
+                                  ? 12
+                                  : 10
+                                : isVatIncludeFromDelivery
+                                ? 11
+                                : 9
+                            }
+                            className="text-left"
+                          >
+                            IN WORDS:{" "}
+                            {toWords.convert(
+                              isVatIncludeFromDelivery
+                                ? Number(grandTotalWithVat || 0).toFixed(0)
+                                : Number(grandTotal || 0)?.toFixed(0)
+                            )}
+                          </td>
+                        </tr>
+                      </tbody>
+                    ) : (
+                      <tbody>
+                        {invoiceData?.map((item, index) => {
+                          let totalAmount = 0;
+                          let vatAmount = 0;
+                          let amountWithVat = 0;
+
+                          if ([8].includes(buId)) {
+                            // if vat is included in the price
+                            if (isVatinclude) {
+                              totalAmount = (+item?.totalAmount || 0) - (+item?.vatAmount || 0);
+                              vatAmount = item?.vatAmount || 0;
+                              amountWithVat = totalAmount + vatAmount;
+                            } else {
+                              // if vat is not included in the price
+                              totalAmount = item?.totalAmount || 0;
+                              vatAmount = 0;
+                              amountWithVat = totalAmount + vatAmount;
+                            }
+                          } else {
+                            totalAmount = item?.totalAmount || 0;
                             vatAmount = item?.vatAmount || 0;
                             amountWithVat = totalAmount + vatAmount;
-                          } else {
-                            // if vat is not included in the price
-                            totalAmount = item?.totalAmount || 0;
-                            vatAmount = 0;
-                            amountWithVat = totalAmount + vatAmount;
                           }
-                        } else {
-                          totalAmount = item?.totalAmount || 0;
-                          vatAmount = item?.vatAmount || 0;
-                          amountWithVat = totalAmount + vatAmount;
-                        }
 
-                        totalQty += item?.quantity;
-                        // totalQty += item?.totalDeliveredQtyCFT;
-                        grandTotal += totalAmount;
-                        grandVatTotal += item?.vatAmount || 0;
-                        grandTotalWithVat += amountWithVat;
-                        // totalItemRate += item?.itemRate || 0;
-                        totalNetQty += item?.netQty || 0;
+                          totalQty += item?.quantity;
+                          // totalQty += item?.totalDeliveredQtyCFT;
+                          grandTotal += totalAmount;
+                          grandVatTotal += item?.vatAmount || 0;
+                          grandTotalWithVat += amountWithVat;
+                          // totalItemRate += item?.itemRate || 0;
+                          totalNetQty += item?.netQty || 0;
 
-                        return (
-                          <>
-                            <tr>
-                              <td className="text-center">{index + 1}</td>
-                              <td>{item?.itemName}</td>
-                              <td>{item?.orderCode}</td>
-                              {/* <td>{item?.deliveryAddress}</td> */}
-                              <td>{_dateFormatter(item?.deliveriDate)}</td>
-                              <td>{item?.deliveryCode}</td>
-                              <td className="text-right">
-                                {item?.quantity}
-                                {/* {_fixedPoint(item?.totalDeliveredQtyCFT, true)} */}
-                              </td>
-                              <td className="text-right">{item?.uom}</td>
-                              {channelId === 43 && (
-                                <td className="text-right">{item?.netQty}</td>
-                              )}
+                          return (
+                            <>
+                              <tr>
+                                <td className="text-center">{index + 1}</td>
+                                <td>{item?.itemName}</td>
+                                <td>{item?.orderCode}</td>
+                                {/* <td>{item?.deliveryAddress}</td> */}
+                                <td>{_dateFormatter(item?.deliveriDate)}</td>
+                                <td>{item?.deliveryCode}</td>
+                                <td className="text-right">
+                                  {item?.quantity}
+                                  {/* {_fixedPoint(item?.totalDeliveredQtyCFT, true)} */}
+                                </td>
+                                <td className="text-right">{item?.uom}</td>
+                                {channelId === 43 && <td className="text-right">{item?.netQty}</td>}
 
-                              <td
-                                className="text-right"
-                                style={{ width: "60px" }}
-                              >
-                                {item?.itemRate}
-                              </td>
-                              <td className="text-right">
-                                {_fixedPoint(totalAmount, true)}
-                              </td>
-                              {isVatinclude && (
-                                <>
-                                  <td className="text-right">
-                                    {_fixedPoint(item?.vatAmount, true)}
-                                  </td>
-                                  <td className="text-right">
-                                    {_fixedPoint(amountWithVat, true)}
-                                  </td>
-                                </>
-                              )}
-                            </tr>
-                          </>
-                        );
-                      })}
+                                <td className="text-right" style={{ width: "60px" }}>
+                                  {item?.itemRate}
+                                </td>
+                                <td className="text-right">{_fixedPoint(totalAmount, true)}</td>
+                                {isVatinclude && (
+                                  <>
+                                    <td className="text-right">{_fixedPoint(item?.vatAmount, true)}</td>
+                                    <td className="text-right">{_fixedPoint(amountWithVat, true)}</td>
+                                  </>
+                                )}
+                              </tr>
+                            </>
+                          );
+                        })}
 
-                      <tr style={{ textAlign: "right", fontWeight: "bold" }}>
-                        <td colSpan={5}>Grand Total</td>
-                        <td>{_fixedPoint(totalQty, true)}</td>
-                        <td> </td>
-                        {channelId === 43 && (
-                          <td>{_fixedPoint(totalNetQty, true)}</td>
-                        )}
-                        <td> </td>
-                        <td>{_fixedPoint(grandTotal, true)}</td>
-                        {isVatinclude && (
-                          <>
-                            <td>{_fixedPoint(grandVatTotal, true)}</td>
-                            <td>{_fixedPoint(grandTotalWithVat, true)}</td>
-                          </>
-                        )}
-                      </tr>
-                      <tr style={{ fontWeight: "bold", textAlign: "left" }}>
-                        <td
-                          colSpan={
-                            channelId === 43
-                              ? isVatinclude
-                                ? 12
-                                : 10
-                              : isVatinclude
-                              ? 11
-                              : 9
-                          }
-                          className="text-left"
-                        >
-                          IN WORDS:{" "}
-                          {toWords.convert(
-                            isVatinclude
-                              ? Number(grandTotalWithVat || 0).toFixed(0)
-                              : Number(grandTotal || 0)?.toFixed(0)
+                        <tr style={{ textAlign: "right", fontWeight: "bold" }}>
+                          <td colSpan={5}>Grand Total</td>
+                          <td>{_fixedPoint(totalQty, true)}</td>
+                          <td> </td>
+                          {channelId === 43 && <td>{_fixedPoint(totalNetQty, true)}</td>}
+                          <td> </td>
+                          <td>{_fixedPoint(grandTotal, true)}</td>
+                          {isVatinclude && (
+                            <>
+                              <td>{_fixedPoint(grandVatTotal, true)}</td>
+                              <td>{_fixedPoint(grandTotalWithVat, true)}</td>
+                            </>
                           )}
-                        </td>
-                      </tr>
-                    </tbody>
+                        </tr>
+                        <tr style={{ fontWeight: "bold", textAlign: "left" }}>
+                          <td
+                            colSpan={channelId === 43 ? (isVatinclude ? 12 : 10) : isVatinclude ? 11 : 9}
+                            className="text-left"
+                          >
+                            IN WORDS:{" "}
+                            {toWords.convert(
+                              isVatinclude
+                                ? Number(grandTotalWithVat || 0).toFixed(0)
+                                : Number(grandTotal || 0)?.toFixed(0)
+                            )}
+                          </td>
+                        </tr>
+                      </tbody>
+                    )}
                   </table>
                 </div>
               </div>
               <p className="text-danger py-2">
-                Note : If you have any queries regarding this bill, please
-                inform the concerned official within 10 days; otherwise, any
-                kind of objection will not be granted further.
+                Note : If you have any queries regarding this bill, please inform the concerned official within 10 days;
+                otherwise, any kind of objection will not be granted further.
               </p>
               <p>On behalf of {buName}</p>
-              <div
-                style={{ marginTop: "70px" }}
-                className="d-flex justify-content-between"
-              >
+              <div style={{ marginTop: "70px" }} className="d-flex justify-content-between">
                 <p>
                   <b>Prepared By</b>
                 </p>
@@ -399,8 +437,7 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
                     fontWeight: "bold",
                   }}
                 >
-                  This is an automatically generated invoice, no signature is
-                  required.
+                  This is an automatically generated invoice, no signature is required.
                 </p>
               </div>
             </div>
