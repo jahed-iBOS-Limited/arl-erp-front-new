@@ -50,7 +50,7 @@ export default function PackerInfo() {
   };
 
   const [isQrCodeShow, setIsQRCodeSHow] = useState(false);
-  const [actionType, setActionType] = useState("Auto");
+  const [actionType, setActionType] = useState("Manual");
   return (
     <Formik
       enableReinitialize={true}
@@ -124,21 +124,6 @@ export default function PackerInfo() {
                     <input
                       type="radio"
                       name="actionType"
-                      checked={actionType === "Auto"}
-                      className="mr-1 pointer"
-                      style={{ position: "relative", top: "2px" }}
-                      onChange={(e) => {
-                        setActionType("Auto");
-                        resetForm(initData);
-                        setShipmentId(null);
-                      }}
-                    />
-                    Auto
-                  </label>
-                  <label>
-                    <input
-                      type="radio"
-                      name="actionType"
                       checked={actionType === "Manual"}
                       className="mr-1 pointer"
                       style={{ position: "relative", top: "2px" }}
@@ -148,7 +133,22 @@ export default function PackerInfo() {
                         setShipmentId(null);
                       }}
                     />
-                    Manual
+                    By Card Number
+                  </label>
+                  <label>
+                    <input
+                      type="radio"
+                      name="actionType"
+                      checked={actionType === "Auto"}
+                      className="mr-1 pointer"
+                      style={{ position: "relative", top: "2px" }}
+                      onChange={(e) => {
+                        setActionType("Auto");
+                        resetForm(initData);
+                        setShipmentId(null);
+                      }}
+                    />
+                    By QR Code
                   </label>
                 </div>
                 {reportData?.objHeader?.isLoaded && (
@@ -194,7 +194,7 @@ export default function PackerInfo() {
                     <div className="col-lg-3">
                       <InputField
                         value={values?.shipmentCode}
-                        label="Shipment Code"
+                        label="Card Number"
                         name="shipmentCode"
                         type="text"
                         onChange={(e) => {
@@ -204,7 +204,8 @@ export default function PackerInfo() {
                           if (e.keyCode === 13) {
                             setFieldValue("shipmentCode", e.target.value);
                             getReportData(
-                              `/wms/Delivery/GetDeliveryPrintInfoManual?businessUnitId=${selectedBusinessUnit?.value}&shipmentCode=${e.target.value}`,
+                              // `/wms/Delivery/GetDeliveryPrintInfoManual?businessUnitId=${selectedBusinessUnit?.value}&shipmentCode=${e.target.value}`,
+                              `/wms/Delivery/GetDeliveryPrintInfoByVehicleCardNumber?strCardNumber=${e.target.value}`,
                               (res) => {
                                 setFieldValue(
                                   "shippingPoint",
