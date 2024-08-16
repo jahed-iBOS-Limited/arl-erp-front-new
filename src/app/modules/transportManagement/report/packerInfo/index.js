@@ -97,9 +97,10 @@ export default function PackerInfo() {
                       }
                       onComplete(
                         `/oms/LoadingPoint/CompletePacker?shipmentId=${
-                          actionType === "Auto"
-                            ? shipmentId
-                            : reportData?.objHeader?.shipmentId
+                          reportData?.objHeader?.shipmentId
+                          // actionType === "Auto"
+                          //   ? shipmentId
+                          //   : reportData?.objHeader?.shipmentId
                         }`,
                         null,
                         () => {
@@ -314,7 +315,8 @@ export default function PackerInfo() {
                     setIsQRCodeSHow(false);
                     setShipmentId(result);
                     getReportData(
-                      `/wms/Delivery/GetDeliveryPrintInfo?ShipmentId=${+result}`,
+                      // `/wms/Delivery/GetDeliveryPrintInfo?ShipmentId=${+result}`,
+                      `/wms/Delivery/GetDeliveryPrintInfoByVehicleCardNumber?strCardNumber=${result}`,
                       (res) => {
                         setFieldValue(
                           "shippingPoint",
