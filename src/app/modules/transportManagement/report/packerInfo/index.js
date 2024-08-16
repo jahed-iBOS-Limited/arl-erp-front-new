@@ -169,7 +169,7 @@ export default function PackerInfo() {
                       <div style={{ display: "inline-block", width: "95%" }}>
                         <InputField
                           value={shipmentId}
-                          label="Shipment Id"
+                          label="Card Id"
                           name="shipmentId"
                           type="text"
                           disabled
