@@ -51,7 +51,7 @@ export default function ReceiveInvCreateForm({ btnRef, resetBtnRef, disableHandl
   }, shallowEqual);
 
   const businessUnitId = selectedBusinessUnit?.value;
-  const isWorkable = (businessUnitId === 138 || businessUnitId === 186 )
+  const isWorkable = businessUnitId === 138 || businessUnitId === 186;
 
   // redux store data
   const {
@@ -161,7 +161,7 @@ export default function ReceiveInvCreateForm({ btnRef, resetBtnRef, disableHandl
             salesRate: values?.item?.salesRate || 0,
             mrpRate: values?.item?.mrpRate || 0,
             expiredDate: _todayDate(),
-            isSerialMaintain:  values?.item?.isSerialMaintain,
+            isSerialMaintain: values?.item?.isSerialMaintain,
             serialList: [],
           },
         ];
@@ -196,11 +196,11 @@ export default function ReceiveInvCreateForm({ btnRef, resetBtnRef, disableHandl
           mrpRate: data?.mrpRate || 0,
           expiredDate: _todayDate(),
           serialList: [],
-          isSerialMaintain:data?.isSerialMaintain,
+          isSerialMaintain: data?.isSerialMaintain,
         };
       });
       setRowDto(data);
-      console.log("from all",data);
+      console.log("from all", data);
     }
   };
 
@@ -242,37 +242,44 @@ export default function ReceiveInvCreateForm({ btnRef, resetBtnRef, disableHandl
   };
 
   const saveHandler = async (values, cb) => {
-    if (totalVat.toFixed(4) > 0 && values?.vatAmmount < 1)
-      return toast.warn("Vat amount should be greater than zero");
+    if (totalVat.toFixed(4) > 0 && values?.vatAmmount < 1) return toast.warn("Vat amount should be greater than zero");
 
     if (totalVat === 0 && values?.vatAmmount > 0)
       return toast.warn("Vat amount should be zero, because total amount zero");
 
-    if (
-      values?.refType?.value === 1 &&
-      (!values?.challanNO || !values?.challanDate)
-    )
+    if (values?.refType?.value === 1 && (!values?.challanNO || !values?.challanDate))
       return toast.warn("Challan and Challan Date is required");
 
     if (isDisabled) return "";
 
-    if(isWorkable){
-      const isInvalid = rowDto?.some((item) => {
-        const list = item?.serialList;
-        if (!list) {
-          return false;
-        }
-        const hasMissingBarcode = list.some((element) => {
-          if (!(element.hasOwnProperty("barCode")) || element.barCode === "") {
-            return true;
-          }
-          return false;
-        });
-        return !!hasMissingBarcode;
-      });
-  
-      if (isInvalid) {
-        return toast.warn("Item quantity and serial list with barcode value need to be  same.");
+    if (isWorkable) {
+      // Function to check if an item has an invalid quantity or serial list
+      const hasInvalidQuantityOrSerialList = (item) => {
+        if (!item?.isSerialMaintain) return false;
+
+        const isSerialListEmpty = +item?.quantity > 0 && !item?.serialList?.length;
+        const isQuantityMismatch = +item?.quantity !== item?.serialList?.length;
+
+        return isSerialListEmpty || isQuantityMismatch;
+      };
+
+      // Function to check if any serial list contains an empty barcode
+      const hasEmptyBarcodeInSerialList = (item) => {
+        return item?.serialList?.some((serial) => !serial?.barCode);
+      };
+
+      // Check if any item in rowDto has an invalid quantity or serial list
+      const isAnyInvalidRow = rowDto?.some(hasInvalidQuantityOrSerialList);
+
+      if (isAnyInvalidRow) {
+        return toast.warn("Item quantity and serial list with barcode value need to be same.");
+      }
+
+      // Check if any item in rowDto has an empty barcode in the serial list
+      const isEmptyBarcodeFound = rowDto?.some((item) => item?.isSerialMaintain && hasEmptyBarcodeInSerialList(item));
+
+      if (isEmptyBarcodeFound) {
+        return toast.warn("Empty Barcode found!", { toastId: "saveHandler" });
       }
     }
 
@@ -415,9 +422,7 @@ export default function ReceiveInvCreateForm({ btnRef, resetBtnRef, disableHandl
               landingData?.warehouse?.isPOS && modifyPlyload?.objHeader?.referenceTypeId === 1 ? true : false;
             let compressedFile = [];
             if (fileObjects?.length > 0) {
-              compressedFile = await compressfile(
-                fileObjects?.map((f) => f?.file)
-              );
+              compressedFile = await compressfile(fileObjects?.map((f) => f?.file));
             }
             const r = await getImageuploadStatus(profileData?.accountId);
             if (r?.data) {
@@ -425,9 +430,7 @@ export default function ReceiveInvCreateForm({ btnRef, resetBtnRef, disableHandl
                 setDisabled(false);
                 return toast.warn("Attachment required");
               } else {
-                uploadAttachment(
-                  compressedFile?.map((item) => ({ file: item }))
-                )
+                uploadAttachment(compressedFile?.map((item) => ({ file: item })))
                   .then((res) => {
                     if (res?.data?.length) {
                       modifyPlyload["documentId"] = res?.data?.[0]?.id || "";
@@ -453,9 +456,7 @@ export default function ReceiveInvCreateForm({ btnRef, resetBtnRef, disableHandl
               }
             } else {
               if (compressedFile.length > 0) {
-                uploadAttachment(
-                  compressedFile?.map((item) => ({ file: item }))
-                )
+                uploadAttachment(compressedFile?.map((item) => ({ file: item })))
                   .then((res) => {
                     if (res?.data?.length) {
                       modifyPlyload["documentId"] = res?.data[0]?.id || "";

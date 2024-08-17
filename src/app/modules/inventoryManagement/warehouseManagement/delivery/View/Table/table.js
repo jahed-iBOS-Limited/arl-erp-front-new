@@ -27,6 +27,8 @@ export default function DeliveryReportTable({ id }) {
     { shallowEqual }
   );
   const [deliveryOrderReportData, setDeliveryOrderReporData] = useState([]);
+  const businessUnitId = selectedBusinessUnit?.value;
+  const isWorkable = (businessUnitId === 138 || businessUnitId === 186 )
 
   const getDeliveryChallanInfoById = async (id) => {
     setLoading(true);
@@ -286,6 +288,7 @@ export default function DeliveryReportTable({ id }) {
                   totalBundel={totalBundel}
                   totalRate={totalRate}
                   totalAmount={totalAmount}
+                  isWorkable={isWorkable}
                 />
               )}
 
