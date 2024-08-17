@@ -11,6 +11,9 @@ const TablePortion = ({ landingData }) => {
           <thead>
             <tr>
               <th className="text-center align-middle">SL</th>
+              <th className="text-center align-middle">Serial Number</th>
+              <th className="text-center align-middle">Item Code</th>
+              <th className="text-left align-middle">Item Name</th>
               <th className="text-left align-middle"> Purchase OrderDate</th>
               <th className="text-center align-middle">Purchase ReceiveDate </th>
               <th className="text-center align-middle">Delivery date </th>
@@ -18,23 +21,22 @@ const TablePortion = ({ landingData }) => {
               <th className="text-center align-middle">Purchase Receive </th>
               <th className="text-center align-middle">Delivery Code</th>
               <th className="text-center align-middle">Customer Name</th>
-              <th className="text-center align-middle">Item Code</th>
-              <th className="text-left align-middle">Item Name</th>
             </tr>
           </thead>
           <tbody>
             {data?.map((item, i) => (
               <tr key={i}>
                 <td className="text-center align-middle"> {i + 1} </td>
-                <td className="text-center align-middle"> {_dateFormatter(item?.purchaseOrderDate)}</td>
-                <td className="text-center align-middle"> {_dateFormatter(item?.purchaseReceiveDate)}</td>
-                <td className="text-center align-middle"> {_dateFormatter(item?.deliverydate)}</td>
-                <td className="text-center align-middle"> {item?.purchaseOrderCode} </td>
-                <td className="text-center align-middle"> {item?.purchaseReceiveCode} </td>
-                <td className="text-center align-middle"> {item?.deliveryCode}</td>
-                <td className="text-center align-middle"> {item?.customerName || ""}</td>
-                <td className="">{item?.itmeCode}</td>
-                <td className="">{item?.itemName}</td>
+                <td className="text-center align-middle"> {item?.serialNumber || "N/A"}</td>
+                <td className="text-center align-middle"> {_dateFormatter(item?.purchaseOrderDate) || "N/A"}</td>
+                <td className="text-center align-middle"> {_dateFormatter(item?.purchaseReceiveDate) || "N/A"}</td>
+                <td className="text-center align-middle"> {_dateFormatter(item?.deliverydate) || "N/A"}</td>
+                <td className="text-center align-middle"> {item?.purchaseOrderCode || "N/A"} </td>
+                <td className="text-center align-middle"> {item?.purchaseReceiveCode || "N/A"} </td>
+                <td className="text-center align-middle"> {item?.deliveryCode || "N/A"}</td>
+                <td className="text-center align-middle"> {item?.customerName || "N/A"}</td>
+                <td className="">{item?.itmeCode || "N/A"}</td>
+                <td className="">{item?.itemName || "N/A"}</td>
               </tr>
             ))}
           </tbody>

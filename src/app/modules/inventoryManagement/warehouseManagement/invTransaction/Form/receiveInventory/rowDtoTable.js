@@ -39,6 +39,9 @@ const RowDtoTable = ({
 
   const onRowSerialClick = (item, index) => {
     if (+item?.quantity <= 0) return toast.warn("quantity is zero");
+    if (!Number.isInteger(item?.quantity)) {
+      return toast.warn("Quantity must be a whole number!");
+    }
 
     const serialList = item?.serialList?.length > 0 && item?.serialList?.length === +item?.quantity ? item?.serialList : getSerialList(item);
     const updateRowDto = getUpdatedFirstLevelList(rowDto, "serialList", index, serialList);

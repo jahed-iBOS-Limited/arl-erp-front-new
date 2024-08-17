@@ -26,7 +26,6 @@ import SupplierWisePurchase from "./supplierWisePurchase";
 import WarehouseWiseStockReport from "./whStockReport";
 import WHStockReportVat from "./whStockReportVat";
 import MROItemReports from "./MROItems";
-import { ItemWiseSerialDetails } from "./itemwiseserialdetails";
 
 export function ReportsPages() {
   return (
@@ -155,10 +154,6 @@ export function ReportsPages() {
       <ContentRoute
         from="/inventory-management/reports/MROItemPlanning"
         component={MROItemReports}
-      />
-      <ContentRoute 
-       from="/inventory-management/reports/ItemWiseSerialDetails"
-       component={ItemWiseSerialDetails}
       />
     </Switch>
   );

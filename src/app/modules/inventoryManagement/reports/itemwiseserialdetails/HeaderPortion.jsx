@@ -43,18 +43,6 @@ const HeaderPortion = ({
         />
       </div>
       <div className="col-lg-3">
-        <label>Serial Number</label>
-        <InputField
-          value={values?.serialNumber}
-          name="serialNumber"
-          placeholder="Serial Number"
-          type="text"
-          onChange={(e) => {
-            setFieldValue("serialNumber", e?.target?.value);
-          }}
-        />
-      </div>
-      <div className="col-lg-3">
         <NewSelect
           name="usingStatus"
           label="Used/Unused Type"
@@ -83,6 +71,18 @@ const HeaderPortion = ({
           }}
         />
         <FormikError errors={errors} name="assetNo" touched={touched} />
+      </div>
+      <div className="col-lg-3">
+        <label>Serial Number</label>
+        <InputField
+          value={values?.serialNumber}
+          name="serialNumber"
+          placeholder="Serial Number"
+          type="text"
+          onChange={(e) => {
+            setFieldValue("serialNumber", e?.target?.value);
+          }}
+        />
       </div>
       <div className="col-lg-2 " style={{ marginTop: "20px" }}>
         <button
