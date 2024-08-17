@@ -36,6 +36,8 @@ import ConfirmtionModal from "./components/Modal";
 import RATForm from "./ratForm";
 import "./style.scss";
 import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
+import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
+import axios from "axios";
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
@@ -477,16 +479,14 @@ function DeliveryScheduleplanReport() {
                                         scheduleDate:
                                           itm?.deliveryScheduleDate ||
                                           new Date(),
+                                        vehicleId: itm?.vehicleId,
+                                        vehicleName: itm?.vehicleName,
+                                        territoryId: itm?.territoryId,
                                       }));
 
                                     if (selectedBusinessUnit?.value === 144) {
                                       const isDeliveryStatusSelected = payload?.every(
                                         (item) => item.scheduleName !== ""
-                                      );
-
-                                      console.log(
-                                        "isDeliveryStatusSelected",
-                                        !isDeliveryStatusSelected
                                       );
 
                                       if (!isDeliveryStatusSelected)
@@ -666,6 +666,9 @@ function DeliveryScheduleplanReport() {
                                     <th>Sold To Party</th>
                                     <th>Ship To Party</th>
                                     <th>Address</th>
+                                    <th style={{ minWidth: "200px" }}>
+                                      Vehicle
+                                    </th>
                                     <th style={{ minWidth: "100px" }}>
                                       Item Name
                                     </th>
@@ -818,7 +821,50 @@ function DeliveryScheduleplanReport() {
                                         <td>{item?.soldToPartnerName}</td>
                                         <td>{item?.shipToPartnerName}</td>
                                         <td>{item?.shipToPartnerAddress}</td>
+                                        <td>
+                                          {values?.trackingType?.value === 1 ? (
+                                            <SearchAsyncSelect
+                                              selectedValue={
+                                                item?.vehicleId
+                                                  ? {
+                                                      value: item?.vehicleId,
+                                                      label: item?.vehicleName,
+                                                    }
+                                                  : ""
+                                              }
+                                              handleChange={(valueOption) => {
+                                                const copyGridData = [
+                                                  ...gridData,
+                                                ];
+                                                copyGridData[index].vehicleId =
+                                                  valueOption?.value;
+                                                copyGridData[
+                                                  index
+                                                ].vehicleName =
+                                                  valueOption?.label;
+                                                setGridData(copyGridData);
+                                              }}
+                                              loadOptions={(v) => {
+                                                if (v?.length < 2) return [];
+                                                return axios
+                                                  .get(
+                                                    `/wms/Delivery/GetVehicleByShippointDDL?businessUnitId=${selectedBusinessUnit?.value}&shippointId=${values?.shipPoint?.value}&searchTerm=${v}`
+                                                  )
+                                                  .then((res) => {
+                                                    return res?.data || [];
+                                                  });
+                                              }}
+                                              placeholder="Select Vehicle"
+                                              isDisabled={
+                                                values?.logisticBy?.value !== 1
+                                              }
+                                            />
+                                          ) : (
+                                            item?.vehicleName
+                                          )}
+                                        </td>
                                         <td>{item?.itemName}</td>
+
                                         <td className="text-center">
                                           {item?.quantity}
                                         </td>
