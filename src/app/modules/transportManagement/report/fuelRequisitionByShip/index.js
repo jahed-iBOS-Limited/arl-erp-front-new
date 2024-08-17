@@ -114,7 +114,7 @@ export default function FuelRequisitionByShipment() {
                         plantId: 79,
                         plantName: "ACCL Narayanganj",
                         warehouseId: 142,
-                        warehouseName: " ACCL Factory",
+                        warehouseName: "ACCL Factory",
                         businessPartnerId: 0,
                         parsonnelId: userId,
                         costElementName: 2664,
