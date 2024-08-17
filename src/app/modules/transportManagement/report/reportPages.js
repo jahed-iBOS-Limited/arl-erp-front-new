@@ -25,7 +25,9 @@ import TripSlabCostReport from "./tripSlabCostReport/landing/table";
 import VehicleFuelCostReport from "./vehicleFuelCostReport/landing";
 import VehicleFuelReport from "./vehicleFuelReport/landing/landing";
 import LogisticDashBoard from "./logisticDashBoard";
-import PackerInfo from "./packerInfo";
+import PackerInfo from "./packerInfo/index2";
+import VehicleCallingList from "./vehicleCallingList";
+import StorePackingInfo from "./storePackingInfo";
 
 export function TransportReportPages() {
   return (
@@ -82,7 +84,7 @@ export function TransportReportPages() {
           path="/transport-management/report/dashboardpdd"
           component={Dashboardpdd}
         />
-         <ContentRoute
+        <ContentRoute
           path="/transport-management/report/PackerInfo"
           component={PackerInfo}
         />
@@ -147,6 +149,15 @@ export function TransportReportPages() {
         <ContentRoute
           path="/transport-management/report/hourlyDeliveryStatusReport"
           component={HourlyDeliveryStatusReport}
+        />
+
+        <ContentRoute
+          path="/transport-management/report/VehicleCallingList"
+          component={VehicleCallingList}
+        />
+        <ContentRoute
+          path="/transport-management/report/StorePackingInfo"
+          component={StorePackingInfo}
         />
       </Switch>
     </Suspense>
