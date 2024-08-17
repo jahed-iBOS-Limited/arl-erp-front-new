@@ -20,17 +20,24 @@ export const deliveryMode = [
   { value: 2, label: "Night" },
 ];
 
-export const getDeliveryChallanInfoById = async (
-  id,
-  setter,
-  setLoading,
-  cb
-) => {
+export const getInvoiceDataForPrint = async ({ accId, buId, deliveryId, setLoading, cb }) => {
   setLoading(true);
   try {
     const res = await axios.get(
-      `/wms/ShopBySales/GetDeliveryOpenChallanByDeliveryId?DeliveryId=${id}`
+      `/wms/Delivery/DeliveryInvoiceReportWithSerialNumber?AccountId=${accId}&BusinessUnitId=${buId}&DeliveryId=${deliveryId}`
     );
+    cb(res?.data);
+    setLoading(false);
+  } catch (error) {
+    toast.error(error?.response?.data?.message);
+    setLoading(false);
+  }
+};
+
+export const getDeliveryChallanInfoById = async (id, setter, setLoading, cb) => {
+  setLoading(true);
+  try {
+    const res = await axios.get(`/wms/ShopBySales/GetDeliveryOpenChallanByDeliveryId?DeliveryId=${id}`);
     setter(res?.data[0]);
     cb();
     setLoading(false);
@@ -43,22 +50,13 @@ export const getDeliveryChallanInfoById = async (
 
 export const printCount = async (accId, buId, id) => {
   try {
-    await axios.put(
-      `/wms/ShopBySales/SetPrintCount?AccountId=${accId}&BusinessUnitId=${buId}&DeliveryId=${id}`
-    );
+    await axios.put(`/wms/ShopBySales/SetPrintCount?AccountId=${accId}&BusinessUnitId=${buId}&DeliveryId=${id}`);
   } catch (error) {
     console.log(error);
   }
 };
 
-export const GetShipmentTypeApi = async (
-  accId,
-  buId,
-  territoryId,
-  setter,
-  setLoading,
-  cb
-) => {
+export const GetShipmentTypeApi = async (accId, buId, territoryId, setter, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.get(
