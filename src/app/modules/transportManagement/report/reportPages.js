@@ -25,7 +25,10 @@ import TripSlabCostReport from "./tripSlabCostReport/landing/table";
 import VehicleFuelCostReport from "./vehicleFuelCostReport/landing";
 import VehicleFuelReport from "./vehicleFuelReport/landing/landing";
 import LogisticDashBoard from "./logisticDashBoard";
-import PackerInfo from "./packerInfo";
+import PackerInfo from "./packerInfo/index2";
+import VehicleCallingList from "./vehicleCallingList";
+import StorePackingInfo from "./storePackingInfo";
+// import PackerInfo from "./packerInfo";
 import FuelRequisitionByShipment from "./fuelRequisitionByShip";
 import { shallowEqual, useSelector } from "react-redux";
 import NotPermittedPage from "../../_helper/notPermitted/NotPermittedPage";
@@ -160,6 +163,15 @@ export function TransportReportPages() {
         <ContentRoute
           path="/transport-management/report/hourlyDeliveryStatusReport"
           component={HourlyDeliveryStatusReport}
+        />
+
+        <ContentRoute
+          path="/transport-management/report/VehicleCallingList"
+          component={VehicleCallingList}
+        />
+        <ContentRoute
+          path="/transport-management/report/StorePackingInfo"
+          component={StorePackingInfo}
         />
       </Switch>
     </Suspense>
