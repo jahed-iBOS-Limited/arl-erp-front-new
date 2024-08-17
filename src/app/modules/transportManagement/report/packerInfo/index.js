@@ -11,6 +11,7 @@ import QRCodeScanner from "../../../_helper/qrCodeScanner";
 import IForm from "./../../../_helper/_form";
 import InputField from "./../../../_helper/_inputField";
 import Loading from "./../../../_helper/_loading";
+import ICustomTable from "../../../_helper/_customTable";
 
 const initData = {
   shipmentId: "",
@@ -18,7 +19,7 @@ const initData = {
   shippingPoint: "",
   vehicleNumber: "",
   driver: "",
-  delliveryDate: "",
+  deliveryDate: "",
   packerName: "",
 };
 
@@ -37,20 +38,20 @@ const validationSchema = Yup.object().shape({
 
 export default function PackerInfo() {
   const [objProps, setObjprops] = useState({});
+  const [reportData, getReportData, loading, setReportData] = useAxiosGet();
+  const [, onComplete, loader] = useAxiosPost();
+  const [shipmentId, setShipmentId] = useState(null);
+  const [isQrCodeShow, setIsQRCodeSHow] = useState(false);
+  const [actionType, setActionType] = useState("Manual");
+
   const selectedBusinessUnit = useSelector((state) => {
     return state.authData.selectedBusinessUnit;
   }, shallowEqual);
-
-  const [reportData, getReportData] = useAxiosGet();
-  const [, onComplete, loader] = useAxiosPost();
-  const [shipmentId, setShipmentId] = useState(null);
 
   const saveHandler = (values, cb) => {
     alert("Working...");
   };
 
-  const [isQrCodeShow, setIsQRCodeSHow] = useState(false);
-  const [actionType, setActionType] = useState("Manual");
   return (
     <Formik
       enableReinitialize={true}
@@ -62,17 +63,9 @@ export default function PackerInfo() {
         });
       }}
     >
-      {({
-        handleSubmit,
-        resetForm,
-        values,
-        setFieldValue,
-        isValid,
-        errors,
-        touched,
-      }) => (
+      {({ handleSubmit, resetForm, values, setFieldValue }) => (
         <>
-          {loader && <Loading />}
+          {(loader || loading) && <Loading />}
           <IForm
             title="Packer Info"
             getProps={setObjprops}
@@ -131,6 +124,7 @@ export default function PackerInfo() {
                         setActionType("Manual");
                         resetForm(initData);
                         setShipmentId(null);
+                        setReportData({})
                       }}
                     />
                     By Card Number
@@ -146,6 +140,7 @@ export default function PackerInfo() {
                         setActionType("Auto");
                         resetForm(initData);
                         setShipmentId(null);
+                         setReportData({});
                       }}
                     />
                     By QR Code
@@ -224,7 +219,7 @@ export default function PackerInfo() {
                                   res?.objHeader?.packerName || ""
                                 );
                                 setFieldValue(
-                                  "delliveryDate",
+                                  "deliveryDate",
                                   _dateFormatter(res?.objHeader?.pricingDate) ||
                                     ""
                                 );
@@ -282,12 +277,12 @@ export default function PackerInfo() {
                   </div>
                   <div className="col-lg-3">
                     <InputField
-                      value={values?.delliveryDate}
+                      value={values?.deliveryDate}
                       label="Delivery Date"
-                      name="delliveryDate"
+                      name="deliveryDate"
                       type="date"
                       onChange={(e) => {
-                        setFieldValue("delliveryDate", e.target.value);
+                        setFieldValue("deliveryDate", e.target.value);
                       }}
                     />
                   </div>
@@ -336,7 +331,7 @@ export default function PackerInfo() {
                           res?.objHeader?.packerName || ""
                         );
                         setFieldValue(
-                          "delliveryDate",
+                          "deliveryDate",
                           _dateFormatter(res?.objHeader?.pricingDate) || ""
                         );
                       }
@@ -344,6 +339,35 @@ export default function PackerInfo() {
                   }}
                 />
               </IViewModal>
+              <div className="row">
+                <div className="col-lg-6 col-sm-12">
+                  {reportData?.objRow?.length > 0 && (
+                    <ICustomTable ths={["SL", "Item", "UoM", "Quantity"]}>
+                      {reportData?.objRow?.map((item, index) => {
+                        return (
+                          <tr>
+                            <td>{index + 1}</td>
+                            <td>{item?.itemName}</td>
+                            <td>{item?.uomName}</td>
+                            <td className="text-right">{item?.quantity}</td>
+                          </tr>
+                        );
+                      })}
+                      <tr style={{ fontWeight: "bold", textAlign: "right" }}>
+                        <td colSpan={3} className="text-right">
+                          Total
+                        </td>
+                        <td>
+                          {reportData?.objRow?.reduce(
+                            (total, curr) => (total += curr?.quantity),
+                            0
+                          )}
+                        </td>
+                      </tr>
+                    </ICustomTable>
+                  )}
+                </div>
+              </div>
             </Form>
           </IForm>
         </>
