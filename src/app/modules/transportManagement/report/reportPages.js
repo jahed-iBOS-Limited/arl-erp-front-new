@@ -27,8 +27,16 @@ import VehicleFuelReport from "./vehicleFuelReport/landing/landing";
 import LogisticDashBoard from "./logisticDashBoard";
 import PackerInfo from "./packerInfo";
 import FuelRequisitionByShipment from "./fuelRequisitionByShip";
+import { shallowEqual, useSelector } from "react-redux";
+import NotPermittedPage from "../../_helper/notPermitted/NotPermittedPage";
 
 export function TransportReportPages() {
+  const {
+    selectedBusinessUnit: { buId },
+  } = useSelector((state) => {
+    return state.authData;
+  }, shallowEqual);
+  console.log(buId);
   return (
     <Suspense fallback={<LayoutSplashScreen />}>
       <Switch>
