@@ -26,6 +26,7 @@ import VehicleFuelCostReport from "./vehicleFuelCostReport/landing";
 import VehicleFuelReport from "./vehicleFuelReport/landing/landing";
 import LogisticDashBoard from "./logisticDashBoard";
 import PackerInfo from "./packerInfo";
+import FuelRequisitionByShipment from "./fuelRequisitionByShip";
 
 export function TransportReportPages() {
   return (
@@ -82,9 +83,13 @@ export function TransportReportPages() {
           path="/transport-management/report/dashboardpdd"
           component={Dashboardpdd}
         />
-         <ContentRoute
+        <ContentRoute
           path="/transport-management/report/PackerInfo"
           component={PackerInfo}
+        />
+        <ContentRoute
+          path="/transport-management/report/FuelRequisitionByShipment"
+          component={FuelRequisitionByShipment}
         />
         <ContentRoute
           path="/transport-management/report/LogisticDashBoard"
