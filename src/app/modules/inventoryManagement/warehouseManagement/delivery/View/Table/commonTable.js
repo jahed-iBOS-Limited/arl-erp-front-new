@@ -8,7 +8,9 @@ function CommonTable({
   totalPieces,
   totalRate,
   totalAmount,
+  isWorkable
 }) {
+
   return (
     <>
       <div className="my-8">
@@ -36,8 +38,8 @@ function CommonTable({
                       <th>Pieces</th>
                     </>
                   )}
-
-                  <th>QNT.</th>
+                  {isWorkable && <th style={{textAlign:"center"}}>S.N</th>}
+                  <th style={{textAlign:"right"}}>QNT.</th>
                   {[144].includes(selectedBusinessUnit?.value) && (
                     <>
                       <th
@@ -67,6 +69,7 @@ function CommonTable({
                         td={td}
                         index={index}
                         selectedBusinessUnit={selectedBusinessUnit}
+                        isWorkable={isWorkable}
                       />
                     );
                   })}
@@ -132,7 +135,7 @@ function CommonTable({
   );
 }
 
-const CommonTR = ({ index, td, selectedBusinessUnit }) => {
+const CommonTR = ({ index, td, selectedBusinessUnit ,isWorkable }) => {
   return (
     <tr key={index}>
       <td> {index + 1} </td>
@@ -162,6 +165,11 @@ const CommonTR = ({ index, td, selectedBusinessUnit }) => {
         </>
       )}
 
+      {isWorkable && (
+        <td>
+        <div className="text-center pl-2">{td?.itemWiseSerialList?.map((item)=>item || "N/A")}</div>
+      </td>
+      )}
       <td>
         <div className="text-right pl-2">{td?.quantity}</div>
       </td>

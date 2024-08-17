@@ -46,6 +46,7 @@ const initData = {
 };
 
 export default function PartnerAllotmentChallanForm({ deliveryLandingData }) {
+  console.log("object",deliveryLandingData);
   const { allotmentId } = useParams();
   const history = useHistory();
   const [deliveryItemInfo, setDeliveryItemInfo] = useState([]);
