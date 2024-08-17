@@ -25,13 +25,12 @@ import TripSlabCostReport from "./tripSlabCostReport/landing/table";
 import VehicleFuelCostReport from "./vehicleFuelCostReport/landing";
 import VehicleFuelReport from "./vehicleFuelReport/landing/landing";
 import LogisticDashBoard from "./logisticDashBoard";
-import PackerInfo from "./packerInfo/index2";
-import VehicleCallingList from "./vehicleCallingList";
-import StorePackingInfo from "./storePackingInfo";
+// import PackerInfo from "./packerInfo/index2";
+import VehicleCallingList from "./packingInformationList";
+import StoreInformation from "./storeInfo";
 // import PackerInfo from "./packerInfo";
 import FuelRequisitionByShipment from "./fuelRequisitionByShip";
 import { shallowEqual, useSelector } from "react-redux";
-import NotPermittedPage from "../../_helper/notPermitted/NotPermittedPage";
 
 export function TransportReportPages() {
   const {
@@ -94,10 +93,10 @@ export function TransportReportPages() {
           path="/transport-management/report/dashboardpdd"
           component={Dashboardpdd}
         />
-        <ContentRoute
+        {/* <ContentRoute
           path="/transport-management/report/PackerInfo"
           component={PackerInfo}
-        />
+        /> */}
         <ContentRoute
           path="/transport-management/report/FuelRequisitionByShipment"
           component={FuelRequisitionByShipment}
@@ -166,12 +165,12 @@ export function TransportReportPages() {
         />
 
         <ContentRoute
-          path="/transport-management/report/VehicleCallingList"
+          path="/transport-management/report/PackingInformationList"
           component={VehicleCallingList}
         />
         <ContentRoute
-          path="/transport-management/report/StorePackingInfo"
-          component={StorePackingInfo}
+          path="/transport-management/report/StoreInformationList"
+          component={StoreInformation}
         />
       </Switch>
     </Suspense>

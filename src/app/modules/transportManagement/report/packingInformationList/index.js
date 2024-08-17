@@ -10,9 +10,9 @@ import FromDateToDateForm from "../../../_helper/commonInputFieldsGroups/dateFor
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import QRCodeScanner from "../../../_helper/qrCodeScanner";
-import IForm from "./../../../_helper/_form";
-import InputField from "./../../../_helper/_inputField";
-import Loading from "./../../../_helper/_loading";
+import IForm from "../../../_helper/_form";
+import InputField from "../../../_helper/_inputField";
+import Loading from "../../../_helper/_loading";
 import IButton from "../../../_helper/iButton";
 import { _todayDate } from "../../../_helper/_todayDate";
 
@@ -24,6 +24,7 @@ const initData = {
   driver: "",
   deliveryDate: "",
   packerName: "",
+  tlm: "",
   fromDate: _todayDate(),
   toDate: _todayDate(),
 };
@@ -37,7 +38,9 @@ const headers_two = [
   "Provider Type",
   "Shipping Type",
   "Vehicle",
+  "TLM",
   "Total Qty",
+  "UoM",
 ];
 
 export default function VehicleCallingList() {
@@ -63,11 +66,9 @@ export default function VehicleCallingList() {
 
   const getData = (values, _pageNo = 0, _pageSize = 300) => {
     getRowData(
-      `/oms/LoadingPoint/GetSupervisorLoadingConfirmation?isTransferChallan=false&statusId=${values?.type?.value}&accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&shipPointId=${values?.shipPoint?.value}&fromDate=${values?.fromDate}&todate=${values?.toDate}&pageNo=${_pageNo}&pageSize=${_pageSize}`
+      `/oms/LoadingPoint/GetPackerLoadingConfirmation?isTransferChallan=false&statusId=${values?.type?.value}&accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&shipPointId=${values?.shipPoint?.value}&fromDate=${values?.fromDate}&todate=${values?.toDate}&pageNo=${_pageNo}&pageSize=${_pageSize}`
     );
   };
-
-  console.log(rowData);
 
   const isLoading = loader || loading || rowLoading;
 
@@ -86,7 +87,7 @@ export default function VehicleCallingList() {
         <>
           {isLoading && <Loading />}
           <IForm
-            title="Vehicle Calling List"
+            title="Packing Information"
             getProps={setObjprops}
             isHiddenBack
             isHiddenReset
@@ -112,7 +113,7 @@ export default function VehicleCallingList() {
                             return toast.warn("Already Completed");
                           }
                           onComplete(
-                            `/oms/LoadingPoint/CompletePacker?shipmentId=${reportData?.objHeader?.shipmentId}&actionBy=${profileData?.userId}&typeId=1`,
+                            `/oms/LoadingPoint/CompletePacker?shipmentId=${reportData?.objHeader?.shipmentId}&actionBy=${profileData?.userId}&typeId=1&tlm=${values?.tlm?.value}`,
 
                             // actionType === "Auto"
                             //   ? shipmentId
@@ -354,6 +355,25 @@ export default function VehicleCallingList() {
                         }}
                       />
                     </div>
+                    <div className="col-lg-3">
+                      <NewSelect
+                        name="tlm"
+                        options={[
+                          { value: 1, label: "TLM-1" },
+                          { value: 2, label: "TLM-2" },
+                          { value: 3, label: "TLM-3" },
+                          { value: 4, label: "TLM-4" },
+                          { value: 5, label: "TLM-5" },
+                          { value: 6, label: "TLM-6" },
+                        ]}
+                        value={values?.tlm}
+                        label="TLM"
+                        onChange={(valueOption) => {
+                          setFieldValue("tlm", valueOption);
+                        }}
+                        placeholder="TLM"
+                      />
+                    </div>
                   </>
                 )}
               </div>
@@ -439,24 +459,29 @@ export default function VehicleCallingList() {
                             <td>{item?.strOwnerType}</td>
                             <td>{item?.shippingTypeName}</td>
                             <td>{item?.vehicleName}</td>
+                            <td>{item?.tlm}</td>
                             <td className="text-right">{item?.itemTotalQty}</td>
+                            <td>{item?.shippingTypeId === 9 ? "Ton" : ""}</td>
                           </tr>
                         );
                       })}
                   <tr style={{ fontWeight: "bold", textAlign: "right" }}>
                     <td
-                      colSpan={[1, 2].includes(values?.type?.value) ? 7 : 3}
+                      colSpan={[1, 2].includes(values?.type?.value) ? 8 : 3}
                       className="text-right"
                     >
                       Total
                     </td>
                     {[1, 2].includes(values?.type?.value) ? (
-                      <td>
-                        {rowData?.data?.reduce(
-                          (total, curr) => (total += curr?.itemTotalQty),
-                          0
-                        )}
-                      </td>
+                      <>
+                        <td>
+                          {rowData?.data?.reduce(
+                            (total, curr) => (total += curr?.itemTotalQty),
+                            0
+                          )}
+                        </td>
+                        <td></td>
+                      </>
                     ) : (
                       <td>
                         {reportData?.objRow?.reduce(
