@@ -138,9 +138,12 @@ export default function FuelRequisitionByShipment() {
                         itemName: reportData?.objHeader?.itemName,
                         uoMid: reportData?.objHeader?.uoMid,
                         uoMname: reportData?.objHeader?.uoMname,
-                        numTransactionQuantity: reportData?.objHeader?.fuelRate,
+                        numTransactionQuantity: Math.ceil(
+                          reportData?.objHeader?.totalFuelCostLtr
+                        ),
                         monTransactionValue:
-                          reportData?.objHeader?.totalFuelCostLtr,
+                          reportData?.objHeader?.fuelRate *
+                          Math.ceil(reportData?.objHeader?.totalFuelCostLtr),
                         inventoryLocationId:
                           reportData?.objHeader?.inventoryLocationId,
                         inventoryLocationName:
@@ -161,6 +164,7 @@ export default function FuelRequisitionByShipment() {
                         },
                         () => {
                           resetForm(initData);
+                          setReportData({});
                           setShipmentId(null);
                         },
                         true
@@ -423,7 +427,7 @@ export default function FuelRequisitionByShipment() {
                         <td>{reportData?.objHeader?.strShipmentCode}</td>
                         <td>{reportData?.objHeader?.fuelRate}</td>
                         <td className="text-right">
-                          {reportData?.objHeader?.totalFuelCostLtr}
+                          {Math.ceil(reportData?.objHeader?.totalFuelCostLtr)}
                         </td>
                       </tr>
                       {/* ); */}
@@ -434,7 +438,7 @@ export default function FuelRequisitionByShipment() {
                         </td>
                         <td>
                           {reportData?.objHeader?.fuelRate *
-                            reportData?.objHeader?.totalFuelCostLtr}
+                            Math.ceil(reportData?.objHeader?.totalFuelCostLtr)}
                         </td>
                       </tr>
                     </ICustomTable>
