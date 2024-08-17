@@ -15,6 +15,7 @@ import InputField from "../../../_helper/_inputField";
 import Loading from "../../../_helper/_loading";
 import IButton from "../../../_helper/iButton";
 import { _todayDate } from "../../../_helper/_todayDate";
+import ShippingInfoDetails from "./shippingNote";
 
 const initData = {
   shipmentId: "",
@@ -41,6 +42,7 @@ const headers_two = [
   "TLM",
   "Total Qty",
   "UoM",
+  "Action",
 ];
 
 export default function StoreInformation() {
@@ -51,6 +53,8 @@ export default function StoreInformation() {
   const [isQrCodeShow, setIsQRCodeSHow] = useState(false);
   const [actionType, setActionType] = useState("Manual");
   const [rowData, getRowData, rowLoading, setRowData] = useAxiosGet();
+  const [open, setOpen] = useState(false);
+  const [singleItem, setSingleItem] = useState({});
 
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
@@ -462,6 +466,20 @@ export default function StoreInformation() {
                             <td>{item?.tlm}</td>
                             <td className="text-right">{item?.itemTotalQty}</td>
                             <td>{item?.shippingTypeId === 9 ? "Ton" : ""}</td>
+                            <td className="text-center">
+                              {[1].includes(values?.type?.value) && (
+                                <button
+                                  className="btn btn-info btn-sm py-2"
+                                  type="button"
+                                  onClick={() => {
+                                    setSingleItem(item);
+                                    setOpen(true);
+                                  }}
+                                >
+                                  Complete
+                                </button>
+                              )}{" "}
+                            </td>
                           </tr>
                         );
                       })}
@@ -480,7 +498,7 @@ export default function StoreInformation() {
                             0
                           )}
                         </td>
-                        <td></td>
+                        <td colSpan={2}></td>
                       </>
                     ) : (
                       <td>
@@ -493,6 +511,17 @@ export default function StoreInformation() {
                   </tr>
                 </ICustomTable>
               )}
+              <IViewModal show={open} onHide={() => setOpen(false)}>
+                <ShippingInfoDetails
+                  obj={{
+                    id: singleItem?.shipmentId,
+                    shipmentCode: singleItem?.shipmentCode,
+                    setOpen,
+                    getData,
+                    values,
+                  }}
+                />
+              </IViewModal>
             </Form>
           </IForm>
         </>
