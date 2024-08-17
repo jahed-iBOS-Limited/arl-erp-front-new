@@ -6,7 +6,7 @@ const ItemInformation = ({ currRowInfo, setFieldValue, rowDto, isFromDelivery, s
   const currentRowIndex = currRowInfo?.rowIndex;
   const itemSerialList = Array.isArray(rowDto[currentRowIndex]?.serialList) ? rowDto[currentRowIndex]?.serialList : []; //from inventory receive page
 
-  const itemList = Array.isArray(rowDto[currentRowIndex]?.scannedItemSerialList)   //from customer delivery page
+  const itemList = Array.isArray(rowDto[currentRowIndex]?.scannedItemSerialList) //from customer delivery page
     ? rowDto[currentRowIndex]?.scannedItemSerialList
     : [];
 
@@ -74,10 +74,11 @@ const ItemInformation = ({ currRowInfo, setFieldValue, rowDto, isFromDelivery, s
     setFieldValue("itemLists", deepClone);
   };
 
-  const onDelete = (rowIndex) => {
-    const newList = itemSerialList?.filter((item, index) => rowIndex !== index);
-    const updateRowDto = getUpdatedFirstLevelList(rowDto, "serialList", currentRowIndex, newList);
-    setRowDto(updateRowDto);
+  const onClear = (rowIndex) => {
+    // const newList = itemSerialList?.filter((item, index) => rowIndex !== index);
+    // const updateRowDto = getUpdatedFirstLevelList(rowDto, "serialList", currentRowIndex, newList);
+    // setRowDto(updateRowDto);
+    onRowChange({ value: "", key: "barCode", index: rowIndex })
   };
 
   const getChecked = () => {
@@ -212,7 +213,11 @@ const ItemInformation = ({ currRowInfo, setFieldValue, rowDto, isFromDelivery, s
                       </td>
                       <td style={{ width: "15%" }}>
                         <div style={{ display: "flex", justifyContent: "center" }}>
-                          <button className="btn btn-primary mr-2" type="button" onClick={() => onDelete(i)}>
+                          <button
+                            className="btn btn-primary mr-2"
+                            type="button"
+                            onClick={() => onClear(i)}
+                          >
                             clear
                           </button>
                         </div>
