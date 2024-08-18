@@ -62,20 +62,28 @@ import LogisticEquipmentEntry from "./logisticEquipment/entry";
 import ItemWiseSerialDetails from "../reports/itemwiseserialdetails/ItemWiseSerialDetails";
 
 export function WarehouseManagementPages() {
-  const { userRole, selectedBusinessUnit } = useSelector((state) => state?.authData, shallowEqual);
+  const { userRole, selectedBusinessUnit } = useSelector(
+    (state) => state?.authData,
+    shallowEqual
+  );
 
-  const inventoryTransaction = userRole[findIndex(userRole, "Inventory Transaction")];
+  const inventoryTransaction =
+    userRole[findIndex(userRole, "Inventory Transaction")];
   const customerDelivery = userRole[findIndex(userRole, "Customer Delivery")];
   const assetReceive = userRole[findIndex(userRole, "Asset Receive")];
   const serviceReceive = userRole[findIndex(userRole, "Service Receive")];
 
   let inventoryLoan = null;
+  let inventoryLoanApprv = null;
   let itemWiseSerialUpdate = null;
   let mrrCancelPermission = null;
 
   for (let i = 0; i < userRole.length; i++) {
     if (userRole[i]?.intFeatureId === 1035) {
       inventoryLoan = userRole[i];
+    }
+    if (userRole[i]?.intFeatureId === 1405) {
+      inventoryLoanApprv = userRole[i];
     }
     if (userRole[i]?.intFeatureId === 1194) {
       itemWiseSerialUpdate = userRole[i];
@@ -96,22 +104,37 @@ export function WarehouseManagementPages() {
       {/* Invenory Transaction */}
       <ContentRoute
         from="/inventory-management/warehouse-management/inventorytransaction/view/:id"
-        component={inventoryTransaction?.isView ? ViewInvTransactionForm : NotPermittedPage}
+        component={
+          inventoryTransaction?.isView
+            ? ViewInvTransactionForm
+            : NotPermittedPage
+        }
       />
       <ContentRoute
         from="/inventory-management/warehouse-management/inventorytransaction/create"
-        component={inventoryTransaction?.isCreate ? ForminvTrans : NotPermittedPage}
+        component={
+          inventoryTransaction?.isCreate ? ForminvTrans : NotPermittedPage
+        }
       />
-      <ContentRoute from="/inventory-management/warehouse-management/inventorytransaction" component={InvTransaction} />
+      <ContentRoute
+        from="/inventory-management/warehouse-management/inventorytransaction"
+        component={InvTransaction}
+      />
 
       {/* Inv Transaction Import */}
       <ContentRoute
         from="/inventory-management/warehouse-management/inventorytransactionimport/view/:id"
-        component={inventoryTransaction?.isView ? ViewInvTransactionFormImport : NotPermittedPage}
+        component={
+          inventoryTransaction?.isView
+            ? ViewInvTransactionFormImport
+            : NotPermittedPage
+        }
       />
       <ContentRoute
         from="/inventory-management/warehouse-management/inventorytransactionimport/create"
-        component={inventoryTransaction?.isCreate ? ForminvTransImport : NotPermittedPage}
+        component={
+          inventoryTransaction?.isCreate ? ForminvTransImport : NotPermittedPage
+        }
       />
       <ContentRoute
         from="/inventory-management/warehouse-management/inventorytransactionimport"
@@ -123,15 +146,24 @@ export function WarehouseManagementPages() {
         from="/inventory-management/warehouse-management/issueforproduction/create"
         component={CreateIssueForProduction}
       />
-      <ContentRoute from="/inventory-management/warehouse-management/issueforproduction" component={IssueProduction} />
+      <ContentRoute
+        from="/inventory-management/warehouse-management/issueforproduction"
+        component={IssueProduction}
+      />
 
       {/* Grn for PO */}
       <ContentRoute
         from="/inventory-management/warehouse-management/grnForPO/view/:id"
         component={ViewInvTransactionForm}
       />
-      <ContentRoute from="/inventory-management/warehouse-management/grnForPO/add" component={ReceiveInvCreateForm} />
-      <ContentRoute from="/inventory-management/warehouse-management/grnForPO" component={GrnforPO} />
+      <ContentRoute
+        from="/inventory-management/warehouse-management/grnForPO/add"
+        component={ReceiveInvCreateForm}
+      />
+      <ContentRoute
+        from="/inventory-management/warehouse-management/grnForPO"
+        component={GrnforPO}
+      />
 
       {/* Grn for Po */}
       {/*  <ContentRoute
@@ -172,8 +204,14 @@ export function WarehouseManagementPages() {
         from="/inventory-management/warehouse-management/item-request/edit/:id"
         component={ItemRequestForm}
       />
-      <ContentRoute from="/inventory-management/warehouse-management/item-request/add" component={ItemRequestForm} />
-      <ContentRoute from="/inventory-management/warehouse-management/item-request" component={ItemRequest} />
+      <ContentRoute
+        from="/inventory-management/warehouse-management/item-request/add"
+        component={ItemRequestForm}
+      />
+      <ContentRoute
+        from="/inventory-management/warehouse-management/item-request"
+        component={ItemRequest}
+      />
 
       {/* CanceInventory Form */}
       <ContentRoute
@@ -189,7 +227,10 @@ export function WarehouseManagementPages() {
           //  : NotPermittedPage
         }
       />
-      <ContentRoute from="/inventory-management/warehouse-management/cancelInventory" component={CancelInventory} />
+      <ContentRoute
+        from="/inventory-management/warehouse-management/cancelInventory"
+        component={CancelInventory}
+      />
 
       {/* Delivery Routes */}
       <ContentRoute
@@ -200,24 +241,35 @@ export function WarehouseManagementPages() {
         from="/inventory-management/warehouse-management/delivery/add"
         component={customerDelivery?.isCreate ? DeliveryForm : NotPermittedPage}
       />
-      <ContentRoute from="/inventory-management/warehouse-management/delivery" component={Delivery} />
+      <ContentRoute
+        from="/inventory-management/warehouse-management/delivery"
+        component={Delivery}
+      />
 
       {/* Service Receive Routes */}
       <ContentRoute
         from="/inventory-management/warehouse-management/serviceReceive/viewReport/:Rcid"
-        component={serviceReceive?.isView ? ServiceReceiveReportView : NotPermittedPage}
+        component={
+          serviceReceive?.isView ? ServiceReceiveReportView : NotPermittedPage
+        }
       />
       <ContentRoute
         from="/inventory-management/warehouse-management/serviceReceive/view/:id"
-        component={serviceReceive?.isView ? ServiceReceiveViewForm : NotPermittedPage}
+        component={
+          serviceReceive?.isView ? ServiceReceiveViewForm : NotPermittedPage
+        }
       />
       <ContentRoute
         from="/inventory-management/warehouse-management/serviceReceive/edit/:id"
-        component={serviceReceive?.isEdit ? ServiceReceiveForm : NotPermittedPage}
+        component={
+          serviceReceive?.isEdit ? ServiceReceiveForm : NotPermittedPage
+        }
       />
       <ContentRoute
         from="/inventory-management/warehouse-management/serviceReceive/create"
-        component={serviceReceive?.isCreate ? ServiceReceiveForm : NotPermittedPage}
+        component={
+          serviceReceive?.isCreate ? ServiceReceiveForm : NotPermittedPage
+        }
       />
       <ContentRoute
         from="/inventory-management/warehouse-management/serviceReceive"
@@ -227,11 +279,15 @@ export function WarehouseManagementPages() {
       {/* Asset Receive Routes */}
       <ContentRoute
         from="/inventory-management/warehouse-management/assetReceive/reportview/:Asid"
-        component={assetReceive?.isView ? AssetReceiveReportView : NotPermittedPage}
+        component={
+          assetReceive?.isView ? AssetReceiveReportView : NotPermittedPage
+        }
       />
       <ContentRoute
         from="/inventory-management/warehouse-management/assetReceive/view/:id"
-        component={assetReceive?.isView ? AssetReceiveViewForm : NotPermittedPage}
+        component={
+          assetReceive?.isView ? AssetReceiveViewForm : NotPermittedPage
+        }
       />
       <ContentRoute
         from="/inventory-management/warehouse-management/assetReceive/edit/:id"
@@ -239,9 +295,14 @@ export function WarehouseManagementPages() {
       />
       <ContentRoute
         from="/inventory-management/warehouse-management/assetReceive/create"
-        component={assetReceive?.isCreate ? AssetsReceiveForm : NotPermittedPage}
+        component={
+          assetReceive?.isCreate ? AssetsReceiveForm : NotPermittedPage
+        }
       />
-      <ContentRoute from="/inventory-management/warehouse-management/assetReceive" component={AssetReceiveLanding} />
+      <ContentRoute
+        from="/inventory-management/warehouse-management/assetReceive"
+        component={AssetReceiveLanding}
+      />
       {/* older inventory */}
       {/* <ContentRoute
         path="/inventory-management/warehouse-management/inventoryLoan"
@@ -253,15 +314,25 @@ export function WarehouseManagementPages() {
 
       <ContentRoute
         path="/inventory-management/warehouse-management/inventoryLoan/create"
-        component={inventoryLoan?.isCreate ? InventoryLoanCreateEditNew : NotPermittedPage}
+        component={
+          inventoryLoan?.isCreate
+            ? InventoryLoanCreateEditNew
+            : NotPermittedPage
+        }
       />
       <ContentRoute
         path="/inventory-management/warehouse-management/inventoryLoan"
-        component={inventoryLoan?.isView ? InventoryLoanLandingNew : NotPermittedPage}
+        component={
+          inventoryLoan?.isView ? InventoryLoanLandingNew : NotPermittedPage
+        }
       />
       <ContentRoute
         path="/inventory-management/warehouse-management/inventory-Loan-Approve"
-        component={inventoryLoan?.isView ? InventoryLoanApproveLanding : NotPermittedPage}
+        component={
+          inventoryLoanApprv?.isView
+            ? InventoryLoanApproveLanding
+            : NotPermittedPage
+        }
       />
 
       <ContentRoute
@@ -276,21 +347,40 @@ export function WarehouseManagementPages() {
       {/* Lifting Approve */}
       <ContentRoute
         path="/inventory-management/warehouse-management/liftingplanapprove"
-        component={selectedBusinessUnit?.value === 175 ? CastingScheduleApproveLanding : LiftingEntryApproveForm}
+        component={
+          selectedBusinessUnit?.value === 175
+            ? CastingScheduleApproveLanding
+            : LiftingEntryApproveForm
+        }
       />
       <ContentRoute
         path="/inventory-management/warehouse-management/liftingplanentry/entry/:id/:type"
-        component={selectedBusinessUnit?.value === 175 ? CastingScheduleForm : LiftingEntryForm}
+        component={
+          selectedBusinessUnit?.value === 175
+            ? CastingScheduleForm
+            : LiftingEntryForm
+        }
       />
       <ContentRoute
         path="/inventory-management/warehouse-management/liftingplanentry/entry"
-        component={selectedBusinessUnit?.value === 175 ? CastingScheduleForm : LiftingEntryForm}
+        component={
+          selectedBusinessUnit?.value === 175
+            ? CastingScheduleForm
+            : LiftingEntryForm
+        }
       />
       <ContentRoute
         path="/inventory-management/warehouse-management/liftingplanentry"
-        component={selectedBusinessUnit?.value === 175 ? CastingScheduleLanding : LiftingEntry}
+        component={
+          selectedBusinessUnit?.value === 175
+            ? CastingScheduleLanding
+            : LiftingEntry
+        }
       />
-      <ContentRoute path="/inventory-management/warehouse-management/liftingplanreport" component={LiftingPlan} />
+      <ContentRoute
+        path="/inventory-management/warehouse-management/liftingplanreport"
+        component={LiftingPlan}
+      />
       <ContentRoute
         path="/inventory-management/warehouse-management/logisticequipmentavailability/:type"
         component={LogisticEquipmentEntry}
@@ -303,20 +393,31 @@ export function WarehouseManagementPages() {
         path="/inventory-management/warehouse-management/InventoryAdjustment/create"
         component={InventoryAdjustmentCreate}
       />
-      <ContentRoute path="/inventory-management/warehouse-management/InventoryAdjustment" component={InvAdjustment} />
+      <ContentRoute
+        path="/inventory-management/warehouse-management/InventoryAdjustment"
+        component={InvAdjustment}
+      />
 
       {/* Item Wise Serial Update Routing List*/}
       <ContentRoute
         path="/inventory-management/warehouse-management/Item-Wise-Serial-Update/edit/:id"
-        component={itemWiseSerialUpdate?.isEdit ? ItemWiseSerialEdit : NotPermittedPage}
+        component={
+          itemWiseSerialUpdate?.isEdit ? ItemWiseSerialEdit : NotPermittedPage
+        }
       />
       <ContentRoute
         path="/inventory-management/warehouse-management/Item-Wise-Serial-Update/create"
-        component={itemWiseSerialUpdate?.isCreate ? ItemWiseSerialCreate : NotPermittedPage}
+        component={
+          itemWiseSerialUpdate?.isCreate
+            ? ItemWiseSerialCreate
+            : NotPermittedPage
+        }
       />
       <ContentRoute
         path="/inventory-management/warehouse-management/Item-Wise-Serial-Update"
-        component={itemWiseSerialUpdate?.isView ? ItemWiseSerialUpdate : NotPermittedPage}
+        component={
+          itemWiseSerialUpdate?.isView ? ItemWiseSerialUpdate : NotPermittedPage
+        }
       />
       <ContentRoute
         path="/inventory-management/warehouse-management/MRRCancel"
@@ -366,7 +467,10 @@ export function WarehouseManagementPages() {
         path="/inventory-management/warehouse-management/itemqualitycheck"
         component={ItemQualityCheckLanding}
       />
-      <ContentRoute from="/inventory-management/warehouse-management/ItemwiseserialDetails" component={ItemWiseSerialDetails} />
+      <ContentRoute
+        from="/inventory-management/warehouse-management/ItemwiseserialDetails"
+        component={ItemWiseSerialDetails}
+      />
     </Switch>
   );
 }
