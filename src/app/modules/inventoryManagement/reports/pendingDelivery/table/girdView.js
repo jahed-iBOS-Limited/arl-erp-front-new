@@ -3,7 +3,7 @@ import moment from "moment";
 import { _dateFormatterTwo } from "../../../../_helper/_dateFormate";
 import "./style.css";
 
-const GridView = ({ gridData, setGridData, selectedBusinessUnit }) => {
+const GridView = ({ gridData, setGridData, selectedBusinessUnit, reportTypeId }) => {
   // one item select
   const itemSlectedHandler = (index, gridData, item) => {
     const isItemCheck = gridData?.find((item) => item?.itemCheck);
@@ -55,17 +55,22 @@ const GridView = ({ gridData, setGridData, selectedBusinessUnit }) => {
                       /> */}
                     </th>
                     <th style={{ minWidth: "30px" }}>SL</th>
+                    {reportTypeId === 2 && ( <th style={{ minWidth: "120px" }}>Current Stage</th>)}
                     <th style={{ minWidth: "220px" }}>Sold To Party</th>
                     <th style={{ minWidth: "150px" }}>Ship To Party</th>
                     <th style={{ minWidth: "250px" }}>Ship To Party Address</th>
                     <th>Order No.</th>
+                    {reportTypeId === 2 && ( <th style={{ minWidth: "120px" }}>DO Code</th>)}
+                    {reportTypeId === 2 && ( <th style={{ minWidth: "120px" }}>Shipment Code</th>)}
                     <th>Order Date/Time</th>
                     <th style={{ minWidth: "120px" }}>Item Name</th>
                     <th>Item Price</th>
                     <th>Order Qty.</th>
                     {buUnId === 144 && <th>Order Qty.&nbsp;(Ton)</th>}
-                    <th>Pending Qty.</th>
-                    {buUnId === 144 && <th>Pending Qty.&nbsp;(Ton)</th>}
+                    <th>DO Pending</th>
+                    {buUnId === 144 && <th>DO Pending&nbsp;(Ton)</th>}
+                    {reportTypeId === 2 && buUnId === 144 && <th>DO QTY</th>}
+                    {reportTypeId === 2 && buUnId === 144 && <th>DO QTY&nbsp;(Ton)</th>}
                     <th>Vehicle Type</th>
                     <th>Unloading Time</th>
                     <th>Region</th>
@@ -92,6 +97,11 @@ const GridView = ({ gridData, setGridData, selectedBusinessUnit }) => {
                       numItemPrice,
                       numOrderQuantityTon,
                       pendingQtyTon,
+                      currentStage,
+                      deliveryCode,
+                      shipmentCode,
+                      deliveryQuantity,
+                      deliveryQuantityTon,
                     } = item?.objRowData;
 
                     return (
@@ -112,10 +122,13 @@ const GridView = ({ gridData, setGridData, selectedBusinessUnit }) => {
                           />
                         </td>
                         <td className="text-center">{index + 1}</td>
+                        {reportTypeId === 2 && (<td>{currentStage}</td>)}
                         <td>{soldToPartnerName}</td>
                         <td>{shipToPartnerName}</td>
                         <td>{shipToPartnerAddress}</td>
                         <td>{orderCode}</td>
+                        {reportTypeId === 2 && (<td>{deliveryCode}</td>)}
+                        {reportTypeId === 2 && (<td>{shipmentCode}</td>)}
                         <td>
                           {_dateFormatterTwo(orderDateTime)}
                           <br />
@@ -127,6 +140,8 @@ const GridView = ({ gridData, setGridData, selectedBusinessUnit }) => {
                         {buUnId === 144 && <td className="text-right">{numOrderQuantityTon}</td>}
                         <td className="text-right">{pendingQty}</td>
                         {buUnId === 144 && <td className="text-right">{pendingQtyTon}</td>}
+                        {reportTypeId === 2 && buUnId === 144 && <td className="text-right">{deliveryQuantity}</td>}
+                        {reportTypeId === 2 && buUnId === 144 && <td className="text-right">{deliveryQuantityTon}</td>}
                         <td></td>
                         <td>{_dateFormatterTwo(deliveryTime)}</td>
                         <td>{region}</td>
