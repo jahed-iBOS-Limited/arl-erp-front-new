@@ -31,6 +31,7 @@ import StoreInformation from "./storeInfo";
 // import PackerInfo from "./packerInfo";
 import FuelRequisitionByShipment from "./fuelRequisitionByShip";
 import { shallowEqual, useSelector } from "react-redux";
+import NotPermittedPage from "../../_helper/notPermitted/NotPermittedPage";
 
 export function TransportReportPages() {
   const {
