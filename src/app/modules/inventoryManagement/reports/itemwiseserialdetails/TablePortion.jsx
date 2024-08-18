@@ -13,12 +13,12 @@ const TablePortion = ({ landingData }) => {
               <th className="text-center align-middle">SL</th>
               <th className="text-center align-middle">Serial Number</th>
               <th className="text-center align-middle">Item Code</th>
-              <th className="text-left align-middle">Item Name</th>
-              <th className="text-left align-middle"> Purchase OrderDate</th>
-              <th className="text-center align-middle">Purchase ReceiveDate </th>
+              <th className="text-left align-middle" style={{width:"220px"}}>Item Name</th>
+              <th className="text-left align-middle"> Purchase Order Date</th>
+              <th className="text-center align-middle">Purchase Order Code </th>
+              <th className="text-center align-middle">Purchase Receive Date</th>
+              <th className="text-center align-middle">Purchase Receive Code</th>
               <th className="text-center align-middle">Delivery date </th>
-              <th className="text-center align-middle">Purchase Code</th>
-              <th className="text-center align-middle">Purchase Receive </th>
               <th className="text-center align-middle">Delivery Code</th>
               <th className="text-center align-middle">Customer Name</th>
             </tr>
@@ -28,15 +28,15 @@ const TablePortion = ({ landingData }) => {
               <tr key={i}>
                 <td className="text-center align-middle"> {i + 1} </td>
                 <td className="text-center align-middle"> {item?.serialNumber || "N/A"}</td>
-                <td className="text-center align-middle"> {_dateFormatter(item?.purchaseOrderDate) || "N/A"}</td>
-                <td className="text-center align-middle"> {_dateFormatter(item?.purchaseReceiveDate) || "N/A"}</td>
-                <td className="text-center align-middle"> {_dateFormatter(item?.deliverydate) || "N/A"}</td>
-                <td className="text-center align-middle"> {item?.purchaseOrderCode || "N/A"} </td>
-                <td className="text-center align-middle"> {item?.purchaseReceiveCode || "N/A"} </td>
-                <td className="text-center align-middle"> {item?.deliveryCode || "N/A"}</td>
-                <td className="text-center align-middle"> {item?.customerName || "N/A"}</td>
                 <td className="">{item?.itmeCode || "N/A"}</td>
                 <td className="">{item?.itemName || "N/A"}</td>
+                <td className="text-center align-middle"> {_dateFormatter(item?.purchaseOrderDate) || "N/A"}</td>
+                <td className="text-center align-middle"> {item?.purchaseOrderCode || "N/A"} </td>
+                <td className="text-center align-middle"> {_dateFormatter(item?.purchaseReceiveDate) || "N/A"}</td>
+                <td className="text-center align-middle"> {item?.purchaseReceiveCode || "N/A"} </td>
+                <td className="text-center align-middle"> {_dateFormatter(item?.deliverydate) || "N/A"}</td>
+                <td className="text-center align-middle"> {item?.deliveryCode || "N/A"}</td>
+                <td className="text-center align-middle"> {item?.customerName || "N/A"}</td>
               </tr>
             ))}
           </tbody>
