@@ -268,8 +268,8 @@ export default function IncomestatementNew() {
                         getIncomeStatement_api(
                           values?.fromDate,
                           values?.toDate,
-                          _lastDateOfMonth(values?.fromDate),
-                          _lastDateOfMonth(values?.toDate),
+                          values?.fromDate,
+                          values?.toDate,
                           values?.businessUnit?.value,
                           0,
                           setIncomeStatement,
