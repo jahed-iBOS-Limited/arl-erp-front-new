@@ -26,11 +26,14 @@ import {
   CardHeaderToolbar,
   ModalProgressBar,
 } from "../../../../../_metronic/_partials/controls";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 
 const initDataFuction = (financialManagementReportCashFlowStatement) => {
   const initData = {
     enterpriseDivision:
       financialManagementReportCashFlowStatement?.enterpriseDivision || "",
+    viewType: financialManagementReportCashFlowStatement?.viewType || "",
+    subDivision: financialManagementReportCashFlowStatement?.subDivision || "",
     businessUnit:
       financialManagementReportCashFlowStatement?.businessUnit || "",
     convertionRate:
@@ -59,6 +62,12 @@ export function CashFlowStatement() {
   const [enterpriseDivisionDDL, setEnterpriseDivisionDDL] = useState([]);
   const [businessUnitDDL, setBusinessUnitDDL] = useState([]);
   const formikRef = React.useRef(null);
+  const [
+    subDivisionDDL,
+    getSubDivisionDDL,
+    loadingOnSubDivisionDDL,
+    setSubDivisionDDL,
+  ] = useAxiosGet();
 
   useEffect(() => {
     fromDateFromApiNew(selectedBusinessUnit?.value, (date) => {
@@ -80,6 +89,7 @@ export function CashFlowStatement() {
         financialManagementReportCashFlowStatement
       );
       let initialEntepriceDivision = initData?.enterpriseDivision;
+      let initialEntepriceSubDivision = initData?.subDivision;
       if (!initData?.enterpriseDivision) {
         initialEntepriceDivision = enterpriseDivisionData?.[0];
         dispatch(
@@ -91,6 +101,19 @@ export function CashFlowStatement() {
         );
       }
       if (initialEntepriceDivision) {
+        getSubDivisionDDL(
+          `/hcm/HCMDDL/GetBusinessUnitSubGroup?AccountId=${accountId}&BusinessUnitGroup=${initialEntepriceDivision?.label}`
+        );
+        if (!initData?.subDivision) {
+          dispatch(
+            SetFinancialManagementReportCashFlowStatementAction({
+              ...initData,
+              subDivision: subDivisionDDL?.[0] || "",
+            })
+          );
+        }
+      }
+      if (initialEntepriceDivision && initialEntepriceSubDivision) {
         getBusinessDDLByED(
           accountId,
           initialEntepriceDivision?.value,
@@ -104,7 +127,8 @@ export function CashFlowStatement() {
                 })
               );
             }
-          }
+          },
+          initialEntepriceSubDivision
         );
       }
     });
@@ -135,8 +159,33 @@ export function CashFlowStatement() {
               </CardHeader>
               <CardBody>
                 <Form className="form form-label-right">
-                  {loading && <Loading />}
+                  {(loading || loadingOnSubDivisionDDL) && <Loading />}
                   <div className="row global-form align-items-end">
+                    <div className="col-md-3">
+                      <NewSelect
+                        name="viewType"
+                        options={[
+                          {
+                            value: 0,
+                            label: "All",
+                          },
+                          {
+                            value: 1,
+                            label: "Group by Unit",
+                          },
+                          {
+                            value: 2,
+                            label: "Group by Month",
+                          },
+                        ]}
+                        value={values?.viewType}
+                        label="View Type"
+                        onChange={(valueOption) => {
+                          setFieldValue("viewType", valueOption);
+                        }}
+                        placeholder="View Type"
+                      />
+                    </div>
                     <div className="col-md-3">
                       <NewSelect
                         name="enterpriseDivision"
@@ -148,15 +197,41 @@ export function CashFlowStatement() {
                           setRowDto([]);
                           setFieldValue("enterpriseDivision", valueOption);
                           setFieldValue("businessUnit", "");
+                          setFieldValue("subDivision", "");
+                          setSubDivisionDDL([]);
+                          setBusinessUnitDDL([]);
                           if (valueOption?.value) {
-                            getBusinessDDLByED(
-                              accountId,
-                              valueOption?.value,
-                              setBusinessUnitDDL
-                            );
+                            if (valueOption?.value) {
+                              getSubDivisionDDL(
+                                `/hcm/HCMDDL/GetBusinessUnitSubGroup?AccountId=${accountId}&BusinessUnitGroup=${valueOption?.label}`
+                              );
+                            }
                           }
                         }}
                         placeholder="Enterprise Division"
+                      />
+                    </div>
+                    <div className="col-md-3">
+                      <NewSelect
+                        name="subDivision"
+                        options={subDivisionDDL || []}
+                        value={values?.subDivision}
+                        label="Sub Division"
+                        onChange={(valueOption) => {
+                          setFieldValue("subDivision", valueOption);
+                          setFieldValue("businessUnit", "");
+                          setBusinessUnitDDL([]);
+                          if (valueOption) {
+                            getBusinessDDLByED(
+                              accountId,
+                              values?.enterpriseDivision?.value,
+                              setBusinessUnitDDL,
+                              valueOption
+                            );
+                          }
+                        }}
+                        placeholder="Sub Division"
+                        isDisabled={!values?.enterpriseDivision}
                       />
                     </div>
                     <div className="col-md-3">
@@ -171,7 +246,7 @@ export function CashFlowStatement() {
                           setFieldValue("businessUnit", valueOption);
                         }}
                         placeholder="Business Unit"
-                        isDisabled={!values?.enterpriseDivision}
+                        isDisabled={!values?.subDivision}
                       />
                     </div>
                     <div className="col-lg-2">
@@ -240,7 +315,9 @@ export function CashFlowStatement() {
                             setRowDto,
                             setLoading,
                             values?.enterpriseDivision,
-                            values?.convertionRate
+                            values?.convertionRate,
+                            values?.viewType,
+                            values?.subDivision
                           );
                         }}
                         style={{ marginTop: "19px" }}
