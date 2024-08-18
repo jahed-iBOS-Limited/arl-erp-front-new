@@ -38,7 +38,10 @@ export const GetDataOfSalesOrderByTerriroryId_api = async ({
   fromDate,
   toDate,
   setter,
+  setLoading,  // Add setLoading to the parameters
 }) => {
+  setLoading && setLoading(true);  // Set loading to true before starting the request
+
   try {
     const api_one = `/oms/SalesOrder/GetDataOfSalesOrderByTerriroryId?AccountId=${accId}&BusinessUnitId=${buId}&WearHouseId=${warehouseId}&DistributionChannel=${channelId}&Region=${regionId}&Area=${areaId}&TerritoryId=${territoryId}&PartnerId=${soldToPartyId}&FromDate=${fromDate}&ToDate=${toDate}`;
 
@@ -55,8 +58,11 @@ export const GetDataOfSalesOrderByTerriroryId_api = async ({
     );
   } catch (err) {
     setter([]);
+  } finally {
+    setLoading && setLoading(false);  // Set loading to false after the request is complete
   }
 };
+
 
 export const getRegionDDL = async (accId, buId, chId, setter) => {
   try {
