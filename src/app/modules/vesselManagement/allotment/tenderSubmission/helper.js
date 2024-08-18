@@ -21,6 +21,7 @@ export const ErrorMessage = ({ name }) => (
 export const businessPartnerDDL = [
     { value: 89497, label: "BCIC" },
     { value: 88075, label: "BADC" },
+    { value: 3, label: "BADC(MOP)" },
 ];
 
 // Approve status for landing page
@@ -171,7 +172,6 @@ export const createPageValidationSchema = Yup.object({
         then: Yup.date().required("Contract date is required"),
         otherwise: Yup.date(),
     }),
-
     layCan: Yup.string().when("businessPartner", {
         is: (businessPartner) =>
             businessPartner && businessPartner?.label === "BADC",
@@ -180,7 +180,16 @@ export const createPageValidationSchema = Yup.object({
     }),
     pricePerBag: Yup.number()
         .positive()
-        .min(0)
+        .min(0),
+    loadPortMOP: Yup.string().when("businessPartner", {
+        is: (businessPartner) => {
+
+            console.log(businessPartner?.label === "BADC(MOP)")
+            return businessPartner && businessPartner?.label === "BADC(MOP)"
+        },
+        then: Yup.string().required("Load Port is required"),
+        otherwise: Yup.string()
+    })
 });
 
 // Validation schema for landing page
@@ -603,3 +612,14 @@ export const selectPayload = (
 export const fetchMotherVesselLists = (accId, buUnId, portId, getMotherVesselDDL) => {
     getMotherVesselDDL(`/wms/FertilizerOperation/GetMotherVesselDDL?AccountId=${accId}&BusinessUnitId=${buUnId}&PortId=${portId}`)
 }
+
+
+
+/* BADC (MOP) */
+
+// fetch ghat ddl for badc (mop) create
+export const fetchGhatDDL = (accountId, buUnId, getGhatDDLFunc) => {
+    getGhatDDLFunc(
+        `/wms/ShipPoint/GetShipPointDDL?accountId=${accountId}&businessUnitId=${buUnId}`
+    );
+};
