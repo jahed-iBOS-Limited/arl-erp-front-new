@@ -43,6 +43,11 @@ export default function RepayCreate({
     ) {
       return toast.error("Principal amount can't be greater than reapy amount");
     }
+    const sumCheck =
+      values?.principalAmount + values?.interestAmount + values?.numExciseDuty;
+    if (sumCheck <= 0) {
+      return toast.error("At least one field must be greater than 0");
+    }
     createRepay(
       profileData?.accountId,
       location?.state?.bu || selectedBusinessUnit?.value,

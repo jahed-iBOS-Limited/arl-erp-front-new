@@ -55,9 +55,9 @@ export default function RepayForm({
         initialValues={initialValues}
         validationSchema={loanRegister}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          if (values?.principalAmount <= 0) {
-            return toast.error("Principal Amount must be greater than 0");
-          }
+          // if (values?.principalAmount <= 0) {
+          //   return toast.error("Principal Amount must be greater than 0");
+          // }
           saveHandler(values, () => {
             resetForm(initData);
             history.push("/financial-management/banking/loan-register");
@@ -149,7 +149,7 @@ export default function RepayForm({
                       }
                     }}
                     type="number"
-                    min={1}
+                    // min={1}
                     max={
                       location?.state?.principal ||
                       "100000000000000000000000000000"
@@ -171,7 +171,7 @@ export default function RepayForm({
                       }
                     }}
                     type="number"
-                    min="0"
+                    // min="0"
                     step="any"
                   />
                 </div>
@@ -189,7 +189,7 @@ export default function RepayForm({
                       }
                     }}
                     type="number"
-                    min="0"
+                    // min="0"
                     step="any"
                   />
                 </div>

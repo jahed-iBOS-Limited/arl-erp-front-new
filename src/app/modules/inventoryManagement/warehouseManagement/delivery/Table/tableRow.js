@@ -12,10 +12,12 @@ import IViewModal from "./../../../../_helper/_viewModal";
 import PartnerAllotmentChallanForm from "./../../../../salesManagement/orderManagement/partnerAllotmentChallan/Form/addEditForm";
 import ChallanPrintModal from "./../../../../salesManagement/orderManagement/partnerAllotmentChallan/challanPrintModal/challanPrintModal";
 import IEdit from "./../../../../_helper/_helperIcons/_edit";
-import { getDeliveryChallanInfoById } from "../utils";
+import { getDeliveryChallanInfoById, getInvoiceDataForPrint } from "../utils";
 import ChallanPrint from "../View/print/table";
 import { _fixedPoint } from "./../../../../_helper/_fixedPoint";
 import ForeingSalesInvoicePrint from "../View/print/foreignSalesInvoice";
+import { useCementInvoicePrintHandler } from "../../../../financialManagement/invoiceManagementSystem/salesInvoice/Form/formHandlerBluePill";
+import InvoiceReceptForCement from "../../../../financialManagement/invoiceManagementSystem/salesInvoice/invoiceCement/invoiceRecept";
 
 export function TableRow({
   pageNo,
@@ -27,6 +29,7 @@ export function TableRow({
   setLoading,
   paginationSearchHandler,
   values,
+  isWorkable,
 }) {
   const history = useHistory();
   const [allotmentChallanModel, setAllotmentChallanModel] = useState(false);
@@ -35,17 +38,24 @@ export function TableRow({
   const [show, setShow] = useState(false);
   const [deliveryChallanInfo, setDeliveryChallanInfo] = useState({});
   const [row, setRow] = useState({});
-  const [foreignSalesInvoiceModal, setForeignSalesInvoiceModal] = useState(
-    false
-  );
+  const [foreignSalesInvoiceModal, setForeignSalesInvoiceModal] = useState(false);
+
+  const [invoiceData, setInvoiceData] = useState([]);
+
+  const { printRefCement, handleInvoicePrintCement } = useCementInvoicePrintHandler();
 
   // get controlling unit list  from store
   const gridData = useSelector((state) => {
     return state.delivery?.gridData;
   }, shallowEqual);
 
-  const { selectedBusinessUnit } = useSelector((state) => {
-    return state?.authData;
+  const profileData = useSelector((state) => {
+    return state.authData.profileData;
+  }, shallowEqual);
+
+  // get selected business unit from store
+  const selectedBusinessUnit = useSelector((state) => {
+    return state.authData.selectedBusinessUnit;
   }, shallowEqual);
 
   // useEffect(() => {
@@ -64,7 +74,6 @@ export function TableRow({
   // }, [selectedBusinessUnit, profileData])
 
   let grandTotal = 0;
-
   return (
     <>
       {/* Table Start */}
@@ -104,15 +113,11 @@ export function TableRow({
                     <tr key={index}>
                       <td> {td.sl} </td>
                       <td>
-                        <div className="text-center pr-2">
-                          {td.deliveryCode}
-                        </div>
+                        <div className="text-center pr-2">{td.deliveryCode}</div>
                       </td>
 
                       <td>
-                        <div className="text-center">
-                          {_dateFormatter(td.deliveryDate)}
-                        </div>
+                        <div className="text-center">{_dateFormatter(td.deliveryDate)}</div>
                       </td>
 
                       <td>
@@ -131,17 +136,13 @@ export function TableRow({
                         <div className="text-center pr-2">{td.vehicleMode}</div>
                       </td>
                       <td>
-                        <div className="text-center pr-2">
-                          {td.supplierType}
-                        </div>
+                        <div className="text-center pr-2">{td.supplierType}</div>
                       </td>
                       <td>
                         <div className="text-center">{td.deliveryTime}</div>
                       </td>
                       <td>
-                        <div className="text-right">
-                          {td.totalDeliveryQuantity}
-                        </div>
+                        <div className="text-right">{td.totalDeliveryQuantity}</div>
                       </td>
                       <td>
                         <div className="d-flex justify-content-around">
@@ -155,21 +156,51 @@ export function TableRow({
                               />
                             </span>
                           ) : (
-                            <span className="view">
-                              <IView
-                                clickHandler={() => {
-                                  if (td?.isCommissionBase) {
-                                    setChallanPrintModalShow(true);
-                                    setClickRowData(td);
-                                  } else {
-                                    history.push({
-                                      pathname: `/inventory-management/warehouse-management/delivery/view/${td.deliveryId}`,
-                                      state: values,
-                                    });
-                                  }
-                                }}
-                              />
-                            </span>
+                            <>
+                              <span className="view">
+                                <IView
+                                  clickHandler={() => {
+                                    if (td?.isCommissionBase) {
+                                      setChallanPrintModalShow(true);
+                                      setClickRowData(td);
+                                    } else {
+                                      history.push({
+                                        pathname: `/inventory-management/warehouse-management/delivery/view/${td.deliveryId}`,
+                                        state: values,
+                                      });
+                                    }
+                                  }}
+                                />
+                              </span>
+                              {isWorkable && (
+                                <div className="d-flex justify-content-between">
+                                  <OverlayTrigger overlay={<Tooltip id="cs-icon">{"Print Invoice"}</Tooltip>}>
+                                    <span>
+                                      <i
+                                        onClick={() => {
+                                          getInvoiceDataForPrint({
+                                            accId: profileData?.accountId,
+                                            buId: selectedBusinessUnit?.value,
+                                            deliveryId: td?.deliveryId,
+                                            setLoading,
+                                            cb: (resData) => {
+                                              setInvoiceData(resData?.item1);
+                                              handleInvoicePrintCement();
+                                            },
+                                          });
+                                        }}
+                                        style={{
+                                          fontSize: "16px",
+                                          cursor: "pointer",
+                                        }}
+                                        class="fa fa-print"
+                                        aria-hidden="true"
+                                      ></i>
+                                    </span>
+                                  </OverlayTrigger>
+                                </div>
+                              )}
+                            </>
                           )}
 
                           {selectedBusinessUnit?.value === 180 && (
@@ -180,23 +211,12 @@ export function TableRow({
                                 history.push({
                                   state: values,
                                 });
-                                getDeliveryChallanInfoById(
-                                  td?.deliveryId,
-                                  setDeliveryChallanInfo,
-                                  setLoading,
-                                  () => {
-                                    setShow(true);
-                                  }
-                                );
+                                getDeliveryChallanInfoById(td?.deliveryId, setDeliveryChallanInfo, setLoading, () => {
+                                  setShow(true);
+                                });
                               }}
                             >
-                              <OverlayTrigger
-                                overlay={
-                                  <Tooltip id="cs-icon">
-                                    Direct Challan Print
-                                  </Tooltip>
-                                }
-                              >
+                              <OverlayTrigger overlay={<Tooltip id="cs-icon">Direct Challan Print</Tooltip>}>
                                 <i class="fab pointer fa-weibo"></i>
                               </OverlayTrigger>
                             </span>
@@ -220,13 +240,7 @@ export function TableRow({
                                 setClickRowData(td);
                               }}
                             >
-                              <OverlayTrigger
-                                overlay={
-                                  <Tooltip id="cs-icon">
-                                    {"Allotment Challan"}
-                                  </Tooltip>
-                                }
-                              >
+                              <OverlayTrigger overlay={<Tooltip id="cs-icon">{"Allotment Challan"}</Tooltip>}>
                                 <span>
                                   <i className={`far fa-file-alt pointer`}></i>
                                 </span>
@@ -265,12 +279,20 @@ export function TableRow({
             values={values}
           />
         )}
+        {isWorkable && (
+          <InvoiceReceptForCement
+            printRef={printRefCement}
+            invoiceData={invoiceData?.length > 0 ? invoiceData : []}
+            // channelId={46}
+            channelId={values?.channel?.value}
+            isWorkable={isWorkable}
+            isWithVat={values?.isCheck}
+            typedVat = {values?.vat}
+          />
+        )}
         {/* Allotment Challan Model */}
         {allotmentChallanModel && (
-          <IViewModal
-            show={allotmentChallanModel}
-            onHide={() => setAllotmentChallanModel(false)}
-          >
+          <IViewModal show={allotmentChallanModel} onHide={() => setAllotmentChallanModel(false)}>
             <PartnerAllotmentChallanForm
               deliveryLandingData={{
                 ...clickRowData,
@@ -298,13 +320,8 @@ export function TableRow({
         </IViewModal>
 
         {foreignSalesInvoiceModal && (
-          <IViewModal
-            show={foreignSalesInvoiceModal}
-            onHide={() => setForeignSalesInvoiceModal(false)}
-          >
-            <ForeingSalesInvoicePrint
-              landingData={clickRowData}
-            ></ForeingSalesInvoicePrint>
+          <IViewModal show={foreignSalesInvoiceModal} onHide={() => setForeignSalesInvoiceModal(false)}>
+            <ForeingSalesInvoicePrint landingData={clickRowData}></ForeingSalesInvoicePrint>
           </IViewModal>
         )}
       </div>
