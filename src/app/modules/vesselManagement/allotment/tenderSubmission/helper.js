@@ -4,6 +4,10 @@ import React from "react";
 import * as Yup from "yup";
 import { imarineBaseUrl } from "../../../../App";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
+import * as ExcelJS from 'exceljs'
+import moment from "moment";
+import { ExcelRenderer } from "react-excel-renderer"
+import { toast } from "react-toastify";
 
 // Error message display field for field array of of tender submission create & edit page
 export const ErrorMessage = ({ name }) => (
@@ -34,19 +38,21 @@ export const approveStatusDDL = [
 
 // Inital data for tender submission create & edit page
 export const initData = {
-    // common state
-    businessPartner: "",
+    // common state bcic, badc, badc(mop)
+    businessPartner: { value: 3, label: "BADC(MOP)" },
     enquiry: "",
     submissionDate: "",
+    remarks: "",
+
+    // common bcic & badc
     foreignQnt: "",
     productName: "",
     loadPort: "",
-    foreignPriceUSD: "",
+    foreignPriceUSD: "", // edit
     // bcic state
     dischargePort: "",
     commercialNo: "",
     commercialDate: "",
-    remarks: "",
     localTransportations: [
         {
             godownName: "",
@@ -58,13 +64,11 @@ export const initData = {
     dueDate: "",
     dueTime: "",
     lotQty: "",
-    // ghat1: "",
-    // ghat2: "",
     contractDate: "",
-    // dischargeRatio: "",
     layCan: "",
-    // pricePerQty: "",
-    pricePerBag: "",
+    pricePerBag: "", // edit
+    // badc (mop)
+    loadPortMOP: ""
 };
 
 // Validation schema for tender submission create & edit page
@@ -183,7 +187,6 @@ export const createPageValidationSchema = Yup.object({
         .min(0),
     loadPortMOP: Yup.string().when("businessPartner", {
         is: (businessPartner) => {
-
             console.log(businessPartner?.label === "BADC(MOP)")
             return businessPartner && businessPartner?.label === "BADC(MOP)"
         },
@@ -623,3 +626,121 @@ export const fetchGhatDDL = (accountId, buUnId, getGhatDDLFunc) => {
         `/wms/ShipPoint/GetShipPointDDL?accountId=${accountId}&businessUnitId=${buUnId}`
     );
 };
+
+// create excel sheet for badc(mop) table rows
+export const createExcelSheet = (ghatDDL) => {
+    const workbook = new ExcelJS.Workbook();
+
+    // Add a new worksheet
+    const worksheet = workbook.addWorksheet("Sheet 1");
+
+    // Add some rows and columns
+    worksheet.columns = [
+        { header: "Ghat Name", key: "ghatName", width: 15 },
+        { header: "Distance", key: "distance", width: 15 },
+        { header: "Rang0to100", key: "rangOto100", width: 15 },
+        { header: "Rang101to200", key: "rang101to200", width: 15 },
+        { header: "Rang201to300", key: "rang201to300", width: 20 },
+        { header: "Rang301to400", key: "rang301to400", width: 15 },
+        { header: "Rang401to500", key: "rang401to500", width: 15 },
+        { header: "TotalRate", key: "totalRate", width: 15 },
+        { header: "TaxVat", key: "taxVat", width: 15 },
+        { header: "InvoiceCost", key: "invoiceCost", width: 15 },
+        { header: "LabourBill", key: "labourBill", width: 15 },
+        { header: "TransPortCost", key: "transPortCost", width: 15 },
+        { header: "AdditionalCost", key: "additionalCost", width: 15 },
+        { header: "TotalCost", key: "totalCost", width: 15 },
+        { header: "TotalRecive", key: "totalRecive", width: 15 },
+        { header: "Quantity", key: "quantity", width: 15 },
+        { header: "BillAmount", key: "billAmount", width: 15 },
+        { header: "CostAmount", key: "costAmount", width: 15 },
+        { header: "ProfitAmount", key: "profitAmount", width: 15 },
+    ];
+
+    // First row color add
+    const rows = worksheet.getRow(1);
+    for (let i = 0; i < 19; i++) {
+        rows.getCell(i + 1).fill = {
+            type: "pattern",
+            pattern: "solid",
+            fgColor: { argb: "FFFFFF00" },
+        };
+    }
+
+    // Ghat name (DDL)
+    const ghatName = worksheet.getCell("A2");
+    ghatName.value = ghatDDL?.[0]?.label || "";
+    const ghatDDLList = [`"${ghatDDL?.map((item) => item?.label).join(",")}"`,];
+    ghatName.dataValidation = {
+        type: "list",
+        formulae: ghatDDLList || [],
+        showErrorMessage: true,
+        error: 'Please use the dropdown to select a ghat',
+        errorTitle: 'Invalid Selection'
+    };
+
+    // Distance
+    worksheet.getCell("B2").value = 0;
+    // Rang0to100
+    worksheet.getCell("C2").value = 0
+    // Rang101to200
+    worksheet.getCell("D2").value = 0
+    // Rang201to300
+    worksheet.getCell("E2").value = 0
+    // Rang301to400
+    worksheet.getCell("F2").value = 0
+    // Rang401to500
+    worksheet.getCell("G2").value = 0
+    // TaxVat
+    worksheet.getCell("H2").value = 0
+    // InvoiceCost
+    worksheet.getCell("I2").value = 1;
+    // LabourBill
+    worksheet.getCell("J2").value = 100;
+    // TransportCost
+    worksheet.getCell("K2").value = 0;
+    // AdditionalCost
+    worksheet.getCell("L2").value = 15;
+    // TotalRecieve
+    worksheet.getCell("M2").value = 0;
+    // Quantity
+    worksheet.getCell("N2").value = 0;
+    // BillAmount
+    worksheet.getCell("O2").value = 0;
+    // CostAmount
+    worksheet.getCell("P2").value = 0;
+    // ProfitAmount
+    worksheet.getCell("Q2").value = 0;
+
+    // Save the workbook
+    workbook.xlsx.writeBuffer().then((data) => {
+        const blob = new Blob([data], {
+            type:
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        });
+        // download the file
+        const mopExcel = document.createElement("a");
+        document.body.appendChild(mopExcel);
+
+        const url = window.URL.createObjectURL(blob);
+        mopExcel.href = url;
+        mopExcel.download = `SalesInvoiceUploadFormat-${moment().format("l")}`;
+        mopExcel.click();
+    });
+}
+
+// excel sheet file upload handler 
+export const excelSheetUploadHandler = async (excelFile, formValues) => {
+    // excel data list
+    let excelDataList = []
+
+    if (excelFile) {
+        await ExcelRenderer(excelFile, (err, res) => {
+            if (err) { toast.warning("An unexpected error occurred") }
+            else {
+                console.log(res)
+            }
+
+        })
+    }
+}
