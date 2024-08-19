@@ -22,7 +22,9 @@ import {
   selectUrl,
   updateState,
   createPageValidationSchema,
+  fetchGhatDDL,
 } from "../helper";
+import BADCExcelSheet from "../excel/badcExcelSheet";
 
 export default function TenderSubmissionCreateEditForm() {
   const {
@@ -46,10 +48,10 @@ export default function TenderSubmissionCreateEditForm() {
     getGodownDDLLoading,
     updateGodownDDL,
   ] = useAxiosGet();
-  const [tenderDetails, getTenderDetails] = useAxiosGet();
+  const [tenderDetails, getTenderDetails, getTenderDetailsDDLLoading] = useAxiosGet();
   // ! remove ghat for requirement change
-  // const [ghatDDL, getGhatDDL, getGhatDDLLoading] = useAxiosGet();
-  const [motherVesselDDL, getMotherVesselDDL] = useAxiosGet()
+  const [ghatDDL, getGhatDDL, getGhatDDLLoading] = useAxiosGet();
+  const [motherVesselDDL, getMotherVesselDDL, getMotherVesselDDLLoading] = useAxiosGet()
 
   // Data post/save axios post
   const [, submitTender, submitTenderLoading] = useAxiosPost();
@@ -623,7 +625,7 @@ export default function TenderSubmissionCreateEditForm() {
       }) => (
         <>
           {(getGodownDDLLoading ||
-            submitTenderLoading) && <Loading />}
+            submitTenderLoading || getMotherVesselDDLLoading || getTenderDetailsDDLLoading || getGhatDDLLoading) && <Loading />}
           <IForm title="Tender Submission Create" getProps={setObjprops}>
             <Form>
               <div className="form-group  global-form row">
@@ -646,11 +648,11 @@ export default function TenderSubmissionCreateEditForm() {
                           updateGodownDDL
                         );
                       }
-                      // ! remove ghat for requirement change
+
                       // fetch ghat ddl when badc select
-                      // if (valueOption?.label === "BADC") {
-                      //   fetchGhatDDL(accountId, buUnId, getGhatDDL);
-                      // }
+                      if (valueOption?.label === "BADC(MOP)") {
+                        fetchGhatDDL(accountId, buUnId, getGhatDDL);
+                      }
                     }}
                     errors={errors}
                     touched={touched}
@@ -696,6 +698,13 @@ export default function TenderSubmissionCreateEditForm() {
               {/* Form Field for BCIC Local Part */}
               {values?.businessPartner?.label === "BCIC" &&
                 bcicFormFieldLocalPart(values, setFieldValue, errors, touched)}
+
+              {/* Excel Sheet Table for BADC */}
+              {values?.businessPartner?.label === 'BADC(MOP)' && <div className="form-group  global-form row mt-2">
+                <div className="col-lg-12">
+                  <BADCExcelSheet ghatDDL={ghatDDL} values={values} />
+                </div>
+              </div>}
 
               <button
                 type="submit"
