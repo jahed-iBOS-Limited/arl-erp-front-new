@@ -46,8 +46,7 @@ const initData = {
 };
 export default function LandRegister() {
   const {
-    profileData: { userId },
-    selectedBusinessUnit: { value: buId, label },
+    selectedBusinessUnit: { value: buId },
   } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
