@@ -15,6 +15,8 @@ import InputField from "../../../_helper/_inputField";
 import Loading from "../../../_helper/_loading";
 import IButton from "../../../_helper/iButton";
 import { _todayDate } from "../../../_helper/_todayDate";
+import InfoCircle from "../../../_helper/_helperIcons/_infoCircle";
+import ShippingInfoDetails from "../storeInfo/shippingNote";
 
 const initData = {
   shipmentId: "",
@@ -29,10 +31,11 @@ const initData = {
   toDate: _todayDate(),
 };
 
-const headers_one = ["SL", "Item", "UoM", "Quantity"];
+const headers_one = ["SL", "Item", "Bag Type", "UoM", "Quantity"];
 const headers_two = [
   "SL",
   "Shipment Code",
+  "Bag Type",
   "Route Name",
   "Transport Name",
   "Provider Type",
@@ -41,6 +44,7 @@ const headers_two = [
   "TLM",
   "Total Qty",
   "UoM",
+  "Actions",
 ];
 
 export default function VehicleCallingList() {
@@ -51,6 +55,8 @@ export default function VehicleCallingList() {
   const [isQrCodeShow, setIsQRCodeSHow] = useState(false);
   const [actionType, setActionType] = useState("Manual");
   const [rowData, getRowData, rowLoading, setRowData] = useAxiosGet();
+  const [open, setOpen] = useState(false);
+  const [singleItem, setSingleItem] = useState({});
 
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
@@ -101,7 +107,8 @@ export default function VehicleCallingList() {
                         type="button"
                         className="btn btn-primary"
                         disabled={
-                          !reportData?.objHeader?.shipmentId && !shipmentId
+                          (!reportData?.objHeader?.shipmentId && !shipmentId) ||
+                          !values?.tlm
                         }
                         onClick={() => {
                           if (selectedBusinessUnit?.value !== 4) {
@@ -141,7 +148,7 @@ export default function VehicleCallingList() {
                     name="type"
                     options={[
                       { value: 1, label: "Loading Pending" },
-                      { value: 3, label: "QR Code/Card Scan" },
+                      { value: 3, label: "Scan Card/QR Code" },
                       { value: 2, label: "Loading Completed" },
                     ]}
                     value={values?.type}
@@ -168,7 +175,9 @@ export default function VehicleCallingList() {
                         placeholder="ShipPoint"
                       />
                     </div>
-                    <FromDateToDateForm obj={{ values, setFieldValue }} />
+                    <FromDateToDateForm
+                      obj={{ values, setFieldValue, type: "datetime-local" }}
+                    />
                     <IButton
                       onClick={() => {
                         getData(values);
@@ -444,6 +453,7 @@ export default function VehicleCallingList() {
                           <tr>
                             <td>{index + 1}</td>
                             <td>{item?.itemName}</td>
+                            <td>{item?.bagType}</td>
                             <td>{item?.uomName}</td>
                             <td className="text-right">{item?.quantity}</td>
                           </tr>
@@ -454,6 +464,7 @@ export default function VehicleCallingList() {
                           <tr>
                             <td>{index + 1}</td>
                             <td>{item?.shipmentCode}</td>
+                            <td>{item?.bagType}</td>
                             <td>{item?.routeName}</td>
                             <td>{item?.transportModeName}</td>
                             <td>{item?.strOwnerType}</td>
@@ -462,12 +473,21 @@ export default function VehicleCallingList() {
                             <td>{item?.tlm}</td>
                             <td className="text-right">{item?.itemTotalQty}</td>
                             <td>{item?.shippingTypeId === 9 ? "Ton" : ""}</td>
+                            <td className="text-center">
+                              <InfoCircle
+                                title={"Shipment Details"}
+                                clickHandler={() => {
+                                  setSingleItem(item);
+                                  setOpen(true);
+                                }}
+                              />
+                            </td>
                           </tr>
                         );
                       })}
                   <tr style={{ fontWeight: "bold", textAlign: "right" }}>
                     <td
-                      colSpan={[1, 2].includes(values?.type?.value) ? 8 : 3}
+                      colSpan={[1, 2].includes(values?.type?.value) ? 9 : 4}
                       className="text-right"
                     >
                       Total
@@ -480,7 +500,7 @@ export default function VehicleCallingList() {
                             0
                           )}
                         </td>
-                        <td></td>
+                        <td colSpan={2}></td>
                       </>
                     ) : (
                       <td>
@@ -493,6 +513,19 @@ export default function VehicleCallingList() {
                   </tr>
                 </ICustomTable>
               )}
+              <IViewModal show={open} onHide={() => setOpen(false)}>
+                <ShippingInfoDetails
+                  obj={{
+                    id: singleItem?.shipmentId,
+                    shipmentCode: singleItem?.shipmentCode,
+                    tlm: singleItem?.tlm,
+                    setOpen,
+                    getData,
+                    values,
+                    isActionable: false,
+                  }}
+                />
+              </IViewModal>
             </Form>
           </IForm>
         </>
