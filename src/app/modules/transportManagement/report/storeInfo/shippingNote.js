@@ -1,19 +1,18 @@
 import Axios from "axios";
-import React, { useEffect, useRef, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
 import QRCode from "qrcode.react";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import ICard from "../../../_helper/_card";
-import Loading from "../../../_helper/_loading";
-import { _dateFormatterTwo } from "../../../_helper/_dateFormate";
-import ICustomTable from "../../../_helper/_customTable";
+import React, { useEffect, useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import ICard from "../../../_helper/_card";
+import ICustomTable from "../../../_helper/_customTable";
+import { _dateFormatterTwo } from "../../../_helper/_dateFormate";
+import Loading from "../../../_helper/_loading";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 
 export default function ShippingInfoDetails({ obj }) {
-  const { id, shipmentCode, setOpen, getData, values } = obj;
+  const { id, shipmentCode, setOpen, getData, values, isActionable } = obj;
   const [loading, setLoading] = useState(false);
-  const printRef = useRef();
   const [shippingPrint, setSingleShippingPrintInfo] = useState("");
   const [transportStatus, getTransportStatus] = useAxiosGet();
   const [, onComplete, loader] = useAxiosPost();
@@ -69,33 +68,32 @@ export default function ShippingInfoDetails({ obj }) {
   return (
     <>
       <ICard
-        // printTitle="Print"
         title="Shipment Details"
-        // isPrint={true}
-        // isShowPrintBtn={true}
-        // componentRef={printRef}
-        // pageStyle={
-        //   "@media print{body { -webkit-print-color-adjust: exact;padding: 0 50px!important; }@page {size: portrait ! important}}"
-        // }
-        isCreteBtn={true}
+        isCreteBtn={isActionable}
         createBtnText={"Done"}
-        createHandler={() => {
-          if (buId !== 4) {
-            return toast.warn("Only Business Unit Cement is Permitted !!!");
-          }
+        createHandler={
+          isActionable
+            ? () => {
+                if (buId !== 4) {
+                  return toast.warn(
+                    "Only Business Unit Cement is Permitted !!!"
+                  );
+                }
 
-          onComplete(
-            `/oms/LoadingPoint/CompletePacker?shipmentId=${id}&actionBy=${userId}&typeId=2`,
-            null,
-            () => {
-              getData(values);
-              setOpen(false);
-            },
-            true
-          );
-        }}
+                onComplete(
+                  `/oms/LoadingPoint/CompletePacker?shipmentId=${id}&actionBy=${userId}&typeId=2&tlm=${shippingPrint?.objHeader?.tlm}`,
+                  null,
+                  () => {
+                    getData(values);
+                    setOpen(false);
+                  },
+                  true
+                );
+              }
+            : ""
+        }
       >
-        <div ref={printRef}>
+        <div>
           <div
             className="mx-auto print_wrapper-shipping"
             style={{ color: "#000" }}
@@ -168,6 +166,9 @@ export default function ShippingInfoDetails({ obj }) {
                       shippingPrint?.objHeader?.pricingDate
                     ) || ""}`}
                   </b>
+
+                  <br />
+                  <b>TLM: {shippingPrint?.objHeader?.tlm}</b>
 
                   <br />
                   {(buId === 171 || buId === 224) && (
