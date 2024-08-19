@@ -185,7 +185,7 @@ export default function CustomerIncentive() {
           label: "Delivery Incentive (WithAmount)",
         },
       ];
-    } else if (["Cash", "Gold"].includes(customerCategoryLabel)) {
+    } else if (["Cash", "Credit", "Credit (100% BG)"].includes(customerCategoryLabel)) {
       return [{ value: "Monthly", label: "Monthly" }];
     } else {
       return [];
@@ -232,7 +232,8 @@ export default function CustomerIncentive() {
                       options={[
                         { value: "All", label: "All" },
                         { value: "Cash", label: "Cash" },
-                        { value: "Gold", label: "Gold" },
+                        { value: "Credit", label: "Credit" },
+                        { value: "BG", label: "Credit (100% BG)" },
                       ]}
                       value={values?.customerCategory}
                       onChange={(valueOption) => {
