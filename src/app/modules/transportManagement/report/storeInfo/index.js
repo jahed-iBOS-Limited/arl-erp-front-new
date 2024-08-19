@@ -3,7 +3,10 @@ import React, { useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import ICustomTable from "../../../_helper/_customTable";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
+import {
+  _dateFormatter,
+  _dateTimeFormatter,
+} from "../../../_helper/_dateFormate";
 import NewSelect from "../../../_helper/_select";
 import IViewModal from "../../../_helper/_viewModal";
 import FromDateToDateForm from "../../../_helper/commonInputFieldsGroups/dateForm";
@@ -16,6 +19,7 @@ import Loading from "../../../_helper/_loading";
 import IButton from "../../../_helper/iButton";
 import { _todayDate } from "../../../_helper/_todayDate";
 import ShippingInfoDetails from "./shippingNote";
+import InfoCircle from "../../../_helper/_helperIcons/_infoCircle";
 
 const initData = {
   shipmentId: "",
@@ -30,10 +34,12 @@ const initData = {
   toDate: _todayDate(),
 };
 
-const headers_one = ["SL", "Item", "UoM", "Quantity"];
+const headers_one = ["SL", "Item", "Bag Type", "UoM", "Quantity"];
 const headers_two = [
   "SL",
+  "Packing Time",
   "Shipment Code",
+  "Bag Type",
   "Route Name",
   "Transport Name",
   "Provider Type",
@@ -42,7 +48,7 @@ const headers_two = [
   "TLM",
   "Total Qty",
   "UoM",
-  "Action",
+  "Actions",
 ];
 
 export default function StoreInformation() {
@@ -104,7 +110,8 @@ export default function StoreInformation() {
                       type="button"
                       className="btn btn-primary"
                       disabled={
-                        !reportData?.objHeader?.shipmentId && !shipmentId
+                        (!reportData?.objHeader?.shipmentId && !shipmentId) ||
+                        !values?.tlm
                       }
                       onClick={() => {
                         if (selectedBusinessUnit?.value !== 4) {
@@ -144,7 +151,7 @@ export default function StoreInformation() {
                     name="type"
                     options={[
                       { value: 1, label: "Loading Pending" },
-                      { value: 3, label: "QR Code/Card Scan" },
+                      { value: 3, label: "Scan Card/QR Code" },
                       { value: 2, label: "Loading Completed" },
                     ]}
                     value={values?.type}
@@ -171,7 +178,9 @@ export default function StoreInformation() {
                         placeholder="ShipPoint"
                       />
                     </div>
-                    <FromDateToDateForm obj={{ values, setFieldValue }} />
+                    <FromDateToDateForm
+                      obj={{ values, setFieldValue, type: "datetime-local" }}
+                    />
                     <IButton
                       disabled={!values?.type || !values?.shipPoint}
                       onClick={() => {
@@ -448,6 +457,7 @@ export default function StoreInformation() {
                           <tr>
                             <td>{index + 1}</td>
                             <td>{item?.itemName}</td>
+                            <td>{item?.bagType}</td>
                             <td>{item?.uomName}</td>
                             <td className="text-right">{item?.quantity}</td>
                           </tr>
@@ -457,7 +467,9 @@ export default function StoreInformation() {
                         return (
                           <tr>
                             <td>{index + 1}</td>
+                            <td>{_dateTimeFormatter(item?.packerOutTime)}</td>
                             <td>{item?.shipmentCode}</td>
+                            <td>{item?.bagType}</td>
                             <td>{item?.routeName}</td>
                             <td>{item?.transportModeName}</td>
                             <td>{item?.strOwnerType}</td>
@@ -467,9 +479,9 @@ export default function StoreInformation() {
                             <td className="text-right">{item?.itemTotalQty}</td>
                             <td>{item?.shippingTypeId === 9 ? "Ton" : ""}</td>
                             <td className="text-center">
-                              {[1].includes(values?.type?.value) && (
+                              {[1].includes(values?.type?.value) ? (
                                 <button
-                                  className="btn btn-info btn-sm py-2"
+                                  className="btn btn-info btn-sm px-2"
                                   type="button"
                                   onClick={() => {
                                     setSingleItem(item);
@@ -478,6 +490,16 @@ export default function StoreInformation() {
                                 >
                                   Complete
                                 </button>
+                              ) : [2].includes(values?.type?.value) ? (
+                                <InfoCircle
+                                  title={"Shipment Details"}
+                                  clickHandler={() => {
+                                    setSingleItem(item);
+                                    setOpen(true);
+                                  }}
+                                />
+                              ) : (
+                                ""
                               )}{" "}
                             </td>
                           </tr>
@@ -485,7 +507,7 @@ export default function StoreInformation() {
                       })}
                   <tr style={{ fontWeight: "bold", textAlign: "right" }}>
                     <td
-                      colSpan={[1, 2].includes(values?.type?.value) ? 8 : 3}
+                      colSpan={[1, 2].includes(values?.type?.value) ? 10 : 4}
                       className="text-right"
                     >
                       Total
@@ -519,6 +541,7 @@ export default function StoreInformation() {
                     setOpen,
                     getData,
                     values,
+                    isActionable: values?.type?.value === 1,
                   }}
                 />
               </IViewModal>
