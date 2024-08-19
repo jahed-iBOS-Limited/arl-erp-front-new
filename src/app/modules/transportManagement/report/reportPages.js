@@ -32,6 +32,7 @@ import StoreInformation from "./storeInfo";
 import FuelRequisitionByShipment from "./fuelRequisitionByShip";
 import { shallowEqual, useSelector } from "react-redux";
 import NotPermittedPage from "../../_helper/notPermitted/NotPermittedPage";
+import DisplayPackerInfo from "./displayPackerInfo";
 
 export function TransportReportPages() {
   const {
@@ -171,6 +172,10 @@ export function TransportReportPages() {
         <ContentRoute
           path="/transport-management/report/StoreInformationList"
           component={StoreInformation}
+        />
+        <ContentRoute
+          path="/transport-management/report/DisplayPackerInfo"
+          component={DisplayPackerInfo}
         />
       </Switch>
     </Suspense>
