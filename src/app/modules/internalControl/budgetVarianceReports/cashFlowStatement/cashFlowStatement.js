@@ -288,6 +288,13 @@ export function CashFlowStatement() {
                       <ButtonStyleOne
                         label="Show"
                         onClick={() => {
+                          dispatch(
+                            SetFinancialManagementReportCashFlowStatementAction(
+                              {
+                                ...values,
+                              }
+                            )
+                          );
                           setShowRDLC(false);
                           setTimeout(() => {
                             setShowRDLC(true);
