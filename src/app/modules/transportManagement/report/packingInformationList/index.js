@@ -35,15 +35,15 @@ const headers_one = ["SL", "Item", "Bag Type", "UoM", "Quantity"];
 const headers_two = [
   "SL",
   "Shipment Code",
+  "Vehicle",
   "Bag Type",
+  "Total Qty",
+  "UoM",
   "Route Name",
   "Transport Name",
   "Provider Type",
   "Shipping Type",
-  "Vehicle",
   "TLM",
-  "Total Qty",
-  "UoM",
   "Actions",
 ];
 
@@ -461,19 +461,34 @@ export default function VehicleCallingList() {
                       })
                     : rowData?.data?.map((item, index) => {
                         return (
-                          <tr>
+                          <tr
+                            style={{
+                              backgroundColor: `${
+                                item?.bagType === "Pasting"
+                                  ? "#57d557c2"
+                                  : item?.bagType === "Sewing"
+                                  ? "#6cbbe7de"
+                                  : item?.bagType === "MES PCC"
+                                  ? "#bb8ef2f0"
+                                  : ""
+                              }`,
+                            }}
+                          >
                             <td>{index + 1}</td>
                             <td>{item?.shipmentCode}</td>
+                            <td>{item?.vehicleName}</td>
                             <td>{item?.bagType}</td>
+                            <td className="text-right">{item?.itemTotalQty}</td>
+                            <td>{item?.shippingTypeId === 9 ? "Ton" : ""}</td>
                             <td>{item?.routeName}</td>
                             <td>{item?.transportModeName}</td>
                             <td>{item?.strOwnerType}</td>
                             <td>{item?.shippingTypeName}</td>
-                            <td>{item?.vehicleName}</td>
                             <td>{item?.tlm}</td>
-                            <td className="text-right">{item?.itemTotalQty}</td>
-                            <td>{item?.shippingTypeId === 9 ? "Ton" : ""}</td>
-                            <td className="text-center">
+                            <td
+                              className="text-center"
+                              style={{ backgroundColor: "#e0ffff" }}
+                            >
                               <InfoCircle
                                 title={"Shipment Details"}
                                 clickHandler={() => {
