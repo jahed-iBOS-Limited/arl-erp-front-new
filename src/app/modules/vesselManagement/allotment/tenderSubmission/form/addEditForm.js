@@ -486,12 +486,12 @@ export default function TenderSubmissionCreateEditForm() {
   const badcMopFormField = (values, setFieldValue, errors, touched) => (<>
     <div className="col-lg-3">
       <NewSelect
-        name="loadPortMOP"
+        name="dischargePortMOP"
         options={dischargeDDL}
-        value={values?.loadPortMOP}
-        label="Load Port"
+        value={values?.dischargePortMOP}
+        label="Discharge Port"
         onChange={(valueOption) => {
-          setFieldValue("loadPortMOP", valueOption);
+          setFieldValue("dischargePortMOP", valueOption);
         }}
         errors={errors}
         touched={touched}
