@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react'
-import { createExcelSheet, excelSheetUploadHandler } from '../helper'
+import { createExcelSheet, excelSheetUploadHandler, mopTenderDataTableHeader } from '../helper'
 
 const BADCExcelSheet = ({ ghatDDL, values }) => {
     const fileInputRef = useRef(null)
@@ -32,11 +32,11 @@ const BADCExcelSheet = ({ ghatDDL, values }) => {
                     onChange={async (e) => {
                         const data = await excelSheetUploadHandler(
                             e.target.files[0],
-                            values
+                            values,
+                            ghatDDL
                         );
                         // set to state for track of show & delete
-                        // setMopRowsData(data)
-                        // remove value from 
+                        setMopRowsData(data)
                         // remove current file path
                         // console.log(fileInputRef.current.value)
                         fileInputRef.current.value = "";
@@ -45,6 +45,41 @@ const BADCExcelSheet = ({ ghatDDL, values }) => {
                     ref={fileInputRef}
                     accept=".csv, .ods, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
                 />
+            </div>
+
+            <div>
+                <table>
+                    <thead>
+                        {mopTenderDataTableHeader?.map(head => (
+                            <th>{head}</th>
+                        ))}
+                    </thead>
+                    <tbody>
+                        {mopRowsData?.map((item, index) => (
+                            <tr key={index}>
+                                <td>{item?.ghatName}</td>
+                                <td>{item?.distance}</td>
+                                <td>{item?.rangOto100}</td>
+                                <td>{item?.rang101to200}</td>
+                                <td>{item?.rang201to300}</td>
+                                <td>{item?.rang301to400}</td>
+                                <td>{item?.rang401to500}</td>
+                                <td>{item?.totalRate}</td>
+                                <td>{item?.taxVat}</td>
+                                <td>{item?.invoiceCost}</td>
+                                <td>{item?.labourBill}</td>
+                                <td>{item?.transPortCost}</td>
+                                <td>{item?.additionalCost}</td>
+                                <td>{item?.totalCost}</td>
+                                <td>{item?.totalRecive}</td>
+                                <td>{item?.quantity}</td>
+                                <td>{item?.billAmount}</td>
+                                <td>{item?.costAmount}</td>
+                                <td>{item?.profitAmount}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
             </div>
 
         </div>
