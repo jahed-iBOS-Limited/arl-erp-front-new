@@ -68,27 +68,45 @@ export const initData = {
     layCan: "",
     pricePerBag: "", // edit
     // badc (mop)
-    loadPortMOP: ""
+    loadPortMOP: "",
+    mopRowsData: []
 };
 
 // Validation schema for tender submission create & edit page
 export const createPageValidationSchema = Yup.object({
-    // common
+    // common state bcic, badc, badc(mop)
     businessPartner: Yup.object({
         label: Yup.string().required("Business partner label is required"),
         value: Yup.string().required("Business partner value is required"),
     }).required("Business partner is required"),
     enquiry: Yup.string().required("Enquiry is required"),
     submissionDate: Yup.date().required("Submission date is required"),
-    foreignQnt: Yup.number()
-        .positive()
-        .min(0)
-        .required("Foreign qnt is required"),
-    productName: Yup.string().required("Product name is required"),
-    loadPort: Yup.string().required("Load port is required"),
+    remarks: Yup.string(),
+
+    // common bcic & badc
+    foreignQnt: Yup.number().positive()
+        .min(0).when("businessPartner", {
+            is: (businessPartner) =>
+                businessPartner && businessPartner?.label === "BADC",
+            then: Yup.number().positive().min(0).required("Foreign qnt is required"),
+            otherwise: Yup.number().positive().min(0),
+        }),
+    productName: Yup.string().when("businessPartner", {
+        is: (businessPartner) =>
+            businessPartner && businessPartner?.label === "BADC",
+        then: Yup.string().required("Product name is required"),
+        otherwise: Yup.string(),
+    }),
+    loadPort: Yup.string().when("businessPartner", {
+        is: (businessPartner) =>
+            businessPartner && businessPartner?.label === "BADC",
+        then: Yup.string().required("Load port is required"),
+        otherwise: Yup.string(),
+    }),
     foreignPriceUSD: Yup.number()
         .positive()
         .min(0),
+
     // bcic
     dischargePort: Yup.string().when("businessPartner", {
         is: (businessPartner) =>
@@ -108,7 +126,6 @@ export const createPageValidationSchema = Yup.object({
         then: Yup.string().required("Commercial no is required"),
         otherwise: Yup.string(),
     }),
-    remarks: Yup.string(),
     localTransportations: Yup.array()
         .of(
             Yup.object({
@@ -169,7 +186,6 @@ export const createPageValidationSchema = Yup.object({
         then: Yup.string().required("Lot Qty is required"),
         otherwise: Yup.string(),
     }),
-
     contractDate: Yup.date().when("businessPartner", {
         is: (businessPartner) =>
             businessPartner && businessPartner?.label === "BADC",
@@ -185,14 +201,26 @@ export const createPageValidationSchema = Yup.object({
     pricePerBag: Yup.number()
         .positive()
         .min(0),
+
+    // badc (mop)
     loadPortMOP: Yup.string().when("businessPartner", {
         is: (businessPartner) => {
-            console.log(businessPartner?.label === "BADC(MOP)")
+            // console.log(businessPartner?.label === "BADC(MOP)")
             return businessPartner && businessPartner?.label === "BADC(MOP)"
         },
         then: Yup.string().required("Load Port is required"),
         otherwise: Yup.string()
-    })
+    }),
+    mopRowsData: Yup.array()
+        .of(Yup.object())
+        .when("businessPartner", {
+            is: (businessPartner) =>
+                businessPartner && businessPartner?.label === "BADC(MOP)",
+            then: Yup.array()
+                .min(1, "Minimum 1 Mop Rows Data")
+                .required("Mop Rows Data is required"),
+            otherwise: Yup.array().notRequired(),
+        })
 });
 
 // Validation schema for landing page
@@ -518,6 +546,8 @@ export const selectUrl = (businessPartner) => {
             return `/tms/TenderSubmission/CreateOrUpdateTenderSubission`;
         case "BADC":
             return `tms/TenderSubmission/CreateOrEditBIDCTenderSubmission`;
+        case "BADC(MOP)":
+            return `/tms/TenderSubmission/CreateBADCMOPConfiguration`
         default:
             return "";
     }
@@ -541,15 +571,19 @@ export const selectPayload = (
         businessPartnerName: values?.businessPartner?.label,
         enquiryNo: values?.enquiry,
         submissionDate: values?.submissionDate,
+        remarks: values?.remarks,
+        attachment: values?.attachment,
+        isAccept: values?.isAccept,
+        isReject: values?.isReject,
+    }
+
+    const bcicBadcCommonPayload = {
         foreignQty: +values?.foreignQnt,
         itemName: values?.productName,
         loadPortId: values?.loadPort?.value,
         loadPortName: values?.loadPort?.label,
-        isAccept: values?.isAccept,
-        isReject: values?.isReject,
-        attachment: values?.attachment,
-        remarks: values?.remarks,
     }
+
     // BCIC tender submission payload
     if (values?.businessPartner?.label === "BCIC") {
         return {
@@ -558,6 +592,8 @@ export const selectPayload = (
                 ...globalPayload,
                 // common
                 ...commonPayload,
+                // bcic badc common
+                ...bcicBadcCommonPayload,
                 // bcic
                 foreignPriceUsd: values?.foreignPriceUSD,
                 dischargePortId: values?.dischargePort?.value,
@@ -589,6 +625,8 @@ export const selectPayload = (
             ...globalPayload,
             //common
             ...commonPayload,
+            // bcic badc common
+            ...bcicBadcCommonPayload,
             //badc
             foreignPriceUsd: +values?.foreignPriceUSD,
             dueDate: values?.dueDate,
@@ -598,6 +636,26 @@ export const selectPayload = (
             layCan: values?.layCan,
             pricePerBag: +values?.pricePerBag,
         };
+    }
+
+    // BADC(MOP) tender submission payload 
+    if (values?.businessPartner?.label === "BADC(MOP)") {
+        const payload = {
+            headerDTO: {
+                // global
+                ...globalPayload,
+                // common
+                ...commonPayload,
+
+                mopInvoiceId: values?.enquiry,
+                mopTenderId: tenderId ? tenderId : 0,
+                portId: values?.loadPortMOP?.value,
+                portName: values?.loadPortMOP?.label,
+            },
+            rowDTOs: values?.mopRowsData
+        }
+        // console.log(payload)
+        return payload
     }
     return {};
 };
@@ -825,8 +883,8 @@ export const excelSheetUploadHandler = async (excelFile, formValues, ghatDDL) =>
                 const modifiedData = modifyFilledData(filledUndefinedValueToEmptyCellaData, ghatDDL)
 
                 // asign modifiedData to updateExcelDataList
-                console.log(modifiedData)
                 updateExcelDataList = modifiedData
+                // console.log(modifiedData)
             }
         })
     }
@@ -855,6 +913,7 @@ export const mopTenderDataTableHeader = [
     'BillAmount',
     'CostAmount',
     'ProfitAmount',
-
-
+    'Actions'
 ]
+
+// 
