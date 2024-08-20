@@ -39,7 +39,7 @@ export const approveStatusDDL = [
 // Inital data for tender submission create & edit page
 export const initData = {
     // common state bcic, badc, badc(mop)
-    businessPartner: { value: 3, label: "BADC(MOP)" },
+    businessPartner: "",
     enquiry: "",
     submissionDate: "",
     remarks: "",
@@ -68,7 +68,7 @@ export const initData = {
     layCan: "",
     pricePerBag: "", // edit
     // badc (mop)
-    loadPortMOP: "",
+    dischargePortMOP: "",
     mopRowsData: []
 };
 
@@ -203,12 +203,12 @@ export const createPageValidationSchema = Yup.object({
         .min(0),
 
     // badc (mop)
-    loadPortMOP: Yup.string().when("businessPartner", {
+    dischargePortMOP: Yup.string().when("businessPartner", {
         is: (businessPartner) => {
             // console.log(businessPartner?.label === "BADC(MOP)")
             return businessPartner && businessPartner?.label === "BADC(MOP)"
         },
-        then: Yup.string().required("Load Port is required"),
+        then: Yup.string().required("Discharge Port is required"),
         otherwise: Yup.string()
     }),
     mopRowsData: Yup.array()
@@ -649,8 +649,8 @@ export const selectPayload = (
 
                 mopInvoiceId: values?.enquiry,
                 mopTenderId: tenderId ? tenderId : 0,
-                portId: values?.loadPortMOP?.value,
-                portName: values?.loadPortMOP?.label,
+                portId: values?.dischargePortMOP?.value,
+                portName: values?.dischargePortMOP?.label,
             },
             rowDTOs: values?.mopRowsData
         }
@@ -744,35 +744,75 @@ export const createExcelSheet = (ghatDDL) => {
     // Distance
     worksheet.getCell("B2").value = 0;
     // Rang0to100
-    worksheet.getCell("C2").value = 0
+    worksheet.getCell("C2").value = {
+        formula: 'IF(AND(B2>0,B2 <= 100), B2* 15,100*15)',
+        result: 0
+    }
     // Rang101to200
-    worksheet.getCell("D2").value = 0
+    worksheet.getCell("D2").value = {
+        formula: 'IF(AND(B2 > 100, B2 <= 200),(B2-100)*3.25,IF(B2>200,100*3.25,0))',
+        result: 0
+    }
     // Rang201to300
-    worksheet.getCell("E2").value = 0
+    worksheet.getCell("E2").value = {
+        formula: 'IF(AND(B2 > 200, B2 <= 300),(B2-200)*0.7,IF(B2>300,100*0.7,0))',
+        result: 0
+    }
     // Rang301to400
-    worksheet.getCell("F2").value = 0
+    worksheet.getCell("F2").value = {
+        formula: 'IF(AND(B5 > 300, B5 <= 400),(B5-300)*0.5,IF(B5>400,100*0.5,0))',
+        result: 0,
+    }
     // Rang401to500
-    worksheet.getCell("G2").value = 0
+    worksheet.getCell("G2").value = {
+        formula: 'IF(AND(B2 > 400, B2 <= 500),(B2-400)*0.3,IF(B2>500,100*0.3,0))',
+        result: 0
+    }
+    // TotalRate
+    worksheet.getCell("H2").value = {
+        formula: 'SUM(C2:G2)',
+        result: 0
+    }
     // TaxVat
-    worksheet.getCell("H2").value = 0
+    worksheet.getCell("I2").value = {
+        formula: 'H2*0.17',
+        result: 0
+    }
     // InvoiceCost
-    worksheet.getCell("I2").value = 1;
+    worksheet.getCell("J2").value = 0;
     // LabourBill
-    worksheet.getCell("J2").value = 100;
+    worksheet.getCell("K2").value = 100;
     // TransportCost
-    worksheet.getCell("K2").value = 0;
+    worksheet.getCell("L2").value = 0;
+    // TotalCost
+    worksheet.getCell("M2").value = 0
     // AdditionalCost
-    worksheet.getCell("L2").value = 15;
+    worksheet.getCell("N2").value = {
+        formula: 'SUM(I2:M2)',
+        result: 0
+    };
     // TotalRecieve
-    worksheet.getCell("M2").value = 0;
+    worksheet.getCell("O2").value = {
+        formula: 'ABS(H2-N2)',
+        result: 0
+    };
     // Quantity
-    worksheet.getCell("N2").value = 0;
-    // BillAmount
-    worksheet.getCell("O2").value = 0;
-    // CostAmount
     worksheet.getCell("P2").value = 0;
+    // BillAmount
+    worksheet.getCell("Q2").value = {
+        formula: 'P2*H2',
+        result: 0
+    };
+    // CostAmount
+    worksheet.getCell("R2").value = {
+        formula: "P2*N2",
+        result: 0
+    };
     // ProfitAmount
-    worksheet.getCell("Q2").value = 0;
+    worksheet.getCell("S2").value = {
+        formula: 'ABS(Q2-R2)',
+        result: 0
+    };
 
     // Save the workbook
     workbook.xlsx.writeBuffer().then((data) => {
