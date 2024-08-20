@@ -915,5 +915,3 @@ export const mopTenderDataTableHeader = [
     'ProfitAmount',
     'Actions'
 ]
-
-// 
