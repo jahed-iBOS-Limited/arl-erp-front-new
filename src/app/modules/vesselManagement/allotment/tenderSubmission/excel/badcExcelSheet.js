@@ -13,8 +13,12 @@ const BADCExcelSheet = ({ ghatDDL, values, setFieldValue }) => {
                 <button
                     className="btn btn-primary mr-1"
                     // create excel sheet & pass ghat ddl for create excel sheet with ghat ddl
-                    onClick={() => createExcelSheet(ghatDDL)}
-                    type="button">
+                    onClick={() =>
+                        ghatDDL?.length > 1 ? createExcelSheet(ghatDDL) : null
+                    }
+                    type="button"
+                    disabled={ghatDDL?.length < 1}
+                >
                     <i className="fa fa-download"></i>
                     Download Excel Sheet
                 </button>
