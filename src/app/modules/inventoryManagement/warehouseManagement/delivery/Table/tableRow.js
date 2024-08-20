@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { useSelector, shallowEqual } from "react-redux";
+import { useSelector, shallowEqual, useDispatch } from "react-redux";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 // import IEdit from "../../../../_helper/_helperIcons/_edit";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
@@ -18,6 +18,11 @@ import { _fixedPoint } from "./../../../../_helper/_fixedPoint";
 import ForeingSalesInvoicePrint from "../View/print/foreignSalesInvoice";
 import { useCementInvoicePrintHandler } from "../../../../financialManagement/invoiceManagementSystem/salesInvoice/Form/formHandlerBluePill";
 import InvoiceReceptForCement from "../../../../financialManagement/invoiceManagementSystem/salesInvoice/invoiceCement/invoiceRecept";
+import ICon from "../../../../chartering/_chartinghelper/icons/_icon";
+import useAxiosPut from "../../../../_helper/customHooks/useAxiosPut";
+import { deliverySlice } from "../_redux/Slice";
+import HologramPrintForAkijCommodities from "./hologramForCommodities";
+const { actions: slice } = deliverySlice;
 
 export function TableRow({
   pageNo,
@@ -31,6 +36,10 @@ export function TableRow({
   values,
   isWorkable,
 }) {
+  const {
+    profileData: { accountId: accId, userId },
+    selectedBusinessUnit: { value: buId },
+  } = useSelector((state) => state?.authData, shallowEqual);
   const history = useHistory();
   const [allotmentChallanModel, setAllotmentChallanModel] = useState(false);
   const [clickRowData, setClickRowData] = useState("");
@@ -38,11 +47,19 @@ export function TableRow({
   const [show, setShow] = useState(false);
   const [deliveryChallanInfo, setDeliveryChallanInfo] = useState({});
   const [row, setRow] = useState({});
-  const [foreignSalesInvoiceModal, setForeignSalesInvoiceModal] = useState(false);
+  const [foreignSalesInvoiceModal, setForeignSalesInvoiceModal] = useState(
+    false
+  );
+  const [printData, getPrintData, IsLoading] = useAxiosPut();
+  const dispatch = useDispatch();
+  const [showMutipleModal, setShowMultipleModal] = useState(false);
 
   const [invoiceData, setInvoiceData] = useState([]);
 
-  const { printRefCement, handleInvoicePrintCement } = useCementInvoicePrintHandler();
+  const {
+    printRefCement,
+    handleInvoicePrintCement,
+  } = useCementInvoicePrintHandler();
 
   // get controlling unit list  from store
   const gridData = useSelector((state) => {
@@ -73,6 +90,22 @@ export function TableRow({
   //   // eslint-disable-next-line react-hooks/exhaustive-deps
   // }, [selectedBusinessUnit, profileData])
 
+  const rowDataHandler = (name, index, value) => {
+    // Clone the gridData to avoid mutating the original object
+    let _data = [...gridData?.data];
+
+    // Ensure that the specific row object is mutable
+    if (Object.isExtensible(_data[index])) {
+      _data[index][name] = value;
+    } else {
+      // If the object is not extensible, clone it before modifying
+      _data[index] = { ..._data[index], [name]: value };
+    }
+
+    // Dispatch the updated gridData to the Redux store or state management
+    dispatch(slice.SetGridData({ ...gridData, data: _data }));
+  };
+
   let grandTotal = 0;
   return (
     <>
@@ -80,11 +113,38 @@ export function TableRow({
       {loading && <Loading />}
       <div className="row global-table">
         <div className="col-lg-12 pr-0 pl-0">
-          <PaginationSearch
-            placeholder="Delivery Order Search"
-            paginationSearchHandler={paginationSearchHandler}
-            values={values}
-          />
+          <div className="d-flex justify-content-between">
+            <PaginationSearch
+              placeholder="Delivery Order Search"
+              paginationSearchHandler={paginationSearchHandler}
+              values={values}
+            />
+            <div>
+              {gridData?.data?.filter((e) => e?.isSelectedPrint)?.length >
+                0 && (
+                <button
+                  type="button"
+                  className={"btn btn-primary mr-2"}
+                  onClick={() => {
+                    const payload = gridData?.data
+                      ?.filter((element) => element?.isSelectedPrint)
+                      ?.map((item) => item?.deliveryId);
+                    setShowMultipleModal(true);
+                    getPrintData(
+                      `/oms/OManagementReport/GetMultiplePaperDOPrintCopy?UserId=${userId}&BusinessUnitId=${buId}`,
+                      payload,
+                      () => {
+                        setShowMultipleModal(true);
+                      },
+                      true
+                    );
+                  }}
+                >
+                  Print
+                </button>
+              )}
+            </div>
+          </div>
           <div className="table-responsive">
             <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table table-font-size-sm">
               <thead>
@@ -113,11 +173,15 @@ export function TableRow({
                     <tr key={index}>
                       <td> {td.sl} </td>
                       <td>
-                        <div className="text-center pr-2">{td.deliveryCode}</div>
+                        <div className="text-center pr-2">
+                          {td.deliveryCode}
+                        </div>
                       </td>
 
                       <td>
-                        <div className="text-center">{_dateFormatter(td.deliveryDate)}</div>
+                        <div className="text-center">
+                          {_dateFormatter(td.deliveryDate)}
+                        </div>
                       </td>
 
                       <td>
@@ -136,13 +200,17 @@ export function TableRow({
                         <div className="text-center pr-2">{td.vehicleMode}</div>
                       </td>
                       <td>
-                        <div className="text-center pr-2">{td.supplierType}</div>
+                        <div className="text-center pr-2">
+                          {td.supplierType}
+                        </div>
                       </td>
                       <td>
                         <div className="text-center">{td.deliveryTime}</div>
                       </td>
                       <td>
-                        <div className="text-right">{td.totalDeliveryQuantity}</div>
+                        <div className="text-right">
+                          {td.totalDeliveryQuantity}
+                        </div>
                       </td>
                       <td>
                         <div className="d-flex justify-content-around">
@@ -174,7 +242,13 @@ export function TableRow({
                               </span>
                               {isWorkable && (
                                 <div className="d-flex justify-content-between">
-                                  <OverlayTrigger overlay={<Tooltip id="cs-icon">{"Print Invoice"}</Tooltip>}>
+                                  <OverlayTrigger
+                                    overlay={
+                                      <Tooltip id="cs-icon">
+                                        {"Print Invoice"}
+                                      </Tooltip>
+                                    }
+                                  >
                                     <span>
                                       <i
                                         onClick={() => {
@@ -211,12 +285,23 @@ export function TableRow({
                                 history.push({
                                   state: values,
                                 });
-                                getDeliveryChallanInfoById(td?.deliveryId, setDeliveryChallanInfo, setLoading, () => {
-                                  setShow(true);
-                                });
+                                getDeliveryChallanInfoById(
+                                  td?.deliveryId,
+                                  setDeliveryChallanInfo,
+                                  setLoading,
+                                  () => {
+                                    setShow(true);
+                                  }
+                                );
                               }}
                             >
-                              <OverlayTrigger overlay={<Tooltip id="cs-icon">Direct Challan Print</Tooltip>}>
+                              <OverlayTrigger
+                                overlay={
+                                  <Tooltip id="cs-icon">
+                                    Direct Challan Print
+                                  </Tooltip>
+                                }
+                              >
                                 <i class="fab pointer fa-weibo"></i>
                               </OverlayTrigger>
                             </span>
@@ -240,13 +325,56 @@ export function TableRow({
                                 setClickRowData(td);
                               }}
                             >
-                              <OverlayTrigger overlay={<Tooltip id="cs-icon">{"Allotment Challan"}</Tooltip>}>
+                              <OverlayTrigger
+                                overlay={
+                                  <Tooltip id="cs-icon">
+                                    {"Allotment Challan"}
+                                  </Tooltip>
+                                }
+                              >
                                 <span>
                                   <i className={`far fa-file-alt pointer`}></i>
                                 </span>
                               </OverlayTrigger>
                             </span>
                           )}
+                          {!td?.isPaperDOPrinted && (<span
+                            style={{
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              gap: "5px",
+                            }}
+                          >
+                            <ICon
+                              title="Print"
+                              onClick={() => {
+                                const payload = [td?.deliveryId];
+                                getPrintData(
+                                  `/oms/OManagementReport/GetMultiplePaperDOPrintCopy?UserId=${userId}&BusinessUnitId=${buId}`,
+                                  payload,
+                                  () => {
+                                    setShow(true);
+                                  },
+                                  true
+                                );
+                              }}
+                            >
+                              <i class="fas fa-print"></i>
+                            </ICon>
+                            <input
+                              type="checkbox"
+                              value={td?.isSelectedPrint}
+                              checked={td?.isSelectedPrint}
+                              onChange={() => {
+                                rowDataHandler(
+                                  "isSelectedPrint",
+                                  index,
+                                  !td.isSelectedPrint
+                                );
+                              }}
+                            />
+                          </span>)}
                         </div>
                       </td>
                     </tr>
@@ -287,12 +415,15 @@ export function TableRow({
             channelId={values?.channel?.value}
             isWorkable={isWorkable}
             isWithVat={values?.isCheck}
-            typedVat = {values?.vat}
+            typedVat={values?.vat}
           />
         )}
         {/* Allotment Challan Model */}
         {allotmentChallanModel && (
-          <IViewModal show={allotmentChallanModel} onHide={() => setAllotmentChallanModel(false)}>
+          <IViewModal
+            show={allotmentChallanModel}
+            onHide={() => setAllotmentChallanModel(false)}
+          >
             <PartnerAllotmentChallanForm
               deliveryLandingData={{
                 ...clickRowData,
@@ -320,10 +451,27 @@ export function TableRow({
         </IViewModal>
 
         {foreignSalesInvoiceModal && (
-          <IViewModal show={foreignSalesInvoiceModal} onHide={() => setForeignSalesInvoiceModal(false)}>
-            <ForeingSalesInvoicePrint landingData={clickRowData}></ForeingSalesInvoicePrint>
+          <IViewModal
+            show={foreignSalesInvoiceModal}
+            onHide={() => setForeignSalesInvoiceModal(false)}
+          >
+            <ForeingSalesInvoicePrint
+              landingData={clickRowData}
+            ></ForeingSalesInvoicePrint>
           </IViewModal>
         )}
+        <IViewModal
+          show={showMutipleModal}
+          onHide={() => {
+            setShowMultipleModal(false);
+            // getData(values, pageNo, pageSize, "");
+          }}
+        >
+          {buId === 221 && (
+            // Akij Commodities Ltd.
+            <HologramPrintForAkijCommodities printDataList={printData} />
+          )}
+        </IViewModal>
       </div>
     </>
   );
