@@ -6,6 +6,22 @@ const SalesCommissionConfigureLandingTable = ({ obj }) => {
 
   return (
     <div>
+      {[17, 18, 25, 27, 22].includes(values?.commissionType?.value) ? (
+        <TableTwo obj={{ gridData, values, setOpen, setSingleData }} />
+      ) : (
+        <TableOne obj={{ gridData, values, setOpen, setSingleData }} />
+      )}
+    </div>
+  );
+};
+
+export default SalesCommissionConfigureLandingTable;
+
+const TableOne = ({ obj }) => {
+  const { gridData, setOpen, setSingleData } = obj;
+
+  return (
+    <div>
       <div className="table-responsive">
         <table className="table table-striped table-bordered global-table">
           <thead>
@@ -15,14 +31,14 @@ const SalesCommissionConfigureLandingTable = ({ obj }) => {
               <th>BP Rate/bag</th>
               <th>BA Rate/bag</th>
               <th>CP Rate/bag</th>
-              {[17, 18, 25, 27].includes(values?.commissionType?.value) && (
+              {/* {[17, 18, 25, 27].includes(values?.commissionType?.value) && (
                 <>
                   {" "}
                   <th>1-99%</th>
                   <th>100-999%</th>
                   <th> {">"}999% </th>
                 </>
-              )}
+              )} */}
               <th>Insert By</th>
               <th>Action</th>
             </tr>
@@ -37,7 +53,7 @@ const SalesCommissionConfigureLandingTable = ({ obj }) => {
                   <td className="text-right">{item?.bacommissionRate}</td>
                   <td className="text-right">{item?.cpcommissionRate}</td>
 
-                  {[17, 18, 25, 27].includes(values?.commissionType?.value) && (
+                  {/* {[17, 18, 25, 27].includes(values?.commissionType?.value) && (
                     <>
                       <td className="text-right">
                         {item?.firstSlabCommissionRate}
@@ -49,7 +65,7 @@ const SalesCommissionConfigureLandingTable = ({ obj }) => {
                         {item?.thirdSlabCommissionRate}
                       </td>
                     </>
-                  )}
+                  )} */}
                   <td className="text-right">{item?.actionName}</td>
                   <td className="text-center">
                     <div className="d-flex justify-content-around">
@@ -73,4 +89,67 @@ const SalesCommissionConfigureLandingTable = ({ obj }) => {
   );
 };
 
-export default SalesCommissionConfigureLandingTable;
+const TableTwo = ({ obj }) => {
+  const { gridData, setOpen, setSingleData } = obj;
+
+  return (
+    <div>
+      <div className="table-responsive">
+        <table className="table table-striped table-bordered global-table">
+          <thead>
+            <tr>
+              <th rowSpan={2} style={{ width: "40px" }}>
+                SL
+              </th>
+              <th rowSpan={2}>Area Name</th>
+              <th colSpan={2}>Achievement</th>
+              <th colSpan={2}>Quantity</th>
+              <th rowSpan={2}>BP Rate/bag</th>
+              <th rowSpan={2}>BA Rate/bag</th>
+              <th rowSpan={2}>CP Rate/bag</th>
+              <th rowSpan={2}>Insert By</th>
+              <th rowSpan={2}>Action</th>
+            </tr>
+            <tr>
+              <th>From</th>
+              <th>To</th>
+              <th>From</th>
+              <th>To</th>
+            </tr>
+          </thead>
+          <tbody>
+            {gridData?.data?.map((item, index) => {
+              return (
+                <tr key={index}>
+                  <td> {index + 1}</td>
+                  <td>{item?.areaName}</td>
+                  <td className="text-center">{item?.achievementFrom}</td>
+                  <td className="text-center">{item?.achievementTo}</td>
+                  <td className="text-center">{item?.offerQntFrom}</td>
+                  <td className="text-center">{item?.offerQntTo}</td>
+                  <td className="text-right">{item?.bpcommissionRate}</td>
+                  <td className="text-right">{item?.bacommissionRate}</td>
+                  <td className="text-right">{item?.cpcommissionRate}</td>
+
+                  <td className="text-right">{item?.actionName}</td>
+                  <td className="text-center">
+                    <div className="d-flex justify-content-around">
+                      <span>
+                        <IEdit
+                          onClick={() => {
+                            setSingleData(item);
+                            setOpen(true);
+                          }}
+                        ></IEdit>
+                      </span>
+                    </div>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+};
