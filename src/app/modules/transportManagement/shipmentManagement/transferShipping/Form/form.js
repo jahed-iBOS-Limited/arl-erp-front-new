@@ -21,6 +21,7 @@ import {
 } from "../_redux/Actions";
 import IViewModal from "../../../../_helper/_viewModal";
 import QRCodeScanner from "../../../../_helper/qrCodeScanner";
+import NewSelect from "../../../../_helper/_select";
 // Validation schema
 const validationSchema = Yup.object().shape({
   Vehicle: Yup.object().shape({
@@ -118,6 +119,7 @@ export default function _Form({
   selectedBusinessUnit,
   loadingPointDDL,
   ShippointDDL,
+  packerList,
 }) {
   const [QRCodeScannerModal, setQRCodeScannerModal] = useState(false);
   const [controls, setControls] = useState([]);
@@ -596,7 +598,10 @@ export default function _Form({
                           component={() => (
                             <Select
                               options={
-                                PendingDeliveryDDL || { value: "", label: "" }
+                                PendingDeliveryDDL || {
+                                  value: "",
+                                  label: "",
+                                }
                               }
                               placeholder="Select Transfer List"
                               value={
@@ -706,6 +711,18 @@ export default function _Form({
                           />
                         </div>
                       ) : null}
+                      <div className="col-lg-3">
+                        <NewSelect
+                          name="packer"
+                          placeholder="Packer"
+                          label="Packer"
+                          options={packerList || []}
+                          value={values?.packer}
+                          onChange={(valueOption) => {
+                            setFieldValue("packer", valueOption);
+                          }}
+                        />
+                      </div>
                       <div className="col-lg-12"></div>
                       <div
                         className={

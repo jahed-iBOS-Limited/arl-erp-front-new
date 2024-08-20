@@ -539,7 +539,9 @@ const initState = {
     toDate: "",
   },
   financialManagementReportCashFlowStatement: {
+    viewType:"",
     enterpriseDivision: "",
+    subDivision:"",
     businessUnit: "",
     convertionRate: "",
     fromDate: "",

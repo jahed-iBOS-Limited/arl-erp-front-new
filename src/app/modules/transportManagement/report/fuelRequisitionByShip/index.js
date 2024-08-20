@@ -20,7 +20,7 @@ const initData = {
   vehicleNumber: "",
   driver: "",
   deliveryDate: "",
-  packerName: "",
+  //   packerName: "",
 };
 
 const validationSchema = Yup.object().shape({
@@ -36,7 +36,13 @@ const validationSchema = Yup.object().shape({
   date: Yup.date().required("Date is required"),
 });
 
-export default function PackerInfo() {
+export default function FuelRequisitionByShipment() {
+  const {
+    profileData: { userId },
+    selectedBusinessUnit: { value: buId, label },
+  } = useSelector((state) => {
+    return state.authData;
+  }, shallowEqual);
   const [objProps, setObjprops] = useState({});
   const [reportData, getReportData, loading, setReportData] = useAxiosGet();
   const [, onComplete, loader] = useAxiosPost();
@@ -67,7 +73,7 @@ export default function PackerInfo() {
         <>
           {(loader || loading) && <Loading />}
           <IForm
-            title="Packer Info"
+            title="Fuel Requisition By Shipment"
             getProps={setObjprops}
             isHiddenBack
             isHiddenReset
@@ -78,7 +84,9 @@ export default function PackerInfo() {
                   <button
                     type="button"
                     className="btn btn-primary"
-                    disabled={!reportData?.objHeader?.shipmentId && !shipmentId}
+                    disabled={
+                      !reportData?.objHeader?.shipmentCostId && !shipmentId
+                    }
                     onClick={() => {
                       if (selectedBusinessUnit?.value !== 4) {
                         return toast.warn(
@@ -88,16 +96,75 @@ export default function PackerInfo() {
                       if (reportData?.objHeader?.isLoaded) {
                         return toast.warn("Already Completed");
                       }
+                      const header = {
+                        transactionGroupId: 2,
+                        transactionGroupName: "Issue Inventory",
+                        transactionTypeId: 9,
+                        transactionTypeName: "Issue For Cost Center",
+                        referenceTypeId: 7,
+                        referenceTypeName: "Inventory Request",
+                        referenceId: reportData?.objHeader?.shipmentId,
+                        referenceCode: reportData?.objHeader?.strShipmentCode,
+                        accountId: 1,
+                        accountName: "Akij Resource Limited",
+                        businessUnitId: 4,
+                        businessUnitName: "Akij Cement Company Ltd.",
+                        sbuId: 58,
+                        sbuName: "Akij Cement Company Ltd.",
+                        plantId: 79,
+                        plantName: "ACCL Narayanganj",
+                        warehouseId: 142,
+                        warehouseName: "ACCL Factory",
+                        businessPartnerId: 0,
+                        parsonnelId: userId,
+                        costElementName: 2664,
+                        costCenterId: 74,
+                        costCenterCode: "HR",
+                        costCenterName: "HR & Admin (Factory)",
+                        profitCenterId: 54,
+                        profitCenterName: "Akij Cement Company Ltd.",
+                        projectId: -1,
+                        projectCode: "",
+                        projectName: "",
+                        comments: "",
+                        actionBy: userId,
+                        documentId: "",
+                        gateEntryNo: "",
+                        businessTransactionId: 0,
+                        generalLedgerId: 0,
+                      };
+                      const row = {
+                        itemId: reportData?.objHeader?.itemId,
+                        itemName: reportData?.objHeader?.itemName,
+                        uoMid: reportData?.objHeader?.uoMid,
+                        uoMname: reportData?.objHeader?.uoMname,
+                        numTransactionQuantity: Math.ceil(
+                          reportData?.objHeader?.totalFuelCostLtr
+                        ),
+                        monTransactionValue:
+                          reportData?.objHeader?.fuelRate *
+                          Math.ceil(reportData?.objHeader?.totalFuelCostLtr),
+                        inventoryLocationId:
+                          reportData?.objHeader?.inventoryLocationId,
+                        inventoryLocationName:
+                          reportData?.objHeader?.inventoryLocationName,
+                        batchId: 0,
+                        batchNumber: "",
+                        inventoryStockTypeId:
+                          reportData?.objHeader?.inventoryStockTypeId,
+                        inventoryStockTypeName:
+                          reportData?.objHeader?.inventoryStockTypeName,
+                        strBinNo: reportData?.objHeader?.binNo,
+                      };
                       onComplete(
-                        `/oms/LoadingPoint/CompletePacker?shipmentId=${
-                          reportData?.objHeader?.shipmentId
-                          // actionType === "Auto"
-                          //   ? shipmentId
-                          //   : reportData?.objHeader?.shipmentId
-                        }`,
-                        null,
+                        `/wms/InventoryTransaction/CreateInvTransectionForIssue`,
+                        {
+                          objHeader: header,
+                          objRow: [row],
+                        },
                         () => {
                           resetForm(initData);
+                          setReportData({});
                           setShipmentId(null);
                         },
                         true
@@ -124,7 +191,7 @@ export default function PackerInfo() {
                         setActionType("Manual");
                         resetForm(initData);
                         setShipmentId(null);
-                        setReportData({})
+                        setReportData({});
                       }}
                     />
                     By Card Number
@@ -140,7 +207,7 @@ export default function PackerInfo() {
                         setActionType("Auto");
                         resetForm(initData);
                         setShipmentId(null);
-                         setReportData({});
+                        setReportData({});
                       }}
                     />
                     By QR Code
@@ -200,28 +267,30 @@ export default function PackerInfo() {
                             setFieldValue("shipmentCode", e.target.value);
                             getReportData(
                               // `/wms/Delivery/GetDeliveryPrintInfoManual?businessUnitId=${selectedBusinessUnit?.value}&shipmentCode=${e.target.value}`,
-                              `/wms/Delivery/GetDeliveryPrintInfoByVehicleCardNumber?strCardNumber=${e.target.value}`,
+                              `/wms/Delivery/GetDeliveryFuelInfoByVehicleCardNumber?strCardNumber=${e.target.value}`,
                               (res) => {
+                                setShipmentId(res?.objHeader?.shipmentCostId);
                                 setFieldValue(
                                   "shippingPoint",
                                   res?.objHeader?.shipPointName || ""
                                 );
                                 setFieldValue(
                                   "vehicleNumber",
-                                  res?.objHeader?.strVehicleName || ""
+                                  res?.objHeader?.vehicleName || ""
                                 );
                                 setFieldValue(
                                   "driver",
                                   res?.objHeader?.driverName || ""
                                 );
-                                setFieldValue(
-                                  "packerName",
-                                  res?.objHeader?.packerName || ""
-                                );
+                                // setFieldValue(
+                                //   "packerName",
+                                //   res?.objHeader?.packerName || ""
+                                // );
                                 setFieldValue(
                                   "deliveryDate",
-                                  _dateFormatter(res?.objHeader?.pricingDate) ||
-                                    ""
+                                  _dateFormatter(
+                                    res?.objHeader?.shipmentDate
+                                  ) || ""
                                 );
                               }
                             );
@@ -264,7 +333,7 @@ export default function PackerInfo() {
                       }}
                     />
                   </div>
-                  <div className="col-lg-3">
+                  {/* <div className="col-lg-3">
                     <InputField
                       value={values?.packerName}
                       label="Packer Name"
@@ -274,7 +343,7 @@ export default function PackerInfo() {
                         setFieldValue("packerName", e.target.value);
                       }}
                     />
-                  </div>
+                  </div> */}
                   <div className="col-lg-3">
                     <InputField
                       value={values?.deliveryDate}
@@ -339,35 +408,44 @@ export default function PackerInfo() {
                   }}
                 />
               </IViewModal>
-              <div className="row">
-                <div className="col-lg-6 col-sm-12">
-                  {reportData?.objRow?.length > 0 && (
-                    <ICustomTable ths={["SL", "Item", "UoM", "Quantity"]}>
-                      {reportData?.objRow?.map((item, index) => {
-                        return (
-                          <tr>
-                            <td>{index + 1}</td>
-                            <td>{item?.itemName}</td>
-                            <td>{item?.uomName}</td>
-                            <td className="text-right">{item?.quantity}</td>
-                          </tr>
-                        );
-                      })}
+              {reportData?.objHeader?.shipmentId ? (
+                <div className="row">
+                  <div className="col-lg-6 col-sm-12">
+                    {/* {Object?.keys(reportData?.objHeader)?.length > 0 && ( */}
+                    <ICustomTable
+                      ths={[
+                        "SL",
+                        "Shipment Code",
+                        "Rate",
+                        "Total Fuel Cost/Ltr",
+                      ]}
+                    >
+                      {/* {reportData?.objRow?.map((item, index) => { */}
+                      {/* return ( */}
+                      <tr>
+                        <td>{1}</td>
+                        <td>{reportData?.objHeader?.strShipmentCode}</td>
+                        <td>{reportData?.objHeader?.fuelRate}</td>
+                        <td className="text-right">
+                          {Math.ceil(reportData?.objHeader?.totalFuelCostLtr)}
+                        </td>
+                      </tr>
+                      {/* ); */}
+                      {/* })} */}
                       <tr style={{ fontWeight: "bold", textAlign: "right" }}>
                         <td colSpan={3} className="text-right">
                           Total
                         </td>
                         <td>
-                          {reportData?.objRow?.reduce(
-                            (total, curr) => (total += curr?.quantity),
-                            0
-                          )}
+                          {reportData?.objHeader?.fuelRate *
+                            Math.ceil(reportData?.objHeader?.totalFuelCostLtr)}
                         </td>
                       </tr>
                     </ICustomTable>
-                  )}
+                    {/* )} */}
+                  </div>
                 </div>
-              </div>
+              ) : null}
             </Form>
           </IForm>
         </>

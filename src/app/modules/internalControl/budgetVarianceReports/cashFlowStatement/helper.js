@@ -20,7 +20,9 @@ export const getCashFlowStatement = async (
   setter,
   setLoading,
   enterPriceDivision,
-  conversionRate
+  conversionRate,
+  viewType,
+  businessUnitSubGroup 
 ) => {
   try {
     setLoading(true);
@@ -28,7 +30,7 @@ export const getCashFlowStatement = async (
       `/fino/Report/GetCashFlowStatement?BusinessUnitGroup=${enterPriceDivision?.label ||
         ""}&businessUnitId=${businessUnitId}&sbuId=${sbuId}&fromDate=${_dateFormatter(
         fromDate
-      )}&toDate=${_dateFormatter(toDate)}&ConvertionRate=${conversionRate}`
+      )}&toDate=${_dateFormatter(toDate)}&ConvertionRate=${conversionRate}&Type=${viewType?.value || 0}&BusinessUnitSubGroup=${businessUnitSubGroup?.label || ""}`
     );
 
     const resNumAmountFromProjectedApi = await axios.get(

@@ -33,6 +33,7 @@ import NewSelect from "./../../../../_helper/_select";
 import { useHistory } from "react-router";
 import { pendingDeliveryReportLandingAction } from "./../../../../_helper/reduxForLocalStorage/Actions";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
+import Loading from "../../../../_helper/_loading";
 
 const initData = {
   reportType: "",
@@ -57,6 +58,7 @@ const PendingDeliveryReportTable = () => {
   const [areaDDL, setAreaDDL] = useState([]);
   const [territoryDDL, setTerritoryDDL] = useState([]);
   const [soldToPartyDDL, setSoldToPartyDDL] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -116,6 +118,7 @@ const PendingDeliveryReportTable = () => {
       fromDate,
       toDate,
       setter: setGridData,
+      setLoading,
     });
   };
 
@@ -219,6 +222,7 @@ const PendingDeliveryReportTable = () => {
         setValues,
       }) => (
         <>
+        {loading && <Loading/>}
           <Card>
             {true && <ModalProgressBar />}
             <CardHeader title={"Pending Delivery Report"}>
@@ -544,6 +548,7 @@ const PendingDeliveryReportTable = () => {
                 </div>
               </form>
               <GridView
+                reportTypeId={values?.reportType?.value}
                 gridData={gridData}
                 setGridData={setGridData}
                 selectedBusinessUnit={selectedBusinessUnit}

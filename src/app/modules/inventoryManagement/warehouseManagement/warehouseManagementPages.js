@@ -59,6 +59,7 @@ import TargetVSProductionRequestForm from "./targetVSProductionRequest/form/addE
 import TargetVSProductionRequest from "./targetVSProductionRequest/landing";
 import LogisticEquipment from "./logisticEquipment";
 import LogisticEquipmentEntry from "./logisticEquipment/entry";
+import ItemWiseSerialDetails from "../reports/itemwiseserialdetails/ItemWiseSerialDetails";
 
 export function WarehouseManagementPages() {
   const { userRole, selectedBusinessUnit } = useSelector(
@@ -73,12 +74,16 @@ export function WarehouseManagementPages() {
   const serviceReceive = userRole[findIndex(userRole, "Service Receive")];
 
   let inventoryLoan = null;
+  let inventoryLoanApprv = null;
   let itemWiseSerialUpdate = null;
   let mrrCancelPermission = null;
 
   for (let i = 0; i < userRole.length; i++) {
     if (userRole[i]?.intFeatureId === 1035) {
       inventoryLoan = userRole[i];
+    }
+    if (userRole[i]?.intFeatureId === 1405) {
+      inventoryLoanApprv = userRole[i];
     }
     if (userRole[i]?.intFeatureId === 1194) {
       itemWiseSerialUpdate = userRole[i];
@@ -324,7 +329,9 @@ export function WarehouseManagementPages() {
       <ContentRoute
         path="/inventory-management/warehouse-management/inventory-Loan-Approve"
         component={
-          inventoryLoan?.isView ? InventoryLoanApproveLanding : NotPermittedPage
+          inventoryLoanApprv?.isView
+            ? InventoryLoanApproveLanding
+            : NotPermittedPage
         }
       />
 
@@ -374,11 +381,11 @@ export function WarehouseManagementPages() {
         path="/inventory-management/warehouse-management/liftingplanreport"
         component={LiftingPlan}
       />
-       <ContentRoute
+      <ContentRoute
         path="/inventory-management/warehouse-management/logisticequipmentavailability/:type"
         component={LogisticEquipmentEntry}
       />
-       <ContentRoute
+      <ContentRoute
         path="/inventory-management/warehouse-management/logisticequipmentavailability"
         component={LogisticEquipment}
       />
@@ -434,7 +441,7 @@ export function WarehouseManagementPages() {
         path="/inventory-management/warehouse-management/branditemrequisition/:type/:id"
         component={BrandItemRequisitionForm}
       />
-      
+
       <ContentRoute
         path="/inventory-management/warehouse-management/branditemrequisition/entry"
         component={BrandItemRequisitionForm}
@@ -459,6 +466,10 @@ export function WarehouseManagementPages() {
       <ContentRoute
         path="/inventory-management/warehouse-management/itemqualitycheck"
         component={ItemQualityCheckLanding}
+      />
+      <ContentRoute
+        from="/inventory-management/warehouse-management/ItemwiseserialDetails"
+        component={ItemWiseSerialDetails}
       />
     </Switch>
   );

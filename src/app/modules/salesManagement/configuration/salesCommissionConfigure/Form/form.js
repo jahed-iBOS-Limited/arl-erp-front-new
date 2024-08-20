@@ -64,14 +64,14 @@ export default function _Form({
                     obj={{
                       values,
                       setFieldValue,
-                      area: [14, 16, 20, 23, 17, 18, 25, 27].includes(
+                      area: [14, 16, 20, 23, 17, 18, 25, 27, 22].includes(
                         values?.commissionType?.value
                       ),
                       territory: false,
                       allElement: false,
                       onChange: () => {
                         if (
-                          ![17, 18, 25, 27].includes(
+                          ![17, 18, 25, 27, 22].includes(
                             values?.commissionType?.value
                           )
                         ) {
@@ -83,7 +83,7 @@ export default function _Form({
 
                   <FromDateToDateForm obj={{ values, setFieldValue }} />
 
-                  {[17, 18, 25, 27].includes(values?.commissionType?.value) && (
+                  {[17, 18, 25, 27, 22].includes(values?.commissionType?.value) && (
                     <>
                       <div className={`col-lg-3`}>
                         <InputField
@@ -135,14 +135,14 @@ export default function _Form({
                   </div>
                   <IButton
                     title={
-                      [17, 18, 25, 27].includes(values?.commissionType?.value)
+                      [17, 18, 25, 27, 22].includes(values?.commissionType?.value)
                         ? "Add"
                         : "Show"
                     }
                     onClick={() => {
                       getAreas(values, () => {
                         if (
-                          [17, 18, 25, 27].includes(
+                          [17, 18, 25, 27, 22].includes(
                             values?.commissionType?.value
                           )
                         ) {

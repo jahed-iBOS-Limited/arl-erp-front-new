@@ -25,9 +25,21 @@ import TripSlabCostReport from "./tripSlabCostReport/landing/table";
 import VehicleFuelCostReport from "./vehicleFuelCostReport/landing";
 import VehicleFuelReport from "./vehicleFuelReport/landing/landing";
 import LogisticDashBoard from "./logisticDashBoard";
-import PackerInfo from "./packerInfo";
+// import PackerInfo from "./packerInfo/index2";
+import VehicleCallingList from "./packingInformationList";
+import StoreInformation from "./storeInfo";
+// import PackerInfo from "./packerInfo";
+import FuelRequisitionByShipment from "./fuelRequisitionByShip";
+import { shallowEqual, useSelector } from "react-redux";
+import NotPermittedPage from "../../_helper/notPermitted/NotPermittedPage";
+import DisplayPackerInfo from "./displayPackerInfo";
 
 export function TransportReportPages() {
+  const {
+    selectedBusinessUnit: { value: buId },
+  } = useSelector((state) => {
+    return state.authData;
+  }, shallowEqual);
   return (
     <Suspense fallback={<LayoutSplashScreen />}>
       <Switch>
@@ -82,9 +94,13 @@ export function TransportReportPages() {
           path="/transport-management/report/dashboardpdd"
           component={Dashboardpdd}
         />
-         <ContentRoute
+        {/* <ContentRoute
           path="/transport-management/report/PackerInfo"
           component={PackerInfo}
+        /> */}
+        <ContentRoute
+          path="/transport-management/report/FuelRequisitionByShipment"
+          component={buId === 4 ? FuelRequisitionByShipment : NotPermittedPage}
         />
         <ContentRoute
           path="/transport-management/report/LogisticDashBoard"
@@ -147,6 +163,19 @@ export function TransportReportPages() {
         <ContentRoute
           path="/transport-management/report/hourlyDeliveryStatusReport"
           component={HourlyDeliveryStatusReport}
+        />
+
+        <ContentRoute
+          path="/transport-management/report/PackingInformationList"
+          component={VehicleCallingList}
+        />
+        <ContentRoute
+          path="/transport-management/report/StoreInformationList"
+          component={StoreInformation}
+        />
+        <ContentRoute
+          path="/transport-management/report/DisplayPackerInfo"
+          component={DisplayPackerInfo}
         />
       </Switch>
     </Suspense>
