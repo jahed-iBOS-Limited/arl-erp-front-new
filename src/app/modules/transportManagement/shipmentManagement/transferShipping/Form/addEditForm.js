@@ -30,6 +30,7 @@ import { useLocation } from "react-router-dom";
 import { getLoadingPointDDLAction } from "../_redux/Actions";
 import { toast } from "react-toastify";
 import Loading from "../../../../_helper/_loading";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 
 const initData = {
   id: undefined,
@@ -53,9 +54,10 @@ const initData = {
   supplierName: "",
   isLaborImpart: true,
   laborSupplierName: "",
-  gateEntryCode:"",
-  strCardNo:"",
-  isRequiredLbrSplrName : true,
+  gateEntryCode: "",
+  strCardNo: "",
+  isRequiredLbrSplrName: true,
+  packer: "",
 };
 
 export default function TransferShipmentForm({
@@ -69,6 +71,7 @@ export default function TransferShipmentForm({
   const [rowDto, setRowDto] = useState([]);
   const { state: headerData } = useLocation();
   const [routeListDDL, setRouteListDDL] = useState([]);
+  const [packerList, getPackerList, , setPackerList] = useAxiosGet();
   // get user profile data from store
   const profileData = useSelector((state) => {
     return state.authData.profileData;
@@ -211,6 +214,18 @@ export default function TransferShipmentForm({
         )
       );
       dispatch(GetTransportModeDDLAction());
+      getPackerList(
+        `/mes/WorkCenter/GetWorkCenterListByTypeId?WorkCenterTypeId=1&AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`,
+        (resData) => {
+          setPackerList(
+            resData?.map((item) => ({
+              ...item,
+              value: item?.workCenterId,
+              label: item?.workCenterName,
+            }))
+          );
+        }
+      );
       //dispatch(GetShipmentTypeDDLAction(selectedBusinessUnit?.value));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -225,8 +240,8 @@ export default function TransferShipmentForm({
   };
 
   const saveHandler = async (values, cb) => {
-    if(values?.isRequiredLbrSplrName && !values?.laborSupplierName){
-      return toast.warn("Labor Supplier Name is required")
+    if (values?.isRequiredLbrSplrName && !values?.laborSupplierName) {
+      return toast.warn("Labor Supplier Name is required");
     }
     if (values && profileData?.accountId && selectedBusinessUnit?.value) {
       if (rowDto?.length === 0) {
@@ -387,6 +402,7 @@ export default function TransferShipmentForm({
             transportZoneId: values?.transportZone?.value || 0,
             vehicleEntryId: values?.gateEntryCode?.value || 0,
             vehicleEntryCode: values?.gateEntryCode?.label || "",
+            packerId: values?.packer?.value,
           },
         };
         dispatch(saveShipment({ data: payload, cb, setDisabled }));
@@ -398,7 +414,7 @@ export default function TransferShipmentForm({
   //addBtnHandler
   const addBtnHandler = (values, setFieldValue) => {
     if (deliveryeDatabydata) {
-      if(values?.pendingDelivery?.routeInfo?.[0]?.zoneId){
+      if (values?.pendingDelivery?.routeInfo?.[0]?.zoneId) {
         const newData = [
           {
             deliveryId: deliveryeDatabydata?.transferId,
@@ -406,8 +422,10 @@ export default function TransferShipmentForm({
             shipToPartnerId: deliveryeDatabydata?.shipToWarehouseId,
             shipToPartnerName: deliveryeDatabydata?.shipToWarehouseName,
             shipToPartnerAddress: deliveryeDatabydata?.shipToWarehouseAddress,
-            transportZoneId: values?.pendingDelivery?.routeInfo?.[0]?.zoneId  || 0,
-            transportZoneName: values?.pendingDelivery?.routeInfo?.[0]?.zoneName || "",
+            transportZoneId:
+              values?.pendingDelivery?.routeInfo?.[0]?.zoneId || 0,
+            transportZoneName:
+              values?.pendingDelivery?.routeInfo?.[0]?.zoneName || "",
             loadingPointId: values?.loadingPoint?.value,
             loadingPointName: values?.loadingPoint?.label,
             lastKM: deliveryeDatabydata?.distanceKM,
@@ -430,7 +448,7 @@ export default function TransferShipmentForm({
               ).values(),
             ];
             setRowDto(uniqueTwo);
-  
+
             // route ddl options set
             const newRouteList = values?.pendingDelivery?.routeInfo
               ?.filter((item) => item?.routeId !== 0)
@@ -445,7 +463,7 @@ export default function TransferShipmentForm({
               ).values(),
             ];
             setRouteListDDL(unique);
-            
+
             setFieldValue("route", unique?.[0]?.value ? unique?.[0] : "");
             setFieldValue(
               "transportZone",
@@ -456,7 +474,6 @@ export default function TransferShipmentForm({
                   }
                 : ""
             );
-   
           }
         }
         if (deliveryeDatabydata?.distanceKM > values?.lastDistance) {
@@ -472,10 +489,9 @@ export default function TransferShipmentForm({
             values?.lastDestinationKmCustomerId || 0
           );
         }
-      }else {
+      } else {
         toast.warning("Transport Zone Not Setup");
       }
-    
     } else {
       toast.warning("Data not found");
     }
@@ -585,6 +601,7 @@ export default function TransferShipmentForm({
         loadingPointDDL={loadingPointDDL}
         stockStatusOnShipment={stockStatusOnShipment}
         pendingDeliveryOnchangeHandler={pendingDeliveryOnchangeHandler}
+        packerList={packerList}
       />
     </IForm>
   );
