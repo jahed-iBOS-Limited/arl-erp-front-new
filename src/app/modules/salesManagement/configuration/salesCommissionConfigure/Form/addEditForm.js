@@ -92,7 +92,7 @@ export default function SalesCommissionConfigureEntryForm() {
       }
 
       setRowData(newArray);
-    } else if ([17, 18, 25, 27].includes(commissionTypeId)) {
+    } else if ([17, 18, 25, 27, 22].includes(commissionTypeId)) {
       const newRow = {
         value: values?.area?.value,
         label: values?.area?.label,
