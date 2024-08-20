@@ -39,7 +39,6 @@ export default function TenderSubmissionCreateEditForm() {
   // DDL
   const [dischargeDDL, setDischargeDDL] = useState([]);
   const [loadPortDDL, setLoadPortDDL] = useState([]);
-  // const [ghatDDL, setGhatDDL] = useState([])
 
   // Data fetch axios get
   const [
@@ -49,7 +48,6 @@ export default function TenderSubmissionCreateEditForm() {
     updateGodownDDL,
   ] = useAxiosGet();
   const [tenderDetails, getTenderDetails, getTenderDetailsDDLLoading] = useAxiosGet();
-  // ! remove ghat for requirement change
   const [ghatDDL, getGhatDDL, getGhatDDLLoading] = useAxiosGet();
   const [motherVesselDDL, getMotherVesselDDL, getMotherVesselDDLLoading] = useAxiosGet()
 
@@ -488,12 +486,12 @@ export default function TenderSubmissionCreateEditForm() {
   const badcMopFormField = (values, setFieldValue, errors, touched) => (<>
     <div className="col-lg-3">
       <NewSelect
-        name="loadPortMOP"
+        name="dischargePortMOP"
         options={dischargeDDL}
-        value={values?.loadPortMOP}
-        label="Load Port"
+        value={values?.dischargePortMOP}
+        label="Discharge Port"
         onChange={(valueOption) => {
-          setFieldValue("loadPortMOP", valueOption);
+          setFieldValue("dischargePortMOP", valueOption);
         }}
         errors={errors}
         touched={touched}
@@ -702,7 +700,11 @@ export default function TenderSubmissionCreateEditForm() {
               {/* Excel Sheet Table for BADC */}
               {values?.businessPartner?.label === 'BADC(MOP)' && <div className="form-group  global-form row mt-2">
                 <div className="col-lg-12">
-                  <BADCExcelSheet ghatDDL={ghatDDL} values={values} />
+                  <BADCExcelSheet
+                    ghatDDL={ghatDDL}
+                    values={values}
+                    setFieldValue={setFieldValue}
+                  />
                 </div>
               </div>}
 
