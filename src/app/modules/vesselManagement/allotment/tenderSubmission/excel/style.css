@@ -1,4 +1,4 @@
-.mop-table-td-right thead tr > th:first-child {
+.mop-table-td-right thead tr th:first-child {
   min-width: 200px;
 }
 .mop-table-td-right tbody tr > td:first-child {

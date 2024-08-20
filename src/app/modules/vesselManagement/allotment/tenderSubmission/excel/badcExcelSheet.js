@@ -62,9 +62,11 @@ const BADCExcelSheet = ({ ghatDDL, values, setFieldValue }) => {
                         "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm global-table mop-table-td-right"
                     }>
                         <thead>
-                            {mopTenderDataTableHeader?.map(head => (
-                                <th>{head}</th>
-                            ))}
+                            <tr>
+                                {mopTenderDataTableHeader?.map(head => (
+                                    <th>{head}</th>
+                                ))}
+                            </tr>
                         </thead>
                         <tbody>
                             {values?.mopRowsData?.map((item, index) => (
