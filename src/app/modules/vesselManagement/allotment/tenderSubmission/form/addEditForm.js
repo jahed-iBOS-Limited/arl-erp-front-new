@@ -22,7 +22,9 @@ import {
   selectUrl,
   updateState,
   createPageValidationSchema,
+  fetchGhatDDL,
 } from "../helper";
+import BADCExcelSheet from "../excel/badcExcelSheet";
 
 export default function TenderSubmissionCreateEditForm() {
   const {
@@ -37,7 +39,7 @@ export default function TenderSubmissionCreateEditForm() {
   // DDL
   const [dischargeDDL, setDischargeDDL] = useState([]);
   const [loadPortDDL, setLoadPortDDL] = useState([]);
-  // const [ghatDDL,setGhatDDL]=useState([])
+  // const [ghatDDL, setGhatDDL] = useState([])
 
   // Data fetch axios get
   const [
@@ -46,10 +48,10 @@ export default function TenderSubmissionCreateEditForm() {
     getGodownDDLLoading,
     updateGodownDDL,
   ] = useAxiosGet();
-  const [tenderDetails, getTenderDetails] = useAxiosGet();
+  const [tenderDetails, getTenderDetails, getTenderDetailsDDLLoading] = useAxiosGet();
   // ! remove ghat for requirement change
-  // const [ghatDDL, getGhatDDL, getGhatDDLLoading] = useAxiosGet();
-  const [motherVesselDDL, getMotherVesselDDL] = useAxiosGet()
+  const [ghatDDL, getGhatDDL, getGhatDDLLoading] = useAxiosGet();
+  const [motherVesselDDL, getMotherVesselDDL, getMotherVesselDDLLoading] = useAxiosGet()
 
   // Data post/save axios post
   const [, submitTender, submitTenderLoading] = useAxiosPost();
@@ -99,7 +101,8 @@ export default function TenderSubmissionCreateEditForm() {
     );
   };
 
-  const commonFormField = (values, setFieldValue, errors, touched) => (
+  // ! Common for BCIC, BADC & BADC(MOP)
+  const commonFormField = (values, setFieldValue) => (
     <>
       {values?.businessPartner?.label === "BCIC" && (
         <div className="col-lg-12 mt-2">
@@ -128,6 +131,23 @@ export default function TenderSubmissionCreateEditForm() {
           }}
         />
       </div>
+      <div className="col-lg-3">
+        <InputField
+          value={values?.remarks}
+          label="Remarks"
+          name="remarks"
+          type="text"
+          onChange={(e) => {
+            setFieldValue("remarks", e.target.value);
+          }}
+        />
+      </div>
+    </>
+  )
+
+  // ! Common for BCIC, BADC
+  const commonBCICBADCFormField = (values, setFieldValue, errors, touched) => (
+    <>
       <div className="col-lg-3">
         <InputField
           value={values?.foreignQnt}
@@ -174,20 +194,10 @@ export default function TenderSubmissionCreateEditForm() {
           touched={touched}
         />
       </div>
-      <div className="col-lg-3">
-        <InputField
-          value={values?.remarks}
-          label="Remarks"
-          name="remarks"
-          type="text"
-          onChange={(e) => {
-            setFieldValue("remarks", e.target.value);
-          }}
-        />
-      </div>
     </>
   );
 
+  // ! Form Field for BCIC Foreign Part
   const bcicFormFieldForeignPart = (values, setFieldValue, errors, touched) => (
     <>
       <div className="col-lg-3">
@@ -240,6 +250,116 @@ export default function TenderSubmissionCreateEditForm() {
     </>
   );
 
+  // ! Form Field for BADC
+  const badcFormField = (values, setFieldValue, errors, touched) => (
+    <>
+      {/* <div className="col-lg-3">
+                      <NewSelect
+                        name="ghat1"
+                        options={ghatDDL}
+                        value={values?.ghat1}
+                        label="Discharge ghat (Chittagong)"
+                        onChange={(valueOption) => {
+                          setFieldValue("ghat1", valueOption);
+                        }}
+                        errors={errors}
+                        touched={touched}
+                      />
+                    </div>
+                    <div className="col-lg-3">
+                      <NewSelect
+                        name="ghat2"
+                        options={ghatDDL}
+                        value={values?.ghat2}
+                        label="Discharge ghat (Mongla)"
+                        onChange={(valueOption) => {
+                          setFieldValue("ghat2", valueOption);
+                        }}
+                        errors={errors}
+                        touched={touched}
+                      />
+                    </div> */}
+      <div className="col-lg-3">
+        <InputField
+          value={values?.dueDate}
+          label="Due Date"
+          name="dueDate"
+          type="date"
+          onChange={(e) => {
+            setFieldValue("dueDate", e.target.value);
+          }}
+        />
+      </div>
+      <div className="col-lg-3">
+        <InputField
+          value={values?.dueTime}
+          label="Due Time"
+          name="dueTime"
+          type="time"
+          onChange={(e) => {
+            setFieldValue("dueTime", e.target.value);
+          }}
+        />
+      </div>
+      <div className="col-lg-3">
+        <InputField
+          value={values?.lotQty}
+          label="Lot Qty"
+          name="lotQty"
+          type="text"
+          onChange={(e) => {
+            setFieldValue("lotQty", e.target.value);
+          }}
+        />
+      </div>
+      {/* <div className="col-lg-3">
+                      <InputField
+                        value={values?.dischargeRatio}
+                        label="Discharge Ratio"
+                        name="dischargeRatio"
+                        type="text"
+                        onChange={(e) => {
+                          setFieldValue("dischargeRatio", e.target.value);
+                        }}
+                      />
+                    </div> */}
+      <div className="col-lg-3">
+        <InputField
+          value={values?.contractDate}
+          label="Contract Date"
+          name="contractDate"
+          type="date"
+          onChange={(e) => {
+            setFieldValue("contractDate", e.target.value);
+          }}
+        />
+      </div>
+      <div className="col-lg-3">
+        <InputField
+          value={values?.layCan}
+          label="Laycan"
+          name="layCan"
+          type="text"
+          onChange={(e) => {
+            setFieldValue("layCan", e.target.value);
+          }}
+        />
+      </div>
+      {/* <div className="col-lg-3">
+                      <InputField
+                        value={values?.pricePerQty}
+                        label="Price Per Qty"
+                        name="pricePerQty"
+                        type="number"
+                        onChange={(e) => {
+                          setFieldValue("pricePerQty", e.target.value);
+                        }}
+                      />
+                    </div> */}
+    </>
+  );
+
+  // ! Form Field for BCIC Local Part
   const bcicFormFieldLocalPart = (values, setFieldValue, errors, touched) => (
     <div className="form-group  global-form row mt-2">
       <div className="col-lg-12">
@@ -364,6 +484,24 @@ export default function TenderSubmissionCreateEditForm() {
     </div>
   );
 
+  // ! Form Field for BADC (MOP)
+  const badcMopFormField = (values, setFieldValue, errors, touched) => (<>
+    <div className="col-lg-3">
+      <NewSelect
+        name="loadPortMOP"
+        options={dischargeDDL}
+        value={values?.loadPortMOP}
+        label="Load Port"
+        onChange={(valueOption) => {
+          setFieldValue("loadPortMOP", valueOption);
+        }}
+        errors={errors}
+        touched={touched}
+      />
+    </div>
+  </>)
+
+  // ! Form Field for BCIC Edit
   const bcicEditFormField = (values, setFieldValue) => (
     <>
       <div className="col-lg-3">
@@ -381,6 +519,7 @@ export default function TenderSubmissionCreateEditForm() {
     </>
   )
 
+  // ! Common Form Field for BCIC, BADC, BADC(MOP) Edit
   const commonEditFormField = (values, setFieldValue) => (
     <>
       <div className="col-lg-3">
@@ -450,114 +589,7 @@ export default function TenderSubmissionCreateEditForm() {
     </>
   );
 
-  const badcFormField = (values, setFieldValue, errors, touched) => (
-    <>
-      {/* <div className="col-lg-3">
-        <NewSelect
-          name="ghat1"
-          options={ghatDDL}
-          value={values?.ghat1}
-          label="Discharge ghat (Chittagong)"
-          onChange={(valueOption) => {
-            setFieldValue("ghat1", valueOption);
-          }}
-          errors={errors}
-          touched={touched}
-        />
-      </div>
-      <div className="col-lg-3">
-        <NewSelect
-          name="ghat2"
-          options={ghatDDL}
-          value={values?.ghat2}
-          label="Discharge ghat (Mongla)"
-          onChange={(valueOption) => {
-            setFieldValue("ghat2", valueOption);
-          }}
-          errors={errors}
-          touched={touched}
-        />
-      </div> */}
-      <div className="col-lg-3">
-        <InputField
-          value={values?.dueDate}
-          label="Due Date"
-          name="dueDate"
-          type="date"
-          onChange={(e) => {
-            setFieldValue("dueDate", e.target.value);
-          }}
-        />
-      </div>
-      <div className="col-lg-3">
-        <InputField
-          value={values?.dueTime}
-          label="Due Time"
-          name="dueTime"
-          type="time"
-          onChange={(e) => {
-            setFieldValue("dueTime", e.target.value);
-          }}
-        />
-      </div>
-      <div className="col-lg-3">
-        <InputField
-          value={values?.lotQty}
-          label="Lot Qty"
-          name="lotQty"
-          type="text"
-          onChange={(e) => {
-            setFieldValue("lotQty", e.target.value);
-          }}
-        />
-      </div>
-      {/* <div className="col-lg-3">
-        <InputField
-          value={values?.dischargeRatio}
-          label="Discharge Ratio"
-          name="dischargeRatio"
-          type="text"
-          onChange={(e) => {
-            setFieldValue("dischargeRatio", e.target.value);
-          }}
-        />
-      </div> */}
-      <div className="col-lg-3">
-        <InputField
-          value={values?.contractDate}
-          label="Contract Date"
-          name="contractDate"
-          type="date"
-          onChange={(e) => {
-            setFieldValue("contractDate", e.target.value);
-          }}
-        />
-      </div>
-      <div className="col-lg-3">
-        <InputField
-          value={values?.layCan}
-          label="Laycan"
-          name="layCan"
-          type="text"
-          onChange={(e) => {
-            setFieldValue("layCan", e.target.value);
-          }}
-        />
-      </div>
-      {/* <div className="col-lg-3">
-        <InputField
-          value={values?.pricePerQty}
-          label="Price Per Qty"
-          name="pricePerQty"
-          type="number"
-          onChange={(e) => {
-            setFieldValue("pricePerQty", e.target.value);
-          }}
-        />
-      </div> */}
-    </>
-  );
-
+  // ! Form Field for BADC Edit
   const badcEditFormField = (values, setFieldValue) => (
     <div className="col-lg-3">
       <InputField
@@ -593,7 +625,7 @@ export default function TenderSubmissionCreateEditForm() {
       }) => (
         <>
           {(getGodownDDLLoading ||
-            submitTenderLoading) && <Loading />}
+            submitTenderLoading || getMotherVesselDDLLoading || getTenderDetailsDDLLoading || getGhatDDLLoading) && <Loading />}
           <IForm title="Tender Submission Create" getProps={setObjprops}>
             <Form>
               <div className="form-group  global-form row">
@@ -607,18 +639,20 @@ export default function TenderSubmissionCreateEditForm() {
                       setFieldValue("businessPartner", valueOption);
                       // {"value": 89497, "label": "BCIC"}
                       // fetch when initial bcic select in create page
-                      fetchGodownDDLList(
-                        valueOption,
-                        accountId,
-                        buUnId,
-                        getGodownDDL,
-                        updateGodownDDL
-                      );
-                      // ! remove ghat for requirement change
+                      if (valueOption?.label === 'BCIC') {
+                        fetchGodownDDLList(
+                          valueOption,
+                          accountId,
+                          buUnId,
+                          getGodownDDL,
+                          updateGodownDDL
+                        );
+                      }
+
                       // fetch ghat ddl when badc select
-                      // if (valueOption?.label === "BADC") {
-                      //   fetchGhatDDL(accountId, buUnId, getGhatDDL);
-                      // }
+                      if (valueOption?.label === "BADC(MOP)") {
+                        fetchGhatDDL(accountId, buUnId, getGhatDDL);
+                      }
                     }}
                     errors={errors}
                     touched={touched}
@@ -627,8 +661,14 @@ export default function TenderSubmissionCreateEditForm() {
               </div>
 
               <div className="form-group  global-form row">
-                {commonFormField(values, setFieldValue, errors, touched)}
 
+                {/* Common for BCIC, BADC & BADC(MOP) */}
+                {commonFormField(values, setFieldValue)}
+
+                {/* Common for BCIC, BADC */}
+                {(values?.businessPartner?.label === "BCIC" || values?.businessPartner?.label === "BADC") && commonBCICBADCFormField(values, setFieldValue, errors, touched)}
+
+                {/* Form Field for BCIC Foreign Part */}
                 {values?.businessPartner?.label === "BCIC" &&
                   bcicFormFieldForeignPart(
                     values,
@@ -637,19 +677,34 @@ export default function TenderSubmissionCreateEditForm() {
                     touched
                   )}
 
+                {/* Form Field for BADC */}
                 {values?.businessPartner?.label === "BADC" &&
                   badcFormField(values, setFieldValue, errors, touched)}
 
+                {/* Form Field for BADC (MOP) */}
+                {values?.businessPartner?.label === "BADC(MOP)" && badcMopFormField(values, setFieldValue, errors, touched)}
+
+                {/* Form Field for BCIC Edit */}
                 {tenderId && values?.businessPartner?.label === 'BCIC' && bcicEditFormField(values, setFieldValue)}
 
+                {/* Form Field for BADC Edit */}
                 {tenderId && values?.businessPartner?.label === 'BADC' && badcEditFormField(values, setFieldValue)}
 
+                {/* Common Form Field for BCIC, BADC, BADC(MOP) Edit */}
                 {tenderId && commonEditFormField(values, setFieldValue)}
 
               </div>
 
+              {/* Form Field for BCIC Local Part */}
               {values?.businessPartner?.label === "BCIC" &&
                 bcicFormFieldLocalPart(values, setFieldValue, errors, touched)}
+
+              {/* Excel Sheet Table for BADC */}
+              {values?.businessPartner?.label === 'BADC(MOP)' && <div className="form-group  global-form row mt-2">
+                <div className="col-lg-12">
+                  <BADCExcelSheet ghatDDL={ghatDDL} values={values} />
+                </div>
+              </div>}
 
               <button
                 type="submit"
