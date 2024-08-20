@@ -627,6 +627,10 @@ export const fetchGhatDDL = (accountId, buUnId, getGhatDDLFunc) => {
     );
 };
 
+
+// ! Excel sheet columns length
+export const TOTAL_COLUMNS_LENGTH = 20
+
 // create excel sheet for badc(mop) table rows
 export const createExcelSheet = (ghatDDL) => {
     const workbook = new ExcelJS.Workbook();
@@ -659,7 +663,7 @@ export const createExcelSheet = (ghatDDL) => {
 
     // First row color add
     const rows = worksheet.getRow(1);
-    for (let i = 0; i < 19; i++) {
+    for (let i = 0; i < TOTAL_COLUMNS_LENGTH; i++) {
         rows.getCell(i + 1).fill = {
             type: "pattern",
             pattern: "solid",
@@ -729,18 +733,128 @@ export const createExcelSheet = (ghatDDL) => {
     });
 }
 
+// remove 1st row & filter that array has element
+const removeEmptyRow = (excelData) => {
+    // const data =rows?.slice(1).filter(item => item?.[0])
+    // console.log(data)
+    // const data2 = res?.rows?.slice(1)
+    // console.log(data2)
+    return excelData?.rows?.slice(1).filter(item => item?.[0])
+}
+
+// format string > convert string to lower case & remove one or more space, tabs & trim from bothside 
+const formatString = (ghatname) => ghatname?.length > 0 && ghatname?.toLowerCase()
+    .replace(/\s+/g, " ")
+    .trim();
+
+// get ghat object from a ghat name
+const getCurrentGhatObj = (ghatDDL, ghatname) => {
+    const ghat = ghatDDL.find((item =>
+        formatString(item?.label) === formatString(ghatname)))
+    return ghat
+}
+
+// fill with undefined to empty cell
+const fillWithUndefindValueToEmptyCell = (data) => data?.map((item, index) => {
+    const updateData = []
+    for (let i = 0; i < TOTAL_COLUMNS_LENGTH; i++) {
+        updateData.push(item[i])
+    }
+    return updateData
+})
+
+// Modify array item to object from filledUndefinedValueToEmptyCellaData arr
+const modifyFilledData = (filledArr, ghatDDL) =>
+    filledArr?.map((item, index) => {
+        const ghatName = item[0]
+
+        return {
+            conFigId: 0,
+            mopInvoiceId: '',
+            ghatId: getCurrentGhatObj(ghatDDL, ghatName)?.value, // reuturn ghat id/value with ghat name from ghat ddl 
+            ghatName: ghatName,
+            distance: item[1], // distance index
+            rangOto100: item[2], // rangOto100 index
+            rang101to200: item[3], // rang101to200 index
+            rang201to300: item[4], // rang201to300 index
+            rang301to400: item[5], // rang301to400 index
+            rang401to500: item[6], // rang401to500 index
+            totalRate: item[7], // totalRate index
+            taxVat: item[8], // taxVat index
+            invoiceCost: item[9], // invoiceCost index
+            labourBill: item[10], // labourBill index
+            transPortCost: item[11], // transPortCost index
+            additionalCost: item[12], // additionalCost index
+            totalCost: item[13], // totalCost index
+            totalRecive: item[14], // totalRecive index
+            quantity: item[15], // quantity index
+            billAmount: item[16], // billAmount index
+            costAmount: item[17], // costAmount index
+            profitAmount: item[18], // profitAmount index
+            isActive: true,
+            mopTenderId: 0,
+            actualQuantity: 0
+        }
+    })
+
+
+
 // excel sheet file upload handler 
-export const excelSheetUploadHandler = async (excelFile, formValues) => {
-    // excel data list
-    let excelDataList = []
+export const excelSheetUploadHandler = async (excelFile, formValues, ghatDDL) => {
+    // collection of update excel data list from array of array to array of object
+    let updateExcelDataList = []
 
     if (excelFile) {
         await ExcelRenderer(excelFile, (err, res) => {
             if (err) { toast.warning("An unexpected error occurred") }
             else {
-                console.log(res)
-            }
 
+                // ! excel file response
+                // {"rows": [["Ghat Name", "Distance","Rang0to100",],["",0, 0,]],
+                // "cols": [{"name": "A","key": 0},{"name": "B","key": 1},]}
+                // console.log(res)
+                // remove 1st row & filter that array has element
+                const data = removeEmptyRow(res)
+                // console.log(data) 
+
+                // fill with undefined to empty cell
+                const filledUndefinedValueToEmptyCellaData = fillWithUndefindValueToEmptyCell(data)
+                // console.log(filledUndefinedValueToEmptyCellaData)
+
+                // Modify array item to object from filledUndefinedValueToEmptyCellaData arr
+                const modifiedData = modifyFilledData(filledUndefinedValueToEmptyCellaData, ghatDDL)
+
+                // asign modifiedData to updateExcelDataList
+                console.log(modifiedData)
+                updateExcelDataList = modifiedData
+            }
         })
     }
+
+    return updateExcelDataList
 }
+
+// mop tender data table header
+export const mopTenderDataTableHeader = [
+    'Ghat Name',
+    'Distance',
+    'RangOto100',
+    'Rang101to200',
+    'Rang201to300',
+    'Rang301to400',
+    'Rang401to500',
+    'TotalRate',
+    'TaxVat',
+    'InvoiceCost',
+    'LabourBill',
+    'TransPortCost',
+    'AdditionalCost',
+    'TotalCost',
+    'TotalRecive',
+    'Quantity',
+    'BillAmount',
+    'CostAmount',
+    'ProfitAmount',
+
+
+]
