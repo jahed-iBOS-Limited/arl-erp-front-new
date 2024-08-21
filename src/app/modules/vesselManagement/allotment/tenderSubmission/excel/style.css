@@ -1,0 +1,9 @@
+.mop-table-td-right thead tr th:first-child {
+  min-width: 200px;
+}
+.mop-table-td-right tbody tr > td:first-child {
+  text-align: left;
+}
+.mop-table-td-right tbody tr > td {
+  text-align: right;
+}
