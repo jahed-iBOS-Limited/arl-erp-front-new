@@ -46,14 +46,14 @@ const ServiceChargeAndIncomeElementForm = () => {
   useEffect(() => {
     GetShipPointDDL(accId, buId, setShipPointDDL);
     getCosts(
-      `/costmgmt/CostElement/GetG2GServiceElement?typeId=1`,
+      `/costmgmt/CostElement/GetG2GServiceElement?typeId=1&unitid=${buId}`,
       (resData) => {
         const modify = dataModify(resData);
         setCosts(modify);
       }
     );
     getRevenues(
-      `/costmgmt/CostElement/GetG2GServiceElement?typeId=2`,
+      `/costmgmt/CostElement/GetG2GServiceElement?typeId=2&unitid=${buId}`,
       (resData) => {
         const modify = dataModify(resData);
         setRevenues(modify);
