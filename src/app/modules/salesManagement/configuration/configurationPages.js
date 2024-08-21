@@ -35,6 +35,8 @@ import { TransportRoute } from "./transportRoute";
 import TransportRouteForm from "./transportRoute/Form/addEditForm";
 import { TransportZone } from "./transportZone.js";
 import TransportZoneForm from "./transportZone.js/Form/addEditForm";
+import ComplainAssignConfigCreateEdit from "../complainManagement/complaintAssignConfig/addEditForm.js";
+import ComplainAssignConfigLanding from "../complainManagement/complaintAssignConfig/index.js";
 
 export function SalesConfigurationPages() {
   const userRole = useSelector(
@@ -320,6 +322,18 @@ export function SalesConfigurationPages() {
       <ContentRoute
         from="/sales-management/configuration/EmployeeIncentiveConfig"
         component={EmployeeIncentiveLanding}
+      />
+      <ContentRoute
+        from="/sales-management/configuration/complaintassignconfig/create"
+        component={ComplainAssignConfigCreateEdit}
+      />
+      <ContentRoute
+        from="/sales-management/configuration/complaintassignconfig/edit/:id"
+        component={ComplainAssignConfigCreateEdit}
+      />
+      <ContentRoute
+        from="/sales-management/configuration/complaintassignconfig"
+        component={ComplainAssignConfigLanding}
       />
     </Switch>
   );
