@@ -20,6 +20,7 @@ import { setCustomerSalesLandingAction } from "./../../../_helper/reduxForLocalS
 import { getMonth } from "./utils";
 import Loading from "../../../_helper/_loading";
 import { _dateFormatter } from "./../../../_helper/_dateFormate";
+import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 
 // Validation schema
 const validationSchema = Yup.object().shape({
@@ -36,15 +37,15 @@ const CustomerSalesTarget = () => {
   const history = useHistory();
   const [rowDto, setRowDto] = useState([]);
   const dispatch = useDispatch();
+  const [, postData, isLoading] = useAxiosPost();
 
   // get user profile data from store
-  const profileData = useSelector((state) => {
-    return state.authData.profileData;
-  }, shallowEqual);
-
-  // get selected business unit from store
-  const selectedBusinessUnit = useSelector((state) => {
-    return state.authData.selectedBusinessUnit;
+  const {
+    profileData,
+    selectedBusinessUnit,
+    tokenData: { token },
+  } = useSelector((state) => {
+    return state.authData;
   }, shallowEqual);
 
   useEffect(() => {
@@ -87,6 +88,25 @@ const CustomerSalesTarget = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileData, selectedBusinessUnit, customerSalesLanding]);
 
+  const targetEntry = (values) => {
+    const id = values?.targetEntryFromGoogleSheet?.value;
+    const url =
+      id === 1
+        ? `https://automation.ibos.io/APFIL_Distributor_Target`
+        : id === 2
+        ? `https://automation.ibos.io/ael_distributor_target`
+        : "";
+
+    postData(
+      url,
+      {
+        bearer_token: token,
+      },
+      () => {},
+      true
+    );
+  };
+
   return (
     <ICustomCard title="Customer Sales Target">
       {/* {loading && <Loading />} */}
@@ -108,7 +128,7 @@ const CustomerSalesTarget = () => {
           isValid,
         }) => (
           <>
-            {loading && <Loading />}
+            {(loading || isLoading) && <Loading />}
             <Form className="form form-label-right">
               <div className="row mt-2">
                 <div className="col-lg-12">
@@ -139,6 +159,40 @@ const CustomerSalesTarget = () => {
                           touched={touched}
                         />
                       </div>
+                      <div className="col-lg-3">
+                        <NewSelect
+                          name="targetEntryFromGoogleSheet"
+                          options={[
+                            { value: 1, label: "Partner Based" },
+                            { value: 2, label: "Distributor Based" },
+                          ]}
+                          value={values?.targetEntryFromGoogleSheet}
+                          label="Target Entry From Google Sheet"
+                          onChange={(valueOption) => {
+                            setRowDto([]);
+                            setFieldValue(
+                              "targetEntryFromGoogleSheet",
+                              valueOption
+                            );
+                          }}
+                          placeholder="Target Entry From Google Sheet"
+                          errors={errors}
+                          touched={touched}
+                        />
+                      </div>
+                      {values?.targetEntryFromGoogleSheet && (
+                        <div className="col-lg-3">
+                          <button
+                            className="btn btn-info mt-5"
+                            type="button"
+                            onClick={() => {
+                              targetEntry(values);
+                            }}
+                          >
+                            Insert Target
+                          </button>
+                        </div>
+                      )}
                       {selectedBusinessUnit?.value !== 4 && (
                         <div className="col-lg-3">
                           <NewSelect
@@ -156,6 +210,7 @@ const CustomerSalesTarget = () => {
                           />
                         </div>
                       )}
+                      <div className="col-lg-12"></div>
                       <div className="col-lg-4 d-flex">
                         <button
                           type="button"
