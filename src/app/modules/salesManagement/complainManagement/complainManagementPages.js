@@ -12,43 +12,43 @@ export function ComplainManagementPages() {
     <Switch>
       <Redirect
         exact={true}
-        from='/sales-management/complainmanagement'
-        to='/sales-management/complainmanagement/complain'
+        from="/sales-management/complainmanagement"
+        to="/sales-management/complainmanagement/complain"
       />
       <ContentRoute
-        from='/sales-management/complainmanagement/complain/entry'
+        from="/sales-management/complainmanagement/complain/entry"
         component={ComplainForm}
       />
       <ContentRoute
-        from='/sales-management/complainmanagement/complain/edit/:edit'
+        from="/sales-management/complainmanagement/complain/edit/:edit"
         component={ComplainForm}
       />
       <ContentRoute
-        from='/sales-management/complainmanagement/complain/view/:view'
+        from="/sales-management/complainmanagement/complain/view/:view"
         component={ComplainForm}
       />
       <ContentRoute
-        from='/sales-management/complainmanagement/complain'
+        from="/sales-management/complainmanagement/complain"
         component={ComplainLanding}
       />{" "}
       <ContentRoute
-        from='/sales-management/complainmanagement/Delegate'
+        from="/sales-management/complainmanagement/Delegate"
         component={ResolutionLanding}
       />
       <ContentRoute
-        from='/sales-management/complainmanagement/investigate'
+        from="/sales-management/complainmanagement/investigate"
         component={ResolutionLanding}
       />
       <ContentRoute
-        from='/sales-management/complainmanagement/complaintassignconfig/create'
+        from="/sales-management/complainmanagement/complaintassignconfig/create"
         component={ComplainAssignConfigCreateEdit}
       />
       <ContentRoute
-        from='/sales-management/complainmanagement/complaintassignconfig/edit/:id'
+        from="/sales-management/complainmanagement/complaintassignconfig/edit/:id"
         component={ComplainAssignConfigCreateEdit}
       />
       <ContentRoute
-        from='/sales-management/complainmanagement/complaintassignconfig'
+        from="/sales-management/complainmanagement/complaintassignconfig"
         component={ComplainAssignConfigLanding}
       />
     </Switch>
