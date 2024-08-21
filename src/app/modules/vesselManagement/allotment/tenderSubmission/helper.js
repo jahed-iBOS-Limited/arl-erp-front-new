@@ -332,6 +332,19 @@ export const fetchTenderDetailsCallbackForPrintAndCreateEditPage = (
   });
 };
 
+// Select Edit Id
+export const selectEditId = (item) => {
+  switch (item?.businessPartnerName) {
+    case "BCIC":
+    case "BADC":
+      return item?.tenderId;
+    case "BADC(MOP)":
+      return item?.mopTenderId;
+    default:
+      return "";
+  }
+};
+
 // State function when update data
 //export const updateState = ({ header, rows, }, ...rest) => {
 export const updateState = (tenderDetails) => {
