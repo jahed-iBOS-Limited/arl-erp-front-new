@@ -37,7 +37,7 @@ export function TableRow({
   isWorkable,
 }) {
   const {
-    profileData: { accountId: accId, userId },
+    profileData: { userId },
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
   const history = useHistory();
@@ -110,7 +110,7 @@ export function TableRow({
   return (
     <>
       {/* Table Start */}
-      {loading && <Loading />}
+      {(loading || IsLoading) && <Loading />}
       <div className="row global-table">
         <div className="col-lg-12 pr-0 pl-0">
           <div className="d-flex justify-content-between">
@@ -338,43 +338,45 @@ export function TableRow({
                               </OverlayTrigger>
                             </span>
                           )}
-                          {!td?.isPaperDOPrinted && (<span
-                            style={{
-                              display: "flex",
-                              justifyContent: "center",
-                              alignItems: "center",
-                              gap: "5px",
-                            }}
-                          >
-                            <ICon
-                              title="Print"
-                              onClick={() => {
-                                const payload = [td?.deliveryId];
-                                getPrintData(
-                                  `/oms/OManagementReport/GetMultiplePaperDOPrintCopy?UserId=${userId}&BusinessUnitId=${buId}`,
-                                  payload,
-                                  () => {
-                                    setShow(true);
-                                  },
-                                  true
-                                );
+                          {!td?.isPaperDOPrinted && (
+                            <span
+                              style={{
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                gap: "5px",
                               }}
                             >
-                              <i class="fas fa-print"></i>
-                            </ICon>
-                            <input
-                              type="checkbox"
-                              value={td?.isSelectedPrint}
-                              checked={td?.isSelectedPrint}
-                              onChange={() => {
-                                rowDataHandler(
-                                  "isSelectedPrint",
-                                  index,
-                                  !td.isSelectedPrint
-                                );
-                              }}
-                            />
-                          </span>)}
+                              <ICon
+                                title="Print"
+                                onClick={() => {
+                                  const payload = [td?.deliveryId];
+                                  getPrintData(
+                                    `/oms/OManagementReport/GetMultiplePaperDOPrintCopy?UserId=${userId}&BusinessUnitId=${buId}`,
+                                    payload,
+                                    () => {
+                                      setShow(true);
+                                    },
+                                    true
+                                  );
+                                }}
+                              >
+                                <i class="fas fa-print"></i>
+                              </ICon>
+                              <input
+                                type="checkbox"
+                                value={td?.isSelectedPrint}
+                                checked={td?.isSelectedPrint}
+                                onChange={() => {
+                                  rowDataHandler(
+                                    "isSelectedPrint",
+                                    index,
+                                    !td.isSelectedPrint
+                                  );
+                                }}
+                              />
+                            </span>
+                          )}
                         </div>
                       </td>
                     </tr>
