@@ -327,9 +327,6 @@ export const fetchTenderDetailsCallbackForPrintAndCreateEditPage = (
   if (values?.businessPartner?.label === "BADC") {
     url = `/tms/TenderSubmission/GetBIDCTenderSubmissionById?AccountId=${accountId}&BusinessunitId=${buUnId}&TenderId=${tenderId}`;
   }
-  //   if (values?.businessPartner?.label === "BADC(MOP)") {
-  //     url = `/tms/TenderSubmission/GetByBADCMOPConfiguration?AccountId=${accountId}&BusinessUnitId=${buUnId}&MopTenderId=${tenderId}`;
-  //   }
   getTenderDetailsFunc(url, () => {
     callback && callback();
   });
