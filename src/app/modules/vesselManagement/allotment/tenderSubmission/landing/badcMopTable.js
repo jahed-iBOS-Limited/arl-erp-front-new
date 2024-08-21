@@ -5,15 +5,11 @@ import { useHistory } from "react-router-dom";
 import IEdit from "../../../../_helper/_helperIcons/_edit";
 import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
 import ICon from "../../../../chartering/_chartinghelper/icons/_icon";
-import {
-  fetchTenderDetailsCallbackForPrintAndCreateEditPage,
-  selectEditId,
-} from "../helper";
+import { fetchBADCMOPRowsDataForPrintPage, selectEditId } from "../helper";
 
 const BADCMOPTable = ({
   accountId,
   buUnId,
-  values,
   submittedTenderLists,
   handleTenderPrint,
   getTenderDetails,
@@ -80,18 +76,12 @@ const BADCMOPTable = ({
                       </span>
                     )}
                     <span
-                      // 1st approch
-                      // onClick={() => {
-                      //     fetchTenderDetails(item?.tenderId)
-                      //     handleTenderPrint()
-                      // }}
                       // 2nd approch
                       onClick={() => {
-                        fetchTenderDetailsCallbackForPrintAndCreateEditPage(
+                        fetchBADCMOPRowsDataForPrintPage(
                           accountId,
                           buUnId,
-                          values,
-                          item?.tenderId,
+                          item?.mopTenderId,
                           getTenderDetails,
                           handleTenderPrint
                         );

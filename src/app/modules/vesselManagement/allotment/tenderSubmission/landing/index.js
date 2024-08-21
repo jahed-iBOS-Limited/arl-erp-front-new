@@ -18,6 +18,7 @@ import {
   fetchSubmittedTenderData,
   landingPageValidationSchema,
 } from "../helper";
+import PrintBADCMOPTender from "../print/printBADCMOPTender";
 import PrintBADCTender from "../print/printBADCTender";
 import PrintBCICTender from "../print/printBCICTender";
 import "../print/style.css";
@@ -208,7 +209,6 @@ export default function TenderSubmissionLanding() {
                 <BADCMOPTable
                   accountId={accountId}
                   buUnId={buUnId}
-                  values={values}
                   submittedTenderLists={submittedTenderLists}
                   handleTenderPrint={handleTenderPrint}
                   getTenderDetails={getTenderDetails}
@@ -255,8 +255,10 @@ export default function TenderSubmissionLanding() {
                     <div style={{ margin: "40px 75px 0 75px" }}>
                       {values?.businessPartner?.label === "BCIC" ? (
                         <PrintBCICTender tenderDetails={tenderDetails} />
-                      ) : (
+                      ) : values?.businessPartner?.label === "BADC" ? (
                         <PrintBADCTender tenderDetails={tenderDetails} />
+                      ) : (
+                        <PrintBADCMOPTender tenderDetails={tenderDetails} />
                       )}
                     </div>
                   </tbody>
