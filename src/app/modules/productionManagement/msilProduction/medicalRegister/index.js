@@ -156,6 +156,7 @@ function MedicalRegisterLanding() {
                             <th>Designation</th>
                             <th>Department</th>
                             <th>Section</th>
+                            <th>Reason</th>
                             <th>Shift</th>
                             <th>Doctor</th>
                             <th style={{ width: "80px" }}>Action</th>
@@ -175,6 +176,7 @@ function MedicalRegisterLanding() {
                                 <td>{item?.strDesignationName}</td>
                                 <td>{item?.strDepartment}</td>
                                 <td>{item?.strSectionName}</td>
+                                <td>{item?.strServiceReason}</td>
                                 <td>{item?.strShiftName}</td>
                                 <td>{item?.strDoctorName}</td>
                                 <td className="text-center">
