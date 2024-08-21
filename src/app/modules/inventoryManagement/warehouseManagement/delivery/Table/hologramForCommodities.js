@@ -35,12 +35,17 @@ const HologramPrintForAkijCommodities = ({ printDataList }) => {
             rowList,
             shippingPoint,
             // contactPerson,
-            phoneNumber,
+            // phoneNumber,
             soldToPartnerCode,
+            shipToPartnerName,
+            shipToPartnerContact,
+            shipToPartnerAddress,
+            shipToPartnerPropitorName,
+            deliveryCode,
+            soldToPartnerAddress,
           } = printData;
 
-          let totalQty = 0,
-            totalQtyInBag = 0;
+          let totalQty = 0;
           return (
             <div className="page-break CommoditiesHologram_wrapper">
               <div
@@ -67,17 +72,19 @@ const HologramPrintForAkijCommodities = ({ printDataList }) => {
 
                   <div
                     style={{
-                      width: "274px",
+                      width: "280px",
                       paddingRight: "30px",
                       paddingTop: "30px",
                       position: "absolute",
-                      right: "-33px",
+                      right: "-10px",
                       top: "15px",
                     }}
                   >
-                    {salesOrderCode !== "" ? (
+                    {deliveryCode !== "" ? (
+                      // {salesOrderCode !== "" ? (
                       <Barcode
-                        value={salesOrderCode ? salesOrderCode : ""}
+                        value={deliveryCode ? deliveryCode : ""}
+                        // value={salesOrderCode ? salesOrderCode : ""}
                         lineColor="black"
                         displayValue={false}
                         height={50}
@@ -97,7 +104,7 @@ const HologramPrintForAkijCommodities = ({ printDataList }) => {
                       borderRadius: "5px",
                     }}
                   >
-                    SUPPLY ORDER
+                    DELIVERY ORDER
                   </h3>
                 </div>
               </div>
@@ -107,21 +114,32 @@ const HologramPrintForAkijCommodities = ({ printDataList }) => {
                     <table className="table delivery_challan_top_table mt-8">
                       <tbody>
                         <tr>
+                          <td>SO Code</td>
+                          <td>:</td>
+                          <td>
+                            <b>{salesOrderCode}</b>
+                          </td>
                           <td>Customer Code</td>
                           <td>:</td>
                           <td>
                             <b>{soldToPartnerCode}</b>
+                          </td>
+                        </tr>
+                        <tr>
+                          {" "}
+                          <td>Sold To Partner</td>
+                          <td>:</td>
+                          <td>
+                            <b>{soldToPartnerName}</b>
                           </td>
                           <td style={{ width: "120px" }}>Delivery From</td>
                           <td>:</td>
                           <td>{shippingPoint}</td>
                         </tr>
                         <tr>
-                          <td>Sold To Partner</td>
+                          <td>Sold to Partner Address</td>
                           <td>:</td>
-                          <td>
-                            <b>{soldToPartnerName}</b>
-                          </td>
+                          <td>{soldToPartnerAddress}</td>
                           <td style={{ width: "120px" }}>ShipPoint</td>
                           <td>:</td>
                           <td>{shippingPoint}</td>
@@ -129,18 +147,18 @@ const HologramPrintForAkijCommodities = ({ printDataList }) => {
                         <tr>
                           <td>Ship To Partner</td>
                           <td>:</td>
-                          <td>{rowList?.[0]?.shiptoPartnerName}</td>{" "}
+                          <td>{shipToPartnerName}</td>
                           <td>Contact Person</td>
                           <td>:</td>
-                          <td>{rowList?.[0]?.shiptoPartnerName}</td>
+                          <td>{shipToPartnerPropitorName}</td>
                         </tr>
                         <tr>
-                          <td>Address</td>
+                          <td>Ship to Partner Address</td>
                           <td>:</td>
-                          <td>{rowList?.[0]?.shiptoPartnerAddress}</td>{" "}
+                          <td>{shipToPartnerAddress}</td>
                           <td>Contact No</td>
                           <td>:</td>
-                          <td>{phoneNumber}</td>
+                          <td>{shipToPartnerContact}</td>
                         </tr>
                       </tbody>
                     </table>
@@ -155,13 +173,12 @@ const HologramPrintForAkijCommodities = ({ printDataList }) => {
                             <th>Product Description</th>
                             <th>UoM</th>
                             <th>Quantity</th>
-                            <th>Weight (M.ton)</th>
+                            {/* <th>Weight (M.ton)</th> */}
                           </tr>
                         </thead>
                         <tbody>
                           {rowList?.map((item, index) => {
-                            totalQty += item?.orderQuantity;
-                            totalQtyInBag += item?.orderQuantityBag;
+                            totalQty += item?.deliveryQuantity;
                             return (
                               <tr>
                                 <td className="text-center">{index + 1}</td>
@@ -170,11 +187,11 @@ const HologramPrintForAkijCommodities = ({ printDataList }) => {
                                 </td>
                                 <td>{item?.uomName}</td>
                                 <td className="text-center">
-                                  {_fixedPoint(item?.orderQuantityBag, true)}
+                                  {_fixedPoint(item?.deliveryQuantity, true)}
                                 </td>
-                                <td className="text-center">
+                                {/* <td className="text-center">
                                   {_fixedPoint(item?.orderQuantity, true)}
-                                </td>
+                                </td> */}
                               </tr>
                             );
                           })}
@@ -183,11 +200,11 @@ const HologramPrintForAkijCommodities = ({ printDataList }) => {
                               Total
                             </td>
                             <td className="text-center">
-                              {_fixedPoint(totalQtyInBag, true)}
-                            </td>
-                            <td className="text-center">
                               {_fixedPoint(totalQty, true)}
                             </td>
+                            {/* <td className="text-center">
+                              {_fixedPoint(totalQty, true)}
+                            </td> */}
                           </tr>
                         </tbody>
                       </table>
