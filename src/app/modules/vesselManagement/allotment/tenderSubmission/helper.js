@@ -327,6 +327,24 @@ export const fetchTenderDetailsCallbackForPrintAndCreateEditPage = (
   if (values?.businessPartner?.label === "BADC") {
     url = `/tms/TenderSubmission/GetBIDCTenderSubmissionById?AccountId=${accountId}&BusinessunitId=${buUnId}&TenderId=${tenderId}`;
   }
+  //   if (values?.businessPartner?.label === "BADC(MOP)") {
+  //     url = `/tms/TenderSubmission/GetByBADCMOPConfiguration?AccountId=${accountId}&BusinessUnitId=${buUnId}&MopTenderId=${tenderId}`;
+  //   }
+  getTenderDetailsFunc(url, () => {
+    callback && callback();
+  });
+};
+
+// callback approch for rows data fetch badc mop for print page
+export const fetchBADCMOPRowsDataForPrintPage = (
+  accountId,
+  buUnId,
+  mopTenderId,
+  getTenderDetailsFunc,
+  callback
+) => {
+  const url = `/tms/TenderSubmission/GetByBADCMOPConfiguration?AccountId=${accountId}&BusinessUnitId=${buUnId}&MopTenderId=${mopTenderId}`;
+
   getTenderDetailsFunc(url, () => {
     callback && callback();
   });
@@ -349,6 +367,7 @@ export const selectEditId = (item) => {
 //export const updateState = ({ header, rows, }, ...rest) => {
 export const updateState = (tenderDetails) => {
   const isBCIC = tenderDetails?.header || tenderDetails?.rows;
+  //   const isBADCMOP=
   if (isBCIC) {
     const { header, rows } = tenderDetails;
 
