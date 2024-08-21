@@ -9,22 +9,22 @@ import NewSelect from "../../../../_helper/_select";
 import AttachmentUploaderNew from "../../../../_helper/attachmentUploaderNew";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import BADCExcelSheet from "../excel/badcExcelSheet";
 import {
   businessPartnerDDL,
+  createPageValidationSchema,
   ErrorMessage,
+  fetchGhatDDL,
+  fetchGodownDDLList,
   fetchMotherVesselLists,
   fetchTenderDetailsCallbackForPrintAndCreateEditPage,
   getDischargePortDDL,
-  fetchGodownDDLList,
   GetLoadPortDDL,
   initData,
   selectPayload,
   selectUrl,
   updateState,
-  createPageValidationSchema,
-  fetchGhatDDL,
 } from "../helper";
-import BADCExcelSheet from "../excel/badcExcelSheet";
 
 export default function TenderSubmissionCreateEditForm() {
   const {
@@ -47,9 +47,17 @@ export default function TenderSubmissionCreateEditForm() {
     getGodownDDLLoading,
     updateGodownDDL,
   ] = useAxiosGet();
-  const [tenderDetails, getTenderDetails, getTenderDetailsDDLLoading] = useAxiosGet();
+  const [
+    tenderDetails,
+    getTenderDetails,
+    getTenderDetailsDDLLoading,
+  ] = useAxiosGet();
   const [ghatDDL, getGhatDDL, getGhatDDLLoading] = useAxiosGet();
-  const [motherVesselDDL, getMotherVesselDDL, getMotherVesselDDLLoading] = useAxiosGet()
+  const [
+    motherVesselDDL,
+    getMotherVesselDDL,
+    getMotherVesselDDLLoading,
+  ] = useAxiosGet();
 
   // Data post/save axios post
   const [, submitTender, submitTenderLoading] = useAxiosPost();
@@ -69,22 +77,29 @@ export default function TenderSubmissionCreateEditForm() {
         getTenderDetails
       );
 
-      // fetch godown list for bcic
-      fetchGodownDDLList(
-        { value: landingPageState?.businessPartnerId },
-        accountId,
-        buUnId,
-        getGodownDDL,
-        updateGodownDDL
-      );
+      if (landingPageState?.businessPartnerName === "BCIC") {
+        // fetch godown list for bcic
+        fetchGodownDDLList(
+          { value: landingPageState?.businessPartnerId },
+          accountId,
+          buUnId,
+          getGodownDDL,
+          updateGodownDDL
+        );
+      }
 
       // ! remove ghat for requirement change
       // fetch ghat ddl for badc
       // fetchGhatDDL(accountId, buUnId, getGhatDDL);
 
       // fetch mother vessel for bcic
-      if (landingPageState?.businessPartnerName === 'BCIC') {
-        fetchMotherVesselLists(accountId, buUnId, landingPageState?.dischargePortId, getMotherVesselDDL)
+      if (landingPageState?.businessPartnerName === "BCIC") {
+        fetchMotherVesselLists(
+          accountId,
+          buUnId,
+          landingPageState?.dischargePortId,
+          getMotherVesselDDL
+        );
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -141,7 +156,7 @@ export default function TenderSubmissionCreateEditForm() {
         />
       </div>
     </>
-  )
+  );
 
   // ! Common for BCIC, BADC
   const commonBCICBADCFormField = (values, setFieldValue, errors, touched) => (
@@ -206,7 +221,12 @@ export default function TenderSubmissionCreateEditForm() {
           label="Discharge Port"
           onChange={(valueOption) => {
             setFieldValue("dischargePort", valueOption);
-            fetchMotherVesselLists(accountId, buUnId, valueOption?.value, getMotherVesselDDL)
+            fetchMotherVesselLists(
+              accountId,
+              buUnId,
+              valueOption?.value,
+              getMotherVesselDDL
+            );
           }}
           errors={errors}
           touched={touched}
@@ -483,21 +503,23 @@ export default function TenderSubmissionCreateEditForm() {
   );
 
   // ! Form Field for BADC (MOP)
-  const badcMopFormField = (values, setFieldValue, errors, touched) => (<>
-    <div className="col-lg-3">
-      <NewSelect
-        name="dischargePortMOP"
-        options={dischargeDDL}
-        value={values?.dischargePortMOP}
-        label="Discharge Port"
-        onChange={(valueOption) => {
-          setFieldValue("dischargePortMOP", valueOption);
-        }}
-        errors={errors}
-        touched={touched}
-      />
-    </div>
-  </>)
+  const badcMopFormField = (values, setFieldValue, errors, touched) => (
+    <>
+      <div className="col-lg-3">
+        <NewSelect
+          name="dischargePortMOP"
+          options={dischargeDDL}
+          value={values?.dischargePortMOP}
+          label="Discharge Port"
+          onChange={(valueOption) => {
+            setFieldValue("dischargePortMOP", valueOption);
+          }}
+          errors={errors}
+          touched={touched}
+        />
+      </div>
+    </>
+  );
 
   // ! Form Field for BCIC Edit
   const bcicEditFormField = (values, setFieldValue) => (
@@ -515,7 +537,7 @@ export default function TenderSubmissionCreateEditForm() {
         />
       </div>
     </>
-  )
+  );
 
   // ! Common Form Field for BCIC, BADC, BADC(MOP) Edit
   const commonEditFormField = (values, setFieldValue) => (
@@ -550,7 +572,8 @@ export default function TenderSubmissionCreateEditForm() {
           fileUploadLimits={1}
         />
       </div>
-      {(tenderDetails?.header?.isAccept !== true || tenderDetails?.isAccept !== true) && (
+      {(tenderDetails?.header?.isAccept !== true ||
+        tenderDetails?.isAccept !== true) && (
         <div className="col-lg-1 mt-5 d-flex align-items-center">
           <input
             type="checkbox"
@@ -600,7 +623,7 @@ export default function TenderSubmissionCreateEditForm() {
         }}
       />
     </div>
-  )
+  );
 
   return (
     <Formik
@@ -623,9 +646,13 @@ export default function TenderSubmissionCreateEditForm() {
       }) => (
         <>
           {(getGodownDDLLoading ||
-            submitTenderLoading || getMotherVesselDDLLoading || getTenderDetailsDDLLoading || getGhatDDLLoading) && <Loading />}
+            submitTenderLoading ||
+            getMotherVesselDDLLoading ||
+            getTenderDetailsDDLLoading ||
+            getGhatDDLLoading) && <Loading />}
           <IForm title="Tender Submission Create" getProps={setObjprops}>
             <Form>
+              {JSON.stringify(values, null, 2)}
               <div className="form-group  global-form row">
                 <div className="col-lg-3">
                   <NewSelect
@@ -637,7 +664,7 @@ export default function TenderSubmissionCreateEditForm() {
                       setFieldValue("businessPartner", valueOption);
                       // {"value": 89497, "label": "BCIC"}
                       // fetch when initial bcic select in create page
-                      if (valueOption?.label === 'BCIC') {
+                      if (valueOption?.label === "BCIC") {
                         fetchGodownDDLList(
                           valueOption,
                           accountId,
@@ -659,12 +686,18 @@ export default function TenderSubmissionCreateEditForm() {
               </div>
 
               <div className="form-group  global-form row">
-
                 {/* Common for BCIC, BADC & BADC(MOP) */}
                 {commonFormField(values, setFieldValue)}
 
                 {/* Common for BCIC, BADC */}
-                {(values?.businessPartner?.label === "BCIC" || values?.businessPartner?.label === "BADC") && commonBCICBADCFormField(values, setFieldValue, errors, touched)}
+                {(values?.businessPartner?.label === "BCIC" ||
+                  values?.businessPartner?.label === "BADC") &&
+                  commonBCICBADCFormField(
+                    values,
+                    setFieldValue,
+                    errors,
+                    touched
+                  )}
 
                 {/* Form Field for BCIC Foreign Part */}
                 {values?.businessPartner?.label === "BCIC" &&
@@ -680,17 +713,21 @@ export default function TenderSubmissionCreateEditForm() {
                   badcFormField(values, setFieldValue, errors, touched)}
 
                 {/* Form Field for BADC (MOP) */}
-                {values?.businessPartner?.label === "BADC(MOP)" && badcMopFormField(values, setFieldValue, errors, touched)}
+                {values?.businessPartner?.label === "BADC(MOP)" &&
+                  badcMopFormField(values, setFieldValue, errors, touched)}
 
                 {/* Form Field for BCIC Edit */}
-                {tenderId && values?.businessPartner?.label === 'BCIC' && bcicEditFormField(values, setFieldValue)}
+                {tenderId &&
+                  values?.businessPartner?.label === "BCIC" &&
+                  bcicEditFormField(values, setFieldValue)}
 
                 {/* Form Field for BADC Edit */}
-                {tenderId && values?.businessPartner?.label === 'BADC' && badcEditFormField(values, setFieldValue)}
+                {tenderId &&
+                  values?.businessPartner?.label === "BADC" &&
+                  badcEditFormField(values, setFieldValue)}
 
                 {/* Common Form Field for BCIC, BADC, BADC(MOP) Edit */}
                 {tenderId && commonEditFormField(values, setFieldValue)}
-
               </div>
 
               {/* Form Field for BCIC Local Part */}
@@ -698,15 +735,17 @@ export default function TenderSubmissionCreateEditForm() {
                 bcicFormFieldLocalPart(values, setFieldValue, errors, touched)}
 
               {/* Excel Sheet Table for BADC */}
-              {values?.businessPartner?.label === 'BADC(MOP)' && <div className="form-group  global-form row mt-2">
-                <div className="col-lg-12">
-                  <BADCExcelSheet
-                    ghatDDL={ghatDDL}
-                    values={values}
-                    setFieldValue={setFieldValue}
-                  />
+              {values?.businessPartner?.label === "BADC(MOP)" && (
+                <div className="form-group  global-form row mt-2">
+                  <div className="col-lg-12">
+                    <BADCExcelSheet
+                      ghatDDL={ghatDDL}
+                      values={values}
+                      setFieldValue={setFieldValue}
+                    />
+                  </div>
                 </div>
-              </div>}
+              )}
 
               <button
                 type="submit"
