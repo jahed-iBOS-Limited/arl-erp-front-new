@@ -5,22 +5,18 @@ import { _formatMoney } from "../../../../../_helper/_formatMoney";
 import moment from "moment";
 const marginBottom = "9px";
 
-const disbursementPurposeRender =(disbursementPurposeName) => {
- 
-if(disbursementPurposeName === "Duty") {
-
-  return "execute RTGS against the duty(s) enclosed";
-
-}
-if(disbursementPurposeName === "Bill Payment") {
-  return "execute BEFTN/ FT /RTGS against the local supplier(s) payment enclosed";
-}
-if(disbursementPurposeName === "Utility Payment") {
-  return "issue RTGS/ pay order(s) against the utility bill(s) enclosed";
-
-}
-return disbursementPurposeName;
-}
+const disbursementPurposeRender = (disbursementPurposeName) => {
+  if (disbursementPurposeName === "Duty") {
+    return "execute RTGS against the duty(s) enclosed";
+  }
+  if (disbursementPurposeName === "Bill Payment") {
+    return "execute BEFTN/ FT /RTGS against the local supplier(s) payment enclosed";
+  }
+  if (disbursementPurposeName === "Utility Payment") {
+    return "issue RTGS/ pay order(s) against the utility bill(s) enclosed";
+  }
+  return disbursementPurposeName;
+};
 
 const OthersPdf = ({ singleItem, selectedBusinessUnit }) => {
   const {
@@ -34,19 +30,19 @@ const OthersPdf = ({ singleItem, selectedBusinessUnit }) => {
     sanctionReference,
     bankBranchName,
     disbursementPurposeName,
-    fundLimitAmount
+    fundLimitAmount,
   } = singleItem || {};
   const { buShortName, label } = selectedBusinessUnit;
   const lacks = numPrinciple > 0 ? `${numPrinciple / 100000}L` : "0L";
 
   return (
-    <div style={{margin: "40px 71px 0px" }}>
+    <div style={{ margin: "40px 71px 0px" }}>
       <p style={{ marginBottom }} className="font-weight-bolder">
-        Ref{" "} :{" "}{buShortName}/{bankShortName}/STL/{lacks}/
+        Ref : {buShortName}/{bankShortName}/STL/{lacks}/
         {moment(dteStartDate).format("YYYY.MM.DD")}
       </p>
       <p style={{ marginBottom }} className="font-weight-bolder">
-        Date{" "} :{" "}{formatDate(dteStartDate)}
+        Date : {formatDate(dteStartDate)}
       </p>
       <p style={{ marginBottom }}>The Head of Branch</p>
       <p style={{ marginBottom }}>{strBankName}</p>
@@ -55,21 +51,25 @@ const OthersPdf = ({ singleItem, selectedBusinessUnit }) => {
       <p style={{ marginBottom }}>{bankBranchAddress}</p>
 
       <p style={{ marginBottom }} className="font-weight-bolder">
-        Subject : Request for disbursement of {facilityName} - BDT {' '}
+        Subject : Request for disbursement of {facilityName} - BDT{" "}
         {_formatMoney(numPrinciple)} for {label} A/C No: {strBankAccountNumber}.
       </p>
 
       <p style={{ marginBottom }}>Dear Sir,</p>
       <p style={{ marginBottom }}>As-salamu alaykum,</p>
       <p style={{ marginBottom }}>
-        With reference to your sanction letter no. {sanctionReference}, we would request you to please disburse BDT {_formatMoney(numPrinciple)} in our A/C {label} against {facilityName} A/C {strBankAccountNumber} limit of BDT {_formatMoney(fundLimitAmount)} & {disbursementPurposeRender(disbursementPurposeName)}.
-
+        With reference to your sanction letter no. {sanctionReference}, we would
+        request you to please disburse BDT {_formatMoney(numPrinciple)} in our
+        A/C {label} A/C No-{strBankAccountNumber} against {facilityName} limit
+        of BDT {_formatMoney(fundLimitAmount)} &{" "}
+        {disbursementPurposeRender(disbursementPurposeName)}.
       </p>
-      
+
       <p style={{ marginBottom }}>
         Please process this request and
         <span className="font-weight-bolder">
-         {" "} send the disbursed loan statement{" "}
+          {" "}
+          send the disbursed loan statement{" "}
         </span>
         Voucher to us at your earliest convenience.
       </p>
