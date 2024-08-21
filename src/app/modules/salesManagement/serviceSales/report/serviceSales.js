@@ -179,28 +179,32 @@ export default function ServiceSalesReport() {
                         touched={touched}
                       />
                     </div>
-                    <div className="col-lg-2">
-                      <InputField
-                        value={values?.fromDate}
-                        label="From Date"
-                        name="fromDate"
-                        type="date"
-                        onChange={(e) => {
-                          setFieldValue("fromDate", e.target.value);
-                        }}
-                      />
-                    </div>
-                    <div className="col-lg-2">
-                      <InputField
-                        value={values?.toDate}
-                        label="To Date"
-                        name="toDate"
-                        type="date"
-                        onChange={(e) => {
-                          setFieldValue("toDate", e.target.value);
-                        }}
-                      />
-                    </div>
+                    {[1].includes(values?.reportType?.value) && (
+                      <>
+                        <div className="col-lg-2">
+                          <InputField
+                            value={values?.fromDate}
+                            label="From Date"
+                            name="fromDate"
+                            type="date"
+                            onChange={(e) => {
+                              setFieldValue("fromDate", e.target.value);
+                            }}
+                          />
+                        </div>
+                        <div className="col-lg-2">
+                          <InputField
+                            value={values?.toDate}
+                            label="To Date"
+                            name="toDate"
+                            type="date"
+                            onChange={(e) => {
+                              setFieldValue("toDate", e.target.value);
+                            }}
+                          />
+                        </div>
+                      </>
+                    )}
                   </>
                   <div>
                     <button
@@ -327,7 +331,7 @@ export default function ServiceSalesReport() {
                     </table>
                   )}
 
-                  {values?.reportType?.value === 2 && (
+                  {/* {values?.reportType?.value === 2 && (
                     <table
                       id={tableIdType2}
                       className="table table-striped mt-2 table-bordered bj-table bj-table-landing"
@@ -406,6 +410,120 @@ export default function ServiceSalesReport() {
                           </td>
                           <td className="text-right">
                             {Math.round(totalsType2.amcPendingAmount)}
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  )} */}
+                  {values?.reportType?.value === 2 && (
+                    <table
+                      id={tableIdType2}
+                      className="table table-striped mt-2 table-bordered bj-table bj-table-landing"
+                    >
+                      <thead>
+                        <tr>
+                          <th>SL</th>
+                          <th>Customer Name</th>
+                          <th>One Time</th>
+                          <th>MMC</th>
+                          <th>OT Invoice</th>
+                          <th>OT Collection</th>
+                          <th>OT Pending</th>
+                          <th>MMC Invoice</th>
+                          <th>MMC Collection</th>
+                          <th>MMC Pending</th>
+                          <th>Total Invoice</th>
+                          <th>Total Collection</th>
+                          <th>Total Pending</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {rowData?.map((item, index) => (
+                          <tr key={index}>
+                            <td>{index + 1}</td>
+                            <td>{item?.strCustomerName}</td>
+                            <td className="text-right">
+                              {item?.licenceInvocieCount || "N/A"}
+                            </td>
+                            <td className="text-right">{"N/A"}</td>
+                            <td className="text-right">
+                              {item?.licenceTotalInvoiceAmount || "N/A"}
+                            </td>
+                            <td className="text-right">
+                              {item?.licenceTotalCollectionAmount || "N/A"}
+                            </td>
+                            <td className="text-right">
+                              {item?.licenceTotalPendingAmount || "N/A"}
+                            </td>
+                            <td className="text-right">
+                              {item?.amcInvoiceAmount || "N/A"}
+                            </td>
+                            <td className="text-right">
+                              {item?.amcCollectionAmount || "N/A"}
+                            </td>
+                            <td className="text-right">
+                              {item?.amcPendingAmount || "N/A"}
+                            </td>
+                            <td className="text-right">
+                              {(+item?.licenceTotalInvoiceAmount || 0) +
+                                (+item?.amcInvoiceAmount || 0)}
+                            </td>
+                            <td className="text-right">
+                              {(+item?.licenceTotalCollectionAmount || 0) +
+                                (+item?.amcCollectionAmount || 0)}
+                            </td>
+                            <td className="text-right">
+                              {(+item?.licenceTotalPendingAmount || 0) +
+                                (+item?.amcPendingAmount || 0)}
+                            </td>
+                          </tr>
+                        ))}
+                        <tr>
+                          <td colSpan="2" className="text-center">
+                            <strong>Total</strong>
+                          </td>
+                          <td className="text-right">
+                            {Math.round(totalsType2.licenceInvocieCount)}
+                          </td>
+                          <td></td>
+                          <td className="text-right">
+                            {Math.round(totalsType2.licenceTotalInvoiceAmount)}
+                          </td>
+                          <td className="text-right">
+                            {Math.round(
+                              totalsType2.licenceTotalCollectionAmount
+                            )}
+                          </td>
+                          <td className="text-right">
+                            {Math.round(totalsType2.licenceTotalPendingAmount)}
+                          </td>
+                          <td className="text-right">
+                            {Math.round(totalsType2.amcInvoiceAmount)}
+                          </td>
+                          <td className="text-right">
+                            {Math.round(totalsType2.amcCollectionAmount)}
+                          </td>
+                          <td className="text-right">
+                            {Math.round(totalsType2.amcPendingAmount)}
+                          </td>
+                          <td className="text-right">
+                            {(Math.round(
+                              totalsType2.licenceTotalInvoiceAmount
+                            ) || 0) +
+                              (Math.round(totalsType2.amcInvoiceAmount) || 0)}
+                          </td>
+                          <td className="text-right">
+                            {(Math.round(
+                              totalsType2.licenceTotalCollectionAmount
+                            ) || 0) +
+                              (Math.round(totalsType2.amcCollectionAmount) ||
+                                0)}
+                          </td>
+                          <td className="text-right">
+                            {(Math.round(
+                              totalsType2.licenceTotalPendingAmount
+                            ) || 0) +
+                              (Math.round(totalsType2.amcPendingAmount) || 0)}
                           </td>
                         </tr>
                       </tbody>
