@@ -5,6 +5,7 @@ import { useHistory } from "react-router-dom";
 import { useReactToPrint } from "react-to-print";
 import IForm from "../../../../_helper/_form";
 import Loading from "../../../../_helper/_loading";
+import { _monthFirstDate } from "../../../../_helper/_monthFirstDate";
 import NewSelect from "../../../../_helper/_select";
 import PaginationTable from "../../../../_helper/_tablePagination";
 import { _todayDate } from "../../../../_helper/_todayDate";
@@ -20,9 +21,9 @@ import {
 import PrintBADCTender from "../print/printBADCTender";
 import PrintBCICTender from "../print/printBCICTender";
 import "../print/style.css";
+import BADCMOPTable from "./badcMopTable";
 import BADCTendersTable from "./badcTable";
 import BCICTendersTable from "./bcicTable";
-import { _monthFirstDate } from "../../../../_helper/_monthFirstDate";
 
 // const initData = {};
 
@@ -177,7 +178,7 @@ export default function TenderSubmissionLanding() {
                     //   );
                     // }}
                     onSubmit={() => handleSubmit()}
-                  // disabled={!isValid || !dirty}
+                    // disabled={!isValid || !dirty}
                   >
                     View
                   </button>
@@ -194,8 +195,17 @@ export default function TenderSubmissionLanding() {
                   handleTenderPrint={handleTenderPrint}
                   getTenderDetails={getTenderDetails}
                 />
-              ) : (
+              ) : values?.businessPartner?.label === "BADC" ? (
                 <BADCTendersTable
+                  accountId={accountId}
+                  buUnId={buUnId}
+                  values={values}
+                  submittedTenderLists={submittedTenderLists}
+                  handleTenderPrint={handleTenderPrint}
+                  getTenderDetails={getTenderDetails}
+                />
+              ) : (
+                <BADCMOPTable
                   accountId={accountId}
                   buUnId={buUnId}
                   values={values}
@@ -273,6 +283,6 @@ export default function TenderSubmissionLanding() {
           </IForm>
         </>
       )}
-    </ Formik>
+    </Formik>
   );
 }
