@@ -5,7 +5,10 @@ import { useHistory } from "react-router-dom";
 import IEdit from "../../../../_helper/_helperIcons/_edit";
 import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
 import ICon from "../../../../chartering/_chartinghelper/icons/_icon";
-import { fetchTenderDetailsCallbackForPrintAndCreateEditPage } from "../helper";
+import {
+  fetchTenderDetailsCallbackForPrintAndCreateEditPage,
+  selectEditId,
+} from "../helper";
 
 const BADCMOPTable = ({
   accountId,
@@ -65,7 +68,9 @@ const BADCMOPTable = ({
                         <IEdit
                           onClick={() => {
                             history.push({
-                              pathname: `/vessel-management/allotment/tendersubmission/edit/${item?.tenderId}`,
+                              pathname: `/vessel-management/allotment/tendersubmission/edit/${selectEditId(
+                                item
+                              )}`,
                               state: item,
                             });
                             // setShow(true);
