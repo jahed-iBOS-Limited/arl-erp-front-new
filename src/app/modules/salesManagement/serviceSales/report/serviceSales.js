@@ -9,6 +9,7 @@ import InputField from "../../../_helper/_inputField";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
 import { _firstDateOfMonth, _todayDate } from "../../../_helper/_todayDate";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
+import { _formatMoney } from "../../../_helper/_formatMoney";
 
 const initData = {
   reportType: "",
@@ -47,7 +48,23 @@ export default function ServiceSalesReport() {
         : `/oms/ServiceSales/GetServiceSalesBillReport?BusinessUnitId=${
             selectedBusinessUnit?.value
           }&CustomerId=${values?.customer?.value || 0}${strFromAndToDate}`;
-    getRowData(url);
+    getRowData(
+      url,
+      values?.reportType?.value === 2
+        ? (res) => {
+            const modifyRowData = res.map((item) => ({
+              ...item,
+              licenceTotalPendingAmountNew:
+                (+item?.licenceTotalInvoiceAmount || 0) -
+                (+item?.licenceTotalCollectionAmount || 0),
+              amcPendingAmountNew:
+                (+item?.amcInvoiceAmount || 0) -
+                (+item?.amcCollectionAmount || 0),
+            }));
+            setRowData(modifyRowData);
+          }
+        : null
+    );
   };
 
   // Calculate totals for Report Type 1
@@ -78,22 +95,23 @@ export default function ServiceSalesReport() {
       acc.licenceTotalInvoiceAmount += item?.licenceTotalInvoiceAmount || 0;
       acc.licenceTotalCollectionAmount +=
         item?.licenceTotalCollectionAmount || 0;
-      acc.licenceTotalPendingAmount += item?.licenceTotalPendingAmount || 0;
+      acc.licenceTotalPendingAmountNew +=
+        item?.licenceTotalPendingAmountNew || 0;
       acc.amcInvoiceCount += item?.amcInvoiceCount || 0;
       acc.amcInvoiceAmount += item?.amcInvoiceAmount || 0;
       acc.amcCollectionAmount += item?.amcCollectionAmount || 0;
-      acc.amcPendingAmount += item?.amcPendingAmount || 0;
+      acc.amcPendingAmountNew += item?.amcPendingAmountNew || 0;
       return acc;
     },
     {
       licenceInvocieCount: 0,
       licenceTotalInvoiceAmount: 0,
       licenceTotalCollectionAmount: 0,
-      licenceTotalPendingAmount: 0,
+      licenceTotalPendingAmountNew: 0,
       amcInvoiceCount: 0,
       amcInvoiceAmount: 0,
       amcCollectionAmount: 0,
-      amcPendingAmount: 0,
+      amcPendingAmountNew: 0,
     }
   );
 
@@ -285,22 +303,22 @@ export default function ServiceSalesReport() {
                               {item?.intWarrantyMonth}
                             </td>
                             <td className="text-right">
-                              {item?.totalScheduleCount || "N/A"}
+                              {item?.totalScheduleCount || 0}
                             </td>
                             <td className="text-right">
-                              {item?.totalScheduleAmount || "N/A"}
+                              {item?.totalScheduleAmount || 0}
                             </td>
                             <td className="text-right">
-                              {item?.totalInvoiceCount || "N/A"}
+                              {item?.totalInvoiceCount || 0}
                             </td>
                             <td className="text-right">
-                              {item?.totalInvoiceAmount || "N/A"}
+                              {item?.totalInvoiceAmount || 0}
                             </td>
                             <td className="text-right">
-                              {item?.totalCollectionAmount || "N/A"}
+                              {item?.totalCollectionAmount || 0}
                             </td>
                             <td className="text-right">
-                              {item?.totalPendingAmount || "N/A"}
+                              {item?.totalPendingAmount || 0}
                             </td>
                           </tr>
                         ))}
@@ -331,90 +349,6 @@ export default function ServiceSalesReport() {
                     </table>
                   )}
 
-                  {/* {values?.reportType?.value === 2 && (
-                    <table
-                      id={tableIdType2}
-                      className="table table-striped mt-2 table-bordered bj-table bj-table-landing"
-                    >
-                      <thead>
-                        <tr>
-                          <th>SL</th>
-                          <th>Customer Name</th>
-                          <th>Licence Invoice Count</th>
-                          <th>Licence Total Invoice Amount</th>
-                          <th>Licence Total Collection Amount</th>
-                          <th>Licence Total Pending Amount</th>
-                          <th>AMC Invoice Count</th>
-                          <th>AMC Invoice Amount</th>
-                          <th>AMC Collection Amount</th>
-                          <th>AMC Pending Amount</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {rowData?.map((item, index) => (
-                          <tr key={index}>
-                            <td>{index + 1}</td>
-                            <td>{item?.strCustomerName}</td>
-                            <td className="text-right">
-                              {item?.licenceInvocieCount || "N/A"}
-                            </td>
-                            <td className="text-right">
-                              {item?.licenceTotalInvoiceAmount || "N/A"}
-                            </td>
-                            <td className="text-right">
-                              {item?.licenceTotalCollectionAmount || "N/A"}
-                            </td>
-                            <td className="text-right">
-                              {item?.licenceTotalPendingAmount || "N/A"}
-                            </td>
-                            <td className="text-right">
-                              {item?.amcInvoiceCount || "N/A"}
-                            </td>
-                            <td className="text-right">
-                              {item?.amcInvoiceAmount || "N/A"}
-                            </td>
-                            <td className="text-right">
-                              {item?.amcCollectionAmount || "N/A"}
-                            </td>
-                            <td className="text-right">
-                              {item?.amcPendingAmount || "N/A"}
-                            </td>
-                          </tr>
-                        ))}
-                        <tr>
-                          <td colSpan="2" className="text-center">
-                            <strong>Total</strong>
-                          </td>
-                          <td className="text-right">
-                            {Math.round(totalsType2.licenceInvocieCount)}
-                          </td>
-                          <td className="text-right">
-                            {Math.round(totalsType2.licenceTotalInvoiceAmount)}
-                          </td>
-                          <td className="text-right">
-                            {Math.round(
-                              totalsType2.licenceTotalCollectionAmount
-                            )}
-                          </td>
-                          <td className="text-right">
-                            {Math.round(totalsType2.licenceTotalPendingAmount)}
-                          </td>
-                          <td className="text-right">
-                            {Math.round(totalsType2.amcInvoiceCount)}
-                          </td>
-                          <td className="text-right">
-                            {Math.round(totalsType2.amcInvoiceAmount)}
-                          </td>
-                          <td className="text-right">
-                            {Math.round(totalsType2.amcCollectionAmount)}
-                          </td>
-                          <td className="text-right">
-                            {Math.round(totalsType2.amcPendingAmount)}
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  )} */}
                   {values?.reportType?.value === 2 && (
                     <table
                       id={tableIdType2}
@@ -443,38 +377,82 @@ export default function ServiceSalesReport() {
                             <td>{index + 1}</td>
                             <td>{item?.strCustomerName}</td>
                             <td className="text-right">
-                              {item?.licenceInvocieCount || "N/A"}
-                            </td>
-                            <td className="text-right">{"N/A"}</td>
-                            <td className="text-right">
-                              {item?.licenceTotalInvoiceAmount || "N/A"}
-                            </td>
-                            <td className="text-right">
-                              {item?.licenceTotalCollectionAmount || "N/A"}
+                              {_formatMoney(
+                                Math.round(item?.licenceInvocieCount || 0),
+                                0
+                              )}
                             </td>
                             <td className="text-right">
-                              {item?.licenceTotalPendingAmount || "N/A"}
+                              {_formatMoney(Math.round(0), 0)}
                             </td>
                             <td className="text-right">
-                              {item?.amcInvoiceAmount || "N/A"}
+                              {_formatMoney(
+                                Math.round(
+                                  item?.licenceTotalInvoiceAmount || 0
+                                ),
+                                0
+                              )}
                             </td>
                             <td className="text-right">
-                              {item?.amcCollectionAmount || "N/A"}
+                              {_formatMoney(
+                                Math.round(
+                                  item?.licenceTotalCollectionAmount || 0
+                                ),
+                                0
+                              )}
                             </td>
                             <td className="text-right">
-                              {item?.amcPendingAmount || "N/A"}
+                              {_formatMoney(
+                                Math.round(
+                                  item?.licenceTotalPendingAmountNew || 0
+                                ),
+                                0
+                              )}
                             </td>
                             <td className="text-right">
-                              {(+item?.licenceTotalInvoiceAmount || 0) +
-                                (+item?.amcInvoiceAmount || 0)}
+                              {_formatMoney(
+                                Math.round(item?.amcInvoiceAmount || 0),
+                                0
+                              )}
                             </td>
                             <td className="text-right">
-                              {(+item?.licenceTotalCollectionAmount || 0) +
-                                (+item?.amcCollectionAmount || 0)}
+                              {_formatMoney(
+                                Math.round(item?.amcCollectionAmount || 0),
+                                0
+                              )}
                             </td>
                             <td className="text-right">
-                              {(+item?.licenceTotalPendingAmount || 0) +
-                                (+item?.amcPendingAmount || 0)}
+                              {_formatMoney(
+                                Math.round(item?.amcPendingAmountNew || 0),
+                                0
+                              )}
+                            </td>
+                            <td className="text-right">
+                              {_formatMoney(
+                                Math.round(
+                                  (+item?.licenceTotalInvoiceAmount || 0) +
+                                    (+item?.amcInvoiceAmount || 0)
+                                ),
+                                0
+                              )}
+                            </td>
+                            <td className="text-right">
+                              {_formatMoney(
+                                Math.round(
+                                  (+item?.licenceTotalCollectionAmount || 0) +
+                                    (+item?.amcCollectionAmount || 0)
+                                ),
+                                0
+                              )}
+                            </td>
+                            <td className="text-right">
+                              {_formatMoney(
+                                Math.round(
+                                  (+item?.licenceTotalPendingAmountNew || 0) +
+                                    (+item?.amcPendingAmountNew || 0)
+                                ),
+                                0
+                              )}
                             </td>
                           </tr>
                         ))}
@@ -483,47 +461,78 @@ export default function ServiceSalesReport() {
                             <strong>Total</strong>
                           </td>
                           <td className="text-right">
-                            {Math.round(totalsType2.licenceInvocieCount)}
+                            {_formatMoney(
+                              Math.round(totalsType2.licenceInvocieCount),
+                              0
+                            )}
                           </td>
-                          <td></td>
+                          <td>{_formatMoney(Math.round(0), 0)}</td>
                           <td className="text-right">
-                            {Math.round(totalsType2.licenceTotalInvoiceAmount)}
-                          </td>
-                          <td className="text-right">
-                            {Math.round(
-                              totalsType2.licenceTotalCollectionAmount
+                            {_formatMoney(
+                              Math.round(totalsType2.licenceTotalInvoiceAmount),
+                              0
                             )}
                           </td>
                           <td className="text-right">
-                            {Math.round(totalsType2.licenceTotalPendingAmount)}
+                            {_formatMoney(
+                              Math.round(
+                                totalsType2.licenceTotalCollectionAmount
+                              ),
+                              0
+                            )}
                           </td>
                           <td className="text-right">
-                            {Math.round(totalsType2.amcInvoiceAmount)}
+                            {_formatMoney(
+                              Math.round(
+                                totalsType2.licenceTotalPendingAmountNew
+                              ),
+                              0
+                            )}
                           </td>
                           <td className="text-right">
-                            {Math.round(totalsType2.amcCollectionAmount)}
+                            {_formatMoney(
+                              Math.round(totalsType2.amcInvoiceAmount),
+                              0
+                            )}
                           </td>
                           <td className="text-right">
-                            {Math.round(totalsType2.amcPendingAmount)}
+                            {_formatMoney(
+                              Math.round(totalsType2.amcCollectionAmount),
+                              0
+                            )}
                           </td>
                           <td className="text-right">
-                            {(Math.round(
-                              totalsType2.licenceTotalInvoiceAmount
-                            ) || 0) +
-                              (Math.round(totalsType2.amcInvoiceAmount) || 0)}
+                            {_formatMoney(
+                              Math.round(totalsType2.amcPendingAmountNew),
+                              0
+                            )}
                           </td>
                           <td className="text-right">
-                            {(Math.round(
-                              totalsType2.licenceTotalCollectionAmount
-                            ) || 0) +
-                              (Math.round(totalsType2.amcCollectionAmount) ||
-                                0)}
+                            {_formatMoney(
+                              Math.round(
+                                (totalsType2.licenceTotalInvoiceAmount || 0) +
+                                  (totalsType2.amcInvoiceAmount || 0)
+                              ),
+                              0
+                            )}
                           </td>
                           <td className="text-right">
-                            {(Math.round(
-                              totalsType2.licenceTotalPendingAmount
-                            ) || 0) +
-                              (Math.round(totalsType2.amcPendingAmount) || 0)}
+                            {_formatMoney(
+                              Math.round(
+                                (totalsType2.licenceTotalCollectionAmount ||
+                                  0) + (totalsType2.amcCollectionAmount || 0)
+                              ),
+                              0
+                            )}
+                          </td>
+                          <td className="text-right">
+                            {_formatMoney(
+                              Math.round(
+                                (totalsType2.licenceTotalPendingAmountNew ||
+                                  0) + (totalsType2.amcPendingAmountNew || 0)
+                              ),
+                              0
+                            )}
                           </td>
                         </tr>
                       </tbody>
