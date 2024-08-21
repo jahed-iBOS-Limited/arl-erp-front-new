@@ -5,15 +5,11 @@ import { useHistory } from "react-router-dom";
 import IEdit from "../../../../_helper/_helperIcons/_edit";
 import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
 import ICon from "../../../../chartering/_chartinghelper/icons/_icon";
-import {
-  fetchTenderDetailsCallbackForPrintAndCreateEditPage,
-  selectEditId,
-} from "../helper";
+import { fetchBADCMOPRowsDataForPrintPage, selectEditId } from "../helper";
 
-const BADCTendersTable = ({
+const BADCMOPTable = ({
   accountId,
   buUnId,
-  values,
   submittedTenderLists,
   handleTenderPrint,
   getTenderDetails,
@@ -34,10 +30,8 @@ const BADCTendersTable = ({
             <th>SL</th>
             <th style={{ width: "150px" }}>Business Partner</th>
             <th>Enquiry No</th>
-            <th>Item Name</th>
-            <th>Load Port</th>
-            <th style={{ width: "150px" }}>Foreign Qty (MT)</th>
-            <th>Foreign Price (USD)</th>
+            <th>Discharge Port</th>
+            <th>Actual Quantity</th>
             <th>Status</th>
             <th>Actions</th>
           </tr>
@@ -50,15 +44,10 @@ const BADCTendersTable = ({
                   {index + 1}
                 </td>
                 <td>{item?.businessPartnerName}</td>
-                <td>{item?.enquiryNo}</td>
-                <td>{item?.itemName}</td>
-                <td style={{ width: "200px" }}>{item?.loadPortName}</td>
-                <td className="text-right" style={{ width: "70px" }}>
-                  {item?.foreignQty}
-                </td>
-                <td className="text-right" style={{ width: "200px" }}>
-                  {item?.foreignPriceUsd === null ? 0 : item?.foreignPriceUsd}
-                </td>
+                <td>{item?.mopInvoiceId}</td>
+                <td>{item?.portName}</td>
+                <td className="text-right">{item?.actualQuantity}</td>
+
                 <td style={{ width: "70px" }}>
                   {item?.isAccept
                     ? "Approved"
@@ -70,7 +59,7 @@ const BADCTendersTable = ({
                 </td>
                 <td style={{ width: "80px" }} className="text-center">
                   <div className="d-flex justify-content-around">
-                    {!item?.isAccept ? (
+                    {item?.isAccept !== true && (
                       <span>
                         <IEdit
                           onClick={() => {
@@ -85,22 +74,14 @@ const BADCTendersTable = ({
                           // id={item?.shiptoPartnerId}
                         />
                       </span>
-                    ) : (
-                      <></>
                     )}
                     <span
-                      // 1st approch
-                      // onClick={() => {
-                      //     fetchTenderDetails(item?.tenderId)
-                      //     handleTenderPrint()
-                      // }}
                       // 2nd approch
                       onClick={() => {
-                        fetchTenderDetailsCallbackForPrintAndCreateEditPage(
+                        fetchBADCMOPRowsDataForPrintPage(
                           accountId,
                           buUnId,
-                          values,
-                          item?.tenderId,
+                          item?.mopTenderId,
                           getTenderDetails,
                           handleTenderPrint
                         );
@@ -141,4 +122,4 @@ const BADCTendersTable = ({
   );
 };
 
-export default BADCTendersTable;
+export default BADCMOPTable;

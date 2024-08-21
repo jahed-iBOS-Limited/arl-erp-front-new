@@ -60,6 +60,8 @@ export default function ServiceSalesReport() {
               amcPendingAmountNew:
                 (+item?.amcInvoiceAmount || 0) -
                 (+item?.amcCollectionAmount || 0),
+              mmcAmount:
+                (+item?.numScheduleAmount || 0) + (+item?.numServerAmount || 0),
             }));
             setRowData(modifyRowData);
           }
@@ -101,6 +103,8 @@ export default function ServiceSalesReport() {
       acc.amcInvoiceAmount += item?.amcInvoiceAmount || 0;
       acc.amcCollectionAmount += item?.amcCollectionAmount || 0;
       acc.amcPendingAmountNew += item?.amcPendingAmountNew || 0;
+      acc.mmcAmount += item?.mmcAmount || 0;
+      acc.otNetSaleAmount += item?.otNetSaleAmount || 0;
       return acc;
     },
     {
@@ -112,6 +116,8 @@ export default function ServiceSalesReport() {
       amcInvoiceAmount: 0,
       amcCollectionAmount: 0,
       amcPendingAmountNew: 0,
+      mmcAmount: 0,
+      otNetSaleAmount: 0,
     }
   );
 
@@ -358,7 +364,8 @@ export default function ServiceSalesReport() {
                         <tr>
                           <th>SL</th>
                           <th>Customer Name</th>
-                          <th>One Time</th>
+                          <th>OT Amount</th>
+                          <th>OT Schedule Count</th>
                           <th>MMC</th>
                           <th>OT Invoice</th>
                           <th>OT Collection</th>
@@ -378,12 +385,21 @@ export default function ServiceSalesReport() {
                             <td>{item?.strCustomerName}</td>
                             <td className="text-right">
                               {_formatMoney(
-                                Math.round(item?.licenceInvocieCount || 0),
+                                Math.round(item?.otNetSaleAmount || 0),
                                 0
                               )}
                             </td>
                             <td className="text-right">
-                              {_formatMoney(Math.round(0), 0)}
+                              {Math.round(item?.licenceInvocieCount || 0)}
+                            </td>
+                            <td className="text-right">
+                              {_formatMoney(
+                                Math.round(
+                                  (+item?.numScheduleAmount || 0) +
+                                    (+item?.numServerAmount || 0)
+                                ),
+                                0
+                              )}
                             </td>
                             <td className="text-right">
                               {_formatMoney(
@@ -462,11 +478,19 @@ export default function ServiceSalesReport() {
                           </td>
                           <td className="text-right">
                             {_formatMoney(
-                              Math.round(totalsType2.licenceInvocieCount),
+                              Math.round(totalsType2.otNetSaleAmount),
                               0
                             )}
                           </td>
-                          <td>{_formatMoney(Math.round(0), 0)}</td>
+                          <td className="text-right">
+                            {Math.round(totalsType2.licenceInvocieCount)}
+                          </td>
+                          <td className="text-right">
+                            {_formatMoney(
+                              Math.round(totalsType2?.mmcAmount),
+                              0
+                            )}
+                          </td>
                           <td className="text-right">
                             {_formatMoney(
                               Math.round(totalsType2.licenceTotalInvoiceAmount),
