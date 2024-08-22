@@ -82,7 +82,7 @@ useEffect(()=>{
  if(isView){
   getRowData(`/oms/ServiceSales/GetServiceSaleOrderReport?BusinessUnitId=${
             selectedBusinessUnit?.value
-          }&CustomerId=${singleData?.intCustomerId}&PaymentTypeId=${2}`)
+          }&CustomerId=${singleData?.intCustomerId}&PaymentTypeId=${2}&FromDate=${"2021-01-01"}&ToDate=${_todayDate()}`)
  }
 // eslint-disable-next-line react-hooks/exhaustive-deps
 },[isView])
