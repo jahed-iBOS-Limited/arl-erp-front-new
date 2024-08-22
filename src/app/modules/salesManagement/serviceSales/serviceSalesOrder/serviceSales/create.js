@@ -76,6 +76,16 @@ export default function ServiceSalesCreate({
     loading,
     setAgreementDatesForRecuuring,
   ] = useAxiosGet();
+  const [rowData, getRowData, loader2] = useAxiosGet();
+
+useEffect(()=>{
+ if(isView){
+  getRowData(`/oms/ServiceSales/GetServiceSaleOrderReport?BusinessUnitId=${
+            selectedBusinessUnit?.value
+          }&CustomerId=${singleData?.intCustomerId}&PaymentTypeId=${2}`)
+ }
+// eslint-disable-next-line react-hooks/exhaustive-deps
+},[isView])
 
   useEffect(() => {
     if (itemList?.length) {
@@ -365,6 +375,27 @@ export default function ServiceSalesCreate({
     }
   }, [isEdit, isView, singleData]);
 
+    // Calculate totals for Report Type 1
+    const totals = rowData?.reduce(
+      (acc, item) => {
+        acc.totalScheduleCount += item?.totalScheduleCount || 0;
+        acc.totalScheduleAmount += item?.totalScheduleAmount || 0;
+        acc.totalInvoiceCount += item?.totalInvoiceCount || 0;
+        acc.totalInvoiceAmount += item?.totalInvoiceAmount || 0;
+        acc.totalCollectionAmount += item?.totalCollectionAmount || 0;
+        acc.totalPendingAmount += item?.totalPendingAmount || 0;
+        return acc;
+      },
+      {
+        totalScheduleCount: 0,
+        totalScheduleAmount: 0,
+        totalInvoiceCount: 0,
+        totalInvoiceAmount: 0,
+        totalCollectionAmount: 0,
+        totalPendingAmount: 0,
+      }
+    );
+
   return (
     <Formik
       enableReinitialize={true}
@@ -459,6 +490,7 @@ export default function ServiceSalesCreate({
       }) => (
         <>
           {(loader ||
+            loader2 ||
             channelDDLloader ||
             salesOrgListLoader ||
             loading ||
@@ -1403,6 +1435,96 @@ export default function ServiceSalesCreate({
                   </div>
                 </div>
               ) : null}
+
+              {isView && [2]?.includes(values?.paymentType?.value) && (
+                <div className="table-responsive">
+                  <table
+                      className="table table-striped mt-2 table-bordered bj-table bj-table-landing"
+                    >
+                      <thead>
+                        <tr>
+                          <th>SL</th>
+                          <th>Order Code</th>
+                          <th>Payment Type</th>
+                          {/* <th>Customer Name</th>
+                          <th>Customer Code</th> */}
+                          {/* <th>Agreement Date</th>
+                          <th>Actual Live Date</th>
+                          <th>Warranty Month</th>
+                          <th>Schedule Count</th> */}
+                          <th>Schedule Amount</th>
+                          {/* <th>Invoice Count</th> */}
+                          <th>Invoice Amount</th>
+                          <th>Collection Amount</th>
+                          <th>Pending Amount</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {rowData?.map((item, index) => (
+                          <tr key={index}>
+                            <td>{index + 1}</td>
+                            <td className="text-center">
+                              {item?.strServiceSalesOrderCode}
+                            </td>
+                            <td>{item?.strPaymentType}</td>
+                            {/* <td>{item?.strCustomerName}</td>
+                            <td>{item?.strCustomerCode}</td>
+                            <td className="text-center">
+                              {_dateFormatter(item?.agreementDate)}
+                            </td>
+                            <td className="text-center">
+                              {_dateFormatter(item?.dteActualLiveDate)}
+                            </td>
+                            <td className="text-center">
+                              {item?.intWarrantyMonth}
+                            </td>
+                            <td className="text-right">
+                              {item?.totalScheduleCount || 0}
+                            </td> */}
+                            <td className="text-right">
+                              {item?.totalScheduleAmount || 0}
+                            </td>
+                            {/* <td className="text-right">
+                              {item?.totalInvoiceCount || 0}
+                            </td> */}
+                            <td className="text-right">
+                              {item?.totalInvoiceAmount || 0}
+                            </td>
+                            <td className="text-right">
+                              {item?.totalCollectionAmount || 0}
+                            </td>
+                            <td className="text-right">
+                              {item?.totalPendingAmount || 0}
+                            </td>
+                          </tr>
+                        ))}
+                        <tr>
+                          <td colSpan="3" className="text-center">
+                            <strong>Total</strong>
+                          </td>
+                          {/* <td className="text-right">
+                            {Math.round(totals.totalScheduleCount)}
+                          </td> */}
+                          <td className="text-right">
+                            {Math.round(totals.totalScheduleAmount)}
+                          </td>
+                          {/* <td className="text-right">
+                            {Math.round(totals.totalInvoiceCount)}
+                          </td> */}
+                          <td className="text-right">
+                            {Math.round(totals.totalInvoiceAmount)}
+                          </td>
+                          <td className="text-right">
+                            {Math.round(totals.totalCollectionAmount)}
+                          </td>
+                          <td className="text-right">
+                            {Math.round(totals.totalPendingAmount)}
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                </div>
+              )}
 
               <IViewModal show={isOpen} onHide={() => setIsOpen(false)}>
                 <Schedule />
