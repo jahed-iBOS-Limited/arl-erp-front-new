@@ -84,10 +84,10 @@ export default function TenderSubmissionLanding() {
     <Formik
       enableReinitialize={true}
       initialValues={{
-        businessPartner: "",
+        businessPartner: { value: 3, label: "BADC(MOP)" },
         fromDate: _monthFirstDate(),
         toDate: _todayDate(),
-        approveStatus: "",
+        approveStatus: { value: 0, label: "All" },
       }}
       validationSchema={landingPageValidationSchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -244,15 +244,15 @@ export default function TenderSubmissionLanding() {
                         height: "150px",
                         backgroundPosition: "left 10px",
                         backgroundSize: "cover",
-                        // position: "fixed",
+                        position: "fixed",
                         width: "100%",
-                        top: "-60px",
+                        top: "-50px",
                       }}
                     ></div>
                   </thead>
                   {/* CONTENT GOES HERE */}
                   <tbody>
-                    <div style={{ margin: "40px 75px 0 75px" }}>
+                    <div style={{ margin: "140px 75px 0 75px" }}>
                       {values?.businessPartner?.label === "BCIC" ? (
                         <PrintBCICTender tenderDetails={tenderDetails} />
                       ) : values?.businessPartner?.label === "BADC" ? (
@@ -264,7 +264,6 @@ export default function TenderSubmissionLanding() {
                   </tbody>
                   <tfoot>
                     <div
-                      className="ifoot"
                       style={{
                         backgroundImage: `url(${getLetterHead({
                           buId: buUnId,
@@ -273,7 +272,7 @@ export default function TenderSubmissionLanding() {
                         height: "100px",
                         backgroundPosition: "left bottom",
                         backgroundSize: "cover",
-                        bottom: "-25px",
+                        bottom: "-0px",
                         position: "fixed",
                         width: "100%",
                       }}
