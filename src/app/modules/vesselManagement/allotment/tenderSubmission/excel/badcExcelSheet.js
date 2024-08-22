@@ -10,7 +10,13 @@ import {
 } from "../helper";
 import "./style.css";
 
-const BADCExcelSheet = ({ ghatDDL, values, setFieldValue, tenderId }) => {
+const BADCExcelSheet = ({
+  ghatDDL,
+  values,
+  setFieldValue,
+  tenderId,
+  dischargePortDDL,
+}) => {
   const fileInputRef = useRef(null);
   // console.log(ghatDDL)
   return (
@@ -22,10 +28,12 @@ const BADCExcelSheet = ({ ghatDDL, values, setFieldValue, tenderId }) => {
             className="btn btn-primary mr-1"
             // create excel sheet & pass ghat ddl for create excel sheet with ghat ddl
             onClick={() =>
-              ghatDDL?.length > 1 ? createExcelSheet(ghatDDL) : null
+              ghatDDL?.length > 1 && dischargePortDDL?.length > 1
+                ? createExcelSheet(ghatDDL, dischargePortDDL)
+                : null
             }
             type="button"
-            disabled={ghatDDL?.length < 1}
+            disabled={ghatDDL?.length < 1 || dischargePortDDL?.length < 1}
           >
             <i className="fa fa-download"></i>
             Download Excel Sheet
@@ -46,8 +54,8 @@ const BADCExcelSheet = ({ ghatDDL, values, setFieldValue, tenderId }) => {
             onChange={async (e) => {
               const data = await excelSheetUploadHandler(
                 e.target.files[0],
-                values,
-                ghatDDL
+                ghatDDL,
+                dischargePortDDL
               );
               // set to state for track of show & delete
               // setMopRowsData(data)
@@ -68,7 +76,7 @@ const BADCExcelSheet = ({ ghatDDL, values, setFieldValue, tenderId }) => {
       </p>
 
       {/* Hide Download Excel Sheet Download & Upload When the tenderId is Present, tenderId is Present Means this is in Edit Stage */}
-      {!tenderId && values?.mopRowsData?.length > 1 && (
+      {!tenderId && values?.mopRowsData?.length >= 1 && (
         <div className="table-responsive">
           <table
             className={
@@ -85,6 +93,7 @@ const BADCExcelSheet = ({ ghatDDL, values, setFieldValue, tenderId }) => {
             <tbody>
               {values?.mopRowsData?.map((item, index) => (
                 <tr key={index}>
+                  <td>{item?.portName}</td>
                   <td>{item?.ghatName}</td>
                   <td>{item?.distance}</td>
                   <td>{item?.rangOto100}</td>
@@ -122,41 +131,43 @@ const BADCExcelSheet = ({ ghatDDL, values, setFieldValue, tenderId }) => {
         </div>
       )}
 
-      <div className="table-responsive">
-        <table
-          className={
-            "table table-striped table-bordered mt-3 table-font-size-sm global-table w-25"
-          }
-        >
-          <thead>
-            <tr>
-              {mopTenderEditDataTableHeader?.map((head) => (
-                <th>{head}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {values?.mopRowsData?.map((item, index) => (
-              <tr key={index}>
-                <td>{item?.ghatName}</td>
-                <td>
-                  <InputField
-                    value={values?.mopRowsData[index].actualQuantity}
-                    name={`mopRowsData[${index}].actualQuantity`}
-                    type="number"
-                    onChange={(e) => {
-                      setFieldValue(
-                        `mopRowsData[${index}].actualQuantity`,
-                        e.target.value
-                      );
-                    }}
-                  />
-                </td>
+      {tenderId && values?.mopRowsData?.length >= 1 && (
+        <div className="table-responsive">
+          <table
+            className={
+              "table table-striped table-bordered mt-3 table-font-size-sm global-table w-25"
+            }
+          >
+            <thead>
+              <tr>
+                {mopTenderEditDataTableHeader?.map((head) => (
+                  <th>{head}</th>
+                ))}
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody>
+              {values?.mopRowsData?.map((item, index) => (
+                <tr key={index}>
+                  <td>{item?.ghatName}</td>
+                  <td>
+                    <InputField
+                      value={values?.mopRowsData[index].actualQuantity}
+                      name={`mopRowsData[${index}].actualQuantity`}
+                      type="number"
+                      onChange={(e) => {
+                        setFieldValue(
+                          `mopRowsData[${index}].actualQuantity`,
+                          e.target.value
+                        );
+                      }}
+                    />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
 };
