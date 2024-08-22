@@ -327,6 +327,10 @@ export const fetchTenderDetailsCallbackForPrintAndCreateEditPage = (
   if (values?.businessPartner?.label === "BADC") {
     url = `/tms/TenderSubmission/GetBIDCTenderSubmissionById?AccountId=${accountId}&BusinessunitId=${buUnId}&TenderId=${tenderId}`;
   }
+  // Here this is only for edit but for print we use fetchBADCMOPRowsDataForPrintPage func for backend issuu
+  if (values?.businessPartner?.label === "BADC(MOP)") {
+    url = `/tms/TenderSubmission/GetForEditMOPConfiguration?AccountId=${accountId}&BusinessUnitId=${buUnId}&MopTenderId=${tenderId}`; // tenderId => mopTenderId
+  }
   getTenderDetailsFunc(url, () => {
     callback && callback();
   });
@@ -364,7 +368,8 @@ export const selectEditId = (item) => {
 //export const updateState = ({ header, rows, }, ...rest) => {
 export const updateState = (tenderDetails) => {
   const isBCIC = tenderDetails?.header || tenderDetails?.rows;
-  //   const isBADCMOP=
+  const isBADCMOP = tenderDetails?.headerDTO || tenderDetails?.rowDTOs;
+
   if (isBCIC) {
     const { header, rows } = tenderDetails;
 
@@ -429,6 +434,52 @@ export const updateState = (tenderDetails) => {
       isAccept: header?.isAccept,
       isReject: header?.isReject,
     };
+    return commonEditData;
+  } else if (isBADCMOP) {
+    const { headerDTO, rowDTOs } = tenderDetails;
+
+    const badcMOPState = {
+      enquiry: headerDTO?.mopInvoiceId,
+      mopTenderId: headerDTO?.mopTenderId,
+      submissionDate: _dateFormatter(headerDTO?.submissionDate),
+      dischargePortMOP: headerDTO?.portId
+        ? {
+            label: headerDTO?.portName,
+            value: headerDTO?.portId,
+          }
+        : "",
+      mopRowsData: rowDTOs?.map((item) => {
+        return {
+          mopTenderId: item?.mopTenderId,
+          mopInvoiceId: item?.mopInvoiceId,
+          ghatId: item?.ghatId,
+          ghatName: item?.ghatName,
+          distance: item?.distance,
+          quantity: item?.quantity,
+          actualQuantity: item?.actualQuantity,
+        };
+      }),
+    };
+
+    const commonEditData = {
+      // badc (mop)
+      ...badcMOPState,
+
+      // global
+      businessPartner: headerDTO?.businessPartnerId
+        ? {
+            value: headerDTO?.businessPartnerId,
+            label: headerDTO?.businessPartnerName,
+          }
+        : "",
+      remarks: headerDTO?.strRemarks,
+
+      // edit
+      attachment: headerDTO?.attachment,
+      isAccept: headerDTO?.isAccept,
+      isReject: headerDTO?.isReject,
+    };
+
     return commonEditData;
   } else {
     const badcState = {
@@ -997,8 +1048,8 @@ export const excelSheetUploadHandler = async (
   return updateExcelDataList;
 };
 
-// mop tender data table header
-export const mopTenderDataTableHeader = [
+// mop tender create data table header
+export const mopTenderCreateDataTableHeader = [
   "Ghat Name",
   "Distance",
   "RangOto100",
@@ -1020,3 +1071,6 @@ export const mopTenderDataTableHeader = [
   "ProfitAmount",
   "Actions",
 ];
+
+// mop tender create data table header
+export const mopTenderEditDataTableHeader = ["Ghat Name", "Actual Quantity"];
