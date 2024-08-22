@@ -539,21 +539,24 @@ export default function TenderSubmissionCreateEditForm() {
     </>
   );
 
-  // ! Common Form Field for BCIC, BADC, BADC(MOP) Edit
-  const commonEditFormField = (values, setFieldValue) => (
-    <>
-      <div className="col-lg-3">
-        <InputField
-          value={values?.foreignPriceUSD}
-          label="Foreign Price (USD)"
-          name="foreignPriceUSD"
-          type="number"
-          onChange={(e) => {
-            setFieldValue("foreignPriceUSD", e.target.value);
-          }}
-        />
-      </div>
+  // ! Common Form Field for BCIC & BADC Edit
+  const commonBCICBADCEditFormField = (values, setFieldValue) => (
+    <div className="col-lg-3">
+      <InputField
+        value={values?.foreignPriceUSD}
+        label="Foreign Price (USD)"
+        name="foreignPriceUSD"
+        type="number"
+        onChange={(e) => {
+          setFieldValue("foreignPriceUSD", e.target.value);
+        }}
+      />
+    </div>
+  );
 
+  // ! Common Form Field for BCIC, BADC, BADC(MOP) Edit
+  const commonBCICBADCBADCMOPEditFormField = (values, setFieldValue) => (
+    <>
       <div className="col-lg-3 mt-3 d-flex align-items-center">
         <AttachmentUploaderNew
           CBAttachmentRes={(image) => {
@@ -726,8 +729,14 @@ export default function TenderSubmissionCreateEditForm() {
                   values?.businessPartner?.label === "BADC" &&
                   badcEditFormField(values, setFieldValue)}
 
+                {/* Common Form Field for BCIC, BADC Edit */}
+                {tenderId &&
+                  values?.businessPartner?.label !== "BADC(MOP)" &&
+                  commonBCICBADCEditFormField(values, setFieldValue)}
+
                 {/* Common Form Field for BCIC, BADC, BADC(MOP) Edit */}
-                {tenderId && commonEditFormField(values, setFieldValue)}
+                {tenderId &&
+                  commonBCICBADCBADCMOPEditFormField(values, setFieldValue)}
               </div>
 
               {/* Form Field for BCIC Local Part */}
@@ -742,6 +751,7 @@ export default function TenderSubmissionCreateEditForm() {
                       ghatDDL={ghatDDL}
                       values={values}
                       setFieldValue={setFieldValue}
+                      tenderId={tenderId}
                     />
                   </div>
                 </div>
