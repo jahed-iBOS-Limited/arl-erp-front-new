@@ -10,11 +10,14 @@ import IButton from "../../../../_helper/iButton";
 import { validationSchemaTwo } from "../helper";
 import { headers } from "../landing/bankInfoTable";
 import ICustomTable from "../../../../_helper/_customTable";
+import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
+import axios from "axios";
 
 export default function FormTwo({ obj }) {
   const {
     id,
     rows,
+    accId,
     title,
     banks,
     remover,
@@ -30,6 +33,13 @@ export default function FormTwo({ obj }) {
     setBankInfo,
     shipPointDDL,
   } = obj;
+
+  const employeeList = (v) => {
+    if (v?.length < 3) return [];
+    return axios
+      .get(`/hcm/HCMDDL/GetEmployeeByAcIdDDL?AccountId=${accId}&search=${v}`)
+      .then((res) => res?.data);
+  };
 
   return (
     <Formik
@@ -72,27 +82,59 @@ export default function FormTwo({ obj }) {
 
           <form>
             <div className="form-group  global-form row">
-              <div className="col-lg-3">
-                <NewSelect
-                  name="employee"
-                  options={employees || []}
-                  value={values?.employee}
-                  label="Employee Name"
-                  placeholder="Employee Name"
-                  onChange={(valueOption) => {
-                    if (valueOption) {
-                      setFieldValue("employee", valueOption);
-                      setBankInfo(valueOption, setFieldValue);
-                    } else {
+              <div className="col-lg-12 mb-3">
+                <div className=" mt-3 d-flex align-items-center">
+                  <input
+                    style={{ transform: "scale(1.5)" }}
+                    type="checkbox"
+                    id="isPublic"
+                    name="isPublic"
+                    value={values?.isPublic}
+                    checked={values?.isPublic}
+                    onChange={(e) => {
+                      setFieldValue("isPublic", e.target.checked);
                       setFieldValue("employee", "");
-                      setBankInfo("", setFieldValue);
-                    }
-                  }}
-                  errors={errors}
-                  touched={touched}
-                  isDisabled={id}
-                />
+                    }}
+                  />
+                  <label htmlFor="isPublic" className="pl-2">
+                    Public
+                  </label>
+                </div>
               </div>
+              {values?.isPublic ? (
+                <div className="col-md-3">
+                  <label>Employee Name</label>
+                  <SearchAsyncSelect
+                    selectedValue={values?.employee}
+                    handleChange={(valueOption) => {
+                      setFieldValue("employee", valueOption);
+                    }}
+                    loadOptions={employeeList}
+                  />
+                </div>
+              ) : (
+                <div className="col-lg-3">
+                  <NewSelect
+                    name="employee"
+                    options={employees || []}
+                    value={values?.employee}
+                    label="Employee Name"
+                    placeholder="Employee Name"
+                    onChange={(valueOption) => {
+                      if (valueOption) {
+                        setFieldValue("employee", valueOption);
+                        setBankInfo(valueOption, setFieldValue);
+                      } else {
+                        setFieldValue("employee", "");
+                        setBankInfo("", setFieldValue);
+                      }
+                    }}
+                    errors={errors}
+                    touched={touched}
+                    isDisabled={id}
+                  />
+                </div>
+              )}
               <div className="col-lg-3">
                 <NewSelect
                   name="shippingPoint"

@@ -21,6 +21,7 @@ const initData = {
   bankAccountName: "",
   bankAccountNumber: "",
   routingNumber: "",
+  isPublic: "",
 };
 
 export default function ShippingPointTransportZoneForm() {
@@ -244,6 +245,7 @@ export default function ShippingPointTransportZoneForm() {
           obj={{
             id,
             rows,
+            accId,
             title,
             banks,
             remover,
