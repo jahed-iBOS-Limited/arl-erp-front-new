@@ -243,8 +243,8 @@ export default function _Form({
                 label: "Yes",
                 onClick: () => {
                   saveHandler(values, () => {
-                    wont be reset as per requirement
-                    resetForm(initData);
+                    // wont be reset as per requirement
+                    // resetForm(initData);
                     if (jorunalType === 6) {
                       setFieldValue("transferAmount", "");
                       dispatch(
