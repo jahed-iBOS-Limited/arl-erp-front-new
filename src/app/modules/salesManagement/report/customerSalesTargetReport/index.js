@@ -1,64 +1,47 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
 import { Formik } from "formik";
+import React, { useState } from "react";
 import { Form } from "react-bootstrap";
+import { shallowEqual, useSelector } from "react-redux";
 import ICustomCard from "../../../_helper/_customCard";
-import NewSelect from "../../../_helper/_select";
-import Loading from "../../../_helper/_loading";
-import { _dateFormatter } from "./../../../_helper/_dateFormate";
-import { _todayDate } from "./../../../_helper/_todayDate";
-import FormikInput from "./../../../chartering/_chartinghelper/common/formikInput";
-import {
-  getRegionAreaTerritory,
-  getDistributionChannelDDL_api,
-  getCustomersSalesTarget_Api,
-  editSalesTarget,
-} from "./helper";
-import { getMonth } from "../customerSalesTarget/utils";
-import PaginationTable from "./../../../_helper/_tablePagination";
-import { _fixedPoint } from "./../../../_helper/_fixedPoint";
-import InputField from "../../../_helper/_inputField";
-import IEdit from "../../../_helper/_helperIcons/_edit";
 import IApproval from "../../../_helper/_helperIcons/_approval";
 import IClose from "../../../_helper/_helperIcons/_close";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import IEdit from "../../../_helper/_helperIcons/_edit";
+import InputField from "../../../_helper/_inputField";
+import Loading from "../../../_helper/_loading";
+import NewSelect from "../../../_helper/_select";
+import FromDateToDateForm from "../../../_helper/commonInputFieldsGroups/dateForm";
+import RATForm from "../../../_helper/commonInputFieldsGroups/ratForm";
+import IButton from "../../../_helper/iButton";
+import { getMonth } from "../customerSalesTarget/utils";
+import { _dateFormatter } from "./../../../_helper/_dateFormate";
+import { _fixedPoint } from "./../../../_helper/_fixedPoint";
+import PaginationTable from "./../../../_helper/_tablePagination";
+import { _todayDate } from "./../../../_helper/_todayDate";
+import { editSalesTarget, getCustomersSalesTarget_Api } from "./helper";
+
+const initData = {
+  reportType: { value: 1, label: "Details" },
+  channel: "",
+  region: "",
+  area: "",
+  territory: "",
+  fromDate: _todayDate(),
+  toDate: _todayDate(),
+};
 
 const CustomerSalesTargetReport = () => {
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
   const [loading, setLoading] = useState(false);
   const [rowDto, setRowDto] = useState([]);
-  const [areaDDL, setAreaDDL] = useState([]);
-  const [distributionChannelDDL, setDistributionChannelDDL] = useState([]);
-  const [territoryDDl, getTerritory, load, setTerritory] = useAxiosGet();
-  const [regionDDL, setRegionDDL] = useState([]);
+
   // get user profile data from store
-  const profileData = useSelector((state) => {
-    return state.authData.profileData;
-  }, shallowEqual);
+  const { profileData, selectedBusinessUnit } = useSelector(
+    (state) => state.authData,
+    shallowEqual
+  );
 
-  // get selected business unit from store
-  const selectedBusinessUnit = useSelector((state) => {
-    return state.authData.selectedBusinessUnit;
-  }, shallowEqual);
-
-  useEffect(() => {
-    if (selectedBusinessUnit?.value && profileData?.accountId) {
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedBusinessUnit, profileData]);
-
-  useEffect(() => {
-    if (selectedBusinessUnit?.value && profileData?.accountId) {
-      getDistributionChannelDDL_api(
-        profileData?.accountId,
-        selectedBusinessUnit?.value,
-        setDistributionChannelDDL
-      );
-    }
-  }, [selectedBusinessUnit, profileData]);
   const commonGridFunc = (values, _pageNo = pageNo, _pageSize = pageSize) => {
-    // setRowDto([]);
     getCustomersSalesTarget_Api(
       setLoading,
       setRowDto,
@@ -66,7 +49,7 @@ const CustomerSalesTargetReport = () => {
       selectedBusinessUnit?.value,
       values?.fromDate,
       values?.toDate,
-      values?.distributionChannel?.value,
+      values?.channel?.value,
       values?.area?.value,
       values?.region?.value,
       values?.territory?.value,
@@ -84,29 +67,10 @@ const CustomerSalesTargetReport = () => {
 
   return (
     <ICustomCard title="Customer Sales Target Report">
-      {/* {loading && <Loading />} */}
-      <Formik
-        enableReinitialize={true}
-        initialValues={{
-          fromDate: _todayDate(),
-          toDate: _todayDate(),
-          distributionChannel: "",
-          area: "",
-          region: "",
-          reportType: { value: 1, label: "Details" },
-        }}
-      >
-        {({
-          handleSubmit,
-          resetForm,
-          values,
-          errors,
-          touched,
-          setFieldValue,
-          isValid,
-        }) => (
+      <Formik enableReinitialize={true} initialValues={initData}>
+        {({ values, errors, touched, setFieldValue }) => (
           <>
-            {(loading || load) && <Loading />}
+            {loading && <Loading />}
             <Form className="form form-label-right">
               <div className="row mt-2">
                 <div className="col-lg-12">
@@ -130,199 +94,30 @@ const CustomerSalesTargetReport = () => {
                         touched={touched}
                       />
                     </div>
-                    <div className="col-lg-3">
-                      <NewSelect
-                        name="distributionChannel"
-                        options={[
-                          { value: 0, label: "All" },
-                          ...distributionChannelDDL,
-                        ]}
-                        value={values?.distributionChannel}
-                        label="Distribution Channel"
-                        onChange={(valueOption) => {
+                    <RATForm
+                      obj={{
+                        values,
+                        setFieldValue,
+                        onChange: () => {
                           setRowDto([]);
-                          setFieldValue("distributionChannel", valueOption);
-                          setFieldValue("region", "");
-                          setFieldValue("area", "");
-                          if (valueOption) {
-                            getRegionAreaTerritory({
-                              channelId: valueOption?.value,
-                              setter: setRegionDDL,
-                              setLoading: setLoading,
-                              value: "regionId",
-                              label: "regionName",
-                            });
-                          }
-                          if (valueOption?.value === 0) {
-                            setFieldValue("region", { value: 0, label: "All" });
-                            setFieldValue("area", { value: 0, label: "All" });
-                            setFieldValue("territory", {
-                              value: 0,
-                              label: "All",
-                            });
-                          }
-                          getTerritory(
-                            `/oms/TerritoryInfo/GetTerrotoryRegionAreaByChannel?channelId=${valueOption?.value}&regionId=${values?.region?.value}&areaId=${values?.area?.value}`,
-                            (data) => {
-                              const modifiedData = data?.map((item) => {
-                                return {
-                                  ...item,
-                                  value: item?.territoryId,
-                                  label: item?.territoryName,
-                                };
-                              });
-                              setTerritory(modifiedData);
-                            }
-                          );
-                        }}
-                        placeholder="Distribution Channel"
-                        errors={errors}
-                        touched={touched}
-                      />
-                    </div>
-                    <div className="col-lg-3">
-                      <NewSelect
-                        name="region"
-                        options={[{ value: 0, label: "All" }, ...regionDDL]}
-                        value={values?.region}
-                        label="Region"
-                        onChange={(valueOption) => {
+                        },
+                      }}
+                    />
+                    <FromDateToDateForm
+                      obj={{
+                        values,
+                        setFieldValue,
+                        onChange: () => {
                           setRowDto([]);
-                          setFieldValue("region", valueOption);
-                          setFieldValue("area", "");
-                          if (valueOption) {
-                            getRegionAreaTerritory({
-                              channelId: values?.distributionChannel?.value,
-                              regionId: valueOption?.value,
-                              setter: setAreaDDL,
-                              setLoading: setLoading,
-                              value: "areaId",
-                              label: "areaName",
-                            });
-                            getTerritory(
-                              `/oms/TerritoryInfo/GetTerrotoryRegionAreaByChannel?channelId=${values?.distributionChannel?.value}&regionId=${valueOption?.value}&areaId=${values?.area?.value}`,
-                              (data) => {
-                                const modifiedData = data?.map((item) => {
-                                  return {
-                                    ...item,
-                                    value: item?.territoryId,
-                                    label: item?.territoryName,
-                                  };
-                                });
-                                setTerritory(modifiedData);
-                              }
-                            );
-                          }
-                          if (valueOption?.value === 0) {
-                            setFieldValue("area", { value: 0, label: "All" });
-                          }
-                        }}
-                        placeholder="Region"
-                        errors={errors}
-                        touched={touched}
-                        isDisabled={
-                          !values?.distributionChannel ||
-                          values?.distributionChannel?.value === 0
-                        }
-                      />
-                    </div>
-                    <div className="col-lg-3">
-                      <NewSelect
-                        name="area"
-                        options={[{ value: 0, label: "All" }, ...areaDDL]}
-                        value={values?.area}
-                        label="Area"
-                        onChange={(valueOption) => {
-                          setRowDto([]);
-                          setFieldValue("area", valueOption);
-                          getTerritory(
-                            `/oms/TerritoryInfo/GetTerrotoryRegionAreaByChannel?channelId=${values?.distributionChannel?.value}&regionId=${values?.region?.value}&areaId=${valueOption?.value}`,
-                            (data) => {
-                              const modifiedData = data?.map((item) => {
-                                return {
-                                  ...item,
-                                  value: item?.territoryId,
-                                  label: item?.territoryName,
-                                };
-                              });
-                              setTerritory(modifiedData);
-                            }
-                          );
-                        }}
-                        placeholder="Area"
-                        errors={errors}
-                        touched={touched}
-                        isDisabled={
-                          !values?.region || values?.region?.value === 0
-                        }
-                      />
-                    </div>
-                    {/* {selectedBusinessUnit?.value === 4 &&
-                      values?.distributionChannel?.value !== 46 && ( */}
-                    <div className="col-lg-3">
-                      <NewSelect
-                        name="territory"
-                        options={[{ value: 0, label: "All" }, ...territoryDDl]}
-                        value={values?.territory}
-                        label="Territory"
-                        onChange={(valueOption) => {
-                          setRowDto([]);
-                          setFieldValue("territory", valueOption);
-                        }}
-                        placeholder="Territory"
-                        errors={errors}
-                        touched={touched}
-                        isDisabled={!values?.area || values?.area?.value === 0}
-                      />
-                    </div>
-                    {/* // )} */}
-                    <div className="col-lg-3">
-                      <FormikInput
-                        value={values?.fromDate}
-                        name="fromDate"
-                        placeholder="From Date"
-                        type="date"
-                        onChange={(e) => {
-                          setRowDto([]);
-                          setFieldValue("fromDate", e.target.value);
-                        }}
-                        errors={errors}
-                        touched={touched}
-                        label="From Date "
-                      />
-                    </div>
-                    <div className="col-lg-3">
-                      <FormikInput
-                        value={values?.toDate}
-                        name="toDate"
-                        placeholder="To Date"
-                        type="date"
-                        min={values?.fromDate}
-                        onChange={(e) => {
-                          setRowDto([]);
-                          setFieldValue("toDate", e.target.value);
-                        }}
-                        errors={errors}
-                        touched={touched}
-                        label="To Date "
-                      />
-                    </div>
-                    <div className="col-lg-3 d-flex align-items-center">
-                      <button
-                        type="button"
-                        className="btn btn-primary mt-4 mr-4"
-                        disabled={
-                          !values?.region ||
-                          !values?.area ||
-                          !values?.distributionChannel
-                        }
-                        onClick={() => {
-                          commonGridFunc(values);
-                        }}
-                      >
-                        View
-                      </button>
-                    </div>
+                        },
+                      }}
+                    />
+                    <IButton
+                      disabled={!values?.reportType || !values?.territory}
+                      onClick={() => {
+                        commonGridFunc(values);
+                      }}
+                    />
                   </div>
                 </div>
               </div>
