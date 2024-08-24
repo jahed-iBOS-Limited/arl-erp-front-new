@@ -105,9 +105,9 @@ export default function TenderSubmissionCreateEditForm() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const saveHandler = (values, cb) => {
+  const saveHandler = (values, tenderId, cb) => {
     submitTender(
-      selectUrl(values?.businessPartner?.label),
+      selectUrl(values?.businessPartner?.label, tenderId),
       selectPayload(values, { accountId, buUnId, buUnName, tenderId, userId }),
       cb,
       true
@@ -577,23 +577,23 @@ export default function TenderSubmissionCreateEditForm() {
       </div>
       {(tenderDetails?.header?.isAccept !== true ||
         tenderDetails?.isAccept !== true) && (
-        <div className="col-lg-1 mt-5 d-flex align-items-center">
-          <input
-            type="checkbox"
-            id="isAccept"
-            name="isAccept"
-            value={values?.isAccept}
-            checked={values?.isAccept}
-            onChange={(e) => {
-              setFieldValue("isAccept", e.target.checked);
-            }}
-            disabled={values?.isReject}
-          />
-          <label htmlFor="approveStatus" className="pl-1">
-            Approve
-          </label>
-        </div>
-      )}
+          <div className="col-lg-1 mt-5 d-flex align-items-center">
+            <input
+              type="checkbox"
+              id="isAccept"
+              name="isAccept"
+              value={values?.isAccept}
+              checked={values?.isAccept}
+              onChange={(e) => {
+                setFieldValue("isAccept", e.target.checked);
+              }}
+              disabled={values?.isReject}
+            />
+            <label htmlFor="approveStatus" className="pl-1">
+              Approve
+            </label>
+          </div>
+        )}
       <div className="col-lg-1 mt-5 d-flex align-items-center">
         <input
           type="checkbox"
@@ -634,7 +634,7 @@ export default function TenderSubmissionCreateEditForm() {
       initialValues={tenderId ? updateState(tenderDetails) : initData}
       validationSchema={createPageValidationSchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
-        saveHandler(values, () => {
+        saveHandler(values, tenderId, () => {
           !tenderId && resetForm(initData);
         });
       }}
@@ -655,7 +655,8 @@ export default function TenderSubmissionCreateEditForm() {
             getGhatDDLLoading) && <Loading />}
           <IForm title="Tender Submission Create" getProps={setObjprops}>
             <Form>
-              {/* {JSON.stringify(values, null, 2)} */}
+              {/* <pre>{JSON.stringify(values, null, 2)}</pre> */}
+
               <div className="form-group  global-form row">
                 <div className="col-lg-3">
                   <NewSelect
