@@ -18,6 +18,7 @@ import { setSalesCollectionInitDataAction } from "../../../_helper/reduxForLocal
 import CollectionModal from "./collection";
 import { getSBU } from "./helper";
 import PrintInvoiceModal from "./printInvoice";
+import { toast } from "react-toastify";
 
 export default function SalesCollectionLanding() {
   const initData = useSelector((state) => {
@@ -35,6 +36,7 @@ export default function SalesCollectionLanding() {
   const [showCollectionModal, setShowCollectionModal] = useState(false);
   const [singleItem, setSingleItem] = useState(null);
   const [paymentType, setPaymentType] = useState(2);
+  const [actionType, setActionType] = useState(1);
   const [sbuDDl, setSbuDDl] = useState([]);
   const history = useHistory();
   const dispatch = useDispatch();
@@ -45,14 +47,98 @@ export default function SalesCollectionLanding() {
 
   console.log("rowData", rowData);
 
+  // useEffect(() => {
+  //   const data = [...rowData];
+  //   let Ramount = +receivableAmount;
+
+  //   const modifyData = data.map((item) => {
+  //     const updatedInvoiceRow = item.invocieRow.map((invRow) => {
+  //       // const needCollectionAmount =
+  //       //   (invRow.numScheduleAmount || 0) + (invRow.numScheduleVatAmount || 0);
+  //       const needCollectionAmount = invRow?.needCollectionAmount2;
+
+  //       let CollectionAmount;
+  //       let PendingAmount;
+
+  //       if (Ramount >= needCollectionAmount) {
+  //         CollectionAmount = needCollectionAmount;
+  //         PendingAmount = 0;
+  //         Ramount -= needCollectionAmount;
+  //       } else {
+  //         CollectionAmount = Ramount;
+  //         PendingAmount = needCollectionAmount - Ramount;
+  //         Ramount = 0;
+  //       }
+
+  //       return {
+  //         ...invRow,
+  //         numCollectionAmount: CollectionAmount,
+  //         numPendingAmount: PendingAmount,
+  //       };
+  //     });
+
+  //     return {
+  //       ...item,
+  //       invocieRow: updatedInvoiceRow,
+  //     };
+  //   });
+
+  //   setRowData(modifyData);
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [receivableAmount]);
+
   useEffect(() => {
+    if (actionType === 1) {
+      // Auto mode logic (no change)
+      const data = [...rowData];
+      let Ramount = +receivableAmount;
+
+      const modifyData = data.map((item) => {
+        const updatedInvoiceRow = item.invocieRow.map((invRow) => {
+          const needCollectionAmount = invRow?.needCollectionAmount2;
+
+          let CollectionAmount;
+          let PendingAmount;
+
+          if (Ramount >= needCollectionAmount) {
+            CollectionAmount = needCollectionAmount;
+            PendingAmount = 0;
+            Ramount -= needCollectionAmount;
+          } else {
+            CollectionAmount = Ramount;
+            PendingAmount = needCollectionAmount - Ramount;
+            Ramount = 0;
+          }
+
+          return {
+            ...invRow,
+            numCollectionAmount: CollectionAmount,
+            numPendingAmount: PendingAmount,
+          };
+        });
+
+        return {
+          ...item,
+          invocieRow: updatedInvoiceRow,
+        };
+      });
+
+      setRowData(modifyData);
+    } else if (actionType === 2) {
+      onCheckHandler();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [receivableAmount, actionType]);
+
+  const onCheckHandler = () => {
+    // Manual mode logic (only for selected rows)
     const data = [...rowData];
     let Ramount = +receivableAmount;
 
     const modifyData = data.map((item) => {
+      if (!item.isSelected) return item; // Skip unselected rows
+
       const updatedInvoiceRow = item.invocieRow.map((invRow) => {
-        // const needCollectionAmount =
-        //   (invRow.numScheduleAmount || 0) + (invRow.numScheduleVatAmount || 0);
         const needCollectionAmount = invRow?.needCollectionAmount2;
 
         let CollectionAmount;
@@ -82,8 +168,7 @@ export default function SalesCollectionLanding() {
     });
 
     setRowData(modifyData);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [receivableAmount]);
+  };
 
   useEffect(() => {
     getData({ typeId: initData?.type?.value, values: initData || {} });
@@ -147,6 +232,10 @@ export default function SalesCollectionLanding() {
       })
       .catch((err) => []);
   };
+
+  const collectionRow = rowData?.filter(
+    (item) => item?.invocieRow?.[0]?.numCollectionAmount
+  );
 
   return (
     <Formik
@@ -265,7 +354,9 @@ export default function SalesCollectionLanding() {
                   )}
                   <div>
                     <button
-                      disabled={[2].includes(values?.type?.value) && !values?.customer}
+                      disabled={
+                        [2].includes(values?.type?.value) && !values?.customer
+                      }
                       className="btn btn-primary"
                       type="button"
                       style={{ marginTop: "17px" }}
@@ -288,7 +379,7 @@ export default function SalesCollectionLanding() {
                   <>
                     <div className="row mt-5">
                       <div className="col-lg-4">
-                      <label className="mr-3">
+                        <label className="mr-3">
                           <input
                             type="radio"
                             name="paymentType"
@@ -374,7 +465,9 @@ export default function SalesCollectionLanding() {
                             </div>
                             <div>
                               <button
-                                disabled={!receivableAmount}
+                                disabled={
+                                  !receivableAmount || !collectionRow?.length
+                                }
                                 className="btn btn-primary mt-5"
                                 type="button"
                                 onClick={() => {
@@ -412,11 +505,7 @@ export default function SalesCollectionLanding() {
                                                 ?.value,
                                             customerDetails: values?.customer,
                                             receivableAmount: receivableAmount,
-                                            collectionRow: rowData?.filter(
-                                              (item) =>
-                                                item?.invocieRow?.[0]
-                                                  ?.numCollectionAmount
-                                            ),
+                                            collectionRow: collectionRow,
                                           },
                                         }
                                   );
@@ -431,11 +520,54 @@ export default function SalesCollectionLanding() {
                     </div>
                   </>
                 )}
-                <div className="mt-5">
+                {[2].includes(values?.type?.value) && rowData?.length > 0 && (
+                  <div className="row mt-5">
+                    <div className="col-lg-4">
+                      <label className="mr-3">
+                        <input
+                          type="radio"
+                          name="actionType"
+                          checked={actionType === 1}
+                          className="mr-1 pointer"
+                          style={{ position: "relative", top: "2px" }}
+                          onChange={(e) => {
+                            setActionType(1);
+                            setReceivableAmount(0);
+                            getData({
+                              typeId: values?.type?.value,
+                              values,
+                            });
+                          }}
+                        />
+                        Auto
+                      </label>
+                      <label className="mr-3">
+                        <input
+                          type="radio"
+                          name="actionType"
+                          checked={actionType === 2}
+                          className="mr-1 pointer"
+                          style={{ position: "relative", top: "2px" }}
+                          onChange={(valueOption) => {
+                            setActionType(2);
+                            setReceivableAmount(0);
+                            getData({
+                              typeId: values?.type?.value,
+                              values,
+                            });
+                          }}
+                        />
+                        Manual
+                      </label>
+                    </div>
+                  </div>
+                )}
+                <div className="mt-2">
                   <div className="table-responsive">
                     <table className="table table-striped table-bordered bj-table bj-table-landing">
                       <thead>
                         <tr>
+                          {actionType === 2 && <th></th>}
                           <th style={{ maxWidth: "20px" }}>SL</th>
                           <th>Customer</th>
                           <th>Item Name</th>
@@ -456,6 +588,27 @@ export default function SalesCollectionLanding() {
                       <tbody>
                         {rowData?.map((item, index) => (
                           <tr key={index}>
+                            {actionType === 2 && (
+                              <td>
+                                <input
+                                  type="checkbox"
+                                  checked={item?.isSelected || false}
+                                  onChange={(e) => {
+                                    const modifyData = [...rowData];
+                                    modifyData[index]["isSelected"] =
+                                      e.target.checked;
+                                    modifyData[index]["invocieRow"][0][
+                                      "numCollectionAmount"
+                                    ] = 0;
+                                    modifyData[index]["invocieRow"][0][
+                                      "numPendingAmount"
+                                    ] = 0;
+                                    setRowData(modifyData);
+                                    onCheckHandler();
+                                  }}
+                                />
+                              </td>
+                            )}
                             <td>{index + 1}</td>
                             <td>{item?.invocieHeader?.strCustomerName}</td>
                             <td>

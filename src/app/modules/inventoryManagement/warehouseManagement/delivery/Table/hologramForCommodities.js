@@ -8,6 +8,7 @@ import "./hologramForCommodities.css";
 import { _fixedPoint } from "../../../../_helper/_fixedPoint";
 import moment from "moment";
 import IButton from "../../../../_helper/iButton";
+import { _dateFormatter } from "../../../../_helper/_dateFormate";
 const HologramPrintForAkijCommodities = ({ printDataList }) => {
   const printRef = useRef();
 
@@ -38,14 +39,17 @@ const HologramPrintForAkijCommodities = ({ printDataList }) => {
             // phoneNumber,
             soldToPartnerCode,
             shipToPartnerName,
-            shipToPartnerContact,
+            // shipToPartnerContact,
             shipToPartnerAddress,
             shipToPartnerPropitorName,
             deliveryCode,
             soldToPartnerAddress,
+            businessPartnerContact = "",
+            salesOrderDate,
           } = printData;
 
           let totalQty = 0;
+          let totalQtyBag = 0;
           return (
             <div className="page-break CommoditiesHologram_wrapper">
               <div
@@ -158,30 +162,40 @@ const HologramPrintForAkijCommodities = ({ printDataList }) => {
                           <td>{shipToPartnerAddress}</td>
                           <td>Contact No</td>
                           <td>:</td>
-                          <td>{shipToPartnerContact}</td>
+                          <td>{businessPartnerContact}</td>
+                        </tr>
+                        <tr>
+                          <td>SO Date</td>
+                          <td>:</td>
+                          <td>{_dateFormatter(salesOrderDate)}</td>
                         </tr>
                       </tbody>
                     </table>
                   </div>
 
-                  <div className="main_table" style={{ marginTop: "30px" }}>
+                  <div className="main_table" style={{ marginTop: "20px" }}>
                     <div className="table-responsive">
                       <table className="table">
                         <thead>
                           <tr>
                             <th>SL</th>
+                            <th>Item Code</th>
                             <th>Product Description</th>
                             <th>UoM</th>
-                            <th>Quantity</th>
-                            {/* <th>Weight (M.ton)</th> */}
+                            <th>Weight (M.ton)</th>
+                            <th>Quantity (Bag)</th>
                           </tr>
                         </thead>
                         <tbody>
                           {rowList?.map((item, index) => {
                             totalQty += item?.deliveryQuantity;
+                            totalQtyBag += item?.deliveryQuantityBag;
                             return (
                               <tr>
                                 <td className="text-center">{index + 1}</td>
+                                <td className="CommoditiesHologram_table_td">
+                                  <b>{item?.itemCode}</b>
+                                </td>
                                 <td className="CommoditiesHologram_table_td">
                                   <b>{item?.itemName}</b>
                                 </td>
@@ -189,22 +203,22 @@ const HologramPrintForAkijCommodities = ({ printDataList }) => {
                                 <td className="text-center">
                                   {_fixedPoint(item?.deliveryQuantity, true)}
                                 </td>
-                                {/* <td className="text-center">
-                                  {_fixedPoint(item?.orderQuantity, true)}
-                                </td> */}
+                                <td className="text-center">
+                                  {_fixedPoint(item?.deliveryQuantityBag, true)}
+                                </td>
                               </tr>
                             );
                           })}
                           <tr style={{ fontWeight: "bold" }}>
-                            <td className="text-right" colSpan={3}>
+                            <td className="text-right" colSpan={4}>
                               Total
                             </td>
                             <td className="text-center">
                               {_fixedPoint(totalQty, true)}
                             </td>
-                            {/* <td className="text-center">
-                              {_fixedPoint(totalQty, true)}
-                            </td> */}
+                            <td className="text-center">
+                              {_fixedPoint(totalQtyBag, true)}
+                            </td>
                           </tr>
                         </tbody>
                       </table>

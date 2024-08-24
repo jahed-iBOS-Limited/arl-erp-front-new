@@ -68,7 +68,7 @@ export const initData = {
   layCan: "",
   pricePerBag: "", // edit
   // badc (mop)
-  dischargePortMOP: "",
+  // dischargePortMOP: "",
   mopRowsData: [],
 };
 
@@ -210,14 +210,14 @@ export const createPageValidationSchema = Yup.object({
     .min(0),
 
   // badc (mop)
-  dischargePortMOP: Yup.string().when("businessPartner", {
-    is: (businessPartner) => {
-      // console.log(businessPartner?.label === "BADC(MOP)")
-      return businessPartner && businessPartner?.label === "BADC(MOP)";
-    },
-    then: Yup.string().required("Discharge Port is required"),
-    otherwise: Yup.string(),
-  }),
+  // dischargePortMOP: Yup.string().when("businessPartner", {
+  //   is: (businessPartner) => {
+  //     // console.log(businessPartner?.label === "BADC(MOP)")
+  //     return businessPartner && businessPartner?.label === "BADC(MOP)";
+  //   },
+  //   then: Yup.string().required("Discharge Port is required"),
+  //   otherwise: Yup.string(),
+  // }),
   mopRowsData: Yup.array()
     .of(Yup.object())
     .when("businessPartner", {
@@ -327,6 +327,10 @@ export const fetchTenderDetailsCallbackForPrintAndCreateEditPage = (
   if (values?.businessPartner?.label === "BADC") {
     url = `/tms/TenderSubmission/GetBIDCTenderSubmissionById?AccountId=${accountId}&BusinessunitId=${buUnId}&TenderId=${tenderId}`;
   }
+  // Here this is only for edit but for print we use fetchBADCMOPRowsDataForPrintPage func for backend issuu
+  if (values?.businessPartner?.label === "BADC(MOP)") {
+    url = `/tms/TenderSubmission/GetForEditMOPConfiguration?AccountId=${accountId}&BusinessUnitId=${buUnId}&MopTenderId=${tenderId}`; // tenderId => mopTenderId
+  }
   getTenderDetailsFunc(url, () => {
     callback && callback();
   });
@@ -337,10 +341,11 @@ export const fetchBADCMOPRowsDataForPrintPage = (
   accountId,
   buUnId,
   mopTenderId,
+  portId,
   getTenderDetailsFunc,
   callback
 ) => {
-  const url = `/tms/TenderSubmission/GetByBADCMOPConfiguration?AccountId=${accountId}&BusinessUnitId=${buUnId}&MopTenderId=${mopTenderId}`;
+  const url = `/tms/TenderSubmission/GetByBADCMOPConfiguration?AccountId=${accountId}&BusinessUnitId=${buUnId}&MopTenderId=${mopTenderId}&PortId=${portId}`;
 
   getTenderDetailsFunc(url, () => {
     callback && callback();
@@ -364,25 +369,26 @@ export const selectEditId = (item) => {
 //export const updateState = ({ header, rows, }, ...rest) => {
 export const updateState = (tenderDetails) => {
   const isBCIC = tenderDetails?.header || tenderDetails?.rows;
-  //   const isBADCMOP=
+  const isBADCMOP = tenderDetails?.headerDTO || tenderDetails?.rowDTOs;
+
   if (isBCIC) {
     const { header, rows } = tenderDetails;
 
     const bcicState = {
       dischargePort: header?.dischargePortId
         ? {
-            label: header?.dischargePortName,
-            value: header?.dischargePortId,
-          }
+          label: header?.dischargePortName,
+          value: header?.dischargePortId,
+        }
         : "",
       commercialNo: header?.commercialNo,
       commercialDate: _dateFormatter(header?.commercialDate),
       remarks: header?.strRemarks,
       motherVessel: header?.motherVesselId
         ? {
-            label: header?.motherVesselName,
-            value: header?.motherVesselId,
-          }
+          label: header?.motherVesselName,
+          value: header?.motherVesselId,
+        }
         : "",
       localTransportations: rows?.map((item) => {
         return {
@@ -390,9 +396,9 @@ export const updateState = (tenderDetails) => {
           tenderHeaderId: item?.tenderHeaderId,
           godownName: item?.godownName
             ? {
-                value: item?.godownId,
-                label: item?.godownName,
-              }
+              value: item?.godownId,
+              label: item?.godownName,
+            }
             : "",
           quantity: item?.quantity,
           price: item?.perQtyTonPriceBd,
@@ -408,9 +414,9 @@ export const updateState = (tenderDetails) => {
       // global
       businessPartner: header?.businessPartnerId
         ? {
-            value: header?.businessPartnerId,
-            label: header?.businessPartnerName,
-          }
+          value: header?.businessPartnerId,
+          label: header?.businessPartnerName,
+        }
         : "",
       // common
       enquiry: header?.enquiryNo,
@@ -419,9 +425,9 @@ export const updateState = (tenderDetails) => {
       productName: header?.itemName,
       loadPort: header?.loadPortId
         ? {
-            label: header?.loadPortName,
-            value: header?.loadPortId,
-          }
+          label: header?.loadPortName,
+          value: header?.loadPortId,
+        }
         : "",
       // edit
       foreignPriceUSD: header?.foreignPriceUsd,
@@ -429,6 +435,54 @@ export const updateState = (tenderDetails) => {
       isAccept: header?.isAccept,
       isReject: header?.isReject,
     };
+    return commonEditData;
+  } else if (isBADCMOP) {
+    const { headerDTO, rowDTOs } = tenderDetails;
+
+    const badcMOPState = {
+      enquiry: headerDTO?.mopInvoiceId,
+      mopTenderId: headerDTO?.mopTenderId,
+      submissionDate: _dateFormatter(headerDTO?.submissionDate),
+      // dischargePortMOP: headerDTO?.portId
+      //   ? {
+      //       label: headerDTO?.portName,
+      //       value: headerDTO?.portId,
+      //     }
+      //   : "",
+      mopRowsData: rowDTOs?.map((item) => {
+        return {
+          mopTenderId: item?.mopTenderId,
+          mopInvoiceId: item?.mopInvoiceId,
+          ghatId: item?.ghatId,
+          ghatName: item?.ghatName,
+          portId: item?.portId,
+          portName: item?.portName,
+          distance: item?.distance,
+          quantity: item?.quantity,
+          actualQuantity: item?.actualQuantity,
+        };
+      }),
+    };
+
+    const commonEditData = {
+      // badc (mop)
+      ...badcMOPState,
+
+      // global
+      businessPartner: headerDTO?.businessPartnerId
+        ? {
+          value: headerDTO?.businessPartnerId,
+          label: headerDTO?.businessPartnerName,
+        }
+        : "",
+      remarks: headerDTO?.strRemarks,
+
+      // edit
+      attachment: headerDTO?.attachment,
+      isAccept: headerDTO?.isAccept,
+      isReject: headerDTO?.isReject,
+    };
+
     return commonEditData;
   } else {
     const badcState = {
@@ -446,9 +500,9 @@ export const updateState = (tenderDetails) => {
       // global
       businessPartner: tenderDetails?.businessPartnerId
         ? {
-            value: tenderDetails?.businessPartnerId,
-            label: tenderDetails?.businessPartnerName,
-          }
+          value: tenderDetails?.businessPartnerId,
+          label: tenderDetails?.businessPartnerName,
+        }
         : "",
       // common
       enquiry: tenderDetails?.enquiryNo,
@@ -457,9 +511,9 @@ export const updateState = (tenderDetails) => {
       productName: tenderDetails?.itemName,
       loadPort: tenderDetails?.loadPortId
         ? {
-            label: tenderDetails?.loadPortName,
-            value: tenderDetails?.loadPortId,
-          }
+          label: tenderDetails?.loadPortName,
+          value: tenderDetails?.loadPortId,
+        }
         : "",
       // edit
       foreignPriceUSD: tenderDetails?.foreignPriceUsd,
@@ -479,9 +533,8 @@ export const fetchGodownDDLList = (
   getGodownDDLFunc,
   updateGodownDDLFunc
 ) => {
-  const url = `/tms/LigterLoadUnload/GetShipToPartnerG2GPagination?AccountId=${accountId}&BusinessUnitId=${buUnId}&BusinessPartnerId=${
-    businessPartner?.value
-  }&PageNo=${0}&PageSize=${100}`;
+  const url = `/tms/LigterLoadUnload/GetShipToPartnerG2GPagination?AccountId=${accountId}&BusinessUnitId=${buUnId}&BusinessPartnerId=${businessPartner?.value
+    }&PageNo=${0}&PageSize=${100}`;
   getGodownDDLFunc(url, (data) => {
     const updateDDL = data?.data?.map((item) => {
       return {
@@ -560,7 +613,7 @@ function convertToWords(num) {
     if (part > 0) {
       parts.unshift(
         convertBelowThousand(part) +
-          (thousands[thousandIndex] ? " " + thousands[thousandIndex] : "")
+        (thousands[thousandIndex] ? " " + thousands[thousandIndex] : "")
       );
     }
     num = Math.floor(num / 1000);
@@ -590,14 +643,18 @@ export function convertToText(n, uoc) {
   );
 }
 
-// Select url for create tender on create and edit page
-export const selectUrl = (businessPartner) => {
+// Select url for create tender on create and edit page with business partner & tenderId. BADC MOP use different url for update
+export const selectUrl = (businessPartner, mopTenderId) => {
   switch (businessPartner) {
     case "BCIC":
       return `/tms/TenderSubmission/CreateOrUpdateTenderSubission`;
     case "BADC":
-      return `tms/TenderSubmission/CreateOrEditBIDCTenderSubmission`;
+      return `/tms/TenderSubmission/CreateOrEditBIDCTenderSubmission`
     case "BADC(MOP)":
+      // tenderId. BADC MOP use different url for update
+      if (mopTenderId) {
+        return `/tms/TenderSubmission/UpdateBADCMOPConfiguration`
+      }
       return `/tms/TenderSubmission/CreateBADCMOPConfiguration`;
     default:
       return "";
@@ -699,9 +756,9 @@ export const selectPayload = (
         ...commonPayload,
 
         mopInvoiceId: values?.enquiry,
-        mopTenderId: tenderId ? tenderId : 0,
-        portId: values?.dischargePortMOP?.value,
-        portName: values?.dischargePortMOP?.label,
+        mopTenderId: tenderId ? +tenderId : 0,
+        // portId: values?.dischargePortMOP?.value,
+        // portName: values?.dischargePortMOP?.label,
       },
       rowDTOs: values?.mopRowsData,
     };
@@ -744,7 +801,7 @@ export const fetchGhatDDL = (accountId, buUnId, getGhatDDLFunc) => {
 export const TOTAL_COLUMNS_LENGTH = 20;
 
 // create excel sheet for badc(mop) table rows
-export const createExcelSheet = (ghatDDL) => {
+export const createExcelSheet = (ghatDDL, dischargePortDDL) => {
   const workbook = new ExcelJS.Workbook();
 
   // Add a new worksheet
@@ -752,6 +809,7 @@ export const createExcelSheet = (ghatDDL) => {
 
   // Add some rows and columns
   worksheet.columns = [
+    { header: "Port Name", key: "portName", width: 15 },
     { header: "Ghat Name", key: "ghatName", width: 15 },
     { header: "Distance", key: "distance", width: 15 },
     { header: "Rang0to100", key: "rangOto100", width: 15 },
@@ -783,10 +841,24 @@ export const createExcelSheet = (ghatDDL) => {
     };
   }
 
+  // Port Name (DDL)
+  const portName = worksheet.getCell("A2");
+  portName.value = dischargePortDDL?.[0]?.label || "";
+  const portDDLList = [
+    `"${dischargePortDDL?.map((item) => item?.label).join(", ")}"`,
+  ];
+  portName.dataValidation = {
+    type: "list",
+    formulae: portDDLList || [],
+    showErrorMessage: true,
+    error: "Please use the dropdown to select a port",
+    errorTitle: "Invalid Selection",
+  };
+
   // Ghat name (DDL)
-  const ghatName = worksheet.getCell("A2");
+  const ghatName = worksheet.getCell("B2");
   ghatName.value = ghatDDL?.[0]?.label || "";
-  const ghatDDLList = [`"${ghatDDL?.map((item) => item?.label).join(",")}"`];
+  const ghatDDLList = [`"${ghatDDL?.map((item) => item?.label).join(", ")}"`];
   ghatName.dataValidation = {
     type: "list",
     formulae: ghatDDLList || [],
@@ -796,75 +868,75 @@ export const createExcelSheet = (ghatDDL) => {
   };
 
   // Distance
-  worksheet.getCell("B2").value = 0;
+  worksheet.getCell("C2").value = 0;
   // Rang0to100
-  worksheet.getCell("C2").value = {
-    formula: "IF(AND(B2>0,B2 <= 100), B2* 15,100*15)",
+  worksheet.getCell("D2").value = {
+    formula: "IF(AND(C2>0,C2 <= 100), C2* 15,100*15)",
     result: 0,
   };
   // Rang101to200
-  worksheet.getCell("D2").value = {
-    formula: "IF(AND(B2 > 100, B2 <= 200),(B2-100)*3.25,IF(B2>200,100*3.25,0))",
+  worksheet.getCell("E2").value = {
+    formula: "IF(AND(C2 > 100, C2 <= 200),(C2-100)*3.25,IF(C2>200,100*3.25,0))",
     result: 0,
   };
   // Rang201to300
-  worksheet.getCell("E2").value = {
-    formula: "IF(AND(B2 > 200, B2 <= 300),(B2-200)*0.7,IF(B2>300,100*0.7,0))",
+  worksheet.getCell("F2").value = {
+    formula: "IF(AND(C2 > 200, C2 <= 300),(C2-200)*0.7,IF(C2>300,100*0.7,0))",
     result: 0,
   };
   // Rang301to400
-  worksheet.getCell("F2").value = {
+  worksheet.getCell("G2").value = {
     formula: "IF(AND(B5 > 300, B5 <= 400),(B5-300)*0.5,IF(B5>400,100*0.5,0))",
     result: 0,
   };
   // Rang401to500
-  worksheet.getCell("G2").value = {
-    formula: "IF(AND(B2 > 400, B2 <= 500),(B2-400)*0.3,IF(B2>500,100*0.3,0))",
+  worksheet.getCell("H2").value = {
+    formula: "IF(AND(C2 > 400, C2 <= 500),(C2-400)*0.3,IF(C2>500,100*0.3,0))",
     result: 0,
   };
   // TotalRate
-  worksheet.getCell("H2").value = {
+  worksheet.getCell("I2").value = {
     formula: "SUM(C2:G2)",
     result: 0,
   };
   // TaxVat
-  worksheet.getCell("I2").value = {
-    formula: "H2*0.17",
+  worksheet.getCell("J2").value = {
+    formula: "I2*0.17",
     result: 0,
   };
   // InvoiceCost
-  worksheet.getCell("J2").value = 0;
+  worksheet.getCell("K2").value = 0;
   // LabourBill
-  worksheet.getCell("K2").value = 100;
+  worksheet.getCell("L2").value = 100;
   // TransportCost
-  worksheet.getCell("L2").value = 0;
-  // TotalCost
   worksheet.getCell("M2").value = 0;
+  // TotalCost
+  worksheet.getCell("N2").value = 0;
   // AdditionalCost
-  worksheet.getCell("N2").value = {
-    formula: "SUM(I2:M2)",
+  worksheet.getCell("O2").value = {
+    formula: "SUM(J2:N2)",
     result: 0,
   };
   // TotalRecieve
-  worksheet.getCell("O2").value = {
-    formula: "ABS(H2-N2)",
+  worksheet.getCell("P2").value = {
+    formula: "ABS(I2-O2)",
     result: 0,
   };
   // Quantity
-  worksheet.getCell("P2").value = 0;
+  worksheet.getCell("Q2").value = 0;
   // BillAmount
-  worksheet.getCell("Q2").value = {
-    formula: "P2*H2",
+  worksheet.getCell("R2").value = {
+    formula: "Q2*I2",
     result: 0,
   };
   // CostAmount
-  worksheet.getCell("R2").value = {
-    formula: "P2*N2",
+  worksheet.getCell("S2").value = {
+    formula: "Q2*O2",
     result: 0,
   };
   // ProfitAmount
-  worksheet.getCell("S2").value = {
-    formula: "ABS(Q2-R2)",
+  worksheet.getCell("T2").value = {
+    formula: "ABS(R2-S2)",
     result: 0,
   };
 
@@ -879,7 +951,7 @@ export const createExcelSheet = (ghatDDL) => {
 
     const url = window.URL.createObjectURL(blob);
     mopExcel.href = url;
-    mopExcel.download = `SalesInvoiceUploadFormat-${moment().format("l")}`;
+    mopExcel.download = `BADCMOPTender-${moment().format("l")}`;
     mopExcel.click();
   });
 };
@@ -909,6 +981,14 @@ const getCurrentGhatObj = (ghatDDL, ghatname) => {
   return ghat;
 };
 
+// get port object from a port name
+const getCurrentPortObj = (portDDL, portName) => {
+  const port = portDDL.find(
+    (item) => formatString(item?.label) === formatString(portName)
+  );
+  return port;
+};
+
 // fill with undefined to empty cell
 const fillWithUndefindValueToEmptyCell = (data) =>
   data?.map((item, index) => {
@@ -920,33 +1000,36 @@ const fillWithUndefindValueToEmptyCell = (data) =>
   });
 
 // Modify array item to object from filledUndefinedValueToEmptyCellaData arr
-const modifyFilledData = (filledArr, ghatDDL) =>
+const modifyFilledData = (filledArr, ghatDDL, dischargePortDDL) =>
   filledArr?.map((item, index) => {
-    const ghatName = item[0];
+    const portName = item[0];
+    const ghatName = item[1];
 
     return {
       conFigId: 0,
       mopInvoiceId: "",
+      portId: getCurrentPortObj(dischargePortDDL, portName)?.value, // reuturn port id/value with port name from port ddl
+      portName: portName,
       ghatId: getCurrentGhatObj(ghatDDL, ghatName)?.value, // reuturn ghat id/value with ghat name from ghat ddl
       ghatName: ghatName,
-      distance: item[1], // distance index
-      rangOto100: item[2], // rangOto100 index
-      rang101to200: item[3], // rang101to200 index
-      rang201to300: item[4], // rang201to300 index
-      rang301to400: item[5], // rang301to400 index
-      rang401to500: item[6], // rang401to500 index
-      totalRate: item[7], // totalRate index
-      taxVat: item[8], // taxVat index
-      invoiceCost: item[9], // invoiceCost index
-      labourBill: item[10], // labourBill index
-      transPortCost: item[11], // transPortCost index
-      additionalCost: item[12], // additionalCost index
-      totalCost: item[13], // totalCost index
-      totalRecive: item[14], // totalRecive index
-      quantity: item[15], // quantity index
-      billAmount: item[16], // billAmount index
-      costAmount: item[17], // costAmount index
-      profitAmount: item[18], // profitAmount index
+      distance: item[2], // distance index
+      rangOto100: item[3], // rangOto100 index
+      rang101to200: item[4], // rang101to200 index
+      rang201to300: item[5], // rang201to300 index
+      rang301to400: item[6], // rang301to400 index
+      rang401to500: item[7], // rang401to500 index
+      totalRate: item[8], // totalRate index
+      taxVat: item[9], // taxVat index
+      invoiceCost: item[10], // invoiceCost index
+      labourBill: item[11], // labourBill index
+      transPortCost: item[12], // transPortCost index
+      additionalCost: item[13], // additionalCost index
+      totalCost: item[14], // totalCost index
+      totalRecive: item[15], // totalRecive index
+      quantity: item[16], // quantity index
+      billAmount: item[17], // billAmount index
+      costAmount: item[18], // costAmount index
+      profitAmount: item[19], // profitAmount index
       isActive: true,
       mopTenderId: 0,
       actualQuantity: 0,
@@ -956,8 +1039,8 @@ const modifyFilledData = (filledArr, ghatDDL) =>
 // excel sheet file upload handler
 export const excelSheetUploadHandler = async (
   excelFile,
-  formValues,
-  ghatDDL
+  ghatDDL,
+  dischargePortDDL
 ) => {
   // collection of update excel data list from array of array to array of object
   let updateExcelDataList = [];
@@ -968,7 +1051,7 @@ export const excelSheetUploadHandler = async (
         toast.warning("An unexpected error occurred");
       } else {
         // ! excel file response
-        // {"rows": [["Ghat Name", "Distance","Rang0to100",],["",0, 0,]],
+        // {"rows": [["Port Name","Ghat Name", "Distance","Rang0to100",],["",0, 0,]],
         // "cols": [{"name": "A","key": 0},{"name": "B","key": 1},]}
         // console.log(res)
         // remove 1st row & filter that array has element
@@ -984,7 +1067,8 @@ export const excelSheetUploadHandler = async (
         // Modify array item to object from filledUndefinedValueToEmptyCellaData arr
         const modifiedData = modifyFilledData(
           filledUndefinedValueToEmptyCellaData,
-          ghatDDL
+          ghatDDL,
+          dischargePortDDL
         );
 
         // asign modifiedData to updateExcelDataList
@@ -997,8 +1081,9 @@ export const excelSheetUploadHandler = async (
   return updateExcelDataList;
 };
 
-// mop tender data table header
-export const mopTenderDataTableHeader = [
+// mop tender create data table header
+export const mopTenderCreateDataTableHeader = [
+  "Port Name",
   "Ghat Name",
   "Distance",
   "RangOto100",
@@ -1019,4 +1104,12 @@ export const mopTenderDataTableHeader = [
   "CostAmount",
   "ProfitAmount",
   "Actions",
+];
+
+// mop tender create data table header
+export const mopTenderEditDataTableHeader = [
+  "Port Name",
+  "Ghat Name",
+  "Quantity",
+  "Actual Quantity",
 ];

@@ -179,7 +179,7 @@ export default function TenderSubmissionLanding() {
                     //   );
                     // }}
                     onSubmit={() => handleSubmit()}
-                    // disabled={!isValid || !dirty}
+                  // disabled={!isValid || !dirty}
                   >
                     View
                   </button>
@@ -205,7 +205,7 @@ export default function TenderSubmissionLanding() {
                   handleTenderPrint={handleTenderPrint}
                   getTenderDetails={getTenderDetails}
                 />
-              ) : (
+              ) : values?.businessPartner?.label === "BADC(MOP)" ? (
                 <BADCMOPTable
                   accountId={accountId}
                   buUnId={buUnId}
@@ -213,7 +213,7 @@ export default function TenderSubmissionLanding() {
                   handleTenderPrint={handleTenderPrint}
                   getTenderDetails={getTenderDetails}
                 />
-              )}
+              ) : <></>}
 
               {/* Paginations of BCIC & BADC Tender  */}
               {submittedTenderLists?.data?.length > 0 && (
@@ -257,9 +257,9 @@ export default function TenderSubmissionLanding() {
                         <PrintBCICTender tenderDetails={tenderDetails} />
                       ) : values?.businessPartner?.label === "BADC" ? (
                         <PrintBADCTender tenderDetails={tenderDetails} />
-                      ) : (
+                      ) : values?.businessPartner?.label === 'BADC(MOP)' ? (
                         <PrintBADCMOPTender tenderDetails={tenderDetails} />
-                      )}
+                      ) : <></>}
                     </div>
                   </tbody>
                   <tfoot>
@@ -282,9 +282,92 @@ export default function TenderSubmissionLanding() {
                 </table>
               </div>
             </div>
+
+
           </IForm>
         </>
       )}
     </Formik>
   );
 }
+
+
+// eslint-disable-next-line no-lone-blocks
+{/* <div ref={printRef} className="tender-print-preview">
+  <div style={{ margin: "-13px 50px 51px 50px" }}>
+    <div
+      className="invoice-header"
+      style={{
+        backgroundImage: `url(${getLetterHead({
+          buId: buUnId,
+        })})`,
+        backgroundRepeat: "no-repeat",
+        height: "150px",
+        backgroundSize: "cover",
+        position: "fixed",
+        width: "100%",
+        top: "-50px",
+        left: "-8px",
+      }}
+    ></div>
+    <div
+      className="invoice-footer"
+      style={{
+        backgroundImage: `url(${getLetterHead({
+          buId: buUnId,
+        })})`,
+        backgroundRepeat: "no-repeat",
+        height: "100px",
+        backgroundSize: "cover",
+        position: "fixed",
+        bottom: "0px",
+        left: "-8px",
+        width: "100%",
+      }}
+    ></div>
+    <table>
+      <thead>
+        <tr>
+          <td
+            style={{
+              border: "none",
+            }}
+          >
+
+            <div
+              style={{
+                height: "120px",
+              }}
+            ></div>
+          </td >
+        </tr >
+      </thead >
+      <tbody>
+        <div>
+          {values?.businessPartner?.label === "BCIC" ? (
+            <PrintBCICTender tenderDetails={tenderDetails} />
+          ) : values?.businessPartner?.label === "BADC" ? (
+            <PrintBADCTender tenderDetails={tenderDetails} />
+          ) : (
+            <PrintBADCMOPTender tenderDetails={tenderDetails} />
+          )}
+        </div>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td
+            style={{
+              border: "none",
+            }}
+          >
+            <div
+              style={{
+                height: "90px",
+              }}
+            ></div>
+          </td>
+        </tr>
+      </tfoot>
+    </table >
+  </div >
+</div > */}
