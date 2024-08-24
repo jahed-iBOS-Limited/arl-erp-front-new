@@ -6,6 +6,8 @@ import IEdit from "../../../../_helper/_helperIcons/_edit";
 import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
 import ICon from "../../../../chartering/_chartinghelper/icons/_icon";
 import { fetchBADCMOPRowsDataForPrintPage, selectEditId } from "../helper";
+import moment from "moment";
+import { _dateFormatter } from "../../../../_helper/_dateFormate";
 
 const BADCMOPTable = ({
   accountId,
@@ -30,8 +32,7 @@ const BADCMOPTable = ({
             <th>SL</th>
             <th style={{ width: "150px" }}>Business Partner</th>
             <th>Enquiry No</th>
-            <th>Discharge Port</th>
-            <th>Actual Quantity</th>
+            <th>Submission Date</th>
             <th>Status</th>
             <th>Actions</th>
           </tr>
@@ -45,17 +46,15 @@ const BADCMOPTable = ({
                 </td>
                 <td>{item?.businessPartnerName}</td>
                 <td>{item?.mopInvoiceId}</td>
-                <td>{item?.portName}</td>
-                <td className="text-right">{item?.actualQuantity}</td>
-
+                <td>{_dateFormatter(item?.submissionDate)}</td>
                 <td style={{ width: "70px" }}>
                   {item?.isAccept
                     ? "Approved"
                     : item?.isReject
-                    ? "Reject"
-                    : item?.isPending
-                    ? "Pending"
-                    : "NA"}
+                      ? "Reject"
+                      : item?.isPending
+                        ? "Pending"
+                        : "NA"}
                 </td>
                 <td style={{ width: "80px" }} className="text-center">
                   <div className="d-flex justify-content-around">
@@ -71,7 +70,7 @@ const BADCMOPTable = ({
                             });
                             // setShow(true);
                           }}
-                          // id={item?.shiptoPartnerId}
+                        // id={item?.shiptoPartnerId}
                         />
                       </span>
                     )}
