@@ -109,8 +109,6 @@ export default function BankJournalCreateFormCollection() {
   };
 
   const saveHandler = async (values, cb) => {
-    collectionSave("77777");
-    return;
     if (
       location?.state?.selectedJournal?.value === 5 &&
       !params?.id &&
