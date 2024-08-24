@@ -3,10 +3,11 @@ import { _formatMoney } from "../../../../_helper/_formatMoney";
 import { convertToText } from "../helper";
 
 const PrintBADCMOPTender = ({ tenderDetails }) => {
+
   const totalAmount = useMemo(
     () =>
       tenderDetails?.reduce((acc, item) => {
-        acc += item?.amount;
+        acc += item?.amount === null ? 0 : item?.amount;
         return acc;
       }, 0),
     [tenderDetails]

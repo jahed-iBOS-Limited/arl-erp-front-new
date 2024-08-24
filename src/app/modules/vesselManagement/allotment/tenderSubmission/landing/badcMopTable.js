@@ -2,6 +2,7 @@ import React from "react";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import IEdit from "../../../../_helper/_helperIcons/_edit";
 import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
 import ICon from "../../../../chartering/_chartinghelper/icons/_icon";
@@ -30,8 +31,7 @@ const BADCMOPTable = ({
             <th>SL</th>
             <th style={{ width: "150px" }}>Business Partner</th>
             <th>Enquiry No</th>
-            <th>Discharge Port</th>
-            <th>Actual Quantity</th>
+            <th>Submission Date</th>
             <th>Status</th>
             <th>Actions</th>
           </tr>
@@ -45,17 +45,15 @@ const BADCMOPTable = ({
                 </td>
                 <td>{item?.businessPartnerName}</td>
                 <td>{item?.mopInvoiceId}</td>
-                <td>{item?.portName}</td>
-                <td className="text-right">{item?.actualQuantity}</td>
-
+                <td>{_dateFormatter(item?.submissionDate)}</td>
                 <td style={{ width: "70px" }}>
                   {item?.isAccept
                     ? "Approved"
                     : item?.isReject
-                    ? "Reject"
-                    : item?.isPending
-                    ? "Pending"
-                    : "NA"}
+                      ? "Reject"
+                      : item?.isPending
+                        ? "Pending"
+                        : "NA"}
                 </td>
                 <td style={{ width: "80px" }} className="text-center">
                   <div className="d-flex justify-content-around">
@@ -71,7 +69,7 @@ const BADCMOPTable = ({
                             });
                             // setShow(true);
                           }}
-                          // id={item?.shiptoPartnerId}
+                        // id={item?.shiptoPartnerId}
                         />
                       </span>
                     )}
@@ -82,13 +80,37 @@ const BADCMOPTable = ({
                           accountId,
                           buUnId,
                           item?.mopTenderId,
+                          1, // chittagong port id
                           getTenderDetails,
                           handleTenderPrint
                         );
                       }}
                     >
                       <OverlayTrigger
-                        overlay={<Tooltip id="cs-icon">Print</Tooltip>}
+                        overlay={<Tooltip id="cs-icon">Print Chittagong</Tooltip>}
+                      >
+                        <i
+                          style={{ fontSize: "16px" }}
+                          class="fa fa-print cursor-pointer"
+                          aria-hidden="true"
+                        ></i>
+                      </OverlayTrigger>
+                    </span>
+
+                    <span
+                      onClick={() => {
+                        fetchBADCMOPRowsDataForPrintPage(
+                          accountId,
+                          buUnId,
+                          item?.mopTenderId,
+                          4, // mangla port id
+                          getTenderDetails,
+                          handleTenderPrint
+                        );
+                      }}
+                    >
+                      <OverlayTrigger
+                        overlay={<Tooltip id="cs-icon">Print Mangla</Tooltip>}
                       >
                         <i
                           style={{ fontSize: "16px" }}
@@ -118,7 +140,7 @@ const BADCMOPTable = ({
           })}
         </tbody>
       </table>
-    </div>
+    </div >
   );
 };
 
