@@ -205,7 +205,7 @@ export default function TenderSubmissionLanding() {
                   handleTenderPrint={handleTenderPrint}
                   getTenderDetails={getTenderDetails}
                 />
-              ) : (
+              ) : values?.businessPartner?.label === "BADC(MOP)" ? (
                 <BADCMOPTable
                   accountId={accountId}
                   buUnId={buUnId}
@@ -213,7 +213,7 @@ export default function TenderSubmissionLanding() {
                   handleTenderPrint={handleTenderPrint}
                   getTenderDetails={getTenderDetails}
                 />
-              )}
+              ) : <></>}
 
               {/* Paginations of BCIC & BADC Tender  */}
               {submittedTenderLists?.data?.length > 0 && (
@@ -257,9 +257,9 @@ export default function TenderSubmissionLanding() {
                         <PrintBCICTender tenderDetails={tenderDetails} />
                       ) : values?.businessPartner?.label === "BADC" ? (
                         <PrintBADCTender tenderDetails={tenderDetails} />
-                      ) : (
+                      ) : values?.businessPartner?.label === 'BADC(MOP)' ? (
                         <PrintBADCMOPTender tenderDetails={tenderDetails} />
-                      )}
+                      ) : <></>}
                     </div>
                   </tbody>
                   <tfoot>
