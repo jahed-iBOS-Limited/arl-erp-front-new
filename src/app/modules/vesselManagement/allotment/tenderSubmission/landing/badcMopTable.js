@@ -2,12 +2,11 @@ import React from "react";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import IEdit from "../../../../_helper/_helperIcons/_edit";
 import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
 import ICon from "../../../../chartering/_chartinghelper/icons/_icon";
 import { fetchBADCMOPRowsDataForPrintPage, selectEditId } from "../helper";
-import moment from "moment";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
 
 const BADCMOPTable = ({
   accountId,
@@ -81,6 +80,30 @@ const BADCMOPTable = ({
                           accountId,
                           buUnId,
                           item?.mopTenderId,
+                          1, // chittagong port id
+                          getTenderDetails,
+                          handleTenderPrint
+                        );
+                      }}
+                    >
+                      <OverlayTrigger
+                        overlay={<Tooltip id="cs-icon">Print</Tooltip>}
+                      >
+                        <i
+                          style={{ fontSize: "16px" }}
+                          class="fa fa-print cursor-pointer"
+                          aria-hidden="true"
+                        ></i>
+                      </OverlayTrigger>
+                    </span>
+
+                    <span
+                      onClick={() => {
+                        fetchBADCMOPRowsDataForPrintPage(
+                          accountId,
+                          buUnId,
+                          item?.mopTenderId,
+                          4, // mangla port id
                           getTenderDetails,
                           handleTenderPrint
                         );
@@ -117,7 +140,7 @@ const BADCMOPTable = ({
           })}
         </tbody>
       </table>
-    </div>
+    </div >
   );
 };
 
