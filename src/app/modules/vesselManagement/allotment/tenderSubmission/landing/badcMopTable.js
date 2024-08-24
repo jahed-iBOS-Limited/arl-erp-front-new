@@ -87,7 +87,7 @@ const BADCMOPTable = ({
                       }}
                     >
                       <OverlayTrigger
-                        overlay={<Tooltip id="cs-icon">Print</Tooltip>}
+                        overlay={<Tooltip id="cs-icon">Print Chittagong</Tooltip>}
                       >
                         <i
                           style={{ fontSize: "16px" }}
@@ -110,7 +110,7 @@ const BADCMOPTable = ({
                       }}
                     >
                       <OverlayTrigger
-                        overlay={<Tooltip id="cs-icon">Print</Tooltip>}
+                        overlay={<Tooltip id="cs-icon">Print Mangla</Tooltip>}
                       >
                         <i
                           style={{ fontSize: "16px" }}
