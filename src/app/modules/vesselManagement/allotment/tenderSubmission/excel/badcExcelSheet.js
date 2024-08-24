@@ -148,24 +148,30 @@ const BADCExcelSheet = ({
                             </tr>
                         </thead>
                         <tbody>
-                            {values?.mopRowsData?.map((item, index) => (
-                                <tr key={index}>
-                                    <td>{item?.ghatName}</td>
-                                    <td>
-                                        <InputField
-                                            value={values?.mopRowsData[index].actualQuantity}
-                                            name={`mopRowsData[${index}].actualQuantity`}
-                                            type="number"
-                                            onChange={(e) => {
-                                                setFieldValue(
-                                                    `mopRowsData[${index}].actualQuantity`,
-                                                    e.target.value
-                                                );
-                                            }}
-                                        />
-                                    </td>
-                                </tr>
-                            ))}
+                            {values?.mopRowsData?.map((item, index) => {
+                                // console.log(item)
+
+                                return (
+                                    <tr key={index}>
+                                        <td>{item?.portName}</td>
+                                        <td>{item?.ghatName}</td>
+                                        <td className="text-right">{item?.quantity}</td>
+                                        <td>
+                                            <InputField
+                                                value={values?.mopRowsData[index].actualQuantity}
+                                                name={`mopRowsData[${index}].actualQuantity`}
+                                                type="number"
+                                                onChange={(e) => {
+                                                    setFieldValue(
+                                                        `mopRowsData[${index}].actualQuantity`,
+                                                        e.target.value
+                                                    );
+                                                }}
+                                            />
+                                        </td>
+                                    </tr>
+                                )
+                            })}
                         </tbody>
                     </table>
                 </div>
