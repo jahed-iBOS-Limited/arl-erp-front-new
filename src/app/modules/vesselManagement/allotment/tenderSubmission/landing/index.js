@@ -84,10 +84,10 @@ export default function TenderSubmissionLanding() {
     <Formik
       enableReinitialize={true}
       initialValues={{
-        businessPartner: "",
+        businessPartner: { value: 3, label: "BADC(MOP)" },
         fromDate: _monthFirstDate(),
         toDate: _todayDate(),
-        approveStatus: "",
+        approveStatus: { value: 0, label: "All" },
       }}
       validationSchema={landingPageValidationSchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -231,28 +231,57 @@ export default function TenderSubmissionLanding() {
             </Form>
 
             <div ref={printRef} className="tender-print-preview">
-              <div style={{ margin: "-13px 0 51px 0" }}>
+              <div style={{ margin: "-13px 50px 51px 50px" }}>
+                <div
+                  className="invoice-header"
+                  style={{
+                    backgroundImage: `url(${getLetterHead({
+                      buId: buUnId,
+                    })})`,
+                    backgroundRepeat: "no-repeat",
+                    height: "150px",
+                    backgroundSize: "cover",
+                    position: "fixed",
+                    width: "100%",
+                    top: "-50px",
+                    left: "-8px",
+                  }}
+                ></div>
+                <div
+                  className="invoice-footer"
+                  style={{
+                    backgroundImage: `url(${getLetterHead({
+                      buId: buUnId,
+                    })})`,
+                    backgroundRepeat: "no-repeat",
+                    height: "100px",
+                    backgroundSize: "cover",
+                    position: "fixed",
+                    bottom: "0px",
+                    left: "-8px",
+                    width: "100%",
+                  }}
+                ></div>
                 <table>
                   <thead>
-                    <div
-                      className="invoice-header"
-                      style={{
-                        backgroundImage: `url(${getLetterHead({
-                          buId: buUnId,
-                        })})`,
-                        backgroundRepeat: "no-repeat",
-                        height: "150px",
-                        backgroundPosition: "left 10px",
-                        backgroundSize: "cover",
-                        // position: "fixed",
-                        width: "100%",
-                        top: "-60px",
-                      }}
-                    ></div>
+                    <tr>
+                      <td
+                        style={{
+                          border: "none",
+                        }}
+                      >
+                        {/* place holder for the fixed-position header */}
+                        <div
+                          style={{
+                            height: "120px",
+                          }}
+                        ></div>
+                      </td>
+                    </tr>
                   </thead>
                   {/* CONTENT GOES HERE */}
                   <tbody>
-                    <div style={{ margin: "40px 75px 0 75px" }}>
+                    <div>
                       {values?.businessPartner?.label === "BCIC" ? (
                         <PrintBCICTender tenderDetails={tenderDetails} />
                       ) : values?.businessPartner?.label === "BADC" ? (
@@ -263,21 +292,20 @@ export default function TenderSubmissionLanding() {
                     </div>
                   </tbody>
                   <tfoot>
-                    <div
-                      className="ifoot"
-                      style={{
-                        backgroundImage: `url(${getLetterHead({
-                          buId: buUnId,
-                        })})`,
-                        backgroundRepeat: "no-repeat",
-                        height: "100px",
-                        backgroundPosition: "left bottom",
-                        backgroundSize: "cover",
-                        bottom: "-25px",
-                        position: "fixed",
-                        width: "100%",
-                      }}
-                    ></div>
+                    <tr>
+                      <td
+                        style={{
+                          border: "none",
+                        }}
+                      >
+                        {/* place holder for the fixed-position footer */}
+                        <div
+                          style={{
+                            height: "90px",
+                          }}
+                        ></div>
+                      </td>
+                    </tr>
                   </tfoot>
                 </table>
               </div>

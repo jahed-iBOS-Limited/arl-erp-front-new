@@ -39,5 +39,6 @@ td {
 @media print {
   .tender-print-preview {
     display: block;
+    background-color: white;
   }
 }

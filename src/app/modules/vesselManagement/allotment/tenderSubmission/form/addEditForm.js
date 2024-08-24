@@ -503,23 +503,23 @@ export default function TenderSubmissionCreateEditForm() {
   );
 
   // ! Form Field for BADC (MOP)
-  const badcMopFormField = (values, setFieldValue, errors, touched) => (
-    <>
-      <div className="col-lg-3">
-        <NewSelect
-          name="dischargePortMOP"
-          options={dischargeDDL}
-          value={values?.dischargePortMOP}
-          label="Discharge Port"
-          onChange={(valueOption) => {
-            setFieldValue("dischargePortMOP", valueOption);
-          }}
-          errors={errors}
-          touched={touched}
-        />
-      </div>
-    </>
-  );
+  // const badcMopFormField = (values, setFieldValue, errors, touched) => (
+  //   <>
+  //     <div className="col-lg-3">
+  //       <NewSelect
+  //         name="dischargePortMOP"
+  //         options={dischargeDDL}
+  //         value={values?.dischargePortMOP}
+  //         label="Discharge Port"
+  //         onChange={(valueOption) => {
+  //           setFieldValue("dischargePortMOP", valueOption);
+  //         }}
+  //         errors={errors}
+  //         touched={touched}
+  //       />
+  //     </div>
+  //   </>
+  // );
 
   // ! Form Field for BCIC Edit
   const bcicEditFormField = (values, setFieldValue) => (
@@ -539,21 +539,24 @@ export default function TenderSubmissionCreateEditForm() {
     </>
   );
 
-  // ! Common Form Field for BCIC, BADC, BADC(MOP) Edit
-  const commonEditFormField = (values, setFieldValue) => (
-    <>
-      <div className="col-lg-3">
-        <InputField
-          value={values?.foreignPriceUSD}
-          label="Foreign Price (USD)"
-          name="foreignPriceUSD"
-          type="number"
-          onChange={(e) => {
-            setFieldValue("foreignPriceUSD", e.target.value);
-          }}
-        />
-      </div>
+  // ! Common Form Field for BCIC & BADC Edit
+  const commonBCICBADCEditFormField = (values, setFieldValue) => (
+    <div className="col-lg-3">
+      <InputField
+        value={values?.foreignPriceUSD}
+        label="Foreign Price (USD)"
+        name="foreignPriceUSD"
+        type="number"
+        onChange={(e) => {
+          setFieldValue("foreignPriceUSD", e.target.value);
+        }}
+      />
+    </div>
+  );
 
+  // ! Common Form Field for BCIC, BADC, BADC(MOP) Edit
+  const commonBCICBADCBADCMOPEditFormField = (values, setFieldValue) => (
+    <>
       <div className="col-lg-3 mt-3 d-flex align-items-center">
         <AttachmentUploaderNew
           CBAttachmentRes={(image) => {
@@ -652,7 +655,7 @@ export default function TenderSubmissionCreateEditForm() {
             getGhatDDLLoading) && <Loading />}
           <IForm title="Tender Submission Create" getProps={setObjprops}>
             <Form>
-              {JSON.stringify(values, null, 2)}
+              {/* {JSON.stringify(values, null, 2)} */}
               <div className="form-group  global-form row">
                 <div className="col-lg-3">
                   <NewSelect
@@ -713,8 +716,8 @@ export default function TenderSubmissionCreateEditForm() {
                   badcFormField(values, setFieldValue, errors, touched)}
 
                 {/* Form Field for BADC (MOP) */}
-                {values?.businessPartner?.label === "BADC(MOP)" &&
-                  badcMopFormField(values, setFieldValue, errors, touched)}
+                {/* {values?.businessPartner?.label === "BADC(MOP)" &&
+                  badcMopFormField(values, setFieldValue, errors, touched)} */}
 
                 {/* Form Field for BCIC Edit */}
                 {tenderId &&
@@ -726,8 +729,14 @@ export default function TenderSubmissionCreateEditForm() {
                   values?.businessPartner?.label === "BADC" &&
                   badcEditFormField(values, setFieldValue)}
 
+                {/* Common Form Field for BCIC, BADC Edit */}
+                {tenderId &&
+                  values?.businessPartner?.label !== "BADC(MOP)" &&
+                  commonBCICBADCEditFormField(values, setFieldValue)}
+
                 {/* Common Form Field for BCIC, BADC, BADC(MOP) Edit */}
-                {tenderId && commonEditFormField(values, setFieldValue)}
+                {tenderId &&
+                  commonBCICBADCBADCMOPEditFormField(values, setFieldValue)}
               </div>
 
               {/* Form Field for BCIC Local Part */}
@@ -740,8 +749,10 @@ export default function TenderSubmissionCreateEditForm() {
                   <div className="col-lg-12">
                     <BADCExcelSheet
                       ghatDDL={ghatDDL}
+                      dischargePortDDL={dischargeDDL}
                       values={values}
                       setFieldValue={setFieldValue}
+                      tenderId={tenderId}
                     />
                   </div>
                 </div>
