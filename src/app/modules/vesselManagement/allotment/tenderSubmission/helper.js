@@ -341,10 +341,11 @@ export const fetchBADCMOPRowsDataForPrintPage = (
   accountId,
   buUnId,
   mopTenderId,
+  portId,
   getTenderDetailsFunc,
   callback
 ) => {
-  const url = `/tms/TenderSubmission/GetByBADCMOPConfiguration?AccountId=${accountId}&BusinessUnitId=${buUnId}&MopTenderId=${mopTenderId}`;
+  const url = `/tms/TenderSubmission/GetByBADCMOPConfiguration?AccountId=${accountId}&BusinessUnitId=${buUnId}&MopTenderId=${mopTenderId}&PortId=${portId}`;
 
   getTenderDetailsFunc(url, () => {
     callback && callback();
@@ -376,18 +377,18 @@ export const updateState = (tenderDetails) => {
     const bcicState = {
       dischargePort: header?.dischargePortId
         ? {
-            label: header?.dischargePortName,
-            value: header?.dischargePortId,
-          }
+          label: header?.dischargePortName,
+          value: header?.dischargePortId,
+        }
         : "",
       commercialNo: header?.commercialNo,
       commercialDate: _dateFormatter(header?.commercialDate),
       remarks: header?.strRemarks,
       motherVessel: header?.motherVesselId
         ? {
-            label: header?.motherVesselName,
-            value: header?.motherVesselId,
-          }
+          label: header?.motherVesselName,
+          value: header?.motherVesselId,
+        }
         : "",
       localTransportations: rows?.map((item) => {
         return {
@@ -395,9 +396,9 @@ export const updateState = (tenderDetails) => {
           tenderHeaderId: item?.tenderHeaderId,
           godownName: item?.godownName
             ? {
-                value: item?.godownId,
-                label: item?.godownName,
-              }
+              value: item?.godownId,
+              label: item?.godownName,
+            }
             : "",
           quantity: item?.quantity,
           price: item?.perQtyTonPriceBd,
@@ -413,9 +414,9 @@ export const updateState = (tenderDetails) => {
       // global
       businessPartner: header?.businessPartnerId
         ? {
-            value: header?.businessPartnerId,
-            label: header?.businessPartnerName,
-          }
+          value: header?.businessPartnerId,
+          label: header?.businessPartnerName,
+        }
         : "",
       // common
       enquiry: header?.enquiryNo,
@@ -424,9 +425,9 @@ export const updateState = (tenderDetails) => {
       productName: header?.itemName,
       loadPort: header?.loadPortId
         ? {
-            label: header?.loadPortName,
-            value: header?.loadPortId,
-          }
+          label: header?.loadPortName,
+          value: header?.loadPortId,
+        }
         : "",
       // edit
       foreignPriceUSD: header?.foreignPriceUsd,
@@ -454,6 +455,8 @@ export const updateState = (tenderDetails) => {
           mopInvoiceId: item?.mopInvoiceId,
           ghatId: item?.ghatId,
           ghatName: item?.ghatName,
+          portId: item?.portId,
+          portName: item?.portName,
           distance: item?.distance,
           quantity: item?.quantity,
           actualQuantity: item?.actualQuantity,
@@ -468,9 +471,9 @@ export const updateState = (tenderDetails) => {
       // global
       businessPartner: headerDTO?.businessPartnerId
         ? {
-            value: headerDTO?.businessPartnerId,
-            label: headerDTO?.businessPartnerName,
-          }
+          value: headerDTO?.businessPartnerId,
+          label: headerDTO?.businessPartnerName,
+        }
         : "",
       remarks: headerDTO?.strRemarks,
 
@@ -497,9 +500,9 @@ export const updateState = (tenderDetails) => {
       // global
       businessPartner: tenderDetails?.businessPartnerId
         ? {
-            value: tenderDetails?.businessPartnerId,
-            label: tenderDetails?.businessPartnerName,
-          }
+          value: tenderDetails?.businessPartnerId,
+          label: tenderDetails?.businessPartnerName,
+        }
         : "",
       // common
       enquiry: tenderDetails?.enquiryNo,
@@ -508,9 +511,9 @@ export const updateState = (tenderDetails) => {
       productName: tenderDetails?.itemName,
       loadPort: tenderDetails?.loadPortId
         ? {
-            label: tenderDetails?.loadPortName,
-            value: tenderDetails?.loadPortId,
-          }
+          label: tenderDetails?.loadPortName,
+          value: tenderDetails?.loadPortId,
+        }
         : "",
       // edit
       foreignPriceUSD: tenderDetails?.foreignPriceUsd,
@@ -530,9 +533,8 @@ export const fetchGodownDDLList = (
   getGodownDDLFunc,
   updateGodownDDLFunc
 ) => {
-  const url = `/tms/LigterLoadUnload/GetShipToPartnerG2GPagination?AccountId=${accountId}&BusinessUnitId=${buUnId}&BusinessPartnerId=${
-    businessPartner?.value
-  }&PageNo=${0}&PageSize=${100}`;
+  const url = `/tms/LigterLoadUnload/GetShipToPartnerG2GPagination?AccountId=${accountId}&BusinessUnitId=${buUnId}&BusinessPartnerId=${businessPartner?.value
+    }&PageNo=${0}&PageSize=${100}`;
   getGodownDDLFunc(url, (data) => {
     const updateDDL = data?.data?.map((item) => {
       return {
@@ -611,7 +613,7 @@ function convertToWords(num) {
     if (part > 0) {
       parts.unshift(
         convertBelowThousand(part) +
-          (thousands[thousandIndex] ? " " + thousands[thousandIndex] : "")
+        (thousands[thousandIndex] ? " " + thousands[thousandIndex] : "")
       );
     }
     num = Math.floor(num / 1000);
@@ -641,14 +643,18 @@ export function convertToText(n, uoc) {
   );
 }
 
-// Select url for create tender on create and edit page
-export const selectUrl = (businessPartner) => {
+// Select url for create tender on create and edit page with business partner & tenderId. BADC MOP use different url for update
+export const selectUrl = (businessPartner, mopTenderId) => {
   switch (businessPartner) {
     case "BCIC":
       return `/tms/TenderSubmission/CreateOrUpdateTenderSubission`;
     case "BADC":
-      return `tms/TenderSubmission/CreateOrEditBIDCTenderSubmission`;
+      return `/tms/TenderSubmission/CreateOrEditBIDCTenderSubmission`
     case "BADC(MOP)":
+      // tenderId. BADC MOP use different url for update
+      if (mopTenderId) {
+        return `/tms/TenderSubmission/UpdateBADCMOPConfiguration`
+      }
       return `/tms/TenderSubmission/CreateBADCMOPConfiguration`;
     default:
       return "";
@@ -750,7 +756,7 @@ export const selectPayload = (
         ...commonPayload,
 
         mopInvoiceId: values?.enquiry,
-        mopTenderId: tenderId ? tenderId : 0,
+        mopTenderId: tenderId ? +tenderId : 0,
         // portId: values?.dischargePortMOP?.value,
         // portName: values?.dischargePortMOP?.label,
       },
@@ -1104,5 +1110,6 @@ export const mopTenderCreateDataTableHeader = [
 export const mopTenderEditDataTableHeader = [
   "Port Name",
   "Ghat Name",
+  "Quantity",
   "Actual Quantity",
 ];
