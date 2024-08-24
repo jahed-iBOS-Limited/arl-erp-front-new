@@ -792,7 +792,7 @@ export const fetchGhatDDL = (accountId, buUnId, getGhatDDLFunc) => {
 };
 
 // ! Excel sheet columns length
-export const TOTAL_COLUMNS_LENGTH = 21;
+export const TOTAL_COLUMNS_LENGTH = 20;
 
 // create excel sheet for badc(mop) table rows
 export const createExcelSheet = (ghatDDL, dischargePortDDL) => {
@@ -852,7 +852,7 @@ export const createExcelSheet = (ghatDDL, dischargePortDDL) => {
   // Ghat name (DDL)
   const ghatName = worksheet.getCell("B2");
   ghatName.value = ghatDDL?.[0]?.label || "";
-  const ghatDDLList = [`"${ghatDDL?.map((item) => item?.label).join(",")}"`];
+  const ghatDDLList = [`"${ghatDDL?.map((item) => item?.label).join(", ")}"`];
   ghatName.dataValidation = {
     type: "list",
     formulae: ghatDDLList || [],
