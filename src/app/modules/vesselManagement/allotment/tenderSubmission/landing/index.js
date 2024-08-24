@@ -84,10 +84,10 @@ export default function TenderSubmissionLanding() {
     <Formik
       enableReinitialize={true}
       initialValues={{
-        businessPartner: { value: 3, label: "BADC(MOP)" },
+        businessPartner: "",
         fromDate: _monthFirstDate(),
         toDate: _todayDate(),
-        approveStatus: { value: 0, label: "All" },
+        approveStatus: "",
       }}
       validationSchema={landingPageValidationSchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
