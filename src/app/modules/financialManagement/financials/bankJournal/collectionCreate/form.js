@@ -227,13 +227,13 @@ export default function _Form({
           transaction : initData?.transaction,
      
         }}
-        // validationSchema={
-        //   jorunalType === 4
-        //     ? ReceivevalidationSchema
-        //     : jorunalType === 5
-        //     ? PaymentvalidationSchema
-        //     : TransfervalidationSchema
-        // }
+        validationSchema={
+          jorunalType === 4
+            ? ReceivevalidationSchema
+            : jorunalType === 5
+            ? PaymentvalidationSchema
+            : TransfervalidationSchema
+        }
         onSubmit={(values, { setSubmitting, resetForm, setFieldValue }) => {
           return confirmAlert({
             title: "Are you sure?",
@@ -243,17 +243,17 @@ export default function _Form({
                 label: "Yes",
                 onClick: () => {
                   saveHandler(values, () => {
-                    // wont be reset as per requirement
-                    // resetForm(initData);
-                    // if (jorunalType === 6) {
-                    //   setFieldValue("transferAmount", "");
-                    //   dispatch(
-                    //     setBankJournalCreateAction({
-                    //       ...values,
-                    //       transferAmount: "",
-                    //     })
-                    //   );
-                    // }
+                    wont be reset as per requirement
+                    resetForm(initData);
+                    if (jorunalType === 6) {
+                      setFieldValue("transferAmount", "");
+                      dispatch(
+                        setBankJournalCreateAction({
+                          ...values,
+                          transferAmount: "",
+                        })
+                      );
+                    }
                   });
                 },
               },
