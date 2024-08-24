@@ -1,6 +1,19 @@
-import React from "react";
+import React, { useMemo } from "react";
+import { _formatMoney } from "../../../../_helper/_formatMoney";
+import { convertToText } from "../helper";
 
 const PrintBADCMOPTender = ({ tenderDetails }) => {
+
+  const totalAmount = useMemo(
+    () =>
+      tenderDetails?.reduce((acc, item) => {
+        acc += item?.amount === null ? 0 : item?.amount;
+        return acc;
+      }, 0),
+    [tenderDetails]
+  );
+
+  // console.log(totalAmount);
   return (
     <div className="">
       <div>
@@ -13,7 +26,7 @@ const PrintBADCMOPTender = ({ tenderDetails }) => {
           BADC to the following godowns/center
         </p>
       </div>
-      <table style={{ margin: "20px 0" }} className="badc-tender-table">
+      <table style={{ margin: "20px 0" }}>
         <thead style={{ padding: "10px 0", textAlign: "center" }}>
           <tr>
             <th rowSpan={3}>No</th>
@@ -49,12 +62,22 @@ const PrintBADCMOPTender = ({ tenderDetails }) => {
             <tr key={index}>
               <td>{index + 1}</td>
               <td>{item?.ghatName}</td>
-              <td>{item?.distance}</td>
+              <td className="text-center">{item?.distance}</td>
               <td>{item?.quantity}</td>
-              <td>{item?.costAmount}</td>
-              <td>{item?.amount}</td>
+              <td className="text-right">{_formatMoney(item?.costAmount)}</td>
+              <td className="text-right">{_formatMoney(item?.amount)}</td>
             </tr>
           ))}
+
+          <tr>
+            <td colSpan={5}>
+              In Words:{" "}
+              <span className="text-uppercase">
+                {convertToText(totalAmount)}
+              </span>
+            </td>
+            <td className="text-right">{_formatMoney(totalAmount)}</td>
+          </tr>
         </tbody>
       </table>
     </div>
