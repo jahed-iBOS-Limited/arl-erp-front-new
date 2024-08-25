@@ -18,6 +18,11 @@ const validationSchema = Yup.object().shape({
   validTill: Yup.string().required("Valid Till Date is required"),
   dueDate: Yup.string().required("Due Date is required"),
   // quantity: Yup.number().required('Quantity is required').min(1),
+  actionType: Yup.object()
+  .shape({
+    value: Yup.number().required('Action For is required'),
+    label: Yup.string().required('Action For is required'),
+  }),
 });
 
 export default function _Form({
@@ -93,6 +98,24 @@ export default function _Form({
               <div className="form-group row">
                 <div className="col-lg-3">
                   <div className="row global-form">
+                  <div className="col-12">
+                       <NewSelect
+                        label="Action For"
+                        options={[
+                          { label: "Project", value: 1 },
+                          { label: "Operation", value: 2 },
+                        ]}
+                        value={values?.actionType}
+                        name="actionType"
+                        onChange={(valueOption) => {
+                          setFieldValue("actionType", valueOption || "");
+                          setFieldValue("project", "");
+                        }}
+                        errors={errors}
+                        touched={touched}
+                        isDisabled={id}
+                      />
+                    </div>
                     <div className="col-lg-12">
                       <NewSelect
                         label="Select Item Group"
@@ -133,6 +156,29 @@ export default function _Form({
                         name="referenceId"
                       />
                     </div>
+                    {values?.actionType?.value === 1 && (
+                      <div className="col-lg-12">
+                        <label>Select Project</label>
+                        <SearchAsyncSelect
+                          isDisabled={id}
+                          isSearchIcon
+                          label="Select Project"
+                          selectedValue={values?.project}
+                          placeholder="Select Project"
+                          name="project"
+                          handleChange={(valueOption) => {
+                            setFieldValue("project", valueOption);
+                          }}
+                          loadOptions={(value) => {
+                            return Axios.get(
+                              `/fino/ProjectAccounting/ProjectNameDDL?accountId=${accountId}&businessUnitId=${selectedBusinessUnit?.value}&search=${value}`
+                            ).then((res) => {
+                              return res.data;
+                            });
+                          }}
+                        />
+                      </div>
+                    )}
 
                     {!id &&
                       <div className="col-lg-12">

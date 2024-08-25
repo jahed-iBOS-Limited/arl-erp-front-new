@@ -33,7 +33,7 @@ const initData = {
   itemGroup: '',
   itemUom: "",
   // costElement:"",
-  forProject: false,
+  actionType:"",
   project: "",
   department: "",
   availableStockQty: "",
@@ -101,6 +101,9 @@ export default function ItemRequestForm({
   }
 
   const saveHandler = async (values, cb) => {
+    if(values?.actionType?.value === 1 && !values?.project?.label){
+      return toast.warn("Please Select a Project")
+    }
     if (values && profileData?.accountId && selectedBusinessUnit?.value) {
       if (id) {
         let rowDatas = rowlebelData.map((data) => {
@@ -156,7 +159,7 @@ export default function ItemRequestForm({
             plantName: location?.state?.plant?.label,
             warehouseId: location?.state?.wh?.value,
             actionBy: profileData?.userId,
-            ...(values?.forProject && { intProjectId: values?.project?.value }),
+            ...(values?.actionType?.value === 1 && { intProjectId: values?.project?.value }),
           },
           objRow: rowDataForsave,
         };
