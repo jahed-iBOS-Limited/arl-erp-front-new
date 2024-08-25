@@ -18,6 +18,11 @@ const validationSchema = Yup.object().shape({
   validTill: Yup.string().required("Valid Till Date is required"),
   dueDate: Yup.string().required("Due Date is required"),
   // quantity: Yup.number().required('Quantity is required').min(1),
+  actionType: Yup.object()
+  .shape({
+    value: Yup.number().required('Action For is required'),
+    label: Yup.string().required('Action For is required'),
+  }),
 });
 
 export default function _Form({
@@ -97,18 +102,22 @@ export default function _Form({
                 <div className="col-lg-3">
                   <div className="row global-form">
                     <div className="col-12">
-                      <label>For Project?</label>
-                      <div>
-                        <input
-                          type="checkbox"
-                          id="forProject"
-                          onChange={() => {
-                            setFieldValue("forProject", !values?.forProject);
-                          }}
-                          value={values?.forProject}
-                          disabled={id}
-                        />
-                      </div>
+                       <NewSelect
+                        label="Action For"
+                        options={[
+                          { label: "Project", value: 1 },
+                          { label: "Operation", value: 2 },
+                        ]}
+                        value={values?.actionType}
+                        name="actionType"
+                        onChange={(valueOption) => {
+                          setFieldValue("actionType", valueOption || "");
+                          setFieldValue("project", "");
+                        }}
+                        errors={errors}
+                        touched={touched}
+                        isDisabled={id}
+                      />
                     </div>
                     <div className="col-lg-12">
                       <NewSelect
@@ -146,7 +155,7 @@ export default function _Form({
                         name="referenceId"
                       />
                     </div>
-                    {values?.forProject && (
+                    {values?.actionType?.value === 1 && (
                       <div className="col-lg-12">
                         <label>Select Project</label>
                         <SearchAsyncSelect

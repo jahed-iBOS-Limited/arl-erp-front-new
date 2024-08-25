@@ -15,7 +15,7 @@ import {
   getBusinessUnitDDLApi,
   getComplainCategory,
   getComplainStatus,
-  respondentTypeDDL
+  respondentTypeDDL,
 } from "../helper";
 import LandingTable from "./table";
 
@@ -51,7 +51,7 @@ const ComplainLanding = () => {
   const [complainCategory, setComplainCategory] = useState([]);
   // get user data from store
   const {
-    profileData: { accountId: accId, },
+    profileData: { accountId: accId },
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
 
@@ -64,8 +64,6 @@ const ComplainLanding = () => {
       getComplainCategory(buId, setComplainCategory);
     }
   }, [accId, buId]);
-
-
 
   const commonGridData = (
     _pageNo = pageNo,
@@ -86,7 +84,7 @@ const ComplainLanding = () => {
       setGridData,
       setLoading,
       searhValue,
-      values?.respondentBusinessUnit?.value,
+      values?.respondentBusinessUnit?.value
     );
   };
   return (
@@ -96,17 +94,15 @@ const ComplainLanding = () => {
         {({ values, setFieldValue, touched, errors }) => (
           <>
             <ICustomCard
-              title='Feedback'
+              title="Feedback"
               createHandler={() => {
-                history.push(
-                  `/sales-management/complainmanagement/complain/entry`
-                );
+                history.push(`/self-service/complainmanagement/complain/entry`);
               }}
             >
-              <div className='row global-form my-3'>
-                <div className='col-lg-3'>
+              <div className="row global-form my-3">
+                <div className="col-lg-3">
                   <NewSelect
-                    name='respondentType'
+                    name="respondentType"
                     options={
                       [
                         {
@@ -117,34 +113,35 @@ const ComplainLanding = () => {
                       ] || []
                     }
                     value={values?.respondentType}
-                    label='Respondent Type'
+                    label="Respondent Type"
                     onChange={(valueOption) => {
                       setFieldValue("respondentType", valueOption || "");
                       setGridData([]);
                     }}
-                    placeholder='Respondent Type'
+                    placeholder="Respondent Type"
                     errors={errors}
                     touched={touched}
                   />
                 </div>
-                <div className='col-lg-3'>
+                <div className="col-lg-3">
                   <NewSelect
-                    name='respondentBusinessUnit'
-                    options={[{value:0, label:"All"}, ...businessUnitDDL] || []}
+                    name="respondentBusinessUnit"
+                    options={
+                      [{ value: 0, label: "All" }, ...businessUnitDDL] || []
+                    }
                     value={values?.respondentBusinessUnit}
-                    label='Respondent Business Unit'
+                    label="Respondent Business Unit"
                     onChange={(valueOption) => {
                       setFieldValue(
                         "respondentBusinessUnit",
                         valueOption || ""
                       );
-                     
-                    }}                   
+                    }}
                   />
                 </div>
-                <div className='col-lg-3'>
+                <div className="col-lg-3">
                   <NewSelect
-                    name='status'
+                    name="status"
                     options={
                       [
                         {
@@ -155,43 +152,45 @@ const ComplainLanding = () => {
                       ] || []
                     }
                     value={values?.status}
-                    label='Status'
+                    label="Status"
                     onChange={(valueOption) => {
                       setFieldValue("status", valueOption || "");
                       setGridData([]);
                     }}
-                    placeholder='Status'
+                    placeholder="Status"
                     errors={errors}
                     touched={touched}
                   />
                 </div>
-                <div className='col-lg-3'>
+                <div className="col-lg-3">
                   <NewSelect
-                    name='issueType'
-                    options={[
-                      {
-                        value: 0,
-                        label: "All",
-                      },
-                      ...complainCategory,
-                    ] || []}
+                    name="issueType"
+                    options={
+                      [
+                        {
+                          value: 0,
+                          label: "All",
+                        },
+                        ...complainCategory,
+                      ] || []
+                    }
                     value={values?.issueType}
-                    label='Issue Type'
+                    label="Issue Type"
                     onChange={(valueOption) => {
                       setFieldValue("issueType", valueOption || "");
                       setGridData([]);
                     }}
-                    placeholder='Issue Type'
+                    placeholder="Issue Type"
                     errors={errors}
                     touched={touched}
                   />
                 </div>
-                <div className='col-lg-3'>
+                <div className="col-lg-3">
                   <InputField
                     value={values?.fromDate}
-                    label='From Date'
-                    name='fromDate'
-                    type='date'
+                    label="From Date"
+                    name="fromDate"
+                    type="date"
                     onChange={(e) => {
                       setFieldValue("fromDate", e.target.value);
                       setGridData([]);
@@ -199,21 +198,21 @@ const ComplainLanding = () => {
                   />
                 </div>
 
-                <div className='col-lg-3'>
+                <div className="col-lg-3">
                   <InputField
                     value={values?.toDate}
-                    label='To Date'
-                    name='toDate'
-                    type='date'
+                    label="To Date"
+                    name="toDate"
+                    type="date"
                     onChange={(e) => {
                       setFieldValue("toDate", e.target.value);
                       setGridData([]);
                     }}
                   />
                 </div>
-                <div className='mt-3'>
+                <div className="mt-3">
                   <button
-                    className='btn btn-primary mt-3'
+                    className="btn btn-primary mt-3"
                     onClick={() => {
                       commonGridData(1, pageSize, values);
                     }}
@@ -224,7 +223,7 @@ const ComplainLanding = () => {
               </div>
 
               <PaginationSearch
-                placeholder='Search By Issue, Code, Name'
+                placeholder="Search By Issue, Code, Name"
                 paginationSearchHandler={(searchValue) => {
                   commonGridData(1, pageSize, values, searchValue);
                 }}
@@ -236,7 +235,7 @@ const ComplainLanding = () => {
                   commonGridDataCB: () => {
                     commonGridData(pageNo, pageSize, values);
                   },
-                  setLoading
+                  setLoading,
                 }}
               />
 
