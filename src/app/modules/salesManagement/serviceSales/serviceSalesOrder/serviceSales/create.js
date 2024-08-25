@@ -18,6 +18,8 @@ import Schedule from "./schedule";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import { dateFormatterForInput } from "../../../../productionManagement/msilProduction/meltingProduction/helper";
 import moment from "moment";
+import IView from "../../../../_helper/_helperIcons/_view";
+import ServiceSalesCreateRecurring from "./createRecurring";
 
 const initData = {
   distributionChannel: "",
@@ -49,6 +51,7 @@ export default function ServiceSalesCreate({
   isView = false,
   singleData,
   getData,
+  isShowCustomerAllSalesOrderTBL,
 }) {
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
@@ -77,15 +80,22 @@ export default function ServiceSalesCreate({
     setAgreementDatesForRecuuring,
   ] = useAxiosGet();
   const [rowData, getRowData, loader2] = useAxiosGet();
+  const [salesOrder, getSalesOrder, loader3] = useAxiosGet();
+  const [singleDataNew, setSingleDataNew] = useState(null);
+  const [view, setView] = useState(false);
 
-useEffect(()=>{
- if(isView){
-  getRowData(`/oms/ServiceSales/GetServiceSaleOrderReport?BusinessUnitId=${
-            selectedBusinessUnit?.value
-          }&CustomerId=${singleData?.intCustomerId}&PaymentTypeId=${2}&FromDate=${"2021-01-01"}&ToDate=${_todayDate()}`)
- }
-// eslint-disable-next-line react-hooks/exhaustive-deps
-},[isView])
+  useEffect(() => {
+    if (isView) {
+      getRowData(
+        `/oms/ServiceSales/GetServiceSaleOrderReport?BusinessUnitId=${
+          selectedBusinessUnit?.value
+        }&CustomerId=${
+          singleData?.intCustomerId
+        }&PaymentTypeId=${0}&FromDate=${"2021-01-01"}&ToDate=${_todayDate()}`
+      );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isView]);
 
   useEffect(() => {
     if (itemList?.length) {
@@ -375,26 +385,26 @@ useEffect(()=>{
     }
   }, [isEdit, isView, singleData]);
 
-    // Calculate totals for Report Type 1
-    const totals = rowData?.reduce(
-      (acc, item) => {
-        acc.totalScheduleCount += item?.totalScheduleCount || 0;
-        acc.totalScheduleAmount += item?.totalScheduleAmount || 0;
-        acc.totalInvoiceCount += item?.totalInvoiceCount || 0;
-        acc.totalInvoiceAmount += item?.totalInvoiceAmount || 0;
-        acc.totalCollectionAmount += item?.totalCollectionAmount || 0;
-        acc.totalPendingAmount += item?.totalPendingAmount || 0;
-        return acc;
-      },
-      {
-        totalScheduleCount: 0,
-        totalScheduleAmount: 0,
-        totalInvoiceCount: 0,
-        totalInvoiceAmount: 0,
-        totalCollectionAmount: 0,
-        totalPendingAmount: 0,
-      }
-    );
+  // Calculate totals for Report Type 1
+  const totals = rowData?.reduce(
+    (acc, item) => {
+      acc.totalScheduleCount += item?.totalScheduleCount || 0;
+      acc.totalScheduleAmount += item?.totalScheduleAmount || 0;
+      acc.totalInvoiceCount += item?.totalInvoiceCount || 0;
+      acc.totalInvoiceAmount += item?.totalInvoiceAmount || 0;
+      acc.totalCollectionAmount += item?.totalCollectionAmount || 0;
+      acc.totalPendingAmount += item?.totalPendingAmount || 0;
+      return acc;
+    },
+    {
+      totalScheduleCount: 0,
+      totalScheduleAmount: 0,
+      totalInvoiceCount: 0,
+      totalInvoiceAmount: 0,
+      totalCollectionAmount: 0,
+      totalPendingAmount: 0,
+    }
+  );
 
   return (
     <Formik
@@ -491,6 +501,7 @@ useEffect(()=>{
         <>
           {(loader ||
             loader2 ||
+            loader3 ||
             channelDDLloader ||
             salesOrgListLoader ||
             loading ||
@@ -1436,38 +1447,43 @@ useEffect(()=>{
                 </div>
               ) : null}
 
-              {isView && [2]?.includes(values?.paymentType?.value) && (
-                <div className="table-responsive">
-                  <table
-                      className="table table-striped mt-2 table-bordered bj-table bj-table-landing"
-                    >
-                      <thead>
-                        <tr>
-                          <th>SL</th>
-                          <th>Order Code</th>
-                          <th>Payment Type</th>
-                          {/* <th>Customer Name</th>
+              {!isShowCustomerAllSalesOrderTBL &&
+                isView &&
+                [2]?.includes(values?.paymentType?.value) && (
+                  <>
+                    <div>
+                      <h5 className="mt-4">All Sales Order</h5>
+                    </div>
+                    <div className="table-responsive">
+                      <table className="table table-striped table-bordered bj-table bj-table-landing">
+                        <thead>
+                          <tr>
+                            <th>SL</th>
+                            <th>Order Code</th>
+                            <th>Payment Type</th>
+                            {/* <th>Customer Name</th>
                           <th>Customer Code</th> */}
-                          {/* <th>Agreement Date</th>
+                            {/* <th>Agreement Date</th>
                           <th>Actual Live Date</th>
                           <th>Warranty Month</th>
                           <th>Schedule Count</th> */}
-                          <th>Schedule Amount</th>
-                          {/* <th>Invoice Count</th> */}
-                          <th>Invoice Amount</th>
-                          <th>Collection Amount</th>
-                          <th>Pending Amount</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {rowData?.map((item, index) => (
-                          <tr key={index}>
-                            <td>{index + 1}</td>
-                            <td className="text-center">
-                              {item?.strServiceSalesOrderCode}
-                            </td>
-                            <td>{item?.strPaymentType}</td>
-                            {/* <td>{item?.strCustomerName}</td>
+                            <th>Schedule Amount</th>
+                            {/* <th>Invoice Count</th> */}
+                            <th>Invoice Amount</th>
+                            <th>Collection Amount</th>
+                            <th>Pending Amount</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {rowData?.map((item, index) => (
+                            <tr key={index}>
+                              <td>{index + 1}</td>
+                              <td className="text-center">
+                                {item?.strServiceSalesOrderCode}
+                              </td>
+                              <td>{item?.strPaymentType}</td>
+                              {/* <td>{item?.strCustomerName}</td>
                             <td>{item?.strCustomerCode}</td>
                             <td className="text-center">
                               {_dateFormatter(item?.agreementDate)}
@@ -1481,54 +1497,96 @@ useEffect(()=>{
                             <td className="text-right">
                               {item?.totalScheduleCount || 0}
                             </td> */}
-                            <td className="text-right">
-                              {item?.totalScheduleAmount || 0}
-                            </td>
-                            {/* <td className="text-right">
+                              <td className="text-right">
+                                {item?.totalScheduleAmount || 0}
+                              </td>
+                              {/* <td className="text-right">
                               {item?.totalInvoiceCount || 0}
                             </td> */}
-                            <td className="text-right">
-                              {item?.totalInvoiceAmount || 0}
+                              <td className="text-right">
+                                {item?.totalInvoiceAmount || 0}
+                              </td>
+                              <td className="text-right">
+                                {item?.totalCollectionAmount || 0}
+                              </td>
+                              <td className="text-right">
+                                {item?.totalPendingAmount || 0}
+                              </td>
+                              <td className="text-center">
+                                <span className="">
+                                  <IView
+                                    styles={{ fontSize: "16px" }}
+                                    clickHandler={(e) => {
+                                      getSalesOrder(
+                                        `/oms/ServiceSales/GetServiceSalesOrderById?ServiceSalesOrderId=${item?.intServiceSalesOrderId}`,
+                                        (data) => {
+                                          setSingleDataNew(data);
+                                          setView(true);
+                                        }
+                                      );
+                                    }}
+                                  />
+                                </span>
+                              </td>
+                            </tr>
+                          ))}
+                          <tr>
+                            <td colSpan="3" className="text-center">
+                              <strong>Total</strong>
                             </td>
-                            <td className="text-right">
-                              {item?.totalCollectionAmount || 0}
-                            </td>
-                            <td className="text-right">
-                              {item?.totalPendingAmount || 0}
-                            </td>
-                          </tr>
-                        ))}
-                        <tr>
-                          <td colSpan="3" className="text-center">
-                            <strong>Total</strong>
-                          </td>
-                          {/* <td className="text-right">
+                            {/* <td className="text-right">
                             {Math.round(totals.totalScheduleCount)}
                           </td> */}
-                          <td className="text-right">
-                            {Math.round(totals.totalScheduleAmount)}
-                          </td>
-                          {/* <td className="text-right">
+                            <td className="text-right">
+                              {Math.round(totals.totalScheduleAmount)}
+                            </td>
+                            {/* <td className="text-right">
                             {Math.round(totals.totalInvoiceCount)}
                           </td> */}
-                          <td className="text-right">
-                            {Math.round(totals.totalInvoiceAmount)}
-                          </td>
-                          <td className="text-right">
-                            {Math.round(totals.totalCollectionAmount)}
-                          </td>
-                          <td className="text-right">
-                            {Math.round(totals.totalPendingAmount)}
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                </div>
-              )}
+                            <td className="text-right">
+                              {Math.round(totals.totalInvoiceAmount)}
+                            </td>
+                            <td className="text-right">
+                              {Math.round(totals.totalCollectionAmount)}
+                            </td>
+                            <td className="text-right">
+                              {Math.round(totals.totalPendingAmount)}
+                            </td>
+                            <td></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </>
+                )}
 
               <IViewModal show={isOpen} onHide={() => setIsOpen(false)}>
                 <Schedule />
               </IViewModal>
+
+              {isView && view && (
+                <IViewModal
+                  show={view}
+                  onHide={() => {
+                    setView(false);
+                  }}
+                >
+                  {["Re-Curring"].includes(singleData?.strPaymentType) ? (
+                    <ServiceSalesCreateRecurring
+                      isView={true}
+                      singleData={singleDataNew}
+                      getData={getData}
+                    />
+                  ) : (
+                    <ServiceSalesCreate
+                      isView={true}
+                      singleData={singleDataNew}
+                      getData={getData}
+                      isShowCustomerAllSalesOrderTBL={true}
+                    />
+                  )}
+                </IViewModal>
+              )}
 
               <button
                 type="submit"
