@@ -9,12 +9,10 @@ import NewSelect from "../../../../_helper/_select";
 import AttachmentUploaderNew from "../../../../_helper/attachmentUploaderNew";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import BADCExcelSheet from "../excel/badcExcelSheet";
 import {
   businessPartnerDDL,
   createPageValidationSchema,
   ErrorMessage,
-  fetchGhatDDL,
   fetchGodownDDLList,
   fetchMotherVesselLists,
   fetchTenderDetailsCallbackForPrintAndCreateEditPage,
@@ -23,7 +21,7 @@ import {
   initData,
   selectPayload,
   selectUrl,
-  updateState,
+  updateState
 } from "../helper";
 
 export default function TenderSubmissionCreateEditForm() {
@@ -52,7 +50,7 @@ export default function TenderSubmissionCreateEditForm() {
     getTenderDetails,
     getTenderDetailsDDLLoading,
   ] = useAxiosGet();
-  const [ghatDDL, getGhatDDL, getGhatDDLLoading] = useAxiosGet();
+  // const [ghatDDL, getGhatDDL, getGhatDDLLoading] = useAxiosGet();
   const [
     motherVesselDDL,
     getMotherVesselDDL,
@@ -577,23 +575,23 @@ export default function TenderSubmissionCreateEditForm() {
       </div>
       {(tenderDetails?.header?.isAccept !== true ||
         tenderDetails?.isAccept !== true) && (
-          <div className="col-lg-1 mt-5 d-flex align-items-center">
-            <input
-              type="checkbox"
-              id="isAccept"
-              name="isAccept"
-              value={values?.isAccept}
-              checked={values?.isAccept}
-              onChange={(e) => {
-                setFieldValue("isAccept", e.target.checked);
-              }}
-              disabled={values?.isReject}
-            />
-            <label htmlFor="approveStatus" className="pl-1">
-              Approve
-            </label>
-          </div>
-        )}
+        <div className="col-lg-1 mt-5 d-flex align-items-center">
+          <input
+            type="checkbox"
+            id="isAccept"
+            name="isAccept"
+            value={values?.isAccept}
+            checked={values?.isAccept}
+            onChange={(e) => {
+              setFieldValue("isAccept", e.target.checked);
+            }}
+            disabled={values?.isReject}
+          />
+          <label htmlFor="approveStatus" className="pl-1">
+            Approve
+          </label>
+        </div>
+      )}
       <div className="col-lg-1 mt-5 d-flex align-items-center">
         <input
           type="checkbox"
@@ -651,8 +649,7 @@ export default function TenderSubmissionCreateEditForm() {
           {(getGodownDDLLoading ||
             submitTenderLoading ||
             getMotherVesselDDLLoading ||
-            getTenderDetailsDDLLoading ||
-            getGhatDDLLoading) && <Loading />}
+            getTenderDetailsDDLLoading) && <Loading />}
           <IForm title="Tender Submission Create" getProps={setObjprops}>
             <Form>
               {/* <pre>{JSON.stringify(values, null, 2)}</pre> */}
@@ -678,10 +675,10 @@ export default function TenderSubmissionCreateEditForm() {
                         );
                       }
 
-                      // fetch ghat ddl when badc select
-                      if (valueOption?.label === "BADC(MOP)") {
-                        fetchGhatDDL(accountId, buUnId, getGhatDDL);
-                      }
+                      // // fetch ghat ddl when badc select
+                      // if (valueOption?.label === "BADC(MOP)") {
+                      //   fetchGhatDDL(accountId, buUnId, getGhatDDL);
+                      // }
                     }}
                     errors={errors}
                     touched={touched}
@@ -745,7 +742,7 @@ export default function TenderSubmissionCreateEditForm() {
                 bcicFormFieldLocalPart(values, setFieldValue, errors, touched)}
 
               {/* Excel Sheet Table for BADC */}
-              {values?.businessPartner?.label === "BADC(MOP)" && (
+              {/* {values?.businessPartner?.label === "BADC(MOP)" && (
                 <div className="form-group  global-form row mt-2">
                   <div className="col-lg-12">
                     <BADCExcelSheet
@@ -757,7 +754,7 @@ export default function TenderSubmissionCreateEditForm() {
                     />
                   </div>
                 </div>
-              )}
+              )} */}
 
               <button
                 type="submit"
