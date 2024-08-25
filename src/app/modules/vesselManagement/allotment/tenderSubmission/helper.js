@@ -365,7 +365,7 @@ export const selectEditId = (item) => {
 //export const updateState = ({ header, rows, }, ...rest) => {
 export const updateState = (tenderDetails) => {
   const isBCIC = tenderDetails?.header || tenderDetails?.rows;
-  const isBADCMOP = tenderDetails?.headerDTO || tenderDetails?.rowDTOs;
+  // const isBADCMOP = tenderDetails?.headerDTO || tenderDetails?.rowDTOs;
 
   if (isBCIC) {
     const { header, rows } = tenderDetails;
