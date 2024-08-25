@@ -136,7 +136,7 @@ export const getSingleDataForEdit = async (id, setter) => {
           validTill: _dateFormatter(setDtoValue.objHeader.validTill),
           dueDate: _dateFormatter(setDtoValue.objHeader.dteDueDate),
           // will be added project
-          forProject: setDtoValue?.objHeader?.intProjectId > 0,
+          actionType: setDtoValue?.objHeader?.intProjectId > 0 ?  { label: "Project", value: 1 } : { label: "Operation", value: 2 },
           project:
             setDtoValue?.objHeader?.intProjectId > 0
               ? {

@@ -146,6 +146,14 @@ export const getSingleDataForEdit = async (id, setter) => {
           requestDate: _dateFormatter(setDtoValue.objHeader.dteRequestDate),
           validTill: _dateFormatter(setDtoValue.objHeader.validTill),
           dueDate: _dateFormatter(setDtoValue.objHeader.dteDueDate),
+          actionType: setDtoValue?.objHeader?.intProjectId > 0 ?  { label: "Project", value: 1 } : { label: "Operation", value: 2 },
+          project:
+            setDtoValue?.objHeader?.intProjectId > 0
+              ? {
+                  value: setDtoValue?.objHeader?.intProjectId,
+                  label: setDtoValue?.objHeader?.strProject,
+                }
+              : null,
           referenceId: "",
           quantity: "",
           remarks: "",
