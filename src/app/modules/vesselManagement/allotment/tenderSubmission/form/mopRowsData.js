@@ -1,9 +1,18 @@
 import React from "react";
 import IDelete from "../../../../_helper/_helperIcons/_delete";
-import { mopTenderCreateDataTableHeader } from "../helper";
+import {
+  calculateTotalRate,
+  distributeDistance,
+  mopTenderCreateDataTableHeader,
+} from "../helper";
 import InputField from "../../../../_helper/_inputField";
 
-const BADCMOPRowsData = ({ mopRowsData, updateMopRowsData, tenderId }) => {
+const BADCMOPRowsData = ({
+  mopRowsData,
+  updateMopRowsData,
+  values,
+  tenderId,
+}) => {
   return (
     <div className="table-responsive">
       <table
@@ -27,14 +36,37 @@ const BADCMOPRowsData = ({ mopRowsData, updateMopRowsData, tenderId }) => {
               <td>
                 {
                   <InputField
-                    value={mopRowsData[index]?.distance}
-                    name={`mopRowsData[${index}].distance`}
+                    value={item?.distance || ""}
+                    name={`mopRowsData[${index}]?.distance`}
                     type="number"
                     onChange={(e) => {
-                        updateMopRowsData(
-                        `mopRowsData[${index}].distance`,
-                        e.target.value
-                      );
+                      let newValue = +e.target.value || 0;
+
+                      console.log(newValue);
+                      const newMopRowsData = [...mopRowsData];
+                      newMopRowsData[index]["distance"] = newValue;
+
+                      newMopRowsData[index]["rangOto100"] =
+                        distributeDistance(newValue).rangOto100 *
+                        values?.distance0100;
+
+                      newMopRowsData[index]["rang101to200"] =
+                        distributeDistance(newValue)?.rang101to200 *
+                        values?.distance101200;
+
+                      newMopRowsData[index]["rang201to300"] =
+                        distributeDistance(newValue).rang201to300 *
+                        values?.distance201300;
+
+                      newMopRowsData[index]["rang301to400"] =
+                        distributeDistance(newValue).rang301to400 *
+                        values?.distance301400;
+
+                      newMopRowsData[index]["rang401to500"] =
+                        distributeDistance(newValue).rang401to500 *
+                        values?.distance401500;
+
+                      updateMopRowsData(newMopRowsData);
                     }}
                   />
                 }
@@ -44,7 +76,9 @@ const BADCMOPRowsData = ({ mopRowsData, updateMopRowsData, tenderId }) => {
               <td>{item?.rang201to300}</td>
               <td>{item?.rang301to400}</td>
               <td>{item?.rang401to500}</td>
-              <td>{item?.totalRate}</td>
+              <td>
+                {calculateTotalRate(item?.rangOto100, item?.rang101to200,item?.rang201to300,item?.rang301to400,item?.rang401to500)}
+              </td>
               <td>{item?.taxVat}</td>
               <td>{item?.invoiceCost}</td>
               <td>{item?.labourBill}</td>

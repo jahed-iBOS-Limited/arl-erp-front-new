@@ -791,7 +791,6 @@ export const selectPayload = (
   return {};
 };
 
-
 // fetch mother vessel with port
 export const fetchMotherVesselLists = (
   accId,
@@ -846,25 +845,198 @@ export const fetchMotherVesselLists = (
 // };
 
 // get mop rows data when distance rate form field ha no errors. this is a callback func on validationBADCMOPDistanceRateField
+
+export const distributeDistance = (distance) => {
+  const range = {
+    rangOto100: 0,
+    rang101to200: 0,
+    rang201to300: 0,
+    rang301to400: 0,
+    rang401to500: 0,
+  };
+
+  if (distance > 0) {
+    if (distance >= 500) {
+      range.rangOto100 = 100;
+      range.rang101to200 = 100;
+      range.rang201to300 = 100;
+      range.rang301to400 = 100;
+      range.rang401to500 = 100;
+    } else if (distance >= 400) {
+      range.rangOto100 = 100;
+      range.rang101to200 = 100;
+      range.rang201to300 = 100;
+      range.rang301to400 = 100;
+      range.rang401to500 = distance - 400;
+    } else if (distance >= 300) {
+      range.rangOto100 = 100;
+      range.rang101to200 = 100;
+      range.rang201to300 = 100;
+      range.rang301to400 = distance - 300;
+    } else if (distance >= 200) {
+      range.rangOto100 = 100;
+      range.rang101to200 = 100;
+      range.rang201to300 = distance - 200;
+    } else if (distance >= 100) {
+      range.rangOto100 = 100;
+      range.rang101to200 = distance - 100;
+    } else {
+      range.rangOto100 = distance;
+    }
+  }
+
+  return range;
+};
+
+export const calculateTotalRate = (
+  rangOto100,
+  rang101to200,
+  rang201to300,
+  rang301to400,
+  rang401to500
+) => {
+  const total =
+    parseFloat(rangOto100) +
+    parseFloat(rang101to200) +
+    parseFloat(rang201to300) +
+    parseFloat(rang301to400) +
+    parseFloat(rang401to500);
+
+  return parseFloat(total.toFixed(2));
+};
+
 export const fetchMOPRowsData = async (
   accountId,
   buUnId,
   getMopRowsDataFunc,
-  calculateDistanceRateFunc
+  values,
+  updateMopRowsData
 ) => {
   getMopRowsDataFunc(
     `/tms/TenderSubmission/GetBADCMopMasterConfigation?AccountId=${accountId}&BusinessUnitId=${buUnId}`,
     (data) => {
-      calculateDistanceRateFunc(data);
+      // calculateDistanceRateFunc(data, values, updateMopRowsData);
+      const modifyData = data?.map((item, index) => {
+        return {
+          ...item,
+          rangOto100: (
+            distributeDistance(item?.distance || 0)?.rangOto100 *
+            values?.distance0100
+          ).toFixed(2),
+          rang101to200: (
+            distributeDistance(item?.distance || 0)?.rang101to200 *
+            values?.distance101200
+          ).toFixed(2),
+          rang201to300: (
+            distributeDistance(item?.distance || 0)?.rang201to300 *
+            values?.distance201300
+          ).toFixed(2),
+          rang301to400: (
+            distributeDistance(item?.distance || 0)?.rang301to400 *
+            values?.distance301400
+          ).toFixed(2),
+          rang401to500: (
+            distributeDistance(item?.distance || 0)?.rang401to500 *
+            values?.distance401500
+          ).toFixed(2),
+          totalRate: calculateTotalRate(
+            item?.rangOto100,
+            item?.rang101to200,
+            item?.rang201to300,
+            item?.rang301to400,
+            item?.rang401to500
+          ).toFixed(2),
+        };
+      });
+      console.log(modifyData);
+      updateMopRowsData(modifyData);
     }
   );
 };
 
 // calculate distance & range rate
-export const calculateDistanceRate = (data) => {
-  console.log(data);
-};
+// export const calculateDistanceRate = (data, values, updateMopRowsData) => {
+//   const {
+//     distance0100,
+//     distance101200,
+//     distance201300,
+//     distance301400,
+//     distance401500,
+//   } = values;
 
+//   const first100 = 100 * distance0100;
+//   const second100 = 100 * distance101200;
+//   const third100 = 100 * distance201300;
+//   const fourth100 = 100 * distance301400;
+
+//   const updateData = data?.map((item, index) => {
+//     const first = item.distance * distance0100;
+//     const second = (item.distance - 100) * distance101200;
+//     const third = (item.distance - 200) * distance201300;
+//     const fourth = (item.distance - 300) * distance301400;
+//     const fifth = (item.distance - 400) * distance401500;
+
+//     if (item?.distance > 0 && item?.distance <= 100) {
+//       return {
+//         ...item,
+//         rangOto100: first,
+//         rang101to200: 0,
+//         rang201to300: 0,
+//         rang301to400: 0,
+//         rang401to500: 0,
+//       };
+//     } else if (item?.distance > 100 && item?.distance <= 200) {
+//       return {
+//         ...item,
+//         rangOto100: first100,
+//         rang101to200: second,
+//         rang201to300: 0,
+//         rang301to400: 0,
+//         rang401to500: 0,
+//       };
+//     } else if (item?.distance > 200 && item?.distance <= 300) {
+//       return {
+//         ...item,
+//         rangOto100: first100,
+//         rang101to200: second100,
+//         rang201to300: third,
+//         rang301to400: 0,
+//         rang401to500: 0,
+//       };
+//     } else if (item?.distance > 300 && item?.distance <= 400) {
+//       return {
+//         ...item,
+//         rangOto100: first100,
+//         rang101to200: second100,
+//         rang201to300: third100,
+//         rang301to400: fourth,
+//         rang401to500: 0,
+//       };
+//     } else if (item?.distance > 400 && item?.distance <= 500) {
+//       return {
+//         ...item,
+//         rangOto100: first100,
+//         rang101to200: second100,
+//         rang201to300: third100,
+//         rang301to400: fourth100,
+//         rang401to500: fifth,
+//       };
+//     } else {
+//       return {
+//         ...item,
+//         rangOto100: 0,
+//         rang101to200: 0,
+//         rang201to300: 0,
+//         rang301to400: 0,
+//         rang401to500: 0,
+//       };
+//     }
+//   });
+
+//   console.log(updateData);
+
+//   updateMopRowsData(updateData);
+// };
 
 // mop tender create data table header
 export const mopTenderCreateDataTableHeader = [

@@ -12,7 +12,6 @@ import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import IButton from "../../../../_helper/iButton";
 import {
   businessPartnerDDL,
-  calculateDistanceRate,
   createPageValidationSchema,
   ErrorMessage,
   fetchGodownDDLList,
@@ -24,7 +23,7 @@ import {
   initData,
   selectPayload,
   selectUrl,
-  updateState
+  updateState,
 } from "../helper";
 import BADCMOPRowsData from "./mopRowsData";
 
@@ -507,7 +506,8 @@ export default function TenderSubmissionCreateEditForm() {
               accountId,
               buUnId,
               getMopRowsData,
-              calculateDistanceRate
+              values,
+              updateMopRowsData
             )
           }
           disabled={
@@ -757,6 +757,7 @@ export default function TenderSubmissionCreateEditForm() {
                       <BADCMOPRowsData
                         mopRowsData={mopRowsData}
                         updateMopRowsData={updateMopRowsData}
+                        values={values}
                         tenderId={tenderId}
                       />
                     </div>
