@@ -213,40 +213,42 @@ export const createPageValidationSchema = Yup.object({
     .min(0),
 
   // badc (mop)
-  distance0100: Yup.number()
-    .positive()
-    .min(0)
-    .max(100)
-    .required("Distance 0-100 is required"),
-
-  mopRowsData: Yup.array()
-    .of(Yup.object())
-    .when("businessPartner", {
-      is: (businessPartner) =>
-        businessPartner && businessPartner?.label === "BADC(MOP)",
-      then: Yup.array()
-        .min(1, "Minimum 1 Mop Rows Data")
-        .required("Mop Rows Data is required"),
-      otherwise: Yup.array().notRequired(),
-    }),
+  // distance0100: Yup.number()
+  //   .positive()
+  //   .min(0, "Must be greater than or equal 0")
+  //   .max(100, "Must be less than or qual 100")
+  //   .required("Distance 0-100 is required"),
+  // distance101200: Yup.number()
+  //   .positive()
+  //   .min(0, "Must be greater than or equal 0")
+  //   .max(100, "Must be less than or qual 100")
+  //   .required("Distance 101-200 is required"),
+  // distance201300: Yup.number()
+  //   .positive()
+  //   .min(0, "Must be greater than or equal 0")
+  //   .max(100, "Must be less than or qual 100")
+  //   .required("Distance 201-300 is required"),
+  // distance301400: Yup.number()
+  //   .positive()
+  //   .min(0, "Must be greater than or equal 0")
+  //   .max(100, "Must be less than or qual 100")
+  //   .required("Distance 301-400 is required"),
+  // distance401500: Yup.number()
+  //   .positive()
+  //   .min(0, "Must be greater than or equal 0")
+  //   .max(100, "Must be less than or qual 100")
+  //   .required("Distance 401-500 is required"),
+  // mopRowsData: Yup.array()
+  //   .of(Yup.object())
+  //   .when("businessPartner", {
+  //     is: (businessPartner) =>
+  //       businessPartner && businessPartner?.label === "BADC(MOP)",
+  //     then: Yup.array()
+  //       .min(1, "Minimum 1 Mop Rows Data")
+  //       .required("Mop Rows Data is required"),
+  //     otherwise: Yup.array().notRequired(),
+  //   }),
 });
-
-export const validationBADCMOPDistanceRateField = async (
-  validateForm,
-  setTouched
-) => {
-  // set true with second button
-  setTouched({
-    distance0100: true,
-  });
-  const errors = await validateForm();
-
-  if (!errors) {
-    console.log("Success");
-  } else {
-    console.log(errors);
-  }
-};
 
 // Validation schema for landing page
 export const landingPageValidationSchema = Yup.object({
@@ -789,13 +791,6 @@ export const selectPayload = (
   return {};
 };
 
-// ! remove ghat for requirement change
-// fetch ghat ddl for badc create & edit
-// export const fetchGhatDDL = (accountId, buUnId, getGhatDDLFunc) => {
-//     getGhatDDLFunc(
-//         `/wms/ShipPoint/GetShipPointDDL?accountId=${accountId}&businessUnitId=${buUnId}`
-//     );
-// };
 
 // fetch mother vessel with port
 export const fetchMotherVesselLists = (
@@ -810,6 +805,66 @@ export const fetchMotherVesselLists = (
 };
 
 /* BADC (MOP) */
+
+// validation object properties array
+// const validationBADCMOPDRFieldNames = [
+//   "distance0100",
+//   "distance101200",
+//   "distance201300",
+//   "distance301400",
+//   "distance401500",
+// ];
+
+// validation badc mop distance rate field before show table data & 1st phase
+// export const validationBADCMORDistanceRateField = async (
+//   validateForm,
+//   setTouched,
+//   callback
+// ) => {
+//   // set true all field with second button with setTouched
+//   setTouched(
+//     validationBADCMOPDRFieldNames.reduce((acc, fieldName) => {
+//       acc[fieldName] = true;
+//       // console.log(acc);
+//       return acc;
+//     }, {})
+//   );
+
+//   // all field required
+//   const errors = await validateForm();
+
+//   const allFieldsErrors = validationBADCMOPDRFieldNames?.every((fieldName) =>
+//     errors?.hasOwnProperty(fieldName)
+//   );
+//   // console.log(allFieldsErrors);
+
+//   if (!allFieldsErrors) {
+//     callback && callback();
+//   } else {
+//     console.log(errors);
+//   }
+// };
+
+// get mop rows data when distance rate form field ha no errors. this is a callback func on validationBADCMOPDistanceRateField
+export const fetchMOPRowsData = async (
+  accountId,
+  buUnId,
+  getMopRowsDataFunc,
+  calculateDistanceRateFunc
+) => {
+  getMopRowsDataFunc(
+    `/tms/TenderSubmission/GetBADCMopMasterConfigation?AccountId=${accountId}&BusinessUnitId=${buUnId}`,
+    (data) => {
+      calculateDistanceRateFunc(data);
+    }
+  );
+};
+
+// calculate distance & range rate
+export const calculateDistanceRate = (data) => {
+  console.log(data);
+};
+
 
 // mop tender create data table header
 export const mopTenderCreateDataTableHeader = [
