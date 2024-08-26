@@ -9,11 +9,14 @@ import NewSelect from "../../../../_helper/_select";
 import AttachmentUploaderNew from "../../../../_helper/attachmentUploaderNew";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import IButton from "../../../../_helper/iButton";
 import {
   businessPartnerDDL,
+  calculateDistanceRate,
   createPageValidationSchema,
   ErrorMessage,
   fetchGodownDDLList,
+  fetchMOPRowsData,
   fetchMotherVesselLists,
   fetchTenderDetailsCallbackForPrintAndCreateEditPage,
   getDischargePortDDL,
@@ -21,9 +24,9 @@ import {
   initData,
   selectPayload,
   selectUrl,
-  updateState,
+  updateState
 } from "../helper";
-import IButton from "../../../../_helper/iButton";
+import BADCMOPRowsData from "./mopRowsData";
 
 export default function TenderSubmissionCreateEditForm() {
   const {
@@ -56,6 +59,14 @@ export default function TenderSubmissionCreateEditForm() {
     motherVesselDDL,
     getMotherVesselDDL,
     getMotherVesselDDLLoading,
+  ] = useAxiosGet();
+
+  // get & update mop rows data
+  const [
+    mopRowsData,
+    getMopRowsData,
+    getMopRowsDataLoading,
+    updateMopRowsData,
   ] = useAxiosGet();
 
   // Data post/save axios post
@@ -428,7 +439,7 @@ export default function TenderSubmissionCreateEditForm() {
   );
 
   // ! Form Field for BADC (MOP)
-  const badcMopFormField = (values, setFieldValue, errors, touched) => (
+  const badcMopFormField = (values, setFieldValue) => (
     <div className="form-group  global-form row mt-2">
       <div className="col-lg-12">
         <h4>Distance Rate</h4>
@@ -491,9 +502,21 @@ export default function TenderSubmissionCreateEditForm() {
       </div>
       <div class="col-lg-1">
         <IButton
-          onClick={() => {
-            console.log("first");
-          }}
+          onClick={() =>
+            fetchMOPRowsData(
+              accountId,
+              buUnId,
+              getMopRowsData,
+              calculateDistanceRate
+            )
+          }
+          disabled={
+            !values?.distance0100 ||
+            !values?.distance101200 ||
+            !values?.distance201300 ||
+            !values?.distance301400 ||
+            !values?.distance401500
+          }
         >
           View
         </IButton>
@@ -626,15 +649,18 @@ export default function TenderSubmissionCreateEditForm() {
         setFieldValue,
         errors,
         touched,
+        validateForm,
+        setTouched,
       }) => (
         <>
           {(getGodownDDLLoading ||
             submitTenderLoading ||
             getMotherVesselDDLLoading ||
-            getTenderDetailsDDLLoading) && <Loading />}
+            getTenderDetailsDDLLoading ||
+            getMopRowsDataLoading) && <Loading />}
           <IForm title="Tender Submission Create" getProps={setObjprops}>
             <Form>
-              <pre>{JSON.stringify(values, null, 2)}</pre>
+              {/* <pre>{JSON.stringify(values, null, 2)}</pre> */}
 
               <div className="form-group  global-form row">
                 <div className="col-lg-3">
@@ -712,26 +738,30 @@ export default function TenderSubmissionCreateEditForm() {
 
               {/* Form Field for BADC (MOP) */}
               {values?.businessPartner?.label === "BADC(MOP)" &&
-                badcMopFormField(values, setFieldValue, errors, touched)}
+                badcMopFormField(
+                  values,
+                  setFieldValue,
+                  validateForm,
+                  setTouched
+                )}
 
               {/* Form Field for BCIC Local Part */}
               {values?.businessPartner?.label === "BCIC" &&
                 bcicFormFieldLocalPart(values, setFieldValue, errors, touched)}
 
               {/* Excel Sheet Table for BADC */}
-              {/* {values?.businessPartner?.label === "BADC(MOP)" && (
-                <div className="form-group  global-form row mt-2">
-                  <div className="col-lg-12">
-                    <BADCExcelSheet
-                      ghatDDL={ghatDDL}
-                      dischargePortDDL={dischargeDDL}
-                      values={values}
-                      setFieldValue={setFieldValue}
-                      tenderId={tenderId}
-                    />
+              {values?.businessPartner?.label === "BADC(MOP)" &&
+                mopRowsData.length > 0 && (
+                  <div className="form-group  global-form row mt-2">
+                    <div className="col-lg-12">
+                      <BADCMOPRowsData
+                        mopRowsData={mopRowsData}
+                        updateMopRowsData={updateMopRowsData}
+                        tenderId={tenderId}
+                      />
+                    </div>
                   </div>
-                </div>
-              )} */}
+                )}
 
               <button
                 type="submit"
