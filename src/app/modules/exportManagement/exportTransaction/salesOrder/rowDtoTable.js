@@ -135,11 +135,11 @@ const SalesOrderRowTable = ({
         </div>
       </div>
       <>
-      <div className="table-responsive">
- <table className="table table-striped table-bordered mt-3 global-table po-table">
-          <thead>
-            <tr>
-              {/* <th style={{ fontSize: "10px" }}>SL</th>
+        <div className="table-responsive">
+          <table className="table table-striped table-bordered mt-3 global-table po-table">
+            <thead>
+              <tr>
+                {/* <th style={{ fontSize: "10px" }}>SL</th>
                 <th style={{ width: "150px", fontSize: "10px" }}>Reference No</th>
                 <th style={{ width: "70px", fontSize: "10px" }}>Specification</th>
                 <th style={{ width: "150px", fontSize: "10px" }}>Ship To Party</th>
@@ -155,119 +155,120 @@ const SalesOrderRowTable = ({
                 <th style={{ fontSize: "10px" }}>Net Value</th>
                 <th style={{ fontSize: "10px" }}>Action</th> */}
 
-              <th className="text-center">Sl</th>
-              <th>PRODUCT CODE</th>
-              <th>DESCRIPTION OF GOODS</th>
-              <th>PACKING SIZE</th>
-              {salesQuotationDetails?.Data?.Head?.map((item, index) => {
-                return <th>{item?.HeaderName.toUpperCase()}</th>;
-              })}
-              <th>TOTAL PCS</th>
-              <th>FOB RATE PCS BDT</th>
-              <th>TOTAL AMOUNT FOB BDT</th>
-              <th>COGS</th>
-              <th>CI RATE</th>
-              <th>CI VALUE</th>
-            </tr>
-          </thead>
-          <tbody>
-            {salesQuotationDetails?.Data?.RowData?.map((item, index) => (
+                <th className="text-center">Sl</th>
+                <th>PRODUCT CODE</th>
+                <th>DESCRIPTION OF GOODS</th>
+                <th>PACKING SIZE</th>
+                {salesQuotationDetails?.Data?.Head?.map((item, index) => {
+                  return <th>{item?.HeaderName?.toUpperCase()}</th>;
+                })}
+                <th>TOTAL PCS</th>
+                <th>FOB RATE PCS BDT</th>
+                <th>TOTAL AMOUNT FOB BDT</th>
+                <th>COGS</th>
+                <th>CI RATE</th>
+                <th>CI VALUE</th>
+              </tr>
+            </thead>
+            <tbody>
+              {salesQuotationDetails?.Data?.RowData?.map((item, index) => (
+                <tr>
+                  <td>{index + 1}</td>
+                  <td>{item?.ItemCode?.toUpperCase()}</td>
+                  <td>{item?.ItemName?.toUpperCase()}</td>
+                  <td>{item?.PackingDetails?.toUpperCase()}</td>
+                  {item?.Headings?.map((itm, index) => (
+                    <td>{itm?.HeaderValue}</td>
+                  ))}
+                  <td>{item?.TotalPieces}</td>
+                  <td className="text-right">
+                    {item?.FobRatePerPieceBDT
+                      ? _formatMoney(item?.FobRatePerPieceBDT)
+                      : ""}
+                  </td>
+                  <td className="text-right">
+                    {item?.TotalFobAmountBDT
+                      ? _formatMoney(item?.TotalFobAmountBDT)
+                      : ""}
+                  </td>
+                  <td className="text-right">
+                    <input
+                      type="number"
+                      value={item?.cogs || ""}
+                      onChange={(e) => {
+                        const updatedData = { ...salesQuotationDetails };
+                        updatedData.Data.RowData[index].cogs =
+                          e.target.value || "";
+                        setSalesQuotationDetails(updatedData);
+                      }}
+                    />
+                  </td>
+                  <td className="text-right">
+                    <input
+                      type="number"
+                      value={item?.ciRate}
+                      // value={item?.ciRate ? item?.ciRate?.toFixed(4) : 0 || ""}
+                      onChange={(e) => {
+                        const updatedData = { ...salesQuotationDetails };
+                        updatedData.Data.RowData[index].ciRate =
+                          e.target.value || "";
+                        updatedData.Data.RowData[index].ciValue =
+                          e.target.value * item?.TotalPieces;
+                        setSalesQuotationDetails(updatedData);
+                      }}
+                    />
+                  </td>
+                  <td className="text-right">
+                    {item?.ciRate ? _formatMoney(item?.ciValue) : ""}
+                  </td>
+                </tr>
+              ))}
               <tr>
-                <td>{index + 1}</td>
-                <td>{item?.ItemCode.toUpperCase()}</td>
-                <td>{item?.ItemName.toUpperCase()}</td>
-                <td>{item?.PackingDetails.toUpperCase()}</td>
-                {item?.Headings?.map((itm, index) => (
-                  <td>{itm?.HeaderValue}</td>
-                ))}
-                <td>{item?.TotalPieces}</td>
-                <td className="text-right">
-                  {item?.FobRatePerPieceBDT
-                    ? _formatMoney(item?.FobRatePerPieceBDT)
-                    : ""}
+                <td
+                  className="font-weight-bold"
+                  colSpan={salesQuotationDetails?.Data?.Head?.length + 3}
+                >
+                  Total FOB VALUE
                 </td>
-                <td className="text-right">
-                  {item?.TotalFobAmountBDT
-                    ? _formatMoney(item?.TotalFobAmountBDT)
-                    : ""}
+                <td>{totalFOBValue(salesQuotationDetails?.Data, 1)}</td>
+                <td className="text-right font-weight-bold">
+                  {totalFOBValue(salesQuotationDetails?.Data, 2)}
                 </td>
-                <td className="text-right">
-                  <input
-                    type="number"
-                    value={item?.cogs || ""}
-                    onChange={(e) => {
-                      const updatedData = { ...salesQuotationDetails };
-                      updatedData.Data.RowData[index].cogs =
-                        e.target.value || "";
-                      setSalesQuotationDetails(updatedData);
-                    }}
-                  />
-                </td>
-                <td className="text-right">
-                  <input
-                    type="number"
-                    value={item?.ciRate}
-                    // value={item?.ciRate ? item?.ciRate?.toFixed(4) : 0 || ""}
-                    onChange={(e) => {
-                      const updatedData = { ...salesQuotationDetails };
-                      updatedData.Data.RowData[index].ciRate =
-                        e.target.value || "";
-                      updatedData.Data.RowData[index].ciValue =
-                        e.target.value * item?.TotalPieces;
-                      setSalesQuotationDetails(updatedData);
-                    }}
-                  />
-                </td>
-                <td className="text-right">
-                  {item?.ciRate ? _formatMoney(item?.ciValue) : ""}
+                <td>{""}</td>
+                <td className="text-right font-weight-bold">
+                  {totalFOBValue(salesQuotationDetails?.Data, 4)}
                 </td>
               </tr>
-            ))}
-            <tr>
-              <td
-                className="font-weight-bold"
-                colSpan={salesQuotationDetails?.Data?.Head?.length + 3}
-              >
-                Total FOB VALUE
-              </td>
-              <td>{totalFOBValue(salesQuotationDetails?.Data, 1)}</td>
-              <td className="text-right font-weight-bold">
-                {totalFOBValue(salesQuotationDetails?.Data, 2)}
-              </td>
-              <td>{""}</td>
-              <td className="text-right font-weight-bold">
-                {totalFOBValue(salesQuotationDetails?.Data, 4)}
-              </td>
-            </tr>
-            <tr>
-              <td
-                className="font-weight-bold"
-                colSpan={salesQuotationDetails?.Data?.Head?.length + 6}
-              >
-                FREIGHT
-              </td>
-              <td className="text-right">
-                {salesQuotationDetails?.Data?.HeaderData?.FreightAmountBDT
-                  ? _formatMoney(
-                      salesQuotationDetails?.Data?.HeaderData?.FreightAmountBDT
-                    )
-                  : ""}
-              </td>
-            </tr>
+              <tr>
+                <td
+                  className="font-weight-bold"
+                  colSpan={salesQuotationDetails?.Data?.Head?.length + 6}
+                >
+                  FREIGHT
+                </td>
+                <td className="text-right">
+                  {salesQuotationDetails?.Data?.HeaderData?.FreightAmountBDT
+                    ? _formatMoney(
+                        salesQuotationDetails?.Data?.HeaderData
+                          ?.FreightAmountBDT
+                      )
+                    : ""}
+                </td>
+              </tr>
 
-            <tr>
-              <td
-                className="font-weight-bold"
-                colSpan={salesQuotationDetails?.Data?.Head?.length + 6}
-              >
-                TOTAL CNF VALUE
-              </td>
-              <td className="text-right">
-                {totalFOBValue(salesQuotationDetails?.Data, 5)}
-              </td>
-            </tr>
+              <tr>
+                <td
+                  className="font-weight-bold"
+                  colSpan={salesQuotationDetails?.Data?.Head?.length + 6}
+                >
+                  TOTAL CNF VALUE
+                </td>
+                <td className="text-right">
+                  {totalFOBValue(salesQuotationDetails?.Data, 5)}
+                </td>
+              </tr>
 
-            {/* {rowDto?.map((item, index) => {
+              {/* {rowDto?.map((item, index) => {
                 //getUomDDL(item?.item?.value);
 
                 return (
@@ -382,10 +383,9 @@ const SalesOrderRowTable = ({
                   </tr>
                 );
               })} */}
-          </tbody>
-        </table>
-</div>
-       
+            </tbody>
+          </table>
+        </div>
       </>
       {/* )} */}
     </div>
