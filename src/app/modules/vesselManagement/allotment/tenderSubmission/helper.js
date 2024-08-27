@@ -845,65 +845,105 @@ export const fetchMotherVesselLists = (
 // };
 
 // get mop rows data when distance rate form field ha no errors. this is a callback func on validationBADCMOPDistanceRateField
+export const ranges = {
+  rangOto100: 0,
+  rang101to200: 0,
+  rang201to300: 0,
+  rang301to400: 0,
+  rang401to500: 0,
+};
 
-export const distributeDistance = (distance) => {
-  const range = {
+export const distributeDistance = (distance = 0) => {
+  const ranges = {
     rangOto100: 0,
     rang101to200: 0,
     rang201to300: 0,
     rang301to400: 0,
     rang401to500: 0,
   };
-
   if (distance > 0) {
     if (distance >= 500) {
-      range.rangOto100 = 100;
-      range.rang101to200 = 100;
-      range.rang201to300 = 100;
-      range.rang301to400 = 100;
-      range.rang401to500 = 100;
+      ranges.rangOto100 = 100;
+      ranges.rang101to200 = 100;
+      ranges.rang201to300 = 100;
+      ranges.rang301to400 = 100;
+      ranges.rang401to500 = 100;
     } else if (distance >= 400) {
-      range.rangOto100 = 100;
-      range.rang101to200 = 100;
-      range.rang201to300 = 100;
-      range.rang301to400 = 100;
-      range.rang401to500 = distance - 400;
+      ranges.rangOto100 = 100;
+      ranges.rang101to200 = 100;
+      ranges.rang201to300 = 100;
+      ranges.rang301to400 = 100;
+      ranges.rang401to500 = distance - 400;
     } else if (distance >= 300) {
-      range.rangOto100 = 100;
-      range.rang101to200 = 100;
-      range.rang201to300 = 100;
-      range.rang301to400 = distance - 300;
+      ranges.rangOto100 = 100;
+      ranges.rang101to200 = 100;
+      ranges.rang201to300 = 100;
+      ranges.rang301to400 = distance - 300;
     } else if (distance >= 200) {
-      range.rangOto100 = 100;
-      range.rang101to200 = 100;
-      range.rang201to300 = distance - 200;
+      ranges.rangOto100 = 100;
+      ranges.rang101to200 = 100;
+      ranges.rang201to300 = distance - 200;
     } else if (distance >= 100) {
-      range.rangOto100 = 100;
-      range.rang101to200 = distance - 100;
+      ranges.rangOto100 = 100;
+      ranges.rang101to200 = distance - 100;
     } else {
-      range.rangOto100 = distance;
+      ranges.rangOto100 = distance;
     }
   }
 
-  return range;
+  return ranges;
 };
 
-export const calculateTotalRate = (
-  rangOto100,
-  rang101to200,
-  rang201to300,
-  rang301to400,
-  rang401to500
-) => {
-  const total =
-    parseFloat(rangOto100) +
-    parseFloat(rang101to200) +
-    parseFloat(rang201to300) +
-    parseFloat(rang301to400) +
-    parseFloat(rang401to500);
+export const calculateRangesRate = (distributedDistance, values) => {
+  console.log(distributedDistance);
+  const rangOto100Rate = (
+    distributedDistance?.rangOto100 * +values?.distance0100
+  ).toFixed(2);
+  const rang101to200Rate = (
+    distributedDistance?.rang101to200 * +values?.distance101200
+  ).toFixed(2);
+  const rang201to300Rate = (
+    distributedDistance?.rang201to300 * +values?.distance201300
+  ).toFixed(2);
+  const rang301to400Rate = (
+    distributedDistance?.rang301to400 * +values?.distance301400
+  ).toFixed(2);
+  const rang401to500Rate = (
+    distributedDistance?.rang401to500 * +values?.distance401500
+  ).toFixed(2);
 
-  return parseFloat(total.toFixed(2));
+  return {
+    rangOto100Rate,
+    rang101to200Rate,
+    rang201to300Rate,
+    rang301to400Rate,
+    rang401to500Rate,
+  };
 };
+
+export const calculateTotalRate = (calculateRangesRate) => {
+  const ratesArray = Object.values(calculateRangesRate);
+  return ratesArray?.reduce((acc, item) => acc + +item, 0).toFixed(2);
+};
+
+export const calculateTotalCost = (...costs) => {
+  return costs.reduce((acc, costItem) => acc + +costItem, 0).toFixed(2);
+};
+
+export const calculateTotalRecieve = (totalRate = 0, totalCost = 0) =>
+  Math.abs(+totalRate - +totalCost).toFixed(2);
+
+export const calculateBillAmount = (itemQty, totalRate = 0) =>
+  (+itemQty * +totalRate).toFixed(2);
+
+export const calculateCostAmount = (itemQty, totalCost = 0) =>
+  (+itemQty * +totalCost).toFixed(2);
+
+export const calculateProfitAmount = (billAmount = 0, costAmount = 0) =>
+  Math.abs(+billAmount - +costAmount).toFixed(2);
+
+export const calculateTaxVat = (totalRate = 0, taxPercentage = 0.17) =>
+  (+totalRate * +taxPercentage).toFixed(2);
 
 export const fetchMOPRowsData = async (
   accountId,
@@ -915,37 +955,36 @@ export const fetchMOPRowsData = async (
   getMopRowsDataFunc(
     `/tms/TenderSubmission/GetBADCMopMasterConfigation?AccountId=${accountId}&BusinessUnitId=${buUnId}`,
     (data) => {
-      // calculateDistanceRateFunc(data, values, updateMopRowsData);
       const modifyData = data?.map((item, index) => {
+        const distributedDistance = distributeDistance(item?.distance, ranges);
+        const rangesRate = calculateRangesRate(distributedDistance, values);
+        const totalRate = calculateTotalRate(rangesRate);
+        const totalTaxVat = calculateTaxVat(totalRate);
+        const totalCost = calculateTotalCost(
+          item?.additionalCost,
+          item?.labourBill,
+          item?.invoiceCost,
+          item?.transPortCost
+        );
+        const totalRecieve = calculateTotalRecieve(totalRate - totalCost);
+        const billAmount = calculateBillAmount(item?.quantity, totalRate);
+        const costAmount = calculateCostAmount(item?.quantity, totalCost);
+        const profitAmount = calculateProfitAmount(billAmount, costAmount);
+
         return {
           ...item,
-          rangOto100: (
-            distributeDistance(item?.distance || 0)?.rangOto100 *
-            values?.distance0100
-          ).toFixed(2),
-          rang101to200: (
-            distributeDistance(item?.distance || 0)?.rang101to200 *
-            values?.distance101200
-          ).toFixed(2),
-          rang201to300: (
-            distributeDistance(item?.distance || 0)?.rang201to300 *
-            values?.distance201300
-          ).toFixed(2),
-          rang301to400: (
-            distributeDistance(item?.distance || 0)?.rang301to400 *
-            values?.distance301400
-          ).toFixed(2),
-          rang401to500: (
-            distributeDistance(item?.distance || 0)?.rang401to500 *
-            values?.distance401500
-          ).toFixed(2),
-          totalRate: calculateTotalRate(
-            item?.rangOto100,
-            item?.rang101to200,
-            item?.rang201to300,
-            item?.rang301to400,
-            item?.rang401to500
-          ).toFixed(2),
+          rangOto100: rangesRate.rangOto100Rate,
+          rang101to200: rangesRate.rang101to200Rate,
+          rang201to300: rangesRate.rang201to300Rate,
+          rang301to400: rangesRate.rang301to400Rate,
+          rang401to500: rangesRate.rang401to500Rate,
+          totalRate,
+          taxVat: totalTaxVat,
+          totalCost,
+          totalRecieve,
+          billAmount,
+          costAmount,
+          profitAmount,
         };
       });
       console.log(modifyData);
@@ -1055,7 +1094,7 @@ export const mopTenderCreateDataTableHeader = [
   "TransPortCost",
   "AdditionalCost",
   "TotalCost",
-  "TotalRecive",
+  "TotalReceive",
   "Quantity",
   "BillAmount",
   "CostAmount",
