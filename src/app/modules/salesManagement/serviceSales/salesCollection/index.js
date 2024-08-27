@@ -31,6 +31,7 @@ export default function SalesCollectionLanding() {
 
   const [rowData, getRowData, loader, setRowData] = useAxiosGet();
   const [receivableAmount, setReceivableAmount] = useState(0);
+  const [vdsAmount, setVdsAmount] = useState(0);
 
   const [showModal, setShowModal] = useState(false);
   const [showCollectionModal, setShowCollectionModal] = useState(false);
@@ -128,12 +129,13 @@ export default function SalesCollectionLanding() {
       onCheckHandler();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [receivableAmount, actionType]);
+  }, [receivableAmount, actionType, vdsAmount]);
 
   const onCheckHandler = () => {
     // Manual mode logic (only for selected rows)
+    console.log("1");
     const data = [...rowData];
-    let Ramount = +receivableAmount;
+    let Ramount = (+receivableAmount || 0) + (+vdsAmount || 0);
 
     const modifyData = data.map((item) => {
       if (!item.isSelected) return item; // Skip unselected rows
@@ -244,7 +246,6 @@ export default function SalesCollectionLanding() {
         ...initData,
         sbu: sbuDDl[0],
         isVDS: false,
-        vdsAmount: 0,
         accountingJournalTypeId:
           paymentType === 2
             ? { value: 4, label: "Bank Receipts " }
@@ -370,7 +371,7 @@ export default function SalesCollectionLanding() {
                           })
                         );
                         setReceivableAmount(0);
-                        setFieldValue("vdsAmount", 0);
+                        setVdsAmount(0);
                       }}
                     >
                       Show
@@ -475,7 +476,11 @@ export default function SalesCollectionLanding() {
                                 checked={values?.isVDS}
                                 onChange={(e) => {
                                   setFieldValue("isVDS", e.target.checked);
-                                  setFieldValue("vdsAmount", 0);
+                                  setVdsAmount(0);
+                                  setReceivableAmount(0);
+                                  if (e.target.checked) {
+                                    setActionType(2);
+                                  }
                                 }}
                               />
                               <label htmlFor="isVDS" className="pl-1">
@@ -485,12 +490,12 @@ export default function SalesCollectionLanding() {
                             {values?.isVDS && (
                               <div className="col-lg-2">
                                 <InputField
-                                  value={values?.vdsAmount || ""}
+                                  value={vdsAmount || ""}
                                   type="number"
                                   placeholder="VDS Amount"
                                   label="VDS Amount"
                                   onChange={(e) => {
-                                    setFieldValue("vdsAmount", e.target.value);
+                                    setVdsAmount(+e.target.value);
                                   }}
                                 />
                               </div>
@@ -521,8 +526,7 @@ export default function SalesCollectionLanding() {
                                             transactionDate: _todayDate(),
                                             customerDetails: values?.customer,
                                             receivableAmount: receivableAmount,
-                                            numVDSAmount:
-                                              values?.vdsAmount || 0,
+                                            numVDSAmount: vdsAmount || 0,
                                             collectionRow: rowData?.filter(
                                               (item) =>
                                                 item?.invocieRow?.[0]
@@ -539,8 +543,7 @@ export default function SalesCollectionLanding() {
                                                 ?.value,
                                             customerDetails: values?.customer,
                                             receivableAmount: receivableAmount,
-                                            numVDSAmount:
-                                              values?.vdsAmount || 0,
+                                            numVDSAmount: vdsAmount || 0,
                                             collectionRow: collectionRow,
                                           },
                                         }
@@ -564,12 +567,13 @@ export default function SalesCollectionLanding() {
                           type="radio"
                           name="actionType"
                           checked={actionType === 1}
+                          disabled={values?.isVDS}
                           className="mr-1 pointer"
                           style={{ position: "relative", top: "2px" }}
                           onChange={(e) => {
                             setActionType(1);
                             setReceivableAmount(0);
-                            setFieldValue("vdsAmount", 0);
+                            setVdsAmount(0);
                             getData({
                               typeId: values?.type?.value,
                               values,
@@ -583,12 +587,13 @@ export default function SalesCollectionLanding() {
                           type="radio"
                           name="actionType"
                           checked={actionType === 2}
+                          disabled={values?.isVDS}
                           className="mr-1 pointer"
                           style={{ position: "relative", top: "2px" }}
                           onChange={(valueOption) => {
                             setActionType(2);
                             setReceivableAmount(0);
-                            setFieldValue("vdsAmount", 0);
+                            setVdsAmount(0);
                             getData({
                               typeId: values?.type?.value,
                               values,
