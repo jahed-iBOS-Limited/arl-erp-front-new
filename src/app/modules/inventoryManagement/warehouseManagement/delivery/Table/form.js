@@ -64,7 +64,13 @@ export default function HeaderFormDedivery() {
     { shallowEqual }
   );
 
-  let { profileData, selectedBusinessUnit, SBUDDL, distributionChannelDDL, shipPointDDL } = delivery;
+  let {
+    profileData,
+    selectedBusinessUnit,
+    SBUDDL,
+    distributionChannelDDL,
+    shipPointDDL,
+  } = delivery;
 
   const businessUnitId = selectedBusinessUnit?.value;
   const isWorkable = businessUnitId === 138 || businessUnitId === 186;
@@ -74,14 +80,25 @@ export default function HeaderFormDedivery() {
       getPlantDDL(
         `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${profileData?.userId}&AccId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&OrgUnitTypeId=7`
       );
-      dispatch(getSBUDDLDelivery_Aciton(profileData.accountId, selectedBusinessUnit.value));
-      dispatch(GetShipPointDDLAction(profileData.accountId, selectedBusinessUnit.value));
+      dispatch(
+        getSBUDDLDelivery_Aciton(
+          profileData.accountId,
+          selectedBusinessUnit.value
+        )
+      );
+      dispatch(
+        GetShipPointDDLAction(profileData.accountId, selectedBusinessUnit.value)
+      );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedBusinessUnit, profileData]);
 
   useEffect(() => {
-    if (selectedBusinessUnit?.value && profileData?.accountId && deliveryLanding?.sbu?.value) {
+    if (
+      selectedBusinessUnit?.value &&
+      profileData?.accountId &&
+      deliveryLanding?.sbu?.value
+    ) {
       commonGridFunc(
         pageNo,
         pageSize,
@@ -97,7 +114,17 @@ export default function HeaderFormDedivery() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedBusinessUnit, profileData]);
   //commonGridFunc
-  const commonGridFunc = (pageNo, pageSize, searchValue, sbuId, shipPointId, channelId, status, fromDate, toDate) => {
+  const commonGridFunc = (
+    pageNo,
+    pageSize,
+    searchValue,
+    sbuId,
+    shipPointId,
+    channelId,
+    status,
+    fromDate,
+    toDate
+  ) => {
     dispatch(
       getDeliveryGridData(
         profileData.accountId,
@@ -164,7 +191,11 @@ export default function HeaderFormDedivery() {
               <CardHeader title={"Delivery"}>
                 <CardHeaderToolbar>
                   <button
-                    disabled={!values?.shipPoint || !values?.distributionChannel || !values?.sbu}
+                    disabled={
+                      !values?.shipPoint ||
+                      !values?.distributionChannel ||
+                      !values?.sbu
+                    }
                     onClick={() => {
                       dispatch(setDeliveryLandingAction(values));
                       history.push({
@@ -238,14 +269,20 @@ export default function HeaderFormDedivery() {
                     <div className="col-lg-2">
                       <NewSelect
                         name="shipPoint"
-                        options={[{ value: 0, label: "All" }, ...shipPointDDL] || []}
+                        options={
+                          [{ value: 0, label: "All" }, ...shipPointDDL] || []
+                        }
                         value={values?.shipPoint}
                         label="Ship Point"
                         onChange={(valueOption) => {
                           setFieldValue("shipPoint", valueOption);
                           dispatch(clearGridDataActions([]));
                           dispatch(
-                            GetWarehouseDDLAction(profileData.accountId, selectedBusinessUnit.value, valueOption?.value)
+                            GetWarehouseDDLAction(
+                              profileData.accountId,
+                              selectedBusinessUnit.value,
+                              valueOption?.value
+                            )
                           );
                         }}
                         placeholder="Ship Point"
@@ -310,9 +347,12 @@ export default function HeaderFormDedivery() {
 
                     {isWorkable && (
                       <>
-                        <div className="d-flex align-items-center" style={{ marginTop: "20px" }}>
+                        <div
+                          className="d-flex align-items-center"
+                          style={{ marginTop: "20px" }}
+                        >
                           <div>isVatInclude</div>
-                          <div style={{marginLeft:"5px"}}>
+                          <div style={{ marginLeft: "5px" }}>
                             <input
                               type="checkbox"
                               name="isCheck"
@@ -326,7 +366,10 @@ export default function HeaderFormDedivery() {
                         </div>
 
                         {values?.isCheck && (
-                          <div className="col-lg-2" style={{ marginLeft: "5px" }}>
+                          <div
+                            className="col-lg-2"
+                            style={{ marginLeft: "5px" }}
+                          >
                             <InputField
                               label="Vat"
                               value={values?.vat}
@@ -366,7 +409,11 @@ export default function HeaderFormDedivery() {
                             values?.to
                           );
                         }}
-                        disabled={!values?.shipPoint || !values?.distributionChannel || !values?.sbu}
+                        disabled={
+                          !values?.shipPoint ||
+                          !values?.distributionChannel ||
+                          !values?.sbu
+                        }
                       >
                         View
                       </button>
