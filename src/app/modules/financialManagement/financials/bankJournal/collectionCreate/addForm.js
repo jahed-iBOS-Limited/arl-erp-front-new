@@ -16,6 +16,7 @@ import { confirmAlert } from "react-confirm-alert";
 import { setBankJournalCreateAction } from "../../../../_helper/reduxForLocalStorage/Actions";
 import "./style.css";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import axios from "axios";
 
 // const initData = {
 
@@ -64,30 +65,38 @@ export default function BankJournalCreateFormCollection() {
 
   const dispatch = useDispatch();
 
-  const collectionSave = (journalCode) => {
+// Define vdsAction function outside of collectionSave
+const onVdsAction = () => {
+  const apiUrl = `/oms/ServiceSales/VDSalesVoucherPosting?customerId=${location?.state?.customerDetails?.value}&numVDSAmount=${location?.state?.numVDSAmount || 0}`;
+
+  return axios.post(apiUrl)
+    .then(() => {
+      toast.success('VDS created successfully');
+    })
+    .catch(() => {
+      toast.warn('VDS creation failed. You have to create again');
+    });
+};
+
+const collectionSave = (journalCode) => {
+  const handleCollection = () => {
     const payload = location?.state?.collectionRow?.map((item) => ({
-      intServiceSalesInvoiceRowId:
-        item?.invocieRow?.[0]?.intServiceSalesInvoiceRowId,
+      intServiceSalesInvoiceRowId: item?.invocieRow?.[0]?.intServiceSalesInvoiceRowId,
       intServiceSalesInvoiceId: item?.invocieRow?.[0]?.intServiceSalesInvoiceId,
-      intServiceSalesScheduleId:
-        item?.invocieRow?.[0]?.intServiceSalesScheduleId,
-      dteScheduleCreateDateTime:
-        item?.invocieRow?.[0]?.dteScheduleCreateDateTime,
+      intServiceSalesScheduleId: item?.invocieRow?.[0]?.intServiceSalesScheduleId,
+      dteScheduleCreateDateTime: item?.invocieRow?.[0]?.dteScheduleCreateDateTime,
       dteDueDateTime: item?.invocieRow?.[0]?.dteDueDateTime,
       strReceiveAbleJournalCode: journalCode,
       numScheduleAmount: item?.invocieRow?.[0]?.numScheduleAmount,
       numScheduleVatAmount: item?.invocieRow?.[0]?.numScheduleVatAmount,
-      // numCollectionAmount: item?.invocieRow?.[0]?.numCollectionAmount,
-      numCollectionAmount:
-        item?.invocieRow?.[0]?.alreadyCollectedAmount +
+      numCollectionAmount: item?.invocieRow?.[0]?.alreadyCollectedAmount +
         item?.invocieRow?.[0]?.numCollectionAmount,
       numPendingAmount: item?.invocieRow?.[0]?.numPendingAmount,
       numAdjustPreviousAmount: item?.invocieRow?.[0]?.numAdjustPreviousAmount,
-      isCollectionComplete: item?.invocieRow?.[0]?.numPendingAmount
-        ? false
-        : true,
+      isCollectionComplete: item?.invocieRow?.[0]?.numPendingAmount ? false : true,
       numReceivePendingAmount: item?.invocieRow?.[0]?.peviousPendingAmount || 0,
     }));
+
     onCollectionHandler(
       `/oms/ServiceSales/MultipleInvoiceCollection`,
       payload,
@@ -107,6 +116,16 @@ export default function BankJournalCreateFormCollection() {
       true
     );
   };
+
+  // Check if numVDSAmount exists in location.state
+  if (location?.state?.numVDSAmount) {
+    onVdsAction().finally(() => {
+      handleCollection();
+    });
+  } else {
+    handleCollection();
+  }
+};
 
   const saveHandler = async (values, cb) => {
     if (
