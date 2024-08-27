@@ -16,9 +16,10 @@ import PrintInvoiceModal from "./printInvoice";
 const initData = {
   customer: "",
   type: { value: 1, label: "Pending for Invoice" },
-  paymentType:"",
-  fromDate:"",
-  toDate:""
+  paymentType: "",
+  fromDate: "",
+  toDate: "",
+  date: _todayDate(),
 };
 export default function SalesInvoiceLanding() {
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
@@ -43,7 +44,10 @@ export default function SalesInvoiceLanding() {
   }, [profileData, selectedBusinessUnit]);
 
   const getData = ({ typeId, values }) => {
-    const strFromAndToDate = values?.fromDate && values?.toDate ? `&FromDate=${values?.fromDate}&ToDate=${values?.toDate}` : "";
+    const strFromAndToDate =
+      values?.fromDate && values?.toDate
+        ? `&FromDate=${values?.fromDate}&ToDate=${values?.toDate}`
+        : "";
     let apiUrl = [2]?.includes(typeId)
       ? `/oms/ServiceSales/GetServiceSalesInvocieList?accountId=${
           profileData?.accountId
@@ -54,7 +58,8 @@ export default function SalesInvoiceLanding() {
           profileData?.accountId
         }&businessUnitId=${
           selectedBusinessUnit?.value
-        }&serviceSalesOrderId=${0}&dteTodate=${_todayDate()}&paymentTypeId=${values?.paymentType?.value || 0}`;
+        }&serviceSalesOrderId=${0}&dteTodate=${values?.date ||
+          _todayDate()}&paymentTypeId=${values?.paymentType?.value || 0}`;
 
     getRowData(apiUrl, (data) => {
       const result = data?.map((item) => ({ ...item, isChecked: false }));
@@ -175,7 +180,7 @@ export default function SalesInvoiceLanding() {
             <Form>
               <div>
                 <div className="form-group  global-form row">
-                <div className="col-lg-3">
+                  <div className="col-lg-3">
                     <NewSelect
                       name="type"
                       options={[
@@ -222,33 +227,48 @@ export default function SalesInvoiceLanding() {
                       touched={touched}
                     />
                   </div>
-                 {values?.type?.value === 2 && ( <>
-                  <div className="col-lg-3">
-                  <InputField
-                    value={values?.fromDate}
-                    label="From Date"
-                    name="fromDate"
-                    type="date"
-                    onChange={(e) => {
-                      setFieldValue("fromDate", e.target.value);
-                    }}
-                  />
-                </div>
-                <div className="col-lg-3">
-                  <InputField
-                    value={values?.toDate}
-                    label="To Date"
-                    name="toDate"
-                    type="date"
-                    onChange={(e) => {
-                      setFieldValue("toDate", e.target.value);
-                    }}
-                  />
-                </div>
-                  </>)}
+                  {values?.type?.value === 2 && (
+                    <>
+                      <div className="col-lg-3">
+                        <InputField
+                          value={values?.fromDate}
+                          label="From Date"
+                          name="fromDate"
+                          type="date"
+                          onChange={(e) => {
+                            setFieldValue("fromDate", e.target.value);
+                          }}
+                        />
+                      </div>
+                      <div className="col-lg-3">
+                        <InputField
+                          value={values?.toDate}
+                          label="To Date"
+                          name="toDate"
+                          type="date"
+                          onChange={(e) => {
+                            setFieldValue("toDate", e.target.value);
+                          }}
+                        />
+                      </div>
+                    </>
+                  )}
+                  {values?.type?.value === 1 && (
+                    <div className="col-lg-3">
+                      <InputField
+                        value={values?.date}
+                        label="Date"
+                        name="date"
+                        type="date"
+                        onChange={(e) => {
+                          setFieldValue("date", e.target.value);
+                        }}
+                      />
+                    </div>
+                  )}
                   <div>
                     <button
-                      className="btn btn-primary"
+                      className="btn btn-primary ml-5"
                       type="button"
                       style={{ marginTop: "17px" }}
                       onClick={() => {
@@ -390,7 +410,7 @@ export default function SalesInvoiceLanding() {
                             <th>Customer</th>
                             <th>Item Name</th>
                             <th>Address</th>
-                            <th style={{minWidth:"70px"}}>Month-Year</th>
+                            <th style={{ minWidth: "70px" }}>Month-Year</th>
                             <th>Schedule Type</th>
                             <th>Sales Type</th>
                             <th>Sales Order Code</th>
@@ -427,7 +447,9 @@ export default function SalesInvoiceLanding() {
                               </td>
                               <td>{item?.invocieHeader?.strCustomerAddress}</td>
                               <td className="text-center">
-                                {formatMonthYear(item?.invocieRow?.[0]?.dteDueDateTime)}
+                                {formatMonthYear(
+                                  item?.invocieRow?.[0]?.dteDueDateTime
+                                )}
                               </td>
                               <td>
                                 {item?.invocieHeader?.strScheduleTypeName}
