@@ -2,15 +2,7 @@ import React from "react";
 import IDelete from "../../../../_helper/_helperIcons/_delete";
 import InputField from "../../../../_helper/_inputField";
 import {
-  calculateBillAmount,
-  calculateCostAmount,
-  calculateProfitAmount,
-  calculateRangesRate,
-  calculateTaxVat,
-  calculateTotalCost,
-  calculateTotalRate,
-  calculateTotalRecieve,
-  distributeDistance,
+  handleDistanceChange,
   mopTenderCreateDataTableHeader
 } from "../helper";
 
@@ -50,67 +42,21 @@ const BADCMOPRowsData = ({
                 <td>{item?.portName}</td>
                 <td>{item?.ghatName}</td>
                 <td>
-                  {
-                    <InputField
-                      value={item?.distance || ""}
-                      type="number"
-                      placeholder="0"
-                      onChange={(e) => {
-                        const newValue = +e.target.value || 0;
-                        const distributedDistance = distributeDistance(
-                          newValue
-                        );
-                        const rangesRate = calculateRangesRate(
-                          distributedDistance,
-                          values
-                        );
-
-                        const totalRate = calculateTotalRate(rangesRate);
-                        const totalTaxVat = calculateTaxVat(totalRate);
-                        const totalCost = calculateTotalCost(
-                          item?.additionalCost,
-                          item?.labourBill,
-                          item?.invoiceCost,
-                          item?.transPortCost
-                        );
-                        const totalRecieve = calculateTotalRecieve(
-                          totalRate - totalCost
-                        );
-                        const billAmount = calculateBillAmount(
-                          item?.quantity,
-                          totalRate
-                        );
-                        const costAmount = calculateCostAmount(
-                          item?.quantity,
-                          totalCost
-                        );
-                        const profitAmount = calculateProfitAmount(
-                          billAmount,
-                          costAmount
-                        );
-
-                        const newMopRowsData = [...mopRowsData];
-
-                        newMopRowsData[index] = {
-                          ...newMopRowsData[index],
-                          distance: newValue,
-                          rangOto100: rangesRate.rangOto100Rate,
-                          rang101to200: rangesRate.rang101to200Rate,
-                          rang201to300: rangesRate.rang201to300Rate,
-                          rang301to400: rangesRate.rang301to400Rate,
-                          rang401to500: rangesRate.rang401to500Rate,
-                          totalRate,
-                          totalTaxVat,
-                          totalRecieve,
-                          billAmount,
-                          costAmount,
-                          profitAmount,
-                        };
-
-                        updateMopRowsData(newMopRowsData);
-                      }}
-                    />
-                  }
+                  <InputField
+                    value={item?.distance || ""}
+                    type="number"
+                    placeholder="0"
+                    onChange={(e) =>
+                      handleDistanceChange(
+                        e,
+                        item,
+                        index,
+                        values,
+                        mopRowsData,
+                        updateMopRowsData
+                      )
+                    }
+                  />
                 </td>
                 <td>{item?.rangOto100}</td>
                 <td>{item?.rang101to200}</td>
