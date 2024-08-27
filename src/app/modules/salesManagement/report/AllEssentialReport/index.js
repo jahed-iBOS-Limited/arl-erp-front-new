@@ -31,6 +31,8 @@ const getReportId = (typeId) => {
     ? `5c3d293d-384b-496c-9d8e-7a748c2abd2d`
     : typeId === 6
     ? `b2056a60-946e-446c-9988-c0decfe5b285`
+    : typeId === 7
+    ? `3e024cbf-7cff-4a12-936d-701975691ee5`
     : "";
   return id;
 };
@@ -77,6 +79,13 @@ const AllEssentialReport = () => {
       { name: "intRegion", value: `${+values?.region?.value}` },
       { name: "intArea", value: `${+values?.area?.value}` },
     ];
+    
+    const soSummary = [
+      { name: "intBusinessUnitid", value: `${+buId}` },
+      { name: "FromDate", value: `${values?.fromDate}` },
+      { name: "ToDate", value: `${values?.toDate}` },
+      { name: "channelId", value: `${+values?.channel?.value}` },
+    ];
 
     const params = [1, 2, 3].includes(id)
       ? commonParams
@@ -86,6 +95,8 @@ const AllEssentialReport = () => {
       ? skuWiseSummary
       : id === 6
       ? skuTerritoryReport
+      : id === 7
+      ? soSummary
       : [];
 
     return params;
@@ -108,6 +119,7 @@ const AllEssentialReport = () => {
                       { value: 4, label: "SKU Wise Monthly Report" },
                       { value: 5, label: "SKU Wise Summary" },
                       { value: 6, label: "SKU Territory Info" },
+                      { value: 7, label: "SO Summary" },
                     ]}
                     label="Report Type"
                     value={values?.reportType}
