@@ -2,8 +2,8 @@ import React from "react";
 import IDelete from "../../../../_helper/_helperIcons/_delete";
 import InputField from "../../../../_helper/_inputField";
 import {
-  handleDistanceChange,
-  mopTenderCreateDataTableHeader
+  commonFieldValueChange,
+  mopTenderCreateDataTableHeader,
 } from "../helper";
 
 const BADCMOPRowsData = ({
@@ -31,30 +31,27 @@ const BADCMOPRowsData = ({
         </thead>
         <tbody>
           {mopRowsData?.map((item, index) => {
-            // const newMopRowsData = [...mopRowsData];
-            // newMopRowsData[index].totalRecive =
-            //   newMopRowsData[index].totalRate - newMopRowsData[index].totalCost;
-
-            // updateMopRowsData(newMopRowsData);
 
             return (
-              <tr key={index}>
-                <td>{item?.portName}</td>
-                <td>{item?.ghatName}</td>
+              <tr key={index} className="text-right">
+                <td className="text-center">{item?.portName}</td>
+                <td className="text-center">{item?.ghatName}</td>
                 <td>
                   <InputField
                     value={item?.distance || ""}
                     type="number"
                     placeholder="0"
-                    onChange={(e) =>
-                      handleDistanceChange(
-                        e,
-                        item,
-                        index,
-                        values,
-                        mopRowsData,
-                        updateMopRowsData
-                      )
+                    onChange={
+                      (e) =>
+                        commonFieldValueChange(
+                          e,
+                          item,
+                          index,
+                          values,
+                          mopRowsData,
+                          updateMopRowsData,
+                          "distance"
+                        )
                     }
                   />
                 </td>
@@ -71,21 +68,15 @@ const BADCMOPRowsData = ({
                     type="number"
                     placeholder="0"
                     onChange={(e) => {
-                      let newValue = +e.target.value || 0;
-                      const newMopRowsData = [...mopRowsData];
-                      newMopRowsData[index].invoiceCost = newValue;
-
-                      newMopRowsData[index].totalCost =
-                        newValue +
-                        (+item?.labourBill || 0) +
-                        (+item?.transPortCost || 0) +
-                        (+item?.additionalCost || 0);
-
-                      newMopRowsData[index].totalRecieve = Math.abs(
-                        item?.totalRate - newMopRowsData[index].totalCost
+                      commonFieldValueChange(
+                        e,
+                        item,
+                        index,
+                        values,
+                        mopRowsData,
+                        updateMopRowsData,
+                        "invoiceCost"
                       );
-
-                      updateMopRowsData(newMopRowsData);
                     }}
                   />
                 </td>
@@ -95,21 +86,15 @@ const BADCMOPRowsData = ({
                     type="number"
                     placeholder="0"
                     onChange={(e) => {
-                      let newValue = +e.target.value || 0;
-                      const newMopRowsData = [...mopRowsData];
-                      newMopRowsData[index]["labourBill"] = newValue;
-
-                      newMopRowsData[index].totalCost =
-                        newValue +
-                        (+item?.invoiceCost || 0) +
-                        (+item?.transPortCost || 0) +
-                        (+item?.additionalCost || 0);
-
-                      newMopRowsData[index].totalRecieve = Math.abs(
-                        item?.totalRate - newMopRowsData[index].totalCost
+                      commonFieldValueChange(
+                        e,
+                        item,
+                        index,
+                        values,
+                        mopRowsData,
+                        updateMopRowsData,
+                        "labourBill"
                       );
-
-                      updateMopRowsData(newMopRowsData);
                     }}
                   />
                 </td>
@@ -119,21 +104,15 @@ const BADCMOPRowsData = ({
                     type="number"
                     placeholder="0"
                     onChange={(e) => {
-                      let newValue = +e.target.value || 0;
-                      const newMopRowsData = [...mopRowsData];
-                      newMopRowsData[index]["transPortCost"] = newValue;
-
-                      newMopRowsData[index].totalCost =
-                        newValue +
-                        (+item?.invoiceCost || 0) +
-                        (+item?.labourBill || 0) +
-                        (+item?.additionalCost || 0);
-
-                      newMopRowsData[index].totalRecieve = Math.abs(
-                        item?.totalRate - newMopRowsData[index].totalCost
+                      commonFieldValueChange(
+                        e,
+                        item,
+                        index,
+                        values,
+                        mopRowsData,
+                        updateMopRowsData,
+                        "transPortCost"
                       );
-
-                      updateMopRowsData(newMopRowsData);
                     }}
                   />
                 </td>
@@ -143,21 +122,15 @@ const BADCMOPRowsData = ({
                     type="number"
                     placeholder="0"
                     onChange={(e) => {
-                      let newValue = +e.target.value || 0;
-                      const newMopRowsData = [...mopRowsData];
-                      newMopRowsData[index]["additionalCost"] = newValue;
-
-                      newMopRowsData[index].totalCost =
-                        newValue +
-                        (+newMopRowsData[index].invoiceCost || 0) +
-                        (+newMopRowsData[index].labourBill || 0) +
-                        (+newMopRowsData[index].transPortCost || 0);
-
-                      newMopRowsData[index].totalRecieve = Math.abs(
-                        item?.totalRate - newMopRowsData[index].totalCost
+                      commonFieldValueChange(
+                        e,
+                        item,
+                        index,
+                        values,
+                        mopRowsData,
+                        updateMopRowsData,
+                        "additionalCost"
                       );
-
-                      updateMopRowsData(newMopRowsData);
                     }}
                   />
                 </td>
@@ -169,21 +142,15 @@ const BADCMOPRowsData = ({
                     type="number"
                     placeholder="0"
                     onChange={(e) => {
-                      let newValue = +e.target.value || 0;
-                      const newMopRowsData = [...mopRowsData];
-                      newMopRowsData[index]["quantity"] = newValue;
-
-                      newMopRowsData[index].billAmount =
-                        newValue * +newMopRowsData[index].totalRate;
-
-                      newMopRowsData[index].costAmount =
-                        newValue * +newMopRowsData[index].totalCost;
-
-                      newMopRowsData[index].billAmount =
-                        +newMopRowsData[index].totalRate -
-                        +newMopRowsData[index].totalCost;
-
-                      updateMopRowsData(newMopRowsData);
+                      commonFieldValueChange(
+                        e,
+                        item,
+                        index,
+                        values,
+                        mopRowsData,
+                        updateMopRowsData,
+                        "quantity"
+                      );
                     }}
                   />
                 </td>
