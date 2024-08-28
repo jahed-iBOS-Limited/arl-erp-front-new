@@ -18,7 +18,6 @@ import {
   fetchSubmittedTenderData,
   landingPageValidationSchema,
 } from "../helper";
-import PrintBADCMOPTender from "../print/printBADCMOPTender";
 import PrintBADCTender from "../print/printBADCTender";
 import PrintBCICTender from "../print/printBCICTender";
 import "../print/style.css";
@@ -179,7 +178,7 @@ export default function TenderSubmissionLanding() {
                     //   );
                     // }}
                     onSubmit={() => handleSubmit()}
-                  // disabled={!isValid || !dirty}
+                    // disabled={!isValid || !dirty}
                   >
                     View
                   </button>
@@ -213,7 +212,9 @@ export default function TenderSubmissionLanding() {
                   handleTenderPrint={handleTenderPrint}
                   getTenderDetails={getTenderDetails}
                 />
-              ) : <></>}
+              ) : (
+                <></>
+              )}
 
               {/* Paginations of BCIC & BADC Tender  */}
               {submittedTenderLists?.data?.length > 0 && (
@@ -257,9 +258,9 @@ export default function TenderSubmissionLanding() {
                         <PrintBCICTender tenderDetails={tenderDetails} />
                       ) : values?.businessPartner?.label === "BADC" ? (
                         <PrintBADCTender tenderDetails={tenderDetails} />
-                      ) : values?.businessPartner?.label === 'BADC(MOP)' ? (
-                        <PrintBADCMOPTender tenderDetails={tenderDetails} />
-                      ) : <></>}
+                      ) : (
+                        <></>
+                      )}
                     </div>
                   </tbody>
                   <tfoot>
@@ -282,8 +283,6 @@ export default function TenderSubmissionLanding() {
                 </table>
               </div>
             </div>
-
-
           </IForm>
         </>
       )}
@@ -291,9 +290,9 @@ export default function TenderSubmissionLanding() {
   );
 }
 
-
 // eslint-disable-next-line no-lone-blocks
-{/* <div ref={printRef} className="tender-print-preview">
+{
+  /* <div ref={printRef} className="tender-print-preview">
   <div style={{ margin: "-13px 50px 51px 50px" }}>
     <div
       className="invoice-header"
@@ -370,4 +369,5 @@ export default function TenderSubmissionLanding() {
       </tfoot>
     </table >
   </div >
-</div > */}
+</div > */
+}
