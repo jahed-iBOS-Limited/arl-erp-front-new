@@ -687,6 +687,7 @@ export const selectUrl = (businessPartner, mopTenderId) => {
 // Select payload for save tender data on create and edit page
 export const selectPayload = (
   values,
+  mopRowsData,
   { accountId, buUnId, buUnName, tenderId, userId }
 ) => {
   const globalPayload = {
@@ -770,24 +771,27 @@ export const selectPayload = (
   }
 
   // BADC(MOP) tender submission payload
-  // if (values?.businessPartner?.label === "BADC(MOP)") {
-  //   const payload = {
-  //     headerDTO: {
-  //       // global
-  //       ...globalPayload,
-  //       // common
-  //       ...commonPayload,
+  if (values?.businessPartner?.label === "BADC(MOP)") {
+    const payload = {
+      headerDTO: {
+        // global
+        ...globalPayload,
+        // common
+        ...commonPayload,
 
-  //       mopInvoiceId: values?.enquiry,
-  //       mopTenderId: tenderId ? +tenderId : 0,
-  //       // portId: values?.dischargePortMOP?.value,
-  //       // portName: values?.dischargePortMOP?.label,
-  //     },
-  //     rowDTOs: values?.mopRowsData,
-  //   };
-  //   // console.log(payload)
-  //   return payload;
-  // }
+        mopInvoiceId: values?.enquiry,
+        mopTenderId: tenderId ? +tenderId : 0,
+        valueOto100: values?.distance0100,
+        value1O1to200: values?.distance101200,
+        value2O1to300: values?.distance201300,
+        value3O1to400: values?.distance301400,
+        value401to500: values?.distance401500,
+      },
+      rowDTOs: mopRowsData,
+    };
+    // console.log(payload)
+    return payload;
+  }
   return {};
 };
 
@@ -925,8 +929,22 @@ export const calculateTotalRate = (calculateRangesRate) => {
   return ratesArray?.reduce((acc, item) => acc + +item, 0).toFixed(2);
 };
 
-export const calculateTotalCost = (...costs) => {
-  return costs.reduce((acc, costItem) => acc + +costItem, 0).toFixed(2);
+export const calculateTotalCost = (totalTaxVat = 0, item) => {
+  // console.log(
+  //   +totalTaxVat +
+  //     item?.additionalCost +
+  //     item?.labourBill +
+  //     item?.invoiceCost +
+  //     item?.transPortCost
+  // );
+  return (
+    +totalTaxVat +
+    +item?.additionalCost +
+    +item?.labourBill +
+    +item?.invoiceCost +
+    +item?.transPortCost
+  ).toFixed(2);
+  // return costs.reduce((acc, costItem) => acc + +costItem, 0).toFixed(2);
 };
 
 export const calculateTotalRecieve = (totalRate = 0, totalCost = 0) =>
@@ -944,7 +962,7 @@ export const calculateProfitAmount = (billAmount = 0, costAmount = 0) =>
 export const calculateTaxVat = (totalRate = 0, taxPercentage = 0.17) =>
   (+totalRate * +taxPercentage).toFixed(2);
 
-export const fetchMOPRowsData = async (
+export const fetchMOPRowsData = (
   accountId,
   buUnId,
   getMopRowsDataFunc,
@@ -959,16 +977,13 @@ export const fetchMOPRowsData = async (
         const rangesRate = calculateRangesRate(distributedDistance, values);
         const totalRate = calculateTotalRate(rangesRate);
         const totalTaxVat = calculateTaxVat(totalRate);
-        const totalCost = calculateTotalCost(
-          item?.additionalCost,
-          item?.labourBill,
-          item?.invoiceCost,
-          item?.transPortCost
-        );
+        const totalCost = calculateTotalCost(totalTaxVat, item);
         const totalRecieve = calculateTotalRecieve(totalRate - totalCost);
         const billAmount = calculateBillAmount(item?.quantity, totalRate);
         const costAmount = calculateCostAmount(item?.quantity, totalCost);
         const profitAmount = calculateProfitAmount(billAmount, costAmount);
+
+        // console.log(totalCost);
 
         return {
           ...item,
@@ -1119,24 +1134,28 @@ export const commonFieldValueChange = (
   fieldName
 ) => {
   const newValue = +e.target.value || 0;
-  const distributedDistance = distributeDistance(newValue);
+
+  // Create a copy of the current item and update the field with the new value
+  const updatedItem = { ...item, [fieldName]: newValue };
+
+  const distributedDistance = distributeDistance(
+    fieldName === "distance" ? newValue : item?.distance
+  );
+  // console.log(updatedItem?.additionalCost);
+  // console.log(item?.additionalCost);
+  // console.log(mopRowsData[index]?.additionalCost);
   const rangesRate = calculateRangesRate(distributedDistance, values);
   const totalRate = calculateTotalRate(rangesRate);
   const totalTaxVat = calculateTaxVat(totalRate);
-  const totalCost = calculateTotalCost(
-    item?.additionalCost,
-    item?.labourBill,
-    item?.invoiceCost,
-    item?.transPortCost
-  );
+  const totalCost = calculateTotalCost(totalTaxVat, updatedItem);
   const totalRecieve = calculateTotalRecieve(totalRate - totalCost);
-  const billAmount = calculateBillAmount(item?.quantity, totalRate);
-  const costAmount = calculateCostAmount(item?.quantity, totalCost);
+  const billAmount = calculateBillAmount(updatedItem?.quantity, totalRate);
+  const costAmount = calculateCostAmount(updatedItem?.quantity, totalCost);
   const profitAmount = calculateProfitAmount(billAmount, costAmount);
 
   const newMopRowsData = [...mopRowsData];
 
-  const updatedData = {
+  newMopRowsData[index] = {
     ...newMopRowsData[index],
     [fieldName]: newValue,
     rangOto100: rangesRate.rangOto100Rate,
@@ -1153,51 +1172,48 @@ export const commonFieldValueChange = (
     profitAmount,
   };
 
-  updateMopRowsData(updatedData);
-};
-
-export const handleDistanceChange = (
-  e,
-  item,
-  index,
-  values,
-  mopRowsData,
-  updateMopRowsData
-) => {
-  const newValue = +e.target.value || 0;
-  const distributedDistance = distributeDistance(newValue);
-  const rangesRate = calculateRangesRate(distributedDistance, values);
-
-  const totalRate = calculateTotalRate(rangesRate);
-  const totalTaxVat = calculateTaxVat(totalRate);
-  const totalCost = calculateTotalCost(
-    item?.additionalCost,
-    item?.labourBill,
-    item?.invoiceCost,
-    item?.transPortCost
-  );
-  const totalRecieve = calculateTotalRecieve(totalRate - totalCost);
-  const billAmount = calculateBillAmount(item?.quantity, totalRate);
-  const costAmount = calculateCostAmount(item?.quantity, totalCost);
-  const profitAmount = calculateProfitAmount(billAmount, costAmount);
-  console.log(costAmount);
-  const newMopRowsData = [...mopRowsData];
-
-  newMopRowsData[index] = {
-    ...newMopRowsData[index],
-    distance: newValue,
-    rangOto100: rangesRate.rangOto100Rate,
-    rang101to200: rangesRate.rang101to200Rate,
-    rang201to300: rangesRate.rang201to300Rate,
-    rang301to400: rangesRate.rang301to400Rate,
-    rang401to500: rangesRate.rang401to500Rate,
-    totalRate,
-    taxVat: totalTaxVat,
-    totalRecieve,
-    billAmount,
-    costAmount,
-    profitAmount,
-  };
-
   updateMopRowsData(newMopRowsData);
 };
+
+// export const handleDistanceChange = (
+//   e,
+//   item,
+//   index,
+//   values,
+//   mopRowsData,
+//   updateMopRowsData,
+//   fieldName
+// ) => {
+//   const newValue = +e.target.value || 0;
+//   const distributedDistance = distributeDistance(newValue);
+//   const rangesRate = calculateRangesRate(distributedDistance, values);
+//   const totalRate = calculateTotalRate(rangesRate);
+//   const totalTaxVat = calculateTaxVat(totalRate);
+//   const totalCost = calculateTotalCost(totalTaxVat, item);
+//   const totalRecieve = calculateTotalRecieve(totalRate - totalCost);
+//   const billAmount = calculateBillAmount(item?.quantity, totalRate);
+//   const costAmount = calculateCostAmount(item?.quantity, totalCost);
+//   const profitAmount = calculateProfitAmount(billAmount, costAmount);
+
+//   const newMopRowsData = [...mopRowsData];
+//   console.log({ [fieldName]: newValue });
+
+//   newMopRowsData[index] = {
+//     ...newMopRowsData[index],
+//     distance: newValue,
+//     rangOto100: rangesRate.rangOto100Rate,
+//     rang101to200: rangesRate.rang101to200Rate,
+//     rang201to300: rangesRate.rang201to300Rate,
+//     rang301to400: rangesRate.rang301to400Rate,
+//     rang401to500: rangesRate.rang401to500Rate,
+//     totalRate,
+//     taxVat: totalTaxVat,
+//     totalCost,
+//     totalRecieve,
+//     billAmount,
+//     costAmount,
+//     profitAmount,
+//   };
+
+//   updateMopRowsData(newMopRowsData);
+// };
