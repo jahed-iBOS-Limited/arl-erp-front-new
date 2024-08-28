@@ -110,10 +110,16 @@ export default function TenderSubmissionCreateEditForm() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const saveHandler = (values, tenderId, cb) => {
+  const saveHandler = (values, mopRowsData,tenderId, cb) => {
     submitTender(
       selectUrl(values?.businessPartner?.label, tenderId),
-      selectPayload(values, { accountId, buUnId, buUnName, tenderId, userId }),
+      selectPayload(values, mopRowsData, {
+        accountId,
+        buUnId,
+        buUnName,
+        tenderId,
+        userId,
+      }),
       cb,
       true
     );
@@ -637,7 +643,7 @@ export default function TenderSubmissionCreateEditForm() {
       initialValues={tenderId ? updateState(tenderDetails) : initData}
       validationSchema={createPageValidationSchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
-        saveHandler(values, tenderId, () => {
+        saveHandler(values, mopRowsData, tenderId, () => {
           !tenderId && resetForm(initData);
         });
       }}
