@@ -262,62 +262,83 @@ export default function _Form({
                       <th>Lighter Vessel</th>
                       <th>Labour Supplier</th>
                       <th>Unloaded Quantity</th>
-                      <th>Total Rate</th>
+                      <th>Rate</th>
+                      {/* <th>Total Rate</th> */}
                       <th>Bill Amount</th>
+                      <th>Standard Cost</th>
                       <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {gridData?.map((item, index) => (
-                      <tr key={index}>
-                        <td className="text-center align-middle">
-                          <input
-                            type="checkbox"
-                            checked={item?.isSelected}
-                            onChange={(e) => {
-                              item["isSelected"] = e.target.checked;
-                              setGridData([...gridData]);
-                            }}
-                          />
-                        </td>
-                        <td className="text-center align-middle">
-                          {index + 1}
-                        </td>
-                        <td>{item?.shipPointName}</td>
-                        <td>{item?.motherVesselName}</td>
-                        <td>{item?.lighterVesselName}</td>
-                        <td>{item?.ghatLabourSupplierName}</td>
-                        <td className="text-right">
-                          {item?.unLoadQuantity || 0}
-                        </td>
-                        <td className="text-right">{item?.totalRate || 0}</td>
+                    {gridData?.map((item, index) => {
+                      const standardCost =
+                        item?.unLoadQuantity * item?.loadUnloaProvisionRate ||
+                        0;
 
-                        <td style={{ width: "200px" }}>
-                          <InputField
-                            value={item?.billAmount}
-                            name="billAmount"
-                            placeholder="Total Amount"
-                            type="number"
-                            onChange={(e) => {
-                              item.billAmount = e?.target?.value;
-                              setGridData([...gridData]);
-                            }}
-                          />
-                        </td>
-                        <td className="text-center">
-                          <button
-                            className="btn-primary btn btn-sm"
-                            type="button"
-                            onClick={() => {
-                              setSingleItem(item);
-                              setShow(true);
-                            }}
-                          >
-                            Details
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
+                      const backgroundColor = {
+                        backgroundColor:
+                          standardCost > item?.billAmount
+                            ? "#7edb7ec7"
+                            : standardCost < item?.billAmount
+                            ? "#fa030373"
+                            : "#f8fa0373",
+                      };
+
+                      return (
+                        <tr key={index} style={backgroundColor}>
+                          <td className="text-center align-middle">
+                            <input
+                              type="checkbox"
+                              checked={item?.isSelected}
+                              onChange={(e) => {
+                                item["isSelected"] = e.target.checked;
+                                setGridData([...gridData]);
+                              }}
+                            />
+                          </td>
+                          <td className="text-center align-middle">
+                            {index + 1}
+                          </td>
+                          <td>{item?.shipPointName}</td>
+                          <td>{item?.motherVesselName}</td>
+                          <td>{item?.lighterVesselName}</td>
+                          <td>{item?.ghatLabourSupplierName}</td>
+                          <td className="text-right">
+                            {item?.unLoadQuantity || 0}
+                          </td>
+                          <td className="text-right">
+                            {item?.loadUnloaProvisionRate || 0}
+                          </td>
+                          {/* <td className="text-right">{item?.totalRate || 0}</td> */}
+
+                          <td style={{ width: "200px" }}>
+                            <InputField
+                              value={item?.billAmount}
+                              name="billAmount"
+                              placeholder="Total Amount"
+                              type="number"
+                              onChange={(e) => {
+                                item.billAmount = e?.target?.value;
+                                setGridData([...gridData]);
+                              }}
+                            />
+                          </td>
+                          <td className="text-right">{standardCost}</td>
+                          <td className="text-center">
+                            <button
+                              className="btn-primary btn btn-sm"
+                              type="button"
+                              onClick={() => {
+                                setSingleItem(item);
+                                setShow(true);
+                              }}
+                            >
+                              Details
+                            </button>
+                          </td>
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </table>
               </div>
