@@ -79,8 +79,14 @@ export default function G2GLighterBill() {
           lighterToBolgateRate: 0,
           bolgateToDamRate: 0,
           othersCostRate: +item?.carrierRate,
-          standardAmount: +item?.standardAmount
+          standardAmount: +item?.standardAmount,
+          standardAmountByRow: +item?.standardAmount,
         }));
+
+        const TotalStandardAmount = rows?.reduce(
+          (total, curr) => (total += curr?.standardAmountByRow),
+          0
+        );
 
         const payload = {
           gtogHead: {
@@ -99,6 +105,7 @@ export default function G2GLighterBill() {
             plantId: headerData?.plant?.value || 0,
             warehouseId: 0,
             actionBy: userId,
+            totalStanddAmount: TotalStandardAmount,
           },
           gtogRow: rows,
           image: [

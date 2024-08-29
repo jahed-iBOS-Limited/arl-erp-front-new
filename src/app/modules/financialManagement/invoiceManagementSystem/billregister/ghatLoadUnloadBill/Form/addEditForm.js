@@ -40,7 +40,10 @@ export default function GhatLoadUnloadBill() {
   const getData = (values, searchTerm) => {
     const search = searchTerm ? `&searchTerm=${searchTerm}` : "";
     getGridData(
-      `/tms/LigterLoadUnload/GetShipPointLighterUnloadLabourBill?accountId=${accId}&businessUnitId=${buId}&supplierId=${values?.supplier?.value || 0}&fromDate=${values?.fromDate}&todate=${values?.toDate}${search}`,
+      `/tms/LigterLoadUnload/GetShipPointLighterUnloadLabourBill?accountId=${accId}&businessUnitId=${buId}&supplierId=${values
+        ?.supplier?.value || 0}&fromDate=${values?.fromDate}&todate=${
+        values?.toDate
+      }${search}`,
       (resData) => {
         const modifyData = resData?.map((item) => {
           return {
@@ -89,7 +92,14 @@ export default function GhatLoadUnloadBill() {
           bolgateToDamRate: item?.bolgateToDamRate,
           othersCostRate: +item?.totalRate || 0,
           shipPointId: item?.shipPointId,
+          standardCostAmount:
+            +item?.unLoadQuantity * +item?.loadUnloaProvisionRate || 0,
         }));
+
+        const TotalStandardCostAmount = rows?.reduce(
+          (total, curr) => (total += curr?.standardCostAmount),
+          0
+        );
 
         const payload = {
           gtogHead: {
@@ -108,6 +118,7 @@ export default function GhatLoadUnloadBill() {
             plantId: headerData?.plant?.value || 0,
             warehouseId: 0,
             actionBy: userId,
+            standardCostTotalAmount: TotalStandardCostAmount,
           },
           gtogRow: rows,
           image: [

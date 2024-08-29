@@ -57,10 +57,10 @@ export default function _Form({
 
   useEffect(() => {
     if (buId && accId) {
-      GetBillTypeDDL(setBillTypeDDL)
+      GetBillTypeDDL(setBillTypeDDL);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, []);
 
   return (
     <>
@@ -323,52 +323,58 @@ export default function _Form({
                     </tr>
                   </thead>
                   <tbody>
-                    {gridData?.map((item, index) => (
-                      <tr
-                        key={index}
-                        style={
-                          item?.transportRate <= 0
-                            ? { backgroundColor: "#ff000082" }
-                            : {}
-                        }
-                      >
-                        <td className="text-center align-middle">
-                          <input
-                            type="checkbox"
-                            // value = {item?.checked ? true:false}
-                            checked={item?.checked}
-                            onChange={(e) => {
-                              item["checked"] = e.target.checked;
-                              setGridData([...gridData]);
-                            }}
-                            disabled={item?.transportRate <= 0}
-                          />
-                        </td>
-                        <td className="text-center align-middle">
-                          {index + 1}
-                        </td>
-                        <td>{item?.motherVesselName}</td>
-                        <td>{item?.lighterVesselName}</td>
-                        <td>{item?.lighterDestinationName}</td>
-                        <td>{item?.carrierAgentName}</td>
+                    {gridData?.map((item, index) => {
+                      const backgroundColor = {
+                        backgroundColor:
+                          item?.standardAmount > item?.carrierTotalAmount
+                            ? "#7edb7ec7"
+                            : item?.standardAmount < item?.carrierTotalAmount
+                            ? "#fa030373"
+                            : "#f8fa0373",
+                      };
+                      return (
+                        <tr key={index} style={backgroundColor}>
+                          <td className="text-center align-middle">
+                            <input
+                              type="checkbox"
+                              // value = {item?.checked ? true:false}
+                              checked={item?.checked}
+                              onChange={(e) => {
+                                item["checked"] = e.target.checked;
+                                setGridData([...gridData]);
+                              }}
+                              disabled={item?.transportRate <= 0}
+                            />
+                          </td>
+                          <td className="text-center align-middle">
+                            {index + 1}
+                          </td>
+                          <td>{item?.motherVesselName}</td>
+                          <td>{item?.lighterVesselName}</td>
+                          <td>{item?.lighterDestinationName}</td>
+                          <td>{item?.carrierAgentName}</td>
 
-                        <td className="text-right">{item?.surveyQuantity}</td>
-                        <td className="text-right">{item?.carrierRate}</td>
-                        <td style={{ width: "100px" }}>
-                          <InputField
-                            value={item?.carrierTotalAmount}
-                            name="carrierTotalAmount"
-                            placeholder="Total Amount"
-                            type="number"
-                            onChange={(e) => {
-                              item.carrierTotalAmount = e.target.value;
-                              setGridData([...gridData]);
-                            }}
-                          />
-                        </td>
-                        <td className="text-right">{item?.standardAmount}</td>
-                      </tr>
-                    ))}
+                          <td className="text-right">{item?.surveyQuantity}</td>
+                          <td className="text-right">
+                            {item?.lighterFreightProvisionRate}
+                          </td>
+                          {/* <td className="text-right">{item?.carrierRate}</td> */}
+                          <td style={{ width: "100px" }}>
+                            <InputField
+                              value={item?.carrierTotalAmount}
+                              name="carrierTotalAmount"
+                              placeholder="Total Amount"
+                              type="number"
+                              onChange={(e) => {
+                                item.carrierTotalAmount = e.target.value;
+                                setGridData([...gridData]);
+                              }}
+                            />
+                          </td>
+                          <td className="text-right">{item?.standardAmount}</td>
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </table>
               </div>
