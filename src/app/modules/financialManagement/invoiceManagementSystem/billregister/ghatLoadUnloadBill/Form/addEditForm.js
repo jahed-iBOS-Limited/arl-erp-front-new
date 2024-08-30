@@ -92,12 +92,14 @@ export default function GhatLoadUnloadBill() {
           bolgateToDamRate: item?.bolgateToDamRate,
           othersCostRate: +item?.totalRate || 0,
           shipPointId: item?.shipPointId,
-          standardCostAmount:
+          // standardCostAmount:
+          //   +item?.unLoadQuantity * +item?.loadUnloaProvisionRate || 0,
+          standardAmountByRow:
             +item?.unLoadQuantity * +item?.loadUnloaProvisionRate || 0,
         }));
 
-        const TotalStandardCostAmount = rows?.reduce(
-          (total, curr) => (total += curr?.standardCostAmount),
+        const TotalStandardAmount = rows?.reduce(
+          (total, curr) => (total += curr?.standardAmountByRow),
           0
         );
 
@@ -118,7 +120,8 @@ export default function GhatLoadUnloadBill() {
             plantId: headerData?.plant?.value || 0,
             warehouseId: 0,
             actionBy: userId,
-            standardCostTotalAmount: TotalStandardCostAmount,
+            totalStanddAmount: TotalStandardAmount,
+            // standardCostTotalAmount: TotalStandardCostAmount,
           },
           gtogRow: rows,
           image: [
