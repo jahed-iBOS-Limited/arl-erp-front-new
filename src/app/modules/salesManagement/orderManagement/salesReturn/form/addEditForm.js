@@ -17,6 +17,7 @@ const initData = {
   returnType: "",
   fromDate: _todayDate(),
   toDate: _todayDate(),
+  reason: "",
 };
 
 function SalesReturnForm() {
@@ -163,6 +164,7 @@ function SalesReturnForm() {
           totalAmount: totalAmount,
           salesReturnType: returnType,
           actionBy: userId,
+          reassons: values?.reason,
         },
         row: header?.rowData?.map((row) => {
           return {

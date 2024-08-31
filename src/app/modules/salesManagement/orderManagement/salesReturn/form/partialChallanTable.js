@@ -44,6 +44,7 @@ export default function PartialChallanTable({ obj }) {
               <th>Delivery Quantity</th>
               <th>Amount</th>
               <th style={{ width: "120px" }}>Return Qty</th>
+              {/* <th style={{ width: "150px" }}>Reason</th> */}
               <th>Remaining Qty</th>
             </tr>
           </thead>
@@ -70,11 +71,9 @@ export default function PartialChallanTable({ obj }) {
                     </td>
                     <td rowSpan={item?.rowData?.length + 1}> {index + 1}</td>
                     <td rowSpan={item?.rowData?.length + 1}>
-                      {" "}
                       {item?.deliveryCode}
                     </td>
                     <td rowSpan={item?.rowData?.length + 1}>
-                      {" "}
                       {_dateFormatter(item?.deliveryDate)}
                     </td>
                   </tr>
@@ -122,6 +121,26 @@ export default function PartialChallanTable({ obj }) {
                             item?.returnQty
                           )}
                         </td>
+                        {/* <td className="text-right">
+                          {item?.isSelected ? (
+                            <InputField
+                              value={item?.reason}
+                              name="reason"
+                              placeholder="Reason"
+                              type="text"
+                              onChange={(e) => {
+                                dataChangeHandler(
+                                  index,
+                                  rowIndex,
+                                  "reason",
+                                  e?.target?.value
+                                );
+                              }}
+                            />
+                          ) : (
+                            item?.reason
+                          )}
+                        </td> */}
                         <td className="text-right">
                           {element?.quantity - element?.returnQty}
                         </td>
@@ -139,6 +158,7 @@ export default function PartialChallanTable({ obj }) {
               <td>{_fixedPoint(totalAmount, true)}</td>
               <td>{_fixedPoint(totalDamage, true, 0)}</td>
               <td></td>
+              {/* <td></td> */}
             </tr>
           </tbody>
         </table>
