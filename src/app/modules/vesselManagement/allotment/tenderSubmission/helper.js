@@ -5,6 +5,7 @@ import * as Yup from "yup";
 import { imarineBaseUrl } from "../../../../App";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
 
+// ! Common Landing, Create, Edit & Print
 // Error message display field for field array of of tender submission create & edit page
 export const ErrorMessage = ({ name }) => (
   <Field
@@ -264,28 +265,6 @@ export const landingPageValidationSchema = Yup.object({
   }).required("Select a status"),
 });
 
-// Get Load Port DDL (Naltional Load)
-export const getDischargePortDDL = async (setter) => {
-  try {
-    const res = await axios.get(`/wms/FertilizerOperation/GetDomesticPortDDL`);
-    setter(res?.data);
-  } catch (error) {
-    setter([]);
-  }
-};
-
-// Get Load Port DDL (Internaltional Load)
-export const GetLoadPortDDL = async (setter) => {
-  try {
-    const res = await axios.get(
-      `${imarineBaseUrl}/domain/Vessel/GetCountryDDL`
-    );
-    setter(res?.data);
-  } catch (error) {
-    setter([]);
-  }
-};
-
 // Fetch tender details with tender id
 export const fetchTenderDetailsForCreateEditPage = (
   tenderId,
@@ -297,7 +276,7 @@ export const fetchTenderDetailsForCreateEditPage = (
   getTenderDetailsCallback(url);
 };
 
-// Fetch sumitted tender with page & pageSize (but fetch is occuring with getSubmittedTenderLists)
+// Fetch sumitted tender with page & pageSize (but fetch is occuring with getSubmittedTenderLists) BCIC, BADC, BCIC(MOP)
 export const fetchSubmittedTenderData = (
   accountId,
   buUnId,
@@ -314,10 +293,9 @@ export const fetchSubmittedTenderData = (
   if (values?.businessPartner?.label === "BADC") {
     url = `/tms/TenderSubmission/GetBIDCTenderpagination?AccountId=${accountId}&BusinessUnitId=${buUnId}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc&fromDate=${values?.fromDate}&toDate=${values?.toDate}&status=${values?.approveStatus?.value}`;
   }
-
-  // if (values?.businessPartner?.label === "BADC(MOP)") {
-  //   url = `/tms/TenderSubmission/GetBADCMOPConfigurationlanding?AccountId=${accountId}&BusinessUnitId=${buUnId}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc&fromDate=${values?.fromDate}&toDate=${values?.toDate}&status=${values?.approveStatus?.value}`;
-  // }
+  if (values?.businessPartner?.label === "BADC(MOP)") {
+    url = `/tms/TenderSubmission/GetBADCMOPConfigurationlanding?AccountId=${accountId}&BusinessUnitId=${buUnId}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc&fromDate=${values?.fromDate}&toDate=${values?.toDate}&status=${values?.approveStatus?.value}`;
+  }
 
   getTenderDetailsListFunc(url);
 };
@@ -329,7 +307,7 @@ export const fetchSubmittedTenderData = (
 //     return response
 // }
 
-// Callback approch for fetch details along with print page view
+// Callback approch for fetch details along with print page view. BCIC, BADC, BCIC(MOP)
 export const fetchTenderDetailsCallbackForPrintAndCreateEditPage = (
   accountId,
   buUnId,
@@ -348,25 +326,9 @@ export const fetchTenderDetailsCallbackForPrintAndCreateEditPage = (
     url = `/tms/TenderSubmission/GetBIDCTenderSubmissionById?AccountId=${accountId}&BusinessunitId=${buUnId}&TenderId=${tenderId}`;
   }
   // Here this is only for edit but for print we use fetchBADCMOPRowsDataForPrintPage func for backend issuu
-  // if (values?.businessPartner?.label === "BADC(MOP)") {
-  //   url = `/tms/TenderSubmission/GetForEditMOPConfiguration?AccountId=${accountId}&BusinessUnitId=${buUnId}&MopTenderId=${tenderId}`; // tenderId => mopTenderId
-  // }
-  getTenderDetailsFunc(url, () => {
-    callback && callback();
-  });
-};
-
-// callback approch for rows data fetch badc mop for print page
-export const fetchBADCMOPRowsDataForPrintPage = (
-  accountId,
-  buUnId,
-  mopTenderId,
-  portId,
-  getTenderDetailsFunc,
-  callback
-) => {
-  const url = `/tms/TenderSubmission/GetByBADCMOPConfiguration?AccountId=${accountId}&BusinessUnitId=${buUnId}&MopTenderId=${mopTenderId}&PortId=${portId}`;
-
+  if (values?.businessPartner?.label === "BADC(MOP)") {
+    url = `/tms/TenderSubmission/GetForEditMOPConfiguration?AccountId=${accountId}&BusinessUnitId=${buUnId}&MopTenderId=${tenderId}`; // tenderId => mopTenderId
+  }
   getTenderDetailsFunc(url, () => {
     callback && callback();
   });
@@ -385,11 +347,10 @@ export const selectEditId = (item) => {
   }
 };
 
-// State function when update data
-//export const updateState = ({ header, rows, }, ...rest) => {
+// State function when update data BCIC, BADC, BADC(MOP)
 export const updateState = (tenderDetails) => {
   const isBCIC = tenderDetails?.header || tenderDetails?.rows;
-  // const isBADCMOP = tenderDetails?.headerDTO || tenderDetails?.rowDTOs;
+  const isBADCMOP = tenderDetails?.headerDTO || tenderDetails?.rowDTOs;
 
   if (isBCIC) {
     const { header, rows } = tenderDetails;
@@ -456,57 +417,55 @@ export const updateState = (tenderDetails) => {
       isReject: header?.isReject,
     };
     return commonEditData;
-  }
-  // else if (isBADCMOP) {
-  //   const { headerDTO, rowDTOs } = tenderDetails;
+  } else if (isBADCMOP) {
+    const { headerDTO, rowDTOs } = tenderDetails;
 
-  //   const badcMOPState = {
-  //     enquiry: headerDTO?.mopInvoiceId,
-  //     mopTenderId: headerDTO?.mopTenderId,
-  //     submissionDate: _dateFormatter(headerDTO?.submissionDate),
-  //     // dischargePortMOP: headerDTO?.portId
-  //     //   ? {
-  //     //       label: headerDTO?.portName,
-  //     //       value: headerDTO?.portId,
-  //     //     }
-  //     //   : "",
-  //     mopRowsData: rowDTOs?.map((item) => {
-  //       return {
-  //         mopTenderId: item?.mopTenderId,
-  //         mopInvoiceId: item?.mopInvoiceId,
-  //         ghatId: item?.ghatId,
-  //         ghatName: item?.ghatName,
-  //         portId: item?.portId,
-  //         portName: item?.portName,
-  //         distance: item?.distance,
-  //         quantity: item?.quantity,
-  //         actualQuantity: item?.actualQuantity,
-  //       };
-  //     }),
-  //   };
+    const badcMOPState = {
+      enquiry: headerDTO?.mopInvoiceId,
+      mopTenderId: headerDTO?.mopTenderId,
+      submissionDate: _dateFormatter(headerDTO?.submissionDate),
+      // dischargePortMOP: headerDTO?.portId
+      //   ? {
+      //       label: headerDTO?.portName,
+      //       value: headerDTO?.portId,
+      //     }
+      //   : "",
+      mopRowsData: rowDTOs?.map((item) => {
+        return {
+          mopTenderId: item?.mopTenderId,
+          mopInvoiceId: item?.mopInvoiceId,
+          ghatId: item?.ghatId,
+          ghatName: item?.ghatName,
+          portId: item?.portId,
+          portName: item?.portName,
+          distance: item?.distance,
+          quantity: item?.quantity,
+          actualQuantity: item?.actualQuantity,
+        };
+      }),
+    };
 
-  //   const commonEditData = {
-  //     // badc (mop)
-  //     ...badcMOPState,
+    const commonEditData = {
+      // badc (mop)
+      ...badcMOPState,
 
-  //     // global
-  //     businessPartner: headerDTO?.businessPartnerId
-  //       ? {
-  //         value: headerDTO?.businessPartnerId,
-  //         label: headerDTO?.businessPartnerName,
-  //       }
-  //       : "",
-  //     remarks: headerDTO?.strRemarks,
+      // global
+      businessPartner: headerDTO?.businessPartnerId
+        ? {
+            value: headerDTO?.businessPartnerId,
+            label: headerDTO?.businessPartnerName,
+          }
+        : "",
+      remarks: headerDTO?.strRemarks,
 
-  //     // edit
-  //     attachment: headerDTO?.attachment,
-  //     isAccept: headerDTO?.isAccept,
-  //     isReject: headerDTO?.isReject,
-  //   };
+      // edit
+      attachment: headerDTO?.attachment,
+      isAccept: headerDTO?.isAccept,
+      isReject: headerDTO?.isReject,
+    };
 
-  //   return commonEditData;
-  // }
-  else {
+    return commonEditData;
+  } else {
     const badcState = {
       dueDate: _dateFormatter(tenderDetails?.dueDate),
       dueTime: tenderDetails?.dueTime,
@@ -547,124 +506,7 @@ export const updateState = (tenderDetails) => {
   }
 };
 
-// fetch godown list function
-export const fetchGodownDDLList = (
-  businessPartner,
-  accountId,
-  buUnId,
-  getGodownDDLFunc,
-  updateGodownDDLFunc
-) => {
-  const url = `/tms/LigterLoadUnload/GetShipToPartnerG2GPagination?AccountId=${accountId}&BusinessUnitId=${buUnId}&BusinessPartnerId=${
-    businessPartner?.value
-  }&PageNo=${0}&PageSize=${100}`;
-  getGodownDDLFunc(url, (data) => {
-    const updateDDL = data?.data?.map((item) => {
-      return {
-        value: item?.shiptoPartnerId,
-        label: item?.shipToParterName,
-      };
-    });
-    updateGodownDDLFunc(updateDDL);
-  });
-};
 
-// For number to text convert
-const ones = [
-  "",
-  "One",
-  "Two",
-  "Three",
-  "Four",
-  "Five",
-  "Six",
-  "Seven",
-  "Eight",
-  "Nine",
-];
-const teens = [
-  "Ten",
-  "Eleven",
-  "Twelve",
-  "Thirteen",
-  "Fourteen",
-  "Fifteen",
-  "Sixteen",
-  "Seventeen",
-  "Eighteen",
-  "Nineteen",
-];
-const tens = [
-  "",
-  "",
-  "Twenty",
-  "Thirty",
-  "Fourty",
-  "Fifty",
-  "Sixty",
-  "Seventy",
-  "Eighty",
-  "Ninety",
-];
-const thousands = ["", "Thousand", "Lakh", "Crore"];
-
-// Helper function for convert number to text
-function convertBelowThousand(num) {
-  if (num === 0) return "";
-  if (num < 10) return ones[num];
-  if (num < 20) return teens[num - 10];
-  if (num < 100)
-    return (
-      tens[Math.floor(num / 10)] + (num % 10 !== 0 ? " " + ones[num % 10] : "")
-    );
-  return (
-    ones[Math.floor(num / 100)] +
-    " Hundred" +
-    (num % 100 !== 0 ? " and " + convertBelowThousand(num % 100) : "")
-  );
-}
-
-// Helper function for convert number to text
-function convertToWords(num) {
-  if (num === 0) return "Zero";
-
-  let parts = [];
-  let thousandIndex = 0;
-
-  while (num > 0) {
-    let part = num % 1000;
-    if (part > 0) {
-      parts.unshift(
-        convertBelowThousand(part) +
-          (thousands[thousandIndex] ? " " + thousands[thousandIndex] : "")
-      );
-    }
-    num = Math.floor(num / 1000);
-    thousandIndex++;
-  }
-
-  return parts.join(" ");
-}
-
-// Main function for convert number to text
-export function convertToText(n, uoc) {
-  if (!uoc) {
-    if (n === "") return "";
-    if (n === 0 || n === null) return "";
-    return (
-      convertToWords(n)
-        .trim()
-        .toUpperCase() + " TAKA ONLY"
-    );
-  }
-  if (n === "") return "";
-  if (n === 0 || n === null) return "";
-  return (
-    convertToWords(n)
-      .trim()
-      .toUpperCase() + ` ${uoc.toUpperCase()} ONLY`
-  );
-}
 
 // Select url for create tender on create and edit page with business partner & tenderId. BADC MOP use different url for update
 export const selectUrl = (businessPartner, mopTenderId) => {
@@ -795,6 +637,151 @@ export const selectPayload = (
   return {};
 };
 
+// For number to text convert
+const ones = [
+  "",
+  "One",
+  "Two",
+  "Three",
+  "Four",
+  "Five",
+  "Six",
+  "Seven",
+  "Eight",
+  "Nine",
+];
+const teens = [
+  "Ten",
+  "Eleven",
+  "Twelve",
+  "Thirteen",
+  "Fourteen",
+  "Fifteen",
+  "Sixteen",
+  "Seventeen",
+  "Eighteen",
+  "Nineteen",
+];
+const tens = [
+  "",
+  "",
+  "Twenty",
+  "Thirty",
+  "Fourty",
+  "Fifty",
+  "Sixty",
+  "Seventy",
+  "Eighty",
+  "Ninety",
+];
+const thousands = ["", "Thousand", "Lakh", "Crore"];
+
+// Helper function for convert number to text
+function convertBelowThousand(num) {
+  if (num === 0) return "";
+  if (num < 10) return ones[num];
+  if (num < 20) return teens[num - 10];
+  if (num < 100)
+    return (
+      tens[Math.floor(num / 10)] + (num % 10 !== 0 ? " " + ones[num % 10] : "")
+    );
+  return (
+    ones[Math.floor(num / 100)] +
+    " Hundred" +
+    (num % 100 !== 0 ? " and " + convertBelowThousand(num % 100) : "")
+  );
+}
+
+// Helper function for convert number to text
+function convertToWords(num) {
+  if (num === 0) return "Zero";
+
+  let parts = [];
+  let thousandIndex = 0;
+
+  while (num > 0) {
+    let part = num % 1000;
+    if (part > 0) {
+      parts.unshift(
+        convertBelowThousand(part) +
+          (thousands[thousandIndex] ? " " + thousands[thousandIndex] : "")
+      );
+    }
+    num = Math.floor(num / 1000);
+    thousandIndex++;
+  }
+
+  return parts.join(" ");
+}
+
+// Main function for convert number to text
+export function convertToText(n, uoc) {
+  if (!uoc) {
+    if (n === "") return "";
+    if (n === 0 || n === null) return "";
+    return (
+      convertToWords(n)
+        .trim()
+        .toUpperCase() + " TAKA ONLY"
+    );
+  }
+  if (n === "") return "";
+  if (n === 0 || n === null) return "";
+  return (
+    convertToWords(n)
+      .trim()
+      .toUpperCase() + ` ${uoc.toUpperCase()} ONLY`
+  );
+}
+
+
+// ! BCIC
+// Get Load Port DDL (Naltional Load Port)
+export const getDischargePortDDL = async (setter) => {
+  try {
+    const res = await axios.get(`/wms/FertilizerOperation/GetDomesticPortDDL`);
+    setter(res?.data);
+  } catch (error) {
+    setter([]);
+  }
+};
+
+// Get Load Port DDL (Internaltional Load Port)
+export const GetLoadPortDDL = async (setter) => {
+  try {
+    const res = await axios.get(
+      `${imarineBaseUrl}/domain/Vessel/GetCountryDDL`
+    );
+    setter(res?.data);
+  } catch (error) {
+    setter([]);
+  }
+};
+
+
+// fetch godown list function
+export const fetchGodownDDLList = (
+  businessPartner,
+  accountId,
+  buUnId,
+  getGodownDDLFunc,
+  updateGodownDDLFunc
+) => {
+  const url = `/tms/LigterLoadUnload/GetShipToPartnerG2GPagination?AccountId=${accountId}&BusinessUnitId=${buUnId}&BusinessPartnerId=${
+    businessPartner?.value
+  }&PageNo=${0}&PageSize=${100}`;
+  getGodownDDLFunc(url, (data) => {
+    const updateDDL = data?.data?.map((item) => {
+      return {
+        value: item?.shiptoPartnerId,
+        label: item?.shipToParterName,
+      };
+    });
+    updateGodownDDLFunc(updateDDL);
+  });
+};
+
+
 // fetch mother vessel with port
 export const fetchMotherVesselLists = (
   accId,
@@ -807,7 +794,7 @@ export const fetchMotherVesselLists = (
   );
 };
 
-/* BADC (MOP) */
+// ! BADC(MOP)
 
 // validation object properties array
 // const validationBADCMOPDRFieldNames = [
@@ -849,119 +836,9 @@ export const fetchMotherVesselLists = (
 // };
 
 // get mop rows data when distance rate form field ha no errors. this is a callback func on validationBADCMOPDistanceRateField
-export const ranges = {
-  rangOto100: 0,
-  rang101to200: 0,
-  rang201to300: 0,
-  rang301to400: 0,
-  rang401to500: 0,
-};
 
-export const distributeDistance = (distance = 0) => {
-  const ranges = {
-    rangOto100: 0,
-    rang101to200: 0,
-    rang201to300: 0,
-    rang301to400: 0,
-    rang401to500: 0,
-  };
-  if (distance > 0) {
-    if (distance >= 500) {
-      ranges.rangOto100 = 100;
-      ranges.rang101to200 = 100;
-      ranges.rang201to300 = 100;
-      ranges.rang301to400 = 100;
-      ranges.rang401to500 = 100;
-    } else if (distance >= 400) {
-      ranges.rangOto100 = 100;
-      ranges.rang101to200 = 100;
-      ranges.rang201to300 = 100;
-      ranges.rang301to400 = 100;
-      ranges.rang401to500 = distance - 400;
-    } else if (distance >= 300) {
-      ranges.rangOto100 = 100;
-      ranges.rang101to200 = 100;
-      ranges.rang201to300 = 100;
-      ranges.rang301to400 = distance - 300;
-    } else if (distance >= 200) {
-      ranges.rangOto100 = 100;
-      ranges.rang101to200 = 100;
-      ranges.rang201to300 = distance - 200;
-    } else if (distance >= 100) {
-      ranges.rangOto100 = 100;
-      ranges.rang101to200 = distance - 100;
-    } else {
-      ranges.rangOto100 = distance;
-    }
-  }
 
-  return ranges;
-};
-
-export const calculateRangesRate = (distributedDistance, values) => {
-  const rangOto100Rate = (
-    distributedDistance?.rangOto100 * +values?.distance0100
-  ).toFixed(2);
-  const rang101to200Rate = (
-    distributedDistance?.rang101to200 * +values?.distance101200
-  ).toFixed(2);
-  const rang201to300Rate = (
-    distributedDistance?.rang201to300 * +values?.distance201300
-  ).toFixed(2);
-  const rang301to400Rate = (
-    distributedDistance?.rang301to400 * +values?.distance301400
-  ).toFixed(2);
-  const rang401to500Rate = (
-    distributedDistance?.rang401to500 * +values?.distance401500
-  ).toFixed(2);
-
-  return {
-    rangOto100Rate,
-    rang101to200Rate,
-    rang201to300Rate,
-    rang301to400Rate,
-    rang401to500Rate,
-  };
-};
-
-export const calculateTotalRate = (calculateRangesRate) => {
-  const ratesArray = Object.values(calculateRangesRate);
-  return ratesArray?.reduce((acc, item) => acc + +item, 0).toFixed(2);
-};
-
-export const calculateTotalCost = (totalTaxVat = 0, item) => {
-  // console.log(
-  //   +totalTaxVat +
-  //     item?.additionalCost +
-  //     item?.labourBill +
-  //     item?.invoiceCost +
-  //     item?.transPortCost
-  // );
-  return (
-    +totalTaxVat +
-    +item?.additionalCost +
-    +item?.labourBill +
-    +item?.invoiceCost +
-    +item?.transPortCost
-  ).toFixed(2);
-  // return costs.reduce((acc, costItem) => acc + +costItem, 0).toFixed(2);
-};
-
-export const calculateTotalRecieve = (totalRate = 0, totalCost = 0) =>
-  Math.abs(+totalRate - +totalCost).toFixed(2);
-
-export const calculateBillAmount = (itemQty, totalRate = 0) =>
-  (+itemQty * +totalRate).toFixed(2);
-
-export const calculateCostAmount = (itemQty, totalCost = 0) =>
-  (+itemQty * +totalCost).toFixed(2);
-
-export const calculateProfitAmount = (billAmount = 0, costAmount = 0) =>
-  Math.abs(+billAmount - +costAmount).toFixed(2);
-
-export const calculateTaxVat = (totalRate = 0, taxPercentage = 0.17) =>
-  (+totalRate * +taxPercentage).toFixed(2);
-
+// Get inital mop rows data after input distance rate
 export const fetchMOPRowsData = (
   accountId,
   buUnId,
@@ -1005,90 +882,122 @@ export const fetchMOPRowsData = (
     }
   );
 };
+// Ranges of distance 
+export const ranges = {
+  rangOto100: 0,
+  rang101to200: 0,
+  rang201to300: 0,
+  rang301to400: 0,
+  rang401to500: 0,
+};
 
-// calculate distance & range rate
-// export const calculateDistanceRate = (data, values, updateMopRowsData) => {
-//   const {
-//     distance0100,
-//     distance101200,
-//     distance201300,
-//     distance301400,
-//     distance401500,
-//   } = values;
+// Distribute input distance into differenet range. Return an object
+export const distributeDistance = (distance = 0) => {
+  const ranges = {
+    rangOto100: 0,
+    rang101to200: 0,
+    rang201to300: 0,
+    rang301to400: 0,
+    rang401to500: 0,
+  };
+  if (distance > 0) {
+    if (distance >= 500) {
+      ranges.rangOto100 = 100;
+      ranges.rang101to200 = 100;
+      ranges.rang201to300 = 100;
+      ranges.rang301to400 = 100;
+      ranges.rang401to500 = 100;
+    } else if (distance >= 400) {
+      ranges.rangOto100 = 100;
+      ranges.rang101to200 = 100;
+      ranges.rang201to300 = 100;
+      ranges.rang301to400 = 100;
+      ranges.rang401to500 = distance - 400;
+    } else if (distance >= 300) {
+      ranges.rangOto100 = 100;
+      ranges.rang101to200 = 100;
+      ranges.rang201to300 = 100;
+      ranges.rang301to400 = distance - 300;
+    } else if (distance >= 200) {
+      ranges.rangOto100 = 100;
+      ranges.rang101to200 = 100;
+      ranges.rang201to300 = distance - 200;
+    } else if (distance >= 100) {
+      ranges.rangOto100 = 100;
+      ranges.rang101to200 = distance - 100;
+    } else {
+      ranges.rangOto100 = distance;
+    }
+  }
 
-//   const first100 = 100 * distance0100;
-//   const second100 = 100 * distance101200;
-//   const third100 = 100 * distance201300;
-//   const fourth100 = 100 * distance301400;
+  return ranges;
+};
 
-//   const updateData = data?.map((item, index) => {
-//     const first = item.distance * distance0100;
-//     const second = (item.distance - 100) * distance101200;
-//     const third = (item.distance - 200) * distance201300;
-//     const fourth = (item.distance - 300) * distance301400;
-//     const fifth = (item.distance - 400) * distance401500;
+// Calculate ranges rate with distributed distance object & return object
+export const calculateRangesRate = (distributedDistance, values) => {
+  const rangOto100Rate = (
+    distributedDistance?.rangOto100 * +values?.distance0100
+  ).toFixed(2);
+  const rang101to200Rate = (
+    distributedDistance?.rang101to200 * +values?.distance101200
+  ).toFixed(2);
+  const rang201to300Rate = (
+    distributedDistance?.rang201to300 * +values?.distance201300
+  ).toFixed(2);
+  const rang301to400Rate = (
+    distributedDistance?.rang301to400 * +values?.distance301400
+  ).toFixed(2);
+  const rang401to500Rate = (
+    distributedDistance?.rang401to500 * +values?.distance401500
+  ).toFixed(2);
 
-//     if (item?.distance > 0 && item?.distance <= 100) {
-//       return {
-//         ...item,
-//         rangOto100: first,
-//         rang101to200: 0,
-//         rang201to300: 0,
-//         rang301to400: 0,
-//         rang401to500: 0,
-//       };
-//     } else if (item?.distance > 100 && item?.distance <= 200) {
-//       return {
-//         ...item,
-//         rangOto100: first100,
-//         rang101to200: second,
-//         rang201to300: 0,
-//         rang301to400: 0,
-//         rang401to500: 0,
-//       };
-//     } else if (item?.distance > 200 && item?.distance <= 300) {
-//       return {
-//         ...item,
-//         rangOto100: first100,
-//         rang101to200: second100,
-//         rang201to300: third,
-//         rang301to400: 0,
-//         rang401to500: 0,
-//       };
-//     } else if (item?.distance > 300 && item?.distance <= 400) {
-//       return {
-//         ...item,
-//         rangOto100: first100,
-//         rang101to200: second100,
-//         rang201to300: third100,
-//         rang301to400: fourth,
-//         rang401to500: 0,
-//       };
-//     } else if (item?.distance > 400 && item?.distance <= 500) {
-//       return {
-//         ...item,
-//         rangOto100: first100,
-//         rang101to200: second100,
-//         rang201to300: third100,
-//         rang301to400: fourth100,
-//         rang401to500: fifth,
-//       };
-//     } else {
-//       return {
-//         ...item,
-//         rangOto100: 0,
-//         rang101to200: 0,
-//         rang201to300: 0,
-//         rang301to400: 0,
-//         rang401to500: 0,
-//       };
-//     }
-//   });
+  return {
+    rangOto100Rate,
+    rang101to200Rate,
+    rang201to300Rate,
+    rang301to400Rate,
+    rang401to500Rate,
+  };
+};
 
-//   console.log(updateData);
+// Calculate total rate with 5 ranges rate
+export const calculateTotalRate = (calculateRangesRate) => {
+  const ratesArray = Object.values(calculateRangesRate);
+  return ratesArray?.reduce((acc, item) => acc + +item, 0).toFixed(2);
+};
 
-//   updateMopRowsData(updateData);
-// };
+// Calculate tax amount from total rate
+export const calculateTaxVat = (totalRate = 0, taxPercentage = 0.17) =>
+  (+totalRate * +taxPercentage).toFixed(2);
+
+// Calculate total cost with total tax amount, additional cost, labour cost, invoice cost & transport cost
+export const calculateTotalCost = (totalTaxVat = 0, item) => {
+  return (
+    +totalTaxVat +
+    +item?.additionalCost +
+    +item?.labourBill +
+    +item?.invoiceCost +
+    +item?.transPortCost
+  ).toFixed(2);
+  // return costs.reduce((acc, costItem) => acc + +costItem, 0).toFixed(2);
+};
+
+// Calculate total recieve with total rate & total cost
+export const calculateTotalRecieve = (totalRate = 0, totalCost = 0) =>
+  Math.abs(+totalRate - +totalCost).toFixed(2);
+
+// Calculate total bill amount with item qty & total rate
+export const calculateBillAmount = (itemQty, totalRate = 0) =>
+  (+itemQty * +totalRate).toFixed(2);
+
+// Calculate total cost amount with item qty & total cost
+export const calculateCostAmount = (itemQty, totalCost = 0) =>
+  (+itemQty * +totalCost).toFixed(2);
+
+// Calculate total bill amount from total bill amount to cost amount
+export const calculateProfitAmount = (billAmount = 0, costAmount = 0) =>
+  Math.abs(+billAmount - +costAmount).toFixed(2);
+
 
 // mop tender create data table header
 export const mopTenderCreateDataTableHeader = [
@@ -1123,7 +1032,7 @@ export const mopTenderEditDataTableHeader = [
   "Actual Quantity",
 ];
 
-//
+// Common field value changer for distance, additional cost, labour cost, invoice cost, trasport cost, quantity
 export const commonFieldValueChange = (
   e,
   item,
@@ -1175,6 +1084,23 @@ export const commonFieldValueChange = (
   updateMopRowsData(newMopRowsData);
 };
 
+// callback approch for rows data fetch badc mop for print page
+export const fetchBADCMOPRowsDataForPrintPage = (
+  accountId,
+  buUnId,
+  mopTenderId,
+  portId,
+  getTenderDetailsFunc,
+  callback
+) => {
+  const url = `/tms/TenderSubmission/GetByBADCMOPConfiguration?AccountId=${accountId}&BusinessUnitId=${buUnId}&MopTenderId=${mopTenderId}&PortId=${portId}`;
+
+  getTenderDetailsFunc(url, () => {
+    callback && callback();
+  });
+};
+
+// * Handle distance change (Not used keep for backup)
 // export const handleDistanceChange = (
 //   e,
 //   item,

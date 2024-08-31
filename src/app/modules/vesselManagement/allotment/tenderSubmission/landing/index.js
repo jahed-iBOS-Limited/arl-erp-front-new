@@ -216,7 +216,7 @@ export default function TenderSubmissionLanding() {
                 <></>
               )}
 
-              {/* Paginations of BCIC & BADC Tender  */}
+              {/* Paginations of BCIC & BADC & BADC(MOP) Tender  */}
               {submittedTenderLists?.data?.length > 0 && (
                 <PaginationTable
                   count={submittedTenderLists?.totalCount}
