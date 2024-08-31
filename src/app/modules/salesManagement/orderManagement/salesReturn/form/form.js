@@ -1,6 +1,7 @@
 import axios from "axios";
 import { Formik } from "formik";
 import React from "react";
+import * as Yup from "yup";
 import {
   Card,
   CardBody,
@@ -15,6 +16,10 @@ import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/date
 import RATForm from "../../../../_helper/commonInputFieldsGroups/ratForm";
 import FullChallanTable from "./fullChallanTable";
 import PartialChallanTable from "./partialChallanTable";
+
+const ValidationSchema = Yup.object().shape({
+  reason: Yup.string().required("Reason is required"),
+});
 
 function Form({
   initData,
@@ -33,6 +38,7 @@ function Form({
       <Formik
         enableReinitialize={true}
         initialValues={initData}
+        validationSchema={ValidationSchema}
         onSubmit={(values) => {
           saveHandler(values);
         }}
@@ -94,6 +100,7 @@ function Form({
                       region: false,
                       area: false,
                       territory: false,
+                      allElement: false,
                       onChange: () => {
                         setFieldValue("customer", "");
                         setGridData([]);
@@ -141,7 +148,15 @@ function Form({
                   {values?.returnType?.value === 2 && (
                     <FromDateToDateForm obj={{ values, setFieldValue }} />
                   )}
-
+                  <div className="col-lg-3">
+                    <label>Reason</label>
+                    <InputField
+                      value={values?.reason}
+                      name="reason"
+                      placeholder="Reason"
+                      type="text"
+                    />
+                  </div>
                   <div className="col d-flex  align-items-end">
                     <button
                       type="button"
