@@ -36,14 +36,17 @@ const initData = {
 };
 
 const viewers = (values) => {
-  const returnTypeId = values?.returnType?.value;
-  const DDL =
-    returnTypeId === 1
-      ? [
-          { value: 1, label: "Supervisor" },
-          { value: 2, label: "Accountant" },
-        ]
-      : [{ value: 1, label: "Supervisor" }];
+  // const returnTypeId = values?.returnType?.value;
+  const DDL = [
+    { value: 1, label: "Supervisor" },
+    { value: 2, label: "Accountant" },
+  ];
+  // returnTypeId === 1
+  //   ? [
+  //       { value: 1, label: "Supervisor" },
+  //       { value: 2, label: "Accountant" },
+  //     ]
+  //   : [{ value: 1, label: "Supervisor" }];
   return DDL;
 };
 
