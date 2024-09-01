@@ -1001,6 +1001,7 @@ export const calculateProfitAmount = (billAmount = 0, costAmount = 0) =>
 
 // mop tender create data table header
 export const mopTenderCreateDataTableHeader = [
+  "SL",
   "Port Name",
   "Ghat Name",
   "Distance",
@@ -1021,7 +1022,6 @@ export const mopTenderCreateDataTableHeader = [
   "BillAmount",
   "CostAmount",
   "ProfitAmount",
-  "Actions",
 ];
 
 // mop tender create data table header
