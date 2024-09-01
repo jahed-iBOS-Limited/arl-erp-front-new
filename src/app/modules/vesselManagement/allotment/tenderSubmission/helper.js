@@ -1078,16 +1078,25 @@ export const commonFieldValueChange = (
   updateMopRowsData(newMopRowsData);
 };
 
-// callback approch for rows data fetch badc mop for print page
+// callback approch for rows data fetch badc mop for print page for general & final report
 export const fetchBADCMOPRowsDataForPrintPage = (
   accountId,
-  buUnId,
+  buUnId = 178,
   mopTenderId,
-  portId,
   getTenderDetailsFunc,
-  callback
+  callback,
+  type = "initReport",
+  portId,
 ) => {
-  const url = `/tms/TenderSubmission/GetByBADCMOPConfiguration?AccountId=${accountId}&BusinessUnitId=${buUnId}&MopTenderId=${mopTenderId}&PortId=${portId}`;
+  let url = "";
+
+  if (type === "initReport") {
+    url = `/tms/TenderSubmission/GetByBADCMOPConfiguration?AccountId=${accountId}&BusinessUnitId=${buUnId}&MopTenderId=${mopTenderId}&PortId=${portId}`;
+  } else if (type === "finalReport") {
+    url = `/tms/TenderSubmission/GetBADCMopActualQuantity?AccountId=${accountId}&BusinessUnitId=${buUnId}&MopTenderId=${mopTenderId}`;
+  } else {
+    url = "";
+  }
 
   getTenderDetailsFunc(url, () => {
     callback && callback();

@@ -50,10 +50,10 @@ const BADCMOPTable = ({
                   {item?.isAccept
                     ? "Approved"
                     : item?.isReject
-                      ? "Reject"
-                      : item?.isPending
-                        ? "Pending"
-                        : "NA"}
+                    ? "Reject"
+                    : item?.isPending
+                    ? "Pending"
+                    : "NA"}
                 </td>
                 <td style={{ width: "80px" }} className="text-center">
                   <div className="d-flex justify-content-around">
@@ -69,7 +69,7 @@ const BADCMOPTable = ({
                             });
                             // setShow(true);
                           }}
-                        // id={item?.shiptoPartnerId}
+                          // id={item?.shiptoPartnerId}
                         />
                       </span>
                     )}
@@ -80,14 +80,17 @@ const BADCMOPTable = ({
                           accountId,
                           buUnId,
                           item?.mopTenderId,
-                          1, // chittagong port id
                           getTenderDetails,
-                          handleTenderPrint
+                          handleTenderPrint,
+                          "initReport",
+                          1 // chittagong port id
                         );
                       }}
                     >
                       <OverlayTrigger
-                        overlay={<Tooltip id="cs-icon">Print Chittagong</Tooltip>}
+                        overlay={
+                          <Tooltip id="cs-icon">Print Chittagong</Tooltip>
+                        }
                       >
                         <i
                           style={{ fontSize: "16px" }}
@@ -103,14 +106,37 @@ const BADCMOPTable = ({
                           accountId,
                           buUnId,
                           item?.mopTenderId,
-                          4, // mangla port id
                           getTenderDetails,
-                          handleTenderPrint
+                          handleTenderPrint,
+                          "initReport",
+                          4 // mangla port id
                         );
                       }}
                     >
                       <OverlayTrigger
                         overlay={<Tooltip id="cs-icon">Print Mangla</Tooltip>}
+                      >
+                        <i
+                          style={{ fontSize: "16px" }}
+                          class="fa fa-print cursor-pointer"
+                          aria-hidden="true"
+                        ></i>
+                      </OverlayTrigger>
+                    </span>
+                    <span
+                      onClick={() => {
+                        fetchBADCMOPRowsDataForPrintPage(
+                          accountId,
+                          buUnId,
+                          item?.mopTenderId,
+                          getTenderDetails,
+                          handleTenderPrint,
+                          "finalReport",
+                        );
+                      }}
+                    >
+                      <OverlayTrigger
+                        overlay={<Tooltip id="cs-icon">Print Final</Tooltip>}
                       >
                         <i
                           style={{ fontSize: "16px" }}
