@@ -140,7 +140,7 @@ const BADCMOPTable = ({
           })}
         </tbody>
       </table>
-    </div >
+    </div>
   );
 };
 

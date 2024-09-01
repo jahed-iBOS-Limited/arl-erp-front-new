@@ -26,6 +26,7 @@ import {
   updateState,
 } from "../helper";
 import BADCMOPRowsData from "./mopRowsData";
+import BADCMopTableEdit from "../landing/badcMopTableEdit";
 
 export default function TenderSubmissionCreateEditForm() {
   const {
@@ -83,7 +84,10 @@ export default function TenderSubmissionCreateEditForm() {
         buUnId,
         { businessPartner: { label: landingPageState?.businessPartnerName } },
         tenderId,
-        getTenderDetails
+        getTenderDetails,
+        (values)=>{
+          updateMopRowsData(values?.rowDTOs)
+        }
       );
 
       if (landingPageState?.businessPartnerName === "BCIC") {
@@ -110,7 +114,7 @@ export default function TenderSubmissionCreateEditForm() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const saveHandler = (values, mopRowsData,tenderId, cb) => {
+  const saveHandler = (values, mopRowsData, tenderId, cb) => {
     submitTender(
       selectUrl(values?.businessPartner?.label, tenderId),
       selectPayload(values, mopRowsData, {
@@ -743,7 +747,8 @@ export default function TenderSubmissionCreateEditForm() {
               </div>
 
               {/* Form Field for BADC (MOP) */}
-              {values?.businessPartner?.label === "BADC(MOP)" &&
+              {!tenderId &&
+                values?.businessPartner?.label === "BADC(MOP)" &&
                 badcMopFormField(
                   values,
                   setFieldValue,
@@ -755,19 +760,30 @@ export default function TenderSubmissionCreateEditForm() {
               {values?.businessPartner?.label === "BCIC" &&
                 bcicFormFieldLocalPart(values, setFieldValue, errors, touched)}
 
-              {/* Excel Sheet Table for BADC */}
-              {values?.businessPartner?.label === "BADC(MOP)" &&
+              {/* MOP Rows Data Table for BADC  Create*/}
+              {!tenderId && values?.businessPartner?.label === "BADC(MOP)" &&
                 mopRowsData.length > 0 && (
-                  <div className="form-group  global-form row mt-2">
-                    <div className="col-lg-12">
-                      <BADCMOPRowsData
-                        mopRowsData={mopRowsData}
-                        updateMopRowsData={updateMopRowsData}
-                        values={values}
-                        tenderId={tenderId}
-                      />
-                    </div>
-                  </div>
+                  // <div className="form-group  global-form row mt-2">
+                  //   <div className="col-lg-12">
+                  <BADCMOPRowsData
+                    mopRowsData={mopRowsData}
+                    updateMopRowsData={updateMopRowsData}
+                    values={values}
+                    tenderId={tenderId}
+                  />
+                  //   </div>
+                  // </div>
+                )}
+              {/* MOP Rows Data Table for BADC Edit */}
+
+              {tenderId && values?.businessPartner?.label === "BADC(MOP)" &&
+                mopRowsData.length > 0 && (
+                  <BADCMopTableEdit
+                    mopRowsData={mopRowsData}
+                    updateMopRowsData={updateMopRowsData}
+                    values={values}
+                    tenderId={tenderId}
+                  />
                 )}
 
               <button

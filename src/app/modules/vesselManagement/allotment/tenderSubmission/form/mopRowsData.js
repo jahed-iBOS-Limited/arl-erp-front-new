@@ -1,5 +1,4 @@
 import React from "react";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
 import InputField from "../../../../_helper/_inputField";
 import {
   commonFieldValueChange,
@@ -17,7 +16,7 @@ const BADCMOPRowsData = ({
       <table
         id="table-to-xlsx"
         className={
-          "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm global-table"
+          "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm global-table common-scrollable-table two-column-sticky"
         }
       >
         <thead>
@@ -34,6 +33,7 @@ const BADCMOPRowsData = ({
 
             return (
               <tr key={index} className="text-right">
+                <td>{index+1}</td>
                 <td className="text-center">{item?.portName}</td>
                 <td className="text-center">{item?.ghatName}</td>
                 <td>
@@ -157,7 +157,7 @@ const BADCMOPRowsData = ({
                 <td>{item?.billAmount}</td>
                 <td>{item?.costAmount}</td>
                 <td>{item?.profitAmount}</td>
-                <td>
+                {/* <td>
                   <IDelete
                     remover={() => {
                       const updatedData = mopRowsData?.filter(
@@ -167,7 +167,7 @@ const BADCMOPRowsData = ({
                     }}
                     id={index}
                   />
-                </td>
+                </td> */}
               </tr>
             );
           })}
