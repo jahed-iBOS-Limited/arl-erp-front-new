@@ -758,16 +758,16 @@ export default function TenderSubmissionCreateEditForm() {
               {/* Excel Sheet Table for BADC */}
               {values?.businessPartner?.label === "BADC(MOP)" &&
                 mopRowsData.length > 0 && (
-                  <div className="form-group  global-form row mt-2">
-                    <div className="col-lg-12">
+                  // <div className="form-group  global-form row mt-2">
+                  //   <div className="col-lg-12">
                       <BADCMOPRowsData
                         mopRowsData={mopRowsData}
                         updateMopRowsData={updateMopRowsData}
                         values={values}
                         tenderId={tenderId}
                       />
-                    </div>
-                  </div>
+                  //   </div>
+                  // </div>
                 )}
 
               <button
