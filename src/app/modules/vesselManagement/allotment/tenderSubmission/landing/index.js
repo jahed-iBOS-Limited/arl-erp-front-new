@@ -24,6 +24,7 @@ import "../print/style.css";
 import BADCMOPTable from "./badcMopTable";
 import BADCTendersTable from "./badcTable";
 import BCICTendersTable from "./bcicTable";
+import PrintBADCMOPTender from "../print/printBADCMOPTender";
 
 // const initData = {};
 
@@ -216,7 +217,7 @@ export default function TenderSubmissionLanding() {
                 <></>
               )}
 
-              {/* Paginations of BCIC & BADC Tender  */}
+              {/* Paginations of BCIC & BADC & BADC(MOP) Tender  */}
               {submittedTenderLists?.data?.length > 0 && (
                 <PaginationTable
                   count={submittedTenderLists?.totalCount}
@@ -250,6 +251,21 @@ export default function TenderSubmissionLanding() {
                         top: "-60px",
                       }}
                     ></div>
+                    {values?.businessPartner?.label === "BADC(MOP)" && (
+                      <tr>
+                        <td
+                          style={{
+                            border: "none",
+                          }}
+                        >
+                          <div
+                            style={{
+                              height: "0px",
+                            }}
+                          ></div>
+                        </td>
+                      </tr>
+                    )}
                   </thead>
                   {/* CONTENT GOES HERE */}
                   <tbody>
@@ -258,12 +274,29 @@ export default function TenderSubmissionLanding() {
                         <PrintBCICTender tenderDetails={tenderDetails} />
                       ) : values?.businessPartner?.label === "BADC" ? (
                         <PrintBADCTender tenderDetails={tenderDetails} />
+                      ) : values?.businessPartner?.label === "BADC(MOP)" ? (
+                        <PrintBADCMOPTender tenderDetails={tenderDetails} />
                       ) : (
                         <></>
                       )}
                     </div>
                   </tbody>
                   <tfoot>
+                    {values?.businessPartner?.label === "BADC(MOP)" && (
+                      <tr>
+                        <td
+                          style={{
+                            border: "none",
+                          }}
+                        >
+                          <div
+                            style={{
+                              height: "70px",
+                            }}
+                          ></div>
+                        </td>
+                      </tr> 
+                    )}
                     <div
                       className="ifoot"
                       style={{
