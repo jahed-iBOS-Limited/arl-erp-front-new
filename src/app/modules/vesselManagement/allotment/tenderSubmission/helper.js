@@ -329,8 +329,8 @@ export const fetchTenderDetailsCallbackForPrintAndCreateEditPage = (
   if (values?.businessPartner?.label === "BADC(MOP)") {
     url = `/tms/TenderSubmission/GetForEditMOPConfiguration?AccountId=${accountId}&BusinessUnitId=${buUnId}&MopTenderId=${tenderId}`; // tenderId => mopTenderId
   }
-  getTenderDetailsFunc(url, () => {
-    callback && callback();
+  getTenderDetailsFunc(url, (values) => {
+    callback && callback(values);
   });
 };
 
@@ -348,7 +348,7 @@ export const selectEditId = (item) => {
 };
 
 // State function when update data BCIC, BADC, BADC(MOP)
-export const updateState = (tenderDetails) => {
+export const updateState = (tenderDetails, updateMopRowsData) => {
   const isBCIC = tenderDetails?.header || tenderDetails?.rows;
   const isBADCMOP = tenderDetails?.headerDTO || tenderDetails?.rowDTOs;
 
@@ -418,7 +418,7 @@ export const updateState = (tenderDetails) => {
     };
     return commonEditData;
   } else if (isBADCMOP) {
-    const { headerDTO, rowDTOs } = tenderDetails;
+    const { headerDTO } = tenderDetails;
 
     const badcMOPState = {
       enquiry: headerDTO?.mopInvoiceId,
@@ -430,19 +430,19 @@ export const updateState = (tenderDetails) => {
       //       value: headerDTO?.portId,
       //     }
       //   : "",
-      mopRowsData: rowDTOs?.map((item) => {
-        return {
-          mopTenderId: item?.mopTenderId,
-          mopInvoiceId: item?.mopInvoiceId,
-          ghatId: item?.ghatId,
-          ghatName: item?.ghatName,
-          portId: item?.portId,
-          portName: item?.portName,
-          distance: item?.distance,
-          quantity: item?.quantity,
-          actualQuantity: item?.actualQuantity,
-        };
-      }),
+      // mopRowsData: rowDTOs?.map((item) => {
+      //   return {
+      //     mopTenderId: item?.mopTenderId,
+      //     mopInvoiceId: item?.mopInvoiceId,
+      //     ghatId: item?.ghatId,
+      //     ghatName: item?.ghatName,
+      //     portId: item?.portId,
+      //     portName: item?.portName,
+      //     distance: item?.distance,
+      //     quantity: item?.quantity,
+      //     actualQuantity: item?.actualQuantity,
+      //   };
+      // }),
     };
 
     const commonEditData = {
@@ -505,8 +505,6 @@ export const updateState = (tenderDetails) => {
     return commonEditData;
   }
 };
-
-
 
 // Select url for create tender on create and edit page with business partner & tenderId. BADC MOP use different url for update
 export const selectUrl = (businessPartner, mopTenderId) => {
@@ -734,7 +732,6 @@ export function convertToText(n, uoc) {
   );
 }
 
-
 // ! BCIC
 // Get Load Port DDL (Naltional Load Port)
 export const getDischargePortDDL = async (setter) => {
@@ -758,7 +755,6 @@ export const GetLoadPortDDL = async (setter) => {
   }
 };
 
-
 // fetch godown list function
 export const fetchGodownDDLList = (
   businessPartner,
@@ -780,7 +776,6 @@ export const fetchGodownDDLList = (
     updateGodownDDLFunc(updateDDL);
   });
 };
-
 
 // fetch mother vessel with port
 export const fetchMotherVesselLists = (
@@ -837,7 +832,6 @@ export const fetchMotherVesselLists = (
 
 // get mop rows data when distance rate form field ha no errors. this is a callback func on validationBADCMOPDistanceRateField
 
-
 // Get inital mop rows data after input distance rate
 export const fetchMOPRowsData = (
   accountId,
@@ -882,7 +876,7 @@ export const fetchMOPRowsData = (
     }
   );
 };
-// Ranges of distance 
+// Ranges of distance
 export const ranges = {
   rangOto100: 0,
   rang101to200: 0,
@@ -998,7 +992,6 @@ export const calculateCostAmount = (itemQty, totalCost = 0) =>
 export const calculateProfitAmount = (billAmount = 0, costAmount = 0) =>
   Math.abs(+billAmount - +costAmount).toFixed(2);
 
-
 // mop tender create data table header
 export const mopTenderCreateDataTableHeader = [
   "SL",
@@ -1026,6 +1019,7 @@ export const mopTenderCreateDataTableHeader = [
 
 // mop tender create data table header
 export const mopTenderEditDataTableHeader = [
+  "SL",
   "Port Name",
   "Ghat Name",
   "Quantity",
