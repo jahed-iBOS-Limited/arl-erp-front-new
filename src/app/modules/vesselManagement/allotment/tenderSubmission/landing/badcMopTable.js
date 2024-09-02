@@ -14,6 +14,7 @@ const BADCMOPTable = ({
   submittedTenderLists,
   handleTenderPrint,
   getTenderDetails,
+  setTenderPrintId,
 }) => {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -85,6 +86,8 @@ const BADCMOPTable = ({
                           "initReport",
                           1 // chittagong port id
                         );
+                        // Set 1 for ctg port & show Annexure A & description on print head
+                        setTenderPrintId(1);
                       }}
                     >
                       <OverlayTrigger
@@ -111,6 +114,8 @@ const BADCMOPTable = ({
                           "initReport",
                           4 // mangla port id
                         );
+                        // Set 1 for mangla port & show Annexure B &  description on print head
+                        setTenderPrintId(4);
                       }}
                     >
                       <OverlayTrigger
@@ -131,8 +136,10 @@ const BADCMOPTable = ({
                           item?.mopTenderId,
                           getTenderDetails,
                           handleTenderPrint,
-                          "finalReport",
+                          "finalReport"
                         );
+                        // Set 0 for hide Annexure description on print head
+                        setTenderPrintId(0);
                       }}
                     >
                       <OverlayTrigger
