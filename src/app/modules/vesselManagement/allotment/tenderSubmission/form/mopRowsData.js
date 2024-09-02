@@ -30,10 +30,9 @@ const BADCMOPRowsData = ({
         </thead>
         <tbody>
           {mopRowsData?.map((item, index) => {
-
             return (
               <tr key={index} className="text-right">
-                <td>{index+1}</td>
+                <td>{index + 1}</td>
                 <td className="text-center">{item?.portName}</td>
                 <td className="text-center">{item?.ghatName}</td>
                 <td>
@@ -41,21 +40,20 @@ const BADCMOPRowsData = ({
                     value={item?.distance || ""}
                     type="number"
                     placeholder="0"
-                    onChange={
-                      (e) =>
-                        commonFieldValueChange(
-                          e,
-                          item,
-                          index,
-                          values,
-                          mopRowsData,
-                          updateMopRowsData,
-                          "distance"
-                        )
+                    onChange={(e) =>
+                      commonFieldValueChange(
+                        e,
+                        item,
+                        index,
+                        values,
+                        mopRowsData,
+                        updateMopRowsData,
+                        "distance"
+                      )
                     }
                   />
                 </td>
-                <td>{item?.rangOto100}</td>
+                <td>{item?.rang0to100}</td>
                 <td>{item?.rang101to200}</td>
                 <td>{item?.rang201to300}</td>
                 <td>{item?.rang301to400}</td>
