@@ -53,7 +53,7 @@ export default function SalesInvoiceLanding() {
           profileData?.accountId
         }&businessUnitId=${
           selectedBusinessUnit?.value
-        }&customerId=0&isCollectionComplte=${false}${strFromAndToDate}`
+        }&customerId=0&paymentTypeId=${values?.paymentType?.value || 0}&isCollectionComplte=${false}${strFromAndToDate}`
       : `/oms/ServiceSales/GetServiceScheduleList?accountId=${
           profileData?.accountId
         }&businessUnitId=${

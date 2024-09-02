@@ -248,7 +248,7 @@ const PrintInvoiceModal = ({ singleItem }) => {
                         paddingRight: "5px",
                       }}
                     >
-                      {`Billing Amount: ${printData[0]?.invocieRow[0]?.intPaymentByPercent}% of Total Amount`}
+                      {printData[0]?.intPaymentTypeId === 1 ? `100% of Total Amount` : `Billing Amount: ${printData[0]?.invocieRow[0]?.intPaymentByPercent}% of Total Amount`}
                     </td>
                     <td style={{ textAlign: "right", paddingRight: "3px" }}>
                       <strong>

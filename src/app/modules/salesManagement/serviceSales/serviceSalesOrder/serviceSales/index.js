@@ -168,6 +168,7 @@ export default function ServiceSalesLanding() {
                           <tr key={index}>
                             <td>{index + 1}</td>
                             <td>{item?.strServiceSalesOrderCode}</td>
+                            <td>{item?.strCustomerName}</td>
                             <td>
                               {(() => {
                                 const itemStrings = item?.items?.map(
@@ -190,7 +191,6 @@ export default function ServiceSalesLanding() {
                                 return itemStrings?.join(" / ");
                               })()}
                             </td>
-                            <td>{item?.strCustomerName}</td>
                             <td>{item?.strSalesTypeName}</td>
                             <td>{item?.strPaymentType}</td>
                             <td>{item?.strScheduleTypeName}</td>
