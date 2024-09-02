@@ -2,8 +2,7 @@ import React, { useMemo } from "react";
 import { _formatMoney } from "../../../../_helper/_formatMoney";
 import { convertToText } from "../helper";
 
-const PrintBADCMOPTender = ({ tenderDetails }) => {
-
+const PrintBADCMOPTender = ({ tenderDetails, tenderPrintId }) => {
   const totalAmount = useMemo(
     () =>
       tenderDetails?.reduce((acc, item) => {
@@ -13,19 +12,25 @@ const PrintBADCMOPTender = ({ tenderDetails }) => {
     [tenderDetails]
   );
 
-  // console.log(totalAmount);
+  console.log(tenderPrintId);
   return (
     <div className="">
-      <div>
-        <p>
-          {" "}
-          <strong>Annexure-A:</strong> Transportation and stacking of MOP
-          fertilizer from the ghats of Chattogram port/private ghat and the
-          godowns of Chattogram city corporation areas/industrial areas/port
-          areas/BADC's Transit godown 1&2/Dewanhat/any other local godowns of
-          BADC to the following godowns/center
-        </p>
-      </div>
+      {tenderPrintId !== null && (
+        <div>
+          <p>
+            {" "}
+            <strong>
+              Annexure-
+              {tenderPrintId === 1 ? "A" : tenderPrintId === 4 ? "B" : ""}:
+            </strong>{" "}
+            Transportation and stacking of MOP fertilizer from the ghats of
+            Chattogram port/private ghat and the godowns of Chattogram city
+            corporation areas/industrial areas/port areas/BADC's Transit godown
+            1&2/Dewanhat/any other local godowns of BADC to the following
+            godowns/center
+          </p>
+        </div>
+      )}
       <table style={{ margin: "20px 0" }}>
         <thead style={{ padding: "10px 0", textAlign: "center" }}>
           <tr>
