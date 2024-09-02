@@ -11,6 +11,7 @@ function FromDateToDateForm({ obj }) {
     time,
     type,
     disabled,
+    step, // the attribute "step" is used to show the second value in the date-time input field
   } = obj;
 
   const col = colSize ? colSize : `col-lg-3`;
@@ -18,6 +19,7 @@ function FromDateToDateForm({ obj }) {
     <>
       <div className={`${col} ${time && "d-flex"}`}>
         <InputField
+          step={step}
           label="From Date"
           value={values?.fromDate}
           name="fromDate"
@@ -48,6 +50,7 @@ function FromDateToDateForm({ obj }) {
       </div>
       <div className={`${col} ${time && "d-flex"}`}>
         <InputField
+          step={step}
           label="To Date"
           value={values?.toDate}
           name="toDate"
