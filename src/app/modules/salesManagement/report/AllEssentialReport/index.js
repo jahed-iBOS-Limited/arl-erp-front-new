@@ -21,6 +21,17 @@ const initData = {
   customer: "",
 };
 
+const reportTypes = [
+  { value: 1, label: "Daily Sales Order Summary" },
+  { value: 2, label: "Territory Item Sales" },
+  { value: 3, label: "Delivery Pending Report" },
+  { value: 4, label: "SKU Wise Monthly Report" },
+  { value: 5, label: "SKU Wise Summary" },
+  { value: 6, label: "SKU Territory Info" },
+  { value: 7, label: "SO Summary" },
+  { value: 8, label: "Daily Sales Update" },
+];
+
 const groupId = `e3ce45bb-e65e-43d7-9ad1-4aa4b958b29a`;
 const getReportId = (typeId) => {
   const id = [1, 2, 3].includes(typeId)
@@ -33,6 +44,8 @@ const getReportId = (typeId) => {
     ? `b2056a60-946e-446c-9988-c0decfe5b285`
     : typeId === 7
     ? `3e024cbf-7cff-4a12-936d-701975691ee5`
+    : typeId === 8
+    ? `c3744dd8-2a71-461f-aa5e-26ec066f7d62`
     : "";
   return id;
 };
@@ -79,12 +92,19 @@ const AllEssentialReport = () => {
       { name: "intRegion", value: `${+values?.region?.value}` },
       { name: "intArea", value: `${+values?.area?.value}` },
     ];
-    
+
     const soSummary = [
       { name: "intBusinessUnitid", value: `${+buId}` },
       { name: "FromDate", value: `${values?.fromDate}` },
       { name: "ToDate", value: `${values?.toDate}` },
       { name: "channelId", value: `${+values?.channel?.value}` },
+    ];
+
+    const dailySalesUpdate = [
+      { name: "intBusinessUnitid", value: `${+buId}` },
+      { name: "FromDate", value: `${values?.fromDate}` },
+      { name: "ToDate", value: `${values?.toDate}` },
+      { name: "ViewType", value: `${+values?.viewType?.value}` },
     ];
 
     const params = [1, 2, 3].includes(id)
@@ -97,9 +117,33 @@ const AllEssentialReport = () => {
       ? skuTerritoryReport
       : id === 7
       ? soSummary
+      : id === 8
+      ? dailySalesUpdate
       : [];
 
     return params;
+  };
+
+  const getViewTypes = (id) => {
+    const type_5 = [
+      { value: 1, label: "By Quantity" },
+      { value: 2, label: "By Amount" },
+    ];
+
+    const type_8 = [
+      { value: 1, label: "Sales Order" },
+      { value: 2, label: "Delivery" },
+      { value: 3, label: "Pending" },
+    ];
+    return id === 5 ? type_5 : id === 8 ? type_8 : [];
+  };
+
+  const disableHandler = (values) => {
+    return (
+      !values?.reportType ||
+      (![8].includes(values?.reportType?.value) && !values?.channel) ||
+      ([5, 8].includes(values?.reportType.value) && !values?.viewType)
+    );
   };
 
   return (
@@ -112,15 +156,7 @@ const AllEssentialReport = () => {
                 <div className="col-lg-3">
                   <NewSelect
                     name="reportType"
-                    options={[
-                      { value: 1, label: "Daily Sales Order Summary" },
-                      { value: 2, label: "Territory Item Sales" },
-                      { value: 3, label: "Delivery Pending Report" },
-                      { value: 4, label: "SKU Wise Monthly Report" },
-                      { value: 5, label: "SKU Wise Summary" },
-                      { value: 6, label: "SKU Territory Info" },
-                      { value: 7, label: "SO Summary" },
-                    ]}
+                    options={reportTypes}
                     label="Report Type"
                     value={values?.reportType}
                     onChange={(valueOption) => {
@@ -135,14 +171,11 @@ const AllEssentialReport = () => {
                     placeholder="Report Type"
                   />
                 </div>
-                {values?.reportType?.value === 5 && (
+                {[5, 8].includes(values?.reportType?.value) && (
                   <div className="col-lg-3">
                     <NewSelect
                       name="viewType"
-                      options={[
-                        { value: 1, label: "By Quantity" },
-                        { value: 2, label: "By Amount" },
-                      ]}
+                      options={getViewTypes(values?.reportType?.value)}
                       label="View Type"
                       value={values?.viewType}
                       onChange={(valueOption) => {
@@ -160,6 +193,7 @@ const AllEssentialReport = () => {
                     onChange: () => {
                       setShowReport(false);
                     },
+                    channel: ![8].includes(values?.reportType?.value),
                     region: [6].includes(values?.reportType?.value),
                     area: [6].includes(values?.reportType?.value),
                     territory: false,
@@ -183,7 +217,7 @@ const AllEssentialReport = () => {
                     setShowReport(false);
                     setShowReport(true);
                   }}
-                  disabled={!values?.reportType || !values?.channel}
+                  disabled={disableHandler(values)}
                 />
               </div>
             </form>

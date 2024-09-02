@@ -17,6 +17,8 @@ import { useLocation } from "react-router-dom";
 import { _todayDate } from "./../../../../../_helper/_todayDate";
 import IButton from "../../../../../_helper/iButton";
 import AttachFile from "../../../../../_helper/commonInputFieldsGroups/attachemntUpload";
+import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet";
+import Loading from "../../../../../_helper/_loading";
 // Validation schema
 const validationSchema = Yup.object().shape({
   // offerItem: Yup.string().required("Code is required"),
@@ -41,7 +43,7 @@ export default function _Form({
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
-  const [itemDDL, setItemDDL] = useState([]);
+  const [itemDDL, getItemDDL, loader, setItemDDL] = useAxiosGet();
 
   useEffect(() => {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
@@ -54,6 +56,20 @@ export default function _Form({
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedBusinessUnit, profileData]);
+
+  const getItems = () => {
+    // getItemDDL(``, (resData) => {
+    //   const modifyData = resData?.data?.map((item) => {
+    //     return {
+    //       ...item,
+    //       value: item?.itemId,
+    //       label: item?.itemName,
+    //     };
+    //   });
+    //   setItemDDL(modifyData);
+    // });
+    return [];
+  };
 
   const addRowHandler = (values) => {
     const offerTypeId = values?.offerType?.value;
@@ -136,6 +152,7 @@ export default function _Form({
 
   return (
     <>
+      {loader && <Loading />}
       <Formik
         enableReinitialize={true}
         initialValues={initData}
@@ -171,12 +188,14 @@ export default function _Form({
                     options={[
                       { value: 1, label: "Discount on Quantity" },
                       { value: 2, label: "Discount on Rate" },
+                      { value: 3, label: "IHB Gift Offer" },
                     ]}
                     value={values?.offerType}
                     label="Offer Type"
                     onChange={(valueOption) => {
                       setFieldValue("offerType", valueOption);
                       setFieldValue("isProportionalOffer", false);
+                      getItems();
                     }}
                     placeholder="Offer Type"
                     errors={errors}
@@ -184,36 +203,39 @@ export default function _Form({
                     isDisabled={rowDto?.length}
                   />
                 </div>
-                <div className="col-lg-3">
-                  <NewSelect
-                    name="distributionChannel"
-                    options={distributionChannelDDL || []}
-                    value={values?.distributionChannel}
-                    label="Distribution Channel"
-                    onChange={(valueOption) => {
-                      setFieldValue("distributionChannel", valueOption);
-                      setFieldValue("offerItem", "");
-                      setRowDto([]);
-                      distributionChannelHandler({
-                        ...values,
-                        distributionChannel: valueOption,
-                      });
-                      setItemDDL([]);
-                      getItemSalesOfferDDLApi(
-                        profileData?.accountId,
-                        selectedBusinessUnit?.value,
-                        valueOption?.value,
-                        setItemDDL
-                      );
-                    }}
-                    placeholder="Distribution Channel"
-                    errors={errors}
-                    touched={touched}
-                    isDisabled={
-                      values?.offerType?.value === 2 && rowDto?.length
-                    }
-                  />
-                </div>
+                {[1, 2].includes(values?.offerType?.value) && (
+                  <div className="col-lg-3">
+                    <NewSelect
+                      name="distributionChannel"
+                      options={distributionChannelDDL || []}
+                      value={values?.distributionChannel}
+                      label="Distribution Channel"
+                      onChange={(valueOption) => {
+                        setFieldValue("distributionChannel", valueOption);
+                        setFieldValue("offerItem", "");
+                        setRowDto([]);
+                        distributionChannelHandler({
+                          ...values,
+                          distributionChannel: valueOption,
+                        });
+                        setItemDDL([]);
+
+                        getItemSalesOfferDDLApi(
+                          profileData?.accountId,
+                          selectedBusinessUnit?.value,
+                          valueOption?.value,
+                          setItemDDL
+                        );
+                      }}
+                      placeholder="Distribution Channel"
+                      errors={errors}
+                      touched={touched}
+                      isDisabled={
+                        values?.offerType?.value === 2 && rowDto?.length
+                      }
+                    />
+                  </div>
+                )}
                 <div className="col-lg-3">
                   <NewSelect
                     name="offerItem"
@@ -226,7 +248,10 @@ export default function _Form({
                     placeholder="Select Offer Item"
                     errors={errors}
                     touched={touched}
-                    isDisabled={!values?.distributionChannel}
+                    isDisabled={
+                      [1, 2].includes(values?.offerType?.value) &&
+                      !values?.distributionChannel
+                    }
                   />
                 </div>
 
@@ -335,7 +360,7 @@ export default function _Form({
                   )}
                 </div>
 
-                {values?.offerType?.value === 1 && (
+                {[1, 3].includes(values?.offerType?.value) && (
                   <>
                     <div
                       className="col-lg-3 d-flex align-items-center"
