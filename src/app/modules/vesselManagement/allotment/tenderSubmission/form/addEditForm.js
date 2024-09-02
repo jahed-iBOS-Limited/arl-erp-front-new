@@ -85,8 +85,10 @@ export default function TenderSubmissionCreateEditForm() {
         { businessPartner: { label: landingPageState?.businessPartnerName } },
         tenderId,
         getTenderDetails,
-        (values)=>{
-          updateMopRowsData(values?.rowDTOs)
+
+        // this is only for badc mop state that update mop rows data when edit
+        (values) => {
+          updateMopRowsData(values?.rowDTOs);
         }
       );
 
@@ -761,7 +763,8 @@ export default function TenderSubmissionCreateEditForm() {
                 bcicFormFieldLocalPart(values, setFieldValue, errors, touched)}
 
               {/* MOP Rows Data Table for BADC  Create*/}
-              {!tenderId && values?.businessPartner?.label === "BADC(MOP)" &&
+              {!tenderId &&
+                values?.businessPartner?.label === "BADC(MOP)" &&
                 mopRowsData.length > 0 && (
                   // <div className="form-group  global-form row mt-2">
                   //   <div className="col-lg-12">
@@ -776,7 +779,8 @@ export default function TenderSubmissionCreateEditForm() {
                 )}
               {/* MOP Rows Data Table for BADC Edit */}
 
-              {tenderId && values?.businessPartner?.label === "BADC(MOP)" &&
+              {tenderId &&
+                values?.businessPartner?.label === "BADC(MOP)" &&
                 mopRowsData.length > 0 && (
                   <BADCMopTableEdit
                     mopRowsData={mopRowsData}

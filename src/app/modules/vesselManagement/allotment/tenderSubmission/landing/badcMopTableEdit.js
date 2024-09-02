@@ -1,8 +1,6 @@
 import React from "react";
 import InputField from "../../../../_helper/_inputField";
-import {
-    mopTenderEditDataTableHeader
-} from "../helper";
+import { mopTenderEditDataTableHeader } from "../helper";
 
 const BADCMopTableEdit = ({
   mopRowsData,
@@ -44,11 +42,8 @@ const BADCMopTableEdit = ({
                     onChange={(e) => {
                       const newValue = e.target?.value || 0;
                       const newMopRowsData = [...mopRowsData];
-                      newMopRowsData[index] = {
-                        ...newMopRowsData[index],
-                        actualQuantity: newValue,
-                      };
-                      updateMopRowsData(newMopRowsData)
+                      newMopRowsData[index]["actualQuantity"] = newValue;
+                      updateMopRowsData(newMopRowsData);
                     }}
                   />
                 </td>

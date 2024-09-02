@@ -627,7 +627,16 @@ export const selectPayload = (
         value3O1to400: values?.distance301400,
         value401to500: values?.distance401500,
       },
-      rowDTOs: mopRowsData,
+      rowDTOs: tenderId
+        ? mopRowsData?.map((item) => {
+            return {
+              conFigId: item?.conFigId,
+              mopTenderId: item?.mopTenderId,
+              actualQuantity: item?.actualQuantity,
+              isActive: true,
+            };
+          })
+        : mopRowsData,
     };
     // console.log(payload)
     return payload;
@@ -888,7 +897,7 @@ export const ranges = {
 // Distribute input distance into differenet range. Return an object
 export const distributeDistance = (distance = 0) => {
   const ranges = {
-    rangOto100: 0,
+    rang0to100: 0,
     rang101to200: 0,
     rang201to300: 0,
     rang301to400: 0,
@@ -896,31 +905,31 @@ export const distributeDistance = (distance = 0) => {
   };
   if (distance > 0) {
     if (distance >= 500) {
-      ranges.rangOto100 = 100;
+      ranges.rang0to100 = 100;
       ranges.rang101to200 = 100;
       ranges.rang201to300 = 100;
       ranges.rang301to400 = 100;
       ranges.rang401to500 = 100;
     } else if (distance >= 400) {
-      ranges.rangOto100 = 100;
+      ranges.rang0to100 = 100;
       ranges.rang101to200 = 100;
       ranges.rang201to300 = 100;
       ranges.rang301to400 = 100;
       ranges.rang401to500 = distance - 400;
     } else if (distance >= 300) {
-      ranges.rangOto100 = 100;
+      ranges.rang0to100 = 100;
       ranges.rang101to200 = 100;
       ranges.rang201to300 = 100;
       ranges.rang301to400 = distance - 300;
     } else if (distance >= 200) {
-      ranges.rangOto100 = 100;
+      ranges.rang0to100 = 100;
       ranges.rang101to200 = 100;
       ranges.rang201to300 = distance - 200;
     } else if (distance >= 100) {
-      ranges.rangOto100 = 100;
+      ranges.rang0to100 = 100;
       ranges.rang101to200 = distance - 100;
     } else {
-      ranges.rangOto100 = distance;
+      ranges.rang0to100 = distance;
     }
   }
 
@@ -929,8 +938,8 @@ export const distributeDistance = (distance = 0) => {
 
 // Calculate ranges rate with distributed distance object & return object
 export const calculateRangesRate = (distributedDistance, values) => {
-  const rangOto100Rate = (
-    distributedDistance?.rangOto100 * +values?.distance0100
+  const rang0to100Rate = (
+    distributedDistance?.rang0to100 * +values?.distance0100
   ).toFixed(2);
   const rang101to200Rate = (
     distributedDistance?.rang101to200 * +values?.distance101200
@@ -946,7 +955,7 @@ export const calculateRangesRate = (distributedDistance, values) => {
   ).toFixed(2);
 
   return {
-    rangOto100Rate,
+    rang0to100Rate,
     rang101to200Rate,
     rang201to300Rate,
     rang301to400Rate,
@@ -1061,7 +1070,7 @@ export const commonFieldValueChange = (
   newMopRowsData[index] = {
     ...newMopRowsData[index],
     [fieldName]: newValue,
-    rangOto100: rangesRate.rangOto100Rate,
+    rang0to100: rangesRate.rang0to100Rate,
     rang101to200: rangesRate.rang101to200Rate,
     rang201to300: rangesRate.rang201to300Rate,
     rang301to400: rangesRate.rang301to400Rate,
@@ -1078,16 +1087,25 @@ export const commonFieldValueChange = (
   updateMopRowsData(newMopRowsData);
 };
 
-// callback approch for rows data fetch badc mop for print page
+// callback approch for rows data fetch badc mop for print page for general & final report
 export const fetchBADCMOPRowsDataForPrintPage = (
   accountId,
-  buUnId,
+  buUnId = 178,
   mopTenderId,
-  portId,
   getTenderDetailsFunc,
-  callback
+  callback,
+  type = "initReport",
+  portId
 ) => {
-  const url = `/tms/TenderSubmission/GetByBADCMOPConfiguration?AccountId=${accountId}&BusinessUnitId=${buUnId}&MopTenderId=${mopTenderId}&PortId=${portId}`;
+  let url = "";
+
+  if (type === "initReport") {
+    url = `/tms/TenderSubmission/GetByBADCMOPConfiguration?AccountId=${accountId}&BusinessUnitId=${buUnId}&MopTenderId=${mopTenderId}&PortId=${portId}`;
+  } else if (type === "finalReport") {
+    url = `/tms/TenderSubmission/GetBADCMopActualQuantity?AccountId=${accountId}&BusinessUnitId=${buUnId}&MopTenderId=${mopTenderId}`;
+  } else {
+    url = "";
+  }
 
   getTenderDetailsFunc(url, () => {
     callback && callback();

@@ -39,6 +39,7 @@ export default function TenderSubmissionLanding() {
 
   const [pageNo, setPageNo] = useState(1);
   const [pageSize, setPageSize] = useState(15);
+  const [tenderPrintId, setTenderPrintId] = useState(null);
   const [
     submittedTenderLists,
     getSubmittedTenderLists,
@@ -78,6 +79,7 @@ export default function TenderSubmissionLanding() {
     content: () => printRef.current,
     pageStyle:
       "@media print{body { -webkit-print-color-adjust: exact; margin: 0mm;}@page {size: portrait ! important}}",
+    onAfterPrint: () => setTenderPrintId(null),
   });
 
   return (
@@ -212,6 +214,7 @@ export default function TenderSubmissionLanding() {
                   submittedTenderLists={submittedTenderLists}
                   handleTenderPrint={handleTenderPrint}
                   getTenderDetails={getTenderDetails}
+                  setTenderPrintId={setTenderPrintId}
                 />
               ) : (
                 <></>
@@ -275,7 +278,10 @@ export default function TenderSubmissionLanding() {
                       ) : values?.businessPartner?.label === "BADC" ? (
                         <PrintBADCTender tenderDetails={tenderDetails} />
                       ) : values?.businessPartner?.label === "BADC(MOP)" ? (
-                        <PrintBADCMOPTender tenderDetails={tenderDetails} />
+                        <PrintBADCMOPTender
+                          tenderDetails={tenderDetails}
+                          tenderPrintId={tenderPrintId}
+                        />
                       ) : (
                         <></>
                       )}
@@ -295,7 +301,7 @@ export default function TenderSubmissionLanding() {
                             }}
                           ></div>
                         </td>
-                      </tr> 
+                      </tr>
                     )}
                     <div
                       className="ifoot"

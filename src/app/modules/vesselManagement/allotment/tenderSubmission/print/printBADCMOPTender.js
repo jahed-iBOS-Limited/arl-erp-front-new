@@ -2,8 +2,7 @@ import React, { useMemo } from "react";
 import { _formatMoney } from "../../../../_helper/_formatMoney";
 import { convertToText } from "../helper";
 
-const PrintBADCMOPTender = ({ tenderDetails }) => {
-
+const PrintBADCMOPTender = ({ tenderDetails, tenderPrintId }) => {
   const totalAmount = useMemo(
     () =>
       tenderDetails?.reduce((acc, item) => {
@@ -13,17 +12,101 @@ const PrintBADCMOPTender = ({ tenderDetails }) => {
     [tenderDetails]
   );
 
-  // console.log(totalAmount);
-  return (
+  // total actual bill amount
+  const totalActualBillAmount = useMemo(
+    () =>
+      tenderDetails?.reduce(
+        (acc, item) => acc + item?.actualQuantityBillAmount,
+        0
+      ),
+    [tenderDetails]
+  );
+
+  // total actual cost amount
+  const totalActualCostAmount = useMemo(
+    () =>
+      tenderDetails?.reduce(
+        (acc, item) => acc + item?.actualQuantityCostAmount,
+        0
+      ),
+    [tenderDetails]
+  );
+
+  // total actual profit amount
+  const totalActualProfitAmount = useMemo(
+    () =>
+      tenderDetails?.reduce(
+        (acc, item) => acc + item?.actualQuantityProfitAmount,
+        0
+      ),
+    [tenderDetails]
+  );
+
+  // if tender print id is 0 than show final report or the print id is 1 or 4 than show chittagong and mangla respectively
+
+  return tenderPrintId === 0 ? (
+    <div className="">
+      <table style={{ margin: "20px 0" }}>
+        <thead style={{ padding: "10px 0", textAlign: "center" }}>
+          <tr>
+            <th>No</th>
+            <th>Descriptions of Route</th>
+            <th>
+              Actual Quantity <br />
+              (M.Ton)
+            </th>
+            <th>Acutal Bill Amount</th>
+            <th>Acutal Cost Amount</th>
+            <th>Acutal Profit Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          {tenderDetails?.map((item, index) => (
+            <tr key={index}>
+              <td>{index + 1}</td>
+              <td>{item?.ghatName}</td>
+              <td className="text-center">{item?.actualQuantity}</td>
+              <td className="text-right">
+                {_formatMoney(item?.actualQuantityBillAmount)}
+              </td>
+              <td className="text-right">
+                {_formatMoney(item?.actualQuantityCostAmount)}
+              </td>
+              <td className="text-right">
+                {_formatMoney(Math.abs(item?.actualQuantityProfitAmount))}
+              </td>
+            </tr>
+          ))}
+
+          <tr>
+            <td colSpan={3}>Total</td>
+            <td className="text-right">
+              {_formatMoney(totalActualBillAmount)}
+            </td>
+            <td className="text-right">
+              {_formatMoney(totalActualCostAmount)}
+            </td>
+            <td className="text-right">
+              {_formatMoney(Math.abs(totalActualProfitAmount))}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  ) : (
     <div className="">
       <div>
         <p>
           {" "}
-          <strong>Annexure-A:</strong> Transportation and stacking of MOP
-          fertilizer from the ghats of Chattogram port/private ghat and the
-          godowns of Chattogram city corporation areas/industrial areas/port
-          areas/BADC's Transit godown 1&2/Dewanhat/any other local godowns of
-          BADC to the following godowns/center
+          <strong>
+            Annexure-
+            {tenderPrintId === 1 ? "A" : tenderPrintId === 4 ? "B" : ""}:
+          </strong>{" "}
+          Transportation and stacking of MOP fertilizer from the ghats of
+          Chattogram port/private ghat and the godowns of Chattogram city
+          corporation areas/industrial areas/port areas/BADC's Transit godown
+          1&2/Dewanhat/any other local godowns of BADC to the following
+          godowns/center
         </p>
       </div>
       <table style={{ margin: "20px 0" }}>
