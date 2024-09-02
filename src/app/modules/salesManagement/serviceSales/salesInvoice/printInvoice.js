@@ -12,6 +12,7 @@ import printIcon from "../../../_helper/images/print-icon.png";
 import "./style.css";
 import { convertNumberToWords } from "../../../_helper/_convertMoneyToWord";
 import { formatMonthYear } from "../../../_helper/_getMonthYearFormat";
+import { _formatMoney } from "../../../_helper/_formatMoney";
 
 const PrintInvoiceModal = ({ singleItem }) => {
   console.log("singleItem", singleItem);
@@ -180,7 +181,7 @@ const PrintInvoiceModal = ({ singleItem }) => {
                           {item?.numSalesQty}
                         </td>
                         <td style={{ textAlign: "right", paddingRight: "5px" }}>
-                          {item?.numRate}
+                          {_formatMoney(item?.numRate || 0)}
                         </td>
                         <td
                           style={{
@@ -188,7 +189,7 @@ const PrintInvoiceModal = ({ singleItem }) => {
                             paddingRight: "5px",
                           }}
                         >
-                          {item?.numSalesQty * item?.numRate}
+                          {_formatMoney((item?.numSalesQty * item?.numRate) || 0)}
                         </td>
                         <td
                           style={{
@@ -196,7 +197,7 @@ const PrintInvoiceModal = ({ singleItem }) => {
                             paddingRight: "5px",
                           }}
                         >
-                          {item?.numSalesVatAmount}
+                          {_formatMoney(item?.numSalesVatAmount ||0)}
                         </td>
                         <td
                           style={{
@@ -204,10 +205,10 @@ const PrintInvoiceModal = ({ singleItem }) => {
                             paddingRight: "5px",
                           }}
                         >
-                          {Math.floor(
+                          {_formatMoney((Math.floor(
                             item?.numSalesQty * item?.numRate +
                               item?.numSalesVatAmount
-                          )}
+                          )) || 0)}
                         </td>
                       </tr>
                     ))}
@@ -224,13 +225,13 @@ const PrintInvoiceModal = ({ singleItem }) => {
                     </td>
                     <td style={{ textAlign: "right", paddingRight: "3px" }}>
                       <strong>
-                        {Math.floor(
+                        {_formatMoney((Math.floor(
                           calculateTotal(
                             printData[0]?.items?.length > 0
                               ? printData[0]?.items
                               : []
                           )
-                        )}
+                        )) || 0)}
                       </strong>
                     </td>
                   </tr>
@@ -243,8 +244,8 @@ const PrintInvoiceModal = ({ singleItem }) => {
                         paddingRight: "5px",
                       }}
                     >
-                      {`Billing Amount: ${printData[0]?.invocieRow[0]?.intPaymentByPercent}% of Total Amount`}
-                    </td>
+                      {printData[0]?.intPaymentTypeId === 1 ? `100% of Total Amount` : `Billing Amount: ${printData[0]?.invocieRow[0]?.intPaymentByPercent}% of Total Amount`}
+                      </td>
                     <td style={{ textAlign: "right", paddingRight: "3px" }}>
                       <strong>
                         {Math.floor(
