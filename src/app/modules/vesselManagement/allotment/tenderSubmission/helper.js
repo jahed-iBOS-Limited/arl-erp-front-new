@@ -867,7 +867,7 @@ export const fetchMOPRowsData = (
 
         return {
           ...item,
-          rangOto100: rangesRate.rangOto100Rate,
+          rang0to100: rangesRate.rang0to100Rate,
           rang101to200: rangesRate.rang101to200Rate,
           rang201to300: rangesRate.rang201to300Rate,
           rang301to400: rangesRate.rang301to400Rate,
@@ -885,14 +885,7 @@ export const fetchMOPRowsData = (
     }
   );
 };
-// Ranges of distance
-export const ranges = {
-  rangOto100: 0,
-  rang101to200: 0,
-  rang201to300: 0,
-  rang301to400: 0,
-  rang401to500: 0,
-};
+
 
 // Distribute input distance into differenet range. Return an object
 export const distributeDistance = (distance = 0) => {
@@ -904,28 +897,22 @@ export const distributeDistance = (distance = 0) => {
     rang401to500: 0,
   };
   if (distance > 0) {
-    if (distance >= 500) {
-      ranges.rang0to100 = 100;
-      ranges.rang101to200 = 100;
-      ranges.rang201to300 = 100;
-      ranges.rang301to400 = 100;
-      ranges.rang401to500 = 100;
-    } else if (distance >= 400) {
+    if (distance >= 401) {
       ranges.rang0to100 = 100;
       ranges.rang101to200 = 100;
       ranges.rang201to300 = 100;
       ranges.rang301to400 = 100;
       ranges.rang401to500 = distance - 400;
-    } else if (distance >= 300) {
+    } else if (distance >= 301) {
       ranges.rang0to100 = 100;
       ranges.rang101to200 = 100;
       ranges.rang201to300 = 100;
       ranges.rang301to400 = distance - 300;
-    } else if (distance >= 200) {
+    } else if (distance >= 201) {
       ranges.rang0to100 = 100;
       ranges.rang101to200 = 100;
       ranges.rang201to300 = distance - 200;
-    } else if (distance >= 100) {
+    } else if (distance >= 101) {
       ranges.rang0to100 = 100;
       ranges.rang101to200 = distance - 100;
     } else {
@@ -1007,7 +994,7 @@ export const mopTenderCreateDataTableHeader = [
   "Port Name",
   "Ghat Name",
   "Distance",
-  "RangOto100",
+  "Rang0to100",
   "Rang101to200",
   "Rang201to300",
   "Rang301to400",
