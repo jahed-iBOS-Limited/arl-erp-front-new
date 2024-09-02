@@ -34,6 +34,7 @@ const reports = [
   { value: 13, label: "Delivery Monitoring Report" },
   { value: 14, label: "AEL Product Rate Trend" },
   { value: 15, label: "All Achievement Report" },
+  { value: 16, label: "Shift wise Packer Information" },
 ];
 
 const getTypes = (values) => {
@@ -92,6 +93,7 @@ const initData = {
   subGroup: "",
   salesOrg: "",
   item: "",
+  viewType: "",
 };
 
 const headers = [
@@ -119,12 +121,14 @@ export default function SalesDetailsTable({ saveHandler }) {
   const [rows, getRows, loading] = useAxiosGet();
   const [loginInfo, getLoginInfo] = useAxiosGet();
   const { empLevelId, regionId, areaId, territoryInfoId } = loginInfo || {};
-  const intRATId = 
-    empLevelId === 5 ? (regionId || 0) :
-    empLevelId === 6 ? (areaId || 0) :
-    empLevelId === 7 ? (territoryInfoId || 0) : 0;
-  
-
+  const intRATId =
+    empLevelId === 5
+      ? regionId || 0
+      : empLevelId === 6
+      ? areaId || 0
+      : empLevelId === 7
+      ? territoryInfoId || 0
+      : 0;
 
   const shippointDDL = useSelector((state) => {
     return state?.commonDDL?.shippointDDL;
@@ -136,9 +140,6 @@ export default function SalesDetailsTable({ saveHandler }) {
     profileData: { accountId: accId, userId, employeeId },
   } = useSelector((state) => state.authData, shallowEqual);
 
-
-
-
   useEffect(() => {
     if (buId !== 144) {
       getSoldToPartnerDDL(
@@ -149,7 +150,9 @@ export default function SalesDetailsTable({ saveHandler }) {
     getSalesOrgs(
       `/oms/SalesOrganization/GetSalesOrganizationDDL?AccountId=${accId}&BusinessUnitId=${buId}`
     );
-    getLoginInfo(`/hcm/RemoteAttendance/GetEmployeeLoginInfo?AccountId=${accId}&BusinessUnitId=${buId}&EmployeeId=${employeeId}`)
+    getLoginInfo(
+      `/hcm/RemoteAttendance/GetEmployeeLoginInfo?AccountId=${accId}&BusinessUnitId=${buId}&EmployeeId=${employeeId}`
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accId, buId]);
 
@@ -177,12 +180,14 @@ export default function SalesDetailsTable({ saveHandler }) {
       ? `4e8c5f91-f84f-4b10-bf10-8304e395c2af`
       : id === 12
       ? `ca8d1e8f-90f4-4cc2-8c99-e1ca9f290f8d`
-      :  id === 13
+      : id === 13
       ? `8ab614ab-36c6-4c18-bd1b-1d0f872bb774`
       : id === 14
       ? `c5252df3-b81e-431c-8395-86de88f52f11`
-      :  id === 15
+      : id === 15
       ? `41d38697-8e3f-453d-bea1-e3d0f0b49ec2`
+      : id === 16
+      ? `fe886d74-87ab-42e5-8695-b4be96e51aca`
       : "";
   };
   const groupId = `e3ce45bb-e65e-43d7-9ad1-4aa4b958b29a`;
@@ -337,6 +342,12 @@ export default function SalesDetailsTable({ saveHandler }) {
       { name: "todate", value: `${values?.toDate}` },
     ];
 
+    const shiftWisePackerInformation = [
+      { name: "fromdate", value: `${values?.fromDate}` },
+      { name: "todate", value: `${values?.toDate}` },
+      { name: "ViewType", value: `${+values?.viewType?.value}` },
+    ];
+
     return id === 1
       ? paramsForSalesDetails
       : id === 2
@@ -368,8 +379,10 @@ export default function SalesDetailsTable({ saveHandler }) {
       ? thirteenParams
       : id === 14
       ? fourteenParams
-      :  id === 15
+      : id === 15
       ? fifteenParams
+      : id === 16
+      ? shiftWisePackerInformation
       : [];
   };
 
@@ -420,6 +433,26 @@ export default function SalesDetailsTable({ saveHandler }) {
                             touched={touched}
                           />
                         </div>
+                        {[16].includes(values?.report?.value) && (
+                          <div className="col-lg-2">
+                            <NewSelect
+                              name="viewType"
+                              options={[
+                                { value: 1, label: "Top Sheet" },
+                                { value: 2, label: "Details" },
+                              ]}
+                              value={values?.viewType}
+                              label="View Type"
+                              onChange={(valueOption) => {
+                                setFieldValue("viewType", valueOption);
+                                setShowReport(false);
+                              }}
+                              placeholder="View Type"
+                              errors={errors}
+                              touched={touched}
+                            />
+                          </div>
+                        )}
                         {[2, 7, 10].includes(values?.report?.value) && (
                           <div className="col-lg-2">
                             <NewSelect
@@ -461,20 +494,20 @@ export default function SalesDetailsTable({ saveHandler }) {
                             </div>
                           )}
 
-                        {[1, 3, 4, 5, 6, 7, 8, 9, 10, 11,12,13,15].includes(
+                        {[1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15].includes(
                           values?.report?.value
                         ) && (
                           <RATForm
                             obj={{
                               values,
                               setFieldValue,
-                              region: [5, 6, 7, 8,13].includes(
+                              region: [5, 6, 7, 8, 13].includes(
                                 values?.report?.value
                               ),
-                              area: [5, 6, 7, 8,13].includes(
+                              area: [5, 6, 7, 8, 13].includes(
                                 values?.report?.value
                               ),
-                              territory: [5, 6, 7, 8,13].includes(
+                              territory: [5, 6, 7, 8, 13].includes(
                                 values?.report?.value
                               ),
                               columnSize: "col-lg-2",
@@ -489,7 +522,9 @@ export default function SalesDetailsTable({ saveHandler }) {
                             }}
                           />
                         )}
-                        {[2, 3, 8, 9, 10, 13].includes(values?.report?.value) && (
+                        {[2, 3, 8, 9, 10, 13].includes(
+                          values?.report?.value
+                        ) && (
                           <div className="col-lg-2">
                             <NewSelect
                               name="partner"
@@ -574,7 +609,9 @@ export default function SalesDetailsTable({ saveHandler }) {
                           </>
                         )}
 
-                        {[3, 10, 11,13,15].includes(values?.report?.value) && (
+                        {[3, 10, 11, 13, 15].includes(
+                          values?.report?.value
+                        ) && (
                           <>
                             <div className="col-lg-2">
                               <NewSelect
@@ -622,6 +659,12 @@ export default function SalesDetailsTable({ saveHandler }) {
                         {![11].includes(values?.report?.value) && (
                           <FromDateToDateForm
                             obj={{
+                              type: [16].includes(values?.report?.value)
+                                ? "datetime-local"
+                                : "date",
+                              step: [16].includes(values?.report?.value)
+                                ? 1
+                                : false,
                               values,
                               setFieldValue,
                               onChange: () => {
