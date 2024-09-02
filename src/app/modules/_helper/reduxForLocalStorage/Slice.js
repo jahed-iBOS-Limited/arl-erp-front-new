@@ -668,6 +668,7 @@ const initState = {
     customer: "",
     type: { value: 1, label: "Pending for Invoice" },
     paymentType: "",
+    billType:"",
     fromDate: "",
     toDate: "",
   
