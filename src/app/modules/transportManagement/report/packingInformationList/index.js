@@ -17,6 +17,7 @@ import IButton from "../../../_helper/iButton";
 import { _todayDate } from "../../../_helper/_todayDate";
 import InfoCircle from "../../../_helper/_helperIcons/_infoCircle";
 import ShippingInfoDetails from "../storeInfo/shippingNote";
+import PowerBIReport from "../../../_helper/commonInputFieldsGroups/PowerBIReport";
 
 const initData = {
   shipmentId: "",
@@ -27,6 +28,7 @@ const initData = {
   deliveryDate: "",
   packerName: "",
   tlm: "",
+  viewType: "",
   fromDate: _todayDate(),
   toDate: _todayDate(),
 };
@@ -57,6 +59,7 @@ export default function VehicleCallingList() {
   const [rowData, getRowData, rowLoading, setRowData] = useAxiosGet();
   const [open, setOpen] = useState(false);
   const [singleItem, setSingleItem] = useState({});
+  const [showReport, setShowReport] = useState(false);
 
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
@@ -74,6 +77,18 @@ export default function VehicleCallingList() {
     getRowData(
       `/oms/LoadingPoint/GetPackerLoadingConfirmation?isTransferChallan=false&statusId=${values?.type?.value}&accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&shipPointId=${values?.shipPoint?.value}&fromDate=${values?.fromDate}&todate=${values?.toDate}&pageNo=${_pageNo}&pageSize=${_pageSize}`
     );
+  };
+
+  const groupId = `e3ce45bb-e65e-43d7-9ad1-4aa4b958b29a`;
+  const reportId = `fe886d74-87ab-42e5-8695-b4be96e51aca`;
+  const parameterValues = (values) => {
+    const shiftWisePackerInformation = [
+      { name: "fromdate", value: `${values?.fromDate}` },
+      { name: "todate", value: `${values?.toDate}` },
+      { name: "ViewType", value: `${+values?.viewType?.value}` },
+    ];
+
+    return shiftWisePackerInformation;
   };
 
   const isLoading = loader || loading || rowLoading;
@@ -150,6 +165,7 @@ export default function VehicleCallingList() {
                       { value: 1, label: "Loading Pending" },
                       { value: 3, label: "Scan Card/QR Code" },
                       { value: 2, label: "Loading Completed" },
+                      { value: 4, label: "Shift wise Packer Information" },
                     ]}
                     value={values?.type}
                     label="Type"
@@ -157,30 +173,67 @@ export default function VehicleCallingList() {
                       setFieldValue("type", valueOption);
                       setRowData([]);
                       setReportData({});
+                      setShowReport(false);
                     }}
                     placeholder="Type"
                   />
                 </div>
-                {[1, 2].includes(values?.type?.value) && (
+                {[1, 2, 4].includes(values?.type?.value) && (
                   <>
-                    <div className="col-lg-3">
-                      <NewSelect
-                        name="shipPoint"
-                        options={[{ value: 0, label: "All" }, ...shipPointDDL]}
-                        value={values?.shipPoint}
-                        label="ShipPoint"
-                        onChange={(valueOption) => {
-                          setFieldValue("shipPoint", valueOption);
-                        }}
-                        placeholder="ShipPoint"
-                      />
-                    </div>
+                    {[1, 2].includes(values?.type?.value) && (
+                      <div className="col-lg-3">
+                        <NewSelect
+                          name="shipPoint"
+                          options={[
+                            { value: 0, label: "All" },
+                            ...shipPointDDL,
+                          ]}
+                          value={values?.shipPoint}
+                          label="ShipPoint"
+                          onChange={(valueOption) => {
+                            setFieldValue("shipPoint", valueOption);
+                          }}
+                          placeholder="ShipPoint"
+                        />
+                      </div>
+                    )}
+                    {[4].includes(values?.type?.value) && (
+                      <div className="col-lg-3">
+                        <NewSelect
+                          name="viewType"
+                          options={[
+                            { value: 1, label: "Top Sheet" },
+                            { value: 2, label: "Details" },
+                          ]}
+                          value={values?.viewType}
+                          label="View Type"
+                          onChange={(valueOption) => {
+                            setFieldValue("viewType", valueOption);
+                            setShowReport(false);
+                          }}
+                          placeholder="View Type"
+                        />
+                      </div>
+                    )}
                     <FromDateToDateForm
-                      obj={{ values, setFieldValue, type: "datetime-local" }}
+                      obj={{
+                        values,
+                        setFieldValue,
+                        type: "datetime-local",
+                        step: [4].includes(values?.type?.value) ? 1 : false,
+                        onChange: () => {
+                          setShowReport(false);
+                        },
+                      }}
                     />
                     <IButton
                       onClick={() => {
-                        getData(values);
+                        if (values?.type?.value === 4) {
+                          setShowReport(true);
+                        } else {
+                          setShowReport(false);
+                          getData(values);
+                        }
                       }}
                     />
                   </>
@@ -541,6 +594,14 @@ export default function VehicleCallingList() {
                   }}
                 />
               </IViewModal>
+              {showReport && (
+                <PowerBIReport
+                  reportId={reportId}
+                  groupId={groupId}
+                  parameterValues={parameterValues(values)}
+                  parameterPanel={false}
+                />
+              )}
             </Form>
           </IForm>
         </>
