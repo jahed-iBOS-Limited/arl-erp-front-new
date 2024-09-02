@@ -188,12 +188,12 @@ export default function SalesCollectionLanding() {
           profileData?.accountId
         }&businessUnitId=${selectedBusinessUnit?.value}&customerId=${values
           ?.customer?.value ||
-          0}&isCollectionComplte=${false}${strFromAndToDate}`
+          0}&paymentTypeId=${values?.billType?.value || 0}&isCollectionComplte=${false}${strFromAndToDate}`
       : `/oms/ServiceSales/GetServiceSalesInvocieList?accountId=${
           profileData?.accountId
         }&businessUnitId=${selectedBusinessUnit?.value}&customerId=${values
           ?.customer?.value ||
-          0}&isCollectionComplte=${true}${strFromAndToDate}`;
+          0}&paymentTypeId=${values?.billType?.value || 0}&isCollectionComplte=${true}${strFromAndToDate}`;
 
     getRowData(apiUrl, (data) => {
       const modifyData = data.map((item) => {
@@ -314,15 +314,15 @@ export default function SalesCollectionLanding() {
                   </div>
                   <div className="col-lg-3">
                     <NewSelect
-                      name="paymentType"
+                      name="billType"
                       options={[
                         { value: 1, label: "Re-Curring" },
                         { value: 2, label: "One Time" },
                       ]}
-                      value={values?.paymentType}
+                      value={values?.billType}
                       label="Bill Type"
                       onChange={(valueOption) => {
-                        setFieldValue("paymentType", valueOption);
+                        setFieldValue("billType", valueOption);
                         setRowData([]);
                       }}
                       errors={errors}
