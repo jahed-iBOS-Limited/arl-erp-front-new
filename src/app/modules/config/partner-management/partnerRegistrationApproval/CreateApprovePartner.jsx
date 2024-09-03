@@ -120,7 +120,7 @@ export default function CreateApprovePartner() {
   return (
     <Formik
       enableReinitialize={true}
-      initialValues={{ sbu: "" }}
+      initialValues={{ sbu: "",supplyOrg:"" }}
       // validationSchema={{}}
       onSubmit={(values, { setSubmitting, resetForm }) => {}}
     >
@@ -153,6 +153,8 @@ export default function CreateApprovePartner() {
                     type="button"
                     className="btn btn-primary"
                     onClick={() => {
+                      console.log({values});
+                      
                       if (values?.sbu?.length < 1) {
                         createPartner(
                           `/partner/BusinessPartnerBasicInfo/CreateBusinessPartnerMultipleUnit`,
@@ -176,6 +178,7 @@ export default function CreateApprovePartner() {
                             partnerSalesType: state?.partnerSalesType,
                             actionBy: profileData?.userId,
                             attachmentLink: "",
+                            PurchaseOrganizationId:values?.supplyOrg?.value,
                             // isCreateUser: false,
                             propitor: profileData?.employeeFullName,
                             contactPerson: "",
@@ -219,6 +222,8 @@ export default function CreateApprovePartner() {
                             partnerSalesType: state?.partnerSalesType,
                             actionBy: profileData?.userId,
                             attachmentLink: "",
+                            PurchaseOrganizationId:values?.supplyOrg?.value,
+
                             // isCreateUser: false,
                             propitor: profileData?.employeeFullName,
                             contactPerson: "",
@@ -264,7 +269,7 @@ export default function CreateApprovePartner() {
                     <div className="col-lg-3">
                       <label>Select Business Units</label>
                       <Field
-                        name="Select Business Unit"
+                        name="sbu"
                         placeholder="Select Business Unit"
                         component={() => (
                           <Select
@@ -289,6 +294,63 @@ export default function CreateApprovePartner() {
                               }),
                             }}
                             isMulti
+                          />
+                        )}
+                      />
+                      <p
+                        // style={{
+                        //   fontSize: "0.9rem",
+                        //   fontWeight: 400,
+                        //   width: "100%",
+                        //   marginTop: "0.25rem",
+                        // }}
+                        className="text-danger"
+                      >
+                        {errors &&
+                        errors.businessTransaction &&
+                        touched &&
+                        touched.businessTransaction
+                          ? errors.businessTransaction.value
+                          : ""}
+                      </p>
+                    </div>
+                    <div className="col-lg-3">
+                      <label>Supplier Organization</label>
+                      <Field
+                        name="supplyOrg"
+                        placeholder="Select Supplier Organization"
+                        component={() => (
+                          <Select
+                            options={[
+                              {
+                                value: 12,
+                                label: "Foreign Procurement"
+                              },
+                              {
+                                value: 11,
+                                label: "Local Procurement"
+                              },
+                            ]}
+                            placeholder="Select Supplier Organization"
+                            value={values?.supplyOrg}
+                            onChange={(valueOption) => {
+                              setFieldValue("supplyOrg", valueOption);
+                            }}
+                            // isSearchable={true}
+                            styles={{
+                              ...customStyles,
+                              control: (provided, state) => ({
+                                ...provided,
+                                minHeight: "30px",
+                                height: "auto",
+                              }),
+                              valueContainer: (provided, state) => ({
+                                ...provided,
+                                height: "auto",
+                                padding: "0 6px",
+                              }),
+                            }}
+                            // isMulti
                           />
                         )}
                       />
