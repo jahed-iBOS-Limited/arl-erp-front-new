@@ -10,6 +10,7 @@ import { _dateFormatter } from "../../../_helper/_dateFormate";
 import Loading from "../../../_helper/_loading";
 import IEdit from "../../../_helper/_helperIcons/_edit";
 import NewSelect from "../../../_helper/_select";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
 const initData = {
   partner: "customer",
@@ -55,6 +56,7 @@ export default function PartnerRegApproval() {
     "Existing Partner",
     "Bank",
     "Bank Branch",
+    "Routing No",
     "Reference Employee",
 
     "Email",
@@ -244,6 +246,9 @@ export default function PartnerRegApproval() {
                           {item?.strBankBranchName}
                         </td>
                         <td className="text-center">
+                          {item?.strRoutingNumber ||item?.strSwiftCode }
+                        </td>
+                        <td className="text-center">
                           {item?.strReferenceEmployeeName}-
                           {item?.intReferenceEmployeeId
                             ? item?.intReferenceEmployeeId
@@ -286,7 +291,18 @@ export default function PartnerRegApproval() {
                                 })
                               }
                             >
-                              <IEdit />
+                              <OverlayTrigger
+                                overlay={
+                                  <Tooltip id="cs-icon">{"Approval"}</Tooltip>
+                                }
+                              >
+                                <span>
+                                  <i
+                                    class="far fa-check-circle pointer approval"
+                                    style={{ fontSize: "14px" }}
+                                  ></i>
+                                </span>
+                              </OverlayTrigger>
                             </span>
                           )}
                         </td>
