@@ -15,7 +15,8 @@ import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
 import FormikError from "../../../../_helper/_formikError";
 import TextArea from "../../../../_helper/TextArea";
 import { shallowEqual, useSelector } from "react-redux";
-import CementInvoice from "../invoice/cementInvoice";
+// import CementInvoice from "../invoice/cementInvoice";
+import SalesQuotationForCement from "../../salesQuotation/cementSalesQuotation/invoiceRecept";
 
 // Validation schema
 const validationSchema = Yup.object().shape({
@@ -700,20 +701,24 @@ export default function _Form({
                 onSubmit={() => resetForm(initData)}
               ></button>
 
-              {savedData &&
-              (sbuId !== 4 ||
-                (sbuId === 4 && values?.customerType?.value === 1)) ? (
+              {savedData && sbuId === 175 ? (
+                // || (sbuId === 4 && values?.customerType?.value === 1))
                 <InvoiceRecept
                   printRef={printRef}
                   invoiceData={savedData?.customResponse}
                   businessPartnerInfo={savedData?.businessPartnerInfo}
                 />
               ) : (
-                <CementInvoice
+                <SalesQuotationForCement
                   printRef={printRef}
                   invoiceData={savedData?.customResponse}
                   businessPartnerInfo={savedData?.businessPartnerInfo}
                 />
+                // <CementInvoice
+                //   printRef={printRef}
+                //   invoiceData={savedData?.customResponse}
+                //   businessPartnerInfo={savedData?.businessPartnerInfo}
+                // />
               )}
             </Form>
           </>

@@ -3,7 +3,7 @@ import React from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { _todayDate } from "../../../../_helper/_todayDate";
 import "./cementStyle.css";
-import logo from "../../../../_helper/images/akij_cement_logo.png";
+// import logo from "../../../../_helper/images/akij_cement_logo.png";
 import { cementLetterhead } from "../../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/cement";
 
 const SalesQuotationForCement = ({
@@ -14,6 +14,30 @@ const SalesQuotationForCement = ({
   const {
     profileData: { employeeFullName, designationName, contact, emailAddress },
   } = useSelector((state) => state?.authData, shallowEqual);
+
+  const getCementTypes = (type) => {
+    let OPC = "",
+      PCC = "";
+    console.log("one");
+    for (let I = 0; I < invoiceData?.length; I++) {
+      const item = invoiceData[I];
+      console.log("two", item);
+      if (item?.itemName?.includes("OPC")) {
+        OPC = "OPC";
+        console.log("opc");
+      }
+      if (item?.itemName?.includes("PCC")) {
+        PCC = "PCC";
+        console.log("pcc");
+      }
+    }
+    return type === "opc" ? OPC : type === "pcc" ? PCC : "";
+  };
+
+  // useEffect(() => {
+  //   getCementTypes();
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [invoiceData]);
 
   return (
     <div className="cement_quotation_print" ref={printRef}>
@@ -37,35 +61,35 @@ const SalesQuotationForCement = ({
         </div>
       </div> */}
 
-<div
-          className="invoice-header"
-          style={{
-            backgroundImage: `url(${cementLetterhead})`,
-            backgroundRepeat: "no-repeat",
-            height: "150px",
-            backgroundPosition: "left 10px",
-            backgroundSize: "cover",
-            position: "fixed",
-            width: "100%",
-            top: "15px",
-            left: "-10px",
-          }}
-        ></div>
+      <div
+        className="invoice-header"
+        style={{
+          backgroundImage: `url(${cementLetterhead})`,
+          backgroundRepeat: "no-repeat",
+          height: "150px",
+          backgroundPosition: "left 10px",
+          backgroundSize: "cover",
+          position: "fixed",
+          width: "100%",
+          top: "15px",
+          left: "-10px",
+        }}
+      ></div>
 
       <div
-          className="invoice-footer"
-          style={{
-            backgroundImage: `url(${cementLetterhead})`,
-            backgroundRepeat: "no-repeat",
-            height: "100px",
-            backgroundPosition: "left bottom",
-            backgroundSize: "cover",
-            bottom: "-0px",
-            left: "20px",
-            position: "fixed",
-            width: "100%",
-          }}
-        ></div>
+        className="invoice-footer"
+        style={{
+          backgroundImage: `url(${cementLetterhead})`,
+          backgroundRepeat: "no-repeat",
+          height: "100px",
+          backgroundPosition: "left bottom",
+          backgroundSize: "cover",
+          bottom: "-0px",
+          left: "20px",
+          position: "fixed",
+          width: "100%",
+        }}
+      ></div>
 
       <div className="main_table">
         <div>
@@ -93,11 +117,11 @@ const SalesQuotationForCement = ({
           <div className="mb-3">
             <p>Dear Sir,</p>
             <p>
-              We are pleased to offer you <b>“AKIJ”</b> Brand” Ordinary Portland
-              Cement & Portland Composite Cement” in reference to your
-              requirement and our discussion. In order to take advantage of our
-              corporate package please finds here the best possible offer for
-              you:
+              We are pleased to offer you <b>“AKIJ Cement”</b>
+              {/* Brand” Ordinary Portland Cement & Portland Composite Cement”  */}
+              in reference to your requirement and our discussion. In order to
+              take advantage of our corporate package please finds here the best
+              possible offer for you:
             </p>
           </div>
           <p className="underline">
@@ -110,20 +134,33 @@ const SalesQuotationForCement = ({
               </p>
               <p>
                 <span>Cement Type </span>
-                OPC & PCC
+                {getCementTypes("opc")}{" "}
+                {`${
+                  getCementTypes("opc") && getCementTypes("pcc") ? "&" : ""
+                } ${getCementTypes("pcc")}`}
               </p>
               <p>
                 <span>Category </span>
-                Portland Cement (CEM-I), Strength Class 52.5 according to BDS EN
-                197-1:2003
+
+                {`${
+                  getCementTypes("opc")
+                    ? "Portland Cement (CEM-I), Strength Class 52.5 according to BDS EN 197-1:2003"
+                    : getCementTypes("pcc")
+                    ? "Portland Composite Cement (CEM-II), Strength Class 42.5 according to BDS EN 197-1:2003"
+                    : ""
+                }`}
               </p>
+
               <p
                 style={{
                   marginLeft: "150px",
                 }}
               >
-                Portland Composite Cement (CEM-II), Strength Class 42.5
-                according to BDS EN 197-1:2003
+                {`${
+                  getCementTypes("opc") && getCementTypes("pcc")
+                    ? "Portland Composite Cement (CEM-II), Strength Class 42.5 according to BDS EN 197-1:2003"
+                    : ""
+                }`}
               </p>
             </div>
           </div>
@@ -262,7 +299,7 @@ const SalesQuotationForCement = ({
 
       {/* <p className="bold mt-2 mb-2">Thanking you,</p> */}
 
-      {/* <div
+      <div
         style={{ marginTop: "70px" }}
         className="d-flex justify-content-between"
       >
@@ -282,7 +319,7 @@ const SalesQuotationForCement = ({
           This is an automatically generated price quotation, no signature is
           required.
         </p>
-      </div> */}
+      </div>
     </div>
   );
 };
