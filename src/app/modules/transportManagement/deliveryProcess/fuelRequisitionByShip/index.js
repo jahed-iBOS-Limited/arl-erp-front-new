@@ -85,8 +85,10 @@ export default function FuelRequisitionByShipment() {
                     className="btn btn-primary"
                     disabled={
                       (!reportData?.objHeader?.shipmentCostId && !shipmentId) ||
-                      (reportData?.objHeader?.storConfirmDate &&
-                        reportData?.objHeader?.storeCompleteBy)
+                      (reportData?.objHeader?.fuelConfirmDate &&
+                        reportData?.objHeader?.fuelConfirmBy)
+                      // (reportData?.objHeader?.storConfirmDate &&
+                      //   reportData?.objHeader?.storeCompleteBy)
                     }
                     onClick={() => {
                       if (selectedBusinessUnit?.value !== 4) {
