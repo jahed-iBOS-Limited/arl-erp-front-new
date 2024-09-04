@@ -246,7 +246,7 @@ export default function PartnerRegApproval() {
                           {item?.strBankBranchName}
                         </td>
                         <td className="text-center">
-                          {item?.strRoutingNumber ||item?.strSwiftCode }
+                          {item?.strRoutingNumber || item?.strSwiftCode}
                         </td>
                         <td className="text-center">
                           {item?.strReferenceEmployeeName}-
@@ -265,46 +265,48 @@ export default function PartnerRegApproval() {
 
                         <td className="text-center">
                           {(customerPermissions?.isCreate ||
-                            supplierPermission?.isCreate) && (
-                            <span
-                              style={{ cursor: "pointer" }}
-                              onClick={() =>
-                                history.push({
-                                  pathname: `/config/partner-management/partner-registration-approval/create/${item?.intRegistrationId}`,
-                                  state: {
-                                    partnerSalesType: item?.strPartnerTypeName,
-                                    email: item?.strEmailAddress,
-                                    businessPartnerAddress:
-                                      item?.strOfficeAddress,
-                                    contactNumber: item?.strMobileNumber,
-                                    businessPartnerName: item?.strPartnerName,
-                                    bin: item?.strBinNumber,
-                                    licenseNo: item?.strTradeLicenseNumber,
-                                    businessPartnerTypeId:
-                                      item?.intPartnerTypeId,
-                                    buIdCustomer: item?.intBusinessUnitId,
-                                    isSupplier:
-                                      item?.strPartnerTypeName === "Supplier"
-                                        ? true
-                                        : false,
-                                  },
-                                })
-                              }
-                            >
-                              <OverlayTrigger
-                                overlay={
-                                  <Tooltip id="cs-icon">{"Approval"}</Tooltip>
+                            supplierPermission?.isCreate) &&
+                            !item?.isApproved && (
+                              <span
+                                style={{ cursor: "pointer" }}
+                                onClick={() =>
+                                  history.push({
+                                    pathname: `/config/partner-management/partner-registration-approval/create/${item?.intRegistrationId}`,
+                                    state: {
+                                      partnerSalesType:
+                                        item?.strPartnerTypeName,
+                                      email: item?.strEmailAddress,
+                                      businessPartnerAddress:
+                                        item?.strOfficeAddress,
+                                      contactNumber: item?.strMobileNumber,
+                                      businessPartnerName: item?.strPartnerName,
+                                      bin: item?.strBinNumber,
+                                      licenseNo: item?.strTradeLicenseNumber,
+                                      businessPartnerTypeId:
+                                        item?.intPartnerTypeId,
+                                      buIdCustomer: item?.intBusinessUnitId,
+                                      isSupplier:
+                                        item?.strPartnerTypeName === "Supplier"
+                                          ? true
+                                          : false,
+                                    },
+                                  })
                                 }
                               >
-                                <span>
-                                  <i
-                                    class="far fa-check-circle pointer approval"
-                                    style={{ fontSize: "14px" }}
-                                  ></i>
-                                </span>
-                              </OverlayTrigger>
-                            </span>
-                          )}
+                                <OverlayTrigger
+                                  overlay={
+                                    <Tooltip id="cs-icon">{"Approval"}</Tooltip>
+                                  }
+                                >
+                                  <span>
+                                    <i
+                                      class="far fa-check-circle pointer approval"
+                                      style={{ fontSize: "14px" }}
+                                    ></i>
+                                  </span>
+                                </OverlayTrigger>
+                              </span>
+                            )}
                         </td>
                       </tr>
                     ))}
