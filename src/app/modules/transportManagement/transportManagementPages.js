@@ -8,6 +8,7 @@ import { ShipmentManagementPages } from "./shipmentManagement/shipmentManagement
 import TransportReportPages from "./report/reportPages";
 import { StuffTransportPages } from "./stuffTransport/stuffTransportPages";
 import FuelStationReport from "./fuelStationReport";
+import TransportDeliveryProcessPages from "./deliveryProcess/deliveryProcessPages";
 
 export function TransportManagementPages() {
   return (
@@ -50,6 +51,10 @@ export function TransportManagementPages() {
         <ContentRoute
           path="/transport-management/report"
           component={TransportReportPages}
+        />
+        <ContentRoute
+          path="/transport-management/deliveryprocess"
+          component={TransportDeliveryProcessPages}
         />
       </Switch>
     </Suspense>
