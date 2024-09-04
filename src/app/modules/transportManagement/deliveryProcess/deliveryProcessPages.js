@@ -1,0 +1,52 @@
+import React, { Suspense } from "react";
+import { Redirect, Switch } from "react-router-dom";
+import { ContentRoute, LayoutSplashScreen } from "../../../../_metronic/layout";
+import DisplayPackerInfo from "./displayPackerInfo";
+import FuelRequisitionByShipment from "./fuelRequisitionByShip";
+import LoadingSupervisorInfo from "./loadingSupervisorInfo";
+import PackingInformationList from "./packingInformationList";
+import StoreInformationList from "./storeInformationList";
+import { shallowEqual, useSelector } from "react-redux";
+import NotPermittedPage from "../../_helper/notPermitted/NotPermittedPage";
+
+export function TransportDeliveryProcessPages() {
+  const {
+    selectedBusinessUnit: { value: buId },
+  } = useSelector((state) => {
+    return state.authData;
+  }, shallowEqual);
+  return (
+    <Suspense fallback={<LayoutSplashScreen />}>
+      <Switch>
+        <Redirect
+          exact={true}
+          from="/transport-management"
+          to="/transport-management/deliveryprocess"
+        />
+
+        <ContentRoute
+          path="/transport-management/deliveryprocess/PackingInformationList"
+          component={PackingInformationList}
+        />
+        <ContentRoute
+          path="/transport-management/deliveryprocess/LoadingSupervisorInfo"
+          component={LoadingSupervisorInfo}
+        />
+        <ContentRoute
+          path="/transport-management/deliveryprocess/StoreInformationList"
+          component={StoreInformationList}
+        />
+        <ContentRoute
+          path="/transport-management/deliveryprocess/DisplayPackerInfo"
+          component={DisplayPackerInfo}
+        />
+        <ContentRoute
+          path="/transport-management/deliveryprocess/FuelRequisitionByShipment"
+          component={buId === 4 ? FuelRequisitionByShipment : NotPermittedPage}
+        />
+      </Switch>
+    </Suspense>
+  );
+}
+
+export default TransportDeliveryProcessPages;
