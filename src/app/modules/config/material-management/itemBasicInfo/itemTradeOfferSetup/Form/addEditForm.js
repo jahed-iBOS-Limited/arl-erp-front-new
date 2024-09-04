@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { useLocation } from "react-router";
 import { useParams } from "react-router-dom";
@@ -9,6 +9,7 @@ import Loading from "./../../../../../_helper/_loading";
 import { _todayDate } from "./../../../../../_helper/_todayDate";
 import Form from "./form";
 import useAxiosPost from "../../../../../_helper/customHooks/useAxiosPost";
+import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet";
 
 const initData = {
   id: undefined,
@@ -23,6 +24,7 @@ const initData = {
   isMaxApplied: false,
   isOfferContinuous: false,
   isProportionalOffer: false,
+  offerType: "",
 };
 
 export default function ItemTradeOfferSetupForm() {
@@ -32,10 +34,26 @@ export default function ItemTradeOfferSetupForm() {
   const [rowDto, setRowDto] = useState([]);
   const [uploadedImage, setUploadedImage] = useState([]);
   const [, postData, loading] = useAxiosPost();
+  const [offerTypes, getOfferTypes, , setOfferTypes] = useAxiosGet();
+
   // get user profile data from store
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
+
+  useEffect(() => {
+    getOfferTypes(
+      `/oms/TradeOffer/CommissionTypeDDl?BusinessUnitId=${selectedBusinessUnit?.value}`,
+      (resData) => {
+        const modified = resData?.map((item) => ({
+          ...item,
+          value: item?.valaue,
+        }));
+        setOfferTypes(modified);
+      }
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedBusinessUnit]);
 
   const saveHandler = async (values, cb) => {
     const offerTypeId = values?.offerType?.value;
@@ -92,6 +110,7 @@ export default function ItemTradeOfferSetupForm() {
         rowDto={rowDto}
         setDisabled={setDisabled}
         setUploadedImage={setUploadedImage}
+        offerTypes={offerTypes}
       />
     </IForm>
   );
