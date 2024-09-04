@@ -21,7 +21,7 @@ import { _getCurrentMonthYearForInput } from "../../../_helper/_todayDate";
 const initData = {
   monthYear: _getCurrentMonthYearForInput(),
   currentBusinessUnit: "",
-  isForecast: 0,
+  isForecast: false,
 
 };
 function MaterialPriceVariance() {
@@ -102,9 +102,9 @@ function MaterialPriceVariance() {
                     <p className="pr-1 pt-3">
                       <input
                         type="checkbox"
-                        checked={values?.isForecast === 1} 
+                        checked={values?.isForecast} 
                       onChange={(e)=>{
-                        setFieldValue("isForecast", e.target.checked ? 1 : 0);
+                        setFieldValue("isForecast", e.target.checked);
                       }}
                       />
                     </p>

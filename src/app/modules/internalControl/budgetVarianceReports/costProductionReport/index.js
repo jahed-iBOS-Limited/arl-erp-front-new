@@ -23,7 +23,7 @@ const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
   currentBusinessUnit: "",
-  isForecast: 0,
+  isForecast: false,
 
 };
 
@@ -120,9 +120,9 @@ function CostOfProductionReport() {
                     <p className="pr-1 pt-3">
                       <input
                         type="checkbox"
-                        checked={values?.isForecast === 1} 
+                        checked={values?.isForecast} 
                       onChange={(e)=>{
-                        setFieldValue("isForecast", e.target.checked ? 1 : 0);
+                        setFieldValue("isForecast", e.target.checked);
                       }}
                       />
                     </p>

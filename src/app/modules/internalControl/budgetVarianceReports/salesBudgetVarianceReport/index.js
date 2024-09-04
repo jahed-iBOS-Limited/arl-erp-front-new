@@ -19,7 +19,7 @@ const initData = {
   profitCenter: "",
   fromDate: "",
   toDate: "",
-  isForecast: 0,
+  isForecast: false,
 };
 const BudgetVsSalesVarient = () => {
   const [rowData, getRowData, lodar, setRowData] = useAxiosGet();
@@ -155,9 +155,9 @@ const BudgetVsSalesVarient = () => {
                     <p className="pr-1 pt-3">
                       <input
                         type="checkbox"
-                        checked={values?.isForecast === 1} 
+                        checked={values?.isForecast} 
                       onChange={(e)=>{
-                        setFieldValue("isForecast", e.target.checked ? 1 : 0);
+                        setFieldValue("isForecast", e.target.checked);
                       }}
                       />
                     </p>
