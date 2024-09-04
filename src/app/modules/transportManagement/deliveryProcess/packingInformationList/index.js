@@ -16,10 +16,11 @@ import Loading from "../../../_helper/_loading";
 import IButton from "../../../_helper/iButton";
 import { _todayDate } from "../../../_helper/_todayDate";
 import InfoCircle from "../../../_helper/_helperIcons/_infoCircle";
-import ShippingInfoDetails from "../storeInfo/shippingNote";
+import ShippingInfoDetails from "../storeInformationList/shippingNote";
 import PowerBIReport from "../../../_helper/commonInputFieldsGroups/PowerBIReport";
 
 const initData = {
+  type: { value: 1, label: "Loading In Progress" },
   shipmentId: "",
   shipmentCode: "",
   shippingPoint: "",
@@ -46,10 +47,11 @@ const headers_two = [
   "Provider Type",
   "Shipping Type",
   "TLM",
+  "Bursting Qty",
   "Actions",
 ];
 
-export default function VehicleCallingList() {
+export default function PackingInformationList() {
   const [objProps, setObjprops] = useState({});
   const [reportData, getReportData, loading, setReportData] = useAxiosGet();
   const [, onComplete, loader] = useAxiosPost();
@@ -61,7 +63,10 @@ export default function VehicleCallingList() {
   const [singleItem, setSingleItem] = useState({});
   const [showReport, setShowReport] = useState(false);
 
-  const { profileData, selectedBusinessUnit } = useSelector((state) => {
+  const {
+    profileData: { accountId: accId, userId },
+    selectedBusinessUnit: { value: buId },
+  } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
 
@@ -75,7 +80,8 @@ export default function VehicleCallingList() {
 
   const getData = (values, _pageNo = 0, _pageSize = 300) => {
     getRowData(
-      `/oms/LoadingPoint/GetPackerLoadingConfirmation?isTransferChallan=false&statusId=${values?.type?.value}&accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&shipPointId=${values?.shipPoint?.value}&fromDate=${values?.fromDate}&todate=${values?.toDate}&pageNo=${_pageNo}&pageSize=${_pageSize}`
+      `/oms/LoadingPoint/GetPackingSupervisorConfirmation?isTransferChallan=false&statusId=${values?.type?.value}&accountId=${accId}&businessUnitId=${buId}&shipPointId=${values?.shipPoint?.value}&fromDate=${values?.fromDate}&todate=${values?.toDate}&pageNo=${_pageNo}&pageSize=${_pageSize}` // `/oms/LoadingPoint/GetPackerLoadingConfirmation?isTransferChallan=false&statusId=${values?.type?.value}&accountId=${accId}&businessUnitId=${buId}&shipPointId=${values?.shipPoint?.value}&fromDate=${values?.fromDate}&todate=${values?.toDate}&pageNo=${_pageNo}&pageSize=${_pageSize}`
+      // `/oms/LoadingPoint/GetStoreLoadingConfirmation?isTransferChallan=false&statusId=${values?.type?.value}&accountId=${accId}&businessUnitId=${buId}&shipPointId=${values?.shipPoint?.value}&fromDate=${values?.fromDate}&todate=${values?.toDate}&pageNo=${_pageNo}&pageSize=${_pageSize}`
     );
   };
 
@@ -92,6 +98,17 @@ export default function VehicleCallingList() {
   };
 
   const isLoading = loader || loading || rowLoading;
+
+  const receiveHandler = (values, item) => {
+    onComplete(
+      `/oms/LoadingPoint/CompletePacker?shipmentId=${item?.shipmentId}&actionBy=${userId}&typeId=3`,
+      null,
+      () => {
+        getData(values);
+      },
+      true
+    );
+  };
 
   return (
     <Formik
@@ -126,7 +143,7 @@ export default function VehicleCallingList() {
                           !values?.tlm
                         }
                         onClick={() => {
-                          if (selectedBusinessUnit?.value !== 4) {
+                          if (buId !== 4) {
                             return toast.warn(
                               "Only Business Unit Cement is Permitted !!!"
                             );
@@ -135,7 +152,7 @@ export default function VehicleCallingList() {
                             return toast.warn("Already Completed");
                           }
                           onComplete(
-                            `/oms/LoadingPoint/CompletePacker?shipmentId=${reportData?.objHeader?.shipmentId}&actionBy=${profileData?.userId}&typeId=1&tlm=${values?.tlm?.value}`,
+                            `/oms/LoadingPoint/CompletePacker?shipmentId=${reportData?.objHeader?.shipmentId}&actionBy=${userId}&typeId=1&tlm=${values?.tlm?.value}`,
 
                             // actionType === "Auto"
                             //   ? shipmentId
@@ -162,9 +179,9 @@ export default function VehicleCallingList() {
                   <NewSelect
                     name="type"
                     options={[
-                      { value: 1, label: "Loading Pending" },
-                      { value: 3, label: "Scan Card/QR Code" },
-                      { value: 2, label: "Loading Completed" },
+                      { value: 1, label: "Loading In Progress" },
+                      // { value: 3, label: "Scan Card/QR Code" },
+                      // { value: 2, label: "Loading Completed" },
                       { value: 4, label: "Shift wise Packer Information" },
                     ]}
                     value={values?.type}
@@ -538,24 +555,38 @@ export default function VehicleCallingList() {
                             <td>{item?.strOwnerType}</td>
                             <td>{item?.shippingTypeName}</td>
                             <td>{item?.tlm}</td>
+                            <td>{item?.brustingQuantity}</td>
                             <td
                               className="text-center"
                               style={{ backgroundColor: "#e0ffff" }}
                             >
-                              <InfoCircle
-                                title={"Shipment Details"}
-                                clickHandler={() => {
-                                  setSingleItem(item);
-                                  setOpen(true);
-                                }}
-                              />
+                              <div className="d-flex justify-content-around">
+                                <button
+                                  className="btn btn-info btn-sm px-2"
+                                  type="button"
+                                  onClick={() => {
+                                    receiveHandler(values, item);
+                                  }}
+                                >
+                                  Received
+                                </button>
+
+                                <InfoCircle
+                                  title={"Shipment Details"}
+                                  clickHandler={() => {
+                                    setSingleItem(item);
+                                    setOpen(true);
+                                  }}
+                                />
+                              </div>
                             </td>
                           </tr>
                         );
                       })}
                   <tr style={{ fontWeight: "bold", textAlign: "right" }}>
                     <td
-                      colSpan={[1, 2].includes(values?.type?.value) ? 9 : 4}
+                      colSpan={4}
+                      // colSpan={[1, 2].includes(values?.type?.value) ? 9 : 4}
                       className="text-right"
                     >
                       Total
@@ -568,7 +599,7 @@ export default function VehicleCallingList() {
                             0
                           )}
                         </td>
-                        <td colSpan={2}></td>
+                        <td colSpan={9}></td>
                       </>
                     ) : (
                       <td>

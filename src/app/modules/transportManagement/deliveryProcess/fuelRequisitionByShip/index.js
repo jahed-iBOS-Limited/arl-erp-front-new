@@ -8,9 +8,9 @@ import IViewModal from "../../../_helper/_viewModal";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import QRCodeScanner from "../../../_helper/qrCodeScanner";
-import IForm from "./../../../_helper/_form";
-import InputField from "./../../../_helper/_inputField";
-import Loading from "./../../../_helper/_loading";
+import IForm from "../../../_helper/_form";
+import InputField from "../../../_helper/_inputField";
+import Loading from "../../../_helper/_loading";
 import ICustomTable from "../../../_helper/_customTable";
 
 const initData = {
@@ -39,7 +39,6 @@ const validationSchema = Yup.object().shape({
 export default function FuelRequisitionByShipment() {
   const {
     profileData: { userId },
-    selectedBusinessUnit: { value: buId, label },
   } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);

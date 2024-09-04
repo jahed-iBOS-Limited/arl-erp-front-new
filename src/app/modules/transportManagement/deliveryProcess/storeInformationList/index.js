@@ -1,27 +1,26 @@
-import { Form, Formik } from "formik";
+import { Formik } from "formik";
 import React, { useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
-import { toast } from "react-toastify";
 import ICustomTable from "../../../_helper/_customTable";
 import {
   _dateFormatter,
   _dateTimeFormatter,
 } from "../../../_helper/_dateFormate";
+import IForm from "../../../_helper/_form";
+import InputField from "../../../_helper/_inputField";
+import Loading from "../../../_helper/_loading";
 import NewSelect from "../../../_helper/_select";
+import { _todayDate } from "../../../_helper/_todayDate";
 import IViewModal from "../../../_helper/_viewModal";
 import FromDateToDateForm from "../../../_helper/commonInputFieldsGroups/dateForm";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import QRCodeScanner from "../../../_helper/qrCodeScanner";
-import IForm from "../../../_helper/_form";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
 import IButton from "../../../_helper/iButton";
-import { _todayDate } from "../../../_helper/_todayDate";
+import QRCodeScanner from "../../../_helper/qrCodeScanner";
 import ShippingInfoDetails from "./shippingNote";
-import InfoCircle from "../../../_helper/_helperIcons/_infoCircle";
 
 const initData = {
+  type: { value: 1, label: "Bag Issue Pending List" },
   shipmentId: "",
   shipmentCode: "",
   shippingPoint: "",
@@ -48,10 +47,11 @@ const headers_two = [
   "Provider Type",
   "Shipping Type",
   "TLM",
+  "Bursting Qty",
   "Actions",
 ];
 
-export default function StoreInformation() {
+export default function StoreInformationList() {
   const [objProps, setObjprops] = useState({});
   const [reportData, getReportData, loading, setReportData] = useAxiosGet();
   const [, onComplete, loader] = useAxiosPost();
@@ -62,7 +62,10 @@ export default function StoreInformation() {
   const [open, setOpen] = useState(false);
   const [singleItem, setSingleItem] = useState({});
 
-  const { profileData, selectedBusinessUnit } = useSelector((state) => {
+  const {
+    profileData: { accountId: accId, userId },
+    selectedBusinessUnit: { value: buId },
+  } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
 
@@ -76,11 +79,22 @@ export default function StoreInformation() {
 
   const getData = (values, _pageNo = 0, _pageSize = 300) => {
     getRowData(
-      `/oms/LoadingPoint/GetStoreLoadingConfirmation?isTransferChallan=false&statusId=${values?.type?.value}&accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&shipPointId=${values?.shipPoint?.value}&fromDate=${values?.fromDate}&todate=${values?.toDate}&pageNo=${_pageNo}&pageSize=${_pageSize}`
+      `/oms/LoadingPoint/GetStoreLoadingConfirmation?isTransferChallan=false&statusId=${values?.type?.value}&accountId=${accId}&businessUnitId=${buId}&shipPointId=${values?.shipPoint?.value}&fromDate=${values?.fromDate}&todate=${values?.toDate}&pageNo=${_pageNo}&pageSize=${_pageSize}`
     );
   };
 
   const isLoading = loader || loading || rowLoading;
+
+  const burstingQtyUpdate = (values, item) => {
+    onComplete(
+      `/oms/LoadingPoint/CompletePacker?shipmentId=${item?.shipmentIde}&actionBy=${userId}&typeId=4&brustingQuantity=${item?.brustingQuantity}`,
+      null,
+      () => {
+        getData(values);
+      },
+      true
+    );
+  };
 
   return (
     <Formik
@@ -102,57 +116,58 @@ export default function StoreInformation() {
             isHiddenBack
             isHiddenReset
             isHiddenSave
-            renderProps={() => {
-              return (
-                <div>
-                  {![1, 2].includes(values?.type?.value) && (
-                    <button
-                      type="button"
-                      className="btn btn-primary"
-                      disabled={
-                        (!reportData?.objHeader?.shipmentId && !shipmentId) ||
-                        !values?.tlm
-                      }
-                      onClick={() => {
-                        if (selectedBusinessUnit?.value !== 4) {
-                          return toast.warn(
-                            "Only Business Unit Cement is Permitted !!!"
-                          );
-                        }
-                        // if (reportData?.objHeader?.isLoaded) {
-                        //   return toast.warn("Already Completed");
-                        // }
-                        onComplete(
-                          `/oms/LoadingPoint/CompletePacker?shipmentId=${reportData?.objHeader?.shipmentId}&actionBy=${profileData?.userId}&typeId=2&tlm=${values?.tlm?.value}`,
+            // renderProps={() => {
+            //   return (
+            //     <div>
+            //       {![1, 2].includes(values?.type?.value) && (
+            //         <button
+            //           type="button"
+            //           className="btn btn-primary"
+            //           disabled={
+            //             (!reportData?.objHeader?.shipmentId && !shipmentId) ||
+            //             !values?.tlm
+            //           }
+            //           onClick={() => {
+            //             if (selectedBusinessUnit?.value !== 4) {
+            //               return toast.warn(
+            //                 "Only Business Unit Cement is Permitted !!!"
+            //               );
+            //             }
+            //             // if (reportData?.objHeader?.isLoaded) {
+            //             //   return toast.warn("Already Completed");
+            //             // }
+            //             onComplete(
+            //               `/oms/LoadingPoint/CompletePacker?shipmentId=${reportData?.objHeader?.shipmentId}&actionBy=${profileData?.userId}&typeId=2&tlm=${values?.tlm?.value}`,
 
-                          // actionType === "Auto"
-                          //   ? shipmentId
-                          //   : reportData?.objHeader?.shipmentId
-                          null,
-                          () => {
-                            resetForm(initData);
-                            setShipmentId(null);
-                          },
-                          true
-                        );
-                      }}
-                    >
-                      Complete
-                    </button>
-                  )}
-                </div>
-              );
-            }}
+            //               // actionType === "Auto"
+            //               //   ? shipmentId
+            //               //   : reportData?.objHeader?.shipmentId
+            //               null,
+            //               () => {
+            //                 resetForm(initData);
+            //                 setShipmentId(null);
+            //               },
+            //               true
+            //             );
+            //           }}
+            //         >
+            //           Complete
+            //         </button>
+            //       )}
+            //     </div>
+            //   );
+            // }}
           >
-            <Form>
-              <div className="form-group  global-form row">
+            <form className="form-group">
+              <div className="global-form row">
                 <div className="col-lg-3">
                   <NewSelect
                     name="type"
                     options={[
-                      { value: 1, label: "Loading Pending" },
-                      { value: 3, label: "Scan Card/QR Code" },
-                      { value: 2, label: "Loading Completed" },
+                      { value: 1, label: "Bag Issue Pending List" },
+                      { value: 2, label: "Bag Issued List" },
+                      // { value: 3, label: "Scan Card/QR Code" },
+                      // { value: 2, label: "Loading Completed" },
                     ]}
                     value={values?.type}
                     label="Type"
@@ -390,7 +405,139 @@ export default function StoreInformation() {
                   </>
                 )}
               </div>
-
+              {(reportData?.objRow?.length > 0 ||
+                rowData?.data?.length > 0) && (
+                <ICustomTable
+                  ths={
+                    [1, 2].includes(values?.type?.value)
+                      ? headers_two
+                      : headers_one
+                  }
+                >
+                  {[3].includes(values?.type?.value)
+                    ? reportData?.objRow?.map((item, i) => {
+                        return (
+                          <tr>
+                            <td>{i + 1}</td>
+                            <td>{item?.itemName}</td>
+                            <td>{item?.bagType}</td>
+                            <td>{item?.uomName}</td>
+                            <td className="text-right">{item?.quantity}</td>
+                          </tr>
+                        );
+                      })
+                    : rowData?.data?.map((item, index) => {
+                        return (
+                          <tr
+                            style={{
+                              backgroundColor: `${
+                                item?.bagType === "Pasting"
+                                  ? "#57d557c2"
+                                  : item?.bagType === "Sewing"
+                                  ? "#6cbbe7de"
+                                  : item?.bagType === "MES PCC"
+                                  ? "#bb8ef2f0"
+                                  : ""
+                              }`,
+                            }}
+                          >
+                            <td>{index + 1}</td>
+                            <td>{_dateTimeFormatter(item?.packerOutTime)}</td>
+                            <td>{item?.shipmentCode}</td>
+                            <td>{item?.vehicleName}</td>
+                            <td>{item?.bagType}</td>
+                            <td className="text-right">{item?.itemTotalQty}</td>
+                            <td>{item?.shippingTypeId === 9 ? "Ton" : ""}</td>
+                            <td>{item?.routeName}</td>
+                            <td>{item?.transportModeName}</td>
+                            <td>{item?.strOwnerType}</td>
+                            <td>{item?.shippingTypeName}</td>
+                            <td>{item?.tlm}</td>
+                            <td>
+                              {values?.type?.value === 2 && (
+                                <InputField
+                                  name="brustingQuantity"
+                                  value={item?.brustingQuantity}
+                                  placeholder="Bursting Qty"
+                                  onChange={(e) => {
+                                    let _data = [...rowData?.data];
+                                    _data[index]["brustingQuantity"] =
+                                      e?.target?.value;
+                                    setRowData({ ...rowData, data: _data });
+                                  }}
+                                />
+                              )}
+                            </td>
+                            <td
+                              className="text-center"
+                              style={{ backgroundColor: "#e0ffff" }}
+                            >
+                              <div className="d-flex justify-content-around">
+                                {[1].includes(values?.type?.value) ? (
+                                  <button
+                                    className="btn btn-info btn-sm px-2"
+                                    type="button"
+                                    onClick={() => {
+                                      setSingleItem(item);
+                                      setOpen(true);
+                                    }}
+                                  >
+                                    Done
+                                  </button>
+                                ) : [2].includes(values?.type?.value) ? (
+                                  <button
+                                    className="btn btn-info btn-sm px-2"
+                                    type="button"
+                                    onClick={() => {
+                                      burstingQtyUpdate(values, item);
+                                    }}
+                                  >
+                                    Update
+                                  </button>
+                                ) : (
+                                  // <InfoCircle
+                                  //   title={"Shipment Details"}
+                                  //   clickHandler={() => {
+                                  //     setSingleItem(item);
+                                  //     setOpen(true);
+                                  //   }}
+                                  // />
+                                  ""
+                                )}
+                              </div>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                  <tr style={{ fontWeight: "bold", textAlign: "right" }}>
+                    <td
+                      colSpan={5}
+                      // colSpan={[1, 2].includes(values?.type?.value) ? 10 : 4}
+                      className="text-right"
+                    >
+                      Total
+                    </td>
+                    {[1, 2].includes(values?.type?.value) ? (
+                      <>
+                        <td>
+                          {rowData?.data?.reduce(
+                            (total, curr) => (total += curr?.itemTotalQty),
+                            0
+                          )}
+                        </td>
+                        <td colSpan={7}></td>
+                      </>
+                    ) : (
+                      <td>
+                        {reportData?.objRow?.reduce(
+                          (total, curr) => (total += +curr?.quantity),
+                          0
+                        )}
+                      </td>
+                    )}
+                  </tr>
+                </ICustomTable>
+              )}
               <button
                 type="submit"
                 style={{ display: "none" }}
@@ -442,112 +589,6 @@ export default function StoreInformation() {
                 />
               </IViewModal>
 
-              {(reportData?.objRow?.length > 0 ||
-                rowData?.data?.length > 0) && (
-                <ICustomTable
-                  ths={
-                    [1, 2].includes(values?.type?.value)
-                      ? headers_two
-                      : headers_one
-                  }
-                >
-                  {[3].includes(values?.type?.value)
-                    ? reportData?.objRow?.map((item, index) => {
-                        return (
-                          <tr>
-                            <td>{index + 1}</td>
-                            <td>{item?.itemName}</td>
-                            <td>{item?.bagType}</td>
-                            <td>{item?.uomName}</td>
-                            <td className="text-right">{item?.quantity}</td>
-                          </tr>
-                        );
-                      })
-                    : rowData?.data?.map((item, index) => {
-                        return (
-                          <tr
-                            style={{
-                              backgroundColor: `${
-                                item?.bagType === "Pasting"
-                                  ? "#57d557c2"
-                                  : item?.bagType === "Sewing"
-                                  ? "#6cbbe7de"
-                                  : item?.bagType === "MES PCC"
-                                  ? "#bb8ef2f0"
-                                  : ""
-                              }`,
-                            }}
-                          >
-                            <td>{index + 1}</td>
-                            <td>{_dateTimeFormatter(item?.packerOutTime)}</td>
-                            <td>{item?.shipmentCode}</td>
-                            <td>{item?.vehicleName}</td>
-                            <td>{item?.bagType}</td>
-                            <td className="text-right">{item?.itemTotalQty}</td>
-                            <td>{item?.shippingTypeId === 9 ? "Ton" : ""}</td>
-                            <td>{item?.routeName}</td>
-                            <td>{item?.transportModeName}</td>
-                            <td>{item?.strOwnerType}</td>
-                            <td>{item?.shippingTypeName}</td>
-                            <td>{item?.tlm}</td>
-                            <td
-                              className="text-center"
-                              style={{ backgroundColor: "#e0ffff" }}
-                            >
-                              {[1].includes(values?.type?.value) ? (
-                                <button
-                                  className="btn btn-info btn-sm px-2"
-                                  type="button"
-                                  onClick={() => {
-                                    setSingleItem(item);
-                                    setOpen(true);
-                                  }}
-                                >
-                                  Complete
-                                </button>
-                              ) : [2].includes(values?.type?.value) ? (
-                                <InfoCircle
-                                  title={"Shipment Details"}
-                                  clickHandler={() => {
-                                    setSingleItem(item);
-                                    setOpen(true);
-                                  }}
-                                />
-                              ) : (
-                                ""
-                              )}{" "}
-                            </td>
-                          </tr>
-                        );
-                      })}
-                  <tr style={{ fontWeight: "bold", textAlign: "right" }}>
-                    <td
-                      colSpan={[1, 2].includes(values?.type?.value) ? 10 : 4}
-                      className="text-right"
-                    >
-                      Total
-                    </td>
-                    {[1, 2].includes(values?.type?.value) ? (
-                      <>
-                        <td>
-                          {rowData?.data?.reduce(
-                            (total, curr) => (total += curr?.itemTotalQty),
-                            0
-                          )}
-                        </td>
-                        <td colSpan={2}></td>
-                      </>
-                    ) : (
-                      <td>
-                        {reportData?.objRow?.reduce(
-                          (total, curr) => (total += +curr?.quantity),
-                          0
-                        )}
-                      </td>
-                    )}
-                  </tr>
-                </ICustomTable>
-              )}
               <IViewModal show={open} onHide={() => setOpen(false)}>
                 <ShippingInfoDetails
                   obj={{
@@ -560,7 +601,7 @@ export default function StoreInformation() {
                   }}
                 />
               </IViewModal>
-            </Form>
+            </form>
           </IForm>
         </>
       )}
