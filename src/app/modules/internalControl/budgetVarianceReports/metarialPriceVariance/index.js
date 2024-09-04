@@ -21,6 +21,8 @@ import { _getCurrentMonthYearForInput } from "../../../_helper/_todayDate";
 const initData = {
   monthYear: _getCurrentMonthYearForInput(),
   currentBusinessUnit: "",
+  isForecast: 0,
+
 };
 function MaterialPriceVariance() {
   const [rowDto, getRowDto, rowDtoLoader, setrowDto] = useAxiosGet();
@@ -41,7 +43,7 @@ function MaterialPriceVariance() {
     const formattedStartDate = startDate.toISOString().split("T")[0];
     const formattedEndDate = endDate.toISOString().split("T")[0];
     getRowDto(
-      `/fino/Report/GetRawMaterialPriceVarianceReport?intUnitId=${values?.currentBusinessUnit?.value}&fromDate=${formattedStartDate}&toDate=${formattedEndDate}`
+      `/fino/Report/GetRawMaterialPriceVarianceReport?intUnitId=${values?.currentBusinessUnit?.value}&fromDate=${formattedStartDate}&toDate=${formattedEndDate}&isForecast=${values?.isForecast}`
     );
   };
 
@@ -95,6 +97,22 @@ function MaterialPriceVariance() {
                       }}
                     />
                   </div>
+                  <div className="col-lg-1 mt-4">
+                    <div className="d-flex align-items-center">
+                    <p className="pr-1 pt-3">
+                      <input
+                        type="checkbox"
+                        checked={values?.isForecast === 1} 
+                      onChange={(e)=>{
+                        setFieldValue("isForecast", e.target.checked ? 1 : 0);
+                      }}
+                      />
+                    </p>
+                    <p>
+                      <label>Is Forecast</label>
+                    </p>
+                  </div>
+                    </div>
                   <div>
                     <button
                       style={{ marginTop: "18px" }}
