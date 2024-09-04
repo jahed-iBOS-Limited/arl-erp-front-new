@@ -19,6 +19,7 @@ const initData = {
   profitCenter: "",
   fromDate: "",
   toDate: "",
+  isForecast: 0,
 };
 const BudgetVsSalesVarient = () => {
   const [rowData, getRowData, lodar, setRowData] = useAxiosGet();
@@ -149,6 +150,22 @@ const BudgetVsSalesVarient = () => {
                         }}
                       />
                     </div>
+                    <div className="col-lg-1 mt-4">
+                    <div className="d-flex align-items-center">
+                    <p className="pr-1 pt-3">
+                      <input
+                        type="checkbox"
+                        checked={values?.isForecast === 1} 
+                      onChange={(e)=>{
+                        setFieldValue("isForecast", e.target.checked ? 1 : 0);
+                      }}
+                      />
+                    </p>
+                    <p>
+                      <label>Is Forecast</label>
+                    </p>
+                  </div>
+                    </div>
                     <div className="col-lg-3">
                       <button
                         style={{ marginTop: "20px" }}
@@ -161,7 +178,7 @@ const BudgetVsSalesVarient = () => {
                         }
                         onClick={() => {
                           getRowData(
-                            `/fino/CostSheet/BudgetVSSalesVarienceReport?Unitid=${values.currentBusinessUnit.value}&FromDate=${values.fromDate}&ToDate=${values.toDate}&ProfitCenterId=${values?.profitCenter?.value}`
+                            `/fino/CostSheet/BudgetVSSalesVarienceReport?Unitid=${values.currentBusinessUnit.value}&FromDate=${values.fromDate}&ToDate=${values.toDate}&ProfitCenterId=${values?.profitCenter?.value}&isForecast=${values?.isForecast}`
                           );
                         }}
                       >
