@@ -23,7 +23,10 @@ export function TransportDeliveryProcessPages() {
           from="/transport-management"
           to="/transport-management/deliveryprocess"
         />
-
+        <ContentRoute
+          path="/transport-management/deliveryprocess/FuelRequisitionByShipment"
+          component={buId === 4 ? FuelRequisitionByShipment : NotPermittedPage}
+        />
         <ContentRoute
           path="/transport-management/deliveryprocess/PackingInformationList"
           component={PackingInformationList}
@@ -39,10 +42,6 @@ export function TransportDeliveryProcessPages() {
         <ContentRoute
           path="/transport-management/deliveryprocess/DisplayPackerInfo"
           component={DisplayPackerInfo}
-        />
-        <ContentRoute
-          path="/transport-management/deliveryprocess/FuelRequisitionByShipment"
-          component={buId === 4 ? FuelRequisitionByShipment : NotPermittedPage}
         />
       </Switch>
     </Suspense>
