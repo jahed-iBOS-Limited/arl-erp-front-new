@@ -23,6 +23,8 @@ const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
   currentBusinessUnit: "",
+  isForecast: 0,
+
 };
 
 function CostOfProductionReport() {
@@ -43,7 +45,7 @@ function CostOfProductionReport() {
       `/fino/Report/GetMachineWiseCostOfProduction?intBusinessUnitId=${values
         ?.currentBusinessUnit?.value ||
         selectedBusinessUnit?.value}&fromDate=${values?.fromDate ||
-        _todayDate()}&toDate=${values?.toDate || _todayDate()}`
+        _todayDate()}&toDate=${values?.toDate || _todayDate()}&isForecast=${values?.isForecast}`
     );
   };
 
@@ -113,6 +115,22 @@ function CostOfProductionReport() {
                       }}
                     />
                   </div>
+                  <div className="col-lg-1 mt-4">
+                    <div className="d-flex align-items-center">
+                    <p className="pr-1 pt-3">
+                      <input
+                        type="checkbox"
+                        checked={values?.isForecast === 1} 
+                      onChange={(e)=>{
+                        setFieldValue("isForecast", e.target.checked ? 1 : 0);
+                      }}
+                      />
+                    </p>
+                    <p>
+                      <label>Is Forecast</label>
+                    </p>
+                  </div>
+                    </div>
                   <div>
                     <button
                       style={{ marginTop: "18px" }}
