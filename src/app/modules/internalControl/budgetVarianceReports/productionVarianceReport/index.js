@@ -16,6 +16,7 @@ const initData = {
   fromDate: _monthFirstDate(),
   toDate: _monthLastDate(),
   currentBusinessUnit: "",
+  isForecast: false,
 };
 export default function ProductionVarianceReport() {
   const [
@@ -29,6 +30,21 @@ export default function ProductionVarianceReport() {
   const businessUnitList = useSelector((state) => {
     return state.authData.businessUnitList;
   }, shallowEqual);
+
+  const totalBudgetQty = tableData?.reduce(
+    (acc, item) => acc + (item?.budgetQty ?? 0),
+    0
+  );
+  
+  const totalActualQty = tableData?.reduce(
+    (acc, item) => acc + (item?.actualQty ?? 0),
+    0
+  );
+  
+  const totalVariance = tableData?.reduce(
+    (acc, item) => acc + (item?.variance ?? 0),
+    0
+  );
 
   return (
     <Formik
@@ -107,6 +123,22 @@ export default function ProductionVarianceReport() {
                       }}
                     />
                   </div>
+                  <div className="col-lg-1 mt-4">
+                    <div className="d-flex align-items-center">
+                    <p className="pr-1 pt-3">
+                      <input
+                        type="checkbox"
+                        checked={values?.isForecast} 
+                      onChange={(e)=>{
+                        setFieldValue("isForecast", e.target.checked);
+                      }}
+                      />
+                    </p>
+                    <p>
+                      <label>Is Forecast</label>
+                    </p>
+                  </div>
+                    </div>
                   <div className="col-lg-3">
                     <button
                       style={{ marginTop: "18px" }}
@@ -115,7 +147,7 @@ export default function ProductionVarianceReport() {
                       disabled={!values?.monthYear}
                       onClick={() => {
                         getTableData(
-                          `/fino/Report/GetProductionVarianceReport?intBusinessUnitId=${values?.currentBusinessUnit?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}`
+                          `/fino/Report/GetProductionVarianceReport?intBusinessUnitId=${values?.currentBusinessUnit?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}&isForecast=${values?.isForecast}`
                         );
                       }}
                     >
@@ -156,6 +188,12 @@ export default function ProductionVarianceReport() {
                               </td>
                             </tr>
                           ))}
+                          <tr>
+                            <td colSpan={4} className="text-center"><strong>Total</strong></td>
+                            <td className="text-right">{_formatMoney(totalBudgetQty)}</td>
+                            <td className="text-right">{_formatMoney(totalActualQty)}</td>
+                            <td className="text-right">{_formatMoney(totalVariance)}</td>
+                          </tr>
                       </tbody>
                     </table>
                   </div>

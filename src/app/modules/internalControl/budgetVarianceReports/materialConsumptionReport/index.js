@@ -20,6 +20,7 @@ const initData = {
   monthYear: "",
   currentBusinessUnit: "",
   consumptionType: "",
+  isForecast: false,
 };
 
 function MaterialConsumptionVarianceReport() {
@@ -103,6 +104,22 @@ function MaterialConsumptionVarianceReport() {
                       }}
                     />
                   </div>
+                  <div className="col-lg-1 mt-4">
+                    <div className="d-flex align-items-center">
+                    <p className="pr-1 pt-3">
+                      <input
+                        type="checkbox"
+                        checked={values?.isForecast} 
+                      onChange={(e)=>{
+                        setFieldValue("isForecast", e.target.checked);
+                      }}
+                      />
+                    </p>
+                    <p>
+                      <label>Is Forecast</label>
+                    </p>
+                  </div>
+                    </div>
                   <div>
                     <button
                       style={{ marginTop: "18px" }}
@@ -128,7 +145,7 @@ function MaterialConsumptionVarianceReport() {
                           .toISOString()
                           .split("T")[0];
                         getRowDto(
-                          `/fino/Report/GetRawMaterialConsumptionVarianceReport?intBusinessUnitId=${values?.currentBusinessUnit?.value}&fromDate=${formattedStartDate}&toDate=${formattedEndDate}&ConsumptionTypeId=${values?.consumptionType.value}`,
+                          `/fino/Report/GetRawMaterialConsumptionVarianceReport?intBusinessUnitId=${values?.currentBusinessUnit?.value}&fromDate=${formattedStartDate}&toDate=${formattedEndDate}&ConsumptionTypeId=${values?.consumptionType.value}&isForecast=${values?.isForecast}`,
                           (data) => {
                             let sl = 0;
                             let arr = [];
@@ -209,7 +226,7 @@ function MaterialConsumptionVarianceReport() {
                                       : "text-right"
                                   }
                                 >
-                                  {_formatMoney(item?.budgetConsumption)}
+                                  {_formatMoney(item?.budgetConsumption, 4)}
                                 </td>
                                 <td
                                   className={
@@ -218,7 +235,7 @@ function MaterialConsumptionVarianceReport() {
                                       : "text-right"
                                   }
                                 >
-                                  {_formatMoney(item?.actualConsumption)}
+                                  {_formatMoney(item?.actualConsumption,4)}
                                 </td>
                                 <td
                                   className={
@@ -227,7 +244,7 @@ function MaterialConsumptionVarianceReport() {
                                       : "text-right"
                                   }
                                 >
-                                  {_formatMoney(item?.variance)}
+                                  {_formatMoney(item?.variance, 4)}
                                 </td>
                               </tr>
                             ))}
