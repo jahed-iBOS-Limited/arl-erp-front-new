@@ -1,24 +1,22 @@
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
+import { shallowEqual, useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
+import { toast } from "react-toastify";
 import * as Yup from "yup";
+import AttachFile from "../../../../../_helper/commonInputFieldsGroups/attachemntUpload";
+import IButton from "../../../../../_helper/iButton";
 import {
+  DeleteTradeOfferConfigurationApi,
   GetDistributionChannelDDL,
   getDistributionChannelIdApi,
-  DeleteTradeOfferConfigurationApi,
   getItemSalesOfferDDLApi,
 } from "../../helper";
+import { _dateFormatter } from "./../../../../../_helper/_dateFormate";
+import IDelete from "./../../../../../_helper/_helperIcons/_delete";
 import InputField from "./../../../../../_helper/_inputField";
 import NewSelect from "./../../../../../_helper/_select";
-import IDelete from "./../../../../../_helper/_helperIcons/_delete";
-import { _dateFormatter } from "./../../../../../_helper/_dateFormate";
-import { toast } from "react-toastify";
-import { useLocation } from "react-router-dom";
 import { _todayDate } from "./../../../../../_helper/_todayDate";
-import IButton from "../../../../../_helper/iButton";
-import AttachFile from "../../../../../_helper/commonInputFieldsGroups/attachemntUpload";
-import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet";
-import Loading from "../../../../../_helper/_loading";
 // Validation schema
 const validationSchema = Yup.object().shape({
   // offerItem: Yup.string().required("Code is required"),
@@ -35,6 +33,7 @@ export default function _Form({
   rowDto,
   setDisabled,
   setUploadedImage,
+  offerTypes,
 }) {
   const [distributionChannelDDL, setDistributionChannelDDL] = useState([]);
   const [open, setOpen] = useState(false);
@@ -43,7 +42,7 @@ export default function _Form({
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
-  const [itemDDL, getItemDDL, loader, setItemDDL] = useAxiosGet();
+  const [itemDDL, setItemDDL] = useState([]);
 
   useEffect(() => {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
@@ -57,24 +56,25 @@ export default function _Form({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedBusinessUnit, profileData]);
 
-  const getItems = () => {
-    // getItemDDL(``, (resData) => {
-    //   const modifyData = resData?.data?.map((item) => {
-    //     return {
-    //       ...item,
-    //       value: item?.itemId,
-    //       label: item?.itemName,
-    //     };
-    //   });
-    //   setItemDDL(modifyData);
-    // });
-    return [];
-  };
-
   const addRowHandler = (values) => {
     const offerTypeId = values?.offerType?.value;
 
-    if (offerTypeId === 1) {
+    if (offerTypeId === 2) {
+      const discountOnRateRow = {
+        promotionRowId: 0,
+        promotionId: 0,
+        orderFrom: +values?.numMinQuantity || 0,
+        orderTo: +values?.numMaxQuantity || 0,
+        discountTypeId: values?.offerType?.value,
+        discountTypeName: values?.offerType?.label,
+        itemId: values?.offerItem?.value,
+        itemName: values?.offerItem?.label,
+        discount: values?.offerQuantity,
+      };
+
+      setRowDto([...rowDto, discountOnRateRow]);
+    } else {
+      // } else if (offerTypeId === 2) {
       const numMinQuantity = +values?.numMinQuantity || 0,
         numMaxQuantity = +values?.numMaxQuantity || 0;
 
@@ -116,20 +116,6 @@ export default function _Form({
         intBusinessUnitId: selectedBusinessUnit?.value,
       };
       setRowDto([...rowDto, obj]);
-    } else if (offerTypeId === 2) {
-      const discountOnRateRow = {
-        promotionRowId: 0,
-        promotionId: 0,
-        orderFrom: +values?.numMinQuantity || 0,
-        orderTo: +values?.numMaxQuantity || 0,
-        discountTypeId: values?.offerType?.value,
-        discountTypeName: values?.offerType?.label,
-        itemId: values?.offerItem?.value,
-        itemName: values?.offerItem?.label,
-        discount: values?.offerQuantity,
-      };
-
-      setRowDto([...rowDto, discountOnRateRow]);
     }
   };
 
@@ -150,9 +136,18 @@ export default function _Form({
     );
   };
 
+  const types = () => {
+    return [224, 171].includes(selectedBusinessUnit?.value)
+      ? offerTypes
+      : [
+          { value: 1, label: "Discount on Quantity" },
+          { value: 2, label: "Discount on Rate" },
+          { value: 3, label: "IHB Gift Offer" },
+        ];
+  };
+
   return (
     <>
-      {loader && <Loading />}
       <Formik
         enableReinitialize={true}
         initialValues={initData}
@@ -177,25 +172,20 @@ export default function _Form({
           errors,
           touched,
           setFieldValue,
-          isValid,
         }) => (
           <>
             <Form className="form form-label-right">
               <div className="form-group row  global-form">
+                {console.log("Current value of offerType:", values?.offerType)}
                 <div className="col-lg-3">
                   <NewSelect
                     name="offerType"
-                    options={[
-                      { value: 1, label: "Discount on Quantity" },
-                      { value: 2, label: "Discount on Rate" },
-                      { value: 3, label: "IHB Gift Offer" },
-                    ]}
+                    options={types()}
                     value={values?.offerType}
                     label="Offer Type"
                     onChange={(valueOption) => {
                       setFieldValue("offerType", valueOption);
                       setFieldValue("isProportionalOffer", false);
-                      getItems();
                     }}
                     placeholder="Offer Type"
                     errors={errors}
@@ -203,39 +193,39 @@ export default function _Form({
                     isDisabled={rowDto?.length}
                   />
                 </div>
-                {[1, 2].includes(values?.offerType?.value) && (
-                  <div className="col-lg-3">
-                    <NewSelect
-                      name="distributionChannel"
-                      options={distributionChannelDDL || []}
-                      value={values?.distributionChannel}
-                      label="Distribution Channel"
-                      onChange={(valueOption) => {
-                        setFieldValue("distributionChannel", valueOption);
-                        setFieldValue("offerItem", "");
-                        setRowDto([]);
-                        distributionChannelHandler({
-                          ...values,
-                          distributionChannel: valueOption,
-                        });
-                        setItemDDL([]);
+                {/* {![3].includes(values?.offerType?.value) && ( */}
+                <div className="col-lg-3">
+                  <NewSelect
+                    name="distributionChannel"
+                    options={distributionChannelDDL || []}
+                    value={values?.distributionChannel}
+                    label="Distribution Channel"
+                    onChange={(valueOption) => {
+                      setFieldValue("distributionChannel", valueOption);
+                      setFieldValue("offerItem", "");
+                      setRowDto([]);
+                      distributionChannelHandler({
+                        ...values,
+                        distributionChannel: valueOption,
+                      });
+                      setItemDDL([]);
 
-                        getItemSalesOfferDDLApi(
-                          profileData?.accountId,
-                          selectedBusinessUnit?.value,
-                          valueOption?.value,
-                          setItemDDL
-                        );
-                      }}
-                      placeholder="Distribution Channel"
-                      errors={errors}
-                      touched={touched}
-                      isDisabled={
-                        values?.offerType?.value === 2 && rowDto?.length
-                      }
-                    />
-                  </div>
-                )}
+                      getItemSalesOfferDDLApi(
+                        profileData?.accountId,
+                        selectedBusinessUnit?.value,
+                        valueOption?.value,
+                        setItemDDL
+                      );
+                    }}
+                    placeholder="Distribution Channel"
+                    errors={errors}
+                    touched={touched}
+                    isDisabled={
+                      values?.offerType?.value === 2 && rowDto?.length
+                    }
+                  />
+                </div>
+                {/* )} */}
                 <div className="col-lg-3">
                   <NewSelect
                     name="offerItem"
@@ -441,7 +431,7 @@ export default function _Form({
                 <AttachFile obj={{ open, setOpen, setUploadedImage }} />
               </div>
 
-              {values?.offerType?.value === 1 ? (
+              {![2].includes(values?.offerType?.value) ? (
                 <div className="table-responsive">
                   <table className="table table-striped global-table">
                     <thead>
