@@ -1,5 +1,5 @@
 import { Form, Formik } from "formik";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import ICustomTable from "../../../_helper/_customTable";
@@ -52,6 +52,9 @@ const headers_two = [
 ];
 
 export default function LoadingSupervisorInfo() {
+  const {
+    selectedBusinessUnit: { value: buId },
+  } = useSelector((state) => state?.authData, shallowEqual);
   const [objProps, setObjprops] = useState({});
   const [reportData, getReportData, loading, setReportData] = useAxiosGet();
   const [, onComplete, loader] = useAxiosPost();
@@ -59,6 +62,7 @@ export default function LoadingSupervisorInfo() {
   const [isQrCodeShow, setIsQRCodeSHow] = useState(false);
   const [actionType, setActionType] = useState("Manual");
   const [rowData, getRowData, rowLoading, setRowData] = useAxiosGet();
+  const [tlmDDL, getTLMDDL] = useAxiosGet();
   const [open, setOpen] = useState(false);
   const [singleItem, setSingleItem] = useState({});
   const [showReport, setShowReport] = useState(false);
@@ -91,6 +95,9 @@ export default function LoadingSupervisorInfo() {
   };
 
   const isLoading = loader || loading || rowLoading;
+useEffect(() => {
+  getTLMDDL(`/wms/AssetTransection/GetLabelNValueForDDL?BusinessUnitId=${buId}&TypeId=1&RefferencePKId=1`)
+}, [buId]);
 
   return (
     <Formik
@@ -414,14 +421,15 @@ export default function LoadingSupervisorInfo() {
                     <div className="col-lg-3">
                       <NewSelect
                         name="tlm"
-                        options={[
-                          { value: 1, label: "TLM-1" },
-                          { value: 2, label: "TLM-2" },
-                          { value: 3, label: "TLM-3" },
-                          { value: 4, label: "TLM-4" },
-                          { value: 5, label: "TLM-5" },
-                          { value: 6, label: "TLM-6" },
-                        ]}
+                        // options={[
+                        //   { value: 1, label: "TLM-1" },
+                        //   { value: 2, label: "TLM-2" },
+                        //   { value: 3, label: "TLM-3" },
+                        //   { value: 4, label: "TLM-4" },
+                        //   { value: 5, label: "TLM-5" },
+                        //   { value: 6, label: "TLM-6" },
+                        // ]}
+                        options={tlmDDL || []}
                         value={values?.tlm}
                         label="TLM"
                         onChange={(valueOption) => {
