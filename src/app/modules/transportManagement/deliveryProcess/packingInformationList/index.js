@@ -133,42 +133,36 @@ export default function PackingInformationList() {
             renderProps={() => {
               return (
                 <div>
-                  {![1, 2].includes(values?.type?.value) &&
-                    !reportData?.objHeader?.isLoaded && (
-                      <button
-                        type="button"
-                        className="btn btn-primary"
-                        disabled={
-                          (!reportData?.objHeader?.shipmentId && !shipmentId) ||
-                          !values?.tlm
+                  {!reportData?.objHeader?.isLoaded && (
+                    <button
+                      type="button"
+                      className="btn btn-primary"
+                      disabled={
+                        (!reportData?.objHeader?.shipmentId && !shipmentId) ||
+                        !values?.tlm
+                      }
+                      onClick={() => {
+                        if (reportData?.objHeader?.isLoaded) {
+                          return toast.warn("Already Completed");
                         }
-                        onClick={() => {
-                          if (buId !== 4) {
-                            return toast.warn(
-                              "Only Business Unit Cement is Permitted !!!"
-                            );
-                          }
-                          if (reportData?.objHeader?.isLoaded) {
-                            return toast.warn("Already Completed");
-                          }
-                          onComplete(
-                            `/oms/LoadingPoint/CompletePacker?shipmentId=${reportData?.objHeader?.shipmentId}&actionBy=${userId}&typeId=1&tlm=${values?.tlm?.value}`,
+                        onComplete(
+                          `/oms/LoadingPoint/CompletePacker?shipmentId=${reportData?.objHeader?.shipmentId}&actionBy=${userId}&typeId=1&tlm=${values?.tlm?.value}`,
 
-                            // actionType === "Auto"
-                            //   ? shipmentId
-                            //   : reportData?.objHeader?.shipmentId
-                            null,
-                            () => {
-                              resetForm(initData);
-                              setShipmentId(null);
-                            },
-                            true
-                          );
-                        }}
-                      >
-                        Complete
-                      </button>
-                    )}
+                          // actionType === "Auto"
+                          //   ? shipmentId
+                          //   : reportData?.objHeader?.shipmentId
+                          null,
+                          () => {
+                            resetForm(initData);
+                            setShipmentId(null);
+                          },
+                          true
+                        );
+                      }}
+                    >
+                      Complete
+                    </button>
+                  )}
                 </div>
               );
             }}
