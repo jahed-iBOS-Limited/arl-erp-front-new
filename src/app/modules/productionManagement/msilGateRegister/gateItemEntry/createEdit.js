@@ -318,6 +318,7 @@ export default function GateEntryCreate() {
   const isPoVisible =(values)=>{
     return [188,189].includes(values?.businessUnit?.value) && isScalable && values?.clientType?.value === 1 ;
   }
+console.log(location.state);
 
   const qurScanHandler = ({
     setFieldValue,
@@ -344,6 +345,10 @@ export default function GateEntryCreate() {
               ? modifyData
               : {
                   ...initData,
+                  shipPoint: {
+                    value: location?.state?.shipPoint?.value,
+                    label: location?.state?.shipPoint?.label,
+                  },
                   clientType:
                     selectedBusinessUnit.value === 171
                       ? { value: 1, label: "Supplier" }
