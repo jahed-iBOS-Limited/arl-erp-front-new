@@ -74,12 +74,6 @@ export default function ShippingInfoDetails({ obj }) {
         createHandler={
           isActionable
             ? () => {
-                if (buId !== 4) {
-                  return toast.warn(
-                    "Only Business Unit Cement is Permitted !!!"
-                  );
-                }
-
                 onComplete(
                   `/oms/LoadingPoint/CompletePacker?shipmentId=${id}&actionBy=${userId}&typeId=2&tlm=${shippingPrint?.objHeader?.tlm}`,
                   null,
