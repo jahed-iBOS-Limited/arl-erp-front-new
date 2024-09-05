@@ -125,11 +125,6 @@ export default function LoadingSupervisorInfo() {
                           !values?.tlm
                         }
                         onClick={() => {
-                          if (selectedBusinessUnit?.value !== 4) {
-                            return toast.warn(
-                              "Only Business Unit Cement is Permitted !!!"
-                            );
-                          }
                           if (reportData?.objHeader?.isLoaded) {
                             return toast.warn("Already Completed");
                           }
