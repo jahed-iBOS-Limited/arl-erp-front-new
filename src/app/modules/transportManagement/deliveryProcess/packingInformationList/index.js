@@ -92,6 +92,7 @@ export default function PackingInformationList() {
       { name: "fromdate", value: `${values?.fromDate}` },
       { name: "todate", value: `${values?.toDate}` },
       { name: "ViewType", value: `${+values?.viewType?.value}` },
+      { name: "unitid", value: `${+buId}` },
     ];
 
     return shiftWisePackerInformation;
