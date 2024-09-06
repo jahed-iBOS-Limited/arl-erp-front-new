@@ -116,10 +116,10 @@ export default function FuelRequisitionByShipment() {
                         warehouseName: "ACCL Factory",
                         businessPartnerId: 0,
                         parsonnelId: userId,
-                        costElementName: 2664,
-                        costCenterId: 74,
-                        costCenterCode: "HR",
-                        costCenterName: "HR & Admin (Factory)",
+                        costElementName: "LDOH - Carriage Outward",
+                        costCenterId: 78,
+                        costCenterCode: "LD",
+                        costCenterName: "Logistic & Distribution,LD,Akij Cement Company Ltd",
                         profitCenterId: 54,
                         profitCenterName: "Akij Cement Company Ltd.",
                         projectId: -1,
@@ -131,6 +131,7 @@ export default function FuelRequisitionByShipment() {
                         gateEntryNo: "",
                         businessTransactionId: 0,
                         generalLedgerId: 0,
+                        intCostElementId:270
                       };
                       const row = {
                         itemId: reportData?.objHeader?.itemId,
