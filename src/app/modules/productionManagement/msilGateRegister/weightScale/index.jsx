@@ -137,7 +137,9 @@ console.log(info, "info")
 
               if (
                 selectedBusinessUnit?.value === essentialUnitId ||
-                selectedBusinessUnit?.value === kofilRazzakUnitId
+                selectedBusinessUnit?.value === kofilRazzakUnitId ||
+                selectedBusinessUnit?.value === magnumSteelUnitId ||
+                selectedBusinessUnit.value === isPatUnitId
               ) {
                 let newReplacedValue = replacedValue.replace(/[a-zA-Z]/, "8");
                 let replacedValueNumber = Number(newReplacedValue);
