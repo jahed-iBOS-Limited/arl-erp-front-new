@@ -89,11 +89,10 @@ export function ChallanModal({
                               name="pgiShippoint"
                               setFieldValue={setFieldValue}
                               dependencyFunc={(id)=>{
-                               if(id){
-                                getWarehouseDDL(`/wms/ShipPointWarehouse/GetShipPointWarehouseDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&ShipPointId=${id}`)
-                               }else{
                                 setFieldValue("warehouse","");
                                 setWarehouseDDL([]);
+                               if(id){
+                                getWarehouseDDL(`/wms/ShipPointWarehouse/GetShipPointWarehouseDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&ShipPointId=${id}`)
                                }
                               }}
                               errors={errors}
