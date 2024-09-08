@@ -89,7 +89,7 @@ const WeightScale = () => {
       return;
     }
     let info = port?.getInfo();
-
+console.log(info, "info")
     try {
       await port.open(
         isOldMachine(info) ? oldMachineOptions : newMachineOptions
