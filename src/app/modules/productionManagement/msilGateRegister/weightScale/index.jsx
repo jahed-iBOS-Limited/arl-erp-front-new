@@ -89,7 +89,7 @@ const WeightScale = () => {
       return;
     }
     let info = port?.getInfo();
-
+console.log(info, "info")
     try {
       await port.open(
         isOldMachine(info) ? oldMachineOptions : newMachineOptions
@@ -137,7 +137,9 @@ const WeightScale = () => {
 
               if (
                 selectedBusinessUnit?.value === essentialUnitId ||
-                selectedBusinessUnit?.value === kofilRazzakUnitId
+                selectedBusinessUnit?.value === kofilRazzakUnitId ||
+                selectedBusinessUnit?.value === magnumSteelUnitId ||
+                selectedBusinessUnit.value === isPatUnitId
               ) {
                 let newReplacedValue = replacedValue.replace(/[a-zA-Z]/, "8");
                 let replacedValueNumber = Number(newReplacedValue);

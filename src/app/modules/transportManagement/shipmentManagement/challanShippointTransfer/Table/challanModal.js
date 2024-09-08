@@ -19,19 +19,21 @@ export function ChallanModal({
   selectedBusinessUnit,
   cb,
 }) {
-  const {profileData} = useSelector((state) => {
-    return state.authData
-  }, shallowEqual)
+  const { profileData } = useSelector((state) => {
+    return state.authData;
+  }, shallowEqual);
   const [loading, setLoading] = useState(false);
   const [warehouseDDL, getWarehouseDDL, , setWarehouseDDL] = useAxiosGet();
 
   useEffect(() => {
-    if(ShippointDDL[0]?.value){
-      getWarehouseDDL(`/wms/ShipPointWarehouse/GetShipPointWarehouseDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&ShipPointId=${ShippointDDL[0]?.value}`)
+    if (ShippointDDL[0]?.value) {
+      getWarehouseDDL(
+        `/wms/ShipPointWarehouse/GetShipPointWarehouseDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&ShipPointId=${ShippointDDL[0]?.value}`
+      );
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[ShippointDDL])
-  
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ShippointDDL]);
+
   return (
     <>
       <Formik
@@ -56,7 +58,9 @@ export function ChallanModal({
               <CardHeader title={"Challan Shippoint Transfer update"}>
                 <CardHeaderToolbar>
                   <button
-                  disabled={!values?.pgiShippoint?.value || !values?.warehouse?.value}
+                    disabled={
+                      !values?.pgiShippoint?.value || !values?.warehouse?.value
+                    }
                     onClick={() => {
                       ShippointChange(
                         tableRowData?.intDeliveryId,
@@ -81,6 +85,19 @@ export function ChallanModal({
                     <div className="col-lg-12">
                       <div className="row global-form">
                         <>
+                          {values?.warehouse?.label && (
+                            <div className="col-lg-12">
+                              <p
+                                style={{
+                                  fontSize: "16px",
+                                  backgroundColor: "yellow",
+                                }}
+                                className="text-center text-bold"
+                              >
+                                {values?.warehouse?.label}
+                              </p>
+                            </div>
+                          )}
                           <div className="col-lg-3">
                             <ISelect
                               label="Select Shippoint"
@@ -88,13 +105,14 @@ export function ChallanModal({
                               value={values.pgiShippoint}
                               name="pgiShippoint"
                               setFieldValue={setFieldValue}
-                              dependencyFunc={(id)=>{
-                               if(id){
-                                getWarehouseDDL(`/wms/ShipPointWarehouse/GetShipPointWarehouseDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&ShipPointId=${id}`)
-                               }else{
-                                setFieldValue("warehouse","");
+                              dependencyFunc={(id) => {
+                                setFieldValue("warehouse", "");
                                 setWarehouseDDL([]);
-                               }
+                                if (id) {
+                                  getWarehouseDDL(
+                                    `/wms/ShipPointWarehouse/GetShipPointWarehouseDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&ShipPointId=${id}`
+                                  );
+                                }
                               }}
                               errors={errors}
                               touched={touched}
