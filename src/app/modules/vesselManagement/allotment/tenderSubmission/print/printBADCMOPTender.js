@@ -6,7 +6,9 @@ const PrintBADCMOPTender = ({ tenderDetails, tenderPrintId }) => {
   const totalAmount = useMemo(
     () =>
       tenderDetails?.reduce((acc, item) => {
-        acc += item?.amount === null ? 0 : item?.amount;
+        const quantity = isNaN(item?.quantity) ? 0 : item?.quantity;
+        const totalRate = isNaN(item?.totalRate) ? 0 : item?.totalRate;
+        acc += quantity * totalRate;
         return acc;
       }, 0),
     [tenderDetails]
@@ -146,9 +148,11 @@ const PrintBADCMOPTender = ({ tenderDetails, tenderPrintId }) => {
               <td>{index + 1}</td>
               <td>{item?.ghatName}</td>
               <td className="text-center">{item?.distance}</td>
-              <td>{item?.quantity}</td>
-              <td className="text-right">{_formatMoney(item?.costAmount)}</td>
-              <td className="text-right">{_formatMoney(item?.amount)}</td>
+              <td className="text-center">{item?.quantity}</td>
+              <td className="text-center">{_formatMoney(item?.totalRate)}</td>
+              <td className="text-right">
+                {_formatMoney(item?.quantity * item?.totalRate)}
+              </td>
             </tr>
           ))}
 

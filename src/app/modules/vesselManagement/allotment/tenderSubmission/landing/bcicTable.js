@@ -71,7 +71,7 @@ const BCICTendersTable = ({
                     : "NA"}
                 </td>
                 <td style={{ width: "80px" }} className="text-center">
-                  <div className="d-flex justify-content-around">
+                  <div className="d-flex" style={{ columnGap: "5px" }}>
                     {item?.isAccept !== true && (
                       <span>
                         <IEdit
