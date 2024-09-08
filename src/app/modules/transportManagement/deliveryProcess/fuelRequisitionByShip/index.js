@@ -116,7 +116,7 @@ export default function FuelRequisitionByShipment() {
                         warehouseName: "ACCL Factory",
                         businessPartnerId: 0,
                         parsonnelId: userId,
-                        costElementName: "LDOH - Carriage Outward",
+                        costElementName: 270,
                         costCenterId: 78,
                         costCenterCode: "LD",
                         costCenterName: "Logistic & Distribution,LD,Akij Cement Company Ltd",
