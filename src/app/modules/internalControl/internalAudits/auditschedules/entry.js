@@ -10,6 +10,7 @@ import { shallowEqual, useSelector } from "react-redux";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import SearchAsyncSelect from "../../../_helper/SearchAsyncSelect";
 import axios from "axios";
+import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 
 const initData = {
   auditEngagement: "",
@@ -26,6 +27,8 @@ export default function AuditSchedulesEntry() {
     return state.authData;
   }, shallowEqual);
 
+  const [objProps, setObjprops] = useState({});
+
   const [scheduleList, setScheduleList] = useState([]);
   const [
     auditEngagementList,
@@ -33,6 +36,8 @@ export default function AuditSchedulesEntry() {
     ,
     setAuditEngagementList,
   ] = useAxiosGet();
+
+  const [, onSaveAction, loading] = useAxiosPost();
 
   useEffect(() => {
     getAuditEngagementList(`/fino/Audit/GetAuditEngagementsAsync`, (data) => {
@@ -70,7 +75,32 @@ export default function AuditSchedulesEntry() {
   };
 
   const saveHandler = async (values, cb) => {
-    cb();
+    if (!scheduleList?.length) {
+      return toast.warn("Add at least one schedule !");
+    }
+    const entryApiUrl = `/fino/Audit/SaveAuditEngagementSchedules`;
+
+    const payload = scheduleList.map((item) => ({
+      intAuditScheduleId: 0,
+      intAuditEngagementId: item?.auditEngagement?.value || 0,
+      strAuditEngagementName: item?.auditEngagement?.label || "",
+      intBusinessUnitId: item?.businessUnit?.value || 0,
+      strBusinessUnitName: item?.businessUnit?.label || "",
+      intPriorityId: item?.priority?.value || 0,
+      strPriorityName: item?.priority?.label || "",
+      intAuditorId: item?.auditor?.value || 0,
+      strAuditorName: item?.auditor?.label || "",
+      dteScheduleDate: item?.dteScheduleDate || "",
+      dteStartDate: item?.dteStartDate || "",
+      dteEndDate: item?.dteEndDate || "",
+      isActive: true,
+      intCreateBy: profileData?.userId,
+      dteServerDateTime: new Date().toISOString(),
+      intUpdateBy: profileData?.userId,
+      dteLastActionDateTime: new Date().toISOString(),
+    }));
+
+    onSaveAction(entryApiUrl, payload, cb, true);
   };
 
   const onAddHandler = (values) => {
@@ -111,17 +141,24 @@ export default function AuditSchedulesEntry() {
   };
 
   return (
-    <IForm title="Audit Schedules Entry" isHiddenReset={true}>
-      {false && <Loading />}
+    <IForm
+      title="Audit Schedules Entry"
+      isHiddenReset={true}
+      getProps={setObjprops}
+    >
+      {loading && <Loading />}
       <>
         <Formik
           enableReinitialize={true}
           initialValues={initData}
           onSubmit={(values, { resetForm }) => {
-            saveHandler(values, () => resetForm(initData));
+            saveHandler(values, () => {
+              resetForm(initData);
+              setScheduleList([]);
+            });
           }}
         >
-          {({ handleSubmit, values, setFieldValue, isValid, dirty }) => (
+          {({ handleSubmit, values, setFieldValue, resetForm }) => (
             <>
               <Form className="form form-label-right">
                 {false && <Loading />}
@@ -152,10 +189,10 @@ export default function AuditSchedulesEntry() {
                     <NewSelect
                       name="priority"
                       options={[
-                        { value: 0, label: "P0" },
                         { value: 1, label: "P1" },
                         { value: 2, label: "P2" },
                         { value: 3, label: "P3" },
+                        { value: 4, label: "P4" },
                       ]}
                       value={values?.priority}
                       label="Priority"
@@ -165,7 +202,7 @@ export default function AuditSchedulesEntry() {
                     />
                   </div>
                   <div className="col-lg-3">
-                    <label>Employee</label>
+                    <label>Auditor</label>
                     <SearchAsyncSelect
                       selectedValue={values?.auditor}
                       isSearchIcon={true}
@@ -231,54 +268,69 @@ export default function AuditSchedulesEntry() {
                     </button>
                   </div>
                 </div>
-              </Form>
+                {/* Table for added schedules */}
+                {scheduleList.length > 0 && (
+                  <div className="table-responsive mt-4">
+                    <table className="table table-striped table-bordered">
+                      <thead>
+                        <tr>
+                          <th>SL</th>
+                          <th>Audit Engagement</th>
+                          <th>Business Unit</th>
+                          <th>Priority</th>
+                          <th>Auditor</th>
+                          <th>Scheduled Date</th>
+                          <th>Start Date</th>
+                          <th>End Date</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {scheduleList?.length > 0 &&
+                          scheduleList.map((item, index) => (
+                            <tr key={index}>
+                              <td>{index + 1}</td>
+                              <td>{item?.auditEngagement?.label || ""}</td>
+                              <td>{item?.businessUnit?.label || ""}</td>
+                              <td>{item?.priority?.label || ""}</td>
+                              <td>{item?.auditor?.label || ""}</td>
+                              <td className="text-center">
+                                {item?.dteScheduleDate || ""}
+                              </td>
+                              <td className="text-center">
+                                {item?.dteStartDate || ""}
+                              </td>
+                              <td className="text-center">
+                                {item?.dteEndDate || ""}
+                              </td>
+                              <td className="text-center">
+                                <span>
+                                  <IDelete
+                                    remover={() => handleDelete(index)}
+                                  />
+                                </span>
+                              </td>
+                            </tr>
+                          ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
 
-              {/* Table for added schedules */}
-              {scheduleList.length > 0 && (
-                <div className="table-responsive mt-4">
-                  <table className="table table-striped table-bordered">
-                    <thead>
-                      <tr>
-                        <th>SL</th>
-                        <th>Audit Engagement</th>
-                        <th>Business Unit</th>
-                        <th>Priority</th>
-                        <th>Auditor</th>
-                        <th>Scheduled Date</th>
-                        <th>Start Date</th>
-                        <th>End Date</th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {scheduleList?.length > 0 &&
-                        scheduleList.map((item, index) => (
-                          <tr key={index}>
-                            <td>{index + 1}</td>
-                            <td>{item?.auditEngagement?.label || ""}</td>
-                            <td>{item?.businessUnit?.label || ""}</td>
-                            <td>{item?.priority?.label || ""}</td>
-                            <td>{item?.auditor?.label || ""}</td>
-                            <td className="text-center">
-                              {item?.dteScheduleDate || ""}
-                            </td>
-                            <td className="text-center">
-                              {item?.dteStartDate || ""}
-                            </td>
-                            <td className="text-center">
-                              {item?.dteEndDate || ""}
-                            </td>
-                            <td className="text-center">
-                              <span>
-                                <IDelete remover={() => handleDelete(index)} />
-                              </span>
-                            </td>
-                          </tr>
-                        ))}
-                    </tbody>
-                  </table>
-                </div>
-              )}
+                <button
+                  type="submit"
+                  style={{ display: "none" }}
+                  ref={objProps?.btnRef}
+                  onSubmit={() => handleSubmit()}
+                ></button>
+
+                <button
+                  type="reset"
+                  style={{ display: "none" }}
+                  ref={objProps?.resetBtnRef}
+                  onSubmit={() => resetForm(initData)}
+                ></button>
+              </Form>
             </>
           )}
         </Formik>
