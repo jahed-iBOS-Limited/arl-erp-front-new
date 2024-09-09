@@ -63,6 +63,7 @@ const ReconciliationJournal = () => {
   // get user profile data from store
   const {
     selectedBusinessUnit: { value: buId },
+    profileData: { accountId },
   } = useSelector((state) => state.authData, shallowEqual);
 
   const [
@@ -71,6 +72,9 @@ const ReconciliationJournal = () => {
     isGetBaddebtRowDataLoading,
     setBaddebtRowData,
   ] = useAxiosGet();
+
+  // salary jounal
+  const [salaryJournal, getSalaryJournal, salaryJournalLoading] = useAxiosGet();
 
   const handleGetBaddebtRowData = (values) => {
     const [year, month] = values?.monthYear?.split("-")?.map(Number) || [];
@@ -181,6 +185,12 @@ const ReconciliationJournal = () => {
       );
     } else if (values?.type?.value === 5) {
       handleGetBaddebtRowData(values);
+    } else if (values?.type?.value === 6) {
+      const [year, month] = values?.monthYear?.split("-")?.map(Number) || [];
+      // console.log(year, month);
+      getSalaryJournal(
+        `/api/Payroll/SalarySelectQueryAll?partName=GeneratedSalaryReportHeaderLanding&intAccountId=${accountId}&intBusinessUnitId=${buId}&intMonthId=${month}&intYearId=${year}&intSalaryGenerateRequestId=0&intBankOrWalletType=0`
+      );
     }
   };
 
@@ -589,6 +599,20 @@ const ReconciliationJournal = () => {
                         disabled={true}
                       />
                     )}
+                    {values?.type?.value === 6 && (
+                      <div className="col-lg-3">
+                        <label>Month-Year</label>
+                        <InputField
+                          value={values?.monthYear}
+                          name="monthYear"
+                          placeholder="From Date"
+                          type="month"
+                          onChange={(e) => {
+                            setFieldValue("monthYear", e?.target?.value);
+                          }}
+                        />
+                      </div>
+                    )}
                     <div className="col-lg-2">
                       <button
                         className="btn btn-primary mr-2"
@@ -679,49 +703,49 @@ const ReconciliationJournal = () => {
                   {values?.type?.value !== 4 && values?.type?.value !== 5 && (
                     <div className="row">
                       <div className="col-12">
-                      <div className="table-responsive">
-                      <table className="table table-striped table-bordered global-table mt-0 table-font-size-sm mt-5">
-                          <thead className="bg-secondary">
-                            <tr>
-                              <th>SL</th>
-                              <th>General Ledger Code</th>
-                              <th>General Ledger Name</th>
-                              <th>Narration</th>
-                              <th style={{ width: "100px" }}>Amount</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {jounalLedgerData?.map((item, index) => (
-                              <tr key={index}>
-                                <td className="text-center">{index + 1}</td>
-                                <td className="text-center">
-                                  {item?.strGenLedgerCode}
+                        <div className="table-responsive">
+                          <table className="table table-striped table-bordered global-table mt-0 table-font-size-sm mt-5">
+                            <thead className="bg-secondary">
+                              <tr>
+                                <th>SL</th>
+                                <th>General Ledger Code</th>
+                                <th>General Ledger Name</th>
+                                <th>Narration</th>
+                                <th style={{ width: "100px" }}>Amount</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {jounalLedgerData?.map((item, index) => (
+                                <tr key={index}>
+                                  <td className="text-center">{index + 1}</td>
+                                  <td className="text-center">
+                                    {item?.strGenLedgerCode}
+                                  </td>
+                                  <td className="text-center">
+                                    {item?.strGenLedgerName}
+                                  </td>
+                                  <td className="text-right">
+                                    {item?.strNarration}
+                                  </td>
+                                  <td className="text-right">
+                                    {_formatMoney(item?.numAmount)}
+                                  </td>
+                                </tr>
+                              ))}
+                              <tr>
+                                <td
+                                  colSpan={4}
+                                  className="text-right font-weight-bold"
+                                >
+                                  Total
                                 </td>
-                                <td className="text-center">
-                                  {item?.strGenLedgerName}
-                                </td>
-                                <td className="text-right">
-                                  {item?.strNarration}
-                                </td>
-                                <td className="text-right">
-                                  {_formatMoney(item?.numAmount)}
+                                <td className="text-right font-weight-bold">
+                                  {totalJournalAmount}
                                 </td>
                               </tr>
-                            ))}
-                            <tr>
-                              <td
-                                colSpan={4}
-                                className="text-right font-weight-bold"
-                              >
-                                Total
-                              </td>
-                              <td className="text-right font-weight-bold">
-                                {totalJournalAmount}
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-      </div>
+                            </tbody>
+                          </table>
+                        </div>
                       </div>
                     </div>
                   )}
