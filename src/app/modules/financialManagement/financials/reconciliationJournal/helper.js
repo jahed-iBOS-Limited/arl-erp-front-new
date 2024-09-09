@@ -272,19 +272,35 @@ export const getReconcilationJournelData = async (
   }
 };
 
-// get salary journal
-export const getSalaryJournal = async (obj) => {
-  const { buId, accountId, values, setterFunction } = obj;
+// get or create salary journal
+export const getOrCreateSalaryJournal = async (obj) => {
+  // argument destructure
+  const { buId, accountId, values, setterFunction, setLoading, type } = obj;
+
+  // generate year & month // 2024-03 > ['2024','03'] > [2024,03]
   const [year, month] = values?.monthYear?.split("-")?.map(Number);
   // console.log(year, month);
 
+  const api = {
+    get: "GetSalaryGenerateRequestLanding",
+    create: "GetSalaryJVCostCenterWiseNew",
+  };
+
+// get last day of month - month - year from year & month
+// 2024 04 > Full Date > ISO String Date > 2024-04-30
+  let date = new Date(Date.UTC(year, month, 0))?.toISOString()?.split("T")[0];
+
+  // console.log(date);
+  setLoading(true);
   try {
     const res = await axios.get(
-      `/fino/Report/GetSalaryGenerateRequestLanding?AccountId=${accountId}&BusinessUnitId=${buId}&MonthId=${month}&YearId=${year}`
+      `/fino/Report/${api[type]}?AccountId=${accountId}&BusinessUnitId=${buId}&MonthId=${month}&YearId=${year}&Date=${date}`
     );
     setterFunction(res?.data);
   } catch (e) {
     setterFunction([]);
     console.error(e);
   }
+
+  setLoading(false);
 };

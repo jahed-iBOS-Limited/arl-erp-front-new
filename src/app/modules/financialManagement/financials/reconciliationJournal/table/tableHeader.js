@@ -20,8 +20,8 @@ import {
   getDepreciationJournal,
   getInventoryJournal,
   getInventoryJournalGenLedger,
+  getOrCreateSalaryJournal,
   getReconcilationJournelData,
-  getSalaryJournal,
   getSbuDDL,
   getType,
   getYearClosing,
@@ -41,8 +41,9 @@ import CreateBaddebt from "./baddebtInterest/createBaddebt";
 import ViewBaddebt from "./baddebtInterest/viewBaddebt";
 import COGSTable from "./cogsTable";
 import DepreciationTable from "./depreciationTable";
+import CreateSalaryJournalTable from "./salaryJournal/createJournal";
+import ViewSalaryJournalTable from "./salaryJournal/viewJournal";
 import YearClosingTable from "./yearClosingTable";
-import SalaryJournalTable from "./salaryJournal";
 
 // Validation schema
 const validationSchema = Yup.object().shape({});
@@ -134,6 +135,7 @@ const ReconciliationJournal = () => {
   const [closingData, setClosingData] = useState([]);
   const [isDayBased, setIsDayBased] = useState(0);
   const [salaryJournal, setSalaryJournal] = useState([]);
+  const [jvSalaryJournal, setJVSalaryJournal] = useState([]);
 
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
@@ -186,11 +188,13 @@ const ReconciliationJournal = () => {
     } else if (values?.type?.value === 5) {
       handleGetBaddebtRowData(values);
     } else if (values?.type?.value === 6) {
-      getSalaryJournal({
+      getOrCreateSalaryJournal({
         buId,
         accountId,
         values,
         setterFunction: setSalaryJournal,
+        setLoading,
+        type: "get",
       });
     }
   };
@@ -324,7 +328,26 @@ const ReconciliationJournal = () => {
               {true && <ModalProgressBar />}
               <CardHeader title={"Reconciliation Journal"}>
                 <CardHeaderToolbar>
-                  {values?.type?.value !== 4 && (
+                  {/* Salary Journal */}
+                  {values?.type?.value === 6 && (
+                    <button
+                      onClick={() =>
+                        getOrCreateSalaryJournal({
+                          buId,
+                          accountId,
+                          values,
+                          setterFunction: setJVSalaryJournal,
+                          setLoading,
+                          type: "create",
+                        })
+                      }
+                      className="btn btn-primary ml-2"
+                      type="submit"
+                    >
+                      Create Journal
+                    </button>
+                  )}
+                  {values?.type?.value !== 4 && values?.type?.value !== 6 && (
                     <button
                       onClick={handleSubmit}
                       className="btn btn-primary ml-2"
@@ -702,9 +725,7 @@ const ReconciliationJournal = () => {
                     )}
 
                   {/* Table Section Start */}
-                  {values?.type?.value !== 4 &&
-                  values?.type?.value !== 5 &&
-                  jounalLedgerData?.length > 0 ? (
+                  {values?.type?.value !== 4 && values?.type?.value !== 5 ? (
                     <div className="row">
                       <div className="col-12">
                         <div className="table-responsive">
@@ -860,22 +881,31 @@ const ReconciliationJournal = () => {
                   ) : (
                     <></>
                   )}
-                  {values?.type?.value === 2 && journalData?.length > 0 ? (
+                  {values?.type?.value === 2 ? (
                     <DepreciationTable journalData={journalData} />
                   ) : (
                     <></>
                   )}
-                  {values?.type?.value === 4 && closingData.length > 0 ? (
+                  {values?.type?.value === 4 ? (
                     <YearClosingTable closingData={closingData} />
                   ) : (
                     <></>
                   )}
 
+                  {/* View Salary Journal */}
                   {values?.type?.value === 6 && salaryJournal?.length > 0 ? (
-                    <SalaryJournalTable salaryJournal={salaryJournal} />
+                    <ViewSalaryJournalTable salaryJournal={salaryJournal} />
                   ) : (
                     <></>
                   )}
+
+                  {/* JV Report Salary Journal */}
+                  {values?.type?.value === 6 && jvSalaryJournal?.length > 0 ? (
+                    <CreateSalaryJournalTable jvSalaryJournal={jvSalaryJournal} />
+                  ) : (
+                    <></>
+                  )}
+
                   <>
                     <DropzoneDialogBase
                       filesLimit={1}

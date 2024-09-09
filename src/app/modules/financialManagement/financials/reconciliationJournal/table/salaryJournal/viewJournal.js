@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import numberWithCommas from "../../../../_helper/_numberWithCommas";
+import numberWithCommas from "../../../../../_helper/_numberWithCommas";
 
 const SalaryJournalTable = ({ salaryJournal }) => {
   // total gross salary
