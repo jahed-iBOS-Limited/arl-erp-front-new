@@ -9,7 +9,8 @@ export const getType = () => {
     { value: 2, label: "Depreciation" },
     { value: 3, label: "Income Tax Provision" },
     { value: 4, label: "Year Closing" },
-    {value: 5, label: "Baddebet Interest Provision"}
+    { value: 5, label: "Baddebet Interest Provision" },
+    { value: 6, label: "Salary Journal" },
   ];
 };
 
@@ -69,7 +70,7 @@ export const getYearClosing = async (
   typeId,
   closingDate,
   setClosingData,
-  setLoading,
+  setLoading
 ) => {
   console.log("setLoading", setLoading);
   setLoading(true);
@@ -88,7 +89,7 @@ export const saveYearClosing = async (
   businessUnitId,
   typeId,
   closingDate,
-  setLoading,
+  setLoading
 ) => {
   setLoading(true);
   try {
@@ -97,8 +98,7 @@ export const saveYearClosing = async (
     setLoading(false);
     if (res?.status === 200) {
       toast.success(res?.data);
-    }
-    else {
+    } else {
       toast.warn(res?.data);
     }
   } catch (err) {
@@ -187,7 +187,9 @@ export const postInventoryJournal = async (
   try {
     const api = `/wms/WmsReport/PostInventoryJournal?AccountId=${accountId}&BusinessUnitId=${businessUnitId}&SbuId=${sbuId}&fromDate=${_dateFormatter(
       fromDate
-    )}&toDate=${_dateFormatter(toDate)}&typeId=3&actionBy=${userId}&closingTypeId=${closingTypeId}`;
+    )}&toDate=${_dateFormatter(
+      toDate
+    )}&typeId=3&actionBy=${userId}&closingTypeId=${closingTypeId}`;
     const res = await axios.post(api);
     setLoading(false);
     cb(res?.data?.message);
@@ -246,7 +248,7 @@ export const getSbuDDL = async (accId, buId, setter) => {
     if (res.status === 200) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getReconcilationJournelData = async (
@@ -267,5 +269,23 @@ export const getReconcilationJournelData = async (
     setter(res?.data);
   } catch (err) {
     setLoading(false);
+  }
+};
+
+// get salary journal
+export const getSalaryJournal = async (obj) => {
+  const { peopledeskApiURL, buId, accountId, values, setterFunction } = obj;
+
+  const [year, month] = values?.monthYear?.split("-")?.map(Number) || [];
+
+  // console.log(year, month);
+
+  try {
+    const res = await axios.get(
+      `${peopledeskApiURL}/Payroll/SalarySelectQueryAll?partName=GeneratedSalaryReportHeaderLanding&intAccountId=${accountId}&intBusinessUnitId=${buId}&intMonthId=${month}&intYearId=${year}&intSalaryGenerateRequestId=0&intBankOrWalletType=0`
+    );
+    console.log(res);
+  } catch (e) {
+    console.error(e);
   }
 };

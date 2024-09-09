@@ -21,6 +21,7 @@ import {
   getInventoryJournal,
   getInventoryJournalGenLedger,
   getReconcilationJournelData,
+  getSalaryJournal,
   getSbuDDL,
   getType,
   getYearClosing,
@@ -41,6 +42,7 @@ import ViewBaddebt from "./baddebtInterest/viewBaddebt";
 import COGSTable from "./cogsTable";
 import DepreciationTable from "./depreciationTable";
 import YearClosingTable from "./yearClosingTable";
+import store from "../../../../../../redux/store";
 
 // Validation schema
 const validationSchema = Yup.object().shape({});
@@ -63,6 +65,8 @@ const ReconciliationJournal = () => {
   // get user profile data from store
   const {
     selectedBusinessUnit: { value: buId },
+    profileData: { accountId },
+    peopledeskApiURL,
   } = useSelector((state) => state.authData, shallowEqual);
 
   const [
@@ -130,10 +134,12 @@ const ReconciliationJournal = () => {
   const [journalData, setJournalData] = useState([]);
   const [closingData, setClosingData] = useState([]);
   const [isDayBased, setIsDayBased] = useState(0);
+  const [salaryJournal, setSalaryJournal] = useState([]);
 
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
+  // const peopledeskApiURL = store.getState()?.authData?.peopledeskApiURL;
 
   useEffect(() => {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
@@ -181,6 +187,14 @@ const ReconciliationJournal = () => {
       );
     } else if (values?.type?.value === 5) {
       handleGetBaddebtRowData(values);
+    } else if (values?.type?.value === 6) {
+      getSalaryJournal({
+        peopledeskApiURL,
+        buId,
+        accountId,
+        values,
+        setterFunction: setSalaryJournal,
+      });
     }
   };
 
@@ -589,6 +603,20 @@ const ReconciliationJournal = () => {
                         disabled={true}
                       />
                     )}
+                    {values?.type?.value === 6 && (
+                      <div className="col-lg-3">
+                        <label>Month-Year</label>
+                        <InputField
+                          value={values?.monthYear}
+                          name="monthYear"
+                          placeholder="From Date"
+                          type="month"
+                          onChange={(e) => {
+                            setFieldValue("monthYear", e?.target?.value);
+                          }}
+                        />
+                      </div>
+                    )}
                     <div className="col-lg-2">
                       <button
                         className="btn btn-primary mr-2"
@@ -679,49 +707,49 @@ const ReconciliationJournal = () => {
                   {values?.type?.value !== 4 && values?.type?.value !== 5 && (
                     <div className="row">
                       <div className="col-12">
-                      <div className="table-responsive">
-                      <table className="table table-striped table-bordered global-table mt-0 table-font-size-sm mt-5">
-                          <thead className="bg-secondary">
-                            <tr>
-                              <th>SL</th>
-                              <th>General Ledger Code</th>
-                              <th>General Ledger Name</th>
-                              <th>Narration</th>
-                              <th style={{ width: "100px" }}>Amount</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {jounalLedgerData?.map((item, index) => (
-                              <tr key={index}>
-                                <td className="text-center">{index + 1}</td>
-                                <td className="text-center">
-                                  {item?.strGenLedgerCode}
+                        <div className="table-responsive">
+                          <table className="table table-striped table-bordered global-table mt-0 table-font-size-sm mt-5">
+                            <thead className="bg-secondary">
+                              <tr>
+                                <th>SL</th>
+                                <th>General Ledger Code</th>
+                                <th>General Ledger Name</th>
+                                <th>Narration</th>
+                                <th style={{ width: "100px" }}>Amount</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {jounalLedgerData?.map((item, index) => (
+                                <tr key={index}>
+                                  <td className="text-center">{index + 1}</td>
+                                  <td className="text-center">
+                                    {item?.strGenLedgerCode}
+                                  </td>
+                                  <td className="text-center">
+                                    {item?.strGenLedgerName}
+                                  </td>
+                                  <td className="text-right">
+                                    {item?.strNarration}
+                                  </td>
+                                  <td className="text-right">
+                                    {_formatMoney(item?.numAmount)}
+                                  </td>
+                                </tr>
+                              ))}
+                              <tr>
+                                <td
+                                  colSpan={4}
+                                  className="text-right font-weight-bold"
+                                >
+                                  Total
                                 </td>
-                                <td className="text-center">
-                                  {item?.strGenLedgerName}
-                                </td>
-                                <td className="text-right">
-                                  {item?.strNarration}
-                                </td>
-                                <td className="text-right">
-                                  {_formatMoney(item?.numAmount)}
+                                <td className="text-right font-weight-bold">
+                                  {totalJournalAmount}
                                 </td>
                               </tr>
-                            ))}
-                            <tr>
-                              <td
-                                colSpan={4}
-                                className="text-right font-weight-bold"
-                              >
-                                Total
-                              </td>
-                              <td className="text-right font-weight-bold">
-                                {totalJournalAmount}
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-      </div>
+                            </tbody>
+                          </table>
+                        </div>
                       </div>
                     </div>
                   )}

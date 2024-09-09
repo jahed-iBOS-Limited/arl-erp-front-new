@@ -206,7 +206,7 @@ export function PartnerTable({ saveHandler }) {
           commonGridFunc(values, pageNo, pageSize);
         });
       },
-      noAlertFunc: () => { },
+      noAlertFunc: () => {},
     };
     IConfirmModal(confirmObject);
   };
@@ -384,96 +384,100 @@ export function PartnerTable({ saveHandler }) {
               )}
             </div>
             <div className="table-responsive">
-            <table
-              id="table-to-xlsx"
-              className="table table-striped table-bordered global-table"
-            >
-              <thead>
-                <tr>
-                  {values?.approveStatus?.value === 0 && (
-                    <th style={{ width: "25px" }}>
-                      <input
-                        type="checkbox"
-                        id="parent"
-                        onChange={(event) => {
-                          allGridCheck(event.target.checked);
-                        }}
-                      />
-                    </th>
-                  )}
-
-                  <th style={{ width: "20px" }}>SL</th>
-                  <th style={{ width: "55px" }}>Code</th>
-                  <th style={{ width: "120px" }}>Partner Name</th>
-                  <th style={{ width: "120px" }}>Partner Type</th>
-                  <th style={{ width: "120px" }}>Address</th>
-                  <th style={{ width: "100px" }}>Contact Number</th>
-                  <th style={{ width: "120px" }}>Email</th>
-                  <th style={{ width: "70px" }}>BIN</th>
-                  <th style={{ width: "120px" }}>Licence Number</th>
-                  <th style={{ width: "80px" }}>Status</th>
-                  <th style={{ width: "20px" }}>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {loading && <Loading />}
-                {rowDto?.map((tableData, index) => (
-                  <tr key={index}>
+              <table
+                id="table-to-xlsx"
+                className="table table-striped table-bordered global-table"
+              >
+                <thead>
+                  <tr>
                     {values?.approveStatus?.value === 0 && (
-                      <td>
+                      <th style={{ width: "25px" }}>
                         <input
-                          id="itemCheck"
                           type="checkbox"
-                          className=""
-                          value={tableData.itemCheck}
-                          checked={tableData.itemCheck}
-                          name={tableData.itemCheck}
-                          onChange={(e) => {
-                            //setFieldValue("itemCheck", e.target.checked);
-                            itemSlectedHandler(e.target.checked, index);
+                          id="parent"
+                          onChange={(event) => {
+                            allGridCheck(event.target.checked);
                           }}
                         />
-                      </td>
+                      </th>
                     )}
 
-                    <td> {tableData?.sl} </td>
-                    <td> {tableData?.businessPartnerCode} </td>
-                    <td> {tableData?.businessPartnerName} </td>
-                    <td> {tableData?.businessPartnerTypeName} </td>
-                    <td> {tableData?.businessPartnerAddress} </td>
-                    <td> {tableData?.contactNumber} </td>
-                    <td> {tableData?.email} </td>
-                    <td> {tableData?.bin} </td>
-                    <td> {tableData?.licenseNo} </td>
-                    <td>
-                      <div className="d-flex align-content-sm-start flex-wrap">
-                        <div class="order-md-1 p-1">
-                          <OverlayTrigger
-                            overlay={
-                              <Tooltip id="cs-icon">
-                                {"Partner Basic Information"}
-                              </Tooltip>
-                            }
-                          >
-                            <input
-                              type="checkbox"
-                              value={tableData?.partnerBasicInformation}
-                              checked={tableData?.businessPartnerStatus}
-                              name="BasicInformation"
-                              onClick={() =>
-                                history.push({
-                                  pathname: `/config/partner-management/partner-basic-info/edit/${tableData?.businessPartnerId}`,
-                                  state: {
-                                    ...tableData,
-                                    checkBox: "BasicInformation",
-                                  },
-                                })
+                    <th style={{ width: "20px" }}>SL</th>
+                    <th style={{ width: "55px" }}>Code</th>
+                    <th style={{ width: "120px" }}>Partner Name</th>
+                    <th style={{ width: "120px" }}>Bank Format Code</th>
+                    <th style={{ width: "120px" }}>Bank Format Prefix</th>
+                    <th style={{ width: "120px" }}>Partner Type</th>
+                    <th style={{ width: "120px" }}>Address</th>
+                    <th style={{ width: "100px" }}>Contact Number</th>
+                    <th style={{ width: "120px" }}>Email</th>
+                    <th style={{ width: "70px" }}>BIN</th>
+                    <th style={{ width: "120px" }}>Licence Number</th>
+                    <th style={{ width: "80px" }}>Status</th>
+                    <th style={{ width: "20px" }}>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {loading && <Loading />}
+                  {rowDto?.map((tableData, index) => (
+                    <tr key={index}>
+                      {values?.approveStatus?.value === 0 && (
+                        <td>
+                          <input
+                            id="itemCheck"
+                            type="checkbox"
+                            className=""
+                            value={tableData.itemCheck}
+                            checked={tableData.itemCheck}
+                            name={tableData.itemCheck}
+                            onChange={(e) => {
+                              //setFieldValue("itemCheck", e.target.checked);
+                              itemSlectedHandler(e.target.checked, index);
+                            }}
+                          />
+                        </td>
+                      )}
+
+                      <td> {tableData?.sl} </td>
+                      <td> {tableData?.businessPartnerCode} </td>
+                      <td> {tableData?.businessPartnerName} </td>
+                      <td> {tableData?.bankFormatCode} </td>
+                      <td> {tableData?.bankFormatPrefix} </td>
+                      <td> {tableData?.businessPartnerTypeName} </td>
+                      <td> {tableData?.businessPartnerAddress} </td>
+                      <td> {tableData?.contactNumber} </td>
+                      <td> {tableData?.email} </td>
+                      <td> {tableData?.bin} </td>
+                      <td> {tableData?.licenseNo} </td>
+                      <td>
+                        <div className="d-flex align-content-sm-start flex-wrap">
+                          <div class="order-md-1 p-1">
+                            <OverlayTrigger
+                              overlay={
+                                <Tooltip id="cs-icon">
+                                  {"Partner Basic Information"}
+                                </Tooltip>
                               }
-                            />
-                          </OverlayTrigger>
-                        </div>
-                        {/* changes as per miraj bhai's suggestion */}
-                        {/* {(tableData?.businessPartnerTypeName === "Supplier" ||
+                            >
+                              <input
+                                type="checkbox"
+                                value={tableData?.partnerBasicInformation}
+                                checked={tableData?.businessPartnerStatus}
+                                name="BasicInformation"
+                                onClick={() =>
+                                  history.push({
+                                    pathname: `/config/partner-management/partner-basic-info/edit/${tableData?.businessPartnerId}`,
+                                    state: {
+                                      ...tableData,
+                                      checkBox: "BasicInformation",
+                                    },
+                                  })
+                                }
+                              />
+                            </OverlayTrigger>
+                          </div>
+                          {/* changes as per miraj bhai's suggestion */}
+                          {/* {(tableData?.businessPartnerTypeName === "Supplier" ||
                           tableData?.businessPartnerTypeName ===
                             "Customer") && (
                           <div class="order-md-2 p-1">
@@ -504,67 +508,68 @@ export function PartnerTable({ saveHandler }) {
                             </OverlayTrigger>
                           </div>
                         )} */}
-                        <div class="order-md-2 p-1">
-                          <OverlayTrigger
-                            overlay={
-                              <Tooltip id="cs-icon">
-                                {"Partner Bank Information"}
-                              </Tooltip>
-                            }
-                          >
-                            <input
-                              type="checkbox"
-                              value={tableData?.partnerBankInformation}
-                              checked={
-                                tableData?.businessPartnerBankInformationStatus
-                              }
-                              name="BankInformation"
-                              onClick={() =>
-                                history.push({
-                                  pathname: `/config/partner-management/partner-basic-info/edit/${tableData?.businessPartnerId}`,
-                                  state: {
-                                    ...tableData,
-                                    checkBox: "BankInformation",
-                                  },
-                                })
-                              }
-                            />
-                          </OverlayTrigger>
-                        </div>
-                        {tableData?.businessPartnerTypeName === "Supplier" && (
-                          <div class="order-md-3 p-1">
+                          <div class="order-md-2 p-1">
                             <OverlayTrigger
                               overlay={
                                 <Tooltip id="cs-icon">
-                                  {"Partner Purchase Information"}
+                                  {"Partner Bank Information"}
                                 </Tooltip>
                               }
                             >
                               <input
                                 type="checkbox"
-                                value={tableData?.partnerPurchaseInformation}
+                                value={tableData?.partnerBankInformation}
                                 checked={
-                                  tableData?.businessPartnerPurchaseStatus
+                                  tableData?.businessPartnerBankInformationStatus
                                 }
-                                name="PurchaseInformation"
+                                name="BankInformation"
                                 onClick={() =>
                                   history.push({
                                     pathname: `/config/partner-management/partner-basic-info/edit/${tableData?.businessPartnerId}`,
                                     state: {
                                       ...tableData,
-                                      checkBox: "PurchaseInformation",
+                                      checkBox: "BankInformation",
                                     },
                                   })
                                 }
                               />
                             </OverlayTrigger>
                           </div>
-                        )}
-                        {(tableData?.businessPartnerTypeName === "Customer" ||
-                          tableData?.businessPartnerTypeName ===
-                          "Customer's Ship To Party" ||
-                          tableData?.businessPartnerTypeName ===
-                          "Employee") && (
+                          {tableData?.businessPartnerTypeName ===
+                            "Supplier" && (
+                            <div class="order-md-3 p-1">
+                              <OverlayTrigger
+                                overlay={
+                                  <Tooltip id="cs-icon">
+                                    {"Partner Purchase Information"}
+                                  </Tooltip>
+                                }
+                              >
+                                <input
+                                  type="checkbox"
+                                  value={tableData?.partnerPurchaseInformation}
+                                  checked={
+                                    tableData?.businessPartnerPurchaseStatus
+                                  }
+                                  name="PurchaseInformation"
+                                  onClick={() =>
+                                    history.push({
+                                      pathname: `/config/partner-management/partner-basic-info/edit/${tableData?.businessPartnerId}`,
+                                      state: {
+                                        ...tableData,
+                                        checkBox: "PurchaseInformation",
+                                      },
+                                    })
+                                  }
+                                />
+                              </OverlayTrigger>
+                            </div>
+                          )}
+                          {(tableData?.businessPartnerTypeName === "Customer" ||
+                            tableData?.businessPartnerTypeName ===
+                              "Customer's Ship To Party" ||
+                            tableData?.businessPartnerTypeName ===
+                              "Employee") && (
                             <div class="order-md-4 p-1">
                               <OverlayTrigger
                                 overlay={
@@ -576,7 +581,9 @@ export function PartnerTable({ saveHandler }) {
                                 <input
                                   type="checkbox"
                                   value={tableData?.partnerSalesInformation}
-                                  checked={tableData?.businessPartnerSalesStatus}
+                                  checked={
+                                    tableData?.businessPartnerSalesStatus
+                                  }
                                   name="SalesInformation"
                                   onClick={() =>
                                     history.push({
@@ -591,49 +598,49 @@ export function PartnerTable({ saveHandler }) {
                               </OverlayTrigger>
                             </div>
                           )}
-                      </div>
-                    </td>
-                    <td className="text-center">
-                      <div className="d-flex justify-content-around">
-                      <span className="view">
-                              <IView
-                                clickHandler={() => {
-                                  history.push({
-                                    pathname: `/config/partner-management/partner-basic-info/view/${tableData?.businessPartnerId}`,
-                                    state: { tableData },
-                                  });
-                                }}
-                              />
-                            </span>
-                        <button
-                          onClick={() => {
-                            history.push({
-                              pathname: `/config/partner-management/partner-basic-info/edit/${tableData?.businessPartnerId}`,
-                              state: tableData,
-                            });
-                            dispatch(setBusinessPartnerAction(values));
-                          }}
-                          style={{ border: "none", background: "none" }}
-                        >
-                          <IEdit />
-                        </button>
-                        <span>
-                          <ICon
-                            title="Setup partner with AG concern unit"
+                        </div>
+                      </td>
+                      <td className="text-center">
+                        <div className="d-flex justify-content-around">
+                          <span className="view">
+                            <IView
+                              clickHandler={() => {
+                                history.push({
+                                  pathname: `/config/partner-management/partner-basic-info/view/${tableData?.businessPartnerId}`,
+                                  state: { tableData },
+                                });
+                              }}
+                            />
+                          </span>
+                          <button
                             onClick={() => {
-                              setSingleItem(tableData);
-                              setShow(true);
+                              history.push({
+                                pathname: `/config/partner-management/partner-basic-info/edit/${tableData?.businessPartnerId}`,
+                                state: tableData,
+                              });
+                              dispatch(setBusinessPartnerAction(values));
                             }}
+                            style={{ border: "none", background: "none" }}
                           >
-                            <i class="fas fa-thumbtack"></i>
-                          </ICon>
-                        </span>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+                            <IEdit />
+                          </button>
+                          <span>
+                            <ICon
+                              title="Setup partner with AG concern unit"
+                              onClick={() => {
+                                setSingleItem(tableData);
+                                setShow(true);
+                              }}
+                            >
+                              <i class="fas fa-thumbtack"></i>
+                            </ICon>
+                          </span>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
 
             <IViewModal
