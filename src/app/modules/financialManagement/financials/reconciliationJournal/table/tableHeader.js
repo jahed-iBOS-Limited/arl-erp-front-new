@@ -42,7 +42,7 @@ import ViewBaddebt from "./baddebtInterest/viewBaddebt";
 import COGSTable from "./cogsTable";
 import DepreciationTable from "./depreciationTable";
 import YearClosingTable from "./yearClosingTable";
-import store from "../../../../../../redux/store";
+import SalaryJournalTable from "./salaryJournal";
 
 // Validation schema
 const validationSchema = Yup.object().shape({});
@@ -66,7 +66,6 @@ const ReconciliationJournal = () => {
   const {
     selectedBusinessUnit: { value: buId },
     profileData: { accountId },
-    peopledeskApiURL,
   } = useSelector((state) => state.authData, shallowEqual);
 
   const [
@@ -139,7 +138,6 @@ const ReconciliationJournal = () => {
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
-  // const peopledeskApiURL = store.getState()?.authData?.peopledeskApiURL;
 
   useEffect(() => {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
@@ -189,7 +187,6 @@ const ReconciliationJournal = () => {
       handleGetBaddebtRowData(values);
     } else if (values?.type?.value === 6) {
       getSalaryJournal({
-        peopledeskApiURL,
         buId,
         accountId,
         values,
@@ -704,7 +701,10 @@ const ReconciliationJournal = () => {
                       <ViewBaddebt tableData={baddebtRowData} />
                     )}
 
-                  {values?.type?.value !== 4 && values?.type?.value !== 5 && (
+                  {/* Table Section Start */}
+                  {values?.type?.value !== 4 &&
+                  values?.type?.value !== 5 &&
+                  jounalLedgerData?.length > 0 ? (
                     <div className="row">
                       <div className="col-12">
                         <div className="table-responsive">
@@ -752,8 +752,11 @@ const ReconciliationJournal = () => {
                         </div>
                       </div>
                     </div>
+                  ) : (
+                    <></>
                   )}
-                  {values?.type?.value === 2 && (
+
+                  {values?.type?.value === 2 ? (
                     <div className="d-flex justify-content-end mt-2">
                       <ReactHtmlTableToExcel
                         id="test-table-xls-button"
@@ -764,8 +767,10 @@ const ReconciliationJournal = () => {
                         buttonText="Export Excel"
                       />
                     </div>
+                  ) : (
+                    <></>
                   )}
-                  {values?.type?.value === 1 && jounalLedgerData?.length > 0 && (
+                  {values?.type?.value === 1 && jounalLedgerData?.length > 0 ? (
                     <>
                       <div className="row mt-3">
                         <div className="col-lg-3">
@@ -818,8 +823,10 @@ const ReconciliationJournal = () => {
                         </div>
                       </div>
                     </>
+                  ) : (
+                    <></>
                   )}
-                  {journalData?.length > 0 && values?.type?.value === 1 ? (
+                  {values?.type?.value === 1 && journalData?.length > 0 ? (
                     <>
                       <div className="text-center">
                         <h3 className="mt-2">
@@ -841,20 +848,33 @@ const ReconciliationJournal = () => {
                         />
                       </div>
                     </>
-                  ) : null}
-                  {values?.type?.value === 1 &&
-                    jounalLedgerData?.length > 0 && (
-                      <COGSTable
-                        journalData={journalData}
-                        landingValues={values}
-                        isDayBased={isDayBased}
-                      />
-                    )}
-                  {values?.type?.value === 2 && (
-                    <DepreciationTable journalData={journalData} />
+                  ) : (
+                    <></>
                   )}
-                  {values?.type?.value === 4 && (
+                  {values?.type?.value === 1 && jounalLedgerData?.length > 0 ? (
+                    <COGSTable
+                      journalData={journalData}
+                      landingValues={values}
+                      isDayBased={isDayBased}
+                    />
+                  ) : (
+                    <></>
+                  )}
+                  {values?.type?.value === 2 && journalData?.length > 0 ? (
+                    <DepreciationTable journalData={journalData} />
+                  ) : (
+                    <></>
+                  )}
+                  {values?.type?.value === 4 && closingData.length > 0 ? (
                     <YearClosingTable closingData={closingData} />
+                  ) : (
+                    <></>
+                  )}
+
+                  {values?.type?.value === 6 && salaryJournal?.length > 0 ? (
+                    <SalaryJournalTable salaryJournal={salaryJournal} />
+                  ) : (
+                    <></>
                   )}
                   <>
                     <DropzoneDialogBase
