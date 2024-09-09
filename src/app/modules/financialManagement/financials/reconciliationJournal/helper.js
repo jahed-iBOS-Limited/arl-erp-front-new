@@ -274,18 +274,17 @@ export const getReconcilationJournelData = async (
 
 // get salary journal
 export const getSalaryJournal = async (obj) => {
-  const { peopledeskApiURL, buId, accountId, values, setterFunction } = obj;
-
-  const [year, month] = values?.monthYear?.split("-")?.map(Number) || [];
-
+  const { buId, accountId, values, setterFunction } = obj;
+  const [year, month] = values?.monthYear?.split("-")?.map(Number);
   // console.log(year, month);
 
   try {
     const res = await axios.get(
-      `${peopledeskApiURL}/Payroll/SalarySelectQueryAll?partName=GeneratedSalaryReportHeaderLanding&intAccountId=${accountId}&intBusinessUnitId=${buId}&intMonthId=${month}&intYearId=${year}&intSalaryGenerateRequestId=0&intBankOrWalletType=0`
+      `/fino/Report/GetSalaryGenerateRequestLanding?AccountId=${accountId}&BusinessUnitId=${buId}&MonthId=${month}&YearId=${year}`
     );
-    console.log(res);
+    setterFunction(res?.data);
   } catch (e) {
+    setterFunction([]);
     console.error(e);
   }
 };
