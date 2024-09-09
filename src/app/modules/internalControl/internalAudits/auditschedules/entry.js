@@ -11,6 +11,9 @@ import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import SearchAsyncSelect from "../../../_helper/SearchAsyncSelect";
 import axios from "axios";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import IViewModal from "../../../_helper/_viewModal";
+import AddAuditEngagement from "./addAuditEngagement";
 
 const initData = {
   auditEngagement: "",
@@ -30,6 +33,8 @@ export default function AuditSchedulesEntry() {
   const [objProps, setObjprops] = useState({});
 
   const [scheduleList, setScheduleList] = useState([]);
+  const [isShowModal, setisShowModal] = useState(false);
+
   const [
     auditEngagementList,
     getAuditEngagementList,
@@ -39,7 +44,7 @@ export default function AuditSchedulesEntry() {
 
   const [, onSaveAction, loading] = useAxiosPost();
 
-  useEffect(() => {
+  const getAuditEngagement = () => {
     getAuditEngagementList(`/fino/Audit/GetAuditEngagementsAsync`, (data) => {
       const modifyData = data.map((item) => ({
         ...item,
@@ -48,6 +53,10 @@ export default function AuditSchedulesEntry() {
       }));
       setAuditEngagementList(modifyData);
     });
+  };
+
+  useEffect(() => {
+    getAuditEngagement();
   }, []);
 
   console.log("scheduleList", scheduleList);
@@ -164,15 +173,29 @@ export default function AuditSchedulesEntry() {
                 {false && <Loading />}
                 <div className="form-group global-form row">
                   <div className="col-lg-3">
-                    <NewSelect
-                      name="auditEngagement"
-                      options={auditEngagementList}
-                      value={values?.auditEngagement}
-                      label="Audit Engagement"
-                      onChange={(valueOption) => {
-                        setFieldValue("auditEngagement", valueOption);
-                      }}
-                    />
+                    <div className="d-flex">
+                      <NewSelect
+                        name="auditEngagement"
+                        options={auditEngagementList}
+                        value={values?.auditEngagement}
+                        label="Audit Engagement"
+                        onChange={(valueOption) => {
+                          setFieldValue("auditEngagement", valueOption);
+                        }}
+                      />
+                      <div style={{ marginTop: "23px", paddingLeft: "3px" }}>
+                        <OverlayTrigger
+                          overlay={<Tooltip id="cs-icon">{"Add"}</Tooltip>}
+                        >
+                          <span>
+                            <i
+                              className={`fas fa-plus-square pointer`}
+                              onClick={() => setisShowModal(true)}
+                            ></i>
+                          </span>
+                        </OverlayTrigger>
+                      </div>
+                    </div>
                   </div>
                   <div className="col-lg-3">
                     <NewSelect
@@ -331,6 +354,15 @@ export default function AuditSchedulesEntry() {
                   onSubmit={() => resetForm(initData)}
                 ></button>
               </Form>
+
+              <IViewModal
+                title="Audit Engagement Create"
+                modelSize="lg"
+                show={isShowModal}
+                onHide={() => setisShowModal(false)}
+              >
+                <AddAuditEngagement getAuditEngagement={getAuditEngagement} />
+              </IViewModal>
             </>
           )}
         </Formik>
