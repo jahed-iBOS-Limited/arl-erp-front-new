@@ -271,3 +271,21 @@ export const getReconcilationJournelData = async (
     setLoading(false);
   }
 };
+
+// get salary journal
+export const getSalaryJournal = async (obj) => {
+  const { peopledeskApiURL, buId, accountId, values, setterFunction } = obj;
+
+  const [year, month] = values?.monthYear?.split("-")?.map(Number) || [];
+
+  // console.log(year, month);
+
+  try {
+    const res = await axios.get(
+      `${peopledeskApiURL}/Payroll/SalarySelectQueryAll?partName=GeneratedSalaryReportHeaderLanding&intAccountId=${accountId}&intBusinessUnitId=${buId}&intMonthId=${month}&intYearId=${year}&intSalaryGenerateRequestId=0&intBankOrWalletType=0`
+    );
+    console.log(res);
+  } catch (e) {
+    console.error(e);
+  }
+};

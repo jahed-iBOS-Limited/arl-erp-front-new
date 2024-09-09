@@ -21,6 +21,7 @@ import {
   getInventoryJournal,
   getInventoryJournalGenLedger,
   getReconcilationJournelData,
+  getSalaryJournal,
   getSbuDDL,
   getType,
   getYearClosing,
@@ -41,6 +42,7 @@ import ViewBaddebt from "./baddebtInterest/viewBaddebt";
 import COGSTable from "./cogsTable";
 import DepreciationTable from "./depreciationTable";
 import YearClosingTable from "./yearClosingTable";
+import store from "../../../../../../redux/store";
 
 // Validation schema
 const validationSchema = Yup.object().shape({});
@@ -64,6 +66,7 @@ const ReconciliationJournal = () => {
   const {
     selectedBusinessUnit: { value: buId },
     profileData: { accountId },
+    peopledeskApiURL,
   } = useSelector((state) => state.authData, shallowEqual);
 
   const [
@@ -72,9 +75,6 @@ const ReconciliationJournal = () => {
     isGetBaddebtRowDataLoading,
     setBaddebtRowData,
   ] = useAxiosGet();
-
-  // salary jounal
-  const [salaryJournal, getSalaryJournal, salaryJournalLoading] = useAxiosGet();
 
   const handleGetBaddebtRowData = (values) => {
     const [year, month] = values?.monthYear?.split("-")?.map(Number) || [];
@@ -134,10 +134,12 @@ const ReconciliationJournal = () => {
   const [journalData, setJournalData] = useState([]);
   const [closingData, setClosingData] = useState([]);
   const [isDayBased, setIsDayBased] = useState(0);
+  const [salaryJournal, setSalaryJournal] = useState([]);
 
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
+  // const peopledeskApiURL = store.getState()?.authData?.peopledeskApiURL;
 
   useEffect(() => {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
@@ -186,11 +188,13 @@ const ReconciliationJournal = () => {
     } else if (values?.type?.value === 5) {
       handleGetBaddebtRowData(values);
     } else if (values?.type?.value === 6) {
-      const [year, month] = values?.monthYear?.split("-")?.map(Number) || [];
-      // console.log(year, month);
-      getSalaryJournal(
-        `/api/Payroll/SalarySelectQueryAll?partName=GeneratedSalaryReportHeaderLanding&intAccountId=${accountId}&intBusinessUnitId=${buId}&intMonthId=${month}&intYearId=${year}&intSalaryGenerateRequestId=0&intBankOrWalletType=0`
-      );
+      getSalaryJournal({
+        peopledeskApiURL,
+        buId,
+        accountId,
+        values,
+        setterFunction: setSalaryJournal,
+      });
     }
   };
 
