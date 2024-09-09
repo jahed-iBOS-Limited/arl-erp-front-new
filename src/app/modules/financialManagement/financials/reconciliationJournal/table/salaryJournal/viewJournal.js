@@ -42,6 +42,7 @@ const SalaryJournalTable = ({ salaryJournal }) => {
   }, [salaryJournal]);
   return (
     <>
+      <h4 className="mb-0 mt-2">Salary Journal</h4>
       <div className="table-responsive">
         <table className="table table-striped table-bordered global-table mt-0 table-font-size-sm mt-5">
           <thead className="bg-secondary">

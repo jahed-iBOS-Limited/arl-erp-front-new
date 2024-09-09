@@ -729,47 +729,49 @@ const ReconciliationJournal = () => {
                     <div className="row">
                       <div className="col-12">
                         <div className="table-responsive">
-                          <table className="table table-striped table-bordered global-table mt-0 table-font-size-sm mt-5">
-                            <thead className="bg-secondary">
-                              <tr>
-                                <th>SL</th>
-                                <th>General Ledger Code</th>
-                                <th>General Ledger Name</th>
-                                <th>Narration</th>
-                                <th style={{ width: "100px" }}>Amount</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {jounalLedgerData?.map((item, index) => (
-                                <tr key={index}>
-                                  <td className="text-center">{index + 1}</td>
-                                  <td className="text-center">
-                                    {item?.strGenLedgerCode}
+                          {jounalLedgerData?.length > 0 && (
+                            <table className="table table-striped table-bordered global-table mt-0 table-font-size-sm mt-5">
+                              <thead className="bg-secondary">
+                                <tr>
+                                  <th>SL</th>
+                                  <th>General Ledger Code</th>
+                                  <th>General Ledger Name</th>
+                                  <th>Narration</th>
+                                  <th style={{ width: "100px" }}>Amount</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {jounalLedgerData?.map((item, index) => (
+                                  <tr key={index}>
+                                    <td className="text-center">{index + 1}</td>
+                                    <td className="text-center">
+                                      {item?.strGenLedgerCode}
+                                    </td>
+                                    <td className="text-center">
+                                      {item?.strGenLedgerName}
+                                    </td>
+                                    <td className="text-right">
+                                      {item?.strNarration}
+                                    </td>
+                                    <td className="text-right">
+                                      {_formatMoney(item?.numAmount)}
+                                    </td>
+                                  </tr>
+                                ))}
+                                <tr>
+                                  <td
+                                    colSpan={4}
+                                    className="text-right font-weight-bold"
+                                  >
+                                    Total
                                   </td>
-                                  <td className="text-center">
-                                    {item?.strGenLedgerName}
-                                  </td>
-                                  <td className="text-right">
-                                    {item?.strNarration}
-                                  </td>
-                                  <td className="text-right">
-                                    {_formatMoney(item?.numAmount)}
+                                  <td className="text-right font-weight-bold">
+                                    {totalJournalAmount}
                                   </td>
                                 </tr>
-                              ))}
-                              <tr>
-                                <td
-                                  colSpan={4}
-                                  className="text-right font-weight-bold"
-                                >
-                                  Total
-                                </td>
-                                <td className="text-right font-weight-bold">
-                                  {totalJournalAmount}
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
+                              </tbody>
+                            </table>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -901,7 +903,9 @@ const ReconciliationJournal = () => {
 
                   {/* JV Report Salary Journal */}
                   {values?.type?.value === 6 && jvSalaryJournal?.length > 0 ? (
-                    <CreateSalaryJournalTable jvSalaryJournal={jvSalaryJournal} />
+                    <CreateSalaryJournalTable
+                      jvSalaryJournal={jvSalaryJournal}
+                    />
                   ) : (
                     <></>
                   )}
