@@ -12,15 +12,20 @@ import IForm from "../../../_helper/_form";
 import Loading from "../../../_helper/_loading";
 import InputField from "../../../_helper/_inputField";
 import { _firstDateOfMonth, _todayDate } from "../../../_helper/_todayDate";
+import NewSelect from "../../../_helper/_select";
+import IView from "../../../_helper/_helperIcons/_view";
 
 const initData = {
   fromDate: _firstDateOfMonth(),
   toDate: _todayDate(),
 };
 export default function AuditSchedules() {
-  const { profileData, selectedBusinessUnit } = useSelector((state) => {
-    return state.authData;
-  }, shallowEqual);
+  const { profileData, selectedBusinessUnit, businessUnitList } = useSelector(
+    (state) => {
+      return state.authData;
+    },
+    shallowEqual
+  );
 
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
@@ -31,12 +36,15 @@ export default function AuditSchedules() {
   const history = useHistory();
 
   const getLandingData = (values, pageNo, pageSize, searchValue = "") => {
+    const strBusinessUnit = values?.businessUnit
+      ? `&BusinessUnitId=${selectedBusinessUnit?.value}`
+      : "";
     const strDate =
       values?.fromDate && values?.toDate
         ? `&FromDate=${values?.fromDate}&ToDate=${values?.toDate}`
         : "";
     getGridData(
-      `/fino/Audit/GetAuditEngagementSchedules?BusinessUnitId=${selectedBusinessUnit?.value}&pageNumber=${pageNo}&pageSize=${pageSize}${strDate}`
+      `/fino/Audit/GetAuditEngagementSchedules?pageNumber=${pageNo}&pageSize=${pageSize}${strDate}${strBusinessUnit}`
     );
   };
 
@@ -46,6 +54,15 @@ export default function AuditSchedules() {
 
   const paginationSearchHandler = (searchValue, values) => {
     setPositionHandler(pageNo, pageSize, values, searchValue);
+  };
+
+  const calculateDaysDifference = (startDate, endDate) => {
+    if (!startDate || !endDate) return 0; // If dates are not defined, return 0 days
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    const timeDifference = end - start;
+    const dayDifference = timeDifference / (1000 * 60 * 60 * 24); // Convert milliseconds to days
+    return dayDifference > 0 ? dayDifference : 0; // Ensure non-negative days difference
   };
   return (
     <Formik
@@ -96,6 +113,17 @@ export default function AuditSchedules() {
               <>
                 <div className="form-group  global-form row">
                   <div className="col-lg-3">
+                    <NewSelect
+                      name="businessUnit"
+                      options={businessUnitList}
+                      value={values?.businessUnit}
+                      label="Business Unit"
+                      onChange={(valueOption) => {
+                        setFieldValue("businessUnit", valueOption);
+                      }}
+                    />
+                  </div>
+                  <div className="col-lg-3">
                     <InputField
                       value={values?.fromDate}
                       label="From Date"
@@ -138,7 +166,7 @@ export default function AuditSchedules() {
                     />
                   </div>
                 )}
-                {gridData?.itemList?.length > 0 && (
+                {gridData?.length > 0 && (
                   <div className="table-responsive">
                     <table className="table table-striped mt-2 table-bordered bj-table bj-table-landing">
                       <thead>
@@ -148,31 +176,43 @@ export default function AuditSchedules() {
                           <th>SBU Name</th>
                           <th>Priority</th>
                           <th>Auditor's Name</th>
-                          <th>Rate (Dhaka)</th>
-                          <th>Rate (Chittagong)</th>
+                          <th>Audit start date</th>
+                          <th>Audit end date</th>
+                          <th>Days to complete the audit assignment</th>
                           <th>Action</th>
                         </tr>
                       </thead>
                       <tbody>
-                        {gridData?.itemList?.map((item, index) => (
+                        {gridData?.map((item, index) => (
                           <tr key={index}>
                             <td>{index + 1}</td>
-                            <td className="text-center">{item?.itemCode}</td>
-                            <td>{item?.itemName}</td>
-                            <td className="text-center">{item?.uomName}</td>
+                            <td>{item?.strAuditEngagementName}</td>
+                            <td>{item?.strBusinessUnitName}</td>
                             <td className="text-center">
-                              {_dateFormatter(item?.effectiveDate)}
+                              {item?.strPriorityName}
                             </td>
-                            <td className="text-center">{item?.itemRate}</td>
                             <td className="text-center">
-                              {item?.itemOthersRate}
+                              {item?.strAuditorName}
                             </td>
+                            <td className="text-center">
+                              {_dateFormatter(item?.dteStartDate)}
+                            </td>
+                            <td className="text-center">
+                              {_dateFormatter(item?.dteEndDate)}
+                            </td>
+                            <td className="text-center">
+                              {calculateDaysDifference(
+                                item?.dteStartDate,
+                                item?.dteEndDate
+                              )}
+                            </td>
+
                             <td className="text-center">
                               <div className="">
-                                <span className="" onClick={() => {}}>
+                                {/* <span className="" onClick={() => {}}>
                                   <IEdit />
-                                </span>
-                                <span className="px-5" onClick={() => {}}>
+                                </span> */}
+                                {/* <span className="px-5" onClick={() => {}}>
                                   <OverlayTrigger
                                     overlay={
                                       <Tooltip id="cs-icon">History</Tooltip>
@@ -184,6 +224,17 @@ export default function AuditSchedules() {
                                       aria-hidden="true"
                                     ></i>
                                   </OverlayTrigger>
+                                </span> */}
+                                <span
+                                  className=""
+                                  onClick={() => {
+                                    history.push({
+                                      pathname: `/internal-control/internalaudits/auditschedules/view`,
+                                      state: item,
+                                    });
+                                  }}
+                                >
+                                  <IView />
                                 </span>
                               </div>
                             </td>
@@ -194,9 +245,9 @@ export default function AuditSchedules() {
                   </div>
                 )}
 
-                {gridData?.itemList?.length > 0 && (
+                {gridData?.length > 0 && (
                   <PaginationTable
-                    count={gridData?.totalCount}
+                    count={getGridData?.length}
                     setPositionHandler={setPositionHandler}
                     paginationState={{
                       pageNo,

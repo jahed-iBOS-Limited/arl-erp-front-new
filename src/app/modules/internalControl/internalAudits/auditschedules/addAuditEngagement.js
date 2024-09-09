@@ -13,7 +13,7 @@ export default function AddAuditEngagement({ getAuditEngagement }) {
 
   const saveHandler = (values, resetForm) => {
     saveData(
-      `/hcm/Training/CreateTrainingName`,
+      `/fino/Audit/CreateAuditEngagementAsync`,
       {
         strAuditEngagementName: values?.auditEngagementName,
         isActive: true,

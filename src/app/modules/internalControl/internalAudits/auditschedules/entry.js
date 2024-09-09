@@ -263,6 +263,7 @@ export default function AuditSchedulesEntry() {
                       value={values?.dteEndDate}
                       label="End Date"
                       name="dteEndDate"
+                      min={values?.dteStartDate}
                       type="date"
                       onChange={(e) => {
                         setFieldValue("dteEndDate", e.target.value);

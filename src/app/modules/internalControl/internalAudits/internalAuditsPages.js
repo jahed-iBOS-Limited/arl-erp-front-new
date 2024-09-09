@@ -3,6 +3,7 @@ import { Redirect, Switch } from "react-router-dom";
 import { ContentRoute } from "../../../../_metronic/layout";
 import AuditSchedules from "./auditschedules";
 import AuditSchedulesEntry from "./auditschedules/entry";
+import AuditSchedulesView from "./auditschedules/view";
 
 export function InternalAuditsPages() {
   return (
@@ -11,6 +12,10 @@ export function InternalAuditsPages() {
         exact={true}
         from="/internal-control/internalaudits"
         to="/internal-control/internalaudits/auditschedules"
+      />
+       <ContentRoute
+        path="/internal-control/internalaudits/auditschedules/view"
+        component={AuditSchedulesView}
       />
       <ContentRoute
         path="/internal-control/internalaudits/auditschedules/entry"
