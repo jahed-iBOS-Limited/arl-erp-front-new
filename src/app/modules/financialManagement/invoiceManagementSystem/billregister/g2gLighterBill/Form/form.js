@@ -317,9 +317,9 @@ export default function _Form({
                       <th>Lighter Destination</th>
                       <th>Carrier Agent Name</th>
                       <th>Quantity</th>
-                      <th>Rate</th>
                       <th>Bill Amount</th>
                       <th>Standerd Amount</th>
+                      <th>Standard Rate</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -355,9 +355,6 @@ export default function _Form({
                           <td>{item?.carrierAgentName}</td>
 
                           <td className="text-right">{item?.surveyQuantity}</td>
-                          <td className="text-right">
-                            {item?.lighterFreightProvisionRate}
-                          </td>
                           {/* <td className="text-right">{item?.carrierRate}</td> */}
                           <td style={{ width: "100px" }}>
                             <InputField
@@ -372,6 +369,9 @@ export default function _Form({
                             />
                           </td>
                           <td className="text-right">{item?.standardAmount}</td>
+                          <td className="text-right">
+                            {item?.lighterFreightProvisionRate}
+                          </td>
                         </tr>
                       );
                     })}
