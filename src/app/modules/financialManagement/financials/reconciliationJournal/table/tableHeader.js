@@ -20,8 +20,8 @@ import {
   getDepreciationJournal,
   getInventoryJournal,
   getInventoryJournalGenLedger,
+  getOrCreateSalaryJournal,
   getReconcilationJournelData,
-  getSalaryJournal,
   getSbuDDL,
   getType,
   getYearClosing,
@@ -41,8 +41,9 @@ import CreateBaddebt from "./baddebtInterest/createBaddebt";
 import ViewBaddebt from "./baddebtInterest/viewBaddebt";
 import COGSTable from "./cogsTable";
 import DepreciationTable from "./depreciationTable";
+import CreateSalaryJournalTable from "./salaryJournal/createJournal";
+import ViewSalaryJournalTable from "./salaryJournal/viewJournal";
 import YearClosingTable from "./yearClosingTable";
-import store from "../../../../../../redux/store";
 
 // Validation schema
 const validationSchema = Yup.object().shape({});
@@ -66,7 +67,6 @@ const ReconciliationJournal = () => {
   const {
     selectedBusinessUnit: { value: buId },
     profileData: { accountId },
-    peopledeskApiURL,
   } = useSelector((state) => state.authData, shallowEqual);
 
   const [
@@ -135,11 +135,11 @@ const ReconciliationJournal = () => {
   const [closingData, setClosingData] = useState([]);
   const [isDayBased, setIsDayBased] = useState(0);
   const [salaryJournal, setSalaryJournal] = useState([]);
+  const [jvSalaryJournal, setJVSalaryJournal] = useState([]);
 
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
-  // const peopledeskApiURL = store.getState()?.authData?.peopledeskApiURL;
 
   useEffect(() => {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
@@ -188,12 +188,13 @@ const ReconciliationJournal = () => {
     } else if (values?.type?.value === 5) {
       handleGetBaddebtRowData(values);
     } else if (values?.type?.value === 6) {
-      getSalaryJournal({
-        peopledeskApiURL,
+      getOrCreateSalaryJournal({
         buId,
         accountId,
         values,
         setterFunction: setSalaryJournal,
+        setLoading,
+        type: "get",
       });
     }
   };
@@ -327,7 +328,26 @@ const ReconciliationJournal = () => {
               {true && <ModalProgressBar />}
               <CardHeader title={"Reconciliation Journal"}>
                 <CardHeaderToolbar>
-                  {values?.type?.value !== 4 && (
+                  {/* Salary Journal */}
+                  {values?.type?.value === 6 && (
+                    <button
+                      onClick={() =>
+                        getOrCreateSalaryJournal({
+                          buId,
+                          accountId,
+                          values,
+                          setterFunction: setJVSalaryJournal,
+                          setLoading,
+                          type: "create",
+                        })
+                      }
+                      className="btn btn-primary ml-2"
+                      type="submit"
+                    >
+                      Create Journal
+                    </button>
+                  )}
+                  {values?.type?.value !== 4 && values?.type?.value !== 6 && (
                     <button
                       onClick={handleSubmit}
                       className="btn btn-primary ml-2"
@@ -704,56 +724,62 @@ const ReconciliationJournal = () => {
                       <ViewBaddebt tableData={baddebtRowData} />
                     )}
 
-                  {values?.type?.value !== 4 && values?.type?.value !== 5 && (
+                  {/* Table Section Start */}
+                  {values?.type?.value !== 4 && values?.type?.value !== 5 ? (
                     <div className="row">
                       <div className="col-12">
                         <div className="table-responsive">
-                          <table className="table table-striped table-bordered global-table mt-0 table-font-size-sm mt-5">
-                            <thead className="bg-secondary">
-                              <tr>
-                                <th>SL</th>
-                                <th>General Ledger Code</th>
-                                <th>General Ledger Name</th>
-                                <th>Narration</th>
-                                <th style={{ width: "100px" }}>Amount</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {jounalLedgerData?.map((item, index) => (
-                                <tr key={index}>
-                                  <td className="text-center">{index + 1}</td>
-                                  <td className="text-center">
-                                    {item?.strGenLedgerCode}
+                          {jounalLedgerData?.length > 0 && (
+                            <table className="table table-striped table-bordered global-table mt-0 table-font-size-sm mt-5">
+                              <thead className="bg-secondary">
+                                <tr>
+                                  <th>SL</th>
+                                  <th>General Ledger Code</th>
+                                  <th>General Ledger Name</th>
+                                  <th>Narration</th>
+                                  <th style={{ width: "100px" }}>Amount</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {jounalLedgerData?.map((item, index) => (
+                                  <tr key={index}>
+                                    <td className="text-center">{index + 1}</td>
+                                    <td className="text-center">
+                                      {item?.strGenLedgerCode}
+                                    </td>
+                                    <td className="text-center">
+                                      {item?.strGenLedgerName}
+                                    </td>
+                                    <td className="text-right">
+                                      {item?.strNarration}
+                                    </td>
+                                    <td className="text-right">
+                                      {_formatMoney(item?.numAmount)}
+                                    </td>
+                                  </tr>
+                                ))}
+                                <tr>
+                                  <td
+                                    colSpan={4}
+                                    className="text-right font-weight-bold"
+                                  >
+                                    Total
                                   </td>
-                                  <td className="text-center">
-                                    {item?.strGenLedgerName}
-                                  </td>
-                                  <td className="text-right">
-                                    {item?.strNarration}
-                                  </td>
-                                  <td className="text-right">
-                                    {_formatMoney(item?.numAmount)}
+                                  <td className="text-right font-weight-bold">
+                                    {totalJournalAmount}
                                   </td>
                                 </tr>
-                              ))}
-                              <tr>
-                                <td
-                                  colSpan={4}
-                                  className="text-right font-weight-bold"
-                                >
-                                  Total
-                                </td>
-                                <td className="text-right font-weight-bold">
-                                  {totalJournalAmount}
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
+                              </tbody>
+                            </table>
+                          )}
                         </div>
                       </div>
                     </div>
+                  ) : (
+                    <></>
                   )}
-                  {values?.type?.value === 2 && (
+
+                  {values?.type?.value === 2 ? (
                     <div className="d-flex justify-content-end mt-2">
                       <ReactHtmlTableToExcel
                         id="test-table-xls-button"
@@ -764,8 +790,10 @@ const ReconciliationJournal = () => {
                         buttonText="Export Excel"
                       />
                     </div>
+                  ) : (
+                    <></>
                   )}
-                  {values?.type?.value === 1 && jounalLedgerData?.length > 0 && (
+                  {values?.type?.value === 1 && jounalLedgerData?.length > 0 ? (
                     <>
                       <div className="row mt-3">
                         <div className="col-lg-3">
@@ -818,8 +846,10 @@ const ReconciliationJournal = () => {
                         </div>
                       </div>
                     </>
+                  ) : (
+                    <></>
                   )}
-                  {journalData?.length > 0 && values?.type?.value === 1 ? (
+                  {values?.type?.value === 1 && journalData?.length > 0 ? (
                     <>
                       <div className="text-center">
                         <h3 className="mt-2">
@@ -841,21 +871,45 @@ const ReconciliationJournal = () => {
                         />
                       </div>
                     </>
-                  ) : null}
-                  {values?.type?.value === 1 &&
-                    jounalLedgerData?.length > 0 && (
-                      <COGSTable
-                        journalData={journalData}
-                        landingValues={values}
-                        isDayBased={isDayBased}
-                      />
-                    )}
-                  {values?.type?.value === 2 && (
+                  ) : (
+                    <></>
+                  )}
+                  {values?.type?.value === 1 && jounalLedgerData?.length > 0 ? (
+                    <COGSTable
+                      journalData={journalData}
+                      landingValues={values}
+                      isDayBased={isDayBased}
+                    />
+                  ) : (
+                    <></>
+                  )}
+                  {values?.type?.value === 2 ? (
                     <DepreciationTable journalData={journalData} />
+                  ) : (
+                    <></>
                   )}
-                  {values?.type?.value === 4 && (
+                  {values?.type?.value === 4 ? (
                     <YearClosingTable closingData={closingData} />
+                  ) : (
+                    <></>
                   )}
+
+                  {/* View Salary Journal */}
+                  {values?.type?.value === 6 && salaryJournal?.length > 0 ? (
+                    <ViewSalaryJournalTable salaryJournal={salaryJournal} />
+                  ) : (
+                    <></>
+                  )}
+
+                  {/* JV Report Salary Journal */}
+                  {values?.type?.value === 6 && jvSalaryJournal?.length > 0 ? (
+                    <CreateSalaryJournalTable
+                      jvSalaryJournal={jvSalaryJournal}
+                    />
+                  ) : (
+                    <></>
+                  )}
+
                   <>
                     <DropzoneDialogBase
                       filesLimit={1}
