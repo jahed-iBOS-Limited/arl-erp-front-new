@@ -115,6 +115,7 @@ export default function CustomerIncentive() {
           fromRange: item?.fromRange,
           toRange: item?.toRange,
           inputAmount: item?.inputAmount,
+          customerCategory: values?.customerCategory?.label || "",
         };
         // eslint-disable-next-line no-unused-expressions
         selectedTradeCommission?.push(newItem);
