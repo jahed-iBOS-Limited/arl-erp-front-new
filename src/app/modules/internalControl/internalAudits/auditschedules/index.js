@@ -151,7 +151,7 @@ export default function AuditSchedules() {
                       onClick={() => {
                         getLandingData(values, pageNo, pageSize, "");
                       }}
-                      className="btn btn-primary mt-5"
+                      className="btn btn-primary mt-4"
                     >
                       Show
                     </button>
