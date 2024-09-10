@@ -1,0 +1,20 @@
+#audit_schedule-print p{
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+}
+
+#audit_schedule-print strong, h4, p{
+    color: #2c333a;
+}
+
+#audit_schedule-print .text-editor-view{
+    /* font-size: 14px; */
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    /* background-color: #fff; */
+}
