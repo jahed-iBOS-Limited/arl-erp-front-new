@@ -1,544 +1,206 @@
-// import { Form, Formik } from "formik";
-// import React, { useState } from "react";
-// import { useLocation } from "react-router-dom";
-// import IForm from "../../../_helper/_form";
-// import Loading from "../../../_helper/_loading";
-// import { _dateFormatter } from "../../../_helper/_dateFormate";
-// import ReactQuill from "react-quill";
-// import ReactToPrint from "react-to-print";
-
-// const initData = {
-//   item: "",
-//   remarks: "",
-//   amount: "",
-//   date: "",
-//   strAuditObjective: "",
-//   strScopeOfAudit: "",
-//   strActionPlan: "",
-// };
-
-// export default function AuditSchedulesView() {
-//   const [objProps, setObjprops] = useState({});
-//   const [isPrintView, setIsPrintView] = useState(false); // State to toggle between views
-//   const { state: viewData } = useLocation();
-//   const printRef = React.useRef();
-
-//   const saveHandler = async (values, cb) => {
-//     console.log(values);
-//     alert("Submitted Successfully");
-//   };
-
-//   const styles = {
-//     container: {
-//       fontFamily: "Arial, sans-serif",
-//       margin: "0 auto",
-//       padding: "20px",
-//       border: "1px solid #ddd",
-//       maxWidth: "800px",
-//       lineHeight: "1.6",
-//       fontSize: "14px",
-//     },
-//     heading: {
-//       textAlign: "center",
-//       marginBottom: "20px",
-//     },
-//     paragraph: {
-//       margin: "8px 0",
-//     },
-//     highlight: {
-//       fontWeight: "bold",
-//     },
-//     quillContainer: {
-//       marginBottom: "20px",
-//     },
-//     buttonContainer: {
-//       marginBottom: "20px",
-//       textAlign: "right",
-//     },
-//   };
-
-//   return (
-//     <IForm
-//       title="Create Audit Plan Template"
-//       getProps={setObjprops}
-//       isHiddenReset={true}
-//     >
-//       {false && <Loading />}
-
-//       {/* Button to Toggle View */}
-//       <div className="mt-5" style={styles.buttonContainer}>
-//         <button
-//           className="btn btn-primary mr-2"
-//           onClick={() => setIsPrintView(false)}
-//         >
-//           Create View
-//         </button>
-//         <button
-//           className="btn btn-primary mr-2"
-//           onClick={() => setIsPrintView(true)}
-//         >
-//           Print View
-//         </button>
-//         {isPrintView && (
-//           <ReactToPrint
-//             trigger={() => <button className="btn btn-primary">Print</button>}
-//             content={() => printRef.current}
-//           />
-//         )}
-//       </div>
-
-//       {/* Conditionally Render View */}
-//       {!isPrintView ? (
-//         <Formik
-//           enableReinitialize={true}
-//           initialValues={initData}
-//           onSubmit={(values, { setSubmitting, resetForm }) => {
-//             saveHandler(values, () => {
-//               resetForm(initData);
-//             });
-//           }}
-//         >
-//           {({
-//             handleSubmit,
-//             resetForm,
-//             values,
-//             setFieldValue,
-//             isValid,
-//             errors,
-//             touched,
-//           }) => (
-//             <>
-//               <Form className="form form-label-right">
-//                 {false && <Loading />}
-//                 <div className="form-group global-form row">
-//                   <div style={styles.container}>
-//                     <h2 style={styles.heading}>Audit Plan Template</h2>
-//                     <p style={styles.paragraph}>
-//                       <span style={styles.highlight}>Name of assignment:</span>{" "}
-//                       {viewData.strAuditEngagementName}
-//                     </p>
-//                     <p style={styles.paragraph}>
-//                       <span style={styles.highlight}>
-//                         Audit scope of duration:
-//                       </span>{" "}
-//                       For the year ***
-//                     </p>
-//                     <p style={styles.paragraph}>
-//                       <span style={styles.highlight}>Name of company:</span>{" "}
-//                       {viewData.strBusinessUnitName}
-//                     </p>
-//                     <p style={styles.paragraph}>
-//                       <span style={styles.highlight}>Name of Auditor:</span>{" "}
-//                       {viewData.strAuditorName} (Lead)
-//                     </p>
-//                     <p style={styles.paragraph}>
-//                       <span style={styles.highlight}>Additional Members:</span>
-//                     </p>
-//                     <ul>
-//                       <li>Mr. YY (Member)</li>
-//                       <li>Mr. CC (Member)</li>
-//                     </ul>
-//                     <p style={styles.paragraph}>
-//                       <span style={styles.highlight}>Budgeted time:</span> ****
-//                     </p>
-//                     <p style={styles.paragraph}>
-//                       <span style={styles.highlight}>Work starting date:</span>{" "}
-//                       {_dateFormatter(viewData.dteStartDate)}
-//                     </p>
-//                     <p style={styles.paragraph}>
-//                       <span style={styles.highlight}>
-//                         Fieldwork completion date:
-//                       </span>{" "}
-//                       {_dateFormatter(viewData.dteEndDate)}
-//                     </p>
-//                     <p style={styles.paragraph}>
-//                       <span style={styles.highlight}>
-//                         Draft report submission date:
-//                       </span>{" "}
-//                       ***
-//                     </p>
-//                   </div>
-
-//                   {/* ReactQuill Editors in Separate Divs with col-12 */}
-//                   <div className="col-12" style={styles.quillContainer}>
-//                     <label style={styles.highlight}>Audit Objective</label>
-//                     <ReactQuill
-//                       placeholder="Write the audit objective here"
-//                       value={values.strAuditObjective}
-//                       onChange={(value) =>
-//                         setFieldValue("strAuditObjective", value)
-//                       }
-//                     />
-//                   </div>
-
-//                   <div className="col-12" style={styles.quillContainer}>
-//                     <label style={styles.highlight}>Scope of Audit</label>
-//                     <ReactQuill
-//                       placeholder="Write the scope of the audit here"
-//                       value={values.strScopeOfAudit}
-//                       onChange={(value) =>
-//                         setFieldValue("strScopeOfAudit", value)
-//                       }
-//                     />
-//                   </div>
-
-//                   <div className="col-12" style={styles.quillContainer}>
-//                     <label style={styles.highlight}>Action Plan</label>
-//                     <ReactQuill
-//                       placeholder="Write the action plan here"
-//                       value={values.strActionPlan}
-//                       onChange={(value) =>
-//                         setFieldValue("strActionPlan", value)
-//                       }
-//                     />
-//                   </div>
-//                 </div>
-
-//                 {/* Submit and Reset buttons */}
-//                 <button
-//                   type="submit"
-//                   style={{ display: "none" }}
-//                   ref={objProps?.btnRef}
-//                   onSubmit={() => handleSubmit()}
-//                 ></button>
-
-//                 <button
-//                   type="reset"
-//                   style={{ display: "none" }}
-//                   ref={objProps?.resetBtnRef}
-//                   onSubmit={() => resetForm(initData)}
-//                 ></button>
-//               </Form>
-//             </>
-//           )}
-//         </Formik>
-//       ) : (
-//         <div ref={printRef} style={styles.container}>
-//           <h2 style={styles.heading}>Audit Plan Template - Print View</h2>
-//           <p style={styles.paragraph}>
-//             <span style={styles.highlight}>Name of assignment:</span>{" "}
-//             {viewData.strAuditEngagementName}
-//           </p>
-//           <p style={styles.paragraph}>
-//             <span style={styles.highlight}>Audit scope of duration:</span> For
-//             the year ***
-//           </p>
-//           <p style={styles.paragraph}>
-//             <span style={styles.highlight}>Name of company:</span>{" "}
-//             {viewData.strBusinessUnitName}
-//           </p>
-//           <p style={styles.paragraph}>
-//             <span style={styles.highlight}>Name of Auditor:</span>{" "}
-//             {viewData.strAuditorName} (Lead)
-//           </p>
-//           <p style={styles.paragraph}>
-//             <span style={styles.highlight}>Additional Members:</span>
-//           </p>
-//           <ul>
-//             <li>Mr. YY (Member)</li>
-//             <li>Mr. CC (Member)</li>
-//           </ul>
-//           <p style={styles.paragraph}>
-//             <span style={styles.highlight}>Budgeted time:</span> ****
-//           </p>
-//           <p style={styles.paragraph}>
-//             <span style={styles.highlight}>Work starting date:</span>{" "}
-//             {_dateFormatter(viewData.dteStartDate)}
-//           </p>
-//           <p style={styles.paragraph}>
-//             <span style={styles.highlight}>Fieldwork completion date:</span>{" "}
-//             {_dateFormatter(viewData.dteEndDate)}
-//           </p>
-//           <p style={styles.paragraph}>
-//             <span style={styles.highlight}>Draft report submission date:</span>{" "}
-//             ***
-//           </p>
-//           <p style={styles.paragraph}>
-//             <span style={styles.highlight}>Audit Objective:</span>{" "}
-//             {viewData.strAuditObjective || "Not Provided"}
-//           </p>
-//           <p style={styles.paragraph}>
-//             <span style={styles.highlight}>Scope of Audit:</span>{" "}
-//             {viewData.strScopeOfAudit || "Not Provided"}
-//           </p>
-//           <p style={styles.paragraph}>
-//             <span style={styles.highlight}>Action Plan:</span>{" "}
-//             {viewData.strActionPlan || "Not Provided"}
-//           </p>
-//         </div>
-//       )}
-//     </IForm>
-//   );
-// }
-
-import { Form, Formik } from "formik";
-import React, { useState } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
+import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import ReactToPrint from "react-to-print";
+import { _dateFormatter } from "../../../_helper/_dateFormate";
 import IForm from "../../../_helper/_form";
 import Loading from "../../../_helper/_loading";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import ReactQuill from "react-quill";
-import ReactToPrint from "react-to-print";
-
-const initData = {
-  item: "",
-  remarks: "",
-  amount: "",
-  date: "",
-  strAuditObjective: "",
-  strScopeOfAudit: "",
-  strActionPlan: "",
-};
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
+import "./style.css";
+import ViewForm from "./viewForm";
 
 export default function AuditSchedulesView() {
   const [objProps, setObjprops] = useState({});
-  const [isPrintView, setIsPrintView] = useState(false); // State to toggle between views
+  const [activeTab, setActiveTab] = useState("create"); // Managing tabs
   const { state: viewData } = useLocation();
+  const [, onSaveAction, saveLoading] = useAxiosPost();
+
   const printRef = React.useRef();
+  const [
+    scheduleData,
+    getSingleScheduleData,
+    loading,
+    setSingleScheduleData,
+  ] = useAxiosGet();
 
-  const saveHandler = async (values, cb) => {
-    console.log(values);
-    alert("Submitted Successfully");
+  const getSingleScheduleDataHandler = (AuditScheduleId) => {
+    getSingleScheduleData(
+      `/fino/Audit/GetAuditEngagementScheduleById?AuditScheduleId=${AuditScheduleId}`
+    );
   };
 
-  const styles = {
-    container: {
-      fontFamily: "Arial, sans-serif",
-      margin: "0 auto",
-      padding: "20px",
-      border: "1px solid #ddd",
-      maxWidth: "800px",
-      lineHeight: "1.6",
-      fontSize: "14px",
-    },
-    heading: {
-      textAlign: "center",
-      marginBottom: "20px",
-    },
-    paragraph: {
-      margin: "8px 0",
-    },
-    highlight: {
-      fontWeight: "bold",
-    },
-    quillContainer: {
-      marginBottom: "20px",
-    },
-    buttonContainer: {
-      marginBottom: "20px",
-      textAlign: "right",
-    },
-  };
+  useEffect(() => {
+    if (viewData?.intAuditScheduleId)
+      getSingleScheduleDataHandler(viewData?.intAuditScheduleId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    console.log("scheduleData updated", scheduleData);
+  }, [scheduleData]);
 
   return (
     <IForm
       title="Create Audit Plan Template"
       getProps={setObjprops}
       isHiddenReset={true}
+      isHiddenSave={true}
     >
-      {false && <Loading />}
+      {(loading || saveLoading) && <Loading />}
 
-      {/* Button to Toggle View */}
-      <div className="mt-5" style={styles.buttonContainer}>
-        <button
-          className="btn btn-primary mr-2"
-          onClick={() => setIsPrintView(false)}
-        >
+      <div className="mt-3">
+        <label className="mr-3">
+          <input
+            type="radio"
+            name="viewToggle"
+            value="create"
+            checked={activeTab === "create"}
+            onChange={() => setActiveTab("create")}
+            className="mr-1 pointer"
+            style={{ position: "relative", top: "2px" }}
+          />
           Create View
-        </button>
-        <button
-          className="btn btn-primary mr-2"
-          onClick={() => setIsPrintView(true)}
-        >
+        </label>
+        <label className="mr-3">
+          <input
+            type="radio"
+            name="viewToggle"
+            value="print"
+            checked={activeTab === "print"}
+            onChange={() => setActiveTab("print")}
+            className="mr-1 pointer"
+            style={{ position: "relative", top: "2px" }}
+          />
           Print View
-        </button>
-        {isPrintView && (
+        </label>
+      </div>
+
+      <div className="text-right mt-3">
+        {activeTab === "create" && (
+          <button
+            onClick={() => {
+              const entryApiUrl = `/fino/Audit/SaveAuditEngagementSchedules`;
+
+              onSaveAction(
+                entryApiUrl,
+                [scheduleData],
+                () => {
+                  getSingleScheduleDataHandler(viewData?.intAuditScheduleId);
+                },
+                true
+              );
+            }}
+            type="button"
+            form="createForm"
+            className="btn btn-primary"
+          >
+            Save
+          </button>
+        )}
+        {activeTab === "print" && (
           <ReactToPrint
-            trigger={() => <button className="btn btn-primary">Print</button>}
+            trigger={() => (
+              <button className="btn btn-primary ml-3">Print</button>
+            )}
             content={() => printRef.current}
           />
         )}
       </div>
 
-      {/* Conditionally Render View */}
-      {!isPrintView ? (
-        <Formik
-          enableReinitialize={true}
-          initialValues={initData}
-          onSubmit={(values, { setSubmitting, resetForm }) => {
-            saveHandler(values, () => {
-              resetForm(initData);
-            });
-          }}
-        >
-          {({
-            handleSubmit,
-            resetForm,
-            values,
-            setFieldValue,
-            isValid,
-            errors,
-            touched,
-          }) => (
-            <>
-              <Form className="form form-label-right">
-                {false && <Loading />}
-                <div className="form-group global-form row">
-                  <div style={styles.container}>
-                    <h2 style={styles.heading}>Audit Plan Template</h2>
-                    <p style={styles.paragraph}>
-                      <span style={styles.highlight}>Name of assignment:</span>{" "}
-                      {viewData.strAuditEngagementName}
-                    </p>
-                    <p style={styles.paragraph}>
-                      <span style={styles.highlight}>
-                        Audit scope of duration:
-                      </span>{" "}
-                      For the year ***
-                    </p>
-                    <p style={styles.paragraph}>
-                      <span style={styles.highlight}>Name of company:</span>{" "}
-                      {viewData.strBusinessUnitName}
-                    </p>
-                    <p style={styles.paragraph}>
-                      <span style={styles.highlight}>Name of Auditor:</span>{" "}
-                      {viewData.strAuditorName} (Lead)
-                    </p>
-                    <p style={styles.paragraph}>
-                      <span style={styles.highlight}>Additional Members:</span>
-                    </p>
-                    <ul>
-                      <li>Mr. YY (Member)</li>
-                      <li>Mr. CC (Member)</li>
-                    </ul>
-                    <p style={styles.paragraph}>
-                      <span style={styles.highlight}>Budgeted time:</span> ****
-                    </p>
-                    <p style={styles.paragraph}>
-                      <span style={styles.highlight}>Work starting date:</span>{" "}
-                      {_dateFormatter(viewData.dteStartDate)}
-                    </p>
-                    <p style={styles.paragraph}>
-                      <span style={styles.highlight}>
-                        Fieldwork completion date:
-                      </span>{" "}
-                      {_dateFormatter(viewData.dteEndDate)}
-                    </p>
-                    <p style={styles.paragraph}>
-                      <span style={styles.highlight}>
-                        Draft report submission date:
-                      </span>{" "}
-                      ***
-                    </p>
-                  </div>
-
-                  {/* ReactQuill Editors in Separate Divs with col-12 */}
-                  <div className="col-12" style={styles.quillContainer}>
-                    <label style={styles.highlight}>Audit Objective</label>
-                    <ReactQuill
-                      placeholder="Write the audit objective here"
-                      value={values.strAuditObjective}
-                      onChange={(value) =>
-                        setFieldValue("strAuditObjective", value)
-                      }
-                    />
-                  </div>
-
-                  <div className="col-12" style={styles.quillContainer}>
-                    <label style={styles.highlight}>Scope of Audit</label>
-                    <ReactQuill
-                      placeholder="Write the scope of the audit here"
-                      value={values.strScopeOfAudit}
-                      onChange={(value) =>
-                        setFieldValue("strScopeOfAudit", value)
-                      }
-                    />
-                  </div>
-
-                  <div className="col-12" style={styles.quillContainer}>
-                    <label style={styles.highlight}>Action Plan</label>
-                    <ReactQuill
-                      placeholder="Write the action plan here"
-                      value={values.strActionPlan}
-                      onChange={(value) =>
-                        setFieldValue("strActionPlan", value)
-                      }
-                    />
-                  </div>
-                </div>
-
-                {/* Submit and Reset buttons */}
-                <div className="form-group global-form row">
-                  <div className="col-12 text-right">
-                    <button
-                      type="submit"
-                      className="btn btn-primary"
-                      onSubmit={() => handleSubmit()}
-                    >
-                      Save
-                    </button>
-                  </div>
-                </div>
-              </Form>
-            </>
-          )}
-        </Formik>
+      {/* Conditionally rendering the content based on the active tab */}
+      {activeTab === "create" ? (
+        <ViewForm
+          scheduleData={scheduleData}
+          setSingleScheduleData={setSingleScheduleData}
+        />
       ) : (
-        <div ref={printRef} style={styles.container}>
-          <h2 style={styles.heading}>Audit Plan Template - Print View</h2>
-          <p style={styles.paragraph}>
-            <span style={styles.highlight}>Name of assignment:</span>{" "}
-            {viewData.strAuditEngagementName}
-          </p>
-          <p style={styles.paragraph}>
-            <span style={styles.highlight}>Audit scope of duration:</span> For
-            the year ***
-          </p>
-          <p style={styles.paragraph}>
-            <span style={styles.highlight}>Name of company:</span>{" "}
-            {viewData.strBusinessUnitName}
-          </p>
-          <p style={styles.paragraph}>
-            <span style={styles.highlight}>Name of Auditor:</span>{" "}
-            {viewData.strAuditorName} (Lead)
-          </p>
-          <p style={styles.paragraph}>
-            <span style={styles.highlight}>Additional Members:</span>
-          </p>
-          <ul>
-            <li>Mr. YY (Member)</li>
-            <li>Mr. CC (Member)</li>
-          </ul>
-          <p style={styles.paragraph}>
-            <span style={styles.highlight}>Budgeted time:</span> ****
-          </p>
-          <p style={styles.paragraph}>
-            <span style={styles.highlight}>Work starting date:</span>{" "}
-            {_dateFormatter(viewData.dteStartDate)}
-          </p>
-          <p style={styles.paragraph}>
-            <span style={styles.highlight}>Fieldwork completion date:</span>{" "}
-            {_dateFormatter(viewData.dteEndDate)}
-          </p>
-          <p style={styles.paragraph}>
-            <span style={styles.highlight}>Draft report submission date:</span>{" "}
-            ***
-          </p>
-          <p style={styles.paragraph}>
-            <span style={styles.highlight}>Audit Objective:</span>{" "}
-            {viewData.strAuditObjective || "Not Provided"}
-          </p>
-          <p style={styles.paragraph}>
-            <span style={styles.highlight}>Scope of Audit:</span>{" "}
-            {viewData.strScopeOfAudit || "Not Provided"}
-          </p>
-          <p style={styles.paragraph}>
-            <span style={styles.highlight}>Action Plan:</span>{" "}
-            {viewData.strActionPlan || "Not Provided"}
-          </p>
+        <div
+          id="audit_schedule-print"
+          ref={printRef}
+          className="p-4 form-group global-form"
+        >
+          {/* Print View Content */}
+          <div className="text-center" style={{ mergin: "0 auto" }}>
+            <h4>Audit Plan Template</h4>
+            <p>
+              <strong>
+                Name of assignment: {scheduleData?.strAuditEngagementName}
+              </strong>
+            </p>
+            <p>
+              <strong>Audit scope of duration: For the year ***</strong>
+            </p>
+            <p>
+              <strong>
+                Name of company: {scheduleData?.strBusinessUnitName}
+              </strong>
+            </p>
+            <p>
+              <strong>
+                Name of Auditor: {scheduleData?.strAuditorName} (Lead)
+              </strong>
+            </p>
+            <p>
+              <strong>Additional Members:</strong>
+            </p>
+            <p>Mr. YY (Member)</p>
+            <p>Mr. CC (Member)</p>
+            <p>
+              <strong>
+                Work starting date: {_dateFormatter(scheduleData?.dteStartDate)}
+              </strong>
+            </p>
+            <p>
+              <strong>
+                Fieldwork completion date:{" "}
+                {_dateFormatter(scheduleData?.dteEndDate)}
+              </strong>
+            </p>
+          </div>
+          <div className="row">
+            <div className="col-12">
+              <h5>Audit Objective:</h5>
+              <div
+                className="text-editor-view"
+                dangerouslySetInnerHTML={{
+                  __html: scheduleData?.strAuditObjective || "",
+                }}
+              ></div>
+              <hr />
+            </div>
+            <div className="col-12">
+              <h5>Scope of Audit:</h5>
+              <div
+                className="text-editor-view"
+                dangerouslySetInnerHTML={{
+                  __html: scheduleData?.strScopeOfAudit || "",
+                }}
+              ></div>
+              <hr />
+            </div>
+            <div className="col-12">
+              <h5>General Scope Of Work:</h5>
+              <div
+                className="text-editor-view"
+                dangerouslySetInnerHTML={{
+                  __html: scheduleData?.strGeneralScopeOfWork || "",
+                }}
+              ></div>
+              <hr />
+            </div>
+            <div className="col-12">
+              <h5>Action Plan:</h5>
+              <div
+                className="text-editor-view"
+                dangerouslySetInnerHTML={{
+                  __html: scheduleData?.strActionPlan || "",
+                }}
+              ></div>
+            </div>
+          </div>
         </div>
       )}
     </IForm>
   );
 }
-
