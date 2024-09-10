@@ -248,10 +248,10 @@ const PrintInvoiceModal = ({ singleItem }) => {
                       </td>
                     <td style={{ textAlign: "right", paddingRight: "3px" }}>
                       <strong>
-                        {Math.floor(
+                        {_formatMoney((Math.floor(
                           printData[0]?.invocieRow[0]?.numScheduleAmount +
                             printData[0]?.invocieRow[0]?.numScheduleVatAmount
-                        )}
+                        )))}
                       </strong>
                     </td>
                   </tr>
@@ -300,7 +300,7 @@ const PrintInvoiceModal = ({ singleItem }) => {
               <h5 className="bd_title">Bank Details:</h5>
               <p>
                 {" "}
-                <strong>A/C Name: </strong>AKIJ iBOS Limited
+                <strong>A/C Name: </strong>iBOS Limited
               </p>
               <p>
                 {" "}
