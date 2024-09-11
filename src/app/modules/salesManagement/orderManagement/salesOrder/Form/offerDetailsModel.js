@@ -22,7 +22,8 @@ function OfferDetailsModel({ tradeOffersList }) {
                 <td>{item?.itemName}</td>
                 <td>{item?.orderQty}</td>
                 <td>{item?.offerItemName}</td>
-                <td>{item?.offerQty}</td>
+                {/* <td>{item?.offerQty}</td> */}
+                <td>{item?.offerQtyBySloat}</td>
                 <td>{item?.offerRatio}</td>
               </tr>
             ))}
