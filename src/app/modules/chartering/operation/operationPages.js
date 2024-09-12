@@ -2,6 +2,7 @@ import React from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import Recap from "./recap";
 import RecapCreate from "./recap/create";
+import EDPALoadPort from "./edpaLoadPort";
 
 export function OperationPages() {
   return (
@@ -17,6 +18,10 @@ export function OperationPages() {
         component={RecapCreate}
       />
       <Route path="/chartering/operation/recap" component={Recap} />
+      <Route
+        path="/chartering/operation/epdaLoadPort"
+        component={EDPALoadPort}
+      />
     </Switch>
   );
 }
