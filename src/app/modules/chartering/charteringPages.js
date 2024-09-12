@@ -57,6 +57,7 @@ import PortDistanceReport from "./reports/portDistance";
 import VesselAuditLanding from "./vesselAuditInspection";
 import CreateEditVesselAudit from "./vesselAuditInspection/components/CreateEditVesselAudit";
 import ManagementDashboard from "./reports/managementDashboard";
+import OperationPages from "./operation/operationPages";
 
 export function CharteringPages() {
   const [state, setState] = useState(CharteringState);
@@ -381,6 +382,10 @@ export function CharteringPages() {
         <Route
           path="/chartering/lighterVessel"
           component={LighterVesselPages}
+        />
+         <Route
+          path="/chartering/operation"
+          component={OperationPages}
         />
         <Route
           path="/chartering/report/cpClause/:type/:id"
