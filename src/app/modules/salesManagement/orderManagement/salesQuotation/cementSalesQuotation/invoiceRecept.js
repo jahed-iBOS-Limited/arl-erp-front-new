@@ -235,7 +235,7 @@ const SalesQuotationForCement = ({
             </p>
             <p>
               <span>Credit backup </span>
-              {invoiceData?.[0]?.paymentMode}
+              {invoiceData?.[0]?.creditTypeS}
               {/* Purchase Order/Post Dated Cheque/Bank Guarantee/L-C. */}
             </p>
             <p>
