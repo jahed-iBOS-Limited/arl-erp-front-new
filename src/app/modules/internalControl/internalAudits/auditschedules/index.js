@@ -20,7 +20,7 @@ const initData = {
   toDate: _todayDate(),
 };
 export default function AuditSchedules() {
-  const { profileData, selectedBusinessUnit, businessUnitList } = useSelector(
+  const { businessUnitList } = useSelector(
     (state) => {
       return state.authData;
     },
@@ -37,7 +37,7 @@ export default function AuditSchedules() {
 
   const getLandingData = (values, pageNo, pageSize, searchValue = "") => {
     const strBusinessUnit = values?.businessUnit
-      ? `&BusinessUnitId=${selectedBusinessUnit?.value}`
+      ? `&BusinessUnitId=${values?.businessUnit?.value}`
       : "";
     const strDate =
       values?.fromDate && values?.toDate

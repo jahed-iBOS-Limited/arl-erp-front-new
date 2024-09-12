@@ -35,6 +35,20 @@ export const getSalesQuotationById = (id, setDisabled) => (dispatch) => {
             isSpecification: false,
             remark: item?.objHeader?.remark || "",
           },
+
+          validityDays: item.objHeader?.validityDays || 0,
+          transportType: {
+            value: item.objHeader?.transportTypeId,
+            label: item.objHeader?.transportType,
+          },
+          creditBackUp: {
+            value: item.objHeader?.creditBackUpTypeId,
+            label: item.objHeader?.creditBackUpType,
+          },
+          destination: item.objHeader?.finalDestination || "",
+          creditLimitDaysPropose: item.objHeader?.creditLimitDaysPropose || 0,
+          creditLimitAmountsPropose:
+            item.objHeader?.creditLimitAmountsPropose || 0,
         };
         setDisabled && setDisabled(false);
         return dispatch(slice.SetDataById(data));

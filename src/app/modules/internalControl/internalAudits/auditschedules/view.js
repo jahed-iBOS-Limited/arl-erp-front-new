@@ -118,9 +118,10 @@ export default function AuditSchedulesView() {
         <div
           id="audit_schedule-print"
           ref={printRef}
-          className="p-4 form-group global-form"
+          className="p-4"
         >
           {/* Print View Content */}
+          <div className="mb-3"></div>
           <div className="text-center" style={{ mergin: "0 auto" }}>
             <h4>Audit Plan Template</h4>
             <p>

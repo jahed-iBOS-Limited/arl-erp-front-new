@@ -367,6 +367,85 @@ export default function _Form({
                       />
                     </div>
 
+                    {buId === 4 && (
+                      <>
+                        <div className="col-lg-2">
+                          <InputField
+                            value={values?.validityDays || ""}
+                            name="validityDays"
+                            type="number"
+                            placeholder="Validity Days"
+                            label="Validity Days"
+                          />
+                        </div>
+                        <div className="col-lg-2">
+                          <NewSelect
+                            name="transportType"
+                            options={[
+                              { value: 1, label: "Truck" },
+                              { value: 2, label: "Bulk Carrier" },
+                              { value: 3, label: "Troller" },
+                            ]}
+                            value={values?.transportType}
+                            label="Transport Type"
+                            onChange={(valueOption) => {
+                              setFieldValue("transportType", valueOption);
+                            }}
+                            placeholder="Transport Type"
+                            errors={errors}
+                            touched={touched}
+                            isDisabled={isEdit}
+                          />
+                        </div>
+                        <div className="col-lg-2">
+                          <NewSelect
+                            label="Credit Backup"
+                            placeholder="Credit Backup"
+                            options={[
+                              { value: 1, label: "Bank Guarantee" },
+                              { value: 2, label: "PD Cheque" },
+                              { value: 3, label: "Work Order" },
+                              { value: 4, label: "Advance" },
+                            ]}
+                            name="creditBackUp"
+                            errors={errors}
+                            touched={touched}
+                            value={values.creditBackUp}
+                            onChange={(valueOption) => {
+                              setFieldValue("creditBackUp", valueOption);
+                            }}
+                          />
+                        </div>
+                        <div className="col-lg-2">
+                          <InputField
+                            value={values?.destination || ""}
+                            label="Destination"
+                            placeholder="Destination"
+                            name="destination"
+                            type="text"
+                          />
+                        </div>
+                        <div className="col-lg-2">
+                          <InputField
+                            value={values?.creditLimitDaysPropose || ""}
+                            label="Credit Limit Day"
+                            placeholder="Credit Limit Day"
+                            name="creditLimitDaysPropose"
+                            type="number"
+                          />
+                        </div>
+                        <div className="col-lg-2">
+                          <InputField
+                            value={values?.creditLimitAmountsPropose || ""}
+                            label="Credit Limit Amount"
+                            placeholder="Credit Limit Amount"
+                            name="creditLimitAmountsPropose"
+                            type="number"
+                          />
+                        </div>
+                      </>
+                    )}
+
                     <div className="col-lg-4">
                       <label>Remarks</label>
                       <TextArea

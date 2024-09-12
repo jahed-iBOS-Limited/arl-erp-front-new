@@ -56,6 +56,13 @@ const initData = {
   address: "",
   includeAit: "",
   distance: "",
+
+  validityDays: "",
+  transportType: "",
+  creditBackUp: "",
+  destination: "",
+  creditLimitDaysPropose: "",
+  creditLimitAmountsPropose: ""
 };
 
 export default function SalesQuotationReadyMixForm({
@@ -199,6 +206,15 @@ export default function SalesQuotationReadyMixForm({
             strProject: "",
             isAitinclude: values?.includeAit?.value === 1,
             distancekm: values?.distance || "",
+
+            validityDays: +values.validityDays || 0,
+            transportType: values.transportType?.label || "",
+            transportTypeId: +values.transportType?.value || 0,
+            creditBackUpType: values.creditBackUp?.label || "",
+            creditBackUpTypeId: +values.creditBackUp?.value || 0,
+            creditLimitDaysPropose: +values.creditLimitDaysPropose || 0,
+            creditLimitAmountsPropose: +values.creditLimitAmountsPropose || 0,
+            finalDestination: values?.destination || "",
           },
           objRow: objListRowDTO,
           objSpecRow: objSpecRow,
@@ -256,6 +272,15 @@ export default function SalesQuotationReadyMixForm({
             paymentMode: values?.paymentMode || "",
             isAitinclude: values?.includeAit?.value === 1,
             distancekm: values?.distance || "",
+
+            validityDays: +values.validityDays || 0,
+            transportType: values.transportType?.label || "",
+            transportTypeId: +values.transportType?.value || 0,
+            creditBackUpType: values.creditBackUp?.label || "",
+            creditBackUpTypeId: +values.creditBackUp?.value || 0,
+            creditLimitDaysPropose: +values.creditLimitDaysPropose || 0,
+            creditLimitAmountsPropose: +values.creditLimitAmountsPropose || 0,
+            finalDestination: values?.destination || "",
           },
           objRow: objListRowDTO,
           objSpecRow: objSpecRow,
