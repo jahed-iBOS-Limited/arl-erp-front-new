@@ -265,7 +265,7 @@ export default function _Form({
                       }
                     }}
                     disabled={
-                      isView || (isEdit && values?.isSlabProgram && buId !== 94)
+                      isView || (isEdit && values?.isSlabProgram && buId !== 94 && buId !== 175)
                     }
                   />
                 </div>
@@ -281,7 +281,7 @@ export default function _Form({
                       }
                     }}
                     disabled={
-                      isView || (isEdit && values?.isSlabProgram && buId === 94)
+                      isView || (isEdit && values?.isSlabProgram && buId === 94 && buId === 175)
                     }
                   />
                 </div>
@@ -297,7 +297,7 @@ export default function _Form({
                       }
                     }}
                     disabled={
-                      isView || (isEdit && values?.isSlabProgram && buId === 94)
+                      isView || (isEdit && values?.isSlabProgram && buId === 94 && buId === 175)
                     }
                   />
                 </div>
@@ -331,7 +331,7 @@ export default function _Form({
                       }
                     }}
                     disabled={
-                      isView || (isEdit && values?.isSlabProgram && buId !== 94)
+                      isView || (isEdit && values?.isSlabProgram && buId !== 94 && buId !== 175)
                     }
                   />
                 </div>
