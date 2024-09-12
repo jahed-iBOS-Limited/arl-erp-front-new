@@ -187,7 +187,7 @@ export default function LoadingSupervisorInfo() {
                             return toast.warn("Already Completed");
                           }
                           onComplete(
-                            `/oms/LoadingPoint/CompletePacker?shipmentId=${reportData?.objHeader?.shipmentId}&actionBy=${profileData?.userId}&typeId=1&tlm=${values?.tlm?.value}`,
+                            `/oms/LoadingPoint/CompletePacker?shipmentId=${reportData?.objHeader?.shipmentId}&actionBy=${profileData?.userId}&typeId=1&tlm=${values?.tlm?.value}&packerId=${values?.packerName?.value}`,
 
                             // actionType === "Auto"
                             //   ? shipmentId
