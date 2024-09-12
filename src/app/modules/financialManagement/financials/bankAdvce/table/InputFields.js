@@ -15,12 +15,10 @@ import { SetFinancialsBankAdviceAction } from "../../../../_helper/reduxForLocal
 import IConfirmModal from "../../../../chartering/_chartinghelper/_confirmModal";
 import EmailViewForm from "./emailForm";
 import { generateExcel } from "./excelReportGenarate";
-import SendOtpToEmailModal from "../email/sendOtpModal";
 
 const InputFields = ({ obj }) => {
   const [isView, setIsView] = useState("");
   const [mdalShow, setModalShow] = useState(false);
-  const [scbModalShow, setSCBModalShow] = useState(false);
   const [isShowModal, setIsShowModal] = useState(false);
   const [total, setTotal] = useState(0);
   const [, setTotalInWords] = useState(0);
@@ -57,7 +55,7 @@ const InputFields = ({ obj }) => {
         (item) => item.checked && item.strPayee?.length >= 36
       );
     } else if (values?.adviceType?.value === 21) {
-      // adviceType 21 (TDS/VDS)
+      // adviceType 21 (TDS/VDS) 
       const data1 = adviceReportData?.filter((item) => item.checked);
       const firstItem = data1?.[0] || {};
       data = [
@@ -216,25 +214,6 @@ const InputFields = ({ obj }) => {
           className="d-flex align-items-center justify-content-end"
           style={{ marginTop: "8px", flexWrap: "wrap", gap: "10px" }}
         >
-          {/* Show only salary advice */}
-          {values?.adviceType?.value === 12 && (
-            <button
-              type="button"
-              className="btn btn-primary mr-2"
-              onClick={() => {
-                setSCBModalShow(true);
-              }}
-              // disable if bank acc isn't to scb bank value 41
-              disabled={
-                !values?.dateTime ||
-                values?.bankAccountNo?.bankId !== 41 ||
-                values?.adviceType?.value !== 12 ||
-                !values?.advice
-              }
-            >
-              SCB Disverse
-            </button>
-          )}
           <button
             type="button"
             onClick={() => setIsShowModal(true)}
@@ -429,16 +408,6 @@ const InputFields = ({ obj }) => {
           </button>
         </div>
       </div>
-
-      {/* SCB Bank Advice Modal Show For Send OTP */}
-      <IViewModal
-        title="Send OTP"
-        modelSize='md'
-        show={scbModalShow}
-        onHide={() => setSCBModalShow(false)}
-      >
-        <SendOtpToEmailModal objProps={{profileData}} />
-      </IViewModal>
 
       <IViewModal
         title="Send Email"
