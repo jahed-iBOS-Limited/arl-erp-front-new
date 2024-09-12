@@ -84,8 +84,8 @@ export function OrderManagementPages() {
         from='/sales-management/ordermanagement/salesquotation/edit/:id'
         component={
           salesQuotation?.isEdit
-            ? selectedBusinessUnit?.value === 175
-              ? SalesQuotationReadyMixForm
+            ?  [175, 4].includes(selectedBusinessUnit?.value)
+            ? SalesQuotationReadyMixForm
               : SalesQuotationForm
             : NotPermittedPage
         }

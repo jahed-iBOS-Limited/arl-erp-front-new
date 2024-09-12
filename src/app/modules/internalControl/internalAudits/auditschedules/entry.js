@@ -277,7 +277,7 @@ export default function AuditSchedulesEntry() {
                       onClick={() => {
                         onAddHandler(values);
                       }}
-                      className="btn btn-primary mt-5 ml-3"
+                      className="btn btn-primary mt-4 ml-3"
                       disabled={
                         !values.auditEngagement ||
                         !values.businessUnit ||
