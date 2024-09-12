@@ -66,6 +66,7 @@ export default function LoadingSupervisorInfo() {
   const [open, setOpen] = useState(false);
   const [singleItem, setSingleItem] = useState({});
   const [showReport, setShowReport] = useState(false);
+  const [packerList, getPackerList, , setPackerList] = useAxiosGet();
 
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
@@ -95,10 +96,60 @@ export default function LoadingSupervisorInfo() {
   };
 
   const isLoading = loader || loading || rowLoading;
-useEffect(() => {
-  getTLMDDL(`/wms/AssetTransection/GetLabelNValueForDDL?BusinessUnitId=${buId}&TypeId=1&RefferencePKId=1`)
-}, [buId]);
+  useEffect(() => {
+    getTLMDDL(
+      `/wms/AssetTransection/GetLabelNValueForDDL?BusinessUnitId=${buId}&TypeId=1&RefferencePKId=1`
+    );
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [buId]);
+  // console.log(packerList);
+
+  const handleCardNumberChange = (e, setFieldValue) => {
+    if (e.keyCode === 13) {
+      setFieldValue("shipmentCode", e.target.value);
+
+      // get report data & update formik field
+      getReportData(
+        // `/wms/Delivery/GetDeliveryPrintInfoManual?businessUnitId=${selectedBusinessUnit?.value}&shipmentCode=${e.target.value}`,
+        `/wms/Delivery/GetDeliveryPrintInfoByVehicleCardNumber?strCardNumber=${e.target.value}`,
+        (res) => {
+          // get packer list & update
+          getPackerList(
+            `/mes/WorkCenter/GetWorkCenterListByTypeId?WorkCenterTypeId=1&AccountId=${profileData?.accountId}&BusinessUnitId=${buId}`,
+
+            (resData) => {
+              // set ddl state
+              setPackerList(
+                resData?.map((item) => ({
+                  ...item,
+                  value: item?.workCenterId,
+                  label: item?.workCenterName,
+                }))
+              );
+            }
+          );
+
+          // destructure value
+          const { packerName, packerId } = res?.objHeader;
+
+          // set formik state value
+          setFieldValue("packerName", {
+            value: packerId !== 0 ? packerId : 0,
+            label: packerName !== null ? packerName : "N/A",
+          });
+
+          setFieldValue("shippingPoint", res?.objHeader?.shipPointName || "");
+          setFieldValue("vehicleNumber", res?.objHeader?.strVehicleName || "");
+          setFieldValue("driver", res?.objHeader?.driverName || "");
+          setFieldValue(
+            "deliveryDate",
+            _dateFormatter(res?.objHeader?.pricingDate) || ""
+          );
+        }
+      );
+    }
+  };
   return (
     <Formik
       enableReinitialize={true}
@@ -326,39 +377,9 @@ useEffect(() => {
                           onChange={(e) => {
                             setFieldValue("shipmentCode", e.target.value);
                           }}
-                          onKeyDown={(e) => {
-                            if (e.keyCode === 13) {
-                              setFieldValue("shipmentCode", e.target.value);
-                              getReportData(
-                                // `/wms/Delivery/GetDeliveryPrintInfoManual?businessUnitId=${selectedBusinessUnit?.value}&shipmentCode=${e.target.value}`,
-                                `/wms/Delivery/GetDeliveryPrintInfoByVehicleCardNumber?strCardNumber=${e.target.value}`,
-                                (res) => {
-                                  setFieldValue(
-                                    "shippingPoint",
-                                    res?.objHeader?.shipPointName || ""
-                                  );
-                                  setFieldValue(
-                                    "vehicleNumber",
-                                    res?.objHeader?.strVehicleName || ""
-                                  );
-                                  setFieldValue(
-                                    "driver",
-                                    res?.objHeader?.driverName || ""
-                                  );
-                                  setFieldValue(
-                                    "packerName",
-                                    res?.objHeader?.packerName || ""
-                                  );
-                                  setFieldValue(
-                                    "deliveryDate",
-                                    _dateFormatter(
-                                      res?.objHeader?.pricingDate
-                                    ) || ""
-                                  );
-                                }
-                              );
-                            }
-                          }}
+                          onKeyDown={(e) =>
+                            handleCardNumberChange(e, setFieldValue)
+                          }
                         />
                       </div>
                     )}
@@ -396,7 +417,7 @@ useEffect(() => {
                         }}
                       />
                     </div>
-                    <div className="col-lg-3">
+                    {/* <div className="col-lg-3">
                       <InputField
                         value={values?.packerName}
                         label="Packer Name"
@@ -404,6 +425,19 @@ useEffect(() => {
                         type="text"
                         onChange={(e) => {
                           setFieldValue("packerName", e.target.value);
+                        }}
+                      />
+                    </div> */}
+
+                    <div className="col-lg-3">
+                      <NewSelect
+                        name="packerName"
+                        placeholder="Packer"
+                        label="Packer"
+                        options={packerList || []}
+                        value={values?.packerName}
+                        onChange={(valueOption) => {
+                          setFieldValue("packerName", valueOption);
                         }}
                       />
                     </div>
