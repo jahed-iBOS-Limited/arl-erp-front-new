@@ -3,6 +3,7 @@ import { Redirect, Route, Switch } from "react-router-dom";
 import Recap from "./recap";
 import RecapCreate from "./recap/create";
 import EDPALoadPort from "./edpaLoadPort";
+import DeadWeight from "./deadWeight";
 
 export function OperationPages() {
   return (
@@ -22,6 +23,7 @@ export function OperationPages() {
         path="/chartering/operation/epdaLoadPort"
         component={EDPALoadPort}
       />
+      <Route path="/chartering/operation/piSurvey" component={DeadWeight} />
     </Switch>
   );
 }

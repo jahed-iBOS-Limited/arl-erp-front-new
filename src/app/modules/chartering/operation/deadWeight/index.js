@@ -17,7 +17,7 @@ import InputField from "../../../_helper/_inputField";
 import IButton from "../../../_helper/iButton";
 
 const initData = {};
-export default function EDPALoadPort() {
+export default function DeadWeight() {
   const {
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => {
@@ -34,7 +34,7 @@ export default function EDPALoadPort() {
 
   const getLandingData = (values, pageNo, pageSize, searchValue = "") => {
     getGridData(
-      `domain/VesselNomination/GetEpdaAndPortInfoLanding?BusinessUnitId=${buId}&FromDate=${
+      `/domain/VesselNomination/GetDeadWeightCostLanding?BusinessUnitId=${buId}&FromDate=${
         values?.fromDate
       }&ToDate=${values?.toDate}&pageNumber=${pageNo ||
         1}&pageSize=${pageSize || 600}`
@@ -69,7 +69,7 @@ export default function EDPALoadPort() {
         <>
           {loader && <Loading />}
           <IForm
-            title="EDPA Load Port"
+            title="Dead Weight"
             isHiddenReset
             isHiddenBack
             isHiddenSave
@@ -117,10 +117,19 @@ export default function EDPALoadPort() {
                         <th>SL</th>
                         <th>Business Unit</th>
                         <th>Email</th>
-                        <th>Attachment For Port</th>
-                        <th>Attachment For Port Disbursment</th>
                         <th>Vessel Nomination Code</th>
-                        <th>Grand Total </th>
+                        <th>Draft Type</th>
+                        <th>Displacement Draft Mts</th>
+                        <th>Dock Water Density</th>
+                        <th>LightShip Mts</th>
+                        <th>Fuel Oil Mts</th>
+                        <th>Disel Oil Mts</th>
+                        <th>Fresh Water Mts</th>
+                        <th>Constant Mts</th>
+                        <th>UnpumpAble Ballast Mts </th>
+                        <th>CargoLoad Mts </th>
+                        <th>Final CargoToload Mts </th>
+                        <th>strRemarks </th>
                       </tr>
                     </thead>
                     <tbody>
@@ -133,72 +142,42 @@ export default function EDPALoadPort() {
                           <td className="text-center">
                             {item?.strEmailAddress}
                           </td>
-                          <td className="text-center">
-                            {" "}
-                            {item?.strAttachmentForPort ? (
-                              <OverlayTrigger
-                                overlay={
-                                  <Tooltip id="cs-icon">
-                                    View Attachment
-                                  </Tooltip>
-                                }
-                              >
-                                <span
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    dispatch(
-                                      getDownlloadFileView_Action(
-                                        item?.strAttachmentForPort
-                                      )
-                                    );
-                                  }}
-                                  className="mt-2 ml-2"
-                                >
-                                  <i
-                                    style={{ fontSize: "16px" }}
-                                    className={`fa pointer fa-eye`}
-                                    aria-hidden="true"
-                                  ></i>
-                                </span>
-                              </OverlayTrigger>
-                            ) : null}
-                          </td>
-                          <td className="text-center">
-                            {" "}
-                            {item?.strAttachmentForPortDisbursment ? (
-                              <OverlayTrigger
-                                overlay={
-                                  <Tooltip id="cs-icon">
-                                    View Attachment
-                                  </Tooltip>
-                                }
-                              >
-                                <span
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    dispatch(
-                                      getDownlloadFileView_Action(
-                                        item?.strAttachmentForPortDisbursment
-                                      )
-                                    );
-                                  }}
-                                  className="mt-2 ml-2"
-                                >
-                                  <i
-                                    style={{ fontSize: "16px" }}
-                                    className={`fa pointer fa-eye`}
-                                    aria-hidden="true"
-                                  ></i>
-                                </span>
-                              </OverlayTrigger>
-                            ) : null}
-                          </td>
+
                           <td className="text-center">
                             {item?.strVesselNominationCode}
                           </td>
+                          <td className="text-center">{item?.strDraftType}</td>
                           <td className="text-center">
-                            {item?.numGrandTotalAmount}
+                            {item?.intDisplacementDraftMts}
                           </td>
+                          <td className="text-center">
+                            {item?.intDockWaterDensity}
+                          </td>
+                          <td className="text-center">
+                            {item?.intLightShipMts}
+                          </td>
+                          <td className="text-center">
+                            {item?.intFoFuelOilMts}
+                          </td>
+                          <td className="text-center">
+                            {item?.intFoDoDiselOilMts}
+                          </td>
+                          <td className="text-center">
+                            {item?.intFwFreshWaterMts}
+                          </td>
+                          <td className="text-center">
+                            {item?.intConstantMts}
+                          </td>
+                          <td className="text-center">
+                            {item?.intUnpumpAbleBallastMts}
+                          </td>
+                          <td className="text-center">
+                            {item?.intCargoLoadMts}
+                          </td>
+                          <td className="text-center">
+                            {item?.intFinalCargoToloadMts}
+                          </td>
+                          <td className="text-center">{item?.strRemarks}</td>
                         </tr>
                       ))}
                     </tbody>

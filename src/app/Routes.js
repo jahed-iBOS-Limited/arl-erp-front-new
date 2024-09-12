@@ -30,6 +30,7 @@ import ErrorsPage from "./pages/ErrorsExamples/ErrorsPage";
 import Maintenance from "./pages/Maintenance";
 import RecapCreate from "./modules/chartering/operation/recap/create";
 import EDPALoadPortCreate from "./modules/chartering/operation/edpaLoadPort/create";
+import DeadWeightCreate from "./modules/chartering/operation/deadWeight/create";
 // import { detectBrowserConsole } from "./modules/_helper/detectBrowserConsole";
 
 export function Routes() {
@@ -261,6 +262,12 @@ export function Routes() {
         <Route
           path="/chartering/operation/epdaLoadPort/create"
           component={EDPALoadPortCreate}
+        />
+      )}
+      {!isAuthorized && (
+        <Route
+          path="/chartering/operation/piSurvey/create"
+          component={DeadWeightCreate}
         />
       )}
       {!isAuthorized ? (
