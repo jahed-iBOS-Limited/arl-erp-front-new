@@ -12,10 +12,10 @@ export function OperationPages() {
         to="/chartering/operation/dashboard"
       />
 
-      <Route
+      {/* <Route
         path="/chartering/operation/recap/create"
         component={RecapCreate}
-      />
+      /> */}
       <Route path="/chartering/operation/recap" component={Recap} />
     </Switch>
   );

@@ -28,6 +28,7 @@ import KPIScoreCardNew from "./modules/performanceManagement/individualKpi/balan
 import SBUBalancedScorecard from "./modules/performanceManagement/sbuKpi/balancedScore/Table/SBUBalancedScorecard";
 import ErrorsPage from "./pages/ErrorsExamples/ErrorsPage";
 import Maintenance from "./pages/Maintenance";
+import RecapCreate from "./modules/chartering/operation/recap/create";
 // import { detectBrowserConsole } from "./modules/_helper/detectBrowserConsole";
 
 export function Routes() {
@@ -248,6 +249,14 @@ export function Routes() {
 
   return (
     <Switch>
+      {/* Public route here.... */}
+      <Route
+        exact
+          path="/chartering/operation/recap/create"
+          component={RecapCreate}
+        />
+
+      {/* ============== */}
       {isExpiredPassword && (
         <>
           <TokenExpiredPopUp isCancel={true} />
