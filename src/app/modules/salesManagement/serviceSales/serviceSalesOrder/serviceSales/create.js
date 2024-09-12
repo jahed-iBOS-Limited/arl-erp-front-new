@@ -226,13 +226,22 @@ export default function ServiceSalesCreate({
     };
 
     if (isEdit) {
+      // Utility function to check if a value is a valid date
+      const isValidDate = (date) => {
+        const parsedDate = new Date(date);
+        return !isNaN(parsedDate.getTime());
+      };
+
       const header = {
         intServiceSalesOrderId: singleData?.intServiceSalesOrderId,
         strServiceSalesOrderCode: singleData?.strServiceSalesOrderCode,
         intAccountId: singleData?.intAccountId,
         intBusinessUnitId: singleData?.intBusinessUnitId,
-        dteOrderDate:
-          values?.agreementStartDate || singleData?.dteStartDateTime,
+        dteOrderDate: isValidDate(values?.agreementStartDate)
+          ? values?.agreementStartDate
+          : isValidDate(singleData?.dteStartDateTime)
+          ? singleData?.dteStartDateTime
+          : null,
         intDistributionChannelId: values?.distributionChannel?.value,
         strDistributionChannelName: values?.distributionChannel?.label,
         intPaymentTypeId: values?.paymentType?.value || 0,
@@ -254,15 +263,28 @@ export default function ServiceSalesCreate({
             : values?.scheduleType?.label || "",
         intScheduleDayCount:
           +values?.invoiceDay || singleData?.intScheduleDayCount || 0,
-        dteStartDateTime:
-          values?.agreementStartDate || singleData?.dteStartDateTime,
-        dteEndDateTime: values?.agreementEndDate || singleData?.dteEndDateTime,
-        dteActualLiveDate:
-          values?.dteActualLiveDate || singleData?.dteActualLiveDate,
+        dteStartDateTime: isValidDate(values?.agreementStartDate)
+          ? values?.agreementStartDate
+          : isValidDate(singleData?.dteStartDateTime)
+          ? singleData?.dteStartDateTime
+          : null,
+        dteEndDateTime: isValidDate(values?.agreementEndDate)
+          ? values?.agreementEndDate
+          : isValidDate(singleData?.dteEndDateTime)
+          ? singleData?.dteEndDateTime
+          : null,
+        dteActualLiveDate: isValidDate(values?.dteActualLiveDate)
+          ? values?.dteActualLiveDate
+          : isValidDate(singleData?.dteActualLiveDate)
+          ? singleData?.dteActualLiveDate
+          : null,
         intWarrantyMonth:
-          values?.intWarrantyMonth || singleData?.intWarrantyMonth,
-        dteWarrantyEndDate:
-          values?.dteWarrantyEndDate || singleData?.dteWarrantyEndDate || null,
+          values?.intWarrantyMonth || singleData?.intWarrantyMonth || 0,
+        dteWarrantyEndDate: isValidDate(values?.dteWarrantyEndDate)
+          ? values?.dteWarrantyEndDate
+          : isValidDate(singleData?.dteWarrantyEndDate)
+          ? singleData?.dteWarrantyEndDate
+          : null,
         intAccountManagerEnroll:
           values?.accountManager?.value ||
           singleData?.intAccountManagerEnroll ||
@@ -281,6 +303,64 @@ export default function ServiceSalesCreate({
         intActionBy: profileData?.userId,
         strStatus: values?.status?.value || singleData?.strStatus,
       };
+
+      // const header = {
+      //   intServiceSalesOrderId: singleData?.intServiceSalesOrderId,
+      //   strServiceSalesOrderCode: singleData?.strServiceSalesOrderCode,
+      //   intAccountId: singleData?.intAccountId,
+      //   intBusinessUnitId: singleData?.intBusinessUnitId,
+      //   dteOrderDate:
+      //     values?.agreementStartDate || singleData?.dteStartDateTime,
+      //   intDistributionChannelId: values?.distributionChannel?.value,
+      //   strDistributionChannelName: values?.distributionChannel?.label,
+      //   intPaymentTypeId: values?.paymentType?.value || 0,
+      //   strPaymentType: values?.paymentType?.label,
+      //   intSalesTypeId: values?.salesOrg?.value,
+      //   strSalesTypeName: values?.salesOrg?.label,
+      //   intCustomerId: values?.customer?.value,
+      //   strCustomerCode: values?.customer?.code || singleData?.strCustomerCode,
+      //   strCustomerName: values?.customer?.label || singleData?.strCustomerName,
+      //   strCustomerAddress:
+      //     values?.customer?.address || singleData?.strCustomerAddress,
+      //   intScheduleTypeId:
+      //     values?.paymentType?.value === 2
+      //       ? 4
+      //       : values?.scheduleType?.value || 0,
+      //   strScheduleTypeName:
+      //     values?.paymentType?.value === 2
+      //       ? "One Time"
+      //       : values?.scheduleType?.label || "",
+      //   intScheduleDayCount:
+      //     +values?.invoiceDay || singleData?.intScheduleDayCount || 0,
+      //   dteStartDateTime:
+      //     values?.agreementStartDate || singleData?.dteStartDateTime,
+      //   dteEndDateTime: values?.agreementEndDate || singleData?.dteEndDateTime,
+      //   dteActualLiveDate:
+      //     values?.dteActualLiveDate || singleData?.dteActualLiveDate,
+      //   intWarrantyMonth:
+      //     values?.intWarrantyMonth || singleData?.intWarrantyMonth,
+      //   dteWarrantyEndDate:
+      //     values?.dteWarrantyEndDate || singleData?.dteWarrantyEndDate || null,
+      //   intAccountManagerEnroll:
+      //     values?.accountManager?.value ||
+      //     singleData?.intAccountManagerEnroll ||
+      //     0,
+      //   strAccountManagerName:
+      //     values?.accountManager?.label ||
+      //     singleData?.strAccountManagerName ||
+      //     "",
+      //   intOnetimeServiceSalesOrderId: 0,
+      //   numTotalSalesAmount: 0,
+      //   numScheduleAmount: +values?.numScheduleAmount || 0,
+      //   numServerAmount: +values?.numServerAmount || 0,
+      //   strAttachmentLink:
+      //     attachmentList[0]?.id || singleData?.strAttachmentLink,
+      //   isActive: true,
+      //   intActionBy: profileData?.userId,
+      //   strStatus: values?.status?.value || singleData?.strStatus,
+      // };
+
+
       // const row = itemList?.map((item) => ({
       //   intServiceSalesOrderRowId: item?.intServiceSalesOrderRowId,
       //   intServiceSalesOrderId: item?.intServiceSalesOrderId,
