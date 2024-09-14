@@ -251,6 +251,14 @@ export function Routes() {
 
   return (
     <Switch>
+      {/* Public route here.... */}
+      <Route
+        exact
+          path="/chartering/operation/recap/create"
+          component={RecapCreate}
+        />
+
+      {/* ============== */}
       {isExpiredPassword && (
         <>
           <TokenExpiredPopUp isCancel={true} />
