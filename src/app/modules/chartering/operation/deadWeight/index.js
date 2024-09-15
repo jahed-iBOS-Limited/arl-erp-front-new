@@ -1,20 +1,14 @@
 import { Form, Formik } from "formik";
-import moment from "moment";
-import React, { useEffect, useRef, useState } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
 
-import { useReactToPrint } from "react-to-print";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import IForm from "../../../_helper/_form";
-import { getDownlloadFileView_Action } from "../../../_helper/_redux/Actions";
-import PaginationTable from "../../../_helper/_tablePagination";
-import IEdit from "../../../_helper/_helperIcons/_edit";
-import Loading from "../../../_helper/_loading";
 import InputField from "../../../_helper/_inputField";
+import Loading from "../../../_helper/_loading";
+import PaginationTable from "../../../_helper/_tablePagination";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import IButton from "../../../_helper/iButton";
+import { imarineBaseUrl } from "../../../../App";
 
 const initData = {};
 export default function DeadWeight() {
@@ -23,18 +17,13 @@ export default function DeadWeight() {
   } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
-  const history = useHistory();
-  const dispatch = useDispatch();
-  const [isShowUpdateModal, setIsShowUpdateModal] = useState(false);
-  const [, onSave, loader] = useAxiosPost();
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
   const [gridData, getGridData, loading, setGridData] = useAxiosGet();
-  const [singleData, setSingleData] = useState(null);
 
   const getLandingData = (values, pageNo, pageSize, searchValue = "") => {
     getGridData(
-      `/domain/VesselNomination/GetDeadWeightCostLanding?BusinessUnitId=${buId}&FromDate=${
+      `${imarineBaseUrl}/domain/VesselNomination/GetDeadWeightCostLanding?BusinessUnitId=${buId}&FromDate=${
         values?.fromDate
       }&ToDate=${values?.toDate}&pageNumber=${pageNo ||
         1}&pageSize=${pageSize || 600}`
@@ -46,6 +35,7 @@ export default function DeadWeight() {
   };
   useEffect(() => {
     getLandingData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [buId]);
 
   return (
@@ -67,7 +57,7 @@ export default function DeadWeight() {
         touched,
       }) => (
         <>
-          {loader && <Loading />}
+          {loading && <Loading />}
           <IForm
             title="Dead Weight"
             isHiddenReset
@@ -198,48 +188,7 @@ export default function DeadWeight() {
                   values={values}
                 />
               )}
-              <div>
-                <div className="bank-letter-print-wrapper">
-                  <div style={{ margin: "-13px 50px 51px 50px" }}>
-                    <table>
-                      <thead>
-                        <tr>
-                          <td
-                            style={{
-                              border: "none",
-                            }}
-                          >
-                            {/* place holder for the fixed-position header */}
-                            <div
-                              style={{
-                                height: "110px",
-                              }}
-                            ></div>
-                          </td>
-                        </tr>
-                      </thead>
-                      {/* CONTENT GOES HERE */}
-                      <tbody></tbody>
-                      <tfoot>
-                        <tr>
-                          <td
-                            style={{
-                              border: "none",
-                            }}
-                          >
-                            {/* place holder for the fixed-position footer */}
-                            <div
-                              style={{
-                                height: "150px",
-                              }}
-                            ></div>
-                          </td>
-                        </tr>
-                      </tfoot>
-                    </table>
-                  </div>
-                </div>
-              </div>
+              <div></div>
             </Form>
           </IForm>
         </>

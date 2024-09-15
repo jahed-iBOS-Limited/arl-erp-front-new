@@ -2,53 +2,55 @@ import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import IForm from "../../../_helper/_form";
 import InputField from "../../../_helper/_inputField";
 import Loading from "../../../_helper/_loading";
-import { getDownlloadFileView_Action } from "../../../_helper/_redux/Actions";
-import PaginationTable from "../../../_helper/_tablePagination";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
+import PaginationTable from "../../../_helper/_tablePagination";
 import IButton from "../../../_helper/iButton";
+import { getDownlloadFileView_Action } from "../../../_helper/_redux/Actions";
 import { imarineBaseUrl } from "../../../../App";
 
-const initData = {};
-export default function EDPALoadPort() {
+const initData = {
+  fromDate: "",
+  toDate: "",
+};
+
+export default function OnHireBunkerAndContionalSurvey() {
   const {
     selectedBusinessUnit: { value: buId },
-  } = useSelector((state) => {
-    return state.authData;
-  }, shallowEqual);
-  const history = useHistory();
+  } = useSelector((state) => state.authData, shallowEqual);
+
   const dispatch = useDispatch();
+  const history = useHistory();
+
   const [, onSave, loader] = useAxiosPost();
-  const [pageNo, setPageNo] = useState(0);
+  const [pageNo, setPageNo] = useState(1);
   const [pageSize, setPageSize] = useState(15);
   const [gridData, getGridData, loading, setGridData] = useAxiosGet();
 
-  const getLandingData = (values, pageNo, pageSize, searchValue = "") => {
+  const getLandingData = (values, pageNo, pageSize) => {
     getGridData(
-      `${imarineBaseUrl}/domain/VesselNomination/GetEpdaAndPortInfoLanding?BusinessUnitId=${buId}&FromDate=${
+      `${imarineBaseUrl}/domain/VesselNomination/GetRfqonHireBunkerQtyLanding?BusinessUnitId=${0}&FromDate=${
         values?.fromDate
-      }&ToDate=${values?.toDate}&pageNumber=${pageNo ||
-        1}&pageSize=${pageSize || 600}`
+      }&ToDate=${values?.toDate}&pageNumber=${pageNo}&pageSize=${pageSize}`
     );
   };
 
-  const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
-    getLandingData(values, pageNo, pageSize, searchValue);
+  const setPositionHandler = (pageNo, pageSize) => {
+    getLandingData(initData, pageNo, pageSize);
   };
+
   useEffect(() => {
-    getLandingData();
+    getLandingData(initData, pageNo, pageSize);
   }, [buId]);
 
   return (
     <Formik
       enableReinitialize={true}
       initialValues={initData}
-      // validationSchema={validationSchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         getLandingData(values, pageNo, pageSize);
       }}
@@ -65,7 +67,7 @@ export default function EDPALoadPort() {
         <>
           {loader && <Loading />}
           <IForm
-            title="EDPA Load Port"
+            title="On Hire Bunker and Condition Survey"
             isHiddenReset
             isHiddenBack
             isHiddenSave
@@ -74,7 +76,7 @@ export default function EDPALoadPort() {
             }}
           >
             <Form>
-              <div className="form-group  global-form row">
+              <div className="form-group global-form row">
                 <div className="col-lg-3">
                   <InputField
                     value={values?.fromDate}
@@ -97,7 +99,7 @@ export default function EDPALoadPort() {
                     }}
                   />
                 </div>
-                <div className="col-lg-3">
+                <div>
                   <IButton
                     disabled={!values?.fromDate || !values?.toDate}
                     onClick={handleSubmit}
@@ -105,95 +107,60 @@ export default function EDPALoadPort() {
                 </div>
               </div>
 
-              {gridData?.data?.length > 0 && (
+              {gridData?.length > 0 && (
                 <div className="table-responsive">
                   <table className="table table-striped mt-2 table-bordered bj-table bj-table-landing">
                     <thead>
                       <tr>
                         <th>SL</th>
-                        <th>Business Unit</th>
-                        <th>Email</th>
-                        <th>Attachment For Port</th>
-                        <th>Attachment For Port Disbursment</th>
                         <th>Vessel Nomination Code</th>
-                        <th>Grand Total </th>
+                        <th>Bunker Survey Amount</th>
+                        <th>Bunker + Condition Survey Amount</th>
+                        <th>Attachment</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {gridData?.data?.map((item, index) => (
-                        <tr key={index}>
+                      {gridData?.map((item, index) => (
+                        <tr key={item.intRfqonHireBunkerQtyId}>
                           <td className="text-center">{index + 1}</td>
-                          <td className="text-center">
-                            {item?.strBusinessUnitName}
-                          </td>
-                          <td className="text-center">
-                            {item?.strEmailAddress}
-                          </td>
-                          <td className="text-center">
-                            {" "}
-                            {item?.strAttachmentForPort ? (
-                              <OverlayTrigger
-                                overlay={
-                                  <Tooltip id="cs-icon">
-                                    View Attachment
-                                  </Tooltip>
-                                }
-                              >
-                                <span
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    dispatch(
-                                      getDownlloadFileView_Action(
-                                        item?.strAttachmentForPort
-                                      )
-                                    );
-                                  }}
-                                  className="mt-2 ml-2"
-                                >
-                                  <i
-                                    style={{ fontSize: "16px" }}
-                                    className={`fa pointer fa-eye`}
-                                    aria-hidden="true"
-                                  ></i>
-                                </span>
-                              </OverlayTrigger>
-                            ) : null}
-                          </td>
-                          <td className="text-center">
-                            {" "}
-                            {item?.strAttachmentForPortDisbursment ? (
-                              <OverlayTrigger
-                                overlay={
-                                  <Tooltip id="cs-icon">
-                                    View Attachment
-                                  </Tooltip>
-                                }
-                              >
-                                <span
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    dispatch(
-                                      getDownlloadFileView_Action(
-                                        item?.strAttachmentForPortDisbursment
-                                      )
-                                    );
-                                  }}
-                                  className="mt-2 ml-2"
-                                >
-                                  <i
-                                    style={{ fontSize: "16px" }}
-                                    className={`fa pointer fa-eye`}
-                                    aria-hidden="true"
-                                  ></i>
-                                </span>
-                              </OverlayTrigger>
-                            ) : null}
-                          </td>
+
                           <td className="text-center">
                             {item?.strVesselNominationCode}
                           </td>
                           <td className="text-center">
-                            {item?.numGrandTotalAmount}
+                            {item?.numBunkerSurveyAmount}
+                          </td>
+                          <td className="text-center">
+                            {item?.numBunkerAndConditionSurveyAmount}
+                          </td>
+                          <td className="text-center">
+                            {item?.strAttachment ? (
+                              <OverlayTrigger
+                                overlay={
+                                  <Tooltip id="cs-icon">
+                                    View Attachment
+                                  </Tooltip>
+                                }
+                              >
+                                <span
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    dispatch(
+                                      getDownlloadFileView_Action(
+                                        item?.strAttachment
+                                      )
+                                    );
+                                  }}
+                                  className="mt-2 ml-2"
+                                >
+                                  <i
+                                    style={{ fontSize: "16px" }}
+                                    className="fa pointer fa-eye"
+                                    aria-hidden="true"
+                                  ></i>
+                                </span>
+                              </OverlayTrigger>
+                            ) : null}
                           </td>
                         </tr>
                       ))}
@@ -202,9 +169,9 @@ export default function EDPALoadPort() {
                 </div>
               )}
 
-              {gridData?.data?.length > 0 && (
+              {gridData?.length > 0 && (
                 <PaginationTable
-                  count={gridData?.totalCount}
+                  count={gridData?.length}
                   setPositionHandler={setPositionHandler}
                   paginationState={{
                     pageNo,

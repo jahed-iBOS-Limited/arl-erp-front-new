@@ -6,6 +6,7 @@ import InputField from "../../../_helper/_inputField";
 import Loading from "../../../_helper/_loading";
 import NewSelect from "../../../_helper/_select";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
+import { imarineBaseUrl } from "../../../../App";
 
 const initData = {
   voyageType: "",
@@ -164,7 +165,7 @@ export default function RecapCreate() {
       strBrokerEmail: values.brokerEmail || "",
     };
 
-    onSave(`/automation/recap`, payload, cb, true);
+    onSave(`${imarineBaseUrl}/automation/recap`, payload, cb, true);
   };
 
   return (

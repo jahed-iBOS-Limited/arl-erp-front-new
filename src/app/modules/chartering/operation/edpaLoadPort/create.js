@@ -12,6 +12,7 @@ import Loading from "../../../_helper/_loading";
 import IForm from "../../../_helper/_form";
 import InputField from "../../../_helper/_inputField";
 import AttachmentUploaderNew from "../../../_helper/attachmentUploaderNew";
+import { imarineBaseUrl } from "../../../../App";
 const initData = {
   strEmailAddress: "",
   strAttachmentForPort: "",
@@ -53,62 +54,10 @@ export default function EDPALoadPortCreate() {
       intCreateBy: userId,
     };
 
-    onSave(`domain/VesselNomination/CreateEpdaAndPortInfo`, payload, cb, true);
+    onSave(`${imarineBaseUrl}/domain/VesselNomination/CreateEpdaAndPortInfo`, payload, cb, true);
   };
 
-  //   const mapStateToInitialValues = (state) => ({
-  //     businessUnit: { value: buId, label: label },
-  //     territory: state?.strTerritoryName || "",
-  //     district: { value: state?.intDistrictId, label: state?.strDistrictName },
-  //     thana: { value: state?.intThanaId, label: state?.strThanakName } || "",
-  //     deedNo: state?.strDeedNo || "",
-  //     deedAmount: state?.monDeedValue || "",
-  //     deedType:
-  //       deedTypeDDL.find((type) => type.value === state?.intDeedTypeId) || "",
-  //     registrationDate: state?.dteDeedDate
-  //       ? moment(state?.dteDeedDate).format("YYYY-MM-DD")
-  //       : "",
-  //     landQuantity: state?.numTotalLandPurchaseQty || "",
-  //     seller: state?.strSellerName || "",
-  //     buyer: state?.strBuyer || "",
-  //     remarks: state?.strRemark || "",
-  //     csKhatian: state?.strCskhatian || "",
-  //     csPlot: state?.strCsplotNo || "",
-  //     saKhatian: state?.strSakhatianNo || "",
-  //     cityJaripKhatian: state?.strCityJoripKhatianNo || "",
-  //     saPlot: state?.strSaplotNo || "",
-  //     rsPlot: state?.strRsplotNo || "",
-  //     rsKhatian: state?.strRskhatianNo || "",
-  //     rsLandQuantity: state?.numRsplotLandBaseQty || "",
-  //     mouza: state?.strMouzaName || "",
-  //     cityJaripPlot: state?.strCityJoripPlot || "",
-  //     cityJaripPlotLand: +state?.numCityJoripLandQty || "",
-  //     registrationCost: state?.monRegistrationCost || "",
-  //     brokerAmount: state?.monBroker || "",
-  //     deedYear: { value: state?.calcDeadYear, label: state?.calcDeadYear },
-  //     otherCost: state?.monOtherCost,
-  //     biakhatian: state?.strBiaMutationKhotian || "",
-  //     // dagNo: state?.strDagNo,
-  //     // ploatNo: state?.strPloatNo,
-  //     subRegister: {
-  //       value: state?.intSubOfficeId,
-  //       label: state?.strSubOfficeName,
-  //     },
-  //   });
-
-  const validationSchema = Yup.object().shape({
-    // businessUnit: Yup.object().required("Business Unit is required"),
-    // deedType: Yup.object().required("Deed Type  is required"),
-    // // deedYear: Yup.object().required("Deed Year  is required"),
-    // territory: Yup.string().required("Territory is required"),
-    // seller: Yup.string().required("Seller Name is required"),
-    // buyer: Yup.string().required("Buyer Name is required"),
-    // deedNo: Yup.string().required("Deed No is required"),
-    // mouza: Yup.string().required("Mouza is required"),
-    // deedAmount: Yup.number().required("Deed Value is required"),
-    // landQuantity: Yup.number().required("Land Quantity is required"),
-    // registrationDate: Yup.date().required("Registration Date is required"),
-  });
+  const validationSchema = Yup.object().shape({});
 
   return (
     <Formik

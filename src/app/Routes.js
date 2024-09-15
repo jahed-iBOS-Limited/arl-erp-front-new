@@ -31,6 +31,7 @@ import Maintenance from "./pages/Maintenance";
 import RecapCreate from "./modules/chartering/operation/recap/create";
 import EDPALoadPortCreate from "./modules/chartering/operation/edpaLoadPort/create";
 import DeadWeightCreate from "./modules/chartering/operation/deadWeight/create";
+import CreateonHireBunkerAndContionalSurvey from "./modules/chartering/operation/onHireBunkerAndContionalSurvey/create";
 // import { detectBrowserConsole } from "./modules/_helper/detectBrowserConsole";
 
 export function Routes() {
@@ -262,8 +263,12 @@ export function Routes() {
           component={EDPALoadPortCreate}
         />
          <Route
-          path="/chartering/operation/piSurvey/create"
+          path="/chartering/operation/pre-stowagePlanning/create"
           component={DeadWeightCreate}
+        />
+         <Route
+          path="/chartering/operation/onHireBunkerAndContionalSurvey/create"
+          component={CreateonHireBunkerAndContionalSurvey}
         />
       {/* ============== */}
       {isExpiredPassword && (
