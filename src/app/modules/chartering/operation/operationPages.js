@@ -5,6 +5,7 @@ import RecapCreate from "./recap/create";
 import EDPALoadPort from "./edpaLoadPort";
 import DeadWeight from "./deadWeight";
 import OnHireBunkerAndContionalSurvey from "./onHireBunkerAndContionalSurvey";
+import DischargePort from "./dischargePort";
 
 export function OperationPages() {
   return (
@@ -24,9 +25,18 @@ export function OperationPages() {
         path="/chartering/operation/epdaLoadPort"
         component={EDPALoadPort}
       />
-      <Route path="/chartering/operation/pre-stowagePlanning" component={DeadWeight} />
-      <Route path="/chartering/operation/onHireBunkerAndContionalSurvey" component={OnHireBunkerAndContionalSurvey} />
-
+      <Route
+        path="/chartering/operation/pre-stowagePlanning"
+        component={DeadWeight}
+      />
+      <Route
+        path="/chartering/operation/onHireBunkerAndContionalSurvey"
+        component={OnHireBunkerAndContionalSurvey}
+      />
+      <Route
+        path="/chartering/operation/dischargePortDepartureDocuments"
+        component={DischargePort}
+      />
     </Switch>
   );
 }
