@@ -104,32 +104,6 @@ export default function EDPALoadPortCreate() {
           >
             <Form>
               <div className="form-group  global-form row">
-                {/* bu */}
-                {/* <div className="col-lg-3">
-                  <NewSelect
-                    name="businessUnit"
-                    options={businessUnitList || []}
-                    value={values?.businessUnit}
-                    label="Business Unit"
-                    onChange={(valueOption) => {
-                      setFieldValue("businessUnit", valueOption || "");
-                    }}
-                    errors={errors}
-                    touched={touched}
-                  />
-                </div> */}
-                {/* Email */}
-                {/* <div className="col-lg-2">
-                  <InputField
-                    value={values.strEmailAddress}
-                    label="Email Address"
-                    name="strEmailAddress"
-                    type="email"
-                    onChange={(e) =>
-                      setFieldValue("strEmailAddress", e.target.value)
-                    }
-                  />
-                </div> */}
                 <div className="col-lg-2">
                   <InputField
                     value={values.code}
@@ -152,7 +126,7 @@ export default function EDPALoadPortCreate() {
                     }
                   />
                 </div>
-                <div className="col-lg-1 ">
+                <div className="col-lg-2 ">
                   <label htmlFor="">Attachment For Port</label>
                   <div className="">
                     <AttachmentUploaderNew
