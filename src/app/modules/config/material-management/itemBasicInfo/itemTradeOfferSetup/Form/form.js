@@ -119,6 +119,10 @@ export default function _Form({
         isProportionalOffer: values?.isProportionalOffer || false,
         intAccountId: profileData?.accountId,
         intBusinessUnitId: selectedBusinessUnit?.value,
+        itemCategoryId:values?.itemCategory?.value,
+        itemCategoryName:values?.itemCategory?.label,
+        itemSubCategoryId:values?.itemSubCategory?.value,
+        itemSubCategoryName:values?.itemSubCategory?.label,
       };
       setRowDto([...rowDto, obj]);
     }
