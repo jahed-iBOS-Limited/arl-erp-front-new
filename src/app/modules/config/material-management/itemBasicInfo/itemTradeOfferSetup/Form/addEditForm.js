@@ -59,7 +59,7 @@ export default function ItemTradeOfferSetupForm() {
     const offerTypeId = values?.offerType?.value;
     if (offerTypeId === 1) {
       if (rowDto?.length === 0) return toast.warn("Minimum one item add");
-      CreateTradeOfferConfiguration(rowDto, setDisabled, cb);
+      await CreateTradeOfferConfiguration(rowDto, setDisabled, cb);
     } else if (offerTypeId === 2) {
       const payload = {
         head: {

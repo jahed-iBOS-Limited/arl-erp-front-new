@@ -10,7 +10,9 @@ import {
   DeleteTradeOfferConfigurationApi,
   GetDistributionChannelDDL,
   getDistributionChannelIdApi,
+  getItemCategoryDDLByTypeId_api,
   getItemSalesOfferDDLApi,
+  getItemSubCategoryDDLByCategoryId_api,
 } from "../../helper";
 import { _dateFormatter } from "./../../../../../_helper/_dateFormate";
 import IDelete from "./../../../../../_helper/_helperIcons/_delete";
@@ -36,6 +38,9 @@ export default function _Form({
   offerTypes,
 }) {
   const [distributionChannelDDL, setDistributionChannelDDL] = useState([]);
+  const [itemCategoryOption, setItemCategoryOption] = useState([]);
+  const [itemSubCategoryOption, setItemSubCategoryOption] = useState([]);
+
   const [open, setOpen] = useState(false);
   const { state: landingRowData } = useLocation();
   // get user profile data from store
@@ -186,6 +191,14 @@ export default function _Form({
                     onChange={(valueOption) => {
                       setFieldValue("offerType", valueOption);
                       setFieldValue("isProportionalOffer", false);
+
+                      // fetch item category ddl
+                      getItemCategoryDDLByTypeId_api(
+                        profileData.accountId,
+                        selectedBusinessUnit.value,
+                        4, // item type value Finished Product
+                        setItemCategoryOption
+                      );
                     }}
                     placeholder="Offer Type"
                     errors={errors}
@@ -225,25 +238,69 @@ export default function _Form({
                     }
                   />
                 </div>
-                {/* )} */}
-                <div className="col-lg-3">
-                  <NewSelect
-                    name="offerItem"
-                    options={itemDDL}
-                    value={values?.offerItem}
-                    label="Offer Item"
-                    onChange={(valueOption) => {
-                      setFieldValue("offerItem", valueOption);
-                    }}
-                    placeholder="Select Offer Item"
-                    errors={errors}
-                    touched={touched}
-                    isDisabled={
-                      [1, 2].includes(values?.offerType?.value) &&
-                      !values?.distributionChannel
-                    }
-                  />
-                </div>
+
+                {[171, 224].includes(selectedBusinessUnit?.value) ? (
+                  <>
+                    <div className="col-lg-3">
+                      <NewSelect
+                        name="itemCategory"
+                        options={itemCategoryOption || []}
+                        value={values?.itemCategory}
+                        label="Item Category"
+                        onChange={(valueOption) => {
+                          setFieldValue("itemCategory", valueOption);
+                          valueOption?.value !== 0 &&
+                            setFieldValue("itemSubCategory", "");
+
+                          // fetch item sub category ddl
+                          getItemSubCategoryDDLByCategoryId_api(
+                            profileData.accountId,
+                            selectedBusinessUnit.value,
+                            valueOption?.value,
+                            4, // item type value Finished Product
+                            setItemSubCategoryOption
+                          );
+                        }}
+                        placeholder="Item Category"
+                        errors={errors}
+                        touched={touched}
+                      />
+                    </div>
+                    <div className="col-lg-3">
+                      <NewSelect
+                        name="itemSubCategory"
+                        options={itemSubCategoryOption || []}
+                        value={values?.itemSubCategory}
+                        label="Item Sub-category"
+                        onChange={(valueOption) => {
+                          setFieldValue("itemSubCategory", valueOption);
+                        }}
+                        placeholder="Item Sub-category"
+                        errors={errors}
+                        touched={touched}
+                      />
+                    </div>
+                  </>
+                ) : (
+                  <div className="col-lg-3">
+                    <NewSelect
+                      name="offerItem"
+                      options={itemDDL}
+                      value={values?.offerItem}
+                      label="Offer Item"
+                      onChange={(valueOption) => {
+                        setFieldValue("offerItem", valueOption);
+                      }}
+                      placeholder="Select Offer Item"
+                      errors={errors}
+                      touched={touched}
+                      isDisabled={
+                        [1, 2].includes(values?.offerType?.value) &&
+                        !values?.distributionChannel
+                      }
+                    />
+                  </div>
+                )}
 
                 <div className="col-lg-3">
                   <label>From Date</label>
@@ -412,7 +469,9 @@ export default function _Form({
                   disabled={
                     !values?.toDate ||
                     !values?.offerQuantity ||
-                    !values?.offerItem ||
+                    ([171, 224].includes(selectedBusinessUnit?.value)
+                      ? !values?.itemCategory || !values?.itemSubCategory
+                      : !values?.offerItem) ||
                     !values?.distributionChannel ||
                     (values?.isOfferContinuous ? false : !values?.fromDate)
                   }
