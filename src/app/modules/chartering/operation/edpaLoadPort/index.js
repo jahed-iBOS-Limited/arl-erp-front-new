@@ -1,19 +1,15 @@
 import { Form, Formik } from "formik";
-import moment from "moment";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
 
-import { useReactToPrint } from "react-to-print";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import { imarineBaseUrl } from "../../../../App";
 import IForm from "../../../_helper/_form";
+import InputField from "../../../_helper/_inputField";
+import Loading from "../../../_helper/_loading";
 import { getDownlloadFileView_Action } from "../../../_helper/_redux/Actions";
 import PaginationTable from "../../../_helper/_tablePagination";
-import IEdit from "../../../_helper/_helperIcons/_edit";
-import Loading from "../../../_helper/_loading";
-import InputField from "../../../_helper/_inputField";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import IButton from "../../../_helper/iButton";
 
 const initData = {};
@@ -23,18 +19,14 @@ export default function EDPALoadPort() {
   } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
-  const history = useHistory();
   const dispatch = useDispatch();
-  const [isShowUpdateModal, setIsShowUpdateModal] = useState(false);
-  const [, onSave, loader] = useAxiosPost();
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
-  const [gridData, getGridData, loading, setGridData] = useAxiosGet();
-  const [singleData, setSingleData] = useState(null);
+  const [gridData, getGridData, loading] = useAxiosGet();
 
   const getLandingData = (values, pageNo, pageSize, searchValue = "") => {
     getGridData(
-      `domain/VesselNomination/GetEpdaAndPortInfoLanding?BusinessUnitId=${buId}&FromDate=${
+      `${imarineBaseUrl}/domain/VesselNomination/GetEpdaAndPortInfoLanding?BusinessUnitId=${0}&FromDate=${
         values?.fromDate
       }&ToDate=${values?.toDate}&pageNumber=${pageNo ||
         1}&pageSize=${pageSize || 600}`
@@ -44,9 +36,6 @@ export default function EDPALoadPort() {
   const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
     getLandingData(values, pageNo, pageSize, searchValue);
   };
-  useEffect(() => {
-    getLandingData();
-  }, [buId]);
 
   return (
     <Formik
@@ -67,7 +56,7 @@ export default function EDPALoadPort() {
         touched,
       }) => (
         <>
-          {loader && <Loading />}
+          {loading && <Loading />}
           <IForm
             title="EDPA Load Port"
             isHiddenReset
@@ -101,7 +90,7 @@ export default function EDPALoadPort() {
                     }}
                   />
                 </div>
-                <div className="col-lg-3">
+                <div>
                   <IButton
                     disabled={!values?.fromDate || !values?.toDate}
                     onClick={handleSubmit}
@@ -109,29 +98,28 @@ export default function EDPALoadPort() {
                 </div>
               </div>
 
-              {gridData?.data?.length > 0 && (
+              {gridData?.length > 0 && (
                 <div className="table-responsive">
                   <table className="table table-striped mt-2 table-bordered bj-table bj-table-landing">
                     <thead>
                       <tr>
                         <th>SL</th>
-                        <th>Business Unit</th>
-                        <th>Email</th>
-                        <th>Attachment For Port</th>
-                        <th>Attachment For Port Disbursment</th>
                         <th>Vessel Nomination Code</th>
                         <th>Grand Total </th>
+                        <th>Attachment For Port</th>
+                        <th>Attachment For Port Disbursment</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {gridData?.data?.map((item, index) => (
+                      {gridData?.map((item, index) => (
                         <tr key={index}>
                           <td className="text-center">{index + 1}</td>
+
                           <td className="text-center">
-                            {item?.strBusinessUnitName}
+                            {item?.strVesselNominationCode}
                           </td>
                           <td className="text-center">
-                            {item?.strEmailAddress}
+                            {item?.numGrandTotalAmount}
                           </td>
                           <td className="text-center">
                             {" "}
@@ -193,12 +181,6 @@ export default function EDPALoadPort() {
                               </OverlayTrigger>
                             ) : null}
                           </td>
-                          <td className="text-center">
-                            {item?.strVesselNominationCode}
-                          </td>
-                          <td className="text-center">
-                            {item?.numGrandTotalAmount}
-                          </td>
                         </tr>
                       ))}
                     </tbody>
@@ -206,9 +188,9 @@ export default function EDPALoadPort() {
                 </div>
               )}
 
-              {gridData?.data?.length > 0 && (
+              {gridData?.length > 0 && (
                 <PaginationTable
-                  count={gridData?.totalCount}
+                  count={gridData?.length}
                   setPositionHandler={setPositionHandler}
                   paginationState={{
                     pageNo,
@@ -219,48 +201,7 @@ export default function EDPALoadPort() {
                   values={values}
                 />
               )}
-              <div>
-                <div className="bank-letter-print-wrapper">
-                  <div style={{ margin: "-13px 50px 51px 50px" }}>
-                    <table>
-                      <thead>
-                        <tr>
-                          <td
-                            style={{
-                              border: "none",
-                            }}
-                          >
-                            {/* place holder for the fixed-position header */}
-                            <div
-                              style={{
-                                height: "110px",
-                              }}
-                            ></div>
-                          </td>
-                        </tr>
-                      </thead>
-                      {/* CONTENT GOES HERE */}
-                      <tbody></tbody>
-                      <tfoot>
-                        <tr>
-                          <td
-                            style={{
-                              border: "none",
-                            }}
-                          >
-                            {/* place holder for the fixed-position footer */}
-                            <div
-                              style={{
-                                height: "150px",
-                              }}
-                            ></div>
-                          </td>
-                        </tr>
-                      </tfoot>
-                    </table>
-                  </div>
-                </div>
-              </div>
+              <div></div>
             </Form>
           </IForm>
         </>

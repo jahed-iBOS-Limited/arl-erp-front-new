@@ -59,8 +59,37 @@ export default function ItemTradeOfferSetupForm() {
     const offerTypeId = values?.offerType?.value;
     if (offerTypeId === 1) {
       if (rowDto?.length === 0) return toast.warn("Minimum one item add");
-      CreateTradeOfferConfiguration(rowDto, setDisabled, cb);
+      await CreateTradeOfferConfiguration(rowDto, setDisabled, cb);
     } else if (offerTypeId === 2) {
+      const payload = {
+        head: {
+          promotionId: 0,
+          promotionCode: "",
+          promotionTypeId: values?.offerType?.value,
+          promotionName: values?.offerType?.label,
+          promotionStartDateTime: values?.fromDate,
+          promotionEndDateTime: values?.toDate,
+          remarks: values?.remarks,
+          accountId: profileData?.accountId,
+          businessUnitId: selectedBusinessUnit?.value,
+          status: 0,
+          actionBy: profileData?.userId,
+          userName: profileData?.userName,
+          channelId: values?.distributionChannel?.value,
+          attachmentLink: uploadedImage[0]?.id,
+        },
+        row: rowDto,
+      };
+
+      postData(
+        `/oms/TradeOffer/CreateTradeOfferConfigurationByRate`,
+        payload,
+        () => {},
+        true
+      );
+    } else if ([171, 224].includes(selectedBusinessUnit?.value)) {
+      if (rowDto?.length === 0) return toast.warn("Minimum one item add");
+      if (rowDto?.length > 1) return toast.warn("Maximum one item allowed");
       const payload = {
         head: {
           promotionId: 0,
