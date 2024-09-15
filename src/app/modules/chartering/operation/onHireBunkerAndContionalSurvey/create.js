@@ -55,7 +55,7 @@ export default function CreateonHireBunkerAndContionalSurvey() {
 
   const validationSchema = Yup.object().shape({
     strVesselNominationCode: Yup.string().required(
-      "Vessel Nomination Code is required"
+      "Code is required"
     ),
     numBunkerSurveyAmount: Yup.number().required(
       "Bunker Survey Amount is required"

@@ -1,36 +1,29 @@
 import { Form, Formik } from "formik";
-import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
-import { useHistory, useLocation } from "react-router-dom";
 
 import * as Yup from "yup";
-import { _todayDate } from "../../../_helper/_todayDate";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import Loading from "../../../_helper/_loading";
+import { imarineBaseUrl } from "../../../../App";
 import IForm from "../../../_helper/_form";
 import InputField from "../../../_helper/_inputField";
+import Loading from "../../../_helper/_loading";
+import { _todayDate } from "../../../_helper/_todayDate";
 import AttachmentUploaderNew from "../../../_helper/attachmentUploaderNew";
-import { imarineBaseUrl } from "../../../../App";
+import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 const initData = {
   strEmailAddress: "",
   strAttachmentForPort: "",
   strAttachmentForPortDisbursment: "",
-  strVesselNominationCode: "",
+  code: "",
   numGrandTotalAmount: 0,
 };
 export default function EDPALoadPortCreate() {
   const {
-    businessUnitList,
     profileData: { userId, accountId },
     selectedBusinessUnit: { value: buId, label },
   } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
-  const history = useHistory();
-  const location = useLocation();
-  const { state } = location;
   const [attachment, setAttachment] = useState("");
 
   const [, onSave, loader] = useAxiosPost();
@@ -41,9 +34,9 @@ export default function EDPALoadPortCreate() {
     const payload = {
       intEpdaAndPortInfoId: 0,
       intAccountId: accountId,
-      intBusinessUnitId: buId,
-      strBusinessUnitName: label,
-      strEmailAddress: values?.strEmailAddress,
+      intBusinessUnitId: 0,
+      strBusinessUnitName: "",
+      strEmailAddress: "",
       strAttachmentForPort: values?.strAttachmentForPort,
       strAttachmentForPortDisbursment: values?.strAttachmentForPortDisbursment,
       intVesselNominationId: 0,
@@ -54,10 +47,17 @@ export default function EDPALoadPortCreate() {
       intCreateBy: userId,
     };
 
-    onSave(`${imarineBaseUrl}/domain/VesselNomination/CreateEpdaAndPortInfo`, payload, cb, true);
+    onSave(
+      `${imarineBaseUrl}/domain/VesselNomination/CreateEpdaAndPortInfo`,
+      payload,
+      cb,
+      true
+    );
   };
 
-  const validationSchema = Yup.object().shape({});
+  const validationSchema = Yup.object().shape({
+    code: Yup.string().required("Code is required"),
+  });
 
   return (
     <Formik
@@ -119,7 +119,7 @@ export default function EDPALoadPortCreate() {
                   />
                 </div> */}
                 {/* Email */}
-                <div className="col-lg-2">
+                {/* <div className="col-lg-2">
                   <InputField
                     value={values.strEmailAddress}
                     label="Email Address"
@@ -129,11 +129,11 @@ export default function EDPALoadPortCreate() {
                       setFieldValue("strEmailAddress", e.target.value)
                     }
                   />
-                </div>
+                </div> */}
                 <div className="col-lg-2">
                   <InputField
                     value={values.code}
-                    label="Code"
+                    label="Please copy code from email subject"
                     name="code"
                     type="text"
                     onChange={(e) => setFieldValue("code", e.target.value)}

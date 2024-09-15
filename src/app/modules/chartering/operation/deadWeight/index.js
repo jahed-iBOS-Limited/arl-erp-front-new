@@ -23,7 +23,7 @@ export default function DeadWeight() {
 
   const getLandingData = (values, pageNo, pageSize, searchValue = "") => {
     getGridData(
-      `${imarineBaseUrl}/domain/VesselNomination/GetDeadWeightCostLanding?BusinessUnitId=${buId}&FromDate=${
+      `${imarineBaseUrl}/domain/VesselNomination/GetDeadWeightCostLanding?BusinessUnitId=${0}&FromDate=${
         values?.fromDate
       }&ToDate=${values?.toDate}&pageNumber=${pageNo ||
         1}&pageSize=${pageSize || 600}`
@@ -91,7 +91,7 @@ export default function DeadWeight() {
                     }}
                   />
                 </div>
-                <div className="col-lg-3">
+                <div className="">
                   <IButton
                     disabled={!values?.fromDate || !values?.toDate}
                     onClick={handleSubmit}
@@ -99,7 +99,7 @@ export default function DeadWeight() {
                 </div>
               </div>
 
-              {gridData?.data?.length > 0 && (
+              {gridData?.length > 0 && (
                 <div className="table-responsive">
                   <table className="table table-striped mt-2 table-bordered bj-table bj-table-landing">
                     <thead>
@@ -123,7 +123,7 @@ export default function DeadWeight() {
                       </tr>
                     </thead>
                     <tbody>
-                      {gridData?.data?.map((item, index) => (
+                      {gridData?.map((item, index) => (
                         <tr key={index}>
                           <td className="text-center">{index + 1}</td>
                           <td className="text-center">
@@ -175,9 +175,9 @@ export default function DeadWeight() {
                 </div>
               )}
 
-              {gridData?.data?.length > 0 && (
+              {gridData?.length > 0 && (
                 <PaginationTable
-                  count={gridData?.totalCount}
+                  count={gridData?.length}
                   setPositionHandler={setPositionHandler}
                   paginationState={{
                     pageNo,
