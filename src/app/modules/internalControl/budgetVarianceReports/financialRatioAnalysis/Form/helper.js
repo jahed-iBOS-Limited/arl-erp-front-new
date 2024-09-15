@@ -49,6 +49,7 @@ export const getFinancialRatioApi = async ({
   fromDate,
   toDate,
   buId,
+  forecastType = 0,
   typeId,
   setter,
   setLoading,
@@ -66,13 +67,13 @@ export const getFinancialRatioApi = async ({
   try {
     const [res, resTwo, resThree] = await Promise.all([
       makeApiRequest(
-        `/fino/CostSheet/GetFinancialRatio?BusinessUnitId=${buId}&FromDate=${fromDate}&Todate=${toDate}&Type=${typeId}`
+        `/fino/CostSheet/GetFinancialRatio?BusinessUnitId=${buId}&FromDate=${fromDate}&Todate=${toDate}&Type=${typeId}&isForecast=${forecastType}`
       ),
       makeApiRequest(
-        `/fino/BudgetFinancial/GetFinancialRatioProjectd?BusinessUnitId=${buId}&FromDate=${fromDate}&Todate=${toDate}&Type=2`
+        `/fino/BudgetFinancial/GetFinancialRatioProjectd?BusinessUnitId=${buId}&FromDate=${fromDate}&Todate=${toDate}&Type=2&isForecast=${forecastType}`
       ),
       makeApiRequest(
-        `/fino/BudgetFinancial/GetFinancialRatioProjectd?BusinessUnitId=${buId}&FromDate=${fromDate}&Todate=${toDate}&Type=1`
+        `/fino/BudgetFinancial/GetFinancialRatioProjectd?BusinessUnitId=${buId}&FromDate=${fromDate}&Todate=${toDate}&Type=1&isForecast=${forecastType}`
       ),
     ]);
 

@@ -106,7 +106,8 @@ export const getReportBalance = async (
   setter,
   setLoading,
   enterpriseDivision = "",
-  ConvertionRate
+  ConvertionRate,
+  forecastType = 0
 ) => {
   setLoading(true);
   try {
@@ -114,7 +115,7 @@ export const getReportBalance = async (
       `/fino/BalanceSheet/GetBalanceSheet?AccountId=${accId}&BusinessUnitGroup=${enterpriseDivision ||
         ""}&BusinessUnitId=${buId}&AsOnDate=${_dateFormatter(
         date
-      )}&ConvertionRate=${ConvertionRate}`
+      )}&ConvertionRate=${ConvertionRate}&isForecast=${forecastType}`
     );
 
     if (res.status === 200 && res?.data) {
