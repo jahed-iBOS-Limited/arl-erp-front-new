@@ -120,6 +120,7 @@ export default function BalancerReportTable() {
         value: `${values?.enterpriseDivision?.value}`,
       },
       { name: "intBusinessUnitId", value: `${values?.business?.value}` },
+      { name: "isForecast", value: `${values?.isForecast?.value}` },
       { name: "dteAsOnDate", value: `${values?.fromDate}` },
       { name: "intAccountId", value: `1` },
       { name: "ConvertionRate", value: `${values?.conversionRate}` },
@@ -195,6 +196,27 @@ export default function BalancerReportTable() {
                     touched={touched}
                   />
                 </div>
+                <div className="col-md-3">
+                  <NewSelect
+                    name="isForecast"
+                    options={[
+                      {
+                        value: 0,
+                        label: "Budget",
+                      },
+                      {
+                        value: 1,
+                        label: "Forecast",
+                      },
+                    ]}
+                    value={values?.isForecast}
+                    label="Budget/Forecast"
+                    onChange={(valueOption) => {
+                      setFieldValue("isForecast", valueOption);
+                    }}
+                    placeholder="Budget/Forecast"
+                  />
+                </div>
                 <div className="col-lg-4">
                   <label>Date</label>
                   <input
@@ -243,7 +265,8 @@ export default function BalancerReportTable() {
                         setRowDto,
                         setLoading,
                         values?.enterpriseDivision?.label,
-                        values?.conversionRate
+                        values?.conversionRate,
+                        values?.isForecast?.value
                       );
                     }}
                     disabled={!values?.business || values?.conversionRate < 1}
