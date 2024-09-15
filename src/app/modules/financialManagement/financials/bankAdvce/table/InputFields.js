@@ -131,8 +131,8 @@ const InputFields = ({ obj }) => {
       `/fino/Disburse/SendAdviceOTP`,
       {
         // ! this should be preset
-        emailAddress: profileData?.emailAddress,
-        // emailAddress: "rakibul.rifat@ibos.io",
+        // emailAddress: profileData?.emailAddress,
+        emailAddress: "rakibul.rifat@ibos.io",
       },
       () => setSCBModalShow(true),
       true,

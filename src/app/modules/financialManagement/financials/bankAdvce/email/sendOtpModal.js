@@ -143,8 +143,8 @@ export default function SendOtpToEmailModal({ objProps }) {
       `/fino/Disburse/VerifyAdviceOTP`,
       {
         // ! this should be preset
-        // emailAddress: "rakibul.rifat@ibos.io",
-        emailAddress: profileData?.emailAddress,
+        emailAddress: "rakibul.rifat@ibos.io",
+        // emailAddress: profileData?.emailAddress,
         otp: values?.otp,
       },
       () => setVerified(true),
