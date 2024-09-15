@@ -160,6 +160,7 @@ export default function EDPALoadPortCreate() {
                         backgroundColor: "transparent",
                         color: "black",
                       }}
+                      isExistAttachment={values?.strAttachmentForPort}
                       CBAttachmentRes={(attachmentData) => {
                         if (Array.isArray(attachmentData)) {
                           setAttachment(attachmentData?.[0]?.id);
@@ -180,6 +181,9 @@ export default function EDPALoadPortCreate() {
                         backgroundColor: "transparent",
                         color: "black",
                       }}
+                      isExistAttachment={
+                        values?.strAttachmentForPortDisbursment
+                      }
                       CBAttachmentRes={(attachmentData) => {
                         if (Array.isArray(attachmentData)) {
                           setAttachment(attachmentData?.[0]?.id);

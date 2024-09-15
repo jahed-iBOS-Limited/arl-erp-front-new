@@ -54,9 +54,7 @@ export default function CreateonHireBunkerAndContionalSurvey() {
   };
 
   const validationSchema = Yup.object().shape({
-    strVesselNominationCode: Yup.string().required(
-      "Code is required"
-    ),
+    strVesselNominationCode: Yup.string().required("Code is required"),
     numBunkerSurveyAmount: Yup.number().required(
       "Bunker Survey Amount is required"
     ),
@@ -172,6 +170,7 @@ export default function CreateonHireBunkerAndContionalSurvey() {
                 <div className="col-lg-3 mt-5">
                   {/* <label>Attachments</label> */}
                   <AttachmentUploaderNew
+                    isExistAttachment={values?.strAttachment}
                     CBAttachmentRes={(attachmentData) => {
                       if (Array.isArray(attachmentData)) {
                         setAttachment(attachmentData[0]?.id);

@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import FormContainer from "../_metronic/_partials/dashboards/formContainer";
 import { Layout } from "../_metronic/layout";
 import BasePage from "./BasePage";
+import { publicRouteList } from "./PublicRoutes";
 import TokenExpiredPopUp from "./TokenExpiredPopUp";
 import { Logout } from "./modules/Auth";
 import * as requestFromServer from "./modules/Auth/_redux/Auth_Api";
@@ -28,10 +29,6 @@ import KPIScoreCardNew from "./modules/performanceManagement/individualKpi/balan
 import SBUBalancedScorecard from "./modules/performanceManagement/sbuKpi/balancedScore/Table/SBUBalancedScorecard";
 import ErrorsPage from "./pages/ErrorsExamples/ErrorsPage";
 import Maintenance from "./pages/Maintenance";
-import RecapCreate from "./modules/chartering/operation/recap/create";
-import EDPALoadPortCreate from "./modules/chartering/operation/edpaLoadPort/create";
-import DeadWeightCreate from "./modules/chartering/operation/deadWeight/create";
-import CreateonHireBunkerAndContionalSurvey from "./modules/chartering/operation/onHireBunkerAndContionalSurvey/create";
 // import { detectBrowserConsole } from "./modules/_helper/detectBrowserConsole";
 
 export function Routes() {
@@ -253,23 +250,14 @@ export function Routes() {
   return (
     <Switch>
       {/* Public route here.... */}
-      <Route
-        exact
-          path="/chartering/operation/recap/create"
-          component={RecapCreate}
+      {publicRouteList.map((route, index) => (
+        <Route
+          key={index}
+          exact={true}
+          path={route.path}
+          component={route.component}
         />
-         <Route
-          path="/chartering/operation/epdaLoadPort/create"
-          component={EDPALoadPortCreate}
-        />
-         <Route
-          path="/chartering/operation/pre-stowagePlanning/create"
-          component={DeadWeightCreate}
-        />
-         <Route
-          path="/chartering/operation/onHireBunkerAndContionalSurvey/create"
-          component={CreateonHireBunkerAndContionalSurvey}
-        />
+      ))}
       {/* ============== */}
       {isExpiredPassword && (
         <>

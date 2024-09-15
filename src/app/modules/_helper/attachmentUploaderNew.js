@@ -6,7 +6,7 @@ import { compressfile } from "./compressfile";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import Loading from "./_loading";
 
-export default function AttachmentUploaderNew({ CBAttachmentRes, showIcon, attachmentIcon, customStyle, tooltipLabel, fileUploadLimits }) {
+export default function AttachmentUploaderNew({ CBAttachmentRes, showIcon, attachmentIcon, customStyle, tooltipLabel, fileUploadLimits, isExistAttachment=false }) {
   const [fileObjects, setFileObjects] = useState([]);
   const [open, setOpen] = useState(false);
   const [loading, setLoading] =  useState(false)
@@ -21,7 +21,7 @@ export default function AttachmentUploaderNew({ CBAttachmentRes, showIcon, attac
     }
       {!showIcon ? (
         <button
-          className="btn btn-primary"
+          className={`btn ${isExistAttachment ? "btn-success" : "btn-primary"}`}
           type="button"
           onClick={() => setOpen(true)}
         >
