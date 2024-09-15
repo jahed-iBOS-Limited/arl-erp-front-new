@@ -249,16 +249,19 @@ export function Routes() {
 
   return (
     <Switch>
+      
       {/* Public route here.... */}
-      {publicRouteList.map((route, index) => (
-        <Route
-          key={index}
-          exact={true}
-          path={route.path}
-          component={route.component}
-        />
-      ))}
+      {publicRouteList?.length > 0 &&
+        publicRouteList.map((route, index) => (
+          <Route
+            key={index}
+            exact={true}
+            path={route.path}
+            component={route.component}
+          />
+        ))}
       {/* ============== */}
+
       {isExpiredPassword && (
         <>
           <TokenExpiredPopUp isCancel={true} />
