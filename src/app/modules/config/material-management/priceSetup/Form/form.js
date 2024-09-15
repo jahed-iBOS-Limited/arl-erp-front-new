@@ -58,7 +58,9 @@ export default function _Form({
         ...values,
         itemName: values.item.label,
         itemId: values.item.value,
-        price: 0,
+        price: values?.price,
+        minPriceDeduction: +values?.price - +values?.minPrice,
+        maxPriceAddition: +values?.price + +values?.maxPrice,
       };
       setter(obj);
     }
@@ -274,7 +276,21 @@ export default function _Form({
                     </div>
                   </>
                 )}
+                {// show only for business unit 224 & 171
 
+                [224, 171].includes(selectedBusinessUnit?.value) && (
+                  <div className="col-lg-2">
+                    <InputField
+                      value={values?.price}
+                      label="Common Rate"
+                      name="price"
+                      type="text"
+                      onChange={(e) => {
+                        setFieldValue("price", e.target.value);
+                      }}
+                    />
+                  </div>
+                )}
                 <IButton
                   onClick={() => {
                     addClickHandler(values, setFieldValue);
@@ -287,87 +303,87 @@ export default function _Form({
 
               <div>
                 {rowDto.length ? (
-                 <div className="table-responsive">
-                   <table className="table table-striped table-bordered global-table">
-                    <thead>
-                      <tr>
-                        <th>SL</th>
-                        {/* <th>Item Code</th> */}
-                        <th>Item Name</th>
-                        <th>Price</th>
-                        {businessUnitSet && (
-                          <>
-                            <th>Max price addition</th>
-                            <th>Min price deduction</th>
-                          </>
-                        )}
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {rowDto.map((itm, idx) => (
-                        <tr key={itm?.itemId}>
-                          <td>{idx + 1}</td>
-                          <td>{itm?.itemName}</td>
-                          <td>
-                            <input
-                              type="number"
-                              value={itm?.price}
-                              onChange={(e) =>
-                                setPrice(idx, e.target.value, "price", values)
-                              }
-                              min="0"
-                              step="any"
-                            />
-                          </td>
+                  <div className="table-responsive">
+                    <table className="table table-striped table-bordered global-table">
+                      <thead>
+                        <tr>
+                          <th>SL</th>
+                          {/* <th>Item Code</th> */}
+                          <th>Item Name</th>
+                          <th>Price</th>
                           {businessUnitSet && (
                             <>
-                              <td>
-                                <input
-                                  type="number"
-                                  value={itm?.maxPriceAddition}
-                                  onChange={(e) =>
-                                    setPrice(
-                                      idx,
-                                      e.target.value,
-                                      "maxPriceAddition"
-                                    )
-                                  }
-                                  min="0"
-                                  step="any"
-                                />
-                              </td>
-                              <td>
-                                <input
-                                  type="number"
-                                  value={itm?.minPriceDeduction}
-                                  onChange={(e) =>
-                                    setPrice(
-                                      idx,
-                                      e.target.value,
-                                      "minPriceDeduction"
-                                    )
-                                  }
-                                  min="0"
-                                  step="any"
-                                />
-                              </td>
+                              <th>Max price addition</th>
+                              <th>Min price deduction</th>
                             </>
                           )}
-                          <td className="text-center">
-                            <span>
-                              <i
-                                onClick={() => remover(itm?.itemId)}
-                                className="fa fa-trash deleteBtn"
-                                aria-hidden="true"
-                              ></i>
-                            </span>
-                          </td>
+                          <th>Action</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                 </div>
+                      </thead>
+                      <tbody>
+                        {rowDto.map((itm, idx) => (
+                          <tr key={itm?.itemId}>
+                            <td>{idx + 1}</td>
+                            <td>{itm?.itemName}</td>
+                            <td>
+                              <input
+                                type="number"
+                                value={itm?.price}
+                                onChange={(e) =>
+                                  setPrice(idx, e.target.value, "price", values)
+                                }
+                                min="0"
+                                step="any"
+                              />
+                            </td>
+                            {businessUnitSet && (
+                              <>
+                                <td>
+                                  <input
+                                    type="number"
+                                    value={itm?.maxPriceAddition}
+                                    onChange={(e) =>
+                                      setPrice(
+                                        idx,
+                                        e.target.value,
+                                        "maxPriceAddition"
+                                      )
+                                    }
+                                    min="0"
+                                    step="any"
+                                  />
+                                </td>
+                                <td>
+                                  <input
+                                    type="number"
+                                    value={itm?.minPriceDeduction}
+                                    onChange={(e) =>
+                                      setPrice(
+                                        idx,
+                                        e.target.value,
+                                        "minPriceDeduction"
+                                      )
+                                    }
+                                    min="0"
+                                    step="any"
+                                  />
+                                </td>
+                              </>
+                            )}
+                            <td className="text-center">
+                              <span>
+                                <i
+                                  onClick={() => remover(itm?.itemId)}
+                                  className="fa fa-trash deleteBtn"
+                                  aria-hidden="true"
+                                ></i>
+                              </span>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 ) : (
                   ""
                 )}

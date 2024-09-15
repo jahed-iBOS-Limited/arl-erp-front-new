@@ -199,6 +199,8 @@ export default function PriceSetupForm({
     });
     setRowDto([...allDto]);
   };
+
+  // set apps item rate for all row dto
   const setAppsItemRateAll = (values) => {
     if (itemByChanneList?.length === 0) return toast.warn("No item found");
     const allDto = itemByChanneList.map((itm) => {
@@ -206,6 +208,8 @@ export default function PriceSetupForm({
         ...values,
         itemId: itm.itemId,
         itemName: itm.itemName,
+        minPriceDeduction: +values?.price - +values?.minPrice,
+        maxPriceAddition: +values?.price + +values?.maxPrice,
       };
     });
     setRowDto([...allDto]);
