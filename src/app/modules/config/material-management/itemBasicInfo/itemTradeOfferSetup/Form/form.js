@@ -93,6 +93,7 @@ export default function _Form({
         return toast.warn(
           `Please Input required  maximum  qty "${values?.numMinQuantity}"`
         );
+      if (rowDto?.length > 0) return toast.warn("Maximum one item allowed");
 
       // const duplicateCheck = rowDto.some(
       //   (itm) => itm?.intOfferItemId === values?.offerItem?.value
@@ -119,10 +120,10 @@ export default function _Form({
         isProportionalOffer: values?.isProportionalOffer || false,
         intAccountId: profileData?.accountId,
         intBusinessUnitId: selectedBusinessUnit?.value,
-        itemCategoryId:values?.itemCategory?.value,
-        itemCategoryName:values?.itemCategory?.label,
-        itemSubCategoryId:values?.itemSubCategory?.value,
-        itemSubCategoryName:values?.itemSubCategory?.label,
+        itemCategoryId: values?.itemCategory?.value,
+        itemCategoryName: values?.itemCategory?.label,
+        itemSubCategoryId: values?.itemSubCategory?.value,
+        itemSubCategoryName: values?.itemSubCategory?.label,
       };
       setRowDto([...rowDto, obj]);
     }
@@ -185,7 +186,6 @@ export default function _Form({
           <>
             <Form className="form form-label-right">
               <div className="form-group row  global-form">
-                {console.log("Current value of offerType:", values?.offerType)}
                 <div className="col-lg-3">
                   <NewSelect
                     name="offerType"
