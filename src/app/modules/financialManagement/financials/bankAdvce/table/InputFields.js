@@ -4,7 +4,7 @@ import { adviceMailCreate, advicePrintCount, getAdviceReport } from "../helper";
 import NewSelect from "./../../../../_helper/_select";
 import IViewModal from "../../../../_helper/_viewModal";
 import ViewData from "./ViewPrint";
-import { useDispatch } from "react-redux";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { moneyInWord } from "../../../../_helper/_convertMoneyToWord";
 import Loading from "../../../../_helper/_loading";
@@ -17,6 +17,7 @@ import SendOtpToEmailModal from "../email/sendOtpModal";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 
 const InputFields = ({ obj }) => {
+  const { userRole } = useSelector((state) => state?.authData, shallowEqual);
   const [isView, setIsView] = useState("");
   const [mdalShow, setModalShow] = useState(false);
   const [scbModalShow, setSCBModalShow] = useState(false);
@@ -141,6 +142,11 @@ const InputFields = ({ obj }) => {
     );
   };
 
+  // scb disbursement btn permission
+  const scbDisbursementBtnPermission = userRole.find(
+    (role) => role?.intFeatureId === 1508
+  );
+
   return (
     <>
       {(loadingOnGetAdviceDDL || sendingOtpToEmailLoading) && <Loading />}
@@ -248,24 +254,26 @@ const InputFields = ({ obj }) => {
           className="d-flex align-items-center justify-content-end"
           style={{ marginTop: "8px", flexWrap: "wrap", gap: "10px" }}
         >
-          {/* Show only salary advice & bank is scb */}
-          {values?.adviceType?.value === 12 && (
-            <button
-              type="button"
-              className="btn btn-primary mr-2"
-              onClick={() => handleSendOtpToMail(profileData)}
-              // disable if bank acc isn't to scb bank value 41
-              disabled={
-                !values?.dateTime ||
-                values?.bankAccountNo?.bankId !== 41 ||
-                values?.adviceType?.value !== 12 ||
-                !values?.advice ||
-                !isAdviceReportDataSelected(adviceReportData)
-              }
-            >
-              SCB Disburse
-            </button>
-          )}
+          {/* Show only user has permission & salary advice & bank is scb */}
+          {scbDisbursementBtnPermission?.isEdit &&
+            values?.adviceType?.value === 12 && (
+              <button
+                type="button"
+                className="btn btn-primary mr-2"
+                onClick={() => handleSendOtpToMail(profileData)}
+                // disable if bank acc isn't to scb bank value 41
+                disabled={
+                  !values?.dateTime ||
+                  values?.bankAccountNo?.bankId !== 41 ||
+                  values?.adviceType?.value !== 12 ||
+                  !values?.advice ||
+                  !isAdviceReportDataSelected(adviceReportData)
+                }
+              >
+                SCB Disburse
+              </button>
+            )}
+
           <button
             type="button"
             onClick={() => setIsShowModal(true)}
