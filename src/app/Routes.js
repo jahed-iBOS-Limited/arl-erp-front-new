@@ -257,7 +257,14 @@ export function Routes() {
           path="/chartering/operation/recap/create"
           component={RecapCreate}
         />
-
+         <Route
+          path="/chartering/operation/epdaLoadPort/create"
+          component={EDPALoadPortCreate}
+        />
+         <Route
+          path="/chartering/operation/piSurvey/create"
+          component={DeadWeightCreate}
+        />
       {/* ============== */}
       {isExpiredPassword && (
         <>
@@ -266,18 +273,6 @@ export function Routes() {
       )}
       {isMaintenance && <Maintenance />}
       {/* <Route path="/maintenance" component={Maintenance} /> */}
-      {!isAuthorized && (
-        <Route
-          path="/chartering/operation/epdaLoadPort/create"
-          component={EDPALoadPortCreate}
-        />
-      )}
-      {!isAuthorized && (
-        <Route
-          path="/chartering/operation/piSurvey/create"
-          component={DeadWeightCreate}
-        />
-      )}
       {!isAuthorized ? (
         <Route>
           <LoginPage2 />
