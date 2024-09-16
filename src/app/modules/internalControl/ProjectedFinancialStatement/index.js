@@ -875,7 +875,31 @@ export default function ProjectedFinancialStatement() {
                     </div>
                   </>
                 ) : null}
-
+                {[2, 3, 9, 6]?.includes(values?.reportType?.value) ? (
+                  <>
+                    <div className="col-md-3">
+                      <NewSelect
+                        name="isForecast"
+                        options={[
+                          {
+                            value: 0,
+                            label: "Budget",
+                          },
+                          {
+                            value: 1,
+                            label: "Forecast",
+                          },
+                        ]}
+                        value={values?.isForecast}
+                        label="Budget/Forecast"
+                        onChange={(valueOption) => {
+                          setFieldValue("isForecast", valueOption);
+                        }}
+                        placeholder="Budget/Forecast"
+                      />
+                    </div>
+                  </>
+                ) : null}
                 <div style={{ marginTop: "17px" }}>
                   <button
                     type="button"
@@ -888,6 +912,7 @@ export default function ProjectedFinancialStatement() {
                       if ([2]?.includes(values?.reportType?.value)) {
                         if (values?.viewType?.value === "profitCenter") {
                           getIncomeStatement_api(
+                            values?.isForecast?.value,
                             values?.fromDate,
                             values?.toDate,
                             _lastDateOfMonthPreviousYear(values?.fromDate),
@@ -926,7 +951,7 @@ export default function ProjectedFinancialStatement() {
                           }&SubGroup=${values?.subDivision?.label ||
                             ""}&AsOnDate=${values?.date}&ConvertionRate=${
                             values?.conversionRate
-                          }`,
+                          }&isForecast=${values?.isForecast?.value}`,
                           (data) => {
                             setRowData(manageBalanceData(data));
                           }
@@ -957,10 +982,10 @@ export default function ProjectedFinancialStatement() {
                         const toDateStr = toDate.toISOString().split("T")[0];
 
                         getFinancialRatioTable(
-                          `/fino/BudgetFinancial/GetFinancialRatioProjectd?BusinessUnitId=${values?.businessUnit?.value}&FromDate=${values?.fromDate}&Todate=${values?.toDate}&Type=2`,
+                          `/fino/BudgetFinancial/GetFinancialRatioProjectd?BusinessUnitId=${values?.businessUnit?.value}&FromDate=${values?.fromDate}&Todate=${values?.toDate}&Type=2&isForecast=${values?.isForecast?.value}`,
                           (financialRatioTableResponse) => {
                             getFinancialRatioTableForLastPeriod(
-                              `/fino/CostSheet/GetFinancialRatio?BusinessUnitId=${values?.businessUnit?.value}&FromDate=${fromDateStr}&Todate=${toDateStr}&Type=2`,
+                              `/fino/CostSheet/GetFinancialRatio?BusinessUnitId=${values?.businessUnit?.value}&FromDate=${fromDateStr}&Todate=${toDateStr}&Type=2&isForecast=${values?.isForecast?.value}`,
                               (financialRatioTableForLastPeriodResponse) => {
                                 const lastPeriodMap = new Map();
                                 for (const item of financialRatioTableForLastPeriodResponse) {
@@ -989,10 +1014,10 @@ export default function ProjectedFinancialStatement() {
                           }
                         );
                         getFinancialRatioComponentTable(
-                          `/fino/BudgetFinancial/GetFinancialRatioProjectd?BusinessUnitId=${values?.businessUnit?.value}&FromDate=${values?.fromDate}&Todate=${values?.toDate}&Type=1`,
+                          `/fino/BudgetFinancial/GetFinancialRatioProjectd?BusinessUnitId=${values?.businessUnit?.value}&FromDate=${values?.fromDate}&Todate=${values?.toDate}&Type=1&isForecast=${values?.isForecast?.value}`,
                           (finanCialRatioComponentResponse) => {
                             getFinancialRatioComponentTableForLastPeriod(
-                              `/fino/CostSheet/GetFinancialRatio?BusinessUnitId=${values?.businessUnit?.value}&FromDate=${fromDateStr}&Todate=${toDateStr}&Type=1`,
+                              `/fino/CostSheet/GetFinancialRatio?BusinessUnitId=${values?.businessUnit?.value}&FromDate=${fromDateStr}&Todate=${toDateStr}&Type=1&isForecast=${values?.isForecast?.value}`,
                               (
                                 financialRatioComponentTableForLastPeriodResponse
                               ) => {

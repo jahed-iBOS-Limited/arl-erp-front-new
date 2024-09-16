@@ -64,7 +64,8 @@ export const getIncomeStatement_api = async (
   edLabel = "",
   conversionRate,
   subDivision,
-  reportType
+  reportType,
+  forecastType = 0
 ) => {
   setLoading(true);
   try {
@@ -72,7 +73,7 @@ export const getIncomeStatement_api = async (
       `/fino/IncomeStatement/GetIncomeStatement?partName=${partName}&dteFromDate=${fromDate}&dteToDate=${toDate}&dteFromDateL=${fromDateL}&dteToDateL=${toDateL}&BusinessUnitGroup=${edLabel}&BusinessUnitId=${buId}&SBUID=${sbuId ||
         0}&intProfitCenId=${profitCenter?.value ||
         0}&ConvertionRate=${conversionRate}&SubGroup=${subDivision?.value ||
-        0}&reportTypeId=${reportType}`
+        0}&reportTypeId=${reportType}&isForecast=${forecastType}`
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);

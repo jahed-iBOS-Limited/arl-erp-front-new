@@ -59,7 +59,7 @@ export default function ItemTradeOfferSetupForm() {
     const offerTypeId = values?.offerType?.value;
     if (offerTypeId === 1) {
       if (rowDto?.length === 0) return toast.warn("Minimum one item add");
-      CreateTradeOfferConfiguration(rowDto, setDisabled, cb);
+      await CreateTradeOfferConfiguration(rowDto, setDisabled, cb);
     } else if (offerTypeId === 2) {
       const payload = {
         head: {
@@ -83,6 +83,61 @@ export default function ItemTradeOfferSetupForm() {
 
       postData(
         `/oms/TradeOffer/CreateTradeOfferConfigurationByRate`,
+        payload,
+        () => {},
+        true
+      );
+    } else if ([171, 224].includes(selectedBusinessUnit?.value)) {
+      if (rowDto?.length === 0) return toast.warn("Minimum one item add");
+      const {
+        numMinQuantity,
+        numMaxQuantity,
+        intItemId,
+        strItemName,
+        numOfferQuantity,
+        itemCategoryId,
+        itemCategoryName
+      } = rowDto[0];
+
+      const payload = {
+        head: {
+          sl: 0,
+          promotionId: 0,
+          promotionCode: "",
+          promotionTypeId: values?.offerType?.value,
+          promotionName: values?.offerType?.label,
+          promotionStartDateTime: values?.fromDate,
+          promotionEndDateTime: values?.toDate,
+          remarks: values?.remarks,
+          accountId: profileData?.accountId,
+          businessUnitId: selectedBusinessUnit?.value,
+          status: 0,
+          actionBy: profileData?.userId,
+          userName: profileData?.userName,
+          channelId: values?.distributionChannel?.value,
+          channelName: values?.distributionChannel?.label,
+          attachmentLink: uploadedImage[0]?.id,
+        },
+
+        row: [
+          {
+            promotionRowId: 0,
+            promotionId: 0,
+            orderFrom: numMinQuantity,
+            orderTo: numMaxQuantity,
+            discountTypeId: values?.offerType?.value,
+            discountTypeName: values?.offerType?.label,
+            itemId: intItemId,
+            itemName: strItemName,
+            discount: numOfferQuantity,
+            itemCategoryId:itemCategoryId,
+            itemCategoryName: itemCategoryName
+          },
+        ],
+      };
+
+      postData(
+        `/oms/TradeOffer/CreatePromotionConfigurationByRate`,
         payload,
         () => {},
         true

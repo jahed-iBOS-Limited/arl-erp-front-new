@@ -130,9 +130,11 @@ export function CashFlowStatement() {
   const groupId = "218e3d7e-f3ea-4f66-8150-bb16eb6fc606";
   const reportId = "ed848d77-22ce-4690-be11-cb39ce5f332f";
   const parameterValues = (values) => {
+    console.log({ values });
     const agingParameters = [
       { name: "strUnitGroup", value: `${values?.enterpriseDivision?.value}` },
       { name: "strSubGroup", value: `${values?.subDivision?.label}` },
+      { name: "isForecast", value: `${values?.isForecast?.value}` },
       { name: "intUnit", value: `${values?.businessUnit?.value}` },
       { name: "dteFromDate", value: `${values?.fromDate}` },
       { name: "dteToDate", value: `${values?.toDate}` },
@@ -242,6 +244,27 @@ export function CashFlowStatement() {
                         }}
                         placeholder="Business Unit"
                         isDisabled={!values?.subDivision}
+                      />
+                    </div>
+                    <div className="col-md-3">
+                      <NewSelect
+                        name="isForecast"
+                        options={[
+                          {
+                            value: 0,
+                            label: "Budget",
+                          },
+                          {
+                            value: 1,
+                            label: "Forecast",
+                          },
+                        ]}
+                        value={values?.isForecast}
+                        label="Budget/Forecast"
+                        onChange={(valueOption) => {
+                          setFieldValue("isForecast", valueOption);
+                        }}
+                        placeholder="Budget/Forecast"
                       />
                     </div>
                     <div className="col-lg-2">
