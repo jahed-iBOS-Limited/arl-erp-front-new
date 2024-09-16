@@ -4,6 +4,7 @@ import Recap from "./recap";
 import RecapCreate from "./recap/create";
 import EDPALoadPort from "./edpaLoadPort";
 import DeadWeight from "./deadWeight";
+import VesselNomination from "./vesselNomination";
 
 export function OperationPages() {
   return (
@@ -24,6 +25,7 @@ export function OperationPages() {
         component={EDPALoadPort}
       />
       <Route path="/chartering/operation/piSurvey" component={DeadWeight} />
+      <Route path="/chartering/operation/vesselNomination" component={VesselNomination} />
     </Switch>
   );
 }
