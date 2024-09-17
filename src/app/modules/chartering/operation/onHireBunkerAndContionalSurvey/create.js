@@ -9,6 +9,7 @@ import IForm from "../../../_helper/_form";
 import InputField from "../../../_helper/_inputField";
 import AttachmentUploaderNew from "../../../_helper/attachmentUploaderNew";
 import { imarineBaseUrl } from "../../../../App";
+import { useParams } from "react-router-dom";
 
 const initData = {
   strEmailAddress: "",
@@ -24,6 +25,7 @@ export default function CreateonHireBunkerAndContionalSurvey() {
     profileData: { userId, accountId },
     selectedBusinessUnit: { value: buId, label },
   } = useSelector((state) => state.authData, shallowEqual);
+  const { paramId, paramCode } = useParams();
 
   const [attachment, setAttachment] = useState("");
   const [, onSave, loader] = useAxiosPost();
@@ -35,7 +37,9 @@ export default function CreateonHireBunkerAndContionalSurvey() {
       intBusinessUnitId: 0,
       strBusinessUnitName: "",
       strEmailAddress: values.strEmailAddress,
-      strVesselNominationCode: values.strVesselNominationCode,
+      intVesselNominationId: +paramId || 0,
+      strVesselNominationCode:
+        paramCode || values.strVesselNominationCode || "",
       numBunkerSurveyAmount: values.numBunkerSurveyAmount,
       numBunkerAndConditionSurveyAmount:
         values.numBunkerAndConditionSurveyAmount,
@@ -66,7 +70,7 @@ export default function CreateonHireBunkerAndContionalSurvey() {
   return (
     <Formik
       enableReinitialize={true}
-      initialValues={initData}
+      initialValues={{ ...initData, strVesselNominationCode: paramCode || "" }}
       validationSchema={validationSchema}
       onSubmit={(values, { resetForm }) => {
         saveHandler(values, () => resetForm(initData));

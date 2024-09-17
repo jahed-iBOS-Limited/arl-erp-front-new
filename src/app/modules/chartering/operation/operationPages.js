@@ -9,6 +9,7 @@ import OnHireBunkerAndContionalSurvey from "./onHireBunkerAndContionalSurvey";
 import DischargePort from "./dischargePort";
 import BunkerCalculatorLanding from "./bunkerManagement";
 import BunkerManagementCreate from "./bunkerManagement/create";
+import VesselNominationAccept from "./vesselNominationAcceptance";
 
 export function OperationPages() {
   return (
@@ -49,6 +50,10 @@ export function OperationPages() {
       <Route
         path="/chartering/operation/bunkerManagement"
         component={BunkerCalculatorLanding}
+        />
+      <Route
+        path="/chartering/operation/vesselNominationAcceptance"
+        component={VesselNominationAccept}
       />
     </Switch>
   );
