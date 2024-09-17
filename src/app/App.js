@@ -18,6 +18,12 @@ export const imarineBaseUrl =
     ? "https://devimarine.ibos.io"
     : "https://imarine.ibos.io";
 
+  export const marineBaseUrl =
+    process.env.NODE_ENV === "development" ||
+    window.location?.hostname === "deverp.ibos.io"
+      ? "https://devmarine.ibos.io"
+      : "https://marine.ibos.io/";
+
 // live-url: https://erp.peopledesk.io
 
 export const APIUrl =

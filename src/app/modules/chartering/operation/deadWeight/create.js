@@ -1,5 +1,5 @@
 import { Form, Formik } from "formik";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 
 import * as Yup from "yup";
@@ -11,6 +11,8 @@ import NewSelect from "../../../_helper/_select";
 import { _todayDate } from "../../../_helper/_todayDate";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import { useParams } from "react-router-dom";
+import IViewModal from "../../../_helper/_viewModal";
+import MailSender from "../mailSender";
 
 const initData = {
   strVesselNominationCode: "",
@@ -37,6 +39,7 @@ export default function DeadWeightCreate() {
 
   const [, onSave, loader] = useAxiosPost();
   const { paramId, paramCode } = useParams();
+  const [isShowModal, setIsShowModal] = useState(false);
 
   useEffect(() => {}, []);
 
@@ -62,7 +65,8 @@ export default function DeadWeightCreate() {
       strAttachmentForPort: values?.strAttachmentForPort,
       strAttachmentForPortDisbursment: values?.strAttachmentForPortDisbursment,
       intVesselNominationId: +paramId || 0,
-      strVesselNominationCode: paramCode || values?.strVesselNominationCode || "",
+      strVesselNominationCode:
+        paramCode || values?.strVesselNominationCode || "",
       numGrandTotalAmount: +values?.numGrandTotalAmount,
       isActive: true,
       dteCreateDate: _todayDate(),
@@ -120,6 +124,7 @@ export default function DeadWeightCreate() {
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
           resetForm(initData);
+          setIsShowModal(true);
         });
       }}
     >
@@ -163,7 +168,9 @@ export default function DeadWeightCreate() {
                     label="Code"
                     name="strVesselNominationCode"
                     type="text"
-                    onChange={(e) => setFieldValue("strVesselNominationCode", e.target.value)}
+                    onChange={(e) =>
+                      setFieldValue("strVesselNominationCode", e.target.value)
+                    }
                     errors={errors}
                   />
                 </div>
@@ -320,6 +327,39 @@ export default function DeadWeightCreate() {
                     errors={errors}
                   />
                 </div>
+              </div>
+              <div>
+                <IViewModal
+                  show={isShowModal}
+                  onHide={() => setIsShowModal(false)}
+                  title={"Send Mail"}
+                  modelSize={"md"}
+                >
+                  <MailSender
+                    payloadInfo={{
+                      strDraftType: values?.strDraftType?.value,
+                      intDisplacementDraftMts:
+                        +values?.intDisplacementDraftMts || 0,
+                      intDockWaterDensity: +values?.intDockWaterDensity || 0,
+                      intLightShipMts: +values?.intLightShipMts || 0,
+                      intFoFuelOilMts: +values?.intFoFuelOilMts || 0,
+                      intFoDoDiselOilMts: +values?.intFoDoDiselOilMts || 0,
+                      intFwFreshWaterMts: +values?.intFwFreshWaterMts || 0,
+                      intConstantMts: +values?.intConstantMts || 0,
+                      intUnpumpAbleBallastMts:
+                        +values?.intUnpumpAbleBallastMts || 0,
+                      intCargoLoadMts: +values?.intCargoLoadMts || 0,
+                      intFinalCargoToloadMts:
+                        +values?.intFinalCargoToloadMts || 0,
+                      strRemarks: values?.strRemarks,
+                      strAttachmentForPort: `https://erp.ibos.io/domain/Document/DownlloadFile?id=${values?.strAttachmentForPort}`,
+                      strAttachmentForPortDisbursment: `https://erp.ibos.io/domain/Document/DownlloadFile?id=${values?.strAttachmentForPortDisbursment}`,
+                      strVesselNominationCode:
+                        paramCode || values?.strVesselNominationCode || "",
+                      numGrandTotalAmount: +values?.numGrandTotalAmount,
+                    }}
+                  />
+                </IViewModal>
               </div>
             </Form>
           </IForm>

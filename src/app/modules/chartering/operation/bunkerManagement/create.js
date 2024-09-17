@@ -128,7 +128,7 @@ export default function BunkerManagementCreate() {
   }, [profileData, selectedBusinessUnit]);
   const saveHandler = async (values, cb) => {
     const payload = {
-      strCode: paramCode || values?.strCode || "",
+      strCode: values?.strCode || "",
       strNameOfVessel: values?.strNameOfVessel?.label || "",
       strMasterEmail: values?.strMasterEmail || "",
       strCurrentPosition: values?.strCurrentPosition || "",
@@ -179,7 +179,7 @@ export default function BunkerManagementCreate() {
       intLastActionBy: +profileData?.userId,
       intAccountId: +profileData?.accountId,
       intVesselId: +values?.strNameOfVessel?.value || 0,
-      intVesselNominationId: +paramId || 0,
+      intVesselNominationId: 0,
     };
 
     onSave(

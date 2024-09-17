@@ -12,6 +12,8 @@ import { _todayDate } from "../../../_helper/_todayDate";
 import NewSelect from "../../../_helper/_select";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import { useParams } from "react-router-dom";
+import IViewModal from "../../../_helper/_viewModal";
+import MailSender from "../mailSender";
 
 // Initial data
 const initData = {
@@ -45,6 +47,7 @@ export default function CreateDischargePort() {
   const [, onSave, loader] = useAxiosPost();
   const [vesselDDL, getVesselDDL] = useAxiosGet();
   const [voyageDDL, getVoyageDDL, , setVoyageDDL] = useAxiosGet();
+  const [isShowModal, setIsShowModal] = useState(false);
 
   useEffect(() => {
     getVesselDDL(`${imarineBaseUrl}/domain/Voyage/GetVesselDDL?AccountId=${accountId}&BusinessUnitId=${buId}
@@ -113,6 +116,7 @@ export default function CreateDischargePort() {
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
           resetForm(initData);
+          setIsShowModal(true);
         });
       }}
     >
@@ -368,6 +372,35 @@ export default function CreateDischargePort() {
                     touched={touched}
                   />
                 </div>
+              </div>
+              <div>
+                <IViewModal
+                  show={isShowModal}
+                  onHide={() => setIsShowModal(false)}
+                  title={"Send Mail"}
+                  modelSize={"md"}
+                >
+                  <MailSender
+                    payloadInfo={{
+                      strVesselName: values.strVesselName?.label,
+                      strVoyageNo: values.strVoyageNo?.label,
+                      intVesselNominationId: +paramId || 0,
+                      strCode: paramCode || values.strCode || "",
+                      strSoffile: `https://erp.ibos.io/domain/Document/DownlloadFile?id=${values.strSoffile}`,
+                      strNorfile: `https://erp.ibos.io/domain/Document/DownlloadFile?id=${values.strNorfile}`,
+                      strFinalDraftSurveyReportFile: `https://erp.ibos.io/domain/Document/DownlloadFile?id=${values.strFinalDraftSurveyReportFile}`,
+                      strFinalStowagePlanFile: `https://erp.ibos.io/domain/Document/DownlloadFile?id=${values.strFinalStowagePlanFile}`,
+                      strMatesReceiptFile: `https://erp.ibos.io/domain/Document/DownlloadFile?id=${values.strMatesReceiptFile}`,
+                      strCargoManifestFile: `https://erp.ibos.io/domain/Document/DownlloadFile?id=${values.strCargoManifestFile}`,
+                      strMasterReceiptOfSampleFile: `https://erp.ibos.io/domain/Document/DownlloadFile?id=${values.strMasterReceiptOfSampleFile}`,
+                      strAuthorizationLetterFile: `https://erp.ibos.io/domain/Document/DownlloadFile?id=${values.strAuthorizationLetterFile}`,
+                      strSealingReportFile: `https://erp.ibos.io/domain/Document/DownlloadFile?id=${values.strSealingReportFile}`,
+                      strHoldInspectionReportFile: `https://erp.ibos.io/domain/Document/DownlloadFile?id=${values.strHoldInspectionReportFile}`,
+
+                      strRemarks: values.strRemarks,
+                    }}
+                  />
+                </IViewModal>
               </div>
             </Form>
           </IForm>
