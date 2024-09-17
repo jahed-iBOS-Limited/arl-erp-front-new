@@ -8,6 +8,8 @@ import InputField from "../../../_helper/_inputField";
 import Loading from "../../../_helper/_loading";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import { useParams } from "react-router-dom";
+import IViewModal from "../../_chartinghelper/_viewModal";
+import MailSender from "../mailSender";
 
 const initData = {
   strVesselNominationCode: "",
@@ -27,6 +29,7 @@ export default function VesselNominationAcceptanceCreate() {
   const [objProps, setObjprops] = useState({});
   const [, onSave, loader] = useAxiosPost();
   const { paramId, paramCode } = useParams();
+  const [isShowModal, setIsShowModal] = useState(false);
 
   const saveHandler = async (values, cb) => {
     const payload = {
@@ -54,6 +57,7 @@ export default function VesselNominationAcceptanceCreate() {
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
           resetForm(initData);
+          setIsShowModal(true);
         });
         setSubmitting(false);
       }}
@@ -136,6 +140,23 @@ export default function VesselNominationAcceptanceCreate() {
                   </label>
                 </div>
               </div>
+            </div>
+            <div>
+              <IViewModal
+                show={isShowModal}
+                onHide={() => setIsShowModal(false)}
+                title={"Send Mail"}
+                modelSize={"md"}
+              >
+                <MailSender
+                  payloadInfo={{
+                    strVesselNominationCode:
+                      paramCode || values?.strVesselNominationCode || "",
+                    isVesselNominationAccept: values?.isVesselNominationAccept,
+                    strRemarks: values?.strRemarks || "",
+                  }}
+                />
+              </IViewModal>
             </div>
           </Form>
         </IForm>

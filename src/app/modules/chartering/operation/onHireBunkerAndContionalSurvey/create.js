@@ -10,6 +10,8 @@ import InputField from "../../../_helper/_inputField";
 import AttachmentUploaderNew from "../../../_helper/attachmentUploaderNew";
 import { imarineBaseUrl } from "../../../../App";
 import { useParams } from "react-router-dom";
+import IViewModal from "../../../_helper/_viewModal";
+import MailSender from "../mailSender";
 
 const initData = {
   strEmailAddress: "",
@@ -29,6 +31,7 @@ export default function CreateonHireBunkerAndContionalSurvey() {
 
   const [attachment, setAttachment] = useState("");
   const [, onSave, loader] = useAxiosPost();
+  const [isShowModal, setIsShowModal] = useState(false);
 
   const saveHandler = (values, cb) => {
     const payload = {
@@ -74,6 +77,7 @@ export default function CreateonHireBunkerAndContionalSurvey() {
       validationSchema={validationSchema}
       onSubmit={(values, { resetForm }) => {
         saveHandler(values, () => resetForm(initData));
+        setIsShowModal(true);
       }}
     >
       {({
@@ -183,6 +187,25 @@ export default function CreateonHireBunkerAndContionalSurvey() {
                     }}
                   />
                 </div>
+              </div>
+              <div>
+                <IViewModal
+                  show={isShowModal}
+                  onHide={() => setIsShowModal(false)}
+                  title={"Send Mail"}
+                  modelSize={"md"}
+                >
+                  <MailSender
+                    payloadInfo={{
+                      strVesselNominationCode:
+                        paramCode || values.strVesselNominationCode || "",
+                      numBunkerSurveyAmount: values.numBunkerSurveyAmount,
+                      numBunkerAndConditionSurveyAmount:
+                        values.numBunkerAndConditionSurveyAmount,
+                      strAttachment: `https://erp.ibos.io/domain/Document/DownlloadFile?id=${attachment}`,
+                    }}
+                  />
+                </IViewModal>
               </div>
             </Form>
           </IForm>
