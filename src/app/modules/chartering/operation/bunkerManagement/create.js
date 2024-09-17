@@ -9,6 +9,7 @@ import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import { imarineBaseUrl } from "../../../../App";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import { shallowEqual, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 
 const initData = {
   strCode: "",
@@ -83,6 +84,7 @@ export default function BunkerManagement() {
   const [, onSave, loader] = useAxiosPost();
   const [vesselDDL, getVesselDDL] = useAxiosGet();
   const [portDDL, getPortDDL] = useAxiosGet();
+  const { paramId, paramCode } = useParams();
 
   useEffect(() => {
     getVesselDDL(`${imarineBaseUrl}/domain/Voyage/GetVesselDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}
@@ -93,7 +95,7 @@ export default function BunkerManagement() {
   }, [profileData, selectedBusinessUnit]);
   const saveHandler = async (values, cb) => {
     const payload = {
-      strCode: values?.strCode || "",
+      strCode: paramCode || values?.strCode || "",
       strNameOfVessel: values?.strNameOfVessel?.label || "",
       strMasterEmail: values?.strMasterEmail || "",
       strCurrentPosition: values?.strCurrentPosition || "",
@@ -144,6 +146,7 @@ export default function BunkerManagement() {
       intLastActionBy: +profileData?.userId,
       intAccountId: +profileData?.accountId,
       intVesselId: +values?.strNameOfVessel?.value || 0,
+      intVesselNominationId: +paramId || 0,
     };
 
     onSave(
@@ -157,7 +160,7 @@ export default function BunkerManagement() {
   return (
     <Formik
       enableReinitialize={true}
-      initialValues={initData}
+      initialValues={{ ...initData, strCode: paramCode || "" }}
       validationSchema={validationSchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {

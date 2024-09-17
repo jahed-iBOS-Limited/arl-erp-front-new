@@ -10,11 +10,13 @@ import Loading from "../../../_helper/_loading";
 import { _todayDate } from "../../../_helper/_todayDate";
 import AttachmentUploaderNew from "../../../_helper/attachmentUploaderNew";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
+import { useParams } from "react-router-dom";
+
 const initData = {
   strEmailAddress: "",
   strAttachmentForPort: "",
   strAttachmentForPortDisbursment: "",
-  code: "",
+  strVesselNominationCode: "",
   numGrandTotalAmount: 0,
 };
 export default function EDPALoadPortCreate() {
@@ -25,6 +27,7 @@ export default function EDPALoadPortCreate() {
     return state.authData;
   }, shallowEqual);
   const [attachment, setAttachment] = useState("");
+  const { paramId, paramCode } = useParams();
 
   const [, onSave, loader] = useAxiosPost();
 
@@ -39,8 +42,9 @@ export default function EDPALoadPortCreate() {
       strEmailAddress: "",
       strAttachmentForPort: values?.strAttachmentForPort,
       strAttachmentForPortDisbursment: values?.strAttachmentForPortDisbursment,
-      intVesselNominationId: 0,
-      strVesselNominationCode: values?.code,
+      intVesselNominationId: +paramId || 0,
+      strVesselNominationCode:
+        paramCode || values?.strVesselNominationCode || "",
       numGrandTotalAmount: values?.numGrandTotalAmount,
       isActive: true,
       dteCreateDate: _todayDate(),
@@ -56,13 +60,13 @@ export default function EDPALoadPortCreate() {
   };
 
   const validationSchema = Yup.object().shape({
-    code: Yup.string().required("Code is required"),
+    strVesselNominationCode: Yup.string().required("Code is required"),
   });
 
   return (
     <Formik
       enableReinitialize={true}
-      initialValues={initData}
+      initialValues={{ ...initData, strVesselNominationCode: paramCode || "" }}
       validationSchema={validationSchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
@@ -106,11 +110,13 @@ export default function EDPALoadPortCreate() {
               <div className="form-group  global-form row">
                 <div className="col-lg-2">
                   <InputField
-                    value={values.code}
+                    value={values.strVesselNominationCode}
                     label="Please copy code from email subject"
-                    name="code"
+                    name="strVesselNominationCode"
                     type="text"
-                    onChange={(e) => setFieldValue("code", e.target.value)}
+                    onChange={(e) =>
+                      setFieldValue("strVesselNominationCode", e.target.value)
+                    }
                   />
                 </div>
 

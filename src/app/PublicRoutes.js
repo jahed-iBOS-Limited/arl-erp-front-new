@@ -7,32 +7,36 @@ import VesselNominationAcceptanceCreate from "./modules/chartering/operation/ves
 
 export const publicRouteList = [
   {
-    path: "/chartering/operation/vesselNominationAcceptance/accept",
+    path:
+      "/chartering/operation/vesselNominationAcceptance/accept/:paramId/:paramCode",
     component: VesselNominationAcceptanceCreate,
     exact: true,
   },
   {
-    path: "/chartering/operation/bunkerManagement/create",
+    path: "/chartering/operation/bunkerManagement/create/:paramId/:paramCode",
     component: BunkerManagement,
     exact: true,
   },
   {
-    path: "/chartering/operation/epdaLoadPort/create",
+    path: "/chartering/operation/epdaLoadPort/create/:paramId/:paramCode",
     component: EDPALoadPortCreate,
     exact: true,
   },
   {
-    path: "/chartering/operation/pre-stowagePlanning/create",
+    path:
+      "/chartering/operation/pre-stowagePlanning/create/:paramId/:paramCode",
     component: DeadWeightCreate,
     exact: true,
   },
   {
-    path: "/chartering/operation/onHireBunkerAndContionalSurvey/create",
+    path:
+      "/chartering/operation/onHireBunkerAndContionalSurvey/create/:paramId/:paramCode",
     component: CreateonHireBunkerAndContionalSurvey,
     exact: true,
   },
   {
-    path: "/chartering/operation/dischargePortDepartureDocuments/create",
+    path:
+      "/chartering/operation/dischargePortDepartureDocuments/create/:paramId/:paramCode",
     component: CreateDischargePort,
     exact: true,
   },

@@ -10,9 +10,10 @@ import Loading from "../../../_helper/_loading";
 import NewSelect from "../../../_helper/_select";
 import { _todayDate } from "../../../_helper/_todayDate";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
+import { useParams } from "react-router-dom";
 
 const initData = {
-  code: "",
+  strVesselNominationCode: "",
   strDraftType: "",
   intDisplacementDraftMts: "",
   intDockWaterDensity: "",
@@ -35,6 +36,7 @@ export default function DeadWeightCreate() {
   }, shallowEqual);
 
   const [, onSave, loader] = useAxiosPost();
+  const { paramId, paramCode } = useParams();
 
   useEffect(() => {}, []);
 
@@ -59,8 +61,8 @@ export default function DeadWeightCreate() {
       strEmailAddress: "",
       strAttachmentForPort: values?.strAttachmentForPort,
       strAttachmentForPortDisbursment: values?.strAttachmentForPortDisbursment,
-      intVesselNominationId: 0,
-      strVesselNominationCode: values?.code,
+      intVesselNominationId: +paramId || 0,
+      strVesselNominationCode: paramCode || values?.strVesselNominationCode || "",
       numGrandTotalAmount: +values?.numGrandTotalAmount,
       isActive: true,
       dteCreateDate: _todayDate(),
@@ -76,7 +78,7 @@ export default function DeadWeightCreate() {
   };
 
   const validationSchema = Yup.object().shape({
-    code: Yup.string().required("Code is required"),
+    strVesselNominationCode: Yup.string().required("Code is required"),
     intDisplacementDraftMts: Yup.number()
       .required("Displacement Draft Mts is required")
       .positive("Displacement Draft Mts must be a positive number"),
@@ -113,7 +115,7 @@ export default function DeadWeightCreate() {
   return (
     <Formik
       enableReinitialize={true}
-      initialValues={initData}
+      initialValues={{ ...initData, strVesselNominationCode: paramCode || "" }}
       validationSchema={validationSchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
@@ -157,11 +159,11 @@ export default function DeadWeightCreate() {
               <div className="form-group  global-form row">
                 <div className="col-lg-2">
                   <InputField
-                    value={values.code}
+                    value={values.strVesselNominationCode}
                     label="Code"
-                    name="code"
+                    name="strVesselNominationCode"
                     type="text"
-                    onChange={(e) => setFieldValue("code", e.target.value)}
+                    onChange={(e) => setFieldValue("strVesselNominationCode", e.target.value)}
                     errors={errors}
                   />
                 </div>
