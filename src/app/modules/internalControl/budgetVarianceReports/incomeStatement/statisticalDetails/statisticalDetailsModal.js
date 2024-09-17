@@ -7,7 +7,13 @@ import { shallowEqual, useSelector } from "react-redux";
 import { _formatMoney } from "../../../../_helper/_formatMoney";
 const initData = {};
 export default function StatisticalDetails({ formValues }) {
-  const { businessUnit, fromDate, todate, profitCenter } = formValues;
+  const {
+    businessUnit,
+    fromDate,
+    todate,
+    profitCenter,
+    isForecast,
+  } = formValues;
   const { profileData } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
@@ -16,7 +22,7 @@ export default function StatisticalDetails({ formValues }) {
   useEffect(() => {
     if (businessUnit && fromDate && todate && profitCenter) {
       getRowData(
-        `/fino/Report/IncomeStatementVertualCalculation?intAccountId=${profileData?.accountId}&intBusinessUnitId=${businessUnit?.value}&intProfitCenterId=${profitCenter?.value}&dteFromDate=${fromDate}&dteToDate=${todate}&intType=1`
+        `/fino/Report/IncomeStatementVertualCalculation?intAccountId=${profileData?.accountId}&intBusinessUnitId=${businessUnit?.value}&intProfitCenterId=${profitCenter?.value}&dteFromDate=${fromDate}&dteToDate=${todate}&intType=1&isForecast=${isForecast?.value}`
       );
       // intType=1 as per ziaul bhai's suggestion
     }
