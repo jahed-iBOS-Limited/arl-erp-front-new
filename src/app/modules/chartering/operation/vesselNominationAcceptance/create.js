@@ -148,7 +148,14 @@ export default function VesselNominationAcceptanceCreate() {
                 title={"Send Mail"}
                 modelSize={"md"}
               >
-                <MailSender />
+                <MailSender
+                  payloadInfo={{
+                    strVesselNominationCode:
+                      paramCode || values?.strVesselNominationCode || "",
+                    isVesselNominationAccept: values?.isVesselNominationAccept,
+                    strRemarks: values?.strRemarks || "",
+                  }}
+                />
               </IViewModal>
             </div>
           </Form>
