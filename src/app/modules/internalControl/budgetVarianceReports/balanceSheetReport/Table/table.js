@@ -196,27 +196,7 @@ export default function BalancerReportTable() {
                     touched={touched}
                   />
                 </div>
-                <div className="col-md-3">
-                  <NewSelect
-                    name="isForecast"
-                    options={[
-                      {
-                        value: 0,
-                        label: "Budget",
-                      },
-                      {
-                        value: 1,
-                        label: "Forecast",
-                      },
-                    ]}
-                    value={values?.isForecast}
-                    label="Budget/Forecast"
-                    onChange={(valueOption) => {
-                      setFieldValue("isForecast", valueOption);
-                    }}
-                    placeholder="Budget/Forecast"
-                  />
-                </div>
+
                 <div className="col-lg-4">
                   <label>Date</label>
                   <input
@@ -243,6 +223,27 @@ export default function BalancerReportTable() {
                     name="conversionRate"
                     placeholder="Conversion Rate"
                     type="number"
+                  />
+                </div>
+                <div className="col-md-3">
+                  <NewSelect
+                    name="isForecast"
+                    options={[
+                      {
+                        value: 0,
+                        label: "Budget",
+                      },
+                      {
+                        value: 1,
+                        label: "Forecast",
+                      },
+                    ]}
+                    value={values?.isForecast}
+                    label="Budget/Forecast"
+                    onChange={(valueOption) => {
+                      setFieldValue("isForecast", valueOption);
+                    }}
+                    placeholder="Budget/Forecast"
                   />
                 </div>
                 <div
