@@ -5,6 +5,7 @@ import Loading from "./../../../_helper/_loading";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import { imarineBaseUrl } from "../../../../App";
 import { useHistory } from "react-router";
+import { _dateFormatter } from "../../_chartinghelper/_dateFormatter";
 
 const initData = {};
 export default function Recap() {
@@ -71,95 +72,149 @@ export default function Recap() {
                   <table className="table table-striped mt-2 table-bordered">
                     <thead>
                       <tr>
-                        <th>Code</th>
-                        <th>Schedule To Send</th>
-                        <th>Voyage Type</th>
-                        <th>Voyage No</th>
-                        <th>Voyage Commenced</th>
-                        <th>Voyage Completion</th>
-                        <th>Voyage Duration (Days)</th>
-                        <th>Charterer Name</th>
-                        <th>Broker Name</th>
-                        <th>Broker Email</th>
-                        <th>CP Date</th>
-                        <th>Account Name</th>
-                        <th>Cargo</th>
-                        <th>Cargo Quantity (Mts)</th>
-                        <th>Freight per Mt</th>
-                        <th>Load Port</th>
-                        <th>Laycan</th>
-                        <th>Load Rate</th>
-                        <th>Demurrage/Dispatch</th>
-                        <th>ETA Load Port</th>
-                        <th>Discharge Port</th>
-                        <th>Discharge Rate</th>
-                        <th>Freight</th>
-                        <th>Load Port DA</th>
-                        <th>Discharge Port DA</th>
-                        <th>Ballast</th>
-                        <th>Steaming</th>
-                        <th>Additional Distance</th>
-                        <th>Ballast Speed</th>
-                        <th>Laden Speed</th>
-                        <th>Extra Days</th>
-                        <th style={{ minWidth: "300px" }}>
+                        <th style={{ minWidth: "120px" }}>Code</th>
+                        <th style={{ minWidth: "120px" }}>Schedule To Send</th>
+                        <th style={{ minWidth: "120px" }}>Voyage Type</th>
+                        <th style={{ minWidth: "120px" }}>Voyage No</th>
+                        <th style={{ minWidth: "120px" }}>Voyage Commenced</th>
+                        <th style={{ minWidth: "120px" }}>Voyage Completion</th>
+                        <th style={{ minWidth: "120px" }}>
+                          Voyage Duration (Days)
+                        </th>
+                        <th style={{ minWidth: "120px" }}>Charterer Name</th>
+                        <th style={{ minWidth: "120px" }}>Broker Name</th>
+                        <th style={{ minWidth: "120px" }}>Broker Email</th>
+                        <th style={{ minWidth: "120px" }}>CP Date</th>
+                        <th style={{ minWidth: "120px" }}>Account Name</th>
+                        <th style={{ minWidth: "120px" }}>Cargo</th>
+                        <th style={{ minWidth: "120px" }}>
+                          Cargo Quantity (Mts)
+                        </th>
+                        <th style={{ minWidth: "120px" }}>Freight per Mt</th>
+                        <th style={{ minWidth: "120px" }}>Load Port</th>
+                        <th style={{ minWidth: "120px" }}>Laycan</th>
+                        <th style={{ minWidth: "120px" }}>Load Rate</th>
+                        <th style={{ minWidth: "120px" }}>
+                          Demurrage/Dispatch
+                        </th>
+                        <th style={{ minWidth: "120px" }}>ETA Load Port</th>
+                        <th style={{ minWidth: "120px" }}>Discharge Port</th>
+                        <th style={{ minWidth: "120px" }}>Discharge Rate</th>
+                        <th style={{ minWidth: "120px" }}>Freight</th>
+                        <th style={{ minWidth: "120px" }}>Load Port DA</th>
+                        <th style={{ minWidth: "120px" }}>Discharge Port DA</th>
+                        <th style={{ minWidth: "120px" }}>Ballast</th>
+                        <th style={{ minWidth: "120px" }}>Steaming</th>
+                        <th style={{ minWidth: "120px" }}>
+                          Additional Distance
+                        </th>
+                        <th style={{ minWidth: "120px" }}>Ballast Speed</th>
+                        <th style={{ minWidth: "120px" }}>Laden Speed</th>
+                        <th style={{ minWidth: "120px" }}>Extra Days</th>
+                        <th style={{ minWidth: "120px" }}>
                           Shipper Email for Vessel Nomination
                         </th>
-                        <th>Bunker Agent</th>
-                        <th style={{ minWidth: "300px" }}>
+                        <th style={{ minWidth: "120px" }}>Bunker Agent</th>
+                        <th style={{ minWidth: "120px" }}>
                           Expenditures for PI Survey
                         </th>
-                        <th>Place of Delivery</th>
-                        <th style={{ minWidth: "300px" }}>
+                        <th style={{ minWidth: "120px" }}>Place of Delivery</th>
+                        <th style={{ minWidth: "120px" }}>
                           Discharge Port Agent Email
                         </th>
-                        <th>PI Survey Email Sent</th>
-                        <th style={{ minWidth: "300px" }}>
+                        <th style={{ minWidth: "120px" }}>
+                          PI Survey Email Sent
+                        </th>
+                        <th style={{ minWidth: "120px" }}>
                           Vessel Nomination Email Sent
                         </th>
                       </tr>
                     </thead>
                     <tbody>
-                      {gridData?.data?.map((item, index) => (
+                      {gridData?.map((item, index) => (
                         <tr key={index}>
-                          <td>{item.strCode}</td>
-                          <td>{item.dteScheduleToSend}</td>
-                          <td>{item.strVoyageType}</td>
-                          <td>{item.intVoyageNo}</td>
-                          <td>{item.dteVoyageCommenced}</td>
-                          <td>{item.dteVoyageCompletion}</td>
-                          <td>{item.intVoyageDurationDays}</td>
-                          <td>{item.strChartererName}</td>
-                          <td>{item.strBrokerName}</td>
-                          <td>{item.strBrokerEmail}</td>
-                          <td>{item.dteCpdate}</td>
-                          <td>{item.strAccountName}</td>
-                          <td>{item.strCargo}</td>
-                          <td>{item.intCargoQuantityMts}</td>
-                          <td>{item.numFreightPerMt}</td>
-                          <td>{item.strNameOfLoadPort}</td>
-                          <td>{item.strLaycan}</td>
-                          <td>{item.intLoadRate}</td>
-                          <td>{item.numDemurrageDispatch}</td>
-                          <td>{item.dteEtaloadPort}</td>
-                          <td>{item.strDischargePort}</td>
-                          <td>{item.intDischargeRate}</td>
-                          <td>{item.numFreight}</td>
-                          <td>{item.numLoadPortDa}</td>
-                          <td>{item.numDischargePortDa}</td>
-                          <td>{item.numBallast}</td>
-                          <td>{item.numSteaming}</td>
-                          <td>{item.numAdditionalDistance}</td>
-                          <td>{item.numBallastSpeed}</td>
-                          <td>{item.numLadenSpeed}</td>
-                          <td>{item.intExtraDays}</td>
-                          <td>{item.strShipperEmailForVesselNomination}</td>
-                          <td>{item.strBunkerAgent}</td>
-                          <td>{item.strExpendituresForPisurvey}</td>
-                          <td>{item.strPlaceOfDelivery}</td>
-                          <td>{item.strDischargePortAgentEmail}</td>
-                          <td>{item.isPisurveyEmailSent ? "Yes" : "No"}</td>
-                          <td>
+                          <td className="text-center">{item.strCode}</td>
+                          <td className="text-center">
+                            {_dateFormatter(item.dteScheduleToSend)}
+                          </td>
+                          <td className="text-center">{item.strVoyageType}</td>
+                          <td className="text-center">{item.intVoyageNo}</td>
+                          <td className="text-center">
+                            {_dateFormatter(item.dteVoyageCommenced)}
+                          </td>
+                          <td className="text-center">
+                            {_dateFormatter(item.dteVoyageCompletion)}
+                          </td>
+                          <td className="text-center">
+                            {item.intVoyageDurationDays}
+                          </td>
+                          <td className="text-center">
+                            {item.strChartererName}
+                          </td>
+                          <td className="text-center">{item.strBrokerName}</td>
+                          <td className="text-center">{item.strBrokerEmail}</td>
+                          <td className="text-center">
+                            {_dateFormatter(item.dteCpdate)}
+                          </td>
+                          <td className="text-center">{item.strAccountName}</td>
+                          <td className="text-center">{item.strCargo}</td>
+                          <td className="text-center">
+                            {item.intCargoQuantityMts}
+                          </td>
+                          <td className="text-center">
+                            {item.numFreightPerMt}
+                          </td>
+                          <td className="text-center">
+                            {item.strNameOfLoadPort}
+                          </td>
+                          <td className="text-center">
+                            {_dateFormatter(item.strLaycan)}
+                          </td>
+                          <td className="text-center">{item.intLoadRate}</td>
+                          <td className="text-center">
+                            {item.numDemurrageDispatch}
+                          </td>
+                          <td className="text-center">
+                            {_dateFormatter(item.dteEtaloadPort)}
+                          </td>
+                          <td className="text-center">
+                            {item.strDischargePort}
+                          </td>
+                          <td className="text-center">
+                            {item.intDischargeRate}
+                          </td>
+                          <td className="text-center">{item.numFreight}</td>
+                          <td className="text-center">{item.numLoadPortDa}</td>
+                          <td className="text-center">
+                            {item.numDischargePortDa}
+                          </td>
+                          <td className="text-center">{item.numBallast}</td>
+                          <td className="text-center">{item.numSteaming}</td>
+                          <td className="text-center">
+                            {item.numAdditionalDistance}
+                          </td>
+                          <td className="text-center">
+                            {item.numBallastSpeed}
+                          </td>
+                          <td className="text-center">{item.numLadenSpeed}</td>
+                          <td className="text-center">{item.intExtraDays}</td>
+                          <td className="text-center">
+                            {item.strShipperEmailForVesselNomination}
+                          </td>
+                          <td className="text-center">{item.strBunkerAgent}</td>
+                          <td className="text-center">
+                            {item.strExpendituresForPisurvey}
+                          </td>
+                          <td className="text-center">
+                            {item.strPlaceOfDelivery}
+                          </td>
+                          <td className="text-center">
+                            {item.strDischargePortAgentEmail}
+                          </td>
+                          <td className="text-center">
+                            {item.isPisurveyEmailSent ? "Yes" : "No"}
+                          </td>
+                          <td className="text-center">
                             {item.isVesselNominationEmailSent ? "Yes" : "No"}
                           </td>
                         </tr>
