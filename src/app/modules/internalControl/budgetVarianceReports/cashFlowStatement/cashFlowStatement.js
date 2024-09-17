@@ -246,27 +246,7 @@ export function CashFlowStatement() {
                         isDisabled={!values?.subDivision}
                       />
                     </div>
-                    <div className="col-md-3">
-                      <NewSelect
-                        name="isForecast"
-                        options={[
-                          {
-                            value: 0,
-                            label: "Budget",
-                          },
-                          {
-                            value: 1,
-                            label: "Forecast",
-                          },
-                        ]}
-                        value={values?.isForecast}
-                        label="Budget/Forecast"
-                        onChange={(valueOption) => {
-                          setFieldValue("isForecast", valueOption);
-                        }}
-                        placeholder="Budget/Forecast"
-                      />
-                    </div>
+
                     <div className="col-lg-2">
                       <label>Conversion Rate</label>
                       <InputField
@@ -306,8 +286,28 @@ export function CashFlowStatement() {
                         }}
                       />
                     </div>
-
-                    <div className="col-lg-1">
+                    <div className="col-md-3">
+                      <NewSelect
+                        name="isForecast"
+                        options={[
+                          {
+                            value: 0,
+                            label: "Budget",
+                          },
+                          {
+                            value: 1,
+                            label: "Forecast",
+                          },
+                        ]}
+                        value={values?.isForecast}
+                        label="Budget/Forecast"
+                        onChange={(valueOption) => {
+                          setFieldValue("isForecast", valueOption);
+                        }}
+                        placeholder="Budget/Forecast"
+                      />
+                    </div>
+                    <div className="col-auto">
                       <ButtonStyleOne
                         label="Show"
                         onClick={() => {

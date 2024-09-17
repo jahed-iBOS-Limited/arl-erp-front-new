@@ -50,27 +50,7 @@ export default function _Form({ initData }) {
                     placeholder="Business Unit"
                   />
                 </div>
-                <div className="col-md-3">
-                  <NewSelect
-                    name="isForecast"
-                    options={[
-                      {
-                        value: 0,
-                        label: "Budget",
-                      },
-                      {
-                        value: 1,
-                        label: "Forecast",
-                      },
-                    ]}
-                    value={values?.isForecast}
-                    label="Budget/Forecast"
-                    onChange={(valueOption) => {
-                      setFieldValue("isForecast", valueOption);
-                    }}
-                    placeholder="Budget/Forecast"
-                  />
-                </div>
+
                 <div className="col-lg-3">
                   <label>From Date</label>
                   <InputField
@@ -100,6 +80,27 @@ export default function _Form({ initData }) {
                       setLeftRowDto([]);
                       setFieldValue("toDate", e?.target?.value);
                     }}
+                  />
+                </div>
+                <div className="col-md-3">
+                  <NewSelect
+                    name="isForecast"
+                    options={[
+                      {
+                        value: 0,
+                        label: "Budget",
+                      },
+                      {
+                        value: 1,
+                        label: "Forecast",
+                      },
+                    ]}
+                    value={values?.isForecast}
+                    label="Budget/Forecast"
+                    onChange={(valueOption) => {
+                      setFieldValue("isForecast", valueOption);
+                    }}
+                    placeholder="Budget/Forecast"
                   />
                 </div>
                 <div
