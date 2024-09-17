@@ -126,6 +126,7 @@ const headers = [
     { name: "Freight Per(Mt)" },
     { name: "Vessel Nomination" },
     { name: "EDPA Loadport" },
+    { name: "Bunker Calculator" },
     { name: "Pre Stowage" },
     { name: "On Hire Bunker and Conditional Survey(CS)" },
     { name: "Voyage Instruction" },
@@ -135,7 +136,7 @@ const headers = [
     { name: "Weather Routing Company" },
     { name: "Departure Document Loadport" },
     { name: "EPDA Discharge Port" },
-    { name: "Offhire Bunker Condition(CS)" }
+    { name: "Offhire Bunker Survey" }
   ];
   
 
@@ -264,7 +265,7 @@ const headers = [
                           onClick={() => {
                             if(item.isVesselNominationEmailSent) return toast.warn("Vessel Nomination Email Already Sent");
                             console.log("VESSEL NOMINATION SEND");
-                            vesselNominationMainSend(`${imarineBaseUrl}/automation/nomination_vessel_email_sender_with_id`, {intId: item?.intId},
+                            vesselNominationMainSend(`${'http://192.168.7.231:80'}/automation/nomination_vessel_email_sender_with_id`, {intId: item?.intId},
                             () => {
                               getGridData();
                             },
@@ -279,12 +280,12 @@ const headers = [
                       <td className="text-center">
                         {visibleButtons.includes("edpaLoadportSend") && (
                           <button
-                            className="btn btn-sm btn-primary px-1 py-1"
+                            className={item.edpaLoadportSend ? "btn btn-sm btn-success px-1 py-1" : "btn btn-sm btn-primary px-1 py-1"}
                             type="button"
                             onClick={() => {
                               console.log("EDPA LOADPORT SEND");
                               if(item.edpaLoadportSend) return toast.warn("EDPA Loadport Email Already Sent");
-                              edpaLoadportMailSend(`${imarineBaseUrl}/automation/epda_load_port_mail`, {intId: item?.intId},
+                              edpaLoadportMailSend(`${'http://192.168.7.231:80'}/automation/epda_load_port_mail`, {intId: item?.intId},
                               () => {
                                 getGridData();
                               },
@@ -298,14 +299,26 @@ const headers = [
                         )}
                       </td>
                       <td className="text-center">
+                        <button
+                          className={item.preStowageSend ? "btn btn-sm btn-success px-1 py-1" : "btn btn-sm btn-primary px-1 py-1"}
+                          type="button"
+                          onClick={() => {
+                            console.log("Bunker Calculator");
+                            
+                          }}
+                        >
+                          Bunker Calculator
+                        </button>
+                      </td>
+                      <td className="text-center">
                         {visibleButtons.includes("preStowageSend") && (
                           <button
-                            className="btn btn-sm btn-primary px-1 py-1"
+                            className={item.preStowageSend ? "btn btn-sm btn-success px-1 py-1" : "btn btn-sm btn-primary px-1 py-1"}
                             type="button"
                             onClick={() => {
                               console.log("PRE STOWAGE SEND");
                               if(item.preStowageSend) return toast.warn("Pre Stowage Email Already Sent");
-                              preStowageMailSend(`${imarineBaseUrl}​/automation​/pre_stowage_plan_mail_sender`, {intId: item?.intId},
+                              preStowageMailSend(`${'http://192.168.7.231:80'}/automation/pre_stowage_plan_mail_sender`, {intId: item?.intId},
                               () => {
                                 getGridData();
                               },
@@ -320,12 +333,12 @@ const headers = [
                       <td className="text-center">
                         {visibleButtons.includes("onHireBunkerSurveySent") && (
                           <button
-                            className="btn btn-sm btn-primary px-1 py-1"
+                            className={item.onHireBunkerSurveySent ? "btn btn-sm btn-success px-1 py-1" : "btn btn-sm btn-primary px-1 py-1"}
                             type="button"
                             onClick={() => {
                               console.log("ON HIRE BUNKER SURVEY SENT");
                               if(item.onHireBunkerSurveySent) return toast.warn("On Hire Bunker Survey Email Already Sent");
-                              onHireBunkerSurveyMailSend(`${imarineBaseUrl}/automation/bunker_on_hire_condition_surveyor`, {intId: item?.intId},
+                              onHireBunkerSurveyMailSend(`${'http://192.168.7.231:80'}/automation/bunker_on_hire_condition_surveyor`, {intId: item?.intId},
                               () => {
                                 getGridData();
                               },
@@ -340,12 +353,12 @@ const headers = [
                       <td className="text-center">
                         {visibleButtons.includes("voyageInstructionSent") && (
                           <button
-                            className="btn btn-sm btn-primary px-1 py-1"
+                            className={item.voyageInstructionSent ? "btn btn-sm btn-success px-1 py-1" : "btn btn-sm btn-primary px-1 py-1"}
                             type="button"
                             onClick={() =>{
                               console.log("VOYAGE INSTRUCTION SENT");
                               if(item.voyageInstructionSent) return toast.warn("Voyage Instruction Email Already Sent");
-                              voyageInstructionMailSend(`${imarineBaseUrl}/automation/voyage_instruction_email_sender`, {intId: item?.intId},
+                              voyageInstructionMailSend(`${'http://192.168.7.231:80'}/automation/voyage_instruction_email_sender`, {intId: item?.intId},
                               () => {
                                 getGridData();
                               },
@@ -360,12 +373,12 @@ const headers = [
                       <td className="text-center">
                         {visibleButtons.includes("pisurveySent") && (
                           <button
-                            className="btn btn-sm btn-primary px-1 py-1"
+                            className={item.pisurveySent ? "btn btn-sm btn-success px-1 py-1" : "btn btn-sm btn-primary px-1 py-1"}
                             type="button"
                             onClick={() => {
                               console.log("PI SURVEY SENT");
                               if(item.pisurveySent) return toast.warn("PI Survey Email Already Sent");
-                              piSurveyMailSend(`${imarineBaseUrl}/automation/P_n_I_surveyor_email_sender`, {intId: item?.intId},
+                              piSurveyMailSend(`${'http://192.168.7.231:80'}/automation/P_n_I_surveyor_email_sender`, {intId: item?.intId},
                               () => {
                                 getGridData();
                               },
@@ -380,12 +393,12 @@ const headers = [
                       <td className="text-center">
                         {visibleButtons.includes("voyageLicenseFlagWaiverSend") && (
                           <button
-                            className="btn btn-sm btn-primary px-1 py-1"
+                            className={item.voyageLicenseFlagWaiverSend ? "btn btn-sm btn-success px-1 py-1" : "btn btn-sm btn-primary px-1 py-1"}
                             type="button"
                             onClick={() =>{
                               console.log("VOYAGE LICENSE/FLAG WAIVER SEND");
                               if(item.voyageLicenseFlagWaiverSend) return toast.warn("Voyage License/Flag Waiver Email Already Sent");
-                              voyageLicenseFlagWaiverMailSend(`${imarineBaseUrl}/automation/voyage_license_flag_waiver_email_sender`, {intId: item?.intId},
+                              voyageLicenseFlagWaiverMailSend(`${'http://192.168.7.231:80'}/automation/voyage_license_flag_waiver_email_sender`, {intId: item?.intId},
                               () => {
                                 getGridData();
                               },
@@ -400,12 +413,12 @@ const headers = [
                       <td className="text-center">
                         {visibleButtons.includes("tclSend") && (
                           <button
-                            className="btn btn-sm btn-primary px-1 py-1"
+                            className={item.tclSend ? "btn btn-sm btn-success px-1 py-1" : "btn btn-sm btn-primary px-1 py-1"}
                             type="button"
                             onClick={() =>{
                               console.log("TCL SEND");
                               if(item.tclSend) return toast.warn("TCL Email Already Sent");
-                              tclMailSend(`${imarineBaseUrl}/automation/TCL_coverage_email_sender`, {intId: item?.intId},
+                              tclMailSend(`${'http://192.168.7.231:80'}/automation/TCL_coverage_email_sender`, {intId: item?.intId},
                               () => {
                                 getGridData();
                               },
@@ -420,12 +433,12 @@ const headers = [
                       <td className="text-center">
                         {visibleButtons.includes("weatherRoutingCompanySend") && (
                           <button
-                            className="btn btn-sm btn-primary px-1 py-1"
+                            className={item.weatherRoutingCompanySend ? "btn btn-sm btn-success px-1 py-1" : "btn btn-sm btn-primary px-1 py-1"}
                             type="button"
                             onClick={() => {
                               console.log("WEATHER ROUTING COMPANY SEND");
                               if(item.weatherRoutingCompanySend) return toast.warn("Weather Routing Company Email Already Sent");
-                              weatherRoutingCompanyMailSend(`${imarineBaseUrl}/automation/weather_routing_email_sender`, {intId: item?.intId},
+                              weatherRoutingCompanyMailSend(`${'http://192.168.7.231:80'}/automation/weather_routing_email_sender`, {intId: item?.intId},
                               () => {
                                 getGridData();
                               },
@@ -440,11 +453,11 @@ const headers = [
                       <td className="text-center">
                         {visibleButtons.includes("departureDocumentLoadPortSend") && (
                           <button
-                            className="btn btn-sm btn-primary px-1 py-1"
+                            className={item.departureDocumentLoadPortSend ? "btn btn-sm btn-success px-1 py-1" : "btn btn-sm btn-primary px-1 py-1"}
                             type="button"
                             onClick={() =>{
                               if(item.departureDocumentLoadPortSend) return toast.warn("Departure Document Loadport Email Already Sent");
-                              departureDocumentLoadPortMailSend(`${imarineBaseUrl}automation/departure_document_email_sender`, {intId: item?.intId},
+                              departureDocumentLoadPortMailSend(`${'http://192.168.7.231:80'}/automation/departure_document_email_sender`, {intId: item?.intId},
                               () => {
                                 getGridData();
                               },
@@ -459,12 +472,12 @@ const headers = [
                       <td className="text-center">
                         {visibleButtons.includes("epdadischargePortSent") && (
                           <button
-                            className="btn btn-sm btn-primary px-1 py-1"
+                            className={item.epdadischargePortSent ? "btn btn-sm btn-success px-1 py-1" : "btn btn-sm btn-primary px-1 py-1"}
                             type="button"
                             onClick={() =>{
                               console.log("EPDA DISCHARGE PORT SENT");
                               if(item.epdadischargePortSent) return toast.warn("EPDA Discharge Port Email Already Sent");
-                              epdaDischargePortMailSend(`${imarineBaseUrl}/automation/epda_discharge_port_mail`, {intId: item?.intId},
+                              epdaDischargePortMailSend(`${'http://192.168.7.231:80'}/automation/epda_discharge_port_mail`, {intId: item?.intId},
                               () => {
                                 getGridData();
                               },
@@ -479,12 +492,12 @@ const headers = [
                       <td className="text-center">
                         {visibleButtons.includes("offHireBunkerSurveySent") && (
                           <button
-                            className="btn btn-sm btn-primary px-1 py-1"
+                            className={item.offHireBunkerSurveySent ? "btn btn-sm btn-success px-1 py-1" : "btn btn-sm btn-primary px-1 py-1"}
                             type="button"
                             onClick={() =>{
                               console.log("OFFHIRE BUNKER CONDITION (CS) SEND");
                               if(item.offHireBunkerSurveySent) return toast.warn("Offhire Bunker Survey Email Already Sent");
-                              offHireBunkerSurveyMailSend(`${imarineBaseUrl}/automation/bunker_off_hire_condition_surveyor`, {intId: item?.intId},
+                              offHireBunkerSurveyMailSend(`${'http://192.168.7.231:80'}/automation/bunker_off_hire_condition_surveyor`, {intId: item?.intId},
                               () => {
                                 getGridData();
                               },
@@ -492,7 +505,7 @@ const headers = [
                             )
                             }}
                           >
-                            OFFHIRE BUNKER CONDITION (CS) SEND
+                            OFFHIRE BUNKER SURVEY SENT
                           </button>
                         )}
                       </td>
