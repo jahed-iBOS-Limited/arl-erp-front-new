@@ -1,5 +1,5 @@
 import { Form, Formik } from "formik";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import * as Yup from "yup";
 import { imarineBaseUrl } from "../../../../App";
@@ -9,6 +9,8 @@ import Loading from "../../../_helper/_loading";
 import AttachmentUploaderNew from "../../../_helper/attachmentUploaderNew";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import { _todayDate } from "../../../_helper/_todayDate";
+import NewSelect from "../../../_helper/_select";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 
 // Initial data
 const initData = {
@@ -38,6 +40,14 @@ export default function CreateDischargePort() {
 
   const [attachment, setAttachment] = useState("");
   const [, onSave, loader] = useAxiosPost();
+  const [vesselDDL, getVesselDDL] = useAxiosGet();
+  const [voyageDDL, getVoyageDDL, , setVoyageDDL] = useAxiosGet();
+
+  useEffect(() => {
+    getVesselDDL(`${imarineBaseUrl}/domain/Voyage/GetVesselDDL?AccountId=${accountId}&BusinessUnitId=${buId}
+      `);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [accountId, buId]);
 
   const saveHandler = (values, cb) => {
     const payload = {
@@ -46,8 +56,8 @@ export default function CreateDischargePort() {
       strAccountName: "Akij",
       intBusinessUnitId: buId,
       strBusinessUnitName: businessUnitName,
-      strVesselName: values.strVesselName,
-      strVoyageNo: values.strVoyageNo,
+      strVesselName: values.strVesselName?.label,
+      strVoyageNo: values.strVoyageNo?.label,
       strCode: values.strCode,
       strSoffile: values.strSoffile,
       strNorfile: values.strNorfile,
@@ -76,8 +86,18 @@ export default function CreateDischargePort() {
 
   // Validation schema for required fields
   const validationSchema = Yup.object().shape({
-    strVesselName: Yup.string().required("Vessel Name is required"),
-    strVoyageNo: Yup.string().required("Voyage No is required"),
+    strVesselName: Yup.object()
+      .shape({
+        value: Yup.string().required("Vessel is required"),
+        label: Yup.string().required("Vessel is required"),
+      })
+      .typeError("Vessel is required"),
+    strVoyageNo: Yup.object()
+      .shape({
+        value: Yup.string().required("Voyage No is required"),
+        label: Yup.string().required("Voyage No is required"),
+      })
+      .typeError("Voyage No is required"),
     strCode: Yup.string().required("Code is required"),
   });
 
@@ -120,29 +140,37 @@ export default function CreateDischargePort() {
               <div className="form-group global-form row">
                 {/* Vessel Name */}
                 <div className="col-lg-2">
-                  <InputField
-                    value={values.strVesselName}
-                    label="Vessel Name *"
+                  <NewSelect
                     name="strVesselName"
-                    type="text"
-                    onChange={(e) =>
-                      setFieldValue("strVesselName", e.target.value)
-                    }
+                    options={vesselDDL}
+                    value={values.strVesselName}
+                    label="Vessel Name"
+                    onChange={(valueOption) => {
+                      setFieldValue("strVesselName", valueOption);
+                      setFieldValue("strVoyageNo", "");
+                      setVoyageDDL([]);
+                      if (valueOption) {
+                        getVoyageDDL(
+                          `${imarineBaseUrl}/domain/PortPDA/GetVoyageDDLNew?AccountId=1&BusinessUnitId=${buId}&vesselId=${valueOption?.value}&VoyageTypeId=0&ReturnType=0&HireTypeId=0`
+                        );
+                      }
+                    }}
                     errors={errors}
+                    touched={touched}
                   />
                 </div>
 
-                {/* Voyage No */}
                 <div className="col-lg-2">
-                  <InputField
-                    value={values.strVoyageNo}
-                    label="Voyage No *"
+                  <NewSelect
                     name="strVoyageNo"
-                    type="text"
-                    onChange={(e) =>
-                      setFieldValue("strVoyageNo", e.target.value)
+                    options={voyageDDL}
+                    value={values.strVoyageNo}
+                    label="Voyage No"
+                    onChange={(valueOption) =>
+                      setFieldValue("strVoyageNo", valueOption)
                     }
                     errors={errors}
+                    touched={touched}
                   />
                 </div>
 
@@ -150,7 +178,7 @@ export default function CreateDischargePort() {
                 <div className="col-lg-2">
                   <InputField
                     value={values.strCode}
-                    label="Code *"
+                    label="Code"
                     name="strCode"
                     type="text"
                     onChange={(e) => setFieldValue("strCode", e.target.value)}
