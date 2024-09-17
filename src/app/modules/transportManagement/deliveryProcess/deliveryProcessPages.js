@@ -6,15 +6,8 @@ import FuelRequisitionByShipment from "./fuelRequisitionByShip";
 import LoadingSupervisorInfo from "./loadingSupervisorInfo";
 import PackingInformationList from "./packingInformationList";
 import StoreInformationList from "./storeInformationList";
-import { shallowEqual, useSelector } from "react-redux";
-import NotPermittedPage from "../../_helper/notPermitted/NotPermittedPage";
 
 export function TransportDeliveryProcessPages() {
-  const {
-    selectedBusinessUnit: { value: buId },
-  } = useSelector((state) => {
-    return state.authData;
-  }, shallowEqual);
   return (
     <Suspense fallback={<LayoutSplashScreen />}>
       <Switch>

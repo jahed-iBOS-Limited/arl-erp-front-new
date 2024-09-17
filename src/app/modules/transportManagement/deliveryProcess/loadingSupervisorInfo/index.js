@@ -96,14 +96,6 @@ export default function LoadingSupervisorInfo() {
   };
 
   const isLoading = loader || loading || rowLoading;
-  useEffect(() => {
-    getTLMDDL(
-      `/wms/AssetTransection/GetLabelNValueForDDL?BusinessUnitId=${buId}&TypeId=1&RefferencePKId=1`
-    );
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [buId]);
-  // console.log(packerList);
 
   const handleCardNumberChange = (e, setFieldValue) => {
     if (e.keyCode === 13) {
@@ -114,6 +106,11 @@ export default function LoadingSupervisorInfo() {
         // `/wms/Delivery/GetDeliveryPrintInfoManual?businessUnitId=${selectedBusinessUnit?.value}&shipmentCode=${e.target.value}`,
         `/wms/Delivery/GetDeliveryPrintInfoByVehicleCardNumber?strCardNumber=${e.target.value}`,
         (res) => {
+          // get tlm ddl 
+          getTLMDDL(
+            `/wms/AssetTransection/GetLabelNValueForDDL?BusinessUnitId=${buId}&TypeId=1&RefferencePKId=1&ShipPointId=${res
+              ?.objHeader?.shipPointId || 0}`
+          );
           // get packer list & update
           getPackerList(
             `/mes/WorkCenter/GetWorkCenterListByTypeId?WorkCenterTypeId=1&AccountId=${profileData?.accountId}&BusinessUnitId=${buId}`,
