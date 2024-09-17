@@ -9,6 +9,7 @@ import IViewModal from "../../_chartinghelper/_viewModal";
 import IForm from "./../../../_helper/_form";
 import Loading from "./../../../_helper/_loading";
 import VoyageLicenseFlagAttachment from "./voyageFlagLicenseAttachment";
+import { useHistory } from "react-router";
  
 
 const initData = {
@@ -63,6 +64,7 @@ const headers = [
   const [, offHireBunkerSurveyMailSend] = useAxiosPost();
 
   const [singleRowData, setSingleRowData] = useState({});
+  const history = useHistory();
 
 
   const getGridData = () => {
@@ -209,6 +211,9 @@ const headers = [
                           type="button"
                           onClick={() => {
                             console.log("Bunker Calculator");
+                            history.push("/chartering/operation/bunkerManagement/create",{
+                              landingData: item
+                            });
                             
                           }}
                         >

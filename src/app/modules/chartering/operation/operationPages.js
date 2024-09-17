@@ -7,6 +7,8 @@ import DeadWeight from "./deadWeight";
 import VesselNomination from "./vesselNomination";
 import OnHireBunkerAndContionalSurvey from "./onHireBunkerAndContionalSurvey";
 import DischargePort from "./dischargePort";
+import BunkerCalculatorLanding from "./bunkerManagement";
+import BunkerManagementCreate from "./bunkerManagement/create";
 
 export function OperationPages() {
   return (
@@ -39,6 +41,14 @@ export function OperationPages() {
       <Route
         path="/chartering/operation/dischargePortDepartureDocuments"
         component={DischargePort}
+      />
+      <Route
+        path="/chartering/operation/bunkerManagement/create"
+        component={BunkerManagementCreate}
+      />
+      <Route
+        path="/chartering/operation/bunkerManagement"
+        component={BunkerCalculatorLanding}
       />
     </Switch>
   );
