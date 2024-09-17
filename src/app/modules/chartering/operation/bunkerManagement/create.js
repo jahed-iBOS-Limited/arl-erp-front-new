@@ -9,7 +9,8 @@ import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import { imarineBaseUrl } from "../../../../App";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import { shallowEqual, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import { set } from "lodash";
 
 const initData = {
   strCode: "",
@@ -74,7 +75,7 @@ const validationSchema = Yup.object().shape({
     .typeError("Discharge Port Name is required"),
 });
 
-export default function BunkerManagement() {
+export default function BunkerManagementCreate() {
   const { profileData, selectedBusinessUnit } = useSelector(
     (state) => state?.authData,
     shallowEqual
@@ -84,7 +85,39 @@ export default function BunkerManagement() {
   const [, onSave, loader] = useAxiosPost();
   const [vesselDDL, getVesselDDL] = useAxiosGet();
   const [portDDL, getPortDDL] = useAxiosGet();
-  const { paramId, paramCode } = useParams();
+  const [carryForwardData, setCarryForwardData] = useState({}); 
+
+  const location = useLocation();
+  const  landingData = location?.state?.landingData;
+
+  console.log("landingData", landingData);
+  useEffect(() => {
+    if(landingData){
+      const modData = {
+        strCode: landingData?.strCode,
+        strNameOfVessel: {
+          value: landingData?.intVesselId,
+          label: landingData?.strNameOfVessel,
+        },
+        numBallastDistance: landingData?.numBallast,
+        numBallastSpeed: landingData?.numBallastSpeed,
+        strLoadPort: {
+          value: landingData?.intLoadPortId,
+          label: landingData?.strNameOfLoadPort,
+        },
+        strDischargePort: {
+          value: landingData?.intDischargePortId,
+          label: landingData?.strDischargePort,
+        },
+        // numLadenDistance: landingData?.numLadenDistance,
+        numLadenSpeed: landingData?.numLadenSpeed,
+        intLoadRate: landingData?.intLoadRate,
+        intDischargeRate: landingData?.intDischargeRate,
+        numCargoQty: landingData?.intCargoQuantityMts,
+      }
+      setCarryForwardData(modData);
+    }
+  }, [landingData]);
 
   useEffect(() => {
     getVesselDDL(`${imarineBaseUrl}/domain/Voyage/GetVesselDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}
@@ -156,11 +189,10 @@ export default function BunkerManagement() {
       true
     );
   };
-
   return (
     <Formik
       enableReinitialize={true}
-      initialValues={{ ...initData, strCode: paramCode || "" }}
+      initialValues={carryForwardData || initData}
       validationSchema={validationSchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
@@ -210,6 +242,7 @@ export default function BunkerManagement() {
                   type="text"
                   onChange={(e) => setFieldValue("strCode", e.target.value)}
                   errors={errors}
+                  disabled={landingData?.strCode}
                 />
               </div>
               <div className="col-lg-3">
@@ -223,6 +256,7 @@ export default function BunkerManagement() {
                   }
                   errors={errors}
                   touched={touched}
+                  isDisabled={landingData?.strNameOfVessel}
                 />
               </div>
               <div className="col-lg-3">
@@ -271,6 +305,7 @@ export default function BunkerManagement() {
                     setFieldValue("numBallastDistance", e.target.value)
                   }
                   errors={errors}
+                  disabled={landingData?.numBallast}
                 />
               </div>
               <div className="col-lg-3">
@@ -283,6 +318,7 @@ export default function BunkerManagement() {
                     setFieldValue("numBallastSpeed", e.target.value)
                   }
                   errors={errors}
+                  disabled={landingData?.numBallastSpeed}
                 />
               </div>
               <div className="col-lg-3">
@@ -356,6 +392,7 @@ export default function BunkerManagement() {
                   }
                   errors={errors}
                   touched={touched}
+                  isDisabled={landingData?.strNameOfLoadPort}
                 />
               </div>
               <div className="col-lg-3">
@@ -369,6 +406,7 @@ export default function BunkerManagement() {
                   }
                   errors={errors}
                   touched={touched}
+                  isDisabled={landingData?.strDischargePort}
                 />
               </div>
               <div className="col-lg-3">
@@ -393,6 +431,7 @@ export default function BunkerManagement() {
                     setFieldValue("numLadenDistance", e.target.value)
                   }
                   errors={errors}
+                  // disabled={landingData?.numLadenDistance}
                 />
               </div>
               <div className="col-lg-3">
@@ -405,6 +444,7 @@ export default function BunkerManagement() {
                     setFieldValue("numLadenSpeed", e.target.value)
                   }
                   errors={errors}
+                  disabled={landingData?.numLadenSpeed}
                 />
               </div>
               <div className="col-lg-3">
@@ -463,22 +503,13 @@ export default function BunkerManagement() {
               </div>
               <div className="col-lg-3">
                 <InputField
-                  value={values.numLoadRate}
-                  label="Load Rate"
-                  name="numLoadRate"
-                  type="number"
-                  onChange={(e) => setFieldValue("numLoadRate", e.target.value)}
-                  errors={errors}
-                />
-              </div>
-              <div className="col-lg-3">
-                <InputField
                   value={values.intLoadRate}
                   label="Load Rate"
                   name="intLoadRate"
                   type="number"
                   onChange={(e) => setFieldValue("intLoadRate", e.target.value)}
                   errors={errors}
+                  disabled={landingData?.intLoadRate}
                 />
               </div>
               <div className="col-lg-3">
@@ -489,6 +520,7 @@ export default function BunkerManagement() {
                   type="number"
                   onChange={(e) => setFieldValue("numCargoQty", e.target.value)}
                   errors={errors}
+                  disabled={landingData?.intCargoQuantityMts}
                 />
               </div>
               <div className="col-lg-3">
@@ -501,6 +533,7 @@ export default function BunkerManagement() {
                     setFieldValue("intDischargeRate", e.target.value)
                   }
                   errors={errors}
+                  disabled={landingData?.intDischargeRate}
                 />
               </div>
               <div className="col-lg-3">

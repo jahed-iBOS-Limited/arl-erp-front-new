@@ -1,116 +1,20 @@
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import { imarineBaseUrl } from "../../../../App";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import ICustomTable from "../../_chartinghelper/_customTable";
 import IViewModal from "../../_chartinghelper/_viewModal";
 import IForm from "./../../../_helper/_form";
 import Loading from "./../../../_helper/_loading";
-import ViewVesselNomination from "./viewVesselNomination";
-import { toast } from "react-toastify";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
+import VoyageLicenseFlagAttachment from "./voyageFlagLicenseAttachment";
+import { useHistory } from "react-router";
+ 
 
-const dummydata = {data:[
-    {
-      strAcceptReject: "1",
-      strRemarks: "All good",
-      intId: 22,
-      strCode: "1",
-      dteScheduleToSend: "2021-06-01T00:00:00",
-      intVesselId: null,
-      strNameOfVessel: null,
-      intVoyageTypeId: 1,
-      strVoyageType: "Voyage Chartered",
-      intVoyageNo: 2,
-      dteVoyageCommenced: "2021-06-01T00:00:00",
-      dteVoyageCompletion: "2021-06-01T00:00:00",
-      intVoyageDurationDays: 3,
-      intChartererId: 3,
-      strChartererName: "ASLL",
-      intBrokerId: 23,
-      strBrokerName: "Ocean Broker",
-      strBrokerEmail: "tanvir@ibos.io",
-      dteCpdate: "2021-06-01T00:00:00",
-      strAccountName: "Akij Cement Company Ltd",
-      intCargoId: 12,
-      strCargo: "crud",
-      intCargoQuantityMts: 34,
-      numFreightPerMt: 543,
-      strNameOfLoadPort: "Chittagong",
-      strLaycan: "2021-06-01 00:00:00.000",
-      intLoadRate: 343,
-      numDemurrageDispatch: 34,
-      dteEtaloadPort: "2021-06-01T00:00:00",
-      strDischargePort: "Chittagong",
-      intDischargeRate: 23,
-      numFreight: 545,
-      numLoadPortDa: 45,
-      numDischargePortDa: 45,
-      numBallast: 45,
-      numSteaming: 45,
-      numAdditionalDistance: 45,
-      numBallastSpeed: 54,
-      numLadenSpeed: 54,
-      intExtraDays: 54,
-      strShipperEmailForVesselNomination: "tanvir@ibos.io",
-      strBunkerAgent: "Arpan",
-      strExpendituresForPisurvey: "Survey",
-      strPlaceOfDelivery: "Krabi",
-      strDischargePortAgentEmail: "tanvir@ibos.io",
-      isVesselNominationEmailSent: true
-    },
-    {
-      strAcceptReject: "0",
-      strRemarks: "Pending approval",
-      intId: 23,
-      strCode: "2",
-      dteScheduleToSend: "2021-07-01T00:00:00",
-      intVesselId: 101,
-      strNameOfVessel: "MV Oceanic",
-      intVoyageTypeId: 2,
-      strVoyageType: "Time Chartered",
-      intVoyageNo: 5,
-      dteVoyageCommenced: "2021-07-01T00:00:00",
-      dteVoyageCompletion: "2021-07-05T00:00:00",
-      intVoyageDurationDays: 5,
-      intChartererId: 5,
-      strChartererName: "XYZ Shipping",
-      intBrokerId: 45,
-      strBrokerName: "Global Broker",
-      strBrokerEmail: "broker@xyz.com",
-      dteCpdate: "2021-07-01T00:00:00",
-      strAccountName: "AB Group",
-      intCargoId: 15,
-      strCargo: "steel",
-      intCargoQuantityMts: 50,
-      numFreightPerMt: 600,
-      strNameOfLoadPort: "Singapore",
-      strLaycan: "2021-07-01 00:00:00.000",
-      intLoadRate: 300,
-      numDemurrageDispatch: 40,
-      dteEtaloadPort: "2021-07-01T00:00:00",
-      strDischargePort: "Shanghai",
-      intDischargeRate: 25,
-      numFreight: 600,
-      numLoadPortDa: 50,
-      numDischargePortDa: 50,
-      numBallast: 50,
-      numSteaming: 50,
-      numAdditionalDistance: 50,
-      numBallastSpeed: 60,
-      numLadenSpeed: 60,
-      intExtraDays: 60,
-      strShipperEmailForVesselNomination: "shipper@xyz.com",
-      strBunkerAgent: "Bunker Ltd",
-      strExpendituresForPisurvey: "Inspection",
-      strPlaceOfDelivery: "Shanghai",
-      strDischargePortAgentEmail: "agent@xyz.com",
-      isVesselNominationEmailSent: false
-    }
-  ]}
-  
-
-const initData = {};
+const initData = {
+  voyageFlagLicenseAtt: "",
+};
 
 const headers = [
     { name: "SL" },
@@ -144,6 +48,7 @@ const headers = [
   const saveHandler = (values, cb) => {};
   const [show, setShow] = useState(false);
   const onHide = () => setShow(false);
+  
   const [landingData, getLandingData, loading, ] = useAxiosGet()
   const [, vesselNominationMainSend] = useAxiosPost();
   const [, edpaLoadportMailSend] = useAxiosPost();
@@ -151,12 +56,15 @@ const headers = [
   const [, onHireBunkerSurveyMailSend] = useAxiosPost();
   const [, voyageInstructionMailSend] = useAxiosPost();
   const [, piSurveyMailSend] = useAxiosPost();
-  const [, voyageLicenseFlagWaiverMailSend] = useAxiosPost();
+  // const [, voyageLicenseFlagWaiverMailSend] = useAxiosPost();
   const [, tclMailSend] = useAxiosPost();
   const [, weatherRoutingCompanyMailSend] = useAxiosPost();
   const [, departureDocumentLoadPortMailSend] = useAxiosPost();
   const [, epdaDischargePortMailSend] = useAxiosPost();
   const [, offHireBunkerSurveyMailSend] = useAxiosPost();
+
+  const [singleRowData, setSingleRowData] = useState({});
+  const history = useHistory();
 
 
   const getGridData = () => {
@@ -244,7 +152,6 @@ const headers = [
                 <ICustomTable ths={headers}scrollable={true}>
                   {landingData?.map((item, index) => {
                     const visibleButtons = getButtonVisibility(item);
-                    console.log("visibleButtons", visibleButtons)
                     return (
                       <tr key={index}>
                       <td className="text-center">{index + 1}</td>
@@ -265,7 +172,7 @@ const headers = [
                           onClick={() => {
                             if(item.isVesselNominationEmailSent) return toast.warn("Vessel Nomination Email Already Sent");
                             console.log("VESSEL NOMINATION SEND");
-                            vesselNominationMainSend(`${'http://192.168.7.231:80'}/automation/nomination_vessel_email_sender_with_id`, {intId: item?.intId},
+                            vesselNominationMainSend(`${'https://devmarine.ibos.io'}/automation/nomination_vessel_email_sender_with_id`, {intId: item?.intId},
                             () => {
                               getGridData();
                             },
@@ -285,7 +192,7 @@ const headers = [
                             onClick={() => {
                               console.log("EDPA LOADPORT SEND");
                               if(item.edpaLoadportSend) return toast.warn("EDPA Loadport Email Already Sent");
-                              edpaLoadportMailSend(`${'http://192.168.7.231:80'}/automation/epda_load_port_mail`, {intId: item?.intId},
+                              edpaLoadportMailSend(`${'https://devmarine.ibos.io'}/automation/epda_load_port_mail`, {intId: item?.intId},
                               () => {
                                 getGridData();
                               },
@@ -304,6 +211,9 @@ const headers = [
                           type="button"
                           onClick={() => {
                             console.log("Bunker Calculator");
+                            history.push("/chartering/operation/bunkerManagement/create",{
+                              landingData: item
+                            });
                             
                           }}
                         >
@@ -318,7 +228,7 @@ const headers = [
                             onClick={() => {
                               console.log("PRE STOWAGE SEND");
                               if(item.preStowageSend) return toast.warn("Pre Stowage Email Already Sent");
-                              preStowageMailSend(`${'http://192.168.7.231:80'}/automation/pre_stowage_plan_mail_sender`, {intId: item?.intId},
+                              preStowageMailSend(`${'https://devmarine.ibos.io'}/automation/pre_stowage_plan_mail_sender`, {intId: item?.intId},
                               () => {
                                 getGridData();
                               },
@@ -338,7 +248,7 @@ const headers = [
                             onClick={() => {
                               console.log("ON HIRE BUNKER SURVEY SENT");
                               if(item.onHireBunkerSurveySent) return toast.warn("On Hire Bunker Survey Email Already Sent");
-                              onHireBunkerSurveyMailSend(`${'http://192.168.7.231:80'}/automation/bunker_on_hire_condition_surveyor`, {intId: item?.intId},
+                              onHireBunkerSurveyMailSend(`${'https://devmarine.ibos.io'}/automation/bunker_on_hire_condition_surveyor`, {intId: item?.intId},
                               () => {
                                 getGridData();
                               },
@@ -358,7 +268,7 @@ const headers = [
                             onClick={() =>{
                               console.log("VOYAGE INSTRUCTION SENT");
                               if(item.voyageInstructionSent) return toast.warn("Voyage Instruction Email Already Sent");
-                              voyageInstructionMailSend(`${'http://192.168.7.231:80'}/automation/voyage_instruction_email_sender`, {intId: item?.intId},
+                              voyageInstructionMailSend(`${'https://devmarine.ibos.io'}/automation/voyage_instruction_email_sender`, {intId: item?.intId},
                               () => {
                                 getGridData();
                               },
@@ -378,7 +288,7 @@ const headers = [
                             onClick={() => {
                               console.log("PI SURVEY SENT");
                               if(item.pisurveySent) return toast.warn("PI Survey Email Already Sent");
-                              piSurveyMailSend(`${'http://192.168.7.231:80'}/automation/P_n_I_surveyor_email_sender`, {intId: item?.intId},
+                              piSurveyMailSend(`${'https://devmarine.ibos.io'}/automation/P_n_I_surveyor_email_sender`, {intId: item?.intId},
                               () => {
                                 getGridData();
                               },
@@ -396,14 +306,20 @@ const headers = [
                             className={item.voyageLicenseFlagWaiverSend ? "btn btn-sm btn-success px-1 py-1" : "btn btn-sm btn-primary px-1 py-1"}
                             type="button"
                             onClick={() =>{
-                              console.log("VOYAGE LICENSE/FLAG WAIVER SEND");
-                              if(item.voyageLicenseFlagWaiverSend) return toast.warn("Voyage License/Flag Waiver Email Already Sent");
-                              voyageLicenseFlagWaiverMailSend(`${'http://192.168.7.231:80'}/automation/voyage_license_flag_waiver_email_sender`, {intId: item?.intId},
-                              () => {
-                                getGridData();
-                              },
-                              true
-                            )
+                              // if (item.voyageLicenseFlagWaiverSend) {
+                              //   return toast.warn("Voyage License/Flag Waiver Email Already Sent");
+                              // }
+                              setSingleRowData(item);
+                              setShow(true);
+                              // setVoyageLicenseFlagShow(true);
+                            //   console.log("VOYAGE LICENSE/FLAG WAIVER SEND");
+                            //   if(item.voyageLicenseFlagWaiverSend) return toast.warn("Voyage License/Flag Waiver Email Already Sent");
+                            //   voyageLicenseFlagWaiverMailSend(`${'https://devmarine.ibos.io'}/automation/voyage_license_flag_waiver_email_sender`, {intId: item?.intId},
+                            //   () => {
+                            //     getGridData();
+                            //   },
+                            //   true
+                            // )
                             }}
                           >
                             VOYAGE LICENSE/FLAG WAIVER SEND
@@ -418,7 +334,7 @@ const headers = [
                             onClick={() =>{
                               console.log("TCL SEND");
                               if(item.tclSend) return toast.warn("TCL Email Already Sent");
-                              tclMailSend(`${'http://192.168.7.231:80'}/automation/TCL_coverage_email_sender`, {intId: item?.intId},
+                              tclMailSend(`${'https://devmarine.ibos.io'}/automation/TCL_coverage_email_sender`, {intId: item?.intId},
                               () => {
                                 getGridData();
                               },
@@ -438,7 +354,7 @@ const headers = [
                             onClick={() => {
                               console.log("WEATHER ROUTING COMPANY SEND");
                               if(item.weatherRoutingCompanySend) return toast.warn("Weather Routing Company Email Already Sent");
-                              weatherRoutingCompanyMailSend(`${'http://192.168.7.231:80'}/automation/weather_routing_email_sender`, {intId: item?.intId},
+                              weatherRoutingCompanyMailSend(`${'https://devmarine.ibos.io'}/automation/weather_routing_email_sender`, {intId: item?.intId},
                               () => {
                                 getGridData();
                               },
@@ -457,7 +373,7 @@ const headers = [
                             type="button"
                             onClick={() =>{
                               if(item.departureDocumentLoadPortSend) return toast.warn("Departure Document Loadport Email Already Sent");
-                              departureDocumentLoadPortMailSend(`${'http://192.168.7.231:80'}/automation/departure_document_email_sender`, {intId: item?.intId},
+                              departureDocumentLoadPortMailSend(`${'https://devmarine.ibos.io'}/automation/departure_document_email_sender`, {intId: item?.intId},
                               () => {
                                 getGridData();
                               },
@@ -477,7 +393,7 @@ const headers = [
                             onClick={() =>{
                               console.log("EPDA DISCHARGE PORT SENT");
                               if(item.epdadischargePortSent) return toast.warn("EPDA Discharge Port Email Already Sent");
-                              epdaDischargePortMailSend(`${'http://192.168.7.231:80'}/automation/epda_discharge_port_mail`, {intId: item?.intId},
+                              epdaDischargePortMailSend(`${'https://devmarine.ibos.io'}/automation/epda_discharge_port_mail`, {intId: item?.intId},
                               () => {
                                 getGridData();
                               },
@@ -495,9 +411,8 @@ const headers = [
                             className={item.offHireBunkerSurveySent ? "btn btn-sm btn-success px-1 py-1" : "btn btn-sm btn-primary px-1 py-1"}
                             type="button"
                             onClick={() =>{
-                              console.log("OFFHIRE BUNKER CONDITION (CS) SEND");
                               if(item.offHireBunkerSurveySent) return toast.warn("Offhire Bunker Survey Email Already Sent");
-                              offHireBunkerSurveyMailSend(`${'http://192.168.7.231:80'}/automation/bunker_off_hire_condition_surveyor`, {intId: item?.intId},
+                              offHireBunkerSurveyMailSend(`${'https://devmarine.ibos.io'}/automation/bunker_off_hire_condition_surveyor`, {intId: item?.intId},
                               () => {
                                 getGridData();
                               },
@@ -517,7 +432,7 @@ const headers = [
             </Form>
           </IForm>
           <IViewModal show={show} onHide={onHide}>
-            <ViewVesselNomination />
+            <VoyageLicenseFlagAttachment values={values} setFieldValue={setFieldValue} item={singleRowData} getGridData={getGridData} setShow={setShow} />
           </IViewModal>
         </>
       )}
