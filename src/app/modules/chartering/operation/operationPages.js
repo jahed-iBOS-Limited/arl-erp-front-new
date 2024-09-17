@@ -7,6 +7,7 @@ import DeadWeight from "./deadWeight";
 import VesselNomination from "./vesselNomination";
 import OnHireBunkerAndContionalSurvey from "./onHireBunkerAndContionalSurvey";
 import DischargePort from "./dischargePort";
+import VesselNominationAccept from "./vesselNominationAcceptance";
 
 export function OperationPages() {
   return (
@@ -39,6 +40,10 @@ export function OperationPages() {
       <Route
         path="/chartering/operation/dischargePortDepartureDocuments"
         component={DischargePort}
+      />
+        <Route
+        path="/chartering/operation/vesselNominationAcceptance"
+        component={VesselNominationAccept}
       />
     </Switch>
   );

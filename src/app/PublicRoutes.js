@@ -3,12 +3,12 @@ import DeadWeightCreate from "./modules/chartering/operation/deadWeight/create";
 import CreateDischargePort from "./modules/chartering/operation/dischargePort/create";
 import EDPALoadPortCreate from "./modules/chartering/operation/edpaLoadPort/create";
 import CreateonHireBunkerAndContionalSurvey from "./modules/chartering/operation/onHireBunkerAndContionalSurvey/create";
-import VesselNominationAcceptance from "./modules/chartering/operation/vesselNominationAcceptance/create";
+import VesselNominationAcceptanceCreate from "./modules/chartering/operation/vesselNominationAcceptance/create";
 
 export const publicRouteList = [
   {
     path: "/chartering/operation/vesselNominationAcceptance/accept",
-    component: VesselNominationAcceptance,
+    component: VesselNominationAcceptanceCreate,
     exact: true,
   },
   {

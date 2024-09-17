@@ -20,7 +20,7 @@ const validationSchema = Yup.object().shape({
   ),
 });
 
-export default function VesselNominationAcceptance() {
+export default function VesselNominationAcceptanceCreate() {
   const { profileData } = useSelector((state) => state?.authData, shallowEqual);
 
   const [objProps, setObjprops] = useState({});
