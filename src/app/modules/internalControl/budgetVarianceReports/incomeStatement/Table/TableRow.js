@@ -294,27 +294,7 @@ export function TableRow() {
                         placeholder="Profit Center"
                       />
                     </div>
-                    <div className="col-md-3">
-                      <NewSelect
-                        name="isForecast"
-                        options={[
-                          {
-                            value: 0,
-                            label: "Budget",
-                          },
-                          {
-                            value: 1,
-                            label: "Forecast",
-                          },
-                        ]}
-                        value={values?.isForecast}
-                        label="Budget/Forecast"
-                        onChange={(valueOption) => {
-                          setFieldValue("isForecast", valueOption);
-                        }}
-                        placeholder="Budget/Forecast"
-                      />
-                    </div>
+
                     <div className="col-md-2">
                       <label>From Date</label>
                       <InputField
@@ -376,8 +356,29 @@ export function TableRow() {
                         placeholder="Report Type"
                       />
                     </div>
+                    <div className="col-md-3">
+                      <NewSelect
+                        name="isForecast"
+                        options={[
+                          {
+                            value: 0,
+                            label: "Budget",
+                          },
+                          {
+                            value: 1,
+                            label: "Forecast",
+                          },
+                        ]}
+                        value={values?.isForecast}
+                        label="Budget/Forecast"
+                        onChange={(valueOption) => {
+                          setFieldValue("isForecast", valueOption);
+                        }}
+                        placeholder="Budget/Forecast"
+                      />
+                    </div>
                     <div
-                      className="col-md-4 mt-5 pt-1 d-flex"
+                      className="col-12 mt-5 pt-1 d-flex"
                       style={{
                         flexWrap: "wrap",
                         gap: "5px",
