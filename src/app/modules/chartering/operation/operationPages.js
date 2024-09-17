@@ -4,6 +4,7 @@ import Recap from "./recap";
 import RecapCreate from "./recap/create";
 import EDPALoadPort from "./edpaLoadPort";
 import DeadWeight from "./deadWeight";
+import VesselNomination from "./vesselNomination";
 import OnHireBunkerAndContionalSurvey from "./onHireBunkerAndContionalSurvey";
 import DischargePort from "./dischargePort";
 
@@ -25,6 +26,8 @@ export function OperationPages() {
         path="/chartering/operation/epdaLoadPort"
         component={EDPALoadPort}
       />
+      <Route path="/chartering/operation/piSurvey" component={DeadWeight} />
+      <Route path="/chartering/operation/vesselNomination" component={VesselNomination} />
       <Route
         path="/chartering/operation/pre-stowagePlanning"
         component={DeadWeight}
