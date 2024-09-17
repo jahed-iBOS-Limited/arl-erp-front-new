@@ -180,6 +180,8 @@ export default function RecapCreate() {
       // strVendorName: "",
       // strVesselOwnerName: "",
       // ===========
+      intLoadPortId: values?.loadPort?.value,
+      intDischargePortId: values?.dischargePort?.value,
       strVoyageType: values.voyageType?.label || "",
       intShipTyeId: values?.shipType?.value || 0,
       strShipType: values?.shipType?.label || "",
