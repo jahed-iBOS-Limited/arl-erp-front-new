@@ -137,6 +137,7 @@ export function TableRow() {
   const parameterValues = (values) => {
     const agingParameters = [
       { name: "ConvertionRate", value: `${values?.conversionRate}` },
+      { name: "isForecast", value: `${values?.isForecast?.value}` },
       { name: "fdate", value: `${values?.fromDate}` },
       { name: "tdate", value: `${values?.todate}` },
       { name: "intType", value: `${values?.reportType?.value || 0}` },
@@ -272,6 +273,7 @@ export function TableRow() {
                         isDisabled={!values?.subDivision}
                       />
                     </div>
+
                     <div className="col-md-3">
                       <NewSelect
                         isDisabled={
@@ -290,6 +292,27 @@ export function TableRow() {
                           setIncomeStatement([]);
                         }}
                         placeholder="Profit Center"
+                      />
+                    </div>
+                    <div className="col-md-3">
+                      <NewSelect
+                        name="isForecast"
+                        options={[
+                          {
+                            value: 0,
+                            label: "Budget",
+                          },
+                          {
+                            value: 1,
+                            label: "Forecast",
+                          },
+                        ]}
+                        value={values?.isForecast}
+                        label="Budget/Forecast"
+                        onChange={(valueOption) => {
+                          setFieldValue("isForecast", valueOption);
+                        }}
+                        placeholder="Budget/Forecast"
                       />
                     </div>
                     <div className="col-md-2">
@@ -353,10 +376,13 @@ export function TableRow() {
                         placeholder="Report Type"
                       />
                     </div>
-                    <div className="col-md-4 mt-5 pt-1 d-flex" style={{
+                    <div
+                      className="col-md-4 mt-5 pt-1 d-flex"
+                      style={{
                         flexWrap: "wrap",
                         gap: "5px",
-                      }}>
+                      }}
+                    >
                       <button
                         className="btn btn-primary"
                         type="button"
@@ -381,7 +407,8 @@ export function TableRow() {
                             values?.enterpriseDivision?.value,
                             values?.conversionRate,
                             values?.subDivision,
-                            values?.reportType?.value
+                            values?.reportType?.value,
+                            values?.isForecast?.value
                           );
                         }}
                         disabled={
@@ -390,7 +417,8 @@ export function TableRow() {
                           !values?.enterpriseDivision ||
                           !values?.conversionRate ||
                           values?.conversionRate <= 0 ||
-                          !values?.reportType
+                          !values?.reportType ||
+                          !values?.isForecast
                         }
                       >
                         Show
@@ -406,7 +434,8 @@ export function TableRow() {
                           !values?.businessUnit ||
                           !values?.enterpriseDivision ||
                           !values?.conversionRate ||
-                          values?.conversionRate <= 0
+                          values?.conversionRate <= 0 ||
+                          !values?.isForecast
                         }
                       >
                         Details
@@ -423,7 +452,8 @@ export function TableRow() {
                           !values?.businessUnit ||
                           values?.businessUnit?.label?.trim() === "All" ||
                           !values?.fromDate ||
-                          !values?.todate
+                          !values?.todate ||
+                          !values?.isForecast
                         }
                       >
                         Statistical Details

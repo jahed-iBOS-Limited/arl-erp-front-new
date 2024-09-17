@@ -12,6 +12,7 @@ export const getProfitCenterDDL = async (buId, setter) => {
 };
 
 export const getIncomeStatement_api = async (
+  forecastType,
   fromDate,
   toDate,
   fromDateL,
@@ -36,7 +37,7 @@ export const getIncomeStatement_api = async (
     const res = await axios.get(
       `/fino/IncomeStatement/GetIncomeStatementProjected?partName=${partName}&dteFromDate=${fromDate}&dteToDate=${toDate}&dteFromDateL=${fromDateL}&dteToDateL=${toDateL}&BusinessUnitGroup=${edLabel}&BusinessUnitId=${buId}&SBUID=${0}&intProfitCenId=${profitCenId ||
         0}&fsComponentId=0&GLId=0&SUBGLId=0&ConvertionRate=${conversionRate}&SubGroup=${subDivisionLabel ||
-        "all"}&reportTypeId=${reportType}&ViewType=${viewType}&ViewTypeReff=${typeRef}`
+        "all"}&reportTypeId=${reportType}&ViewType=${viewType}&ViewTypeReff=${typeRef}&isForecast=${forecastType}`
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
@@ -232,8 +233,14 @@ export const parameterValues = (values) => {
     { name: "intProfitCenId", value: "0" },
     { name: "dteFromDate", value: values?.fromDate || "" },
     { name: "dteToDate", value: values?.toDate || "" },
-    { name: "dteFromDateL", value: _lastDateOfMonthPreviousYear(values?.fromDate)  || "" },
-    { name: "dteToDateL", value: _lastDateOfMonthPreviousYear(values?.toDate) || "" },
+    {
+      name: "dteFromDateL",
+      value: _lastDateOfMonthPreviousYear(values?.fromDate) || "",
+    },
+    {
+      name: "dteToDateL",
+      value: _lastDateOfMonthPreviousYear(values?.toDate) || "",
+    },
     { name: "intFSComponent", value: "0" },
     { name: "glId", value: "0" },
     { name: "subGlId", value: "0" },

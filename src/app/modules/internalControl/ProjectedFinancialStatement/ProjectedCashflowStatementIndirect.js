@@ -146,13 +146,14 @@ export default function ProjectedCashflowStatementIndirect({
       { name: "dteFromDate", value: `${values?.fromDate}` },
       { name: "dteToDate", value: `${values?.toDate}` },
       { name: "ConvertionRate", value: `${values?.conversionRate}` },
+      { name: "isForecast", value: `${values?.isForecast?.value}` },
       {
         name: "intType",
         value: `${values?.reportTypeCashFlowIndirect?.value}`,
       },
     ];
   };
-  console.log(parameterValues(values), "parameterValues(values)")
+  console.log(parameterValues(values), "parameterValues(values)");
   return (
     <>
       {showReport && (
