@@ -143,8 +143,8 @@ export default function SendOtpToEmailModal({ objProps }) {
       `/fino/Disburse/VerifyAdviceOTP`,
       {
         // ! this should be preset
-        emailAddress: "rakibul.rifat@ibos.io",
-        // emailAddress: profileData?.emailAddress,
+        // emailAddress: "rakibul.rifat@ibos.io",
+        emailAddress: profileData?.emailAddress,
         otp: values?.otp,
       },
       () => setVerified(true),
@@ -251,14 +251,16 @@ export default function SendOtpToEmailModal({ objProps }) {
                   </strong>{" "}
                   accounts are selected for salary disbursement.
                 </h6>
-                <button
-                  type="button"
-                  className="btn btn-primary"
-                  disabled={!verified || isSubmitting}
-                  onClick={handleSubmit}
-                >
-                  Confirm
-                </button>
+                {verified && (
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    disabled={isSubmitting}
+                    onClick={handleSubmit}
+                  >
+                    Confirm
+                  </button>
+                )}
               </div>
 
               {/* Selected account table for disbursement */}
