@@ -116,7 +116,10 @@ export default function LoadingSupervisorInfo() {
         (res) => {
           // get packer list & update
           getPackerList(
-            `/mes/WorkCenter/GetWorkCenterListByTypeId?WorkCenterTypeId=1&AccountId=${profileData?.accountId}&BusinessUnitId=${buId}`,
+            `/mes/WorkCenter/GetWorkCenterListByTypeId?WorkCenterTypeId=1&AccountId=${
+              profileData?.accountId
+            }&BusinessUnitId=${buId}&ShipPointId=${res?.objHeader
+              ?.shipPointId || 0}`,
 
             (resData) => {
               // set ddl state
