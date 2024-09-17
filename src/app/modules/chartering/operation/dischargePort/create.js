@@ -11,6 +11,7 @@ import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import { _todayDate } from "../../../_helper/_todayDate";
 import NewSelect from "../../../_helper/_select";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import { useParams } from "react-router-dom";
 
 // Initial data
 const initData = {
@@ -38,6 +39,8 @@ export default function CreateDischargePort() {
     return state.authData;
   }, shallowEqual);
 
+  const { paramId, paramCode } = useParams();
+
   const [attachment, setAttachment] = useState("");
   const [, onSave, loader] = useAxiosPost();
   const [vesselDDL, getVesselDDL] = useAxiosGet();
@@ -58,7 +61,8 @@ export default function CreateDischargePort() {
       strBusinessUnitName: businessUnitName,
       strVesselName: values.strVesselName?.label,
       strVoyageNo: values.strVoyageNo?.label,
-      strCode: values.strCode,
+      intVesselNominationId: +paramId || 0,
+      strCode: paramCode || values.strCode || "",
       strSoffile: values.strSoffile,
       strNorfile: values.strNorfile,
       strFinalDraftSurveyReportFile: values.strFinalDraftSurveyReportFile,
@@ -104,7 +108,7 @@ export default function CreateDischargePort() {
   return (
     <Formik
       enableReinitialize={true}
-      initialValues={initData}
+      initialValues={{ ...initData, strCode: paramCode || "" }}
       validationSchema={validationSchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {

@@ -4,8 +4,10 @@ import Recap from "./recap";
 import RecapCreate from "./recap/create";
 import EDPALoadPort from "./edpaLoadPort";
 import DeadWeight from "./deadWeight";
+import VesselNomination from "./vesselNomination";
 import OnHireBunkerAndContionalSurvey from "./onHireBunkerAndContionalSurvey";
 import DischargePort from "./dischargePort";
+import VesselNominationAccept from "./vesselNominationAcceptance";
 
 export function OperationPages() {
   return (
@@ -25,6 +27,8 @@ export function OperationPages() {
         path="/chartering/operation/epdaLoadPort"
         component={EDPALoadPort}
       />
+      <Route path="/chartering/operation/piSurvey" component={DeadWeight} />
+      <Route path="/chartering/operation/vesselNomination" component={VesselNomination} />
       <Route
         path="/chartering/operation/pre-stowagePlanning"
         component={DeadWeight}
@@ -36,6 +40,10 @@ export function OperationPages() {
       <Route
         path="/chartering/operation/dischargePortDepartureDocuments"
         component={DischargePort}
+      />
+        <Route
+        path="/chartering/operation/vesselNominationAcceptance"
+        component={VesselNominationAccept}
       />
     </Switch>
   );
