@@ -7,6 +7,7 @@ import IForm from "../../../_helper/_form";
 import InputField from "../../../_helper/_inputField";
 import Loading from "../../../_helper/_loading";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
+import { useParams } from "react-router-dom";
 
 const initData = {
   strVesselNominationCode: "",
@@ -25,11 +26,13 @@ export default function VesselNominationAcceptanceCreate() {
 
   const [objProps, setObjprops] = useState({});
   const [, onSave, loader] = useAxiosPost();
+  const { paramId, paramCode } = useParams();
 
   const saveHandler = async (values, cb) => {
     const payload = {
-      intVesselNominationId: 0,
-      strVesselNominationCode: values?.strVesselNominationCode || "",
+      intVesselNominationId: +paramId || 0,
+      strVesselNominationCode:
+        paramCode || values?.strVesselNominationCode || "",
       isVesselNominationAccept: values?.isVesselNominationAccept,
       strRemarks: values?.strRemarks || "",
       intActionBy: profileData?.userId,
@@ -46,7 +49,7 @@ export default function VesselNominationAcceptanceCreate() {
   return (
     <Formik
       enableReinitialize={true}
-      initialValues={initData}
+      initialValues={{ ...initData, strVesselNominationCode: paramCode || "" }}
       validationSchema={validationSchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
