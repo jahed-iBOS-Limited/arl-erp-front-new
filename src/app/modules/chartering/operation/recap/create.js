@@ -1,5 +1,5 @@
 import { Form, Formik } from "formik";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import * as Yup from "yup";
 import IForm from "../../../_helper/_form";
 import InputField from "../../../_helper/_inputField";
@@ -7,6 +7,8 @@ import Loading from "../../../_helper/_loading";
 import NewSelect from "../../../_helper/_select";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import { imarineBaseUrl } from "../../../../App";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import { shallowEqual, useSelector } from "react-redux";
 
 const initData = {
   voyageType: "",
@@ -48,12 +50,32 @@ const validationSchema = Yup.object().shape({
       label: Yup.string().required("Ship Type is required"),
     })
     .typeError("Ship Type is required"),
-  vesselName: Yup.string().required("Vessel Name is required"),
+  vesselName: Yup.object()
+    .shape({
+      value: Yup.string().required("Vessel is required"),
+      label: Yup.string().required("Vessel is required"),
+    })
+    .typeError("Vessel is required"),
   accountName: Yup.string().required("Account Name is required"),
-  cargoName: Yup.string().required("Cargo Name is required"),
+  cargoName: Yup.object()
+    .shape({
+      value: Yup.string().required("Cargo is required"),
+      label: Yup.string().required("Cargo is required"),
+    })
+    .typeError("Cargo is required"),
   cargoQuantity: Yup.string().required("Cargo Quantity is required"),
-  deliveryPort: Yup.string().required("Delivery Port Name is required"),
-  loadPort: Yup.string().required("Load Port Name is required"),
+  deliveryPort: Yup.object()
+    .shape({
+      value: Yup.string().required("Delivery Port is required"),
+      label: Yup.string().required("Delivery Port is required"),
+    })
+    .typeError("Delivery Port is required"),
+  loadPort: Yup.object()
+    .shape({
+      value: Yup.string().required("Load Port Name is required"),
+      label: Yup.string().required("Load Port Name is required"),
+    })
+    .typeError("Load Port Name is required"),
   laycanFrom: Yup.date().required("Laycan From Date is required"),
   laycanTo: Yup.date().required("Laycan To Date is required"),
   loadRate: Yup.string().required("Load Rate is required"),
@@ -67,9 +89,28 @@ const validationSchema = Yup.object().shape({
 });
 
 export default function RecapCreate() {
+  const { profileData, selectedBusinessUnit } = useSelector(
+    (state) => state?.authData,
+    shallowEqual
+  );
+
   const [objProps, setObjprops] = useState({});
   const [, onSave, loader] = useAxiosPost();
+  const [vesselDDL, getVesselDDL] = useAxiosGet();
+  const [portDDL, getPortDDL] = useAxiosGet();
+  const [cargoDDL, getCargoDDL] = useAxiosGet();
+  const [chartererDDL, getChartererDDL] = useAxiosGet();
 
+  useEffect(() => {
+    getVesselDDL(`${imarineBaseUrl}/domain/Voyage/GetVesselDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}
+`);
+    getPortDDL(`${imarineBaseUrl}/domain/Stakeholder/GetPortDDL`);
+    getCargoDDL(`${imarineBaseUrl}/domain/HireOwner/GetCargoDDL
+`);
+    getChartererDDL(
+      `${imarineBaseUrl}/domain/PortPDA/GetCharterParty?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`
+    );
+  }, []);
   const saveHandler = async (values, cb) => {
     const payload = {
       IsActive: 1,
@@ -86,7 +127,7 @@ export default function RecapCreate() {
       // dteTimestampForRecap: new Date().toISOString(),
       // dteVoyageCommenced: "2021-06-01T00:00:00.000Z",
       // dteVoyageCompletion: "2021-06-01T00:00:00.000Z",
-      intAccountId: 1,
+      intAccountId: profileData?.accountId,
       // intBrokerId: 23,
       // intCargoId: 12,
       // intChartererId: 3,
@@ -142,25 +183,25 @@ export default function RecapCreate() {
       strVoyageType: values.voyageType?.label || "",
       intShipTyeId: values?.shipType?.value || 0,
       strShipType: values?.shipType?.label || "",
-      strNameOfVessel: values.vesselName || "",
+      strNameOfVessel: values.vesselName?.label || "",
       strAccountName: values.accountName || "",
-      strCargo: values.cargoName || "",
+      strCargo: values.cargoName?.label || "",
       intCargoQuantityMTS: +values.cargoQuantity || 0,
-      strNameOfLoadPort: values.loadPort || "",
-      strPlaceOfDelivery: values?.deliveryPort || "",
+      strNameOfLoadPort: values.loadPort?.label || "",
+      strPlaceOfDelivery: values?.deliveryPort?.label || "",
       strLaycan: values.laycanFrom || "",
       dteLaycanFrom: values?.laycanFrom || "",
       dteLaycanTo: values?.laycanTo,
       intLoadRate: +values.loadRate || 0,
       numDemurrageDispatch: +values.demurrageDispatch || 0,
       dteETALoadPort: values.etaLoadPort || "",
-      strDischargePort: values.dischargePort || "",
+      strDischargePort: values.dischargePort?.label || "",
       intDischargeRate: +values.dischargeRate || 0,
       numFreight: +values.freight || 0,
       numLoadPortDA: +values.loadPortDA || 0,
       numDischargePortDA: +values.dischargePortDA || 0,
       strShipperEmailForVesselNomination: values.shipperEmail || "",
-      strChartererName: values.chartererName || "",
+      strChartererName: values.chartererName?.label || "",
       strBrokerName: values.brokerName || "",
       strBrokerEmail: values.brokerEmail || "",
     };
@@ -169,32 +210,48 @@ export default function RecapCreate() {
   };
 
   return (
-    <IForm
-      title="Create Recap"
-      getProps={setObjprops}
-      isHiddenReset={true}
-      isHiddenBack
+    <Formik
+      enableReinitialize={true}
+      initialValues={initData}
+      validationSchema={validationSchema}
+      onSubmit={(values, { setSubmitting, resetForm }) => {
+        saveHandler(values, () => {
+          resetForm(initData);
+        });
+        setSubmitting(false);
+      }}
     >
-      {loader && <Loading />}
-      <Formik
-        enableReinitialize={true}
-        initialValues={initData}
-        validationSchema={validationSchema}
-        onSubmit={(values, { setSubmitting, resetForm }) => {
-          saveHandler(values, () => {
-            resetForm(initData);
-          });
-          setSubmitting(false);
-        }}
-      >
-        {({
-          handleSubmit,
-          resetForm,
-          values,
-          setFieldValue,
-          errors,
-          touched,
-        }) => (
+      {({
+        handleSubmit,
+        resetForm,
+        values,
+        setFieldValue,
+        errors,
+        touched,
+      }) => (
+        <IForm
+          title="Create Recap"
+          getProps={setObjprops}
+          isHiddenReset={true}
+          isHiddenSave
+          isPositionRight
+          renderProps={() => {
+            return (
+              <div>
+                <button
+                  type="submit"
+                  className="btn btn-primary ml-3"
+                  onClick={() => {
+                    handleSubmit();
+                  }}
+                >
+                  Save
+                </button>
+              </div>
+            );
+          }}
+        >
+          {loader && <Loading />}
           <Form className="form form-label-right">
             <div className="form-group global-form row mt-5">
               <div className="col-lg-3">
@@ -230,13 +287,16 @@ export default function RecapCreate() {
                 />
               </div>
               <div className="col-lg-3">
-                <InputField
-                  value={values.vesselName}
-                  label="Vessel Name (as on ERP)"
+                <NewSelect
                   name="vesselName"
-                  type="text"
-                  onChange={(e) => setFieldValue("vesselName", e.target.value)}
+                  options={vesselDDL}
+                  value={values.vesselName}
+                  label="Vessel Name"
+                  onChange={(valueOption) =>
+                    setFieldValue("vesselName", valueOption)
+                  }
                   errors={errors}
+                  touched={touched}
                 />
               </div>
               <div className="col-lg-3">
@@ -250,13 +310,16 @@ export default function RecapCreate() {
                 />
               </div>
               <div className="col-lg-3">
-                <InputField
+                <NewSelect
+                  name="cargoName"
+                  options={cargoDDL}
                   value={values.cargoName}
                   label="Cargo Name"
-                  name="cargoName"
-                  type="text"
-                  onChange={(e) => setFieldValue("cargoName", e.target.value)}
+                  onChange={(valueOption) =>
+                    setFieldValue("cargoName", valueOption)
+                  }
                   errors={errors}
+                  touched={touched}
                 />
               </div>
               <div className="col-lg-3">
@@ -264,7 +327,7 @@ export default function RecapCreate() {
                   value={values.cargoQuantity}
                   label="Cargo Quantity (Mts)"
                   name="cargoQuantity"
-                  type="text"
+                  type="number"
                   onChange={(e) =>
                     setFieldValue("cargoQuantity", e.target.value)
                   }
@@ -272,25 +335,29 @@ export default function RecapCreate() {
                 />
               </div>
               <div className="col-lg-3">
-                <InputField
-                  value={values.deliveryPort}
-                  label="Delivery Port Name"
+                <NewSelect
                   name="deliveryPort"
-                  type="text"
-                  onChange={(e) =>
-                    setFieldValue("deliveryPort", e.target.value)
+                  options={portDDL}
+                  value={values.deliveryPort}
+                  label="Delivery Port"
+                  onChange={(valueOption) =>
+                    setFieldValue("deliveryPort", valueOption)
                   }
                   errors={errors}
+                  touched={touched}
                 />
               </div>
               <div className="col-lg-3">
-                <InputField
-                  value={values.loadPort}
-                  label="Load Port Name"
+                <NewSelect
                   name="loadPort"
-                  type="text"
-                  onChange={(e) => setFieldValue("loadPort", e.target.value)}
+                  options={portDDL}
+                  value={values.loadPort}
+                  label="Load Port"
+                  onChange={(valueOption) =>
+                    setFieldValue("loadPort", valueOption)
+                  }
                   errors={errors}
+                  touched={touched}
                 />
               </div>
 
@@ -320,7 +387,7 @@ export default function RecapCreate() {
                   label="Load Rate (Mts)
 "
                   name="loadRate"
-                  type="text"
+                  type="number"
                   onChange={(e) => setFieldValue("loadRate", e.target.value)}
                   errors={errors}
                 />
@@ -330,7 +397,7 @@ export default function RecapCreate() {
                   value={values.demurrageDispatch}
                   label="Demurrage / Dispatch"
                   name="demurrageDispatch"
-                  type="text"
+                  type="number"
                   onChange={(e) =>
                     setFieldValue("demurrageDispatch", e.target.value)
                   }
@@ -348,15 +415,16 @@ export default function RecapCreate() {
                 />
               </div>
               <div className="col-lg-3">
-                <InputField
-                  value={values.dischargePort}
-                  label="Discharge Port Name"
+                <NewSelect
                   name="dischargePort"
-                  type="text"
-                  onChange={(e) =>
-                    setFieldValue("dischargePort", e.target.value)
+                  options={portDDL}
+                  value={values.dischargePort}
+                  label="Discharge Port"
+                  onChange={(valueOption) =>
+                    setFieldValue("dischargePort", valueOption)
                   }
                   errors={errors}
+                  touched={touched}
                 />
               </div>
               <div className="col-lg-3">
@@ -364,7 +432,7 @@ export default function RecapCreate() {
                   value={values.dischargeRate}
                   label="Discharge Rate (Mts)"
                   name="dischargeRate"
-                  type="text"
+                  type="number"
                   onChange={(e) =>
                     setFieldValue("dischargeRate", e.target.value)
                   }
@@ -376,7 +444,7 @@ export default function RecapCreate() {
                   value={values.freight}
                   label="Freight"
                   name="freight"
-                  type="text"
+                  type="number"
                   onChange={(e) => setFieldValue("freight", e.target.value)}
                   errors={errors}
                 />
@@ -386,7 +454,7 @@ export default function RecapCreate() {
                   value={values.loadPortDA}
                   label="Load Port D/A"
                   name="loadPortDA"
-                  type="text"
+                  type="number"
                   onChange={(e) => setFieldValue("loadPortDA", e.target.value)}
                   errors={errors}
                 />
@@ -396,7 +464,7 @@ export default function RecapCreate() {
                   value={values.dischargePortDA}
                   label="Discharge Port D/A"
                   name="dischargePortDA"
-                  type="text"
+                  type="number"
                   onChange={(e) =>
                     setFieldValue("dischargePortDA", e.target.value)
                   }
@@ -406,7 +474,7 @@ export default function RecapCreate() {
               <div className="col-lg-3">
                 <InputField
                   value={values.shipperEmail}
-                  label="Shipper Email for Vessel Nomination (if multiple email use comma)
+                  label="Shipper Email for Vessel Nomination
 "
                   name="shipperEmail"
                   type="email"
@@ -417,15 +485,16 @@ export default function RecapCreate() {
                 />
               </div>
               <div className="col-lg-3">
-                <InputField
+                <NewSelect
+                  name="chartererName"
+                  options={chartererDDL}
                   value={values.chartererName}
                   label="Charterer Name"
-                  name="chartererName"
-                  type="text"
-                  onChange={(e) =>
-                    setFieldValue("chartererName", e.target.value)
+                  onChange={(valueOption) =>
+                    setFieldValue("chartererName", valueOption)
                   }
                   errors={errors}
+                  touched={touched}
                 />
               </div>
               <div className="col-lg-3">
@@ -441,33 +510,17 @@ export default function RecapCreate() {
               <div className="col-lg-3">
                 <InputField
                   value={values.brokerEmail}
-                  label="Broker Email (if multiple email use comma)"
+                  label="Broker Email"
                   name="brokerEmail"
                   type="email"
                   onChange={(e) => setFieldValue("brokerEmail", e.target.value)}
                   errors={errors}
                 />
               </div>
-
-              {/* Add other fields as necessary */}
             </div>
-
-            <button
-              type="submit"
-              style={{ display: "none" }}
-              ref={objProps?.btnRef}
-              onClick={() => handleSubmit()}
-            ></button>
-
-            <button
-              type="reset"
-              style={{ display: "none" }}
-              ref={objProps?.resetBtnRef}
-              onClick={() => resetForm(initData)}
-            ></button>
           </Form>
-        )}
-      </Formik>
-    </IForm>
+        </IForm>
+      )}
+    </Formik>
   );
 }

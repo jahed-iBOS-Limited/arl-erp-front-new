@@ -89,9 +89,19 @@ export default function ItemTradeOfferSetupForm() {
       );
     } else if ([171, 224].includes(selectedBusinessUnit?.value)) {
       if (rowDto?.length === 0) return toast.warn("Minimum one item add");
-      if (rowDto?.length > 1) return toast.warn("Maximum one item allowed");
+      const {
+        numMinQuantity,
+        numMaxQuantity,
+        intItemId,
+        strItemName,
+        numOfferQuantity,
+        itemCategoryId,
+        itemCategoryName
+      } = rowDto[0];
+
       const payload = {
         head: {
+          sl: 0,
           promotionId: 0,
           promotionCode: "",
           promotionTypeId: values?.offerType?.value,
@@ -105,13 +115,29 @@ export default function ItemTradeOfferSetupForm() {
           actionBy: profileData?.userId,
           userName: profileData?.userName,
           channelId: values?.distributionChannel?.value,
+          channelName: values?.distributionChannel?.label,
           attachmentLink: uploadedImage[0]?.id,
         },
-        row: rowDto,
+
+        row: [
+          {
+            promotionRowId: 0,
+            promotionId: 0,
+            orderFrom: numMinQuantity,
+            orderTo: numMaxQuantity,
+            discountTypeId: values?.offerType?.value,
+            discountTypeName: values?.offerType?.label,
+            itemId: intItemId,
+            itemName: strItemName,
+            discount: numOfferQuantity,
+            itemCategoryId:itemCategoryId,
+            itemCategoryName: itemCategoryName
+          },
+        ],
       };
 
       postData(
-        `/oms/TradeOffer/CreateTradeOfferConfigurationByRate`,
+        `/oms/TradeOffer/CreatePromotionConfigurationByRate`,
         payload,
         () => {},
         true

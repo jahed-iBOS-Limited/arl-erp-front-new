@@ -4,12 +4,17 @@ import IForm from "./../../../_helper/_form";
 import Loading from "./../../../_helper/_loading";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import { imarineBaseUrl } from "../../../../App";
+import { useHistory } from "react-router";
+
 const initData = {};
 export default function Recap() {
   const [gridData, getGridData, loading] = useAxiosGet();
+  const history = useHistory();
 
   useEffect(() => {
-    getGridData(`${imarineBaseUrl}/domain/VesselNomination/GetVesselNominationRecapeData`);
+    getGridData(
+      `${imarineBaseUrl}/domain/VesselNomination/GetVesselNominationRecapeData`
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -36,7 +41,27 @@ export default function Recap() {
       }) => (
         <>
           {loading && <Loading />}
-          <IForm title="Recap" isHiddenReset isHiddenBack isHiddenSave>
+          <IForm
+            title="Recap"
+            isHiddenReset
+            isHiddenBack
+            isHiddenSave
+            renderProps={() => {
+              return (
+                <div>
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={() => {
+                      history.push("/chartering/operation/recap/create");
+                    }}
+                  >
+                    Create
+                  </button>
+                </div>
+              );
+            }}
+          >
             <Form>
               <div className="loan-scrollable-table">
                 <div

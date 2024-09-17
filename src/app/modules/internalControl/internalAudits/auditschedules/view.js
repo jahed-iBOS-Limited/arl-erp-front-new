@@ -123,7 +123,7 @@ export default function AuditSchedulesView() {
           {/* Print View Content */}
           <div className="mb-3"></div>
           <div className="text-center" style={{ mergin: "0 auto" }}>
-            <h4>Audit Plan Template</h4>
+            {/* <h4>Audit Plan Template</h4> */}
             <p>
               <strong>
                 Name of assignment: {scheduleData?.strAuditEngagementName}
