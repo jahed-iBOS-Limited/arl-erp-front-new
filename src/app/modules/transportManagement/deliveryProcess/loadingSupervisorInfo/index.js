@@ -521,6 +521,20 @@ export default function LoadingSupervisorInfo() {
                           `/wms/AssetTransection/GetLabelNValueForDDL?BusinessUnitId=${buId}&TypeId=1&RefferencePKId=1&ShipPointId=${res
                             ?.objHeader?.shipPointId || 0}`
                         );
+                        getPackerList(
+                          `/mes/WorkCenter/GetWorkCenterListByTypeId?WorkCenterTypeId=1&AccountId=${profileData?.accountId}&BusinessUnitId=${buId}`,
+
+                          (resData) => {
+                            // set ddl state
+                            setPackerList(
+                              resData?.map((item) => ({
+                                ...item,
+                                value: item?.workCenterId,
+                                label: item?.workCenterName,
+                              }))
+                            );
+                          }
+                        );
 
                         setFieldValue(
                           "shippingPoint",
