@@ -33,8 +33,18 @@ export default function CreateonHireBunkerAndContionalSurvey() {
   const [attachment, setAttachment] = useState("");
   const [, onSave, loader] = useAxiosPost();
   const [isShowModal, setIsShowModal] = useState(false);
+  const [payloadInfo, setPayloadInfo] = useState({});
 
   const saveHandler = (values, cb) => {
+    setPayloadInfo({
+      strVesselNominationCode:
+        paramCode || values.strVesselNominationCode || "",
+      numBunkerSurveyAmount: values.numBunkerSurveyAmount,
+      numBunkerAndConditionSurveyAmount:
+        values.numBunkerAndConditionSurveyAmount,
+      strAttachment: generateFileUrl(attachment),
+    });
+
     const payload = {
       intRfqonHireBunkerQtyId: 0,
       intAccountId: accountId,
@@ -195,16 +205,7 @@ export default function CreateonHireBunkerAndContionalSurvey() {
                   onHide={() => setIsShowModal(false)}
                   title={"Send Mail"}
                 >
-                  <MailSender
-                    payloadInfo={{
-                      strVesselNominationCode:
-                        paramCode || values.strVesselNominationCode || "",
-                      numBunkerSurveyAmount: values.numBunkerSurveyAmount,
-                      numBunkerAndConditionSurveyAmount:
-                        values.numBunkerAndConditionSurveyAmount,
-                      strAttachment:generateFileUrl(attachment),
-                    }}
-                  />
+                  <MailSender payloadInfo={payloadInfo} />
                 </IViewModal>
               </div>
             </Form>

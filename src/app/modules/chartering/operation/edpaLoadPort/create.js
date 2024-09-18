@@ -32,12 +32,24 @@ export default function EDPALoadPortCreate() {
   const [attachment, setAttachment] = useState("");
   const { paramId, paramCode } = useParams();
   const [isShowModal, setIsShowModal] = useState(false);
+  const [payloadInfo, setPayloadInfo] = useState({});
 
   const [, onSave, loader] = useAxiosPost();
 
   useEffect(() => {}, []);
 
   const saveHandler = (values, cb) => {
+    setPayloadInfo({
+      strAttachmentForPort: generateFileUrl(values?.strAttachmentForPort),
+      strAttachmentForPortDisbursment: generateFileUrl(
+        values?.strAttachmentForPortDisbursment
+      ),
+      intVesselNominationId: +paramId || 0,
+      strVesselNominationCode:
+        paramCode || values?.strVesselNominationCode || "",
+      numGrandTotalAmount: values?.numGrandTotalAmount,
+    });
+
     const payload = {
       intEpdaAndPortInfoId: 0,
       intAccountId: accountId,
@@ -188,16 +200,7 @@ export default function EDPALoadPortCreate() {
                   onHide={() => setIsShowModal(false)}
                   title={"Send Mail"}
                 >
-                  <MailSender
-                    payloadInfo={{
-                      strAttachmentForPort:generateFileUrl(values?.strAttachmentForPort),
-                      strAttachmentForPortDisbursment:generateFileUrl(values?.strAttachmentForPortDisbursment),
-                      intVesselNominationId: +paramId || 0,
-                      strVesselNominationCode:
-                        paramCode || values?.strVesselNominationCode || "",
-                      numGrandTotalAmount: values?.numGrandTotalAmount,
-                    }}
-                  />
+                  <MailSender payloadInfo={payloadInfo} />
                 </IViewModal>
               </div>
             </Form>
