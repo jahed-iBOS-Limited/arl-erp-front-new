@@ -10,6 +10,7 @@ import DischargePort from "./dischargePort";
 import BunkerCalculatorLanding from "./bunkerManagement";
 import BunkerManagementCreate from "./bunkerManagement/create";
 import VesselNominationAccept from "./vesselNominationAcceptance";
+import EDPADischargePort from "./epdaDischargePort";
 
 export function OperationPages() {
   return (
@@ -28,6 +29,10 @@ export function OperationPages() {
       <Route
         path="/chartering/operation/epdaLoadPort"
         component={EDPALoadPort}
+      />
+      <Route
+        path="/chartering/operation/epdaDischargePort"
+        component={EDPADischargePort}
       />
       <Route path="/chartering/operation/piSurvey" component={DeadWeight} />
       <Route path="/chartering/operation/vesselNomination" component={VesselNomination} />

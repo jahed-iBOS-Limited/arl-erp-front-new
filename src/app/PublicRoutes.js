@@ -1,6 +1,7 @@
 import DeadWeightCreate from "./modules/chartering/operation/deadWeight/create";
 import CreateDischargePort from "./modules/chartering/operation/dischargePort/create";
 import EDPALoadPortCreate from "./modules/chartering/operation/edpaLoadPort/create";
+import EDPADischargePortCreate from "./modules/chartering/operation/epdaDischargePort/create";
 import CreateonHireBunkerAndContionalSurvey from "./modules/chartering/operation/onHireBunkerAndContionalSurvey/create";
 import VesselNominationAcceptanceCreate from "./modules/chartering/operation/vesselNominationAcceptance/create";
 
@@ -14,6 +15,11 @@ export const publicRouteList = [
   {
     path: "/chartering/operation/epdaLoadPort/create/:paramId/:paramCode",
     component: EDPALoadPortCreate,
+    exact: true,
+  },
+  {
+    path: "/chartering/operation/epdaDischargePort/create/:paramId/:paramCode",
+    component: EDPADischargePortCreate,
     exact: true,
   },
   {
