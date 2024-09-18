@@ -26,7 +26,7 @@ export default function EDPADischargePort() {
 
   const getLandingData = (values, pageNo, pageSize, searchValue = "") => {
     getGridData(
-      `${imarineBaseUrl}/domain/VesselNomination/GetEpdaAndPortInfoLanding?BusinessUnitId=${0}&FromDate=${
+      `${imarineBaseUrl}/domain/VesselNomination/GetFromEpdaAndDischargePortInfoLanding?BusinessUnitId=${0}&FromDate=${
         values?.fromDate
       }&ToDate=${values?.toDate}&pageNumber=${pageNo ||
         1}&pageSize=${pageSize || 600}`
@@ -58,7 +58,7 @@ export default function EDPADischargePort() {
         <>
           {loading && <Loading />}
           <IForm
-            title="EDPA Load Port"
+            title="EDPA Discharge Port"
             isHiddenReset
             isHiddenBack
             isHiddenSave

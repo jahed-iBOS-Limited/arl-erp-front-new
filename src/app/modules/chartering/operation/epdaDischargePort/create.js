@@ -56,7 +56,7 @@ export default function EDPADischargePortCreate() {
     };
 
     onSave(
-      `${imarineBaseUrl}/domain/VesselNomination/CreateEpdaAndPortInfo`,
+      `${imarineBaseUrl}/domain/VesselNomination/CreateFromEpdaAndDischargePortInfo`,
       payload,
       cb,
       true
@@ -91,7 +91,7 @@ export default function EDPADischargePortCreate() {
         <>
           {loader && <Loading />}
           <IForm
-            title={`Create EDPA Port Info `}
+            title={`Create EDPA Discharge Port Info `}
             isHiddenReset
             isHiddenBack
             isHiddenSave
