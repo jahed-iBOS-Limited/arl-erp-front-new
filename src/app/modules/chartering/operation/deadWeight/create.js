@@ -74,7 +74,7 @@ export default function DeadWeightCreate() {
     };
 
     onSave(
-      `${marineBaseUrlPythonAPI}/domain/VesselNomination/CreateDeadWeight`,
+      `${imarineBaseUrl}/domain/VesselNomination/CreateDeadWeight`,
       payload,
       cb,
       true

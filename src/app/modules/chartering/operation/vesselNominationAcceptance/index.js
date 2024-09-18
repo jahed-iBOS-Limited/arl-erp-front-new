@@ -2,7 +2,7 @@ import { Form, Formik } from "formik";
 import React, { useEffect } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 
-import { marineBaseUrlPythonAPI } from "../../../../App";
+import { imarineBaseUrl, marineBaseUrlPythonAPI } from "../../../../App";
 import IForm from "../../../_helper/_form";
 import Loading from "../../../_helper/_loading";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
@@ -19,7 +19,7 @@ export default function VesselNominationAccept() {
 
   useEffect(() => {
     getGridData(
-      `${marineBaseUrlPythonAPI}/domain/VesselNomination/GetVesselNominationAcceptancesLanding`
+      `${imarineBaseUrl}/domain/VesselNomination/GetVesselNominationAcceptancesLanding`
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

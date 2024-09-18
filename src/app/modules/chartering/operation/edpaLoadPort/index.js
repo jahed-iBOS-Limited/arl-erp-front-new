@@ -26,7 +26,7 @@ export default function EDPALoadPort() {
 
   const getLandingData = (values, pageNo, pageSize, searchValue = "") => {
     getGridData(
-      `${marineBaseUrlPythonAPI}/domain/VesselNomination/GetEpdaAndPortInfoLanding?BusinessUnitId=${0}&FromDate=${
+      `${imarineBaseUrl}/domain/VesselNomination/GetEpdaAndPortInfoLanding?BusinessUnitId=${0}&FromDate=${
         values?.fromDate
       }&ToDate=${values?.toDate}&pageNumber=${pageNo ||
         1}&pageSize=${pageSize || 600}`

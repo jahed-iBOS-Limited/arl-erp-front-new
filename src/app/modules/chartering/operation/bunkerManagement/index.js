@@ -1,7 +1,7 @@
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";
-import { marineBaseUrlPythonAPI } from "../../../../App";
+import { imarineBaseUrl, marineBaseUrlPythonAPI } from "../../../../App";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import ICustomTable from "../../_chartinghelper/_customTable";
 import IForm from "./../../../_helper/_form";
@@ -67,7 +67,7 @@ const headers = [
 
   const getGridData = () => {
     getLandingData(
-      `${marineBaseUrlPythonAPI}/domain/VesselNomination/GetBunkerCalculatorLanding `
+      `${imarineBaseUrl}/domain/VesselNomination/GetBunkerCalculatorLanding `
     );
   };
 

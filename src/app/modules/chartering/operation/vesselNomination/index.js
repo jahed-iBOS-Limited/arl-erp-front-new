@@ -2,7 +2,7 @@ import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import { toast } from "react-toastify";
-import { marineBaseUrlPythonAPI } from "../../../../App";
+import { imarineBaseUrl, marineBaseUrlPythonAPI } from "../../../../App";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import ICustomTable from "../../_chartinghelper/_customTable";
@@ -69,7 +69,7 @@ const headers = [
 
   const getGridData = () => {
     getLandingData(
-      `${marineBaseUrlPythonAPI}/domain/VesselNomination/VesselNominationLanding`
+      `${imarineBaseUrl}/domain/VesselNomination/VesselNominationLanding`
     );
   };
 

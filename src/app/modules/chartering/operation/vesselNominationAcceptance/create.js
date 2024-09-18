@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import * as Yup from "yup";
-import { marineBaseUrlPythonAPI } from "../../../../App";
+import { imarineBaseUrl, marineBaseUrlPythonAPI } from "../../../../App";
 import IForm from "../../../_helper/_form";
 import InputField from "../../../_helper/_inputField";
 import Loading from "../../../_helper/_loading";
@@ -42,7 +42,7 @@ export default function VesselNominationAcceptanceCreate() {
     };
 
     onSave(
-      `${marineBaseUrlPythonAPI}/domain/VesselNomination/CreateVesselNominationAcceptance`,
+      `${imarineBaseUrl}/domain/VesselNomination/CreateVesselNominationAcceptance`,
       payload,
       cb,
       true

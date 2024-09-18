@@ -21,7 +21,7 @@ export default function DischargePort() {
 
   const getLandingData = (values, pageNo, pageSize) => {
     getGridData(
-      `${marineBaseUrlPythonAPI}/domain/VesselNomination/DepartureDocumentsDischargePortLanding`
+      `${imarineBaseUrl}/domain/VesselNomination/DepartureDocumentsDischargePortLanding`
     );
   };
 

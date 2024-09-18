@@ -1,7 +1,7 @@
 import { Form, Formik } from "formik";
 import React, { useEffect } from "react";
 import { useHistory } from "react-router";
-import { marineBaseUrlPythonAPI } from "../../../../App";
+import { imarineBaseUrl, marineBaseUrlPythonAPI } from "../../../../App";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import { _dateFormatter } from "../../_chartinghelper/_dateFormatter";
 import IForm from "./../../../_helper/_form";
@@ -14,7 +14,7 @@ export default function Recap() {
 
   useEffect(() => {
     getGridData(
-      `${marineBaseUrlPythonAPI}/domain/VesselNomination/GetVesselNominationRecapeData`
+      `${imarineBaseUrl}/domain/VesselNomination/GetVesselNominationRecapeData`
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

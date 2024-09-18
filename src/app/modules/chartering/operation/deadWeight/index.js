@@ -2,7 +2,7 @@ import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 
-import { marineBaseUrlPythonAPI } from "../../../../App";
+import { imarineBaseUrl, marineBaseUrlPythonAPI } from "../../../../App";
 import IForm from "../../../_helper/_form";
 import InputField from "../../../_helper/_inputField";
 import Loading from "../../../_helper/_loading";
@@ -23,7 +23,7 @@ export default function DeadWeight() {
 
   const getLandingData = (values, pageNo, pageSize, searchValue = "") => {
     getGridData(
-      `${marineBaseUrlPythonAPI}/domain/VesselNomination/GetDeadWeightCostLanding?BusinessUnitId=${0}&FromDate=${
+      `${imarineBaseUrl}/domain/VesselNomination/GetDeadWeightCostLanding?BusinessUnitId=${0}&FromDate=${
         values?.fromDate
       }&ToDate=${values?.toDate}&pageNumber=${pageNo ||
         1}&pageSize=${pageSize || 600}`

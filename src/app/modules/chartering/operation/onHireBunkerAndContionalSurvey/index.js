@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { marineBaseUrlPythonAPI } from "../../../../App";
+import { imarineBaseUrl, marineBaseUrlPythonAPI } from "../../../../App";
 import IForm from "../../../_helper/_form";
 import InputField from "../../../_helper/_inputField";
 import Loading from "../../../_helper/_loading";
@@ -33,7 +33,7 @@ export default function OnHireBunkerAndContionalSurvey() {
 
   const getLandingData = (values, pageNo, pageSize) => {
     getGridData(
-      `${marineBaseUrlPythonAPI}/domain/VesselNomination/GetRfqonHireBunkerQtyLanding?BusinessUnitId=${0}&FromDate=${
+      `${imarineBaseUrl}/domain/VesselNomination/GetRfqonHireBunkerQtyLanding?BusinessUnitId=${0}&FromDate=${
         values?.fromDate
       }&ToDate=${values?.toDate}&pageNumber=${pageNo}&pageSize=${pageSize}`
     );

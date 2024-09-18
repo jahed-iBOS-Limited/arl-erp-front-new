@@ -4,7 +4,7 @@ import { shallowEqual, useSelector } from "react-redux";
 
 import { useParams } from "react-router-dom";
 import * as Yup from "yup";
-import { marineBaseUrlPythonAPI } from "../../../../App";
+import { imarineBaseUrl, marineBaseUrlPythonAPI } from "../../../../App";
 import IForm from "../../../_helper/_form";
 import InputField from "../../../_helper/_inputField";
 import Loading from "../../../_helper/_loading";
@@ -55,7 +55,7 @@ export default function EDPALoadPortCreate() {
     };
 
     onSave(
-      `${marineBaseUrlPythonAPI}/domain/VesselNomination/CreateEpdaAndPortInfo`,
+      `${imarineBaseUrl}/domain/VesselNomination/CreateEpdaAndPortInfo`,
       payload,
       cb,
       true

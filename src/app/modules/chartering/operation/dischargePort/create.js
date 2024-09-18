@@ -84,7 +84,7 @@ export default function CreateDischargePort() {
     };
 
     onSave(
-      `${marineBaseUrlPythonAPI}/domain/VesselNomination/CreateDepartureDocumentsDischargePort`,
+      `${imarineBaseUrl}/domain/VesselNomination/CreateDepartureDocumentsDischargePort`,
       payload,
       cb,
       true

@@ -219,7 +219,7 @@ export default function BunkerManagementCreate() {
     };
 
     onSave(
-      `${marineBaseUrlPythonAPI}/domain/VesselNomination/CreateBunkerCalculat`,
+      `${imarineBaseUrl}/domain/VesselNomination/CreateBunkerCalculat`,
       payload,
       cb,
       true
