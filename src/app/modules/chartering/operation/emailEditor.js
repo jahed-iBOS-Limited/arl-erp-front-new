@@ -4,9 +4,12 @@ import "react-quill/dist/quill.snow.css";
 import { marineBaseUrlPythonAPI } from "../../../App";
 import Loading from "../../_helper/_loading";
 import useAxiosPost from "../../_helper/customHooks/useAxiosPost";
+import { getEmailInfoandSendMail } from "./helper";
 
 const EmailEditor = ({ emailEditorProps }) => {
-  const { intId, emailInfoUrl, sendEmailUrl, cb } = emailEditorProps;
+  const { intId, singleRowData, cb } = emailEditorProps;
+
+  console.log("singleRowData", singleRowData);
 
   const [emailData, setEmailData] = useState({
     toEmail: "",
@@ -32,7 +35,7 @@ const EmailEditor = ({ emailEditorProps }) => {
       };
 
       getEmailInfo(
-        `${marineBaseUrlPythonAPI}${emailInfoUrl}`,
+        `${marineBaseUrlPythonAPI}${getEmailInfoandSendMail(singleRowData?.columnName)?.emailInfoUrl}`,
         payload,
         (data) => {
           setEmailData({
@@ -132,7 +135,7 @@ const EmailEditor = ({ emailEditorProps }) => {
       };
 
       onSendEmail(
-        `${marineBaseUrlPythonAPI}${sendEmailUrl}`,
+        `${marineBaseUrlPythonAPI}${getEmailInfoandSendMail(singleRowData?.columnName)?.sendEmailUrl}`,
         payload,
         cb,
         true

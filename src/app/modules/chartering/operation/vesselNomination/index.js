@@ -11,6 +11,7 @@ import IForm from "./../../../_helper/_form";
 import Loading from "./../../../_helper/_loading";
 import VoyageLicenseFlagAttachment from "./voyageFlagLicenseAttachment";
 import EmailEditor from "../emailEditor";
+import { getEmailInfoandSendMail } from "../helper";
 
 const initData = {
   voyageFlagLicenseAtt: "",
@@ -293,7 +294,7 @@ export default function VesselNomination() {
                                 return toast.warn(
                                   "Vessel Nomination Email Already Sent"
                                 );
-                              setSingleRowData(item);
+                              setSingleRowData({...item,columnName: "VESSEL NOMINATION"});
                               setIsShowMailModal(true);
                             }}
                             disabled={item.isVesselNominationEmailSent}
@@ -315,14 +316,8 @@ export default function VesselNomination() {
                                   return toast.warn(
                                     "EDPA Loadport Email Already Sent"
                                   );
-                                edpaLoadportMailSend(
-                                  `${marineBaseUrlPythonAPI}/automation/epda_load_port_mail`,
-                                  { intId: item?.intId },
-                                  () => {
-                                    getGridData();
-                                  },
-                                  true
-                                );
+                                  setSingleRowData({...item,columnName: "EDPA LOADPORT"});
+                                  setIsShowMailModal(true);
                               }}
                               disabled={item.edpaLoadportSend}
                             >
@@ -374,14 +369,16 @@ export default function VesselNomination() {
                                   return toast.warn(
                                     "Pre Stowage Email Already Sent"
                                   );
-                                preStowageMailSend(
-                                  `${marineBaseUrlPythonAPI}/automation/pre_stowage_plan_mail_sender`,
-                                  { intId: item?.intId },
-                                  () => {
-                                    getGridData();
-                                  },
-                                  true
-                                );
+                                  setSingleRowData({...item,columnName: "PRE STOWAGE"});
+                                  setIsShowMailModal(true);
+                                // preStowageMailSend(
+                                //   `${marineBaseUrlPythonAPI}/automation/pre_stowage_plan_mail_sender`,
+                                //   { intId: item?.intId },
+                                //   () => {
+                                //     getGridData();
+                                //   },
+                                //   true
+                                // );
                               }}
                               disabled={item.preStowageSend}
                             >
@@ -405,14 +402,16 @@ export default function VesselNomination() {
                                   return toast.warn(
                                     "On Hire Bunker Survey Email Already Sent"
                                   );
-                                onHireBunkerSurveyMailSend(
-                                  `${marineBaseUrlPythonAPI}/automation/bunker_on_hire_condition_surveyor`,
-                                  { intId: item?.intId },
-                                  () => {
-                                    getGridData();
-                                  },
-                                  true
-                                );
+                                // onHireBunkerSurveyMailSend(
+                                //   `${marineBaseUrlPythonAPI}/automation/bunker_on_hire_condition_surveyor`,
+                                //   { intId: item?.intId },
+                                //   () => {
+                                //     getGridData();
+                                //   },
+                                //   true
+                                // );
+                                setSingleRowData({...item,columnName: "ON HIRE BUNKER SURVEY"});
+                                setIsShowMailModal(true);
                               }}
                               disabled={item.onHireBunkerSurveySent}
                             >
@@ -460,18 +459,20 @@ export default function VesselNomination() {
                               }
                               type="button"
                               onClick={() => {
-                                if (item.voyageInstructionSent)
-                                  return toast.warn(
-                                    "Voyage Instruction Email Already Sent"
-                                  );
-                                voyageInstructionMailSend(
-                                  `${marineBaseUrlPythonAPI}/automation/voyage_instruction_email_sender`,
-                                  { intId: item?.intId },
-                                  () => {
-                                    getGridData();
-                                  },
-                                  true
-                                );
+                                // if (item.voyageInstructionSent)
+                                //   return toast.warn(
+                                //     "Voyage Instruction Email Already Sent"
+                                //   );
+                                // voyageInstructionMailSend(
+                                //   `${marineBaseUrlPythonAPI}/automation/voyage_instruction_email_sender`,
+                                //   { intId: item?.intId },
+                                //   () => {
+                                //     getGridData();
+                                //   },
+                                //   true
+                                // );
+                                setSingleRowData({...item,columnName: "VOYAGE INSTRUCTION"});
+                                setIsShowMailModal(true);
                               }}
                               disabled={item.voyageInstructionSent}
                             >
@@ -489,18 +490,20 @@ export default function VesselNomination() {
                               }
                               type="button"
                               onClick={() => {
-                                if (item.pisurveySent)
-                                  return toast.warn(
-                                    "PI Survey Email Already Sent"
-                                  );
-                                piSurveyMailSend(
-                                  `${marineBaseUrlPythonAPI}/automation/P_n_I_surveyor_email_sender`,
-                                  { intId: item?.intId },
-                                  () => {
-                                    getGridData();
-                                  },
-                                  true
-                                );
+                                // if (item.pisurveySent)
+                                //   return toast.warn(
+                                //     "PI Survey Email Already Sent"
+                                //   );
+                                // piSurveyMailSend(
+                                //   `${marineBaseUrlPythonAPI}/automation/P_n_I_surveyor_email_sender`,
+                                //   { intId: item?.intId },
+                                //   () => {
+                                //     getGridData();
+                                //   },
+                                //   true
+                                // );
+                                setSingleRowData({...item,columnName: "PI SURVEY"});
+                                setIsShowMailModal(true);
                               }}
                               disabled={item.pisurveySent}
                             >
@@ -523,7 +526,8 @@ export default function VesselNomination() {
                                 // if (item.voyageLicenseFlagWaiverSend) {
                                 //   return toast.warn("Voyage License/Flag Waiver Email Already Sent");
                                 // }
-                                setSingleRowData(item);
+                                setSingleRowData({...item, columnName: "VOYAGE LICENSE/FLAG WAIVER"});
+                                // setIsShowMailModal(true);
                                 setShow(true);
                                 // setVoyageLicenseFlagShow(true);
                                 //   console.log("VOYAGE LICENSE/FLAG WAIVER SEND");
@@ -553,14 +557,16 @@ export default function VesselNomination() {
                               onClick={() => {
                                 if (item.tclSend)
                                   return toast.warn("TCL Email Already Sent");
-                                tclMailSend(
-                                  `${marineBaseUrlPythonAPI}/automation/TCL_coverage_email_sender`,
-                                  { intId: item?.intId },
-                                  () => {
-                                    getGridData();
-                                  },
-                                  true
-                                );
+                                // tclMailSend(
+                                //   `${marineBaseUrlPythonAPI}/automation/TCL_coverage_email_sender`,
+                                //   { intId: item?.intId },
+                                //   () => {
+                                //     getGridData();
+                                //   },
+                                //   true
+                                // );
+                                setSingleRowData({...item,columnName: "TCL"});
+                                setIsShowMailModal(true);
                               }}
                               disabled={item.tclSend}
                             >
@@ -584,14 +590,16 @@ export default function VesselNomination() {
                                   return toast.warn(
                                     "Weather Routing Company Email Already Sent"
                                   );
-                                weatherRoutingCompanyMailSend(
-                                  `${marineBaseUrlPythonAPI}/automation/weather_routing_email_sender`,
-                                  { intId: item?.intId },
-                                  () => {
-                                    getGridData();
-                                  },
-                                  true
-                                );
+                                // weatherRoutingCompanyMailSend(
+                                //   `${marineBaseUrlPythonAPI}/automation/weather_routing_email_sender`,
+                                //   { intId: item?.intId },
+                                //   () => {
+                                //     getGridData();
+                                //   },
+                                //   true
+                                // );
+                                setSingleRowData({...item,columnName: "WEATHER ROUTING COMPANY"});
+                                setIsShowMailModal(true);
                               }}
                               disabled={item.weatherRoutingCompanySend}
                             >
@@ -615,14 +623,16 @@ export default function VesselNomination() {
                                   return toast.warn(
                                     "Departure Document Loadport Email Already Sent"
                                   );
-                                departureDocumentLoadPortMailSend(
-                                  `${marineBaseUrlPythonAPI}/automation/departure_document_email_sender`,
-                                  { intId: item?.intId },
-                                  () => {
-                                    getGridData();
-                                  },
-                                  true
-                                );
+                                // departureDocumentLoadPortMailSend(
+                                //   `${marineBaseUrlPythonAPI}/automation/departure_document_email_sender`,
+                                //   { intId: item?.intId },
+                                //   () => {
+                                //     getGridData();
+                                //   },
+                                //   true
+                                // );
+                                setSingleRowData({...item,columnName: "DEPARTURE DOCUMENT LOADPORT"});
+                                setIsShowMailModal(true);
                               }}
                               disabled={item.departureDocumentLoadPortSend}
                             >
@@ -644,14 +654,16 @@ export default function VesselNomination() {
                                   return toast.warn(
                                     "EPDA Discharge Port Email Already Sent"
                                   );
-                                epdaDischargePortMailSend(
-                                  `${marineBaseUrlPythonAPI}/automation/epda_discharge_port_mail`,
-                                  { intId: item?.intId },
-                                  () => {
-                                    getGridData();
-                                  },
-                                  true
-                                );
+                                // epdaDischargePortMailSend(
+                                //   `${marineBaseUrlPythonAPI}/automation/epda_discharge_port_mail`,
+                                //   { intId: item?.intId },
+                                //   () => {
+                                //     getGridData();
+                                //   },
+                                //   true
+                                // );
+                                setSingleRowData({...item,columnName: "EPDA DISCHARGE PORT"});
+                                setIsShowMailModal(true);
                               }}
                               disabled={item.epdadischargePortSent}
                             >
@@ -675,14 +687,16 @@ export default function VesselNomination() {
                                   return toast.warn(
                                     "Offhire Bunker Survey Email Already Sent"
                                   );
-                                offHireBunkerSurveyMailSend(
-                                  `${marineBaseUrlPythonAPI}/automation/bunker_off_hire_condition_surveyor`,
-                                  { intId: item?.intId },
-                                  () => {
-                                    getGridData();
-                                  },
-                                  true
-                                );
+                                // offHireBunkerSurveyMailSend(
+                                //   `${marineBaseUrlPythonAPI}/automation/bunker_off_hire_condition_surveyor`,
+                                //   { intId: item?.intId },
+                                //   () => {
+                                //     getGridData();
+                                //   },
+                                //   true
+                                // );
+                                setSingleRowData({...item,columnName: "OFFHIRE BUNKER SURVEY"});
+                                setIsShowMailModal(true);
                               }}
                               disabled={item.offHireBunkerSurveySent}
                             >
@@ -704,6 +718,7 @@ export default function VesselNomination() {
               item={singleRowData}
               getGridData={getGridData}
               setShow={setShow}
+              setIsShowMailModal={setIsShowMailModal}
             />
           </IViewModal>
           <IViewModal
@@ -715,8 +730,9 @@ export default function VesselNomination() {
             <EmailEditor
               emailEditorProps={{
                 intId: singleRowData?.intId,
-                emailInfoUrl: "/automation/vessel_nomitaion_mail_format",
-                sendEmailUrl: "/automation/vessel_nomitaion_mail_sent",
+                singleRowData :singleRowData,
+                // emailInfoUrl: "/automation/vessel_nomitaion_mail_format",
+                // sendEmailUrl: "/automation/vessel_nomitaion_mail_sent",
                 cb: () => {
                   getGridData();
                 },
