@@ -28,7 +28,7 @@ const EmailEditor = ({ emailEditorProps }) => {
   useEffect(() => {
     if (intId) {
       const payload = {
-        intId: 52 || intId,
+        intId: intId,
       };
 
       getEmailInfo(
