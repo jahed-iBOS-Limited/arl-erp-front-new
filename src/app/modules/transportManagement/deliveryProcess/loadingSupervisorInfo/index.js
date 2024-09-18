@@ -517,6 +517,11 @@ export default function LoadingSupervisorInfo() {
                       // `/wms/Delivery/GetDeliveryPrintInfo?ShipmentId=${+result}`,
                       `/wms/Delivery/GetDeliveryPrintInfoByVehicleCardNumber?strCardNumber=${result}`,
                       (res) => {
+                        getTLMDDL(
+                          `/wms/AssetTransection/GetLabelNValueForDDL?BusinessUnitId=${buId}&TypeId=1&RefferencePKId=1&ShipPointId=${res
+                            ?.objHeader?.shipPointId || 0}`
+                        );
+
                         setFieldValue(
                           "shippingPoint",
                           res?.objHeader?.shipPointName || ""
