@@ -84,8 +84,18 @@ const validationSchema = Yup.object().shape({
   dischargePort: Yup.string().required("Discharge Port Name is required"),
   dischargeRate: Yup.string().required("Discharge Rate is required"),
   shipperEmail: Yup.string()
-    .email("Invalid email")
-    .required("Shipper Email is required"),
+  .required("Shipper Email is required")
+  .test("is-valid-email-list", "Invalid email format", function (value) {
+    if (!value) return true; // If no email is provided, Yup.required will handle the error.
+    const emails = value.split(',').map((email) => email.trim());
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    for (let email of emails) {
+      if (!emailRegex.test(email)) {
+        return false; // Return false if any email is invalid.
+      }
+    }
+    return true; // Return true if all emails are valid.
+  })
 });
 
 export default function RecapCreate() {
@@ -114,72 +124,7 @@ export default function RecapCreate() {
   const saveHandler = async (values, cb) => {
     const payload = {
       IsActive: 1,
-      // dteCPDate: values.laycanFrom || "2021-06-01T00:00:00.000Z",
-      // dteDeliveryDateGMT: "2021-06-01T00:00:00.000Z",
-      // dteEPDADischargeLastSubmissionDateTime: "2021-06-01T00:00:00.000Z",
-      // dteEPDALastSubmissionDateTime: "2021-06-01T00:00:00.000Z",
-      // dteLastActionDateTime: new Date().toISOString(),
-      // dteOffHireBunkerLastSubmissionDateTime: "2021-06-01T00:00:00.000Z",
-      // dteOnHireBunkerLastSubmissionDateTime: "2021-06-01T00:00:00.000Z",
-      // dteReDeliveryDateGMT: "2021-06-01T00:00:00.000Z",
-      // dteScheduleToSend: "2021-06-01T00:00:00.000Z",
-      // dteServerDateTime: new Date().toISOString(),
-      // dteTimestampForRecap: new Date().toISOString(),
-      // dteVoyageCommenced: "2021-06-01T00:00:00.000Z",
-      // dteVoyageCompletion: "2021-06-01T00:00:00.000Z",
       intAccountId: profileData?.accountId,
-      // intBrokerId: 23,
-      // intCargoId: 12,
-      // intChartererId: 3,
-      // intExtraDays: 54,
-      // intId: 22,
-      // intLastActionBy: 1,
-      // intVesselId: 2,
-      // intVoyageDurationDays: 3,
-      // intVoyageNo: 2,
-      // intVoyageTypeId: 1,
-      // isEPDAAgentResponseSent: 1,
-      // isEPDACSsent: 1,
-      // isEPDADischargeCSsent: 1,
-      // isEPDADischargeSent: 1,
-      // isEPDASent: 1,
-      // isOffHireBunkerCSSent: 1,
-      // isOffHireBunkerSurveySent: 1,
-      // isOnHireBunkerCSSent: 1,
-      // isOnHireBunkerSurveySent: 1,
-      // isPISurveyEmailSent: 1,
-      // isVesselNominationEmailSent: 1,
-      // numAP: 23,
-      // numAdditionalDistance: 45,
-      // numAddressCommissionPercentage: 232,
-      // numBallast: 45,
-      // numBallastSpeed: 54,
-      // numBrokerCommissionPercentage: 232,
-      // numCVE30Days: 23,
-      // numDailyHire: 23,
-      // numDeadFreight: 23,
-      // numDemurrageRate: 23,
-      // numDespatchRate: 23,
-      // numDetention: 23,
-      // numFreightPerMT: 543,
-      // numFreightPercentage: 32,
-      // numILOHC: 23,
-      // numLSFOPricePerMT: 23,
-      // numLSMGOPricePerMT: 23,
-      // numLadenSpeed: 54,
-      // numOthers: 23,
-      // numSteaming: 45,
-      // strAcceptReject: "",
-      // strBunkerAgent: "",
-      // strCode: 1,
-      // strDischargePortAgentEmail: "",
-      // strExpendituresForPISurvey: "",
-      // strPlaceOfDelivery: "",
-      // strRedeliveryPlace: "",
-      // strServiceType: "",
-      // strVendorName: "",
-      // strVesselOwnerName: "",
-      // ===========
       intLoadPortId: values?.loadPort?.value,
       intDischargePortId: values?.dischargePort?.value,
       strVoyageType: values.voyageType?.label || "",
@@ -476,8 +421,7 @@ export default function RecapCreate() {
               <div className="col-lg-3">
                 <InputField
                   value={values.shipperEmail}
-                  label="Shipper Email for Vessel Nomination
-"
+                  label="Shipper Email (if multiple email use comma)"
                   name="shipperEmail"
                   type="email"
                   onChange={(e) =>
@@ -512,7 +456,7 @@ export default function RecapCreate() {
               <div className="col-lg-3">
                 <InputField
                   value={values.brokerEmail}
-                  label="Broker Email"
+                  label="Broker Email (if multiple email use comma)"
                   name="brokerEmail"
                   type="email"
                   onChange={(e) => setFieldValue("brokerEmail", e.target.value)}

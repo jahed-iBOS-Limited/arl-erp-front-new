@@ -146,7 +146,6 @@ export default function VesselNominationAcceptanceCreate() {
                 show={isShowModal}
                 onHide={() => setIsShowModal(false)}
                 title={"Send Mail"}
-                modelSize={"md"}
               >
                 <MailSender
                   payloadInfo={{
