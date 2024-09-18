@@ -3,16 +3,22 @@ import { _formatMoney } from "../../../../_helper/_formatMoney";
 import { convertToText } from "../helper";
 
 const PrintBADCMOPTender = ({ tenderDetails, tenderPrintId }) => {
-  const totalAmount = useMemo(
-    () =>
-      tenderDetails?.reduce((acc, item) => {
-        const quantity = isNaN(item?.quantity) ? 0 : item?.quantity;
-        const totalRate = isNaN(item?.totalRate) ? 0 : item?.totalRate;
-        acc += quantity * totalRate;
-        return acc;
-      }, 0),
-    [tenderDetails]
-  );
+  // total amount
+  const totalAmount = useMemo(() => {
+    // total rate
+    const totalQuantity = tenderDetails?.reduce(
+      (acc, item) => acc + (!Boolean(item?.quantity) ? 0 : item?.quantity),
+      0
+    );
+
+    // total rate
+    const totalRate = tenderDetails?.reduce(
+      (acc, item) => acc + (!Boolean(item?.totalRate) ? 0 : item?.totalRate),
+      0
+    );
+
+    return (totalQuantity * totalRate).toFixed(2);
+  }, [tenderDetails]);
 
   // total actual bill amount
   const totalActualBillAmount = useMemo(
@@ -48,7 +54,7 @@ const PrintBADCMOPTender = ({ tenderDetails, tenderPrintId }) => {
 
   return tenderPrintId === 0 ? (
     <div className="">
-      <table style={{ margin: "20px 0" }}>
+      <table style={{ margin: "20px 0", width: "100%" }}>
         <thead style={{ padding: "10px 0", textAlign: "center" }}>
           <tr>
             <th>No</th>
@@ -104,11 +110,17 @@ const PrintBADCMOPTender = ({ tenderDetails, tenderPrintId }) => {
             Annexure-
             {tenderPrintId === 1 ? "A" : tenderPrintId === 4 ? "B" : ""}:
           </strong>{" "}
-          Transportation and stacking of MOP fertilizer from the ghats of
-          Chattogram port/private ghat and the godowns of Chattogram city
-          corporation areas/industrial areas/port areas/BADC's Transit godown
-          1&2/Dewanhat/any other local godowns of BADC to the following
-          godowns/center
+          {tenderPrintId === 1
+            ? `Transportation and stacking of MOP fertilizer from the ghats of Chattogram port/private ghat and the
+godowns of Chattogram city corporation areas/industrial areas/port areas/BADC's Transit godown
+1&2/Dewanhat/any other local godowns of BADC to the following godowns/center:`
+            : tenderPrintId === 4
+            ? `Transportation and stacking of MOP fertilizer from the godowns of
+          Khulna city corporation areas/ industrial areas/any other local
+          godowns in Mongla port/Khulna ghat's local godown/Boyra
+          godown/Ruzvelt's Transit godown/Shiromoni ghat/any other local godowns
+          of BADC to the following godowns/center`
+            : ""}
         </p>
       </div>
       <table style={{ margin: "20px 0" }}>
