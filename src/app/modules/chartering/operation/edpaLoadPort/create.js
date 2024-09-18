@@ -11,6 +11,8 @@ import { _todayDate } from "../../../_helper/_todayDate";
 import AttachmentUploaderNew from "../../../_helper/attachmentUploaderNew";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import { useParams } from "react-router-dom";
+import IViewModal from "../../../_helper/_viewModal";
+import MailSender from "../mailSender";
 
 const initData = {
   strEmailAddress: "",
@@ -28,6 +30,7 @@ export default function EDPALoadPortCreate() {
   }, shallowEqual);
   const [attachment, setAttachment] = useState("");
   const { paramId, paramCode } = useParams();
+  const [isShowModal, setIsShowModal] = useState(false);
 
   const [, onSave, loader] = useAxiosPost();
 
@@ -71,6 +74,7 @@ export default function EDPALoadPortCreate() {
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
           resetForm(initData);
+          setIsShowModal(true);
         });
       }}
     >
@@ -176,6 +180,25 @@ export default function EDPALoadPortCreate() {
                     />
                   </div>
                 </div>
+              </div>
+              <div>
+                <IViewModal
+                  show={isShowModal}
+                  onHide={() => setIsShowModal(false)}
+                  title={"Send Mail"}
+                  modelSize={"md"}
+                >
+                  <MailSender
+                    payloadInfo={{
+                      strAttachmentForPort: `https://erp.ibos.io/domain/Document/DownlloadFile?id=${values?.strAttachmentForPort}`,
+                      strAttachmentForPortDisbursment: `https://erp.ibos.io/domain/Document/DownlloadFile?id=${values?.strAttachmentForPortDisbursment}`,
+                      intVesselNominationId: +paramId || 0,
+                      strVesselNominationCode:
+                        paramCode || values?.strVesselNominationCode || "",
+                      numGrandTotalAmount: values?.numGrandTotalAmount,
+                    }}
+                  />
+                </IViewModal>
               </div>
             </Form>
           </IForm>
