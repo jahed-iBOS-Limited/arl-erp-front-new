@@ -22,7 +22,7 @@ const initData = {
   strVesselNominationCode: "",
   numGrandTotalAmount: 0,
 };
-export default function EDPALoadPortCreate() {
+export default function EDPADischargePortCreate() {
   const {
     profileData: { userId, accountId },
     selectedBusinessUnit: { value: buId, label },
@@ -56,7 +56,7 @@ export default function EDPALoadPortCreate() {
     };
 
     onSave(
-      `${imarineBaseUrl}/domain/VesselNomination/CreateEpdaAndPortInfo`,
+      `${imarineBaseUrl}/domain/VesselNomination/CreateFromEpdaAndDischargePortInfo`,
       payload,
       cb,
       true
@@ -91,7 +91,7 @@ export default function EDPALoadPortCreate() {
         <>
           {loader && <Loading />}
           <IForm
-            title={`Create EDPA Load Port Info `}
+            title={`Create EDPA Discharge Port Info `}
             isHiddenReset
             isHiddenBack
             isHiddenSave
