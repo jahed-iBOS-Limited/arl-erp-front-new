@@ -10,6 +10,7 @@ import Loading from "../../../_helper/_loading";
 import NewSelect from "../../../_helper/_select";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
+import { useHistory } from "react-router-dom";
 
 const initData = {
   strCode: "",
@@ -88,8 +89,8 @@ export default function BunkerManagementCreate() {
 
   const location = useLocation();
   const  landingData = location?.state?.landingData;
+  const history = useHistory()
 
-  console.log("landingData", landingData);
   useEffect(() => {
     if(landingData){
       const modData = {
@@ -104,14 +105,14 @@ export default function BunkerManagementCreate() {
         strCurrentPosition: landingData?.strCurrentPosition || '',
         numBallastDistance: landingData?.numBallast || 0,
         numBallastSpeed: landingData?.numBallastSpeed || 0,
-        strLoadPort: {
+        strLoadPort: landingData?.intLoadPortId ? {
           value: landingData?.intLoadPortId || 0,
           label: landingData?.strNameOfLoadPort || landingData?.strLoadPort || '',
-        },
-        strDischargePort: {
+        } : '',
+        strDischargePort: landingData?.intDischargePortId ? {
           value: landingData?.intDischargePortId || 0,
           label: landingData?.strDischargePort || '',
-        },
+        } : '',
         strBallastEcoMax: landingData?.strBallastEcoMax || '',
         numBallastVlsfoConsumptionMt: landingData?.numBallastVlsfoConsumptionMt || 0,
         numBallastLsmgoConsumptionMt: landingData?.numBallastLsmgoConsumptionMt || 0,
@@ -143,10 +144,10 @@ export default function BunkerManagementCreate() {
         numTotalLsmgoConsumptionMt: landingData?.numTotalLsmgoConsumptionMt || 0,
         numToleranceVlsfoPercentage: landingData?.numToleranceVlsfoPercentage || 0,
         numNetTotalConsumableVlsfoMt: landingData?.numNetTotalConsumableVlsfoMt || 0,
-        strBunkerPort: {
+        strBunkerPort: landingData?.intBunkerPortId ?{
           value: landingData?.intBunkerPortId || 0,
           label: landingData?.strBunkerPort || '',
-        },
+        } : "",
         strBunkerTrader: landingData?.strBunkerTrader || '',
         strBunkerType: landingData?.strBunkerType || '',
       }
@@ -219,7 +220,7 @@ export default function BunkerManagementCreate() {
     };
 
     onSave(
-      `${imarineBaseUrl}/domain/VesselNomination/CreateBunkerCalculat`,
+      `${imarineBaseUrl}/domain/VesselNomination/CreateBunkerCalculator`,
       payload,
       cb,
       true
@@ -233,6 +234,7 @@ export default function BunkerManagementCreate() {
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
           resetForm(initData);
+          history.goBack();
         });
         setSubmitting(false);
       }}
