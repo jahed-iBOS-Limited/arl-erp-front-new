@@ -7,7 +7,7 @@ import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import { toast } from "react-toastify";
 import { marineBaseUrlPythonAPI } from "../../../../App";
 
-export default function VoyageLicenseFlagAttachment({ values, setFieldValue, item, getGridData, setVoyageLicenseFlagShow }) {
+export default function VoyageLicenseFlagAttachment({ values, setFieldValue, item, getGridData, setVoyageLicenseFlagShow, setIsShowMailModal }) {
   const [loading, setLoading] = React.useState(false);
   const { state: landingData } = useLocation();
   const [attachment, setAttachment] = useState(null);
@@ -53,18 +53,19 @@ export default function VoyageLicenseFlagAttachment({ values, setFieldValue, ite
                       if (!attachment) {
                         return toast.warn("Please Upload Attachment First");
                       }
-                      voyageLicenseFlagWaiverMailSend(
-                        `${marineBaseUrlPythonAPI}/automation/voyage_license_flag_waiver_email_sender`,
-                        { 
-                          intId: item?.intId,
-                          attachmenturl: 'https://erp.ibos.io/domain/Document/DownlloadFile?id=' + attachment,
-                        },
-                        () => {
-                          getGridData();
-                          setVoyageLicenseFlagShow(false);
-                        },
-                        true
-                      );
+                      setIsShowMailModal(true);
+                      // voyageLicenseFlagWaiverMailSend(
+                      //   `${marineBaseUrlPythonAPI}/automation/voyage_license_flag_waiver_email_sender`,
+                      //   { 
+                      //     intId: item?.intId,
+                      //     attachmenturl: 'https://erp.ibos.io/domain/Document/DownlloadFile?id=' + attachment,
+                      //   },
+                      //   () => {
+                      //     getGridData();
+                      //     setVoyageLicenseFlagShow(false);
+                      //   },
+                      //   true
+                      // );
                     }}
                     disabled={!attachment}
                   >
