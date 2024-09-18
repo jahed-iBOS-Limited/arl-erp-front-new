@@ -30,8 +30,16 @@ export default function VesselNominationAcceptanceCreate() {
   const [, onSave, loader] = useAxiosPost();
   const { paramId, paramCode } = useParams();
   const [isShowModal, setIsShowModal] = useState(false);
+  const [payloadInfo, setPayloadInfo] = useState({});
 
   const saveHandler = async (values, cb) => {
+    setPayloadInfo({
+      strVesselNominationCode:
+        paramCode || values?.strVesselNominationCode || "",
+      isVesselNominationAccept: values?.isVesselNominationAccept,
+      strRemarks: values?.strRemarks || "",
+    });
+
     const payload = {
       intVesselNominationId: +paramId || 0,
       strVesselNominationCode:
@@ -147,14 +155,7 @@ export default function VesselNominationAcceptanceCreate() {
                 onHide={() => setIsShowModal(false)}
                 title={"Send Mail"}
               >
-                <MailSender
-                  payloadInfo={{
-                    strVesselNominationCode:
-                      paramCode || values?.strVesselNominationCode || "",
-                    isVesselNominationAccept: values?.isVesselNominationAccept,
-                    strRemarks: values?.strRemarks || "",
-                  }}
-                />
+                <MailSender payloadInfo={payloadInfo} />
               </IViewModal>
             </div>
           </Form>
