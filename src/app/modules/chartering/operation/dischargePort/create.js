@@ -49,6 +49,7 @@ export default function CreateDischargePort() {
   const [vesselDDL, getVesselDDL] = useAxiosGet();
   const [voyageDDL, getVoyageDDL, , setVoyageDDL] = useAxiosGet();
   const [isShowModal, setIsShowModal] = useState(false);
+  const [payloadInfo, setPayloadInfo] = useState({});
 
   useEffect(() => {
     getVesselDDL(`${imarineBaseUrl}/domain/Voyage/GetVesselDDL?AccountId=${accountId}&BusinessUnitId=${buId}
@@ -57,6 +58,33 @@ export default function CreateDischargePort() {
   }, [accountId, buId]);
 
   const saveHandler = (values, cb) => {
+    setPayloadInfo({
+      strVesselName: values.strVesselName?.label,
+      strVoyageNo: values.strVoyageNo?.label,
+      intVesselNominationId: +paramId || 0,
+      strCode: paramCode || values.strCode || "",
+      strSoffile: generateFileUrl(values.strSoffile),
+      strNorfile: generateFileUrl(values.strNorfile),
+      strFinalDraftSurveyReportFile: generateFileUrl(
+        values.strFinalDraftSurveyReportFile
+      ),
+      strFinalStowagePlanFile: generateFileUrl(values.strFinalStowagePlanFile),
+      strMatesReceiptFile: generateFileUrl(values.strMatesReceiptFile),
+      strCargoManifestFile: generateFileUrl(values.strCargoManifestFile),
+      strMasterReceiptOfSampleFile: generateFileUrl(
+        values.strMasterReceiptOfSampleFile
+      ),
+      strAuthorizationLetterFile: generateFileUrl(
+        values.strAuthorizationLetterFile
+      ),
+      strSealingReportFile: generateFileUrl(values.strSealingReportFile),
+      strHoldInspectionReportFile: generateFileUrl(
+        values.strHoldInspectionReportFile
+      ),
+
+      strRemarks: values.strRemarks,
+    });
+
     const payload = {
       intAutoId: 0,
       intAccountId: accountId,
@@ -380,42 +408,7 @@ export default function CreateDischargePort() {
                   onHide={() => setIsShowModal(false)}
                   title={"Send Mail"}
                 >
-                  <MailSender
-                    payloadInfo={{
-                      strVesselName: values.strVesselName?.label,
-                      strVoyageNo: values.strVoyageNo?.label,
-                      intVesselNominationId: +paramId || 0,
-                      strCode: paramCode || values.strCode || "",
-                      strSoffile: generateFileUrl(values.strSoffile),
-                      strNorfile: generateFileUrl(values.strNorfile),
-                      strFinalDraftSurveyReportFile: generateFileUrl(
-                        values.strFinalDraftSurveyReportFile
-                      ),
-                      strFinalStowagePlanFile: generateFileUrl(
-                        values.strFinalStowagePlanFile
-                      ),
-                      strMatesReceiptFile: generateFileUrl(
-                        values.strMatesReceiptFile
-                      ),
-                      strCargoManifestFile: generateFileUrl(
-                        values.strCargoManifestFile
-                      ),
-                      strMasterReceiptOfSampleFile: generateFileUrl(
-                        values.strMasterReceiptOfSampleFile
-                      ),
-                      strAuthorizationLetterFile: generateFileUrl(
-                        values.strAuthorizationLetterFile
-                      ),
-                      strSealingReportFile: generateFileUrl(
-                        values.strSealingReportFile
-                      ),
-                      strHoldInspectionReportFile: generateFileUrl(
-                        values.strHoldInspectionReportFile
-                      ),
-
-                      strRemarks: values.strRemarks,
-                    }}
-                  />
+                  <MailSender payloadInfo={payloadInfo} />
                 </IViewModal>
               </div>
             </Form>

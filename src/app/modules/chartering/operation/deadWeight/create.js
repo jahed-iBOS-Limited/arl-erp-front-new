@@ -41,10 +41,33 @@ export default function DeadWeightCreate() {
   const [, onSave, loader] = useAxiosPost();
   const { paramId, paramCode } = useParams();
   const [isShowModal, setIsShowModal] = useState(false);
+  const [payloadInfo, setPayloadInfo] = useState({});
 
   useEffect(() => {}, []);
 
   const saveHandler = (values, cb) => {
+    setPayloadInfo({
+      strDraftType: values?.strDraftType?.value,
+      intDisplacementDraftMts: +values?.intDisplacementDraftMts || 0,
+      intDockWaterDensity: +values?.intDockWaterDensity || 0,
+      intLightShipMts: +values?.intLightShipMts || 0,
+      intFoFuelOilMts: +values?.intFoFuelOilMts || 0,
+      intFoDoDiselOilMts: +values?.intFoDoDiselOilMts || 0,
+      intFwFreshWaterMts: +values?.intFwFreshWaterMts || 0,
+      intConstantMts: +values?.intConstantMts || 0,
+      intUnpumpAbleBallastMts: +values?.intUnpumpAbleBallastMts || 0,
+      intCargoLoadMts: +values?.intCargoLoadMts || 0,
+      intFinalCargoToloadMts: +values?.intFinalCargoToloadMts || 0,
+      strRemarks: values?.strRemarks,
+      strAttachmentForPort: generateFileUrl(values?.strAttachmentForPort),
+      strAttachmentForPortDisbursment: generateFileUrl(
+        values?.strAttachmentForPortDisbursment
+      ),
+      strVesselNominationCode:
+        paramCode || values?.strVesselNominationCode || "",
+      numGrandTotalAmount: +values?.numGrandTotalAmount,
+    });
+
     const payload = {
       intDeadWeightId: 0,
       strDraftType: values?.strDraftType?.value,
@@ -335,30 +358,7 @@ export default function DeadWeightCreate() {
                   onHide={() => setIsShowModal(false)}
                   title={"Send Mail"}
                 >
-                  <MailSender
-                    payloadInfo={{
-                      strDraftType: values?.strDraftType?.value,
-                      intDisplacementDraftMts:
-                        +values?.intDisplacementDraftMts || 0,
-                      intDockWaterDensity: +values?.intDockWaterDensity || 0,
-                      intLightShipMts: +values?.intLightShipMts || 0,
-                      intFoFuelOilMts: +values?.intFoFuelOilMts || 0,
-                      intFoDoDiselOilMts: +values?.intFoDoDiselOilMts || 0,
-                      intFwFreshWaterMts: +values?.intFwFreshWaterMts || 0,
-                      intConstantMts: +values?.intConstantMts || 0,
-                      intUnpumpAbleBallastMts:
-                        +values?.intUnpumpAbleBallastMts || 0,
-                      intCargoLoadMts: +values?.intCargoLoadMts || 0,
-                      intFinalCargoToloadMts:
-                        +values?.intFinalCargoToloadMts || 0,
-                      strRemarks: values?.strRemarks,
-                      strAttachmentForPort:generateFileUrl(values?.strAttachmentForPort),
-                      strAttachmentForPortDisbursment:generateFileUrl(values?.strAttachmentForPortDisbursment),
-                      strVesselNominationCode:
-                        paramCode || values?.strVesselNominationCode || "",
-                      numGrandTotalAmount: +values?.numGrandTotalAmount,
-                    }}
-                  />
+                  <MailSender payloadInfo={payloadInfo} />
                 </IViewModal>
               </div>
             </Form>

@@ -166,7 +166,7 @@ const PrintBCICTender = ({ tenderDetails: { header, rows } }) => {
             <tr>
               <td colSpan={2} height={!header?.foreignPriceUsd && 80}>
                 {header?.foreignPriceUsd
-                  ? convertToText(header?.foreignPriceUsd)
+                  ? convertToText(header?.foreignPriceUsd, "USD")
                   : ""}
               </td>
               <td style={{ textAlign: "left" }}>
