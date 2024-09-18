@@ -34,6 +34,8 @@ const initData = {
   brokerName: "",
   brokerEmail: "",
   nominationSchedule: "",
+  dteVoyageCompletion: "",
+  dteVoyageCommenced: "",
 };
 
 const validationSchema = Yup.object().shape({
@@ -78,24 +80,28 @@ const validationSchema = Yup.object().shape({
     .typeError("Load Port Name is required"),
   laycanFrom: Yup.date().required("Laycan From Date is required"),
   laycanTo: Yup.date().required("Laycan To Date is required"),
+  dteVoyageCompletion: Yup.date().required(
+    "Voyage Completion Date is required"
+  ),
+  dteVoyageCommenced: Yup.date().required("Voyage Commenced Date is required"),
   loadRate: Yup.string().required("Load Rate is required"),
   demurrageDispatch: Yup.string().required("Demurrage / Dispatch is required"),
   etaLoadPort: Yup.date().required("ETA Load Port Date is required"),
   dischargePort: Yup.string().required("Discharge Port Name is required"),
   dischargeRate: Yup.string().required("Discharge Rate is required"),
   shipperEmail: Yup.string()
-  .required("Shipper Email is required")
-  .test("is-valid-email-list", "Invalid email format", function (value) {
-    if (!value) return true; // If no email is provided, Yup.required will handle the error.
-    const emails = value.split(',').map((email) => email.trim());
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    for (let email of emails) {
-      if (!emailRegex.test(email)) {
-        return false; // Return false if any email is invalid.
+    .required("Shipper Email is required")
+    .test("is-valid-email-list", "Invalid email format", function(value) {
+      if (!value) return true; // If no email is provided, Yup.required will handle the error.
+      const emails = value.split(",").map((email) => email.trim());
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      for (let email of emails) {
+        if (!emailRegex.test(email)) {
+          return false; // Return false if any email is invalid.
+        }
       }
-    }
-    return true; // Return true if all emails are valid.
-  })
+      return true; // Return true if all emails are valid.
+    }),
 });
 
 export default function RecapCreate() {
@@ -125,7 +131,7 @@ export default function RecapCreate() {
     const payload = {
       vesselId: values?.vesselName?.value || 0,
       voyageTypeId: values?.voyageType?.value || 0,
-      intCargoId:values?.cargoName?.value || 0,
+      intCargoId: values?.cargoName?.value || 0,
       IsActive: 1,
       intAccountId: profileData?.accountId,
       intLoadPortId: values?.loadPort?.value,
@@ -140,6 +146,8 @@ export default function RecapCreate() {
       strNameOfLoadPort: values.loadPort?.label || "",
       strPlaceOfDelivery: values?.deliveryPort?.label || "",
       strLaycan: values.laycanFrom || "",
+      dteVoyageCompletion: values?.dteVoyageCompletion,
+      dteVoyageCommenced: values?.dteVoyageCommenced,
       dteLaycanFrom: values?.laycanFrom || "",
       dteLaycanTo: values?.laycanTo,
       intLoadRate: +values.loadRate || 0,
@@ -328,6 +336,30 @@ export default function RecapCreate() {
                   name="laycanTo"
                   type="date"
                   onChange={(e) => setFieldValue("laycanTo", e.target.value)}
+                  errors={errors}
+                />
+              </div>
+              <div className="col-lg-3">
+                <InputField
+                  value={values.dteVoyageCompletion}
+                  label="Voyage Completion Date"
+                  name="dteVoyageCompletion"
+                  type="date"
+                  onChange={(e) =>
+                    setFieldValue("dteVoyageCompletion", e.target.value)
+                  }
+                  errors={errors}
+                />
+              </div>
+              <div className="col-lg-3">
+                <InputField
+                  value={values.dteVoyageCommenced}
+                  label="Voyage Commenced Date"
+                  name="dteVoyageCommenced"
+                  type="date"
+                  onChange={(e) =>
+                    setFieldValue("dteVoyageCommenced", e.target.value)
+                  }
                   errors={errors}
                 />
               </div>
