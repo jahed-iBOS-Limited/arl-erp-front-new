@@ -50,6 +50,7 @@ export default function TenderSubmissionLanding() {
     tenderDetails,
     getTenderDetails,
     getTenderDetailsLoading,
+    setTenderDetails,
   ] = useAxiosGet();
 
   useEffect(() => {
@@ -79,7 +80,10 @@ export default function TenderSubmissionLanding() {
     content: () => printRef.current,
     pageStyle:
       "@media print{body { -webkit-print-color-adjust: exact; margin: 0mm;}@page {size: portrait ! important}}",
-    onAfterPrint: () => setTenderPrintId(null),
+    onAfterPrint: () => {
+      setTenderPrintId(null);
+      setTenderDetails([]);
+    },
   });
 
   return (
