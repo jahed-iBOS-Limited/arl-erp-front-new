@@ -722,23 +722,27 @@ function convertToWords(num) {
 }
 
 // Main function for convert number to text
-export function convertToText(n, uoc) {
-  if (!uoc) {
-    if (n === "") return "";
-    if (n === 0 || n === null) return "";
-    return (
-      convertToWords(n)
-        .trim()
-        .toUpperCase() + " TAKA ONLY"
-    );
+export function convertToText(n, uoc = "TAKA") {
+  if (n === "" || n === null || n === 0) return "";
+
+  // Handle decimal part
+  const [integerPart, decimalPart] = n.toString().split(".");
+
+  const integerWords = convertToWords(parseInt(integerPart, 10)).trim();
+
+  let result = integerWords.toUpperCase();
+
+  // if decimal number exists
+  if (decimalPart) {
+    const decimalWords = convertToWords(parseInt(decimalPart, 10)).trim();
+    if (decimalWords) {
+      result += ` AND ${decimalWords.toUpperCase()} ${
+        uoc === "USD" ? "PEENY" : "PAISA"
+      }`;
+    }
   }
-  if (n === "") return "";
-  if (n === 0 || n === null) return "";
-  return (
-    convertToWords(n)
-      .trim()
-      .toUpperCase() + ` ${uoc.toUpperCase()} ONLY`
-  );
+
+  return result + ` ${uoc.toUpperCase()} ONLY`;
 }
 
 // ! BCIC
@@ -885,7 +889,6 @@ export const fetchMOPRowsData = (
     }
   );
 };
-
 
 // Distribute input distance into differenet range. Return an object
 export const distributeDistance = (distance = 0) => {
