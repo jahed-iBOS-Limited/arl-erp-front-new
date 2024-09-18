@@ -123,6 +123,9 @@ export default function RecapCreate() {
   }, []);
   const saveHandler = async (values, cb) => {
     const payload = {
+      vesselId: values?.vesselName?.value || 0,
+      voyageTypeId: values?.voyageType?.value || 0,
+      intCargoId:values?.cargoName?.value || 0,
       IsActive: 1,
       intAccountId: profileData?.accountId,
       intLoadPortId: values?.loadPort?.value,
