@@ -674,30 +674,14 @@ const tens = [
   "",
   "Twenty",
   "Thirty",
-  "Fourty",
+  "Forty", // Fix spelling here
   "Fifty",
   "Sixty",
   "Seventy",
   "Eighty",
   "Ninety",
 ];
-const thousands = ["", "Thousand", "Lakh", "Crore"];
-
-// Helper function for convert number to text
-function convertBelowThousand(num) {
-  if (num === 0) return "";
-  if (num < 10) return ones[num];
-  if (num < 20) return teens[num - 10];
-  if (num < 100)
-    return (
-      tens[Math.floor(num / 10)] + (num % 10 !== 0 ? " " + ones[num % 10] : "")
-    );
-  return (
-    ones[Math.floor(num / 100)] +
-    " Hundred" +
-    (num % 100 !== 0 ? " and " + convertBelowThousand(num % 100) : "")
-  );
-}
+const thousands = ["", "Thousand", "Million", "Billion"]; // Western style (Million, Billion)
 
 // Helper function for convert number to text
 function convertToWords(num) {
@@ -718,11 +702,27 @@ function convertToWords(num) {
     thousandIndex++;
   }
 
-  return parts.join(" ");
+  return parts.join(" ").trim();
+}
+
+// convert number to text
+function convertBelowThousand(num) {
+  if (num === 0) return "";
+  if (num < 10) return ones[num];
+  if (num < 20) return teens[num - 10];
+  if (num < 100)
+    return (
+      tens[Math.floor(num / 10)] + (num % 10 !== 0 ? " " + ones[num % 10] : "")
+    );
+  return (
+    ones[Math.floor(num / 100)] +
+    " Hundred" +
+    (num % 100 !== 0 ? " and " + convertBelowThousand(num % 100) : "")
+  );
 }
 
 // Main function for convert number to text
-export function convertToText(n, uoc = "TAKA") {
+export function convertToText(n = 0, uoc = "TAKA") {
   if (n === "" || n === null || n === 0) return "";
 
   // Handle decimal part
@@ -737,7 +737,7 @@ export function convertToText(n, uoc = "TAKA") {
     const decimalWords = convertToWords(parseInt(decimalPart, 10)).trim();
     if (decimalWords) {
       result += ` AND ${decimalWords.toUpperCase()} ${
-        uoc === "USD" ? "PEENY" : "PAISA"
+        uoc === "USD" ? "CENTS" : "PAISA"
       }`;
     }
   }
