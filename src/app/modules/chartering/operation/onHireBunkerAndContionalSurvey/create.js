@@ -12,6 +12,7 @@ import IViewModal from "../../../_helper/_viewModal";
 import AttachmentUploaderNew from "../../../_helper/attachmentUploaderNew";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import MailSender from "../mailSender";
+import { generateFileUrl } from "../helper";
 
 const initData = {
   strEmailAddress: "",
@@ -193,7 +194,6 @@ export default function CreateonHireBunkerAndContionalSurvey() {
                   show={isShowModal}
                   onHide={() => setIsShowModal(false)}
                   title={"Send Mail"}
-                  modelSize={"md"}
                 >
                   <MailSender
                     payloadInfo={{
@@ -202,7 +202,7 @@ export default function CreateonHireBunkerAndContionalSurvey() {
                       numBunkerSurveyAmount: values.numBunkerSurveyAmount,
                       numBunkerAndConditionSurveyAmount:
                         values.numBunkerAndConditionSurveyAmount,
-                      strAttachment: `https://erp.ibos.io/domain/Document/DownlloadFile?id=${attachment}`,
+                      strAttachment:generateFileUrl(attachment),
                     }}
                   />
                 </IViewModal>
