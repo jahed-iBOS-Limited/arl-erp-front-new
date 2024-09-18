@@ -1,13 +1,11 @@
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";
-import { imarineBaseUrl } from "../../../../App";
+import { imarineBaseUrl, marineBaseUrlPythonAPI } from "../../../../App";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import ICustomTable from "../../_chartinghelper/_customTable";
 import IForm from "./../../../_helper/_form";
 import Loading from "./../../../_helper/_loading";
-import IView from "../../_chartinghelper/icons/_view";
-import IEdit from "../../_chartinghelper/icons/_edit";
  
 
 const initData = {
@@ -20,9 +18,39 @@ const headers = [
     { name: "Vessel Name" },
     { name: "Current Position" },
     { name: "Load Port" },
+    { name: "Ballast Eco Max"},
+    { name: "Ballast Distance" },
+    { name: "Ballast Speed" },
+    { name: "Ballast VLSFO Consumption (Mt)" },
+    { name: "Ballast LSMGO Consumption (Mt)" },
+    { name: "Ballast Passage VLSFO Consumption (Mt)" },
+    { name: "Ballast Passage LSMGO Consumption (Mt)" },
     { name: "Discharge Port" },
-    { name: "Cargo Quantity(Mt)" },
-    { name: "Action" },
+    { name: "Laden Eco Max" },
+    { name: "Laden Distance" },
+    { name: "Laden Speed" },
+    { name: "Laden VLSFO Consumption (Mt)" },
+    { name: "Laden LSMGO Consumption (Mt)" },
+    { name: "Laden Passage VLSFO Consumption (Mt)" },
+    { name: "Laden Passage LSMGO Consumption (Mt)" },
+    { name: "Load Rate" },
+    { name: "Cargo Quantity (Mt)" },
+    { name: "Load Port Stay" },
+    { name: "Discharge Rate" },
+    { name: "Discharge Port Stay" },
+    { name: "Load Port Stay VLSFO Consumption (Mt)" },
+    { name: "Load Port Stay LSMGO Consumption (Mt)" },
+    { name: "Discharge Port Stay VLSFO Consumption (Mt)" },
+    { name: "Discharge Port Stay LSMGO Consumption (Mt)" },
+    { name: "Total VLSFO Consumption (Mt)" },
+    { name: "Total LSMGO Consumption (Mt)" },
+    { name: "Tolerance VLSFO Percentage" },
+    { name: "Net Total Consumable VLSFO (Mt)" },
+    { name: "Bunker Port ID" },
+    { name: "Bunker Port" },
+    { name: "Bunker Trader" },
+    { name: "Bunker Type" },
+    // { name: "Action" },
   ];
   
 
@@ -78,18 +106,48 @@ const headers = [
           >
             <Form>
             {landingData?.length > 0 && (
-                <ICustomTable ths={headers}scrollable={true}>
+                <ICustomTable ths={headers} style={{minWidth: "100px!important"}} scrollable={true}>
                   {landingData?.map((item, index) => {
                     return (
                         <tr key={index}>
-                            <td style={{width:"90px"}}>{index + 1}</td>
+                            <td style={{ minWidth: "100px" }}>{index + 1}</td>
                             <td>{item?.strCode}</td>
                             <td>{item?.strNameOfVessel}</td>
                             <td>{item?.strCurrentPosition}</td>
                             <td>{item?.strLoadPort}</td>
+                            <td>{item?.strBallastEcoMax}</td>
+                            <td>{item?.numBallastDistance}</td>
+                            <td>{item?.numBallastSpeed}</td>
+                            <td>{item?.numBallastVlsfoConsumptionMt}</td>
+                            <td>{item?.numBallastLsmgoConsumptionMt}</td>
+                            <td>{item?.numBallastPassageVlsfoConsumptionMt}</td>
+                            <td>{item?.numBallastPassageLsmgoConsumptionMt}</td>
                             <td>{item?.strDischargePort}</td>
+                            <td>{item?.strLadenEcoMax}</td>
+                            <td>{item?.numLadenDistance}</td>
+                            <td>{item?.numLadenSpeed}</td>
+                            <td>{item?.numLadenVlsfoConsumptionMt}</td>
+                            <td>{item?.numLadenLsmgoConsumptionMt}</td>
+                            <td>{item?.numLadenPassageVlsfoConsumptionMt}</td>
+                            <td>{item?.numLadenPassageLsmgoConsumptionMt}</td>
+                            <td>{item?.intLoadRate}</td>
                             <td>{item?.numCargoQty}</td>
-                            <td>
+                            <td>{item?.numLoadPortStay}</td>
+                            <td>{item?.intDischargeRate}</td>
+                            <td>{item?.numDischargePortStay}</td>
+                            <td>{item?.numLoadPortStayVlsfoConsumptionMt}</td>
+                            <td>{item?.numLoadPortStayLsmgoConsumptionMt}</td>
+                            <td>{item?.numDischargePortStayVlsfoConsumptionMt}</td>
+                            <td>{item?.numDischargePortStayLsmgoConsumptionMt}</td>
+                            <td>{item?.numTotalVlsfoConsumptionMt}</td>
+                            <td>{item?.numTotalLsmgoConsumptionMt}</td>
+                            <td>{item?.numToleranceVlsfoPercentage}</td>
+                            <td>{item?.numNetTotalConsumableVlsfoMt}</td>
+                            <td>{item?.intBunkerPortId}</td>
+                            <td>{item?.strBunkerPort}</td>
+                            <td>{item?.strBunkerTrader}</td>
+                            <td>{item?.strBunkerType}</td>
+                            {/* <td>
                                 <div className="d-flex" style={{ justifyContent: 'space-evenly' }}>
                                     <IView
                                         title="View"
@@ -108,7 +166,7 @@ const headers = [
                                         }}
                                     />
                                 </div>
-                            </td>
+                            </td> */}
                         </tr>
                     )   
                   })}

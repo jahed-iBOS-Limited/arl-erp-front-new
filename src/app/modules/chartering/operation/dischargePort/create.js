@@ -2,7 +2,7 @@ import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import * as Yup from "yup";
-import { imarineBaseUrl } from "../../../../App";
+import { imarineBaseUrl, marineBaseUrlPythonAPI } from "../../../../App";
 import IForm from "../../../_helper/_form";
 import InputField from "../../../_helper/_inputField";
 import Loading from "../../../_helper/_loading";
@@ -14,6 +14,7 @@ import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import { useParams } from "react-router-dom";
 import IViewModal from "../../../_helper/_viewModal";
 import MailSender from "../mailSender";
+import { generateFileUrl } from "../helper";
 
 // Initial data
 const initData = {
@@ -378,7 +379,6 @@ export default function CreateDischargePort() {
                   show={isShowModal}
                   onHide={() => setIsShowModal(false)}
                   title={"Send Mail"}
-                  modelSize={"md"}
                 >
                   <MailSender
                     payloadInfo={{
@@ -386,16 +386,32 @@ export default function CreateDischargePort() {
                       strVoyageNo: values.strVoyageNo?.label,
                       intVesselNominationId: +paramId || 0,
                       strCode: paramCode || values.strCode || "",
-                      strSoffile: `https://erp.ibos.io/domain/Document/DownlloadFile?id=${values.strSoffile}`,
-                      strNorfile: `https://erp.ibos.io/domain/Document/DownlloadFile?id=${values.strNorfile}`,
-                      strFinalDraftSurveyReportFile: `https://erp.ibos.io/domain/Document/DownlloadFile?id=${values.strFinalDraftSurveyReportFile}`,
-                      strFinalStowagePlanFile: `https://erp.ibos.io/domain/Document/DownlloadFile?id=${values.strFinalStowagePlanFile}`,
-                      strMatesReceiptFile: `https://erp.ibos.io/domain/Document/DownlloadFile?id=${values.strMatesReceiptFile}`,
-                      strCargoManifestFile: `https://erp.ibos.io/domain/Document/DownlloadFile?id=${values.strCargoManifestFile}`,
-                      strMasterReceiptOfSampleFile: `https://erp.ibos.io/domain/Document/DownlloadFile?id=${values.strMasterReceiptOfSampleFile}`,
-                      strAuthorizationLetterFile: `https://erp.ibos.io/domain/Document/DownlloadFile?id=${values.strAuthorizationLetterFile}`,
-                      strSealingReportFile: `https://erp.ibos.io/domain/Document/DownlloadFile?id=${values.strSealingReportFile}`,
-                      strHoldInspectionReportFile: `https://erp.ibos.io/domain/Document/DownlloadFile?id=${values.strHoldInspectionReportFile}`,
+                      strSoffile: generateFileUrl(values.strSoffile),
+                      strNorfile: generateFileUrl(values.strNorfile),
+                      strFinalDraftSurveyReportFile: generateFileUrl(
+                        values.strFinalDraftSurveyReportFile
+                      ),
+                      strFinalStowagePlanFile: generateFileUrl(
+                        values.strFinalStowagePlanFile
+                      ),
+                      strMatesReceiptFile: generateFileUrl(
+                        values.strMatesReceiptFile
+                      ),
+                      strCargoManifestFile: generateFileUrl(
+                        values.strCargoManifestFile
+                      ),
+                      strMasterReceiptOfSampleFile: generateFileUrl(
+                        values.strMasterReceiptOfSampleFile
+                      ),
+                      strAuthorizationLetterFile: generateFileUrl(
+                        values.strAuthorizationLetterFile
+                      ),
+                      strSealingReportFile: generateFileUrl(
+                        values.strSealingReportFile
+                      ),
+                      strHoldInspectionReportFile: generateFileUrl(
+                        values.strHoldInspectionReportFile
+                      ),
 
                       strRemarks: values.strRemarks,
                     }}

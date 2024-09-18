@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 
 import * as Yup from "yup";
-import { imarineBaseUrl } from "../../../../App";
+import { imarineBaseUrl, marineBaseUrlPythonAPI } from "../../../../App";
 import IForm from "../../../_helper/_form";
 import InputField from "../../../_helper/_inputField";
 import Loading from "../../../_helper/_loading";
@@ -13,6 +13,7 @@ import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import { useParams } from "react-router-dom";
 import IViewModal from "../../../_helper/_viewModal";
 import MailSender from "../mailSender";
+import { generateFileUrl } from "../helper";
 
 const initData = {
   strVesselNominationCode: "",
@@ -333,7 +334,6 @@ export default function DeadWeightCreate() {
                   show={isShowModal}
                   onHide={() => setIsShowModal(false)}
                   title={"Send Mail"}
-                  modelSize={"md"}
                 >
                   <MailSender
                     payloadInfo={{
@@ -352,8 +352,8 @@ export default function DeadWeightCreate() {
                       intFinalCargoToloadMts:
                         +values?.intFinalCargoToloadMts || 0,
                       strRemarks: values?.strRemarks,
-                      strAttachmentForPort: `https://erp.ibos.io/domain/Document/DownlloadFile?id=${values?.strAttachmentForPort}`,
-                      strAttachmentForPortDisbursment: `https://erp.ibos.io/domain/Document/DownlloadFile?id=${values?.strAttachmentForPortDisbursment}`,
+                      strAttachmentForPort:generateFileUrl(values?.strAttachmentForPort),
+                      strAttachmentForPortDisbursment:generateFileUrl(values?.strAttachmentForPortDisbursment),
                       strVesselNominationCode:
                         paramCode || values?.strVesselNominationCode || "",
                       numGrandTotalAmount: +values?.numGrandTotalAmount,

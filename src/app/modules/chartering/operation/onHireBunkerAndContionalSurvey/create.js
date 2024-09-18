@@ -1,17 +1,18 @@
 import { Form, Formik } from "formik";
 import React, { useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 import * as Yup from "yup";
-import { _todayDate } from "../../../_helper/_todayDate";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import Loading from "../../../_helper/_loading";
+import { imarineBaseUrl, marineBaseUrlPythonAPI } from "../../../../App";
 import IForm from "../../../_helper/_form";
 import InputField from "../../../_helper/_inputField";
-import AttachmentUploaderNew from "../../../_helper/attachmentUploaderNew";
-import { imarineBaseUrl } from "../../../../App";
-import { useParams } from "react-router-dom";
+import Loading from "../../../_helper/_loading";
+import { _todayDate } from "../../../_helper/_todayDate";
 import IViewModal from "../../../_helper/_viewModal";
+import AttachmentUploaderNew from "../../../_helper/attachmentUploaderNew";
+import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import MailSender from "../mailSender";
+import { generateFileUrl } from "../helper";
 
 const initData = {
   strEmailAddress: "",
@@ -193,7 +194,6 @@ export default function CreateonHireBunkerAndContionalSurvey() {
                   show={isShowModal}
                   onHide={() => setIsShowModal(false)}
                   title={"Send Mail"}
-                  modelSize={"md"}
                 >
                   <MailSender
                     payloadInfo={{
@@ -202,7 +202,7 @@ export default function CreateonHireBunkerAndContionalSurvey() {
                       numBunkerSurveyAmount: values.numBunkerSurveyAmount,
                       numBunkerAndConditionSurveyAmount:
                         values.numBunkerAndConditionSurveyAmount,
-                      strAttachment: `https://erp.ibos.io/domain/Document/DownlloadFile?id=${attachment}`,
+                      strAttachment:generateFileUrl(attachment),
                     }}
                   />
                 </IViewModal>
