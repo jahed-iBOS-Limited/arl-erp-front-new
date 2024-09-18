@@ -13,6 +13,7 @@ import IViewModal from "../../../_helper/_viewModal";
 import AttachmentUploaderNew from "../../../_helper/attachmentUploaderNew";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import MailSender from "../mailSender";
+import { generateFileUrl } from "../helper";
 
 const initData = {
   strEmailAddress: "",
@@ -186,12 +187,11 @@ export default function EDPALoadPortCreate() {
                   show={isShowModal}
                   onHide={() => setIsShowModal(false)}
                   title={"Send Mail"}
-                  modelSize={"md"}
                 >
                   <MailSender
                     payloadInfo={{
-                      strAttachmentForPort: `https://erp.ibos.io/domain/Document/DownlloadFile?id=${values?.strAttachmentForPort}`,
-                      strAttachmentForPortDisbursment: `https://erp.ibos.io/domain/Document/DownlloadFile?id=${values?.strAttachmentForPortDisbursment}`,
+                      strAttachmentForPort:generateFileUrl(values?.strAttachmentForPort),
+                      strAttachmentForPortDisbursment:generateFileUrl(values?.strAttachmentForPortDisbursment),
                       intVesselNominationId: +paramId || 0,
                       strVesselNominationCode:
                         paramCode || values?.strVesselNominationCode || "",
