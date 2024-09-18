@@ -33,6 +33,7 @@ const headers = [
     { name: "Bunker Calculator" },
     { name: "Pre Stowage" },
     { name: "On Hire Bunker and Conditional Survey(CS)" },
+    { name: "Dead Weight Calculation"},
     { name: "Voyage Instruction" },
     { name: "PI & Survey" },
     { name: "Voyage License/Flag Waiver" },
@@ -85,33 +86,39 @@ const headers = [
     visibility.push("edpaLoadportSend");
   }
   if (data?.isVesselNominationEmailSent && data?.edpaLoadportSend) {
+    visibility.push("isBunkerCalculationSave");
+  }
+  if (data?.isVesselNominationEmailSent && data?.isBunkerCalculationSave && data?.edpaLoadportSend) {
     visibility.push("preStowageSend");
   }
-  if (data?.isVesselNominationEmailSent && data?.edpaLoadportSend && data?.preStowageSend) {
+  if (data?.isVesselNominationEmailSent && data?.isBunkerCalculationSave && data?.edpaLoadportSend && data?.preStowageSend) {
     visibility.push("onHireBunkerSurveySent");
   }
-  if (data?.isVesselNominationEmailSent && data?.edpaLoadportSend && data?.preStowageSend && data?.onHireBunkerSurveySent) {
+  if (data?.isVesselNominationEmailSent && data?.isBunkerCalculationSave && data?.edpaLoadportSend && data?.preStowageSend && data?.onHireBunkerSurveySent) {
+    visibility.push("isDeadWeightCalculationSave");
+  }
+  if (data?.isVesselNominationEmailSent && data?.isBunkerCalculationSave && data?.edpaLoadportSend && data?.preStowageSend && data?.onHireBunkerSurveySent && data?.isDeadWeightCalculationSave) {
     visibility.push("voyageInstructionSent");
   }
-  if (data?.isVesselNominationEmailSent && data?.edpaLoadportSend && data?.preStowageSend && data?.onHireBunkerSurveySent && data?.voyageInstructionSent) {
+  if (data?.isVesselNominationEmailSent && data?.isBunkerCalculationSave && data?.edpaLoadportSend && data?.preStowageSend && data?.onHireBunkerSurveySent && data?.isDeadWeightCalculationSave && data?.voyageInstructionSent) {
     visibility.push("pisurveySent");
   }
-  if (data?.isVesselNominationEmailSent && data?.edpaLoadportSend && data?.preStowageSend && data?.onHireBunkerSurveySent && data?.voyageInstructionSent && data?.pisurveySent) {
+  if (data?.isVesselNominationEmailSent && data?.isBunkerCalculationSave && data?.edpaLoadportSend && data?.preStowageSend && data?.onHireBunkerSurveySent && data?.isDeadWeightCalculationSave && data?.voyageInstructionSent && data?.pisurveySent) {
     visibility.push("voyageLicenseFlagWaiverSend");
   }
-  if (data?.isVesselNominationEmailSent && data?.edpaLoadportSend && data?.preStowageSend && data?.onHireBunkerSurveySent && data?.voyageInstructionSent && data?.pisurveySent && data?.voyageLicenseFlagWaiverSend) {
+  if (data?.isVesselNominationEmailSent && data?.isBunkerCalculationSave && data?.edpaLoadportSend && data?.preStowageSend && data?.onHireBunkerSurveySent && data?.isDeadWeightCalculationSave && data?.voyageInstructionSent && data?.pisurveySent && data?.voyageLicenseFlagWaiverSend) {
     visibility.push("tclSend");
   }
-  if (data?.isVesselNominationEmailSent && data?.edpaLoadportSend && data?.preStowageSend && data?.onHireBunkerSurveySent && data?.voyageInstructionSent && data?.pisurveySent && data?.voyageLicenseFlagWaiverSend && data?.tclSend) {
+  if (data?.isVesselNominationEmailSent && data?.isBunkerCalculationSave && data?.edpaLoadportSend && data?.preStowageSend && data?.onHireBunkerSurveySent && data?.isDeadWeightCalculationSave && data?.voyageInstructionSent && data?.pisurveySent && data?.voyageLicenseFlagWaiverSend && data?.tclSend) {
     visibility.push("weatherRoutingCompanySend");
   }
-  if (data?.isVesselNominationEmailSent && data?.edpaLoadportSend && data?.preStowageSend && data?.onHireBunkerSurveySent && data?.voyageInstructionSent && data?.pisurveySent && data?.voyageLicenseFlagWaiverSend && data?.tclSend && data?.weatherRoutingCompanySend) {
+  if (data?.isVesselNominationEmailSent && data?.isBunkerCalculationSave && data?.edpaLoadportSend && data?.preStowageSend && data?.onHireBunkerSurveySent && data?.isDeadWeightCalculationSave && data?.voyageInstructionSent && data?.pisurveySent && data?.voyageLicenseFlagWaiverSend && data?.tclSend && data?.weatherRoutingCompanySend) {
     visibility.push("departureDocumentLoadPortSend");
   }
-  if (data?.isVesselNominationEmailSent && data?.edpaLoadportSend && data?.preStowageSend && data?.onHireBunkerSurveySent && data?.voyageInstructionSent && data?.pisurveySent && data?.voyageLicenseFlagWaiverSend && data?.tclSend && data?.weatherRoutingCompanySend && data?.departureDocumentLoadPortSend) {
+  if (data?.isVesselNominationEmailSent && data?.isBunkerCalculationSave && data?.edpaLoadportSend && data?.preStowageSend && data?.onHireBunkerSurveySent && data?.isDeadWeightCalculationSave && data?.voyageInstructionSent && data?.pisurveySent && data?.voyageLicenseFlagWaiverSend && data?.tclSend && data?.weatherRoutingCompanySend && data?.departureDocumentLoadPortSend) {
     visibility.push("epdadischargePortSent");
   }
-  if (data?.isVesselNominationEmailSent && data?.edpaLoadportSend && data?.preStowageSend && data?.onHireBunkerSurveySent && data?.voyageInstructionSent && data?.pisurveySent && data?.voyageLicenseFlagWaiverSend && data?.tclSend && data?.weatherRoutingCompanySend && data?.departureDocumentLoadPortSend && data?.epdadischargePortSent) {
+  if (data?.isVesselNominationEmailSent && data?.isBunkerCalculationSave && data?.edpaLoadportSend && data?.preStowageSend && data?.onHireBunkerSurveySent && data?.isDeadWeightCalculationSave && data?.voyageInstructionSent && data?.pisurveySent && data?.voyageLicenseFlagWaiverSend && data?.tclSend && data?.weatherRoutingCompanySend && data?.departureDocumentLoadPortSend && data?.epdadischargePortSent) {
     visibility.push("offHireBunkerSurveySent");
   }
 
@@ -171,7 +178,7 @@ const headers = [
                           type="button"
                           onClick={() => {
                             if(item.isVesselNominationEmailSent) return toast.warn("Vessel Nomination Email Already Sent");
-                            console.log("VESSEL NOMINATION SEND");
+                           
                             vesselNominationMainSend(`${marineBaseUrlPythonAPI}/automation/nomination_vessel_email_sender_with_id`, {intId: item?.intId},
                             () => {
                               getGridData();
@@ -190,7 +197,6 @@ const headers = [
                             className={item.edpaLoadportSend ? "btn btn-sm btn-success px-1 py-1" : "btn btn-sm btn-primary px-1 py-1"}
                             type="button"
                             onClick={() => {
-                              console.log("EDPA LOADPORT SEND");
                               if(item.edpaLoadportSend) return toast.warn("EDPA Loadport Email Already Sent");
                               edpaLoadportMailSend(`${marineBaseUrlPythonAPI}/automation/epda_load_port_mail`, {intId: item?.intId},
                               () => {
@@ -206,19 +212,23 @@ const headers = [
                         )}
                       </td>
                       <td className="text-center">
+                      {visibleButtons.includes("isBunkerCalculationSave") && (
                         <button
-                          className={item.preStowageSend ? "btn btn-sm btn-success px-1 py-1" : "btn btn-sm btn-primary px-1 py-1"}
+                          className={item.isBunkerCalculationSave ? "btn btn-sm btn-success px-1 py-1" : "btn btn-sm btn-primary px-1 py-1"}
                           type="button"
                           onClick={() => {
-                            console.log("Bunker Calculator");
+                            if(!item?.edpaLoadportSend){
+                              return toast.warn("Please Send EDPA Loadport Email First");
+                            }
                             history.push("/chartering/operation/bunkerManagement/create",{
                               landingData: item
-                            });
-                            
+                            });                     
                           }}
+                          disabled={item?.isBunkerCalculationSave}
                         >
                           Bunker Calculator
                         </button>
+                      )}
                       </td>
                       <td className="text-center">
                         {visibleButtons.includes("preStowageSend") && (
@@ -226,7 +236,6 @@ const headers = [
                             className={item.preStowageSend ? "btn btn-sm btn-success px-1 py-1" : "btn btn-sm btn-primary px-1 py-1"}
                             type="button"
                             onClick={() => {
-                              console.log("PRE STOWAGE SEND");
                               if(item.preStowageSend) return toast.warn("Pre Stowage Email Already Sent");
                               preStowageMailSend(`${marineBaseUrlPythonAPI}/automation/pre_stowage_plan_mail_sender`, {intId: item?.intId},
                               () => {
@@ -235,6 +244,7 @@ const headers = [
                               true
                             )
                             }}
+                            disabled={item.preStowageSend}
                           >
                             PRE STOWAGE SEND
                           </button>
@@ -246,7 +256,6 @@ const headers = [
                             className={item.onHireBunkerSurveySent ? "btn btn-sm btn-success px-1 py-1" : "btn btn-sm btn-primary px-1 py-1"}
                             type="button"
                             onClick={() => {
-                              console.log("ON HIRE BUNKER SURVEY SENT");
                               if(item.onHireBunkerSurveySent) return toast.warn("On Hire Bunker Survey Email Already Sent");
                               onHireBunkerSurveyMailSend(`${marineBaseUrlPythonAPI}/automation/bunker_on_hire_condition_surveyor`, {intId: item?.intId},
                               () => {
@@ -255,10 +264,30 @@ const headers = [
                               true
                             )
                             }}
+                            disabled={item.onHireBunkerSurveySent}
                           >
                             ON HIRE BUNKER SURVEY SENT
                           </button>
                         )}
+                      </td>
+                      <td className="text-center">
+                        {visibleButtons.includes("isDeadWeightCalculationSave") && (
+                          <button
+                            className={item.isDeadWeightCalculationSave ? "btn btn-sm btn-success px-1 py-1" : "btn btn-sm btn-primary px-1 py-1"}
+                            type="button"
+                            onClick={() =>{
+                              if(!item?.onHireBunkerSurveySent){
+                                return toast.warn("Please Send On Hire Bunker Survey Email First");
+                              }
+                              history.push(`/chartering/operation/pre-stowagePlanning/create/${item?.intId}/${item?.strCode}`,{
+                                landingData: item
+                              });
+                            }}
+                            disabled={item?.isDeadWeightCalculationSave}
+                          >
+                            DEAD WEIGHT CALCULATION
+                          </button>
+                         )}
                       </td>
                       <td className="text-center">
                         {visibleButtons.includes("voyageInstructionSent") && (
@@ -266,7 +295,6 @@ const headers = [
                             className={item.voyageInstructionSent ? "btn btn-sm btn-success px-1 py-1" : "btn btn-sm btn-primary px-1 py-1"}
                             type="button"
                             onClick={() =>{
-                              console.log("VOYAGE INSTRUCTION SENT");
                               if(item.voyageInstructionSent) return toast.warn("Voyage Instruction Email Already Sent");
                               voyageInstructionMailSend(`${marineBaseUrlPythonAPI}/automation/voyage_instruction_email_sender`, {intId: item?.intId},
                               () => {
@@ -275,6 +303,7 @@ const headers = [
                               true
                             )
                             }}
+                            disabled={item.voyageInstructionSent}
                           >
                             VOYAGE INSTRUCTION SENT
                           </button>
@@ -286,7 +315,6 @@ const headers = [
                             className={item.pisurveySent ? "btn btn-sm btn-success px-1 py-1" : "btn btn-sm btn-primary px-1 py-1"}
                             type="button"
                             onClick={() => {
-                              console.log("PI SURVEY SENT");
                               if(item.pisurveySent) return toast.warn("PI Survey Email Already Sent");
                               piSurveyMailSend(`${marineBaseUrlPythonAPI}/automation/P_n_I_surveyor_email_sender`, {intId: item?.intId},
                               () => {
@@ -295,6 +323,7 @@ const headers = [
                               true
                             )
                             }}
+                            disabled={item.pisurveySent}
                           >
                             PI SURVEY SENT
                           </button>
@@ -321,6 +350,7 @@ const headers = [
                             //   true
                             // )
                             }}
+                            disabled={item.voyageLicenseFlagWaiverSend}
                           >
                             VOYAGE LICENSE/FLAG WAIVER SEND
                           </button>
@@ -332,7 +362,6 @@ const headers = [
                             className={item.tclSend ? "btn btn-sm btn-success px-1 py-1" : "btn btn-sm btn-primary px-1 py-1"}
                             type="button"
                             onClick={() =>{
-                              console.log("TCL SEND");
                               if(item.tclSend) return toast.warn("TCL Email Already Sent");
                               tclMailSend(`${marineBaseUrlPythonAPI}/automation/TCL_coverage_email_sender`, {intId: item?.intId},
                               () => {
@@ -341,6 +370,7 @@ const headers = [
                               true
                             )
                             }}
+                            disabled={item.tclSend}
                           >
                             TCL SEND
                           </button>
@@ -352,7 +382,6 @@ const headers = [
                             className={item.weatherRoutingCompanySend ? "btn btn-sm btn-success px-1 py-1" : "btn btn-sm btn-primary px-1 py-1"}
                             type="button"
                             onClick={() => {
-                              console.log("WEATHER ROUTING COMPANY SEND");
                               if(item.weatherRoutingCompanySend) return toast.warn("Weather Routing Company Email Already Sent");
                               weatherRoutingCompanyMailSend(`${marineBaseUrlPythonAPI}/automation/weather_routing_email_sender`, {intId: item?.intId},
                               () => {
@@ -361,6 +390,7 @@ const headers = [
                               true
                             )
                             }}
+                            disabled={item.weatherRoutingCompanySend}
                           >
                             WEATHER ROUTING COMPANY SEND
                           </button>
@@ -380,6 +410,7 @@ const headers = [
                               true
                             )
                             }}
+                            disabled={item.departureDocumentLoadPortSend}
                           >
                             DEPARTURE DOCUMENT LOADPORT SEND
                           </button>
@@ -391,7 +422,6 @@ const headers = [
                             className={item.epdadischargePortSent ? "btn btn-sm btn-success px-1 py-1" : "btn btn-sm btn-primary px-1 py-1"}
                             type="button"
                             onClick={() =>{
-                              console.log("EPDA DISCHARGE PORT SENT");
                               if(item.epdadischargePortSent) return toast.warn("EPDA Discharge Port Email Already Sent");
                               epdaDischargePortMailSend(`${marineBaseUrlPythonAPI}/automation/epda_discharge_port_mail`, {intId: item?.intId},
                               () => {
@@ -400,6 +430,7 @@ const headers = [
                               true
                             )
                             }}
+                            disabled={item.epdadischargePortSent}
                           >
                             EPDA DISCHARGE PORT SENT
                           </button>
@@ -419,6 +450,7 @@ const headers = [
                               true
                             )
                             }}
+                            disabled={item.offHireBunkerSurveySent}
                           >
                             OFFHIRE BUNKER SURVEY SENT
                           </button>
