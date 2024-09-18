@@ -1,16 +1,15 @@
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 import * as Yup from "yup";
+import { imarineBaseUrl, marineBaseUrlPythonAPI } from "../../../../App";
 import IForm from "../../../_helper/_form";
 import InputField from "../../../_helper/_inputField";
 import Loading from "../../../_helper/_loading";
 import NewSelect from "../../../_helper/_select";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import { imarineBaseUrl } from "../../../../App";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
-import { set } from "lodash";
+import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 
 const initData = {
   strCode: "",
@@ -94,27 +93,64 @@ export default function BunkerManagementCreate() {
   useEffect(() => {
     if(landingData){
       const modData = {
-        strCode: landingData?.strCode,
-        strNameOfVessel: {
-          value: landingData?.intVesselId,
-          label: landingData?.strNameOfVessel,
-        },
-        numBallastDistance: landingData?.numBallast,
-        numBallastSpeed: landingData?.numBallastSpeed,
+        strCode: landingData?.strCode || '',
+        strNameOfVessel: landingData?.intVesselId
+          ? {
+              value: landingData?.intVesselId || 0,
+              label: landingData?.strNameOfVessel || '',
+            }
+          : '',
+        strMasterEmail: landingData?.strMasterEmail || '',
+        strCurrentPosition: landingData?.strCurrentPosition || '',
+        numBallastDistance: landingData?.numBallast || 0,
+        numBallastSpeed: landingData?.numBallastSpeed || 0,
         strLoadPort: {
-          value: landingData?.intLoadPortId,
-          label: landingData?.strNameOfLoadPort,
+          value: landingData?.intLoadPortId || 0,
+          label: landingData?.strNameOfLoadPort || landingData?.strLoadPort || '',
         },
         strDischargePort: {
-          value: landingData?.intDischargePortId,
-          label: landingData?.strDischargePort,
+          value: landingData?.intDischargePortId || 0,
+          label: landingData?.strDischargePort || '',
         },
-        // numLadenDistance: landingData?.numLadenDistance,
-        numLadenSpeed: landingData?.numLadenSpeed,
-        intLoadRate: landingData?.intLoadRate,
-        intDischargeRate: landingData?.intDischargeRate,
-        numCargoQty: landingData?.intCargoQuantityMts,
+        strBallastEcoMax: landingData?.strBallastEcoMax || '',
+        numBallastVlsfoConsumptionMt: landingData?.numBallastVlsfoConsumptionMt || 0,
+        numBallastLsmgoConsumptionMt: landingData?.numBallastLsmgoConsumptionMt || 0,
+        numBallastPassageVlsfoConsumptionMt:
+          landingData?.numBallastPassageVlsfoConsumptionMt || 0,
+        numBallastPassageLsmgoConsumptionMt:
+          landingData?.numBallastPassageLsmgoConsumptionMt || 0,
+        strLadenEcoMax: landingData?.strLadenEcoMax || '',
+        numLadenDistance: landingData?.numLadenDistance || 0,
+        numLadenSpeed: landingData?.numLadenSpeed || 0,
+        numLadenVlsfoConsumptionMt: landingData?.numLadenVlsfoConsumptionMt || 0,
+        numLadenLsmgoConsumptionMt: landingData?.numLadenLsmgoConsumptionMt || 0,
+        numLadenPassageVlsfoConsumptionMt: landingData?.numLadenPassageVlsfoConsumptionMt || 0,
+        numLadenPassageLsmgoConsumptionMt: landingData?.numLadenPassageLsmgoConsumptionMt || 0,
+        intLoadRate: landingData?.intLoadRate || 0,
+        intDischargeRate: landingData?.intDischargeRate || 0,
+        numCargoQty: landingData?.intCargoQuantityMts || 0,
+        numLoadPortStay: landingData?.numLoadPortStay || 0,
+        numDischargePortStay: landingData?.numDischargePortStay || 0,
+        numLoadPortStayVlsfoConsumptionMt:
+          landingData?.numLoadPortStayVlsfoConsumptionMt || 0,
+        numLoadPortStayLsmgoConsumptionMt:
+          landingData?.numLoadPortStayLsmgoConsumptionMt || 0,
+        numDischargePortStayVlsfoConsumptionMt:
+          landingData?.numDischargePortStayVlsfoConsumptionMt || 0,
+        numDischargePortStayLsmgoConsumptionMt:
+          landingData?.numDischargePortStayLsmgoConsumptionMt || 0,
+        numTotalVlsfoConsumptionMt: landingData?.numTotalVlsfoConsumptionMt || 0,
+        numTotalLsmgoConsumptionMt: landingData?.numTotalLsmgoConsumptionMt || 0,
+        numToleranceVlsfoPercentage: landingData?.numToleranceVlsfoPercentage || 0,
+        numNetTotalConsumableVlsfoMt: landingData?.numNetTotalConsumableVlsfoMt || 0,
+        strBunkerPort: {
+          value: landingData?.intBunkerPortId || 0,
+          label: landingData?.strBunkerPort || '',
+        },
+        strBunkerTrader: landingData?.strBunkerTrader || '',
+        strBunkerType: landingData?.strBunkerType || '',
       }
+      
       setCarryForwardData(modData);
     }
   }, [landingData]);
@@ -128,7 +164,7 @@ export default function BunkerManagementCreate() {
   }, [profileData, selectedBusinessUnit]);
   const saveHandler = async (values, cb) => {
     const payload = {
-      strCode: values?.strCode || "",
+      strCode:values?.strCode || "",
       strNameOfVessel: values?.strNameOfVessel?.label || "",
       strMasterEmail: values?.strMasterEmail || "",
       strCurrentPosition: values?.strCurrentPosition || "",
@@ -179,7 +215,7 @@ export default function BunkerManagementCreate() {
       intLastActionBy: +profileData?.userId,
       intAccountId: +profileData?.accountId,
       intVesselId: +values?.strNameOfVessel?.value || 0,
-      intVesselNominationId: 0,
+      intVesselNominationId: landingData?.intId || landingData?.intVesselNominationId || 0,
     };
 
     onSave(

@@ -1,6 +1,6 @@
 import { Form, Formik } from "formik";
 import React, { useState } from "react";
-import { marineBaseUrl } from "../../../App";
+import { marineBaseUrlPythonAPI } from "../../../App";
 import IDelete from "../../_helper/_helperIcons/_delete";
 import InputField from "../../_helper/_inputField";
 import Loading from "../../_helper/_loading";
@@ -81,7 +81,7 @@ const MailSender = ({ payloadInfo }) => {
                         arrayData: payloadInfo,
                       };
                       onSendEvent(
-                        `${marineBaseUrl}/automation/response_mail`,
+                        `${marineBaseUrlPythonAPI}/automation/response_mail`,
                         payload,
                         null,
                         true
