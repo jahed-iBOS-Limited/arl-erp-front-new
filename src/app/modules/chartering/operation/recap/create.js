@@ -6,7 +6,7 @@ import InputField from "../../../_helper/_inputField";
 import Loading from "../../../_helper/_loading";
 import NewSelect from "../../../_helper/_select";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import { imarineBaseUrl } from "../../../../App";
+import { imarineBaseUrl, marineBaseUrlPythonAPI } from "../../../../App";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import { shallowEqual, useSelector } from "react-redux";
 
@@ -208,7 +208,7 @@ export default function RecapCreate() {
       strBrokerEmail: values.brokerEmail || "",
     };
 
-    onSave(`${imarineBaseUrl}/automation/recap`, payload, cb, true);
+    onSave(`${marineBaseUrlPythonAPI}/automation/recap`, payload, cb, true);
   };
 
   return (

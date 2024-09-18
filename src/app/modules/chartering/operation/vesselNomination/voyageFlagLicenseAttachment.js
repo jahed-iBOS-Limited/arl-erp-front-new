@@ -5,6 +5,7 @@ import ICard from "../../../_helper/_card";
 import AttachmentUploaderNew from "../../../_helper/attachmentUploaderNew";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import { toast } from "react-toastify";
+import { marineBaseUrlPythonAPI } from "../../../../App";
 
 export default function VoyageLicenseFlagAttachment({ values, setFieldValue, item, getGridData, setVoyageLicenseFlagShow }) {
   const [loading, setLoading] = React.useState(false);
@@ -53,7 +54,7 @@ export default function VoyageLicenseFlagAttachment({ values, setFieldValue, ite
                         return toast.warn("Please Upload Attachment First");
                       }
                       voyageLicenseFlagWaiverMailSend(
-                        `${'https://devmarine.ibos.io'}/automation/voyage_license_flag_waiver_email_sender`,
+                        `${marineBaseUrlPythonAPI}/automation/voyage_license_flag_waiver_email_sender`,
                         { 
                           intId: item?.intId,
                           attachmenturl: 'https://erp.ibos.io/domain/Document/DownlloadFile?id=' + attachment,

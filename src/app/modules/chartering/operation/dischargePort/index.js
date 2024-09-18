@@ -2,7 +2,7 @@ import { Form, Formik } from "formik";
 import React, { useEffect } from "react";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { imarineBaseUrl } from "../../../../App";
+import { imarineBaseUrl, marineBaseUrlPythonAPI } from "../../../../App";
 import IForm from "../../../_helper/_form";
 import Loading from "../../../_helper/_loading";
 import { getDownlloadFileView_Action } from "../../../_helper/_redux/Actions";
@@ -21,7 +21,7 @@ export default function DischargePort() {
 
   const getLandingData = (values, pageNo, pageSize) => {
     getGridData(
-      `${imarineBaseUrl}/domain/VesselNomination/DepartureDocumentsDischargePortLanding`
+      `${marineBaseUrlPythonAPI}/domain/VesselNomination/DepartureDocumentsDischargePortLanding`
     );
   };
 

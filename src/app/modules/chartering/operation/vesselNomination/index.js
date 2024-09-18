@@ -1,7 +1,8 @@
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router";
 import { toast } from "react-toastify";
-import { imarineBaseUrl } from "../../../../App";
+import { marineBaseUrlPythonAPI } from "../../../../App";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import ICustomTable from "../../_chartinghelper/_customTable";
@@ -9,7 +10,6 @@ import IViewModal from "../../_chartinghelper/_viewModal";
 import IForm from "./../../../_helper/_form";
 import Loading from "./../../../_helper/_loading";
 import VoyageLicenseFlagAttachment from "./voyageFlagLicenseAttachment";
-import { useHistory } from "react-router";
  
 
 const initData = {
@@ -69,7 +69,7 @@ const headers = [
 
   const getGridData = () => {
     getLandingData(
-      `${imarineBaseUrl}/domain/VesselNomination/VesselNominationLanding`
+      `${marineBaseUrlPythonAPI}/domain/VesselNomination/VesselNominationLanding`
     );
   };
 
@@ -172,7 +172,7 @@ const headers = [
                           onClick={() => {
                             if(item.isVesselNominationEmailSent) return toast.warn("Vessel Nomination Email Already Sent");
                             console.log("VESSEL NOMINATION SEND");
-                            vesselNominationMainSend(`${'https://devmarine.ibos.io'}/automation/nomination_vessel_email_sender_with_id`, {intId: item?.intId},
+                            vesselNominationMainSend(`${marineBaseUrlPythonAPI}/automation/nomination_vessel_email_sender_with_id`, {intId: item?.intId},
                             () => {
                               getGridData();
                             },
@@ -192,7 +192,7 @@ const headers = [
                             onClick={() => {
                               console.log("EDPA LOADPORT SEND");
                               if(item.edpaLoadportSend) return toast.warn("EDPA Loadport Email Already Sent");
-                              edpaLoadportMailSend(`${'https://devmarine.ibos.io'}/automation/epda_load_port_mail`, {intId: item?.intId},
+                              edpaLoadportMailSend(`${marineBaseUrlPythonAPI}/automation/epda_load_port_mail`, {intId: item?.intId},
                               () => {
                                 getGridData();
                               },
@@ -228,7 +228,7 @@ const headers = [
                             onClick={() => {
                               console.log("PRE STOWAGE SEND");
                               if(item.preStowageSend) return toast.warn("Pre Stowage Email Already Sent");
-                              preStowageMailSend(`${'https://devmarine.ibos.io'}/automation/pre_stowage_plan_mail_sender`, {intId: item?.intId},
+                              preStowageMailSend(`${marineBaseUrlPythonAPI}/automation/pre_stowage_plan_mail_sender`, {intId: item?.intId},
                               () => {
                                 getGridData();
                               },
@@ -248,7 +248,7 @@ const headers = [
                             onClick={() => {
                               console.log("ON HIRE BUNKER SURVEY SENT");
                               if(item.onHireBunkerSurveySent) return toast.warn("On Hire Bunker Survey Email Already Sent");
-                              onHireBunkerSurveyMailSend(`${'https://devmarine.ibos.io'}/automation/bunker_on_hire_condition_surveyor`, {intId: item?.intId},
+                              onHireBunkerSurveyMailSend(`${marineBaseUrlPythonAPI}/automation/bunker_on_hire_condition_surveyor`, {intId: item?.intId},
                               () => {
                                 getGridData();
                               },
@@ -268,7 +268,7 @@ const headers = [
                             onClick={() =>{
                               console.log("VOYAGE INSTRUCTION SENT");
                               if(item.voyageInstructionSent) return toast.warn("Voyage Instruction Email Already Sent");
-                              voyageInstructionMailSend(`${'https://devmarine.ibos.io'}/automation/voyage_instruction_email_sender`, {intId: item?.intId},
+                              voyageInstructionMailSend(`${marineBaseUrlPythonAPI}/automation/voyage_instruction_email_sender`, {intId: item?.intId},
                               () => {
                                 getGridData();
                               },
@@ -288,7 +288,7 @@ const headers = [
                             onClick={() => {
                               console.log("PI SURVEY SENT");
                               if(item.pisurveySent) return toast.warn("PI Survey Email Already Sent");
-                              piSurveyMailSend(`${'https://devmarine.ibos.io'}/automation/P_n_I_surveyor_email_sender`, {intId: item?.intId},
+                              piSurveyMailSend(`${marineBaseUrlPythonAPI}/automation/P_n_I_surveyor_email_sender`, {intId: item?.intId},
                               () => {
                                 getGridData();
                               },
@@ -314,7 +314,7 @@ const headers = [
                               // setVoyageLicenseFlagShow(true);
                             //   console.log("VOYAGE LICENSE/FLAG WAIVER SEND");
                             //   if(item.voyageLicenseFlagWaiverSend) return toast.warn("Voyage License/Flag Waiver Email Already Sent");
-                            //   voyageLicenseFlagWaiverMailSend(`${'https://devmarine.ibos.io'}/automation/voyage_license_flag_waiver_email_sender`, {intId: item?.intId},
+                            //   voyageLicenseFlagWaiverMailSend(`${marineBaseUrlPythonAPI}/automation/voyage_license_flag_waiver_email_sender`, {intId: item?.intId},
                             //   () => {
                             //     getGridData();
                             //   },
@@ -334,7 +334,7 @@ const headers = [
                             onClick={() =>{
                               console.log("TCL SEND");
                               if(item.tclSend) return toast.warn("TCL Email Already Sent");
-                              tclMailSend(`${'https://devmarine.ibos.io'}/automation/TCL_coverage_email_sender`, {intId: item?.intId},
+                              tclMailSend(`${marineBaseUrlPythonAPI}/automation/TCL_coverage_email_sender`, {intId: item?.intId},
                               () => {
                                 getGridData();
                               },
@@ -354,7 +354,7 @@ const headers = [
                             onClick={() => {
                               console.log("WEATHER ROUTING COMPANY SEND");
                               if(item.weatherRoutingCompanySend) return toast.warn("Weather Routing Company Email Already Sent");
-                              weatherRoutingCompanyMailSend(`${'https://devmarine.ibos.io'}/automation/weather_routing_email_sender`, {intId: item?.intId},
+                              weatherRoutingCompanyMailSend(`${marineBaseUrlPythonAPI}/automation/weather_routing_email_sender`, {intId: item?.intId},
                               () => {
                                 getGridData();
                               },
@@ -373,7 +373,7 @@ const headers = [
                             type="button"
                             onClick={() =>{
                               if(item.departureDocumentLoadPortSend) return toast.warn("Departure Document Loadport Email Already Sent");
-                              departureDocumentLoadPortMailSend(`${'https://devmarine.ibos.io'}/automation/departure_document_email_sender`, {intId: item?.intId},
+                              departureDocumentLoadPortMailSend(`${marineBaseUrlPythonAPI}/automation/departure_document_email_sender`, {intId: item?.intId},
                               () => {
                                 getGridData();
                               },
@@ -393,7 +393,7 @@ const headers = [
                             onClick={() =>{
                               console.log("EPDA DISCHARGE PORT SENT");
                               if(item.epdadischargePortSent) return toast.warn("EPDA Discharge Port Email Already Sent");
-                              epdaDischargePortMailSend(`${'https://devmarine.ibos.io'}/automation/epda_discharge_port_mail`, {intId: item?.intId},
+                              epdaDischargePortMailSend(`${marineBaseUrlPythonAPI}/automation/epda_discharge_port_mail`, {intId: item?.intId},
                               () => {
                                 getGridData();
                               },
@@ -412,7 +412,7 @@ const headers = [
                             type="button"
                             onClick={() =>{
                               if(item.offHireBunkerSurveySent) return toast.warn("Offhire Bunker Survey Email Already Sent");
-                              offHireBunkerSurveyMailSend(`${'https://devmarine.ibos.io'}/automation/bunker_off_hire_condition_surveyor`, {intId: item?.intId},
+                              offHireBunkerSurveyMailSend(`${marineBaseUrlPythonAPI}/automation/bunker_off_hire_condition_surveyor`, {intId: item?.intId},
                               () => {
                                 getGridData();
                               },
