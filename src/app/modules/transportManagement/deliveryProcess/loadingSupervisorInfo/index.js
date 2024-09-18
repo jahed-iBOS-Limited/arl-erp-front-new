@@ -34,7 +34,7 @@ const initData = {
   toDate: _todayDate(),
 };
 
-const headers_one = ["SL", "Item", "Bag Type", "UoM", "Quantity"];
+const headers_one = ["SL", "Item", "Bag Type", "UoM", "Quantity", "Price"];
 const headers_two = [
   "SL",
   "Shipment Code",
@@ -106,7 +106,7 @@ export default function LoadingSupervisorInfo() {
         // `/wms/Delivery/GetDeliveryPrintInfoManual?businessUnitId=${selectedBusinessUnit?.value}&shipmentCode=${e.target.value}`,
         `/wms/Delivery/GetDeliveryPrintInfoByVehicleCardNumber?strCardNumber=${e.target.value}`,
         (res) => {
-          // get tlm ddl 
+          // get tlm ddl
           getTLMDDL(
             `/wms/AssetTransection/GetLabelNValueForDDL?BusinessUnitId=${buId}&TypeId=1&RefferencePKId=1&ShipPointId=${res
               ?.objHeader?.shipPointId || 0}`
@@ -530,7 +530,9 @@ export default function LoadingSupervisorInfo() {
                   ths={
                     [1, 2].includes(values?.type?.value)
                       ? headers_two
-                      : headers_one
+                      : [144].includes(buId) // if business unit is 145 than show all header but if it's not than remove last header element
+                      ? headers_one
+                      : headers_one.slice(0, -1)
                   }
                 >
                   {[3].includes(values?.type?.value)
@@ -542,6 +544,10 @@ export default function LoadingSupervisorInfo() {
                             <td>{item?.bagType}</td>
                             <td>{item?.uomName}</td>
                             <td className="text-right">{item?.quantity}</td>
+                            {/* if business unit is 145 than show all header but if it's not than remove last header element */}
+                            {[144].includes(buId) && (
+                              <td className="text-right">{item?.itemPrice}</td>
+                            )}
                           </tr>
                         );
                       })
@@ -625,12 +631,26 @@ export default function LoadingSupervisorInfo() {
                         <td colSpan={2}></td>
                       </>
                     ) : (
-                      <td>
-                        {reportData?.objRow?.reduce(
-                          (total, curr) => (total += curr?.quantity),
-                          0
+                      <>
+                        <td>
+                          {reportData?.objRow?.reduce(
+                            (total, curr) => (total += curr?.quantity),
+                            0
+                          )}
+                        </td>
+
+                        {/* if business unit is 145 than show all header but if it's not than remove last header element */}
+                        {[144].includes(buId) ? (
+                          <td>
+                            {reportData?.objRow?.reduce(
+                              (total, curr) => total + curr?.itemPrice,
+                              0
+                            )}
+                          </td>
+                        ) : (
+                          <></>
                         )}
-                      </td>
+                      </>
                     )}
                   </tr>
                 </ICustomTable>
