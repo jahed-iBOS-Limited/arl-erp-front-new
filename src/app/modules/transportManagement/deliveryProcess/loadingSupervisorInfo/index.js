@@ -3,7 +3,10 @@ import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import ICustomTable from "../../../_helper/_customTable";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
+import {
+  _dateFormatter,
+  _dateFormatterTwo,
+} from "../../../_helper/_dateFormate";
 import NewSelect from "../../../_helper/_select";
 import IViewModal from "../../../_helper/_viewModal";
 import FromDateToDateForm from "../../../_helper/commonInputFieldsGroups/dateForm";
@@ -18,6 +21,8 @@ import { _todayDate } from "../../../_helper/_todayDate";
 import InfoCircle from "../../../_helper/_helperIcons/_infoCircle";
 import ShippingInfoDetails from "../storeInformationList/shippingNote";
 import PowerBIReport from "../../../_helper/commonInputFieldsGroups/PowerBIReport";
+import ICard from "../../../_helper/_card";
+import ShipmentReportModal from "./shipmentReportModal";
 
 const initData = {
   type: { value: 3, label: "Scan Card/QR Code" },
@@ -34,7 +39,15 @@ const initData = {
   toDate: _todayDate(),
 };
 
-const headers_one = ["SL", "Item", "Bag Type", "UoM", "Quantity"];
+const headers_one = [
+  "SL",
+  "Item",
+  "Bag Type",
+  "UoM",
+  "Quantity",
+  "Price",
+  "Actions",
+];
 const headers_two = [
   "SL",
   "Shipment Code",
@@ -64,9 +77,15 @@ export default function LoadingSupervisorInfo() {
   const [rowData, getRowData, rowLoading, setRowData] = useAxiosGet();
   const [tlmDDL, getTLMDDL] = useAxiosGet();
   const [open, setOpen] = useState(false);
+  const [shipmentModalOpen, setShipmentModalOpen] = useState(false);
   const [singleItem, setSingleItem] = useState({});
   const [showReport, setShowReport] = useState(false);
   const [packerList, getPackerList, , setPackerList] = useAxiosGet();
+  const [
+    shipmentDetails,
+    getShipmentDetails,
+    shipmentDetailsLoading,
+  ] = useAxiosGet();
 
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
@@ -106,7 +125,7 @@ export default function LoadingSupervisorInfo() {
         // `/wms/Delivery/GetDeliveryPrintInfoManual?businessUnitId=${selectedBusinessUnit?.value}&shipmentCode=${e.target.value}`,
         `/wms/Delivery/GetDeliveryPrintInfoByVehicleCardNumber?strCardNumber=${e.target.value}`,
         (res) => {
-          // get tlm ddl 
+          // get tlm ddl
           getTLMDDL(
             `/wms/AssetTransection/GetLabelNValueForDDL?BusinessUnitId=${buId}&TypeId=1&RefferencePKId=1&ShipPointId=${res
               ?.objHeader?.shipPointId || 0}`
@@ -160,7 +179,7 @@ export default function LoadingSupervisorInfo() {
     >
       {({ handleSubmit, resetForm, values, setFieldValue, setValues }) => (
         <>
-          {isLoading && <Loading />}
+          {(isLoading || shipmentDetailsLoading) && <Loading />}
           <IForm
             title="Loading Supervisor Information"
             getProps={setObjprops}
@@ -530,7 +549,9 @@ export default function LoadingSupervisorInfo() {
                   ths={
                     [1, 2].includes(values?.type?.value)
                       ? headers_two
-                      : headers_one
+                      : [144].includes(buId) // if business unit is 145 than show all header but if it's not than remove last header element
+                      ? headers_one
+                      : headers_one.slice(0, -2)
                   }
                 >
                   {[3].includes(values?.type?.value)
@@ -542,6 +563,25 @@ export default function LoadingSupervisorInfo() {
                             <td>{item?.bagType}</td>
                             <td>{item?.uomName}</td>
                             <td className="text-right">{item?.quantity}</td>
+                            {/* if business unit is 145 than show all header but if it's not than remove last header element */}
+                            {[144].includes(buId) && (
+                              <>
+                                <td className="text-right">
+                                  {item?.itemPrice}
+                                </td>
+                                <td className="text-center">
+                                  <InfoCircle
+                                    title={"Shipment Details"}
+                                    clickHandler={() => {
+                                      getShipmentDetails(
+                                        `/wms/Delivery/GetDeliveryPrintInfo?ShipmentId=${reportData?.objHeader?.shipmentId}`,
+                                        () => setShipmentModalOpen(true)
+                                      );
+                                    }}
+                                  />
+                                </td>
+                              </>
+                            )}
                           </tr>
                         );
                       })
@@ -625,12 +665,29 @@ export default function LoadingSupervisorInfo() {
                         <td colSpan={2}></td>
                       </>
                     ) : (
-                      <td>
-                        {reportData?.objRow?.reduce(
-                          (total, curr) => (total += curr?.quantity),
-                          0
+                      <>
+                        <td>
+                          {reportData?.objRow?.reduce(
+                            (total, curr) => (total += curr?.quantity),
+                            0
+                          )}
+                        </td>
+
+                        {/* if business unit is 145 than show all header but if it's not than remove last header element */}
+                        {[144].includes(buId) ? (
+                          <>
+                            <td className="text-right">
+                              {reportData?.objRow?.reduce(
+                                (total, curr) => total + curr?.itemPrice,
+                                0
+                              )}
+                            </td>
+                            <td></td>
+                          </>
+                        ) : (
+                          <></>
                         )}
-                      </td>
+                      </>
                     )}
                   </tr>
                 </ICustomTable>
@@ -645,6 +702,19 @@ export default function LoadingSupervisorInfo() {
                     getData,
                     values,
                     isActionable: false,
+                  }}
+                />
+              </IViewModal>
+              {/* Shipment Details Modal for Business Unit 144 */}
+              <IViewModal
+                show={shipmentModalOpen}
+                onHide={() => setShipmentModalOpen(false)}
+              >
+                <ShipmentReportModal
+                  objProps={{
+                    shipmentDetails,
+                    shipmentDetailsLoading,
+                    selectedBusinessUnit,
                   }}
                 />
               </IViewModal>
