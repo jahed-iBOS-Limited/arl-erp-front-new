@@ -5,18 +5,20 @@ import { marineBaseUrlPythonAPI } from "../../../App";
 import Loading from "../../_helper/_loading";
 import useAxiosPost from "../../_helper/customHooks/useAxiosPost";
 import { getEmailInfoandSendMail } from "./helper";
+import AttachmentUploaderNew from "../../_helper/attachmentUploaderNew";
 
 const EmailEditor = ({ emailEditorProps }) => {
   const { intId, singleRowData, cb } = emailEditorProps;
-
-  console.log("singleRowData", singleRowData);
 
   const [emailData, setEmailData] = useState({
     toEmail: "",
     ccEmail: "",
     subject: "",
     emailBody: "",
+    attachment: "",
   });
+
+  console.log("emailData", emailData)
 
   const [errors, setErrors] = useState({
     to: "",
@@ -132,6 +134,7 @@ const EmailEditor = ({ emailEditorProps }) => {
         subject: emailData.subject,
         body: emailData.emailBody,
         intId: intId,
+        attachment: emailData?.attachment || "",
       };
 
       onSendEmail(
@@ -252,6 +255,21 @@ const EmailEditor = ({ emailEditorProps }) => {
             />
           </div>
           {errors.subject && <div style={styles.error}>{errors.subject}</div>}
+        </div>
+
+        <div className="text-right mb-5">
+        <AttachmentUploaderNew
+            isExistAttachment={emailData.attachment}
+            fileUploadLimits={1}
+            CBAttachmentRes={(attachmentData) => {
+              if (Array.isArray(attachmentData)) {
+                setEmailData((prevState) => ({
+                  ...prevState,
+                  attachment: attachmentData[0]?.id || "",
+                }));
+              }
+            }}
+          />
         </div>
 
         <div style={styles.quillContainer}>
