@@ -1,15 +1,18 @@
+import moment from "moment";
 import * as Yup from "yup";
 
 // init data
 export const initData = {
   fromDateTime: "",
   toDateTime: "",
+  shipPoint: "",
 };
 
 // validation schema
 export const validationSchema = Yup.object({
   fromDateTime: Yup.date().required("Please enter fromt date time"),
   toDateTime: Yup.date().required("Please enter fromt date time"),
+  shipPoint: Yup.string().required("Ship point is required"),
 });
 
 // group id
@@ -22,11 +25,17 @@ export const selectReportId = {
 
 // select paramter
 export const selectParameters = (values, buUnId) => {
-  const { fromDateTime, toDateTime } = values;
+  const { fromDateTime, toDateTime, shipPoint } = values;
   return [
-    { name: "fromdate", value: `${fromDateTime}` },
-    { name: "todate", value: `${toDateTime}` },
+    {
+      name: "fromdate",
+      value: `${moment(fromDateTime).format("YYYY-MM-DD HH:mm:ss.SSS")}`,
+    },
+    {
+      name: "todate",
+      value: `${moment(toDateTime).format("YYYY-MM-DD HH:mm:ss.SSS")}`,
+    },
     { name: "intUnit", value: `${buUnId}` },
-    { name: "intShippoint", value: `${0}` },
+    { name: "intShippoint", value: `${shipPoint?.value}` },
   ];
 };
