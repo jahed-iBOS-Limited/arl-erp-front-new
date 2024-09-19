@@ -735,6 +735,7 @@ export default function VesselNomination() {
                 // sendEmailUrl: "/automation/vessel_nomitaion_mail_sent",
                 cb: () => {
                   getGridData();
+                  setIsShowMailModal(false);
                 },
               }}
             />
