@@ -23,8 +23,8 @@ export function getEmailInfoandSendMail(name) {
       sendEmailUrl = "/automation/";
       break;
     case "ON HIRE BUNKER SURVEY":
-      emailInfoUrl = "/automation/";
-      sendEmailUrl = "/automation/";
+      emailInfoUrl = "/automation/RFQ_On_Hire_BunkerSurvey_mail_format";
+      sendEmailUrl = "/automation/RFQ_On_Hire_BunkerSurvey_mail_sent";
       break;
     case "VOYAGE INSTRUCTION":
       emailInfoUrl = "/automation/voyage_instruction_mail_format";
@@ -35,16 +35,16 @@ export function getEmailInfoandSendMail(name) {
       sendEmailUrl = "/automation/P_n_I_surveyor_mail_sent";
       break;
     case "VOYAGE LICENSE/FLAG WAIVER":
-      emailInfoUrl = "/automation/";
-      sendEmailUrl = "/automation/";
+      emailInfoUrl = "/automation/voyage_license_flag_waiver_mail_format";
+      sendEmailUrl = "/automation/voyage_license_flag_waiver_mail_sent";
       break;
     case "TCL":
-      emailInfoUrl = "/automation/";
-      sendEmailUrl = "/automation/";
+      emailInfoUrl = "/automation/tcl_mail_format";
+      sendEmailUrl = "/automation/tcl_mail_sent";
       break;
     case "WEATHER ROUTING COMPANY":
-      emailInfoUrl = "/automation/";
-      sendEmailUrl = "/automation/";
+      emailInfoUrl = "/automation/weather_routing_mail_format";
+      sendEmailUrl = "/automation/weather_routing_mail_sent";
       break;
     case "DEPARTURE DOCUMENT LOADPORT":
       emailInfoUrl = "/automation/";
@@ -55,8 +55,8 @@ export function getEmailInfoandSendMail(name) {
       sendEmailUrl = "/automation/";
       break;
     case "OFFHIRE BUNKER SURVEY":
-      emailInfoUrl = "/automation/";
-      sendEmailUrl = "/automation/";
+      emailInfoUrl = "/automation/RFQ_Off_Hire_BunkerSurvey_mail_format";
+      sendEmailUrl = "/automation/RFQ_Off_Hire_BunkerSurvey_mail_sent";
       break;
     default:
       emailInfoUrl = "/automation/";
