@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import React, { lazy, Suspense } from "react";
 import { Redirect, Switch } from "react-router-dom";
 import { ContentRoute, LayoutSplashScreen } from "../../../../_metronic/layout";
 import ChallanInformationUpdate from "./challanInformationUpdate/landing";
@@ -25,6 +25,7 @@ import TripCostReportReport from "./tripCostReport/landing/landing";
 import TripSlabCostReport from "./tripSlabCostReport/landing/table";
 import VehicleFuelCostReport from "./vehicleFuelCostReport/landing";
 import VehicleFuelReport from "./vehicleFuelReport/landing/landing";
+const DeliveryProcessReportPage = lazy(() => import("./deliveryProcessReport"));
 
 export function TransportReportPages() {
   return (
@@ -143,6 +144,11 @@ export function TransportReportPages() {
         <ContentRoute
           path="/transport-management/report/hourlyDeliveryStatusReport"
           component={HourlyDeliveryStatusReport}
+        />
+        {/* Delivery Process Report */}
+        <ContentRoute
+          path="/transport-management/report/deliveryprocessreport"
+          component={DeliveryProcessReportPage}
         />
       </Switch>
     </Suspense>
