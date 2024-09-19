@@ -19,8 +19,8 @@ export function getEmailInfoandSendMail(name) {
       sendEmailUrl = "/automation/";
       break;
     case "PRE STOWAGE":
-      emailInfoUrl = "/automation/";
-      sendEmailUrl = "/automation/";
+      emailInfoUrl = "/automation/pre_stowage_mail_format";
+      sendEmailUrl = "/automation/pre_stowage_mail_sent";
       break;
     case "ON HIRE BUNKER SURVEY":
       emailInfoUrl = "/automation/RFQ_On_Hire_BunkerSurvey_mail_format";
@@ -47,8 +47,8 @@ export function getEmailInfoandSendMail(name) {
       sendEmailUrl = "/automation/weather_routing_mail_sent";
       break;
     case "DEPARTURE DOCUMENT LOADPORT":
-      emailInfoUrl = "/automation/";
-      sendEmailUrl = "/automation/";
+      emailInfoUrl = "/automation/departure_documents_load_port_mail_format";
+      sendEmailUrl = "/automation/departure_documents_load_port_mail_sent";
       break;
     case "EPDA DISCHARGE PORT":
       emailInfoUrl = "/automation/";
