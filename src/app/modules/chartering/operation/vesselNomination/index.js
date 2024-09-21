@@ -12,6 +12,7 @@ import Loading from "./../../../_helper/_loading";
 import VoyageLicenseFlagAttachment from "./voyageFlagLicenseAttachment";
 import EmailEditor from "../emailEditor";
 import { getEmailInfoandSendMail } from "../helper";
+import DiffEmailSender from "../diffEmailSender";
 
 const initData = {
   voyageFlagLicenseAtt: "",
@@ -41,6 +42,7 @@ const headers = [
   { name: "TCL" },
   { name: "Weather Routing Company" },
   { name: "Departure Document Loadport" },
+  { name: "Departure Document Discharge Port" },
   { name: "EPDA Discharge Port" },
   { name: "Offhire Bunker Survey" },
 ];
@@ -64,6 +66,7 @@ export default function VesselNomination() {
   const [, epdaDischargePortMailSend] = useAxiosPost();
   const [, offHireBunkerSurveyMailSend] = useAxiosPost();
   const [isShowMailModal, setIsShowMailModal] = useState(false);
+  const [isDiffMailSenderModal, setIsDiffMailSenderModal] = useState(false);
 
   const [singleRowData, setSingleRowData] = useState({});
   const history = useHistory();
@@ -197,8 +200,25 @@ export default function VesselNomination() {
       data?.pisurveySent &&
       data?.voyageLicenseFlagWaiverSend &&
       data?.tclSend &&
-      data?.weatherRoutingCompanySend &&
+      data?.weatherRoutingCompanySend && 
       data?.departureDocumentLoadPortSend
+    ) {
+      visibility.push("departureDocumentDischargePortSend");
+    }
+    if (
+      data?.isVesselNominationEmailSent &&
+      data?.isBunkerCalculationSave &&
+      data?.edpaLoadportSend &&
+      data?.preStowageSend &&
+      data?.onHireBunkerSurveySent &&
+      data?.isDeadWeightCalculationSave &&
+      data?.voyageInstructionSent &&
+      data?.pisurveySent &&
+      data?.voyageLicenseFlagWaiverSend &&
+      data?.tclSend &&
+      data?.weatherRoutingCompanySend &&
+      data?.departureDocumentLoadPortSend &&
+      data?.departureDocumentDischargePortSend
     ) {
       visibility.push("epdadischargePortSent");
     }
@@ -215,6 +235,7 @@ export default function VesselNomination() {
       data?.tclSend &&
       data?.weatherRoutingCompanySend &&
       data?.departureDocumentLoadPortSend &&
+      data?.departureDocumentDischargePortSend &&
       data?.epdadischargePortSent
     ) {
       visibility.push("offHireBunkerSurveySent");
@@ -312,14 +333,15 @@ export default function VesselNomination() {
                               }
                               type="button"
                               onClick={() => {
-                                if (item.edpaLoadportSend)
-                                  return toast.warn(
-                                    "EDPA Loadport Email Already Sent"
-                                  );
+                                // if (item.edpaLoadportSend)
+                                //   return toast.warn(
+                                //     "EDPA Loadport Email Already Sent"
+                                //   );
                                   setSingleRowData({...item,columnName: "EDPA LOADPORT"});
-                                  setIsShowMailModal(true);
+                                  // setIsShowMailModal(true);
+                                  setIsDiffMailSenderModal(true);
                               }}
-                              disabled={item.edpaLoadportSend}
+                              // disabled={item.edpaLoadportSend}
                             >
                               EDPA LOADPORT SEND
                             </button>
@@ -641,6 +663,39 @@ export default function VesselNomination() {
                           )}
                         </td>
                         <td className="text-center">
+                          {visibleButtons.includes(
+                            "departureDocumentDischargePortSend"
+                          ) && (
+                            <button
+                              className={
+                                item.departureDocumentDischargePortSend
+                                  ? "btn btn-sm btn-success px-1 py-1"
+                                  : "btn btn-sm btn-primary px-1 py-1"
+                              }
+                              type="button"
+                              onClick={() => {
+                                if (item.departureDocumentDischargePortSend)
+                                  return toast.warn(
+                                    "Departure Document Discharge Port Email Already Sent"
+                                  );
+                                // departureDocumentLoadPortMailSend(
+                                //   `${marineBaseUrlPythonAPI}/automation/departure_document_email_sender`,
+                                //   { intId: item?.intId },
+                                //   () => {
+                                //     getGridData();
+                                //   },
+                                //   true
+                                // );
+                                setSingleRowData({...item,columnName: "DEPARTURE DOCUMENT DISCHARGE PORT"});
+                                setIsShowMailModal(true);
+                              }}
+                              disabled={item.departureDocumentDischargePortSend}
+                            >
+                              DEPARTURE DOCUMENT DISCHARGE PORT SEND
+                            </button>
+                          )}
+                        </td>
+                        <td className="text-center">
                           {visibleButtons.includes("epdadischargePortSent") && (
                             <button
                               className={
@@ -736,6 +791,23 @@ export default function VesselNomination() {
                 cb: () => {
                   getGridData();
                   setIsShowMailModal(false);
+                },
+              }}
+            />
+          </IViewModal>
+          <IViewModal
+            show={isDiffMailSenderModal}
+            onHide={() => {
+              setIsDiffMailSenderModal(false);
+            }}
+          >
+            <DiffEmailSender
+              emailEditorProps={{
+                intId: singleRowData?.intId,
+                singleRowData :singleRowData,
+                cb: () => {
+                  getGridData();
+                  setIsDiffMailSenderModal(false);
                 },
               }}
             />
