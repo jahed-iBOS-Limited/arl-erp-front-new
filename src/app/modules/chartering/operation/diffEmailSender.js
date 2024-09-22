@@ -7,29 +7,6 @@ import useAxiosPost from "../../_helper/customHooks/useAxiosPost";
 import Loading from "../../_helper/_loading";
 import AttachmentUploaderNew from "../../_helper/attachmentUploaderNew";
 
-// const eee = {
-//     "body": "<!DOCTYPE html>\n        <html lang=\"en\">\n        <head>\n            <meta charset=\"UTF-8\">\n            <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n            <title>Akij Shipping Lines Ltd (ASLL)</title>\n            <style>\n                body {\n                    font-family: Arial, sans-serif;\n                    font-size: 11px;\n                    line-height: 1.6;\n                    margin: 20px;\n                }\n                .email-container {\n                    margin: 0 auto;\n                }\n                .header {\n                    font-weight: bold;\n                    margin-bottom: 20px;\n                }\n                .content {\n                    margin-bottom: 20px;\n                }\n                .content p {\n                    margin: 5px 0;\n                }\n                .details {\n                    margin-bottom: 20px;\n                }\n                .details p {\n                    margin: 5px 0;\n                }\n                .footer {\n                    margin-top: 20px;\n                    padding-top: 10px;\n                    border-top: 1px solid #ccc;\n                }\n                .footer p {\n                    margin: 5px 0;\n                }\n                .footer .contact-info {\n                    margin-top: 10px;\n                }\n                .footer .contact-info p {\n                    margin: 2px 0;\n                }\n                a {\n                    color: #0000EE;\n                    text-decoration: none;\n                }\n                a:hover {\n                    text-decoration: underline;\n                }\n            </style>\n        </head>\n        <body>\n            <div class=\"email-container\">\n                <div class=\"header\">\n                    2024-09-19T13:00:25.353780Z\n                </div>\n                <div class=\"content\">\n                    <p>Dear Concern, Good day. Greetings from AKIJ SHIPPING LINE LIMITED.<br>Hope this mail finds you well.</p>\n                    <p>We are inviting you to offer your best quotation for the PDA for AKIJ OCEAN to load at the CHITTAGONG for 124 Mts of Limestone</p>\n                    <p>Please submit in this form: <a href=\"https://erp.ibos.io/chartering/operation/epdaLoadPort/create/52/VDS092024784\">Please fill Form</a></p>\n                    <p>Vessel’s itinerary: MV. AKIJ OCEAN \r\n\r\nEX NMAE: AEOLOS\r\n\r\nDWT: 45,736 MT ON 11.62 M DRAFT\r\n\r\nTYPE OF VESSEL: SINGLE DECK GEARED BULK CARRIER \r\n\r\nIMO NO: 9138862, CALL SIGN: 3FHW2 \r\n\r\nBUILT/ BUILDER: 1997 / TSUNEISHI, JAPAN \r\n\r\nFLAG/ REGISTRY/ CLASS: PANAMA/PANAMA/NKK \r\n\r\nP & I CLUB: SKULD \r\n\r\nLOA / LBP: 185.74 M / 177.00 M \r\n\r\nBEAM / DEPTH: 30.40 M / 16.50 M \r\n\r\nGRT / NRT: 25,982 / 14,834 </p>\n                </div>\n                <p>Best Regards,</p>\n                <p>XXXXXXXX</p>\n                <p>[Designation]</p>\n                <div class=\"footer\">\n                    <div class=\"contact-info\">\n                        <p>📞 [Phone Number], 📧 [Email]</p>\n                        <p>🏢 Akij House, 198 Bir Uttam Mir Shawkat Sarak, Tejgaon, Dhaka-1208, Bangladesh</p>\n                        <p>🏢 Level 19, Room-08, Singapore Land Tower, 50 Raffles Place, Singapore 048623</p>\n                    </div>\n                </div>\n            </div>\n        </body>\n        </html>",
-//     "email": [
-//         [
-//             "emdad@ibos.io",
-//             "emdad1@ibos.io",
-//             "emdad2@ibos.io"
-//           ],
-//       [
-//         "mahedi@ibos.io",
-//         "emdad@ibos.io",
-//         "ibrahim@ibos.io"
-//       ],
-//       [
-//         "sakib@ibos.io",
-//         "emdad@ibos.io",
-//         "ibrahim@ibos.io"
-//       ]
-//     ],
-//     "receiver": "tanvir@ibos.io,emdad@ibos.io",
-//     "subject": "#VDS092024784 RFQ for PDA for AKIJ OCEAN // Limestone // 124 // CHITTAGONG"
-//   }
-
 const DiffEmailSender = ({ emailEditorProps }) => {
   const { intId, singleRowData, cb } = emailEditorProps;
 
