@@ -15,7 +15,7 @@ export function getEmailInfoandSendMail(name) {
       sendEmailUrl = "/automation/vessel_nomitaion_mail_sent";
       break;
     case "EDPA LOADPORT":
-      emailInfoUrl = "/automation/";
+      emailInfoUrl = "/automation/epda_load_mail_format";
       sendEmailUrl = "/automation/";
       break;
     case "PRE STOWAGE":
@@ -50,6 +50,10 @@ export function getEmailInfoandSendMail(name) {
       emailInfoUrl = "/automation/departure_documents_load_port_mail_format";
       sendEmailUrl = "/automation/departure_documents_load_port_mail_sent";
       break;
+    case "DEPARTURE DOCUMENT DISCHARGE PORT":
+      emailInfoUrl = "/automation/departure_documents_discharge_port_mail_format";
+      sendEmailUrl = "/automation/departure_documents_discharge_port_mail_sent";
+      break;
     case "EPDA DISCHARGE PORT":
       emailInfoUrl = "/automation/";
       sendEmailUrl = "/automation/";
@@ -68,5 +72,11 @@ export function getEmailInfoandSendMail(name) {
 }
 
 
+export default function formatEmailsDynamically(emailArray) {
+  let formattedParts = emailArray.map(item => item.join(','));
 
+  let result = formattedParts.join(' | ');
+
+  return result;
+}
 

@@ -16,6 +16,8 @@ import MailSender from "../mailSender";
 import { generateFileUrl } from "../helper";
 
 const initData = {
+  strName: "",
+  strEmail: "",
   strVesselNominationCode: "",
   strDraftType: "",
   intDisplacementDraftMts: "",
@@ -41,12 +43,14 @@ export default function DeadWeightCreate() {
   const [, onSave, loader] = useAxiosPost();
   const { paramId, paramCode } = useParams();
   const [isShowModal, setIsShowModal] = useState(false);
-  const [payloadInfo, setPayloadInfo] = useState({});
+  const [payloadInfo, setPayloadInfo] = useState(null);
 
   useEffect(() => {}, []);
 
   const saveHandler = (values, cb) => {
     setPayloadInfo({
+      strName: values?.strName,
+      strEmail: values?.strEmail,
       strDraftType: values?.strDraftType?.value,
       intDisplacementDraftMts: +values?.intDisplacementDraftMts || 0,
       intDockWaterDensity: +values?.intDockWaterDensity || 0,
@@ -69,6 +73,8 @@ export default function DeadWeightCreate() {
     });
 
     const payload = {
+      strName: values?.strName,
+      strEmail: values?.strEmail,
       intDeadWeightId: 0,
       strDraftType: values?.strDraftType?.value,
       intDisplacementDraftMts: +values?.intDisplacementDraftMts || 0,
@@ -138,6 +144,10 @@ export default function DeadWeightCreate() {
       .required("Final Cargo to Load Mts is required")
       .positive("Final Cargo to Load Mts must be a positive number"),
     strRemarks: Yup.string().optional(),
+    strName: Yup.string().required("Name is required"),
+    strEmail: Yup.string()
+      .email("Invalid email format")
+      .required("Email is required"),
   });
 
   return (
@@ -148,7 +158,6 @@ export default function DeadWeightCreate() {
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
           resetForm(initData);
-          setIsShowModal(true);
         });
       }}
     >
@@ -172,6 +181,16 @@ export default function DeadWeightCreate() {
               return (
                 <div>
                   <button
+                  type="button"
+                  disabled={!payloadInfo}
+                  className="btn btn-primary mr-3"
+                  onClick={() => {
+                    setIsShowModal(true);
+                  }}
+                >
+                  Send Mail
+                </button>
+                  <button
                     type="submit"
                     className="btn btn-primary"
                     onClick={() => {
@@ -186,6 +205,26 @@ export default function DeadWeightCreate() {
           >
             <Form>
               <div className="form-group  global-form row">
+              <div className="col-lg-2">
+                <InputField
+                  value={values.strName || ""}
+                  label="Name"
+                  name="strName"
+                  type="text"
+                  onChange={(e) => setFieldValue("strName", e.target.value)}
+                  errors={errors}
+                />
+              </div>
+              <div className="col-lg-2">
+                <InputField
+                  value={values.strEmail || ""}
+                  label="Email"
+                  name="strEmail"
+                  type="text"
+                  onChange={(e) => setFieldValue("strEmail", e.target.value)}
+                  errors={errors}
+                />
+              </div>
                 <div className="col-lg-2">
                   <InputField
                     value={values.strVesselNominationCode}

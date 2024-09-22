@@ -11,10 +11,10 @@ const FormikError = ({ errors, name, touched }) => {
         marginTop: "0",
         marginBottom: "0",
       }}
-      className={errors[name] ? "text-danger" : "d-none"}
+      className={errors?.[name] ? "text-danger" : "d-none"}
     >
-      {(errors && errors[name]) || (touched && touched[name])
-        ? errors[name]?.value || errors[name]
+      {(errors && errors?.[name]) || (touched && touched?.[name])
+        ? errors?.[name]?.value || errors?.[name]
         : ""}
     </p>
   );
