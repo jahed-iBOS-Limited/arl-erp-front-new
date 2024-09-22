@@ -35,7 +35,7 @@ export default function CreateonHireBunkerAndContionalSurvey() {
   const [attachment, setAttachment] = useState("");
   const [, onSave, loader] = useAxiosPost();
   const [isShowModal, setIsShowModal] = useState(false);
-  const [payloadInfo, setPayloadInfo] = useState({});
+  const [payloadInfo, setPayloadInfo] = useState(null);
 
   const saveHandler = (values, cb) => {
     setPayloadInfo({
@@ -98,7 +98,6 @@ export default function CreateonHireBunkerAndContionalSurvey() {
       validationSchema={validationSchema}
       onSubmit={(values, { resetForm }) => {
         saveHandler(values, () => resetForm(initData));
-        setIsShowModal(true);
       }}
     >
       {({
@@ -119,6 +118,16 @@ export default function CreateonHireBunkerAndContionalSurvey() {
             renderProps={() => {
               return (
                 <div>
+                  <button
+                  type="button"
+                  disabled={!payloadInfo}
+                  className="btn btn-primary mr-3"
+                  onClick={() => {
+                    setIsShowModal(true);
+                  }}
+                >
+                  Send Mail
+                </button>
                   <button
                     type="submit"
                     className="btn btn-primary"

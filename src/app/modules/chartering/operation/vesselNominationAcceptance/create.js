@@ -36,7 +36,7 @@ export default function VesselNominationAcceptanceCreate() {
   const [, onSave, loader] = useAxiosPost();
   const { paramId, paramCode } = useParams();
   const [isShowModal, setIsShowModal] = useState(false);
-  const [payloadInfo, setPayloadInfo] = useState({});
+  const [payloadInfo, setPayloadInfo] = useState(null);
 
   const saveHandler = async (values, cb) => {
     setPayloadInfo({
@@ -75,7 +75,6 @@ export default function VesselNominationAcceptanceCreate() {
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
           resetForm(initData);
-          setIsShowModal(true);
         });
         setSubmitting(false);
       }}
@@ -97,6 +96,16 @@ export default function VesselNominationAcceptanceCreate() {
           renderProps={() => {
             return (
               <div>
+                <button
+                  type="button"
+                  disabled={!payloadInfo}
+                  className="btn btn-primary ml-3"
+                  onClick={() => {
+                    setIsShowModal(true);
+                  }}
+                >
+                  Send Mail
+                </button>
                 <button
                   type="submit"
                   className="btn btn-primary ml-3"

@@ -43,7 +43,7 @@ export default function DeadWeightCreate() {
   const [, onSave, loader] = useAxiosPost();
   const { paramId, paramCode } = useParams();
   const [isShowModal, setIsShowModal] = useState(false);
-  const [payloadInfo, setPayloadInfo] = useState({});
+  const [payloadInfo, setPayloadInfo] = useState(null);
 
   useEffect(() => {}, []);
 
@@ -158,7 +158,6 @@ export default function DeadWeightCreate() {
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
           resetForm(initData);
-          setIsShowModal(true);
         });
       }}
     >
@@ -181,6 +180,16 @@ export default function DeadWeightCreate() {
             renderProps={() => {
               return (
                 <div>
+                  <button
+                  type="button"
+                  disabled={!payloadInfo}
+                  className="btn btn-primary mr-3"
+                  onClick={() => {
+                    setIsShowModal(true);
+                  }}
+                >
+                  Send Mail
+                </button>
                   <button
                     type="submit"
                     className="btn btn-primary"

@@ -51,7 +51,7 @@ export default function CreateDischargePort() {
   const [vesselDDL, getVesselDDL] = useAxiosGet();
   const [voyageDDL, getVoyageDDL, , setVoyageDDL] = useAxiosGet();
   const [isShowModal, setIsShowModal] = useState(false);
-  const [payloadInfo, setPayloadInfo] = useState({});
+  const [payloadInfo, setPayloadInfo] = useState(null);
 
   useEffect(() => {
     getVesselDDL(`${imarineBaseUrl}/domain/Voyage/GetVesselDDL?AccountId=${accountId}&BusinessUnitId=${buId}
@@ -155,7 +155,6 @@ export default function CreateDischargePort() {
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
           resetForm(initData);
-          setIsShowModal(true);
         });
       }}
     >
@@ -170,6 +169,16 @@ export default function CreateDischargePort() {
             renderProps={() => {
               return (
                 <div>
+                  <button
+                  type="button"
+                  disabled={!payloadInfo}
+                  className="btn btn-primary mr-3"
+                  onClick={() => {
+                    setIsShowModal(true);
+                  }}
+                >
+                  Send Mail
+                </button>
                   <button
                     type="submit"
                     className="btn btn-primary"
