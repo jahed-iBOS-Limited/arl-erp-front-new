@@ -16,7 +16,7 @@ export function getEmailInfoandSendMail(name) {
       break;
     case "EDPA LOADPORT":
       emailInfoUrl = "/automation/epda_load_mail_format";
-      sendEmailUrl = "/automation/";
+      sendEmailUrl = "/automation/epda_load_mail_sent";
       break;
     case "PRE STOWAGE":
       emailInfoUrl = "/automation/pre_stowage_mail_format";
@@ -55,8 +55,8 @@ export function getEmailInfoandSendMail(name) {
       sendEmailUrl = "/automation/departure_documents_discharge_port_mail_sent";
       break;
     case "EPDA DISCHARGE PORT":
-      emailInfoUrl = "/automation/";
-      sendEmailUrl = "/automation/";
+      emailInfoUrl = "/automation/epda_discharge_mail_format";
+      sendEmailUrl = "/automation/epda_discharge_mail_sent";
       break;
     case "OFFHIRE BUNKER SURVEY":
       emailInfoUrl = "/automation/RFQ_Off_Hire_BunkerSurvey_mail_format";
@@ -72,10 +72,23 @@ export function getEmailInfoandSendMail(name) {
 }
 
 
+// export default function formatEmailsDynamically(emailArray) {
+//   let formattedParts = emailArray.map(item => item.join(','));
+
+//   let result = formattedParts.join(' | ');
+
+//   return result;
+// }
+
 export default function formatEmailsDynamically(emailArray) {
+  // Join each sub-array into a comma-separated string
   let formattedParts = emailArray.map(item => item.join(','));
 
+  // Join all formatted parts with a ' | '
   let result = formattedParts.join(' | ');
+
+  // Remove unnecessary trailing '| ' or ' |'
+  result = result.replace(/\s*\|\s*$/, '');
 
   return result;
 }
