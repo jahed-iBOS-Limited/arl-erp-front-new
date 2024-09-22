@@ -899,7 +899,7 @@ export default function VesselNomination() {
                                       ...item,
                                       columnName: "EPDA DISCHARGE PORT",
                                     });
-                                    setIsShowMailModal(true);
+                                    setIsDiffMailSenderModal(true);
                                   }}
                                   disabled={item.epdadischargePortSent}
                                 >
