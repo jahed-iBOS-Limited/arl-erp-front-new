@@ -35,6 +35,11 @@ export default function ICard({
   disableCreateBtn,
   createBtnText,
   createBtnClass,
+  // Export Excel
+  exportExcel,
+  exportExcelTitle,
+  exportExcelClickHandler,
+  exportExcelDataLength
 }) {
   const [isShowModal, setisShowModal] = useState(false);
   return (
@@ -135,6 +140,19 @@ export default function ICard({
                   />
                 </div>
               ) : null}
+
+              {exportExcel ? (
+                <button
+                  className="btn btn-primary mx-1"
+                  type="button"
+                  onClick={exportExcelClickHandler}                  
+                  disabled={exportExcelDataLength > 0 ? false : true}
+                >
+                  {exportExcelTitle || "Export Excel"}
+                </button>
+              ) : (
+                <></>
+              )}
             </CardHeaderToolbar>
           }
         </CardHeader>

@@ -13,7 +13,7 @@ export const generateJsonToExcel = (header, data, fileName, getZakatBlob) => {
       head["bold"] = true;
       head["fontSize"] = 11;
       newData[index].push({
-        text: item[head?.key],
+        text: item[head.key] !== null ? item[head?.key] : "",
         textFormat: head?.textFormat,
         alignment: head?.alignment,
         border: head?.border,

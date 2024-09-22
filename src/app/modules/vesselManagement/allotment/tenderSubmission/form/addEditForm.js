@@ -213,6 +213,17 @@ export default function TenderSubmissionCreateEditForm() {
           touched={touched}
         />
       </div>
+      <div className="col-lg-3">
+        <InputField
+          value={values?.layCan}
+          label="Laycan"
+          name="layCan"
+          type="text"
+          onChange={(e) => {
+            setFieldValue("layCan", e.target.value);
+          }}
+        />
+      </div>
     </>
   );
 
@@ -307,17 +318,6 @@ export default function TenderSubmissionCreateEditForm() {
           type="date"
           onChange={(e) => {
             setFieldValue("contractDate", e.target.value);
-          }}
-        />
-      </div>
-      <div className="col-lg-3">
-        <InputField
-          value={values?.layCan}
-          label="Laycan"
-          name="layCan"
-          type="text"
-          onChange={(e) => {
-            setFieldValue("layCan", e.target.value);
           }}
         />
       </div>
