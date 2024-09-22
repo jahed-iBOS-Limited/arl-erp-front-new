@@ -12,7 +12,11 @@ import { _dateFormatter } from "./../../../_helper/_dateFormate";
 import InputField from "./../../../_helper/_inputField";
 import { _todayDate } from "./../../../_helper/_todayDate";
 import { YearDDL } from "./../../../_helper/_yearDDL";
-import { GetExpenseReport_api, usePrintHandler } from "./helper";
+import {
+  exportExpenseReport,
+  GetExpenseReport_api,
+  usePrintHandler,
+} from "./helper";
 import PrintableTable from "./tables/printableTable";
 import Table from "./tables/table";
 import TableFour from "./tables/tableFour";
@@ -37,7 +41,6 @@ const monthDDL = [
 const reportTypes = [
   { value: 1, label: "All Unit" },
   { value: 2, label: "Single Unit" },
-  { value: 14, label: "Expense Top Sheet (HR)" },
   { value: 3, label: "Specific Employee" },
   { value: 4, label: "Specific Employee Details" },
   { value: 5, label: "Bill Submit Pending" },
@@ -47,6 +50,7 @@ const reportTypes = [
   { value: 9, label: "Bill Register  By Code" },
   { value: 10, label: "Status Check" },
   { value: 12, label: "Comparison Report" },
+  { value: 14, label: "Expense Top Sheet (HR)" },
 ];
 
 const startOfMonth = moment(_todayDate())
@@ -67,14 +71,14 @@ const ExpenceReport = () => {
     expenseCode: "",
     expenceGroup: { value: 1, label: "TaDa" },
   };
- 
+
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
 
-  const [gridData, setGridData] = useState([]);
+  // const [gridData, setGridData] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [, getGridData, isLoading] = useAxiosGet();
+  const [gridData, getGridData, isLoading, setGridData] = useAxiosGet();
   const [printableData, setPrintableData] = useState([]);
 
   const { handlePrint, printRef } = usePrintHandler();
@@ -85,7 +89,19 @@ const ExpenceReport = () => {
       getGridData(
         `/oms/SalesInformation/GetInternalExpenseApprovalDetails?ExpenseCode=${values?.expenseCode}&intUnitId=${selectedBusinessUnit?.value}&Enroll=${values?.employeeName?.value}&intTypeId=${values?.reportType?.value}`,
         (resData) => {
-          setGridData(resData);
+          // ci sl to response data
+          const updatedData = resData?.map((item, index) => ({
+            ...item,
+            sl: index + 1,
+            dteSupervisorAprvdate: moment(item?.dteSupervisorAprvdate).format(
+              "YYYY-MM-DD, LT"
+            ),
+            dteLineManagerAprvdate: moment(item?.dteLineManagerAprvdate).format(
+              "YYYY-MM-DD, LT"
+            ),
+            dteExpenseDate: moment(item?.dteExpenseDate).format("YYYY-MM-DD"),
+          }));
+          setGridData(updatedData);
         }
       );
     } else {
@@ -132,6 +148,7 @@ const ExpenceReport = () => {
       )
       .then((res) => res?.data);
   };
+
   const dateSetFunction = (month, year) => {
     var newDate = moment();
     newDate.set("month", month - 1);
@@ -148,6 +165,7 @@ const ExpenceReport = () => {
     );
     return { lestDate, firstDate };
   };
+
   return (
     <>
       <Formik
@@ -157,9 +175,14 @@ const ExpenceReport = () => {
       >
         {({ values, setFieldValue, touched, errors }) => (
           <ICard
-            title="Expense Report"
-            isExcelBtn={true}
-            excelFileNameWillbe="expenseReport"
+            // title="Expense Report"
+            // isExcelBtn={true}
+            // excelFileNameWillbe="expenseReport"
+            exportExcel
+            exportExcelClickHandler={() =>
+              exportExpenseReport(values, gridData)
+            }
+            exportExcelDataLength={gridData?.length}
             clickHandler={() => {
               getPrintData(values);
             }}
@@ -168,7 +191,6 @@ const ExpenceReport = () => {
               [14].includes(values?.reportType?.value) && gridData?.length
             }
           >
-          
             <form className="form form-label-right">
               <div className="global-form">
                 <div className="row">
@@ -189,7 +211,7 @@ const ExpenceReport = () => {
                       touched={touched}
                     />
                   </div>
-          
+
                   {[3, 4, 5, 6, 7, 8, 9, 10].includes(
                     values?.reportType?.value
                   ) && (
