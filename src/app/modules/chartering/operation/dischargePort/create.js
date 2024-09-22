@@ -18,6 +18,8 @@ import { generateFileUrl } from "../helper";
 
 // Initial data
 const initData = {
+  strName: "",
+  strEmail: "",
   strVesselName: "",
   strVoyageNo: "",
   strCode: "",
@@ -59,6 +61,8 @@ export default function CreateDischargePort() {
 
   const saveHandler = (values, cb) => {
     setPayloadInfo({
+      strName: values?.strName,
+      strEmail: values?.strEmail,
       strVesselName: values.strVesselName?.label,
       strVoyageNo: values.strVoyageNo?.label,
       intVesselNominationId: +paramId || 0,
@@ -86,6 +90,8 @@ export default function CreateDischargePort() {
     });
 
     const payload = {
+      strName: values?.strName,
+      strEmail: values?.strEmail,
       intAutoId: 0,
       intAccountId: accountId,
       strAccountName: "Akij",
@@ -135,6 +141,10 @@ export default function CreateDischargePort() {
       })
       .typeError("Voyage No is required"),
     strCode: Yup.string().required("Code is required"),
+    strName: Yup.string().required("Name is required"),
+    strEmail: Yup.string()
+      .email("Invalid email format")
+      .required("Email is required"),
   });
 
   return (
@@ -175,6 +185,26 @@ export default function CreateDischargePort() {
           >
             <Form>
               <div className="form-group global-form row">
+              <div className="col-lg-2">
+                <InputField
+                  value={values.strName || ""}
+                  label="Name"
+                  name="strName"
+                  type="text"
+                  onChange={(e) => setFieldValue("strName", e.target.value)}
+                  errors={errors}
+                />
+              </div>
+              <div className="col-lg-2">
+                <InputField
+                  value={values.strEmail || ""}
+                  label="Email"
+                  name="strEmail"
+                  type="text"
+                  onChange={(e) => setFieldValue("strEmail", e.target.value)}
+                  errors={errors}
+                />
+              </div>
                 {/* Vessel Name */}
                 <div className="col-lg-2">
                   <NewSelect

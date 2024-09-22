@@ -15,6 +15,8 @@ import MailSender from "../mailSender";
 import { generateFileUrl } from "../helper";
 
 const initData = {
+  strName: "",
+  strEmail: "",
   strEmailAddress: "",
   strVesselNominationCode: "",
   numBunkerSurveyAmount: "",
@@ -37,6 +39,8 @@ export default function CreateonHireBunkerAndContionalSurvey() {
 
   const saveHandler = (values, cb) => {
     setPayloadInfo({
+      strName: values?.strName,
+      strEmail: values?.strEmail,
       strVesselNominationCode:
         paramCode || values.strVesselNominationCode || "",
       numBunkerSurveyAmount: values.numBunkerSurveyAmount,
@@ -46,6 +50,8 @@ export default function CreateonHireBunkerAndContionalSurvey() {
     });
 
     const payload = {
+      strName: values?.strName,
+      strEmail: values?.strEmail,
       intRfqonHireBunkerQtyId: 0,
       intAccountId: accountId,
       intBusinessUnitId: 0,
@@ -79,6 +85,10 @@ export default function CreateonHireBunkerAndContionalSurvey() {
     numBunkerAndConditionSurveyAmount: Yup.number().required(
       "Bunker + Condition Survey Amount is required"
     ),
+    strName: Yup.string().required("Name is required"),
+    strEmail: Yup.string()
+      .email("Invalid email format")
+      .required("Email is required"),
   });
 
   return (
@@ -136,6 +146,26 @@ export default function CreateonHireBunkerAndContionalSurvey() {
                     errors={errors}
                   />
                 </div> */}
+                 <div className="col-lg-3">
+                <InputField
+                  value={values.strName || ""}
+                  label="Name"
+                  name="strName"
+                  type="text"
+                  onChange={(e) => setFieldValue("strName", e.target.value)}
+                  errors={errors}
+                />
+              </div>
+              <div className="col-lg-3">
+                <InputField
+                  value={values.strEmail || ""}
+                  label="Email"
+                  name="strEmail"
+                  type="text"
+                  onChange={(e) => setFieldValue("strEmail", e.target.value)}
+                  errors={errors}
+                />
+              </div>
                 <div className="col-lg-3">
                   <InputField
                     value={values.strVesselNominationCode}

@@ -12,6 +12,8 @@ import IViewModal from "../../_chartinghelper/_viewModal";
 import MailSender from "../mailSender";
 
 const initData = {
+  strName: "",
+  strEmail: "",
   strVesselNominationCode: "",
   isVesselNominationAccept: true,
   strRemarks: "",
@@ -21,6 +23,10 @@ const validationSchema = Yup.object().shape({
   strVesselNominationCode: Yup.string().required(
     "Vessel Nomination Code is required"
   ),
+  strName: Yup.string().required("Name is required"),
+  strEmail: Yup.string()
+    .email("Invalid email format")
+    .required("Email is required"),
 });
 
 export default function VesselNominationAcceptanceCreate() {
@@ -34,6 +40,8 @@ export default function VesselNominationAcceptanceCreate() {
 
   const saveHandler = async (values, cb) => {
     setPayloadInfo({
+      strName: values?.strName,
+      strEmail: values?.strEmail,
       strVesselNominationCode:
         paramCode || values?.strVesselNominationCode || "",
       isVesselNominationAccept: values?.isVesselNominationAccept,
@@ -41,6 +49,8 @@ export default function VesselNominationAcceptanceCreate() {
     });
 
     const payload = {
+      strName: values?.strName,
+      strEmail: values?.strEmail,
       intVesselNominationId: +paramId || 0,
       strVesselNominationCode:
         paramCode || values?.strVesselNominationCode || "",
@@ -103,6 +113,26 @@ export default function VesselNominationAcceptanceCreate() {
           {loader && <Loading />}
           <Form className="form form-label-right">
             <div className="form-group global-form row">
+              <div className="col-lg-3">
+                <InputField
+                  value={values.strName || ""}
+                  label="Name"
+                  name="strName"
+                  type="text"
+                  onChange={(e) => setFieldValue("strName", e.target.value)}
+                  errors={errors}
+                />
+              </div>
+              <div className="col-lg-3">
+                <InputField
+                  value={values.strEmail || ""}
+                  label="Email"
+                  name="strEmail"
+                  type="text"
+                  onChange={(e) => setFieldValue("strEmail", e.target.value)}
+                  errors={errors}
+                />
+              </div>
               <div className="col-lg-3">
                 <InputField
                   value={values.strVesselNominationCode || ""}

@@ -16,6 +16,8 @@ import MailSender from "../mailSender";
 import { generateFileUrl } from "../helper";
 
 const initData = {
+  strName: "",
+  strEmail: "",
   strEmailAddress: "",
   strAttachmentForPort: "",
   strAttachmentForPortDisbursment: "",
@@ -40,6 +42,8 @@ export default function EDPADischargePortCreate() {
 
   const saveHandler = (values, cb) => {
     setPayloadInfo({
+      strName: values?.strName,
+      strEmail: values?.strEmail,
       strAttachmentForPort: generateFileUrl(values?.strAttachmentForPort),
       strAttachmentForPortDisbursment: generateFileUrl(
         values?.strAttachmentForPortDisbursment
@@ -51,6 +55,8 @@ export default function EDPADischargePortCreate() {
     });
 
     const payload = {
+      strName: values?.strName,
+      strEmail: values?.strEmail,
       intEpdaAndPortInfoId: 0,
       intAccountId: accountId,
       intBusinessUnitId: 0,
@@ -77,6 +83,10 @@ export default function EDPADischargePortCreate() {
 
   const validationSchema = Yup.object().shape({
     strVesselNominationCode: Yup.string().required("Code is required"),
+    strName: Yup.string().required("Name is required"),
+    strEmail: Yup.string()
+      .email("Invalid email format")
+      .required("Email is required"),
   });
 
   return (
@@ -125,6 +135,26 @@ export default function EDPADischargePortCreate() {
           >
             <Form>
               <div className="form-group  global-form row">
+              <div className="col-lg-2">
+                <InputField
+                  value={values.strName || ""}
+                  label="Name"
+                  name="strName"
+                  type="text"
+                  onChange={(e) => setFieldValue("strName", e.target.value)}
+                  errors={errors}
+                />
+              </div>
+              <div className="col-lg-2">
+                <InputField
+                  value={values.strEmail || ""}
+                  label="Email"
+                  name="strEmail"
+                  type="text"
+                  onChange={(e) => setFieldValue("strEmail", e.target.value)}
+                  errors={errors}
+                />
+              </div>
                 <div className="col-lg-2">
                   <InputField
                     value={values.strVesselNominationCode}
