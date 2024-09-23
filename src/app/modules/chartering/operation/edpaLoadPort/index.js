@@ -208,15 +208,20 @@ export default function EDPALoadPort() {
                           </td>
                           <td className="text-center">
                             <button
+                              disabled={item?.isSelected}
                               type="button"
-                              className="btn btn-primary"
+                              className={
+                                item?.isSelected
+                                  ? "btn btn-sm btn-success px-1 py-1"
+                                  : "btn btn-sm btn-primary px-1 py-1"
+                              }
                               onClick={(e) => {
                                 e.stopPropagation();
                                 IConfirmModal({
                                   message: `Are you sure to select ?`,
                                   yesAlertFunc: () => {
                                     onSelectHandler(
-                                      `${imarineBaseUrl}/domain/VesselNomination/SetSelectedEpdaAgent?VesselNominationId=1&EpdaAndPortInfoId=1&AgentName=wer&AgentEmail=12%40sds`,
+                                      `${imarineBaseUrl}/domain/VesselNomination/SetSelectedEpdaAgent?VesselNominationId=${item?.intVesselNominationId}&EpdaAndPortInfoId=${item?.intEpdaAndPortInfoId}&AgentName=${item?.strName}&AgentEmail=${item?.strEmail}`,
                                       null,
                                       () => {
                                         setSingleRowData(item);
@@ -229,7 +234,7 @@ export default function EDPALoadPort() {
                                 });
                               }}
                             >
-                              Select
+                              {item?.isSelected ? "Selected" : "Select"}
                             </button>
                           </td>
                         </tr>
@@ -261,7 +266,7 @@ export default function EDPALoadPort() {
                 >
                   <EmailEditor
                     emailEditorProps={{
-                      intId: singleRowData?.intId,
+                      intId: singleRowData?.intVesselNominationId,
                       singleRowData: singleRowData,
                       cb: () => {
                         getLandingData(values, pageNo, pageSize, "");
