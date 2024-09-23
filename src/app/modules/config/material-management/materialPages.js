@@ -12,7 +12,7 @@ import LandingCard from "./itemBasicInfo/basicInfornationEdit/landingCard";
 import ItemCategory from "./itemCategory";
 import { ItemSubCategory } from "./itemSubCategory";
 import ItemSubCategoryEditForm from "./itemSubCategory/businessUnitEdit/editForm";
-import ItemSubCategoryAddForm from "./itemSubCategory/plantWarehouseCreate/addForm";
+import ItemSubCategoryAddForm from "./itemSubCategory/itemSubCategoryCreate/addForm";
 import PriceStructureAddForm from "./priceStructure/priceStructureCreate/addForm";
 import { UnitOfMeasurement } from "./unitOfMeasurement";
 import UOMAddForm from "./unitOfMeasurement/WarehouseCreate/addForm";
@@ -45,6 +45,7 @@ import { TradeOfferSetup } from "./tradeOfferSetup";
 import TradeOfferForm from "./tradeOfferSetup/Form/addEditForm";
 import WarehouseCostBridgeLanding from "./warehouseCostBridge/landing";
 import ItemCategoryAddForm from "./itemCategory/itemCategoryCreate/addForm";
+import ItemCategoryExpend from "./itemCategory/itemCategoryExpand/itemCategoryExpend";
 
 export function MaterialPages() {
   const userRole = useSelector(
@@ -80,6 +81,14 @@ export function MaterialPages() {
       <ContentRoute
         path="/config/material-management/item-basic-info/add"
         component={itemProfilePermission?.isCreate ? AddForm : NotPermittedPage}
+      />
+      <ContentRoute
+        path="/config/material-management/item-category/itemCategoryExpend/:id"
+        component={
+          itemCategoryPermission?.isCreate
+            ? ItemCategoryExpend
+            : NotPermittedPage
+        }
       />
       <ContentRoute
         path="/config/material-management/item-category/add"

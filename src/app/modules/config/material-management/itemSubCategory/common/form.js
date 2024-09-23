@@ -40,7 +40,6 @@ export default function _Form({
   const [itemTypeList, setItemTypeList] = useState("");
   const [itemTypeOption, setItemTypeOption] = useState([]);
   const [itemCategoryOption, setItemCategoryOption] = useState([]);
-  const [itemCategoryList, setItemCategoryList] = useState("");
   // console.log(selectedCrncOption);
 
   useEffect(() => {
@@ -69,25 +68,13 @@ export default function _Form({
     setItemTypeOption(itemTypes);
   }, [itemTypeList]);
 
-  const categoryApiCaller = async (v) => {
+  const categoryApiCaller = async (itemTypeId) => {
     const res = await Axios.get(
-      `/item/ItemCategory/GetItemCategoryDDLByTypeId?AccountId=${accountId}&BusinessUnitId=${selectedBusinessUnit.value}&ItemTypeId=${v}`
+      `/item/MasterCategory/GetItemMasterCategoryDDL?AccountId=${accountId}&ItemTypeId=${itemTypeId}`
     );
-    setItemCategoryList(res.data);
+    setItemCategoryOption(res.data);
   };
 
-  useEffect(() => {
-    const itemCategory = [];
-    itemCategoryList &&
-      itemCategoryList.forEach((item) => {
-        let items = {
-          value: item.itemCategoryId,
-          label: item.itemCategoryName,
-        };
-        itemCategory.push(items);
-      });
-    setItemCategoryOption(itemCategory);
-  }, [itemCategoryList]);
   return (
     <>
       <Formik

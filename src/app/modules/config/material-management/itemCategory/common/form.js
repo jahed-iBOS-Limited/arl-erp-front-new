@@ -53,36 +53,6 @@ export default function _Form({
     } catch (error) {}
   };
 
-  // const getGeneralLedgerDDL_api = async (groupId) => {
-  //   const id = groupId === 10 ? 1 : groupId === 9 ? 12 : 16;
-  //   try {
-  //     const res = await Axios.get(
-  //       `/domain/BusinessUnitGeneralLedger/GetGeneralLedgerForItemCategoryDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&AccountGroupId=${id}`
-  //     );
-  //     if (res.status === 200 && res?.data) {
-  //       const newData = res?.data?.map((itm) => ({
-  //         value: itm?.generalLedgerId,
-  //         label: itm?.generalLedgerName,
-  //       }));
-  //       setGeneralLedgerDDL(newData);
-  //     }
-  //   } catch (error) {}
-  // };
-  // const getGeneralLedgerDDL_api_forAsset = async (groupId) => {
-  //   try {
-  //     const res = await Axios.get(
-  //       `/domain/BusinessUnitGeneralLedger/GetAssetDepreciationGLDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`
-  //     );
-  //     if (res.status === 200 && res?.data) {
-  //       const newData = res?.data?.map((itm) => ({
-  //         value: itm?.generalLedgerId,
-  //         label: itm?.generalLedgerName,
-  //       }));
-  //       setGeneralLedgerDDL(newData);
-  //     }
-  //   } catch (error) {}
-  // };
-
   useEffect(() => {
     const itemTypes = [];
     itemTypeList &&

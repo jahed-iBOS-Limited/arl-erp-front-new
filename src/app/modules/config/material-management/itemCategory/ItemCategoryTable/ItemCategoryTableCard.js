@@ -7,6 +7,7 @@ import Loading from "../../../../_helper/_loading";
 import PaginationTable from "./../../../../_helper/_tablePagination";
 import PaginationSearch from "../../../../_helper/_search";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import { useHistory} from "react-router-dom";
 
 export function ItemCategoryTable() {
   const [products, setProducts] = useState(null);
@@ -15,6 +16,8 @@ export function ItemCategoryTable() {
   //paginationState
   const [pageNo, setPageNo] = React.useState(0);
   const [pageSize, setPageSize] = React.useState(15);
+
+  const history = useHistory();
 
   const selectedBusinessUnit = useSelector(
     (state) => state.authData.selectedBusinessUnit
@@ -81,16 +84,7 @@ export function ItemCategoryTable() {
       text: "Action",
       formatter: (cellContent, row) => {
         return (
-          <span
-            className="d-flex align-items-center justify-content-center"
-            style={{ cursor: "pointer"}}
-            onClick={() => {
-              // history.push({
-              //   pathname: ``,
-              //   state: { ...item },
-              // });
-            }}
-          >
+          <span className="d-flex align-items-center justify-content-center">
             <OverlayTrigger
               overlay={
                 <Tooltip id="cs-icon">
@@ -98,7 +92,15 @@ export function ItemCategoryTable() {
                 </Tooltip>
               }
             >
-              <span>
+              <span 
+                style={{ cursor: "pointer"}}
+                onClick={() => {
+                  history.push({
+                    pathname: `/config/material-management/item-category/itemCategoryExpend/${row.itemMasterCategoryId}`,
+                    state: { ...row },
+                  });
+                }}
+              >
                 <i
                   className={`fa fa-arrows-alt`}
                   onClick={() => {}}
