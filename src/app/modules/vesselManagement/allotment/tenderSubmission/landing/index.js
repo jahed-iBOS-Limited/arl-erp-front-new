@@ -14,17 +14,17 @@ import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import { getLetterHead } from "../../../../financialManagement/report/bankLetter/helper";
 import {
   approveStatusDDL,
-  businessPartnerDDL,
   fetchSubmittedTenderData,
-  landingPageValidationSchema,
+  generateBusinessPartnerDDL,
+  landingPageValidationSchema
 } from "../helper";
+import PrintBADCMOPTender from "../print/printBADCMOPTender";
 import PrintBADCTender from "../print/printBADCTender";
 import PrintBCICTender from "../print/printBCICTender";
 import "../print/style.css";
 import BADCMOPTable from "./badcMopTable";
 import BADCTendersTable from "./badcTable";
 import BCICTendersTable from "./bcicTable";
-import PrintBADCMOPTender from "../print/printBADCMOPTender";
 
 // const initData = {};
 
@@ -85,6 +85,9 @@ export default function TenderSubmissionLanding() {
       setTenderDetails([]);
     },
   });
+
+  // Business partner value & label (get from vessel management > configeration > godowns)
+  const businessPartnerDDL = generateBusinessPartnerDDL(buUnId);
 
   return (
     <Formik
