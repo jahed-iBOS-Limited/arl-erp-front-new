@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import Loading from "../../../../_helper/_loading";
 import PaginationTable from "./../../../../_helper/_tablePagination";
 import PaginationSearch from "../../../../_helper/_search";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
 export function ItemCategoryTable() {
   const [products, setProducts] = useState(null);
@@ -25,7 +26,7 @@ export function ItemCategoryTable() {
     const searchPath = search ? `searchTerm=${search}&` : "";
     try {
       const res = await Axios.get(
-        `/item/ItemCategory/GetItemCategoryByAccountIdUnitIdSearchPasignation?${searchPath}AccountId=${accId}&BusinessUnitId=${buId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
+        `/item/MasterCategory/GetItemMasterCategoryPasignation?${searchPath}AccountId=${accId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
       );
       setProducts(res?.data);
       setLoading(false);
@@ -33,6 +34,9 @@ export function ItemCategoryTable() {
       setLoading(false);
     }
   };
+
+  // /item/MasterCategory/GetItemMasterCategoryPasignation?
+  // AccountId=1&viewOrder=asc&PageNo=1&PageSize=100
 
   useEffect(() => {
     dispatchProduct(
@@ -65,24 +69,54 @@ export function ItemCategoryTable() {
       text: "SL",
     },
     {
-      dataField: "itemCategoryName",
+      dataField: "itemMasterCategoryName",
       text: "Category Name",
     },
     {
-      dataField: "itemTypeName",
+      dataField: "itemMasterTypeName",
       text: "Item Type",
     },
     {
-      dataField: "generalLedgerName",
-      text: "General Ledger Name",
+      dataField: "",
+      text: "Action",
+      formatter: (cellContent, row) => {
+        return (
+          <span
+            className="d-flex align-items-center justify-content-center"
+            style={{ cursor: "pointer"}}
+            onClick={() => {
+              // history.push({
+              //   pathname: ``,
+              //   state: { ...item },
+              // });
+            }}
+          >
+            <OverlayTrigger
+              overlay={
+                <Tooltip id="cs-icon">
+                  Business Unit and General Ledger Expand
+                </Tooltip>
+              }
+            >
+              <span>
+                <i
+                  className={`fa fa-arrows-alt`}
+                  onClick={() => {}}
+                ></i>
+              </span>
+            </OverlayTrigger>
+          </span>
+        );
+      },
     },
   ];
+  // <i class="fa fa-arrows-alt" aria-hidden="true"></i>
 
   return (
     <>
       {loading && <Loading />}
       <PaginationSearch
-        placeholder="Category Name and Type Search"
+        placeholder="Category Name & Item Type"
         paginationSearchHandler={paginationSearchHandler}
       />
       <BootstrapTable

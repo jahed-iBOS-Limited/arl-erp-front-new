@@ -17,31 +17,30 @@ const ProductEditSchema = Yup.object().shape({
     label: Yup.string().required("Item Type is required"),
     value: Yup.string().required("Item Type is required"),
   }),
-  generalLedger: Yup.object().when("itemTypeName.label", {
-    is: label => label !== "Services",
-    then: Yup.object().shape({
-      label: Yup.string().required("General Ledger is required"),
-      value: Yup.string().required("General Ledger is required"),
-    }),
-    otherwise: Yup.object().notRequired(),
-  }),
+  // generalLedger: Yup.object().when("itemTypeName.label", {
+  //   is: label => label !== "Services",
+  //   then: Yup.object().shape({
+  //     label: Yup.string().required("General Ledger is required"),
+  //     value: Yup.string().required("General Ledger is required"),
+  //   }),
+  //   otherwise: Yup.object().notRequired(),
+  // }),
 });
 
 
 export default function _Form({
   product,
   btnRef,
-  saveWarehouse,
+  saveItemCategory,
   resetBtnRef,
   // disableHandler,
-  itemCategorycode,
   itemCategoryName,
   selectedBusinessUnit,
   profileData,
 }) {
   const [itemTypeList, setItemTypeList] = useState("");
   const [itemTypeOption, setItemTypeOption] = useState([]);
-  const [generalLedgerDDL, setGeneralLedgerDDL] = useState([]);
+  // const [generalLedgerDDL, setGeneralLedgerDDL] = useState([]);
 
   useEffect(() => {
     getInfoData();
@@ -54,35 +53,35 @@ export default function _Form({
     } catch (error) {}
   };
 
-  const getGeneralLedgerDDL_api = async (groupId) => {
-    const id = groupId === 10 ? 1 : groupId === 9 ? 12 : 16;
-    try {
-      const res = await Axios.get(
-        `/domain/BusinessUnitGeneralLedger/GetGeneralLedgerForItemCategoryDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&AccountGroupId=${id}`
-      );
-      if (res.status === 200 && res?.data) {
-        const newData = res?.data?.map((itm) => ({
-          value: itm?.generalLedgerId,
-          label: itm?.generalLedgerName,
-        }));
-        setGeneralLedgerDDL(newData);
-      }
-    } catch (error) {}
-  };
-  const getGeneralLedgerDDL_api_forAsset = async (groupId) => {
-    try {
-      const res = await Axios.get(
-        `/domain/BusinessUnitGeneralLedger/GetAssetDepreciationGLDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`
-      );
-      if (res.status === 200 && res?.data) {
-        const newData = res?.data?.map((itm) => ({
-          value: itm?.generalLedgerId,
-          label: itm?.generalLedgerName,
-        }));
-        setGeneralLedgerDDL(newData);
-      }
-    } catch (error) {}
-  };
+  // const getGeneralLedgerDDL_api = async (groupId) => {
+  //   const id = groupId === 10 ? 1 : groupId === 9 ? 12 : 16;
+  //   try {
+  //     const res = await Axios.get(
+  //       `/domain/BusinessUnitGeneralLedger/GetGeneralLedgerForItemCategoryDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&AccountGroupId=${id}`
+  //     );
+  //     if (res.status === 200 && res?.data) {
+  //       const newData = res?.data?.map((itm) => ({
+  //         value: itm?.generalLedgerId,
+  //         label: itm?.generalLedgerName,
+  //       }));
+  //       setGeneralLedgerDDL(newData);
+  //     }
+  //   } catch (error) {}
+  // };
+  // const getGeneralLedgerDDL_api_forAsset = async (groupId) => {
+  //   try {
+  //     const res = await Axios.get(
+  //       `/domain/BusinessUnitGeneralLedger/GetAssetDepreciationGLDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`
+  //     );
+  //     if (res.status === 200 && res?.data) {
+  //       const newData = res?.data?.map((itm) => ({
+  //         value: itm?.generalLedgerId,
+  //         label: itm?.generalLedgerName,
+  //       }));
+  //       setGeneralLedgerDDL(newData);
+  //     }
+  //   } catch (error) {}
+  // };
 
   useEffect(() => {
     const itemTypes = [];
@@ -104,7 +103,7 @@ export default function _Form({
         initialValues={product}
         validationSchema={ProductEditSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          saveWarehouse(values, () => {
+          saveItemCategory(values, () => {
             resetForm(product);
           });
         }}
@@ -123,7 +122,7 @@ export default function _Form({
             {/* {disableHandler(!isValid)} */}
             <Form className="form form-label-right">
               <div className="form-group row global-form">
-                <div className="col-lg-4">
+                {/* <div className="col-lg-4">
                   <Field
                     value={selectedBusinessUnit.label} //{values.businessUnitName || ""}
                     name="businessUnitName"
@@ -132,7 +131,7 @@ export default function _Form({
                     label="Business Unit"
                     disabled="true"
                   />
-                </div>
+                </div> */}
                 <div className="col-lg-4">
                   <label>Item Type Name</label>
                   <Field
@@ -143,12 +142,12 @@ export default function _Form({
                         placeholder="Select Item Type"
                         value={values.itemTypeName}
                         onChange={(valueOption) => {
-                          setFieldValue("generalLedger", "");
-                          valueOption?.value === 10
-                            ? getGeneralLedgerDDL_api_forAsset(
-                                valueOption?.value
-                              )
-                            : getGeneralLedgerDDL_api(valueOption?.value);
+                          // setFieldValue("generalLedger", "");
+                          // valueOption?.value === 10
+                          //   ? getGeneralLedgerDDL_api_forAsset(
+                          //       valueOption?.value
+                          //     )
+                          //   : getGeneralLedgerDDL_api(valueOption?.value);
                           setFieldValue("itemTypeName", valueOption);
                         }}
                         isSearchable={true}
@@ -171,7 +170,7 @@ export default function _Form({
                     {errors?.itemTypeName?.value}
                   </p>
                 </div>
-                {["Services"]?.includes(values.itemTypeName?.label) ? null : (
+                {/* {["Services"]?.includes(values.itemTypeName?.label) ? null : (
                   <div className="col-lg-4">
                     <NewSelect
                       name="generalLedger"
@@ -185,7 +184,7 @@ export default function _Form({
                       touched={touched}
                     />
                   </div>
-                )}
+                )} */}
                 <div className="col-lg-4">
                   <Field
                     name="itemCategoryName"

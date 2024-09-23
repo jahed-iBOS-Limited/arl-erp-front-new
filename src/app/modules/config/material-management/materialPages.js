@@ -10,7 +10,6 @@ import ItemBasicInfo from "./itemBasicInfo";
 import AddForm from "./itemBasicInfo/basicInfornationCreate/addForm";
 import LandingCard from "./itemBasicInfo/basicInfornationEdit/landingCard";
 import ItemCategory from "./itemCategory";
-import ItemCategoryAddForm from "./itemCategory/WarehouseCreate/addForm";
 import { ItemSubCategory } from "./itemSubCategory";
 import ItemSubCategoryEditForm from "./itemSubCategory/businessUnitEdit/editForm";
 import ItemSubCategoryAddForm from "./itemSubCategory/plantWarehouseCreate/addForm";
@@ -45,6 +44,7 @@ import TradeOfferItemGroupForm from "./tradeOfferItemGroup/Form/addEditForm";
 import { TradeOfferSetup } from "./tradeOfferSetup";
 import TradeOfferForm from "./tradeOfferSetup/Form/addEditForm";
 import WarehouseCostBridgeLanding from "./warehouseCostBridge/landing";
+import ItemCategoryAddForm from "./itemCategory/itemCategoryCreate/addForm";
 
 export function MaterialPages() {
   const userRole = useSelector(

@@ -16,8 +16,7 @@ import Loading from "../../../../_helper/_loading";
 const initProduct = {
   id: undefined,
   itemCategoryName: "",
-  itemTypeId: "",
-  generalLedger: "",
+  itemTypeName: "",
 };
 
 export default function ItemCategoryAddForm({
@@ -38,28 +37,37 @@ export default function ItemCategoryAddForm({
     return state.authData.profileData;
   }, shallowEqual);
 
-  console.log("profileData", profileData);
-
-  const saveWarehouse = async (values, cb) => {
+  const saveItemCategory = async (values, cb) => {
+    console.log("mm m", values, id, profileData);
     setDisabled(true);
     if (!id && values && profileData) {
-      const warehouseData = {
+      // const warehouseData = {
+      //   accountId: profileData?.accountId,
+      //   itemCategoryName: values?.itemCategoryName,
+      //   businessUnitId: selectedBusinessUnit?.value,
+      //   businessUnitName: selectedBusinessUnit?.label,
+      //   accountName: "Akij",
+      //   generalLedgerId: values?.generalLedger?.value || 0,
+      //   generalLedgerName: values?.generalLedger?.label || "",
+      //   itemTypeId: values?.itemTypeName?.value,
+      //   actionBy: profileData?.userId,
+      // };
+
+      const itemCategoryCreatePayload = {
+        sl: 0,          
+        itemMasterCategoryId: 0,
         accountId: profileData?.accountId,
-        itemCategoryName: values?.itemCategoryName,
-        businessUnitId: selectedBusinessUnit?.value,
-        businessUnitName: selectedBusinessUnit?.label,
-        accountName: "Akij",
-        generalLedgerId: values?.generalLedger?.value || 0,
-        generalLedgerName: values?.generalLedger?.label || "",
-        itemTypeId: values?.itemTypeName?.value,
+        itemMasterCategoryCode: "",
+        itemMasterCategoryName: values?.itemCategoryName || '',
+        itemMasterTypeId: values?.itemTypeName?.value || 0,
         actionBy: profileData?.userId,
-      };
+      }
 
       try {
         setDisabled(true);
         const res = await Axios.post(
-          "/item/ItemCategory/CreateItemCategory",
-          warehouseData
+          "/item/MasterCategory/CreateItemMasterCategory",
+          itemCategoryCreatePayload
         );
         cb(initProduct);
         toast.success(res.data?.message || "Submitted successfully", {
@@ -89,7 +97,7 @@ export default function ItemCategoryAddForm({
     }
   };
 
-  const backToWarehouseList = () => {
+  const backToItemCategoryList = () => {
     history.push(`/config/material-management/item-category/`);
   };
 
@@ -104,7 +112,7 @@ export default function ItemCategoryAddForm({
         <CardHeaderToolbar>
           <button
             type="button"
-            onClick={backToWarehouseList}
+            onClick={backToItemCategoryList}
             className="btn btn-light"
           >
             <i className="fa fa-arrow-left"></i>
@@ -138,7 +146,7 @@ export default function ItemCategoryAddForm({
           <Form
             product={initProduct}
             btnRef={btnRef}
-            saveWarehouse={saveWarehouse}
+            saveItemCategory={saveItemCategory}
             resetBtnRef={resetBtnRef}
             // disableHandler={disableHandler}
             selectedBusinessUnit={selectedBusinessUnit}
