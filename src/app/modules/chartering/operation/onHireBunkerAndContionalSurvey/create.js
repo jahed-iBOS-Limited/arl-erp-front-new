@@ -228,6 +228,7 @@ export default function CreateonHireBunkerAndContionalSurvey() {
                 <div className="col-lg-3 mt-5">
                   {/* <label>Attachments</label> */}
                   <AttachmentUploaderNew
+                    isForPublicRoute={true}
                     isExistAttachment={values?.strAttachment}
                     CBAttachmentRes={(attachmentData) => {
                       if (Array.isArray(attachmentData)) {
