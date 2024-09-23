@@ -11,22 +11,22 @@ import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import IButton from "../../../../_helper/iButton";
 import {
-  businessPartnerDDL,
   createPageValidationSchema,
   ErrorMessage,
   fetchGodownDDLList,
   fetchMOPRowsData,
   fetchMotherVesselLists,
   fetchTenderDetailsCallbackForPrintAndCreateEditPage,
+  generateBusinessPartnerDDL,
   getDischargePortDDL,
   GetLoadPortDDL,
   initData,
   selectPayload,
   selectUrl,
-  updateState,
+  updateState
 } from "../helper";
-import BADCMOPRowsData from "./mopRowsData";
 import BADCMopTableEdit from "../landing/badcMopTableEdit";
+import BADCMOPRowsData from "./mopRowsData";
 
 export default function TenderSubmissionCreateEditForm() {
   const {
@@ -71,6 +71,9 @@ export default function TenderSubmissionCreateEditForm() {
 
   // Data post/save axios post
   const [, submitTender, submitTenderLoading] = useAxiosPost();
+
+  // Business partner value & label (get from vessel management > configeration > godowns)
+  const businessPartnerDDL = generateBusinessPartnerDDL(buUnId);
 
   useEffect(() => {
     // Get load & discharge port ddl
