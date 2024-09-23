@@ -45,6 +45,7 @@ export const initData = {
   foreignQnt: "",
   productName: "",
   loadPort: "",
+  layCan: "",
   foreignPriceUSD: "", // edit
 
   // bcic state
@@ -64,7 +65,6 @@ export const initData = {
   dueTime: "",
   lotQty: "",
   contractDate: "",
-  layCan: "",
   pricePerBag: "", // edit
 
   // badc (mop)
@@ -117,6 +117,13 @@ export const createPageValidationSchema = Yup.object({
   foreignPriceUSD: Yup.number()
     .positive()
     .min(0),
+  layCan: Yup.string().when("businessPartner", {
+    is: (businessPartner) =>
+      businessPartner &&
+      (businessPartner?.label === "BCIC" || businessPartner?.label === "BADC"),
+    then: Yup.string().required("Laycan is required"),
+    otherwise: Yup.string(),
+  }),
 
   // bcic
   dischargePort: Yup.string().when("businessPartner", {
@@ -202,12 +209,6 @@ export const createPageValidationSchema = Yup.object({
       businessPartner && businessPartner?.label === "BADC",
     then: Yup.date().required("Contract date is required"),
     otherwise: Yup.date(),
-  }),
-  layCan: Yup.string().when("businessPartner", {
-    is: (businessPartner) =>
-      businessPartner && businessPartner?.label === "BADC",
-    then: Yup.string().required("Laycan is required"),
-    otherwise: Yup.string(),
   }),
   pricePerBag: Yup.number()
     .positive()
@@ -365,6 +366,7 @@ export const updateState = (tenderDetails, updateMopRowsData) => {
       commercialNo: header?.commercialNo,
       commercialDate: _dateFormatter(header?.commercialDate),
       remarks: header?.strRemarks,
+      layCan: header?.laycan,
       motherVessel: header?.motherVesselId
         ? {
             label: header?.motherVesselName,
@@ -575,6 +577,7 @@ export const selectPayload = (
         commercialDate: values?.commercialDate,
         motherVesselId: values?.motherVessel?.value,
         motherVesselName: values?.motherVessel?.label,
+        laycan: values?.layCan,
       },
       // bcic
       rows: values?.localTransportations?.map((item) => ({

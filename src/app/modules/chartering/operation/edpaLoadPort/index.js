@@ -11,6 +11,10 @@ import { getDownlloadFileView_Action } from "../../../_helper/_redux/Actions";
 import PaginationTable from "../../../_helper/_tablePagination";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import IButton from "../../../_helper/iButton";
+import IViewModal from "../../../_helper/_viewModal";
+import EmailEditor from "./emailEditor";
+import IConfirmModal from "../../../_helper/_confirmModal";
+import useAxiosPut from "../../../_helper/customHooks/useAxiosPut";
 
 const initData = {};
 export default function EDPALoadPort() {
@@ -23,6 +27,9 @@ export default function EDPALoadPort() {
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
   const [gridData, getGridData, loading] = useAxiosGet();
+  const [isShowMailModal, setIsShowMailModal] = useState(false);
+  const [singleRowData, setSingleRowData] = useState({});
+  const [, onSelectHandler] = useAxiosPut();
 
   const getLandingData = (values, pageNo, pageSize, searchValue = "") => {
     getGridData(
@@ -108,6 +115,8 @@ export default function EDPALoadPort() {
                         <th>Grand Total </th>
                         <th>Attachment For Port</th>
                         <th>Attachment For Port Disbursment</th>
+                        <th>Mail</th>
+                        <th>Selected</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -181,6 +190,53 @@ export default function EDPALoadPort() {
                               </OverlayTrigger>
                             ) : null}
                           </td>
+                          <td className="text-center">
+                            <button
+                              type="button"
+                              className="btn btn-primary"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setSingleRowData({
+                                  ...item,
+                                  actionType: "SEND MAIL",
+                                });
+                                setIsShowMailModal(true);
+                              }}
+                            >
+                              Send Mail
+                            </button>
+                          </td>
+                          <td className="text-center">
+                            <button
+                              disabled={item?.isSelected}
+                              type="button"
+                              className={
+                                item?.isSelected
+                                  ? "btn btn-sm btn-success px-1 py-1"
+                                  : "btn btn-sm btn-primary px-1 py-1"
+                              }
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                IConfirmModal({
+                                  message: `Are you sure to select ?`,
+                                  yesAlertFunc: () => {
+                                    onSelectHandler(
+                                      `${imarineBaseUrl}/domain/VesselNomination/SetSelectedEpdaAgent?VesselNominationId=${item?.intVesselNominationId}&EpdaAndPortInfoId=${item?.intEpdaAndPortInfoId}&AgentName=${item?.strName}&AgentEmail=${item?.strEmail}`,
+                                      null,
+                                      () => {
+                                        setSingleRowData(item);
+                                        setIsShowMailModal(true);
+                                      },
+                                      true
+                                    );
+                                  },
+                                  noAlertFunc: () => {},
+                                });
+                              }}
+                            >
+                              {item?.isSelected ? "Selected" : "Select"}
+                            </button>
+                          </td>
                         </tr>
                       ))}
                     </tbody>
@@ -201,7 +257,25 @@ export default function EDPALoadPort() {
                   values={values}
                 />
               )}
-              <div></div>
+              <div>
+                <IViewModal
+                  show={isShowMailModal}
+                  onHide={() => {
+                    setIsShowMailModal(false);
+                  }}
+                >
+                  <EmailEditor
+                    emailEditorProps={{
+                      intId: singleRowData?.intVesselNominationId,
+                      singleRowData: singleRowData,
+                      cb: () => {
+                        getLandingData(values, pageNo, pageSize, "");
+                        setIsShowMailModal(false);
+                      },
+                    }}
+                  />
+                </IViewModal>
+              </div>
             </Form>
           </IForm>
         </>

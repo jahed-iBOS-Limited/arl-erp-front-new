@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import formatEmailsDynamically, { getEmailInfoandSendMail } from "./helper";
-import { marineBaseUrlPythonAPI } from "../../../App";
-import useAxiosPost from "../../_helper/customHooks/useAxiosPost";
-import Loading from "../../_helper/_loading";
-import AttachmentUploaderNew from "../../_helper/attachmentUploaderNew";
+import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
+import { marineBaseUrlPythonAPI } from "../../../../App";
+import Loading from "../../../_helper/_loading";
+import AttachmentUploaderNew from "../../../_helper/attachmentUploaderNew";
 
-const DiffEmailSender = ({ emailEditorProps }) => {
+const EmailEditor = ({ emailEditorProps }) => {
   const { intId, singleRowData, cb } = emailEditorProps;
 
   const [emailData, setEmailData] = useState({
@@ -31,42 +30,42 @@ const DiffEmailSender = ({ emailEditorProps }) => {
   const [, onSendEmail, loader] = useAxiosPost();
 
   useEffect(() => {
-    if (intId) {
-      const payload = {
-        intId: intId,
-      };
+    if (singleRowData?.actionType === "SEND MAIL") {
+      setEmailData({
+        ...emailData,
+        toEmail: singleRowData?.strEmail || "",
+      });
+    } else {
+      if (intId) {
+        const payload = {
+          intId: intId,
+        };
 
-      getEmailInfo(
-        `${marineBaseUrlPythonAPI}${
-          getEmailInfoandSendMail(singleRowData?.columnName)?.emailInfoUrl
-        }`,
-        payload,
-        (data) => {
-          setEmailData({
-            toEmail: data?.receiver?.replace(/,/g, " | ") || "",
-            ccEmail: formatEmailsDynamically(data?.email) || "",
-            subject: data?.subject || "",
-            emailBody: data?.body || "",
-          });
-        },
-        false
-      );
+        getEmailInfo(
+          `${marineBaseUrlPythonAPI}/automation/agency_appointment_portwise_mail_format`,
+          payload,
+          (data) => {
+            setEmailData({
+              toEmail: data?.receiver || "",
+              ccEmail: data?.email.join(", ") || "",
+              subject: data?.subject || "",
+              emailBody: data?.body || "",
+            });
+          },
+          false
+        );
+      }
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [intId]);
+  }, [intId, singleRowData]);
 
   // Regular expression to validate a single email address
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  // Function to validate multiple emails separated by '|'
-  const validateToEmails = (emailString) => {
-    const emails = emailString.split("|").map((email) => email.trim());
-    return emails.every((email) => emailRegex.test(email));
-  };
-
-  // Function to validate multiple emails separated by both ',' and '|'
-  const validateCcEmails = (emailString) => {
-    const emails = emailString.split(/[,|]/).map((email) => email.trim());
+  // Function to validate multiple email addresses separated by commas
+  const validateEmails = (emailString) => {
+    const emails = emailString.split(",").map((email) => email.trim());
     return emails.every((email) => emailRegex.test(email));
   };
 
@@ -76,15 +75,12 @@ const DiffEmailSender = ({ emailEditorProps }) => {
     setEmailData((prevState) => ({ ...prevState, [name]: value }));
 
     // Validation logic for individual fields
-    if (
-      name === "toEmail" &&
-      (emailRegex.test(value) || validateToEmails(value))
-    ) {
+    if (name === "toEmail" && emailRegex.test(value)) {
       setErrors((prevErrors) => ({ ...prevErrors, to: "" }));
     }
     if (
       name === "ccEmail" &&
-      (emailRegex.test(value) || validateCcEmails(value))
+      (emailRegex.test(value) || validateEmails(value))
     ) {
       setErrors((prevErrors) => ({ ...prevErrors, cc: "" }));
     }
@@ -107,20 +103,20 @@ const DiffEmailSender = ({ emailEditorProps }) => {
     let isValid = true;
     const newErrors = { to: "", cc: "", subject: "", body: "" };
 
-    // Check "To" field (multiple emails separated by |)
-    if (!emailData.toEmail || !validateToEmails(emailData.toEmail)) {
-      newErrors.to = "Please enter at least one valid email. If you add multiple separated by '|'.";
+    // Check "To" field (single email)
+    if (!emailData.toEmail || !emailRegex.test(emailData.toEmail)) {
+      newErrors.to = "Please enter a valid single email address.";
       isValid = false;
     }
 
-    // Check "Cc" field (multiple emails separated by | or ,)
+    // Check "Cc" field (single email or comma-separated emails)
     if (
       !emailData.ccEmail ||
       (!emailRegex.test(emailData.ccEmail) &&
-        !validateCcEmails(emailData.ccEmail))
+        !validateEmails(emailData.ccEmail))
     ) {
       newErrors.cc =
-        "Please enter a valid single email or multiple emails separated by ','. If you add for multiple user separated by '|'.";
+        "Please enter a valid single email or comma-separated emails.";
       isValid = false;
     }
 
@@ -139,26 +135,9 @@ const DiffEmailSender = ({ emailEditorProps }) => {
     setErrors(newErrors);
 
     if (isValid) {
-      // Split toEmail into arrays based on '|' character
-      const toEmailArray = emailData.toEmail
-        .split("|")
-        .map((email) => email.trim());
-
-      // Split ccEmail into arrays based on '|' character (if any)
-      const ccEmailArray = emailData.ccEmail
-        .split("|")
-        .map((cc) => cc.split(",").map((email) => email.trim()));
-
-      // Construct the email_list based on the number of toEmail entries
-      const email_list = toEmailArray.map((toEmail, index) => {
-        // For each toEmail, assign corresponding ccEmail
-        const ccEmails = ccEmailArray[index] || []; // Use an empty array if no ccEmail exists for the index
-        return [...ccEmails]; // Merge toEmail with corresponding ccEmails
-      });
-
       const payload = {
-        receiver: toEmailArray.join(", "), // Flatten toEmailArray for the receiver field
-        email_list: JSON.stringify(email_list),
+        receiver: emailData.toEmail,
+        email_list: emailData.ccEmail,
         subject: emailData.subject,
         body: emailData.emailBody,
         intId: intId,
@@ -166,9 +145,7 @@ const DiffEmailSender = ({ emailEditorProps }) => {
       };
 
       onSendEmail(
-        `${marineBaseUrlPythonAPI}${
-          getEmailInfoandSendMail(singleRowData?.columnName)?.sendEmailUrl
-        }`,
+        `${marineBaseUrlPythonAPI}/automation/agency_appointment_portwise_mail_sent`,
         payload,
         cb,
         true
@@ -250,9 +227,9 @@ const DiffEmailSender = ({ emailEditorProps }) => {
           <div style={styles.field}>
             <label style={styles.label}>To:</label>
             <input
-              type="text"
+              type="email"
               name="toEmail"
-              placeholder="Recipient's email (use '|' to separate multiple)"
+              placeholder="Recipient's email"
               value={emailData.toEmail}
               onChange={handleInputChange}
               style={styles.input}
@@ -265,7 +242,7 @@ const DiffEmailSender = ({ emailEditorProps }) => {
             <input
               type="text"
               name="ccEmail"
-              placeholder="Cc (comma-separated emails or '|' for multiple)"
+              placeholder="Cc (comma-separated emails or single email)"
               value={emailData.ccEmail}
               onChange={handleInputChange}
               style={styles.input}
@@ -307,12 +284,23 @@ const DiffEmailSender = ({ emailEditorProps }) => {
             value={emailData.emailBody}
             onChange={handleBodyChange}
             style={styles.quill}
+            placeholder="Write here..."
           />
-          {errors.body && <div style={styles.bodyError}>{errors.body}</div>}
         </div>
+        {errors.body && <div style={styles.bodyError}>{errors.body}</div>}
 
-        <div style={styles.footer}>
-          <button style={styles.button} onClick={handleSend}>
+        <div className="" style={styles.footer}>
+          <button
+            className="btn btn-primary"
+            onClick={handleSend}
+            onMouseOver={(e) =>
+              (e.target.style.backgroundColor =
+                styles.buttonHover.backgroundColor)
+            }
+            onMouseOut={(e) =>
+              (e.target.style.backgroundColor = styles.button.backgroundColor)
+            }
+          >
             Send
           </button>
         </div>
@@ -321,4 +309,4 @@ const DiffEmailSender = ({ emailEditorProps }) => {
   );
 };
 
-export default DiffEmailSender;
+export default EmailEditor;
