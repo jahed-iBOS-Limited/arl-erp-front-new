@@ -170,15 +170,15 @@ export default function CreateDischargePort() {
               return (
                 <div>
                   <button
-                  type="button"
-                  disabled={!payloadInfo}
-                  className="btn btn-primary mr-3"
-                  onClick={() => {
-                    setIsShowModal(true);
-                  }}
-                >
-                  Send Mail
-                </button>
+                    type="button"
+                    disabled={!payloadInfo}
+                    className="btn btn-primary mr-3"
+                    onClick={() => {
+                      setIsShowModal(true);
+                    }}
+                  >
+                    Send Mail
+                  </button>
                   <button
                     type="submit"
                     className="btn btn-primary"
@@ -194,26 +194,26 @@ export default function CreateDischargePort() {
           >
             <Form>
               <div className="form-group global-form row">
-              <div className="col-lg-2">
-                <InputField
-                  value={values.strName || ""}
-                  label="Name"
-                  name="strName"
-                  type="text"
-                  onChange={(e) => setFieldValue("strName", e.target.value)}
-                  errors={errors}
-                />
-              </div>
-              <div className="col-lg-2">
-                <InputField
-                  value={values.strEmail || ""}
-                  label="Email"
-                  name="strEmail"
-                  type="text"
-                  onChange={(e) => setFieldValue("strEmail", e.target.value)}
-                  errors={errors}
-                />
-              </div>
+                <div className="col-lg-2">
+                  <InputField
+                    value={values.strName || ""}
+                    label="Name"
+                    name="strName"
+                    type="text"
+                    onChange={(e) => setFieldValue("strName", e.target.value)}
+                    errors={errors}
+                  />
+                </div>
+                <div className="col-lg-2">
+                  <InputField
+                    value={values.strEmail || ""}
+                    label="Email"
+                    name="strEmail"
+                    type="text"
+                    onChange={(e) => setFieldValue("strEmail", e.target.value)}
+                    errors={errors}
+                  />
+                </div>
                 {/* Vessel Name */}
                 <div className="col-lg-2">
                   <NewSelect
@@ -266,6 +266,7 @@ export default function CreateDischargePort() {
                 <div className="col-lg-2 d-flex flex-column">
                   <label>SOF</label>
                   <AttachmentUploaderNew
+                    isForPublicRoute={true}
                     isExistAttachment={values?.strSoffile}
                     CBAttachmentRes={(attachmentData) => {
                       if (Array.isArray(attachmentData)) {
@@ -280,6 +281,7 @@ export default function CreateDischargePort() {
                 <div className="col-lg-2 d-flex flex-column">
                   <label>NOR</label>
                   <AttachmentUploaderNew
+                    isForPublicRoute={true}
                     isExistAttachment={values?.strNorfile}
                     CBAttachmentRes={(attachmentData) => {
                       if (Array.isArray(attachmentData)) {
@@ -294,6 +296,7 @@ export default function CreateDischargePort() {
                 <div className="col-lg-2 d-flex flex-column">
                   <label>Final Draft Survey Report</label>
                   <AttachmentUploaderNew
+                    isForPublicRoute={true}
                     CBAttachmentRes={(attachmentData) => {
                       if (Array.isArray(attachmentData)) {
                         setAttachment(attachmentData?.[0]?.id);
@@ -311,6 +314,7 @@ export default function CreateDischargePort() {
                 <div className="col-lg-2 d-flex flex-column">
                   <label>Final Stowage Plan</label>
                   <AttachmentUploaderNew
+                    isForPublicRoute={true}
                     CBAttachmentRes={(attachmentData) => {
                       if (Array.isArray(attachmentData)) {
                         setAttachment(attachmentData?.[0]?.id);
@@ -328,6 +332,7 @@ export default function CreateDischargePort() {
                 <div className="col-lg-2 d-flex flex-column">
                   <label>Mate's Receipt</label>
                   <AttachmentUploaderNew
+                    isForPublicRoute={true}
                     isExistAttachment={values?.strMatesReceiptFile}
                     CBAttachmentRes={(attachmentData) => {
                       if (Array.isArray(attachmentData)) {
@@ -345,6 +350,7 @@ export default function CreateDischargePort() {
                 <div className="col-lg-2 d-flex flex-column">
                   <label>Cargo Manifest</label>
                   <AttachmentUploaderNew
+                    isForPublicRoute={true}
                     isExistAttachment={values?.strCargoManifestFile}
                     CBAttachmentRes={(attachmentData) => {
                       if (Array.isArray(attachmentData)) {
@@ -362,6 +368,7 @@ export default function CreateDischargePort() {
                 <div className="col-lg-2 d-flex flex-column">
                   <label>Master Receipt of Sample</label>
                   <AttachmentUploaderNew
+                    isForPublicRoute={true}
                     isExistAttachment={values?.strMasterReceiptOfSampleFile}
                     CBAttachmentRes={(attachmentData) => {
                       if (Array.isArray(attachmentData)) {
@@ -379,6 +386,7 @@ export default function CreateDischargePort() {
                 <div className="col-lg-2 d-flex flex-column">
                   <label>Authorization Letter</label>
                   <AttachmentUploaderNew
+                    isForPublicRoute={true}
                     isExistAttachment={values?.strAuthorizationLetterFile}
                     CBAttachmentRes={(attachmentData) => {
                       if (Array.isArray(attachmentData)) {
@@ -396,6 +404,7 @@ export default function CreateDischargePort() {
                 <div className="col-lg-2 d-flex flex-column">
                   <label>Sealing Report</label>
                   <AttachmentUploaderNew
+                    isForPublicRoute={true}
                     isExistAttachment={values?.strSealingReportFile}
                     CBAttachmentRes={(attachmentData) => {
                       if (Array.isArray(attachmentData)) {
@@ -413,6 +422,7 @@ export default function CreateDischargePort() {
                 <div className="col-lg-2 d-flex flex-column">
                   <label>Hold Inspection report</label>
                   <AttachmentUploaderNew
+                    isForPublicRoute={true}
                     isExistAttachment={values?.strHoldInspectionReportFile}
                     CBAttachmentRes={(attachmentData) => {
                       if (Array.isArray(attachmentData)) {

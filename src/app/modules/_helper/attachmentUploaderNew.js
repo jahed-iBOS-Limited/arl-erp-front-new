@@ -1,12 +1,12 @@
 import { DropzoneDialogBase } from "material-ui-dropzone";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
-import { uploadAttachment } from "../financialManagement/invoiceManagementSystem/billregister/helper";
+import { uploadAttachment, uploadAttachmentNew } from "../financialManagement/invoiceManagementSystem/billregister/helper";
 import { compressfile } from "./compressfile";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import Loading from "./_loading";
 
-export default function AttachmentUploaderNew({ CBAttachmentRes, showIcon, attachmentIcon, customStyle, tooltipLabel, fileUploadLimits, isExistAttachment=false }) {
+export default function AttachmentUploaderNew({ CBAttachmentRes, showIcon, attachmentIcon, customStyle, tooltipLabel, fileUploadLimits, isExistAttachment=false, isForPublicRoute=false }) {
   const [fileObjects, setFileObjects] = useState([]);
   const [open, setOpen] = useState(false);
   const [loading, setLoading] =  useState(false)
@@ -86,7 +86,8 @@ export default function AttachmentUploaderNew({ CBAttachmentRes, showIcon, attac
               if (compressedFile?.length < 1) {
                 return toast.warn("Attachment required");
               } else {
-                uploadAttachment(compressedFile, setLoading)
+                const uploadFunction = isForPublicRoute ? uploadAttachmentNew : uploadAttachment;
+                uploadFunction(compressedFile, setLoading)
                   .then((res) => {
                     if (res?.length) {
                       setOpen(false);
