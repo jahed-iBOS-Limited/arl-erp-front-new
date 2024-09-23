@@ -428,6 +428,10 @@ export default function _Form({
                             label: "Channel Partner",
                           },
                           {
+                            value: "ChannelAssociate",
+                            label: "Channel Associate",
+                          },
+                          {
                             value: "Business Associate",
                             label: "Business Associate",
                           },

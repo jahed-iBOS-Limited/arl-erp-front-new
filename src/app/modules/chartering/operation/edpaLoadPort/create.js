@@ -192,6 +192,7 @@ export default function EDPALoadPortCreate() {
                   <label htmlFor="">Attachment For Port</label>
                   <div className="">
                     <AttachmentUploaderNew
+                    isForPublicRoute={true}
                       style={{
                         backgroundColor: "transparent",
                         color: "black",
@@ -213,6 +214,7 @@ export default function EDPALoadPortCreate() {
                   <label htmlFor="">Attachment For Port Disbursment</label>
                   <div className="">
                     <AttachmentUploaderNew
+                      isForPublicRoute={true}
                       style={{
                         backgroundColor: "transparent",
                         color: "black",
