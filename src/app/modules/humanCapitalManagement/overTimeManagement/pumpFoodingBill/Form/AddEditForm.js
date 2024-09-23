@@ -89,9 +89,17 @@ export function PumpFoodingBill() {
 
         return compareTimeIntervals();
       });
-      if (exists?.length > 0 && exists?.some((item)=> +item?.employeeId === +values?.employee?.value)) {
+      if (
+        exists?.length > 0 &&
+        exists?.some((item) => +item?.employeeId === +values?.employee?.value)
+      ) {
         return toast.warn("Employee is not available in this time interval!");
       }
+      // custom validation for warehouse
+      const warehouseLabel = values?.warehouse?.label;
+      const warehouseValue = values?.warehouse?.value;      
+      if (!warehouseLabel || !warehouseValue)
+        return toast.warn("Please select warehouse");
 
       const diff = getTimeDifference(
         values?.date,
