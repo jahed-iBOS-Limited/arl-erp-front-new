@@ -38,6 +38,7 @@ const initData = {
    ved: '',
    fns: '',
    shippingItemSubHead: '',
+   businessUnitForItemExtend: ''
 };
 
 export default function ConfigItemPlantWareHouse({ isViewPage, onSuccess }) {
@@ -55,6 +56,10 @@ export default function ConfigItemPlantWareHouse({ isViewPage, onSuccess }) {
    const selectedBusinessUnit = useSelector(state => {
       return state.authData.selectedBusinessUnit;
    }, shallowEqual);
+   
+   const businessUnitDDL = useSelector((state) => {
+      return state.authData.businessUnitList;
+  }, shallowEqual);
 
    const [rowDto, setRowDto] = useState([]);
    const [defaultRowDto, setDefaultRowDto] = useState([]);
@@ -84,6 +89,10 @@ export default function ConfigItemPlantWareHouse({ isViewPage, onSuccess }) {
                data[0]?.createItemUOMConvertionDTO?.length > 0
             ) {
                const singleObj = {
+                  businessUnitForItemExtend: {
+                     value: data[0]?.getItemPlantWHDTO[0]?.businessUnitId,
+                     label: data[0]?.getItemPlantWHDTO[0]?.businessUnitName,
+                  },
                   plant: {
                      value: data[0]?.getItemPlantWHDTO[0]?.plantId,
                      label: data[0]?.getItemPlantWHDTO[0]?.plantName,
@@ -100,6 +109,7 @@ export default function ConfigItemPlantWareHouse({ isViewPage, onSuccess }) {
                setIsEdit(true);
                setDefaultRowDto(data[0]?.getItemPlantWHDTO);
                setRowDto(data[0]?.createItemUOMConvertionDTO);
+               console.log('data', data);
             }
          }
       } catch (error) {}
@@ -314,7 +324,7 @@ export default function ConfigItemPlantWareHouse({ isViewPage, onSuccess }) {
       //   isUniq(
       //     "inventoryLocationId",
       //     payload.inventoryLocationId,
-      //     defaultRowDto
+      //     defaultRowDto 
       //   )
       //   //  &&
       //   // isUniq("warehouseId", payload.warehouseId, defaultRowDto)
@@ -439,6 +449,7 @@ export default function ConfigItemPlantWareHouse({ isViewPage, onSuccess }) {
                userId={profileData?.userId}
                baseSetter={baseSetter}
                isEdit={isEdit}
+               businessUnitDDL={businessUnitDDL}
             />
          </CardBody>
       </Card>

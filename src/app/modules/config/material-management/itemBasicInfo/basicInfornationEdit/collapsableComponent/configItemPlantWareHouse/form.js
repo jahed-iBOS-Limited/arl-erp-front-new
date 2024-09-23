@@ -48,47 +48,50 @@ export default function _Form({
    selectedBusinessUnit,
    userId,
    isEdit,
+   businessUnitDDL
 }) {
    const [plantList, setPlantList] = useState([]);
    const [whList, setWhList] = useState([]);
    const [inventoryLocationList, setInventoryLocationList] = useState([]);
    const [baseUomList, setBaseUomList] = useState([]);
    const [altUomOption, setAltUomOption] = useState([]);
-
+console.log("productData", productData)
    useEffect(() => {
       if (accountId && selectedBusinessUnit) {
          getPlantItemPlantWareHouseDDL(
             userId,
             accountId,
-            selectedBusinessUnit?.value
+            productData?.businessUnitForItemExtend?.value
          );
+         if (
+            accountId &&
+            productData?.businessUnitForItemExtend?.value &&
+            productData?.plant?.value
+         ) {
+            whApiCaller(
+               accountId,
+               productData?.businessUnitForItemExtend?.value,
+               productData?.plant?.value
+            );
+         }
+      }
+   }, [productData, accountId]);
+   useEffect(() => {
+      if (accountId && selectedBusinessUnit) {
          getItemUOMDDL(accountId, selectedBusinessUnit?.value);
       }
    }, [selectedBusinessUnit, accountId]);
 
-   useEffect(() => {
-      if (
-         accountId &&
-         selectedBusinessUnit?.value &&
-         productData?.plant?.value
-      ) {
-         whApiCaller(
-            accountId,
-            selectedBusinessUnit?.value,
-            productData?.plant?.value
-         );
-      }
-   }, [selectedBusinessUnit, accountId, productData]);
 
-   useEffect(() => {
-      if (accountId && selectedBusinessUnit?.value && plantList[0]?.value) {
-         whApiCaller(
-            accountId,
-            selectedBusinessUnit?.value,
-            plantList[0]?.value
-         );
-      }
-   }, [selectedBusinessUnit, accountId, plantList]);
+   // useEffect(() => {
+   //    if (accountId && selectedBusinessUnit?.value && plantList[0]?.value) {
+   //       whApiCaller(
+   //          accountId,
+   //          selectedBusinessUnit?.value,
+   //          plantList[0]?.value
+   //       );
+   //    }
+   // }, [selectedBusinessUnit, accountId, plantList]);
 
    // useEffect(() => {
    //   if (
@@ -98,6 +101,7 @@ export default function _Form({
    //     productData?.warehouse?.value
    //   ) {
    //     inventoryLocationAPiCaller(
+   //       productData?.businessUnitForItemExtend?.value,
    //       productData?.warehouse?.value,
    //       productData?.plant?.value
    //     );
@@ -167,7 +171,7 @@ export default function _Form({
    };
 
    // Get inventory location by warehouseid and plantid
-   const inventoryLocationAPiCaller = async (whid, plantId) => {
+   const inventoryLocationAPiCaller = async (buId, whid, plantId) => {
       const res = await Axios.get(
          `/wms/InventoryLocation/GetInventoryLocationDDL?AccountId=${accountId}&BusinessUnitId=${selectedBusinessUnit.value}&plantId=${plantId}&WhId=${whid}`
       );
@@ -221,8 +225,12 @@ export default function _Form({
             initialValues={{
                ...productData,
                plant: {
-                  value: plantList ? plantList[0]?.value : '',
-                  label: plantList ? plantList[0]?.label : '',
+                  value: productData?.businessUnitForItemExtend?.value ? 
+                  productData?.plant?.value : 
+                  plantList ? plantList[0]?.value : '',
+                  label: productData?.businessUnitForItemExtend?.value ? 
+                  productData?.plant?.label : 
+                  plantList ? plantList[0]?.label : '',
                },
                baseUom: {
                   value: rowDto ? rowDto[0]?.baseUomId : '',
@@ -255,6 +263,28 @@ export default function _Form({
                         <div className="form-group row align-content-center my-5 global-form">
                            <div className="col-lg-3  p-1">
                               <NewSelect
+                                 name="businessUnitForItemExtend"
+                                 options={businessUnitDDL || []}
+                                 value={values?.businessUnitForItemExtend}
+                                 label="Select Business Unit"
+                                 onChange={valueOption => {
+                                    setFieldValue('plant', '');
+                                    setFieldValue('warehouse', '');
+                                    setFieldValue('inventoryLocation', '');
+                                    getPlantItemPlantWareHouseDDL(
+                                       userId,
+                                       accountId,
+                                       valueOption?.value
+                                    );
+                                    setFieldValue('businessUnitForItemExtend', valueOption);
+                                 }}
+                                 placeholder="Select Business Unit"
+                                 errors={errors}
+                                 touched={touched}
+                              />
+                           </div>
+                           <div className="col-lg-3  p-1">
+                              <NewSelect
                                  name="plant"
                                  options={plantList || []}
                                  value={values?.plant}
@@ -264,7 +294,7 @@ export default function _Form({
                                     setFieldValue('inventoryLocation', '');
                                     whApiCaller(
                                        accountId,
-                                       selectedBusinessUnit?.value,
+                                       values?.businessUnitForItemExtend?.value || 0,
                                        valueOption?.value
                                     );
                                     setFieldValue('plant', valueOption);
@@ -292,6 +322,7 @@ export default function _Form({
                                              valueOption
                                           );
                                           inventoryLocationAPiCaller(
+                                             values?.businessUnitForItemExtend?.value,
                                              valueOption?.value,
                                              values?.plant?.value
                                           );
