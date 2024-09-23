@@ -15,7 +15,6 @@ import IViewModal from "../../../_helper/_viewModal";
 import EmailEditor from "./emailEditor";
 import IConfirmModal from "../../../_helper/_confirmModal";
 import useAxiosPut from "../../../_helper/customHooks/useAxiosPut";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 
 const initData = {};
 export default function EDPALoadPort() {
@@ -30,7 +29,7 @@ export default function EDPALoadPort() {
   const [gridData, getGridData, loading] = useAxiosGet();
   const [isShowMailModal, setIsShowMailModal] = useState(false);
   const [singleRowData, setSingleRowData] = useState({});
-  const [, onSelectHandler] = useAxiosPost();
+  const [, onSelectHandler] = useAxiosPut();
 
   const getLandingData = (values, pageNo, pageSize, searchValue = "") => {
     getGridData(
