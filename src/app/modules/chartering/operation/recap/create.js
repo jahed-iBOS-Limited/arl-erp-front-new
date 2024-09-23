@@ -58,7 +58,7 @@ const validationSchema = Yup.object().shape({
       label: Yup.string().required("Vessel is required"),
     })
     .typeError("Vessel is required"),
-  accountName: Yup.string().required("Account Name is required"),
+  accountName: Yup.string().required("Charter Name is required"),
   cargoName: Yup.object()
     .shape({
       value: Yup.string().required("Cargo is required"),
@@ -260,7 +260,7 @@ export default function RecapCreate() {
               <div className="col-lg-3">
                 <InputField
                   value={values.accountName}
-                  label="Account Name"
+                  label="Charter Name"
                   name="accountName"
                   type="text"
                   onChange={(e) => setFieldValue("accountName", e.target.value)}
@@ -341,24 +341,24 @@ export default function RecapCreate() {
               </div>
               <div className="col-lg-3">
                 <InputField
-                  value={values.dteVoyageCompletion}
-                  label="Voyage Completion Date"
-                  name="dteVoyageCompletion"
-                  type="date"
-                  onChange={(e) =>
-                    setFieldValue("dteVoyageCompletion", e.target.value)
-                  }
-                  errors={errors}
-                />
-              </div>
-              <div className="col-lg-3">
-                <InputField
                   value={values.dteVoyageCommenced}
                   label="Voyage Commenced Date"
                   name="dteVoyageCommenced"
                   type="date"
                   onChange={(e) =>
                     setFieldValue("dteVoyageCommenced", e.target.value)
+                  }
+                  errors={errors}
+                />
+              </div>
+              <div className="col-lg-3">
+                <InputField
+                  value={values.dteVoyageCompletion}
+                  label="Voyage Completion Date"
+                  name="dteVoyageCompletion"
+                  type="date"
+                  onChange={(e) =>
+                    setFieldValue("dteVoyageCompletion", e.target.value)
                   }
                   errors={errors}
                 />
