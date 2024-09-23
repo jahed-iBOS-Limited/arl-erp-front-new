@@ -341,24 +341,24 @@ export default function RecapCreate() {
               </div>
               <div className="col-lg-3">
                 <InputField
-                  value={values.dteVoyageCompletion}
-                  label="Voyage Completion Date"
-                  name="dteVoyageCompletion"
-                  type="date"
-                  onChange={(e) =>
-                    setFieldValue("dteVoyageCompletion", e.target.value)
-                  }
-                  errors={errors}
-                />
-              </div>
-              <div className="col-lg-3">
-                <InputField
                   value={values.dteVoyageCommenced}
                   label="Voyage Commenced Date"
                   name="dteVoyageCommenced"
                   type="date"
                   onChange={(e) =>
                     setFieldValue("dteVoyageCommenced", e.target.value)
+                  }
+                  errors={errors}
+                />
+              </div>
+              <div className="col-lg-3">
+                <InputField
+                  value={values.dteVoyageCompletion}
+                  label="Voyage Completion Date"
+                  name="dteVoyageCompletion"
+                  type="date"
+                  onChange={(e) =>
+                    setFieldValue("dteVoyageCompletion", e.target.value)
                   }
                   errors={errors}
                 />
