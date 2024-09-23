@@ -18,12 +18,19 @@ export const ErrorMessage = ({ name }) => (
   />
 );
 
-// Business partner value & label (get from vessel management > configeration > godowns)
-export const businessPartnerDDL = [
-  { value: 89497, label: "BCIC" },
-  { value: 88075, label: "BADC" },
-  { value: 3, label: "BADC(MOP)" },
-];
+// Generate business partner ddl
+export const generateBusinessPartnerDDL = (buUnId) => {
+  // 94 - MS Successors - 73245
+  // 178 - Bongo Traders - 89497
+  const isBongoTraders = buUnId === 178;
+  const bcicValue = isBongoTraders ? 89497 : 73245;
+
+  return [
+    { value: bcicValue, label: "BCIC" },
+    { value: 88075, label: "BADC" },
+    { value: 3, label: "BADC(MOP)" },
+  ];
+};
 
 // Approve status for landing page
 export const approveStatusDDL = [
