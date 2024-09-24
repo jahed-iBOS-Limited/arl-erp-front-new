@@ -4,7 +4,6 @@ export const generateFileUrl = (fileId) => {
     : "";
 };
 
-
 export function getEmailInfoandSendMail(name) {
   let emailInfoUrl = "";
   let sendEmailUrl = "";
@@ -43,15 +42,16 @@ export function getEmailInfoandSendMail(name) {
       sendEmailUrl = "/automation/tcl_mail_sent";
       break;
     case "WEATHER ROUTING COMPANY":
-      emailInfoUrl = "/automation/weather_routing_mail_format";
-      sendEmailUrl = "/automation/weather_routing_mail_sent";
+      emailInfoUrl = "/automation/weather_routing_mail_format_multi";
+      sendEmailUrl = "/automation/weather_routing_mail_sent_multi";
       break;
     case "DEPARTURE DOCUMENT LOADPORT":
       emailInfoUrl = "/automation/departure_documents_load_port_mail_format";
       sendEmailUrl = "/automation/departure_documents_load_port_mail_sent";
       break;
     case "DEPARTURE DOCUMENT DISCHARGE PORT":
-      emailInfoUrl = "/automation/departure_documents_discharge_port_mail_format";
+      emailInfoUrl =
+        "/automation/departure_documents_discharge_port_mail_format";
       sendEmailUrl = "/automation/departure_documents_discharge_port_mail_sent";
       break;
     case "EPDA DISCHARGE PORT":
@@ -71,7 +71,6 @@ export function getEmailInfoandSendMail(name) {
   return { emailInfoUrl: emailInfoUrl, sendEmailUrl: sendEmailUrl };
 }
 
-
 // export default function formatEmailsDynamically(emailArray) {
 //   let formattedParts = emailArray.map(item => item.join(','));
 
@@ -81,15 +80,22 @@ export function getEmailInfoandSendMail(name) {
 // }
 
 export default function formatEmailsDynamically(emailArray) {
-  // Join each sub-array into a comma-separated string
-  let formattedParts = emailArray.map(item => item.join(','));
+  // Check if the emailArray is empty, return empty string if true
+  if (emailArray.length === 0) {
+    return "";
+  }
 
-  // Join all formatted parts with a ' | '
-  let result = formattedParts.join(' | ');
+  // Process the emailArray
+  const formattedParts = emailArray.map((item, index) => {
+    // Replace empty arrays with "No Emails"
+    const formattedItem = item.length > 0 ? item.join(", ") : "No Emails";
 
-  // Remove unnecessary trailing '| ' or ' |'
-  result = result.replace(/\s*\|\s*$/, '');
+    // Add | before each formatted item except the first one
+    return index > 0 ? `| ${formattedItem}` : formattedItem;
+  });
+
+  // Join all formatted parts with a space
+  const result = formattedParts.join(" ");
 
   return result;
 }
-

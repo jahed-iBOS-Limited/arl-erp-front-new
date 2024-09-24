@@ -1,16 +1,16 @@
 import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { shallowEqual, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import * as Yup from "yup";
-import { imarineBaseUrl, marineBaseUrlPythonAPI } from "../../../../App";
+import { imarineBaseUrl } from "../../../../App";
 import IForm from "../../../_helper/_form";
 import InputField from "../../../_helper/_inputField";
 import Loading from "../../../_helper/_loading";
 import NewSelect from "../../../_helper/_select";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import { useHistory } from "react-router-dom";
+import { commonBunkerInputFieldsCalculatorFunc } from "./utils";
 
 const initData = {
   strCode: "",
@@ -81,52 +81,65 @@ export default function BunkerManagementCreate() {
     shallowEqual
   );
 
-  const [objProps, setObjprops] = useState({});
   const [, onSave, loader] = useAxiosPost();
   const [vesselDDL, getVesselDDL] = useAxiosGet();
   const [portDDL, getPortDDL] = useAxiosGet();
-  const [carryForwardData, setCarryForwardData] = useState({}); 
+  const [, GetVesselMasterData, vesselMasterDataLoading] = useAxiosGet();
 
+  const formikRef = React.useRef(null);
   const location = useLocation();
-  const  landingData = location?.state?.landingData;
-  const history = useHistory()
+  const landingData = location?.state?.landingData;
+  const history = useHistory();
 
   useEffect(() => {
-    if(landingData){
+    if (landingData) {
       const modData = {
-        strCode: landingData?.strCode || '',
+        strCode: landingData?.strCode || "",
         strNameOfVessel: landingData?.intVesselId
           ? {
               value: landingData?.intVesselId || 0,
-              label: landingData?.strNameOfVessel || '',
+              label: landingData?.strNameOfVessel || "",
             }
-          : '',
-        strMasterEmail: landingData?.strMasterEmail || '',
-        strCurrentPosition: landingData?.strCurrentPosition || '',
+          : "",
+        // strMasterEmail: landingData?.strMasterEmail || "",
+        strCurrentPosition: landingData?.strCurrentPosition || "",
         numBallastDistance: landingData?.numBallast || 0,
         numBallastSpeed: landingData?.numBallastSpeed || 0,
-        strLoadPort: landingData?.intLoadPortId ? {
-          value: landingData?.intLoadPortId || 0,
-          label: landingData?.strNameOfLoadPort || landingData?.strLoadPort || '',
-        } : '',
-        strDischargePort: landingData?.intDischargePortId ? {
-          value: landingData?.intDischargePortId || 0,
-          label: landingData?.strDischargePort || '',
-        } : '',
-        strBallastEcoMax: landingData?.strBallastEcoMax || '',
-        numBallastVlsfoConsumptionMt: landingData?.numBallastVlsfoConsumptionMt || 0,
-        numBallastLsmgoConsumptionMt: landingData?.numBallastLsmgoConsumptionMt || 0,
+        strLoadPort: landingData?.intLoadPortId
+          ? {
+              value: landingData?.intLoadPortId || 0,
+              label:
+                landingData?.strNameOfLoadPort ||
+                landingData?.strLoadPort ||
+                "",
+            }
+          : "",
+        strDischargePort: landingData?.intDischargePortId
+          ? {
+              value: landingData?.intDischargePortId || 0,
+              label: landingData?.strDischargePort || "",
+            }
+          : "",
+        strBallastEcoMax: landingData?.strBallastEcoMax || "",
+        numBallastVlsfoConsumptionMt:
+          landingData?.numBallastVlsfoConsumptionMt || 0,
+        numBallastLsmgoConsumptionMt:
+          landingData?.numBallastLsmgoConsumptionMt || 0,
         numBallastPassageVlsfoConsumptionMt:
           landingData?.numBallastPassageVlsfoConsumptionMt || 0,
         numBallastPassageLsmgoConsumptionMt:
           landingData?.numBallastPassageLsmgoConsumptionMt || 0,
-        strLadenEcoMax: landingData?.strLadenEcoMax || '',
+        strLadenEcoMax: landingData?.strLadenEcoMax || "",
         numLadenDistance: landingData?.numLadenDistance || 0,
         numLadenSpeed: landingData?.numLadenSpeed || 0,
-        numLadenVlsfoConsumptionMt: landingData?.numLadenVlsfoConsumptionMt || 0,
-        numLadenLsmgoConsumptionMt: landingData?.numLadenLsmgoConsumptionMt || 0,
-        numLadenPassageVlsfoConsumptionMt: landingData?.numLadenPassageVlsfoConsumptionMt || 0,
-        numLadenPassageLsmgoConsumptionMt: landingData?.numLadenPassageLsmgoConsumptionMt || 0,
+        numLadenVlsfoConsumptionMt:
+          landingData?.numLadenVlsfoConsumptionMt || 0,
+        numLadenLsmgoConsumptionMt:
+          landingData?.numLadenLsmgoConsumptionMt || 0,
+        numLadenPassageVlsfoConsumptionMt:
+          landingData?.numLadenPassageVlsfoConsumptionMt || 0,
+        numLadenPassageLsmgoConsumptionMt:
+          landingData?.numLadenPassageLsmgoConsumptionMt || 0,
         intLoadRate: landingData?.intLoadRate || 0,
         intDischargeRate: landingData?.intDischargeRate || 0,
         numCargoQty: landingData?.intCargoQuantityMts || 0,
@@ -140,20 +153,93 @@ export default function BunkerManagementCreate() {
           landingData?.numDischargePortStayVlsfoConsumptionMt || 0,
         numDischargePortStayLsmgoConsumptionMt:
           landingData?.numDischargePortStayLsmgoConsumptionMt || 0,
-        numTotalVlsfoConsumptionMt: landingData?.numTotalVlsfoConsumptionMt || 0,
-        numTotalLsmgoConsumptionMt: landingData?.numTotalLsmgoConsumptionMt || 0,
-        numToleranceVlsfoPercentage: landingData?.numToleranceVlsfoPercentage || 0,
-        numNetTotalConsumableVlsfoMt: landingData?.numNetTotalConsumableVlsfoMt || 0,
-        strBunkerPort: landingData?.intBunkerPortId ?{
-          value: landingData?.intBunkerPortId || 0,
-          label: landingData?.strBunkerPort || '',
-        } : "",
-        strBunkerTrader: landingData?.strBunkerTrader || '',
-        strBunkerType: landingData?.strBunkerType || '',
+        numTotalVlsfoConsumptionMt:
+          landingData?.numTotalVlsfoConsumptionMt || 0,
+        numTotalLsmgoConsumptionMt:
+          landingData?.numTotalLsmgoConsumptionMt || 0,
+        numToleranceVlsfoPercentage:
+          landingData?.numToleranceVlsfoPercentage || 0,
+        numNetTotalConsumableVlsfoMt:
+          landingData?.numNetTotalConsumableVlsfoMt || 0,
+        strBunkerPort: landingData?.intBunkerPortId
+          ? {
+              value: landingData?.intBunkerPortId || 0,
+              label: landingData?.strBunkerPort || "",
+            }
+          : "",
+        strBunkerTrader: landingData?.strBunkerTrader || "",
+        strBunkerType: landingData?.strBunkerType || "",
+        // strIntendedSpeed: "",
+        // numPortStayLsmgoPerDay: landingData?.numPortStayLsmgoPerDay || 0,
+        // numPortStayVlsfoPerDay: landingData?.numPortStayVlsfoPerDay || 0,
+        // numNetTotalConsumableLsmgoMt:
+        //   landingData?.numNetTotalConsumableLsmgoMt || 0,
+      };
+
+      if (formikRef.current) {
+        formikRef.current.setValues(modData);
       }
-      
-      setCarryForwardData(modData);
+
+      if (landingData?.intVesselId) {
+        GetVesselMasterData(
+          `${imarineBaseUrl}/domain/VesselNomination/GetVesselMasterData?vesselId=${landingData?.intVesselId}`,
+          (resData) => {
+            if (formikRef.current && resData) {
+              formikRef.current.setFieldValue(
+                "strMasterEmail",
+                resData?.strMasterEmail || ""
+              );
+              formikRef.current.setFieldValue(
+                "numBallastEcoSpeed",
+                resData?.numBallastEcoSpeed || ""
+              );
+              formikRef.current.setFieldValue(
+                "numBallastMaxSpeed",
+                resData?.numBallastMaxSpeed || ""
+              );
+              formikRef.current.setFieldValue(
+                "numLadenEcoSpeed",
+                resData?.numLadenEcoSpeed || ""
+              );
+              formikRef.current.setFieldValue(
+                "numLadenMaxSpeed",
+                resData?.numLadenMaxSpeed || ""
+              );
+
+              formikRef.current.setFieldValue(
+                "numBallastVlsfoConsumptionMt",
+                resData?.numBallastVlsfoconsumptionMtPerday || ""
+              );
+              formikRef.current.setFieldValue(
+                "numBallastLsmgoConsumptionMt",
+                resData?.numBallastLsmgoconsumptionMtPerday || ""
+              );
+              formikRef.current.setFieldValue(
+                "numLadenVlsfoConsumptionMt",
+                resData?.numLadenVlsfoconsumptionMtPerday || ""
+              );
+              formikRef.current.setFieldValue(
+                "numLadenLsmgoConsumptionMt",
+                resData?.numLadenLsmgoconsumptionMtPerday || ""
+              );
+
+              // Port Stay VLSFO/Day
+              formikRef.current.setFieldValue(
+                "numPortStayVlsfoPerDay",
+                resData?.numPortWorkingVlsfoperDay || ""
+              );
+              //Port Stay LSMGO/Day
+              formikRef.current.setFieldValue(
+                "numPortStayLsmgoPerDay",
+                resData?.numPortWorkingLsmgoperDay || ""
+              );
+
+            }
+          }
+        );
+      }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [landingData]);
 
   useEffect(() => {
@@ -165,7 +251,8 @@ export default function BunkerManagementCreate() {
   }, [profileData, selectedBusinessUnit]);
   const saveHandler = async (values, cb) => {
     const payload = {
-      strCode:values?.strCode || "",
+      
+      strCode: values?.strCode || "",
       strNameOfVessel: values?.strNameOfVessel?.label || "",
       strMasterEmail: values?.strMasterEmail || "",
       strCurrentPosition: values?.strCurrentPosition || "",
@@ -216,7 +303,13 @@ export default function BunkerManagementCreate() {
       intLastActionBy: +profileData?.userId,
       intAccountId: +profileData?.accountId,
       intVesselId: +values?.strNameOfVessel?.value || 0,
-      intVesselNominationId: landingData?.intId || landingData?.intVesselNominationId || 0,
+      intVesselNominationId:
+        landingData?.intId || landingData?.intVesselNominationId || 0,
+      numPortStayVlsfoperDay: +values?.numPortStayVlsfoPerDay || 0,
+      numPortStayLsmgoperDay: +values?.numPortStayLsmgoPerDay || 0,
+      intIntendedSpeed: +values?.intendedSpeed?.value || 0,
+      strIntIntendedSpeed: values?.intendedSpeed?.label || "",
+      numNetTotalConsumableLsmgoMt: +values?.numNetTotalConsumableLsmgoMt || 0,
     };
 
     onSave(
@@ -228,8 +321,9 @@ export default function BunkerManagementCreate() {
   };
   return (
     <Formik
+      innerRef={formikRef}
       enableReinitialize={true}
-      initialValues={carryForwardData || initData}
+      initialValues={initData}
       validationSchema={validationSchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
@@ -246,10 +340,10 @@ export default function BunkerManagementCreate() {
         setFieldValue,
         errors,
         touched,
+        setValues,
       }) => (
         <IForm
           title="Create Bunker Management"
-          getProps={setObjprops}
           isHiddenReset={true}
           isHiddenSave
           isPositionRight
@@ -269,12 +363,12 @@ export default function BunkerManagementCreate() {
             );
           }}
         >
-          {loader && <Loading />}
+          {(loader || vesselMasterDataLoading) && <Loading />}
           <Form className="form form-label-right">
             <div className="form-group  global-form row">
               <div className="col-lg-3">
                 <InputField
-                  value={values.strCode}
+                  value={values?.strCode || ""}
                   label="Code"
                   name="strCode"
                   type="text"
@@ -287,7 +381,7 @@ export default function BunkerManagementCreate() {
                 <NewSelect
                   name="strNameOfVessel"
                   options={vesselDDL}
-                  value={values.strNameOfVessel}
+                  value={values?.strNameOfVessel || ""}
                   label="Name of Vessel"
                   onChange={(valueOption) =>
                     setFieldValue("strNameOfVessel", valueOption)
@@ -299,7 +393,7 @@ export default function BunkerManagementCreate() {
               </div>
               <div className="col-lg-3">
                 <InputField
-                  value={values.strMasterEmail}
+                  value={values?.strMasterEmail || ""}
                   label="Master Email"
                   name="strMasterEmail"
                   type="email"
@@ -311,7 +405,7 @@ export default function BunkerManagementCreate() {
               </div>
               <div className="col-lg-3">
                 <InputField
-                  value={values.strCurrentPosition}
+                  value={values?.strCurrentPosition || ""}
                   label="Current Position"
                   name="strCurrentPosition"
                   type="text"
@@ -322,8 +416,83 @@ export default function BunkerManagementCreate() {
                 />
               </div>
               <div className="col-lg-3">
+                <NewSelect
+                  name="intendedSpeed"
+                  options={[
+                    {
+                      value: 1,
+                      label: "Eco Speed",
+                    },
+                    {
+                      value: 2,
+                      label: "Max Speed",
+                    },
+                  ]}
+                  value={values?.intendedSpeed || ""}
+                  label="Intended Speed"
+                  onChange={(valueOption) => {
+                    if (valueOption?.value === 1) {
+                      setFieldValue(
+                        "numBallastSpeed",
+                        values?.numBallastEcoSpeed || ""
+                      );
+                      setFieldValue(
+                        "numLadenSpeed",
+                        values?.numLadenEcoSpeed || 0
+                      );
+
+                      commonBunkerInputFieldsCalculatorFunc({
+                        values: {
+                          ...values,
+                          numBallastSpeed: values?.numBallastEcoSpeed || "",
+                          numLadenSpeed: values?.numLadenEcoSpeed || "",
+                          intendedSpeed: valueOption,
+                        },
+                        setValues: setValues,
+                        key: "numBallastSpeed",
+                      });
+                    } else if (valueOption?.value === 2) {
+                      setFieldValue(
+                        "numBallastSpeed",
+                        values?.numBallastMaxSpeed || ""
+                      );
+                      setFieldValue(
+                        "numLadenSpeed",
+                        values?.numLadenMaxSpeed || ""
+                      );
+
+                      commonBunkerInputFieldsCalculatorFunc({
+                        values: {
+                          ...values,
+                          numBallastSpeed: values?.numBallastMaxSpeed || "",
+                          numLadenSpeed: values?.numLadenMaxSpeed || "",
+                          intendedSpeed: valueOption,
+                        },
+                        setValues: setValues,
+                        key: "",
+                      });
+                    } else {
+                      commonBunkerInputFieldsCalculatorFunc({
+                        values: {
+                          ...values,
+                          numBallastSpeed: "",
+                          numLadenSpeed: "",
+                          intendedSpeed: "",
+                        },
+                        setValues: setValues,
+                        key: "",
+                      });
+                    }
+                  }}
+                  errors={errors}
+                  touched={touched}
+                  isDisabled={landingData?.strIntendedSpeed}
+                  placeholder="Select Intended Speed"
+                />
+              </div>
+              {/* <div className="col-lg-3">
                 <InputField
-                  value={values.strBallastEcoMax}
+                  value={values?.strBallastEcoMax || ""}
                   label="Ballast Eco Max"
                   name="strBallastEcoMax"
                   type="text"
@@ -332,66 +501,98 @@ export default function BunkerManagementCreate() {
                   }
                   errors={errors}
                 />
-              </div>
+              </div> */}
               <div className="col-lg-3">
                 <InputField
-                  value={values.numBallastDistance}
+                  value={values?.numBallastDistance || ""}
                   label="Ballast Distance"
                   name="numBallastDistance"
                   type="number"
-                  onChange={(e) =>
-                    setFieldValue("numBallastDistance", e.target.value)
-                  }
+                  onChange={(e) => {
+                    setFieldValue("numBallastDistance", e.target.value);
+                    commonBunkerInputFieldsCalculatorFunc({
+                      values: {
+                        ...values,
+                        numBallastDistance: e.target.value,
+                      },
+                      setValues: setValues,
+                      key: "numBallastDistance",
+                    });
+                  }}
                   errors={errors}
                   disabled={landingData?.numBallast}
                 />
               </div>
               <div className="col-lg-3">
                 <InputField
-                  value={values.numBallastSpeed}
+                  value={values?.numBallastSpeed || ""}
                   label="Ballast Speed"
                   name="numBallastSpeed"
                   type="number"
-                  onChange={(e) =>
-                    setFieldValue("numBallastSpeed", e.target.value)
-                  }
+                  onChange={(e) => {
+                    setFieldValue("numBallastSpeed", e.target.value);
+                    commonBunkerInputFieldsCalculatorFunc({
+                      values: {
+                        ...values,
+                        numBallastSpeed: e.target.value,
+                      },
+                      setValues: setValues,
+                      key: "numBallastSpeed",
+                    });
+                  }}
                   errors={errors}
                   disabled={landingData?.numBallastSpeed}
                 />
               </div>
               <div className="col-lg-3">
                 <InputField
-                  value={values.numBallastVlsfoConsumptionMt}
-                  label="Ballast VLSFO Consumption (Mt)"
+                  value={values?.numBallastVlsfoConsumptionMt || ""}
+                  label="Ballast VLSFO Consumption (Mt)/Day"
                   name="numBallastVlsfoConsumptionMt"
                   type="number"
-                  onChange={(e) =>
+                  onChange={(e) => {
                     setFieldValue(
                       "numBallastVlsfoConsumptionMt",
                       e.target.value
-                    )
-                  }
+                    );
+                    commonBunkerInputFieldsCalculatorFunc({
+                      values: {
+                        ...values,
+                        numBallastVlsfoConsumptionMt: e.target.value,
+                      },
+                      setValues: setValues,
+                      key: "numBallastVlsfoConsumptionMt",
+                    });
+                  }}
                   errors={errors}
                 />
               </div>
               <div className="col-lg-3">
                 <InputField
-                  value={values.numBallastLsmgoConsumptionMt}
-                  label="Ballast LSMGO Consumption (Mt)"
+                  value={values?.numBallastLsmgoConsumptionMt || ""}
+                  label="Ballast LSMGO Consumption (Mt)/Day"
                   name="numBallastLsmgoConsumptionMt"
                   type="number"
-                  onChange={(e) =>
+                  onChange={(e) => {
                     setFieldValue(
                       "numBallastLsmgoConsumptionMt",
                       e.target.value
-                    )
-                  }
+                    );
+                    commonBunkerInputFieldsCalculatorFunc({
+                      values: {
+                        ...values,
+                        numBallastLsmgoConsumptionMt: e.target.value,
+                      },
+                      setValues: setValues,
+                      key: "numBallastLsmgoConsumptionMt",
+                    });
+                  }}
                   errors={errors}
                 />
               </div>
               <div className="col-lg-3">
                 <InputField
-                  value={values.numBallastPassageVlsfoConsumptionMt}
+                  value={values?.numBallastPassageVlsfoConsumptionMt || ""}
                   label="Ballast Passage VLSFO Consumption (Mt)"
                   name="numBallastPassageVlsfoConsumptionMt"
                   type="number"
@@ -402,11 +603,12 @@ export default function BunkerManagementCreate() {
                     )
                   }
                   errors={errors}
+                  disabled
                 />
               </div>
               <div className="col-lg-3">
                 <InputField
-                  value={values.numBallastPassageLsmgoConsumptionMt}
+                  value={values?.numBallastPassageLsmgoConsumptionMt || ""}
                   label="Ballast Passage LSMGO Consumption (Mt)"
                   name="numBallastPassageLsmgoConsumptionMt"
                   type="number"
@@ -417,13 +619,14 @@ export default function BunkerManagementCreate() {
                     )
                   }
                   errors={errors}
+                  disabled
                 />
               </div>
               <div className="col-lg-3">
                 <NewSelect
                   name="strLoadPort"
                   options={portDDL}
-                  value={values.strLoadPort}
+                  value={values?.strLoadPort || ""}
                   label="Load Port"
                   onChange={(valueOption) =>
                     setFieldValue("strLoadPort", valueOption)
@@ -437,7 +640,7 @@ export default function BunkerManagementCreate() {
                 <NewSelect
                   name="strDischargePort"
                   options={portDDL}
-                  value={values.strDischargePort}
+                  value={values?.strDischargePort || ""}
                   label="Discharge Port"
                   onChange={(valueOption) =>
                     setFieldValue("strDischargePort", valueOption)
@@ -447,9 +650,9 @@ export default function BunkerManagementCreate() {
                   isDisabled={landingData?.strDischargePort}
                 />
               </div>
-              <div className="col-lg-3">
+              {/* <div className="col-lg-3">
                 <InputField
-                  value={values.strLadenEcoMax}
+                  value={values?.strLadenEcoMax || ""}
                   label="Laden Eco Max"
                   name="strLadenEcoMax"
                   type="text"
@@ -458,60 +661,92 @@ export default function BunkerManagementCreate() {
                   }
                   errors={errors}
                 />
-              </div>
+              </div> */}
               <div className="col-lg-3">
                 <InputField
-                  value={values.numLadenDistance}
+                  value={values?.numLadenDistance || ""}
                   label="Laden Distance"
                   name="numLadenDistance"
                   type="number"
-                  onChange={(e) =>
-                    setFieldValue("numLadenDistance", e.target.value)
-                  }
+                  onChange={(e) => {
+                    setFieldValue("numLadenDistance", e.target.value);
+                    commonBunkerInputFieldsCalculatorFunc({
+                      values: {
+                        ...values,
+                        numLadenDistance: e.target.value,
+                      },
+                      setValues: setValues,
+                      key: "numLadenDistance",
+                    });
+                  }}
                   errors={errors}
                   // disabled={landingData?.numLadenDistance}
                 />
               </div>
               <div className="col-lg-3">
                 <InputField
-                  value={values.numLadenSpeed}
+                  value={values?.numLadenSpeed || ""}
                   label="Laden Speed"
                   name="numLadenSpeed"
                   type="number"
-                  onChange={(e) =>
-                    setFieldValue("numLadenSpeed", e.target.value)
-                  }
+                  onChange={(e) => {
+                    setFieldValue("numLadenSpeed", e.target.value);
+                    commonBunkerInputFieldsCalculatorFunc({
+                      values: {
+                        ...values,
+                        numLadenSpeed: e.target.value,
+                      },
+                      setValues: setValues,
+                      key: "numLadenSpeed",
+                    });
+                  }}
                   errors={errors}
                   disabled={landingData?.numLadenSpeed}
                 />
               </div>
               <div className="col-lg-3">
                 <InputField
-                  value={values.numLadenVlsfoConsumptionMt}
-                  label="Laden VLSFO Consumption (Mt)"
+                  value={values?.numLadenVlsfoConsumptionMt || ""}
+                  label="Laden VLSFO Consumption (Mt)/Day"
                   name="numLadenVlsfoConsumptionMt"
                   type="number"
-                  onChange={(e) =>
-                    setFieldValue("numLadenVlsfoConsumptionMt", e.target.value)
-                  }
+                  onChange={(e) => {
+                    setFieldValue("numLadenVlsfoConsumptionMt", e.target.value);
+                    commonBunkerInputFieldsCalculatorFunc({
+                      values: {
+                        ...values,
+                        numLadenVlsfoConsumptionMt: e.target.value,
+                      },
+                      setValues: setValues,
+                      key: "numLadenVlsfoConsumptionMt",
+                    });
+                  }}
                   errors={errors}
                 />
               </div>
               <div className="col-lg-3">
                 <InputField
-                  value={values.numLadenLsmgoConsumptionMt}
-                  label="Laden LSMGO Consumption (Mt)"
+                  value={values?.numLadenLsmgoConsumptionMt || ""}
+                  label="Laden LSMGO Consumption (Mt)/Day"
                   name="numLadenLsmgoConsumptionMt"
                   type="number"
-                  onChange={(e) =>
-                    setFieldValue("numLadenLsmgoConsumptionMt", e.target.value)
-                  }
+                  onChange={(e) => {
+                    setFieldValue("numLadenLsmgoConsumptionMt", e.target.value);
+                    commonBunkerInputFieldsCalculatorFunc({
+                      values: {
+                        ...values,
+                        numLadenLsmgoConsumptionMt: e.target.value,
+                      },
+                      setValues: setValues,
+                      key: "numLadenLsmgoConsumptionMt",
+                    });
+                  }}
                   errors={errors}
                 />
               </div>
               <div className="col-lg-3">
                 <InputField
-                  value={values.numLadenPassageVlsfoConsumptionMt}
+                  value={values?.numLadenPassageVlsfoConsumptionMt || ""}
                   label="Laden Passage VLSFO Consumption (Mt)"
                   name="numLadenPassageVlsfoConsumptionMt"
                   type="number"
@@ -522,61 +757,100 @@ export default function BunkerManagementCreate() {
                     )
                   }
                   errors={errors}
+                  disabled
                 />
               </div>
               <div className="col-lg-3">
                 <InputField
-                  value={values.numLadenPassageLsmgoConsumptionMt}
+                  value={values?.numLadenPassageLsmgoConsumptionMt || ""}
                   label="Laden Passage LSMGO Consumption (Mt)"
                   name="numLadenPassageLsmgoConsumptionMt"
                   type="number"
                   onChange={(e) =>
-                    setFieldValue(
-                      "numLadenPassageLsmgoConsumptionMt",
-                      e.target.value
-                    )
+                    // setFieldValue(
+                    //   "numLadenPassageLsmgoConsumptionMt",
+                    //   e.target.value
+                    // )
+                    commonBunkerInputFieldsCalculatorFunc({
+                      values: {
+                        ...values,
+                        numLadenPassageLsmgoConsumptionMt: e.target.value,
+                      },
+                      setValues: setValues,
+                      key: "numLadenPassageLsmgoConsumptionMt",
+                    })
                   }
                   errors={errors}
+                  disabled
                 />
               </div>
               <div className="col-lg-3">
                 <InputField
-                  value={values.intLoadRate}
+                  value={values?.intLoadRate || ""}
                   label="Load Rate"
                   name="intLoadRate"
                   type="number"
-                  onChange={(e) => setFieldValue("intLoadRate", e.target.value)}
+                  onChange={(e) => {
+                    setFieldValue("intLoadRate", e.target.value);
+                    commonBunkerInputFieldsCalculatorFunc({
+                      values: {
+                        ...values,
+                        intLoadRate: e.target.value,
+                      },
+                      setValues: setValues,
+                      key: "intLoadRate",
+                    });
+                  }}
                   errors={errors}
                   disabled={landingData?.intLoadRate}
                 />
               </div>
               <div className="col-lg-3">
                 <InputField
-                  value={values.numCargoQty}
+                  value={values?.numCargoQty || ""}
                   label="Cargo Quantity"
                   name="numCargoQty"
                   type="number"
-                  onChange={(e) => setFieldValue("numCargoQty", e.target.value)}
+                  onChange={(e) => {
+                    setFieldValue("numCargoQty", e.target.value);
+
+                    commonBunkerInputFieldsCalculatorFunc({
+                      values: {
+                        ...values,
+                        numCargoQty: e.target.value,
+                      },
+                      setValues: setValues,
+                      key: "numCargoQty",
+                    });
+                  }}
                   errors={errors}
                   disabled={landingData?.intCargoQuantityMts}
                 />
               </div>
               <div className="col-lg-3">
                 <InputField
-                  value={values.intDischargeRate}
+                  value={values?.intDischargeRate || ""}
                   label="Discharge Rate"
                   name="intDischargeRate"
                   type="number"
-                  onChange={(e) =>
-                    setFieldValue("intDischargeRate", e.target.value)
-                  }
+                  onChange={(e) => {
+                    setFieldValue("intDischargeRate", e.target.value);
+                    commonBunkerInputFieldsCalculatorFunc({
+                      values: {
+                        ...values,
+                        intDischargeRate: e.target.value,
+                      },
+                      setValues: setValues,
+                      key: "intDischargeRate",
+                    });
+                  }}
                   errors={errors}
                   disabled={landingData?.intDischargeRate}
                 />
               </div>
               <div className="col-lg-3">
                 <InputField
-                  value={values.numLoadPortStay}
+                  value={values?.numLoadPortStay || ""}
                   label="Load Port Stay"
                   name="numLoadPortStay"
                   type="number"
@@ -584,11 +858,12 @@ export default function BunkerManagementCreate() {
                     setFieldValue("numLoadPortStay", e.target.value)
                   }
                   errors={errors}
+                  disabled
                 />
               </div>
               <div className="col-lg-3">
                 <InputField
-                  value={values.numDischargePortStay}
+                  value={values?.numDischargePortStay || ""}
                   label="Discharge Port Stay"
                   name="numDischargePortStay"
                   type="number"
@@ -596,11 +871,54 @@ export default function BunkerManagementCreate() {
                     setFieldValue("numDischargePortStay", e.target.value)
                   }
                   errors={errors}
+                  disabled
+                />
+              </div>
+              {/* new  */}
+              <div className="col-lg-3">
+                <InputField
+                  value={values?.numPortStayVlsfoPerDay || ""}
+                  label="Port Stay VLSFO/Day"
+                  name="numPortStayVlsfoPerDay"
+                  type="number"
+                  onChange={(e) => {
+                    setFieldValue("numPortStayVlsfoPerDay", e.target.value);
+                    commonBunkerInputFieldsCalculatorFunc({
+                      values: {
+                        ...values,
+                        numPortStayVlsfoPerDay: e.target.value,
+                      },
+                      setValues: setValues,
+                      key: "numPortStayVlsfoPerDay",
+                    });
+                  }}
+                  errors={errors}
                 />
               </div>
               <div className="col-lg-3">
                 <InputField
-                  value={values.numLoadPortStayVlsfoConsumptionMt}
+                  value={values?.numPortStayLsmgoPerDay || ""}
+                  label="Port Stay LSMGO/Day"
+                  name="numPortStayLsmgoPerDay"
+                  type="number"
+                  onChange={(e) => {
+                    setFieldValue("numPortStayLsmgoPerDay", e.target.value);
+                    commonBunkerInputFieldsCalculatorFunc({
+                      values: {
+                        ...values,
+                        numPortStayLsmgoPerDay: e.target.value,
+                      },
+                      setValues: setValues,
+                      key: "numPortStayLsmgoPerDay",
+                    });
+                  }}
+                  errors={errors}
+                />
+              </div>
+              {/* end */}
+              <div className="col-lg-3">
+                <InputField
+                  value={values?.numLoadPortStayVlsfoConsumptionMt || ""}
                   label="Load Port Stay VLSFO Consumption (Mt)"
                   name="numLoadPortStayVlsfoConsumptionMt"
                   type="number"
@@ -611,11 +929,12 @@ export default function BunkerManagementCreate() {
                     )
                   }
                   errors={errors}
+                  disabled
                 />
               </div>
               <div className="col-lg-3">
                 <InputField
-                  value={values.numLoadPortStayLsmgoConsumptionMt}
+                  value={values?.numLoadPortStayLsmgoConsumptionMt || ""}
                   label="Load Port Stay LSMGO Consumption (Mt)"
                   name="numLoadPortStayLsmgoConsumptionMt"
                   type="number"
@@ -626,11 +945,12 @@ export default function BunkerManagementCreate() {
                     )
                   }
                   errors={errors}
+                  disabled
                 />
               </div>
               <div className="col-lg-3">
                 <InputField
-                  value={values.numDischargePortStayVlsfoConsumptionMt}
+                  value={values?.numDischargePortStayVlsfoConsumptionMt || ""}
                   label="Discharge Port Stay VLSFO Consumption (Mt)"
                   name="numDischargePortStayVlsfoConsumptionMt"
                   type="number"
@@ -641,11 +961,12 @@ export default function BunkerManagementCreate() {
                     )
                   }
                   errors={errors}
+                  disabled
                 />
               </div>
               <div className="col-lg-3">
                 <InputField
-                  value={values.numDischargePortStayLsmgoConsumptionMt}
+                  value={values?.numDischargePortStayLsmgoConsumptionMt || ""}
                   label="Discharge Port Stay LSMGO Consumption (Mt)"
                   name="numDischargePortStayLsmgoConsumptionMt"
                   type="number"
@@ -656,11 +977,12 @@ export default function BunkerManagementCreate() {
                     )
                   }
                   errors={errors}
+                  disabled
                 />
               </div>
               <div className="col-lg-3">
                 <InputField
-                  value={values.numTotalVlsfoConsumptionMt}
+                  value={values?.numTotalVlsfoConsumptionMt || ""}
                   label="Total VLSFO Consumption (Mt)"
                   name="numTotalVlsfoConsumptionMt"
                   type="number"
@@ -668,11 +990,12 @@ export default function BunkerManagementCreate() {
                     setFieldValue("numTotalVlsfoConsumptionMt", e.target.value)
                   }
                   errors={errors}
+                  disabled
                 />
               </div>
               <div className="col-lg-3">
                 <InputField
-                  value={values.numTotalLsmgoConsumptionMt}
+                  value={values?.numTotalLsmgoConsumptionMt || ""}
                   label="Total LSMGO Consumption (Mt)"
                   name="numTotalLsmgoConsumptionMt"
                   type="number"
@@ -680,23 +1003,35 @@ export default function BunkerManagementCreate() {
                     setFieldValue("numTotalLsmgoConsumptionMt", e.target.value)
                   }
                   errors={errors}
+                  disabled
                 />
               </div>
               <div className="col-lg-3">
                 <InputField
-                  value={values.numToleranceVlsfoPercentage}
-                  label="Tolerance VLSFO Percentage"
+                  value={values?.numToleranceVlsfoPercentage || ""}
+                  label="Tolerance Percentage"
                   name="numToleranceVlsfoPercentage"
                   type="number"
-                  onChange={(e) =>
-                    setFieldValue("numToleranceVlsfoPercentage", e.target.value)
-                  }
+                  onChange={(e) => {
+                    setFieldValue(
+                      "numToleranceVlsfoPercentage",
+                      e.target.value
+                    );
+                    commonBunkerInputFieldsCalculatorFunc({
+                      values: {
+                        ...values,
+                        numToleranceVlsfoPercentage: e.target.value,
+                      },
+                      setValues: setValues,
+                      key: "numToleranceVlsfoPercentage",
+                    });
+                  }}
                   errors={errors}
                 />
               </div>
               <div className="col-lg-3">
                 <InputField
-                  value={values.numNetTotalConsumableVlsfoMt}
+                  value={values?.numNetTotalConsumableVlsfoMt || ""}
                   label="Net Total Consumable VLSFO (Mt)"
                   name="numNetTotalConsumableVlsfoMt"
                   type="number"
@@ -707,13 +1042,30 @@ export default function BunkerManagementCreate() {
                     )
                   }
                   errors={errors}
+                  disabled
+                />
+              </div>
+              <div className="col-lg-3">
+                <InputField
+                  value={values?.numNetTotalConsumableLsmgoMt || ""}
+                  label="Net Total Consumable LSMGO (Mt)"
+                  name="numNetTotalConsumableLsmgoMt"
+                  type="number"
+                  onChange={(e) =>
+                    setFieldValue(
+                      "numNetTotalConsumableLsmgoMt",
+                      e.target.value
+                    )
+                  }
+                  errors={errors}
+                  disabled
                 />
               </div>
               <div className="col-lg-3">
                 <NewSelect
                   name="strBunkerPort"
                   options={portDDL}
-                  value={values.strBunkerPort}
+                  value={values?.strBunkerPort || ""}
                   label="Bunker Port"
                   onChange={(valueOption) =>
                     setFieldValue("strBunkerPort", valueOption)
@@ -724,7 +1076,7 @@ export default function BunkerManagementCreate() {
               </div>
               <div className="col-lg-3">
                 <InputField
-                  value={values.strBunkerTrader}
+                  value={values?.strBunkerTrader || ""}
                   label="Bunker Trader"
                   name="strBunkerTrader"
                   type="text"
@@ -736,7 +1088,7 @@ export default function BunkerManagementCreate() {
               </div>
               <div className="col-lg-3">
                 <InputField
-                  value={values.strBunkerType}
+                  value={values?.strBunkerType || ""}
                   label="Bunker Type"
                   name="strBunkerType"
                   type="text"
