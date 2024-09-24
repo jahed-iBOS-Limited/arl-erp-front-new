@@ -790,7 +790,8 @@ export default function VesselNomination() {
                                       ...item,
                                       columnName: "WEATHER ROUTING COMPANY",
                                     });
-                                    setIsShowMailModal(true);
+                                    // setIsShowMailModal(true);
+                                    setIsDiffMailSenderModal(true)
                                   }}
                                   disabled={item.weatherRoutingCompanySend}
                                 >

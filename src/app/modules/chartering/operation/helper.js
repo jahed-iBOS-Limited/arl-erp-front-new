@@ -42,8 +42,8 @@ export function getEmailInfoandSendMail(name) {
       sendEmailUrl = "/automation/tcl_mail_sent";
       break;
     case "WEATHER ROUTING COMPANY":
-      emailInfoUrl = "/automation/weather_routing_mail_format";
-      sendEmailUrl = "/automation/weather_routing_mail_sent";
+      emailInfoUrl = "/automation/weather_routing_mail_format_multi";
+      sendEmailUrl = "/automation/weather_routing_mail_sent_multi";
       break;
     case "DEPARTURE DOCUMENT LOADPORT":
       emailInfoUrl = "/automation/departure_documents_load_port_mail_format";
