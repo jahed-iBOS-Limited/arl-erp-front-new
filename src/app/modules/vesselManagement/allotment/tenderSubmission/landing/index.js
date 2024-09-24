@@ -16,7 +16,7 @@ import {
   approveStatusDDL,
   fetchSubmittedTenderData,
   generateBusinessPartnerDDL,
-  landingPageValidationSchema
+  landingPageValidationSchema,
 } from "../helper";
 import PrintBADCMOPTender from "../print/printBADCMOPTender";
 import PrintBADCTender from "../print/printBADCTender";
@@ -261,7 +261,8 @@ export default function TenderSubmissionLanding() {
                         top: "-60px",
                       }}
                     ></div>
-                    {values?.businessPartner?.label === "BADC(MOP)" && (
+                    {(values?.businessPartner?.label === "BADC(MOP)" ||
+                      values?.businessPartner?.label === "BCIC") && (
                       <tr>
                         <td
                           style={{
@@ -295,7 +296,8 @@ export default function TenderSubmissionLanding() {
                     </div>
                   </tbody>
                   <tfoot>
-                    {values?.businessPartner?.label === "BADC(MOP)" && (
+                    {(values?.businessPartner?.label === "BADC(MOP)" ||
+                      values?.businessPartner?.label === "BCIC") && (
                       <tr>
                         <td
                           style={{

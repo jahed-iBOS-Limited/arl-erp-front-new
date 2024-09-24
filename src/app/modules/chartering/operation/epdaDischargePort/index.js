@@ -11,30 +11,60 @@ import { getDownlloadFileView_Action } from "../../../_helper/_redux/Actions";
 import PaginationTable from "../../../_helper/_tablePagination";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import IButton from "../../../_helper/iButton";
+import { getVesselDDL, getVoyageDDLNew } from "../../helper";
+import FormikSelect from "../../_chartinghelper/common/formikSelect";
+import customStyles from "../../../selectCustomStyle";
 
 const initData = {};
 export default function EDPADischargePort() {
-  const {
-    selectedBusinessUnit: { value: buId },
-  } = useSelector((state) => {
+  const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
   const dispatch = useDispatch();
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
   const [gridData, getGridData, loading] = useAxiosGet();
+  const [vesselDDL, setVesselDDL] = useState([]);
+  const [voyageNoDDL, setVoyageNoDDL] = useState([]);
+  const [loading2, setLoading] = useState(false);
 
   const getLandingData = (values, pageNo, pageSize, searchValue = "") => {
+    const shipTypeSTR = values?.shipType
+      ? `&shipType=${values?.shipType?.label}`
+      : "";
+    const voyageTypeSTR = values?.voyageType
+      ? `&voyageType=${values?.voyageType?.label}`
+      : "";
+    const vesselNameSTR = values?.vesselName
+      ? `&vesselName=${values?.vesselName?.label}`
+      : "";
+    const voyageNoSTR = values?.voyageNo
+      ? `&voyageNo=${values?.voyageNo?.value}`
+      : "";
     getGridData(
       `${imarineBaseUrl}/domain/VesselNomination/GetFromEpdaAndDischargePortInfoLanding?BusinessUnitId=${0}&FromDate=${
         values?.fromDate
       }&ToDate=${values?.toDate}&pageNumber=${pageNo ||
-        1}&pageSize=${pageSize || 600}`
+        1}&pageSize=${pageSize ||
+        600}${shipTypeSTR}${voyageTypeSTR}${vesselNameSTR}${voyageNoSTR}`
     );
   };
 
   const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
     getLandingData(values, pageNo, pageSize, searchValue);
+  };
+
+  const getVoyageDDL = (values) => {
+    getVoyageDDLNew({
+      accId: profileData?.accountId,
+      buId: selectedBusinessUnit?.value,
+      id: values?.vesselName?.value,
+      setter: setVoyageNoDDL,
+      setLoading: setLoading,
+      shipType: 0,
+      isComplete: 0,
+      voyageTypeId: 0,
+    });
   };
 
   return (
@@ -68,7 +98,92 @@ export default function EDPADischargePort() {
           >
             <Form>
               <div className="form-group  global-form row">
-                <div className="col-lg-3">
+                <div className="col-lg-2">
+                  <FormikSelect
+                    value={values?.shipType}
+                    isSearchable={true}
+                    options={[
+                      { value: 1, label: "Own Ship" },
+                      { value: 2, label: "Charterer Ship" },
+                    ]}
+                    styles={customStyles}
+                    name="shipType"
+                    placeholder="Ship Type"
+                    label="Ship Type"
+                    onChange={(valueOption) => {
+                      setFieldValue("shipType", valueOption);
+                      setFieldValue("vesselName", "");
+                      setFieldValue("voyageNo", "");
+                      setVesselDDL([]);
+                      if (valueOption) {
+                        getVesselDDL(
+                          profileData?.accountId,
+                          selectedBusinessUnit?.value,
+                          setVesselDDL,
+                          valueOption?.value === 2 ? 2 : ""
+                        );
+                      }
+                    }}
+                  />
+                </div>
+
+                <div className="col-lg-2">
+                  <FormikSelect
+                    value={values?.voyageType}
+                    isSearchable={true}
+                    options={[
+                      { value: 1, label: "Time Charter" },
+                      { value: 2, label: "Voyage Charter" },
+                    ]}
+                    styles={customStyles}
+                    name="voyageType"
+                    placeholder="Voyage Type"
+                    label="Voyage Type"
+                    onChange={(valueOption) => {
+                      setFieldValue("vesselName", "");
+                      setFieldValue("voyageNo", "");
+                      setFieldValue("voyageType", valueOption);
+                    }}
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
+
+                <div className="col-lg-2">
+                  <FormikSelect
+                    value={values?.vesselName}
+                    isSearchable={true}
+                    options={vesselDDL || []}
+                    styles={customStyles}
+                    name="vesselName"
+                    placeholder="Vessel Name"
+                    label="Vessel Name"
+                    onChange={(valueOption) => {
+                      setFieldValue("vesselName", valueOption);
+                      setFieldValue("voyageNo", "");
+                      if (valueOption) {
+                        getVoyageDDL({ ...values, vesselName: valueOption });
+                      }
+                    }}
+                  />
+                </div>
+                <div className="col-lg-2">
+                  <FormikSelect
+                    value={values?.voyageNo || ""}
+                    isSearchable={true}
+                    options={voyageNoDDL || []}
+                    styles={customStyles}
+                    name="voyageNo"
+                    placeholder="Voyage No"
+                    label="Voyage No"
+                    onChange={(valueOption) => {
+                      setFieldValue("voyageNo", valueOption);
+                    }}
+                    isDisabled={!values?.vesselName}
+                  />
+                </div>
+
+                <div className="col-lg-2">
                   <InputField
                     value={values?.fromDate}
                     label="From Date"
@@ -79,7 +194,7 @@ export default function EDPADischargePort() {
                     }}
                   />
                 </div>
-                <div className="col-lg-3">
+                <div className="col-lg-2">
                   <InputField
                     value={values?.toDate}
                     label="To Date"

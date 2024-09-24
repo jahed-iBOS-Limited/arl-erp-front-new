@@ -1,23 +1,65 @@
 import { Form, Formik } from "formik";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
 import { useHistory } from "react-router";
-import { imarineBaseUrl, marineBaseUrlPythonAPI } from "../../../../App";
+import { imarineBaseUrl } from "../../../../App";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import customStyles from "../../../selectCustomStyle";
 import { _dateFormatter } from "../../_chartinghelper/_dateFormatter";
+import FormikSelect from "../../_chartinghelper/common/formikSelect";
+import { getVesselDDL, getVoyageDDLNew } from "../../helper";
 import IForm from "./../../../_helper/_form";
 import Loading from "./../../../_helper/_loading";
+import { values } from "lodash";
 
 const initData = {};
 export default function Recap() {
+  const { profileData, selectedBusinessUnit } = useSelector((state) => {
+    return state.authData;
+  }, shallowEqual);
+
   const [gridData, getGridData, loading] = useAxiosGet();
+  const [vesselDDL, setVesselDDL] = useState([]);
+  const [voyageNoDDL, setVoyageNoDDL] = useState([]);
+  const [loading2, setLoading] = useState(false);
+
   const history = useHistory();
 
-  useEffect(() => {
+  const getData = (values) => {
+    const shipTypeSTR = values?.shipType
+      ? `shipType=${values?.shipType?.label}`
+      : "";
+    const voyageTypeSTR = values?.voyageType
+      ? `&voyageType=${values?.voyageType?.label}`
+      : "";
+    const vesselNameSTR = values?.vesselName
+      ? `&vesselName=${values?.vesselName?.label}`
+      : "";
+    const voyageNoSTR = values?.voyageNo
+      ? `&voyageNo=${values?.voyageNo?.value}`
+      : "";
     getGridData(
-      `${imarineBaseUrl}/domain/VesselNomination/GetVesselNominationRecapeData`
+      `${imarineBaseUrl}/domain/VesselNomination/GetVesselNominationRecapeData?${shipTypeSTR}${voyageTypeSTR}${vesselNameSTR}${voyageNoSTR}`
     );
+  };
+
+  useEffect(() => {
+    getData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const getVoyageDDL = (values) => {
+    getVoyageDDLNew({
+      accId: profileData?.accountId,
+      buId: selectedBusinessUnit?.value,
+      id: values?.vesselName?.value,
+      setter: setVoyageNoDDL,
+      setLoading: setLoading,
+      shipType: 0,
+      isComplete: 0,
+      voyageTypeId: 0,
+    });
+  };
 
   const saveHandler = (values, cb) => {};
   return (
@@ -64,6 +106,107 @@ export default function Recap() {
             }}
           >
             <Form>
+              <div className="form-group global-form row mb-5">
+                <div className="col-lg-2">
+                  <FormikSelect
+                    value={values?.shipType}
+                    isSearchable={true}
+                    options={[
+                      { value: 1, label: "Own Ship" },
+                      { value: 2, label: "Charterer Ship" },
+                    ]}
+                    styles={customStyles}
+                    name="shipType"
+                    placeholder="Ship Type"
+                    label="Ship Type"
+                    onChange={(valueOption) => {
+                      setFieldValue("shipType", valueOption);
+                      setFieldValue("voyageType", "");
+                      setFieldValue("vesselName", "");
+                      setFieldValue("voyageNo", "");
+
+                      setVesselDDL([]);
+                      if (valueOption) {
+                        getVesselDDL(
+                          profileData?.accountId,
+                          selectedBusinessUnit?.value,
+                          setVesselDDL,
+                          valueOption?.value === 2 ? 2 : ""
+                        );
+                      }
+                    }}
+                  />
+                </div>
+
+                <div className="col-lg-2">
+                  <FormikSelect
+                    value={values?.voyageType}
+                    isSearchable={true}
+                    options={[
+                      { value: 1, label: "Time Charter" },
+                      { value: 2, label: "Voyage Charter" },
+                    ]}
+                    styles={customStyles}
+                    name="voyageType"
+                    placeholder="Voyage Type"
+                    label="Voyage Type"
+                    onChange={(valueOption) => {
+                      setFieldValue("vesselName", "");
+                      setFieldValue("voyageNo", "");
+                      setFieldValue("voyageType", valueOption);
+                    }}
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
+
+                <div className="col-lg-2">
+                  <FormikSelect
+                    value={values?.vesselName}
+                    isSearchable={true}
+                    options={vesselDDL || []}
+                    styles={customStyles}
+                    name="vesselName"
+                    placeholder="Vessel Name"
+                    label="Vessel Name"
+                    onChange={(valueOption) => {
+                      setFieldValue("vesselName", valueOption);
+                      setFieldValue("voyageNo", "");
+                      if (valueOption) {
+                        getVoyageDDL({ ...values, vesselName: valueOption });
+                      }
+                    }}
+                  />
+                </div>
+                <div className="col-lg-2">
+                  <FormikSelect
+                    value={values?.voyageNo || ""}
+                    isSearchable={true}
+                    options={voyageNoDDL || []}
+                    styles={customStyles}
+                    name="voyageNo"
+                    placeholder="Voyage No"
+                    label="Voyage No"
+                    onChange={(valueOption) => {
+                      setFieldValue("voyageNo", valueOption);
+                    }}
+                    isDisabled={!values?.vesselName}
+                  />
+                </div>
+                <div>
+                  <button
+                    type="button"
+                    disabled={!values?.shipType}
+                    onClick={() => {
+                      getData(values);
+                    }}
+                    style={{ marginTop: "18px" }}
+                    className="btn btn-primary"
+                  >
+                    Show
+                  </button>
+                </div>
+              </div>
               <div className="loan-scrollable-table">
                 <div
                   className="scroll-table _table"

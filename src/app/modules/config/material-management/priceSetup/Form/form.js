@@ -9,6 +9,9 @@ import InputField from "../../../../_helper/_inputField";
 import IButton from "../../../../_helper/iButton";
 import customStyles from "../../../../selectCustomStyle";
 import { getItemByChannelIdAciton } from "../_redux/Actions";
+import AttachmentUploaderNew from "../../../../_helper/attachmentUploaderNew";
+import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
 // Validation schema
 const validationSchema = Yup.object().shape({
@@ -61,9 +64,11 @@ export default function _Form({
         price: values?.price,
         minPriceDeduction: +values?.price - +values?.minPrice,
         maxPriceAddition: +values?.price + +values?.maxPrice,
+        attachment: values?.attachment,
       };
       setter(obj);
     }
+    setFieldValue("attachment", "");
   };
 
   const addDisableHandler = (values) => {
@@ -193,7 +198,7 @@ export default function _Form({
               </div>
 
               <div className="row mt-2 global-form">
-                <div className="col-lg-3 mt-5 text-center d-flex justify-content-around">
+                <div className="col-lg-2 mt-5 text-center d-flex justify-content-around">
                   <div>
                     <input
                       type="checkbox"
@@ -244,7 +249,7 @@ export default function _Form({
                     </div>
                   )}
                 </div>
-                <div className="col-lg-3">
+                <div className="col-lg-2">
                   <ISelect
                     value={values?.item}
                     options={itemSalesDDL}
@@ -291,6 +296,23 @@ export default function _Form({
                     />
                   </div>
                 )}
+                <div className="col-lg-2 mt-4 pt-1">
+                  <div className="">
+                    <AttachmentUploaderNew
+                      style={{
+                        backgroundColor: "transparent",
+                        color: "black",
+                      }}
+                      CBAttachmentRes={(attachmentData) => {
+                        if (Array.isArray(attachmentData)) {
+                          console.log(attachmentData);
+                          console.log({ attachment: attachmentData });
+                          setFieldValue("attachment", attachmentData?.[0]?.id);
+                        }
+                      }}
+                    />
+                  </div>
+                </div>
                 <IButton
                   onClick={() => {
                     addClickHandler(values, setFieldValue);
@@ -371,6 +393,33 @@ export default function _Form({
                               </>
                             )}
                             <td className="text-center">
+                              {itm?.attachment ? (
+                                <OverlayTrigger
+                                  overlay={
+                                    <Tooltip id="cs-icon">
+                                      View Attachment
+                                    </Tooltip>
+                                  }
+                                >
+                                  <span
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      dispatch(
+                                        getDownlloadFileView_Action(
+                                          itm?.attachment
+                                        )
+                                      );
+                                    }}
+                                    className="mt-2 ml-2"
+                                  >
+                                    <i
+                                      style={{ fontSize: "16px" }}
+                                      className={`fa pointer fa-eye`}
+                                      aria-hidden="true"
+                                    ></i>
+                                  </span>
+                                </OverlayTrigger>
+                              ) : null}
                               <span>
                                 <i
                                   onClick={() => remover(itm?.itemId)}
