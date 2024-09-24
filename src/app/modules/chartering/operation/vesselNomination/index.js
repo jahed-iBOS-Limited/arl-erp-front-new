@@ -325,6 +325,7 @@ export default function VesselNomination() {
                       onChange={(valueOption) => {
                         setFieldValue("shipType", valueOption);
                         setFieldValue("vesselName", "");
+                        setFieldValue("voyageNo", "");
                         setVesselDDL([]);
                         if (valueOption) {
                           getVesselDDL(
@@ -352,6 +353,7 @@ export default function VesselNomination() {
                       label="Voyage Type"
                       onChange={(valueOption) => {
                         setFieldValue("vesselName", "");
+                        setFieldValue("voyageNo", "");
                         setFieldValue("voyageType", valueOption);
                       }}
                       errors={errors}
