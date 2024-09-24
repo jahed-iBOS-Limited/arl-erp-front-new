@@ -148,6 +148,7 @@ export default function PriceSetupForm({
               partnercode: "1234",
               maximumIncrease: +element?.maxPriceAddition,
               minimumDecrease: +element?.minPriceDeduction,
+              attachment: element?.attachment,
             })),
         };
 
