@@ -38,25 +38,37 @@ export default function ItemSubCategoryAddForm({
     return state.authData.selectedBusinessUnit;
   }, shallowEqual);
 
-  const saveBusinessUnit = async (values, cb) => {
+  const saveSubItemCategory = async (values, cb) => {
     setDisabled(true);
     // 
     if (!id && values) {
-      const businessData = {
-        accountId: profileData.accountId,
-        itemSubCategoryName: values.itemSubCategoryName,
-        businessUnitId: selectedBusinessUnit.value,
-        itemTypeId: values.itemTypeName.value,
-        itemCategoryId: values.itemCategoryName.value,
-        actionBy: profileData.userId,
-        lastActionDateTime: "2020-07-08T09:19:27.446Z",
-      };
+      // const businessData = {
+      //   accountId: profileData.accountId,
+      //   itemSubCategoryName: values.itemSubCategoryName,
+      //   businessUnitId: selectedBusinessUnit.value,
+      //   itemTypeId: values.itemTypeName.value,
+      //   itemCategoryId: values.itemCategoryName.value,
+      //   actionBy: profileData.userId,
+      //   lastActionDateTime: "2020-07-08T09:19:27.446Z",
+      // };
+      const itemSubCategoryPayload = {
+        sl: 0,        
+        itemMasterubCategoryId: 0,
+        accountId: profileData?.accountId,
+        itemMasterSubCategoryCode: "",
+        itemMasterSubCategoryName: values?.itemSubCategoryName || '',
+        itemMasterTypeId: values?.itemTypeName.value || 0,
+        itemMasterTypeName: values?.itemTypeName.label || '',
+        itemMasterCategoryId: values?.itemCategoryName.value || 0,
+        itemMasterCategoryName: values?.itemCategoryName.label || '',
+        actionBy: profileData?.userId,
+      }
 
       try {
         setDisabled(true);
         const res = await Axios.post(
-          "/item/ItemSubCategory/CreateItemSubCategory",
-          businessData
+          "/item/MasterCategory/CreateItemMasterSubCategory",
+          itemSubCategoryPayload
         );
         cb(initProduct);
         setDisabled(false);
@@ -131,7 +143,7 @@ export default function ItemSubCategoryAddForm({
           <Form
             product={initProduct}
             btnRef={btnRef}
-            saveBusinessUnit={saveBusinessUnit}
+            saveSubItemCategory={saveSubItemCategory}
             resetBtnRef={resetBtnRef}
             // disableHandler={disableHandler}
             accountId={profileData?.accountId}

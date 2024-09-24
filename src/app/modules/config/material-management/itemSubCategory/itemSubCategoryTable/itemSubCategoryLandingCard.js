@@ -8,7 +8,7 @@ import {
   CardHeaderToolbar,
 } from "../../../../../../_metronic/_partials/controls";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { PlantWarehouseTable } from "./plantWarehouseTableCard";
+import { ItemSubCategoryTable } from "./itemSubCategoryTableCard";
 import * as XLSX from "xlsx";
 
 export function ItemSubCategoryLandingCard() {
@@ -17,12 +17,9 @@ export function ItemSubCategoryLandingCard() {
   const profileData = useSelector((state) => {
     return state.authData.profileData;
   }, shallowEqual);
-  const selectedBusinessUnit = useSelector((state) => {
-    return state.authData.selectedBusinessUnit;
-  }, shallowEqual);
 
   useEffect(() => {
-    getExcelData(`/item/ItemSubCategory/GetItemSubCategoryByAccountIdUnitIdSearchPasignation?AccountId=${profileData.accountId}&BusinessUnitId=${selectedBusinessUnit.value}&viewOrder=desc&PageNo=0&PageSize=2000`)
+    getExcelData(`/item/MasterCategory/GetItemMasterSubCategoryPasignation?AccountId=${profileData?.accountId}&viewOrder=desc&PageNo=${0}&PageSize=${2000}`)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -56,7 +53,7 @@ export function ItemSubCategoryLandingCard() {
         </CardHeaderToolbar>
       </CardHeader>
       <CardBody>
-        <PlantWarehouseTable />
+        <ItemSubCategoryTable />
       </CardBody>
     </Card>
   );
