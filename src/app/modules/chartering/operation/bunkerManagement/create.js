@@ -101,7 +101,7 @@ export default function BunkerManagementCreate() {
               label: landingData?.strNameOfVessel || "",
             }
           : "",
-        strMasterEmail: landingData?.strMasterEmail || "",
+        // strMasterEmail: landingData?.strMasterEmail || "",
         strCurrentPosition: landingData?.strCurrentPosition || "",
         numBallastDistance: landingData?.numBallast || 0,
         numBallastSpeed: landingData?.numBallastSpeed || 0,
@@ -186,6 +186,10 @@ export default function BunkerManagementCreate() {
           (resData) => {
             if (formikRef.current && resData) {
               formikRef.current.setFieldValue(
+                "strMasterEmail",
+                resData?.strMasterEmail || ""
+              );
+              formikRef.current.setFieldValue(
                 "numBallastEcoSpeed",
                 resData?.numBallastEcoSpeed || ""
               );
@@ -229,6 +233,7 @@ export default function BunkerManagementCreate() {
                 "numPortStayLsmgoPerDay",
                 resData?.numPortWorkingLsmgoperDay || ""
               );
+
             }
           }
         );
@@ -246,6 +251,7 @@ export default function BunkerManagementCreate() {
   }, [profileData, selectedBusinessUnit]);
   const saveHandler = async (values, cb) => {
     const payload = {
+      
       strCode: values?.strCode || "",
       strNameOfVessel: values?.strNameOfVessel?.label || "",
       strMasterEmail: values?.strMasterEmail || "",
