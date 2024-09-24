@@ -26,7 +26,7 @@ const ProductEditSchema = Yup.object().shape({
 export default function _Form({
   product,
   btnRef,
-  saveBusinessUnit,
+  saveSubItemCategory,
   resetBtnRef,
   // disableHandler,
   plantCode,
@@ -82,7 +82,7 @@ export default function _Form({
         initialValues={product}
         validationSchema={ProductEditSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          saveBusinessUnit(values, () => {
+          saveSubItemCategory(values, () => {
             resetForm(product);
           });
         }}

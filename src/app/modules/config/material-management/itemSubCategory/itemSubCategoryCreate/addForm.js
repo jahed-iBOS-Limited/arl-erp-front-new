@@ -38,7 +38,7 @@ export default function ItemSubCategoryAddForm({
     return state.authData.selectedBusinessUnit;
   }, shallowEqual);
 
-  const saveBusinessUnit = async (values, cb) => {
+  const saveSubItemCategory = async (values, cb) => {
     setDisabled(true);
     // 
     if (!id && values) {
@@ -54,20 +54,20 @@ export default function ItemSubCategoryAddForm({
       const itemSubCategoryPayload = {
         sl: 0,        
         itemMasterubCategoryId: 0,
-        accountId: profileData.accountId,
+        accountId: profileData?.accountId,
         itemMasterSubCategoryCode: "",
-        itemMasterSubCategoryName: values.itemSubCategoryName || '',
-        itemMasterTypeId: values.itemTypeName.value || 0,
-        itemMasterTypeName: values.itemTypeName.label || '',
-        itemMasterCategoryId: values.itemCategoryName.value || 0,
-        itemMasterCategoryName: values.itemCategoryName.label || '',
-        actionBy: profileData.userId,
+        itemMasterSubCategoryName: values?.itemSubCategoryName || '',
+        itemMasterTypeId: values?.itemTypeName.value || 0,
+        itemMasterTypeName: values?.itemTypeName.label || '',
+        itemMasterCategoryId: values?.itemCategoryName.value || 0,
+        itemMasterCategoryName: values?.itemCategoryName.label || '',
+        actionBy: profileData?.userId,
       }
 
       try {
         setDisabled(true);
         const res = await Axios.post(
-          "/item/ItemSubCategory/CreateItemSubCategory",
+          "/item/MasterCategory/CreateItemMasterSubCategory",
           itemSubCategoryPayload
         );
         cb(initProduct);
@@ -143,7 +143,7 @@ export default function ItemSubCategoryAddForm({
           <Form
             product={initProduct}
             btnRef={btnRef}
-            saveBusinessUnit={saveBusinessUnit}
+            saveSubItemCategory={saveSubItemCategory}
             resetBtnRef={resetBtnRef}
             // disableHandler={disableHandler}
             accountId={profileData?.accountId}

@@ -1,12 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import axios from "axios";
 import React, { useEffect, useState } from "react";
-import BootstrapTable from "react-bootstrap-table-next";
-import Axios from "axios";
-import { useSelector, shallowEqual } from "react-redux";
-import Loading from "../../../../_helper/_loading";
-import PaginationTable from "./../../../../_helper/_tablePagination";
-import PaginationSearch from "../../../../_helper/_search";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import BootstrapTable from "react-bootstrap-table-next";
+import { shallowEqual, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+import Loading from "../../../../_helper/_loading";
+import PaginationSearch from "../../../../_helper/_search";
+import PaginationTable from "./../../../../_helper/_tablePagination";
 
 export function ItemSubCategoryTable() {
   const [products, setProducts] = useState(null);
@@ -15,6 +16,7 @@ export function ItemSubCategoryTable() {
   //paginationState
   const [pageNo, setPageNo] = React.useState(0);
   const [pageSize, setPageSize] = React.useState(15);
+  const history = useHistory();
 
   // get user profile data from store
   const profileData = useSelector((state) => {
@@ -25,7 +27,7 @@ export function ItemSubCategoryTable() {
     setLoading(true);
     const searchPath = search ? `searchTerm=${search}&` : "";
     try {
-      const res = await Axios.get(
+      const res = await axios.get(
         `/item/MasterCategory/GetItemMasterSubCategoryPasignation?${searchPath}AccountId=${accId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
       );
       setProducts(res?.data);
@@ -40,14 +42,12 @@ export function ItemSubCategoryTable() {
   //AccountId=1&viewOrder=asc&PageNo=1&PageSize=100&searchTerm=asc
 
   useEffect(() => {
-    if ( profileData) {
       dispatchProduct(
         profileData.accountId,
         pageNo,
         pageSize
       );
-    }
-  }, [ profileData]);
+  }, [profileData]);
 
   //setPositionHandler
   const setPositionHandler = (pageNo, pageSize, searchValue) => {
@@ -87,14 +87,7 @@ export function ItemSubCategoryTable() {
       formatter: (cellContent, row) => {
         return (
           <span
-            className="d-flex align-items-center justify-content-center"
-            style={{ cursor: "pointer"}}
-            onClick={() => {
-              // history.push({
-              //   pathname: ``,
-              //   state: { ...item },
-              // });
-            }}
+            className="d-flex align-items-center justify-content-center"           
           >
             <OverlayTrigger
               overlay={
@@ -103,7 +96,15 @@ export function ItemSubCategoryTable() {
                 </Tooltip>
               }
             >
-              <span>
+              <span
+                style={{ cursor: "pointer"}}
+                onClick={() => {
+                  history.push({
+                    pathname: `/config/material-management/item-category/itemSubCategoryExpend/${row.itemMasterSubCategoryId}`,
+                    state: { ...row },
+                  });
+                }}
+              >
                 <i
                   className={`fa fa-arrows-alt`}
                   onClick={() => {}}

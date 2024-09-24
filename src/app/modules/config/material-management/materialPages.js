@@ -46,6 +46,7 @@ import TradeOfferForm from "./tradeOfferSetup/Form/addEditForm";
 import WarehouseCostBridgeLanding from "./warehouseCostBridge/landing";
 import ItemCategoryAddForm from "./itemCategory/itemCategoryCreate/addForm";
 import ItemCategoryExpend from "./itemCategory/itemCategoryExpand/itemCategoryExpend";
+import ItemSubCategoryExpend from "./itemSubCategory/itemSubCategoryExpand/itemSubCategoryExpand";
 
 export function MaterialPages() {
   const userRole = useSelector(
@@ -87,6 +88,14 @@ export function MaterialPages() {
         component={
           itemCategoryPermission?.isCreate
             ? ItemCategoryExpend
+            : NotPermittedPage
+        }
+      />
+      <ContentRoute
+        path="/config/material-management/item-category/itemSubCategoryExpend/:id"
+        component={
+          itemSubCategoryPermission?.isCreate
+            ? ItemSubCategoryExpend
             : NotPermittedPage
         }
       />

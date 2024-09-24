@@ -24,7 +24,7 @@ export function ItemCategoryTable() {
   );
   const profileData = useSelector((state) => state.authData.profileData);
 
-  const dispatchProduct = async (accId, buId, pageNo, pageSize, search) => {
+  const dispatchProduct = async (accId, pageNo, pageSize, search) => {
     setLoading(true);
     const searchPath = search ? `searchTerm=${search}&` : "";
     try {
@@ -44,17 +44,15 @@ export function ItemCategoryTable() {
   useEffect(() => {
     dispatchProduct(
       profileData.accountId,
-      selectedBusinessUnit.value,
       pageNo,
       pageSize
     );
-  }, [selectedBusinessUnit, profileData]);
+  }, [profileData]);
 
   //setPositionHandler
   const setPositionHandler = (pageNo, pageSize, searchValue) => {
     dispatchProduct(
       profileData.accountId,
-      selectedBusinessUnit.value,
       pageNo,
       pageSize,
       searchValue
