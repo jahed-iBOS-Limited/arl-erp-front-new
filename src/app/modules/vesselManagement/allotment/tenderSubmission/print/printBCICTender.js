@@ -17,6 +17,7 @@ const dynamicTableRow = (tableData, index, header) => {
             : ""
         }
       >
+        {/* IIFE Function For Render Left TD */}
         {(() => {
           switch (index) {
             case 1:
