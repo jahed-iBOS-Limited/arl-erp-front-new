@@ -121,7 +121,10 @@ export default function Recap() {
                     label="Ship Type"
                     onChange={(valueOption) => {
                       setFieldValue("shipType", valueOption);
+                      setFieldValue("voyageType", "");
                       setFieldValue("vesselName", "");
+                      setFieldValue("voyageNo", "");
+
                       setVesselDDL([]);
                       if (valueOption) {
                         getVesselDDL(
@@ -149,6 +152,7 @@ export default function Recap() {
                     label="Voyage Type"
                     onChange={(valueOption) => {
                       setFieldValue("vesselName", "");
+                      setFieldValue("voyageNo", "");
                       setFieldValue("voyageType", valueOption);
                     }}
                     errors={errors}
