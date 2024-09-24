@@ -79,7 +79,11 @@ export default function ViewForm({ id, show, onHide, isLoading }) {
   const singleData = useSelector((state) => {
     return state.salesOrder?.singleData;
   }, shallowEqual);
-
+  const {
+    selectedBusinessUnit: { value: buId, label },
+  } = useSelector((state) => {
+    return state.authData;
+  }, shallowEqual);
   let salesOrderData = useSelector(
     (state) => {
       return {
@@ -294,7 +298,6 @@ export default function ViewForm({ id, show, onHide, isLoading }) {
 
   const p = state?.addressChangingPermission;
   const viewMode = type !== "update" || !p;
-
   return (
     <div>
       <IViewModal
@@ -756,12 +759,14 @@ export default function ViewForm({ id, show, onHide, isLoading }) {
                       {_formatMoney(itm.numOrderValue)}
                     </td>
                     <td className="align-middle">{itm.numDiscountValue}</td>
-
+                    {/* 🔥from monir vai */}
                     <td className="text-right">
-                      {_formatMoney(
-                        itm.numOrderValue -
-                          (itm.numOrderValue * itm.numDiscountValue) / 100
-                      )}{" "}
+                      {[171, 224].includes(buId)
+                        ? _formatMoney(itm.numOrderValue)
+                        : _formatMoney(
+                            itm.numOrderValue -
+                              (itm.numOrderValue * itm.numDiscountValue) / 100
+                          )}{" "}
                     </td>
                   </tr>
                 );

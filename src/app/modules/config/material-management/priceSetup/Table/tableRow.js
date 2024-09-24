@@ -100,6 +100,10 @@ export function TableRow() {
       text: "Condition type",
     },
     {
+      dataField: "channlname",
+      text: "Channel Name",
+    },
+    {
       dataField: "itemName",
       text: "Item Name",
     },
