@@ -3,6 +3,66 @@ import { _dateFormatterTwo } from "../../../../_helper/_dateFormate";
 import "./style.css";
 import { convertToText } from "../helper";
 
+// dynamic table row 1 - 4
+const dynamicTableRow = (tableData, index, header) => {
+  return (
+    <tr>
+      <td
+        colSpan={2}
+        height={
+          index === 2 && !header?.foreignPriceUsd
+            ? 30
+            : index === 4 && !header?.foreignPriceUsd
+            ? 80
+            : ""
+        }
+      >
+        {/* IIFE Function For Render Left TD */}
+        {(() => {
+          switch (index) {
+            case 1:
+              return "PRICE PER M.TON IN USD";
+            case 2:
+              return header?.foreignPriceUsd
+                ? `${header?.foreignPriceUsd} $`
+                : "";
+            case 3:
+              return "PRICE PER M. TON IN WORDS";
+            case 4:
+              return header?.foreignPriceUsd
+                ? convertToText(header?.foreignPriceUsd, "USD")
+                : "";
+            default:
+              return "";
+          }
+        })()}
+      </td>
+      <td style={{ textAlign: "left" }}>{tableData?.godownName || ""}</td>
+      <td
+        style={{
+          textAlign: "right",
+          fontWeight: "bold",
+          width: "100px",
+        }}
+      >
+        {tableData?.quantity || ""}
+      </td>
+      <td
+        style={{
+          textAlign: "right",
+          fontWeight: "bold",
+          width: "100px",
+        }}
+      >
+        {tableData?.perQtyTonPriceBd || ""}
+      </td>
+      <td style={{ textAlign: "center" }}>
+        {tableData?.perQtyPriceWords || ""}
+      </td>
+    </tr>
+  );
+};
+
 const PrintBCICTender = ({ tenderDetails: { header, rows } }) => {
   // first data
   const firstDataOnTable = rows?.length > 0 && rows[0];
@@ -72,7 +132,7 @@ const PrintBCICTender = ({ tenderDetails: { header, rows } }) => {
             </tr>
 
             {/* First Data */}
-            <tr>
+            {/* <tr>
               <td colSpan={2}>PRICE PER M.TON IN USD</td>
               <td style={{ textAlign: "left" }}>
                 {firstDataOnTable?.godownName || ""}
@@ -98,10 +158,11 @@ const PrintBCICTender = ({ tenderDetails: { header, rows } }) => {
               <td style={{ textAlign: "center" }}>
                 {firstDataOnTable?.perQtyPriceWords || ""}
               </td>
-            </tr>
+            </tr> */}
+            {dynamicTableRow(firstDataOnTable, 1)}
 
             {/* Second Data */}
-            <tr>
+            {/* <tr>
               <td colSpan={2} height={!header?.foreignPriceUsd && 30}>
                 {header?.foreignPriceUsd ? `${header?.foreignPriceUsd} $` : ""}
               </td>
@@ -124,17 +185,16 @@ const PrintBCICTender = ({ tenderDetails: { header, rows } }) => {
                   width: "100px",
                 }}
               >
-                {secondDataOnTable?.perQtyTonPriceBd
-                  ? secondDataOnTable?.perQtyTonPriceBd
-                  : ""}
+                {secondDataOnTable?.perQtyTonPriceBd || ""}
               </td>
               <td style={{ textAlign: "center" }}>
                 {secondDataOnTable?.perQtyPriceWords || ""}
               </td>
-            </tr>
+            </tr> */}
+            {dynamicTableRow(secondDataOnTable, 2, header)}
 
             {/* Third Data */}
-            <tr>
+            {/* <tr>
               <td colSpan={2}>PRICE PER M. TON IN WORDS</td>
               <td style={{ textAlign: "left" }}>
                 {thirdDataOnTable?.godownName || ""}
@@ -160,10 +220,11 @@ const PrintBCICTender = ({ tenderDetails: { header, rows } }) => {
               <td style={{ textAlign: "center" }}>
                 {thirdDataOnTable?.perQtyPriceWords || ""}
               </td>
-            </tr>
+            </tr> */}
+            {dynamicTableRow(thirdDataOnTable, 3)}
 
             {/* Fourth Data */}
-            <tr>
+            {/* <tr>
               <td colSpan={2} height={!header?.foreignPriceUsd && 80}>
                 {header?.foreignPriceUsd
                   ? convertToText(header?.foreignPriceUsd, "USD")
@@ -193,12 +254,13 @@ const PrintBCICTender = ({ tenderDetails: { header, rows } }) => {
               <td style={{ textAlign: "center" }}>
                 {fourthDataOnTable?.perQtyPriceWords || ""}
               </td>
-            </tr>
+            </tr> */}
+            {dynamicTableRow(fourthDataOnTable, 4, header)}
 
             {restofDataOnTable?.length > 0 &&
               restofDataOnTable?.map((item, index) => {
                 return (
-                  <tr>
+                  <tr key={index}>
                     {index === 0 && (
                       <td rowSpan={restofDataOnTable.length} colSpan={2}></td>
                     )}
@@ -227,7 +289,7 @@ const PrintBCICTender = ({ tenderDetails: { header, rows } }) => {
                   </tr>
                 );
               })}
-            <tr height={500}>
+            <tr height={450}>
               <td colSpan={3}>
                 <span style={{ display: "block", marginBottom: "20px" }}>
                   QUOTATION ENQUIRY NO:
