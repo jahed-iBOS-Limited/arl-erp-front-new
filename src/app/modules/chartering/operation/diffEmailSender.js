@@ -6,6 +6,8 @@ import { marineBaseUrlPythonAPI } from "../../../App";
 import useAxiosPost from "../../_helper/customHooks/useAxiosPost";
 import Loading from "../../_helper/_loading";
 import AttachmentUploaderNew from "../../_helper/attachmentUploaderNew";
+import IViewModal from "../../_helper/_viewModal";
+import AddTOCC from "./addTOCC";
 
 const DiffEmailSender = ({ emailEditorProps }) => {
   const { intId, singleRowData, cb } = emailEditorProps;
@@ -29,6 +31,11 @@ const DiffEmailSender = ({ emailEditorProps }) => {
 
   const [, getEmailInfo, loading] = useAxiosPost();
   const [, onSendEmail, loader] = useAxiosPost();
+  const [isShow, setIsShow] = useState(false);
+  const [prevEmailList, setPrevEmailList] = useState({
+    to: [],
+    email_list: [],
+  });
 
   useEffect(() => {
     if (intId) {
@@ -48,6 +55,10 @@ const DiffEmailSender = ({ emailEditorProps }) => {
             subject: data?.subject || "",
             emailBody: data?.body || "",
           });
+          setPrevEmailList({
+            to: data?.receiver?.length ? data?.receiver?.split(",") : [],
+            email_list: data?.email?.length ? data?.email : [],
+          })
         },
         false
       );
@@ -65,10 +76,10 @@ const DiffEmailSender = ({ emailEditorProps }) => {
   };
 
   // Function to validate multiple emails separated by both ',' and '|'
-  const validateCcEmails = (emailString) => {
-    const emails = emailString.split(/[,|]/).map((email) => email.trim());
-    return emails.every((email) => emailRegex.test(email));
-  };
+  // const validateCcEmails = (emailString) => {
+  //   const emails = emailString.split(/[,|]/).map((email) => email.trim());
+  //   return emails.every((email) => emailRegex.test(email));
+  // };
 
   // Handle input changes for To, Cc, and Subject fields
   const handleInputChange = (e) => {
@@ -82,12 +93,12 @@ const DiffEmailSender = ({ emailEditorProps }) => {
     ) {
       setErrors((prevErrors) => ({ ...prevErrors, to: "" }));
     }
-    if (
-      name === "ccEmail" &&
-      (emailRegex.test(value) || validateCcEmails(value))
-    ) {
-      setErrors((prevErrors) => ({ ...prevErrors, cc: "" }));
-    }
+    // if (
+    //   name === "ccEmail" &&
+    //   (emailRegex.test(value) || validateCcEmails(value))
+    // ) {
+    //   setErrors((prevErrors) => ({ ...prevErrors, cc: "" }));
+    // }
     if (name === "subject" && value.trim()) {
       setErrors((prevErrors) => ({ ...prevErrors, subject: "" }));
     }
@@ -109,20 +120,21 @@ const DiffEmailSender = ({ emailEditorProps }) => {
 
     // Check "To" field (multiple emails separated by |)
     if (!emailData.toEmail || !validateToEmails(emailData.toEmail)) {
-      newErrors.to = "Please enter at least one valid email. If you add multiple separated by '|'.";
+      newErrors.to =
+        "Please enter at least one valid email. If you add multiple separated by '|'.";
       isValid = false;
     }
 
     // Check "Cc" field (multiple emails separated by | or ,)
-    if (
-      !emailData.ccEmail ||
-      (!emailRegex.test(emailData.ccEmail) &&
-        !validateCcEmails(emailData.ccEmail))
-    ) {
-      newErrors.cc =
-        "Please enter a valid single email or multiple emails separated by ','. If you add for multiple user separated by '|'.";
-      isValid = false;
-    }
+    // if (
+    //   !emailData.ccEmail ||
+    //   (!emailRegex.test(emailData.ccEmail) &&
+    //     !validateCcEmails(emailData.ccEmail))
+    // ) {
+    //   newErrors.cc =
+    //     "Please enter a valid single email or multiple emails separated by ','. If you add for multiple user separated by '|'.";
+    //   isValid = false;
+    // }
 
     // Check "Subject" field
     if (!emailData.subject.trim()) {
@@ -144,21 +156,25 @@ const DiffEmailSender = ({ emailEditorProps }) => {
         .split("|")
         .map((email) => email.trim());
 
-      // Split ccEmail into arrays based on '|' character (if any)
-      const ccEmailArray = emailData.ccEmail
-        .split("|")
-        .map((cc) => cc.split(",").map((email) => email.trim()));
+      const ccEmailArray = emailData.ccEmail.split("|").map((cc) => {
+        const trimmedCC = cc.trim();
+        if (trimmedCC === "No Emails") {
+          return [];
+        }
+        return trimmedCC.split(",").map((email) => email.trim());
+      });
 
-      // Construct the email_list based on the number of toEmail entries
       const email_list = toEmailArray.map((toEmail, index) => {
-        // For each toEmail, assign corresponding ccEmail
-        const ccEmails = ccEmailArray[index] || []; // Use an empty array if no ccEmail exists for the index
-        return [...ccEmails]; // Merge toEmail with corresponding ccEmails
+        const ccEmails = !ccEmailArray[index]?.length
+          ? []
+          : ccEmailArray[index];
+        return [...ccEmails];
       });
 
       const payload = {
-        receiver: toEmailArray.join(", "), // Flatten toEmailArray for the receiver field
+        receiver: toEmailArray.join(", "),
         email_list: JSON.stringify(email_list),
+        // email_list: email_list,
         subject: emailData.subject,
         body: emailData.emailBody,
         intId: intId,
@@ -247,12 +263,24 @@ const DiffEmailSender = ({ emailEditorProps }) => {
       {(loading || loader) && <Loading />}
       <div style={styles.container}>
         <div style={styles.header}>
+          <div className="text-right">
+            <button
+              type="button"
+              onClick={() => {
+                setIsShow(true);
+              }}
+              className="btn btn-primary mb-3"
+            >
+              Add
+            </button>
+          </div>
           <div style={styles.field}>
             <label style={styles.label}>To:</label>
             <input
+              disabled
               type="text"
               name="toEmail"
-              placeholder="Recipient's email (use '|' to separate multiple)"
+              // placeholder="Recipient's email (use '|' to separate multiple)"
               value={emailData.toEmail}
               onChange={handleInputChange}
               style={styles.input}
@@ -263,15 +291,16 @@ const DiffEmailSender = ({ emailEditorProps }) => {
           <div style={styles.field}>
             <label style={styles.label}>Cc:</label>
             <input
+              disabled
               type="text"
               name="ccEmail"
-              placeholder="Cc (comma-separated emails or '|' for multiple)"
+              // placeholder="Cc (comma-separated emails or '|' for multiple)"
               value={emailData.ccEmail}
               onChange={handleInputChange}
               style={styles.input}
             />
           </div>
-          {errors.cc && <div style={styles.error}>{errors.cc}</div>}
+          {/* {errors.cc && <div style={styles.error}>{errors.cc}</div>} */}
 
           <div style={styles.field}>
             <label style={styles.label}>Subject:</label>
@@ -316,6 +345,16 @@ const DiffEmailSender = ({ emailEditorProps }) => {
             Send
           </button>
         </div>
+      </div>
+      <div>
+        <IViewModal
+          show={isShow}
+          onHide={() => {
+            setIsShow(false);
+          }}
+        >
+          <AddTOCC setIsShow={setIsShow} setEmailData={setEmailData} prevEmailList={prevEmailList} />
+        </IViewModal>
       </div>
     </>
   );
