@@ -14,7 +14,7 @@ export function BasicInfornationLandingCard() {
     <Card>
       <CardHeader title="Item Basic Info">
         <CardHeaderToolbar>
-          <button
+          {/* <button
             type="button"
             className="btn btn-primary"
             onClick={() =>
@@ -31,7 +31,7 @@ export function BasicInfornationLandingCard() {
             }
           >
             Bulk Upload
-          </button>
+          </button> */}
         </CardHeaderToolbar>
       </CardHeader>
       <CardBody>

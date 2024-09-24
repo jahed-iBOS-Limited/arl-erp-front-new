@@ -161,11 +161,11 @@ export default function AddForm({
   };
 
   const saveConfigBtnRef = useRef();
-  const saveConfigItemBasicClick = () => {
-    if (saveConfigBtnRef && saveConfigBtnRef.current) {
-      saveConfigBtnRef.current.click();
-    }
-  };
+  // const saveConfigItemBasicClick = () => {
+  //   if (saveConfigBtnRef && saveConfigBtnRef.current) {
+  //     saveConfigBtnRef.current.click();
+  //   }
+  // };
 
   const resetBtnRef = useRef();
   const ResetProductClick = () => {
@@ -175,7 +175,7 @@ export default function AddForm({
   };
 
   const backHandler = () => {
-    history.push(`/config/material-management/item-basic-info`);
+    history.push(`/config/material-management/item-basic-info-master`);
   };
 
   return (
@@ -207,7 +207,7 @@ export default function AddForm({
           >
             Save
           </button>
-          <button
+          {/* <button
             type="submit"
             className="btn btn-primary ml-2"
             onClick={saveConfigItemBasicClick}
@@ -215,7 +215,7 @@ export default function AddForm({
             disabled={isDisabled}
           >
             Save & Complete
-          </button>
+          </button> */}
         </CardHeaderToolbar>
       </CardHeader>
       <CardBody>

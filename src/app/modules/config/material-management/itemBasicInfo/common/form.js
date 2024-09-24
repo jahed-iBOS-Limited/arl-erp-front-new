@@ -50,8 +50,6 @@ export default function _Form({
   const [itemCategoryList, setItemCategoryList] = useState("");
   const [itemSubCategoryList, setItemSubCategoryList] = useState("");
   const [itemTypeOption, setItemTypeOption] = useState([]);
-  const [itemCategoryOption, setItemCategoryOption] = useState([]);
-  const [itemSubCategoryOption, setItemSubCategoryOption] = useState([]);
   useEffect(() => {
     getInfoData();
   }, []);
@@ -76,57 +74,35 @@ export default function _Form({
     setItemTypeOption(itemTypes);
   }, [itemTypeList]);
 
-  useEffect(() => {
-    let itemCategory = [];
-    itemCategoryList &&
-      itemCategoryList.forEach((item) => {
-        let items = {
-          value: item.itemCategoryId,
-          label: item.itemCategoryName,
-        };
-        itemCategory.push(items);
-      });
-    setItemCategoryOption(itemCategory);
-  }, [itemCategoryList]);
 
-  useEffect(() => {
-    let itemSubCategory = [];
-    itemSubCategoryList &&
-      itemSubCategoryList.forEach((item) => {
-        let items = {
-          value: item.id,
-          label: item.itemSubCategoryName,
-        };
-        itemSubCategory.push(items);
-      });
-    setItemSubCategoryOption(itemSubCategory);
-  }, [itemSubCategoryList]);
 
-  const categoryApiCaller = async (v) => {
+
+  const categoryApiCaller = async (typeId) => {
     const res = await Axios.get(
-      `/item/ItemCategory/GetItemCategoryDDLByTypeId?AccountId=${accountId}&BusinessUnitId=${selectedBusinessUnit.value}&ItemTypeId=${v}`
+      `/item/MasterCategory/GetItemMasterCategoryDDL?AccountId=${accountId}&ItemTypeId=${typeId}`
     );
     if (res.data) {
       setItemCategoryList(res.data);
     }
   };
 
-  const subcategoryApiCaller = async (v, typeId) => {
+  const subcategoryApiCaller = async (categoryId, typeId) => {
     const res = await Axios.get(
-      `/item/ItemSubCategory/GetItemSubCategoryDDLByCategoryId?accountId=${accountId}&businessUnitId=${selectedBusinessUnit.value}&itemCategoryId=${v}&typeId=${typeId}`
+      `/item/MasterCategory/GetItemMasterSubCategoryDDL?AccountId=${accountId}&ItemMasterCategoryId=${categoryId}&ItemMasterTypeId=${typeId}`
     );
     if (res.data) {
       setItemSubCategoryList(res.data);
     }
   };
+  // /item/MasterCategory/GetItemMasterCategoryDDL?AccountId=1
 
-  useEffect(() => {
-    if (isEdit && accountId && selectedBusinessUnit.value) {
-      categoryApiCaller(data.itemTypeId);
-      subcategoryApiCaller(data.itemCategoryId, data.itemTypeId);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [accountId, selectedBusinessUnit]);
+  // useEffect(() => {
+  //   if (isEdit && accountId && selectedBusinessUnit.value) {
+  //     categoryApiCaller(data.itemTypeId);
+  //     subcategoryApiCaller(data.itemCategoryId, data.itemTypeId);
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [accountId, selectedBusinessUnit]);
 
   return (
     <>
@@ -222,7 +198,7 @@ export default function _Form({
                   <Field
                     component={() => (
                       <Select
-                        options={itemCategoryOption}
+                        options={itemCategoryList}
                         placeholder="Select Item Category"
                         value={values?.itemCategory}
                         onChange={(valueOption) => {
@@ -232,7 +208,7 @@ export default function _Form({
                         }}
                         isSearchable={true}
                         styles={customStyles}
-                        isDisabled={!itemCategoryOption.length}
+                        isDisabled={!values?.itemType}
                       />
                     )}
                   />
@@ -254,7 +230,7 @@ export default function _Form({
                     component={() => (
                       <Select
                         value={values?.itemSubCategory}
-                        options={itemSubCategoryOption}
+                        options={itemSubCategoryList}
                         placeholder="Select Item Sub-category"
                         onChange={(valueOption) => {
                           setFieldValue("itemSubCategory", valueOption);
@@ -262,7 +238,7 @@ export default function _Form({
                         isSearchable={true}
                         styles={customStyles}
                         name="itemSubCategory"
-                        isDisabled={!itemCategoryOption.length || !itemSubCategoryOption.length}
+                        isDisabled={!values?.itemCategory || !values?.itemType}
                       />
                     )}
                   />
@@ -280,7 +256,7 @@ export default function _Form({
                       : ""}
                   </p>
                 </div>
-                {isWorkable && (
+                {/* {isWorkable && (
                   <div className="col-lg-1 d-flex align-items-center">
                     <div className="mr-2">isSerialize</div>
                     <input
@@ -294,7 +270,7 @@ export default function _Form({
                       }}
                     />
                   </div>
-                )}
+                )} */}
               </div>
               <button
                 type="submit"
