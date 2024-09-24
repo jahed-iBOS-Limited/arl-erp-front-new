@@ -35,9 +35,9 @@ const headers = [
   { name: "Cargo Quantity(Mt)" },
   { name: "Freight Per(Mt)" },
   { name: "Vessel Nomination" },
-  { name: "EDPA Loadport" },
   { name: "Bunker Calculator" },
   { name: "Pre Stowage" },
+  { name: "EDPA Loadport" },
   { name: "On Hire Bunker and Conditional Survey(CS)" },
   { name: "Dead Weight Calculation" },
   { name: "Voyage Instruction" },
@@ -103,166 +103,204 @@ export default function VesselNomination() {
     getGridData();
   }, []);
 
+  // const getButtonVisibility = (data) => {
+  //   let visibility = [];
+
+  //   if (data?.isVesselNominationEmailSent) {
+  //     visibility.push("edpaLoadportSend");
+  //   }
+  //   if (data?.isVesselNominationEmailSent && data?.edpaLoadportSend) {
+  //     visibility.push("isBunkerCalculationSave");
+  //   }
+  //   if (
+  //     data?.isVesselNominationEmailSent &&
+  //     data?.isBunkerCalculationSave &&
+  //     data?.edpaLoadportSend
+  //   ) {
+  //     visibility.push("preStowageSend");
+  //   }
+  //   if (
+  //     data?.isVesselNominationEmailSent &&
+  //     data?.isBunkerCalculationSave &&
+  //     data?.edpaLoadportSend &&
+  //     data?.preStowageSend
+  //   ) {
+  //     visibility.push("onHireBunkerSurveySent");
+  //   }
+  //   if (
+  //     data?.isVesselNominationEmailSent &&
+  //     data?.isBunkerCalculationSave &&
+  //     data?.edpaLoadportSend &&
+  //     data?.preStowageSend &&
+  //     data?.onHireBunkerSurveySent
+  //   ) {
+  //     visibility.push("isDeadWeightCalculationSave");
+  //   }
+  //   if (
+  //     data?.isVesselNominationEmailSent &&
+  //     data?.isBunkerCalculationSave &&
+  //     data?.edpaLoadportSend &&
+  //     data?.preStowageSend &&
+  //     data?.onHireBunkerSurveySent &&
+  //     data?.isDeadWeightCalculationSave
+  //   ) {
+  //     visibility.push("voyageInstructionSent");
+  //   }
+  //   if (
+  //     data?.isVesselNominationEmailSent &&
+  //     data?.isBunkerCalculationSave &&
+  //     data?.edpaLoadportSend &&
+  //     data?.preStowageSend &&
+  //     data?.onHireBunkerSurveySent &&
+  //     data?.isDeadWeightCalculationSave &&
+  //     data?.voyageInstructionSent
+  //   ) {
+  //     visibility.push("pisurveySent");
+  //   }
+  //   if (
+  //     data?.isVesselNominationEmailSent &&
+  //     data?.isBunkerCalculationSave &&
+  //     data?.edpaLoadportSend &&
+  //     data?.preStowageSend &&
+  //     data?.onHireBunkerSurveySent &&
+  //     data?.isDeadWeightCalculationSave &&
+  //     data?.voyageInstructionSent &&
+  //     data?.pisurveySent
+  //   ) {
+  //     visibility.push("voyageLicenseFlagWaiverSend");
+  //   }
+  //   if (
+  //     data?.isVesselNominationEmailSent &&
+  //     data?.isBunkerCalculationSave &&
+  //     data?.edpaLoadportSend &&
+  //     data?.preStowageSend &&
+  //     data?.onHireBunkerSurveySent &&
+  //     data?.isDeadWeightCalculationSave &&
+  //     data?.voyageInstructionSent &&
+  //     data?.pisurveySent &&
+  //     data?.voyageLicenseFlagWaiverSend
+  //   ) {
+  //     visibility.push("tclSend");
+  //   }
+  //   if (
+  //     data?.isVesselNominationEmailSent &&
+  //     data?.isBunkerCalculationSave &&
+  //     data?.edpaLoadportSend &&
+  //     data?.preStowageSend &&
+  //     data?.onHireBunkerSurveySent &&
+  //     data?.isDeadWeightCalculationSave &&
+  //     data?.voyageInstructionSent &&
+  //     data?.pisurveySent &&
+  //     data?.voyageLicenseFlagWaiverSend &&
+  //     data?.tclSend
+  //   ) {
+  //     visibility.push("weatherRoutingCompanySend");
+  //   }
+  //   if (
+  //     data?.isVesselNominationEmailSent &&
+  //     data?.isBunkerCalculationSave &&
+  //     data?.edpaLoadportSend &&
+  //     data?.preStowageSend &&
+  //     data?.onHireBunkerSurveySent &&
+  //     data?.isDeadWeightCalculationSave &&
+  //     data?.voyageInstructionSent &&
+  //     data?.pisurveySent &&
+  //     data?.voyageLicenseFlagWaiverSend &&
+  //     data?.tclSend &&
+  //     data?.weatherRoutingCompanySend
+  //   ) {
+  //     visibility.push("departureDocumentLoadPortSend");
+  //   }
+  //   if (
+  //     data?.isVesselNominationEmailSent &&
+  //     data?.isBunkerCalculationSave &&
+  //     data?.edpaLoadportSend &&
+  //     data?.preStowageSend &&
+  //     data?.onHireBunkerSurveySent &&
+  //     data?.isDeadWeightCalculationSave &&
+  //     data?.voyageInstructionSent &&
+  //     data?.pisurveySent &&
+  //     data?.voyageLicenseFlagWaiverSend &&
+  //     data?.tclSend &&
+  //     data?.weatherRoutingCompanySend &&
+  //     data?.departureDocumentLoadPortSend
+  //   ) {
+  //     visibility.push("departureDocumentDischargePortSend");
+  //   }
+  //   if (
+  //     data?.isVesselNominationEmailSent &&
+  //     data?.isBunkerCalculationSave &&
+  //     data?.edpaLoadportSend &&
+  //     data?.preStowageSend &&
+  //     data?.onHireBunkerSurveySent &&
+  //     data?.isDeadWeightCalculationSave &&
+  //     data?.voyageInstructionSent &&
+  //     data?.pisurveySent &&
+  //     data?.voyageLicenseFlagWaiverSend &&
+  //     data?.tclSend &&
+  //     data?.weatherRoutingCompanySend &&
+  //     data?.departureDocumentLoadPortSend &&
+  //     data?.departureDocumentDischargePortSend
+  //   ) {
+  //     visibility.push("epdadischargePortSent");
+  //   }
+  //   if (
+  //     data?.isVesselNominationEmailSent &&
+  //     data?.isBunkerCalculationSave &&
+  //     data?.edpaLoadportSend &&
+  //     data?.preStowageSend &&
+  //     data?.onHireBunkerSurveySent &&
+  //     data?.isDeadWeightCalculationSave &&
+  //     data?.voyageInstructionSent &&
+  //     data?.pisurveySent &&
+  //     data?.voyageLicenseFlagWaiverSend &&
+  //     data?.tclSend &&
+  //     data?.weatherRoutingCompanySend &&
+  //     data?.departureDocumentLoadPortSend &&
+  //     data?.departureDocumentDischargePortSend &&
+  //     data?.epdadischargePortSent
+  //   ) {
+  //     visibility.push("offHireBunkerSurveySent");
+  //   }
+
+  //   return visibility;
+  // };
+
   const getButtonVisibility = (data) => {
     let visibility = [];
-
+  
+    // First block
     if (data?.isVesselNominationEmailSent) {
-      visibility.push("edpaLoadportSend");
-    }
-    if (data?.isVesselNominationEmailSent && data?.edpaLoadportSend) {
       visibility.push("isBunkerCalculationSave");
     }
-    if (
-      data?.isVesselNominationEmailSent &&
-      data?.isBunkerCalculationSave &&
-      data?.edpaLoadportSend
-    ) {
+  
+    // Second block
+    if (data?.isVesselNominationEmailSent && data?.isBunkerCalculationSave) {
       visibility.push("preStowageSend");
     }
+  
+    // Third block - Push all remaining visibility states if previous conditions are met
     if (
       data?.isVesselNominationEmailSent &&
       data?.isBunkerCalculationSave &&
-      data?.edpaLoadportSend &&
       data?.preStowageSend
     ) {
-      visibility.push("onHireBunkerSurveySent");
+      visibility.push(
+        "edpaLoadportSend",
+        "onHireBunkerSurveySent",
+        "isDeadWeightCalculationSave",
+        "voyageInstructionSent",
+        "pisurveySent",
+        "voyageLicenseFlagWaiverSend",
+        "tclSend",
+        "weatherRoutingCompanySend",
+        "departureDocumentLoadPortSend",
+        "departureDocumentDischargePortSend",
+        "epdadischargePortSent",
+        "offHireBunkerSurveySent"
+      );
     }
-    if (
-      data?.isVesselNominationEmailSent &&
-      data?.isBunkerCalculationSave &&
-      data?.edpaLoadportSend &&
-      data?.preStowageSend &&
-      data?.onHireBunkerSurveySent
-    ) {
-      visibility.push("isDeadWeightCalculationSave");
-    }
-    if (
-      data?.isVesselNominationEmailSent &&
-      data?.isBunkerCalculationSave &&
-      data?.edpaLoadportSend &&
-      data?.preStowageSend &&
-      data?.onHireBunkerSurveySent &&
-      data?.isDeadWeightCalculationSave
-    ) {
-      visibility.push("voyageInstructionSent");
-    }
-    if (
-      data?.isVesselNominationEmailSent &&
-      data?.isBunkerCalculationSave &&
-      data?.edpaLoadportSend &&
-      data?.preStowageSend &&
-      data?.onHireBunkerSurveySent &&
-      data?.isDeadWeightCalculationSave &&
-      data?.voyageInstructionSent
-    ) {
-      visibility.push("pisurveySent");
-    }
-    if (
-      data?.isVesselNominationEmailSent &&
-      data?.isBunkerCalculationSave &&
-      data?.edpaLoadportSend &&
-      data?.preStowageSend &&
-      data?.onHireBunkerSurveySent &&
-      data?.isDeadWeightCalculationSave &&
-      data?.voyageInstructionSent &&
-      data?.pisurveySent
-    ) {
-      visibility.push("voyageLicenseFlagWaiverSend");
-    }
-    if (
-      data?.isVesselNominationEmailSent &&
-      data?.isBunkerCalculationSave &&
-      data?.edpaLoadportSend &&
-      data?.preStowageSend &&
-      data?.onHireBunkerSurveySent &&
-      data?.isDeadWeightCalculationSave &&
-      data?.voyageInstructionSent &&
-      data?.pisurveySent &&
-      data?.voyageLicenseFlagWaiverSend
-    ) {
-      visibility.push("tclSend");
-    }
-    if (
-      data?.isVesselNominationEmailSent &&
-      data?.isBunkerCalculationSave &&
-      data?.edpaLoadportSend &&
-      data?.preStowageSend &&
-      data?.onHireBunkerSurveySent &&
-      data?.isDeadWeightCalculationSave &&
-      data?.voyageInstructionSent &&
-      data?.pisurveySent &&
-      data?.voyageLicenseFlagWaiverSend &&
-      data?.tclSend
-    ) {
-      visibility.push("weatherRoutingCompanySend");
-    }
-    if (
-      data?.isVesselNominationEmailSent &&
-      data?.isBunkerCalculationSave &&
-      data?.edpaLoadportSend &&
-      data?.preStowageSend &&
-      data?.onHireBunkerSurveySent &&
-      data?.isDeadWeightCalculationSave &&
-      data?.voyageInstructionSent &&
-      data?.pisurveySent &&
-      data?.voyageLicenseFlagWaiverSend &&
-      data?.tclSend &&
-      data?.weatherRoutingCompanySend
-    ) {
-      visibility.push("departureDocumentLoadPortSend");
-    }
-    if (
-      data?.isVesselNominationEmailSent &&
-      data?.isBunkerCalculationSave &&
-      data?.edpaLoadportSend &&
-      data?.preStowageSend &&
-      data?.onHireBunkerSurveySent &&
-      data?.isDeadWeightCalculationSave &&
-      data?.voyageInstructionSent &&
-      data?.pisurveySent &&
-      data?.voyageLicenseFlagWaiverSend &&
-      data?.tclSend &&
-      data?.weatherRoutingCompanySend &&
-      data?.departureDocumentLoadPortSend
-    ) {
-      visibility.push("departureDocumentDischargePortSend");
-    }
-    if (
-      data?.isVesselNominationEmailSent &&
-      data?.isBunkerCalculationSave &&
-      data?.edpaLoadportSend &&
-      data?.preStowageSend &&
-      data?.onHireBunkerSurveySent &&
-      data?.isDeadWeightCalculationSave &&
-      data?.voyageInstructionSent &&
-      data?.pisurveySent &&
-      data?.voyageLicenseFlagWaiverSend &&
-      data?.tclSend &&
-      data?.weatherRoutingCompanySend &&
-      data?.departureDocumentLoadPortSend &&
-      data?.departureDocumentDischargePortSend
-    ) {
-      visibility.push("epdadischargePortSent");
-    }
-    if (
-      data?.isVesselNominationEmailSent &&
-      data?.isBunkerCalculationSave &&
-      data?.edpaLoadportSend &&
-      data?.preStowageSend &&
-      data?.onHireBunkerSurveySent &&
-      data?.isDeadWeightCalculationSave &&
-      data?.voyageInstructionSent &&
-      data?.pisurveySent &&
-      data?.voyageLicenseFlagWaiverSend &&
-      data?.tclSend &&
-      data?.weatherRoutingCompanySend &&
-      data?.departureDocumentLoadPortSend &&
-      data?.departureDocumentDischargePortSend &&
-      data?.epdadischargePortSent
-    ) {
-      visibility.push("offHireBunkerSurveySent");
-    }
-
+  
     return visibility;
   };
 
@@ -465,33 +503,6 @@ export default function VesselNomination() {
                               </button>
                             </td>
                             <td className="text-center">
-                              {visibleButtons.includes("edpaLoadportSend") && (
-                                <button
-                                  className={
-                                    item.edpaLoadportSend
-                                      ? "btn btn-sm btn-success px-1 py-1"
-                                      : "btn btn-sm btn-primary px-1 py-1"
-                                  }
-                                  type="button"
-                                  onClick={() => {
-                                    // if (item.edpaLoadportSend)
-                                    //   return toast.warn(
-                                    //     "EDPA Loadport Email Already Sent"
-                                    //   );
-                                    setSingleRowData({
-                                      ...item,
-                                      columnName: "EDPA LOADPORT",
-                                    });
-                                    // setIsShowMailModal(true);
-                                    setIsDiffMailSenderModal(true);
-                                  }}
-                                  // disabled={item.edpaLoadportSend}
-                                >
-                                  EDPA LOADPORT SEND
-                                </button>
-                              )}
-                            </td>
-                            <td className="text-center">
                               {visibleButtons.includes(
                                 "isBunkerCalculationSave"
                               ) && (
@@ -552,6 +563,33 @@ export default function VesselNomination() {
                                   disabled={item.preStowageSend}
                                 >
                                   PRE STOWAGE SEND
+                                </button>
+                              )}
+                            </td>
+                            <td className="text-center">
+                              {visibleButtons.includes("edpaLoadportSend") && (
+                                <button
+                                  className={
+                                    item.edpaLoadportSend
+                                      ? "btn btn-sm btn-success px-1 py-1"
+                                      : "btn btn-sm btn-primary px-1 py-1"
+                                  }
+                                  type="button"
+                                  onClick={() => {
+                                    // if (item.edpaLoadportSend)
+                                    //   return toast.warn(
+                                    //     "EDPA Loadport Email Already Sent"
+                                    //   );
+                                    setSingleRowData({
+                                      ...item,
+                                      columnName: "EDPA LOADPORT",
+                                    });
+                                    // setIsShowMailModal(true);
+                                    setIsDiffMailSenderModal(true);
+                                  }}
+                                  disabled={item.edpaLoadportSend}
+                                >
+                                  EDPA LOADPORT SEND
                                 </button>
                               )}
                             </td>
@@ -790,7 +828,8 @@ export default function VesselNomination() {
                                       ...item,
                                       columnName: "WEATHER ROUTING COMPANY",
                                     });
-                                    setIsShowMailModal(true);
+                                    // setIsShowMailModal(true);
+                                    setIsDiffMailSenderModal(true)
                                   }}
                                   disabled={item.weatherRoutingCompanySend}
                                 >

@@ -80,9 +80,9 @@ const validationSchema = Yup.object().shape({
     .typeError("Load Port Name is required"),
   laycanFrom: Yup.date().required("Laycan From Date is required"),
   laycanTo: Yup.date().required("Laycan To Date is required"),
-  dteVoyageCompletion: Yup.date().required(
-    "Voyage Completion Date is required"
-  ),
+  // dteVoyageCompletion: Yup.date().required(
+  //   "Voyage Completion Date is required"
+  // ),
   dteVoyageCommenced: Yup.date().required("Voyage Commenced Date is required"),
   loadRate: Yup.string().required("Load Rate is required"),
   demurrageDispatch: Yup.string().required("Demurrage / Dispatch is required"),
@@ -354,7 +354,7 @@ export default function RecapCreate() {
               <div className="col-lg-3">
                 <InputField
                   value={values.dteVoyageCompletion}
-                  label="Voyage Completion Date"
+                  label="Estimated Voyage Completion Date"
                   name="dteVoyageCompletion"
                   type="date"
                   onChange={(e) =>
