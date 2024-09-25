@@ -34,9 +34,9 @@ const headers = [
   { name: "Discharge Port" },
   { name: "Cargo Quantity(Mt)" },
   { name: "Freight Per(Mt)" },
-  { name: "Vessel Nomination" },
   { name: "Bunker Calculator" },
   { name: "Pre Stowage" },
+  { name: "Vessel Nomination" },
   { name: "EDPA Loadport" },
   { name: "On Hire Bunker and Conditional Survey(CS)" },
   { name: "Dead Weight Calculation" },
@@ -267,40 +267,54 @@ export default function VesselNomination() {
   // };
 
   const getButtonVisibility = (data) => {
-    let visibility = [];
-  
-    // First block
-    if (data?.isVesselNominationEmailSent) {
-      visibility.push("isBunkerCalculationSave");
-    }
-  
+    let visibility = [
+      "isBunkerCalculationSave",
+      "edpaLoadportSend",
+      "onHireBunkerSurveySent",
+      "isDeadWeightCalculationSave",
+      "voyageInstructionSent",
+      "pisurveySent",
+      "voyageLicenseFlagWaiverSend",
+      "tclSend",
+      "weatherRoutingCompanySend",
+      "departureDocumentLoadPortSend",
+      "departureDocumentDischargePortSend",
+      "epdadischargePortSent",
+      "offHireBunkerSurveySent",
+    ];
+
+    // // First block
+    // if (data?.isVesselNominationEmailSent) {
+    //   visibility.push("isBunkerCalculationSave");
+    // }
+
     // Second block
-    if (data?.isVesselNominationEmailSent && data?.isBunkerCalculationSave) {
+    if (data?.isBunkerCalculationSave) {
       visibility.push("preStowageSend");
     }
-  
+
     // Third block - Push all remaining visibility states if previous conditions are met
-    if (
-      data?.isVesselNominationEmailSent &&
-      data?.isBunkerCalculationSave &&
-      data?.preStowageSend
-    ) {
-      visibility.push(
-        "edpaLoadportSend",
-        "onHireBunkerSurveySent",
-        "isDeadWeightCalculationSave",
-        "voyageInstructionSent",
-        "pisurveySent",
-        "voyageLicenseFlagWaiverSend",
-        "tclSend",
-        "weatherRoutingCompanySend",
-        "departureDocumentLoadPortSend",
-        "departureDocumentDischargePortSend",
-        "epdadischargePortSent",
-        "offHireBunkerSurveySent"
-      );
-    }
-  
+    // if (
+    //   data?.isVesselNominationEmailSent &&
+    //   data?.isBunkerCalculationSave &&
+    //   data?.preStowageSend
+    // ) {
+    //   visibility.push(
+    //     "edpaLoadportSend",
+    //     "onHireBunkerSurveySent",
+    //     "isDeadWeightCalculationSave",
+    //     "voyageInstructionSent",
+    //     "pisurveySent",
+    //     "voyageLicenseFlagWaiverSend",
+    //     "tclSend",
+    //     "weatherRoutingCompanySend",
+    //     "departureDocumentLoadPortSend",
+    //     "departureDocumentDischargePortSend",
+    //     "epdadischargePortSent",
+    //     "offHireBunkerSurveySent"
+    //   );
+    // }
+
     return visibility;
   };
 
@@ -468,40 +482,7 @@ export default function VesselNomination() {
                             <td className="text-right">
                               {item?.numFreightPerMt}
                             </td>
-                            <td className="text-center">
-                              <button
-                                className={
-                                  item.isVesselNominationEmailSent
-                                    ? "btn btn-sm btn-success px-1 py-1"
-                                    : "btn btn-sm btn-primary px-1 py-1"
-                                }
-                                type="button"
-                                // onClick={() => {
-                                //   if(item.isVesselNominationEmailSent) return toast.warn("Vessel Nomination Email Already Sent");
 
-                                //   vesselNominationMainSend(`${marineBaseUrlPythonAPI}/automation/nomination_vessel_email_sender_with_id`, {intId: item?.intId},
-                                //   () => {
-                                //     getGridData();
-                                //   },
-                                //   true
-                                //   )
-                                // }}
-                                onClick={() => {
-                                  if (item.isVesselNominationEmailSent)
-                                    return toast.warn(
-                                      "Vessel Nomination Email Already Sent"
-                                    );
-                                  setSingleRowData({
-                                    ...item,
-                                    columnName: "VESSEL NOMINATION",
-                                  });
-                                  setIsShowMailModal(true);
-                                }}
-                                disabled={item.isVesselNominationEmailSent}
-                              >
-                                VESSEL NOMINATION SEND
-                              </button>
-                            </td>
                             <td className="text-center">
                               {visibleButtons.includes(
                                 "isBunkerCalculationSave"
@@ -514,11 +495,11 @@ export default function VesselNomination() {
                                   }
                                   type="button"
                                   onClick={() => {
-                                    if (!item?.edpaLoadportSend) {
-                                      return toast.warn(
-                                        "Please Send EDPA Loadport Email First"
-                                      );
-                                    }
+                                    // if (!item?.edpaLoadportSend) {
+                                    //   return toast.warn(
+                                    //     "Please Send EDPA Loadport Email First"
+                                    //   );
+                                    // }
                                     history.push(
                                       "/chartering/operation/bunkerManagement/create",
                                       {
@@ -542,10 +523,10 @@ export default function VesselNomination() {
                                   }
                                   type="button"
                                   onClick={() => {
-                                    if (item.preStowageSend)
-                                      return toast.warn(
-                                        "Pre Stowage Email Already Sent"
-                                      );
+                                    // if (item.preStowageSend)
+                                    //   return toast.warn(
+                                    //     "Pre Stowage Email Already Sent"
+                                    //   );
                                     setSingleRowData({
                                       ...item,
                                       columnName: "PRE STOWAGE",
@@ -565,6 +546,40 @@ export default function VesselNomination() {
                                   PRE STOWAGE SEND
                                 </button>
                               )}
+                            </td>
+                            <td className="text-center">
+                              <button
+                                className={
+                                  item.isVesselNominationEmailSent
+                                    ? "btn btn-sm btn-success px-1 py-1"
+                                    : "btn btn-sm btn-primary px-1 py-1"
+                                }
+                                type="button"
+                                // onClick={() => {
+                                //   if(item.isVesselNominationEmailSent) return toast.warn("Vessel Nomination Email Already Sent");
+
+                                //   vesselNominationMainSend(`${marineBaseUrlPythonAPI}/automation/nomination_vessel_email_sender_with_id`, {intId: item?.intId},
+                                //   () => {
+                                //     getGridData();
+                                //   },
+                                //   true
+                                //   )
+                                // }}
+                                onClick={() => {
+                                  // if (item.isVesselNominationEmailSent)
+                                  //   return toast.warn(
+                                  //     "Vessel Nomination Email Already Sent"
+                                  //   );
+                                  setSingleRowData({
+                                    ...item,
+                                    columnName: "VESSEL NOMINATION",
+                                  });
+                                  setIsShowMailModal(true);
+                                }}
+                                disabled={item.isVesselNominationEmailSent}
+                              >
+                                VESSEL NOMINATION SEND
+                              </button>
                             </td>
                             <td className="text-center">
                               {visibleButtons.includes("edpaLoadportSend") && (
@@ -829,7 +844,7 @@ export default function VesselNomination() {
                                       columnName: "WEATHER ROUTING COMPANY",
                                     });
                                     // setIsShowMailModal(true);
-                                    setIsDiffMailSenderModal(true)
+                                    setIsDiffMailSenderModal(true);
                                   }}
                                   disabled={item.weatherRoutingCompanySend}
                                 >
