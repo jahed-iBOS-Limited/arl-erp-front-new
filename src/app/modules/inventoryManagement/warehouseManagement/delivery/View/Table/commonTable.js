@@ -111,9 +111,17 @@ function CommonTable({
                       <td className="text-right">
                         <b>{totalPieces}</b>
                       </td>
+                      <td className="text-right">
+                        <b>{totalQuantity}</b>
+                      </td>
                     </>
                   )}
-                  <td className="text-right"></td>
+                  {(selectedBusinessUnit?.value !== 171 &&
+                    selectedBusinessUnit?.value !== 224) && (
+                    <>
+                      <td className="text-right"></td>
+                    </>
+                  )}
                   {/*  Akij Essentials Ltd. == 144*/}
                   {[144].includes(selectedBusinessUnit?.value) && (
                     <>
