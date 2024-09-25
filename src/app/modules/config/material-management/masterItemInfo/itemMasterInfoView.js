@@ -1,14 +1,12 @@
+/* eslint-disable no-unused-vars */
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
 import { useLocation, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import IForm from "../../../_helper/_form";
 import InputField from "../../../_helper/_inputField";
 import Loading from "../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 const initData = {
   businessUnit: "",
   itemSubCategoryName: "",
@@ -17,100 +15,22 @@ const initData = {
   itemMasterName: "",
 };
 
-export default function MasterItemExpend() {
+export default function MasterItemView() {
   const { id } = useParams();
   const [rowData, getRowData, rowDataLoading, setRowData] = useAxiosGet();
+  
   const [objProps, setObjprops] = useState({});
-  const [, postData, isLoading] = useAxiosPost();
   const [singleData, setSingleData] = useState({});
-  const {
-    profileData: { accountId: userId },
-    businessUnitList: businessUnitDDL
-  } = useSelector((state) => state?.authData, shallowEqual);
   const location = useLocation();
 
   const {
-    accountId,
-    itemMasterTypeId,
-    itemMasterCategoryId,
-    itemMasterCategoryCode,
     itemMasterCategoryName,
     itemMasterTypeName,
     itemMasterName,
     itemMasterSubCategoryName
   } = location?.state || {};
-  const saveHandler = (values, cb) => {
-    if (id) {
-      const buListforPayload = rowData?.businessUnit
-        ?.filter((item) => item?.isNewBusinessUnitAdded === true) // Filter the list for isNewBusinessUnitAdded = true
-        .map((item) => {
-          return {
-            businessUnitId: item?.businessUnitId,
-            businessUnitName: item?.businessUnitName,
-            isSerialMaintain: item?.isSerialMaintain,
-          };
-        });
-      const payload = {
-          accountId: accountId,
-          actionBy: userId,
-          itemMasterId: +id,
-          rows: buListforPayload
-        }
-      if(buListforPayload?.length > 0) {
-        postData(
-          `/item/ItemMaster/CreateItemExtendFromMaster`,
-          payload,
-          () => {
-            cb(
-              getRowData(
-                `/item/ItemMaster/GetMasterItemById?ItemMasterId=${id}`,
-                (data) => {
-                  setRowData(data);
-                }
-              )
-            );
-          },
-          true
-        );
-      }else{
-        toast.warn("Please add minimum one new Business Unit");
-      }
-    }
-  };
 
-  const addRow = (values, callBack) => {
-    // Check if the supplier already exists in the rowData
-    if (rowData?.businessUnit?.find((item) => item?.businessUnitId === values?.businessUnit?.value)) {
-      return toast.warn("Business Unit already added");
-    } 
-    try {
-      // Create the new row object
-      const newRow = {
-        businessUnitId: values?.businessUnit?.value,
-        businessUnitName: values?.businessUnit?.label,
-        createdBy: userId,
-        isNewBusinessUnitAdded: true,
-        isSerialMaintain: values?.isSerialMaintain,
-      };
-  
-      // Update rowData while keeping other fields intact
-      setRowData({
-          sl: rowData?.sl,
-          itemMasterCategoryId: itemMasterCategoryId,
-          accountId: accountId,
-          itemMasterCategoryCode: itemMasterCategoryCode,
-          itemMasterCategoryName: itemMasterCategoryName,
-          itemMasterTypeId: itemMasterTypeId,
-          itemMasterTypeName: itemMasterTypeName,
-          businessUnit: [newRow, ...(rowData?.businessUnit || [])]
-      }); 
-      // Execute the callback after successfully updating the state
-      callBack();
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
+const saveHandler = (values, cb) => {};
   useEffect(() => {
     if (id) {
       const editedInitData = {
@@ -161,9 +81,11 @@ export default function MasterItemExpend() {
       }) => (
         <>
           {/* {console.log("error", errors)} */}
-          {(rowDataLoading || isLoading) && <Loading />}
+          {(rowDataLoading) && <Loading />}
           <IForm
             customTitle={`Item Extend`}
+            isHiddenSave={true}
+            isHiddenReset={true}
             getProps={setObjprops}
           >
             <Form onSubmit={handleSubmit}>
@@ -220,51 +142,6 @@ export default function MasterItemExpend() {
                     }}
                   />
                 </div>
-                
-                <div className="col-lg-3">
-                  <NewSelect
-                    name="businessUnit"
-                    options={businessUnitDDL}
-                    value={values?.businessUnit}
-                    label="Business Unit"
-                    onChange={valueOption => {
-                       setFieldValue('businessUnit', valueOption);
-                    }}
-                    // isDisabled={id}
-                  />
-                </div>
-
-                {(values?.businessUnit?.value === 138 || values?.businessUnit?.value === 186) && (
-                  <div className="col-lg-1 d-flex align-items-center">
-                    <div className="mr-2">isSerialize</div>
-                    <input
-                      type="checkbox"
-                      name="isSerialMaintain"
-                    //   value={data?.IsSerialMaintain}
-                      checked={values?.isSerialMaintain}
-                      id="isSerialMaintain"
-                      onChange={(e) => {
-                        setFieldValue("isSerialMaintain", e.target.checked);
-                      }}
-                    />
-                  </div>
-                )}
-
-                <div className="col-lg-3 mt-5">
-                  <button
-                    type="button"
-                    className="btn btn-primary"
-                    onClick={() => {
-                      addRow(values, () => {
-                        setFieldValue("businessUnit", "");
-                        setFieldValue("isSerialMaintain", false);
-                      });
-                    }}
-                    disabled={!values?.businessUnit }
-                  >
-                    + Add
-                  </button>
-                </div>
               </div>
 
               {rowData?.businessUnit?.length > 0 && (
@@ -299,19 +176,6 @@ export default function MasterItemExpend() {
                   </table>
                 </div>
               )}
-              <button
-                type="submit"
-                style={{ display: "none" }}
-                ref={objProps?.btnRef}
-                onSubmit={() => handleSubmit()}
-              ></button>
-
-              <button
-                type="reset"
-                style={{ display: "none" }}
-                ref={objProps?.resetBtnRef}
-                onSubmit={() => resetForm(initData)}
-              ></button>
             </Form>
           </IForm>
         </>

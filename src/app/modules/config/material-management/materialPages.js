@@ -49,6 +49,7 @@ import ItemCategoryExpend from "./itemCategory/itemCategoryExpand/itemCategoryEx
 import ItemSubCategoryExpend from "./itemSubCategory/itemSubCategoryExpand/itemSubCategoryExpand";
 import ItemMasterInfoLanding from "./masterItemInfo/itemMasterInfoLanding";
 import MasterItemExpend from "./masterItemInfo/itemMasterInfoExpend";
+import MasterItemView from "./masterItemInfo/itemMasterInfoView";
 
 export function MaterialPages() {
   const userRole = useSelector(
@@ -103,7 +104,7 @@ export function MaterialPages() {
         }
       />
       <ContentRoute
-        path="/config/material-management/item-category/itemSubCategoryExpend/:id"
+        path="/config/material-management/item-sub-category/itemSubCategoryExpend/:id"
         component={
           itemSubCategoryPermission?.isCreate
             ? ItemSubCategoryExpend
@@ -332,12 +333,16 @@ export function MaterialPages() {
 
       <ContentRoute
         path="/config/material-management/itembasicinfo-master/expand/:id"
-        component={MasterItemExpend}
+        component={itemProfileMasterPermission?.isEdit ? MasterItemExpend : NotPermittedPage}
+      />
+      <ContentRoute
+        path="/config/material-management/itembasicinfo-master/view/:id"
+        component={itemProfileMasterPermission?.isView ? MasterItemView : NotPermittedPage}
       />
 
       <ContentRoute
         path="/config/material-management/itembasicinfo-master"
-        component={ItemMasterInfoLanding}
+        component={itemProfileMasterPermission?.isView ? ItemMasterInfoLanding : NotPermittedPage}
       />
     </Switch>
   );
