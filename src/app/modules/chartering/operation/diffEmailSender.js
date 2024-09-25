@@ -271,7 +271,7 @@ const DiffEmailSender = ({ emailEditorProps }) => {
               }}
               className="btn btn-primary mb-3"
             >
-              Add
+              Add Email
             </button>
           </div>
           <div style={styles.field}>

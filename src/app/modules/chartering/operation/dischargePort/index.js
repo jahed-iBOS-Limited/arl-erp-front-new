@@ -36,7 +36,7 @@ export default function DischargePort() {
       ? `&vesselName=${values?.vesselName?.label}`
       : "";
     const voyageNoSTR = values?.voyageNo
-      ? `&voyageNo=${values?.voyageNo?.value}`
+      ? `&voyageNo=${values?.voyageNo?.label}`
       : "";
     getGridData(
       `${imarineBaseUrl}/domain/VesselNomination/DepartureDocumentsDischargePortLanding?${shipTypeSTR}${voyageTypeSTR}${vesselNameSTR}${voyageNoSTR}`
@@ -114,6 +114,8 @@ export default function DischargePort() {
                           setVesselDDL,
                           valueOption?.value === 2 ? 2 : ""
                         );
+                      }else{
+                        getLandingData();
                       }
                     }}
                   />

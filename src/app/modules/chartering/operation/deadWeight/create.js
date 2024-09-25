@@ -244,7 +244,7 @@ export default function DeadWeightCreate() {
                     options={[
                       { value: "Winter", label: "Winter" },
                       { value: "Tropical", label: "Tropical" },
-                      { value: "Seasonal", label: "Seasonal" },
+                      { value: "Summer", label: "Summer" },
                     ]}
                     value={values?.strDraftType}
                     label="Draft Type"

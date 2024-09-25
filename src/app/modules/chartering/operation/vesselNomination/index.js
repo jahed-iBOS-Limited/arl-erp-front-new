@@ -46,9 +46,9 @@ const headers = [
   { name: "TCL" },
   { name: "Weather Routing Company" },
   { name: "Departure Document Loadport" },
-  { name: "Departure Document Discharge Port" },
   { name: "EPDA Discharge Port" },
-  { name: "Offhire Bunker Survey" },
+  { name: "Off Hire Bunker Survey" },
+  { name: "Departure Document Discharge Port" },
 ];
 
 export default function VesselNomination() {
@@ -92,7 +92,7 @@ export default function VesselNomination() {
       ? `&vesselName=${values?.vesselName?.label}`
       : "";
     const voyageNoSTR = values?.voyageNo
-      ? `&voyageNo=${values?.voyageNo?.value}`
+      ? `&voyageNo=${values?.voyageNo?.label}`
       : "";
     getLandingData(
       `${imarineBaseUrl}/domain/VesselNomination/VesselNominationLanding?${shipTypeSTR}${voyageTypeSTR}${vesselNameSTR}${voyageNoSTR}`
@@ -386,6 +386,8 @@ export default function VesselNomination() {
                             setVesselDDL,
                             valueOption?.value === 2 ? 2 : ""
                           );
+                        }else{
+                          getGridData();
                         }
                       }}
                     />
@@ -491,7 +493,7 @@ export default function VesselNomination() {
                                   className={
                                     item.isBunkerCalculationSave
                                       ? "btn btn-sm btn-success px-1 py-1"
-                                      : "btn btn-sm btn-primary px-1 py-1"
+                                      : "btn btn-sm btn-warning px-1 py-1"
                                   }
                                   type="button"
                                   onClick={() => {
@@ -519,7 +521,7 @@ export default function VesselNomination() {
                                   className={
                                     item.preStowageSend
                                       ? "btn btn-sm btn-success px-1 py-1"
-                                      : "btn btn-sm btn-primary px-1 py-1"
+                                      : "btn btn-sm btn-warning px-1 py-1"
                                   }
                                   type="button"
                                   onClick={() => {
@@ -552,7 +554,7 @@ export default function VesselNomination() {
                                 className={
                                   item.isVesselNominationEmailSent
                                     ? "btn btn-sm btn-success px-1 py-1"
-                                    : "btn btn-sm btn-primary px-1 py-1"
+                                    : "btn btn-sm btn-warning px-1 py-1"
                                 }
                                 type="button"
                                 // onClick={() => {
@@ -587,7 +589,7 @@ export default function VesselNomination() {
                                   className={
                                     item.edpaLoadportSend
                                       ? "btn btn-sm btn-success px-1 py-1"
-                                      : "btn btn-sm btn-primary px-1 py-1"
+                                      : "btn btn-sm btn-warning px-1 py-1"
                                   }
                                   type="button"
                                   onClick={() => {
@@ -616,7 +618,7 @@ export default function VesselNomination() {
                                   className={
                                     item.onHireBunkerSurveySent
                                       ? "btn btn-sm btn-success px-1 py-1"
-                                      : "btn btn-sm btn-primary px-1 py-1"
+                                      : "btn btn-sm btn-warning px-1 py-1"
                                   }
                                   type="button"
                                   onClick={() => {
@@ -652,7 +654,7 @@ export default function VesselNomination() {
                                   className={
                                     item.isDeadWeightCalculationSave
                                       ? "btn btn-sm btn-success px-1 py-1"
-                                      : "btn btn-sm btn-primary px-1 py-1"
+                                      : "btn btn-sm btn-warning px-1 py-1"
                                   }
                                   type="button"
                                   onClick={() => {
@@ -682,7 +684,7 @@ export default function VesselNomination() {
                                   className={
                                     item.voyageInstructionSent
                                       ? "btn btn-sm btn-success px-1 py-1"
-                                      : "btn btn-sm btn-primary px-1 py-1"
+                                      : "btn btn-sm btn-warning px-1 py-1"
                                   }
                                   type="button"
                                   onClick={() => {
@@ -716,7 +718,7 @@ export default function VesselNomination() {
                                   className={
                                     item.pisurveySent
                                       ? "btn btn-sm btn-success px-1 py-1"
-                                      : "btn btn-sm btn-primary px-1 py-1"
+                                      : "btn btn-sm btn-warning px-1 py-1"
                                   }
                                   type="button"
                                   onClick={() => {
@@ -752,7 +754,7 @@ export default function VesselNomination() {
                                   className={
                                     item.voyageLicenseFlagWaiverSend
                                       ? "btn btn-sm btn-success px-1 py-1"
-                                      : "btn btn-sm btn-primary px-1 py-1"
+                                      : "btn btn-sm btn-warning px-1 py-1"
                                   }
                                   type="button"
                                   onClick={() => {
@@ -787,7 +789,7 @@ export default function VesselNomination() {
                                   className={
                                     item.tclSend
                                       ? "btn btn-sm btn-success px-1 py-1"
-                                      : "btn btn-sm btn-primary px-1 py-1"
+                                      : "btn btn-sm btn-warning px-1 py-1"
                                   }
                                   type="button"
                                   onClick={() => {
@@ -823,7 +825,7 @@ export default function VesselNomination() {
                                   className={
                                     item.weatherRoutingCompanySend
                                       ? "btn btn-sm btn-success px-1 py-1"
-                                      : "btn btn-sm btn-primary px-1 py-1"
+                                      : "btn btn-sm btn-warning px-1 py-1"
                                   }
                                   type="button"
                                   onClick={() => {
@@ -860,7 +862,7 @@ export default function VesselNomination() {
                                   className={
                                     item.departureDocumentLoadPortSend
                                       ? "btn btn-sm btn-success px-1 py-1"
-                                      : "btn btn-sm btn-primary px-1 py-1"
+                                      : "btn btn-sm btn-warning px-1 py-1"
                                   }
                                   type="button"
                                   onClick={() => {
@@ -888,45 +890,7 @@ export default function VesselNomination() {
                                 </button>
                               )}
                             </td>
-                            <td className="text-center">
-                              {visibleButtons.includes(
-                                "departureDocumentDischargePortSend"
-                              ) && (
-                                <button
-                                  className={
-                                    item.departureDocumentDischargePortSend
-                                      ? "btn btn-sm btn-success px-1 py-1"
-                                      : "btn btn-sm btn-primary px-1 py-1"
-                                  }
-                                  type="button"
-                                  onClick={() => {
-                                    if (item.departureDocumentDischargePortSend)
-                                      return toast.warn(
-                                        "Departure Document Discharge Port Email Already Sent"
-                                      );
-                                    // departureDocumentLoadPortMailSend(
-                                    //   `${marineBaseUrlPythonAPI}/automation/departure_document_email_sender`,
-                                    //   { intId: item?.intId },
-                                    //   () => {
-                                    //     getGridData();
-                                    //   },
-                                    //   true
-                                    // );
-                                    setSingleRowData({
-                                      ...item,
-                                      columnName:
-                                        "DEPARTURE DOCUMENT DISCHARGE PORT",
-                                    });
-                                    setIsShowMailModal(true);
-                                  }}
-                                  disabled={
-                                    item.departureDocumentDischargePortSend
-                                  }
-                                >
-                                  DEPARTURE DOCUMENT DISCHARGE PORT SEND
-                                </button>
-                              )}
-                            </td>
+                      
                             <td className="text-center">
                               {visibleButtons.includes(
                                 "epdadischargePortSent"
@@ -935,7 +899,7 @@ export default function VesselNomination() {
                                   className={
                                     item.epdadischargePortSent
                                       ? "btn btn-sm btn-success px-1 py-1"
-                                      : "btn btn-sm btn-primary px-1 py-1"
+                                      : "btn btn-sm btn-warning px-1 py-1"
                                   }
                                   type="button"
                                   onClick={() => {
@@ -971,7 +935,7 @@ export default function VesselNomination() {
                                   className={
                                     item.offHireBunkerSurveySent
                                       ? "btn btn-sm btn-success px-1 py-1"
-                                      : "btn btn-sm btn-primary px-1 py-1"
+                                      : "btn btn-sm btn-warning px-1 py-1"
                                   }
                                   type="button"
                                   onClick={() => {
@@ -996,6 +960,45 @@ export default function VesselNomination() {
                                   disabled={item.offHireBunkerSurveySent}
                                 >
                                   OFFHIRE BUNKER SURVEY SENT
+                                </button>
+                              )}
+                            </td>
+                            <td className="text-center">
+                              {visibleButtons.includes(
+                                "departureDocumentDischargePortSend"
+                              ) && (
+                                <button
+                                  className={
+                                    item.departureDocumentDischargePortSend
+                                      ? "btn btn-sm btn-success px-1 py-1"
+                                      : "btn btn-sm btn-warning px-1 py-1"
+                                  }
+                                  type="button"
+                                  onClick={() => {
+                                    if (item.departureDocumentDischargePortSend)
+                                      return toast.warn(
+                                        "Departure Document Discharge Port Email Already Sent"
+                                      );
+                                    // departureDocumentLoadPortMailSend(
+                                    //   `${marineBaseUrlPythonAPI}/automation/departure_document_email_sender`,
+                                    //   { intId: item?.intId },
+                                    //   () => {
+                                    //     getGridData();
+                                    //   },
+                                    //   true
+                                    // );
+                                    setSingleRowData({
+                                      ...item,
+                                      columnName:
+                                        "DEPARTURE DOCUMENT DISCHARGE PORT",
+                                    });
+                                    setIsShowMailModal(true);
+                                  }}
+                                  disabled={
+                                    item.departureDocumentDischargePortSend
+                                  }
+                                >
+                                  DEPARTURE DOCUMENT DISCHARGE PORT SEND
                                 </button>
                               )}
                             </td>

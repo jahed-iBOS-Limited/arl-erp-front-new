@@ -7,36 +7,38 @@ import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import Loading from "../../../_helper/_loading";
 import IForm from "../../../_helper/_form";
 import PaginationTable from "../../../_helper/_tablePagination";
+import PaginationSearch from "../../../_helper/_search";
 const initData = {};
 export default function ItemMasterInfoLanding() {
-  const { profileData, selectedBusinessUnit } = useSelector((state) => {
+  const { profileData } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
 
   const [pageNo, setPageNo] = useState(1);
   const [pageSize, setPageSize] = useState(15);
-  const [gridData, getGridData, loading, setGridData] = useAxiosGet();
+  const [gridData, getGridData, loading] = useAxiosGet();
   const history = useHistory();
-  const [singleData, setSingleData] = useState(null);
 
   const saveHandler = (values, cb) => {};
 
-  const getLandingData = (values, pageNo, pageSize, searchValue = "") => {
+  const getLandingData = (pageNo, pageSize, searchValue = "") => {
     getGridData(
-      `/item/ItemMaster/GetItemMasterPasignation?AccountId=${profileData?.accountId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
+      `/item/ItemMaster/GetItemMasterPasignation?AccountId=${profileData?.accountId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}&searchTerm=${searchValue}`
     );
   };
   useEffect(() => {
-    getLandingData(initData, pageNo, pageSize);
+    getLandingData(pageNo, pageSize);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   },[])
-//   /item/ItemMaster/GetItemMasterPasignation?
-// AccountId=1&viewOrder=asc&PageNo=1&PageSize=100
-  const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
-    getLandingData(values, pageNo, pageSize, searchValue);
+
+  const setPositionHandler = (pageNo, pageSize ) => {
+    getLandingData(pageNo, pageSize,);
   };
 
-  console.log(gridData);
+  const paginationSearchHandler = (searchValue) => {
+    getLandingData(0, pageSize, searchValue);
+    setPageNo(0);
+  };
 
   return (
     <Formik
@@ -112,7 +114,14 @@ export default function ItemMasterInfoLanding() {
                   </button>
                 </div>
               </div> */}
-              {gridData?.data?.length > 0 && (
+              {loading && <Loading />}
+            <PaginationSearch
+              placeholder="Item Name and Code Search"
+              paginationSearchHandler={paginationSearchHandler}
+              values={values}
+              setter={(searchValue) => setFieldValue("search", searchValue)}
+            />
+              {gridData?.data?.length > 0 ? (
                 <div className="table-responsive">
                   <table className="table table-striped mt-2 table-bordered bj-table bj-table-landing">
                     <thead>
@@ -140,35 +149,68 @@ export default function ItemMasterInfoLanding() {
                           <td>{item?.itemMasterSubCategoryName}</td>
 
                           <td className="text-center">
-                            <span className="d-flex align-items-center justify-content-center">
-                                <OverlayTrigger
-                                  overlay={
-                                    <Tooltip id="cs-icon">
-                                      Business Unit Expand
-                                    </Tooltip>
-                                  }
-                                >
-                                  <span 
-                                    style={{ cursor: "pointer"}}
-                                    onClick={() => {
-                                      history.push({
-                                        pathname: `/config/material-management/itembasicinfo-master/expand/${item?.itemMasterId}`,
-                                        state: { ...item },
-                                      });
-                                    }}
+                            <div className="d-flex align-items-center justify-content-center">
+                                <span className="mr-3">
+                                  <OverlayTrigger
+                                    overlay={
+                                      <Tooltip id="cs-icon">
+                                        Business Unit Expand
+                                      </Tooltip>
+                                    }
                                   >
-                                    <i
-                                      className={`fa fa-arrows-alt`}
-                                      onClick={() => {}}
-                                    ></i>
-                                  </span>
-                                </OverlayTrigger>
-                              </span>
+                                    <span 
+                                      style={{ cursor: "pointer"}}
+                                      onClick={() => {
+                                        history.push({
+                                          pathname: `/config/material-management/itembasicinfo-master/expand/${item?.itemMasterId}`,
+                                          state: { ...item },
+                                        });
+                                      }}
+                                    >
+                                      <i
+                                        className={`fa fa-arrows-alt`}
+                                        onClick={() => {}}
+                                      ></i>
+                                    </span>
+                                  </OverlayTrigger>
+                                </span>
+                                <span>
+                                  <OverlayTrigger
+                                    overlay={
+                                      <Tooltip id="cs-icon">
+                                        View
+                                      </Tooltip>
+                                    }
+                                  >
+                                    <span 
+                                      style={{ cursor: "pointer"}}
+                                      onClick={() => {
+                                        history.push({
+                                          pathname: `/config/material-management/itembasicinfo-master/view/${item?.itemMasterId}`,
+                                          state: { ...item },
+                                        });
+                                      }}
+                                    >
+                                      <i
+                                        className={`fa fa-eye`}
+                                        onClick={() => {}}
+                                      ></i>
+                                    </span>
+                                  </OverlayTrigger>
+                                </span>
+                              </div>
                           </td>
                         </tr>
                       ))}
                     </tbody>
                   </table>
+                </div>
+              ) : (
+                <div
+                  className="d-flex justify-content-center align-items-center"
+                  style={{ height: "50vh" }} // Adjusts height to center vertically
+                >
+                    <h4 style={{ fontSize: "18px", color: "#333" }}>No data found</h4>
                 </div>
               )}
 

@@ -1,5 +1,5 @@
 import { Form, Formik } from "formik";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
@@ -18,6 +18,7 @@ import useAxiosPut from "../../../_helper/customHooks/useAxiosPut";
 import FormikSelect from "../../_chartinghelper/common/formikSelect";
 import customStyles from "../../../selectCustomStyle";
 import { getVesselDDL, getVoyageDDLNew } from "../../helper";
+import { _todayDate } from "../../../_helper/_todayDate";
 
 const initData = {};
 export default function EDPALoadPort() {
@@ -36,6 +37,10 @@ export default function EDPALoadPort() {
   const [vesselDDL, setVesselDDL] = useState([]);
   const [voyageNoDDL, setVoyageNoDDL] = useState([]);
 
+  useEffect(()=>{
+    getLandingData({}, pageNo, pageSize, "");
+  },[])
+
   const getLandingData = (values, pageNo, pageSize, searchValue = "") => {
     const shipTypeSTR = values?.shipType
       ? `&shipType=${values?.shipType?.label}`
@@ -47,13 +52,13 @@ export default function EDPALoadPort() {
       ? `&vesselName=${values?.vesselName?.label}`
       : "";
     const voyageNoSTR = values?.voyageNo
-      ? `&voyageNo=${values?.voyageNo?.value}`
+      ? `&voyageNo=${values?.voyageNo?.label}`
       : "";
 
     getGridData(
       `${imarineBaseUrl}/domain/VesselNomination/GetEpdaAndPortInfoLanding?BusinessUnitId=${0}&FromDate=${
-        values?.fromDate
-      }&ToDate=${values?.toDate}&pageNumber=${pageNo ||
+        values?.fromDate || _todayDate()
+      }&ToDate=${values?.toDate || _todayDate()}&pageNumber=${pageNo ||
         1}&pageSize=${pageSize ||
         600}${shipTypeSTR}${voyageTypeSTR}${vesselNameSTR}${voyageNoSTR}`
     );
@@ -132,6 +137,8 @@ export default function EDPALoadPort() {
                           setVesselDDL,
                           valueOption?.value === 2 ? 2 : ""
                         );
+                      }else{
+                        getLandingData({}, pageNo, pageSize);
                       }
                     }}
                   />

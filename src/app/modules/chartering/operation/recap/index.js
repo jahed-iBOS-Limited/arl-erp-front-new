@@ -36,7 +36,7 @@ export default function Recap() {
       ? `&vesselName=${values?.vesselName?.label}`
       : "";
     const voyageNoSTR = values?.voyageNo
-      ? `&voyageNo=${values?.voyageNo?.value}`
+      ? `&voyageNo=${values?.voyageNo?.label}`
       : "";
     getGridData(
       `${imarineBaseUrl}/domain/VesselNomination/GetVesselNominationRecapeData?${shipTypeSTR}${voyageTypeSTR}${vesselNameSTR}${voyageNoSTR}`
@@ -133,6 +133,8 @@ export default function Recap() {
                           setVesselDDL,
                           valueOption?.value === 2 ? 2 : ""
                         );
+                      }else{
+                        getData();
                       }
                     }}
                   />
