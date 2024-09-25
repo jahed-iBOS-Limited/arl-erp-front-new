@@ -13,6 +13,7 @@ import AttachmentUploaderNew from "../../../_helper/attachmentUploaderNew";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import MailSender from "../mailSender";
 import { generateFileUrl } from "../helper";
+import EmailEditorForPublicRoutes from "../emailEditorForPublicRotes";
 
 const initData = {
   strName: "",
@@ -245,7 +246,9 @@ export default function CreateonHireBunkerAndContionalSurvey() {
                   onHide={() => setIsShowModal(false)}
                   title={"Send Mail"}
                 >
-                  <MailSender payloadInfo={payloadInfo} />
+                  {/* <MailSender payloadInfo={payloadInfo} /> */}
+                  <EmailEditorForPublicRoutes payloadInfo={payloadInfo} cb={()=>{setIsShowModal(false)}}/>
+
                 </IViewModal>
               </div>
             </Form>

@@ -23,6 +23,7 @@ const initData = {
   laycanTo: "",
   loadRate: "",
   demurrageDispatch: "",
+  numDispatch:"",
   etaLoadPort: "",
   dischargePort: "",
   dischargeRate: "",
@@ -85,7 +86,8 @@ const validationSchema = Yup.object().shape({
   // ),
   dteVoyageCommenced: Yup.date().required("Voyage Commenced Date is required"),
   loadRate: Yup.string().required("Load Rate is required"),
-  demurrageDispatch: Yup.string().required("Demurrage / Dispatch is required"),
+  demurrageDispatch: Yup.string().required("Demurrage is required"),
+  numDispatch: Yup.string().required("Dispatch is required"),
   etaLoadPort: Yup.date().required("ETA Load Port Date is required"),
   dischargePort: Yup.string().required("Discharge Port Name is required"),
   dischargeRate: Yup.string().required("Discharge Rate is required"),
@@ -152,6 +154,7 @@ export default function RecapCreate() {
       dteLaycanTo: values?.laycanTo,
       intLoadRate: +values.loadRate || 0,
       numDemurrageDispatch: +values.demurrageDispatch || 0,
+      numDispatch: +values.numDispatch || 0,
       dteETALoadPort: values.etaLoadPort || "",
       strDischargePort: values.dischargePort?.label || "",
       intDischargeRate: +values.dischargeRate || 0,
@@ -377,11 +380,25 @@ export default function RecapCreate() {
               <div className="col-lg-3">
                 <InputField
                   value={values.demurrageDispatch}
-                  label="Demurrage / Dispatch"
+                  label="Demurrage"
                   name="demurrageDispatch"
                   type="number"
-                  onChange={(e) =>
+                  onChange={(e) =>{
                     setFieldValue("demurrageDispatch", e.target.value)
+                    setFieldValue("numDispatch", +e.target.value / 2)
+                  }
+                  }
+                  errors={errors}
+                />
+              </div>
+              <div className="col-lg-3">
+                <InputField
+                  value={values.numDispatch}
+                  label="Dispatch"
+                  name="numDispatch"
+                  type="number"
+                  onChange={(e) =>
+                    setFieldValue("numDispatch", e.target.value)
                   }
                   errors={errors}
                 />

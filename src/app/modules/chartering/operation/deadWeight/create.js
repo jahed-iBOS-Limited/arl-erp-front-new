@@ -14,6 +14,7 @@ import { useParams } from "react-router-dom";
 import IViewModal from "../../../_helper/_viewModal";
 import MailSender from "../mailSender";
 import { generateFileUrl } from "../helper";
+import EmailEditorForPublicRoutes from "../emailEditorForPublicRotes";
 
 const initData = {
   strName: "",
@@ -397,7 +398,9 @@ export default function DeadWeightCreate() {
                   onHide={() => setIsShowModal(false)}
                   title={"Send Mail"}
                 >
-                  <MailSender payloadInfo={payloadInfo} />
+                  {/* <MailSender payloadInfo={payloadInfo} /> */}
+                  <EmailEditorForPublicRoutes payloadInfo={payloadInfo} cb={()=>{setIsShowModal(false)}}/>
+
                 </IViewModal>
               </div>
             </Form>

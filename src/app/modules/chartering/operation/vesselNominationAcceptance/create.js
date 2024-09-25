@@ -10,6 +10,7 @@ import Loading from "../../../_helper/_loading";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import IViewModal from "../../_chartinghelper/_viewModal";
 import MailSender from "../mailSender";
+import EmailEditorForPublicRoutes from "../emailEditorForPublicRotes";
 
 const initData = {
   strName: "",
@@ -194,7 +195,8 @@ export default function VesselNominationAcceptanceCreate() {
                 onHide={() => setIsShowModal(false)}
                 title={"Send Mail"}
               >
-                <MailSender payloadInfo={payloadInfo} />
+                {/* <MailSender payloadInfo={payloadInfo} /> */}
+                <EmailEditorForPublicRoutes payloadInfo={payloadInfo} cb={()=>{setIsShowModal(false)}}/>
               </IViewModal>
             </div>
           </Form>
