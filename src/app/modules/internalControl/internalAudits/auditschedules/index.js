@@ -15,6 +15,7 @@ import { _firstDateOfMonth, _todayDate } from "../../../_helper/_todayDate";
 import IViewModal from "../../../_helper/_viewModal";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import ConfidentialAuditForm from "./confidentialAuditForm";
+import { calculateDaysDifference } from "./helper";
 
 const initData = {
   fromDate: _firstDateOfMonth(),
@@ -30,6 +31,7 @@ export default function AuditSchedules() {
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
   const [showConfidentialModal, setShowConfidentialModal] = useState(false);
+  const [singleAuditData, setSingleAuditData] = useState({});
 
   // axios get
   const [gridData, getGridData, loading] = useAxiosGet();
@@ -60,16 +62,6 @@ export default function AuditSchedules() {
   // pagination seach
   const paginationSearchHandler = (searchValue, values) => {
     setPositionHandler(pageNo, pageSize, values, searchValue);
-  };
-
-  // calculate days difference
-  const calculateDaysDifference = (startDate, endDate) => {
-    if (!startDate || !endDate) return 0; // If dates are not defined, return 0 days
-    const start = new Date(startDate);
-    const end = new Date(endDate);
-    const timeDifference = end - start;
-    const dayDifference = timeDifference / (1000 * 60 * 60 * 24); // Convert milliseconds to days
-    return dayDifference > 0 ? dayDifference : 0; // Ensure non-negative days difference
   };
 
   //
@@ -231,7 +223,10 @@ export default function AuditSchedules() {
                                 </span>
                                 <span
                                   className="ml-3"
-                                  onClick={() => setShowConfidentialModal(true)}
+                                  onClick={() => {
+                                    setShowConfidentialModal(true);
+                                    setSingleAuditData(item);
+                                  }}
                                 >
                                   <NewIcon
                                     title="Confidential Audit"
@@ -265,9 +260,17 @@ export default function AuditSchedules() {
                 <IViewModal
                   modelSize={"lg"}
                   show={showConfidentialModal}
-                  onHide={() => setShowConfidentialModal(false)}
+                  onHide={() => {
+                    setShowConfidentialModal(false);
+                    setSingleAuditData({});
+                  }}
                 >
-                  <ConfidentialAuditForm />
+                  <ConfidentialAuditForm
+                    objProps={{
+                      singleAuditData,
+                      setSingleAuditData,
+                    }}
+                  />
                 </IViewModal>
               </>
             </Form>
