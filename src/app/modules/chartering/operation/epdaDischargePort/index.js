@@ -44,7 +44,7 @@ export default function EDPADischargePort() {
       ? `&vesselName=${values?.vesselName?.label}`
       : "";
     const voyageNoSTR = values?.voyageNo
-      ? `&voyageNo=${values?.voyageNo?.value}`
+      ? `&voyageNo=${values?.voyageNo?.label}`
       : "";
     getGridData(
       `${imarineBaseUrl}/domain/VesselNomination/GetFromEpdaAndDischargePortInfoLanding?BusinessUnitId=${0}&FromDate=${
