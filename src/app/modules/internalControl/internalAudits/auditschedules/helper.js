@@ -67,7 +67,8 @@ export const handleConfidentialAuditSubmit = (objProps) => {
     setSingleAuditData,
     values,
     profileData,
-    setConfidentialAuditData,
+    getSingleScheduleDataHandler,
+    getSingleScheduleData,
   } = objProps;
 
   const saveURL = `/fino/Audit/SaveAuditEngagementSchedules`;
@@ -96,11 +97,20 @@ export const handleConfidentialAuditSubmit = (objProps) => {
     ...confidentialPayload, // Override with new form data
   };
 
-  submitConfidentialAuditData(saveURL, [finalPayload], (response) => {
-    setSingleAuditData({});
-    console.log(response)
-    setConfidentialAuditData(response);
-  });
+  submitConfidentialAuditData(
+    saveURL,
+    [finalPayload],
+    () => {
+      setSingleAuditData({});
+      getSingleScheduleDataHandler(
+        singleConfidentialAuditData?.intAuditScheduleId,
+        getSingleScheduleData
+      );
+    },
+    true,
+    "Successfully Updated",
+    "Update Failed"
+  );
 };
 
 // load employee list api

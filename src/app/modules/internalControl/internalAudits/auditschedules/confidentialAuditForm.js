@@ -30,7 +30,6 @@ const ConfidentialAuditForm = ({ objProps }) => {
     singleConfidentialAuditData,
     getSingleConfidentialData,
     singleConfidentialAuditDataLoading,
-    setConfidentialAuditData,
   ] = useAxiosGet();
   // axios post
   const [
@@ -109,7 +108,8 @@ const ConfidentialAuditForm = ({ objProps }) => {
           setSingleAuditData,
           values,
           profileData,
-          setConfidentialAuditData,
+          getSingleScheduleDataHandler,
+          getSingleScheduleData: getSingleConfidentialData,
         })
       }
     >
@@ -136,7 +136,7 @@ const ConfidentialAuditForm = ({ objProps }) => {
               <div>
                 <h5 className="d-inline-block">Audit visited statement</h5>
                 <p className="d-inline">
-                  ________________________________________________________________________________
+                  ___________________________________________________________________________________
                   __________________________________________________________________________________________________________________
                   <br />
                   __________________________________________________________________________________________________________________
