@@ -133,6 +133,8 @@ export default function Recap() {
                           setVesselDDL,
                           valueOption?.value === 2 ? 2 : ""
                         );
+                      }else{
+                        getData();
                       }
                     }}
                   />

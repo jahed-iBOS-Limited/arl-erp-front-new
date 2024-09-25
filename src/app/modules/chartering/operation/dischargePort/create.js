@@ -62,11 +62,11 @@ export default function CreateDischargePort() {
 
   const saveHandler = (values, cb) => {
     setPayloadInfo({
-      strName: values?.strName,
-      strEmail: values?.strEmail,
+      // strName: values?.strName,
+      // strEmail: values?.strEmail,
       strVesselName: values.strVesselName?.label,
       strVoyageNo: values.strVoyageNo?.label,
-      intVesselNominationId: +paramId || 0,
+      // intVesselNominationId: +paramId || 0,
       strCode: paramCode || values.strCode || "",
       strSoffile: generateFileUrl(values.strSoffile),
       strNorfile: generateFileUrl(values.strNorfile),

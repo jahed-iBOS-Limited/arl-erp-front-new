@@ -386,6 +386,8 @@ export default function VesselNomination() {
                             setVesselDDL,
                             valueOption?.value === 2 ? 2 : ""
                           );
+                        }else{
+                          getGridData();
                         }
                       }}
                     />
