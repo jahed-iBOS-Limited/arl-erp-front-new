@@ -43,13 +43,13 @@ export default function EDPADischargePortCreate() {
 
   const saveHandler = (values, cb) => {
     setPayloadInfo({
-      strName: values?.strName,
-      strEmail: values?.strEmail,
+      // strName: values?.strName,
+      // strEmail: values?.strEmail,
       strAttachmentForPort: generateFileUrl(values?.strAttachmentForPort),
       strAttachmentForPortDisbursment: generateFileUrl(
         values?.strAttachmentForPortDisbursment
       ),
-      intVesselNominationId: +paramId || 0,
+      // intVesselNominationId: +paramId || 0,
       strVesselNominationCode:
         paramCode || values?.strVesselNominationCode || "",
       numGrandTotalAmount: values?.numGrandTotalAmount,

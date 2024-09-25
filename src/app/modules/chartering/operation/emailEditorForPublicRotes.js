@@ -26,17 +26,46 @@ const EmailEditorForPublicRoutes = ({ payloadInfo, cb }) => {
 
   const [, onSendEmail, loader] = useAxiosPost();
 
+  // // Convert payloadInfo to HTML for ReactQuill
+  // const convertPayloadToHtml = () => {
+  //   let htmlContent = "";
+
+  //   Object.entries(payloadInfo).forEach(([key, value]) => {
+  //     if (typeof value === "string" && value.startsWith("http")) {
+  //       // If the value is a URL (e.g., image), insert an <img> tag
+  //       htmlContent += `<p><strong>${key}:</strong> <a href="${value}" target="_blank">${value}</a></p>`;
+  //     } else {
+  //       // Otherwise, just insert the text content
+  //       htmlContent += `<p><strong>${key}:</strong> ${value}</p>`;
+  //     }
+  //   });
+
+  //   return htmlContent;
+  // };
+
+   // Function to remove prefixes and convert camelCase to space-separated words
+   const cleanKey = (key) => {
+    const keyWithoutPrefix = key.replace(/^(str|int)/, ""); // Remove prefixes
+    return keyWithoutPrefix.replace(/([a-z])([A-Z])/g, "$1 $2"); // Convert camelCase to spaced words
+  };
+
   // Convert payloadInfo to HTML for ReactQuill
   const convertPayloadToHtml = () => {
     let htmlContent = "";
 
     Object.entries(payloadInfo).forEach(([key, value]) => {
+      const cleanedKey = cleanKey(key); // Apply cleaning to the key
+
       if (typeof value === "string" && value.startsWith("http")) {
-        // If the value is a URL (e.g., image), insert an <img> tag
-        htmlContent += `<p><strong>${key}:</strong> <a href="${value}" target="_blank">${value}</a></p>`;
+        // If the value is a URL and contains 'id=', create a clickable link
+        if (value.includes("id=") && value.split("id=")[1]) {
+          htmlContent += `<p><strong>${cleanedKey}:</strong> <a href="${value}" target="_blank">View Document</a></p>`;
+        } else {
+          htmlContent += `<p><strong>${cleanedKey}:</strong> </p>`;
+        }
       } else {
         // Otherwise, just insert the text content
-        htmlContent += `<p><strong>${key}:</strong> ${value}</p>`;
+        htmlContent += `<p><strong>${cleanedKey}:</strong> ${value || ""}</p>`;
       }
     });
 
@@ -133,7 +162,6 @@ const EmailEditorForPublicRoutes = ({ payloadInfo, cb }) => {
         email_list: emailData.ccEmail,
         subject: emailData.subject,
         body: emailData.emailBody,
-        intId: 0,
         attachment: emailData?.attachment || "",
       };
 
