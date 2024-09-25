@@ -114,6 +114,8 @@ export default function DischargePort() {
                           setVesselDDL,
                           valueOption?.value === 2 ? 2 : ""
                         );
+                      }else{
+                        getLandingData();
                       }
                     }}
                   />
