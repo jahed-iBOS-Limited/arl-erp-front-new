@@ -493,7 +493,7 @@ export default function VesselNomination() {
                                   className={
                                     item.isBunkerCalculationSave
                                       ? "btn btn-sm btn-success px-1 py-1"
-                                      : "btn btn-sm btn-primary px-1 py-1"
+                                      : "btn btn-sm btn-warning px-1 py-1"
                                   }
                                   type="button"
                                   onClick={() => {
@@ -521,7 +521,7 @@ export default function VesselNomination() {
                                   className={
                                     item.preStowageSend
                                       ? "btn btn-sm btn-success px-1 py-1"
-                                      : "btn btn-sm btn-primary px-1 py-1"
+                                      : "btn btn-sm btn-warning px-1 py-1"
                                   }
                                   type="button"
                                   onClick={() => {
@@ -554,7 +554,7 @@ export default function VesselNomination() {
                                 className={
                                   item.isVesselNominationEmailSent
                                     ? "btn btn-sm btn-success px-1 py-1"
-                                    : "btn btn-sm btn-primary px-1 py-1"
+                                    : "btn btn-sm btn-warning px-1 py-1"
                                 }
                                 type="button"
                                 // onClick={() => {
@@ -589,7 +589,7 @@ export default function VesselNomination() {
                                   className={
                                     item.edpaLoadportSend
                                       ? "btn btn-sm btn-success px-1 py-1"
-                                      : "btn btn-sm btn-primary px-1 py-1"
+                                      : "btn btn-sm btn-warning px-1 py-1"
                                   }
                                   type="button"
                                   onClick={() => {
@@ -618,7 +618,7 @@ export default function VesselNomination() {
                                   className={
                                     item.onHireBunkerSurveySent
                                       ? "btn btn-sm btn-success px-1 py-1"
-                                      : "btn btn-sm btn-primary px-1 py-1"
+                                      : "btn btn-sm btn-warning px-1 py-1"
                                   }
                                   type="button"
                                   onClick={() => {
@@ -654,7 +654,7 @@ export default function VesselNomination() {
                                   className={
                                     item.isDeadWeightCalculationSave
                                       ? "btn btn-sm btn-success px-1 py-1"
-                                      : "btn btn-sm btn-primary px-1 py-1"
+                                      : "btn btn-sm btn-warning px-1 py-1"
                                   }
                                   type="button"
                                   onClick={() => {
@@ -684,7 +684,7 @@ export default function VesselNomination() {
                                   className={
                                     item.voyageInstructionSent
                                       ? "btn btn-sm btn-success px-1 py-1"
-                                      : "btn btn-sm btn-primary px-1 py-1"
+                                      : "btn btn-sm btn-warning px-1 py-1"
                                   }
                                   type="button"
                                   onClick={() => {
@@ -718,7 +718,7 @@ export default function VesselNomination() {
                                   className={
                                     item.pisurveySent
                                       ? "btn btn-sm btn-success px-1 py-1"
-                                      : "btn btn-sm btn-primary px-1 py-1"
+                                      : "btn btn-sm btn-warning px-1 py-1"
                                   }
                                   type="button"
                                   onClick={() => {
@@ -754,7 +754,7 @@ export default function VesselNomination() {
                                   className={
                                     item.voyageLicenseFlagWaiverSend
                                       ? "btn btn-sm btn-success px-1 py-1"
-                                      : "btn btn-sm btn-primary px-1 py-1"
+                                      : "btn btn-sm btn-warning px-1 py-1"
                                   }
                                   type="button"
                                   onClick={() => {
@@ -789,7 +789,7 @@ export default function VesselNomination() {
                                   className={
                                     item.tclSend
                                       ? "btn btn-sm btn-success px-1 py-1"
-                                      : "btn btn-sm btn-primary px-1 py-1"
+                                      : "btn btn-sm btn-warning px-1 py-1"
                                   }
                                   type="button"
                                   onClick={() => {
@@ -825,7 +825,7 @@ export default function VesselNomination() {
                                   className={
                                     item.weatherRoutingCompanySend
                                       ? "btn btn-sm btn-success px-1 py-1"
-                                      : "btn btn-sm btn-primary px-1 py-1"
+                                      : "btn btn-sm btn-warning px-1 py-1"
                                   }
                                   type="button"
                                   onClick={() => {
@@ -862,7 +862,7 @@ export default function VesselNomination() {
                                   className={
                                     item.departureDocumentLoadPortSend
                                       ? "btn btn-sm btn-success px-1 py-1"
-                                      : "btn btn-sm btn-primary px-1 py-1"
+                                      : "btn btn-sm btn-warning px-1 py-1"
                                   }
                                   type="button"
                                   onClick={() => {
@@ -899,7 +899,7 @@ export default function VesselNomination() {
                                   className={
                                     item.epdadischargePortSent
                                       ? "btn btn-sm btn-success px-1 py-1"
-                                      : "btn btn-sm btn-primary px-1 py-1"
+                                      : "btn btn-sm btn-warning px-1 py-1"
                                   }
                                   type="button"
                                   onClick={() => {
@@ -935,7 +935,7 @@ export default function VesselNomination() {
                                   className={
                                     item.offHireBunkerSurveySent
                                       ? "btn btn-sm btn-success px-1 py-1"
-                                      : "btn btn-sm btn-primary px-1 py-1"
+                                      : "btn btn-sm btn-warning px-1 py-1"
                                   }
                                   type="button"
                                   onClick={() => {
@@ -971,7 +971,7 @@ export default function VesselNomination() {
                                   className={
                                     item.departureDocumentDischargePortSend
                                       ? "btn btn-sm btn-success px-1 py-1"
-                                      : "btn btn-sm btn-primary px-1 py-1"
+                                      : "btn btn-sm btn-warning px-1 py-1"
                                   }
                                   type="button"
                                   onClick={() => {
