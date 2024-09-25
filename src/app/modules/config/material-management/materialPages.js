@@ -104,7 +104,7 @@ export function MaterialPages() {
         }
       />
       <ContentRoute
-        path="/config/material-management/item-category/itemSubCategoryExpend/:id"
+        path="/config/material-management/item-sub-category/itemSubCategoryExpend/:id"
         component={
           itemSubCategoryPermission?.isCreate
             ? ItemSubCategoryExpend
