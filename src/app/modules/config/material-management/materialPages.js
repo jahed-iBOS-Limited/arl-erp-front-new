@@ -10,10 +10,9 @@ import ItemBasicInfo from "./itemBasicInfo";
 import AddForm from "./itemBasicInfo/basicInfornationCreate/addForm";
 import LandingCard from "./itemBasicInfo/basicInfornationEdit/landingCard";
 import ItemCategory from "./itemCategory";
-import ItemCategoryAddForm from "./itemCategory/WarehouseCreate/addForm";
 import { ItemSubCategory } from "./itemSubCategory";
 import ItemSubCategoryEditForm from "./itemSubCategory/businessUnitEdit/editForm";
-import ItemSubCategoryAddForm from "./itemSubCategory/plantWarehouseCreate/addForm";
+import ItemSubCategoryAddForm from "./itemSubCategory/itemSubCategoryCreate/addForm";
 import PriceStructureAddForm from "./priceStructure/priceStructureCreate/addForm";
 import { UnitOfMeasurement } from "./unitOfMeasurement";
 import UOMAddForm from "./unitOfMeasurement/WarehouseCreate/addForm";
@@ -45,6 +44,11 @@ import TradeOfferItemGroupForm from "./tradeOfferItemGroup/Form/addEditForm";
 import { TradeOfferSetup } from "./tradeOfferSetup";
 import TradeOfferForm from "./tradeOfferSetup/Form/addEditForm";
 import WarehouseCostBridgeLanding from "./warehouseCostBridge/landing";
+import ItemCategoryAddForm from "./itemCategory/itemCategoryCreate/addForm";
+import ItemCategoryExpend from "./itemCategory/itemCategoryExpand/itemCategoryExpend";
+import ItemSubCategoryExpend from "./itemSubCategory/itemSubCategoryExpand/itemSubCategoryExpand";
+import ItemMasterInfoLanding from "./masterItemInfo/itemMasterInfoLanding";
+import MasterItemExpend from "./masterItemInfo/itemMasterInfoExpend";
 
 export function MaterialPages() {
   const userRole = useSelector(
@@ -53,6 +57,7 @@ export function MaterialPages() {
   );
 
   const itemProfilePermission = userRole[findIndex(userRole, "Item Profile")];
+  const itemProfileMasterPermission = userRole[findIndex(userRole, "Item Profile Master")];
   const itemCategoryPermission = userRole[findIndex(userRole, "Item Category")];
   const itemSubCategoryPermission =
     userRole[findIndex(userRole, "Item Sub-Category")];
@@ -77,9 +82,33 @@ export function MaterialPages() {
         from="/config/material-management"
         to="/config/material-management/item-basic-info"
       />
-      <ContentRoute
+      {/* <ContentRoute
         path="/config/material-management/item-basic-info/add"
         component={itemProfilePermission?.isCreate ? AddForm : NotPermittedPage}
+      /> */}
+      <ContentRoute
+        path="/config/material-management/item-basic-info-master/add"
+        component={
+          // itemProfileMasterPermission?.isCreate ? 
+          AddForm 
+          // : NotPermittedPage
+          }
+      />
+      <ContentRoute
+        path="/config/material-management/item-category/itemCategoryExpend/:id"
+        component={
+          itemCategoryPermission?.isCreate
+            ? ItemCategoryExpend
+            : NotPermittedPage
+        }
+      />
+      <ContentRoute
+        path="/config/material-management/item-category/itemSubCategoryExpend/:id"
+        component={
+          itemSubCategoryPermission?.isCreate
+            ? ItemSubCategoryExpend
+            : NotPermittedPage
+        }
       />
       <ContentRoute
         path="/config/material-management/item-category/add"
@@ -299,6 +328,16 @@ export function MaterialPages() {
       <ContentRoute
         path="/config/material-management/qc-item-config"
         component={QcItemConfigLanding}
+      />
+
+      <ContentRoute
+        path="/config/material-management/item-basic-info-master/expand/:id"
+        component={MasterItemExpend}
+      />
+
+      <ContentRoute
+        path="/config/material-management/item-basic-info-master"
+        component={ItemMasterInfoLanding}
       />
     </Switch>
   );

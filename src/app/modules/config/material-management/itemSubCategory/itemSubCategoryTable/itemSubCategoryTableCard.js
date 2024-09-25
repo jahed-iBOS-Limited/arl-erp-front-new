@@ -1,36 +1,34 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import BootstrapTable from "react-bootstrap-table-next";
-import Axios from "axios";
-import { useSelector, shallowEqual } from "react-redux";
+import { shallowEqual, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import Loading from "../../../../_helper/_loading";
-import PaginationTable from "./../../../../_helper/_tablePagination";
 import PaginationSearch from "../../../../_helper/_search";
+import PaginationTable from "./../../../../_helper/_tablePagination";
 
-export function PlantWarehouseTable() {
+export function ItemSubCategoryTable() {
   const [products, setProducts] = useState(null);
   const [loading, setLoading] = useState(false);
 
   //paginationState
   const [pageNo, setPageNo] = React.useState(0);
   const [pageSize, setPageSize] = React.useState(15);
+  const history = useHistory();
 
   // get user profile data from store
   const profileData = useSelector((state) => {
     return state.authData.profileData;
   }, shallowEqual);
 
-  // get selected business unit from store
-  const selectedBusinessUnit = useSelector((state) => {
-    return state.authData.selectedBusinessUnit;
-  }, shallowEqual);
-
-  const dispatchProduct = async (accId, buId, pageNo, pageSize,search) => {
+  const dispatchProduct = async (accId, pageNo, pageSize,search) => {
     setLoading(true);
     const searchPath = search ? `searchTerm=${search}&` : "";
     try {
-      const res = await Axios.get(
-        `/item/ItemSubCategory/GetItemSubCategoryByAccountIdUnitIdSearchPasignation?${searchPath}AccountId=${accId}&BusinessUnitId=${buId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
+      const res = await axios.get(
+        `/item/MasterCategory/GetItemMasterSubCategoryPasignation?${searchPath}AccountId=${accId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
       );
       setProducts(res?.data);
       setLoading(false);
@@ -40,22 +38,21 @@ export function PlantWarehouseTable() {
     }
   };
 
+  ///item/MasterCategory/GetItemMasterSubCategoryPasignation?
+  //AccountId=1&viewOrder=asc&PageNo=1&PageSize=100&searchTerm=asc
+
   useEffect(() => {
-    if (selectedBusinessUnit && profileData) {
       dispatchProduct(
         profileData.accountId,
-        selectedBusinessUnit.value,
         pageNo,
         pageSize
       );
-    }
-  }, [selectedBusinessUnit, profileData]);
+  }, [profileData]);
 
   //setPositionHandler
   const setPositionHandler = (pageNo, pageSize, searchValue) => {
     dispatchProduct(
       profileData.accountId,
-      selectedBusinessUnit.value,
       pageNo,
       pageSize,
       searchValue
@@ -73,16 +70,50 @@ export function PlantWarehouseTable() {
       text: "SL",
     },
     {
-      dataField: "itemSubCategoryName",
+      dataField: "itemMasterSubCategoryName",
       text: "Item Sub-Category",
     },
     {
-      dataField: "itemTypeName",
+      dataField: "itemMasterTypeName",
       text: "Item Type",
     },
     {
-      dataField: "itemCategoryName",
+      dataField: "itemMasterCategoryName",
       text: "Item Category",
+    },
+    {
+      dataField: "",
+      text: "Action",
+      formatter: (cellContent, row) => {
+        return (
+          <span
+            className="d-flex align-items-center justify-content-center"           
+          >
+            <OverlayTrigger
+              overlay={
+                <Tooltip id="cs-icon">
+                  Business Unit Expand
+                </Tooltip>
+              }
+            >
+              <span
+                style={{ cursor: "pointer"}}
+                onClick={() => {
+                  history.push({
+                    pathname: `/config/material-management/item-category/itemSubCategoryExpend/${row.itemMasterSubCategoryId}`,
+                    state: { ...row },
+                  });
+                }}
+              >
+                <i
+                  className={`fa fa-arrows-alt`}
+                  onClick={() => {}}
+                ></i>
+              </span>
+            </OverlayTrigger>
+          </span>
+        );
+      },
     },
   ];
 

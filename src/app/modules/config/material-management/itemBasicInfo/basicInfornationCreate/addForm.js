@@ -58,35 +58,60 @@ export default function AddForm({
       selectedBusinessUnit?.value
     ) {
       const { accountId, userId: actionBy } = profileData;
-      const itemBasicData = {
-        itemCode:
-          selectedBusinessUnit?.value === 102
-            ? values?.itemCode
-              ? values?.itemCode
-              : ""
-            : "",
-        drawingCode: values?.drawingCode || "",
-        partNo: values?.partNo || "",
-        itemName: values.itemName,
-        itemTypeId: values.itemType.value,
-        itemTypeName: values.itemType.label,
-        itemCategoryId: values.itemCategory.value,
-        itemCategoryName: values.itemCategory.label,
-        itemSubCategoryId: values.itemSubCategory.value,
-        itemSubCategoryName: values.itemSubCategory.label,
-        businessUnitId: selectedBusinessUnit?.value,
-        actionBy,
-        isActive: true,
-        accountId,
-        isSerialMaintain: !!values?.isMaintainSerial
-      };
+      // const itemBasicData = {
+      //   itemCode:
+      //     selectedBusinessUnit?.value === 102
+      //       ? values?.itemCode
+      //         ? values?.itemCode
+      //         : ""
+      //       : "",
+      //   drawingCode: values?.drawingCode || "",
+      //   partNo: values?.partNo || "",
+      //   itemName: values.itemName,
+      //   itemTypeId: values.itemType.value,
+      //   itemTypeName: values.itemType.label,
+      //   itemCategoryId: values.itemCategory.value,
+      //   itemCategoryName: values.itemCategory.label,
+      //   itemSubCategoryId: values.itemSubCategory.value,
+      //   itemSubCategoryName: values.itemSubCategory.label,
+      //   businessUnitId: selectedBusinessUnit?.value,
+      //   actionBy,
+      //   isActive: true,
+      //   accountId,
+      //   isSerialMaintain: !!values?.isMaintainSerial
+      // };
+
+      const itemBasicData = 
+        {
+          itemMasterId: 0,
+          itemMasterCode: selectedBusinessUnit?.value === 102
+                ? values?.itemCode
+                  ? values?.itemCode
+                  : ""
+                : "",
+          itemMasterName: values.itemName,
+          itemMasterTypeId: values.itemType.value,
+          itemMasterTypeName: values.itemType.label,
+          itemMasterCategoryId: values.itemCategory.value,
+          itemMasterCategoryName: values.itemCategory.label,
+          itemMasterSubCategoryId: values.itemSubCategory.value,
+          itemMasterSubCategoryName: values.itemSubCategory.label,
+          actionBy: actionBy,
+          drawingCode: values?.drawingCode || "",
+          partNo: values?.partNo || "",
+        }
+      
       if (!saveConfigBtn) {
         try {
           setDisabled(true);
           const res = await Axios.post(
-            "/item/ItemBasic/CreateItemBasic",
+            "/item/ItemMaster/CreateItemMaster",
             itemBasicData
           );
+          // const res = await Axios.post(
+          //   "/item/ItemBasic/CreateItemBasic",
+          //   itemBasicData
+          // );
           cb(data);
           setDisabled(false);
           toast.success(res.data?.message || "Submitted successfully", {
@@ -100,9 +125,13 @@ export default function AddForm({
         try {
           setDisabled(true);
           const res = await Axios.post(
-            "/item/ItemBasic/CreateItemBasic",
+            "/item/ItemMaster/CreateItemMaster",
             itemBasicData
           );
+          // const res = await Axios.post(
+          //   "/item/ItemBasic/CreateItemBasic",
+          //   itemBasicData
+          // );
           if (res?.data) {
             history.push({
               pathname: `/config/material-management/item-basic-info/edit/${res?.data?.key}`,
@@ -132,11 +161,11 @@ export default function AddForm({
   };
 
   const saveConfigBtnRef = useRef();
-  const saveConfigItemBasicClick = () => {
-    if (saveConfigBtnRef && saveConfigBtnRef.current) {
-      saveConfigBtnRef.current.click();
-    }
-  };
+  // const saveConfigItemBasicClick = () => {
+  //   if (saveConfigBtnRef && saveConfigBtnRef.current) {
+  //     saveConfigBtnRef.current.click();
+  //   }
+  // };
 
   const resetBtnRef = useRef();
   const ResetProductClick = () => {
@@ -146,7 +175,7 @@ export default function AddForm({
   };
 
   const backHandler = () => {
-    history.push(`/config/material-management/item-basic-info`);
+    history.push(`/config/material-management/item-basic-info-master`);
   };
 
   return (
@@ -178,7 +207,7 @@ export default function AddForm({
           >
             Save
           </button>
-          <button
+          {/* <button
             type="submit"
             className="btn btn-primary ml-2"
             onClick={saveConfigItemBasicClick}
@@ -186,7 +215,7 @@ export default function AddForm({
             disabled={isDisabled}
           >
             Save & Complete
-          </button>
+          </button> */}
         </CardHeaderToolbar>
       </CardHeader>
       <CardBody>
