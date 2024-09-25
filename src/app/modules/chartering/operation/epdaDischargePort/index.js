@@ -1,5 +1,5 @@
 import { Form, Formik } from "formik";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
@@ -14,6 +14,7 @@ import IButton from "../../../_helper/iButton";
 import { getVesselDDL, getVoyageDDLNew } from "../../helper";
 import FormikSelect from "../../_chartinghelper/common/formikSelect";
 import customStyles from "../../../selectCustomStyle";
+import { _todayDate } from "../../../_helper/_todayDate";
 
 const initData = {};
 export default function EDPADischargePort() {
@@ -27,6 +28,10 @@ export default function EDPADischargePort() {
   const [vesselDDL, setVesselDDL] = useState([]);
   const [voyageNoDDL, setVoyageNoDDL] = useState([]);
   const [loading2, setLoading] = useState(false);
+
+  useEffect(()=>{
+    getLandingData({}, pageNo, pageSize, "");
+  },[])
 
   const getLandingData = (values, pageNo, pageSize, searchValue = "") => {
     const shipTypeSTR = values?.shipType
@@ -43,8 +48,8 @@ export default function EDPADischargePort() {
       : "";
     getGridData(
       `${imarineBaseUrl}/domain/VesselNomination/GetFromEpdaAndDischargePortInfoLanding?BusinessUnitId=${0}&FromDate=${
-        values?.fromDate
-      }&ToDate=${values?.toDate}&pageNumber=${pageNo ||
+        values?.fromDate || _todayDate()
+      }&ToDate=${values?.toDate || _todayDate()}&pageNumber=${pageNo ||
         1}&pageSize=${pageSize ||
         600}${shipTypeSTR}${voyageTypeSTR}${vesselNameSTR}${voyageNoSTR}`
     );
@@ -122,6 +127,8 @@ export default function EDPADischargePort() {
                           setVesselDDL,
                           valueOption?.value === 2 ? 2 : ""
                         );
+                      }else{
+                        getLandingData({}, pageNo, pageSize, "");
                       }
                     }}
                   />

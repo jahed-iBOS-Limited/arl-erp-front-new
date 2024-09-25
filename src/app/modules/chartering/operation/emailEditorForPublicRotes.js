@@ -4,6 +4,7 @@ import "react-quill/dist/quill.snow.css";
 import Loading from "../../_helper/_loading";
 import AttachmentUploaderNew from "../../_helper/attachmentUploaderNew";
 import useAxiosPost from "../../_helper/customHooks/useAxiosPost";
+import { marineBaseUrlPythonAPI } from "../../../App";
 
 const EmailEditorForPublicRoutes = ({ payloadInfo, cb }) => {
   const [emailData, setEmailData] = useState({
@@ -165,7 +166,7 @@ const EmailEditorForPublicRoutes = ({ payloadInfo, cb }) => {
         attachment: emailData?.attachment || "",
       };
 
-      onSendEmail(`common_mail_sender`, payload, cb, true);
+      onSendEmail(`${marineBaseUrlPythonAPI}/automation/common_mail_sender`, payload, cb, true);
     }
   };
 
