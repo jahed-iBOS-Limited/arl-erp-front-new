@@ -35,6 +35,7 @@ const initData = {
   productDivision: "",
   tradeType: "",
   reportTypeCashFlowIndirect: { value: 0, label: "All" },
+  isForecast: "",
 };
 export default function IncomestatementNew() {
   const [buDDL, getBuDDL, buDDLloader, setBuDDL] = useAxiosGet();
@@ -235,6 +236,27 @@ export default function IncomestatementNew() {
                       min={0}
                     />
                   </div>
+                  <div className="col-md-3">
+                    <NewSelect
+                      name="isForecast"
+                      options={[
+                        {
+                          value: true,
+                          label: "Budget",
+                        },
+                        {
+                          value: false,
+                          label: "Forecast",
+                        },
+                      ]}
+                      value={values?.isForecast}
+                      label="Budget/Forecast"
+                      onChange={(valueOption) => {
+                        setFieldValue("isForecast", valueOption);
+                      }}
+                      placeholder="Budget/Forecast"
+                    />
+                  </div>
                   <div className="col-lg-3">
                     <InputField
                       value={values?.fromDate}
@@ -287,6 +309,7 @@ export default function IncomestatementNew() {
                             : values?.profitCenter?.value
                             ? values?.profitCenter?.label
                             : values?.tradeType?.value,
+                          values?.isForecast?.value,
                           values?.subDivision?.label
                         );
                       } else {
