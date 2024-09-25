@@ -162,6 +162,8 @@ export default function BunkerCalculatorLanding() {
                           setVesselDDL,
                           valueOption?.value === 2 ? 2 : ""
                         );
+                      }else{
+                        getGridData()
                       }
                     }}
                   />
