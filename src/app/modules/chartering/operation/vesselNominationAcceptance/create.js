@@ -41,8 +41,8 @@ export default function VesselNominationAcceptanceCreate() {
 
   const saveHandler = async (values, cb) => {
     setPayloadInfo({
-      strName: values?.strName,
-      strEmail: values?.strEmail,
+      // strName: values?.strName,
+      // strEmail: values?.strEmail,
       strVesselNominationCode:
         paramCode || values?.strVesselNominationCode || "",
       isVesselNominationAccept: values?.isVesselNominationAccept,
