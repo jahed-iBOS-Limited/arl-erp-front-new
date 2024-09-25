@@ -1,19 +1,19 @@
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import { shallowEqual, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import IForm from "../../../_helper/_form";
+import IDelete from "../../../_helper/_helperIcons/_delete";
 import InputField from "../../../_helper/_inputField";
 import Loading from "../../../_helper/_loading";
 import NewSelect from "../../../_helper/_select";
-import IDelete from "../../../_helper/_helperIcons/_delete";
-import { toast } from "react-toastify";
-import { shallowEqual, useSelector } from "react-redux";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import SearchAsyncSelect from "../../../_helper/SearchAsyncSelect";
-import axios from "axios";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import IViewModal from "../../../_helper/_viewModal";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
+import SearchAsyncSelect from "../../../_helper/SearchAsyncSelect";
 import AddAuditEngagement from "./addAuditEngagement";
+import { loadEmployeeInfo } from "./helper";
 
 // formik init data
 const initData = {
@@ -144,18 +144,6 @@ export default function AuditSchedulesEntry() {
     setScheduleList(updatedList);
   };
 
-  // load employee list api
-  const loadEmp = (v) => {
-    if (v?.length < 2) return [];
-    return axios
-      .get(
-        `/hcm/HCMDDL/GetEmployeeByAcIdDDL?AccountId=${profileData?.accountId}&search=${v}`
-      )
-      .then((res) => {
-        return res?.data;
-      });
-  };
-
   return (
     <IForm
       title="Audit Schedules Entry"
@@ -239,7 +227,9 @@ export default function AuditSchedulesEntry() {
                       handleChange={(valueOption) => {
                         setFieldValue("auditor", valueOption);
                       }}
-                      loadOptions={loadEmp}
+                      loadOptions={(searchInput) =>
+                        loadEmployeeInfo(profileData?.accountId, searchInput)
+                      }
                       name={"auditor"}
                     />
                   </div>
@@ -290,7 +280,6 @@ export default function AuditSchedulesEntry() {
                         !values.businessUnit ||
                         !values.priority ||
                         !values.auditor ||
-                        !values.dteScheduleDate ||
                         !values.dteStartDate ||
                         !values.dteEndDate
                       }
