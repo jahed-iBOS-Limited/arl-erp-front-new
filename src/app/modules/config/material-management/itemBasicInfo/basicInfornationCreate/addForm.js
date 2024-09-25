@@ -175,7 +175,7 @@ export default function AddForm({
   };
 
   const backHandler = () => {
-    history.push(`/config/material-management/item-basic-info-master`);
+    history.push(`/config/material-management/itembasicinfo-master`);
   };
 
   return (
