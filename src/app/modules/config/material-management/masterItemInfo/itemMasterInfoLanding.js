@@ -72,7 +72,7 @@ export default function ItemMasterInfoLanding() {
                     type="button"
                     className="btn btn-primary"
                     onClick={() =>
-                        history.push("/config/material-management/item-basic-info-master/add")
+                        history.push("/config/material-management/itembasicinfo-master/add")
                       }
                   >
                     Create
@@ -152,7 +152,7 @@ export default function ItemMasterInfoLanding() {
                                     style={{ cursor: "pointer"}}
                                     onClick={() => {
                                       history.push({
-                                        pathname: `/config/material-management/item-basic-info-master/expand/${item?.itemMasterId}`,
+                                        pathname: `/config/material-management/itembasicinfo-master/expand/${item?.itemMasterId}`,
                                         state: { ...item },
                                       });
                                     }}
