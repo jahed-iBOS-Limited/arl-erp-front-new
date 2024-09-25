@@ -80,7 +80,7 @@ export default function AuditSchedulesView() {
                 entryApiUrl,
                 [scheduleData],
                 () => {
-                  getSingleScheduleDataHandler(viewData?.intAuditScheduleId);
+                  getSingleScheduleDataHandler(viewData?.intAuditScheduleId,getSingleScheduleData);
                 },
                 true
               );
