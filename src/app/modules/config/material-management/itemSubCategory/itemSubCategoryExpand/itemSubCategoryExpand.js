@@ -4,12 +4,12 @@ import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { useLocation, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import Loading from "../../../../_helper/_loading";
 import IForm from "../../../../_helper/_form";
 import InputField from "../../../../_helper/_inputField";
+import Loading from "../../../../_helper/_loading";
 import NewSelect from "../../../../_helper/_select";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 const initData = {
   businessUnit: "",
   itemSubCategoryName: "",
@@ -23,6 +23,7 @@ export default function ItemSubCategoryExpend() {
   const [objProps, setObjprops] = useState({});
   const [, postData, isLoading] = useAxiosPost();
   const [singleData, setSingleData] = useState({});
+  // const [checkCategoryStatus, getCheckCategoryStatus] = useAxiosGet();
   const {
     profileData: { accountId: userId },
     businessUnitList: businessUnitDDL
@@ -36,7 +37,6 @@ export default function ItemSubCategoryExpend() {
     itemMasterCategoryCode,
     itemMasterCategoryName,
     itemMasterTypeName,
-    itemMasterSubCategoryId,
     itemMasterSubCategoryName
   } = location?.state || {};
   const saveHandler = (values, cb) => {
@@ -48,18 +48,6 @@ export default function ItemSubCategoryExpend() {
             businessUnitId: item?.businessUnitId,
           };
         });
-
-        // {
-        //     "itemMasterCategoryId": 0,
-        //     "itemMasterSubCategoryId": 0,
-        //     "itemTypeId": 0,
-        //     "actionBy": 0,
-        //     "data": [
-        //       {
-        //         "businessUnitId": 0
-        //       }
-        //     ]
-        //   }
       const payload = {
           itemMasterCategoryId: +itemMasterCategoryId,
           itemMasterSubCategoryId: +id,
@@ -89,11 +77,28 @@ export default function ItemSubCategoryExpend() {
     }
   };
 
-  const addRow = (values, callBack) => {
-    // Check if the supplier already exists in the rowData
+const checkFunction = async(buId) => {
+  // getCheckCategoryStatus(`/item/MasterCategory/CheckCategoryByBusinessUnitId?AccountId=${accountId}&BusinessUnitId=${buId}&ItemMasterCategoryId=${itemMasterCategoryId}`)
+  try {
+    const res = await axios.get(`/item/MasterCategory/CheckCategoryByBusinessUnitId?AccountId=${accountId}&BusinessUnitId=${buId}&ItemMasterCategoryId=${itemMasterCategoryId}`);
+    if(res){
+      return res?.data
+    }
+  } catch (error) {
+    console.log(error);
+   
+  }
+}
+
+  const addRow = async (values, callBack) => {
     if (rowData?.businessUnit?.find((item) => item?.businessUnitId === values?.businessUnit?.value)) {
       return toast.warn("Business Unit already added");
     } 
+   const checkCategoryStatus = await checkFunction(values?.businessUnit?.value)
+    if (!checkCategoryStatus) {
+      return toast.warn("Category not configured for this Business Unit");
+    }
+
     try {
       // Create the new row object
       const newRow = {

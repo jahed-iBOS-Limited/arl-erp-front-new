@@ -100,7 +100,7 @@ export function ItemSubCategoryTable() {
                 style={{ cursor: "pointer"}}
                 onClick={() => {
                   history.push({
-                    pathname: `/config/material-management/item-category/itemSubCategoryExpend/${row.itemMasterSubCategoryId}`,
+                    pathname: `/config/material-management/item-sub-category/itemSubCategoryExpend/${row.itemMasterSubCategoryId}`,
                     state: { ...row },
                   });
                 }}
