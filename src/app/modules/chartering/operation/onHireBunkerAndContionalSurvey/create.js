@@ -40,8 +40,8 @@ export default function CreateonHireBunkerAndContionalSurvey() {
 
   const saveHandler = (values, cb) => {
     setPayloadInfo({
-      strName: values?.strName,
-      strEmail: values?.strEmail,
+      // strName: values?.strName,
+      // strEmail: values?.strEmail,
       strVesselNominationCode:
         paramCode || values.strVesselNominationCode || "",
       numBunkerSurveyAmount: values.numBunkerSurveyAmount,
