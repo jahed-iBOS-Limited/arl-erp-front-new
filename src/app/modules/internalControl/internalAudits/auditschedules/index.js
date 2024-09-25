@@ -1,40 +1,46 @@
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { shallowEqual, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IEdit from "../../../_helper/_helperIcons/_edit";
-import PaginationSearch from "../../../_helper/_search";
-import PaginationTable from "../../../_helper/_tablePagination";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import IForm from "../../../_helper/_form";
-import Loading from "../../../_helper/_loading";
-import InputField from "../../../_helper/_inputField";
-import { _firstDateOfMonth, _todayDate } from "../../../_helper/_todayDate";
-import NewSelect from "../../../_helper/_select";
 import IView from "../../../_helper/_helperIcons/_view";
+import NewIcon from "../../../_helper/_helperIcons/newIcon";
+import InputField from "../../../_helper/_inputField";
+import Loading from "../../../_helper/_loading";
+import PaginationSearch from "../../../_helper/_search";
+import NewSelect from "../../../_helper/_select";
+import PaginationTable from "../../../_helper/_tablePagination";
+import { _firstDateOfMonth, _todayDate } from "../../../_helper/_todayDate";
+import IViewModal from "../../../_helper/_viewModal";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import ConfidentialAuditForm from "./confidentialAuditForm";
+import { calculateDaysDifference } from "./helper";
 
 const initData = {
   fromDate: _firstDateOfMonth(),
   toDate: _todayDate(),
 };
 export default function AuditSchedules() {
-  const { businessUnitList } = useSelector(
-    (state) => {
-      return state.authData;
-    },
-    shallowEqual
-  );
+  // redux selector
+  const { businessUnitList } = useSelector((state) => {
+    return state.authData;
+  }, shallowEqual);
 
+  // state
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
-  const [gridData, getGridData, loading, setGridData] = useAxiosGet();
+  const [showConfidentialModal, setShowConfidentialModal] = useState(false);
+  const [singleAuditData, setSingleAuditData] = useState({});
+
+  // axios get
+  const [gridData, getGridData, loading] = useAxiosGet();
 
   useEffect(() => {}, []);
   const saveHandler = (values, cb) => {};
   const history = useHistory();
 
+  // get audit landing data
   const getLandingData = (values, pageNo, pageSize, searchValue = "") => {
     const strBusinessUnit = values?.businessUnit
       ? `&BusinessUnitId=${values?.businessUnit?.value}`
@@ -48,22 +54,17 @@ export default function AuditSchedules() {
     );
   };
 
+  // landing data position handler
   const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
     getLandingData(values, pageNo, pageSize, searchValue);
   };
 
+  // pagination seach
   const paginationSearchHandler = (searchValue, values) => {
     setPositionHandler(pageNo, pageSize, values, searchValue);
   };
 
-  const calculateDaysDifference = (startDate, endDate) => {
-    if (!startDate || !endDate) return 0; // If dates are not defined, return 0 days
-    const start = new Date(startDate);
-    const end = new Date(endDate);
-    const timeDifference = end - start;
-    const dayDifference = timeDifference / (1000 * 60 * 60 * 24); // Convert milliseconds to days
-    return dayDifference > 0 ? dayDifference : 0; // Ensure non-negative days difference
-  };
+  //
   return (
     <Formik
       enableReinitialize={true}
@@ -208,23 +209,7 @@ export default function AuditSchedules() {
                             </td>
 
                             <td className="text-center">
-                              <div className="">
-                                {/* <span className="" onClick={() => {}}>
-                                  <IEdit />
-                                </span> */}
-                                {/* <span className="px-5" onClick={() => {}}>
-                                  <OverlayTrigger
-                                    overlay={
-                                      <Tooltip id="cs-icon">History</Tooltip>
-                                    }
-                                  >
-                                    <i
-                                      style={{ fontSize: "16px" }}
-                                      class="fa fa-history cursor-pointer"
-                                      aria-hidden="true"
-                                    ></i>
-                                  </OverlayTrigger>
-                                </span> */}
+                              <div className="d-flex">
                                 <span
                                   className=""
                                   onClick={() => {
@@ -235,6 +220,18 @@ export default function AuditSchedules() {
                                   }}
                                 >
                                   <IView />
+                                </span>
+                                <span
+                                  className="ml-3"
+                                  onClick={() => {
+                                    setShowConfidentialModal(true);
+                                    setSingleAuditData(item);
+                                  }}
+                                >
+                                  <NewIcon
+                                    title="Confidential Audit"
+                                    iconName="fa fa-bolt"
+                                  />
                                 </span>
                               </div>
                             </td>
@@ -258,6 +255,23 @@ export default function AuditSchedules() {
                     values={values}
                   />
                 )}
+
+                {/* Confidential Audit Modal Form */}
+                <IViewModal
+                  modelSize={"lg"}
+                  show={showConfidentialModal}
+                  onHide={() => {
+                    setShowConfidentialModal(false);
+                    setSingleAuditData({});
+                  }}
+                >
+                  <ConfidentialAuditForm
+                    objProps={{
+                      singleAuditData,
+                      setSingleAuditData,
+                    }}
+                  />
+                </IViewModal>
               </>
             </Form>
           </IForm>

@@ -1,20 +1,21 @@
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import { shallowEqual, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import IForm from "../../../_helper/_form";
+import IDelete from "../../../_helper/_helperIcons/_delete";
 import InputField from "../../../_helper/_inputField";
 import Loading from "../../../_helper/_loading";
 import NewSelect from "../../../_helper/_select";
-import IDelete from "../../../_helper/_helperIcons/_delete";
-import { toast } from "react-toastify";
-import { shallowEqual, useSelector } from "react-redux";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import SearchAsyncSelect from "../../../_helper/SearchAsyncSelect";
-import axios from "axios";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import IViewModal from "../../../_helper/_viewModal";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
+import SearchAsyncSelect from "../../../_helper/SearchAsyncSelect";
 import AddAuditEngagement from "./addAuditEngagement";
+import { loadEmployeeInfo } from "./helper";
 
+// formik init data
 const initData = {
   auditEngagement: "",
   businessUnit: "",
@@ -26,22 +27,25 @@ const initData = {
 };
 
 export default function AuditSchedulesEntry() {
+  // redux selector
   const { profileData, businessUnitList } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
 
+  // state
   const [objProps, setObjprops] = useState({});
-
   const [scheduleList, setScheduleList] = useState([]);
   const [isShowModal, setisShowModal] = useState(false);
 
+  // axios get
   const [
     auditEngagementList,
     getAuditEngagementList,
-    ,
+    auditEngagementListLoading,
     setAuditEngagementList,
   ] = useAxiosGet();
 
+  // axios post
   const [, onSaveAction, loading] = useAxiosPost();
 
   const getAuditEngagement = () => {
@@ -57,10 +61,10 @@ export default function AuditSchedulesEntry() {
 
   useEffect(() => {
     getAuditEngagement();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  console.log("scheduleList", scheduleList);
-
+  // handle double entry with same schedule
   const checkOverlap = (newSchedule) => {
     return scheduleList.some((existingSchedule) => {
       const sameEngagement =
@@ -83,6 +87,7 @@ export default function AuditSchedulesEntry() {
     });
   };
 
+  // save a new schedule
   const saveHandler = async (values, cb) => {
     if (!scheduleList?.length) {
       return toast.warn("Add at least one schedule !");
@@ -99,7 +104,6 @@ export default function AuditSchedulesEntry() {
       strPriorityName: item?.priority?.label || "",
       intAuditorId: item?.auditor?.value || 0,
       strAuditorName: item?.auditor?.label || "",
-      dteScheduleDate: item?.dteScheduleDate || "",
       dteStartDate: item?.dteStartDate || "",
       dteEndDate: item?.dteEndDate || "",
       isActive: true,
@@ -112,6 +116,7 @@ export default function AuditSchedulesEntry() {
     onSaveAction(entryApiUrl, payload, cb, true);
   };
 
+  // handle add new schedule
   const onAddHandler = (values) => {
     const newSchedule = {
       auditEngagement: values?.auditEngagement,
@@ -133,20 +138,10 @@ export default function AuditSchedulesEntry() {
     setScheduleList([...scheduleList, newSchedule]);
   };
 
+  // handle schedule delete
   const handleDelete = (index) => {
     const updatedList = scheduleList.filter((_, idx) => idx !== index);
     setScheduleList(updatedList);
-  };
-
-  const loadEmp = (v) => {
-    if (v?.length < 2) return [];
-    return axios
-      .get(
-        `/hcm/HCMDDL/GetEmployeeByAcIdDDL?AccountId=${profileData?.accountId}&search=${v}`
-      )
-      .then((res) => {
-        return res?.data;
-      });
   };
 
   return (
@@ -155,7 +150,7 @@ export default function AuditSchedulesEntry() {
       isHiddenReset={true}
       getProps={setObjprops}
     >
-      {loading && <Loading />}
+      {(loading || auditEngagementListLoading) && <Loading />}
       <>
         <Formik
           enableReinitialize={true}
@@ -232,11 +227,13 @@ export default function AuditSchedulesEntry() {
                       handleChange={(valueOption) => {
                         setFieldValue("auditor", valueOption);
                       }}
-                      loadOptions={loadEmp}
+                      loadOptions={(searchInput) =>
+                        loadEmployeeInfo(profileData?.accountId, searchInput)
+                      }
                       name={"auditor"}
                     />
                   </div>
-                  <div className="col-lg-3">
+                  {/* <div className="col-lg-3">
                     <InputField
                       value={values?.dteScheduleDate}
                       label="Scheduled Date"
@@ -246,7 +243,7 @@ export default function AuditSchedulesEntry() {
                         setFieldValue("dteScheduleDate", e.target.value);
                       }}
                     />
-                  </div>
+                  </div> */}
                   <div className="col-lg-3">
                     <InputField
                       value={values?.dteStartDate}
@@ -283,7 +280,6 @@ export default function AuditSchedulesEntry() {
                         !values.businessUnit ||
                         !values.priority ||
                         !values.auditor ||
-                        !values.dteScheduleDate ||
                         !values.dteStartDate ||
                         !values.dteEndDate
                       }

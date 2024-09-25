@@ -29,6 +29,7 @@ export const getIncomeStatement_api = async (
   profitCenId,
   viewType,
   typeRef,
+  forecastType = true,
   subDivisionLabel
 ) => {
   setLoading(true);
@@ -36,7 +37,7 @@ export const getIncomeStatement_api = async (
     const res = await axios.get(
       `/fino/IncomeStatement/GetIncomeStatementProjected?partName=${partName}&dteFromDate=${fromDate}&dteToDate=${toDate}&dteFromDateL=${fromDateL}&dteToDateL=${toDateL}&BusinessUnitGroup=${edLabel}&BusinessUnitId=${buId}&SBUID=${0}&intProfitCenId=${profitCenId ||
         0}&fsComponentId=0&GLId=0&SUBGLId=0&ConvertionRate=${conversionRate}&SubGroup=${subDivisionLabel ||
-        "all"}&reportTypeId=${reportType}&ViewType=${viewType}&ViewTypeReff=${typeRef}`
+        "all"}&reportTypeId=${reportType}&ViewType=${viewType}&ViewTypeReff=${typeRef}&isForecast=${forecastType}`
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
@@ -213,7 +214,6 @@ export const projectedFinancialRatios = async ({
   }
 };
 
-
 export const groupId = "e3ce45bb-e65e-43d7-9ad1-4aa4b958b29a";
 
 export const parameterValues = (values) => {
@@ -244,6 +244,6 @@ export const parameterValues = (values) => {
   if (values?.viewType?.value) {
     reportParameter.push({ name: "ViewType", value: values.viewType.value });
   }
- 
+
   return reportParameter;
 };
