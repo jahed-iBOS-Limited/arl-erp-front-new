@@ -24,12 +24,7 @@ export default function AuditSchedulesView() {
     setSingleScheduleData,
   ] = useAxiosGet();
 
-  const getSingleScheduleDataHandler = (AuditScheduleId) => {
-    getSingleScheduleData(
-      `/fino/Audit/GetAuditEngagementScheduleById?AuditScheduleId=${AuditScheduleId}`
-    );
-  };
-
+  
   useEffect(() => {
     if (viewData?.intAuditScheduleId)
       getSingleScheduleDataHandler(viewData?.intAuditScheduleId);
@@ -39,7 +34,12 @@ export default function AuditSchedulesView() {
   useEffect(() => {
     console.log("scheduleData updated", scheduleData);
   }, [scheduleData]);
-
+  
+  const getSingleScheduleDataHandler = (AuditScheduleId) => {
+    getSingleScheduleData(
+      `/fino/Audit/GetAuditEngagementScheduleById?AuditScheduleId=${AuditScheduleId}`
+    );
+  };
   return (
     <IForm
       title="Create Audit Plan Template"
