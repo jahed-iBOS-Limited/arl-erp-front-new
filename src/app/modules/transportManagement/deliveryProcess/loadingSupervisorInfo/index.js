@@ -127,8 +127,9 @@ export default function LoadingSupervisorInfo() {
         (res) => {
           // get tlm ddl
           getTLMDDL(
-            `/wms/AssetTransection/GetLabelNValueForDDL?BusinessUnitId=${buId}&TypeId=1&RefferencePKId=1&ShipPointId=${res
-              ?.objHeader?.shipPointId || 0}`
+            `/wms/AssetTransection/GetLabelNValueForDDL?BusinessUnitId=${buId}&TypeId=1&RefferencePKId=${
+              buId === 4 ? res?.objHeader?.packerId : 1
+            }&ShipPointId=${res?.objHeader?.shipPointId || 0}`
           );
           // get packer list & update
           getPackerList(
@@ -518,8 +519,9 @@ export default function LoadingSupervisorInfo() {
                       `/wms/Delivery/GetDeliveryPrintInfoByVehicleCardNumber?strCardNumber=${result}`,
                       (res) => {
                         getTLMDDL(
-                          `/wms/AssetTransection/GetLabelNValueForDDL?BusinessUnitId=${buId}&TypeId=1&RefferencePKId=1&ShipPointId=${res
-                            ?.objHeader?.shipPointId || 0}`
+                          `/wms/AssetTransection/GetLabelNValueForDDL?BusinessUnitId=${buId}&TypeId=1&RefferencePKId=${
+                            buId === 4 ? res?.objHeader?.packerId : 1
+                          }&ShipPointId=${res?.objHeader?.shipPointId || 0}`
                         );
                         getPackerList(
                           `/mes/WorkCenter/GetWorkCenterListByTypeId?WorkCenterTypeId=1&AccountId=${profileData?.accountId}&BusinessUnitId=${buId}`,
