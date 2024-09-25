@@ -36,7 +36,7 @@ export default function ItemMasterInfoLanding() {
   };
 
   const paginationSearchHandler = (searchValue) => {
-    getLandingData(pageNo, pageSize, searchValue);
+    getLandingData(0, pageSize, searchValue);
     setPageNo(0);
   };
 
