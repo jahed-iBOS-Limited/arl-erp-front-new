@@ -258,7 +258,6 @@ export default function AuditSchedules() {
 
                 {/* Confidential Audit Modal Form */}
                 <IViewModal
-                  modelSize={"lg"}
                   show={showConfidentialModal}
                   onHide={() => {
                     setShowConfidentialModal(false);
