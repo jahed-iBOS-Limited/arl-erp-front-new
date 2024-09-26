@@ -21,13 +21,17 @@ const AuditPlanViewAndPrint = () => {
   const printRef = React.useRef();
 
   // use axios get
-  const [scheduleData, getSingleScheduleData, loading] = useAxiosGet();
+  const [
+    auditReportDataById,
+    getAuditReportDataById,
+    getAditReportDataByIdLoading,
+  ] = useAxiosGet();
 
   useEffect(() => {
     if (auditReportData?.intAuditScheduleId)
       getSingleScheduleDataHandler(
         auditReportData?.intAuditScheduleId,
-        getSingleScheduleData
+        getAuditReportDataById
       );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -40,7 +44,7 @@ const AuditPlanViewAndPrint = () => {
       getProps={setObjprops}
       isHiddenBack={false}
     >
-      {loading && <Loading />}
+      {getAditReportDataByIdLoading && <Loading />}
 
       <div className="text-right mt-3">
         <ReactToPrint
@@ -51,10 +55,20 @@ const AuditPlanViewAndPrint = () => {
         />
       </div>
 
-      {/* Conditionally rendering the content based on the active tab */}
+      {/* Audit Plan View With IIFE  */}
 
       {(() => {
-        const {strAuditEngagementName,strBusinessUnitName}=scheduleData
+        const {
+          strAuditEngagementName,
+          strBusinessUnitName,
+          strAuditorName,
+          dteStartDate,
+          dteEndDate,
+          strAuditObjective,
+          strScopeOfAudit,
+          strGeneralScopeOfWork,
+          strActionPlan,
+        } = auditReportDataById;
         return (
           <div id="audit_schedule-print" ref={printRef} className="p-4">
             {/* Print View Content */}
@@ -62,22 +76,16 @@ const AuditPlanViewAndPrint = () => {
             <div className="text-center" style={{ mergin: "0 auto" }}>
               {/* <h4>Audit Plan Template</h4> */}
               <p>
-                <strong>
-                  Name of assignment: {scheduleData?.strAuditEngagementName}
-                </strong>
+                <strong>Name of assignment: {strAuditEngagementName}</strong>
               </p>
               <p>
                 <strong>Audit scope of duration: For the year ***</strong>
               </p>
               <p>
-                <strong>
-                  Name of company: {scheduleData?.strBusinessUnitName}
-                </strong>
+                <strong>Name of company: {strBusinessUnitName}</strong>
               </p>
               <p>
-                <strong>
-                  Name of Auditor: {scheduleData?.strAuditorName} (Lead)
-                </strong>
+                <strong>Name of Auditor: {strAuditorName} (Lead)</strong>
               </p>
               <p>
                 <strong>Additional Members:</strong>
@@ -86,14 +94,12 @@ const AuditPlanViewAndPrint = () => {
               <p>Mr. CC (Member)</p>
               <p>
                 <strong>
-                  Work starting date:{" "}
-                  {_dateFormatter(scheduleData?.dteStartDate)}
+                  Work starting date: {_dateFormatter(dteStartDate)}
                 </strong>
               </p>
               <p>
                 <strong>
-                  Fieldwork completion date:{" "}
-                  {_dateFormatter(scheduleData?.dteEndDate)}
+                  Fieldwork completion date: {_dateFormatter(dteEndDate)}
                 </strong>
               </p>
             </div>
@@ -103,7 +109,7 @@ const AuditPlanViewAndPrint = () => {
                 <div
                   className="text-editor-view"
                   dangerouslySetInnerHTML={{
-                    __html: scheduleData?.strAuditObjective || "",
+                    __html: strAuditObjective || "",
                   }}
                 ></div>
                 <hr />
@@ -113,7 +119,7 @@ const AuditPlanViewAndPrint = () => {
                 <div
                   className="text-editor-view"
                   dangerouslySetInnerHTML={{
-                    __html: scheduleData?.strScopeOfAudit || "",
+                    __html: strScopeOfAudit || "",
                   }}
                 ></div>
                 <hr />
@@ -123,7 +129,7 @@ const AuditPlanViewAndPrint = () => {
                 <div
                   className="text-editor-view"
                   dangerouslySetInnerHTML={{
-                    __html: scheduleData?.strGeneralScopeOfWork || "",
+                    __html: strGeneralScopeOfWork || "",
                   }}
                 ></div>
                 <hr />
@@ -133,7 +139,7 @@ const AuditPlanViewAndPrint = () => {
                 <div
                   className="text-editor-view"
                   dangerouslySetInnerHTML={{
-                    __html: scheduleData?.strActionPlan || "",
+                    __html: strActionPlan || "",
                   }}
                 ></div>
               </div>
