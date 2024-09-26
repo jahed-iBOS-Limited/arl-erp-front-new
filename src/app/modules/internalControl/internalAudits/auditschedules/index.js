@@ -18,6 +18,7 @@ import ConfidentialAuditForm from "./confidentialAuditForm";
 import { calculateDaysDifference } from "./helper";
 
 const initData = {
+  businessUnit: "",
   fromDate: _firstDateOfMonth(),
   toDate: _todayDate(),
 };
@@ -148,7 +149,11 @@ export default function AuditSchedules() {
                   </div>
                   <div>
                     <button
-                      disabled={!values?.fromDate || !values?.toDate}
+                      disabled={
+                        !values?.fromDate ||
+                        !values?.toDate ||
+                        !values?.businessUnit
+                      }
                       onClick={() => {
                         getLandingData(values, pageNo, pageSize, "");
                       }}
