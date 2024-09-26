@@ -116,9 +116,9 @@ const AuditReportPage = () => {
                       }}
                     />
                   </div>
-                  <div>
+                  <div className="col-lg-1">
                     <button
-                      className="btn btn-primary mt-5"
+                      className="btn btn-primary mt-4"
                       type="submit"
                       onSubmit={() => handleSubmit()}
                     >
