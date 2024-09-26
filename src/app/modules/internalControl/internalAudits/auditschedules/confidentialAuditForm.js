@@ -1,6 +1,6 @@
 import { Form, Formik } from "formik";
 import React, { useEffect } from "react";
-import { shallowEqual, useSelector } from "react-redux";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import InputField from "../../../_helper/_inputField";
 import Loading from "../../../_helper/_loading";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
@@ -15,10 +15,15 @@ import {
   handleConfidentialAuditSubmit,
   loadEmployeeInfo,
 } from "./helper";
+import { getDownlloadFileView_Action } from "../../../_helper/_redux/Actions";
+import ICon from "../../../chartering/_chartinghelper/icons/_icon";
 
 const ConfidentialAuditForm = ({ objProps }) => {
   // obj props
   const { singleAuditData, setSingleAuditData } = objProps;
+
+  // use hooks
+  const dispatch = useDispatch();
 
   // redux selector
   const { profileData } = useSelector((state) => {
@@ -46,7 +51,7 @@ const ConfidentialAuditForm = ({ objProps }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const auditForm = (values, setFieldValue) => (
+  const auditForm = (values, setFieldValue, singleConfidentialAuditData) => (
     <tr>
       <td></td>
       <td>
@@ -80,7 +85,24 @@ const ConfidentialAuditForm = ({ objProps }) => {
           name={"responsibleEmployee"}
         />
       </td>
-      <td></td>
+      <td className="text-center">
+        {singleConfidentialAuditData?.strAuditEmpEvidenceAttastment && (
+          <span
+            onClick={(e) => {
+              e.stopPropagation();
+              dispatch(
+                getDownlloadFileView_Action(
+                  singleConfidentialAuditData?.strAuditEmpEvidenceAttastment
+                )
+              );
+            }}
+          >
+            <ICon title={`View Attachment`}>
+              <i class="far fa-file-image"></i>
+            </ICon>
+          </span>
+        )}
+      </td>
       <td>
         <InputField
           value={values?.mgmtFeedback}
@@ -200,7 +222,11 @@ const ConfidentialAuditForm = ({ objProps }) => {
                 </thead>
                 <tbody>
                   {/* Audit Form */}
-                  {auditForm(values, setFieldValue)}
+                  {auditForm(
+                    values,
+                    setFieldValue,
+                    singleConfidentialAuditData
+                  )}
                 </tbody>
               </table>
             </div>
