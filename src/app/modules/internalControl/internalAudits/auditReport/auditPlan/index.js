@@ -7,30 +7,26 @@ import { getSingleScheduleDataHandler } from "../../auditschedules/helper";
 import IForm from "../../../../_helper/_form";
 import Loading from "../../../../_helper/_loading";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import '../../auditschedules/style.css'
+import "../../auditschedules/style.css";
 
 const AuditPlanViewAndPrint = () => {
   // use hook
-  const { state: viewData } = useLocation();
+  const { state: auditReportData } = useLocation();
 
   // state
+  // eslint-disable-next-line no-unused-vars
   const [objProps, setObjprops] = useState({});
 
   // print audit plan
   const printRef = React.useRef();
 
   // use axios get
-  const [
-    scheduleData,
-    getSingleScheduleData,
-    loading,
-    setSingleScheduleData,
-  ] = useAxiosGet();
+  const [scheduleData, getSingleScheduleData, loading] = useAxiosGet();
 
   useEffect(() => {
-    if (viewData?.intAuditScheduleId)
+    if (auditReportData?.intAuditScheduleId)
       getSingleScheduleDataHandler(
-        viewData?.intAuditScheduleId,
+        auditReportData?.intAuditScheduleId,
         getSingleScheduleData
       );
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -1,6 +1,5 @@
 import { Form, Formik } from "formik";
 import React, { useEffect } from "react";
-import { shallowEqual, useSelector } from "react-redux";
 import Loading from "../../../../_helper/_loading";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import {
@@ -11,12 +10,12 @@ import {
 
 const ConfidentialAuditView = ({ objProps }) => {
   // obj props
-  const { singleAuditReport, setSingleAuditReport } = objProps;
+  const { singleAuditReport, } = objProps;
 
   // redux selector
-  const { profileData } = useSelector((state) => {
-    return state.authData;
-  }, shallowEqual);
+  // const { profileData } = useSelector((state) => {
+  //   return state.authData;
+  // }, shallowEqual);
 
   // axios get
   const [

@@ -118,7 +118,7 @@ const AuditReportPage = () => {
                   </div>
                   <div>
                     <button
-                      className="btn btn-primary mt-4"
+                      className="btn btn-primary mt-5"
                       type="submit"
                       onSubmit={() => handleSubmit()}
                     >
